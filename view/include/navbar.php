@@ -1,8 +1,6 @@
 <?php
 if (isset($_GET['noNavbar'])) {
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
+    _session_start();
     if (!empty($_GET['noNavbar'])) {    
         $_SESSION['noNavbar'] = 1;
     }else{
@@ -204,9 +202,18 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         </script>
                     </li>
                     <li>
-                        <a class="navbar-brand" href="<?php echo empty($advancedCustom->logoMenuBarURL) ? $global['webSiteRootURL'] : $advancedCustom->logoMenuBarURL; ?>" >
+                        <a class="navbar-brand" id="mainNavbarLogo" href="<?php echo empty($advancedCustom->logoMenuBarURL) ? $global['webSiteRootURL'] : $advancedCustom->logoMenuBarURL; ?>" >
                             <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(true); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive ">
                         </a>
+                        <?php
+                        if (!empty($_SESSION['channelName'])) {
+                            $user = User::getChannelOwner($_SESSION['channelName']);
+                        ?>
+                        <a class="navbar-brand" href="<?php echo User::getChannelLinkFromChannelName($_SESSION['channelName']); ?>" >
+                            <img src="<?php echo User::getPhoto($user['id']); ?>" alt="<?php echo User::getNameIdentificationById($user['id']); ?>" 
+                                 class="img img-responsive img-circle " style="height: 33px; width: 33px; "> 
+                        </a>
+                        <?php } ?>
                     </li>
 
                 </ul>

@@ -2002,6 +2002,10 @@ if (!class_exists('Video')) {
         function getTitle() {
             return $this->title;
         }
+        
+        function getClean_title() {
+            return $this->clean_title;
+        }
 
         function getDescription() {
             return $this->description;
@@ -2538,6 +2542,14 @@ if (!class_exists('Video')) {
             return false;
         }
 
+        function getChannelName(){
+            return User::_getChannelName($this->getUsers_id());
+        }
+        
+        function getChannelLink(){
+            return User::getChannelLink($this->getUsers_id());
+        }
+        
         /**
          *
          * @global type $global
@@ -2548,22 +2560,33 @@ if (!class_exists('Video')) {
          * @return String a web link
          */
         static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = array()) {
-            global $global;
+            global $global, $advancedCustomUser;            
+            if (empty($videos_id) && !empty($clean_title)) {
+                $videos_id = self::get_id_from_clean_title($clean_title);
+            }
+            $video = new Video("", "", $videos_id);
+                        
+            if($advancedCustomUser->addChannelNameOnLinks){
+                $get['channelName'] = $video->getChannelName();
+            }
+            
             $get_http = http_build_query($get);
             if (empty($get_http)) {
                 $get_http = "";
             } else {
                 $get_http = "?{$get_http}";
             }
+            
             if ($type == "URLFriendly") {
                 $cat = "";
                 if (!empty($_GET['catName'])) {
                     $cat = "cat/{$_GET['catName']}/";
                 }
 
-                if (!empty($videos_id) && empty($clean_title)) {
-                    $clean_title = self::get_clean_title($videos_id);
+                if (empty($clean_title)) {
+                    $clean_title = $video->getClean_title();
                 }
+                
                 if ($embed) {
                     //return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}{$get_http}";
                     return "{$global['webSiteRootURL']}videoEmbed/{$videos_id}/{$clean_title}{$get_http}";
@@ -2572,9 +2595,6 @@ if (!class_exists('Video')) {
                     return "{$global['webSiteRootURL']}video/{$videos_id}/{$clean_title}{$get_http}";
                 }
             } else {
-                if (empty($videos_id) && !empty($clean_title)) {
-                    $videos_id = self::get_id_from_clean_title($clean_title);
-                }
                 if ($embed) {
                     return "{$global['webSiteRootURL']}vEmbed/{$videos_id}{$get_http}";
                 } else {

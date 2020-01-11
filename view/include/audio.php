@@ -45,7 +45,7 @@ if ($video['type'] != "audio") {
                 }
                 ?>
             </audio>
-            
+
             <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs" style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
                 <i class="fas fa-times"></i>
             </a>
@@ -124,7 +124,13 @@ if (!empty($autoPlayVideo)) {
 
                 this.on('timeupdate', function () {
                     var time = Math.round(this.currentTime());
-                    $('#linkCurrentTime').val('<?php echo Video::getURLFriendly($video['id']); ?>?t=' + time);
+                    var url = '<?php echo Video::getURLFriendly($video['id']); ?>';
+                    if (url.indexOf('?') > -1) {
+                        url += '&t=' + time;
+                    } else {
+                        url += '?t=' + time;
+                    }
+                    $('#linkCurrentTime').val(url);
                     if (time >= 5 && time % 5 === 0) {
                         addView(<?php echo $video['id']; ?>, time);
                     }

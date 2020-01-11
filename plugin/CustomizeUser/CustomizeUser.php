@@ -63,6 +63,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->messageToAppearBelowLoginBox = $o;
 
         $obj->keepViewerOnChannel = false;
+        $obj->addChannelNameOnLinks = true;
         
         $obj->doNotShowTopBannerOnChannel = false;
 
@@ -76,6 +77,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->afterLogoffGoToMyChannel = false;
         $obj->afterLogoffGoToURL = "";
         $obj->allowDonationLink = false;
+        $obj->donationButtonLabel = __('Donation');;
 
         $obj->showEmailVerifiedMark = true;
 

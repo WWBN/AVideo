@@ -1407,10 +1407,23 @@ if (typeof gtag !== \"function\") {
     }
 
     static function getChannelLink($users_id = 0) {
-        global $global, $config;
-        if ($config->currentVersionLowerThen('5.3')) {
-            return "{$global['webSiteRootURL']}channel/UpDateYourVersion";
+        global $global;
+        $name = self::_getChannelName($users_id);
+        if (empty($name)) {
+            return false;
         }
+        $link = "{$global['webSiteRootURL']}channel/" . urlencode($name);
+        return $link;
+    }
+    
+    static function getChannelLinkFromChannelName($channelName) {
+        global $global;
+        $link = "{$global['webSiteRootURL']}channel/" . urlencode($channelName);
+        return $link;
+    }
+    
+    static function _getChannelName($users_id = 0) {
+        global $global, $config;
         if (empty($users_id)) {
             $users_id = self::getId();
         }
@@ -1423,8 +1436,7 @@ if (typeof gtag !== \"function\") {
         } else {
             $name = $user->getChannelName();
         }
-        $link = "{$global['webSiteRootURL']}channel/" . urlencode($name);
-        return $link;
+        return $name;
     }
 
     static function sendVerificationLink($users_id) {

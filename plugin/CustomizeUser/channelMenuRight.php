@@ -1,16 +1,13 @@
 <?php
 if (!empty($_GET['channelName'])) {
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
+    _session_start();
     $_SESSION['channelName'] = $_GET['channelName'];
 }
 if (!empty($_GET['leaveChannel'])) {
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
+    _session_start();
     unset($_SESSION['channelName']);
 }
+session_write_close();
 if (!empty($_SESSION['channelName'])) {
     unset($_GET['channelName']);
     $params = array_merge($_GET, array('leaveChannel' => '1'));
@@ -25,29 +22,11 @@ if (!empty($_SESSION['channelName'])) {
         </a>
     </li>
     <script>
-        $('#mainNavBar a.navbar-brand').on('click', function (e) {
+        $('#mainNavbarLogo').on('click', function (e) {
             e.preventDefault();
             var url = $(this).attr("href");
-            swal({
-                title: "<?php echo __("Leaving the Channel?"); ?>",
-                text: "<?php echo __("Are you sure you want to leave this Channel?"); ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: 'Yes, I am sure!',
-                cancelButtonText: "No, stay on this channel!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-                    function (isConfirm) {
-                        if (isConfirm) {
-                            document.location = url+'?leaveChannel=1';
-                        } else {
-                            document.location = url;
-                        }
-                    });
+            document.location = url+'?leaveChannel=1';
         });
-
     </script>
     <?php
 }

@@ -343,18 +343,6 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                     ?>
                     <div class="tab-pane" id="tabPermaLink">
                         <div class="form-group">
-                            <label class="control-label"><?php echo __("Permanent Link with Channel") ?></label>
-                            <div class="">
-                                <input value="<?php echo Video::getPermaLink($video['id']); ?>?channelName=<?php echo User::_getUserChannelName($video['users_id']); ?>" class="form-control" readonly="readonly"  id="linkPermanent"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label"><?php echo __("URL Friendly with Channel") ?> (SEO)</label>
-                            <div class="">
-                                <input value="<?php echo Video::getURLFriendly($video['id']); ?>?channelName=<?php echo User::_getUserChannelName($video['users_id']); ?>" class="form-control" readonly="readonly" id="linkFriendly"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="control-label"><?php echo __("Permanent Link") ?></label>
                             <div class="">
                                 <input value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"  id="linkPermanent"/>
