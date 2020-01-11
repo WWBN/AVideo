@@ -15,12 +15,16 @@ if (!empty($_SESSION['channelName'])) {
     $new_query_string = http_build_query($params);
     $request_uri = explode("?", $_SERVER['REQUEST_URI']);
     $leaveLink = $request_uri[0] . '?' . $new_query_string;
+ if(!empty($obj->showLeaveChannelButton)){
     ?>
     <li>
         <a href="<?php echo $leaveLink; ?>"  class="btn btn-default navbar-btn" data-toggle="tooltip" title="<?php echo __("Leave Channel"); ?>" data-placement="bottom" >
             <span class="fa fa-times"></span>  <span class="hidden-md hidden-sm"><?php echo $_GET['channelName']; ?></span>
         </a>
     </li>
+    <?php
+}
+    ?>
     <script>
         $('#mainNavbarLogo').on('click', function (e) {
             e.preventDefault();
