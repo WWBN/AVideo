@@ -547,7 +547,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                 <li>
                                                     <a href="<?php echo $global['webSiteRootURL']; ?>subscribes">
                                                         <span class="fa fa-check"></span>
-                                                        <?php echo __("Subscriptions"); ?>
+                                                        <?php echo __("My Subscribers"); ?>
                                                     </a>
                                                 </li>
                                                 <?php

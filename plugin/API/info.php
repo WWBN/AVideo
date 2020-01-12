@@ -37,7 +37,30 @@ $reflector = new ReflectionClass('API');
         $class_methods = get_class_methods('API');
         ?>
         <div class="container">
-            <ul class="list-group">
+            <ul class="list-group">                    
+                <li class="list-group-item">
+                    <details>
+                        <summary>Upload a Video</summary>
+                        <br>
+                        For more detailed instructions please <a href="https://github.com/WWBN/AVideo/wiki/Upload-videos-from-third-party-applications" target="_blank">read this</a>
+                        <br>
+                        Your HTML Form should looks like this. The user and the pass values on the action URL will be the video owner
+                        <pre><?php
+                            $frm = '<form enctype="multipart/form-data" method="post" action="' . $global['webSiteRootURL'] . 'plugin/MobileManager/upload.php?user=' . urlencode(User::getUserName()) . '&pass=' . User::getUserPass() . '">
+    <input name="title" type="text" /><br>
+    <textarea name="description"></textarea><br>
+    <input name="categories_id" type="hidden" value="1" />
+    <input name="upl" type="file"  accept="video/mp4"  /><br>
+    <input type="submit" value="submit" id="submit"/>
+</form>';
+                            echo htmlentities($frm);
+                            ?>
+                        </pre>
+                        
+                        You can get notified for the new video uploads with the Webhook in the Notification plugin, Check <a href="https://github.com/WWBN/AVideo/wiki/Notifications-Plugin#webhooks" target="_blank">here</a> for more details
+                        
+                    </details> 
+                </li>
                 <?php
                 foreach ($class_methods as $method_name) {
                     if (!preg_match("/(get|set)_api_(.*)/", $method_name, $matches)) {
@@ -50,12 +73,12 @@ $reflector = new ReflectionClass('API');
                             <br>
                             <pre><?php
                                 $comment = $reflector->getMethod($method_name)->getDocComment();
-                                $comment = str_replace(array('{webSiteRootURL}','{getOrSet}','{APIName}','{APISecret}'), array($global['webSiteRootURL'],$matches[1],$matches[2], $obj->APISecret), $comment);
+                                $comment = str_replace(array('{webSiteRootURL}', '{getOrSet}', '{APIName}', '{APISecret}'), array($global['webSiteRootURL'], $matches[1], $matches[2], $obj->APISecret), $comment);
                                 preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $comment, $match2);
-                                                                //var_dump($match2[0]);
-                                $link = "<a target='_blank' href='{$match2[0][0]}'>".htmlentities($match2[0][0])."</a>";
+                                //var_dump($match2[0]);
+                                $link = "<a target='_blank' href='{$match2[0][0]}'>" . htmlentities($match2[0][0]) . "</a>";
                                 $comment = str_replace(array($match2[0][0]), array($link), $comment);
-                                
+
                                 echo ($comment);
                                 //{webSiteRootURL}plugin/API/{getOrSet}.json.php?name={name}
                                 ?>

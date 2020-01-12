@@ -24,7 +24,7 @@ if (empty($_GET['channelName'])) {
 }
 $user_id = $_GET['user_id'];
 
-$timeLog2 = __FILE__." - channelPlayList: {$_GET['channelName']}";
+$timeLog2 = __FILE__ . " - channelPlayList: {$_GET['channelName']}";
 TimeLogStart($timeLog2);
 
 $publicOnly = true;
@@ -49,14 +49,17 @@ foreach ($playlists as $playlist) {
     $startC = microtime(true);
     $rowCount = $_POST['rowCount'];
     $_POST['rowCount'] = 6;
+
     //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
     if (empty($videosArrayId) && ($playlist['status'] == "favorite" || $playlist['status'] == "watch_later")) {
         continue;
     } else if (empty($videosArrayId)) {
         $videosP = array();
     } else if ($advancedCustom->AsyncJobs) {
+        var_dump(PlayLists::isPlayListASerie($playlist['id']));
         $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
     } else {
+        var_dump(PlayLists::isPlayListASerie($playlist['id']));
         $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
     }
     $_POST['rowCount'] = $rowCount;
@@ -132,28 +135,28 @@ foreach ($playlists as $playlist) {
                         <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-edit"></i> <?php echo __("Rename"); ?></button>
                         <button class="btn btn-xs btn-default statusPlaylist statusPlaylist<?php echo $playlist['id']; ?>" playlist_id="<?php echo $playlist['id']; ?>" style="" >
                             <span class="fa fa-lock" id="statusPrivate<?php echo $playlist['id']; ?>" style="color: red; <?php
-            if ($playlist['status'] !== 'private') {
-                echo ' display: none;';
-            }
-                        ?> " ></span> 
+                            if ($playlist['status'] !== 'private') {
+                                echo ' display: none;';
+                            }
+                            ?> " ></span> 
                             <span class="fa fa-globe" id="statusPublic<?php echo $playlist['id']; ?>" style="color: green; <?php
-                      if ($playlist['status'] !== 'public') {
-                          echo ' display: none;';
-                      }
-                        ?>"></span> 
+                            if ($playlist['status'] !== 'public') {
+                                echo ' display: none;';
+                            }
+                            ?>"></span> 
                             <span class="fa fa-eye-slash" id="statusUnlisted<?php echo $playlist['id']; ?>" style="color: gray;   <?php
-                      if ($playlist['status'] !== 'unlisted') {
-                          echo ' display: none;';
-                      }
-                        ?>"></span>
+                            if ($playlist['status'] !== 'unlisted') {
+                                echo ' display: none;';
+                            }
+                            ?>"></span>
                         </button>
                         <?php
                     }
                 }
                 ?>
-            <a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>viewProgram/<?php echo $playlist['id']; ?>/<?php echo urlencode($playlist['name']); ?>/">
-                <?php echo __('More'); ?> <i class="fas fa-ellipsis-h"></i> 
-            </a>
+                <a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>viewProgram/<?php echo $playlist['id']; ?>/<?php echo urlencode($playlist['name']); ?>/">
+                    <?php echo __('More'); ?> <i class="fas fa-ellipsis-h"></i> 
+                </a>
             </div>
         </div>
 
@@ -166,7 +169,7 @@ foreach ($playlists as $playlist) {
                 <?php
                 $count = 0;
                 foreach ($videosP as $value) {
-                    $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/".urlencode($playlist['name'])."/{$value['clean_title']}";
+                    $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/" . urlencode($playlist['name']) . "/{$value['clean_title']}";
                     $count++;
                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                     $name = User::getNameIdentificationById($value['users_id']);
