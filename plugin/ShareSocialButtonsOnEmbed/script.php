@@ -44,7 +44,7 @@
            </div>
            <div class="row">
            <?php
-           include './include/social.php';
+           include $global['systemRootPath'].'view/include/social.php';
            ?>
         </div>
         
