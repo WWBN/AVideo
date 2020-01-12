@@ -2193,7 +2193,7 @@ if (!class_exists('Video')) {
             global $global, $advancedCustom, $videosPaths;
 
             // check if there is a webp image
-            if ($type === '.gif' && get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari') {
+            if ($type === '.gif' && (empty($_SERVER['HTTP_USER_AGENT']) || get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari')) {
                 $path = "{$global['systemRootPath']}videos/{$filename}.webp";
                 if (file_exists($path)) {
                     $type = ".webp";
