@@ -56,10 +56,10 @@ foreach ($playlists as $playlist) {
     } else if (empty($videosArrayId)) {
         $videosP = array();
     } else if ($advancedCustom->AsyncJobs) {
-        var_dump(PlayLists::isPlayListASerie($playlist['id']));
+        //var_dump(PlayLists::isPlayListASerie($playlist['id']));
         $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
     } else {
-        var_dump(PlayLists::isPlayListASerie($playlist['id']));
+        //var_dump(PlayLists::isPlayListASerie($playlist['id']));
         $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
     }
     $_POST['rowCount'] = $rowCount;
