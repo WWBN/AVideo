@@ -19,14 +19,15 @@ if(!empty($_SESSION['noNavbar'])){
     <?php
     return '';
 }
-
-if (!empty($_GET['channelName'])) {
-    _session_start();
-    $_SESSION['channelName'] = $_GET['channelName'];
-}
-if (!empty($_GET['leaveChannel'])) {
-    _session_start();
-    unset($_SESSION['channelName']);
+if(!empty($advancedCustomUser->keepViewerOnChannel)){
+    if (!empty($_GET['channelName'])) {
+        _session_start();
+        $_SESSION['channelName'] = $_GET['channelName'];
+    }
+    if (!empty($_GET['leaveChannel'])) {
+        _session_start();
+        unset($_SESSION['channelName']);
+    }
 }
 session_write_close();
 global $includeDefaultNavBar, $global, $config, $advancedCustom, $advancedCustomUser;
@@ -216,7 +217,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(true); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive ">
                         </a>
                         <?php
-                        if (!empty($_SESSION['channelName'])) {
+                        if (!empty($advancedCustomUser->keepViewerOnChannel) && !empty($_SESSION['channelName'])) {
                             $user = User::getChannelOwner($_SESSION['channelName']);
                         ?>
                         <a class="navbar-brand" href="<?php echo User::getChannelLinkFromChannelName($_SESSION['channelName']); ?>" >
