@@ -2570,6 +2570,11 @@ if (!class_exists('Video')) {
                 $get['channelName'] = $video->getChannelName();
             }
             
+            unset($get['v']);
+            unset($get['videoName']);
+            unset($get['videoName']);
+            unset($get['isMediaPlaySite']);
+            unset($get['parentsOnly']);
             $get_http = http_build_query($get);
             if (empty($get_http)) {
                 $get_http = "";
