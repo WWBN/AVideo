@@ -80,14 +80,14 @@
 
                             //$(".vjs-big-play-button").hide();
                             $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
-                            if (typeof player === 'undefined') {
+                            //if (typeof player === 'undefined') {
                                 player = videojs('mainVideo', {
                                     "techOrder": ["<?php echo ($_GET['isEmbedded'] == "y") ? "youtube" : "vimeo"; ?>"],
                                     "sources": [{
                                             "type": "video/<?php echo ($_GET['isEmbedded'] == "y") ? "youtube" : "vimeo"; ?>",
                                             "src": "<?php echo $video['videoLink']; ?>"}],
                                     "<?php echo ($_GET['isEmbedded'] == "y") ? "youtube" : "vimeo"; ?>": {"customVars": {"wmode": "transparent", "origin": "<?php echo $global['webSiteRootURL']; ?>"}}});
-                            }
+                            //}
                             player.ready(function () {
     <?php
     if ($config->getAutoplay()) {
