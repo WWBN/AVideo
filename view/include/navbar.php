@@ -951,6 +951,11 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         $currentP = @$_POST['current'];
                         $currentG = @$_GET['current'];
                         $search = @$_GET['search'];
+                        $searchPhrase = @$_POST['searchPhrase'];
+                        $q = @$_GET['q'];
+                        unset($_GET['q']); 
+                        unset($_GET['search']);
+                        unset($_POST['searchPhrase']);
                         $_GET['current'] = $_POST['current'] = 1;
                         $categories = Category::getAllCategories();
                         foreach ($categories as $value) {
@@ -974,6 +979,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         $_POST['current'] = $currentP;
                         $_GET['current'] = $currentG;
                         $_GET['search'] = $search;
+                        $_GET['q'] = $q;
+                        $_POST['searchPhrase'] = $searchPhrase;
                     }
                     ?>
 
