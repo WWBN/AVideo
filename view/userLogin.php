@@ -1,3 +1,13 @@
+<?php
+if(empty($_GET['redirectUri'])){
+    if(!empty($_SERVER["HTTP_REFERER"])){
+        // if comes from the streamer domain
+        if(preg_match('#^'.$global['webSiteRootURL'].'#i', $_SERVER["HTTP_REFERER"]) === 1){
+            $_GET['redirectUri'] = $_SERVER["HTTP_REFERER"];
+        }
+    }
+}
+?>
 <div class="row">
     <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
     <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 list-group-item ">
@@ -9,7 +19,7 @@
             if (empty($advancedCustomUser->disableNativeSignIn)) {
                 ?>
                 <form class="form-compact well form-horizontal"  id="loginForm">
-
+                    <input type="hidden" name="redirectUri" value=""/>
                     <div class="form-group">
                         <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
                         <div class="col-md-8 inputGroupContainer">
