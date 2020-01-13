@@ -52,12 +52,24 @@ class PlayerSkins extends PluginAbstract {
     }
 
     static function getDataSetup($str = ""){
+        global $video, $disableYoutubeIntegration, $global;
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         
         $dataSetup = array();
         
         if(!empty($obj->playbackRates)){
             $dataSetup[] = "'playbackRates':{$obj->playbackRates}";
+        }
+        if ((isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false) && !empty($video['videoLink'])) {
+            if ($_GET['isEmbedded'] == "y") {
+                $dataSetup[] = "techOrder:[\"youtube\"]";
+                $dataSetup[] = "sources:[{type: \"video/youtube\", src: \"{$video['videoLink']}\"}]";
+                $dataSetup[] = "youtube:{customVars: {wmode: \"transparent\", origin: \"{$global['webSiteRootURL']}\"}}";
+            } else if ($_GET['isEmbedded'] == "v") {
+                $dataSetup[] = "techOrder:[\"vimeo\"]";
+                $dataSetup[] = "sources:[{type: \"video/vimeo\", src: \"{$video['videoLink']}\"}]";
+                $dataSetup[] = "vimeo:{customVars: {wmode: \"transparent\", origin: \"{$global['webSiteRootURL']}\"}}";
+            }
         }
         
         if(!empty($dataSetup)){
