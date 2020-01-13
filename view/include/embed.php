@@ -77,7 +77,7 @@
                            } else {
                                echo "vimeo";
                            }
-                           ?>", "src": "<?php echo $video['videoLink']; ?>"}, "src": "<?php echo $video['videoLink']; ?>"},"origin":"<?php echo $global['webSiteRootURL']; ?>"] }' ></video>
+                           ?>", "src": "<?php echo $video['videoLink']; ?>"}, "src": "<?php echo $video['videoLink']; ?>","origin":"<?php echo $global['webSiteRootURL']; ?>"}] }' ></video>
                     <script>
                         var player;
                         var mediaId = <?php echo $video['id']; ?>;
