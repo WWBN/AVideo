@@ -80,7 +80,7 @@ if ($config->getAutoplay()) {
         });
 <?php
 if ($config->getAutoplay()) {
-    echo "setTimeout(function(){player.play();},1000);";
+    echo "setTimeout(function(){playerPlay(0);},1000);";
 }
 ?>
         player.persistvolume({

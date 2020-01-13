@@ -341,15 +341,7 @@ if (!empty($_GET['t'])) {
                             if (typeof player === 'undefined') {
                                 player = videojs('mainVideo');
                             }
-                            try {
-                                player.currentTime(<?php echo $t; ?>);
-                                player.play();
-                            } catch (e) {
-                                setTimeout(function () {
-                                    player.currentTime(<?php echo $t; ?>);
-                                    player.play();
-                                }, 1000);
-                            }
+                            playerPlay(<?php echo $t; ?>);
                         }, 150);
         <?php
     }else{

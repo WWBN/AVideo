@@ -189,7 +189,7 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     $('.clearCacheFirstPageButton').on('click', function (ev) {
         ev.preventDefault();
         modal.showPleaseWait();
@@ -466,10 +466,45 @@ function nl2br(str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
-function inIframe () {
+function inIframe() {
     try {
         return window.self !== window.top;
     } catch (e) {
         return true;
+    }
+}
+
+function playerPlay(currentTime) {
+    if (typeof player === 'undefined') {
+        if(currentTime){
+            player.currentTime(currentTime);
+        }
+        try {
+            var promise = player.play();
+
+            if (promise !== undefined) {
+                promise.then(_ => {
+                    // Autoplay started!
+                }).catch(error => {
+                    // Show something in the UI that the video is muted
+                    player.muted(true);
+                    player.play();
+                });
+            }
+        } catch (e) {
+            setTimeout(function () {
+                var promise = player.play();
+
+                if (promise !== undefined) {
+                    promise.then(_ => {
+                        // Autoplay started!
+                    }).catch(error => {
+                        // Show something in the UI that the video is muted
+                        player.muted(true);
+                        player.play();
+                    });
+                }
+            }, 1000);
+        }
     }
 }

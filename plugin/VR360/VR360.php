@@ -80,7 +80,7 @@ class VR360 extends PluginAbstract {
             VREnable: isMobile(),
             NoticeMessage: (isMobile())? "please drag and drop the video" : "please use your mouse drag and drop the video",
             callback: function () {
-                if(!isMobile()) player.play();
+                if(!isMobile()) playerPlay(0);
             }
         });
 
