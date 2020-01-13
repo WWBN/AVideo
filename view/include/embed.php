@@ -86,7 +86,17 @@
                             player.ready(function () {
     <?php
     if ($config->getAutoplay()) {
-        echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo'" . PlayerSkins::getDataSetup() . ");} player.play(); }, 150);";
+        echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo'" . PlayerSkins::getDataSetup() . ");} var promise = player.play();
+
+                                            if (promise !== undefined) {
+                                                promise.then(_ => {
+                                                // Autoplay started!
+                                                }).catch(error => {
+                                                    // Show something in the UI that the video is muted
+                                                    player.muted(true);
+                                                    player.play();
+                                                });
+                                            } }, 150);";
     } else {
         ?>
                                     if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
