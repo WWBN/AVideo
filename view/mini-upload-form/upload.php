@@ -45,6 +45,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $video = new Video("", $filename, $videos_id);
         if($video->getTitle() === "Video automatically booked"){
             $video->setTitle(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']), 0, -4));
+            $video->setStatus('i');
         }
     }
     $video->setDuration($duration);
@@ -75,7 +76,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $video->setType("pdf");
     }
 
-    if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
+    if (empty($advancedCustom->makeVideosInactiveAfterEncode) && $video->getTitle() !== "Video automatically booked") {
 
         // set active
 
