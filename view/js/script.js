@@ -189,7 +189,7 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     $('.clearCacheFirstPageButton').on('click', function (ev) {
         ev.preventDefault();
         modal.showPleaseWait();
@@ -466,10 +466,47 @@ function nl2br(str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
-function inIframe () {
+function inIframe() {
     try {
         return window.self !== window.top;
     } catch (e) {
         return true;
+    }
+}
+
+function playerPlay(currentTime) {
+    if (typeof player !== 'undefined') {
+        if(currentTime){
+            player.currentTime(currentTime);
+        }
+        try {
+            console.log("Trying to play");
+            var promise = player.play();
+
+            if (promise !== undefined) {
+                promise.then(_ => {
+                    // Autoplay started!
+                    setTimeout(function () {
+                        if(player.paused()){
+                            console.log("The video still paused, trying to mute and play");
+                            player.muted(true);
+                            playerPlay(currentTime);
+                        }
+                    }, 500);
+                }).catch(error => {
+                    console.log("We could not autoplay, trying to mute and play");
+                    // Show something in the UI that the video is muted
+                    player.muted(true);
+                    player.play();
+                });
+            }
+        } catch (e) {
+            console.log("We could not autoplay, trying again in 1 second");
+            setTimeout(function () {
+                playerPlay(currentTime);
+            }, 1000);
+        }
+    }else{
+        console.log("Player is Undefined");
     }
 }
