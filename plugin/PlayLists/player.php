@@ -42,6 +42,11 @@ foreach ($playList as $value) {
     }
     $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), $value['cre'], $value['likes'], $value['views_count'], $value['videos_id']);
 }
+
+$video = PlayLists::isPlayListASerie($_GET['playlists_id']);
+if (!empty($video['id'])) {
+    AVideoPlugin::getEmbed($video['id']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -71,6 +76,12 @@ foreach ($playList as $value) {
 
             .video-js .next-button {width: 2em !important;}
         </style>
+        <?php
+        if (!empty($video['id'])) {
+            getLdJson($video['id']);
+            getItemprop($video['id']);
+        }
+        ?>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
