@@ -106,7 +106,17 @@ if ($config->getAutoplay()) {
                             if (typeof player === 'undefined') {
                                 player = videojs('mainAudio');
                             }
-                            player.play();
+                            var promise = player.play();
+
+                            if (promise !== undefined) {
+                                promise.then(_ => {
+                                    // Autoplay started!
+                                }).catch(error => {
+                                    // Show something in the UI that the video is muted
+                                    player.muted(true);
+                                    player.play();
+                                });
+                            }
                         }, 150);
                     }
 <?php } ?>
