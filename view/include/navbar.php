@@ -948,14 +948,10 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                     }
                     if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
-                        $currentP = @$_POST['current'];
-                        $currentG = @$_GET['current'];
-                        $search = @$_GET['search'];
-                        $searchPhrase = @$_POST['searchPhrase'];
-                        $q = @$_GET['q'];
-                        unset($_GET['q']); 
-                        unset($_GET['search']);
-                        unset($_POST['searchPhrase']);
+                        $post = $_POST;
+                        $get = $_GET;
+                        unset($_GET); 
+                        unset($_POST);
                         $_GET['current'] = $_POST['current'] = 1;
                         $categories = Category::getAllCategories();
                         foreach ($categories as $value) {
@@ -976,11 +972,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             mkSub($value['id']);
                             echo '</a></li>';
                         }
-                        $_POST['current'] = $currentP;
-                        $_GET['current'] = $currentG;
-                        $_GET['search'] = $search;
-                        $_GET['q'] = $q;
-                        $_POST['searchPhrase'] = $searchPhrase;
+                        $_POST = $post;
+                        $_GET = $get;
                     }
                     ?>
 
