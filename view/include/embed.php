@@ -45,7 +45,7 @@
                     ?>"></iframe>
                     <script>
                         $(document).ready(function () {
-                        addView(<?php echo $video['id']; ?>, 0);
+                            addView(<?php echo $video['id']; ?>, 0);
                         });
                     </script>
 
@@ -72,87 +72,87 @@
     <?php if (!CustomizeUser::canDownloadVideosFromVideo($video['id'])) { ?>
                             // Prevent HTML5 video from being downloaded (right-click saved)?
                             $('#mainVideo').bind('contextmenu', function () {
-                            return false;
+                                return false;
                             });
     <?php } ?>
 
                         $(document).ready(function () {
 
-                        //$(".vjs-big-play-button").hide();
-                        $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
-                        if (typeof player === 'undefined') {
-                        player = videojs('mainVideo', {
-                        "techOrder": ["<?php echo ($_GET['isEmbedded'] == "y")?"youtube":"vimeo"; ?>"], 
-                        "sources": [{ 
-                                "type": "video/<?php echo ($_GET['isEmbedded'] == "y")?"youtube":"vimeo";?>",
-                                "src": "<?php echo $video['videoLink']; ?>"}],
-                                "<?php echo ($_GET['isEmbedded'] == "y")?"youtube":"vimeo"; ?>": { "customVars": { "wmode": "transparent", "origin":"<?php echo $global['webSiteRootURL']; ?>"  } }});
-                        }
-                        player.ready(function () {
+                            //$(".vjs-big-play-button").hide();
+                            $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
+                            if (typeof player === 'undefined') {
+                                player = videojs('mainVideo', {
+                                    "techOrder": ["<?php echo ($_GET['isEmbedded'] == "y") ? "youtube" : "vimeo"; ?>"],
+                                    "sources": [{
+                                            "type": "video/<?php echo ($_GET['isEmbedded'] == "y") ? "youtube" : "vimeo"; ?>",
+                                            "src": "<?php echo $video['videoLink']; ?>"}],
+                                    "<?php echo ($_GET['isEmbedded'] == "y") ? "youtube" : "vimeo"; ?>": {"customVars": {"wmode": "transparent", "origin": "<?php echo $global['webSiteRootURL']; ?>"}}});
+                            }
+                            player.ready(function () {
     <?php
     if ($config->getAutoplay()) {
         echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play(); }, 150);";
     } else {
         ?>
-                            if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                            setTimeout(function () {
-                            if (typeof player === 'undefined') {
-                            player = videojs('mainVideo');
-                            }
-                            player.play();
-                            }, 150);
-                            }
+                                    if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                                        setTimeout(function () {
+                                            if (typeof player === 'undefined') {
+                                                player = videojs('mainVideo');
+                                            }
+                                            player.play();
+                                        }, 150);
+                                    }
     <?php } ?>
-                        num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
-                        loadPage(num);
-                        });
-                        player.persistvolume({
-                        namespace: "AVideo"
-                        });
-                        player.on('play', function () {
-                        addView(<?php echo $video['id']; ?>, this.currentTime());
-                        });
-                        player.on('ended', function () {
-                        console.log("Finish Video");
+                                num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
+                                loadPage(num);
+                            });
+                            player.persistvolume({
+                                namespace: "AVideo"
+                            });
+                            player.on('play', function () {
+                                addView(<?php echo $video['id']; ?>, this.currentTime());
+                            });
+                            player.on('ended', function () {
+                                console.log("Finish Video");
     <?php if (!empty($autoPlayVideo)) { ?>
-                            if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                            document.location = '<?php echo $autoPlayVideo['url']; ?>';
-                            }
+                                    if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                                        document.location = '<?php echo $autoPlayVideo['url']; ?>';
+                                    }
     <?php } ?>
 
-                        });
-                        player.on('timeupdate', function () {
-                        var time = Math.round(this.currentTime());
-                        if (time >= 5 && time % 5 === 0) {
-                        addView(<?php echo $video['id']; ?>, time);
-                        }
-                        });
-                        player.on('ended', function () {
-                        var time = Math.round(this.currentTime());
-                        addView(<?php echo $video['id']; ?>, time);
-                        });
+                            });
+                            player.on('timeupdate', function () {
+                                var time = Math.round(this.currentTime());
+                                if (time >= 5 && time % 5 === 0) {
+                                    addView(<?php echo $video['id']; ?>, time);
+                                }
+                            });
+                            player.on('ended', function () {
+                                var time = Math.round(this.currentTime());
+                                addView(<?php echo $video['id']; ?>, time);
+                            });
                         });
                     </script>
 
                 </div>
-    <?php
-} // youtube! end
-require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+                <?php
+            } // youtube! end
+            require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 // the live users plugin
-if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+            if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
 
-    require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-    $style = VideoLogoOverlay::getStyle();
-    $url = VideoLogoOverlay::getLink();
-    ?>
+                require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+                $style = VideoLogoOverlay::getStyle();
+                $url = VideoLogoOverlay::getLink();
+                ?>
                 <div style="<?php echo $style; ?>">
                     <a href="<?php echo $url; ?>"  target="_blank">
                         <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
                     </a>
                 </div>
-    <?php
-}
-?>
+                <?php
+            }
+            ?>
 
             <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs" style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
                 <i class="fas fa-times"></i>
