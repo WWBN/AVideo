@@ -514,4 +514,3 @@
 
   _video2.default.registerPlugin('markers', registerVideoJsMarkersPlugin);
 });
-//# sourceMappingURL=http://192.168.25.16/AVideo/plugin/AD_Server/videojs-markers/videojs-markers.js.map
