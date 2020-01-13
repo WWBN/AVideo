@@ -80,24 +80,19 @@
 
                             //$(".vjs-big-play-button").hide();
                             $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
-                            //if (typeof player === 'undefined') {
-                                player = videojs('mainVideo', {
-                                    "techOrder": ["<?php echo ($_GET['isEmbedded'] == "y") ? "youtube" : "vimeo"; ?>"],
-                                    "sources": [{
-                                            "type": "video/<?php echo ($_GET['isEmbedded'] == "y") ? "youtube" : "vimeo"; ?>",
-                                            "src": "<?php echo $video['videoLink']; ?>"}],
-                                    "<?php echo ($_GET['isEmbedded'] == "y") ? "youtube" : "vimeo"; ?>": {"customVars": {"wmode": "transparent", "origin": "<?php echo $global['webSiteRootURL']; ?>"}}});
-                            //}
+                            if (typeof player === 'undefined') {
+                                player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
+                            }
                             player.ready(function () {
     <?php
     if ($config->getAutoplay()) {
-        echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');} player.play(); }, 150);";
+        echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo'".PlayerSkins::getDataSetup().");} player.play(); }, 150);";
     } else {
         ?>
                                     if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
                                         setTimeout(function () {
                                             if (typeof player === 'undefined') {
-                                                player = videojs('mainVideo');
+                                                player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                             }
                                             player.play();
                                         }, 150);
