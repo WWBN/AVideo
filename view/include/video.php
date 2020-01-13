@@ -173,11 +173,31 @@ var menu = new BootstrapMenu('#mainVideo', {
                                                 }
                                                 try {
                                                     player.currentTime(<?php echo $currentTime; ?>);
-                                                    player.play();
+                                                    var promise = player.play();
+
+                                                    if (promise !== undefined) {
+                                                        promise.then(_ => {
+                                                        // Autoplay started!
+                                                        }).catch(error => {
+                                                            // Show something in the UI that the video is muted
+                                                            player.muted(true);
+                                                            player.play();
+                                                        });
+                                                    }
                                                 } catch (e) {
                                                     setTimeout(function () {
                                                         player.currentTime(<?php echo $currentTime; ?>);
-                                                        player.play();
+                                                        var promise = player.play();
+
+                                                        if (promise !== undefined) {
+                                                            promise.then(_ => {
+                                                            // Autoplay started!
+                                                            }).catch(error => {
+                                                                // Show something in the UI that the video is muted
+                                                                player.muted(true);
+                                                                player.play();
+                                                            });
+                                                        }
                                                     }, 1000);
                                                 }
                                             }, 150);
@@ -196,11 +216,31 @@ var menu = new BootstrapMenu('#mainVideo', {
                                                         player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                                     }
                                                     try {
-                                                        player.play();
+                                                        var promise = player.play();
+
+                                                        if (promise !== undefined) {
+                                                            promise.then(_ => {
+                                                            // Autoplay started!
+                                                            }).catch(error => {
+                                                                // Show something in the UI that the video is muted
+                                                                player.muted(true);
+                                                                player.play();
+                                                            });
+                                                        }
                                                     } catch (e) {
                                                         setTimeout(function () {
                                                             player.currentTime(<?php echo $currentTime; ?>);
-                                                            player.play();
+                                                            var promise = player.play();
+
+                                                            if (promise !== undefined) {
+                                                                promise.then(_ => {
+                                                                // Autoplay started!
+                                                                }).catch(error => {
+                                                                    // Show something in the UI that the video is muted
+                                                                    player.muted(true);
+                                                                    player.play();
+                                                                });
+                                                            }
                                                         }, 1000);
                                                     }
                                                 }, 150);
