@@ -81,20 +81,31 @@
                             //$(".vjs-big-play-button").hide();
                             $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
                             if (typeof player === 'undefined') {
-                                player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
+                            player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                             }
                             player.ready(function () {
     <?php
     if ($config->getAutoplay()) {
-        echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo'".PlayerSkins::getDataSetup().");} player.play(); }, 150);";
+        echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo'" . PlayerSkins::getDataSetup() . ");} player.play(); }, 150);";
     } else {
         ?>
                                     if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
                                         setTimeout(function () {
                                             if (typeof player === 'undefined') {
-                                                player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
+                                            player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                             }
-                                            player.play();
+                                            var promise = player.play();
+
+                                            if (promise !== undefined) {
+                                                promise.then(_ => {
+                                                // Autoplay started!
+                                                }).catch(error => {
+                                                    // Show something in the UI that the video is muted
+                                                    player.muted(true);
+                                                    player.play();
+                                                });
+                                            }
+
                                         }, 150);
                                     }
     <?php } ?>
