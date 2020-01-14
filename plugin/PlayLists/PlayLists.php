@@ -176,7 +176,11 @@ class PlayLists extends PluginAbstract {
             if ($obj->usePlaylistPlayerForSeries) {
                 $video = Video::getVideoFromCleanTitle($_GET['videoName']);
                 if ($video['type'] == 'serie' && !empty($video['serie_playlists_id'])) {
-                    $link = PlayLists::getLink($video['serie_playlists_id']);
+                    if(basename($_SERVER["SCRIPT_FILENAME"])== "videoEmbeded.php"){
+                        $link = PlayLists::getLink($video['serie_playlists_id'], true);
+                    }else{
+                        $link = PlayLists::getLink($video['serie_playlists_id']);
+                    }
                     header("Location: {$link}");
                     exit;
                 }
@@ -184,13 +188,17 @@ class PlayLists extends PluginAbstract {
         }
     }
 
-    static function getLink($playlists_id) {
+    static function getLink($playlists_id, $embed=false) {
         global $global;
         $obj = AVideoPlugin::getObjectData("PlayLists");
-        if (empty($obj->useOldPlayList)) {
-            return $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
-        } else {
-            return $global['webSiteRootURL'] . "program/" . $playlists_id;
+        if($embed){
+            return $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?playlists_id=" . $playlists_id;
+        }else{
+            if (empty($obj->useOldPlayList)) {
+                return $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
+            } else {
+                return $global['webSiteRootURL'] . "program/" . $playlists_id;
+            }
         }
     }
 
