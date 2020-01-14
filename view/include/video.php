@@ -271,20 +271,7 @@ if (!empty($autoPlayVideo)) {
                                     if (typeof player === 'undefined') {
                                     player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                     }
-                                    if (player.muted()) {
-                                    swal({
-                                    title: "<?php echo __("Your Media is Muted"); ?>",
-                                            text: "<?php echo __("Would you like to unmute it?"); ?>",
-                                            type: "warning",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "#DD6B55",
-                                            confirmButtonText: "<?php echo __("Yes, unmute it!"); ?>",
-                                            closeOnConfirm: true
-                                    },
-                                            function () {
-                                            player.muted(false);
-                                            });
-                                    }
+                                    
                                     }, 1500);
                                     }
                                     );
