@@ -210,6 +210,21 @@ class API extends PluginAbstract {
                 }
                 $rows[$key]['subscribers'] = Subscribe::getTotalSubscribes($rows[$key]['users_id']);
             }
+            //wwbn elements
+            $rows[$key]['wwbnURL'] = $rows[$key]['pageUrl'];
+            $rows[$key]['wwbnEmbedURL'] = $rows[$key]['embedUrl'];
+            $rows[$key]['wwbnImgThumbnail'] = $rows[$key]['Thumbnail'];
+            $rows[$key]['wwbnImgPoster'] = $rows[$key]['Poster'];
+            //$rows[$key]['wwbnImgGif'] = $rows[$key]['pageUrl'];
+            //$rows[$key]['wwbnTags'] = $rows[$key]['pageUrl'];
+            $rows[$key]['wwbnTitle'] = $rows[$key]['title'];
+            $rows[$key]['wwbnDescription'] = $rows[$key]['description'];
+            //$rows[$key]['wwbnChannel'] = User::getChannelLink($rows[$key]['users_id']);
+            $rows[$key]['wwbnChannelURL'] = User::getChannelLink($rows[$key]['users_id']);
+            $rows[$key]['wwbnImgChannel'] = $rows[$key]['UserPhoto'];
+            //$rows[$key]['wwbnProgram'] = $rows[$key]['pageUrl'];
+            //$rows[$key]['wwbnProgramURL'] = $rows[$key]['pageUrl'];
+            $rows[$key]['wwbnType'] = $rows[$key]['type'];
         }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;

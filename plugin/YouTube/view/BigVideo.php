@@ -81,7 +81,7 @@ if ($objYTube->BigVideo && empty($_GET['showOnly'])) {
                     }
                     ?>
                     <div>
-                        <i class="fa fa-clock-o"></i>
+                        <i class="far fa-clock"></i>
                         <?php echo humanTiming(strtotime($video['videoCreation'])), " ", __('ago'); ?>
                     </div>
                     <div>

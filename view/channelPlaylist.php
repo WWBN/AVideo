@@ -56,10 +56,8 @@ foreach ($playlists as $playlist) {
     } else if (empty($videosArrayId)) {
         $videosP = array();
     } else if ($advancedCustom->AsyncJobs) {
-        //var_dump(PlayLists::isPlayListASerie($playlist['id']));
         $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
     } else {
-        //var_dump(PlayLists::isPlayListASerie($playlist['id']));
         $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
     }
     $_POST['rowCount'] = $rowCount;
@@ -165,7 +163,76 @@ foreach ($playlists as $playlist) {
             ?>
 
             <div class="panel-body">
+                <?php
+                $serie = PlayLists::isPlayListASerie($playlist['id']);
+                if (!empty($serie)) {
+                    $images = Video::getImageFromFilename($serie['filename'], $serie['type'], true);
+                    $imgGif = $images->thumbsGif;
+                    $poster = $images->thumbsJpg;
+                    $category = new Category($serie['categories_id']);
+                    ?>
+                <div style="height: 200px; overflow: hidden;">
+                        <div class="col-sm-4" id="serie<?php echo $serie['id']; ?>" style="padding: 1px;">
+                            <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" />
+                        </div>
+                        <div class="col-sm-8"  style="padding: 1px 5px;">
+                            <a class="hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo $serie['title']; ?>">
+                                <h2><?php echo $serie['title']; ?></h2>
+                            </a>
+                            <small class="text-muted galeryDetails">
+                                <a class="label label-default" href="<?php echo Video::getLink($videoRow['id'], $category->getClean_name(), false, $get); ?>/">
+                                    <?php
+                                    if (!empty($category->getIconClass())) {
+                                        ?>
+                                        <i class="<?php echo $category->getIconClass(); ?>"></i>
+                                        <?php
+                                    }
+                                    ?>
+                                    <?php echo $category->getName(); ?>
+                                </a>
+                                <?php
+                                $serie['tags'] = Video::getTags($serie['id']);
+                                foreach ($serie['tags'] as $value2) {
+                                    if ($value2->label === __("Group")) {
+                                        ?>
+                                        <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                        <?php
+                                    }
+                                }
+                                ?>
+                                <i class="far fa-clock"></i>
+                                <?php
+                                echo humanTiming(strtotime($serie['created'])), " ", __('ago');
+                                ?>
 
+                                <?php
+                                if (!empty($serie['trailer1'])) {
+                                    ?>
+                                    <a href="#" class="btn btn-xs btn-warning" onclick="$(this).removeAttr('href');$('#serie<?php echo $serie['id']; ?> img').fadeOut();$('<iframe>', {
+                                                                src: '<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>',
+                                                                id: 'myFrame<?php echo $serie['id']; ?>',
+                                                                allow: 'autoplay',
+                                                                frameborder: 0,
+                                                                height: 200,
+                                                                width: '100%',
+                                                                scrolling: 'no'
+                                                            }).appendTo('#serie<?php echo $serie['id']; ?>');$(this).removeAttr('onclick');$(this).fadeOut();return false;">
+                                        <span class="fa fa-film"></span> 
+                                        <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
+                                    </a>
+                                    <?php
+                                }
+                                ?>
+                            </small>
+                            <p>
+                                <?php echo $serie['description']; ?>
+                            </p>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+                <div class="clearfix"></div>
                 <?php
                 $count = 0;
                 foreach ($videosP as $value) {
@@ -223,7 +290,7 @@ foreach ($playlists as $playlist) {
                             ?>
 
                             <div>
-                                <i class="fa fa-clock-o"></i>
+                                <i class="far fa-clock"></i>
                                 <?php
                                 echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
                                 ?>

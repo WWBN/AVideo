@@ -131,7 +131,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                             </div>
                                         <?php } ?>
                                         <div>
-                                            <i class="fa fa-clock-o"></i>
+                                            <i class="far fa-clock"></i>
                                             <?php echo humanTiming(strtotime($videoRow['videoCreation'])), " ", __('ago'); ?>
                                         </div>
                                         <div>

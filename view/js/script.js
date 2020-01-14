@@ -505,7 +505,7 @@ function playerPlay(currentTime) {
                             player.muted(true);
                             playerPlay(currentTime);
                         } else {
-                            if (player.muted()) {
+                            if (player.muted() && !inIframe()) {
                                 swal({
                                     html: true,
                                     title: "Your Media is Muted",
