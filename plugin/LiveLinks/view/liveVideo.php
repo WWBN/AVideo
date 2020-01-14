@@ -37,7 +37,7 @@
             }
 <?php
 if ($config->getAutoplay()) {
-    echo "this.play();";
+    echo "playerPlay(0);";
 }
 ?>
 

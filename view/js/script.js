@@ -509,7 +509,7 @@ function playerPlay(currentTime) {
                                 swal({
                                     html: true,
                                     title: "Your Media is Muted",
-                                    text: "<b>Would</b> you like to unmute it?<div id='allowAutoplay'></div>",
+                                    text: "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonColor: "#DD6B55",
