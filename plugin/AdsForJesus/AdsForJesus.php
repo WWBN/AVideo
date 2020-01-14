@@ -77,7 +77,7 @@ class AdsForJesus extends PluginAbstract {
                 $video = Video::getVideoFromCleanTitle($_GET['videoName']);
                 $showAds = AVideoPlugin::showAds($video['id']);
                 if (!$showAds) {
-                    return "";
+                    //return "";
                 }
             } else {
                 $video['duration'] = "01:00:00";
