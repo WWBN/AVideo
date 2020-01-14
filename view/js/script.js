@@ -473,10 +473,12 @@ function inIframe() {
         return true;
     }
 }
+var promisePlayTimeoutTime = 0;
 var promisePlayTimeout;
-var promisePlay;
+var promisePlay; 
 function playerPlay(currentTime) {
     if (typeof player !== 'undefined') {
+        promisePlayTimeoutTime+=1000;
         if (currentTime) {
             player.currentTime(currentTime);
         }
@@ -487,7 +489,7 @@ function playerPlay(currentTime) {
                 promisePlayTimeout = setTimeout(function () {
                     console.log("playerPlay: Promise is Pending, try again");
                     playerPlay(currentTime);
-                }, 1000);
+                }, promisePlayTimeoutTime);
                 console.log("playerPlay: promise found");
                 console.log(promisePlay);
                 promisePlay.then(function () {
@@ -505,13 +507,13 @@ function playerPlay(currentTime) {
                         console.log("playerPlay: promise Undefined");
                         playerPlay(currentTime);
                     }
-                }, 1000);
+                }, promisePlayTimeoutTime);
             }
         } catch (e) {
             console.log("playerPlay: We could not autoplay, trying again in 1 second");
             setTimeout(function () {
                 playerPlay(currentTime);
-            }, 1000);
+            }, promisePlayTimeoutTime);
         }
     } else {
         console.log("playerPlay: Player is Undefined");
