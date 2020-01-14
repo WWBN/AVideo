@@ -71,7 +71,6 @@ if (!empty($html)) {
 }
 ?>
             }
-
         });
 <?php
 if ($config->getAutoplay()) {
