@@ -71,16 +71,11 @@ if (!empty($html)) {
 }
 ?>
             }
-<?php
-if ($config->getAutoplay()) {
-    echo "this.play();";
-}
-?>
 
         });
 <?php
 if ($config->getAutoplay()) {
-    echo "setTimeout(function(){playerPlay(0);},1000);";
+    echo "setTimeout(function(){playerPlay(0);},500);";
 }
 ?>
         player.persistvolume({
