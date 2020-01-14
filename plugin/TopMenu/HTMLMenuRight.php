@@ -20,7 +20,9 @@ foreach ($menu as $key => $value) {
                 <?php
             }
             ?>
-            <?php echo $value['menuName']; ?>
+            <span class="hidden-md hidden-sm">
+                <?php echo $value['menuName']; ?>
+            </span>
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu dropdown-menu-right" id="availableLive" style="">
