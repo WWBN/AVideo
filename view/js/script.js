@@ -473,40 +473,60 @@ function inIframe() {
         return true;
     }
 }
-
+var promisePlaytry = 10;
+var promisePlayTimeoutTime = 0;
+var promisePlayTimeout;
+var promisePlay;
 function playerPlay(currentTime) {
+    if(promisePlaytry<=0){
+        return false;
+    }
+    promisePlaytry--;
     if (typeof player !== 'undefined') {
-        if(currentTime){
+        promisePlayTimeoutTime += 1000;
+        if (currentTime) {
             player.currentTime(currentTime);
         }
         try {
-            console.log("Trying to play");
-            var promise = player.play();
-
-            if (promise !== undefined) {
-                promise.then(_ => {
-                    // Autoplay started!
+            console.log("playerPlay: Trying to play");
+            promisePlay = player.play();
+            if (promisePlay !== undefined) {
+                promisePlayTimeout = setTimeout(function () {
+                    console.log("playerPlay: Promise is Pending, try again");
+                    playerPlay(currentTime);
+                }, promisePlayTimeoutTime);
+                console.log("playerPlay: promise found");
+                promisePlay.then(function () {
+                    console.log("playerPlay: Autoplay started");
+                    clearTimeout(promisePlayTimeout);
                     setTimeout(function () {
-                        if(player.paused()){
+                        if (player.paused()) {
                             console.log("The video still paused, trying to mute and play");
                             player.muted(true);
                             playerPlay(currentTime);
                         }
-                    }, 500);
-                }).catch(error => {
-                    console.log("We could not autoplay, trying to mute and play");
-                    // Show something in the UI that the video is muted
+                    }, 1000);
+                }).catch(function (error) {
+                    console.log("playerPlay: Autoplay was prevented, trying to mute and play ***");
                     player.muted(true);
-                    player.play();
+                    playerPlay(currentTime);
+
                 });
+            } else {
+                promisePlayTimeout = setTimeout(function () {
+                    if (player.paused()) {
+                        console.log("playerPlay: promise Undefined");
+                        playerPlay(currentTime);
+                    }
+                }, promisePlayTimeoutTime);
             }
         } catch (e) {
-            console.log("We could not autoplay, trying again in 1 second");
-            setTimeout(function () {
+            console.log("playerPlay: We could not autoplay, trying again in 1 second");
+            promisePlayTimeout = setTimeout(function () {
                 playerPlay(currentTime);
-            }, 1000);
+            }, promisePlayTimeoutTime);
         }
-    }else{
-        console.log("Player is Undefined");
+    } else {
+        console.log("playerPlay: Player is Undefined");
     }
 }
