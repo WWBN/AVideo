@@ -473,10 +473,15 @@ function inIframe() {
         return true;
     }
 }
+var promisePlaytry = 10;
 var promisePlayTimeoutTime = 0;
 var promisePlayTimeout;
 var promisePlay;
 function playerPlay(currentTime) {
+    if (promisePlaytry <= 0) {
+        return false;
+    }
+    promisePlaytry--;
     if (typeof player !== 'undefined') {
         promisePlayTimeoutTime += 1000;
         if (currentTime) {
@@ -499,7 +504,28 @@ function playerPlay(currentTime) {
                             console.log("The video still paused, trying to mute and play");
                             player.muted(true);
                             playerPlay(currentTime);
+                        } else {
+                            if (player.muted()) {
+                                swal({
+                                    html: true,
+                                    title: "Your Media is Muted",
+                                    text: "<b>Would</b> you like to unmute it?<div id='allowAutoplay'></div>",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#DD6B55",
+                                    confirmButtonText: "Yes, unmute it!",
+                                    closeOnConfirm: true
+                                },
+                                        function () {
+                                            player.muted(false);
+                                        });
+                                setTimeout(function () {
+                                    $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
+                                }, 500);
+
+                            }
                         }
+
                     }, 1000);
                 }).catch(function (error) {
                     console.log("playerPlay: Autoplay was prevented, trying to mute and play ***");
