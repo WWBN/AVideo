@@ -475,10 +475,10 @@ function inIframe() {
 }
 var promisePlayTimeoutTime = 0;
 var promisePlayTimeout;
-var promisePlay; 
+var promisePlay;
 function playerPlay(currentTime) {
     if (typeof player !== 'undefined') {
-        promisePlayTimeoutTime+=1000;
+        promisePlayTimeoutTime += 1000;
         if (currentTime) {
             player.currentTime(currentTime);
         }
@@ -491,15 +491,14 @@ function playerPlay(currentTime) {
                     playerPlay(currentTime);
                 }, promisePlayTimeoutTime);
                 console.log("playerPlay: promise found");
-                console.log(promisePlay);
                 promisePlay.then(function () {
                     console.log("playerPlay: Autoplay started");
                     clearTimeout(promisePlayTimeout);
                 }).catch(function (error) {
-                    console.log("playerPlay: Autoplay was prevented, trying to mute and play");
-                    // Show something in the UI that the video is muted
+                    console.log("playerPlay: Autoplay was prevented, trying to mute and play ***");
                     player.muted(true);
                     playerPlay(currentTime);
+
                 });
             } else {
                 promisePlayTimeout = setTimeout(function () {
