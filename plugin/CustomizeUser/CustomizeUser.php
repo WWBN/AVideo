@@ -281,7 +281,11 @@ class CustomizeUser extends PluginAbstract {
         global $global;
         $cansee = User::canWatchVideoWithAds($videos_id);
         if(!$cansee){
-            header("Location: {$global['webSiteRootURL']}?msg=".urlencode(__("Sorry, this video is private")));
+            if(!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')){
+                header("Location: {$global['webSiteRootURL']}user?msg=".urlencode(__("Sorry, this video is private")));
+            }else{
+                header("Location: {$global['webSiteRootURL']}?msg=".urlencode(__("Sorry, this video is private")));
+            }
             exit;
         }
     }
