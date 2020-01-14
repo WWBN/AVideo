@@ -494,6 +494,13 @@ function playerPlay(currentTime) {
                 promisePlay.then(function () {
                     console.log("playerPlay: Autoplay started");
                     clearTimeout(promisePlayTimeout);
+                    setTimeout(function () {
+                        if (player.paused()) {
+                            console.log("The video still paused, trying to mute and play");
+                            player.muted(true);
+                            playerPlay(currentTime);
+                        }
+                    }, 1000);
                 }).catch(function (error) {
                     console.log("playerPlay: Autoplay was prevented, trying to mute and play ***");
                     player.muted(true);
@@ -510,7 +517,7 @@ function playerPlay(currentTime) {
             }
         } catch (e) {
             console.log("playerPlay: We could not autoplay, trying again in 1 second");
-            setTimeout(function () {
+            promisePlayTimeout = setTimeout(function () {
                 playerPlay(currentTime);
             }, promisePlayTimeoutTime);
         }
