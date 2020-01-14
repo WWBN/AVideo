@@ -507,9 +507,9 @@ function playerPlay(currentTime) {
                         } else {
                             if (player.muted()) {
                                 swal({
-                                    html:true,
+                                    html: true,
                                     title: "Your Media is Muted",
-                                    text: "<b>Would</b> you like to unmute it?<hr><small>Click in your browser name to permanently unmute videos and allow autoplay <a href=\"https://developers.google.com/web/updates/2017/09/autoplay-policy-changes\" rel=\"nofollow\"  target=\"_blank\">Chrome</a> <a href=\"https://support.apple.com/guide/safari/ibrw29c6ecf8/mac\" rel=\"nofollow\"  target=\"_blank\">Safari</a> <a href=\"https://support.mozilla.org/en-US/kb/block-autoplay\" rel=\"nofollow\" target=\"_blank\">Firefox</a></small>",
+                                    text: "<b>Would</b> you like to unmute it?<div id='allowAutoplay'></div>",
                                     type: "warning",
                                     showCancelButton: true,
                                     confirmButtonColor: "#DD6B55",
@@ -519,6 +519,10 @@ function playerPlay(currentTime) {
                                         function () {
                                             player.muted(false);
                                         });
+                                setTimeout(function () {
+                                    $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
+                                }, 500);
+
                             }
                         }
 
