@@ -2402,7 +2402,13 @@ function getItemprop($videos_id) {
     echo $output;
 }
 
-function get_browser_name($user_agent) {
+function get_browser_name($user_agent="") {
+    if(empty($user_agent)){
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    }
+    if(empty($user_agent)){
+        return 'Unknow';
+    }
     // Make case insensitive.
     $t = strtolower($user_agent);
 
