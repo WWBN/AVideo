@@ -9,7 +9,7 @@ if (!$detect->isMobile() && !$detect->isTablet()) {
         include $global['systemRootPath'] . 'plugin/PlayerSkins/allowAutoplay/chrome.php';
     } else if ($detect->is('Safari')) {
         include $global['systemRootPath'] . 'plugin/PlayerSkins/allowAutoplay/safari.php';
-    } else if ($this->is('Firefox')) {
+    } else if ($detect->is('Firefox')) {
         include $global['systemRootPath'] . 'plugin/PlayerSkins/allowAutoplay/firefox.php';
     } else {
         include $global['systemRootPath'] . 'plugin/PlayerSkins/allowAutoplay/chrome.php';
