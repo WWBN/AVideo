@@ -23,9 +23,7 @@
     </p>
     <dl>
         <dt>
-            <img class="wiki-image frameless" data-original-src="https://user-media-prod-cdn.itsre-sumo.mozilla.net/uploads/gallery/images/2019-03-20-02-04-03-e62a65.png" src="https://user-media-prod-cdn.itsre-sumo.mozilla.net/uploads/gallery/images/2019-03-20-02-04-03-e62a65.png" title="">
-            <img class="wiki-image frameless lazy" data-original-src="https://user-media-prod-cdn.itsre-sumo.mozilla.net/uploads/gallery/images/2019-07-23-12-36-38-e4da63.png" src="https://static-media-prod-cdn.itsre-sumo.mozilla.net/static/sumo/img/placeholder.gif" title="">
-            <img class="wiki-image frameless lazy" data-original-src="https://user-media-prod-cdn.itsre-sumo.mozilla.net/uploads/gallery/images/2019-11-03-12-08-09-60eebf.png" src="https://static-media-prod-cdn.itsre-sumo.mozilla.net/static/sumo/img/placeholder.gif" title="">
+            <img src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayerSkins/allowAutoplay/firefox.png" title="">
         </dt>
     </dl>
 </small>
