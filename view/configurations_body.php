@@ -311,7 +311,10 @@ if (User::isAdmin()) {
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-md-4  control-label"><?php echo __("Autoplay Video on Load Page"); ?></label>
+                                                    <label class="col-md-4  control-label">
+                                                        <?php echo __("Autoplay Video on Load Page"); ?>
+                                                        <a href="https://github.com/WWBN/AVideo/wiki/Autoplay-and-Browser-Policies"><?php echo __("Help"); ?></a>
+                                                    </label>
                                                     <div class="col-md-8">
                                                         <div class="material-switch">
                                                             <input data-toggle="toggle" type="checkbox" name="autoplay" id="autoplay" value="1" <?php
