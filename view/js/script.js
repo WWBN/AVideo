@@ -473,38 +473,47 @@ function inIframe() {
         return true;
     }
 }
-
+var promisePlayTimeout;
+var promisePlay;
 function playerPlay(currentTime) {
-    if (typeof player === 'undefined') {
-        if(currentTime){
+    if (typeof player !== 'undefined') {
+        if (currentTime) {
             player.currentTime(currentTime);
         }
         try {
-            var promise = player.play();
-
-            if (promise !== undefined) {
-                promise.then(_ => {
-                    // Autoplay started!
-                }).catch(error => {
+            console.log("playerPlay: Trying to play");
+            promisePlay = player.play();
+            if (promisePlay !== undefined) {
+                promisePlayTimeout = setTimeout(function () {
+                    console.log("playerPlay: Promise is Pending, try again");
+                    playerPlay(currentTime);
+                }, 1000);
+                console.log("playerPlay: promise found");
+                console.log(promisePlay);
+                promisePlay.then(function () {
+                    console.log("playerPlay: Autoplay started");
+                    clearTimeout(promisePlayTimeout);
+                }).catch(function (error) {
+                    console.log("playerPlay: Autoplay was prevented, trying to mute and play");
                     // Show something in the UI that the video is muted
                     player.muted(true);
-                    player.play();
+                    playerPlay(currentTime);
                 });
+            } else {
+                promisePlayTimeout = setTimeout(function () {
+                    if (player.paused()) {
+                        console.log("playerPlay: promise Undefined");
+                        playerPlay(currentTime);
+                    }
+                }, 1000);
             }
         } catch (e) {
+            console.log("playerPlay: We could not autoplay, trying again in 1 second");
             setTimeout(function () {
-                var promise = player.play();
-
-                if (promise !== undefined) {
-                    promise.then(_ => {
-                        // Autoplay started!
-                    }).catch(error => {
-                        // Show something in the UI that the video is muted
-                        player.muted(true);
-                        player.play();
-                    });
-                }
+                playerPlay(currentTime);
             }, 1000);
         }
+    } else {
+        console.log("playerPlay: Player is Undefined");
     }
 }
