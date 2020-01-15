@@ -65,7 +65,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->keepViewerOnChannel = false;
         $obj->showLeaveChannelButton = false;
         $obj->addChannelNameOnLinks = true;
-        
+
         $obj->doNotShowTopBannerOnChannel = false;
 
         $obj->doNotShowMyChannelNameOnBasicInfo = false;
@@ -78,7 +78,8 @@ class CustomizeUser extends PluginAbstract {
         $obj->afterLogoffGoToMyChannel = false;
         $obj->afterLogoffGoToURL = "";
         $obj->allowDonationLink = false;
-        $obj->donationButtonLabel = __('Donation');;
+        $obj->donationButtonLabel = __('Donation');
+        ;
 
         $obj->showEmailVerifiedMark = true;
 
@@ -224,7 +225,7 @@ class CustomizeUser extends PluginAbstract {
             return false;
         }
         $category = new Category($video->getCategories_id());
-        if(is_object($category) && !$category->getAllow_download()){
+        if (is_object($category) && !$category->getAllow_download()) {
             return false;
         }
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
@@ -268,30 +269,45 @@ class CustomizeUser extends PluginAbstract {
         $obj = $this->getDataObject();
         include $global['systemRootPath'] . 'plugin/CustomizeUser/actionButton.php';
     }
-    
+
     public function getHTMLMenuRight() {
         global $global;
         $obj = $this->getDataObject();
-        if($obj->keepViewerOnChannel){
+        if ($obj->keepViewerOnChannel) {
             include $global['systemRootPath'] . 'plugin/CustomizeUser/channelMenuRight.php';
         }
     }
-    
+
     public function getModeYouTube($videos_id) {
         global $global;
         $cansee = User::canWatchVideoWithAds($videos_id);
-        if(!$cansee){
-            if(!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')){
-                header("Location: {$global['webSiteRootURL']}user?msg=".urlencode(__("Sorry, this video is private")));
-            }else{
-                header("Location: {$global['webSiteRootURL']}?msg=".urlencode(__("Sorry, this video is private")));
+        if (!$cansee) {
+            if (!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')) {
+                header("Location: {$global['webSiteRootURL']}user?msg=" . urlencode(__("Sorry, this video is private")));
+            } else {
+                header("Location: {$global['webSiteRootURL']}?msg=" . urlencode(__("Sorry, this video is private")));
             }
             exit;
         }
     }
-    
+
     public function getEmbed($videos_id) {
         $this->getModeYouTube($videos_id);
     }
 
-}
+    public function getStart() {
+        global $global;
+        $obj = $this->getDataObject();
+        $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
+        if (!empty($obj->userMustBeLoggedIn) &&
+                ($thisScriptFile["basename"] === 'index.php' ||
+                $thisScriptFile["basename"] === "channel.php" ||
+                $thisScriptFile["basename"] === "channels.php" ||
+                $thisScriptFile["basename"] === "trending.php") &&
+                !User::isLogged()) {
+            $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($actual_link));
+            exit;
+        }
+    }
+}  

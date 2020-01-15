@@ -1029,7 +1029,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
         echo $advancedCustom->underMenuBarHTMLCode->value;
     }
 } else if ($thisScriptFile["basename"] !== 'user.php' && empty($advancedCustom->disableNavbar)) {
-    header("Location: {$global['webSiteRootURL']}user");
+    
 }
 unset($_GET['parentsOnly']);
 ?>
