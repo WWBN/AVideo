@@ -872,6 +872,8 @@ if (!class_exists('Video')) {
                 }
             } elseif ($status == "viewableNotUnlisted") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
+            } elseif ($status == "publicOnly") {
+                $sql .= " AND v.status = 'a' AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
