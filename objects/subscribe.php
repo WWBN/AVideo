@@ -134,7 +134,7 @@ class Subscribe {
         global $global;
         $status = str_replace("'","", $status);
         $sql = "SELECT subscriber_users_id as subscriber_id, s.id, s.status, s.ip, s.users_id, s.notify, "
-                . " s.subscriber_users_id , s.created , s.modified, suId.email as email FROM subscribes as s "
+                . " s.subscriber_users_id , s.created , s.modified, suId.email as email, suId.emailVerified as emailVerified FROM subscribes as s "
                 //. " LEFT JOIN users as su ON s.email = su.email   "
                 . " LEFT JOIN users as suId ON suId.id = s.subscriber_users_id   "
                 . " LEFT JOIN users as u ON users_id = u.id  WHERE 1=1 AND subscriber_users_id > 0 ";
