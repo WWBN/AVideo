@@ -1975,7 +1975,7 @@ function siteMap() {
     $xml .= '<!-- Videos -->';
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
-    $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap)?"viewable":"publicOnly");
+    $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap)?"viewableNotUnlisted":"publicOnly");
     foreach ($rows as $value) {
         $xml .= '   
             <url>
