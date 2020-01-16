@@ -66,7 +66,7 @@ if (!empty($_POST['videoLink'])) {
         } else {
             $obj->setType('linkVideo');
         }
-    } else {
+    } else if(!empty($obj->getType())){
         $obj->setType('embed');
     }
 
