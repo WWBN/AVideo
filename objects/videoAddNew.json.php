@@ -76,7 +76,10 @@ if (!empty($_POST['videoLink'])) {
     if (empty($_POST['id'])) {
         $obj->setStatus('a');
     }
+}else if(!empty($obj->getType()) && ($obj->getType() == 'video' || $obj->getType() == 'serie' || $obj->getType() == 'audio')){
+    $obj->setVideoLink("");
 }
+    
 TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['isArticle'])) {
     $obj->setType("article");
