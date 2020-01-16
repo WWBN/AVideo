@@ -1458,12 +1458,17 @@ if (typeof gtag !== \"function\") {
 
     static function sendVerificationLink($users_id) {
         global $global;
+        //Only send the verification email each 30 minutes
+        if(!empty($_SESSION["sendVerificationLink"][$users_id]) && time()-$_SESSION["sendVerificationLink"][$users_id]>1800){
+            _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}" );
+            return true;
+        }
         $config = new Configuration();
         $user = new User($users_id);
         $code = urlencode(static::createVerificationCode($users_id));
         require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
         //Create a new PHPMailer instance
         if (!is_object($config)) {
             _error_log("sendVerificationLink: config is not a object " . json_encode($config));
@@ -1496,6 +1501,9 @@ if (typeof gtag !== \"function\") {
             $resp = $mail->send();
             if (!$resp) {
                 _error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
+            }else{
+                _session_start();
+                $_SESSION["sendVerificationLink"][$users_id] = time();
             }
             return $resp;
         } catch (phpmailerException $e) {
