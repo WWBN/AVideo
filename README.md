@@ -7,6 +7,7 @@ AVideo is a term that means absolutely nothing, or anything video. Since it does
 * AVideo Platform - Audio Video Platform
 * OAVP - Online Audio Video Platform 
 * OVP - Online Video Platform
+* Project Page http://wwbn.com/AVideo_Platform
 
 AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.  
 
