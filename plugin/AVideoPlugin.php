@@ -865,9 +865,10 @@ class AVideoPlugin {
                 if(!empty($can)){
                     if($can < 0){
                         _error_log("userCanWatchVideo: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT watch the video ({$videos_id})");
+                        
+                        return false;
                     }
-                    $resp = $can>0?true:false;
-                    if($resp){
+                    if($can>0){
                         _error_log("userCanWatchVideo: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can watch the video ({$videos_id})");
                         return true;
                     }
