@@ -872,7 +872,7 @@ class AVideoPlugin {
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
-        _error_log("userCanWatchVideo: No plugins approve you to watch the video ({$videos_id}) ");
+        //_error_log("userCanWatchVideo: No plugins approve you to watch the video ({$videos_id}) ");
             
         return $resp;
     }
