@@ -515,7 +515,9 @@ if (!class_exists('Video')) {
         }
 
         function setType($type) {
-            $this->type = $type;
+            if(empty($this->type)){
+                $this->type = $type;
+            }
         }
 
         function setRotation($rotation) {

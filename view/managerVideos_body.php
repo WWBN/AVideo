@@ -63,7 +63,7 @@
                     }
                     ?>
                     <?php
-                    $categories = Category::getAllCategories(User::isAdmin()?false:true);
+                    $categories = Category::getAllCategories(User::isAdmin() ? false : true);
                     array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
                     if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
                         if (empty($advancedCustom->doNotShowEncoderButton)) {
@@ -178,44 +178,50 @@
                         -->
                     </ul>
                 </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <?php echo __('Add User Group'); ?> <span class="caret"></span></button>                        
-                    <ul class="dropdown-menu" role="menu">
-                        <?php
-                        foreach ($userGroups as $value) {
-                            ?>
-                            <li>
-                                <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 1);return false;">
-                                    <span class="fa fa-lock"></span>
-                                    <span class="label label-info"><?php echo $value['total_users'] . " "; ?><?php echo __("Users linked"); ?></span>
-                                    <?php echo $value['group_name']; ?>
-                                </a>  
-                            </li>
+                <?php
+                if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
+                    ?>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <?php echo __('Add User Group'); ?> <span class="caret"></span></button>                        
+                        <ul class="dropdown-menu" role="menu">
                             <?php
-                        }
-                        ?>
-                    </ul>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <?php echo __('Remove User Group'); ?> <span class="caret"></span></button>                        
-                    <ul class="dropdown-menu" role="menu">
-                        <?php
-                        foreach ($userGroups as $value) {
+                            foreach ($userGroups as $value) {
+                                ?>
+                                <li>
+                                    <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 1);return false;">
+                                        <span class="fa fa-lock"></span>
+                                        <span class="label label-info"><?php echo $value['total_users'] . " "; ?><?php echo __("Users linked"); ?></span>
+                                        <?php echo $value['group_name']; ?>
+                                    </a>  
+                                </li>
+                                <?php
+                            }
                             ?>
-                            <li>
-                                <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 0);return false;">
-                                    <span class="fa fa-lock"></span>
-                                    <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
-                                    <?php echo $value['group_name']; ?>
-                                </a>  
-                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <?php echo __('Remove User Group'); ?> <span class="caret"></span></button>                        
+                        <ul class="dropdown-menu" role="menu">
                             <?php
-                        }
-                        ?>
-                    </ul>
-                </div>
+                            foreach ($userGroups as $value) {
+                                ?>
+                                <li>
+                                    <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 0);return false;">
+                                        <span class="fa fa-lock"></span>
+                                        <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
+                                        <?php echo $value['group_name']; ?>
+                                    </a>  
+                                </li>
+                                <?php
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                    <?php
+                }
+                ?>
                 <button class="btn btn-danger" id="deleteBtn">
                     <i class="fa fa-trash" aria-hidden="true"></i> <?php echo __('Delete'); ?>
                 </button>
@@ -360,7 +366,7 @@
                                                     <li class="list-group-item">
                                                         <span class="fa fa-download"></span> <?php echo __("Allow Download This media"); ?>
                                                         <div class="material-switch pull-right">
-                                                            <input id="can_download" type="checkbox" value="0" class="userGroups"/>
+                                                            <input id="can_download" type="checkbox" value="0"/>
                                                             <label for="can_download" class="label-success"></label>
                                                         </div>
                                                     </li>
@@ -373,7 +379,7 @@
                                                     <li class="list-group-item">
                                                         <span class="fa fa-share"></span> <?php echo __("Allow Share This media"); ?>
                                                         <div class="material-switch pull-right">
-                                                            <input id="can_share" type="checkbox" value="0" class="userGroups"/>
+                                                            <input id="can_share" type="checkbox" value="0" />
                                                             <label for="can_share" class="label-success"></label>
                                                         </div>
                                                     </li>
@@ -381,42 +387,44 @@
                                                 }
                                                 ?>
                                                 <?php
-                                                if ($advancedCustom->paidOnlyUsersTellWhatVideoIs || User::isAdmin()) {
+                                                if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
+                                                    if ($advancedCustom->paidOnlyUsersTellWhatVideoIs || User::isAdmin()) {
+                                                        ?>
+                                                        <li class="list-group-item">
+                                                            <i class="fas fa-money-check-alt"></i> <?php echo __("Only Paid Users Can see"); ?>
+                                                            <div class="material-switch pull-right">
+                                                                <input id="only_for_paid" type="checkbox" value="0"/>
+                                                                <label for="only_for_paid" class="label-success"></label>
+                                                            </div>
+                                                        </li>
+                                                        <?php
+                                                    }
                                                     ?>
                                                     <li class="list-group-item">
-                                                        <i class="fas fa-money-check-alt"></i> <?php echo __("Only Paid Users Can see"); ?>
+                                                        <span class="fa fa-globe"></span> <?php echo __("Public Media"); ?>
                                                         <div class="material-switch pull-right">
-                                                            <input id="only_for_paid" type="checkbox" value="0" class="userGroups"/>
-                                                            <label for="only_for_paid" class="label-success"></label>
+                                                            <input id="public" type="checkbox" value="0" class="userGroups"/>
+                                                            <label for="public" class="label-success"></label>
                                                         </div>
                                                     </li>
-                                                    <?php
-                                                }
-                                                ?>
-                                                <li class="list-group-item">
-                                                    <span class="fa fa-globe"></span> <?php echo __("Public Media"); ?>
-                                                    <div class="material-switch pull-right">
-                                                        <input id="public" type="checkbox" value="0" class="userGroups"/>
-                                                        <label for="public" class="label-success"></label>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item active non-public">
-                                                    <?php echo __("Groups that can see this video"); ?>
-                                                    <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
-                                                </li>
-                                                <?php
-                                                foreach ($userGroups as $value) {
-                                                    ?>
-                                                    <li class="list-group-item non-public">
-                                                        <span class="fa fa-lock"></span>
-                                                        <?php echo $value['group_name']; ?>
-                                                        <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
-                                                        <div class="material-switch pull-right">
-                                                            <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
-                                                            <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
-                                                        </div>
+                                                    <li class="list-group-item active non-public">
+                                                        <?php echo __("Groups that can see this video"); ?>
+                                                        <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                                     </li>
                                                     <?php
+                                                    foreach ($userGroups as $value) {
+                                                        ?>
+                                                        <li class="list-group-item non-public">
+                                                            <span class="fa fa-lock"></span>
+                                                            <?php echo $value['group_name']; ?>
+                                                            <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
+                                                            <div class="material-switch pull-right">
+                                                                <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
+                                                                <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
+                                                            </div>
+                                                        </li>
+                                                        <?php
+                                                    }
                                                 }
                                                 ?>
                                             </ul>
@@ -752,7 +760,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         });
     }
 
-
+<?php
+if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
+?>
     function userGroupSave(users_groups_id, add) {
         modal.showPleaseWait();
         var vals = [];
@@ -781,7 +791,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             }
         });
     }
-
+<?php
+}
+?>
     function checkProgress() {
         $.ajax({
             url: '<?php echo $config->getEncoderURL(); ?>status',
@@ -1153,34 +1165,34 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 },
                 type: 'post',
                 success: function (response) {
-                    if (response.status === "1" || response.status === true) {
-                        if (response.video.id) {
-                            videos_id = response.video.id;
-                        }
-                        if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
-                            videoUploaded = true;
-                        }
-                        if (closeModal && videoUploaded) {
-                            $('#videoFormModal').modal('hide');
-                        }
-                        $("#grid").bootgrid("reload");
+                if (response.status === "1" || response.status === true) {
+                if (response.video.id) {
+                videos_id = response.video.id;
+                }
+                if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
+                videoUploaded = true;
+                }
+                if (closeModal && videoUploaded) {
+                $('#videoFormModal').modal('hide');
+                }
+                $("#grid").bootgrid("reload");
                         $('#fileUploadVideos_id').val(response.videos_id);
                         $('#inputVideoId').val(response.videos_id);
                         videos_id = response.videos_id;
-                    } else {
-                        if (response.error) {
-                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
-                        } else {
-                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
-                        }
-                    }
-                    modal.hidePleaseWait();
-                    setTimeout(function () {
+                } else {
+                if (response.error) {
+                swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                } else {
+                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                }
+                }
+                modal.hidePleaseWait();
+                        setTimeout(function () {
                         waitToSubmit = false;
-                    }, 3000);
-                    }
+                        }, 3000);
+                }
         });
-                return false;
+        return false;
     }
 
     function resetVideoForm() {

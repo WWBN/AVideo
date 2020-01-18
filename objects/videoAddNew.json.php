@@ -66,7 +66,7 @@ if (!empty($_POST['videoLink'])) {
         } else {
             $obj->setType('linkVideo');
         }
-    } else {
+    } else if(!empty($obj->getType())){
         $obj->setType('embed');
     }
 
@@ -76,7 +76,10 @@ if (!empty($_POST['videoLink'])) {
     if (empty($_POST['id'])) {
         $obj->setStatus('a');
     }
+}else if(!empty($obj->getType()) && ($obj->getType() == 'video' || $obj->getType() == 'serie' || $obj->getType() == 'audio')){
+    $obj->setVideoLink("");
 }
+    
 TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['isArticle'])) {
     $obj->setType("article");
@@ -94,8 +97,10 @@ if (!empty($_POST['description'])) {
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     $obj->setCategories_id($_POST['categories_id']);
 }
-$obj->setVideoGroups(empty($_POST['videoGroups']) ? array() : $_POST['videoGroups']);
 
+if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
+    $obj->setVideoGroups(empty($_POST['videoGroups']) ? array() : $_POST['videoGroups']);
+}
 if (User::isAdmin()) {
     $obj->setUsers_id($_POST['users_id']);
 }
@@ -123,6 +128,6 @@ $obj->msg = $msg;
 $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
-$obj->video = Video::getVideo($obj->videos_id, false);
+$obj->video = Video::getVideo($obj->videos_id, false, true);
 TimeLogEnd(__FILE__, __LINE__);
 echo json_encode($obj);
