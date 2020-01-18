@@ -558,6 +558,11 @@ if (typeof gtag !== \"function\") {
     }
 
     static function canWatchVideo($videos_id) {
+        if(empty($videos_id)){
+            _error_log("User::canWatchVideo Video is empty ({$videos_id})");
+            return false;
+        }
+
         if (User::isAdmin()) {
             return true;
         }
@@ -583,7 +588,7 @@ if (typeof gtag !== \"function\") {
         if (empty($rows)) {
             // check if any plugin restrict access to this video
             if (!AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
-                _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user ".User::getId()." can not see ({$videos_id})");
+                _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [".User::getId()."] can not see ({$videos_id})");
                 return false;
             } else {
                 return true; // the video is public
@@ -610,7 +615,10 @@ if (typeof gtag !== \"function\") {
     }
 
     static function canWatchVideoWithAds($videos_id) {
-
+        if(empty($videos_id)){
+            _error_log("User::canWatchVideo (videos_id is empty) ".$videos_id);
+            return false;
+        }
         if (User::isAdmin()) {
             return true;
         }

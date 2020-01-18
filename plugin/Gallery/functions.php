@@ -127,7 +127,8 @@ function createGallerySection($videos, $crc = "", $get = array()) {
 
         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
         $name = User::getNameIdentificationById($value['users_id']);
-        $name .= " ".User::getEmailVerifiedIcon($value['users_id']);;
+        $name .= " " . User::getEmailVerifiedIcon($value['users_id']);
+        ;
         // make a row each 6 cols
         if ($countCols % $obj->screenColsLarge === 0) {
             echo '</div><div class="row aligned-row ">';
@@ -181,7 +182,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
 
             <div class="text-muted galeryDetails" style="overflow: hidden;">
                 <div>
-                    <?php if (empty($_GET['catName'])) { ?>
+                        <?php if (empty($_GET['catName'])) { ?>
                         <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
                             <?php
                             if (!empty($value['iconClass'])) {
@@ -190,7 +191,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                                 <?php
                             }
                             ?>
-                            <?php echo $value['category']; ?>
+                        <?php echo $value['category']; ?>
                         </a>
                     <?php } ?>
                     <?php
@@ -223,24 +224,31 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     <div>
                         <i class="fa fa-eye"></i>
                         <span itemprop="interactionCount">
-                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                         </span>
                     </div>
-                <?php } ?>
+        <?php } ?>
                 <div>
                     <i class="far fa-clock"></i>
-                    <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
+        <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
                 </div>
                 <div>
                     <i class="fa fa-user"></i>
                     <a class="text-muted" href="<?php echo User::getChannelLink($value['users_id']); ?>/">
-                        <?php echo $name; ?>
+                    <?php echo $name; ?>
                     </a>
-                    <?php if ((!empty($value['description'])) && !empty($obj->Description)) { ?>
-                        <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', $value['description']); ?> </div>" ><?php echo __("Description"); ?></button>
-                    <?php } ?>
+                    <?php
+                    if ((!empty($value['description'])) && !empty($obj->Description)) {
+                        $desc = str_replace(array('"', "'", "#", "/"), array('``', "`", "", ""), preg_replace("/\r|\n/", "", nl2br(trim($value['description']))));
+                        if (!empty($desc)) {
+                            ?>
+                            <a href="#" onclick='swal({html: true, title: "<?php echo str_replace(array('"'), array('``'), $value['title']); ?>", text: "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>"});return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
+                            <?php
+                        }
+                    }
+                    ?>
                 </div>
-                <?php if (Video::canEdit($value['id'])) { ?>
+        <?php if (Video::canEdit($value['id'])) { ?>
                     <div>
                         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary">
                             <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
@@ -256,39 +264,38 @@ function createGallerySection($videos, $crc = "", $get = array()) {
             @$timesG[__LINE__] += microtime(true) - $startG;
             $startG = microtime(true);
             if (CustomizeUser::canDownloadVideosFromVideo($value['id'])) {
-                
+
                 @$timesG[__LINE__] += microtime(true) - $startG;
                 $startG = microtime(true);
                 $files = getVideosURL($value['filename']);
                 @$timesG[__LINE__] += microtime(true) - $startG;
                 $startG = microtime(true);
-                if(!(!empty($files['m3u8']) && empty($files['mp4']))){
-                    
-                ?>
+                if (!(!empty($files['m3u8']) && empty($files['mp4']))) {
+                    ?>
 
-                <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
-                    <button type="button" class="btn btn-default btn-sm btn-xs btn-block"  data-toggle="dropdown">
-                        <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                        <?php
-                        //var_dump($files);exit;
-                        foreach ($files as $key => $theLink) {
-                            if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio')  || $key == "m3u8") {
-                                continue;
-                            }
-                            $path_parts = pathinfo($theLink['filename']);
+                    <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
+                        <button type="button" class="btn btn-default btn-sm btn-xs btn-block"  data-toggle="dropdown">
+                            <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                            <?php
+                            //var_dump($files);exit;
+                            foreach ($files as $key => $theLink) {
+                                if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') || $key == "m3u8") {
+                                    continue;
+                                }
+                                $path_parts = pathinfo($theLink['filename']);
+                                ?>
+                                <li>
+                                    <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($value['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
+                                        <?php echo __("Download"); ?> <?php echo $key; ?>
+                                    </a>
+                                </li>
+                            <?php }
                             ?>
-                            <li>
-                                <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($value['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
-                                    <?php echo __("Download"); ?> <?php echo $key; ?>
-                                </a>
-                            </li>
-                        <?php }
-                        ?>
-                    </ul>
-                </div>
-                <?php
+                        </ul>
+                    </div>
+                    <?php
                 }
             }
             @$timesG[__LINE__] += microtime(true) - $startG;

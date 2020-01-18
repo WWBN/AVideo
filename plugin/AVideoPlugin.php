@@ -849,10 +849,12 @@ class AVideoPlugin {
         $resp = Video::userGroupAndVideoGroupMatch($users_id, $videos_id);;
         $video = new Video("", "", $videos_id);
         if(empty($video)){
+            _error_log("userCanWatchVideo: the usergroup and the video group does not match, User = $users_id, video = $videos_id)");
             return false;
         }
         // check if the video is for paid plans only
         if($video->getOnly_for_paid()){
+            _error_log("userCanWatchVideo: the video ({$videos_id}) is set Only_for_paid = true)");
             $resp = false;
         }
         foreach ($plugins as $value) {
@@ -863,12 +865,15 @@ class AVideoPlugin {
                 if(!empty($can)){
                     $resp = $can>0?true:false;
                     if($resp){
+                        _error_log("userCanWatchVideo: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can watch the video ({$videos_id})");
                         return true;
                     }
                 }
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
+        _error_log("userCanWatchVideo: No plugins approve you to watch the video ({$videos_id}) ");
+            
         return $resp;
     }
     
