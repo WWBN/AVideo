@@ -7,7 +7,6 @@ AVideo is a term that means absolutely nothing, or anything video. Since it does
 * AVideo Platform - Audio Video Platform
 * OAVP - Online Audio Video Platform 
 * OVP - Online Video Platform
-* Project Page http://wwbn.com/AVideo_Platform
 
 AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.  
 
@@ -66,7 +65,8 @@ WWBN offers relevant and practical solutions, as well as valuable innovative tec
 ### WHERE WE DELIVER
 PROFITABLE STRATEGIES - We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
 
-### To learn more about AVideo Platform visit the <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>. 
+### To learn more about AVideo Platform visit the <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>.
+### To learn more about the history of the AVideo Paroject <a href="https://wwbn.com/AVideo_Platform" target="_blank">WWBN Project Page</a>
 
 ### To see a demo select one below.
 * <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
