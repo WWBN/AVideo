@@ -67,17 +67,30 @@ $imgh = 720;
                             </div>
                             <div class="col-sm-6">
                                 <center>
-                                <?php
-                                    include $global['systemRootPath'] . 'view/rrating/rating-'.$video['rrating'].'_text.php';
-                                ?>
+                                    <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
+                                        <?php
+                                        if (!empty($_POST['video_password'])) {
+                                            ?>
+                                            <div class="alert alert-danger"><?php echo __("Your password does not match!"); ?></div>    
+                                            <?php
+                                        }
+                                        ?>
+                                        <div class="form-group">
+                                            <label for="video_password"><?php echo __("This Video Requires a Password"); ?></label>
+                                            <input type="text" class="form-control" id="video_password" name="video_password" placeholder="<?php echo __("Password"); ?>" required>
+                                        </div>
+                                        <div class="row"> 
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-danger  btn-block"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </center>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="modal-footer" >
-                        <a href="<?php echo $_SERVER['REQUEST_URI'],strpos($_SERVER['REQUEST_URI'], "?")===false?"?":"&"; ?>rrating=1" class="btn btn-success pull-right"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></a>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-danger pull-right"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
                     </div>
                 </div>
 

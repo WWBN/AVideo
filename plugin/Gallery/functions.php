@@ -111,7 +111,7 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
 }
 
 function createGallerySection($videos, $crc = "", $get = array()) {
-    global $global, $config, $obj, $advancedCustom;
+    global $global, $config, $obj, $advancedCustom, $advancedCustomUser;
     $countCols = 0;
     $obj = AVideoPlugin::getObjectData("Gallery");
     $zindex = 1000;
@@ -182,7 +182,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
 
             <div class="text-muted galeryDetails" style="overflow: hidden;">
                 <div>
-                        <?php if (empty($_GET['catName'])) { ?>
+                    <?php if (empty($_GET['catName'])) { ?>
                         <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
                             <?php
                             if (!empty($value['iconClass'])) {
@@ -191,7 +191,7 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                                 <?php
                             }
                             ?>
-                        <?php echo $value['category']; ?>
+                            <?php echo $value['category']; ?>
                         </a>
                     <?php } ?>
                     <?php
@@ -224,165 +224,180 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                     <div>
                         <i class="fa fa-eye"></i>
                         <span itemprop="interactionCount">
-            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                         </span>
                     </div>
-        <?php } ?>
-                <div>
-                    <i class="far fa-clock"></i>
-        <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
-                </div>
-                <div>
-                    <i class="fa fa-user"></i>
-                    <a class="text-muted" href="<?php echo User::getChannelLink($value['users_id']); ?>/">
-                    <?php echo $name; ?>
-                    </a>
-                    <?php
-                    if ((!empty($value['description'])) && !empty($obj->Description)) {
-                        $desc = str_replace(array('"', "'", "#", "/"), array('``', "`", "", ""), preg_replace("/\r|\n/", "", nl2br(trim($value['description']))));
-                        if (!empty($desc)) {
+                <?php } ?>
+                <?php
+                if (!empty($advancedCustomUser->userCanProtectVideosWithPassword)) {
+                    ?>
+                    <div>
+                        <?php
+                        if (!empty($value['video_password'])) {
                             ?>
-                            <a href="#" onclick='swal({html: true, title: "<?php echo str_replace(array('"'), array('``'), $value['title']); ?>", text: "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>"});return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
+                        <i class="fas fa-lock" title="<?php echo __("Password Protected"); ?>" ></i>
                             <?php
-                        }
-                    }
+                        } 
                     ?>
                 </div>
-        <?php if (Video::canEdit($value['id'])) { ?>
-                    <div>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary">
-                            <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
-                        </a>
-                    </div>
-                <?php }
-                ?>
+            <?php } ?>
+            <div>
+                <i class="far fa-clock"></i>
+                <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
+            </div>
+            <div>
+                <i class="fa fa-user"></i>
+                <a class="text-muted" href="<?php echo User::getChannelLink($value['users_id']); ?>/">
+                    <?php echo $name; ?>
+                </a>
                 <?php
-                echo AVideoPlugin::getGalleryActionButton($value['id']);
+                if ((!empty($value['description'])) && !empty($obj->Description)) {
+                    $desc = str_replace(array('"', "'", "#", "/"), array('``', "`", "", ""), preg_replace("/\r|\n/", "", nl2br(trim($value['description']))));
+                    if (!empty($desc)) {
+                        ?>
+                        <a href="#" onclick='swal({html: true, title: "<?php echo str_replace(array('"'), array('``'), $value['title']); ?>", text: "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>"});return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
+                        <?php
+                    }
+                }
                 ?>
             </div>
+            <?php if (Video::canEdit($value['id'])) { ?>
+                <div>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary">
+                        <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
+                    </a>
+                </div>
+            <?php }
+            ?>
             <?php
-            @$timesG[__LINE__] += microtime(true) - $startG;
-            $startG = microtime(true);
-            if (CustomizeUser::canDownloadVideosFromVideo($value['id'])) {
-
-                @$timesG[__LINE__] += microtime(true) - $startG;
-                $startG = microtime(true);
-                $files = getVideosURL($value['filename']);
-                @$timesG[__LINE__] += microtime(true) - $startG;
-                $startG = microtime(true);
-                if (!(!empty($files['m3u8']) && empty($files['mp4']))) {
-                    ?>
-
-                    <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
-                        <button type="button" class="btn btn-default btn-sm btn-xs btn-block"  data-toggle="dropdown">
-                            <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                            <?php
-                            //var_dump($files);exit;
-                            foreach ($files as $key => $theLink) {
-                                if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') || $key == "m3u8") {
-                                    continue;
-                                }
-                                $path_parts = pathinfo($theLink['filename']);
-                                ?>
-                                <li>
-                                    <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($value['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
-                                        <?php echo __("Download"); ?> <?php echo $key; ?>
-                                    </a>
-                                </li>
-                            <?php }
-                            ?>
-                        </ul>
-                    </div>
-                    <?php
-                }
-            }
-            @$timesG[__LINE__] += microtime(true) - $startG;
-            $startG = microtime(true);
-            getLdJson($value['id']);
-            getItemprop($value['id']);
+            echo AVideoPlugin::getGalleryActionButton($value['id']);
             ?>
         </div>
-
         <?php
-    }
-    ?>
-    <div class="col-xs-12  text-center clear clearfix" style="padding: 10px;">
-        <?php echo getAdsLeaderBoardMiddle(); ?>
+        @$timesG[__LINE__] += microtime(true) - $startG;
+        $startG = microtime(true);
+        if (CustomizeUser::canDownloadVideosFromVideo($value['id'])) {
+
+            @$timesG[__LINE__] += microtime(true) - $startG;
+            $startG = microtime(true);
+            $files = getVideosURL($value['filename']);
+            @$timesG[__LINE__] += microtime(true) - $startG;
+            $startG = microtime(true);
+            if (!(!empty($files['m3u8']) && empty($files['mp4']))) {
+                ?>
+
+                <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
+                    <button type="button" class="btn btn-default btn-sm btn-xs btn-block"  data-toggle="dropdown">
+                        <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                        <?php
+                        //var_dump($files);exit;
+                        foreach ($files as $key => $theLink) {
+                            if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') || $key == "m3u8") {
+                                continue;
+                            }
+                            $path_parts = pathinfo($theLink['filename']);
+                            ?>
+                            <li>
+                                <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($value['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
+                                    <?php echo __("Download"); ?> <?php echo $key; ?>
+                                </a>
+                            </li>
+                        <?php }
+                        ?>
+                    </ul>
+                </div>
+                <?php
+            }
+        }
+        @$timesG[__LINE__] += microtime(true) - $startG;
+        $startG = microtime(true);
+        getLdJson($value['id']);
+        getItemprop($value['id']);
+        ?>
     </div>
-    <!--
-    createGallerySection
+
     <?php
-    $timesG[__LINE__] = microtime(true) - $startG;
-    $startG = microtime(true);
-    foreach ($timesG as $key => $value) {
-        echo "Line: {$key} -> {$value}\n";
-    }
-    ?>
-    -->
-    <?php
-    unset($_POST['disableAddTo']);
+}
+?>
+<div class="col-xs-12  text-center clear clearfix" style="padding: 10px;">
+    <?php echo getAdsLeaderBoardMiddle(); ?>
+</div>
+<!--
+createGallerySection
+<?php
+$timesG[__LINE__] = microtime(true) - $startG;
+$startG = microtime(true);
+foreach ($timesG as $key => $value) {
+    echo "Line: {$key
+} -> {$value
+}\n";
+}
+?>
+-->
+<?php
+unset($_POST['disableAddTo']);
 }
 
 function createChannelItem($users_id, $photoURL = "", $identification = "", $rowCount = 12) {
-    $total = Video::getTotalVideos("viewable", $users_id);
-    if (empty($total)) {
-        return false;
-    }
-    if (empty($photoURL)) {
-        $photoURL = User::getPhoto($users_id);
-    }
-    if (empty($identification)) {
-        $identification = User::getNameIdentificationById($users_id);
-    }
-    ?>
-    <div class="clear clearfix">
-        <h3 class="galleryTitle">
-            <img src="<?php
-            echo $photoURL;
-            ?>" class="img img-circle img-responsive pull-left" style="max-height: 20px;">
-            <span style="margin: 0 5px;">
-                <?php
-                echo $identification;
-                ?>
-            </span>
-            <a class="btn btn-xs btn-default" href="<?php echo User::getChannelLink($users_id); ?>" style="margin: 0 10px;">
-                <i class="fas fa-external-link-alt"></i>
-            </a>
-            <?php
-            echo Subscribe::getButton($users_id);
-            ?>
-        </h3>
-        <div class="row">
-            <?php
-            $countCols = 0;
-            unset($_POST['sort']);
-            $_POST['sort']['created'] = "DESC";
-            $_POST['current'] = 1;
-            $_POST['rowCount'] = $rowCount;
-            $videos = Video::getAllVideos("viewable", $users_id);
-            createGallerySection($videos);
-            ?>
-        </div>
-    </div>
+$total = Video::getTotalVideos("viewable", $users_id);
+if (empty($total)) {
+return false;
+}
+if (empty($photoURL)) {
+$photoURL = User::getPhoto($users_id);
+}
+if (empty($identification)) {
+$identification = User::getNameIdentificationById($users_id);
+}
+?>
+<div class="clear clearfix">
+    <h3 class="galleryTitle">
+        <img src="<?php
+echo $photoURL;
+?>" class="img img-circle img-responsive pull-left" style="max-height: 20px;">
+        <span style="margin: 0 5px;">
     <?php
+    echo $identification;
+    ?>
+        </span>
+        <a class="btn btn-xs btn-default" href="<?php echo User::getChannelLink($users_id); ?>" style="margin: 0 10px;">
+            <i class="fas fa-external-link-alt"></i>
+        </a>
+<?php
+echo Subscribe::getButton($users_id);
+?>
+    </h3>
+    <div class="row">
+<?php
+$countCols = 0;
+unset($_POST['sort']);
+$_POST['sort']['created'] = "DESC";
+$_POST['current'] = 1;
+$_POST['rowCount'] = $rowCount;
+$videos = Video::getAllVideos("viewable", $users_id);
+createGallerySection($videos);
+?>
+    </div>
+</div>
+<?php
 }
 
 $search = "";
 $searchPhrase = "";
 
 function clearSearch() {
-    global $search, $searchPhrase;
-    $search = $_GET['search'];
-    $searchPhrase = $_POST['searchPhrase'];
-    unset($_GET['search']);
-    unset($_POST['searchPhrase']);
+global $search, $searchPhrase;
+$search = $_GET['search'];
+$searchPhrase = $_POST['searchPhrase'];
+unset($_GET['search']);
+unset($_POST['searchPhrase']);
 }
 
 function reloadSearch() {
-    global $search, $searchPhrase;
-    $_GET['search'] = $search;
-    $_POST['searchPhrase'] = $searchPhrase;
+global $search, $searchPhrase;
+$_GET['search'] = $search;
+$_POST['searchPhrase'] = $searchPhrase;
 }
 ?>

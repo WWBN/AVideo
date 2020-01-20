@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `only_for_paid` TINYINT(1) NULL DEFAULT NULL,
   `serie_playlists_id` INT(11) NULL DEFAULT NULL,
   `sites_id` INT(11) NULL,
+  `video_password` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),

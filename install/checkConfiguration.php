@@ -4,7 +4,7 @@ if (file_exists("../videos/configuration.php")) {
     exit;
 }
 
-$installationVersion = "8.2";
+$installationVersion = "8.3";
 
 
 header('Content-Type: application/json');
