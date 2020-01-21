@@ -385,8 +385,14 @@
                                                     </li>
                                                     <?php
                                                 }
-                                                ?>
-                                                <?php
+                                                if (!empty($advancedCustom->userCanProtectVideosWithPassword) || User::isAdmin()) {
+                                                    ?>
+                                                    <li class="list-group-item">
+                                                        <label for="inputVideoPassword"><?php echo __("Password Protected"); ?></label>
+                                                        <input type="text" id="inputVideoPassword" class="form-control" placeholder="<?php echo __("Password"); ?>" >
+                                                    </li>
+                                                    <?php
+                                                }
                                                 if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                                                     if ($advancedCustom->paidOnlyUsersTellWhatVideoIs || User::isAdmin()) {
                                                         ?>
@@ -762,36 +768,36 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
 <?php
 if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
-?>
-    function userGroupSave(users_groups_id, add) {
-        modal.showPleaseWait();
-        var vals = [];
-        $(".checkboxVideo").each(function (index) {
-            if ($(this).is(":checked")) {
-                vals.push($(this).val());
-            }
-        });
-        $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>objects/userGroupSave.json.php',
-            data: {"id": vals, "users_groups_id": users_groups_id, "add": add},
-            type: 'post',
-            success: function (response) {
-                console.log(response);
-                modal.hidePleaseWait();
-                if (!response.status) {
-                    swal({
-                        title: "<?php echo __("Sorry!"); ?>",
-                        text: response.msg,
-                        type: "error",
-                        html: true
-                    });
-                } else {
-                    $("#grid").bootgrid('reload');
+    ?>
+        function userGroupSave(users_groups_id, add) {
+            modal.showPleaseWait();
+            var vals = [];
+            $(".checkboxVideo").each(function (index) {
+                if ($(this).is(":checked")) {
+                    vals.push($(this).val());
                 }
-            }
-        });
-    }
-<?php
+            });
+            $.ajax({
+                url: '<?php echo $global['webSiteRootURL']; ?>objects/userGroupSave.json.php',
+                data: {"id": vals, "users_groups_id": users_groups_id, "add": add},
+                type: 'post',
+                success: function (response) {
+                    console.log(response);
+                    modal.hidePleaseWait();
+                    if (!response.status) {
+                        swal({
+                            title: "<?php echo __("Sorry!"); ?>",
+                            text: response.msg,
+                            type: "error",
+                            html: true
+                        });
+                    } else {
+                        $("#grid").bootgrid('reload');
+                    }
+                }
+            });
+        }
+    <?php
 }
 ?>
     function checkProgress() {
@@ -919,6 +925,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
 
         $('#inputVideoId').val(row.id);
         $('#inputTitle').val(row.title);
+        $('#inputVideoPassword').val(row.video_password);
         $('#inputTrailer').val(row.trailer1);
         $('#inputCleanTitle').val(row.clean_title);
         $('#inputDescription').val(row.description);
@@ -1142,6 +1149,7 @@ echo AVideoPlugin::getManagerVideosAddNew();
                 "id": $('#inputVideoId').val(),
                         "title": $('#inputTitle').val(),
                         "trailer1": $('#inputTrailer').val(),
+                        "video_password": $('#inputVideoPassword').val(),
                         "videoLink": $('#videoLink').val(),
                         "videoLinkType": $('#videoLinkType').val(),
                         "clean_title": $('#inputCleanTitle').val(),
@@ -1206,6 +1214,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#inputVideoId').val(0);
         $('#inputTitle').val("");
         $('#inputTrailer').val("");
+        $('#inputVideoPassword').val("");
         $('#inputCleanTitle').val("");
         $('#inputDescription').val("");
 <?php
@@ -1261,6 +1270,7 @@ echo AVideoPlugin::getManagerVideosReset();
         $('#inputVideoId').val("");
         $('#inputTitle').val("");
         $('#inputTrailer').val("");
+        $('#inputVideoPassword').val("");
         $('#inputCleanTitle').val("");
         $('#inputDescription').val("");
 <?php
@@ -1535,6 +1545,7 @@ if (!empty($row)) {
             $('#inputVideoId').val("");
             $('#inputTitle').val("");
             $('#inputTrailer').val("");
+            $('#inputVideoPassword').val("");
             $('#inputCleanTitle').val("");
             $('#inputDescription').val("");
 <?php

@@ -58,7 +58,11 @@ $imgh = 720;
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Title: <?php echo $video['title']; ?></h4>
+                        <h1 class="modal-title">
+                            <center>
+                                <i class="fas fa-lock"></i> <?php echo $video['title']; ?> <?php echo __("is Private"); ?>
+                            </center>
+                        </h1>
                     </div>
                     <div class="modal-body">
                         <div class="row">

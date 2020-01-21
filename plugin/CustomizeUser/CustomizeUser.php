@@ -29,6 +29,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->userCanAllowFilesShare = false;
         $obj->userCanAllowFilesDownloadSelectPerVideo = false;
         $obj->userCanAllowFilesShareSelectPerVideo = false;
+        $obj->userCanProtectVideosWithPassword = true;
 
         $obj->usersCanCreateNewCategories = !isset($advancedCustom->usersCanCreateNewCategories) ? false : $advancedCustom->usersCanCreateNewCategories;
         $obj->userCanNotChangeCategory = !isset($advancedCustom->userCanNotChangeCategory) ? false : $advancedCustom->userCanNotChangeCategory;
@@ -280,8 +281,9 @@ class CustomizeUser extends PluginAbstract {
     }
 
     public function getModeYouTube($videos_id) {
-        global $global;
+        global $global, $config;
         $cansee = User::canWatchVideoWithAds($videos_id);
+        $obj = $this->getDataObject();
         if (!$cansee) {
             if (!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')) {
                 header("Location: {$global['webSiteRootURL']}user?msg=" . urlencode(__("Sorry, this video is private")));
@@ -289,7 +291,30 @@ class CustomizeUser extends PluginAbstract {
                 header("Location: {$global['webSiteRootURL']}?msg=" . urlencode(__("Sorry, this video is private")));
             }
             exit;
+        } else if($obj->userCanProtectVideosWithPassword){
+            if (!$this->videoPasswordIsGood($videos_id)) {
+                $video = Video::getVideoLight($videos_id);
+                include "{$global['systemRootPath']}plugin/CustomizeUser/confirmVideoPassword.php";
+                exit;
+            }
         }
+    }
+
+    public static function videoPasswordIsGood($videos_id) {
+        $video = new Video("", "", $videos_id);
+        $videoPassword = $video->getVideo_password();
+        if (empty($videoPassword)) {
+            return true;
+        }
+        if (empty($_SESSION['video_password'][$videos_id]) || $videoPassword !== $_SESSION['video_password'][$videos_id]) {
+            if (!empty($_POST['video_password']) && $_POST['video_password'] == $videoPassword) {
+                _session_start();
+                $_SESSION['video_password'][$videos_id] = $_POST['video_password'];
+                return true;
+            }
+            return false;
+        }
+        return true;
     }
 
     public function getEmbed($videos_id) {
@@ -311,4 +336,22 @@ class CustomizeUser extends PluginAbstract {
             exit;
         }
     }
-}  
+
+    public static function getVideoTags($videos_id) {
+        $obj = AVideoPlugin::getObjectData('CustomizeUser');
+        if(!$obj->userCanProtectVideosWithPassword){
+            return array();
+        }
+            
+        $video = new Video("", "", $videos_id);
+        $videoPassword = $video->getVideo_password();
+        if (!empty($videoPassword)) {
+            $obj = new stdClass();
+            $obj->label = __("Plugin");
+            $obj->type = "danger";
+            $obj->text = '<i class="fas fa-lock" ></i>';
+        }
+        return array($obj);
+    }
+
+}
