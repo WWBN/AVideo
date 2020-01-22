@@ -34,7 +34,7 @@ TimeLogEnd(__FILE__, __LINE__);
 
 $obj->setClean_Title($_POST['clean_title']);
 $audioLinks = array('mp3', 'ogg');
-$videoLinks = array('mp4', 'webm');
+$videoLinks = array('mp4', 'webm', 'm3u8');
 TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['videoLink'])) {
     //var_dump($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));exit;
@@ -50,6 +50,7 @@ if (!empty($_POST['videoLink'])) {
         $obj->setDuration($infoObj->duration);
         $obj->setDescription($infoObj->description);
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
+        $_POST['videoLinkType'] = "linkVideo";
     } else if (empty($_POST['id'])) {
         $filename = uniqid("_YPTuniqid_", true);
         $filename = $obj->setFilename($filename);
@@ -57,6 +58,7 @@ if (!empty($_POST['videoLink'])) {
         $obj->setClean_title($path_parts["filename"]);
         $obj->setDuration("");
         $obj->setDescription(@$_POST['description']);
+        $_POST['videoLinkType'] = "embed";
     }
     $obj->setVideoLink($_POST['videoLink']);
 
