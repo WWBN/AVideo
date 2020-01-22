@@ -1217,6 +1217,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#inputVideoPassword').val("");
         $('#inputCleanTitle').val("");
         $('#inputDescription').val("");
+        $('#videoLinkType').val("");
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
@@ -1295,6 +1296,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#postersImage').slideDown();
         $('#videoLink').val('');
         $('#videoStartSecond').val('00:00:00');
+        $('#videoLinkType').val("article");
 <?php
 echo AVideoPlugin::getManagerVideosReset();
 ?>
@@ -1318,6 +1320,7 @@ echo AVideoPlugin::getManagerVideosReset();
             waitToSubmit = false;
         }, 3000);
         reloadFileInput({});
+        $('#videoLinkType').val("article");
         $('#videoFormModal').modal();
     }
 
