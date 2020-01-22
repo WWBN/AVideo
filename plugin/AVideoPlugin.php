@@ -1022,7 +1022,7 @@ class AVideoPlugin {
         if(empty($videos_id)){
             return array();
         }
-        if(empty($_SESSION['getVideoTags'][$videos_id])){
+        if(true || empty($_SESSION['getVideoTags'][$videos_id])){
             $plugins = Plugin::getAllEnabled();
             $array = array();
             foreach ($plugins as $value) {

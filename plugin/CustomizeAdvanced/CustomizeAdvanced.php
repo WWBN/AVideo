@@ -115,6 +115,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->askRRatingConfirmationBeforePlay_R = false;
         $obj->askRRatingConfirmationBeforePlay_NC17 = true;
         $obj->askRRatingConfirmationBeforePlay_MA = true;
+        $obj->filterRRating = true;
         $obj->AsyncJobs = false;
         
         
@@ -180,6 +181,22 @@ class CustomizeAdvanced extends PluginAbstract {
         $content .= '<script>$(function () {if(inIframe()){$("#mainNavBar").fadeOut();}});</script>';
         }
         return $content;
+    }
+    
+    public function getHTMLMenuRight() {
+        global $global;
+        $obj = $this->getDataObject();
+        if($obj->filterRRating){
+            include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/menuRight.php';
+        }
+    }
+    
+    public function getHTMLMenuLeft() {
+        $obj = $this->getDataObject();
+        if($obj->filterRRating){
+            
+        }
+        parent::getHTMLMenuLeft();
     }
 
     

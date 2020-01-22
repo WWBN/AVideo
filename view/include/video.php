@@ -61,7 +61,7 @@ AVideoPlugin::loadPlugin('PlayerSkins');
                         echo getSources($playNowVideo['filename']);
                     } else {
                         ?>
-                        <source src="<?php echo $playNowVideo['videoLink']; ?>" type="video/mp4" >
+                        <source src="<?php echo $playNowVideo['videoLink']; ?>" type="<?php echo (strpos($playNowVideo['videoLink'], 'm3u8') !== false)?"application/x-mpegURL":"video/mp4" ?>" >
                     <?php } ?>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                     <p class="vjs-no-js"><?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>

@@ -1274,7 +1274,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
             imagealphablending($dest, false);
             imagesavealpha($dest, true);
             $transparent = imagecolorallocatealpha($dest, 255, 255, 255, 127);
-            imagefilledrectangle($dest, 0, 0, $nw, $nh, $transparent);
+            imagefilledrectangle($dest, 0, 0, $wd, $hd, $transparent);
 
             break;
         case "gif":

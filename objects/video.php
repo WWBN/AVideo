@@ -1686,7 +1686,13 @@ if (!class_exists('Video')) {
             if (empty($advancedCustom->AsyncJobs)) {
                 return self::getTags_($video_id, $type);
             } else {
-                return self::getTagsAsync($video_id, $type);
+                $tags = self::getTagsAsync($video_id, $type);
+                foreach ($tags as $key => $value) {
+                    if(is_array($value)){
+                        $tags[$key] = (object)$value;
+                    }
+                }
+                return $tags;
             }
         }
 
@@ -1697,17 +1703,17 @@ if (!class_exists('Video')) {
 
             if (empty($type) || $type === "paid") {
                 if (!empty($advancedCustom->paidOnlyShowLabels)) {
-                    $obj = new stdClass();
-                    $obj->label = __("Paid Content");
+                    $objTag = new stdClass();
+                    $objTag->label = __("Paid Content");
                     if (!empty($video->getOnly_for_paid())) {
-                        $obj->type = "warning";
-                        $obj->text = $advancedCustom->paidOnlyLabel;
+                        $objTag->type = "warning";
+                        $objTag->text = $advancedCustom->paidOnlyLabel;
                     } else {
-                        $obj->type = "success";
-                        $obj->text = $advancedCustom->paidOnlyFreeLabel;
+                        $objTag->type = "success";
+                        $objTag->text = $advancedCustom->paidOnlyFreeLabel;
                     }
-                    $tags[] = $obj;
-                    $obj = new stdClass();
+                    $tags[] = $objTag;
+                    $objTag = new stdClass();
                 }
             }
 
@@ -1725,83 +1731,83 @@ if (!class_exists('Video')) {
               ximg = get image error
              */
             if (empty($type) || $type === "status") {
-                $obj = new stdClass();
-                $obj->label = __("Status");
+                $objTag = new stdClass();
+                $objTag->label = __("Status");
                 switch ($video->getStatus()) {
                     case 'a':
-                        $obj->type = "success";
-                        $obj->text = __("Active");
+                        $objTag->type = "success";
+                        $objTag->text = __("Active");
                         break;
                     case 'i':
-                        $obj->type = "warning";
-                        $obj->text = __("Inactive");
+                        $objTag->type = "warning";
+                        $objTag->text = __("Inactive");
                         break;
                     case 'e':
-                        $obj->type = "info";
-                        $obj->text = __("Encoding");
+                        $objTag->type = "info";
+                        $objTag->text = __("Encoding");
                         break;
                     case 'd':
-                        $obj->type = "info";
-                        $obj->text = __("Downloading");
+                        $objTag->type = "info";
+                        $objTag->text = __("Downloading");
                         break;
                     case 'u':
-                        $obj->type = "info";
-                        $obj->text = __("Unlisted");
+                        $objTag->type = "info";
+                        $objTag->text = __("Unlisted");
                         break;
                     case 'xmp4':
-                        $obj->type = "danger";
-                        $obj->text = __("Encoding mp4 error");
+                        $objTag->type = "danger";
+                        $objTag->text = __("Encoding mp4 error");
                         break;
                     case 'xwebm':
-                        $obj->type = "danger";
-                        $obj->text = __("Encoding xwebm error");
+                        $objTag->type = "danger";
+                        $objTag->text = __("Encoding xwebm error");
                         break;
                     case 'xmp3':
-                        $obj->type = "danger";
-                        $obj->text = __("Encoding xmp3 error");
+                        $objTag->type = "danger";
+                        $objTag->text = __("Encoding xmp3 error");
                         break;
                     case 'xogg':
-                        $obj->type = "danger";
-                        $obj->text = __("Encoding xogg error");
+                        $objTag->type = "danger";
+                        $objTag->text = __("Encoding xogg error");
                         break;
                     case 'ximg':
-                        $obj->type = "danger";
-                        $obj->text = __("Get imgage error");
+                        $objTag->type = "danger";
+                        $objTag->text = __("Get imgage error");
                         break;
 
                     default:
-                        $obj->type = "danger";
-                        $obj->text = __("Status not found");
+                        $objTag->type = "danger";
+                        $objTag->text = __("Status not found");
                         break;
                 }
-                $obj->text = $obj->text;
-                $tags[] = $obj;
-                $obj = new stdClass();
+                $objTag->text = $objTag->text;
+                $tags[] = $objTag;
+                $objTag = new stdClass();
             }
 
             if (empty($type) || $type === "userGroups") {
                 $groups = UserGroups::getVideoGroups($video_id);
-                $obj = new stdClass();
-                $obj->label = __("Group");
+                $objTag = new stdClass();
+                $objTag->label = __("Group");
                 if (empty($groups)) {
                     $status = $video->getStatus();
                     if ($status == 'u') {
-                        $obj->type = "info";
-                        $obj->text = __("Unlisted");
-                        $tags[] = $obj;
-                        $obj = new stdClass();
+                        $objTag->type = "info";
+                        $objTag->text = __("Unlisted");
+                        $tags[] = $objTag;
+                        $objTag = new stdClass();
                     } else {
-//$obj->type = "success";
-//$obj->text = __("Public");
+//$objTag->type = "success";
+//$objTag->text = __("Public");
                     }
                 } else {
                     foreach ($groups as $value) {
-                        $obj = new stdClass();
-                        $obj->label = __("Group");
-                        $obj->type = "warning";
-                        $obj->text = "{$value['group_name']}";
-                        $tags[] = $obj;
-                        $obj = new stdClass();
+                        $objTag = new stdClass();
+                        $objTag->label = __("Group");
+                        $objTag->type = "warning";
+                        $objTag->text = "{$value['group_name']}";
+                        $tags[] = $objTag;
+                        $objTag = new stdClass();
                     }
                 }
             }
@@ -1812,31 +1818,31 @@ if (!class_exists('Video')) {
                     unset($_POST['sort']);
                 }
                 $category = Category::getCategory($video->getCategories_id());
-                $obj = new stdClass();
-                $obj->label = __("Category");
+                $objTag = new stdClass();
+                $objTag->label = __("Category");
                 if (!empty($category)) {
-                    $obj->type = "default";
-                    $obj->text = $category['name'];
-                    $tags[] = $obj;
-                    $obj = new stdClass();
+                    $objTag->type = "default";
+                    $objTag->text = $category['name'];
+                    $tags[] = $objTag;
+                    $objTag = new stdClass();
                 }
             }
 
             if (empty($type) || $type === "source") {
                 $url = $video->getVideoDownloadedLink();
                 $parse = parse_url($url);
-                $obj = new stdClass();
-                $obj->label = __("Source");
+                $objTag = new stdClass();
+                $objTag->label = __("Source");
                 if (!empty($parse['host'])) {
-                    $obj->type = "danger";
-                    $obj->text = $parse['host'];
-                    $tags[] = $obj;
-                    $obj = new stdClass();
+                    $objTag->type = "danger";
+                    $objTag->text = $parse['host'];
+                    $tags[] = $objTag;
+                    $objTag = new stdClass();
                 } else {
-                    $obj->type = "info";
-                    $obj->text = __("Local File");
-                    $tags[] = $obj;
-                    $obj = new stdClass();
+                    $objTag->type = "info";
+                    $objTag->text = __("Local File");
+                    $tags[] = $objTag;
+                    $objTag = new stdClass();
                 }
             }
 

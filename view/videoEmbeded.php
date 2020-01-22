@@ -185,18 +185,18 @@ if (!empty($_GET['t'])) {
             ?>
             <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php
-                echo $video['serie_playlists_id'];
-                if ($config->getAutoplay()) {
-                    echo "&autoplay=1";
-                }
-                ?>"></iframe>
+            echo $video['serie_playlists_id'];
+            if ($config->getAutoplay()) {
+                echo "&autoplay=1";
+            }
+            ?>"></iframe>
                     <?php
                     echo AVideoPlugin::getFooterCode();
                     ?>
             <script>
-                $(document).ready(function () {
-                    addView(<?php echo $video['id']; ?>, 0);
-                });
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, 0);
+            });
             </script>
             <?php
         } else if ($video['type'] == "article") {
@@ -211,9 +211,9 @@ if (!empty($_GET['t'])) {
                 echo $video['description'];
                 ?>     
                 <script>
-            $(document).ready(function () {
-                addView(<?php echo $video['id']; ?>, 0);
-            });
+                    $(document).ready(function () {
+                        addView(<?php echo $video['id']; ?>, 0);
+                    });
                 </script>
 
             </div>
@@ -281,6 +281,87 @@ if (!empty($_GET['t'])) {
                 });
             </script>
             <?php
+        } else if ($video['type'] == "linkVideo") {
+            ?>
+            <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
+                   class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
+                <source src="<?php echo $video['videoLink']; ?>" type="<?php echo (strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
+                <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
+            </video>
+
+            <?php
+            // the live users plugin
+            if (empty($modestbranding) && AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+
+                require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+                $style = VideoLogoOverlay::getStyle();
+                $url = VideoLogoOverlay::getLink();
+                ?>
+                <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
+                    <a href="<?php echo $url; ?>"  target="_blank">
+                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
+                    </a>
+                </div>
+                <?php
+            }
+            ?>
+            <?php
+            echo AVideoPlugin::getFooterCode();
+            ?>
+            <script>
+                $(document).ready(function () {
+                    //Prevent HTML5 video from being downloaded (right-click saved)?
+                    $('#mainVideo').bind('contextmenu', function () {
+                        return false;
+                    });
+                    if (typeof player === 'undefined') {
+                        player = videojs('mainVideo');
+                    }
+                    player.on('play', function () {
+                        addView(<?php echo $video['id']; ?>, this.currentTime());
+                    });
+
+                    player.on('timeupdate', function () {
+                        var time = Math.round(this.currentTime());
+                        if (time >= 5 && time % 5 === 0) {
+                            addView(<?php echo $video['id']; ?>, time);
+                        }
+                    });
+                    player.on('ended', function () {
+                        var time = Math.round(this.currentTime());
+                        addView(<?php echo $video['id']; ?>, time);
+                    });
+
+    <?php
+    if ($autoplay) {
+        ?>
+                        setTimeout(function () {
+                            if (typeof player === 'undefined') {
+                                player = videojs('mainVideo');
+                            }
+                            playerPlay(<?php echo $t; ?>);
+                        }, 150);
+        <?php
+    } else {
+        ?>
+                        setTimeout(function () {
+                            if (typeof player === 'undefined') {
+                                player = videojs('mainVideo');
+                            }
+                            try {
+                                player.currentTime(<?php echo $t; ?>);
+                            } catch (e) {
+                                setTimeout(function () {
+                                    player.currentTime(<?php echo $t; ?>);
+                                }, 1000);
+                            }
+                        }, 150);
+        <?php
+    }
+    ?>
+                });
+            </script>
+            <?php
         } else {
             ?>
             <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
@@ -344,7 +425,7 @@ if (!empty($_GET['t'])) {
                             playerPlay(<?php echo $t; ?>);
                         }, 150);
         <?php
-    }else{
+    } else {
         ?>
                         setTimeout(function () {
                             if (typeof player === 'undefined') {

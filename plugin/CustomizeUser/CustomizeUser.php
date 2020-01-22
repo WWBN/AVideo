@@ -350,8 +350,10 @@ class CustomizeUser extends PluginAbstract {
             $obj->label = __("Plugin");
             $obj->type = "danger";
             $obj->text = '<i class="fas fa-lock" ></i>';
+            return array($obj);
         }
-        return array($obj);
+        
+        return array();
     }
 
 }
