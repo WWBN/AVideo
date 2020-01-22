@@ -1568,6 +1568,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             $('#videoLinkContent').slideDown();
             $('#videoLink').val('');
             $('#videoStartSecond').val('00:00:00');
+            $('#videoLinkType').val("linkVideo");
 <?php
 echo AVideoPlugin::getManagerVideosReset();
 ?>
