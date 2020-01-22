@@ -306,6 +306,7 @@
 
                                 <form class="form-compact"  id="updateCategoryForm" onsubmit="">
                                     <input type="hidden" id="inputVideoId"  >
+                                    <input type="hidden" id="videoLinkType"  >
                                     <div class="titles">
                                         <label for="inputTitle"><?php echo __("Title"); ?></label>
                                         <input type="text" id="inputTitle" class="form-control" placeholder="<?php echo __("Title"); ?>" required>
