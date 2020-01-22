@@ -50,7 +50,7 @@ if (!empty($_POST['videoLink'])) {
         $obj->setDuration($infoObj->duration);
         $obj->setDescription($infoObj->description);
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
-        $_POST['videoLinkType'] = "linkVideo";
+        $_POST['videoLinkType'] = "embed";
     } else if (empty($_POST['id'])) {
         $filename = uniqid("_YPTuniqid_", true);
         $filename = $obj->setFilename($filename);
@@ -58,7 +58,7 @@ if (!empty($_POST['videoLink'])) {
         $obj->setClean_title($path_parts["filename"]);
         $obj->setDuration("");
         $obj->setDescription(@$_POST['description']);
-        $_POST['videoLinkType'] = "embed";
+        $_POST['videoLinkType'] = "linkVideo";
     }
     $obj->setVideoLink($_POST['videoLink']);
 
