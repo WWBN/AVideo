@@ -8,6 +8,11 @@ require_once $global['systemRootPath'] . 'objects/Channel.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
+if (isset($_SESSION['channelName'])) {
+    _session_start();
+    unset($_SESSION['channelName']);
+}
+
 $totalChannels = Channel::getTotalChannels();
 
 if (!empty($_GET['page'])) {
