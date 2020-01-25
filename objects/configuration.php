@@ -435,6 +435,8 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
             $bestEncoder = json_decode(url_get_contents($advancedCustom->encoderNetwork . "view/getBestEncoder.php"));
             if (!empty($bestEncoder->siteURL)) {
                 $this->encoderURL = $bestEncoder->siteURL;
+            }else{
+                error_log("Configuration::getEncoderURL ERROR your network ($advancedCustom->encoderNetwork) is not configured properly This slow down your site a lot, disable the option useEncoderNetworkRecomendation in your CustomizeAdvanced plugin");
             }
         }
 
