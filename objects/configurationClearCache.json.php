@@ -19,5 +19,10 @@ if(!empty($_GET['FirstPage'])){
     $dir .= "firstPage/";
 }
 rrmdir($dir);
+$dir = getCacheDir();
+if(!empty($_GET['FirstPage'])){
+    $dir .= "firstPage/";
+}
+rrmdir($dir);
 $obj->error = false;
 die(json_encode($obj));
