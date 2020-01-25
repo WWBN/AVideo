@@ -86,13 +86,13 @@ class AD_Server extends PluginAbstract {
             $_SESSION['lastAdShowed'] = time();
 
             if (!isset($_SESSION['showAdsCount'])) {
-                _error_log("Show Ads Count started");
+                //_error_log("Show Ads Count started");
                 $_SESSION['showAdsCount'] = 1;
             } else {
                 $_SESSION['showAdsCount'] ++;
             }
         }
-        _error_log("Show Ads Count {$_SESSION['showAdsCount']}");
+        //_error_log("Show Ads Count {$_SESSION['showAdsCount']}");
         $obj = $this->getDataObject();
         if (!empty($obj->showAdsOnEachVideoView) && $_SESSION['showAdsCount'] % $obj->showAdsOnEachVideoView === 0) {
             return true;
@@ -198,7 +198,7 @@ class AD_Server extends PluginAbstract {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        _error_log("VMAP select those options: " . print_r($adRandomPositions, true));
+        //_error_log("VMAP select those options: " . print_r($adRandomPositions, true));
         return $adRandomPositions;
     }
 
