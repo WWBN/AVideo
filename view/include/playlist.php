@@ -2,6 +2,17 @@
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 $playlist = new PlayList($playlist_id);
 $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
+
+$videoSerie = Video::getVideoFromSeriePlayListsId($playlist_id);
+
+if (!empty($videoSerie)) {
+    $videoSerie = Video::getVideo($videoSerie["id"], "", true);
+    if (!empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== FALSE) {
+        $videoSerie["type"] = "embed";
+        $videoSerie["videoLink"] = $videoSerie["trailer1"];
+        array_unshift($playlistVideos, $videoSerie);
+    }
+}
 ?>
 <div class="playlist-nav">
     <nav class="navbar navbar-inverse">
@@ -35,7 +46,7 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                 }
                 ?>
                 <li class="<?php echo $class; ?>">
-                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count."/{$value["channelName"]}/".urlencode($playlist->getName())."/{$value['clean_title']}"; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count . "/{$value["channelName"]}/" . urlencode($playlist->getName()) . "/{$value['clean_title']}"; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
                         <div class="col-md-1 col-sm-1 col-xs-1">
                             <?php echo $indicator; ?>
                         </div>

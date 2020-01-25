@@ -50,8 +50,6 @@ class Cache extends PluginAbstract {
                 mkdir($obj->cacheDir, 0777, true);
             }
         }
-
-
         return $obj->cacheDir . $firstPage;
     }
 

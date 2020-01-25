@@ -734,7 +734,7 @@ function canUseCDN($videos_id) {
 
 function clearVideosURL($fileName = "") {
     global $global;
-    $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
+    $path = getCacheDir()."getVideosURL/";
     if (empty($path)) {
         rrmdir($path);
     } else {
@@ -978,7 +978,7 @@ function getVideosURL($fileName, $cache = true) {
     $time = $time[1] + $time[0];
     $start = $time;
 
-    $path = "{$global['systemRootPath']}videos/cache/getVideosURL/";
+    $path = getCacheDir()."getVideosURL/";
     make_path($path);
     $cacheFilename = "{$path}{$fileName}.cache";
     //var_dump($cacheFilename, recreateCache($cacheFilename), minimumExpirationTime());$pdf = "{$global['systemRootPath']}videos/{$fileName}.pdf";
@@ -2576,4 +2576,9 @@ function remove_utf8_bom($text){
     $bom = pack('H*','EFBBBF');
     $text = preg_replace("/^$bom/", '', $text);
     return $text;
+}
+
+function getCacheDir(){
+    $p = AVideoPlugin::loadPlugin("Cache");
+    return $p->getCacheDir();
 }

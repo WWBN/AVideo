@@ -995,7 +995,7 @@ if (!class_exists('Video')) {
             $get = json_encode(@$_GET);
             $post = json_encode(@$_POST);
             $md5 = md5("{$users_id}{$get}{$post}{$status}{$showOnlyLoggedUserVideos}{$ignoreGroup}" . implode("_", $videosArrayId) . "{$getStatistcs}{$showUnlisted}{$activeUsersOnly}");
-            $path = $global['systemRootPath'] . "videos/cache/getAllVideosAsync/";
+            $path = getCacheDir()."getAllVideosAsync/";
             make_path($path);
             $cacheFileName = "{$path}{$md5}";
             if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName) || filesize($cacheFileName) === 0) {
@@ -1173,7 +1173,7 @@ if (!class_exists('Video')) {
 
         static function getTotalVideosInfoAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
             global $global, $advancedCustom;
-            $path = $global['systemRootPath'] . "videos/cache/getTotalVideosInfo/";
+            $path = getCacheDir()."getTotalVideosInfo/";
             make_path($path);
             $cacheFileName = "{$path}_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode($videosArrayId) . "_{$getStatistcs}";
             $return = array();
@@ -1860,7 +1860,7 @@ if (!class_exists('Video')) {
                 session_start();
             }
             unset($_SESSION['getVideoTags'][$video_id]);
-            $path = $global['systemRootPath'] . "videos/cache/getTagsAsync/";
+            $path = getCacheDir()."getTagsAsync/";
             if (!is_dir($path)) {
                 return false;
             }
@@ -1875,7 +1875,7 @@ if (!class_exists('Video')) {
 
         static function getTagsAsync($video_id, $type = "video") {
             global $global, $advancedCustom;
-            $path = $global['systemRootPath'] . "videos/cache/getTagsAsync/";
+            $path = getCacheDir()."getTagsAsync/";
             make_path($path);
             $cacheFileName = "{$path}_{$video_id}_{$type}";
 
@@ -2499,7 +2499,7 @@ if (!class_exists('Video')) {
         static function getImageFromFilenameAsync($filename, $type = "video") {
             global $global, $advancedCustom;
             $return = array();
-            $path = $global['systemRootPath'] . "videos/cache/getImageFromFilenameAsync/";
+            $path = getCacheDir()."getImageFromFilenameAsync/";
             make_path($path);
             $cacheFileName = "{$path}_{$filename}_{$type}";
             if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
@@ -2888,6 +2888,16 @@ if (!class_exists('Video')) {
 
         function setSerie_playlists_id($serie_playlists_id) {
             $this->serie_playlists_id = $serie_playlists_id;
+        }
+        
+        static function getVideoFromSeriePlayListsId($serie_playlists_id) {
+            global $global, $config;
+            $serie_playlists_id = intval($serie_playlists_id);
+            $sql = "SELECT * FROM videos WHERE serie_playlists_id = '$serie_playlists_id' LIMIT 1";
+            $res = sqlDAL::readSql($sql, "", array(), true);
+            $video = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            return $video;
         }
 
     }

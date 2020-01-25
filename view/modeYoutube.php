@@ -88,7 +88,27 @@ if (!empty($_GET['playlist_id'])) {
     $videosPlayList = Video::getAllVideos("viewable", false, false, $videosArrayId, false, true);
     $videosPlayList = PlayList::sortVideos($videosPlayList, $videosArrayId);
 
-    $video = Video::getVideo($videosPlayList[$playlist_index]['id'], "viewable", false, false, false, true);
+    $videoSerie = Video::getVideoFromSeriePlayListsId($_GET['playlist_id']);
+
+    unset($_GET['playlist_id']);
+    $isPlayListTrailer = false;
+    if(!empty($videoSerie)){
+        $videoSerie = Video::getVideo($videoSerie["id"], "", true);
+        if (!empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== FALSE) {
+            $videoSerie["type"] = "embed";
+            $videoSerie["videoLink"] = $videoSerie["trailer1"];
+            array_unshift($videosPlayList,$videoSerie);
+            array_unshift($videosArrayId,$videoSerie['id']);
+            $isPlayListTrailer = true;
+        }
+        
+    }
+    if(empty($playlist_index) && $isPlayListTrailer){
+        $video = $videoSerie;
+    }else{
+        $video = Video::getVideo($videosPlayList[$playlist_index]['id'], "viewable", false, false, false, true);
+    }
+    
     if (!empty($videosPlayList[$playlist_index + 1])) {
         $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index + 1]['id'], "viewable", false, false, false, true);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/" . ($playlist_index + 1);
@@ -96,8 +116,6 @@ if (!empty($_GET['playlist_id'])) {
         $autoPlayVideo = Video::getVideo($videosPlayList[0]['id'], "viewable", false, false, false, true);
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/0";
     }
-
-    unset($_GET['playlist_id']);
 } else {
     if (!empty($video['next_videos_id'])) {
         $autoPlayVideo = Video::getVideo($video['next_videos_id']);
