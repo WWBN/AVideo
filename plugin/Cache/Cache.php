@@ -34,11 +34,11 @@ class Cache extends PluginAbstract {
         return $obj;
     }
 
-    public function getCacheDir() {
+    public function getCacheDir($ignoreFirstPage=true) {
         global $global;
         $obj = $this->getDataObject();
         $firstPage = "";
-        if ($this->isFirstPage()) {
+        if (!$ignoreFirstPage && $this->isFirstPage()) {
             $firstPage = "firstPage/";
         }
 
@@ -126,7 +126,7 @@ class Cache extends PluginAbstract {
 
         $isBot = isBot();
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
-            $cachefile = $this->getCacheDir() . $this->getFileName(); // e.g. cache/index.php.
+            $cachefile = $this->getCacheDir(false) . $this->getFileName(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if (!empty($_GET['lifetime'])) {
                 $lifetime = intval($_GET['lifetime']);
@@ -173,7 +173,7 @@ class Cache extends PluginAbstract {
     public function getEnd() {
         global $global;
         $obj = $this->getDataObject();
-        $cachefile = $this->getCacheDir() . $this->getFileName();
+        $cachefile = $this->getCacheDir(false) . $this->getFileName();
         $c = ob_get_contents();
         header_remove('Set-Cookie');
         /*
