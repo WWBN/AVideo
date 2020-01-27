@@ -1547,6 +1547,7 @@ if (!empty($row)) {
         $('#linkExternalVideo').click(function () {
             isArticle = 0;
             videos_id = 0;
+            $('#fileUploadVideos_id').val("");
             $('#inputVideoId').val("");
             $('#inputTitle').val("");
             $('#inputTrailer').val("");
