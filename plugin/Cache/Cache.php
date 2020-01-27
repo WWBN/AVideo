@@ -117,7 +117,7 @@ class Cache extends PluginAbstract {
             return true;
         }
 
-        $whitelistedFiles = array('user.php', 'status.php', 'canWatchVideo.json.php', 'stats.json.php', '/login', '/status');
+        $whitelistedFiles = array('user.php', 'status.php', 'canWatchVideo.json.php', '/login', '/status');
         $blacklistedFiles = array('videosAndroid.json.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         if (!empty($_GET["videoName"]) || in_array($baseName, $whitelistedFiles) || in_array($_SERVER['REQUEST_URI'], $whitelistedFiles)) {
