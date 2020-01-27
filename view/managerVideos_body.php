@@ -386,7 +386,7 @@
                                                     </li>
                                                     <?php
                                                 }
-                                                if (!empty($advancedCustom->userCanProtectVideosWithPassword) || User::isAdmin()) {
+                                                if (!empty($advancedCustomUser->userCanProtectVideosWithPassword) || User::isAdmin()) {
                                                     ?>
                                                     <li class="list-group-item">
                                                         <label for="inputVideoPassword"><?php echo __("Password Protected"); ?></label>
