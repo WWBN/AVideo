@@ -2,8 +2,8 @@
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 session_write_close();
-require_once './Objects/LiveTransmition.php';
-require_once '../../objects/user.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
+require_once $global['systemRootPath'] . 'objects/user.php';
 $p = AVideoPlugin::loadPluginIfEnabled("Live");
 
 ini_set('max_execution_time', 10);

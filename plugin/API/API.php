@@ -257,6 +257,18 @@ class API extends PluginAbstract {
         return new ApiObject("", false, $obj);
     }
     
+    
+    /**
+     * @param type $parameters 
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function get_api_livestreams($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'plugin/Live/stats.json.php';
+        exit;
+    }
+    
     /**
      * @param type $parameters 
      * ['APISecret' to list all videos]
