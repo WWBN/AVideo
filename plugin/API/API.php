@@ -104,6 +104,59 @@ class API extends PluginAbstract {
     }
 
     /**
+     * @param type $parameters
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&rowCount=3&current=1&sort[created]=DESC
+     * @return \ApiObject
+     */
+    public function get_api_personal_livestream($parameters){
+        global $global;
+        $p = AVideoPlugin::loadPlugin("Live");
+        if (!empty($_GET['c'])) {
+            $user = User::getChannelOwner($_GET['c']);
+            if (!empty($user)) {
+                $_GET['u'] = $user['user'];
+            }
+        }
+        if(!empty($_GET['c'])){
+            $user = User::getChannelOwner($_GET['c']);
+            if($user['status']!=='a'){
+                header("Location: {$global['webSiteRootURL']}");
+            }
+        }
+        if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
+            include $global['systemRootPath'] . 'plugin/Live/view/videoEmbededV2.php';
+            exit;
+        } else if (!empty($_GET['u']) && !empty($_GET['embed'])) {
+            include $global['systemRootPath'] . 'plugin/Live/view/videoEmbeded.php';
+            exit;
+        } else if (!empty($_GET['u'])) {
+            include $global['systemRootPath'].'plugin/Live/view/modeYoutubeLive.php';
+            exit;
+        } else if (!User::canStream()) {
+            header("Location: {$global['webSiteRootURL']}?error=" . __("You can not stream live videos"));
+            exit;
+        }
+
+        require_once $global['systemRootPath'] . 'objects/userGroups.php';
+        require_once $global['systemRootPath'] . 'objects/functions.php';
+        require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
+        $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
+        $trans = new LiveTransmition($trasnmition['id']);
+        $groups = $trans->getGroups();
+        $obj = $p->getDataObject();
+
+        if (empty($channelName)) {
+            $channelName = uniqid();
+            $user = new User(User::getId());
+            $user->setChannelName($channelName);
+            $user->save();
+        }
+        // $Live = require_once $global['systemRootPath'] . 'plugin/Live/Live.php';
+
+        return new ApiObject([$trasnmition,$obj],false, false, $Live);
+    }
+
+    /**
      * @param type $parameters 
      * ['sort' database sort column]
      * ['rowCount' max numbers of rows]
