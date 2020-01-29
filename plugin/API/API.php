@@ -285,7 +285,8 @@ class API extends PluginAbstract {
             }
             $p = AVideoPlugin::loadPlugin("Live");
             
-            $obj->livestream = LiveTransmition::getFromDbByUser($user->getId());
+            $obj->user = User::getUserFromID($user->getBdId());
+            $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
             $obj->livestream["server"] = $p->getServer()."?p=".$user->getPassword();
             
             return new ApiObject("", false, $obj);
