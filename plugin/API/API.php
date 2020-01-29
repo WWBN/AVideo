@@ -272,10 +272,10 @@ class API extends PluginAbstract {
         $obj = $this->startResponseObject($parameters);
         $dataObj = $this->getDataObject();
         if ($dataObj->APISecret === @$_GET['APISecret']) {
-            if(!empty($dataObj->users_id)){
-                $user = new User($dataObj->users_id);
-            }else if(!empty($dataObj->user)){
-                $user = new User(0, $dataObj->user, false);
+            if(!empty($_GET['users_id'])){
+                $user = new User($_GET['users_id']);
+            }else if(!empty($_GET['user'])){
+                $user = new User(0, $_GET['user'], false);
             }else{
                 return new ApiObject("User Not defined");
             }
