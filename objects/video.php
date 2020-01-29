@@ -1701,13 +1701,22 @@ if (!class_exists('Video')) {
             $tags = array();
 
             if (empty($type) || $type === "paid") {
+                $objTag = new stdClass();
+                $objTag->label = __("Paid Content");
                 if (!empty($advancedCustom->paidOnlyShowLabels)) {
-                    $objTag = new stdClass();
-                    $objTag->label = __("Paid Content");
+                    $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
+                    if (!empty($video->getOnly_for_paid())) {
+                        $objTag->type = "warning";
+                        $objTag->text = $advancedCustom->paidOnlyLabel;
+                    } else {
+                        $objTag->type = "success";
+                        $objTag->text = $advancedCustom->paidOnlyFreeLabel;
+                    }
+                } else {
                     $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
                     if ($advancedCustomUser->userCanProtectVideosWithPassword && !empty($video->getVideo_password())) {
                         $objTag->type = "danger";
-                        $objTag->text = '<i class="fas fa-lock" title="'.__("Password Protected").'" ></i>';
+                        $objTag->text = '<i class="fas fa-lock" title="' . __("Password Protected") . '" ></i>';
                     } else if (!empty($video->getOnly_for_paid())) {
                         $objTag->type = "warning";
                         $objTag->text = $advancedCustom->paidOnlyLabel;
@@ -1721,9 +1730,9 @@ if (!class_exists('Video')) {
                         $objTag->type = "success";
                         $objTag->text = $advancedCustom->paidOnlyFreeLabel;
                     }
-                    $tags[] = $objTag;
-                    $objTag = new stdClass();
                 }
+                $tags[] = $objTag;
+                $objTag = new stdClass();
             }
 
             /**
