@@ -228,19 +228,6 @@ function createGallerySection($videos, $crc = "", $get = array()) {
                         </span>
                     </div>
                 <?php } ?>
-                <?php
-                if (!empty($advancedCustomUser->userCanProtectVideosWithPassword)) {
-                    ?>
-                    <div>
-                        <?php
-                        if (!empty($value['video_password'])) {
-                            ?>
-                        <i class="fas fa-lock" title="<?php echo __("Password Protected"); ?>" ></i>
-                            <?php
-                        } 
-                    ?>
-                </div>
-            <?php } ?>
             <div>
                 <i class="far fa-clock"></i>
                 <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>

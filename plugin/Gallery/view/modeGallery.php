@@ -75,6 +75,7 @@ $contentSearchFound = false;
             echo $config->getWebSiteTitle();
             ?></title>
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
@@ -154,34 +155,53 @@ $contentSearchFound = false;
                             }
                         }
                         if ($obj->Categories && empty($_GET['catName']) && empty($_GET['showOnly'])) {
-                            unset($_POST['sort']);
-                            $_POST['sort']['name'] = "ASC";
-                            $_POST['rowCount'] = 1000;
-                            $categories = Category::getAllCategories();
-                            $_POST['rowCount'] = $obj->CategoriesRowCount;
-                            foreach ($categories as $value) {
-                                $_GET['catName'] = $value['clean_name'];
-                                unset($_POST['sort']);
-                                $_POST['sort']['v.created'] = "DESC";
-                                $_POST['sort']['likes'] = "DESC";
-                                $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
-                                if (empty($videos)) {
-                                    continue;
-                                }
-                                ?>
-                                <div class="clear clearfix">
-                                    <h3 class="galleryTitle">
-                                        <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>">
-                                            <i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?>
-                                        </a>
-                                    </h3>
-                                    <?php
-                                    createGallerySection($videos);
-                                    ?>
+                            ?>
+                            <div id="categoriesContainer"></div>
+                            <div class="scroller-status">
+                                <p class="pagination">
+                                    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?current=1">Next page</a>
+                                </p>
+                                <div class="infinite-scroll-request loader-ellips text-center">
+                                    <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading.gif" alt=""/>
                                 </div>
+                                <p class="infinite-scroll-last text-center text-muted">End of content</p>
+                                <p class="infinite-scroll-error text-center text-muted">No more pages to load</p>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    $container = $('#categoriesContainer').infiniteScroll({
+                                        path: '.pagination__next',
+                                        append: '.categoriesContainerItem',
+                                        status: '.scroller-status',
+                                        hideNav: '.pagination',
+                                        prefill: true,
+                                        history: false
+                                    });
+                                    $container.on('request.infiniteScroll', function (event, path) {
+                                        console.log('Loading page: ' + path);
+                                    });
+                                    $container.on('append.infiniteScroll', function (event, response, path, items) {
+                                        console.log('Append page: ' + path);
+                                        lazyImage();
+                                    });
+                                });
 
-                                <?php
-                            }
+                                function lazyImage() {
+                                    $('.thumbsJPG').lazy({
+                                        effect: 'fadeIn',
+                                        visibleOnly: true,
+                                        // called after an element was successfully handled
+                                        afterLoad: function (element) {
+                                            element.removeClass('blur');
+                                            element.parent().find('.thumbsGIF').lazy({
+                                                effect: 'fadeIn'
+                                            });
+                                        }
+                                    });
+                                    mouseEffect();
+                                }
+                            </script>
+                            <?php
                         }
                         ?>
 
