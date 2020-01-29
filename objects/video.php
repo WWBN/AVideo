@@ -1707,15 +1707,15 @@ if (!class_exists('Video')) {
                     if ($advancedCustomUser->userCanProtectVideosWithPassword && !empty($video->getVideo_password())) {
                         $objTag->type = "danger";
                         $objTag->text = '<i class="fas fa-lock" title="'.__("Password Protected").'" ></i>';
+                    } else if (!empty($video->getOnly_for_paid())) {
+                        $objTag->type = "warning";
+                        $objTag->text = $advancedCustom->paidOnlyLabel;
                     } else if (AVideoPlugin::isEnabledByName("PayPerView") && PayPerView::isVideoPayPerView($video_id)) {
                         $objTag->type = "warning";
                         $objTag->text = "PPV";
                     } else if (!Video::isPublic($video_id)) {
                         $objTag->type = "warning";
                         $objTag->text = __("Private");
-                    } else if (!empty($video->getOnly_for_paid())) {
-                        $objTag->type = "warning";
-                        $objTag->text = $advancedCustom->paidOnlyLabel;
                     } else {
                         $objTag->type = "success";
                         $objTag->text = $advancedCustom->paidOnlyFreeLabel;
