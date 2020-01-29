@@ -321,7 +321,7 @@ if (typeof gtag !== \"function\") {
         }
         if (!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)) {
             if (file_exists($global['systemRootPath'] . $photo)) {
-                $photo = $global['webSiteRootURL'] . $photo."?". filectime($global['systemRootPath'] . $photo);
+                $photo = $global['webSiteRootURL'] . $photo . "?" . filectime($global['systemRootPath'] . $photo);
             } else {
                 $photo = "";
             }
@@ -558,7 +558,7 @@ if (typeof gtag !== \"function\") {
     }
 
     static function canWatchVideo($videos_id) {
-        if(empty($videos_id)){
+        if (empty($videos_id)) {
             _error_log("User::canWatchVideo Video is empty ({$videos_id})");
             return false;
         }
@@ -568,16 +568,16 @@ if (typeof gtag !== \"function\") {
         }
 
         $video = new Video("", "", $videos_id);
-        if($video->getStatus()==='i'){
+        if ($video->getStatus() === 'i') {
             _error_log("User::canWatchVideo Video is inactive ({$videos_id})");
             return false;
         }
         $user = new User($video->getUsers_id());
-        if($user->getStatus()==='i'){
+        if ($user->getStatus() === 'i') {
             _error_log("User::canWatchVideo User is inactive ({$videos_id})");
             return false;
         }
-        
+
         if (AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
             return true;
         }
@@ -588,7 +588,7 @@ if (typeof gtag !== \"function\") {
         if (empty($rows)) {
             // check if any plugin restrict access to this video
             if (!AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
-                _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [".User::getId()."] can not see ({$videos_id})");
+                _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [" . User::getId() . "] can not see ({$videos_id})");
                 return false;
             } else {
                 return true; // the video is public
@@ -609,30 +609,30 @@ if (typeof gtag !== \"function\") {
                 }
             }
         }
-        
-        _error_log("User::canWatchVideo The user ".User::getId()." is not on any of the user groups ({$videos_id}) ".  json_encode($rows));
+
+        _error_log("User::canWatchVideo The user " . User::getId() . " is not on any of the user groups ({$videos_id}) " . json_encode($rows));
         return false;
     }
 
     static function canWatchVideoWithAds($videos_id) {
-        if(empty($videos_id)){
-            _error_log("User::canWatchVideo (videos_id is empty) ".$videos_id);
+        if (empty($videos_id)) {
+            _error_log("User::canWatchVideo (videos_id is empty) " . $videos_id);
             return false;
         }
         if (User::isAdmin()) {
             return true;
         }
-        
-        if(AVideoPlugin::userCanWatchVideoWithAds(User::getId(), $videos_id)){
+
+        if (AVideoPlugin::userCanWatchVideoWithAds(User::getId(), $videos_id)) {
             return true;
         }
-        _error_log("User::userCanWatchVideoWithAds (No can not) ".User::getId()." ".$videos_id);
-        
-        if(self::canWatchVideo($videos_id)){
+        _error_log("User::userCanWatchVideoWithAds (No can not) " . User::getId() . " " . $videos_id);
+
+        if (self::canWatchVideo($videos_id)) {
             return true;
         }
-        _error_log("User::canWatchVideo (No can not) ".$videos_id);
-        
+        _error_log("User::canWatchVideo (No can not) " . $videos_id);
+
         return false;
     }
 
@@ -723,7 +723,7 @@ if (typeof gtag !== \"function\") {
         global $advancedCustomUser;
         // check for multiple logins attempts to prevent hacking
         if (!empty($_SESSION['loginAttempts']) && !empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)) {
-            if(isMobile()){
+            if (isMobile()) {
                 $advancedCustomUser->requestCaptchaAfterLoginsAttempts += 10;
             }
             if ($_SESSION['loginAttempts'] > $advancedCustomUser->requestCaptchaAfterLoginsAttempts) {
@@ -807,9 +807,9 @@ if (typeof gtag !== \"function\") {
         setcookie('rememberme', null, -1, "/", $_SERVER['HTTP_HOST']);
         setcookie('user', null, -1, "/", $_SERVER['HTTP_HOST']);
         setcookie('pass', null, -1, "/", $_SERVER['HTTP_HOST']);
-        setcookie('rememberme', null, -1, "/", ".".$_SERVER['HTTP_HOST']);
-        setcookie('user', null, -1, "/", ".".$_SERVER['HTTP_HOST']);
-        setcookie('pass', null, -1, "/", ".".$_SERVER['HTTP_HOST']);
+        setcookie('rememberme', null, -1, "/", "." . $_SERVER['HTTP_HOST']);
+        setcookie('user', null, -1, "/", "." . $_SERVER['HTTP_HOST']);
+        setcookie('pass', null, -1, "/", "." . $_SERVER['HTTP_HOST']);
         setcookie('user', null, -1, "/", str_replace("www", "", $_SERVER['HTTP_HOST']));
         setcookie('pass', null, -1, "/", str_replace("www", "", $_SERVER['HTTP_HOST']));
         setcookie('rememberme', null, -1, "/");
@@ -1067,6 +1067,51 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
+    static function getUserFromID($users_id) {
+        global $global;
+
+        $sql = "SELECT * FROM users WHERE id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($users_id));
+        $user = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($user != false) {
+            $user['groups'] = UserGroups::getUserGroups($user['id']);
+            $user['identification'] = self::getNameIdentificationById($user['id']);
+            $user['photo'] = self::getPhoto($user['id']);
+            $user['background'] = self::getBackground($user['id']);
+            $user['tags'] = self::getTags($user['id']);
+            $user['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $user['name']);
+            $user['isEmailVerified'] = $user['emailVerified'];
+            if (!is_null($user['externalOptions'])) {
+                $externalOptions = unserialize(base64_decode($user['externalOptions']));
+                if (is_array($externalOptions) && sizeof($externalOptions) > 0) {
+                    foreach ($externalOptions as $k => $v) {
+                        if ($v == "true")
+                            $v = 1;
+                        else
+                        if ($v == "false")
+                            $v = 0;
+                        $user[$k] = $v;
+                    }
+                }
+            }
+            unset($user['password']);
+            unset($user['recoverPass']);
+            if (!User::isAdmin() && $user['id'] !== User::getId()) {
+                unset($user['first_name']);
+                unset($user['last_name']);
+                unset($user['address']);
+                unset($user['zip_code']);
+                unset($user['country']);
+                unset($user['region']);
+                unset($user['city']);
+            }
+            $user = $user;
+            return $user;
+        }
+        return false;
+    }
+
     function setUser($user) {
         global $advancedCustomUser;
         if (empty($advancedCustomUser->userCanChangeUsername)) {
@@ -1249,7 +1294,7 @@ if (typeof gtag !== \"function\") {
 
     function setRecoverPass($recoverPass, $forceChange = false) {
         // let the same recover pass if it was 10 minutes ago
-        if(empty($forceChange) && !empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")){
+        if (empty($forceChange) && !empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")) {
             return $this->recoverPass;
         }
         $this->recoverPass = $recoverPass;
@@ -1392,7 +1437,7 @@ if (typeof gtag !== \"function\") {
         }
         return $this->channelName;
     }
-    
+
     static function _getUserChannelName($users_id = 0) {
         global $global, $config;
         if (empty($users_id)) {
@@ -1402,7 +1447,7 @@ if (typeof gtag !== \"function\") {
         if (empty($user)) {
             return false;
         }
-        
+
         return $user->getChannelName();
     }
 
@@ -1440,13 +1485,13 @@ if (typeof gtag !== \"function\") {
         $link = "{$global['webSiteRootURL']}channel/" . urlencode($name);
         return $link;
     }
-    
+
     static function getChannelLinkFromChannelName($channelName) {
         global $global;
         $link = "{$global['webSiteRootURL']}channel/" . urlencode($channelName);
         return $link;
     }
-    
+
     static function _getChannelName($users_id = 0) {
         global $global, $config;
         if (empty($users_id)) {
@@ -1467,8 +1512,8 @@ if (typeof gtag !== \"function\") {
     static function sendVerificationLink($users_id) {
         global $global;
         //Only send the verification email each 30 minutes
-        if(!empty($_SESSION["sendVerificationLink"][$users_id]) && time()-$_SESSION["sendVerificationLink"][$users_id]>1800){
-            _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}" );
+        if (!empty($_SESSION["sendVerificationLink"][$users_id]) && time() - $_SESSION["sendVerificationLink"][$users_id] > 1800) {
+            _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}");
             return true;
         }
         $config = new Configuration();
@@ -1509,7 +1554,7 @@ if (typeof gtag !== \"function\") {
             $resp = $mail->send();
             if (!$resp) {
                 _error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
-            }else{
+            } else {
                 _session_start();
                 $_SESSION["sendVerificationLink"][$users_id] = time();
             }
