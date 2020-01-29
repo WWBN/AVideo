@@ -110,7 +110,7 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGallerySection($videos, $crc = "", $get = array()) {
+function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds=false) {
     global $global, $config, $obj, $advancedCustom, $advancedCustomUser;
     $countCols = 0;
     $obj = AVideoPlugin::getObjectData("Gallery");
@@ -309,7 +309,11 @@ function createGallerySection($videos, $crc = "", $get = array()) {
 }
 ?>
 <div class="col-xs-12  text-center clear clearfix" style="padding: 10px;">
-    <?php echo getAdsLeaderBoardMiddle(); ?>
+    <?php 
+    if(empty($ignoreAds)){
+        echo getAdsLeaderBoardMiddle(); 
+    }
+    ?>
 </div>
 <!--
 createGallerySection

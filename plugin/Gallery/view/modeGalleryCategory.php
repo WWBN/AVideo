@@ -36,7 +36,7 @@ foreach ($categories as $value) {
             </a>
         </h3>
         <?php
-        createGallerySection($videos);
+        createGallerySection($videos, "", array(), true);
         ?>
     </div>
 
