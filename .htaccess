@@ -53,6 +53,8 @@ Options All -Indexes
 # END Caching
 <IfModule mod_rewrite.c>
     RewriteEngine on
+    
+    RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
 
     #main Files
     RewriteRule    ^index.php$ view/index.php    [NC,L]
