@@ -2,6 +2,9 @@ html,
 body {
     height: 100vh;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
     padding-top: 60px;
 }

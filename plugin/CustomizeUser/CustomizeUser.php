@@ -337,23 +337,4 @@ class CustomizeUser extends PluginAbstract {
         }
     }
 
-    public static function getVideoTags($videos_id) {
-        $obj = AVideoPlugin::getObjectData('CustomizeUser');
-        if(!$obj->userCanProtectVideosWithPassword){
-            return array();
-        }
-            
-        $video = new Video("", "", $videos_id);
-        $videoPassword = $video->getVideo_password();
-        if (!empty($videoPassword)) {
-            $obj = new stdClass();
-            $obj->label = __("Plugin");
-            $obj->type = "danger";
-            $obj->text = '<i class="fas fa-lock" ></i>';
-            return array($obj);
-        }
-        
-        return array();
-    }
-
 }

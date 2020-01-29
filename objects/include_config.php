@@ -2,7 +2,7 @@
 
 $global['webSiteRootURL'] .= (substr($global['webSiteRootURL'], -1) == '/' ? '' : '/');
 $global['systemRootPath'] .= (substr($global['systemRootPath'], -1) == '/' ? '' : '/');
-
+session_name(preg_replace( '/[\W]/', '', $global['webSiteRootURL']));
 ini_set('error_log', $global['systemRootPath'] . 'videos/avideo.log');
 global $global, $config, $advancedCustom, $advancedCustomUser;
 

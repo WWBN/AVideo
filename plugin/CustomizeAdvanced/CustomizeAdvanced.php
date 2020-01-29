@@ -192,11 +192,24 @@ class CustomizeAdvanced extends PluginAbstract {
     }
     
     public function getHTMLMenuLeft() {
+        global $global;
         $obj = $this->getDataObject();
         if($obj->filterRRating){
-            
+            include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/menuLeft.php';
         }
-        parent::getHTMLMenuLeft();
+    }
+    
+    public static function getVideoWhereClause() {
+        $sql = "";
+        $obj = AVideoPlugin::getObjectData("CustomizeAdvanced");
+        if($obj->filterRRating && isset($_GET['rrating'])){
+            if($_GET['rrating']==="0"){
+                $sql .= " AND v.rrating = ''";
+            }else if(in_array($_GET['rrating'],Video::$rratingOptions)){
+                $sql .= " AND v.rrating = '{$_GET['rrating']}'";                
+            }
+        }
+        return $sql;
     }
 
     

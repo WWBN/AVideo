@@ -154,16 +154,15 @@ if (!class_exists('Video')) {
         function setSites_id($sites_id) {
             $this->sites_id = $sites_id;
         }
-        
+
         function getVideo_password() {
-            return $this->video_password;
+            return trim($this->video_password);
         }
 
         function setVideo_password($video_password) {
-            $this->video_password = $video_password;
+            $this->video_password = trim($video_password);
         }
 
-        
         function save($updateVideoGroups = false, $allowOfflineUser = false) {
             global $advancedCustom;
             global $global;
@@ -525,7 +524,7 @@ if (!class_exists('Video')) {
         }
 
         function setType($type) {
-            if(empty($this->type)){
+            if (empty($this->type)) {
                 $this->type = $type;
             }
         }
@@ -754,7 +753,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             $parts = explode("/", $fileName);
-            if(!empty($parts[0])){
+            if (!empty($parts[0])) {
                 $fileName = $parts[0];
             }
             $sql = "SELECT id FROM videos WHERE filename = ? LIMIT 1";
@@ -954,10 +953,10 @@ if (!class_exists('Video')) {
                 foreach ($fullData as $row) {
                     unset($row['password']);
                     unset($row['recoverPass']);
-                    if(!self::canEdit($row['id'])){
-                        if(!empty($row['video_password'])){
+                    if (!self::canEdit($row['id'])) {
+                        if (!empty($row['video_password'])) {
                             $row['video_password'] = 1;
-                        }else{
+                        } else {
                             $row['video_password'] = 0;
                         }
                     }
@@ -995,7 +994,7 @@ if (!class_exists('Video')) {
             $get = json_encode(@$_GET);
             $post = json_encode(@$_POST);
             $md5 = md5("{$users_id}{$get}{$post}{$status}{$showOnlyLoggedUserVideos}{$ignoreGroup}" . implode("_", $videosArrayId) . "{$getStatistcs}{$showUnlisted}{$activeUsersOnly}");
-            $path = getCacheDir()."getAllVideosAsync/";
+            $path = getCacheDir() . "getAllVideosAsync/";
             make_path($path);
             $cacheFileName = "{$path}{$md5}";
             if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName) || filesize($cacheFileName) === 0) {
@@ -1173,7 +1172,7 @@ if (!class_exists('Video')) {
 
         static function getTotalVideosInfoAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
             global $global, $advancedCustom;
-            $path = getCacheDir()."getTotalVideosInfo/";
+            $path = getCacheDir() . "getTotalVideosInfo/";
             make_path($path);
             $cacheFileName = "{$path}_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode($videosArrayId) . "_{$getStatistcs}";
             $return = array();
@@ -1688,8 +1687,8 @@ if (!class_exists('Video')) {
             } else {
                 $tags = self::getTagsAsync($video_id, $type);
                 foreach ($tags as $key => $value) {
-                    if(is_array($value)){
-                        $tags[$key] = (object)$value;
+                    if (is_array($value)) {
+                        $tags[$key] = (object) $value;
                     }
                 }
                 return $tags;
@@ -1697,7 +1696,7 @@ if (!class_exists('Video')) {
         }
 
         static function getTags_($video_id, $type = "") {
-            global $advancedCustom;
+            global $advancedCustom, $advancedCustomUser;
             $video = new Video("", "", $video_id);
             $tags = array();
 
@@ -1705,7 +1704,16 @@ if (!class_exists('Video')) {
                 if (!empty($advancedCustom->paidOnlyShowLabels)) {
                     $objTag = new stdClass();
                     $objTag->label = __("Paid Content");
-                    if (!empty($video->getOnly_for_paid())) {
+                    if ($advancedCustomUser->userCanProtectVideosWithPassword && !empty($video->getVideo_password())) {
+                        $objTag->type = "danger";
+                        $objTag->text = '<i class="fas fa-lock" title="'.__("Password Protected").'" ></i>';
+                    } else if (AVideoPlugin::isEnabledByName("PayPerView") && PayPerView::isVideoPayPerView($video_id)) {
+                        $objTag->type = "warning";
+                        $objTag->text = "PPV";
+                    } else if (!Video::isPublic($video_id)) {
+                        $objTag->type = "warning";
+                        $objTag->text = __("Private");
+                    } else if (!empty($video->getOnly_for_paid())) {
                         $objTag->type = "warning";
                         $objTag->text = $advancedCustom->paidOnlyLabel;
                     } else {
@@ -1804,7 +1812,7 @@ if (!class_exists('Video')) {
                     foreach ($groups as $value) {
                         $objTag = new stdClass();
                         $objTag->label = __("Group");
-                        $objTag->type = "warning";
+                        $objTag->type = "info";
                         $objTag->text = "{$value['group_name']}";
                         $tags[] = $objTag;
                         $objTag = new stdClass();
@@ -1860,7 +1868,7 @@ if (!class_exists('Video')) {
                 session_start();
             }
             unset($_SESSION['getVideoTags'][$video_id]);
-            $path = getCacheDir()."getTagsAsync/";
+            $path = getCacheDir() . "getTagsAsync/";
             if (!is_dir($path)) {
                 return false;
             }
@@ -1875,7 +1883,7 @@ if (!class_exists('Video')) {
 
         static function getTagsAsync($video_id, $type = "video") {
             global $global, $advancedCustom;
-            $path = getCacheDir()."getTagsAsync/";
+            $path = getCacheDir() . "getTagsAsync/";
             make_path($path);
             $cacheFileName = "{$path}_{$video_id}_{$type}";
 
@@ -2029,7 +2037,7 @@ if (!class_exists('Video')) {
         function getTitle() {
             return $this->title;
         }
-        
+
         function getClean_title() {
             return $this->clean_title;
         }
@@ -2367,8 +2375,8 @@ if (!class_exists('Video')) {
         }
 
         static function getImageFromFilename_($filename, $type = "video") {
-            $cache = ObjectYPT::getCache($filename.$type, 0);
-            if(!empty($cache)){
+            $cache = ObjectYPT::getCache($filename . $type, 0);
+            if (!empty($cache)) {
                 return $cache;
             }
             global $global, $advancedCustom;
@@ -2490,16 +2498,16 @@ if (!class_exists('Video')) {
             if (!empty($advancedCustom->disableAnimatedGif)) {
                 $obj->thumbsGif = false;
             }
-            
-            ObjectYPT::setCache($filename.$type, $obj);
-            
+
+            ObjectYPT::setCache($filename . $type, $obj);
+
             return $obj;
         }
 
         static function getImageFromFilenameAsync($filename, $type = "video") {
             global $global, $advancedCustom;
             $return = array();
-            $path = getCacheDir()."getImageFromFilenameAsync/";
+            $path = getCacheDir() . "getImageFromFilenameAsync/";
             make_path($path);
             $cacheFileName = "{$path}_{$filename}_{$type}";
             if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
@@ -2569,14 +2577,14 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        function getChannelName(){
+        function getChannelName() {
             return User::_getChannelName($this->getUsers_id());
         }
-        
-        function getChannelLink(){
+
+        function getChannelLink() {
             return User::getChannelLink($this->getUsers_id());
         }
-        
+
         /**
          *
          * @global type $global
@@ -2587,16 +2595,16 @@ if (!class_exists('Video')) {
          * @return String a web link
          */
         static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = array()) {
-            global $global, $advancedCustomUser;            
+            global $global, $advancedCustomUser;
             if (empty($videos_id) && !empty($clean_title)) {
                 $videos_id = self::get_id_from_clean_title($clean_title);
             }
             $video = new Video("", "", $videos_id);
-                        
-            if($advancedCustomUser->addChannelNameOnLinks){
+
+            if ($advancedCustomUser->addChannelNameOnLinks) {
                 $get['channelName'] = $video->getChannelName();
             }
-            
+
             unset($get['v']);
             unset($get['videoName']);
             unset($get['videoName']);
@@ -2608,7 +2616,7 @@ if (!class_exists('Video')) {
             } else {
                 $get_http = "?{$get_http}";
             }
-            
+
             if ($type == "URLFriendly") {
                 $cat = "";
                 if (!empty($_GET['catName'])) {
@@ -2618,7 +2626,7 @@ if (!class_exists('Video')) {
                 if (empty($clean_title)) {
                     $clean_title = $video->getClean_title();
                 }
-                
+
                 if ($embed) {
                     //return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}{$get_http}";
                     return "{$global['webSiteRootURL']}videoEmbed/{$videos_id}/{$clean_title}{$get_http}";
@@ -2732,9 +2740,9 @@ if (!class_exists('Video')) {
                 }
             }
             ObjectYPT::deleteCache($filename);
-            ObjectYPT::deleteCache($filename."article");
-            ObjectYPT::deleteCache($filename."pdf");
-            ObjectYPT::deleteCache($filename."video");
+            ObjectYPT::deleteCache($filename . "article");
+            ObjectYPT::deleteCache($filename . "pdf");
+            ObjectYPT::deleteCache($filename . "video");
             clearVideosURL($filename);
         }
 
@@ -2848,11 +2856,11 @@ if (!class_exists('Video')) {
             if (empty($rows)) {
                 return true;
             }
-            
+
             if (empty($users_id) || empty($videos_id)) {
                 return false;
             }
-            
+
             $rowsUser = UserGroups::getUserGroups(User::getId());
             if (empty($rowsUser)) {
                 return false;
@@ -2889,7 +2897,7 @@ if (!class_exists('Video')) {
         function setSerie_playlists_id($serie_playlists_id) {
             $this->serie_playlists_id = $serie_playlists_id;
         }
-        
+
         static function getVideoFromSeriePlayListsId($serie_playlists_id) {
             global $global, $config;
             $serie_playlists_id = intval($serie_playlists_id);

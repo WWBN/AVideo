@@ -74,9 +74,11 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `users_id` INT(11) NOT NULL DEFAULT 1,
   `private` TINYINT(1) NULL DEFAULT 0,
   `allow_download` TINYINT(1) NULL DEFAULT 1,
+  `order` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_categories_users1_idx` (`users_id` ASC),
   INDEX `clean_name_INDEX2` (`clean_name` ASC),
+  INDEX `sortcategoryOrderIndex` (`order` ASC),
   UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 
   CONSTRAINT `fk_categories_users1`
     FOREIGN KEY (`users_id`)

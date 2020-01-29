@@ -60,7 +60,7 @@ $get = array();
 $get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
 if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannelFromModeYoutube)) {
     $user = User::getChannelOwner($_GET['channelName']);
-//var_dump($user);exit;
+    //var_dump($user);exit;
     ?>
     <div class="col-md-12" >
         <img src="<?php echo User::getPhoto($user['id']); ?>" class="img img-responsive img-circle" style="max-width: 60px;"/>
@@ -100,11 +100,13 @@ foreach ($videos as $key => $value) {
     if (!empty($video['id']) && $video['id'] == $value['id']) {
         continue; // skip video
     }
-    $name = User::getNameIdentificationById($value['users_id']).' '. User::getEmailVerifiedIcon($value['users_id']);
-    $value['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
+    $name = User::getNameIdentificationById($value['users_id']) . ' ' . User::getEmailVerifiedIcon($value['users_id']);
+    $value['creator'] = '<div class="pull-left">'
+            . '<a href="' . User::getChannelLink($value['users_id']) . '"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>'
+            . '</a>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
     ?>
     <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" id="divVideo-<?php echo $value['id']; ?>" itemscope itemtype="http://schema.org/VideoObject">
-        <a href="<?php
+        <?php
         $link = Video::getLink($value['id'], $value['clean_title'], "", $get);
         $connection = "?";
         if (strpos($link, '?') !== false) {
@@ -113,9 +115,9 @@ foreach ($videos as $key => $value) {
         if (!empty($_GET['page']) && $_GET['page'] > 1) {
             $link .= "{$connection}page={$_GET['page']}";
         }
-        echo $link;
-        ?>" title="<?php echo $value['title']; ?>" class="videoLink h6">
-            <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" >
+        ?>
+        <a href="<?php echo $link; ?>" title="<?php echo $value['title']; ?>">
+            <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage videoLink h6" >
                 <?php
                 $images = Video::getImageFromFilename($value['filename'], $value['type']);
 
@@ -160,28 +162,27 @@ foreach ($videos as $key => $value) {
                     <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
-            <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
-                <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
-                <div class="details row" itemprop="description">
-                    <div>
-                        <strong><?php echo __("Category"); ?>: </strong>
-                        <span class="<?php echo $value['iconClass']; ?>"></span>
-                        <?php echo $value['category']; ?>
-                    </div>
-                    <?php
-                    if (empty($advancedCustom->doNotDisplayViews)) {
-                        ?>
-                        <div>
-                            <strong class="view-count<?php echo $value['id']; ?>"><?php echo number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
-                        </div>
-                    <?php } ?>
-                    <div><?php echo $value['creator']; ?></div>
+        </a>
+        <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails" style="font-size: 0.75em;">
 
-                </div>
-                <div class="row">
+            <a href="<?php echo $link; ?>" title="<?php echo $value['title']; ?>">
+                <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
+            </a>
+            <div class="details row" itemprop="description">
+                <div class="col-sm-6 nopadding">
+                    <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                        <span class="<?php echo $value['iconClass']; ?>"></span>
+                        <span class="hidden-sm"><?php echo $value['category']; ?></span>
+                    </a>
                     <?php
                     foreach ($value['tags'] as $value2) {
-                        if ($value2->label === __("Group")) {
+                        if (!empty($value2->label) && $value2->label === __("Paid Content")) {
+                            ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                        }
+                        if (!empty($value2->label) && $value2->label === __("Group")) {
+                            ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                        }
+                        if (!empty($value2->label) && $value2->label === __("Plugin")) {
                             ?>
                             <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
                             <?php
@@ -189,8 +190,18 @@ foreach ($videos as $key => $value) {
                     }
                     ?>
                 </div>
+                <?php
+                if (empty($advancedCustom->doNotDisplayViews)) {
+                    ?>
+                <div class="col-sm-6 nopadding">
+                        <strong class="view-count<?php echo $value['id']; ?>"> <i class="fas fa-eye"></i> <?php echo number_format($value['views_count'], 0); ?></strong>
+                    </div>
+                <?php } ?>
+                <div class="col-sm-12 nopadding"  style="margin-top: 5px !important;"><?php echo $value['creator']; ?></div>
+
+
             </div>
-        </a>
+        </div>
         <?php
         getLdJson($value['id']);
         getItemprop($value['id']);

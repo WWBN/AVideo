@@ -12,8 +12,9 @@
                 <th data-column-id="name" data-order="desc"  data-formatter="name"  data-width="40%"><?php echo __("Name"); ?></th>
                 <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
                 <th data-column-id="owner"><?php echo __("Owner"); ?></th>
-                <th data-column-id="fullTotal" data-sortable="false"><?php echo __("Total Videos"); ?></th>
-                <th data-column-id="allow_download" ><?php echo __("Can Download"); ?></th>
+                <th data-column-id="fullTotal" data-sortable="false"><?php echo __("Videos"); ?></th>
+                <th data-column-id="allow_download" ><?php echo __("Download"); ?></th>
+                <th data-column-id="order" ><?php echo __("Order"); ?></th>
                 <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
             </tr>
         </thead>
@@ -35,6 +36,8 @@
                         <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
                         <label class="sr-only" for="inputDescription"><?php echo __("Description"); ?></label>
                         <textarea class="form-control" rows="5" id="inputDescription" placeholder="<?php echo __("Description"); ?>"></textarea>
+                        <label><?php echo __("Order"); ?></label>                        
+                        <input type="number" id="order" class="form-control" placeholder="<?php echo __("Order"); ?>">
                         <label><?php echo __("Privacy"); ?></label>                        
                         <select class="form-control" id="inputPrivate">
                             <option value="0"><?php echo __("Public"); ?></option>
@@ -176,6 +179,7 @@
                 $('#inputNextVideoOrder').val(row.nextVideoOrder);
                 $('#inputPrivate').val(row.private);
                 $('#allow_download').val(row.allow_download);
+                $('#order').val(row.order);
                 $('#inputParentId').val(row.parentId);
                 $('#inputType').val(row.type);
                 $(".iconCat i").attr("class", row.iconClass);
@@ -244,7 +248,9 @@
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL'] . "objects/categoryAddNew.json.php"; ?>',
-                data: {"id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "description": $('#inputDescription').val(), "nextVideoOrder": $('#inputNextVideoOrder').val(), "private": $('#inputPrivate').val(), "allow_download": $('#allow_download').val(), "parentId": $('#inputParentId').val(), "type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
+                data: {
+                    "id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "description": $('#inputDescription').val(), "nextVideoOrder": $('#inputNextVideoOrder').val(), "private": $('#inputPrivate').val(), 
+            "allow_download": $('#allow_download').val(), "order": $('#order').val(), "parentId": $('#inputParentId').val(), "type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
                 type: 'post',
                 success: function (response) {
                     if (response.status) {
