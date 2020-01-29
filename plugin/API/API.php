@@ -251,10 +251,47 @@ class API extends PluginAbstract {
         } else {
             $totalRows = Video::getTotalVideos();
         }
-        $objMob = AVideoPlugin::getObjectData("MobileManager");
-        $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
+        //$objMob = AVideoPlugin::getObjectData("MobileManager");
+        //$SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
         $obj->totalRows = $totalRows;
         return new ApiObject("", false, $obj);
+    }
+    
+    /**
+     * Return a user information
+     * @param type $parameters 
+     * 'APISecret' to list all videos
+     * ['users_id' the user ID]
+     * ['user' the user name]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}
+     * @return \ApiObject
+     */
+    public function get_api_user($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/video.php';
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret === @$_GET['APISecret']) {
+            if(!empty($dataObj->users_id)){
+                $user = new User($dataObj->users_id);
+            }else if(!empty($dataObj->user)){
+                $user = new User(0, $dataObj->user, false);
+            }else{
+                return new ApiObject("User Not defined");
+            }
+            
+            if(empty($user) || empty($user->getId())){
+                return new ApiObject("User Not found");
+            }
+            $p = AVideoPlugin::loadPlugin("Live");
+            
+            $obj->livestream = LiveTransmition::getFromDbByUser($user->getId());
+            $obj->livestream->server = $p->getServer()."?p=".$user->getPassword();
+            
+            return new ApiObject("", false, $obj);
+        } else {
+            return new ApiObject("API Secret is not valid");
+        }
     }
     
     

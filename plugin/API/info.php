@@ -54,7 +54,7 @@ $reflector = new ReflectionClass('API');
             <ul class="list-group">                    
                 <li class="list-group-item">
                     <details>
-                        <summary><i class="fas fa-file-upload"></i> Upload a Video</summary>
+                        <summary style="cursor: pointer;"><i class="fas fa-file-upload"></i> Upload a Video</summary>
                         <br>
                         For more detailed instructions please <a href="https://github.com/WWBN/AVideo/wiki/Upload-videos-from-third-party-applications" target="_blank">read this</a>
                         <br>
@@ -83,7 +83,7 @@ $reflector = new ReflectionClass('API');
                     ?>
                     <li class="list-group-item">
                         <details>
-                            <summary><i class="fas fa-sign-<?php echo strtoupper($matches[1]) === "GET" ? "out" : "in" ?>-alt"></i> <?php echo strtoupper($matches[1]) ?> <?php echo $matches[2] ?></summary>
+                            <summary style="cursor: pointer;"><i class="fas fa-sign-<?php echo strtoupper($matches[1]) === "GET" ? "out" : "in" ?>-alt"></i> <?php echo strtoupper($matches[1]) ?> <?php echo $matches[2] ?></summary>
                             <br>
                             <pre><?php
                                 $comment = $reflector->getMethod($method_name)->getDocComment();
