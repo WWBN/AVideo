@@ -157,15 +157,13 @@ $contentSearchFound = false;
                         if ($obj->Categories && empty($_GET['catName']) && empty($_GET['showOnly'])) {
                             ?>
                             <div id="categoriesContainer"></div>
-                            <div class="scroller-status">
                                 <p class="pagination">
-                                    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?current=1">Next page</a>
+                                    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?current=1"></a>
                                 </p>
+                            <div class="scroller-status">
                                 <div class="infinite-scroll-request loader-ellips text-center">
-                                    <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading.gif" alt=""/>
+                                    <i class="fas fa-spinner fa-pulse text-muted"></i>
                                 </div>
-                                <p class="infinite-scroll-last text-center text-muted">End of content</p>
-                                <p class="infinite-scroll-error text-center text-muted">No more pages to load</p>
                             </div>
                             <script>
                                 $(document).ready(function () {

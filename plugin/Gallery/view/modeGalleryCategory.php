@@ -45,5 +45,5 @@ foreach ($categories as $value) {
 ?>
 </div>
 <p class="pagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?current=<?php echo count($categories)?$_POST['current'] + 1:$_POST['current']; ?>">Next page</a>
+    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?current=<?php echo count($categories)?$_POST['current'] + 1:$_POST['current']; ?>"></a>
 </p>
