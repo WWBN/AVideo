@@ -15,7 +15,7 @@ class RazorPayYPT extends PluginAbstract {
             Check more details here <a href='https://razorpay.com/docs/subscriptions/notifications/#setup-webhooks'>here</a> <br>";
         
         $p = AVideoPlugin::loadPlugin("Subscription");
-        if(version_compare($p->getPluginVersion(), "3.6")==-1){
+        if(!empty($p) && version_compare($p->getPluginVersion(), "3.6")==-1){
             $str .= " <br><strong class='alert alert-danger'>The <a href='#plugin27570156-dc62-46e3-ace9-86c6e8f9c84b'>Subscription</a> with RazorPay Requires <a href='#plugin27570156-dc62-46e3-ace9-86c6e8f9c84b'>Subscription plugin</a> version 3.6 or greater.</strong>";
         }
         
