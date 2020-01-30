@@ -14,6 +14,10 @@ if(empty($_GET['current'])){
     $_POST['current'] = intval($_GET['current']);
 }
 $categories = Category::getAllCategories(false, true);
+
+if(empty($categories)){
+    return false;
+}
 $_POST['current'] = 1;
 $_POST['rowCount'] = $obj->CategoriesRowCount;
 ?>
