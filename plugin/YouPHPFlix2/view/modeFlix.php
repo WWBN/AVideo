@@ -284,7 +284,6 @@ TimeLogStart($timeLog);
                                     //console.log('Loading page: ' + path);
                                 });
                                 $container.on('append.infiniteScroll', function (event, response, path, items) {
-                                    console.log('Append page: ' + response.documentElement.innerHTML);
                                     var id = "#" + items[0].id;
                                     startModeFlix(id + " ");
 
