@@ -50,7 +50,6 @@ TimeLogStart($timeLog);
 
                     //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true, array(), false, false, true, true);
-                    unset($_POST['sort']['trending']);
                     if (!empty($videos)) {
                         ?>
                         <div class="row topicRow">
@@ -218,7 +217,7 @@ TimeLogStart($timeLog);
                         unset($_POST['sort']);
                         $_POST['sort']['v.created'] = "DESC";
                         $_POST['sort']['likes'] = "DESC";
-                        $_POST['current']=1;
+                        $_POST['current'] = 1;
                         $_POST['rowCount'] = $obj->maxVideos;
                         $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                         $category = Category::getCategoryByName($_GET['catName']);
@@ -231,16 +230,20 @@ TimeLogStart($timeLog);
                             <!-- Sub category -->
                             <?php
                             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
-                            while(1){
-                                $_POST['current']++;
-                                $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
-                                if (empty($videos)) {
-                                    break;
-                                }
-                                include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
-                            }
                             ?>
                         </div>
+                        <?php
+                        while (1) {
+                            $_POST['current'] ++;
+                            $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                            if (empty($videos)) {
+                                break;
+                            }
+                            echo '<div class="row topicRow">';
+                            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            echo '</div>';
+                        }
+                        ?>
                         <?php
                         unset($_POST['sort']);
                         $categoriesC = Category::getChildCategoriesFromTitle($_GET['catName']);
@@ -280,49 +283,49 @@ TimeLogStart($timeLog);
                             </div>
                         </div>
                         <script>
-                            $(document).ready(function () {
-                                $container = $('#categoriesContainer').infiniteScroll({
-                                    path: '.pagination__next',
-                                    append: '.categoriesContainerItem',
-                                    status: '.scroller-status',
-                                    hideNav: '.pagination',
-                                    history: false,
-                                    checkLastPage: true
-                                });
-                                $container.on('request.infiniteScroll', function (event, path) {
-                                    //console.log('Loading page: ' + path);
-                                });
-                                $container.on('append.infiniteScroll', function (event, response, path, items) {
-                                    var id = "#" + items[0].id;
-                                    startModeFlix(id + " ");
+                    $(document).ready(function () {
+                        $container = $('#categoriesContainer').infiniteScroll({
+                            path: '.pagination__next',
+                            append: '.categoriesContainerItem',
+                            status: '.scroller-status',
+                            hideNav: '.pagination',
+                            history: false,
+                            checkLastPage: true
+                        });
+                        $container.on('request.infiniteScroll', function (event, path) {
+                            //console.log('Loading page: ' + path);
+                        });
+                        $container.on('append.infiniteScroll', function (event, response, path, items) {
+                            var id = "#" + items[0].id;
+                            startModeFlix(id + " ");
 
-                                    $(id + " img.thumbsJPG").each(function (index) {
-                                        $(this).attr('src', $(this).attr('data-flickity-lazyload'));
-                                        $(this).addClass('flickity-lazyloaded');
-                                    });
-
-                                });
-                                $container.infiniteScroll('loadNextPage');
-                                setTimeout(function () {
-                                    $container.infiniteScroll('loadNextPage');
-                                }, 1000);
+                            $(id + " img.thumbsJPG").each(function (index) {
+                                $(this).attr('src', $(this).attr('data-flickity-lazyload'));
+                                $(this).addClass('flickity-lazyloaded');
                             });
+
+                        });
+                        $container.infiniteScroll('loadNextPage');
+                        setTimeout(function () {
+                            $container.infiniteScroll('loadNextPage');
+                        }, 1000);
+                    });
 
                         </script>
                         <?php
                     }
-                        ?>
-                        <script>
-                            $(document).ready(function () {
-                                setTimeout(function () {
-                                    $("img.thumbsJPG").each(function (index) {
-                                        $(this).attr('src', $(this).attr('data-flickity-lazyload'));
-                                        $(this).addClass('flickity-lazyloaded');
-                                    });
-                                }, 500);
-                            });
-                        </script>    
-                        <?php
+                    ?>
+                    <script>
+                        $(document).ready(function () {
+                            setTimeout(function () {
+                                $("img.thumbsJPG").each(function (index) {
+                                    $(this).attr('src', $(this).attr('data-flickity-lazyload'));
+                                    $(this).addClass('flickity-lazyloaded');
+                                });
+                            }, 500);
+                        });
+                    </script>    
+                    <?php
                 }
                 TimeLogEnd($timeLog, __LINE__);
                 unset($_POST['sort']);
