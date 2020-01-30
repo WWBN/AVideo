@@ -332,12 +332,15 @@ class Category {
         return $id;
     }
 
-    static function getAllCategories($filterCanAddVideoOnly = false) {
+    static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false) {
         global $global, $config;
         if ($config->currentVersionLowerThen('8.4')) {
             return false;
         }
-        $sql = "SELECT * FROM categories WHERE 1=1 ";
+        $sql = "SELECT * FROM categories c WHERE 1=1 ";
+        if (!empty($_GET['parentsOnly'])) {
+            $sql .= "AND parentId = 0 ";
+        }
         if ($filterCanAddVideoOnly && !User::isAdmin()) {
             if (is_int($filterCanAddVideoOnly)) {
                 $users_id = $filterCanAddVideoOnly;
@@ -349,8 +352,8 @@ class Category {
                 $sql .= " AND (private=0 OR users_id = '{$users_id}') ";
             }
         }
-        if (!empty($_GET['parentsOnly'])) {
-            $sql .= "AND parentId = 0 ";
+        if ($onlyWithVideos) {
+            $sql .= " AND (SELECT count(*) FROM videos where categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id)) > 0  ";
         }
         if (isset($_POST['sort']['title'])) {
             unset($_POST['sort']['title']);

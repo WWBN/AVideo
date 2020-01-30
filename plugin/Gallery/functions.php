@@ -10,7 +10,7 @@ function showThis($who) {
     return false;
 }
 
-function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString, $defaultSort = "ASC", $ignoreGroup = false) {
+function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord, $orderString, $defaultSort = "ASC", $ignoreGroup = false, $icon = "fas fa-bookmark") {
     if (!showThis($getName)) {
         return "";
     }
@@ -24,7 +24,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     <div class="clear clearfix">
         <h3 class="galleryTitle">
             <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $getName; ?>">
-                <i class="glyphicon glyphicon-list-alt"></i>
+                <i class="<?php echo $icon; ?>"></i>
                 <?php
                 if (empty($_GET[$getName])) {
                     $_GET[$getName] = $defaultSort;

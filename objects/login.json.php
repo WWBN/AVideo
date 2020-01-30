@@ -8,6 +8,10 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/functions.php';
+
+$timeLog = __FILE__."::Login ";
+TimeLogStart($timeLog);
+
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
 $input = json_decode($inputJSON, TRUE); //convert JSON into array
@@ -17,6 +21,7 @@ if (!empty($input)) {
     }
 }
 
+TimeLogEnd($timeLog, __LINE__);
 
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
@@ -24,7 +29,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
 Category::clearCacheCount();
-
+TimeLogEnd($timeLog, __LINE__);
 _error_log("Start Login Request");
 
 _error_log("redirectUri: " . $_POST['redirectUri']);
@@ -36,7 +41,7 @@ _error_log("same redirectUri: " . $_POST['redirectUri']);
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
-
+TimeLogEnd($timeLog, __LINE__);
 if (!empty($_GET['type'])) {
     if (!empty($_GET['redirectUri'])) {
         if (session_status() == PHP_SESSION_NONE) {
@@ -126,7 +131,7 @@ if (!empty($_GET['type'])) {
     }
     return;
 }
-
+TimeLogEnd($timeLog, __LINE__);
 $object = new stdClass();
 if (!empty($_GET['user'])) {
     $_POST['user'] = $_GET['user'];
@@ -146,7 +151,7 @@ if (empty($_POST['user']) || empty($_POST['pass'])) {
 }
 $user = new User(0, $_POST['user'], $_POST['pass']);
 $resp = $user->login(false, @$_POST['encodedPass']);
-
+TimeLogEnd($timeLog, __LINE__);
 $object->isCaptchaNeed = User::isCaptchaNeed();
 if ($resp === User::USER_NOT_VERIFIED) {
     $object->error = __("Your user is not verified, we sent you a new e-mail");
@@ -184,12 +189,14 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
 } else {
     $object->categories = array();
 }
-
+TimeLogEnd($timeLog, __LINE__);
 $object->userGroups = UserGroups::getAllUsersGroups();
-
+TimeLogEnd($timeLog, __LINE__);
 $object->streamServerURL = "";
 $object->streamKey = "";
 if ($object->isLogged) {
+    $timeLog2 = __FILE__."::Is Logged ";
+    TimeLogStart($timeLog2);
     $p = AVideoPlugin::loadPluginIfEnabled("Live");
     if (!empty($p)) {
         require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
@@ -197,29 +204,31 @@ if ($object->isLogged) {
         $object->streamServerURL = $p->getServer() . "?p=" . User::getUserPass();
         $object->streamKey = $trasnmition['key'];
     }
+    TimeLogEnd($timeLog2, __LINE__);
     $p = AVideoPlugin::loadPluginIfEnabled("MobileManager");
     if (!empty($p)) {
         $object->streamer = json_decode(url_get_contents($global['webSiteRootURL'] . "objects/status.json.php"));
         $object->plugin = $p->getDataObject();
         $object->encoder = $config->getEncoderURL();
     }
-
+    TimeLogEnd($timeLog2, __LINE__);
     $p = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
     if (!empty($p)) {
         $object->videoHLS = true;
     }
-
+    TimeLogEnd($timeLog2, __LINE__);
     $p = AVideoPlugin::loadPluginIfEnabled("Subscription");
     if (!empty($p)) {
         $object->Subscription = Subscription::getAllFromUser($object->id);
     }
-
+    TimeLogEnd($timeLog2, __LINE__);
     $p = AVideoPlugin::loadPluginIfEnabled("PayPerView");
     if (!empty($p) && class_exists('PayPerView')) {
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
     }
+    TimeLogEnd($timeLog2, __LINE__);
 }
-
+TimeLogEnd($timeLog, __LINE__);
 $json = json_encode($object, JSON_UNESCAPED_UNICODE);
 header("Content-length: " . strlen($json));
 echo $json;

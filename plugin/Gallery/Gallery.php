@@ -45,6 +45,10 @@ class Gallery extends PluginAbstract {
         $obj->Description = false;
         $obj->CategoryDescription = false;
         
+        $obj->Suggested = true;
+        $obj->SuggestedCustomTitle = "";
+        $obj->SuggestedRowCount = 12;
+        
         $obj->Trending = true;
         $obj->TrendingCustomTitle = "";
         $obj->TrendingRowCount = 12;

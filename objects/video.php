@@ -820,7 +820,9 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
-
+            if(!empty($_POST['sort']['suggested'])){
+                $suggestedOnly = true;
+            }
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
@@ -1079,10 +1081,13 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true) {
+        static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
+            }
+            if(!empty($_POST['sort']['suggested'])){
+                $suggestedOnly = true;
             }
             $status = str_replace("'", "", $status);
             $cn = "";
@@ -1144,6 +1149,9 @@ if (!class_exists('Video')) {
 
             $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name'));
 
+            if ($suggestedOnly) {
+                $sql .= " AND v.isSuggested = 1 ";
+            }
             $res = sqlDAL::readSql($sql);
             $numRows = sqlDal::num_rows($res);
             sqlDAL::close($res);
@@ -1697,14 +1705,18 @@ if (!class_exists('Video')) {
 
         static function getTags_($video_id, $type = "") {
             global $advancedCustom, $advancedCustomUser;
+            if(empty($advancedCustom)){
+                $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+            }
+            if(empty($advancedCustom)){
+                $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+            }
             $video = new Video("", "", $video_id);
             $tags = array();
-
             if (empty($type) || $type === "paid") {
                 $objTag = new stdClass();
                 $objTag->label = __("Paid Content");
                 if (!empty($advancedCustom->paidOnlyShowLabels)) {
-                    $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
                     if (!empty($video->getOnly_for_paid())) {
                         $objTag->type = "warning";
                         $objTag->text = $advancedCustom->paidOnlyLabel;

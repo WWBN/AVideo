@@ -27,6 +27,8 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj = new stdClass();
         $obj->hidePrivateVideos = false;
         $obj->pageDots = true;
+        $obj->Suggested = true;
+        $obj->SuggestedAutoPlay = true;
         $obj->PlayList = true;
         $obj->PlayListAutoPlay = true;
         $obj->Trending = true;

@@ -13,7 +13,7 @@ if(empty($_GET['current'])){
 }else{
     $_POST['current'] = intval($_GET['current']);
 }
-$categories = Category::getAllCategories();
+$categories = Category::getAllCategories(false, true);
 $_POST['current'] = 1;
 $_POST['rowCount'] = $obj->CategoriesRowCount;
 ?>
