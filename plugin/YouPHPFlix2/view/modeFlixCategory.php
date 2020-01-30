@@ -43,6 +43,10 @@ if ($obj->Categories) {
     unset($_POST['sort']);
     $_POST['rowCount'] = 2;
     $categories = Category::getAllCategories(false, true);
+    if(empty($categories)){
+        echo "</div>";
+        return false;
+    }
     $_POST['current']=1;
     $_POST['rowCount'] = $obj->maxVideos;
     $_POST['searchPhrase'] = $searchPhrase;

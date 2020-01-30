@@ -202,8 +202,37 @@ TimeLogStart($timeLog);
                 }
                 TimeLogEnd($timeLog, __LINE__);
                 if ($obj->Categories) {
-
+                    $dataFlickirty = new stdClass();
+                    $dataFlickirty->wrapAround = true;
+                    $dataFlickirty->pageDots = !empty($obj->pageDots);
+                    $dataFlickirty->lazyLoad = true;
+                    $dataFlickirty->fade = true;
+                    $dataFlickirty->setGallerySize = false;
+                    $dataFlickirty->cellAlign = 'left';
+                    if ($obj->CategoriesAutoPlay) {
+                        $dataFlickirty->autoPlay = true;
+                        $dataFlickirty->wrapAround = true;
+                    } else {
+                        $dataFlickirty->wrapAround = true;
+                    }
                     if (!empty($_GET['catName'])) {
+                        unset($_POST['sort']);
+                        $_POST['sort']['v.created'] = "DESC";
+                        $_POST['sort']['likes'] = "DESC";
+                        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                        $category = Category::getCategoryByName($_GET['catName']);
+                        ?>
+                        <div class="row">
+                            <span class="md-col-12">&nbsp;</span>
+                            <h2>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $_GET['catName']; ?>"><i class="<?php echo $category['iconClass']; ?>"></i> <?php echo $category['name']; ?></a>
+                            </h2>
+                            <!-- Sub category -->
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            ?>
+                        </div>
+                        <?php
                         unset($_POST['sort']);
                         $categoriesC = Category::getChildCategoriesFromTitle($_GET['catName']);
                         foreach ($categoriesC as $value) {
@@ -232,9 +261,6 @@ TimeLogStart($timeLog);
                     } else {
                         ?>
                         <div id="categoriesContainer">
-                            <?php
-                            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixCategory.php';
-                            ?>
                         </div>
                         <p class="pagination">
                             <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=1"></a>
@@ -246,12 +272,6 @@ TimeLogStart($timeLog);
                         </div>
                         <script>
                     $(document).ready(function () {
-                        setTimeout(function () {
-                            $("img.thumbsJPG").each(function (index) {
-                                $(this).attr('src', $(this).attr('data-flickity-lazyload'));
-                                $(this).addClass('flickity-lazyloaded');
-                            });
-                        }, 500);
                         $container = $('#categoriesContainer').infiniteScroll({
                             path: '.pagination__next',
                             append: '.categoriesContainerItem',
@@ -264,7 +284,7 @@ TimeLogStart($timeLog);
                             //console.log('Loading page: ' + path);
                         });
                         $container.on('append.infiniteScroll', function (event, response, path, items) {
-                            //console.log('Append page: ' + path);
+                            console.log('Append page: ' + response.documentElement.innerHTML);
                             var id = "#" + items[0].id;
                             startModeFlix(id + " ");
 
@@ -274,6 +294,16 @@ TimeLogStart($timeLog);
                             });
 
                         });
+                        $container.infiniteScroll('loadNextPage');
+                        setTimeout(function () {
+                            $container.infiniteScroll('loadNextPage');
+                        }, 1000);
+                        setTimeout(function () {
+                            $("img.thumbsJPG").each(function (index) {
+                                $(this).attr('src', $(this).attr('data-flickity-lazyload'));
+                                $(this).addClass('flickity-lazyloaded');
+                            });
+                        }, 500);
                     });
 
                         </script>
