@@ -74,7 +74,7 @@ if ($obj->Categories) {
             continue;
         }
         ?>
-        <div class="row">
+        <div class="row topicRow">
             <span class="md-col-12">&nbsp;</span>
             <h2>
                 <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?></a>

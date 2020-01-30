@@ -54,7 +54,7 @@ TimeLogStart($timeLog);
                     unset($_POST['sort']['trending']);
                     if (!empty($videos)) {
                         ?>
-                        <div class="row">
+                        <div class="row topicRow">
                             <h2>
                                 <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
                                 echo __("Trending");
@@ -87,7 +87,7 @@ TimeLogStart($timeLog);
                     unset($_POST['sort']['trending']);
                     if (!empty($videos)) {
                         ?>
-                        <div class="row">
+                        <div class="row topicRow">
                             <h2>
                                 <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
                                 echo __("Trending");
@@ -119,7 +119,7 @@ TimeLogStart($timeLog);
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                     if (!empty($videos)) {
                         ?>
-                        <div class="row">
+                        <div class="row topicRow">
                             <h2>
                                 <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
                                 echo __("Date added (newest)");
@@ -154,7 +154,7 @@ TimeLogStart($timeLog);
                     $_POST['sort']['v.created'] = "DESC";
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                     ?>
-                    <div class="row">
+                    <div class="row topicRow">
                         <span class="md-col-12">&nbsp;</span>
                         <h2>
                             <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most popular"); ?>
@@ -189,7 +189,7 @@ TimeLogStart($timeLog);
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                     ?>
                     <span class="md-col-12">&nbsp;</span>
-                    <div class="row">
+                    <div class="row topicRow">
                         <h2>
                             <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
                         </h2>
@@ -222,7 +222,7 @@ TimeLogStart($timeLog);
                         $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                         $category = Category::getCategoryByName($_GET['catName']);
                         ?>
-                        <div class="row">
+                        <div class="row topicRow">
                             <span class="md-col-12">&nbsp;</span>
                             <h2>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $_GET['catName']; ?>"><i class="<?php echo $category['iconClass']; ?>"></i> <?php echo $category['name']; ?></a>
@@ -245,7 +245,7 @@ TimeLogStart($timeLog);
                                 continue;
                             }
                             ?>
-                            <div class="row">
+                            <div class="row topicRow">
                                 <span class="md-col-12">&nbsp;</span>
                                 <h2>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>"><i class="fas fa-folder"></i> <?php echo $value['name']; ?></a>
