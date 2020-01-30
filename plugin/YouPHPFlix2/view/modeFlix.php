@@ -35,7 +35,7 @@ TimeLogStart($timeLog);
                 <?php
                 $_POST['current'] = 1;
                 $_POST['rowCount'] = $obj->maxVideos;
-                
+
                 TimeLogEnd($timeLog, __LINE__);
                 if ($obj->Suggested) {
                     $dataFlickirty = new stdClass();
@@ -246,6 +246,12 @@ TimeLogStart($timeLog);
                         </div>
                         <script>
                     $(document).ready(function () {
+                        setTimeout(function () {
+                            $("img.thumbsJPG").each(function (index) {
+                                $(this).attr('src', $(this).attr('data-flickity-lazyload'));
+                                $(this).addClass('flickity-lazyloaded');
+                            });
+                        }, 500);
                         $container = $('#categoriesContainer').infiniteScroll({
                             path: '.pagination__next',
                             append: '.categoriesContainerItem',
@@ -263,7 +269,6 @@ TimeLogStart($timeLog);
                             startModeFlix(id + " ");
 
                             $(id + " img.thumbsJPG").each(function (index) {
-                                console.log($(this).attr('data-flickity-lazyload'));
                                 $(this).attr('src', $(this).attr('data-flickity-lazyload'));
                                 $(this).addClass('flickity-lazyloaded');
                             });
