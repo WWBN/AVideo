@@ -48,7 +48,6 @@ TimeLogStart($timeLog);
                         $dataFlickirty->autoPlay = true;
                     }
 
-                    $_POST['sort']['trending'] = "";
                     //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true, array(), false, false, true, true);
                     unset($_POST['sort']['trending']);
@@ -57,7 +56,7 @@ TimeLogStart($timeLog);
                         <div class="row topicRow">
                             <h2>
                                 <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
-                                echo __("Trending");
+                                echo __("Suggested");
                                 ?>
                             </h2>
                             <!-- Date Added -->
