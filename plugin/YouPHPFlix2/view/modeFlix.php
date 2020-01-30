@@ -246,12 +246,6 @@ TimeLogStart($timeLog);
                         </div>
                         <script>
                     $(document).ready(function () {
-                        setTimeout(function () {
-                            $("img.thumbsJPG").each(function (index) {
-                                $(this).attr('src', $(this).attr('data-flickity-lazyload'));
-                                $(this).addClass('flickity-lazyloaded');
-                            });
-                        }, 500);
                         $container = $('#categoriesContainer').infiniteScroll({
                             path: '.pagination__next',
                             append: '.categoriesContainerItem',
