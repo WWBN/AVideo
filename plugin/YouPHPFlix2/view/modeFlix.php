@@ -219,6 +219,8 @@ TimeLogStart($timeLog);
                         unset($_POST['sort']);
                         $_POST['sort']['v.created'] = "DESC";
                         $_POST['sort']['likes'] = "DESC";
+                        $_POST['current']=1;
+                        $_POST['rowCount'] = $obj->maxVideos;
                         $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                         $category = Category::getCategoryByName($_GET['catName']);
                         ?>
@@ -230,6 +232,14 @@ TimeLogStart($timeLog);
                             <!-- Sub category -->
                             <?php
                             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            while(1){
+                                $_POST['current']++;
+                                $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                                if (empty($videos)) {
+                                    break;
+                                }
+                                include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            }
                             ?>
                         </div>
                         <?php
