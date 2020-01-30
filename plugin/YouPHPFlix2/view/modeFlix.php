@@ -271,44 +271,50 @@ TimeLogStart($timeLog);
                             </div>
                         </div>
                         <script>
-                    $(document).ready(function () {
-                        $container = $('#categoriesContainer').infiniteScroll({
-                            path: '.pagination__next',
-                            append: '.categoriesContainerItem',
-                            status: '.scroller-status',
-                            hideNav: '.pagination',
-                            history: false,
-                            checkLastPage: true
-                        });
-                        $container.on('request.infiniteScroll', function (event, path) {
-                            //console.log('Loading page: ' + path);
-                        });
-                        $container.on('append.infiniteScroll', function (event, response, path, items) {
-                            console.log('Append page: ' + response.documentElement.innerHTML);
-                            var id = "#" + items[0].id;
-                            startModeFlix(id + " ");
+                            $(document).ready(function () {
+                                $container = $('#categoriesContainer').infiniteScroll({
+                                    path: '.pagination__next',
+                                    append: '.categoriesContainerItem',
+                                    status: '.scroller-status',
+                                    hideNav: '.pagination',
+                                    history: false,
+                                    checkLastPage: true
+                                });
+                                $container.on('request.infiniteScroll', function (event, path) {
+                                    //console.log('Loading page: ' + path);
+                                });
+                                $container.on('append.infiniteScroll', function (event, response, path, items) {
+                                    console.log('Append page: ' + response.documentElement.innerHTML);
+                                    var id = "#" + items[0].id;
+                                    startModeFlix(id + " ");
 
-                            $(id + " img.thumbsJPG").each(function (index) {
-                                $(this).attr('src', $(this).attr('data-flickity-lazyload'));
-                                $(this).addClass('flickity-lazyloaded');
-                            });
+                                    $(id + " img.thumbsJPG").each(function (index) {
+                                        $(this).attr('src', $(this).attr('data-flickity-lazyload'));
+                                        $(this).addClass('flickity-lazyloaded');
+                                    });
 
-                        });
-                        $container.infiniteScroll('loadNextPage');
-                        setTimeout(function () {
-                            $container.infiniteScroll('loadNextPage');
-                        }, 1000);
-                        setTimeout(function () {
-                            $("img.thumbsJPG").each(function (index) {
-                                $(this).attr('src', $(this).attr('data-flickity-lazyload'));
-                                $(this).addClass('flickity-lazyloaded');
+                                });
+                                $container.infiniteScroll('loadNextPage');
+                                setTimeout(function () {
+                                    $container.infiniteScroll('loadNextPage');
+                                }, 1000);
                             });
-                        }, 500);
-                    });
 
                         </script>
                         <?php
                     }
+                        ?>
+                        <script>
+                            $(document).ready(function () {
+                                setTimeout(function () {
+                                    $("img.thumbsJPG").each(function (index) {
+                                        $(this).attr('src', $(this).attr('data-flickity-lazyload'));
+                                        $(this).addClass('flickity-lazyloaded');
+                                    });
+                                }, 500);
+                            });
+                        </script>    
+                        <?php
                 }
                 TimeLogEnd($timeLog, __LINE__);
                 unset($_POST['sort']);
