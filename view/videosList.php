@@ -70,6 +70,8 @@ if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannel
     </div>
     <?php
 }
+
+$objGallery = AVideoPlugin::getObjectData("Gallery");
 ?>
 <div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
     <select class="form-control" id="sortBy" >
@@ -175,17 +177,19 @@ foreach ($videos as $key => $value) {
                         <span class="hidden-sm"><?php echo $value['category']; ?></span>
                     </a>
                     <?php
-                    foreach ($value['tags'] as $value2) {
-                        if (!empty($value2->label) && $value2->label === __("Paid Content")) {
-                            ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
-                        }
-                        if (!empty($value2->label) && $value2->label === __("Group")) {
-                            ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
-                        }
-                        if (!empty($value2->label) && $value2->label === __("Plugin")) {
-                            ?>
-                            <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                            <?php
+                    if (!empty($objGallery->showTags)) {
+                        foreach ($value['tags'] as $value2) {
+                            if (!empty($value2->label) && $value2->label === __("Paid Content")) {
+                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                            }
+                            if (!empty($value2->label) && $value2->label === __("Group")) {
+                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                            }
+                            if (!empty($value2->label) && $value2->label === __("Plugin")) {
+                                ?>
+                                <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                <?php
+                            }
                         }
                     }
                     ?>
