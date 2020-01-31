@@ -6,10 +6,10 @@ require_once '../videos/configuration.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-echo "Choose an option:\n";
 echo "1 - Install tables and enable plugins\n";
-echo "2 - Install tables only";
-echo "3 - Enable plugins only";
+echo "2 - Install tables only\n";
+echo "3 - Enable plugins only\n";
+echo "Choose an option: ";
 ob_flush();
 $option = trim(readline(""));
 
@@ -51,21 +51,23 @@ if ($option == 1 || $option == 2) {
 }
 if ($option == 1 || $option == 3) {
     $EnablePlugins = array(
-        '1apicbec-91db-4357-bb10-ee08b0913778',
-        '6daca392-7b14-44fb-aa33-51cba620d92e',
-        '55a4fa56-8a30-48d4-a0fb-8aa6b3f69033',
-        '55a4fa56-8a30-48d4-a0fb-8aa6b3fuser3',
-        'a06505bf-3570-4b1f-977a-fd0e5cab205d',
-        'e06b161c-cbd0-4c1d-a484-71018efa2f35',
-        '5310b394-b54f-48ab-9049-995df4d95239',
-        'plist12345-370-4b1f-977a-fd0e5cabtube',
-        'b5e223db-785b-4436-8f7b-f297860c9be0',
-        'f7596843-51b1-47a0-8bb1-b4ad91f87d6b',
-        '45432a78-d0c6-47f3-8ac4-8fd05f507386'
+        array('1apicbec-91db-4357-bb10-ee08b0913778','API','API'),
+        array('6daca392-7b14-44fb-aa33-51cba620d92e','CookieAlert','CookieAlert'),
+        array('55a4fa56-8a30-48d4-a0fb-8aa6b3f69033','CustomizeAdvanced','CustomizeAdvanced'),
+        array('55a4fa56-8a30-48d4-a0fb-8aa6b3fuser3','CustomizeUser','CustomizeUser'),
+        array('a06505bf-3570-4b1f-977a-fd0e5cab205d','Gallery','Gallery'),
+        array('e06b161c-cbd0-4c1d-a484-71018efa2f35','Live','Live'),
+        array('5310b394-b54f-48ab-9049-995df4d95239','NextButton','NextButton'),
+        array('plist12345-370-4b1f-977a-fd0e5cabtube','Programs','PlayLists'),
+        array('b5e223db-785b-4436-8f7b-f297860c9be0','ReportVideo','ReportVideo'),
+        array('f7596843-51b1-47a0-8bb1-b4ad91f87d6b','TheaterButton','TheaterButton'),
+        array('45432a78-d0c6-47f3-8ac4-8fd05f507386','User_Location','User_Location')
     );
     foreach ($EnablePlugins as $value) {
         $obj = new Plugin(0);
-        $obj->loadFromUUID($value);
+        $obj->loadFromUUID($value[0]);
+        $obj->setName($value[1]);
+        $obj->setDirName($value[2]);
         $obj->setStatus("active");
         if ($obj->save()) {
             echo "Success enable plugin " . $obj->getName() . "\n";
