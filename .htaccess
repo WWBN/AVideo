@@ -240,7 +240,9 @@ Options All -Indexes
     RewriteRule    ^vast.xml/?([0-9]+)?$ plugin/AD_Server/VAST.php?campaign_has_videos_id=$1    [NC,L]
     # It must be before image not found
     <IfModule mod_xsendfile.c>
-       RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [QSA]
+        <FilesMatch "\.(mp4|webm|m3u8)$">
+            RewriteRule    ^videos/([A-Za-z0-9-_.]+)$ view/xsendfile.php?file=$1    [QSA]
+        </FilesMatch>
     </IfModule>
 
     # if image do not exists
