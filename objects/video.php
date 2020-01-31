@@ -920,6 +920,10 @@ if (!class_exists('Video')) {
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 ";
                 $sql .= " ORDER BY RAND() ";
+                $sort = $_POST['sort'];
+                unset($_POST['sort']);
+                $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
+                $_POST['sort'] = $sort;
             } else if (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
             } else {
@@ -2333,6 +2337,17 @@ if (!class_exists('Video')) {
             }
 //ObjectYPT::setCache($name, $source);
             return $source;
+        }
+        
+        static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false){
+            $types = array('', '_HD', '_SD', '_Low');
+            foreach ($types as $value) {
+                $source = self::getSourceFile($filename, $value . ".mp4", $includeS3);
+                if (!empty($source['url'])) {
+                    return $source;
+                }
+            }
+            return false;
         }
 
         static function getVideosPaths($filename, $includeS3 = false) {
