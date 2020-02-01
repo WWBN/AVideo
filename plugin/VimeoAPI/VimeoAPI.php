@@ -112,7 +112,7 @@ class VimeoAPI extends PluginAbstract {
             // Get the metadata response from the upload and log out the Vimeo.com url
             $video_data = $lib->request($uri . '?fields=link');
 
-            $object->error = true;
+            $object->error = false;
             $object->msg = $file_name . ' has been uploaded to ' . $video_data['body']['link'];
             $object->url = $video_data['body']['link'];
             _error_log('Vimeo::upload ' . $object->msg);
