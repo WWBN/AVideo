@@ -116,7 +116,7 @@ class RazorPayYPT extends PluginAbstract {
         $options = array(
             'plan_id' => $razorpay_plan_id,
             'customer_notify' => 1,
-            'total_count' => 500,
+            'total_count' => intval(3600/$plan->getHow_many_days()),
             'notes' => array(
                 'user' => User::getUserName(),
                 'users_id' => User::getId(),
