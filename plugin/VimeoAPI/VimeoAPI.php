@@ -75,9 +75,9 @@ class VimeoAPI extends PluginAbstract {
         $source = Video::getHigestResolutionVideoMP4Source($video->getFilename());
         $file_name = $source['path'];
         
-        if(!file_exists($filename)){
+        if(!file_exists($file_name)){
             $object->msg = __("Video MP4 File does not found");
-            _error_log('Vimeo::upload ' . $object->msg." $filename");
+            _error_log('Vimeo::upload ' . $object->msg." $file_name");
             return $object;
         }
         
