@@ -920,7 +920,7 @@ if (!class_exists('Video')) {
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 ";
                 $sql .= " ORDER BY RAND() ";
-                $sort = $_POST['sort'];
+                $sort = @$_POST['sort'];
                 unset($_POST['sort']);
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
                 $_POST['sort'] = $sort;
@@ -1736,9 +1736,14 @@ if (!class_exists('Video')) {
                     } else if (!empty($video->getOnly_for_paid())) {
                         $objTag->type = "warning";
                         $objTag->text = $advancedCustom->paidOnlyLabel;
-                    } else if ($ppv && !empty($ppv->showPPVLabel) && PayPerView::isVideoPayPerView($video_id)) {
-                        $objTag->type = "warning";
-                        $objTag->text = "PPV";
+                    } else if ($ppv && PayPerView::isVideoPayPerView($video_id)) {
+                        if(!empty($ppv->showPPVLabel)){
+                            $objTag->type = "warning";
+                            $objTag->text = "PPV";
+                        }else{
+                            $objTag->type = "warning";
+                            $objTag->text = __("Private");
+                        }
                     } else if (!Video::isPublic($video_id)) {
                         $objTag->type = "warning";
                         $objTag->text = __("Private");
