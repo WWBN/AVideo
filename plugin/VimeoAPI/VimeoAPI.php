@@ -74,7 +74,13 @@ class VimeoAPI extends PluginAbstract {
 
         $source = Video::getHigestResolutionVideoMP4Source($video->getFilename());
         $file_name = $source['path'];
-
+        
+        if(!file_exists($filename)){
+            $object->msg = __("Video MP4 File does not found");
+            _error_log('Vimeo::upload ' . $object->msg." $filename");
+            return $object;
+        }
+        
         $vimeoObj = $this->getDataObject();
         if (empty($vimeoObj->access_token)) {
             $object->msg = 'You can not upload a file without an access token. You can find this token on your app page';
