@@ -123,7 +123,7 @@ class VimeoAPI extends PluginAbstract {
             $time = $time_end - $time_start; //Time it took
             $bytes_per_sec = $bytes / $time;
             $KB_per_sec = $bytes_per_sec / 1024;
-            $MB_per_sec = $KB_per_sec / 1024;
+            $MB_per_sec = intval($KB_per_sec / 1024);
 
 
             $object->error = false;
