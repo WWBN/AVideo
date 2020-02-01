@@ -1,5 +1,7 @@
 <?php
+ini_set('memory_limit', '-1');
 ini_set('max_execution_time', 3600); // 1 hour
+set_time_limit(3600);
 
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
