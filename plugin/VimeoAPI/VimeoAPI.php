@@ -76,7 +76,7 @@ class VimeoAPI extends PluginAbstract {
         $file_name = $source['path'];
         
         if(!file_exists($file_name)){
-            $object->msg = __("Video MP4 File does not found");
+            $object->msg = __("Video MP4 File was not found");
             _error_log('Vimeo::upload ' . $object->msg." $file_name");
             return $object;
         }
