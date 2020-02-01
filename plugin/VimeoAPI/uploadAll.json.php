@@ -1,5 +1,5 @@
 <?php
-ini_set('max_execution_time', 1200); // 20 min
+ini_set('max_execution_time', 3600); // 1 hour
 
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';

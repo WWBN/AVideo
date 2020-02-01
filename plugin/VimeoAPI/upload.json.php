@@ -1,5 +1,5 @@
 <?php
-
+ini_set('max_execution_time', 3600); // 1 hour
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGif/MP4ThumbsAndGif.php';
