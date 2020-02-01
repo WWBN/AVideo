@@ -10,9 +10,10 @@ class RazorPayYPT extends PluginAbstract {
 
     public function getDescription() {
         global $global;
+        $obj = $this->getDataObject();
         $str = "Go to Razorpay dashboard Site <a href='https://dashboard.razorpay.com/#/app/keys'>here</a>  (you must have Razorpay account, of course)<br>";
-        $str .= "For Subscriptions, you MUST setup this URL ({$global['webSiteRootURL']}plugin/RazorPayYPT/ipn.php) as your webhook  from your Dashboard<br>
-            Check more details here <a href='https://razorpay.com/docs/subscriptions/notifications/#setup-webhooks'>here</a> <br>";
+        $str .= "For Subscriptions, you MUST setup this URL ({$global['webSiteRootURL']}plugin/RazorPayYPT/ipn.php) as your webhook and as your Secret {$obj->webhookSecret} <br>
+            Check more details here <a href='https://razorpay.com/docs/subscriptions/api/webhooks/#setup-webhooks'>here</a> <br>";
         
         $p = AVideoPlugin::loadPlugin("Subscription");
         if(!empty($p) && version_compare($p->getPluginVersion(), "3.6")==-1){
