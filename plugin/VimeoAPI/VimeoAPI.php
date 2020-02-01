@@ -11,10 +11,10 @@ use Vimeo\Exceptions\VimeoUploadException;
 class VimeoAPI extends PluginAbstract {
 
     public function getDescription() {
-        $txt = "Upload videos to Vimeo using the Vimeo API.<br>";
+        $txt = "Upload your videos to Vimeo using the Vimeo API.<br>";
         $txt .= "<a href='https://developer.vimeo.com/apps/'>Create an APP and get your credentials here</a><br>";
         $txt .= "You MUST generate a token Authenticated + Private Scope + Upload <br>";
-        $help = "<small>Your files must be self-hosted and MP4 to be able to upload to Vimeo</small>";
+        $help = "<small>Your files must be self-hosted and MP4 to be able to upload to Vimeo (Does not work form HLS or Embed)</small>";
         return $txt . $help;
     }
 
