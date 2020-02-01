@@ -41,10 +41,10 @@ class VimeoAPI extends PluginAbstract {
 
         return $obj;
     }
-    
+
     public function afterNewVideo($videos_id) {
         $vimeoObj = $this->getDataObject();
-        if($obj->automaticallyUploadToVimeo){
+        if ($obj->automaticallyUploadToVimeo) {
             $this->upload($videos_id);
         }
     }
@@ -58,7 +58,7 @@ class VimeoAPI extends PluginAbstract {
 
         _error_log('Vimeo::upload start ' . $videos_id);
         if (!empty($object->url)) {
-            $object->msg = __("Video already uploaded")." ". $object->url;
+            $object->msg = __("Video already uploaded") . " " . $object->url;
             $object->databaseSaved = true;
             _error_log('Vimeo::upload ' . $object->msg);
             return $object;
@@ -85,42 +85,51 @@ class VimeoAPI extends PluginAbstract {
         // Instantiate the library with your client id, secret and access token (pulled from dev site)
         $lib = new Vimeo($vimeoObj->client_id, $vimeoObj->client_secret, $vimeoObj->access_token);
 
-        _error_log('Vimeo::upload Uploading... ' . $file_name );
+
+        $bytes = filesize($file_name);
+        _error_log('Vimeo::upload Uploading... ' . $file_name . ' ' . humanFileSize($bytes));
 
         try {
             $privacy_view = "anybody";
             if (!empty($video->getVideo_password())) {
                 $privacy_view = "password";
-            }else if ($video->getType()=='u') {
+            } else if ($video->getType() == 'u') {
                 $privacy_view = "unlisted";
-            }else if(!Video::isPublic($videos_id)){
+            } else if (!Video::isPublic($videos_id)) {
                 $privacy_view = "nobody";
             }
-            
+
             $params = array(
                 'name' => $video->getTitle(),
                 'description' => $video->getDescription(),
                 'privacy.view' => $privacy_view);
-            
-            if($privacy_view == "password"){
+
+            if ($privacy_view == "password") {
                 $params["password"] = $video->getVideo_password();
             }
-            
+            $time_start = microtime(true);
             // Upload the file and include the video title and description.
             $uri = $lib->upload($file_name, $params);
 
             // Get the metadata response from the upload and log out the Vimeo.com url
             $video_data = $lib->request($uri . '?fields=link');
+            $time_end = microtime(true);
+            $time = $time_end - $time_start; //Time it took
+            $bytes_per_sec = $bytes / $time;
+            $KB_per_sec = $bytes_per_sec / 1024;
+            $MB_per_sec = $KB_per_sec / 1024;
+
 
             $object->error = false;
             $object->msg = $file_name . ' has been uploaded to ' . $video_data['body']['link'];
             $object->url = $video_data['body']['link'];
-            _error_log('Vimeo::upload ' . $object->msg);
+            _error_log('Vimeo::upload ' . $object->msg . " {$MB_per_sec} Mbps");
 
             $saveUpload = new VimeoUploads(0);
             $saveUpload->setVideos_id($videos_id);
             $saveUpload->setUrl($object->url);
             $object->databaseSaved = $saveUpload->save();
+
 
             // Make an API call to see if the video is finished transcoding.
             //$video_data = $lib->request($uri . '?fields=transcode.status');
