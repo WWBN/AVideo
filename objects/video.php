@@ -820,7 +820,7 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
-            if(!empty($_POST['sort']['suggested'])){
+            if (!empty($_POST['sort']['suggested'])) {
                 $suggestedOnly = true;
             }
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
@@ -1090,7 +1090,7 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
-            if(!empty($_POST['sort']['suggested'])){
+            if (!empty($_POST['sort']['suggested'])) {
                 $suggestedOnly = true;
             }
             $status = str_replace("'", "", $status);
@@ -1709,10 +1709,10 @@ if (!class_exists('Video')) {
 
         static function getTags_($video_id, $type = "") {
             global $advancedCustom, $advancedCustomUser;
-            if(empty($advancedCustom)){
+            if (empty($advancedCustom)) {
                 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
             }
-            if(empty($advancedCustom)){
+            if (empty($advancedCustom)) {
                 $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
             }
             $video = new Video("", "", $video_id);
@@ -1737,10 +1737,10 @@ if (!class_exists('Video')) {
                         $objTag->type = "warning";
                         $objTag->text = $advancedCustom->paidOnlyLabel;
                     } else if ($ppv && PayPerView::isVideoPayPerView($video_id)) {
-                        if(!empty($ppv->showPPVLabel)){
+                        if (!empty($ppv->showPPVLabel)) {
                             $objTag->type = "warning";
                             $objTag->text = "PPV";
-                        }else{
+                        } else {
                             $objTag->type = "warning";
                             $objTag->text = __("Private");
                         }
@@ -2257,9 +2257,9 @@ if (!class_exists('Video')) {
          */
         static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
             global $global, $advancedCustom, $videosPaths;
-
             // check if there is a webp image
             if ($type === '.gif' && (empty($_SERVER['HTTP_USER_AGENT']) || get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari')) {
+
                 $path = "{$global['systemRootPath']}videos/{$filename}.webp";
                 if (file_exists($path)) {
                     $type = ".webp";
@@ -2343,8 +2343,8 @@ if (!class_exists('Video')) {
 //ObjectYPT::setCache($name, $source);
             return $source;
         }
-        
-        static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false){
+
+        static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false) {
             $types = array('', '_HD', '_SD', '_Low');
             foreach ($types as $value) {
                 $source = self::getSourceFile($filename, $value . ".mp4", $includeS3);
@@ -2417,7 +2417,8 @@ if (!class_exists('Video')) {
         }
 
         static function getImageFromFilename_($filename, $type = "video") {
-            $cache = ObjectYPT::getCache($filename . $type, 0);
+            $cacheFileName = $filename . $type . (get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari' ? "s" : "");
+            $cache = ObjectYPT::getCache($cacheFileName, 0);
             if (!empty($cache)) {
                 return $cache;
             }
@@ -2541,7 +2542,7 @@ if (!class_exists('Video')) {
                 $obj->thumbsGif = false;
             }
 
-            ObjectYPT::setCache($filename . $type, $obj);
+            ObjectYPT::setCache($cacheFileName, $obj);
 
             return $obj;
         }
