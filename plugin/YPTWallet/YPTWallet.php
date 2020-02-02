@@ -263,7 +263,6 @@ class YPTWallet extends PluginAbstract {
             _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value");
             return false;
         }
-        _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value");
         $value = floatval($value);
         if ($value <= 0) {
             return false;
