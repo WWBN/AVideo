@@ -50,8 +50,13 @@ if ($webhookBody->event !== "subscription.charged") {
                 _error_log("RazorPayIPN ERROR, plan is empty");
             } else {
                 $plugin->addBalance($users_id, $webhookBody->payload->payment->entity->amount / 100, "RazorPay recurrent payment: ", json_encode($webhookBody));
-                Subscription::renew($users_id, $plans_id);
+                $renew = Subscription::renew($users_id, $plans_id);
                 _error_log("RazorPayIPN: Executed Renew $users_id, $plans_id");
+                if(!$renew->error){
+                   $obj->error = false;
+                }else{
+                    $obj->error = $renew->msg;
+                }
             }
         } else {
             _error_log("RazorPayIPN ERROR, subscription NOT found");
