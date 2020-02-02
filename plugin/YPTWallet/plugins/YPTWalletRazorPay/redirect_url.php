@@ -23,12 +23,20 @@ use Razorpay\Api\Errors\SignatureVerificationError;
 
 $success = true;
 $json = file_get_contents('php://input');
+$body = json_decode($json);
 _error_log("RazorPay redirect_url start:  $json");
 
 $error = "Payment Failed";
 
 $api = new Api($obj->api_key, $obj->api_secret);
 // payment
+if(!empty($body->error[code])){
+    if(!empty($_SERVER["HTTP_REFERER"])){
+        header("Location: {$_SERVER["HTTP_REFERER"]}&msg={$body->error[description]}");
+    }else{
+        header("Location: {$global['webSiteRootURL']}?msg={$body->error[description]}");
+    }
+}else
 if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])) {
 
     try {
