@@ -32,7 +32,8 @@ if (!empty($_SERVER['HTTP_X_RAZORPAY_SIGNATURE'])) {
 if (empty($webhookSignature)) {
     _error_log("RazorPayIPN ERROR, webhookSignature is empty");
 } else {
-    $api->utility->verifyWebhookSignature($webhookBody, $webhookSignature, $razorpayObject->webhookSecret);
+    _error_log("RazorPayIPN verifyWebhookSignature: $webhookSignature, $razorpayObject->webhookSecret");
+    $api->utility->verifyWebhookSignature($json, $webhookSignature, $razorpayObject->webhookSecret);
 
     if (!empty($webhookBody->payload->subscription)) {
 
