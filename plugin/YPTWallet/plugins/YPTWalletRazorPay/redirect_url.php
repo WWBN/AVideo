@@ -70,9 +70,9 @@ if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])
     }
 } else if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_subscription_id'])) { // this is for the subscription
     try {
-// Please note that the razorpay order ID must
-// come from a trusted source (session here, but
-// could be database or something else)
+        // Please note that the razorpay order ID must
+        // come from a trusted source (session here, but
+        // could be database or something else)
         $attributes = array(
             'razorpay_subscription_id' => $_POST['razorpay_subscription_id'],
             'razorpay_payment_id' => $_POST['razorpay_payment_id'],
@@ -90,7 +90,7 @@ if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])
         $payment = $api->payment->fetch($_POST['razorpay_payment_id']);
         if ($payment->currency == $displayCurrency) {
             AVideoPlugin::isEnabledByName('Subscription');
-            $plugin->addBalance($users_id, $payment->amount / 100, "RazorPay payment for subscription: ", json_encode($attributes));
+            //$plugin->addBalance($users_id, $payment->amount / 100, "RazorPay payment for subscription: ", json_encode($attributes));
             $currentSubscription = SubscriptionTable::getSubscription(User::getId(), $payment->notes->plans_id, false, false);
             if (empty($currentSubscription)) {
                 // create a subscription here
@@ -99,12 +99,12 @@ if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])
                 if (Subscription::isTrial($payment->notes->plans_id)) {
                     Subscription::onTrial(User::getId(), $payment->notes->plans_id);
                 }else{
-                    Subscription::renew(User::getId(), $payment->notes->plans_id);
+                    //Subscription::renew(User::getId(), $payment->notes->plans_id);
                 }
             }else{
-                Subscription::renew(User::getId(), $payment->notes->plans_id);
+                //Subscription::renew(User::getId(), $payment->notes->plans_id);
             }
-            header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?status=success");
+            header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?status=success&msg=We are processing your Payment");
         } else {
             header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?status=fail");
         }
