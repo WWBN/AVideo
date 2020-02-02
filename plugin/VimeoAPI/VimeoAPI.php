@@ -127,7 +127,7 @@ class VimeoAPI extends PluginAbstract {
 
 
             $object->error = false;
-            $object->msg = $file_name . ' has been uploaded to ' . $video_data['body']['link'] . " {$time} Seconds to complete";
+            $object->msg = $file_name . ' has been uploaded to ' . $video_data['body']['link'] . " took ".  secondsToHumanTiming($time)." to complete";
             $object->url = $video_data['body']['link'];
             _error_log('Vimeo::upload ' . $object->msg . " {$MB_per_sec} Mbps");
 
