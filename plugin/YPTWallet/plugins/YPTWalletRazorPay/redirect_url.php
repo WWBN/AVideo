@@ -104,7 +104,7 @@ if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])
             }else{
                 //Subscription::renew(User::getId(), $payment->notes->plans_id);
             }
-            header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?status=success&msg=We are processing your Payment");
+            header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?status=success&msg=We are processing your Payment, you will be notified soon.");
         } else {
             header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?status=fail");
         }
