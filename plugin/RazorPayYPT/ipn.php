@@ -25,12 +25,8 @@ $webhookBody = json_decode($json);
 _error_log("RazorPayIPN header - " . json_encode($_SERVER));
 _error_log("RazorPayIPN Body - {$json}");
 
-try {
-    $webhookSignature = $api->utility->header('X-Razorpay-Signature');
-} catch (Exception $exc) {
-    if (!empty($_SERVER['HTTP_X_RAZORPAY_SIGNATURE'])) {
-        $webhookSignature = $_SERVER['HTTP_X_RAZORPAY_SIGNATURE'];
-    }
+if (!empty($_SERVER['HTTP_X_RAZORPAY_SIGNATURE'])) {
+    $webhookSignature = $_SERVER['HTTP_X_RAZORPAY_SIGNATURE'];
 }
 
 if (empty($webhookSignature)) {
