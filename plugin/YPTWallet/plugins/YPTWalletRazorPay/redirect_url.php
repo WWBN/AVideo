@@ -25,7 +25,7 @@ $success = true;
 $json = file_get_contents('php://input');
 $body = json_decode($json);
 
-if(!empty($json) && empty($body)){
+if (!empty($json) && empty($body)) {
     parse_str($json, $body);
 }
 
@@ -35,9 +35,9 @@ $error = "Payment Failed";
 
 $api = new Api($obj->api_key, $obj->api_secret);
 // payment
-if(!empty($body['error']['code'])){
+if (!empty($body['error']['code'])) {
     header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?msg={$body['error']['description']}");
-}else
+} else
 if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])) {
 
     try {
@@ -61,7 +61,12 @@ if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])
         $payment = $api->payment->fetch($_POST['razorpay_payment_id']);
         if ($payment->currency == $displayCurrency) {
             $plugin->addBalance($users_id, $payment->amount / 100, "RazorPay payment: ", json_encode($attributes));
-            header("Location: {$global['webSiteRootURL']}plugin/YPTWallet/view/addFunds.php?status=success");
+            if (!empty($_SESSION['addFunds_Success'])) {
+                header("Location: {$_SESSION['addFunds_Success']}");
+                unset($_SESSION['addFunds_Success']);
+            } else {
+                header("Location: {$global['webSiteRootURL']}plugin/YPTWallet/view/addFunds.php?status=success");
+            }
         } else {
             header("Location: {$global['webSiteRootURL']}plugin/YPTWallet/view/addFunds.php?status=fail");
         }
@@ -98,10 +103,10 @@ if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])
 
                 if (Subscription::isTrial($payment->notes->plans_id)) {
                     Subscription::onTrial(User::getId(), $payment->notes->plans_id);
-                }else{
+                } else {
                     //Subscription::renew(User::getId(), $payment->notes->plans_id);
                 }
-            }else{
+            } else {
                 //Subscription::renew(User::getId(), $payment->notes->plans_id);
             }
             header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?status=success&msg=We are processing your Payment, you will be notified soon.");
@@ -111,10 +116,9 @@ if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])
     } else {
         header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?status=fail");
     }
-}else{
-    
-        _error_log("RazorPay nothing to process");
-    
+} else {
+
+    _error_log("RazorPay nothing to process");
 }
 
 _error_log(json_encode($obj));
