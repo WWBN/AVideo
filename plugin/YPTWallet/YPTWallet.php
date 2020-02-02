@@ -252,6 +252,7 @@ class YPTWallet extends PluginAbstract {
 
     public function transferBalance($users_id_from, $users_id_to, $value, $forceDescription = "", $forceTransfer = false) {
         global $global;
+        _error_log("transferBalance: $users_id_from, $users_id_to, $value, $forceDescription, $forceTransfer");
         if (!User::isAdmin()) {
             if ($users_id_from != User::getId() && !$forceTransfer) {
                 _error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value");
@@ -262,9 +263,9 @@ class YPTWallet extends PluginAbstract {
             _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value");
             return false;
         }
+        _error_log("transferBalance: user does not exists, $users_id_from,$users_id_to, $value");
         $value = floatval($value);
         if ($value <= 0) {
-            _error_log("transferBalance: invalid value, $users_id_from,$users_id_to, $value");
             return false;
         }
         $wallet = $this->getWallet($users_id_from);
