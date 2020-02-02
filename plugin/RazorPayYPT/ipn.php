@@ -22,7 +22,7 @@ $api = $razorpay->start();
 $json = file_get_contents('php://input');
 $webhookBody = json_decode($json);
 
-_error_log("RazorPayIPN header - " . json_encode($_SERVER));
+//_error_log("RazorPayIPN header - " . json_encode($_SERVER));
 _error_log("RazorPayIPN Body - {$json}");
 
 if (!empty($_SERVER['HTTP_X_RAZORPAY_SIGNATURE'])) {
