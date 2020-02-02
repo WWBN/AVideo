@@ -100,6 +100,10 @@ if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['razorpay_order_id'])
     } else {
         header("Location: {$global['webSiteRootURL']}plugin/Subscription/showPlans.php?status=fail");
     }
+}else{
+    
+        _error_log("RazorPay nothing to process");
+    
 }
 
 _error_log(json_encode($obj));
