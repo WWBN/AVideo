@@ -60,7 +60,7 @@ unset($_POST['sort']);
                 //var_dump($rows);
                 foreach ($videos as $key => $value) {
                     ?>
-                    <div class="col-lg-12 searchResult mb-2" style="overflow: hidden;">
+                    <div class="col-lg-12 searchResult thumbsImage mb-2" style="overflow: hidden;">
 
 
                         <a class="galleryLink col-sm-4 col-md-4 col-lg-4" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
@@ -71,6 +71,11 @@ unset($_POST['sort']);
                             ?>
                             <div class="aspectRatio16_9">
                                 <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo @$img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+                                <?php
+                                if (!empty($imgGif)) {
+                                    ?>
+                                    <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive" height="196" />
+                                <?php } ?>
                                 <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                             </div>
                             <div class="progress" style="height: 3px; margin-bottom: 2px;">
@@ -137,7 +142,8 @@ unset($_POST['sort']);
                                             <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
                                         </a>
                                     </div>
-                                <?php }
+                                <?php
+                                }
                                 AVideoPlugin::getgalleryActionButton($value['id']);
                                 ?>
                             </div>
@@ -222,29 +228,31 @@ unset($_POST['sort']);
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
         <script>
-                                    $(document).ready(function () {
-                                        $container = $('.results').infiniteScroll({
-                                            path: '.pagination__next',
-                                            append: '.searchResult',
-                                            status: '.scroller-status',
-                                            hideNav: '.pagination',
-                                        });
-                                        $container.on('append.infiniteScroll', function (event, response, path, items) {
-                                            lazyImage();
-                                        });
-                                        lazyImage();
-                                    });
-                                    function lazyImage() {
-                                        $('.thumbsJPG').lazy({
-                                            effect: 'fadeIn',
-                                            visibleOnly: true,
-                                            // called after an element was successfully handled
-                                            afterLoad: function (element) {
-                                                element.removeClass('blur');
-                                            }
-                                        });
-                                        mouseEffect();
-                                    }
+            $(document).ready(function () {
+                $container = $('.results').infiniteScroll({
+                    path: '.pagination__next',
+                    append: '.searchResult',
+                    status: '.scroller-status',
+                    hideNav: '.pagination',
+                });
+                $container.on('append.infiniteScroll', function (event, response, path, items) {
+                    mouseEffect();
+                    lazyImage();
+                });
+                mouseEffect();
+                lazyImage();
+            });
+            function lazyImage() {
+                $('.thumbsJPG').lazy({
+                    effect: 'fadeIn',
+                    visibleOnly: true,
+                    // called after an element was successfully handled
+                    afterLoad: function (element) {
+                        element.removeClass('blur');
+                    }
+                });
+                mouseEffect();
+            }
         </script>
     </body>
 </html>
