@@ -2404,7 +2404,7 @@ function getItemprop($videos_id) {
 
 function get_browser_name($user_agent="") {
     if(empty($user_agent)){
-        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        $user_agent = @$_SERVER['HTTP_USER_AGENT'];
     }
     if(empty($user_agent)){
         return 'Unknow';
