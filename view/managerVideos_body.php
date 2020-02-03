@@ -2000,7 +2000,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     type: 'post',
                     success: function (response) {
                         modal.hidePleaseWait();
-                        if (response.error) 
+                        if (response.error) {
                             swal({
                                 title: "<?php echo __("Sorry!"); ?>",
                                 text: response.error,
