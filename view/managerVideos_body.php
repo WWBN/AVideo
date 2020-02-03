@@ -668,7 +668,12 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                         if (json.error === false && json.url) {
                                                             success(json.url);
                                                         } else if (json.msg) {
-                                                            swal("<?php echo __("Error!"); ?>", json.msg, "error");
+                                                            swal({
+                                                                title: "<?php echo __("Sorry!"); ?>",
+                                                                text: json.msg,
+                                                                type: "error",
+                                                                html: true
+                                                            });
                                                         } else {
                                                             swal("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
                                                         }
@@ -1190,9 +1195,14 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         videos_id = response.videos_id;
                 } else {
                 if (response.error) {
-                swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                    swal({
+                        title: "<?php echo __("Sorry!"); ?>",
+                        text: response.error,
+                        type: "error",
+                        html: true
+                    });
                 } else {
-                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
                 }
                 }
                 modal.hidePleaseWait();
@@ -1990,8 +2000,13 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     type: 'post',
                     success: function (response) {
                         modal.hidePleaseWait();
-                        if (response.error) {
-                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                        if (response.error) 
+                            swal({
+                                title: "<?php echo __("Sorry!"); ?>",
+                                text: response.error,
+                                type: "error",
+                                html: true
+                            });
                         } else {
                             $("#grid").bootgrid("reload");
                         }
