@@ -25,7 +25,11 @@ $webhookBody = json_decode($json);
 //_error_log("RazorPayIPN header - " . json_encode($_SERVER));
 _error_log("RazorPayIPN Body - {$json}");
 
-if ($webhookBody->event !== "subscription.charged") {
+if(empty($webhookBody)){
+    $obj->msg = "No body";
+    _error_log("RazorPayIPN Body - {$obj->msg}");
+    die(json_encode($obj));
+} else if ($webhookBody->event !== "subscription.charged") {
     _error_log("RazorPayIPN Not a subscription, webhook will be ignored");
 } else {
 
