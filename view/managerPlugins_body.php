@@ -252,10 +252,23 @@
                 },
                 "name": function (column, row) {
                     var checked = "";
-                    if (row.enabled) {
-                        checked = " checked='checked' ";
+
+                    if (row.uuid != '55a4fa56-8a30-48d4-a0fb-8aa6b3fuser3' && row.uuid != '55a4fa56-8a30-48d4-a0fb-8aa6b3f69033') {
+                        if (row.enabled) {
+                            checked = " checked='checked' ";
+                        }
+                        var switchBtn = '<div class="material-switch"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
+                    } else {
+                        if (!row.enabled) {
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                data: {"uuid": row.uuid, "name": row.name, "dir": row.dir, "enable": true},
+                                type: 'post',
+                                success: function (response) {}
+                            });
+                        }
+                        var switchBtn = '';
                     }
-                    var switchBtn = '<div class="material-switch"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
                     var tags = '';
                     if (row.tags) {
                         for (i = 0; i < row.tags.length; i++) {
@@ -274,7 +287,7 @@
 
 
 
-                    var txt = '<span id="plugin' + row.uuid + '" style="margin-top: -60px; position: absolute;"></span><a href="#plugin' + row.uuid + '">'+row.name + "</a> (" + row.dir + ")<br><small class='text-muted'>UUID: " + row.uuid + "</small>";
+                    var txt = '<span id="plugin' + row.uuid + '" style="margin-top: -60px; position: absolute;"></span><a href="#plugin' + row.uuid + '">' + row.name + "</a> (" + row.dir + ")<br><small class='text-muted'>UUID: " + row.uuid + "</small>";
                     if (row.hasOwnProperty("installedPlugin") && row.installedPlugin.hasOwnProperty("pluginversion")) {
                         console.log("Objecto: " + row.name);
                         console.log("Installed: " + row.installedPlugin.pluginversion);
