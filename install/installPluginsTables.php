@@ -61,7 +61,8 @@ if ($option == 1 || $option == 3) {
         array('plist12345-370-4b1f-977a-fd0e5cabtube','Programs','PlayLists'),
         array('b5e223db-785b-4436-8f7b-f297860c9be0','ReportVideo','ReportVideo'),
         array('f7596843-51b1-47a0-8bb1-b4ad91f87d6b','TheaterButton','TheaterButton'),
-        array('45432a78-d0c6-47f3-8ac4-8fd05f507386','User_Location','User_Location')
+        array('45432a78-d0c6-47f3-8ac4-8fd05f507386','User_Location','User_Location'),
+        array('4c1f4f76-b336-4ddc-a4de-184efe715c09','MobileManager','MobileManager')
     );
     foreach ($EnablePlugins as $value) {
         $obj = new Plugin(0);
