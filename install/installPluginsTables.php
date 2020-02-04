@@ -42,7 +42,7 @@ if ($option == 1 || $option == 2) {
                     echo ($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
                     die(json_encode($obj));
                 } else {
-                    echo "Success performing query {$templine}\n";
+                    echo "Success performing query from $value\n";
                 }
                 $templine = '';
             }
