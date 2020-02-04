@@ -65,10 +65,10 @@ if ($option == 1 || $option == 3) {
         array('4c1f4f76-b336-4ddc-a4de-184efe715c09','MobileManager','MobileManager')
     );
     foreach ($EnablePlugins as $value) {
-        if ($plugin = Plugin::getOrCreatePluginByName($value[1], 'active')) {
-            echo "Success enable plugin ($value[1])  " . $plugin['name'] . "\n";
+        if ($plugin = Plugin::getOrCreatePluginByName($value[2], 'active')) {
+            echo "Success enable plugin ($value[2])  " . $plugin['name'] . "\n";
         } else {
-            echo "ERROR enable plugin ($value[1]) \n";
+            echo "ERROR enable plugin ($value[2]) \n";
         }
     }
 }
