@@ -48,7 +48,7 @@ if(!empty($objSecure)){
 
     <body>
         <div class="">
-            <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls
+            <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls  playsinline webkit-playsinline="webkit-playsinline" 
                    class="video-js vjs-default-skin vjs-big-play-centered"
                    id="mainVideo" data-setup='{  "techorder" : ["flash", "html5"] }' style="width: 100%; height: 100%; position: absolute;">
                 <source src="<?php echo $p->getM3U8File($uuid); ?>" type='application/x-mpegURL'>
