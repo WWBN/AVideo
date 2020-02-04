@@ -17,11 +17,17 @@ if (!empty($_GET['lang'])) {
 }
 @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 
-function __($str) {
+function __($str, $allowHTML = false) {
     global $t;
     if (empty($t[$str])) {
+        if($allowHTML){
+            return $str;
+        }
         return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $str);
     } else {
+        if($allowHTML){
+            return $t[$str];
+        }
         return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $t[$str]);
     }
 }
