@@ -64,6 +64,7 @@ class Plugin extends ObjectYPT {
 
     function setUuid($uuid) {
         $this->uuid = $uuid;
+        $this->loadFromUUID($uuid);
     }
 
     function setDirName($dirName) {
@@ -284,11 +285,11 @@ class Plugin extends ObjectYPT {
                 $code = "\$p = new {$name}();";
                 eval($code);
                 $plugin = new Plugin(0);
+                $plugin->setUuid($p->getUUID());
                 $plugin->setDirName($name);
                 $plugin->setName($name);
                 $plugin->setObject_data(json_encode($p->getDataObject()));
                 $plugin->setStatus($statusIfCreate);
-                $plugin->setUuid($p->getUUID());
                 $plugin->setPluginversion($p->getPluginVersion());
                 $plugin->save();
             }
