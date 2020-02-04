@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Plugin extends ObjectYPT {
 
-    protected $id, $status, $object_data, $name, $uuid, $dirName;
+    protected $id, $status, $object_data, $name, $uuid, $dirName, $pluginversion;
 
     static function getSearchFieldsNames() {
         return array('name');
@@ -71,6 +71,10 @@ class Plugin extends ObjectYPT {
         $this->dirName = $dirName;
     }
     
+    function setPluginversion($pluginversion) {
+        $this->pluginversion = $pluginversion;
+    }
+        
     static function setCurrentVersionByUuid($uuid, $currentVersion){
         _error_log("plugin::setCurrentVersionByUuid $uuid, $currentVersion");
         $p=static::getPluginByUUID($uuid);
@@ -285,6 +289,7 @@ class Plugin extends ObjectYPT {
                 $plugin->setObject_data(json_encode($p->getDataObject()));
                 $plugin->setStatus($statusIfCreate);
                 $plugin->setUuid($p->getUUID());
+                $plugin->setPluginversion($p->getPluginVersion());
                 $plugin->save();
             }
         }
