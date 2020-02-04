@@ -706,6 +706,16 @@ if (!class_exists('Video')) {
 //echo $sql;exit;
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
+            
+            // if there is a search, and there is no data and is inside a channel try again without a channel
+            if(!empty($_GET['search']) && empty($video) && !empty($_GET['channelName'])){
+                $channelName = $_GET['channelName'];                
+                unset($_GET['channelName']);
+                $return = self::getVideo($id, $status, $ignoreGroup, $random, $suggestedOnly, $showUnlisted, $ignoreTags, $activeUsersOnly);
+                $_GET['channelName'] = $channelName;    
+                return $return;
+            }
+            
             sqlDAL::close($res);
             if ($res != false) {
                 require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -952,6 +962,16 @@ if (!class_exists('Video')) {
 //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
+            
+            // if there is a search, and there is no data and is inside a channel try again without a channel
+            if(!empty($_GET['search']) && empty($fullData) && !empty($_GET['channelName'])){
+                $channelName = $_GET['channelName'];                
+                unset($_GET['channelName']);
+                $return = self::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnly, $suggestedOnly);
+                $_GET['channelName'] = $channelName;    
+                return $return;
+            }
+            
             sqlDAL::close($res);
             $videos = array();
             if ($res != false) {
@@ -1071,6 +1091,16 @@ if (!class_exists('Video')) {
             //echo $sql;
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
+            
+            // if there is a search, and there is no data and is inside a channel try again without a channel
+            if(!empty($_GET['search']) && empty($fullData) && !empty($_GET['channelName'])){
+                $channelName = $_GET['channelName'];                
+                unset($_GET['channelName']);
+                $return = self::getAllVideosLight($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
+                $_GET['channelName'] = $channelName;    
+                return $return;
+            }
+            
             sqlDAL::close($res);
             $videos = array();
             if ($res != false) {
@@ -1160,6 +1190,15 @@ if (!class_exists('Video')) {
             $numRows = sqlDal::num_rows($res);
             sqlDAL::close($res);
 
+            // if there is a search, and there is no data and is inside a channel try again without a channel
+            if(!empty($_GET['search']) && empty($numRows) && !empty($_GET['channelName'])){
+                $channelName = $_GET['channelName'];                
+                unset($_GET['channelName']);
+                $return = self::getTotalVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
+                $_GET['channelName'] = $channelName;    
+                return $return;
+            }
+            
             return $numRows;
         }
 
