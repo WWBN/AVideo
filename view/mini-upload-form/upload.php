@@ -63,19 +63,18 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
 
     if ($extension == "mp4" || $extension == "webm") {
-        $video->setType("video");
+        $video->setType("video", true);
     } else
     if (($extension == "mp3") || ($extension == "ogg")) {
-        $video->setType("audio");
+        $video->setType("audio", true);
     } else
     if (($extension == "pdf")) {
         if(!empty($advancedCustom->disablePDFUpload)){
             $obj->msg = "PDF Files are not Allowed";
             die(json_encode($obj));
         }
-        $video->setType("pdf");
+        $video->setType("pdf", true);
     }
-
     if (empty($advancedCustom->makeVideosInactiveAfterEncode) && $video->getTitle() !== "Video automatically booked") {
 
         // set active
