@@ -523,8 +523,8 @@ if (!class_exists('Video')) {
             $this->status = $status;
         }
 
-        function setType($type) {
-            if (empty($this->type)) {
+        function setType($type, $force = true) {
+            if ($force || empty($this->type)) {
                 $this->type = $type;
             }
         }
