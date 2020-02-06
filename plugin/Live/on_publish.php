@@ -12,6 +12,9 @@ _error_log("NGINX ON Publish GET: ".json_encode($_GET));
 if(empty($_POST['name']) && !empty($_GET['name'])){
     $_POST['name'] = $_GET['name'];
 }
+if(empty($_POST['name']) && !empty($_GET['key'])){
+    $_POST['name'] = $_GET['key'];
+}
 
 // get GET parameters
 $url = $_POST['tcurl'];
