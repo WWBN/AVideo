@@ -191,6 +191,9 @@ class API extends PluginAbstract {
 
             if ($SubtitleSwitcher) {
                 $rows[$key]['subtitles'] = getVTTTracks($value['filename'], true);
+                foreach ($rows[$key]['subtitles'] as $key2=>$value) {
+                    $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
+                }
             }
 
             if (!empty($_REQUEST['complete'])) {
