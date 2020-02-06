@@ -8,6 +8,11 @@ $obj->error = true;
 
 _error_log("NGINX ON Publish POST: ".json_encode($_POST));
 _error_log("NGINX ON Publish GET: ".json_encode($_GET));
+
+if(empty($_POST['name']) && !empty($_GET['name'])){
+    $_POST['name'] = $_GET['name'];
+}
+
 // get GET parameters
 $url = $_POST['tcurl'];
 if (empty($url)) {
