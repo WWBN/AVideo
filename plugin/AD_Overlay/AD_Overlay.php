@@ -89,6 +89,7 @@ class AD_Overlay extends PluginAbstract {
     max-width: 100%;
     ' . $style . '
     margin-left:-5px;
+    overflow: hidden;
 
 }</style>';
         return $css;
