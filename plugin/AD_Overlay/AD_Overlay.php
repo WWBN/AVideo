@@ -143,8 +143,14 @@ class AD_Overlay extends PluginAbstract {
                     setTimeout(function(){
                         \$('#cbb').click(function() {
                             \$('.vjs-overlay').fadeOut();
+                            $('#mainVideo .vjs-control-bar').removeClass('vjs-hidden');
+                            $('#mainVideo .vjs-control-bar').addClass('vjs-fade-out');
                         });
                     },1000);
+                    setTimeout(function(){
+                        $('#mainVideo .vjs-control-bar').removeClass('vjs-hidden');
+                        $('#mainVideo .vjs-control-bar').addClass('vjs-fade-out');
+                    },3000);
                 };
                 player.overlay({
         content: $('#adOverlay').html(),
@@ -156,7 +162,8 @@ class AD_Overlay extends PluginAbstract {
           end: 3600,
           align: '{$obj->align}'
         }]
-      });});"
+      });
+      });"
                 . '</script>';
         return $js;
     }
