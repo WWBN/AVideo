@@ -150,7 +150,7 @@ class Cache extends PluginAbstract {
             }
         }
 
-        if ($isBot && strpos($_SERVER['REQUEST_URI'], 'aVideoEncoder') === false) {
+        if ($isBot && strpos($_SERVER['REQUEST_URI'], 'aVideoEncoder') === false && strpos($_SERVER['REQUEST_URI'], 'plugin/Live/on_') === false && $_SERVER['REMOTE_ADDR'] !='127.0.0.1') {
             if (empty($_SERVER['HTTP_USER_AGENT'])) {
                 $_SERVER['HTTP_USER_AGENT'] = "";
             }
