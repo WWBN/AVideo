@@ -85,7 +85,7 @@ class AD_Overlay extends PluginAbstract {
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.css" rel="stylesheet" type="text/css"/>';
 
         $css .= '<style>.video-js .vjs-overlay-background, .video-js .vjs-overlay-no-background {
-
+    max-height: 50%;
     max-width: 100%;
     ' . $style . '
     margin-left:-5px;
