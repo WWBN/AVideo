@@ -9,13 +9,6 @@ $obj->error = true;
 _error_log("NGINX ON Publish POST: ".json_encode($_POST));
 _error_log("NGINX ON Publish GET: ".json_encode($_GET));
 
-if(empty($_POST['name']) && !empty($_GET['name'])){
-    $_POST['name'] = $_GET['name'];
-}
-if(empty($_POST['name']) && !empty($_GET['key'])){
-    $_POST['name'] = $_GET['key'];
-}
-
 // get GET parameters
 $url = $_POST['tcurl'];
 if (empty($url)) {
@@ -25,6 +18,16 @@ $parts = parse_url($url);
 _error_log(print_r($parts, true));
 parse_str($parts["query"], $_GET);
 _error_log(print_r($_GET, true));
+
+
+if(empty($_POST['name']) && !empty($_GET['name'])){
+    $_POST['name'] = $_GET['name'];
+}
+if(empty($_POST['name']) && !empty($_GET['key'])){
+    $_POST['name'] = $_GET['key'];
+}
+
+
 if (!empty($_GET['p'])) {
     $_GET['p'] = str_replace("/", "", $_GET['p']);
     $obj->row = LiveTransmition::keyExists($_POST['name']);
