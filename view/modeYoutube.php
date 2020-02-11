@@ -130,6 +130,7 @@ if (!empty($_GET['playlist_id'])) {
     } else {
         $modeYouTubeTimeLog['Code part 1.3'] = microtime(true)-$modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
+        /*
         if ($video['category_order'] == 1) {
             $modeYouTubeTimeLog['Code part 1.4'] = microtime(true)-$modeYouTubeTime;
             $modeYouTubeTime = microtime(true);
@@ -155,10 +156,12 @@ if (!empty($_GET['playlist_id'])) {
                 }
             }
         } else {
+         * 
+         */
             $modeYouTubeTimeLog['Code part 1.5'] = microtime(true)-$modeYouTubeTime;
             $modeYouTubeTime = microtime(true);
             $autoPlayVideo = Video::getRandom($video['id']);
-        }
+        //}
     }
 
     $modeYouTubeTimeLog['Code part 1.6'] = microtime(true)-$modeYouTubeTime;
@@ -171,6 +174,7 @@ if (!empty($_GET['playlist_id'])) {
 //$autoPlayVideo['url'] = $global['webSiteRootURL'] . $catLink . "video/" . $autoPlayVideo['clean_title'];
         $autoPlayVideo['url'] = Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], false, $get);
     }
+    
 }
 $modeYouTubeTimeLog['Code part 2'] = microtime(true)-$modeYouTubeTime;
 $modeYouTubeTime = microtime(true);
