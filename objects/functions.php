@@ -477,6 +477,8 @@ function sendSiteEmail($to, $subject, $message) {
     if (empty($to)) {
         return false;
     }
+    
+    _error_log("sendSiteEmail [{$to}] {$subject}");
     global $config, $global;
     require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
     require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
@@ -514,8 +516,10 @@ function sendSiteEmail($to, $subject, $message) {
                 $mail->setFrom($contactEmail, $webSiteTitle);
                 $mail->Subject = $subject . " - " . $webSiteTitle;
                 $mail->msgHTML($message);
-
+                $count = 0;
                 foreach ($piece as $value) {
+                    $count++;
+                    _error_log("sendSiteEmail::addBCC [{$count}] {$value}");
                     $mail->addBCC($value);
                 }
 
