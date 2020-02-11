@@ -121,14 +121,24 @@ if (!empty($_GET['playlist_id'])) {
         $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/0";
     }
 } else {
+    $modeYouTubeTimeLog['Code part 1.1'] = microtime(true)-$modeYouTubeTime;
+    $modeYouTubeTime = microtime(true);
     if (!empty($video['next_videos_id'])) {
+        $modeYouTubeTimeLog['Code part 1.2'] = microtime(true)-$modeYouTubeTime;
+        $modeYouTubeTime = microtime(true);
         $autoPlayVideo = Video::getVideo($video['next_videos_id']);
     } else {
+        $modeYouTubeTimeLog['Code part 1.3'] = microtime(true)-$modeYouTubeTime;
+        $modeYouTubeTime = microtime(true);
         if ($video['category_order'] == 1) {
+            $modeYouTubeTimeLog['Code part 1.4'] = microtime(true)-$modeYouTubeTime;
+            $modeYouTubeTime = microtime(true);
             unset($_POST['sort']);
             $category = Category::getAllCategories();
             $_POST['sort']['title'] = "ASC";
 
+            $modeYouTubeTimeLog['Code part 1.4.1'] = microtime(true)-$modeYouTubeTime;
+            $modeYouTubeTime = microtime(true);
 // maybe there's a more slim method?
             $videos = Video::getAllVideos();
             $videoFound = false;
@@ -145,10 +155,14 @@ if (!empty($_GET['playlist_id'])) {
                 }
             }
         } else {
+            $modeYouTubeTimeLog['Code part 1.5'] = microtime(true)-$modeYouTubeTime;
+            $modeYouTubeTime = microtime(true);
             $autoPlayVideo = Video::getRandom($video['id']);
         }
     }
 
+    $modeYouTubeTimeLog['Code part 1.6'] = microtime(true)-$modeYouTubeTime;
+    $modeYouTubeTime = microtime(true);
     if (!empty($autoPlayVideo)) {
 
         $name2 = User::getNameIdentificationById($autoPlayVideo['users_id']) . ' ' . User::getEmailVerifiedIcon($autoPlayVideo['users_id']);
