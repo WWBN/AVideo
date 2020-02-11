@@ -473,6 +473,7 @@ function partition(Array $list, $totalItens) {
 }
 
 function sendSiteEmail($to, $subject, $message) {
+    global $advancedCustom;
     if (empty($to)) {
         return false;
     }
@@ -500,8 +501,13 @@ function sendSiteEmail($to, $subject, $message) {
                 _error_log("sendSiteEmail Success Info: $subject " . json_encode($to));
             }
         } else {
+            $size = intval($advancedCustom->splitBulkEmailSend);
+            if($size){
+                $size = 90;
+            }
+            
             $to = array_iunique($to);
-            $pieces = partition($to, 90);
+            $pieces = partition($to, $size);
             foreach ($pieces as $piece) {
                 $mail = new PHPMailer\PHPMailer\PHPMailer;
                 setSiteSendMessage($mail);
@@ -734,7 +740,7 @@ function canUseCDN($videos_id) {
 
 function clearVideosURL($fileName = "") {
     global $global;
-    $path = getCacheDir()."getVideosURL/";
+    $path = getCacheDir() . "getVideosURL/";
     if (empty($path)) {
         rrmdir($path);
     } else {
@@ -978,7 +984,7 @@ function getVideosURL($fileName, $cache = true) {
     $time = $time[1] + $time[0];
     $start = $time;
 
-    $path = getCacheDir()."getVideosURL/";
+    $path = getCacheDir() . "getVideosURL/";
     make_path($path);
     $cacheFilename = "{$path}{$fileName}.cache";
     //var_dump($cacheFilename, recreateCache($cacheFilename), minimumExpirationTime());$pdf = "{$global['systemRootPath']}videos/{$fileName}.pdf";
@@ -1663,7 +1669,6 @@ function local_get_contents($path) {
     }
 }
 
-
 function url_get_contents($Url, $ctx = "", $timeout = 0) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if (filter_var($Url, FILTER_VALIDATE_URL)) {
@@ -1732,7 +1737,6 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
     }
     return remove_utf8_bom($result);
 }
-
 
 function getUpdatesFilesArray() {
     global $config, $global;
@@ -1975,7 +1979,7 @@ function siteMap() {
     $xml .= '<!-- Videos -->';
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
-    $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap)?"viewableNotUnlisted":"publicOnly");
+    $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
     foreach ($rows as $value) {
         $xml .= '   
             <url>
@@ -2402,11 +2406,11 @@ function getItemprop($videos_id) {
     echo $output;
 }
 
-function get_browser_name($user_agent="") {
-    if(empty($user_agent)){
+function get_browser_name($user_agent = "") {
+    if (empty($user_agent)) {
         $user_agent = @$_SERVER['HTTP_USER_AGENT'];
     }
-    if(empty($user_agent)){
+    if (empty($user_agent)) {
         return 'Unknow';
     }
     // Make case insensitive.
@@ -2568,17 +2572,52 @@ function _mysql_connect() {
     }
 }
 
-function remove_utf8_bom($text){
-    if(strlen($text)>1000000){
+function remove_utf8_bom($text) {
+    if (strlen($text) > 1000000) {
         return $text;
     }
-    
-    $bom = pack('H*','EFBBBF');
+
+    $bom = pack('H*', 'EFBBBF');
     $text = preg_replace("/^$bom/", '', $text);
     return $text;
 }
 
-function getCacheDir(){
+function getCacheDir() {
     $p = AVideoPlugin::loadPlugin("Cache");
     return $p->getCacheDir();
+}
+
+function getUsageFromFilename($filename, $dir = "") {
+    global $global;
+    if (empty($dir)) {
+        $dir = "{$global['systemRootPath']}videos/";
+    }
+    $pos = strrpos($dir, '/');
+    $dir .= (($pos === false) ? "/" : "");
+    $totalSize = 0;
+    $files = glob("{$dir}{$filename}*");
+    foreach ($files as $f) {
+        if (is_dir($f)) {
+            $totalSize += getDirSize($f);
+        } else if (is_file($f)) {
+            $totalSize += filesize($f);
+        }
+    }
+    return $totalSize;
+}
+
+function getDirSize($dir) {
+    $command = "du -s {$dir}";
+    exec($command . " < /dev/null 2>&1", $output, $return_val);
+    if ($return_val !== 0) {
+        return 0;
+    } else {
+        if(!empty($output[0])){
+            preg_match("/^([0-9]+).*/", $output[0], $matches);
+        }
+        if(!empty($matches[1])){
+            return intval($matches[1]);
+        }
+        return 0;
+    }
 }
