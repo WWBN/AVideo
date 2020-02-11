@@ -78,6 +78,8 @@ $obj = new Video("", "", $video['id']);
 
 $get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
 
+$modeYouTubeTimeLog['Code part 1'] = microtime(true)-$modeYouTubeTime;
+$modeYouTubeTime = microtime(true);
 if (!empty($_GET['playlist_id'])) {
     $playlist_id = $_GET['playlist_id'];
     if (!empty($_GET['playlist_index'])) {
@@ -156,7 +158,8 @@ if (!empty($_GET['playlist_id'])) {
         $autoPlayVideo['url'] = Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], false, $get);
     }
 }
-
+$modeYouTubeTimeLog['Code part 2'] = microtime(true)-$modeYouTubeTime;
+$modeYouTubeTime = microtime(true);
 if (!empty($video)) {
     $name = User::getNameIdentificationById($video['users_id']);
     $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($video['users_id']) . "</a>";
@@ -205,7 +208,8 @@ if (!empty($video)) {
     $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
 }
 $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-
+$modeYouTubeTimeLog['Code part 3'] = microtime(true)-$modeYouTubeTime;
+$modeYouTubeTime = microtime(true);
 if (!empty($autoPlayVideo)) {
     $autoPlaySources = getSources($autoPlayVideo['filename'], true);
     $autoPlayURL = $autoPlayVideo['url'];
@@ -224,13 +228,15 @@ if (empty($_GET['videoName'])) {
 
 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
 
-
+$modeYouTubeTimeLog['Code part 4'] = microtime(true)-$modeYouTubeTime;
+$modeYouTubeTime = microtime(true);
 AVideoPlugin::getModeYouTube($v['id']);
-
+$modeYouTubeTimeLog['Code part 5'] = microtime(true)-$modeYouTubeTime;
+$modeYouTubeTime = microtime(true);
 if(empty($video)){
     header('HTTP/1.0 404 Not Found', true, 404);
 }
-$modeYouTubeTimeLog['Code Load Time'] = microtime(true)-$modeYouTubeTime;
+$modeYouTubeTimeLog['Code part 6'] = microtime(true)-$modeYouTubeTime;
 $modeYouTubeTime = microtime(true);
 ?>
 <!DOCTYPE html>
