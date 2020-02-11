@@ -60,7 +60,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->EnableMinifyJS = false;
         $obj->disableShareAndPlaylist = false;
         $obj->disableEmailSharing = false;
-        $obj->splitBulkEmailSend = 90;
+        $obj->splitBulkEmailSend = 50;
         $obj->disableComments = false;
         $obj->commentsMaxLength = 200;
         $obj->commentsNoIndex = false;
