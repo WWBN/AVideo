@@ -1,4 +1,6 @@
 <?php
+$modeYouTubeTime = microtime(true);
+$modeYouTubeTimeLog = array();
 global $global, $config;
 $isChannel = 1; // still workaround, for gallery-functions, please let it there.
 if (!isset($global['systemRootPath'])) {
@@ -228,7 +230,8 @@ AVideoPlugin::getModeYouTube($v['id']);
 if(empty($video)){
     header('HTTP/1.0 404 Not Found', true, 404);
 }
-
+$modeYouTubeTimeLog['Code Load Time'] = microtime(true)-$modeYouTubeTime;
+$modeYouTubeTime = microtime(true);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -242,6 +245,8 @@ if(empty($video)){
         include $global['systemRootPath'] . 'view/include/head.php';
         getOpenGraph(0);
         getLdJson(0);
+        $modeYouTubeTimeLog['After head'] = microtime(true)-$modeYouTubeTime;
+        $modeYouTubeTime = microtime(true);
         ?>
 
     </head>
@@ -297,6 +302,8 @@ if(empty($video)){
                     $vType = 'video';
                 }
                 require "{$global['systemRootPath']}view/include/{$vType}.php";
+                $modeYouTubeTimeLog['After include video '.$vType] = microtime(true)-$modeYouTubeTime;
+                $modeYouTubeTime = microtime(true);
                 ?>
                 <div class="row" id="modeYoutubeBottom">
                     <div class="row">
@@ -312,6 +319,8 @@ if(empty($video)){
                     <div class="col-sm-6 col-md-6" id="modeYoutubeBottomContent">
                         <?php
                         require "{$global['systemRootPath']}view/modeYoutubeBottom.php";
+                        $modeYouTubeTimeLog['After include bottom '] = microtime(true)-$modeYouTubeTime;
+                        $modeYouTubeTime = microtime(true);
                         ?>
                     </div>
                     <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
@@ -427,7 +436,12 @@ if(empty($video)){
                                     </div>
                                 </a>
                             </div>
-                        <?php } ?>
+                        <?php } 
+                        
+                        
+                        $modeYouTubeTimeLog['After autoplay and playlist '] = microtime(true)-$modeYouTubeTime;
+                        $modeYouTubeTime = microtime(true);
+                        ?>
                         <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                         <!-- videos List -->
                         <div id="videosList">
@@ -510,6 +524,8 @@ if(empty($video)){
                         $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
         <?php
+        $modeYouTubeTimeLog['before add js '] = microtime(true)-$modeYouTubeTime;
+        $modeYouTubeTime = microtime(true);
         $videoJSArray = array("view/js/video.js/video.js");
         if ($advancedCustom != false) {
             $disableYoutubeIntegration = $advancedCustom->disableYoutubePlayerIntegration;
@@ -533,6 +549,17 @@ if(empty($video)){
             "view/js/videojs-persistvolume/videojs.persistvolume.js",
             "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");
+        
+        $modeYouTubeTimeLog['after add js and footer '] = microtime(true)-$modeYouTubeTime;
+        $modeYouTubeTime = microtime(true);
+        echo "<!-- \n";
+        foreach ($modeYouTubeTimeLog as $key => $value) {
+            if($value>0.5){
+                echo "*** ";
+            }
+            echo "{$key} = {$value} seconds \n";
+        }
+        echo "\n -->";
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <script>
