@@ -504,7 +504,7 @@ function sendSiteEmail($to, $subject, $message) {
             }
         } else {
             $size = intval($advancedCustom->splitBulkEmailSend);
-            if($size){
+            if(empty($size)){
                 $size = 90;
             }
             
