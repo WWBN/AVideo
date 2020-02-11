@@ -459,26 +459,26 @@ function array_iunique($array) {
 
 function partition(Array $list, $totalItens) {
     $listlen = count($list);
+    _error_log("partition: listlen={$listlen} totalItens={$totalItens}");
     $p = ceil($listlen / $totalItens);
     $partlen = floor($listlen / $p);
-    $partrem = $listlen % $p;
+    
     $partition = array();
     $mark = 0;
-    for ($px = 0; $px < $p; $px ++) {
-        $incr = ($px < $partrem) ? $partlen + 1 : $partlen;
-        $partition[$px] = array_slice($list, $mark, $incr);
-        $mark += $incr;
+    for ($index = 0; $index < $p; $index++) {
+        $partition[$index] = array_slice($list, $mark, $totalItens);
+        $mark += $totalItens;
     }
+    
     return $partition;
 }
-
 function sendSiteEmail($to, $subject, $message) {
     global $advancedCustom;
     if (empty($to)) {
         return false;
     }
     
-    _error_log("sendSiteEmail [{$to}] {$subject}");
+    _error_log("sendSiteEmail [".count($to)."] {$subject}");
     global $config, $global;
     require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
     require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
