@@ -145,6 +145,11 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableHTMLDescription = false;
         $obj->disableTopMenusInsideIframe = true;
         
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = "";        
+        $obj->verificationLinkText = $o;
+        
         return $obj;
     }
     
