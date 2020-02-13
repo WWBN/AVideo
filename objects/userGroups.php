@@ -136,6 +136,34 @@ class UserGroups {
     function setGroup_name($group_name) {
         $this->group_name = $group_name;
     }
+    
+    static function getUserGroupByName($group_name, $refreshCache = false) {
+        global $global;
+        $sql = "SELECT * FROM users_groups WHERE  group_name = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($group_name),$refreshCache);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if (!empty($data)) {
+            $category = $data;
+        } else {
+            $category = false;
+        }
+        return $category;
+    }
+
+    static function getOrCreateUserGroups($group_name){
+        $group_name = trim($group_name);
+        if(empty($group_name)){
+            return false;
+        }
+        $group = self::getUserGroupByName($group_name, true);
+        if(empty($group)){
+            $g = new UserGroups(0, $group_name);
+            return $g->save();
+        }else{
+            return $group['id'];
+        }
+    }
 
     // for users
 
