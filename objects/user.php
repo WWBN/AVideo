@@ -1510,7 +1510,7 @@ if (typeof gtag !== \"function\") {
     }
 
     static function sendVerificationLink($users_id) {
-        global $global;
+        global $global, $advancedCustomUser;
         //Only send the verification email each 30 minutes
         if (!empty($_SESSION["sendVerificationLink"][$users_id]) && time() - $_SESSION["sendVerificationLink"][$users_id] > 1800) {
             _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}");
@@ -1549,7 +1549,7 @@ if (typeof gtag !== \"function\") {
             $msg .= "<br><br>" . sprintf(__("You are just one click away from starting your journey with %s!"), $webSiteTitle);
             $msg .= "<br><br>" . sprintf(__("All you need to do is to verify your e-mail by clicking the link below"));
             $msg .= "<br><br>" . " <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
-
+            $msg .= $advancedCustomUser->verificationLinkText->value;
             $mail->msgHTML($msg);
             $resp = $mail->send();
             if (!$resp) {
