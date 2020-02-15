@@ -2,7 +2,6 @@
 
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'plugin/DiskUploadQuota/DiskUploadQuota.php';
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
