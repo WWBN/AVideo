@@ -2623,6 +2623,7 @@ function getDirSize($dir) {
             preg_match("/^([0-9]+).*/", $output[0], $matches);
         }
         if(!empty($matches[1])){
+            _error_log("getDirSize: found {$matches[1]} from - {$output[0]}");
             return intval($matches[1]);
         }
         
