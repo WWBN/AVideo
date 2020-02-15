@@ -49,6 +49,9 @@ if (!class_exists('Video')) {
         private $sites_id;
         private $serie_playlists_id;
         private $video_password;
+        private $encoderURL;
+        private $filepath;
+        private $filesize;
         static $statusDesc = array(
             'a' => 'active',
             'i' => 'inactive',
@@ -142,7 +145,31 @@ if (!class_exists('Video')) {
                 $this->$key = $value;
             }
         }
+        
+        function getEncoderURL() {
+            return $this->encoderURL;
+        }
 
+        function getFilepath() {
+            return $this->filepath;
+        }
+
+        function getFilesize() {
+            return intval($this->filesize);
+        }
+
+        function setEncoderURL($encoderURL) {
+            $this->encoderURL = $encoderURL;
+        }
+
+        function setFilepath($filepath) {
+            $this->filepath = $filepath;
+        }
+
+        function setFilesize($filesize) {
+            $this->filesize = intval($filesize);
+        }
+        
         function setUsers_id($users_id) {
             $this->users_id = $users_id;
         }
@@ -243,9 +270,14 @@ if (!class_exists('Video')) {
                 $this->serie_playlists_id = 'NULL';
             }
 
+            if (empty($this->filename)) {
+                $this->filename = $this->type."_".uniqid();
+            }
+
             $this->can_download = intval($this->can_download);
             $this->can_share = intval($this->can_share);
             $this->only_for_paid = intval($this->only_for_paid);
+            $this->filesize = intval($this->filesize);
 
             $this->rate = floatval($this->rate);
 
@@ -264,12 +296,13 @@ if (!class_exists('Video')) {
                 $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                         . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
                         . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, isSuggested = {$this->isSuggested}, users_id = {$this->users_id}, "
-                        . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}', sites_id = {$this->sites_id}, serie_playlists_id = {$this->serie_playlists_id} , video_password = '{$this->video_password}' , modified = now()"
+                        . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}', sites_id = {$this->sites_id}, serie_playlists_id = {$this->serie_playlists_id} , video_password = '{$this->video_password}', "
+                        . " encoderURL = '{$this->encoderURL}', filepath = '{$this->filepath}' , filesize = '{$this->filesize}' , modified = now()"
                         . " WHERE id = {$this->id}";
             } else {
                 $sql = "INSERT INTO videos "
-                        . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id, video_password) values "
-                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id}, '{$this->video_password}')";
+                        . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id, video_password, encoderURL, filepath , filesize) values "
+                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}')";
             }
             $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
@@ -486,7 +519,7 @@ if (!class_exists('Video')) {
         }
 
         function setClean_title($clean_title) {
-            $clean_title = preg_replace('/[^0-9a-z]+/', '-', trim(strtolower(cleanString($clean_title))));
+            $clean_title = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\] ]+/', '-', trim(strtolower(cleanString($clean_title))));
             $this->clean_title = $clean_title;
         }
 
@@ -725,6 +758,9 @@ if (!class_exists('Video')) {
                     $video['title'] = UTF8encode($video['title']);
                     $video['description'] = UTF8encode($video['description']);
                     $video['progress'] = self::getVideoPogressPercent($video['id']);
+                    if(empty($video['filesize'])){
+                        $video['filesize'] = Video::updateFilesize($video['id']);
+                    }
                     if (!$ignoreTags) {
                         $video['tags'] = self::getTags($video['id']);
                     }
@@ -755,6 +791,36 @@ if (!class_exists('Video')) {
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             return $video;
+        }
+        
+        static function getTotalVideosSizeFromUser($users_id) {
+            global $global, $config;
+            $users_id = intval($users_id);
+            $sql = "SELECT sum(filesize) as total FROM videos WHERE 1=1 ";
+            
+            if(!empty($users_id)){
+                $sql .= " AND users_id = '$users_id'";
+            }
+            
+            $res = sqlDAL::readSql($sql, "", array(), true);
+            $video = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            return intval($video['total']);
+        }
+
+        static function getTotalVideosFromUser($users_id) {
+            global $global, $config;
+            $users_id = intval($users_id);
+            $sql = "SELECT count(*) as total FROM videos WHERE 1=1 ";
+            
+            if(!empty($users_id)){
+                $sql .= " AND users_id = '$users_id'";
+            }
+            
+            $res = sqlDAL::readSql($sql, "", array(), true);
+            $video = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            return intval($video['total']);
         }
 
         static function getVideoFromFileName($fileName, $ignoreGroup = false, $ignoreTags = false) {
@@ -1002,6 +1068,9 @@ if (!class_exists('Video')) {
                     $row['tags'] = self::getTags($row['id']);
                     $row['title'] = UTF8encode($row['title']);
                     $row['description'] = UTF8encode($row['description']);
+                    if(empty($row['filesize'])){
+                        $row['filesize'] = Video::updateFilesize($row['id']);
+                    }
                     $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
                     $videos[] = $row;
                 }
@@ -1011,6 +1080,41 @@ if (!class_exists('Video')) {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return $videos;
+        }
+        
+        static function updateFilesize($videos_id){
+            global $config;
+            if ($config->currentVersionLowerThen('8.5')) {
+                return false;
+            }
+            ini_set('max_execution_time', 300);// 5 
+            set_time_limit(300);
+            $video = new Video("", "", $videos_id);
+            $filename = $video->getFilename();
+            if(empty($filename)){
+                return false;
+            }
+            $filesize = getUsageFromFilename($filename);
+            if(empty($filesize)){
+                $obj = AVideoPlugin::getObjectDataIfEnabled("DiskUploadQuota");
+                if($obj->deleteVideosWith0Bytes){
+                    try {
+                        _error_log("updateFilesize: DELETE videos_id=$videos_id filename=$filename filesize=$filesize");
+                        return $video->delete();
+                    } catch (Exception $exc) {
+                        _error_log("updateFilesize: ERROR ".$exc->getTraceAsString());
+                        return false;
+                    }
+                }
+            }
+            $video->setFilesize($filesize);
+            if($video->save()){
+                _error_log("updateFilesize: videos_id=$videos_id filename=$filename filesize=$filesize");
+                return $filesize;
+            }else{
+                _error_log("updateFilesize: ERROR videos_id=$videos_id filename=$filename filesize=$filesize");
+                return false;
+            }
         }
 
         static function getAllVideosAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true) {
@@ -1105,6 +1209,9 @@ if (!class_exists('Video')) {
             $videos = array();
             if ($res != false) {
                 foreach ($fullData as $row) {
+                    if(empty($row['filesize'])){
+                        $row['filesize'] = Video::updateFilesize($row['id']);
+                    }
                     $videos[] = $row;
                 }
 //$videos = $res->fetch_all(MYSQLI_ASSOC);
@@ -1384,7 +1491,8 @@ if (!class_exists('Video')) {
 
             $resp = sqlDAL::writeSql($sql, "i", array($this->id));
             if ($resp == false) {
-                die('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                _error_log('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                return false;
             } else {
                 $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
                 $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
