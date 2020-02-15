@@ -1097,7 +1097,7 @@ if (!class_exists('Video')) {
             $filesize = getUsageFromFilename($filename);
             if(empty($filesize)){
                 $obj = AVideoPlugin::getObjectDataIfEnabled("DiskUploadQuota");
-                if($obj->deleteVideosWith0Bytes){
+                if(!empty($obj->deleteVideosWith0Bytes)){
                     try {
                         _error_log("updateFilesize: DELETE videos_id=$videos_id filename=$filename filesize=$filesize");
                         return $video->delete();
