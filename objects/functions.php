@@ -2614,6 +2614,7 @@ function getDirSize($dir) {
     $command = "du -s {$dir}";
     exec($command . " < /dev/null 2>&1", $output, $return_val);
     if ($return_val !== 0) {
+        _error_log("getDirSize: ERROR ON Command {$command}");
         return 0;
     } else {
         if(!empty($output[0])){
@@ -2622,6 +2623,8 @@ function getDirSize($dir) {
         if(!empty($matches[1])){
             return intval($matches[1]);
         }
+        
+        _error_log("getDirSize: ERROR on pregmatch {$output[0]}");
         return 0;
     }
 }
