@@ -2599,6 +2599,7 @@ function getUsageFromFilename($filename, $dir = "") {
     $pos = strrpos($dir, '/');
     $dir .= (($pos === false) ? "/" : "");
     $totalSize = 0;
+    _error_log("getUsageFromFilename: start {$dir}{$filename}");
     $files = glob("{$dir}{$filename}*");
     foreach ($files as $f) {
         if (is_dir($f)) {
