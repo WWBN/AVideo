@@ -81,7 +81,6 @@ class CustomizeUser extends PluginAbstract {
         $obj->afterLogoffGoToURL = "";
         $obj->allowDonationLink = false;
         $obj->donationButtonLabel = __('Donation');
-        ;
 
         $obj->showEmailVerifiedMark = true;
 

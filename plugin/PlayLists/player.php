@@ -234,7 +234,7 @@ if (!empty($video['id'])) {
                                             var originalPlayerPlaylist = playerPlaylist;
 
                                             if (typeof player === 'undefined') {
-                                                player = videojs('mainVideo');
+                                                player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                             }
 
                                             var videos_id = playerPlaylist[0].videos_id;

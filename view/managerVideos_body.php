@@ -117,7 +117,9 @@
             $secondsTotal = getSecondsTotalVideosLength();
             $seconds = $secondsTotal % 60;
             $minutes = ($secondsTotal - $seconds) / 60;
-            printf(__("You are hosting %d minutes and %d seconds of video"), $minutes, $seconds);
+            $totalVideos = humanFileSize(Video::getTotalVideosFromUser(User::getId()));
+            $totalVideosSize = humanFileSize(Video::getTotalVideosSizeFromUser(User::getId()));
+            printf(__("You are hosting %d videos total, %d minutes and %d seconds and consuming %s of disk"), $totalVideos, $minutes, $seconds, $totalVideosSize);
             ?>
         </small>
         <?php
@@ -233,6 +235,7 @@
                         <th data-column-id="title" data-formatter="titleTag" ><?php echo __("Title"); ?></th>
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="210px" data-header-css-class='hidden-xs' data-css-class='hidden-xs'><?php echo __("Tags"); ?></th>
                         <th data-column-id="duration" data-width="100px"  data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Duration"); ?></th>
+                        <th data-column-id="filesize" data-formatter="filesize" data-width="70px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
                         <th data-column-id="created" data-order="desc" data-width="100px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="200px"></th>
                     </tr>
@@ -1789,6 +1792,9 @@ if (User::isAdmin()) {
                     tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span><br>";
                     tags += "<span class='label label-primary fix-width'><?php echo __("Format") . ":"; ?> </span>" + row.typeLabels;
                     return tags;
+                },
+                "filesize": function (column, row) {
+                    return formatFileSize(row.filesize);
                 },
                 "checkbox": function (column, row) {
                     var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";

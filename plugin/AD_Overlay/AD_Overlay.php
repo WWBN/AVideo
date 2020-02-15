@@ -185,7 +185,7 @@ class AD_Overlay extends PluginAbstract {
     }
 
     public function getUsersManagerListButton() {
-
+        $btn = "";
         $obj = $this->getDataObject();
         if (!empty($obj->allowUserAds)) {
             $btn = '<button type="button" class="btn btn-warning btn-light btn-sm btn-xs" onclick="adsUser(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="Ad Code">Ad Code</button>';

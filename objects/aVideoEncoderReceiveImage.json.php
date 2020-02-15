@@ -66,7 +66,7 @@ if (!empty($_FILES['webpimage']['tmp_name']) && !file_exists("{$destination_loca
     } 
 }
 $video_id = $video->save();
-
+Video::updateFilesize($video_id);
 $obj->error = false;
 $obj->video_id = $video_id;
 _error_log("ReceiveImage: "."Files Received for video {$video_id}: " . $video->getTitle());
