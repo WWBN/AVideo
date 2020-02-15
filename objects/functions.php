@@ -2613,7 +2613,7 @@ function getUsageFromFilename($filename, $dir = "") {
 
 function getDirSize($dir) {
     _error_log("getDirSize: start {$dir}");
-    $command = "du -s {$dir}";
+    $command = "du -sb {$dir}";
     exec($command . " < /dev/null 2>&1", $output, $return_val);
     if ($return_val !== 0) {
         _error_log("getDirSize: ERROR ON Command {$command}");
