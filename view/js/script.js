@@ -32,7 +32,7 @@ String.prototype.stripAccents = function () {
 function clean_name(str) {
 
     str = str.stripAccents().toLowerCase();
-    return str.replace(/\W+/g, "-");
+    return str.replace(/[!#$&'()*+,/:;=?@[\] ]+/g, "-");
 }
 
 
