@@ -120,7 +120,7 @@ class AD_Server extends PluginAbstract {
         return $js . $css;
     }
 
-    public function getFooterCode() {
+    public function afterVideoJS() {
         $obj = $this->getDataObject();
         if (!$this->canLoadAds() || empty($_GET['vmap_id'])) {
             return "";
