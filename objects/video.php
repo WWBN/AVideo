@@ -194,8 +194,8 @@ if (!class_exists('Video')) {
             global $advancedCustom;
             global $global;
             if (!User::isLogged() && !$allowOfflineUser) {
-                header('Content-Type: application/json');
-                die('{"error":"' . __("Permission denied") . '"}');
+                _error_log('Video::save permission denied to save');
+                return false;
             }
             if (empty($this->title)) {
                 $this->title = uniqid();
@@ -1108,7 +1108,7 @@ if (!class_exists('Video')) {
                 }
             }
             $video->setFilesize($filesize);
-            if($video->save()){
+            if($video->save(false, true)){
                 _error_log("updateFilesize: videos_id=$videos_id filename=$filename filesize=$filesize");
                 return $filesize;
             }else{
