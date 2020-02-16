@@ -69,7 +69,7 @@ class AdsForJesus extends PluginAbstract {
         return $js . $css;
     }
 
-    public function getFooterCode() {
+    public function afterVideoJS() {
         $js = ''; 
         //if (!empty($_GET['videoName']) || !empty($_GET['u'])) {
         if (!empty($_GET['videoName'])) {

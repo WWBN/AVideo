@@ -67,7 +67,7 @@
                     array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
                     if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
                         if (empty($advancedCustom->doNotShowEncoderButton)) {
-                            if (!empty($config->getEncoderURL())) {
+                            if (!empty($config->getEncoderURL())) {}
                                 ?>
                                 <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
                                     <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
@@ -78,7 +78,7 @@
                                     <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
                                 </a>
                                 <?php
-                            }
+                            
                         }
                         if (empty($advancedCustom->doNotShowUploadMP4Button)) {
                             ?>
@@ -228,14 +228,14 @@
                     <i class="fa fa-trash" aria-hidden="true"></i> <?php echo __('Delete'); ?>
                 </button>
             </div>
-            <table id="grid" class="table table-condensed table-hover table-striped">
+            <table id="grid" class="table table-condensed table-hover table-striped">1
                 <thead>
                     <tr>
                         <th data-formatter="checkbox" data-width="25px" ></th>
                         <th data-column-id="title" data-formatter="titleTag" ><?php echo __("Title"); ?></th>
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="210px" data-header-css-class='hidden-xs' data-css-class='hidden-xs'><?php echo __("Tags"); ?></th>
-                        <th data-column-id="duration" data-width="100px"  data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Duration"); ?></th>
-                        <th data-column-id="filesize" data-formatter="filesize" data-width="70px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
+                        <th data-column-id="duration" data-width="80px"  data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Duration"); ?></th>
+                        <th data-column-id="filesize" data-formatter="filesize" data-width="100px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
                         <th data-column-id="created" data-order="desc" data-width="100px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="200px"></th>
                     </tr>

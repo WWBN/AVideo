@@ -218,6 +218,10 @@ abstract class PluginAbstract {
     public function getEnd() {
         return false;
     }
+    
+    public function afterVideoJS() {
+        return false;
+    }
 
     public function canEditPlugin() {
         global $global;
