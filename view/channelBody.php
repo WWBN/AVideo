@@ -5,7 +5,7 @@ if (User::isLogged() && $user_id == User::getId()) {
 }
 $user = new User($user_id);
 $_GET['channelName'] = $user->getChannelName();
-$timeLog = __FILE__." - channelName: {$_GET['channelName']}";
+$timeLog = __FILE__ . " - channelName: {$_GET['channelName']}";
 TimeLogStart($timeLog);
 $_POST['sort']['created'] = "DESC";
 
@@ -33,6 +33,15 @@ TimeLogEnd($timeLog, __LINE__);
 ?>
 <!-- <?php var_dump($uploadedTotalVideos, $user_id, !isToHidePrivateVideos()); ?> -->
 <div class="bgWhite list-group-item gallery clear clearfix" >
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <center style="margin:5px;">
+                <?php
+                echo getAdsChannelLeaderBoardTop();
+                ?>
+            </center>
+        </div>
+    </div>
     <?php
     if (empty($advancedCustomUser->doNotShowTopBannerOnChannel)) {
         ?>

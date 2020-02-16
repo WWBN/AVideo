@@ -2110,6 +2110,17 @@ function getAdsLeaderBoardTop() {
     }
 }
 
+function getAdsChannelLeaderBoardTop() {
+    $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+    if (!empty($ad)) {
+        if (isMobile()) {
+            return $ad->channelLeaderBoardTopMobile->value;
+        } else {
+            return $ad->channelLeaderBoardTop->value;
+        }
+    }
+}
+
 function getAdsLeaderBoardTop2() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {

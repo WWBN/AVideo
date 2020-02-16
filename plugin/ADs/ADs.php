@@ -45,6 +45,11 @@ class ADs extends PluginAbstract {
         $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;
         $obj->leaderBoardTop2 = $o;
         
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;
+        $obj->channelLeaderBoardTop = $o;
+        
         $o = new stdClass();        
         $o->type = "textarea";
         $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;;
@@ -78,6 +83,11 @@ class ADs extends PluginAbstract {
         $o->type = "textarea";
         $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'>":$adsense;;
         $obj->leaderBoardTopMobile2 = $o;
+        
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'>":$adsense;
+        $obj->channelLeaderBoardTopMobile = $o;
                 
         $o = new stdClass();       
         $o->type = "textarea";
