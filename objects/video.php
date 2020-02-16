@@ -758,7 +758,7 @@ if (!class_exists('Video')) {
                     $video['title'] = UTF8encode($video['title']);
                     $video['description'] = UTF8encode($video['description']);
                     $video['progress'] = self::getVideoPogressPercent($video['id']);
-                    if(empty($video['filesize'])){
+                    if(empty($video['filesize']) && ($video['type']=="video" || $video['type']=="audio")){
                         $video['filesize'] = Video::updateFilesize($video['id']);
                     }
                     if (!$ignoreTags) {
