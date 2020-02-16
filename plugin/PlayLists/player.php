@@ -212,13 +212,9 @@ if (!empty($video['id'])) {
                                             $.widget.bridge('uibutton', $.ui.button);
                                             $.widget.bridge('uitooltip', $.ui.tooltip);
         </script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
         <?php
-        $videoJSArray = array("view/js/video.js/video.js");
-
-        $jsURL = combineFiles($videoJSArray, "js");
-        ?>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
-        <?php
+        echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/footer.php';
         $videoJSArray = array(
             "view/js/videojs-persistvolume/videojs.persistvolume.js",
