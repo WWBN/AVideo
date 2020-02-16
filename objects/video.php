@@ -1091,7 +1091,7 @@ if (!class_exists('Video')) {
             set_time_limit(300);
             $video = new Video("", "", $videos_id);
             $filename = $video->getFilename();
-            if(empty($filename)){
+            if(empty($filename) || !($video->getType()=="video" || $video->getType()=="audio")){
                 return false;
             }
             $filesize = getUsageFromFilename($filename);
