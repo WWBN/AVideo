@@ -173,9 +173,7 @@ if (!empty($_GET['t'])) {
                 position: static;
             }
         </style>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
         <?php
-        echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
     </head>
@@ -191,9 +189,6 @@ if (!empty($_GET['t'])) {
                 echo "&autoplay=1";
             }
             ?>"></iframe>
-                    <?php
-                    echo AVideoPlugin::getFooterCode();
-                    ?>
             <script>
             $(document).ready(function () {
                 addView(<?php echo $video['id']; ?>, 0);
@@ -225,9 +220,6 @@ if (!empty($_GET['t'])) {
             <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
             echo $sources["pdf"]['url'];
             ?>"></iframe>
-                    <?php
-                    echo AVideoPlugin::getFooterCode();
-                    ?>
             <script>
                 $(document).ready(function () {
                     addView(<?php echo $video['id']; ?>, 0);
@@ -243,9 +235,6 @@ if (!empty($_GET['t'])) {
                 echo "?autoplay=1";
             }
             ?>"></iframe>
-                    <?php
-                    echo AVideoPlugin::getFooterCode();
-                    ?>
             <script>
                 $(document).ready(function () {
                     addView(<?php echo $video['id']; ?>, 0);
@@ -273,9 +262,6 @@ if (!empty($_GET['t'])) {
                 }
                 ?>
             </audio>
-            <?php
-            echo AVideoPlugin::getFooterCode();
-            ?>
             <script>
                 $(document).ready(function () {
                     addView(<?php echo $video['id']; ?>, this.currentTime());
@@ -305,9 +291,6 @@ if (!empty($_GET['t'])) {
                 </div>
                 <?php
             }
-            ?>
-            <?php
-            echo AVideoPlugin::getFooterCode();
             ?>
             <script>
                 $(document).ready(function () {
@@ -389,9 +372,6 @@ if (!empty($_GET['t'])) {
                 <?php
             }
             ?>
-            <?php
-            echo AVideoPlugin::getFooterCode();
-            ?>
             <script>
                 $(document).ready(function () {
                     //Prevent HTML5 video from being downloaded (right-click saved)?
@@ -448,7 +428,9 @@ if (!empty($_GET['t'])) {
             <?php
         }
         ?>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
         <?php
+        echo AVideoPlugin::afterVideoJS();
         $jsFiles = array();
         $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
         $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
@@ -463,6 +445,9 @@ if (!empty($_GET['t'])) {
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+        <?php
+        echo AVideoPlugin::getFooterCode();
+        ?>
     </body>
 </html>
 
