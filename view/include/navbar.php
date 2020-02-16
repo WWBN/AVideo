@@ -222,7 +222,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         ?>
                         <a class="navbar-brand" href="<?php echo User::getChannelLinkFromChannelName($_SESSION['channelName']); ?>" >
                             <img src="<?php echo User::getPhoto($user['id']); ?>" alt="<?php echo User::getNameIdentificationById($user['id']); ?>" 
-                                 class="img img-responsive img-circle " style="height: 33px; width: 33px; "> 
+                                 class="img img-responsive img-circle " style="height: 33px; width: 33px; margin-top: 10px;"> 
                         </a>
                         <?php } ?>
                     </li>
