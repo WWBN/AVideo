@@ -499,14 +499,16 @@ class AVideoPlugin {
 
     public static function afterVideoJS() {
         $plugins = Plugin::getAllEnabled();
+        $r = "";
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->afterVideoJS();
+                $r .= $p->afterVideoJS();
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
+        return $r;
     }
 
     public static function afterNewVideo($videos_id) {
