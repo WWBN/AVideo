@@ -298,6 +298,7 @@ class Plugin extends ObjectYPT {
     }
     
     function save() {
+        global $getAllEnabledRows;
         if(empty($this->uuid)){
             return false;
         }
@@ -306,6 +307,7 @@ class Plugin extends ObjectYPT {
         if(empty($this->object_data)){
             $this->object_data = 'null';
         }
+        $getAllEnabledRows = array();
         return parent::save();
     }
 
