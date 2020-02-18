@@ -2564,7 +2564,7 @@ if (!class_exists('Video')) {
         }
 
         static function getImageFromFilename_($filename, $type = "video") {
-            $cacheFileName = $filename . $type . (get_browser_name() !== 'Safari' ? "s" : "");
+            $cacheFileName = "getImageFromFilename_".$filename . $type . (get_browser_name() !== 'Safari' ? "s" : "");
             $cache = ObjectYPT::getCache($cacheFileName, 0);
             if (!empty($cache)) {
                 return $cache;
