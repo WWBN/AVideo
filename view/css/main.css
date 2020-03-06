@@ -154,6 +154,14 @@ footer ul.list-inline li {
         padding: 0;
     }
 }
+@media (max-width: 450px) {
+    #captchaText, .input-group{
+        display: block;
+    }
+    .input-group-addon:first-child {
+        border-right: 1px solid rgb(204, 204, 204);
+    }
+}
 
 /* Comments */
 .commenterName small {
