@@ -2642,3 +2642,10 @@ function getDirSize($dir) {
         return 0;
     }
 }
+
+function unsetSearch(){
+    unset($_GET['searchPhrase']);
+    unset($_POST['searchPhrase']);
+    unset($_GET['search']);
+    unset($_GET['q']);
+}
