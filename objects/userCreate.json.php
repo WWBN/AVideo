@@ -1,12 +1,22 @@
 <?php
 
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
-
+// gettig the mobile submited value
+$inputJSON = url_get_contents('php://input');
+$input = json_decode($inputJSON, TRUE); //convert JSON into array
+if (!empty($input)) {
+    foreach ($input as $key => $value) {
+        $_POST[$key] = $value;
+    }
+}
 $obj = new stdClass();
 if(empty($ignoreCaptcha)){
     if (empty($_POST['captcha'])) {
