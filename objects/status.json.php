@@ -14,6 +14,7 @@ $obj->videoStorageLimitMinutes = $global['videoStorageLimitMinutes'];
 $obj->currentStorageUsage = getSecondsTotalVideosLength();
 $obj->webSiteLogo = $config->getLogo();
 $obj->webSiteTitle = $config->getWebSiteTitle();
+$obj->PHPSESSID = session_id();
 $obj->version = $config->getVersion();
 $obj->mobileSreamerVersion = MobileManager::getVersion();
 $obj->reportVideoPluginEnabled = AVideoPlugin::isEnabledByName("ReportVideo");
