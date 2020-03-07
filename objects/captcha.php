@@ -3,6 +3,11 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
+if(!empty($_GET['PHPSESSID'])){
+    session_write_close();
+    session_id($_GET['PHPSESSID']);
+    session_start();
+}
 class Captcha{
     private $largura, $altura, $tamanho_fonte, $quantidade_letras;
 
@@ -57,9 +62,14 @@ class Captcha{
             session_start();
         }
         if(empty($_SESSION["palavra"])){
+            _error_log("Captcha validation Error: you type ({$word}) and session is empty");
             return false;
         }
-        return (strcasecmp($word, $_SESSION["palavra"]) == 0);
+        $validation = (strcasecmp($word, $_SESSION["palavra"]) == 0);
+        if(!$validation){
+            _error_log("Captcha validation Error: you type ({$word}) and session is ({$_SESSION["palavra"]})");
+        }
+        return $validation;
     }
 
 }
