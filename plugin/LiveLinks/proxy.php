@@ -1,5 +1,7 @@
 <?php
-
+require_once '../../videos/configuration.php';
+session_write_close();
+$global['mysqli']->close();
 /*
  * this file is to handle HTTP URLs into HTTPS
  */
