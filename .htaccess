@@ -202,6 +202,7 @@ Options All -Indexes
 
     RewriteRule    ^aVideoQueueEncoder.json$ objects/aVideoQueueEncoder.json.php    [NC,L]
     RewriteRule    ^aVideoEncoder.json$ objects/aVideoEncoder.json.php    [NC,L]
+    RewriteRule    ^aVideoEncoderChunk.json$ objects/aVideoEncoderChunk.json.php    [NC,L]
 
     #comment
     RewriteRule    ^comments$ view/managerComments.php    [NC,L]

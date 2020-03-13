@@ -119,6 +119,10 @@ if (!empty($_FILES['video']['error'])) {
     }
 }
 
+if(empty($_FILES['video']['tmp_name']) && !empty($_POST['chunkFile'])){
+    $_FILES['video']['tmp_name'] = $_POST['chunkFile'];
+}
+
 // get video file from encoder
 if (!empty($_FILES['video']['tmp_name'])) {
     $resolution = "";

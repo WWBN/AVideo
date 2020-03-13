@@ -462,23 +462,24 @@ function partition(Array $list, $totalItens) {
     _error_log("partition: listlen={$listlen} totalItens={$totalItens}");
     $p = ceil($listlen / $totalItens);
     $partlen = floor($listlen / $p);
-    
+
     $partition = array();
     $mark = 0;
     for ($index = 0; $index < $p; $index++) {
         $partition[$index] = array_slice($list, $mark, $totalItens);
         $mark += $totalItens;
     }
-    
+
     return $partition;
 }
+
 function sendSiteEmail($to, $subject, $message) {
     global $advancedCustom;
     if (empty($to)) {
         return false;
     }
-    
-    _error_log("sendSiteEmail [".count($to)."] {$subject}");
+
+    _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
     require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
     require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
@@ -504,10 +505,10 @@ function sendSiteEmail($to, $subject, $message) {
             }
         } else {
             $size = intval($advancedCustom->splitBulkEmailSend);
-            if(empty($size)){
+            if (empty($size)) {
                 $size = 90;
             }
-            
+
             $to = array_iunique($to);
             $pieces = partition($to, $size);
             foreach ($pieces as $piece) {
@@ -2630,22 +2631,56 @@ function getDirSize($dir) {
         _error_log("getDirSize: ERROR ON Command {$command}");
         return 0;
     } else {
-        if(!empty($output[0])){
+        if (!empty($output[0])) {
             preg_match("/^([0-9]+).*/", $output[0], $matches);
         }
-        if(!empty($matches[1])){
+        if (!empty($matches[1])) {
             _error_log("getDirSize: found {$matches[1]} from - {$output[0]}");
             return intval($matches[1]);
         }
-        
+
         _error_log("getDirSize: ERROR on pregmatch {$output[0]}");
         return 0;
     }
 }
 
-function unsetSearch(){
+function unsetSearch() {
     unset($_GET['searchPhrase']);
     unset($_POST['searchPhrase']);
     unset($_GET['search']);
     unset($_GET['q']);
+}
+
+function encrypt_decrypt($string, $action) {
+    global $global;
+    $output = false;
+
+    $encrypt_method = "AES-256-CBC";
+    $secret_key = 'This is my secret key';
+    $secret_iv = $global['systemRootPath'];
+    while(strlen($secret_iv)<16){
+        $secret_iv .= $global['systemRootPath'];
+    }
+
+    // hash
+    $key = hash('sha256', $global['salt']);
+
+    // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+    $iv = substr(hash('sha256', $secret_iv), 0, 16);
+
+    if ($action == 'encrypt') {
+        $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+        $output = base64_encode($output);
+    } else if ($action == 'decrypt') {
+        $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+    }
+
+    return $output;
+}
+
+function encryptString($string) {
+    return encrypt_decrypt($string, 'encrypt');
+}
+function decryptString($string) {
+    return encrypt_decrypt($string, 'decrypt');
 }
