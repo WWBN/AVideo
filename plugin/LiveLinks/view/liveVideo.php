@@ -1,3 +1,14 @@
+<?php
+$liveLink = "Invalid link";
+if (filter_var($t['link'], FILTER_VALIDATE_URL)) {
+    $url = parse_url($t['link']);
+    if ($url['scheme'] == 'https') {
+        $liveLink = $t['link'];
+    } else {
+        $liveLink = "{$global['webSiteRootURL']}plugin/LiveLinks/proxy.php?livelink=" . urlencode($t['link']);
+    }
+}
+?>
 <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/live.css" rel="stylesheet" type="text/css"/>
 <div class="row main-video">
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
@@ -15,7 +26,7 @@
                 <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls 
                        class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
                        id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                    <source src="<?php echo "{$global['webSiteRootURL']}plugin/LiveLinks/proxy.php?livelink=". urlencode($t['link']); ?>" type='application/x-mpegURL'>
+                    <source src="<?php echo $liveLink; ?>" type='application/x-mpegURL'>
                 </video>
             </div>
         </div>
