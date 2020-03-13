@@ -15,7 +15,7 @@
                 <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls 
                        class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
                        id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                    <source src="<?php echo $t['link']; ?>" type='application/x-mpegURL'>
+                    <source src="<?php echo "{$global['webSiteRootURL']}plugin/LiveLinks/proxy.php?livelink=". urlencode($t['link']); ?>" type='application/x-mpegURL'>
                 </video>
             </div>
         </div>
