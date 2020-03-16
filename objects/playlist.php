@@ -348,11 +348,16 @@ class PlayList extends ObjectYPT {
     static function sortVideos($videosList, $listIdOrder) {
         $list = array();
         foreach ($listIdOrder as $value) {
+            $found = false;
             foreach ($videosList as $key => $value2) {
                 if ($value2['id'] == $value) {
                     $list[] = $value2;
                     unset($videosList[$key]);
+                    $found = true;
                 }
+            }
+            if(!$found){
+                $list[] = array('id'=>$value);
             }
         }
         return $list;
