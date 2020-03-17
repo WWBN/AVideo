@@ -45,5 +45,7 @@ if (!empty($payment)) {
     }
     $obj->error = false;
     $obj->approvalLink = $payment->getApprovalLink();
+    _session_start();
+    $_SESSION['addFunds_Cancel'] = $_SESSION['addFunds_Success'] = "{$global['webSiteRootURL']}plugin/Subscription/showPlans.php";
 }
 die(json_encode($obj));
