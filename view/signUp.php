@@ -158,7 +158,7 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                     if (response.status > 0) {
                                         swal({
                                             title: "<?php echo __("Congratulations!"); ?>",
-                                            text: "<?php echo __("Your user has been created!"); ?>",
+                                            text: "<?php echo __("Your user account has been created!"); ?>",
                                             type: "success"
                                         },
                                                 function () {
