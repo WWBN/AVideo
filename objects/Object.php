@@ -260,6 +260,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $uniqueHash = md5(__FILE__);
 
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
+        make_path($cachefile);
         file_put_contents($cachefile, json_encode($value));
     }
 

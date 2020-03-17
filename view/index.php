@@ -21,7 +21,7 @@ if (empty($config)) {
 
 require_once $global['systemRootPath'].'plugin/AVideoPlugin.php';
 $firstPage = AVideoPlugin::getFirstPage();
-if (empty($firstPage) || !empty($_GET['videoName']) || !empty($_GET['v']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName'])) {
+if (empty($firstPage) || !empty($_GET['videoName']) || !empty($_GET['v']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName']) || !empty($_GET['evideo'])) {
     require $global['systemRootPath'].'view/modeYoutube.php';
 }else{
     require $firstPage;

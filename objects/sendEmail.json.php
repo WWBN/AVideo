@@ -45,7 +45,7 @@ if ($valid) {
 
         //send the message, check for errors
         if (!$mail->send()) {
-            $obj->error = __("Message could not be sent") . " " . $mail->ErrorInfo;
+            $obj->error = __("Message could not be sent") . " (" . $mail->ErrorInfo.")";
         } else {
             $obj->success = __("Message sent");
         }
@@ -55,6 +55,6 @@ if ($valid) {
 } else {
     $obj->error = __("Your code is not valid");
 }
-
+_error_log("sendEmail: ".$obj->error);
 header('Content-Type: application/json');
 echo json_encode($obj);

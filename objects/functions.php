@@ -1683,7 +1683,7 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         if (!empty($timeout)) {
             ini_set('default_socket_timeout', $timeout);
         }
-        $global['mysqli']->close();
+        @$global['mysqli']->close();
     }
     if (empty($ctx)) {
         $opts = array(
@@ -2683,4 +2683,17 @@ function encryptString($string) {
 }
 function decryptString($string) {
     return encrypt_decrypt($string, 'decrypt');
+}
+
+class YPTvideoObject{
+    public $id, $title, $description, $thumbnails, $channelTitle, $videoLink;
+    function __construct($id, $title, $description, $thumbnails, $channelTitle, $videoLink) {
+        $this->id = $id;
+        $this->title = $title;
+        $this->description = $description;
+        $this->thumbnails = $thumbnails;
+        $this->channelTitle = $channelTitle;
+        $this->videoLink = $videoLink;
+    }
+    
 }

@@ -72,6 +72,9 @@ if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannel
 }
 
 $objGallery = AVideoPlugin::getObjectData("Gallery");
+if(empty($video['id'])){
+    $video['id'] = 0;
+}
 ?>
 <div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
     <select class="form-control" id="sortBy" >
@@ -153,7 +156,7 @@ foreach ($videos as $key => $value) {
                     <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
                     <span itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
                     <?php
-                    if ($video['type'] !== 'pdf' && $video['type'] !== 'article') {
+                    if ($value['type'] !== 'pdf' && $value['type'] !== 'article') {
                         ?>
                         <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                         <?php
@@ -250,9 +253,22 @@ if (!empty($get)) {
         if (disableChannel) {
             query = "";
         }
-
+        <?php
+        if(!empty($videoName) && !empty($video['id'])){
+        ?>
         var url = '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>' + page + query;
-                var urlList = "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo $catLink; ?>video/<?php echo $videoName; ?>" + page + query;
+        <?php
+        }else if(!empty ($_GET['evideo'])){
+        ?>
+        var url = '<?php echo $global['webSiteRootURL'], $catLink; ?>evideo/<?php echo $_GET['evideo']; ?>';
+        <?php
+        }else{
+        ?>
+        var url = '<?php echo $global['webSiteRootURL'], $catLink; ?>';
+        <?php
+        }
+        ?>
+        var urlList = "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo $catLink; ?>video/<?php echo $videoName; ?>" + page + query;
 
 
                         history.pushState(null, null, url);

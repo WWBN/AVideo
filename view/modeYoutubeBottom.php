@@ -48,7 +48,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             <h1 itemprop="name">
                 <?php
                 echo $video['title'];
-                if (Video::canEdit($video['id'])) {
+                if (empty($_GET['evideo']) && Video::canEdit($video['id'])) {
                     ?>
                     <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="btn btn-primary btn-xs" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                 <?php } ?>
@@ -74,7 +74,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             </div>
 
             <?php
-            if (empty($advancedCustom->doNotDisplayViews)) {
+            if (empty($_GET['evideo']) && empty($advancedCustom->doNotDisplayViews)) {
                 ?> 
                 <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
                 <?php
@@ -87,7 +87,9 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             ?>
         </div>
     </div>
-
+    <?php 
+    if(empty($_GET['evideo'])){
+    ?>
     <div class="row">
         <div class="col-md-12 watch8-action-buttons text-muted">
             <?php if (empty($advancedCustom->disableShareAndPlaylist)) { ?>
@@ -152,6 +154,9 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             ?>
         </div>
     </div>
+    <?php 
+    }
+    ?>
 </div>
 
 <?php if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) { ?>
@@ -412,7 +417,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
     });
 </script>
 <?php
-if (empty($advancedCustom->disableComments)) {
+if (empty($advancedCustom->disableComments) && empty($_GET['evideo'])) {
     ?>
     <div class="row bgWhite list-group-item">
         <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
