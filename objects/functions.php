@@ -2495,7 +2495,7 @@ function get_browser_name($user_agent = "") {
             strpos($t, 'bot') || strpos($t, 'archive') ||
             strpos($t, 'info') || strpos($t, 'data'))
         return '[Bot] Other';
-
+    _error_log($t);
     return 'Other (Unknown)';
 }
 
