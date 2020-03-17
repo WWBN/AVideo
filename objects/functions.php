@@ -2450,6 +2450,8 @@ function get_browser_name($user_agent = "") {
         return 'Firefox';
     elseif (strpos($t, 'msie') || strpos($t, 'trident/7'))
         return 'Internet Explorer';
+    elseif (strpos($t, 'applecoremedia'))
+        return 'Native Apple Player';
 
     // Search Engines 
     elseif (strpos($t, 'google'))
