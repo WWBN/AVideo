@@ -1,4 +1,7 @@
-<button type="submit" class="btn btn-primary" id="YPTWalletPayPalButton"><i class="fab fa-paypal"></i> PayPal</button>
+<?php
+$obj = AVideoPlugin::getObjectData("PayPalYPT");
+?>
+<button type="submit" class="btn btn-primary" id="YPTWalletPayPalButton"><i class="fab fa-paypal"></i> <?php echo __($obj->paymentButtonLabel); ?></button>
 <script>
     $(document).ready(function () {
         $('#YPTWalletPayPalButton').click(function (evt) {

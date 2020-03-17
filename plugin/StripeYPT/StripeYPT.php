@@ -36,6 +36,8 @@ class StripeYPT extends PluginAbstract {
         $obj->Restrictedkey = "rk_test_kjyL5JaoAQwyiptuRlSzYJMZ00kRqXkLux";
         //Before you can verify signatures, you need to retrieve your endpoint’s secret from your Dashboard’s Webhooks settings. Select an endpoint that you want to obtain the secret for, then select the Click to reveal button.
         $obj->SigningSecret = "whsec_54gqoVeSuoeXEiNPcFhMN0jkBZY0JJG3";
+        $obj->subscriptionButtonLabel = "Subscribe With Credit Card";
+        $obj->paymentButtonLabel = "Pay With Credit Card";
         //$obj->disableSandbox = false;
         return $obj;
     }

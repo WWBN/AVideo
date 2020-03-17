@@ -1,7 +1,8 @@
 <?php
 $uniqid = uniqid();
+$obj = AVideoPlugin::getObjectData("PayPalYPT");
 ?>
-<button type="submit" class="btn btn-primary" id="YPTWalletPayPalRecurrentButton<?php echo $uniqid; ?>"><i class="fab fa-paypal"></i> <?php echo __("Subscribe"); ?> PayPal</button>
+<button type="submit" class="btn btn-primary" id="YPTWalletPayPalRecurrentButton<?php echo $uniqid; ?>"><i class="fab fa-paypal"></i> <?php echo __($obj->subscriptionButtonLabel); ?></button>
 <script>
     $(document).ready(function () {
         $('#YPTWalletPayPalRecurrentButton<?php echo $uniqid; ?>').click(function (evt) {

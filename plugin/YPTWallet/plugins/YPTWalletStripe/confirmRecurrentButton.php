@@ -35,7 +35,7 @@ $uid = uniqid();
         background-color: #fefde5 !important;
     }
 </style>
-<button type="submit" class="btn btn-primary" id="YPTWalletStripeButton<?php echo $uid; ?>"><i class="fas fa-credit-card"></i> Subscribe</button>
+<button type="submit" class="btn btn-primary" id="YPTWalletStripeButton<?php echo $uid; ?>"><i class="fas fa-credit-card"></i> <?php echo __($obj->subscriptionButtonLabel); ?></button>
 <script src="https://js.stripe.com/v3/"></script>
 
 <form 
