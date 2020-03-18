@@ -1864,7 +1864,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
     <?php
 }
 ?>
-                    return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt + playList;
+                    return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.id + '/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt + playList;
                 }
 
 
