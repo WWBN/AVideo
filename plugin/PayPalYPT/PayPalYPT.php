@@ -160,7 +160,8 @@ class PayPalYPT extends PluginAbstract {
 
     private function createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement', $plans_id = 0) {
         global $global;
-
+        _error_log("createBillingPlan: start: " . json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
+                
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
         // Create a new billing plan
@@ -327,9 +328,9 @@ class PayPalYPT extends PluginAbstract {
             // Extract approval URL to redirect user
             return $agreement;
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            _error_log("PayPal Error createBillingPlan:  startDate: {$startDate} " . $ex->getData());
+            _error_log("PayPal Error createBillingPlan 5: startDate: {$startDate} " . $ex->getData());
         } catch (Exception $ex) {
-            _error_log("PayPal Error createBillingPlan: startDate: {$startDate} " . $ex->getData());
+            _error_log("PayPal Error createBillingPlan 6: startDate: {$startDate} " . $ex->getData());
         }
         return false;
     }

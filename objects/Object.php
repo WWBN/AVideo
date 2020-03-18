@@ -210,7 +210,7 @@ abstract class ObjectYPT implements ObjectInterface {
             }
             $sql .= " VALUES (" . implode(", ", $fields) . ")";
         }
-        //echo $sql;
+        //if(static::getTableName() == 'subscriptions') echo $sql;
         $insert_row = sqlDAL::writeSql($sql);
 
         if ($insert_row) {
