@@ -1541,7 +1541,7 @@ if (typeof gtag !== \"function\") {
             //Set the subject line
             $mail->Subject = __('Please Verify Your E-mail ') . $webSiteTitle;
 
-            $msg = sprintf(__("Hi %s"), $user->getNameIdentificationBd());
+            $msg = sprintf(__("Hi %s"), $user->getName());
             $msg .= "<br><br>" . __("Just a quick note to say a big welcome and an even bigger thank you for registering.");
 
             $msg .= "<br><br>" . sprintf(__("Cheers, %s Team."), $webSiteTitle);
