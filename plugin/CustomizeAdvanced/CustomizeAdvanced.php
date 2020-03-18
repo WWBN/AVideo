@@ -144,12 +144,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->enableOldPassHashCheck = true;
         $obj->disableHTMLDescription = false;
         $obj->disableTopMenusInsideIframe = true;
-        
-        $o = new stdClass();
-        $o->type = "textarea";
-        $o->value = "";        
-        $obj->verificationLinkText = $o;
-        
+                
         return $obj;
     }
     

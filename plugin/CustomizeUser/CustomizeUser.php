@@ -37,6 +37,16 @@ class CustomizeUser extends PluginAbstract {
         $obj->userMustBeLoggedIn = !isset($advancedCustom->userMustBeLoggedIn) ? false : $advancedCustom->userMustBeLoggedIn;
         $obj->onlyVerifiedEmailCanUpload = !isset($advancedCustom->onlyVerifiedEmailCanUpload) ? false : $advancedCustom->onlyVerifiedEmailCanUpload;
         $obj->sendVerificationMailAutomaic = !isset($advancedCustom->sendVerificationMailAutomaic) ? false : $advancedCustom->sendVerificationMailAutomaic;
+        
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = "Just a quick note to say a big welcome and an even bigger thank you for registering";
+        
+        $obj->verificationMailTextLine1 = "Just a quick note to say a big welcome and an even bigger thank you for registering";
+        $obj->verificationMailTextLine2 = "Cheers, %s Team.";
+        $obj->verificationMailTextLine3 = "You are just one click away from starting your journey with %s!";
+        $obj->verificationMailTextLine4 = "All you need to do is to verify your e-mail by clicking the link below";
+        
         $obj->unverifiedEmailsCanNOTLogin = !isset($advancedCustom->unverifiedEmailsCanNOTLogin) ? false : $advancedCustom->unverifiedEmailsCanNOTLogin;
         $obj->newUsersCanStream = !isset($advancedCustom->newUsersCanStream) ? false : $advancedCustom->newUsersCanStream;
         $obj->doNotIndentifyByEmail = !isset($advancedCustom->doNotIndentifyByEmail) ? false : $advancedCustom->doNotIndentifyByEmail;

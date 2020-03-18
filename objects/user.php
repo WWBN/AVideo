@@ -1542,14 +1542,12 @@ if (typeof gtag !== \"function\") {
             $mail->Subject = __('Please Verify Your E-mail ') . $webSiteTitle;
 
             $msg = sprintf(__("Hi %s"), $user->getName());
-            $msg .= "<br><br>" . __("Just a quick note to say a big welcome and an even bigger thank you for registering.");
-
-            $msg .= "<br><br>" . sprintf(__("Cheers, %s Team."), $webSiteTitle);
-
-            $msg .= "<br><br>" . sprintf(__("You are just one click away from starting your journey with %s!"), $webSiteTitle);
-            $msg .= "<br><br>" . sprintf(__("All you need to do is to verify your e-mail by clicking the link below"));
+            $msg .= "<br><br>" . __($advancedCustomUser->verificationMailTextLine1);
+            $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine2), $webSiteTitle);
+            $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine3), $webSiteTitle);
+            $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine4));
             $msg .= "<br><br>" . " <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
-            $msg .= $advancedCustomUser->verificationLinkText->value;
+            
             $mail->msgHTML($msg);
             $resp = $mail->send();
             if (!$resp) {
