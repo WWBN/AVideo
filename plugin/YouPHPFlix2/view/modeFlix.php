@@ -275,7 +275,7 @@ TimeLogStart($timeLog);
                         <div id="categoriesContainer">
                         </div>
                         <p class="pagination">
-                            <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=1"></a>
+                            <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=1&rrating=<?php echo @$_GET['rrating']; ?>&search=<?php echo @$_GET['search']; ?>"></a>
                         </p>
                         <div class="scroller-status">
                             <div class="infinite-scroll-request loader-ellips text-center">

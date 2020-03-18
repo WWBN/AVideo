@@ -105,5 +105,5 @@ TimeLogEnd($timeLog, __LINE__);
 ?>
 </div>
 <p class="pagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=<?php echo count($categories)?$_POST['current'] + 1:$_POST['current']; ?>"></a>
+    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=<?php echo count($categories)?$_POST['current'] + 1:$_POST['current']; ?>&rrating=<?php echo @$_GET['rrating']; ?>"></a>
 </p>

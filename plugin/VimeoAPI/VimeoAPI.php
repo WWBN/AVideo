@@ -193,7 +193,7 @@ class VimeoAPI extends PluginAbstract {
     }
 
     public function getVideosManagerListButton() {
-        $btn = '<br><button type="button" class="btn btn-default btn-light btn-sm btn-xs " onclick="vimeoUpload(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="Upload to Vimeo"><i class="fab fa-vimeo-v"></i> Upload</button>';
+        $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs  btn-block" onclick="vimeoUpload(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="Upload to Vimeo"><i class="fab fa-vimeo-v"></i> Upload</button>';
         return $btn;
     }
 

@@ -106,7 +106,7 @@ abstract class ObjectYPT implements ObjectInterface {
                 $key = $global['mysqli']->real_escape_string($key);
                 //$value = $global['mysqli']->real_escape_string($value);
                 $direction = "ASC";
-                if(strtoupper($value)==="DESC"){
+                if (strtoupper($value) === "DESC") {
                     $direction = "DESC";
                 }
                 $key = preg_replace("/[^A-Za-z0-9._ ]/", '', $key);
@@ -285,7 +285,7 @@ abstract class ObjectYPT implements ObjectInterface {
             unlink($cachefile);
         }
     }
-    
+
     static function deleteCache($name) {
         $tmpDir = sys_get_temp_dir();
         $uniqueHash = md5(__FILE__);
@@ -293,15 +293,50 @@ abstract class ObjectYPT implements ObjectInterface {
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
         @unlink($cachefile);
     }
+    /**
+     * Make sure you start the session before any output
+     * @param type $name
+     * @param type $value
+     */
+    static function setSessionCache($name, $value) {
+        _session_start();
+        $_SESSION['sessionCache'][$name]['value'] = json_encode($value);
+        $_SESSION['sessionCache'][$name]['time'] = time();
+        
+    }
+
+    /**
+     * 
+     * @param type $name
+     * @param type $lifetime, if is = 0 it is unlimited
+     * @return type
+     */
+    static function getSessionCache($name, $lifetime = 60) {
+        if (!empty($_GET['lifetime'])) {
+            $lifetime = intval($_GET['lifetime']);
+        }
+        _session_start();
+        if (!empty($_SESSION['sessionCache'][$name]) && (empty($lifetime) || time() - $lifetime <= $_SESSION['sessionCache'][$name]['time'])) {
+            $c = $_SESSION['sessionCache'][$name]['value'];
+            return json_decode($c);
+        } else if (!empty($_SESSION['sessionCache'][$name])) {
+            unset($_SESSION['sessionCache'][$name]);
+        }
+    }
+
+    static function deleteSessionCache($name) {
+        _session_start();
+        unset($_SESSION['sessionCache'][$name]);
+    }
 
     function tableExists() {
         return self::isTableInstalled();
     }
 
-    static function isTableInstalled($tableName="") {
+    static function isTableInstalled($tableName = "") {
         global $global, $tableExists;
-        if(empty($tableName)){
-           $tableName = static::getTableName();
+        if (empty($tableName)) {
+            $tableName = static::getTableName();
         }
         if (!isset($tableExists[$tableName])) {
             $res = sqlDAL::readSql("SHOW TABLES LIKE '" . $tableName . "'");

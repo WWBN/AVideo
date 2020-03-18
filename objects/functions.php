@@ -2570,7 +2570,7 @@ function _session_start(Array $options = array()) {
             return session_start($options);
         }
     } catch (Exception $exc) {
-        _error_log($exc->getTraceAsString());
+        _error_log("_session_start: ".$exc->getTraceAsString());
         return false;
     }
 }
