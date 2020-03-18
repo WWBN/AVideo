@@ -11,6 +11,7 @@ class YouTubeAPI extends PluginAbstract {
         //$txt .= "You can acquire an OAuth 2.0 <b>client ID</b> and <b>client secret</b> from the <a href='https://cloud.google.com/console'>Google Cloud Console</a>";
         $txt .= "<br>Set <b>developer key</b> to the API key value from the <b>Access tab</b> of the <a href='https://console.developers.google.com/'>Google API Console</a>
         <br>Please ensure that you have enabled the YouTube Data API for your project.";
+        $help = "";
         //$help = "<br><small>Your files must be self-hosted and MP4 to be able to upload to YouTube (Does not work form HLS or Embed)</small>";
         return $txt . $help;
     }
