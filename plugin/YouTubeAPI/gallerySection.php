@@ -71,7 +71,7 @@ if (showThis($sectionName)) {
         if(!empty($object->nextPageToken)){
         ?>
         <a href="<?php echo "{$global['webSiteRootURL']}page/".($_GET['page']+1)."?pageToken={$object->nextPageToken}"; ?>" class="btn btn-default btn-sm pull-right">
-            <i class="fas fa-angle-double-right"></i> <?php echo __("Next"); ?>
+            <?php echo __("Next"); ?> <i class="fas fa-angle-double-right"></i> 
         </a>
         <?php
         }
