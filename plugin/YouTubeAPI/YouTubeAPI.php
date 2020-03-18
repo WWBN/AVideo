@@ -130,8 +130,16 @@ class YouTubeAPI extends PluginAbstract {
                             $searchResult["id"]["videoId"], $searchResult['snippet']["title"], $searchResult['snippet']["description"], $searchResult['snippet']["thumbnails"]["high"]["url"], $searchResult['snippet']["channelTitle"], "https://www.youtube.com/embed/{$searchResult["id"]["videoId"]}");
                     $object->videos[] = $vid;
                 }
-                $object->error = false;
-                ObjectYPT::setSessionCache($name, $object);
+                if(!empty($object->videos)){
+                    $object->error = false;
+                    ObjectYPT::setSessionCache($name, $object);
+                    ObjectYPT::setCache($name, $object);
+                }else{
+                    $oldCache = ObjectYPT::getCache($name, 0);
+                    if(!empty($oldCache->videos)){
+                        $cache = $oldCache;
+                    }
+                }
             } catch (Google_Service_Exception $e) {
                 $object->msg = json_decode($e->getMessage());
             } catch (Google_Exception $e) {
