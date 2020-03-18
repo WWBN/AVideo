@@ -180,7 +180,9 @@ class API extends PluginAbstract {
             $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
             $rows[$key]['images'] = $images;
             $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
-
+            if(empty($rows[$key]['videos'])){
+                $rows[$key]['videos'] = new stdClass();
+            }
             $rows[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
             $rows[$key]['Thumbnail'] = !empty($objMob->portraitImage) ? $images->posterPortraitThumbs : $images->thumbsJpg;
             $rows[$key]['imageClass'] = !empty($objMob->portraitImage) ? "portrait" : "landscape";
