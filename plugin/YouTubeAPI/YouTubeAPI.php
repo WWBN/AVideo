@@ -111,7 +111,8 @@ class YouTubeAPI extends PluginAbstract {
 
                 if (!empty($youTubeObj->keyword)) {
                     $options['q'] = $youTubeObj->keyword;
-                } else if (!empty($_GET['search'])) {
+                } 
+                if (!empty($_GET['search'])) {
                     $options['q'] = $_GET['search'];
                 }
 
