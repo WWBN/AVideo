@@ -210,6 +210,9 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                 <?php
                                 $count = 0;
                                 foreach ($videosP as $value) {
+                                    if(empty($value['created'])){
+                                        continue;
+                                    }
                                     $episodeLink = "{$global['webSiteRootURL']}program/{$program['id']}/{$count}";
                                     $count++;
                                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
