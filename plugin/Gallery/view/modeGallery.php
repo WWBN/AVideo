@@ -210,7 +210,6 @@ $contentSearchFound = false;
                     }
                     else{
                         echo AVideoPlugin::getGallerySection();
-                        $section = ob_get_clean();
                         $contentSearchFound = true;
                     }
 
