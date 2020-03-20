@@ -218,6 +218,10 @@ class PlayList extends ObjectYPT {
                 $timeLog2 = __FILE__ . " - getVideosFromPlaylist: {$playlists_id}";
                 TimeLogStart($timeLog2);
                 foreach ($fullData as $row) {
+                    $v = new Video("","",$row['id']);
+                    if(empty($v->getFilename())){
+                        continue;
+                    }
                     if (!empty($_GET['isChannel'])) {
                         $row['tags'] = Video::getTags($row['id']);
                         $row['pluginBtns'] = AVideoPlugin::getPlayListButtons($playlists_id);
