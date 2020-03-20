@@ -209,13 +209,9 @@ $contentSearchFound = false;
                         <?php
                     }
                     else{
-                        $before = ob_get_clean();
                         echo AVideoPlugin::getGallerySection();
                         $section = ob_get_clean();
-                        if(!empty($section)){
-                            $contentSearchFound = true;
-                        }
-                        echo $before.$section;
+                        $contentSearchFound = true;
                     }
 
                     if (!$contentSearchFound) {
