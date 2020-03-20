@@ -236,6 +236,10 @@ foreach ($playlists as $playlist) {
                 <?php
                 $count = 0;
                 foreach ($videosP as $value) {
+                    // make sure the video exists
+                    if(empty($value['created'])){
+                        continue;
+                    }
                     $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/" . urlencode($playlist['name']) . "/{$value['clean_title']}";
                     $count++;
                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
