@@ -41,7 +41,7 @@ class PlayerSkins extends PluginAbstract {
         global $global;
         $obj = $this->getDataObject();
         $css = "";
-        if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['playlists_id'])) {
+        if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
         }
         return $css;
