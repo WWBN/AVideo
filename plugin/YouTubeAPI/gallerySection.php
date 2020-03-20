@@ -1,4 +1,5 @@
 <?php
+$zindex = 1000;
 $sectionName = "YouTubeVideos";
 $objGallery = AVideoPlugin::getObjectData("Gallery");
 if (showThis($sectionName)) {
