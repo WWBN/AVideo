@@ -202,7 +202,7 @@ class PlayList extends ObjectYPT {
                     . " FROM  playlists_has_videos p "
                     . " LEFT JOIN videos as v ON videos_id = v.id "
                     . " LEFT JOIN users u ON u.id = v.users_id "
-                    . " WHERE playlists_id = ? ";
+                    . " WHERE playlists_id = ? AND v.status != 'i' ";
 
             $sort = @$_POST['sort'];
             $_POST['sort'] = array();
