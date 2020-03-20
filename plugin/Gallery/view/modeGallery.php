@@ -212,7 +212,7 @@ $contentSearchFound = false;
                         @ob_end_flush();
                         ob_start();
                         echo AVideoPlugin::getGallerySection();
-                        $section = trim(ob_get_flush());
+                        $section = ob_get_flush();
                         if(!empty($section)){
                             $contentSearchFound = true;
                             echo $section;
