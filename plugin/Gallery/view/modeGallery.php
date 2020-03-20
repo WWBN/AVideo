@@ -208,6 +208,13 @@ $contentSearchFound = false;
 
                         <?php
                     }
+                    else{
+                        $section = AVideoPlugin::getGallerySection();
+                        if(!empty($section)){
+                            $contentSearchFound = true;
+                            echo $section;
+                        }
+                    }
 
                     if (!$contentSearchFound) {
                         ?>
