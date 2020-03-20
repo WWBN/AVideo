@@ -357,6 +357,10 @@ class PlayList extends ObjectYPT {
                 }
             }
             if(!$found){
+                $v = new Video("","",$value);
+                if(empty($v->getFilename())){
+                    continue;
+                }
                 $list[] = array('id'=>$value);
             }
         }
