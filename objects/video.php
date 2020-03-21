@@ -2431,8 +2431,13 @@ if (!class_exists('Video')) {
                 }
                 $token = "";
                 $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-                if (!empty($secure) && ($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".pdf")) {
-                    $token = "?" . $secure->getToken($filename);
+                if (($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".pdf")) {
+                    $vars = array();
+                    if (!empty($secure)) {
+                        $vars[] = $secure->getToken($filename);
+                    }
+                    $vars[] = "session_id=".  session_id();
+                    $token = "?".implode("&", $vars);
                 }
                 $source = array();
                 $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
