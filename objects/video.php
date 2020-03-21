@@ -2436,7 +2436,6 @@ if (!class_exists('Video')) {
                     if (!empty($secure)) {
                         $vars[] = $secure->getToken($filename);
                     }
-                    $vars[] = "session_id=".  session_id();
                     $token = "?".implode("&", $vars);
                 }
                 $source = array();
