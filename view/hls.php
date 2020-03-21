@@ -3,7 +3,7 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-
+_error_log("HLS.php: session_id = ".  session_id());
 if(empty($_GET['videoDirectory'])){
     die("No directory set");
 }
