@@ -596,7 +596,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!User::isLogged()) {
-            _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=". session_id() . " user=".  json_encode($_SESSION['user']));
+            _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=". session_id() . " user=".  json_encode($_SESSION));
             return false;
         }
         // if is not public check if the user is on one of its groups
