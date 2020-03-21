@@ -6,7 +6,7 @@ $isChannel = 1; // still workaround, for gallery-functions, please let it there.
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-_error_log("modeYoutube: session_id = ".  session_id());
+_error_log("modeYoutube: session_id = ".  session_id()." IP = ".  getRealIpAddr());
 if (!empty($_GET['evideo'])) {
     $evideo = json_decode(decryptString($_GET['evideo']));
 }
