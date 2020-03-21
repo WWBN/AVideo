@@ -596,7 +596,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!User::isLogged()) {
-            _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=". session_id()." SCRIPT_NAME=".$_SERVER["SCRIPT_NAME"]);
+            _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=". session_id()." SCRIPT_NAME=".$_SERVER["SCRIPT_NAME"]." IP = ".  getRealIpAddr());
             return false;
         }
         // if is not public check if the user is on one of its groups
