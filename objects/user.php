@@ -558,11 +558,6 @@ if (typeof gtag !== \"function\") {
     }
 
     static function canWatchVideo($videos_id) {
-        if(!empty($_GET['session_id'])){
-            @session_write_close();
-            session_id($_GET['session_id']);
-            session_start();
-        }
         if (empty($videos_id)) {
             _error_log("User::canWatchVideo Video is empty ({$videos_id})");
             return false;
