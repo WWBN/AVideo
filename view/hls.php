@@ -10,7 +10,7 @@ if(!isset($global['systemRootPath'])){
 _error_log("HLS.php: session_id = ".  session_id()." IP = ".  getRealIpAddr().
         " URL = ".($actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"));
 $browser = get_browser(null, true);
-_error_log("LS.php: session_id browser".  json_encode($browser));
+_error_log("HLS.php: session_id browser ".  $_SERVER['HTTP_USER_AGENT']);
 if(empty($_GET['videoDirectory'])){
     die("No directory set");
 }
