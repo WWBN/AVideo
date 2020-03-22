@@ -1,5 +1,9 @@
 <?php
 global $global, $config;
+if(!empty($_GET['session_id'])){
+    session_id($_GET['session_id']);
+    error_log("HLS.php: session_id changed to ".  $_GET['session_id']);
+}
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
