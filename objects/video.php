@@ -2436,7 +2436,9 @@ if (!class_exists('Video')) {
                     if (!empty($secure)) {
                         $vars[] = $secure->getToken($filename);
                     }
-                    $token = "?".implode("&", $vars);
+                    if(!empty($vars)){
+                        $token = "?".implode("&", $vars);
+                    }
                 }
                 $source = array();
                 $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
