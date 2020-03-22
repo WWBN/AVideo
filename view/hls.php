@@ -1,17 +1,10 @@
 <?php
 global $global, $config;
-if(!empty($_GET['session_id'])){
-    @session_write_close();
-    session_id($_GET['session_id']);
-}
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-if(!empty($_GET['session_id'])){
-    error_log("HLS.php: session_id changed to ".  $_GET['session_id']);
-}
-_session_start();
-_error_log("HLS.php: session_id = ".  session_id()." IP = ".  getRealIpAddr());
+_error_log("HLS.php: session_id = ".  session_id()." IP = ".  getRealIpAddr().
+        "URL = ".($actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"));
 if(empty($_GET['videoDirectory'])){
     die("No directory set");
 }
