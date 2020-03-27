@@ -63,9 +63,17 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
 
     if ($extension == "mp4" || $extension == "webm") {
+        if(!empty($advancedCustom->disableMP4Upload)){
+            $obj->msg = "Video Files are not Allowed";
+            die(json_encode($obj));
+        }
         $video->setType("video", true);
     } else
     if (($extension == "mp3") || ($extension == "ogg")) {
+        if(!empty($advancedCustom->disableMP3Upload)){
+            $obj->msg = "MP3 Files are not Allowed";
+            die(json_encode($obj));
+        }
         $video->setType("audio", true);
     } else
     if (($extension == "pdf")) {

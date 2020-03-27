@@ -38,6 +38,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowUploadMP4Button = true;
         $obj->disablePDFUpload = false;
         $obj->disableMP4Upload = false;
+        $obj->disableMP3Upload = false;
         $obj->uploadMP4ButtonLabel = "";
         $obj->doNotShowImportMP4Button = true;
         $obj->importMP4ButtonLabel = "";

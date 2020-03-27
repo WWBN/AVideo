@@ -85,7 +85,7 @@
                             ?>
                             <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4">
                                 <span class="fa fa-upload"></span>
-                                <?php echo __("Upload a File"); ?>
+                                <?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : $advancedCustom->uploadMP4ButtonLabel; ?>
                             </button>
                             <?php
                         }
@@ -257,12 +257,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><?php echo __("Video Form"); ?></h4>
+                    <h4 class="modal-title"><?php echo __("Upload Form"); ?></h4>
                 </div>
                 <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
                     <div id="postersImage">
                         <ul class="nav nav-tabs">
-                            <li class="active uploadFile"><a data-toggle="tab" href="#pmedia">Upload File</a></li>
+                            <li class="active uploadFile"><a data-toggle="tab" href="#pmedia"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : $advancedCustom->uploadMP4ButtonLabel; ?></a></li>
                             <li><a data-toggle="tab" href="#pimages">Images</a></li>
                             <li><a data-toggle="tab" href="#pmetadata">Meta Data</a></li>
                             <?php
