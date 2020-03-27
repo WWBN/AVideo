@@ -48,8 +48,8 @@ class YouTubeAPI extends PluginAbstract {
 
     public function afterNewVideo($videos_id) {
         $youTubeObj = $this->getDataObject();
-        if ($obj->automaticallyUploadToYouTube) {
-            $this->upload($videos_id);
+        if ($youTubeObj->automaticallyUploadToYouTube) {
+            //$this->upload($videos_id);
         }
     }
 
