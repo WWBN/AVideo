@@ -1502,7 +1502,17 @@ echo AVideoPlugin::getManagerVideosReset();
                 data.context.addClass('error');
             },
             done: function (e, data) {
-                if (data.result.status === "error") {
+                console.log(data);
+                if(data.result.error && data.result.msg){
+                    swal({
+                        title: "Sorry!",
+                        text: data.result.msg,
+                        html: true,
+                        type: "error"
+                    });
+                    data.context.addClass('error');
+                    data.context.find('p.action').text("Error");
+                }else if (data.result.status === "error") {
                     if (typeof data.result.msg === 'string') {
                         msg = data.result.msg;
                     } else {
