@@ -73,7 +73,7 @@ abstract class ObjectYPT implements ObjectInterface {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         if (!static::isTableInstalled()) {
-            return false;
+            return 0;
         }
         $sql = "SELECT id FROM  " . static::getTableName() . " WHERE 1=1  ";
         $sql .= self::getSqlSearchFromPost();

@@ -2303,8 +2303,8 @@ if (!class_exists('Video')) {
                 $this->title = substr($this->title, 0, 187) . '...';
         }
 
-        function setFilename($filename) {
-            if (empty($this->filename)) {
+        function setFilename($filename, $force=false) {
+            if ($force || empty($this->filename)) {
                 $this->filename = $filename;
             }
             return $this->filename;

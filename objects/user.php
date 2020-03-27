@@ -1301,11 +1301,19 @@ if (typeof gtag !== \"function\") {
         return $this->recoverPass;
     }
 
-    static function canUpload() {
-        global $global, $config;
+    static function canUpload($doNotCheckPlugins=false) {
+        global $global, $config, $advancedCustomUser;
         if (User::isAdmin()) {
             return true;
         }
+        if(empty($doNotCheckPlugins) && !AVideoPlugin::userCanUpload(User::getId())){
+            return false;
+        }
+        
+        if(isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified()){
+            return false;
+        }
+        
         if ($config->getAuthCanUploadVideos()) {
             return self::isLogged();
         }

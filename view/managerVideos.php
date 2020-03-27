@@ -11,7 +11,7 @@ if(!User::isLogged()) {
     exit;
 }
 
-if (!User::canUpload()) {
+if (!User::canUpload(true)) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage videos"));
     exit;
 }

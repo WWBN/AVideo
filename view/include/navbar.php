@@ -520,7 +520,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                             </li>
 
                                             <?php
-                                            if (User::canUpload()) {
+                                            if (User::canUpload(true)) {
                                                 ?>
                                                 <li>
                                                     <a href="<?php echo $global['webSiteRootURL']; ?>mvideos">

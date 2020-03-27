@@ -858,6 +858,34 @@ class AVideoPlugin {
         return $array;
     }
     
+    public static function userCanUpload($users_id){
+        if(empty($users_id)){
+            return false;
+        }
+        $resp = true;
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $can = $p->userCanUpload($users_id);
+                if(!empty($can)){
+                    if($can < 0){
+                        _error_log("userCanUpload: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT upload a video ");
+                        
+                        $resp = false;
+                    }
+                    if($can>0){
+                        _error_log("userCanUpload: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can upload a video ");
+                        return true;
+                    }
+                }
+            }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
+        }            
+        return $resp;
+    }
+    
     public static function userCanWatchVideo($users_id, $videos_id){
         $plugins = Plugin::getAllEnabled();
         $resp = Video::userGroupAndVideoGroupMatch($users_id, $videos_id);;

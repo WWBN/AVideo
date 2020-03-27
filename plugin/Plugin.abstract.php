@@ -345,6 +345,15 @@ abstract class PluginAbstract {
     /**
      * 
      * @param type $users_id
+     * @return 0 = I dont know, -1 = can not upload, 1 = can upload
+     */
+    public function userCanUpload($users_id) {
+        return 0;
+    }
+
+    /**
+     * 
+     * @param type $users_id
      * @param type $videos_id
      * @return 0 = I dont know, -1 = can not watch, 1 = can watch
      */

@@ -37,6 +37,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->encoderNetworkLabel = "";
         $obj->doNotShowUploadMP4Button = true;
         $obj->disablePDFUpload = false;
+        $obj->disableMP4Upload = false;
         $obj->uploadMP4ButtonLabel = "";
         $obj->doNotShowImportMP4Button = true;
         $obj->importMP4ButtonLabel = "";
@@ -110,6 +111,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotDisplayGroupsTags = false;
         $obj->doNotDisplayPluginsTags = false;
         $obj->showNotRatedLabel = false;
+        $obj->showShareMenuOpenByDefault = false;
         $obj->askRRatingConfirmationBeforePlay_G = false;
         $obj->askRRatingConfirmationBeforePlay_PG = false;
         $obj->askRRatingConfirmationBeforePlay_PG13 = false;
@@ -144,6 +146,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->enableOldPassHashCheck = true;
         $obj->disableHTMLDescription = false;
         $obj->disableTopMenusInsideIframe = true;
+        $obj->disableVideoSwap = false;
                 
         return $obj;
     }

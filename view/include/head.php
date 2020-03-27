@@ -6,9 +6,15 @@ $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraCo
 
 $custom = "";
 
+if (file_exists($extraPluginFile) && AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+    require_once $extraPluginFile;
+    $ec = new ExtraConfig();
+    $custom = $ec->getDescription();
+}
+
 if (!empty($poster)) {
     $subTitle = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($video['description']));
-    $custom .= " {$subTitle}";
+    $custom = "{$subTitle} - {$video["category"]}";
 }
 
 if (!empty($_GET['catName'])) {
@@ -17,11 +23,6 @@ if (!empty($_GET['catName'])) {
     $custom = " {$description} - {$custom}";
 }
 
-if (file_exists($extraPluginFile) && AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
-    require_once $extraPluginFile;
-    $ec = new ExtraConfig();
-    $custom .= $ec->getDescription();
-}
 
 $theme = $config->getTheme();
 ?>
