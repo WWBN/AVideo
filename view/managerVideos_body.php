@@ -77,7 +77,7 @@
                                 <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
                             </form>
                             <a href="#" onclick="$('#formEncoder').submit();return false;" class="btn btn-sm btn-xs btn-default">
-                                <span class="fa fa-cog"></span> <?php echo __("Encode video and audio"); ?>
+                                <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?>
                             </a>
                             <?php
                         }
