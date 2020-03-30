@@ -92,7 +92,7 @@ class YouTubeAPI extends PluginAbstract {
                 $DEVELOPER_KEY = $youTubeObj->developer_key;
             }else{
                 $developer_key = "developer_key";
-                $DEVELOPER_KEY = $youTubeObj->$developer_key.$try;
+                eval("\$DEVELOPER_KEY = \$youTubeObj->{$developer_key}{$try};");
             }
             if(empty($DEVELOPER_KEY)){
                 $object->msg = "The {$developer_key}{$try} is empty and we could not use";
