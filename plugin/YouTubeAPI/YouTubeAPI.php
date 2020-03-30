@@ -34,6 +34,15 @@ class YouTubeAPI extends PluginAbstract {
         //$obj->client_id = '';
         //$obj->client_secret = '';
         $obj->developer_key = '';
+        $obj->developer_key1 = '';
+        $obj->developer_key2 = '';
+        $obj->developer_key3 = '';
+        $obj->developer_key4 = '';
+        $obj->developer_key5 = '';
+        $obj->developer_key6 = '';
+        $obj->developer_key7 = '';
+        $obj->developer_key8 = '';
+        $obj->developer_key9 = '';
 
         //$obj->automaticallyUploadToYouTube = false;
         $obj->keyword = '';
@@ -61,7 +70,7 @@ class YouTubeAPI extends PluginAbstract {
         }
     }
 
-    public function listVideos() {
+    public function listVideos($try=0) {
         global $global;
         $youTubeObj = $this->getDataObject();
         if (empty($_GET['page'])) {
@@ -79,9 +88,16 @@ class YouTubeAPI extends PluginAbstract {
              * Google API Console <https://console.developers.google.com/>
              * Please ensure that you have enabled the YouTube Data API for your project.
              */
-            $DEVELOPER_KEY = $youTubeObj->developer_key;
-
-
+            if(empty($try)){
+                $DEVELOPER_KEY = $youTubeObj->developer_key;
+            }else{
+                $developer_key = "developer_key";
+                $DEVELOPER_KEY = $youTubeObj->$developer_key.$try;
+            }
+            if(empty($DEVELOPER_KEY)){
+                $object->msg = "The {$developer_key}{$try} is empty and we could not use";
+                return $object;
+            }
             $object = new stdClass();
             $object->error = true;
             $object->msg = "";
@@ -146,7 +162,11 @@ class YouTubeAPI extends PluginAbstract {
             } catch (Google_Exception $e) {
                 $object->msg = json_decode($e->getMessage());
             }
-            return $object;
+            if($try<10){
+                return $this->listVideos($try+1);
+            }else{
+                return $object;
+            }
         } else {
             $cache->error = false;
             return $cache;
