@@ -3,7 +3,7 @@ body {
     height: 100vh;
 }
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 body {
     padding-top: 60px;
@@ -507,6 +507,11 @@ nav ul.items-container {
     margin: 0px;
     padding: 0px;
 }
+
+nav ul.items-container .tooltip{
+    min-width: 150px; 
+}
+
 nav ul.items-container,
 nav ul.items-container li {
     list-style: none;
@@ -518,7 +523,7 @@ nav ul.items-container li:first-child {
 nav ul.items-container li:first-child ul.left-side {
     display: flex;
     align-items: center
-} z
+}
 ul.left-side {
     height: 50px;
 }
@@ -733,7 +738,7 @@ img.blur{
 /*Show play button only when paused*/
 .vjs-paused .vjs-big-play-button,
 .vjs-paused.vjs-has-started .vjs-big-play-button {
-   display: block;
+    display: block;
 }
 
 .rightProfile li a{
@@ -748,35 +753,35 @@ img.blur{
 }
 
 .btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.42;
-  border-radius: 15px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.42;
+    border-radius: 15px;
 }
 
 
 ::-webkit-scrollbar-track
 {
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 4px;
-	background-color: rgba(100,100,100,0.01);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    background-color: rgba(100,100,100,0.01);
 }
 
 ::-webkit-scrollbar
 {
-	width: 8px;
-	background-color: rgba(100,100,100,0.01);
-        overflow: hidden;
+    width: 8px;
+    background-color: rgba(100,100,100,0.01);
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar-thumb
 {
-	border-radius: 4px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: rgba(100,100,100,0.05);
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: rgba(100,100,100,0.05);
 }
 
 .videoAdUiSkipContainer {
