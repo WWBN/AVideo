@@ -94,6 +94,10 @@ class YouTubeAPI extends PluginAbstract {
                 $developer_key = "developer_key";
                 eval("\$DEVELOPER_KEY = \$youTubeObj->{$developer_key}{$try};");
             }
+            $object = new stdClass();
+            $object->error = true;
+            $object->msg = "";
+            $object->videos = array();
             if(empty($DEVELOPER_KEY)){
                 $object->msg = "The {$developer_key}{$try} is empty and we could not use";
                 return $object;
@@ -101,10 +105,6 @@ class YouTubeAPI extends PluginAbstract {
             
             _error_log("YouTubeAPI::listVideos try={$try} developer_key={$DEVELOPER_KEY}");
             
-            $object = new stdClass();
-            $object->error = true;
-            $object->msg = "";
-            $object->videos = array();
             try {
 
                 $client = new Google_Client();
