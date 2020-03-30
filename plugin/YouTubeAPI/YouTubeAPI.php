@@ -98,6 +98,9 @@ class YouTubeAPI extends PluginAbstract {
                 $object->msg = "The {$developer_key}{$try} is empty and we could not use";
                 return $object;
             }
+            
+            _error_log("YouTubeAPI::listVideos try={$try} developer_key={$developer_key}")
+            
             $object = new stdClass();
             $object->error = true;
             $object->msg = "";
