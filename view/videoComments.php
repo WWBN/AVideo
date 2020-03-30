@@ -21,7 +21,9 @@ if (User::canSeeCommentTextarea()) {
                     echo "disabled='disabled'";
                 }
                 ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
-                  <?php } else { ?>
+                  <?php } else if(User::isLogged()){ ?>
+                <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("You cannot comment on videos"); ?></a>
+            <?php } else { ?>
                 <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("You must login to be able to comment on videos"); ?></a>
             <?php } ?>
         </div>
