@@ -99,7 +99,7 @@ class YouTubeAPI extends PluginAbstract {
                 return $object;
             }
             
-            _error_log("YouTubeAPI::listVideos try={$try} developer_key={$developer_key}");
+            _error_log("YouTubeAPI::listVideos try={$try} developer_key={$DEVELOPER_KEY}");
             
             $object = new stdClass();
             $object->error = true;
