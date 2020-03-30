@@ -317,6 +317,22 @@ function cleanString($text) {
         '/[’‘‹›‚]/u' => ' ', // Literally a single quote
         '/[“”«»„]/u' => ' ', // Double quote
         '/ /' => ' ', // nonbreaking space (equiv. to 0x160)
+        "Є" => "YE", "І" => "I", "Ѓ" => "G", "і" => "i", "№" => "#", "є" => "ye", "ѓ" => "g",
+        "А" => "A", "Б" => "B", "В" => "V", "Г" => "G", "Д" => "D",
+        "Е" => "E", "Ё" => "YO", "Ж" => "ZH",
+        "З" => "Z", "И" => "I", "Й" => "J", "К" => "K", "Л" => "L",
+        "М" => "M", "Н" => "N", "О" => "O", "П" => "P", "Р" => "R",
+        "С" => "S", "Т" => "T", "У" => "U", "Ф" => "F", "Х" => "H",
+        "Ц" => "C", "Ч" => "CH", "Ш" => "SH", "Щ" => "SHH", "Ъ" => "'",
+        "Ы" => "Y", "Ь" => "", "Э" => "E", "Ю" => "YU", "Я" => "YA",
+        "а" => "a", "б" => "b", "в" => "v", "г" => "g", "д" => "d",
+        "е" => "e", "ё" => "yo", "ж" => "zh",
+        "з" => "z", "и" => "i", "й" => "j", "к" => "k", "л" => "l",
+        "м" => "m", "н" => "n", "о" => "o", "п" => "p", "р" => "r",
+        "с" => "s", "т" => "t", "у" => "u", "ф" => "f", "х" => "h",
+        "ц" => "c", "ч" => "ch", "ш" => "sh", "щ" => "shh", "ъ" => "",
+        "ы" => "y", "ь" => "", "э" => "e", "ю" => "yu", "я" => "ya",
+        "—" => "-", "«" => "", "»" => "", "…" => ""
     );
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
@@ -2570,7 +2586,7 @@ function _session_start(Array $options = array()) {
             return session_start($options);
         }
     } catch (Exception $exc) {
-        _error_log("_session_start: ".$exc->getTraceAsString());
+        _error_log("_session_start: " . $exc->getTraceAsString());
         return false;
     }
 }
@@ -2660,7 +2676,7 @@ function encrypt_decrypt($string, $action) {
     $encrypt_method = "AES-256-CBC";
     $secret_key = 'This is my secret key';
     $secret_iv = $global['systemRootPath'];
-    while(strlen($secret_iv)<16){
+    while (strlen($secret_iv) < 16) {
         $secret_iv .= $global['systemRootPath'];
     }
 
@@ -2683,12 +2699,15 @@ function encrypt_decrypt($string, $action) {
 function encryptString($string) {
     return encrypt_decrypt($string, 'encrypt');
 }
+
 function decryptString($string) {
     return encrypt_decrypt($string, 'decrypt');
 }
 
-class YPTvideoObject{
+class YPTvideoObject {
+
     public $id, $title, $description, $thumbnails, $channelTitle, $videoLink;
+
     function __construct($id, $title, $description, $thumbnails, $channelTitle, $videoLink) {
         $this->id = $id;
         $this->title = $title;
@@ -2697,5 +2716,5 @@ class YPTvideoObject{
         $this->channelTitle = $channelTitle;
         $this->videoLink = $videoLink;
     }
-    
+
 }
