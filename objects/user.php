@@ -1332,11 +1332,19 @@ if (typeof gtag !== \"function\") {
     }
 
     static function canComment() {
-        global $global, $config;
-        if ($config->getAuthCanComment()) {
-            return self::isLogged();
+        global $global, $config, $advancedCustomUser;
+        if(self::isAdmin()){
+            return true;
         }
-        return self::isAdmin();
+        if ($config->getAuthCanComment()) {
+            if(empty($advancedCustomUser->unverifiedEmailsCanNOTComment)){
+                return self::isLogged();
+            }else{
+                return self::isVerified();
+            }
+            
+        }
+        return false;
     }
 
     static function canSeeCommentTextarea() {
