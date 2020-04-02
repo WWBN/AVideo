@@ -249,12 +249,22 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                         ?>
                     </div>
                     <div class="tab-pane" id="tabEmbed">
-                        <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?>:</h4>
+                        <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?> (Iframe):</h4>
                         <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbed" readonly="readonly"><?php
                             if ($video['type'] == 'video' || $video['type'] == 'embed') {
                                 $code = '<iframe width="640" height="360" style="max-width: 100%;max-height: 100%; border:none;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="no">iFrame is not supported!</iframe>';
                             } else {
                                 $code = '<iframe width="350" height="40" style="max-width: 100%;max-height: 100%; border:none;" src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="no">iFrame is not supported!</iframe>';
+                            }
+                            echo htmlentities($code);
+                            ?>
+                        </textarea>
+                        <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?> (Object):</h4>
+                        <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbedObject" readonly="readonly"><?php
+                            if ($video['type'] == 'video' || $video['type'] == 'embed') {
+                                $code = '<object width="640" height="360"><param name="movie" value="' . Video::getLink($video['id'], $video['clean_title'], true) . '"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" allowscriptaccess="always" allowfullscreen="true" width="640" height="360"></embed></object>';
+                            } else {
+                                $code = '<object width="350" height="40" ><param name="movie" value="' . Video::getLink($video['id'], $video['clean_title'], true) . '"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="' . Video::getLink($video['id'], $video['clean_title'], true) . '" allowscriptaccess="always" allowfullscreen="true" width="350" height="40" ></embed></object>';
                             }
                             echo htmlentities($code);
                             ?>
