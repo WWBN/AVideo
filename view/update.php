@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 session_write_close();
@@ -15,6 +15,7 @@ if (!empty($_POST['updateFile'])) {
     $dir = "{$global['systemRootPath']}videos/cache";
     rrmdir($dir);
 }
+$version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
@@ -59,6 +60,15 @@ if (!empty($_POST['updateFile'])) {
                         });
                     </script>
                     <?php
+                } else
+                if (!empty($version) && version_compare($config->getVersion(), $version->version) === -1) {
+                    ?>
+                    <div class="alert alert-warning">
+                        Our repository is now running at version <?php echo $version->version; ?>. 
+                        You can follow this <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/How-to-Update-your-AVideo-Platform" class="btn btn-warning btn-xs">Update Tutorial</a> 
+                        to update your files and get the latest version.
+                    </div>
+                    <?php
                 } else {
                     ?>
                     <div class="alert alert-success">
@@ -70,13 +80,13 @@ if (!empty($_POST['updateFile'])) {
                 $obj = new stdClass();
                 $templine = '';
                 $logfile = "{$global['systemRootPath']}videos/avideo.";
-                if(file_exists ($logfile."log")){
-                  unlink($logfile."log");
-                  _error_log("avideo.log deleted by update");
+                if (file_exists($logfile . "log")) {
+                    unlink($logfile . "log");
+                    _error_log("avideo.log deleted by update");
                 }
-                if(file_exists ($logfile."js.log")){
-                  unlink($logfile."js.log");
-                  _error_log("avideo.js.log deleted by update");
+                if (file_exists($logfile . "js.log")) {
+                    unlink($logfile . "js.log");
+                    _error_log("avideo.js.log deleted by update");
                 }
                 $lines = file("{$global['systemRootPath']}updatedb/{$_POST['updateFile']}");
                 $obj->error = "";
