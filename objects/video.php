@@ -2569,6 +2569,11 @@ if (!class_exists('Video')) {
             return false;
         }
 
+        static function clearImageCache($filename, $type = "video") {
+            $cacheFileName = "getImageFromFilename_".$filename . $type . (get_browser_name() == 'Safari' ? "s" : "");
+            return ObjectYPT::deleteCache($cacheFileName);
+        }
+        
         static function getImageFromFilename_($filename, $type = "video") {
             $cacheFileName = "getImageFromFilename_".$filename . $type . (get_browser_name() == 'Safari' ? "s" : "");
             $cache = ObjectYPT::getCache($cacheFileName, 0);
@@ -2939,6 +2944,10 @@ if (!class_exists('Video')) {
             ObjectYPT::deleteCache($filename . "article");
             ObjectYPT::deleteCache($filename . "pdf");
             ObjectYPT::deleteCache($filename . "video");
+            Video::clearImageCache($filename);
+            Video::clearImageCache($filename, "article");
+            Video::clearImageCache($filename, "pdf");
+            Video::clearImageCache($filename, "audio");
             clearVideosURL($filename);
         }
 
