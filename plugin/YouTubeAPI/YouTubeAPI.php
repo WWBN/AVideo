@@ -48,7 +48,7 @@ class YouTubeAPI extends PluginAbstract {
         $obj->keyword = '';
         $obj->regionCode = '';
         $obj->maxResults = 12;
-        $obj->cacheTimeout = 600;
+        $obj->cacheTimeout = 3600;
         $obj->showGallerySection = true;
         $obj->gallerySectionTitle = "YouTube Videos"; //https://developers.google.com/youtube/v3/docs/search/list?hl=pt-br#exemplos
 
@@ -166,6 +166,7 @@ class YouTubeAPI extends PluginAbstract {
                 $object->msg = json_decode($e->getMessage());
             }
             if($try<10){
+                _error_log("YouTubeAPI Error: ".json_encode($object));
                 return $this->listVideos($try+1);
             }else{
                 return $object;
