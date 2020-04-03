@@ -110,7 +110,7 @@ class ADs extends PluginAbstract {
             $abkw = preg_replace('/[^a-zA-Z0-9_ ,-]/', '',$_GET['abkw']);
             return "<script> window.abkw = '{$abkw}'; </script>";                    
         }
-            $obj = $this->getDataObject();
+        $obj = $this->getDataObject();
         if(!empty($_GET['videoName'])){
             if(!empty($obj->tags3rdParty)){
                 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
@@ -138,7 +138,7 @@ class ADs extends PluginAbstract {
                 return $tag;
             }
         }
-        return '';
+        return "<script> window.abkw = 'home-page'; </script>";
     }
 
     public function getTags() {
