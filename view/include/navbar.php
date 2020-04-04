@@ -970,6 +970,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         unset($_GET); 
                         unset($_POST);
                         $_GET['current'] = $_POST['current'] = 1;
+                        $_GET['parentsOnly'] = 1;
                         $categories = Category::getAllCategories();
                         foreach ($categories as $value) {
                             if ($value['parentId']) {
