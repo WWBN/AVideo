@@ -210,8 +210,8 @@ foreach ($videos as $key => $value) {
             </div>
         </div>
         <?php
-        getLdJson($value['id']);
-        getItemprop($value['id']);
+        //getLdJson($value['id']);
+        //getItemprop($value['id']);
         ?>
     </div>
     <?php
