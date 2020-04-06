@@ -148,6 +148,13 @@ if (!$includeDefaultNavBar) {
             padding-left: 0px;
         }
     }
+    
+        li.navsub-toggle .badge {
+        float: right;
+    }
+    li.navsub-toggle a + ul {
+        padding-left: 15px;
+    }
 </style>
 <?php
 if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
@@ -925,22 +932,32 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <h3 class="text-danger"><?php echo __($advancedCustom->CategoryLabel); ?></h3>
                     </li>
                     <?php
+                    $parsed_cats = array();
                     if (!function_exists('mkSub')) {
 
                         function mkSub($catId) {
-                            global $global;
+                            global $global, $parsed_cats;
                             unset($_GET['parentsOnly']);
                             $subcats = Category::getChildCategories($catId);
                             if (!empty($subcats)) {
-                                echo "<ul style='margin-bottom: 0px; list-style-type: none;'>";
+                                echo "<ul class=\"nav\" style='margin-bottom: 0px; list-style-type: none;'>";
                                 foreach ($subcats as $subcat) {
+                                    if ($subcat['parentId'] != $catId) {
+                                        continue;
+                                    }
                                     if (empty($subcat['total'])) {
                                         continue;
                                     }
-                                    echo '<li class="' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
-                                    . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
-                                    . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . ' <span class="badge">' . $subcat['total'] . '</span></a></li>';
+                                    if (in_array($subcat['id'], $parsed_cats)) {
+                                        continue;
+                                    }
+                                    //$parsed_cats[] = $subcat['id'];
+                                    echo '<li class="navsub-toggle ' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
+                                      . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
+                                      . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . ' <span class="badge">' . $subcat['total'] . '</span>';
+                                    echo '</a>';
                                     mkSub($subcat['id']);
+                                    echo '</li>';
                                 }
                                 echo "</ul>";
                             }
@@ -956,6 +973,9 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         $_GET['parentsOnly'] = 1;
                         $categories = Category::getAllCategories();
                         foreach ($categories as $value) {
+                            if ($value['parentId']) {
+                                continue;
+                            }
                             if ($advancedCustom->ShowAllVideosOnCategory) {
                                 $total = $value['fullTotal'];
                             } else {
@@ -964,14 +984,19 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             if (empty($total)) {
                                 continue;
                             }
-                            echo '<li class="' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
-                            . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >';
-                            echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'];
-                            if (empty($advancedCustom->hideCategoryVideosCount)) {
-                                echo ' <span class="badge">' . $total . '</span>';
+                            if (in_array($value['id'], $parsed_cats)) {
+                                continue;
                             }
-                            mkSub($value['id']);
-                            echo '</a></li>';
+                            //$parsed_cats[] = $value['id'];
+                            echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
+                              . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >';
+                                echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'];
+                                if (empty($advancedCustom->hideCategoryVideosCount)) {
+                                    echo ' <span class="badge">' . $total . '</span>';
+                                }
+                              echo '</a>';
+                              mkSub($value['id']);
+                            echo '</li>';
                         }
                         $_POST = $post;
                         $_GET = $get;
@@ -1025,6 +1050,44 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
             </div>
         </div>
     </nav>
+    <script>
+      $(document).ready(function() {
+        setTimeout(function() {
+          $('.nav li.navsub-toggle a:not(.selected) + ul').hide();
+          var navsub_toggle_selected = $('.nav li.navsub-toggle a.selected');
+              navsub_toggle_selected.next().show();
+              navsub_toggle_selected = navsub_toggle_selected.parent();
+
+          var navsub_toggle_selected_stop = 24;
+          while(navsub_toggle_selected.length) {
+            if($.inArray(navsub_toggle_selected.prop('localName'), ['li', 'ul']) == -1) break;
+            if(navsub_toggle_selected.prop('localName') == 'ul') {
+              navsub_toggle_selected.show().prev().addClass('selected');
+            }
+            navsub_toggle_selected = navsub_toggle_selected.parent();
+
+            navsub_toggle_selected_stop--;
+            if(navsub_toggle_selected_stop < 0) break;
+          }
+        }, 500);
+
+
+        $('.nav').on('click', 'li.navsub-toggle a:not(.selected)', function(e) {
+          var a = $(this),
+              b = a.next();
+          if(b.length) {
+            e.preventDefault();
+
+            a.addClass('selected');
+            b.slideDown();
+
+            var c = a.closest('.nav').find('li.navsub-toggle a.selected').not(a).removeClass('selected').next();
+
+            if(c.length) c.slideUp();
+          }
+        });
+      });
+    </script>
     <?php
     if (!empty($advancedCustom->underMenuBarHTMLCode->value)) {
         echo $advancedCustom->underMenuBarHTMLCode->value;
