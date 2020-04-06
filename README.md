@@ -5,10 +5,10 @@ AVideo is a term that means absolutely nothing, or anything video. Since it does
 
 * AVideo - Audio Video
 * AVideo Platform - Audio Video Platform
-* OAVP - Online Audio Video Platform 
+* OAVP - Online Audio Video Platform
 * OVP - Online Video Platform
 
-AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.  
+AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.
 
 ## AN AVideo Platform Instance
 
@@ -20,17 +20,17 @@ AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, In
 * Translations:	"AVideo" has no meaning in any foreign language.
 * Description:	"AVideo" constitutes Audio Video.
 * Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
-* Standard Characters: Claimed	
+* Standard Characters: Claimed
 * Mark Drawing Code:	(4) STANDARD CHARACTER MARK
 * Trademark Search Facility Classification Code:	LETS-1 A A single letter, multiples of a single letter or in combination with a design
 * Serial Number:	77450549
 * Registration Number:	3625659
 
 #### About the project re-brand.
- Originally the open-source version was offered as YouPHPTube, and marketed as a YouTube Clone (after the popular video sharing site), we decided to rebrand our open-source audio video platform project from YouPHPTube to <strong>AVideo Platform</strong> which contsitutes <strong>Audio Video Platform</strong>. In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, youtube clone, clone script, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners. Follow us on <a href="https://www.facebook.com/avideo/">Facebook</a> 
+ Originally the open-source version was offered as YouPHPTube, and marketed as a YouTube Clone (after the popular video sharing site), we decided to rebrand our open-source audio video platform project from YouPHPTube to <strong>AVideo Platform</strong> which constitutes <strong>Audio Video Platform</strong>. In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, youtube clone, clone script, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners. Follow us on <a href="https://www.facebook.com/avideo/">Facebook</a>
 #
 # AVideo Platform Open-Source Project
-## AVideo Platform Open-Source Consist of THREE main Areas: 
+## AVideo Platform Open-Source Consist of THREE main Areas:
 <img src="https://platform.avideo.com/website/assets/151/images/svg/balancing.svg"/>
 
 #### (Management/Encoding/Storage)
@@ -51,7 +51,7 @@ The AVideo Platform Plugin Design allows you to get exactly the solution that ad
 
 ## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
 
-## Along with this re-brand come a slew of value added benefits for all AVideo Platform instances. 
+## Along with this re-brand come a slew of value added benefits for all AVideo Platform instances.
 * Each AVideo Platform clone is considered a broadcast network
 * Each broadcast network is indexed in our World Wide Broadcast Network Platform System
 * Each broadcast network can use our ad network
@@ -75,7 +75,7 @@ PROFITABLE STRATEGIES - We provide companies with new business models that evolv
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
-  
+
 
 
 # Notice:
@@ -100,7 +100,7 @@ I don´t want to read I just want you to show me how to install!!
 
 Ok, <a href="https://tutorials.avideo.com/video/streamer-and-encoder">check this out!</a>
 
-For text-based tutorials and the manual, <a href="https://github.com/WWBN/AVideo/wiki/Admin-manual"> look here</a>. 
+For text-based tutorials and the manual, <a href="https://github.com/WWBN/AVideo/wiki/Admin-manual"> look here</a>.
 
 There, you can find some hints for troubleshooting as well.
 
