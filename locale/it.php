@@ -458,7 +458,7 @@ $t['When autoplay is enabled, a suggested video will automatically play next.'] 
 $t['Word Translations'] = "Word Translations";
 $t['Yes'] = "Yes";
 $t['Yes, delete it!'] = "Yes, delete it!";
-$t['You%20can%20not%20manage'] = "You%20can%20not%20manage"; // This is gramaticly not correct and only used in a error-field..
+$t['You%20can%20not%20manage'] = "You%20can%20not%20manage"; // This is grammatically incorrect and only used in an error field.
 $t['YouPHPTube URL'] = "YouPHPTube URL";
 $t['You already support this video'] = "You already support this video";
 $t['You are hosting %d minutes and %d seconds of video'] = "You are hosting %d minutes and %d seconds of video";
