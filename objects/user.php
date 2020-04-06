@@ -1112,6 +1112,18 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
+    
+    static function getUserFromEmail($email) {
+        $sql = "SELECT * FROM users WHERE email = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($email));
+        $user = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($user != false) {
+            return $user;
+        }
+        return false;
+    }
+    
     function setUser($user) {
         global $advancedCustomUser;
         if (empty($advancedCustomUser->userCanChangeUsername)) {
@@ -1127,7 +1139,19 @@ if (typeof gtag !== \"function\") {
     }
 
     function setEmail($email) {
-        $this->email = strip_tags($email);
+        global $advancedCustomUser;
+        $email = strip_tags($email);
+        if (!empty($advancedCustomUser->emailMustBeUnique)) {
+            if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)){        
+                return false;
+            }
+            $userFromEmail = User::getUserFromEmail($email);
+            if(!empty($userFromEmail)){     
+                return false;
+            }
+        }
+        $this->email = $email;
+        return true;
     }
 
     function setPassword($password, $doNotEncrypt = false) {

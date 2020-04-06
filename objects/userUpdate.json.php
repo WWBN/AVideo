@@ -1,12 +1,16 @@
 <?php
+
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-if(!User::isLogged()){
-    die("Is not logged");
+$obj = new stdClass();
+
+if (!User::isLogged()) {
+    $obj->error = __("Is not logged");
+    die(json_encode($obj));
 }
 
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -20,13 +24,25 @@ $user->setAbout($_POST['about']);
 $user->setAnalyticsCode($_POST['analyticsCode']);
 $user->setDonationLink($_POST['donationLink']);
 $unique = $user->setChannelName($_POST['channelName']);
-if(!$unique){
-    echo '{"error":"'.__("Channel name already exists").'"}';
-    exit;
+if (!$unique) {
+    $obj->error = __("Channel name already exists");
+    die(json_encode($obj));
+}
+
+if (!empty($advancedCustomUser->emailMustBeUnique)) {
+    if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $obj->error = __("You must specify an valid email");
+        die(json_encode($obj));
+    }
+    $userFromEmail = User::getUserFromEmail($_POST['email']);
+    if (!empty($userFromEmail)) {
+        $obj->error = __("Email already exists");
+        die(json_encode($obj));
+    }
 }
 
 if (User::isAdmin() && !empty($_POST['status'])) {
     $user->setStatus($_POST['status']);
 }
-echo '{"status":"'.$user->save().'"}';
+echo '{"status":"' . $user->save() . '"}';
 User::updateSessionInfo();

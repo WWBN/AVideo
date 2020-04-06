@@ -41,6 +41,18 @@ if (!empty($userCheck->getBdId())) {
 if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
     $_POST['email'] = $_POST['user'];
 }
+$_POST['email'] = trim(@$_POST['email']);
+if (!empty($advancedCustomUser->emailMustBeUnique)) {
+    if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){        
+        $obj->error = __("You must specify an valid email");
+        die(json_encode($obj));
+    }
+    $userFromEmail = User::getUserFromEmail($_POST['email']);
+    if(!empty($userFromEmail)){ 
+        $obj->error = __("Email already exists");
+        die(json_encode($obj));
+    }
+}
 
 if (empty($_POST['user']) || empty($_POST['pass']) || empty($_POST['email']) || empty($_POST['name'])) {
     $obj->error = __("You must fill all fields");
