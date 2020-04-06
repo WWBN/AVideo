@@ -1,7 +1,6 @@
 <?php
 require_once '../../videos/configuration.php';
 session_write_close();
-header('Content-Type: image/x-png');
 $filename = $global['systemRootPath'] . 'plugin/Live/view/OnAir.jpg';
 
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -17,8 +16,19 @@ if(!empty($_GET['c'])){
 }
 
 $livet =  LiveTransmition::getFromDbByUserName($_GET['u']);
-if(empty($_GET['format'])){
+if (empty($_GET['format'])) {
     $_GET['format'] = "png";
+    header('Content-Type: image/x-png');
+} else if ($_GET['format'] === 'jpg') {
+    header('Content-Type: image/jpg');
+    $destination .= "." . $_GET['format'];
+} else if ($_GET['format'] === 'gif') {
+    header('Content-Type: image/gif');
+} else if ($_GET['format'] === 'webp') {
+    header('Content-Type: image/webp');
+} else {
+    $_GET['format'] = "png";
+    header('Content-Type: image/x-png');
 }
 $lt = new LiveTransmition($livet['id']);
 _error_log("Live:getImage  start");
