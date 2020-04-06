@@ -9,6 +9,13 @@
         right: 5px;
         background-color: rgba(255,0,0,0.7);
     }
+    #availableLiveStream{
+        max-width: 400px;
+        overflow: hidden;
+    }
+    #availableLiveStream li a div{
+        overflow: hidden;
+    }
 </style>
 <?php
 if (User::canStream()) {
