@@ -26,7 +26,6 @@ if (empty($_GET['format'])) {
 }
 $video = $liveLink->getLink();
 
-
 if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $video)) {
     $url = $config->getEncoderURL() . "getImage/" . base64_encode($video) . "/{$_GET['format']}";
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
@@ -40,13 +39,16 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
         _error_log(" New Image will Expired in " . date("d/m/Y H:i:s", $_SESSION[$url]['expire']) . " NOW is " . date("d/m/Y H:i:s"));
     }
     if (!empty($_SESSION[$url]['content'])) {
+        ob_end_clean();
         echo $_SESSION[$url]['content'];
         _error_log(" Cached Good until " . date("d/m/Y H:i:s", $_SESSION[$url]['expire']) . " NOW is " . date("d/m/Y H:i:s"));
     } else {
+        ob_end_clean();
         echo url_get_contents($filename);
         _error_log(" Get default image ");
     }
 } else {
+    ob_end_clean();
     echo local_get_contents($filename);
     _error_log(" Invalid URL ");
 }
