@@ -494,6 +494,9 @@ function sendSiteEmail($to, $subject, $message) {
     if (empty($to)) {
         return false;
     }
+    
+    $subject = UTF8encode($subject);
+    $message = UTF8encode($message);
 
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
