@@ -16,7 +16,6 @@ if (empty($_GET['format'])) {
     header('Content-Type: image/x-png');
 } else if ($_GET['format'] === 'jpg') {
     header('Content-Type: image/jpg');
-    $destination .= "." . $_GET['format'];
 } else if ($_GET['format'] === 'gif') {
     header('Content-Type: image/gif');
 } else if ($_GET['format'] === 'webp') {
