@@ -48,9 +48,11 @@ if($lt->userCanSeeTransmition()){
         _error_log("Live:getImage  New Image will Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
     }
     if(!empty($_SESSION[$url]['content'])){
+        ob_end_clean();
         echo $_SESSION[$url]['content'];
         _error_log("Live:getImage  Cached Good until ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
     }else{
+        ob_end_clean();
         echo file_get_contents($filename);
         _error_log("Live:getImage  Get default image ");
     }
