@@ -1,5 +1,6 @@
 <?php
 global $t;
+
 $t['%s ERROR: You must set a ID on config'] = "%s ОШИБКА: Вы должны установить ID в конфигурации";
 $t['%s ERROR: You must set a KEY on config'] = "%s ОШИБКА: Вы должны установить ключ в конфигурации";
 $t['(filtered from _MAX_ total entries)'] = "(отфильтровано из _MAX_ всего записей)";
