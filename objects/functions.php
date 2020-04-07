@@ -1449,6 +1449,8 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
 
 function unzipDirectory($filename, $destination) {
     global $global;
+    // wait a couple of seconds to make sure the file is completed transfer
+    sleep(2);
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 7200); // 2 hours
     $cmd = "unzip {$filename} -d {$destination}" . "  2>&1";
