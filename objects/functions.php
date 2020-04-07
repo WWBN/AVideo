@@ -450,9 +450,9 @@ function setSiteSendMessage(&$mail) {
     global $global;
     require_once $global['systemRootPath'] . 'objects/configuration.php';
     $config = new Configuration();
-
+    $mail->CharSet = 'UTF-8';
     if ($config->getSmtp()) {
-        _error_log("Sending SMTP Email");
+        _error_log("Sending SMTP Email");$mail->CharSet = 'UTF-8';
         $mail->IsSMTP(); // enable SMTP
         $mail->SMTPAuth = $config->getSmtpAuth(); // authentication enabled
         $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
