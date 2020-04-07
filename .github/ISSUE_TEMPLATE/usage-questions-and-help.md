@@ -2,7 +2,7 @@
 name: Usage Questions and Help
 about: Feel free to make your usage question here.
 title: ''
-labels: ''
+labels: question
 assignees: ''
 
 ---
