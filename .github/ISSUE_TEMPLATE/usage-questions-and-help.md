@@ -1,6 +1,6 @@
 ---
 name: Usage Questions and Help
-about: Describe your question.
+about: Feel free to make your usage question here.
 title: ''
 labels: ''
 assignees: ''
