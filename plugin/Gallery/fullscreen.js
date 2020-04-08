@@ -4,6 +4,12 @@ $(document).ready(function () {
         var id = $(this).attr('videos_id');
         startFullScreen(webSiteRootURL + 'v/' + id);
     });
+    
+    $('a.evideo').click(function (event) {
+        event.preventDefault();
+        var href = $(this).attr('href');
+        startFullScreen(href);
+    });
 
     $('a.hrefLink').click(function (event) {
         event.preventDefault();
