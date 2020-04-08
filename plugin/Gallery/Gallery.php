@@ -26,7 +26,7 @@ class Gallery extends PluginAbstract {
         // preload image
         $js = "<script>var img1 = new Image();img1.src=\"{$global['webSiteRootURL']}view/img/video-placeholder.png\";</script>";
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>';
-        if(!empty($obj->playVideoOnFullscreen) && !empty($_GET['videoName'])){
+        if(!empty($obj->playVideoOnFullscreen) && (!empty($_GET['videoName']) || !empty($_GET['evideo']))){
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.css" rel="stylesheet" type="text/css"/>';
         }
         if(!empty($obj->playVideoOnFullscreen)){
