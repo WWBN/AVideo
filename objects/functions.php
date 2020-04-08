@@ -2205,7 +2205,7 @@ function isToHidePrivateVideos() {
 }
 
 function getOpenGraph($videos_id) {
-    global $global, $config;
+    global $global, $config, $advancedCustom;
     echo "<!-- OpenGraph -->";
     if (empty($videos_id)) {
         echo "<!-- OpenGraph no video id -->";
@@ -2249,8 +2249,7 @@ function getOpenGraph($videos_id) {
     } else {
         $img = $images->poster;
     }
-    $parse = parse_url($global['webSiteRootURL']);
-    $domain = str_replace(".", "", $parse['host']);
+    $twitter_site = $advancedCustom->twitter_site;
     ?>
     <link rel="image_src" href="<?php echo $img; ?>" />
     <meta property="og:image" content="<?php echo $img; ?>" />
@@ -2287,7 +2286,7 @@ function getOpenGraph($videos_id) {
 
     <!-- Twitter cards -->
     <meta name="twitter:card" content="player" />
-    <meta name="twitter:site" content="@<?php echo $domain; ?>" />
+    <meta name="twitter:site" content="@<?php echo $twitter_site; ?>" />
     <meta name="twitter:url" content="<?php echo Video::getLinkToVideo($videos_id); ?>"/>
     <meta name="twitter:title" content="<?php echo str_replace('"', '', $video['title']); ?>"/>
     <meta name="twitter:description" content="<?php echo str_replace('"', '', $video['description']); ?>"/>
