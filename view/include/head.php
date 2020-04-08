@@ -20,7 +20,7 @@ if (!empty($poster)) {
 if (!empty($_GET['catName'])) {
     $category = Category::getCategoryByName($_GET['catName']);
     $description = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($category['description']));
-    $custom = " {$description} - {$custom}";
+    $custom = " {$description} - {$category['name']}";
 }
 
 
