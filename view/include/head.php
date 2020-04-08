@@ -4,23 +4,27 @@ $head = AVideoPlugin::getHeadCode();
 $custom = "The Best YouTube Clone Ever - AVideo";
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
 
-$custom = "";
+$custom = array();
 
 if (file_exists($extraPluginFile) && AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
     require_once $extraPluginFile;
     $ec = new ExtraConfig();
-    $custom = $ec->getDescription();
+    $custom[] = $ec->getDescription();
 }
 
 if (!empty($poster)) {
     $subTitle = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($video['description']));
-    $custom = "{$subTitle} - {$video["category"]}";
+    $custom = array();
+    $custom[] = $subTitle;
+    $custom[] = $video["category"];
 }
 
 if (!empty($_GET['catName'])) {
     $category = Category::getCategoryByName($_GET['catName']);
     $description = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($category['description']));
-    $custom = " {$description} - {$category['name']}";
+    $custom = array();
+    $custom[] = $description;
+    $custom[] = $category['name'];
 }
 
 
@@ -29,7 +33,7 @@ $theme = $config->getTheme();
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="<?php echo $custom; ?>">
+<meta name="description" content="<?php echo implode(" - ", $custom); ?>">
 
 <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $config->getFavicon(true); ?>">
 <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">

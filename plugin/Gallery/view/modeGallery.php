@@ -8,6 +8,8 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
+$siteTitle = $config->getWebSiteTitle();
+
 $obj = AVideoPlugin::getObjectData("Gallery");
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
@@ -24,6 +26,7 @@ $currentCatType;
 if (!empty($_GET['catName'])) {
     $currentCat = Category::getCategoryByName($_GET['catName']);
     $currentCatType = Category::getCategoryType($currentCat['id']);
+    $siteTitle = "{$currentCat['name']}";
 }
 if ((empty($_GET['type'])) && (!empty($currentCatType))) {
     if ($currentCatType['type'] == "1") {
@@ -72,7 +75,7 @@ $contentSearchFound = false;
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php
-            echo $config->getWebSiteTitle();
+            echo $siteTitle;
             ?></title>
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>

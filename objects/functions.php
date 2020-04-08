@@ -2285,15 +2285,31 @@ function getOpenGraph($videos_id) {
     <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
 
     <!-- Twitter cards -->
-    <meta name="twitter:card" content="player" />
+    <?php
+    if (!empty($advancedCustom->twitter_player)) {
+        ?>
+        <meta name="twitter:card" content="player" />
+        <meta name="twitter:player" content="<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
+        <meta name="twitter:player:width" content="480" />
+        <meta name="twitter:player:height" content="480" />    
+        <?php
+    } else {
+        if (!empty($advancedCustom->twitter_summary_large_image)) {
+            ?>
+            <meta name="twitter:card" content="summary_large_image" />   
+            <?php
+        } else {
+            ?>
+            <meta name="twitter:card" content="summary" />   
+            <?php
+        }
+    }
+    ?>
     <meta name="twitter:site" content="<?php echo $twitter_site; ?>" />
     <meta name="twitter:url" content="<?php echo Video::getLinkToVideo($videos_id); ?>"/>
     <meta name="twitter:title" content="<?php echo str_replace('"', '', $video['title']); ?>"/>
     <meta name="twitter:description" content="<?php echo str_replace('"', '', $video['description']); ?>"/>
     <meta name="twitter:image" content="<?php echo $img; ?>"/>
-    <meta name="twitter:player" content="<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
-    <meta name="twitter:player:width" content="480" />
-    <meta name="twitter:player:height" content="480" />
     <?php
 }
 
