@@ -46,20 +46,17 @@ if (showThis($sectionName)) {
         </h3>
         <?php
         foreach ($object->videos as $video) {
-            $video->fullscreen = 0;
             $youtubeEmbedLink = "{$global['webSiteRootURL']}evideo/".  encryptString(json_encode($video));
-            $video->fullscreen = 1;
-            $youtubeFullscreenEmbedLink = "{$global['webSiteRootURL']}evideo/".  encryptString(json_encode($video));
             $youtubeTitle = $video->title;
             $youtubeThumbs = $video->thumbnails;
             ?>
             <div class="col-lg-<?php echo 12 / $objGallery->screenColsLarge; ?> col-md-<?php echo 12 / $objGallery->screenColsMedium; ?> col-sm-<?php echo 12 / $objGallery->screenColsSmall; ?> col-xs-<?php echo 12 / $objGallery->screenColsXSmall; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
-                <a class="evideo" fulscreenCode="<?php echo $youtubeFullscreenEmbedLink; ?>" href="<?php echo $youtubeEmbedLink; ?>" title="<?php echo $youtubeTitle; ?>">
+                <a class="evideo" href="<?php echo $youtubeEmbedLink; ?>" title="<?php echo $youtubeTitle; ?>">
                     <div class="aspectRatio16_9">
                         <img src="<?php echo $youtubeThumbs; ?>" alt="<?php echo $youtubeTitle; ?>" class="thumbsJPG img img-responsive" />
                     </div>
                 </a>
-                <a class="h6 evideo" fulscreenCode="<?php echo $youtubeFullscreenEmbedLink; ?>" href="<?php echo $youtubeEmbedLink; ?>" title="<?php echo $youtubeTitle; ?>">
+                <a class="h6 evideo" href="<?php echo $youtubeEmbedLink; ?>" title="<?php echo $youtubeTitle; ?>">
                     <h2><?php echo $youtubeTitle; ?></h2>
                 </a>
             </div>
