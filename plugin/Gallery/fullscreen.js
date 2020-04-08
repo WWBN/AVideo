@@ -7,7 +7,7 @@ $(document).ready(function () {
     
     $('a.evideo').click(function (event) {
         event.preventDefault();
-        var href = $(this).attr('href');
+        var href = $(this).attr('fulscreenCode');
         startFullScreen(href);
     });
 
