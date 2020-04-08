@@ -2286,7 +2286,7 @@ function getOpenGraph($videos_id) {
 
     <!-- Twitter cards -->
     <meta name="twitter:card" content="player" />
-    <meta name="twitter:site" content="@<?php echo $twitter_site; ?>" />
+    <meta name="twitter:site" content="<?php echo $twitter_site; ?>" />
     <meta name="twitter:url" content="<?php echo Video::getLinkToVideo($videos_id); ?>"/>
     <meta name="twitter:title" content="<?php echo str_replace('"', '', $video['title']); ?>"/>
     <meta name="twitter:description" content="<?php echo str_replace('"', '', $video['description']); ?>"/>
