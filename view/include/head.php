@@ -27,6 +27,11 @@ if (!empty($_GET['catName'])) {
     $custom[] = $category['name'];
 }
 
+foreach ($custom as $key => $value) {
+    if(empty($value)){
+        unset($custom[$key]);
+    }
+}
 
 $theme = $config->getTheme();
 ?>
