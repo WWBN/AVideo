@@ -452,7 +452,8 @@ function setSiteSendMessage(&$mail) {
     $config = new Configuration();
     $mail->CharSet = 'UTF-8';
     if ($config->getSmtp()) {
-        _error_log("Sending SMTP Email");$mail->CharSet = 'UTF-8';
+        _error_log("Sending SMTP Email");
+        $mail->CharSet = 'UTF-8';
         $mail->IsSMTP(); // enable SMTP
         $mail->SMTPAuth = $config->getSmtpAuth(); // authentication enabled
         $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
@@ -494,7 +495,7 @@ function sendSiteEmail($to, $subject, $message) {
     if (empty($to)) {
         return false;
     }
-    
+
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
 
@@ -2248,6 +2249,8 @@ function getOpenGraph($videos_id) {
     } else {
         $img = $images->poster;
     }
+    $parse = parse_url($global['webSiteRootURL']);
+    $domain = str_replace(".", "", $parse['host']);
     ?>
     <link rel="image_src" href="<?php echo $img; ?>" />
     <meta property="og:image" content="<?php echo $img; ?>" />
@@ -2281,6 +2284,17 @@ function getOpenGraph($videos_id) {
     ?>
     <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
     <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+
+    <!-- Twitter cards -->
+    <meta name="twitter:card" content="player" />
+    <meta name="twitter:site" content="@<?php echo $domain; ?>" />
+    <meta name="twitter:url" content="<?php echo Video::getLinkToVideo($videos_id); ?>"/>
+    <meta name="twitter:title" content="<?php echo str_replace('"', '', $video['title']); ?>"/>
+    <meta name="twitter:description" content="<?php echo str_replace('"', '', $video['description']); ?>"/>
+    <meta name="twitter:image" content="<?php echo $img; ?>"/>
+    <meta name="twitter:player" content="<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
+    <meta name="twitter:player:width" content="480" />
+    <meta name="twitter:player:height" content="480" />
     <?php
 }
 
