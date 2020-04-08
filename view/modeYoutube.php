@@ -15,6 +15,7 @@ if (!empty($evideo)) {
     $video['type'] = 'embed';
     $video['rotation'] = 0;
     $video['videoLink'] = $evideo->videoLink;
+    $video['fullscreen'] = $evideo->fullscreen;
     $video['title'] = $evideo->title;
     $video['clean_title'] = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\] ]+/', '-', trim(strtolower(cleanString($evideo->title))));
     $video['description'] = $evideo->description;
