@@ -293,6 +293,9 @@ class CustomizeUser extends PluginAbstract {
 
     public function getModeYouTube($videos_id) {
         global $global, $config;
+        if(empty($videos_id)){
+            return false;
+        }
         $cansee = User::canWatchVideoWithAds($videos_id);
         $obj = $this->getDataObject();
         if (!$cansee) {
