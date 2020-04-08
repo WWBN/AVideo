@@ -148,6 +148,10 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableHTMLDescription = false;
         $obj->disableTopMenusInsideIframe = true;
         $obj->disableVideoSwap = false;
+        
+        $parse = parse_url($global['webSiteRootURL']);
+        $domain = str_replace(".", "", $parse['host']);
+        $obj->twitter_site = "@{$domain}";
                 
         return $obj;
     }
