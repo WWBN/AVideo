@@ -2672,14 +2672,15 @@ function getUsageFromFilename($filename, $dir = "") {
         } else if (is_file($f)) {
             $filesize = filesize($f);
             if ($filesize < 20) { // that means it is a dummy file
+                _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
                 $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
                 //$bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
                 if (!empty($aws_s3)) {
+                    _error_log("getUsageFromFilename: Get from S3");
                     $filesize += $aws_s3->getFilesize($filename);
                 } else if (!empty($bb_b2)) {
                     // TODO
                 }else{
-                    _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
                     $urls = Video::getVideosPaths($filename, true);
                     _error_log("getUsageFromFilename: Paths " . json_encode($urls));
                     if (!empty($urls["m3u8"]['url'])) {
