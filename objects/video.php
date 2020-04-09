@@ -1092,6 +1092,7 @@ if (!class_exists('Video')) {
             $video = new Video("", "", $videos_id);
             $filename = $video->getFilename();
             if(empty($filename) || !($video->getType()=="video" || $video->getType()=="audio")){
+                _error_log("updateFilesize: Not updated, this filetype is ".$video->getType());
                 return false;
             }
             $filesize = getUsageFromFilename($filename);
@@ -2493,7 +2494,7 @@ if (!class_exists('Video')) {
             if (substr($type, -4) === ".jpg" || substr($type, -4) === ".png" || substr($type, -4) === ".gif" || substr($type, -4) === ".webp") {
                 $source['url'] .= "?" . @filectime($source['path']);
             }
-//ObjectYPT::setCache($name, $source);
+            //ObjectYPT::setCache($name, $source);
             return $source;
         }
 
