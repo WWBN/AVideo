@@ -231,6 +231,12 @@
                     </button>
                     <?php
                 }
+                if (User::isAdmin()){ ?>
+                    <button class="btn btn-primary" id="updateAllUsage">
+                        <i class="fas fa-chart-line"></i> <?php echo __('Update all videos disk usage'); ?>
+                    </button>
+                    <?php
+                }
                 ?>
                 <button class="btn btn-danger" id="deleteBtn">
                     <i class="fa fa-trash" aria-hidden="true"></i> <?php echo __('Delete'); ?>
@@ -1715,7 +1721,39 @@ if (empty($advancedCustom->disableVideoSwap)) {
             });
     <?php
 }
+if (User::isAdmin()) {
+    ?>
+
+            $("#updateAllUsage").click(function () {
+                modal.showPleaseWait();
+
+                $.ajax({
+                    url: '<?php echo $global['webSiteRootURL']; ?>objects/videoUpdateUsage.json.php',
+                    success: function (response) {
+                        modal.hidePleaseWait();
+                        if (response.error) {
+                            swal({
+                                title: "<?php echo __("Sorry!"); ?>",
+                                text: response.error,
+                                type: "error",
+                                html: true
+                            });
+                        } else {
+                            swal({
+                                title: "<?php echo __("Success!"); ?>",
+                                text: "<?php echo __("Videos Updated!"); ?>",
+                                type: "success",
+                                html: true
+                            });
+                            $("#grid").bootgrid("reload");
+                        }
+                    }
+                });
+            });
+    <?php
+}
 ?>
+        
         $('.datepicker').datetimepicker({
             format: 'yyyy-mm-dd hh:ii',
             autoclose: true
