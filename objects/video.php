@@ -1108,6 +1108,10 @@ if (!class_exists('Video')) {
                     }
                 }
             }
+            if($video->getFilesize()==$filesize){
+                _error_log("updateFilesize: No need to update videos_id=$videos_id filename=$filename filesize=$filesize");
+                return $filesize;
+            }
             $video->setFilesize($filesize);
             if($video->save(false, true)){
                 _error_log("updateFilesize: videos_id=$videos_id filename=$filename filesize=$filesize");
