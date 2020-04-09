@@ -2667,10 +2667,12 @@ function getUsageFromFilename($filename, $dir = "") {
     $files = glob("{$dir}{$filename}*");
     foreach ($files as $f) {
         if (is_dir($f)) {
+            _error_log("getUsageFromFilename: {$dir}{$filename} is Dir");
             $totalSize += getDirSize($f);
         } else if (is_file($f)) {
             $filesize = filesize($f);
             if($filesize < 20){ // that means it is a dummy file
+                _error_log("getUsageFromFilename: {$dir}{$filename} is Dummy file ({$filesize})");
                 $urls = Video::getVideosPaths($filename, true);
                 foreach ($urls as $url) {
                     if(!empty($url["m3u8"]['url'])){
@@ -2693,6 +2695,8 @@ function getUsageFromFilename($filename, $dir = "") {
                         $filesize+=getUsageFromURL($url["mp3"]['url']);
                     }
                 }
+            }else{                
+                _error_log("getUsageFromFilename: {$dir}{$filename} is File ({$filesize})");
             }
             $totalSize += $filesize;
         }
