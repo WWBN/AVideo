@@ -2671,33 +2671,30 @@ function getUsageFromFilename($filename, $dir = "") {
             $totalSize += getDirSize($f);
         } else if (is_file($f)) {
             $filesize = filesize($f);
-            if($filesize < 20){ // that means it is a dummy file
+            if ($filesize < 20) { // that means it is a dummy file
                 _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
                 $urls = Video::getVideosPaths($filename, true);
-                _error_log("getUsageFromFilename: Paths ".  json_encode($urls));
-                foreach ($urls as $url) {
-                    _error_log("getUsageFromFilename: Path ".  json_encode($url));
-                    if(!empty($url["m3u8"]['url'])){
-                        $filesize+=getUsageFromURL($url["m3u8"]['url']);
-                    }
-                    if(!empty($url['mp4'])){
-                        foreach ($url['mp4'] as $mp4) {
-                            $filesize+=getUsageFromURL($mp4);
-                        }
-                    }
-                    if(!empty($url['webm'])){
-                        foreach ($url['webm'] as $mp4) {
-                            $filesize+=getUsageFromURL($mp4);
-                        }
-                    }
-                    if(!empty($url["pdf"]['url'])){
-                        $filesize+=getUsageFromURL($url["pdf"]['url']);
-                    }
-                    if(!empty($url["mp3"]['url'])){
-                        $filesize+=getUsageFromURL($url["mp3"]['url']);
+                _error_log("getUsageFromFilename: Paths " . json_encode($urls));
+                if (!empty($urls["m3u8"]['url'])) {
+                    $filesize+=getUsageFromURL($urls["m3u8"]['url']);
+                }
+                if (!empty($urls['mp4'])) {
+                    foreach ($urls['mp4'] as $mp4) {
+                        $filesize+=getUsageFromURL($mp4);
                     }
                 }
-            }else{                
+                if (!empty($urls['webm'])) {
+                    foreach ($urls['webm'] as $mp4) {
+                        $filesize+=getUsageFromURL($mp4);
+                    }
+                }
+                if (!empty($urls["pdf"]['url'])) {
+                    $filesize+=getUsageFromURL($urls["pdf"]['url']);
+                }
+                if (!empty($urls["mp3"]['url'])) {
+                    $filesize+=getUsageFromURL($urls["mp3"]['url']);
+                }
+            } else {
                 _error_log("getUsageFromFilename: {$f} is File ({$filesize})");
             }
             $totalSize += $filesize;
@@ -2733,7 +2730,7 @@ function getUsageFromURL($url) {
     $data = curl_exec($curl);
 
     if ($data) {
-        _error_log("getUsageFromURL: response header ".  $data);
+        _error_log("getUsageFromURL: response header " . $data);
         $content_length = "unknown";
         $status = "unknown";
 
@@ -2749,8 +2746,8 @@ function getUsageFromURL($url) {
         if ($status == 200 || ($status > 300 && $status <= 308)) {
             $result = $content_length;
         }
-    }else{        
-        _error_log("getUsageFromURL: ERROR no response data ".  curl_error($curl));
+    } else {
+        _error_log("getUsageFromURL: ERROR no response data " . curl_error($curl));
     }
 
     curl_close($curl);
