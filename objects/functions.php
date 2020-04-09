@@ -2669,10 +2669,82 @@ function getUsageFromFilename($filename, $dir = "") {
         if (is_dir($f)) {
             $totalSize += getDirSize($f);
         } else if (is_file($f)) {
-            $totalSize += filesize($f);
+            $filesize = filesize($f);
+            if($filesize < 20){ // that means it is a dummy file
+                $urls = Video::getVideosPaths($filename, true);
+                foreach ($urls as $url) {
+                    if(!empty($url["m3u8"]['url'])){
+                        $filesize+=getUsageFromURL($url["m3u8"]['url']);
+                    }
+                    if(!empty($url['mp4'])){
+                        foreach ($url['mp4'] as $mp4) {
+                            $filesize+=getUsageFromURL($mp4);
+                        }
+                    }
+                    if(!empty($url['webm'])){
+                        foreach ($url['webm'] as $mp4) {
+                            $filesize+=getUsageFromURL($mp4);
+                        }
+                    }
+                    if(!empty($url["pdf"]['url'])){
+                        $filesize+=getUsageFromURL($url["pdf"]['url']);
+                    }
+                    if(!empty($url["mp3"]['url'])){
+                        $filesize+=getUsageFromURL($url["mp3"]['url']);
+                    }
+                }
+            }
+            $totalSize += $filesize;
         }
     }
     return $totalSize;
+}
+
+/**
+ * Returns the size of a file without downloading it, or -1 if the file
+ * size could not be determined.
+ *
+ * @param $url - The location of the remote file to download. Cannot
+ * be null or empty.
+ *
+ * @return The size of the file referenced by $url, or false if the size
+ * could not be determined.
+ */
+function getUsageFromURL($url) {
+    // Assume failure.
+    $result = false;
+
+    $curl = curl_init($url);
+
+    // Issue a HEAD request and follow any redirects.
+    curl_setopt($curl, CURLOPT_NOBODY, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($curl, CURLOPT_USERAGENT, get_user_agent_string());
+
+    $data = curl_exec($curl);
+    curl_close($curl);
+
+    if ($data) {
+        $content_length = "unknown";
+        $status = "unknown";
+
+        if (preg_match("/^HTTP\/1\.[01] (\d\d\d)/", $data, $matches)) {
+            $status = (int) $matches[1];
+        }
+
+        if (preg_match("/Content-Length: (\d+)/", $data, $matches)) {
+            $content_length = (int) $matches[1];
+        }
+
+        // http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+        if ($status == 200 || ($status > 300 && $status <= 308)) {
+            $result = $content_length;
+        }
+    }
+
+    return $result;
 }
 
 function getDirSize($dir) {
