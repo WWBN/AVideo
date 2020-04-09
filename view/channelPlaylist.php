@@ -41,7 +41,7 @@ $channelName = @$_GET['channelName'];
 unset($_GET['channelName']);
 $startC = microtime(true);
 TimeLogEnd($timeLog2, __LINE__);
-foreach ($playlists as $playlist) {
+foreach ($playlists as $key => $playlist) {
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
     $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
@@ -52,6 +52,7 @@ foreach ($playlists as $playlist) {
 
     //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
     if (empty($videosArrayId) && ($playlist['status'] == "favorite" || $playlist['status'] == "watch_later")) {
+        unset($playlists[$key]);
         continue;
     } else if (empty($videosArrayId)) {
         $videosP = array();
@@ -59,7 +60,7 @@ foreach ($playlists as $playlist) {
         $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
     } else {
         $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
-    }
+    }//var_dump($videosArrayId, $videosP); exit;
     $_POST['rowCount'] = $rowCount;
     @$timesC[__LINE__] += microtime(true) - $startC;
     $startC = microtime(true);
@@ -78,7 +79,7 @@ foreach ($playlists as $playlist) {
         <div class="panel-heading">
 
             <strong style="font-size: 1.1em;" class="playlistName">
-                <?php echo $playlist['name']; ?> 
+    <?php echo $playlist['name']; ?> 
             </strong>
 
             <?php
@@ -153,7 +154,7 @@ foreach ($playlists as $playlist) {
                 }
                 ?>
                 <a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>viewProgram/<?php echo $playlist['id']; ?>/<?php echo urlencode($playlist['name']); ?>/">
-                    <?php echo __('More'); ?> <i class="fas fa-ellipsis-h"></i> 
+    <?php echo __('More'); ?> <i class="fas fa-ellipsis-h"></i> 
                 </a>
             </div>
         </div>
@@ -171,7 +172,7 @@ foreach ($playlists as $playlist) {
                     $poster = $images->thumbsJpg;
                     $category = new Category($serie['categories_id']);
                     ?>
-                <div style="height: 200px; overflow: hidden;">
+                    <div style="height: 200px; overflow: hidden;">
                         <div class="col-sm-4" id="serie<?php echo $serie['id']; ?>" style="padding: 1px;">
                             <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" />
                         </div>
@@ -188,7 +189,7 @@ foreach ($playlists as $playlist) {
                                         <?php
                                     }
                                     ?>
-                                    <?php echo $category->getName(); ?>
+                                <?php echo $category->getName(); ?>
                                 </a>
                                 <?php
                                 $serie['tags'] = Video::getTags($serie['id']);
@@ -216,7 +217,8 @@ foreach ($playlists as $playlist) {
                                                                 height: 200,
                                                                 width: '100%',
                                                                 scrolling: 'no'
-                                                            }).appendTo('#serie<?php echo $serie['id']; ?>');$(this).removeAttr('onclick');$(this).fadeOut();return false;">
+                                                            }).appendTo('#serie<?php echo $serie['id']; ?>');$(this).removeAttr('onclick');
+                                                            $(this).fadeOut();return false;">
                                         <span class="fa fa-film"></span> 
                                         <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
                                     </a>
@@ -225,7 +227,7 @@ foreach ($playlists as $playlist) {
                                 ?>
                             </small>
                             <p>
-                                <?php echo $serie['description']; ?>
+            <?php echo $serie['description']; ?>
                             </p>
                         </div>
                     </div>
@@ -237,7 +239,8 @@ foreach ($playlists as $playlist) {
                 $count = 0;
                 foreach ($videosP as $value) {
                     // make sure the video exists
-                    if(empty($value['created'])){
+                    if (empty($value['created'])) {
+                        $count++;
                         continue;
                     }
                     $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/" . urlencode($playlist['name']) . "/{$value['clean_title']}";
@@ -286,7 +289,7 @@ foreach ($playlists as $playlist) {
                                 <div>
                                     <i class="fa fa-eye"></i>
                                     <span itemprop="interactionCount">
-                                        <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                                     </span>
                                 </div>
                                 <?php
