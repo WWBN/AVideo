@@ -2722,13 +2722,13 @@ function getUsageFromURL($url) {
 
     _error_log("getUsageFromURL: curl_init ");
     
-    // Issue a HEAD request and follow any redirects.
-    curl_setopt($curl, CURLOPT_NOBODY, true);
-    curl_setopt($curl, CURLOPT_HEADER, true);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($curl, CURLOPT_USERAGENT, get_user_agent_string());
     try {
+        // Issue a HEAD request and follow any redirects.
+        curl_setopt($curl, CURLOPT_NOBODY, true);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_USERAGENT, get_user_agent_string());
         $data = curl_exec($curl);
     } catch (Exception $exc) {
         echo $exc->getTraceAsString();
