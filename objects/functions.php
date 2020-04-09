@@ -2729,6 +2729,7 @@ function getUsageFromURL($url) {
 
     $data = curl_exec($curl);
 
+    _error_log("getUsageFromURL: Executed " . curl_errno($curl));
     if ($data) {
         _error_log("getUsageFromURL: response header " . $data);
         $content_length = "unknown";
