@@ -84,7 +84,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                     $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
                 } else {
                     $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
-                }
+                }//var_dump($videosArrayId, $videosP);exit;
                 @$timesC[__LINE__] += microtime(true) - $startC;
                 $startC = microtime(true);
                 //_error_log("channelPlaylist videosP: ".json_encode($videosP));
@@ -211,6 +211,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                 $count = 0;
                                 foreach ($videosP as $value) {
                                     if(empty($value['created'])){
+                                        $count++;
                                         continue;
                                     }
                                     $episodeLink = "{$global['webSiteRootURL']}program/{$program['id']}/{$count}";
