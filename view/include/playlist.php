@@ -63,7 +63,7 @@ if (!empty($videoSerie)) {
                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" itemprop="thumbnail" />
 
                             <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                            <span itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $value['clean_title']; ?>" />
+                            <span itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], @$catLink, "video/", $value['clean_title']; ?>" />
                             <span itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
                             <span itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
