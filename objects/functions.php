@@ -2674,8 +2674,8 @@ function getUsageFromFilename($filename, $dir = "") {
             if($filesize < 20){ // that means it is a dummy file
                 _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
                 $urls = Video::getVideosPaths($filename, true);
+                _error_log("getUsageFromFilename: Paths ".  json_encode($urls));
                 foreach ($urls as $url) {
-                    _error_log("getUsageFromFilename: Paths ".  json_encode($url));
                     if(!empty($url["m3u8"]['url'])){
                         $filesize+=getUsageFromURL($url["m3u8"]['url']);
                     }
