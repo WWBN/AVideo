@@ -2667,12 +2667,12 @@ function getUsageFromFilename($filename, $dir = "") {
     $files = glob("{$dir}{$filename}*");
     foreach ($files as $f) {
         if (is_dir($f)) {
-            _error_log("getUsageFromFilename: {$dir}{$filename} is Dir");
+            _error_log("getUsageFromFilename: {$f} is Dir");
             $totalSize += getDirSize($f);
         } else if (is_file($f)) {
             $filesize = filesize($f);
             if($filesize < 20){ // that means it is a dummy file
-                _error_log("getUsageFromFilename: {$dir}{$filename} is Dummy file ({$filesize})");
+                _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
                 $urls = Video::getVideosPaths($filename, true);
                 foreach ($urls as $url) {
                     if(!empty($url["m3u8"]['url'])){
@@ -2696,7 +2696,7 @@ function getUsageFromFilename($filename, $dir = "") {
                     }
                 }
             }else{                
-                _error_log("getUsageFromFilename: {$dir}{$filename} is File ({$filesize})");
+                _error_log("getUsageFromFilename: {$f} is File ({$filesize})");
             }
             $totalSize += $filesize;
         }
@@ -2715,6 +2715,7 @@ function getUsageFromFilename($filename, $dir = "") {
  * could not be determined.
  */
 function getUsageFromURL($url) {
+    _error_log("getUsageFromURL: start ({$url})");
     // Assume failure.
     $result = false;
 
@@ -2728,9 +2729,9 @@ function getUsageFromURL($url) {
     curl_setopt($curl, CURLOPT_USERAGENT, get_user_agent_string());
 
     $data = curl_exec($curl);
-    curl_close($curl);
 
     if ($data) {
+        _error_log("getUsageFromURL: response header ".  $data);
         $content_length = "unknown";
         $status = "unknown";
 
@@ -2746,8 +2747,11 @@ function getUsageFromURL($url) {
         if ($status == 200 || ($status > 300 && $status <= 308)) {
             $result = $content_length;
         }
+    }else{        
+        _error_log("getUsageFromURL: ERROR no response data ".  curl_error($curl));
     }
 
+    curl_close($curl);
     return $result;
 }
 
