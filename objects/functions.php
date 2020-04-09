@@ -2720,16 +2720,23 @@ function getUsageFromURL($url) {
 
     $curl = curl_init($url);
 
+    _error_log("getUsageFromURL: curl_init ");
+    
     // Issue a HEAD request and follow any redirects.
     curl_setopt($curl, CURLOPT_NOBODY, true);
     curl_setopt($curl, CURLOPT_HEADER, true);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($curl, CURLOPT_USERAGENT, get_user_agent_string());
-
-    $data = curl_exec($curl);
-
-    _error_log("getUsageFromURL: Executed " . curl_errno($curl));
+    try {
+        $data = curl_exec($curl);
+    } catch (Exception $exc) {
+        echo $exc->getTraceAsString();
+        _error_log("getUsageFromURL: ERROR " . $exc->getMessage());
+        _error_log("getUsageFromURL: ERROR " . curl_errno($curl));
+        _error_log("getUsageFromURL: ERROR " . curl_error($curl));
+    }
+    
     if ($data) {
         _error_log("getUsageFromURL: response header " . $data);
         $content_length = "unknown";
