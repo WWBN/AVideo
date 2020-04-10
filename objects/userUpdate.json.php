@@ -29,13 +29,18 @@ if (!$unique) {
     die(json_encode($obj));
 }
 
+if(empty($user->getBdId())){
+    $obj->error = __("User not found");
+    die(json_encode($obj));
+}
+
 if (!empty($advancedCustomUser->emailMustBeUnique)) {
     if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $obj->error = __("You must specify an valid email");
         die(json_encode($obj));
     }
     $userFromEmail = User::getUserFromEmail($_POST['email']);
-    if (!empty($userFromEmail)) {
+    if (!empty($userFromEmail) && $userFromEmail['id'] !== $user->getBdId()) {
         $obj->error = __("Email already exists");
         die(json_encode($obj));
     }
