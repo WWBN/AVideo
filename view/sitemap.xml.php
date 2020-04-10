@@ -11,6 +11,6 @@ if (!file_exists($sitemapFile) || (time() - filemtime($sitemapFile)) > $time) {
     $sitemap = siteMap();
     file_put_contents($sitemapFile, $sitemap);
 }
-header("Content-type: text/xml");
+header("Content-type: application/xml");
 echo file_get_contents($sitemapFile);
 exit;
