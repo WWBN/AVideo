@@ -164,6 +164,11 @@ foreach ($playList as $value) {
 
             player.playlist(playerPlaylist);
             player.playlist.autoadvance(0);
+            player.on('play', function () {
+                //console.log(player.playlist.currentIndex());
+                //console.log(playerPlaylist[player.playlist.currentIndex()].videos_id);
+                addView(playerPlaylist[player.playlist.currentIndex()].videos_id, 0);
+            });
             // Initialize the playlist-ui plugin with no option (i.e. the defaults).
             player.playlistUi();
             var timeout;
