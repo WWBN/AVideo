@@ -1,6 +1,6 @@
 <li class="dropdown">
     <a href="#" class=" btn btn-default dropdown-toggle   navbar-btn" data-toggle="dropdown">
-        <span class="hidden-sm hidden-md hidden-mdx"><?php echo __("R Rating"); ?></span>
+        <i class="fas fa-filter"></i><span class="hidden-sm hidden-md hidden-mdx"><?php echo __("R Rating"); ?></span>
         <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">

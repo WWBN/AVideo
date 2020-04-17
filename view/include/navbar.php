@@ -74,6 +74,17 @@ if (!$includeDefaultNavBar) {
     #searchForm {
         width: 100%;
         margin-left: 5px;
+        white-space: nowrap;
+    }
+    #searchForm .btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left-width: 0;
+    }
+    #searchForm input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right-width: 0;
     }
 
     #rightProfileButton{
@@ -146,7 +157,7 @@ if (!$includeDefaultNavBar) {
         }
 
         .globalsearchfield {
-            width: 80% !important;
+            width: 90% !important;
         }
 
         .searchli {
