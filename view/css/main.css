@@ -746,11 +746,7 @@ img.blur{
 }
 #mainNavBar ul.items-container li:last-child {
     margin-right: 0 !important;
-}
-
-#mainNavBar div{
-    padding: 0;
-}
+}  
 
 .ima-controls-div{
     pointer-events: none !important;

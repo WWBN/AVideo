@@ -323,7 +323,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
             </li>
 
             <li style="margin-right: 0px; padding-left: 0px;" id="navbarRegularButtons">
-                <div class="hidden-xs col-md-3 col-sm-4" id="myNavbar">
+                <div class="hidden-xs" id="myNavbar">
                     <ul class="right-menus" style="padding-left: 0;">
                         <?php
                         if (!empty($advancedCustom->menuBarHTMLCode->value)) {
@@ -692,7 +692,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <li>
 
                             <div>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-primary btn-block  ">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-primary btn-block  " style="border-radius: 4px 4px 0 0;">
                                     <span class="fa fa-home"></span>
                                     <?php echo __("Home"); ?>
                                 </a>
@@ -707,7 +707,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <li>
 
                             <div>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>trending" class="btn btn-primary btn-block ">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>trending" class="btn btn-primary btn-block " style="border-radius:  0 0 4px 4px;">
                                     <i class="fas fa-fire"></i>
                                     <?php echo __("Trending"); ?>
                                 </a>
