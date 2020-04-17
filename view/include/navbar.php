@@ -154,6 +154,15 @@ if (!$includeDefaultNavBar) {
             padding: 4px;
             width: 50%;
         }
+        #mainNavBar .navbar-brand{
+            width: 100% !important;
+            text-align: center;
+            margin-left: 50px !important;
+        }
+        #mainNavBar .navbar-brand>img {
+            display: unset;
+        }
+
         #myNavbar ul.right-menus{
             display: block;
         }
@@ -216,7 +225,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
         <ul class="items-container">
             <li>
                 <ul class="left-side">
-                    <li>
+                    <li style="max-width: 40px;">
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="bottom" ><span class="fa fa-bars"></span></button>
                         <script>
                             $(document).ready(function () {
@@ -271,7 +280,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             });
                         </script>
                     </li>
-                    <li>
+                    <li style="width: 100%; text-align: center;">
                         <a class="navbar-brand" id="mainNavbarLogo" href="<?php echo empty($advancedCustom->logoMenuBarURL) ? $global['webSiteRootURL'] : $advancedCustom->logoMenuBarURL; ?>" >
                             <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(true); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive ">
                         </a>
@@ -298,7 +307,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     </button>
                 </div>
                 <div class="input-group hidden-xs"  id="mysearch">
-                    <form class="navbar-form form-inline input-group" role="search" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>">
+                    <form class="navbar-form form-inline input-group" role="search" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" style="padding: 0;">
                         <input class="form-control globalsearchfield" type="text" value="<?php
                         if (!empty($_GET['search'])) {
                             echo htmlentities($_GET['search']);

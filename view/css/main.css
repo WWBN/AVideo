@@ -748,6 +748,10 @@ img.blur{
     margin-right: 0 !important;
 }
 
+#mainNavBar div{
+    padding: 0;
+}
+
 .ima-controls-div{
     pointer-events: none !important;
 }
