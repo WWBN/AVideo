@@ -79,7 +79,7 @@ $totalPages = ceil($totalChannels / $_POST['rowCount']);
                     <form id="search-form" name="search-form" action="<?php echo $global['webSiteRootURL']; ?>channels" method="get">
                         <div id="custom-search-input">
                             <div class="input-group col-md-12">
-                                <input type="search" name="searchPhrase" class="form-control input-lg" placeholder="<?php echo __("Search Channels"); ?>" value="<?php echo $_GET['searchPhrase']; unsetSearch(); ?>" />
+                                <input type="search" name="searchPhrase" class="form-control input-lg" placeholder="<?php echo __("Search Channels"); ?>" value="<?php echo @$_GET['searchPhrase']; unsetSearch(); ?>" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-info btn-lg" type="submit">
                                         <i class="glyphicon glyphicon-search"></i>

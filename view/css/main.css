@@ -488,8 +488,8 @@ img.rotate-90 {
     margin-bottom: 150px;
 }
 .navbar-brand {
-    padding: 0px !important; /* firefox bug fix */
-    margin-left: 10px !important;
+    padding: 0px ; /* firefox bug fix */
+    margin-left: 10px;
     height: auto;
 }
 .navbar-brand>img {

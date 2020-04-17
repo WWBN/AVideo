@@ -157,7 +157,8 @@ if (!$includeDefaultNavBar) {
         #mainNavBar .navbar-brand{
             width: 100% !important;
             text-align: center;
-            margin-left: 50px !important;
+            margin-left: 50px;
+            padding: 15px;
         }
         #mainNavBar .navbar-brand>img {
             display: unset;
@@ -292,7 +293,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <li>
                             <a class="navbar-brand" href="<?php echo User::getChannelLinkFromChannelName($_SESSION['channelName']); ?>" >
                                 <img src="<?php echo User::getPhoto($user['id']); ?>" alt="<?php echo User::getNameIdentificationById($user['id']); ?>" 
-                                     class="img img-circle " style="height: 33px; width: 33px;"> 
+                                     class="img img-circle " style="height: 33px; width: 33px; margin-right: 15px;"> 
                             </a>
                         </li>
                     <?php } ?>
