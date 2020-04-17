@@ -787,3 +787,10 @@ img.blur{
 .videoAdUiSkipContainer {
     z-index: 99 !important;
 }
+
+
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .hidden-mdx {
+    display: none !important;
+  }
+}

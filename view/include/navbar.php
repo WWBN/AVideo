@@ -1,13 +1,13 @@
 <?php
 if (isset($_GET['noNavbar'])) {
     _session_start();
-    if (!empty($_GET['noNavbar'])) {    
+    if (!empty($_GET['noNavbar'])) {
         $_SESSION['noNavbar'] = 1;
-    }else{
+    } else {
         $_SESSION['noNavbar'] = 0;
     }
 }
-if(!empty($_SESSION['noNavbar'])){
+if (!empty($_SESSION['noNavbar'])) {
     //$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $actual_link = basename($_SERVER['PHP_SELF']);
     $params = $_GET;
@@ -15,11 +15,11 @@ if(!empty($_SESSION['noNavbar'])){
     $params['noNavbar'] = "0";
     $new_query_string = http_build_query($params);
     ?>
-    <a href="<?php echo $actual_link,"?",$new_query_string; ?>" class="btn btn-default" style="position: absolute; right: 10px; top: 5px;"><i class="fas fa-bars"></i></a>    
+    <a href="<?php echo $actual_link, "?", $new_query_string; ?>" class="btn btn-default" style="position: absolute; right: 10px; top: 5px;"><i class="fas fa-bars"></i></a>    
     <?php
     return '';
 }
-if(!empty($advancedCustomUser->keepViewerOnChannel)){
+if (!empty($advancedCustomUser->keepViewerOnChannel)) {
     if (!empty($_GET['channelName'])) {
         _session_start();
         $_SESSION['channelName'] = $_GET['channelName'];
@@ -78,9 +78,31 @@ if (!$includeDefaultNavBar) {
 
     #rightProfileButton{
         padding: 0; 
+        margin-left: 10px; 
         margin-right: 40px; 
         border: 0;
     }
+
+    #navbarRegularButtons{
+        max-width: 70%;
+        /* remove the scroll because the dropsown menus does not work */
+        /*overflow-x: auto;*/
+        /*overflow-y: hidden;*/
+    }
+    
+    #navbarRegularButtons span.hidden-mdx{
+        max-width: 15vw;
+        display: inline-block;
+    }
+    
+    #navbarRegularButtons .btn{
+        overflow: hidden;
+    }
+
+    #navbarRegularButtons::-webkit-scrollbar {
+        height: 4px;
+    }
+
     @media (max-width : 992px) {
         #searchForm input{
             width: 100px;
@@ -148,8 +170,8 @@ if (!$includeDefaultNavBar) {
             padding-left: 0px;
         }
     }
-    
-        li.navsub-toggle .badge {
+
+    li.navsub-toggle .badge {
         float: right;
     }
     li.navsub-toggle a + ul {
@@ -223,16 +245,18 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <a class="navbar-brand" id="mainNavbarLogo" href="<?php echo empty($advancedCustom->logoMenuBarURL) ? $global['webSiteRootURL'] : $advancedCustom->logoMenuBarURL; ?>" >
                             <img src="<?php echo $global['webSiteRootURL'], $config->getLogo(true); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive ">
                         </a>
-                        <?php
-                        if (!empty($advancedCustomUser->keepViewerOnChannel) && !empty($_SESSION['channelName'])) {
-                            $user = User::getChannelOwner($_SESSION['channelName']);
-                        ?>
-                        <a class="navbar-brand" href="<?php echo User::getChannelLinkFromChannelName($_SESSION['channelName']); ?>" >
-                            <img src="<?php echo User::getPhoto($user['id']); ?>" alt="<?php echo User::getNameIdentificationById($user['id']); ?>" 
-                                 class="img img-responsive img-circle " style="height: 33px; width: 33px; margin-top: 10px;"> 
-                        </a>
-                        <?php } ?>
                     </li>
+                    <?php
+                    if (!empty($advancedCustomUser->keepViewerOnChannel) && !empty($_SESSION['channelName'])) {
+                        $user = User::getChannelOwner($_SESSION['channelName']);
+                        ?>
+                        <li>
+                            <a class="navbar-brand" href="<?php echo User::getChannelLinkFromChannelName($_SESSION['channelName']); ?>" >
+                                <img src="<?php echo User::getPhoto($user['id']); ?>" alt="<?php echo User::getNameIdentificationById($user['id']); ?>" 
+                                     class="img img-circle " style="height: 33px; width: 33px;"> 
+                            </a>
+                        </li>
+                    <?php } ?>
 
                 </ul>
             </li>
@@ -259,7 +283,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                 </div>
             </li>
 
-            <li style="margin-right: 0px; padding-left: 0px;">
+            <li style="margin-right: 0px; padding-left: 0px;" id="navbarRegularButtons">
                 <div class="hidden-xs col-md-3 col-sm-4" id="myNavbar">
                     <ul class="right-menus" style="padding-left: 0;">
                         <?php
@@ -294,7 +318,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                         <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off" />
                                                     </form>
                                                     <a href="#" onclick="$('#formEncoderN').submit();
-                                                                            return false;">
+                                                            return false;">
                                                         <span class="fa fa-cogs"></span> <?php echo empty($advancedCustom->encoderNetworkLabel) ? __("Encoder Network") : $advancedCustom->encoderNetworkLabel; ?>
                                                     </a>
                                                 </li>
@@ -310,7 +334,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                                             <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off"  />
                                                         </form>
                                                         <a href="#" onclick="$('#formEncoder').submit();
-                                                                                    return false;">
+                                                                return false;">
                                                             <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?>
                                                         </a>
                                                     </li>
@@ -458,6 +482,10 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
 
                     </ul>
                 </div>
+
+            </li>
+
+            <li style="margin-right: 0px;">
 
                 <div class="navbar-header pull-right">
                     <ul style="margin: 0; padding: 0;">
@@ -953,8 +981,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                     }
                                     //$parsed_cats[] = $subcat['id'];
                                     echo '<li class="navsub-toggle ' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
-                                      . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
-                                      . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . ' <span class="badge">' . $subcat['total'] . '</span>';
+                                    . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
+                                    . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . ' <span class="badge">' . $subcat['total'] . '</span>';
                                     echo '</a>';
                                     mkSub($subcat['id']);
                                     echo '</li>';
@@ -967,7 +995,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
                         $post = $_POST;
                         $get = $_GET;
-                        unset($_GET); 
+                        unset($_GET);
                         unset($_POST);
                         $_GET['current'] = $_POST['current'] = 1;
                         $_GET['parentsOnly'] = 1;
@@ -989,13 +1017,13 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                             }
                             //$parsed_cats[] = $value['id'];
                             echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
-                              . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >';
-                                echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'];
-                                if (empty($advancedCustom->hideCategoryVideosCount)) {
-                                    echo ' <span class="badge">' . $total . '</span>';
-                                }
-                              echo '</a>';
-                              mkSub($value['id']);
+                            . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >';
+                            echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'];
+                            if (empty($advancedCustom->hideCategoryVideosCount)) {
+                                echo ' <span class="badge">' . $total . '</span>';
+                            }
+                            echo '</a>';
+                            mkSub($value['id']);
                             echo '</li>';
                         }
                         $_POST = $post;
@@ -1051,42 +1079,45 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
         </div>
     </nav>
     <script>
-      $(document).ready(function() {
-        setTimeout(function() {
-          $('.nav li.navsub-toggle a:not(.selected) + ul').hide();
-          var navsub_toggle_selected = $('.nav li.navsub-toggle a.selected');
-              navsub_toggle_selected.next().show();
-              navsub_toggle_selected = navsub_toggle_selected.parent();
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('.nav li.navsub-toggle a:not(.selected) + ul').hide();
+                var navsub_toggle_selected = $('.nav li.navsub-toggle a.selected');
+                navsub_toggle_selected.next().show();
+                navsub_toggle_selected = navsub_toggle_selected.parent();
 
-          var navsub_toggle_selected_stop = 24;
-          while(navsub_toggle_selected.length) {
-            if($.inArray(navsub_toggle_selected.prop('localName'), ['li', 'ul']) == -1) break;
-            if(navsub_toggle_selected.prop('localName') == 'ul') {
-              navsub_toggle_selected.show().prev().addClass('selected');
-            }
-            navsub_toggle_selected = navsub_toggle_selected.parent();
+                var navsub_toggle_selected_stop = 24;
+                while (navsub_toggle_selected.length) {
+                    if ($.inArray(navsub_toggle_selected.prop('localName'), ['li', 'ul']) == -1)
+                        break;
+                    if (navsub_toggle_selected.prop('localName') == 'ul') {
+                        navsub_toggle_selected.show().prev().addClass('selected');
+                    }
+                    navsub_toggle_selected = navsub_toggle_selected.parent();
 
-            navsub_toggle_selected_stop--;
-            if(navsub_toggle_selected_stop < 0) break;
-          }
-        }, 500);
+                    navsub_toggle_selected_stop--;
+                    if (navsub_toggle_selected_stop < 0)
+                        break;
+                }
+            }, 500);
 
 
-        $('.nav').on('click', 'li.navsub-toggle a:not(.selected)', function(e) {
-          var a = $(this),
-              b = a.next();
-          if(b.length) {
-            e.preventDefault();
+            $('.nav').on('click', 'li.navsub-toggle a:not(.selected)', function (e) {
+                var a = $(this),
+                        b = a.next();
+                if (b.length) {
+                    e.preventDefault();
 
-            a.addClass('selected');
-            b.slideDown();
+                    a.addClass('selected');
+                    b.slideDown();
 
-            var c = a.closest('.nav').find('li.navsub-toggle a.selected').not(a).removeClass('selected').next();
+                    var c = a.closest('.nav').find('li.navsub-toggle a.selected').not(a).removeClass('selected').next();
 
-            if(c.length) c.slideUp();
-          }
+                    if (c.length)
+                        c.slideUp();
+                }
+            });
         });
-      });
     </script>
     <?php
     if (!empty($advancedCustom->underMenuBarHTMLCode->value)) {

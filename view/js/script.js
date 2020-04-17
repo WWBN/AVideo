@@ -170,7 +170,7 @@ $(document).ready(function () {
     })();
 
     $('[data-toggle="popover"]').popover();
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
 
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');

@@ -10,7 +10,7 @@ if (!empty($_SESSION['channelName'])) {
     ?>
     <li>
         <a href="<?php echo $leaveLink; ?>"  class="btn btn-default navbar-btn" data-toggle="tooltip" title="<?php echo __("Leave Channel"); ?>" data-placement="bottom" >
-            <span class="fa fa-times"></span>  <span class="hidden-md hidden-sm"><?php echo $_GET['channelName']; ?></span>
+            <span class="fa fa-times"></span>  <span class="hidden-md hidden-sm hidden-mdx"><?php echo $_GET['channelName']; ?></span>
         </a>
     </li>
     <?php

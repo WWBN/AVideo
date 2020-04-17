@@ -45,7 +45,7 @@ class AdsForJesus extends PluginAbstract {
         }
         return '<li>
         <a href="https://forjesus.tv/"  class="btn btn-success navbar-btn" data-toggle="tooltip" title="For jesus TV" data-placement="bottom" >
-            <i class="fas fa-cross"></i>  <span class="hidden-md hidden-sm">ForJesus.TV Site</span>
+            <i class="fas fa-cross"></i>  <span class="hidden-md hidden-sm hidden-mdx">ForJesus.TV Site</span>
         </a>
     </li>';
     }
