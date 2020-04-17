@@ -508,10 +508,6 @@ nav ul.items-container {
     padding: 0px;
 }
 
-nav ul.items-container .tooltip{
-    min-width: 150px; 
-}
-
 nav ul.items-container,
 nav ul.items-container li {
     list-style: none;

@@ -270,7 +270,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds=fal
             $files = getVideosURL($value['filename']);
             @$timesG[__LINE__] += microtime(true) - $startG;
             $startG = microtime(true);
-            if (!(!empty($files['m3u8']) && empty($files['mp4']))) {
+            if (!empty($files['mp4']) || !empty($files['mp3'])) {
                 ?>
 
                 <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">

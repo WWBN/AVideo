@@ -171,7 +171,11 @@ $(document).ready(function () {
 
     $('[data-toggle="popover"]').popover();
     $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-
+    $('[data-toggle="tooltip"]').on('click', function () {
+        var t = this;
+        setTimeout(function(){$(t).tooltip('hide');}, 2000);
+    });
+    
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');
         $(".thumbsGIF").fadeOut();

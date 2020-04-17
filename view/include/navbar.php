@@ -100,12 +100,12 @@ if (!$includeDefaultNavBar) {
         /*overflow-x: auto;*/
         /*overflow-y: hidden;*/
     }
-    
+
     #navbarRegularButtons span.hidden-mdx{
         max-width: 15vw;
         display: inline-block;
     }
-    
+
     #navbarRegularButtons .btn{
         overflow: hidden;
     }
@@ -151,11 +151,30 @@ if (!$includeDefaultNavBar) {
             right: 0;
             top: 50px;
             background-color: #FFF;
+            padding: 4px;
+            width: 50%;
         }
         #myNavbar ul.right-menus{
             display: block;
         }
 
+        #myNavbar ul.right-menus li{
+            margin: 0;
+            padding: 0;
+        }
+        #myNavbar ul.right-menus .btn, #myNavbar ul.right-menus .btn-group{
+            margin: 2px;
+            width: 100%;
+        }
+        #myNavbar ul.right-menus .btn-group{
+            margin: 0;
+        }
+        nav ul.items-container li:first-child {
+            display: list-item;
+        }
+        #navbarRegularButtons span.hidden-mdx {
+            max-width: 100vw;
+        }
         .globalsearchfield {
             width: 90% !important;
         }
@@ -198,7 +217,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
             <li>
                 <ul class="left-side">
                     <li>
-                        <button class="btn btn-default navbar-btn pull-left" id="buttonMenu" ><span class="fa fa-bars"></span></button>
+                        <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="bottom" ><span class="fa fa-bars"></span></button>
                         <script>
                             $(document).ready(function () {
                                 $('#buttonMenu').on("click.sidebar", function (event) {
@@ -310,7 +329,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         if (User::canUpload() && empty($advancedCustom->doNotShowUploadButton)) {
                             ?>
                             <li>
-                                <div class="btn-group">
+                                <div class="btn-group" data-toggle="tooltip" title="<?php echo __("Submit your videos"); ?>" data-placement="bottom" >
                                     <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
                                         <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon) ? $advancedCustom->uploadButtonDropdownIcon : "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
                                     </button>
@@ -434,7 +453,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                     min-width: 20px;
                                 }
                             </style>
-                            <div id="navBarFlag" data-input-name="country" data-selected-country="<?php echo $lang; ?>"></div>
+                            <div id="navBarFlag" data-input-name="country" data-selected-country="<?php echo $lang; ?>"  data-toggle="tooltip" title="<?php echo __('Change Language'); ?>" data-placement="bottom"></div>
                             <script>
                                 $(function () {
                                     $("#navBarFlag").flagStrap({
@@ -503,10 +522,14 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <?php
                         if (empty($advancedCustomUser->doNotShowRightProfile)) {
                             ?>
-                            <li class="rightProfile">
-                                <div class="btn-group">
+                            <li class="rightProfile" >
+                                <div class="btn-group" >
                                     <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton" style="">
-                                        <img src="<?php echo User::getPhoto(); ?>" style="width: 32px; height: 32px; max-width: 32px;"  class="img img-responsive img-circle"/>
+                                        <img src="<?php echo User::getPhoto(); ?>" 
+                                             style="width: 32px; height: 32px; max-width: 32px;"  
+                                             class="img img-responsive img-circle"
+                                             data-toggle="tooltip" data-html="true" title="<b><?php echo User::getName(); ?></b><br><small><?php echo User::getMail(); ?></small>" data-placement="left"
+                                             />
                                     </button>
 
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">

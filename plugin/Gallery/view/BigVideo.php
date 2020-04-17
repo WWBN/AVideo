@@ -156,7 +156,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                             $files = getVideosURL($videoRow['filename']);
                                             @$timesG[__LINE__] += microtime(true) - $startG;
                                             $startG = microtime(true);
-                                            if (!(!empty($files['m3u8']) && empty($files['mp4']))) {
+                                            if (!empty($files['mp4']) || !empty($files['mp3'])) {
                                                 ?>
                                                 <div style="position: relative; overflow: visible;">
                                                     <button type="button" class="btn btn-default btn-sm btn-xs"  data-toggle="dropdown">
