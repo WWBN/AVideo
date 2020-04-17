@@ -3,7 +3,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fas fa-link"></i> <?php echo __("Add an external Live Link"); ?>
-        <span id="serverTime" class="pull-right"> <?php echo __("Add an external Live Link"); ?></span>
+        <span id="serverTime" class="pull-right"></span>
     </div>
     <div class="panel-body"> 
         <div class="row">
