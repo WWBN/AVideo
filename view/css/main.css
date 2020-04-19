@@ -773,6 +773,7 @@ img.blur{
 ::-webkit-scrollbar
 {
     width: 8px;
+    height: 8px;
     background-color: rgba(100,100,100,0.01);
     overflow: hidden;
 }
