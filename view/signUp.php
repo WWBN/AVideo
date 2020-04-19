@@ -34,7 +34,7 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-lg-12">
                     <?php
-                    if(!empty($advancedCustomUser->messageToAppearAboveSignUpBox)){
+                    if(!empty($advancedCustomUser->messageToAppearAboveSignUpBox->value)){
                         echo $advancedCustomUser->messageToAppearAboveSignUpBox->value;
                     }
                     ?>
