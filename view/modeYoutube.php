@@ -6,7 +6,7 @@ $isChannel = 1; // still workaround, for gallery-functions, please let it there.
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-_error_log("modeYoutube: session_id = ".  session_id()." IP = ".  getRealIpAddr());
+_error_log("modeYoutube: session_id = " . session_id() . " IP = " . getRealIpAddr());
 if (!empty($_GET['evideo'])) {
     $evideo = json_decode(decryptString($_GET['evideo']));
 }
@@ -92,7 +92,7 @@ if (!empty($evideo)) {
         if (empty($playlist_index) && $isPlayListTrailer) {
             $video = $videoSerie;
         } else {
-            $vid = new Video("","",$videosPlayList[$playlist_index]['id']);
+            $vid = new Video("", "", $videosPlayList[$playlist_index]['id']);
             $_GET['videoName'] = $vid->getClean_title();
             $video = Video::getVideo($videosPlayList[$playlist_index]['id'], "viewable", false, false, false, true);
         }
@@ -355,7 +355,7 @@ if (!empty($evideo)) {
                 $modeYouTubeTimeLog['After include video ' . $vType] = microtime(true) - $modeYouTubeTime;
                 $modeYouTubeTime = microtime(true);
                 ?>
-                <div class="row" id="modeYoutubeBottom">
+                <div class="row" id="modeYoutubeBottom" style="margin: 0;">
                     <div class="row">
                         <div class="col-sm-1 col-md-1"></div>
                         <div class="col-sm-10 col-md-10">
