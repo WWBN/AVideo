@@ -7,7 +7,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (!empty($obj->useSuggestedVideosAsCarouselInBigVideo)) {
         //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
         //$videoRows = Video::getAllVideosLight("viewable", !$obj->hidePrivateVideos, false, true);
-        $videoRows = Video::getAllVideos("viewable", false, !$obj->hidePrivateVideos, array(), false, false, true,  true);
+        $videoRows = Video::getAllVideos("viewable", false, !$obj->hidePrivateVideos, array(), false, false, true, true);
     }
     if (empty($videoRows)) {
         $videoRows = array($video);
@@ -92,7 +92,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                         <h1><?php echo $videoRow['title']; ?></h1>
                                     </a>
                                     <div class="mainAreaDescriptionContainer">
-                                        <h4 class="mainAreaDescription" itemprop="description"><?php echo $videoRow['description']; ?></h4>
+                                        <h4 class="mainAreaDescription" itemprop="description"><?php
+                                            if (strpos($video['description'], '<br') !== false || strpos($video['description'], '<p') !== false) {
+                                                echo $video['description'];
+                                            } else {
+                                                echo nl2br(textToLink(htmlentities($video['description'])));
+                                            }
+                                            ?></h4>
                                     </div>
                                     <div class="text-muted galeryDetails">
                                         <div>
