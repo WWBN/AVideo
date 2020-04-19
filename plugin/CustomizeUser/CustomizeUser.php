@@ -75,6 +75,11 @@ class CustomizeUser extends PluginAbstract {
         $o->type = "textarea";
         $o->value = "";
         $obj->messageToAppearBelowLoginBox = $o;
+        
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = "";
+        $obj->messageToAppearAboveSignUpBox = $o;
 
         $obj->keepViewerOnChannel = false;
         $obj->showLeaveChannelButton = false;
