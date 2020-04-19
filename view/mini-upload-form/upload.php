@@ -88,6 +88,11 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         // set active
 
         $video->setStatus('a');
+    } else if (empty($advancedCustom->makeVideosUnlistedAfterEncode) && $video->getTitle() !== "Video automatically booked") {
+
+        // set active
+
+        $video->setStatus('u');
     } else {
         $video->setStatus('i');
     }

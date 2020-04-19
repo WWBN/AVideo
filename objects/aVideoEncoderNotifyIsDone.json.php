@@ -46,6 +46,9 @@ if(empty($_POST['fail'])){
         if(empty($advancedCustom->makeVideosInactiveAfterEncode)){
             // set active
             $video->setStatus('a');
+        }else if(empty($advancedCustom->makeVideosUnlistedAfterEncode)){
+            // set active
+            $video->setStatus('u');
         }else{
             $video->setStatus('i');
         }

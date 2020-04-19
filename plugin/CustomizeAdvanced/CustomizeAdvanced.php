@@ -55,6 +55,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowWebsiteOnContactForm = false;
         $obj->doNotUseXsendFile = false;
         $obj->makeVideosInactiveAfterEncode = false;
+        $obj->makeVideosUnlistedAfterEncode = false;
         $obj->usePermalinks = false;
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;

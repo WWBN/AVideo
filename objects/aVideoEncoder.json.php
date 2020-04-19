@@ -62,6 +62,9 @@ if ($status !== 'u' && $status !== 'a') {
     if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
         // set active
         $video->setStatus('a');
+    } else if (empty($advancedCustom->makeVideosUnlistedAfterEncode)) {
+        // set active
+        $video->setStatus('u');
     } else {
         $video->setStatus('i');
     }
