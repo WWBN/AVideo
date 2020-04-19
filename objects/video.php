@@ -333,7 +333,7 @@ if (!class_exists('Video')) {
                     Video::autosetCategoryType($this->old_categories_id);
                 }
                 clearVideosURL($this->filename);
-                self::deleteThumbs($this->filename);
+                self::deleteThumbs($this->filename, true);
                 return $id;
             } else {
                 _error_log($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
@@ -2933,7 +2933,7 @@ if (!class_exists('Video')) {
             return $r;
         }
 
-        static function deleteThumbs($filename) {
+        static function deleteThumbs($filename, $doNotDeleteSprit = false) {
             if (empty($filename)) {
                 return false;
             }
@@ -2943,6 +2943,9 @@ if (!class_exists('Video')) {
             $files = glob("{$filePath}*_thumbs*.jpg");
             foreach ($files as $file) {
                 if (file_exists($file)) {
+                    if($doNotDeleteSprit && strpos($file, '_thumbsSprit.jpg') !== false){
+                        continue;
+                    }
                     @unlink($file);
                 }
             }
