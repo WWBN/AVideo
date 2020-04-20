@@ -2008,12 +2008,23 @@ function siteMap() {
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
     foreach ($rows as $value) {
-        $xml .= '   
+        $xml .= '
             <url>
                 <loc>' . Video::getLink($value['id'], $value['clean_title']) . '</loc>
-                <lastmod>' . $date . '</lastmod>
-                <changefreq>monthly</changefreq>
-                <priority>0.80</priority>
+                <video:video>
+                  <video:thumbnail_loc>' . $global['webSiteRootURL'] . 'videos/' . $value['filename'] . '.jpg</video:thumbnail_loc>
+                  <video:title>' . $value['title'] . '</video:title>
+                  <video:description>' . $value['description'] . '</video:description>
+                  <video:publication_date>' . $value['created'] . '</video:publication_date>
+                  <video:view_count>' . $value['views_count'] . '</video:view_count>
+                  <video:duration>' . $value['duration'] . '</video:duration>
+                  <video:uploader
+                     info=' . $global['webSiteRootURL'] . 'channel/' . $value['users_id'] . '>' . $value['title'] . '
+                  </video:uploader>
+                  <video:family_friendly>yes</video:family_friendly>
+                  <video:live>no</video:live>
+                  <video:requires_subscription>no</video:requires_subscription>
+                </video:video>
             </url>
             ';
     }
