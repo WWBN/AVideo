@@ -308,8 +308,8 @@ class PayPalYPT extends PluginAbstract {
             $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+{$interval} {$frequency}"));
         }
         $agreement = new Agreement();
-        $agreement->setName($name)
-                ->setDescription($name)
+        $agreement->setName(substr(cleanString($name), 0, 126))
+                ->setDescription(substr(cleanString($name), 0, 126))
                 ->setStartDate($startDate);
 
         $plan = new Plan();
