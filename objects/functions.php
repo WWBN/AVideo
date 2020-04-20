@@ -1934,10 +1934,12 @@ function siteMap() {
 
     $xml = '<?xml version="1.0" encoding="UTF-8"?>
     <urlset
-        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd
+        http://www.w3.org/1999/xhtml http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
         <!-- Main Page -->
         <url>
             <loc>' . $global['webSiteRootURL'] . '</loc>
@@ -2007,29 +2009,61 @@ function siteMap() {
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
-    foreach ($rows as $value) {
+    foreach ($rows as $video) {
+        $videos_id = $video['id'];
+        $source = Video::getSourceFile($video['filename']);
+        if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
+            $img = $source['url'];
+            $data = getimgsize($source['path']);
+            $imgw = $data[0];
+            $imgh = $data[1];
+        } else if ($video['type'] == "audio") {
+            $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        }
+        $type = 'video';
+        if ($video['type'] === 'pdf') {
+            $type = 'pdf';
+        }
+        if ($video['type'] === 'article') {
+            $type = 'article';
+        }
+        $images = Video::getImageFromFilename($video['filename'], $type);
+        if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+            $img = $images->posterPortrait;
+            $data = getimgsize($images->posterPortraitPath);
+            $imgw = $data[0];
+            $imgh = $data[1];
+        } else {
+            $img = $images->poster;
+        }
+
+        $description = str_replace(array('"', "\n", "\r"), array('', ' ', ' '), empty(trim($video['description'])) ? $video['title'] : $video['description']);
+        $duration = Video::getItemPropDuration($video['duration']);
+        if ($duration == "PT0H0M0S") {
+            $duration = "PT0H0M1S";
+        }
         $xml .= '
             <url>
-                <loc>' . Video::getLink($value['id'], $value['clean_title']) . '</loc>
+                <loc>' . Video::getLink($video['id'], $video['clean_title']) . '</loc>
                 <video:video>
-                  <video:thumbnail_loc>' . $global['webSiteRootURL'] . 'videos/' . $value['filename'] . '.jpg</video:thumbnail_loc>
-                  <video:title>' . $value['title'] . '</video:title>
-                  <video:description>' . $value['description'] . '</video:description>
-                  <video:publication_date>' . $value['created'] . '</video:publication_date>
-                  <video:view_count>' . $value['views_count'] . '</video:view_count>
-                  <video:duration>' . $value['duration'] . '</video:duration>
-                  <video:uploader
-                     info=' . $global['webSiteRootURL'] . 'channel/' . $value['users_id'] . '>' . $value['title'] . '
-                  </video:uploader>
-                  <video:family_friendly>yes</video:family_friendly>
-                  <video:live>no</video:live>
-                  <video:requires_subscription>no</video:requires_subscription>
+                    <video:thumbnail_loc>' . $img . '</video:thumbnail_loc>
+                    <video:title>' . str_replace('"', '', $video['title']) . '</video:title>
+                    <video:description>' . (strip_tags($description)) . '</video:description>
+                    <video:content_loc>' . htmlentities(Video::getLinkToVideo($videos_id)) . '</video:content_loc>
+                    <video:player_loc>' . htmlentities(parseVideos(Video::getLinkToVideo($videos_id))) . '</video:player_loc>
+                    <video:duration>' . $duration . '</video:duration>
+                    <video:view_count>' . $video['views_count'] . '</video:view_count>
+                    <video:publication_date>' . date("Y-m-d\TH:i:s", strtotime($video['created'])) . '</video:publication_date>
+                    <video:family_friendly>yes</video:family_friendly>
+                    <video:requires_subscription>' . Video::isPublic($video['id']) . '</video:requires_subscription>
+                    <video:uploader info="' . User::getChannelLink($video['users_id']) . '">' . User::getNameIdentificationById($video['users_id']) . '</video:uploader>
+                    <video:live>no</video:live>
                 </video:video>
             </url>
             ';
     }
     $xml .= '</urlset> ';
-    return preg_replace ('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml);
+    return preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml);
 }
 
 function object_to_array($obj) {
@@ -2691,7 +2725,7 @@ function getUsageFromFilename($filename, $dir = "") {
                     $filesize += $aws_s3->getFilesize($filename);
                 } else if (!empty($bb_b2)) {
                     // TODO
-                }else{
+                } else {
                     $urls = Video::getVideosPaths($filename, true);
                     _error_log("getUsageFromFilename: Paths " . json_encode($urls));
                     if (!empty($urls["m3u8"]['url'])) {
@@ -2741,7 +2775,7 @@ function getUsageFromURL($url) {
     $curl = curl_init($url);
 
     _error_log("getUsageFromURL: curl_init ");
-    
+
     try {
         // Issue a HEAD request and follow any redirects.
         curl_setopt($curl, CURLOPT_NOBODY, true);
@@ -2756,7 +2790,7 @@ function getUsageFromURL($url) {
         _error_log("getUsageFromURL: ERROR " . curl_errno($curl));
         _error_log("getUsageFromURL: ERROR " . curl_error($curl));
     }
-    
+
     if ($data) {
         _error_log("getUsageFromURL: response header " . $data);
         $content_length = "unknown";
