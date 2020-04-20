@@ -2038,10 +2038,7 @@ function siteMap() {
         }
 
         $description = str_replace(array('"', "\n", "\r"), array('', ' ', ' '), empty(trim($video['description'])) ? $video['title'] : $video['description']);
-        $duration = Video::getItemPropDuration($video['duration']);
-        if ($duration == "PT0H0M0S") {
-            $duration = "PT0H0M1S";
-        }
+        $duration = parseDurationToSeconds($video['duration']);
         $xml .= '
             <url>
                 <loc>' . Video::getLink($video['id'], $video['clean_title']) . '</loc>
@@ -2055,7 +2052,7 @@ function siteMap() {
                     <video:view_count>' . $video['views_count'] . '</video:view_count>
                     <video:publication_date>' . date("Y-m-d\TH:i:s", strtotime($video['created'])) . '</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>' . Video::isPublic($video['id']) . '</video:requires_subscription>
+                    <video:requires_subscription>' . (Video::isPublic($video['id'])?"no":"yes") . '</video:requires_subscription>
                     <video:uploader info="' . User::getChannelLink($video['users_id']) . '">' . User::getNameIdentificationById($video['users_id']) . '</video:uploader>
                     <video:live>no</video:live>
                 </video:video>
