@@ -2046,7 +2046,6 @@ function siteMap() {
                     <video:thumbnail_loc>' . $img . '</video:thumbnail_loc>
                     <video:title>' . str_replace('"', '', $video['title']) . '</video:title>
                     <video:description>' . (strip_tags($description)) . '</video:description>
-                    <video:content_loc>' . htmlentities(Video::getLinkToVideo($videos_id)) . '</video:content_loc>
                     <video:player_loc>' . htmlentities(parseVideos(Video::getLinkToVideo($videos_id))) . '</video:player_loc>
                     <video:duration>' . $duration . '</video:duration>
                     <video:view_count>' . $video['views_count'] . '</video:view_count>
