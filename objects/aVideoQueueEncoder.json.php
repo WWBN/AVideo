@@ -100,13 +100,21 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     if (!empty($_FILES['upl']['description'])) {
         $video->setDescription($_FILES['upl']['description']);
     }
-    /**
-     * Make a better title and clean title
+    /*
+     * set title (if given)
      */
-    $videoNewTitle = $video->getTitle();
-    $titleParts = explode("YPTuniqid", $videoNewTitle);
-    $video->setTitle($titleParts[0]);
-    $video->setClean_title($titleParts[0]);
+    if (!empty($_FILES['upl']['title'])) {
+        $video->setTitle($_FILES['upl']['title']);
+        $video->setClean_title($_FILES['upl']['title']);
+    }else{
+        /**
+         * Make a better title and clean title
+         */
+        $videoNewTitle = $video->getTitle();
+        $titleParts = explode("YPTuniqid", $videoNewTitle);
+        $video->setTitle($titleParts[0]);
+        $video->setClean_title($titleParts[0]);
+    }
     $id = $video->save($updateVideoGroups);
 
     /**
