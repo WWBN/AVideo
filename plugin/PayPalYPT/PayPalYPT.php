@@ -166,8 +166,8 @@ class PayPalYPT extends PluginAbstract {
         $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
         // Create a new billing plan
         $plan = new Plan();
-        $plan->setName(substr($name, 0, 126))
-                ->setDescription(substr($name, 0, 126))
+        $plan->setName(substr(cleanString($name), 0, 126))
+                ->setDescription(substr(cleanString($name), 0, 126))
                 ->setType('INFINITE');
 
         $paymentDefinitionArray = array();
