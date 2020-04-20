@@ -15,7 +15,7 @@ if (!User::canUpload()) {
 }
 
 // A list of permitted file extensions
-$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv');
+$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'm4a', 'wav', 'm4v', 'webm', 'wmv');
 
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
@@ -35,7 +35,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     //chack if is an audio
     $type = "video";
-    if (strcasecmp($extension, 'mp3') == 0 || strcasecmp($extension, 'wav') == 0) {
+    if (strcasecmp($extension, 'mp3') == 0 || strcasecmp($extension, 'wav') == 0 || strcasecmp($extension, 'm4a') == 0) {
         $type = 'audio';
     }
 
