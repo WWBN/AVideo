@@ -531,6 +531,10 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     <ul style="margin: 0; padding: 0;">
                         <?php
                         if (empty($advancedCustomUser->doNotShowRightProfile)) {
+                            $tooltip = "";
+                            if(User::isLogged()){
+                                $tooltip = 'data-toggle="tooltip" data-html="true" title="'.User::getName().":: ".User::getMail().'" data-placement="left"';   
+                            }
                             ?>
                             <li class="rightProfile" >
                                 <div class="btn-group" >
@@ -538,7 +542,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                         <img src="<?php echo User::getPhoto(); ?>" 
                                              style="width: 32px; height: 32px; max-width: 32px;"  
                                              class="img img-responsive img-circle"
-                                             data-toggle="tooltip" data-html="true" title="<?php echo User::getName(); ?>:: <?php echo User::getMail(); ?>" data-placement="left"
+                                             <?php echo $tooltip; ?>
                                              />
                                     </button>
 
