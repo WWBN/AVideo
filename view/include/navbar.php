@@ -538,7 +538,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                         <img src="<?php echo User::getPhoto(); ?>" 
                                              style="width: 32px; height: 32px; max-width: 32px;"  
                                              class="img img-responsive img-circle"
-                                             data-toggle="tooltip" data-html="true" title="<b><?php echo User::getName(); ?></b><br><small><?php echo User::getMail(); ?></small>" data-placement="left"
+                                             data-toggle="tooltip" data-html="true" title="<?php echo User::getName(); ?>:: <?php echo User::getMail(); ?>" data-placement="left"
                                              />
                                     </button>
 
