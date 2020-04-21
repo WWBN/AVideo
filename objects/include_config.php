@@ -107,7 +107,7 @@ if ($baseName !== 'xsendfile.php' && class_exists("Plugin")) {
 if (empty($global['bodyClass'])) {
     $global['bodyClass'] = "";
 }
-$global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3', 'ogg', 'zip');
+$global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3','m4a', 'ogg', 'zip');
 $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
 AVideoPlugin::loadPlugin("PlayerSkins");
