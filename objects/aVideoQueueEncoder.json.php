@@ -172,4 +172,4 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
 //echo '{"status":"error", "msg":' . json_encode($_FILES) . ', "type":"$_FILES Error"}';
 status(["status" => "error", "msg" => print_r($_FILES,true), "type" => '$_FILES Error']);
-exit;
+//exit;
