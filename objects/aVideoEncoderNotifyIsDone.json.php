@@ -63,6 +63,11 @@ if(empty($_POST['fail'])){
 $obj->error = false;
 $obj->video_id = $video_id;
 Video::updateFilesize($video_id);
+// delete original files if any
+$originalFilePath =  "{$global['systemRootPath']}videos/original_" . $video->getFilename();
+if(file_exists($originalFilePath)){
+    unlink($originalFilePath);
+}
 _error_log("Video is done notified {$video_id}: " . $video->getTitle());
 die(json_encode($obj));
 

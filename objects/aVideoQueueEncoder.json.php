@@ -76,6 +76,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
     $filename = uniqid($mainName . "_YPTuniqid_", true);
+    $originalFilePath =  "{$global['systemRootPath']}videos/original_" . $filename;
 
     $video = new Video(preg_replace("/_+/", " ", $path_parts['filename']), $filename, @$_FILES['upl']['videoId']);
     $video->setDuration($duration);
@@ -125,16 +126,16 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
      * move:   default, used with uploaded files
      */
     if (array_key_exists('copyOriginalFile', $_FILES['upl'])) {
-        if (!copy($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
-            die("Error on copy(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")");
+        if (!copy($_FILES['upl']['tmp_name'], $originalFilePath)) {
+            die("Error on copy(" . $_FILES['upl']['tmp_name'] . ", " . $originalFilePath . ")");
         }
     } elseif (array_key_exists('dontMoveUploadedFile', $_FILES['upl'])) {
-        if (!rename($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
-            die("Error on rename(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")");
+        if (!rename($_FILES['upl']['tmp_name'], $originalFilePath)) {
+            die("Error on rename(" . $_FILES['upl']['tmp_name'] . ", " . $originalFilePath . ")");
         }
-    } elseif (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
-        if (!rename($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
-            die("Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")");
+    } elseif (!move_uploaded_file($_FILES['upl']['tmp_name'], $originalFilePath)) {
+        if (!rename($_FILES['upl']['tmp_name'], $originalFilePath)) {
+            die("Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . $originalFilePath . ")");
         }
     }
 
