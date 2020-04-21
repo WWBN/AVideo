@@ -141,7 +141,20 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $video = new Video('', '', $id);
     // send to encoder
     $queue = array();
-    $queue[] = $video->queue();
+    $postFields = array();
+    if ($video->getType() == 'video') {
+        if (AVideoPlugin::isEnabledByName("VideoHLS")) {
+            $postFields['inputHLS'] = 1;
+        }else{
+            $postFields['inputLow'] = 1;
+            $postFields['inputSD'] = 1;
+            $postFields['inputHD'] = 1;
+        }
+    } else {
+        $postFields['audioOnly'] = 1;
+        $postFields['spectrum'] = 1;
+    }
+    $queue[] = $video->queue($postFields);
 
     //exec("/usr/bin/php -f videoEncoder.php {$_FILES['upl']['tmp_name']} {$filename}  1> {$global['systemRootPath']}videos/{$filename}_progress.txt  2>&1", $output, $return_val);
     //var_dump($output, $return_val);
