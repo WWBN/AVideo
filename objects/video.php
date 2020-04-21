@@ -2345,7 +2345,7 @@ if (!class_exists('Video')) {
 
             if (empty($types) && AVideoPlugin::isEnabledByName("VideoHLS")) {
                 $postFields['inputHLS'] = 1;
-            }else if(!empty ($type)){
+            }else if(!empty ($types)){
                 foreach ($types as $key => $value) {
                     $postFields[$key] = $value;
                 }
