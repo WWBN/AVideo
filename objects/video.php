@@ -2324,7 +2324,7 @@ if (!class_exists('Video')) {
             $this->next_videos_id = $next_videos_id;
         }
 
-        function queue() {
+        function queue($types=array()) {
             global $config;
             if (!User::canUpload()) {
                 return false;
@@ -2343,8 +2343,12 @@ if (!class_exists('Video')) {
                 "notifyURL" => "{$global['webSiteRootURL']}"
             );
 
-            if (AVideoPlugin::isEnabledByName("VideoHLS")) {
+            if (empty($types) && AVideoPlugin::isEnabledByName("VideoHLS")) {
                 $postFields['inputHLS'] = 1;
+            }else if(!empty ($type)){
+                foreach ($types as $key => $value) {
+                    $postFields[$key] = $value;
+                }
             }
 
             _error_log("SEND To QUEUE: " . print_r($postFields, true));
@@ -2360,7 +2364,7 @@ if (!class_exists('Video')) {
             $obj->response = $r;
             if ($errno = curl_errno($curl)) {
                 $error_message = curl_strerror($errno);
-//echo "cURL error ({$errno}):\n {$error_message}";
+                //echo "cURL error ({$errno}):\n {$error_message}";
                 $obj->msg = "cURL error ({$errno}):\n {$error_message}";
             } else {
                 $obj->error = false;
