@@ -133,7 +133,9 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
             die("Error on rename(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")");
         }
     } elseif (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
-        die("Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")");
+        if(!rename($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)){
+            die("Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")");
+        }        
     }
 
     $video = new Video('', '', $id);
