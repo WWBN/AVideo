@@ -24,7 +24,7 @@ class VideoTags extends PluginAbstract {
 
     public function getEmptyDataObject() {
         $obj = new stdClass();
-        $obj->onlyAdminCanCreateTags = true;
+        $obj->onlyAdminCanCreateTags = false;
         $obj->maxTags = 100;
         $obj->maxChars = 100;
         return $obj;
