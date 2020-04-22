@@ -972,7 +972,10 @@ echo AVideoPlugin::getManagerVideosEdit();
             $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
             $('#inputNextVideo-id').val(row.next_video.id);
         } else {
-            $('#removeAutoplay').trigger('click');
+            try {
+                $('#removeAutoplay').trigger('click');
+            }
+            catch(e){}
         }
 
 
