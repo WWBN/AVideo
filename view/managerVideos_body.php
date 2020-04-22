@@ -71,12 +71,12 @@
                                 
                             }
                             ?>
-                            <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
+                            <form id="formEncoderVideosM" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
                                 <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
                                 <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
                                 <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
                             </form>
-                            <a href="#" onclick="$('#formEncoder').submit();return false;" class="btn btn-sm btn-xs btn-default">
+                            <a href="#" onclick="$('#formEncoderVideosM').submit();return false;" class="btn btn-sm btn-xs btn-default">
                                 <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?>
                             </a>
                             <?php
