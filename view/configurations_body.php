@@ -69,7 +69,7 @@ if (User::isAdmin()) {
                                                             <?php
                                                         } else {
                                                             ?>
-                                                            <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Customize/page/editor.php" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i>  Customize Colors</a>
+                                                            <a href="<?php echo $global['webSiteRootURL']; ?>admin/?page=design_colors" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i>  Customize Colors</a>
                                                             <?php
                                                         }
                                                         ?>
