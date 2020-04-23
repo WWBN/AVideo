@@ -14,15 +14,6 @@ if (!User::isAdmin()) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }
-$dir = "{$global['systemRootPath']}videos/cache/";
-if(!empty($_GET['FirstPage'])){
-    $dir .= "firstPage/";
-}
-rrmdir($dir);
-$dir = getCacheDir();
-if(!empty($_GET['FirstPage'])){
-    $dir .= "firstPage/";
-}
-rrmdir($dir);
+clearCache();
 $obj->error = false;
 die(json_encode($obj));

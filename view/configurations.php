@@ -5,6 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
+require_once $global['systemRootPath'] . 'admin/functions.php';
 //var_dump($config);exit;
 ?>
 <!DOCTYPE html>

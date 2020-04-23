@@ -1328,7 +1328,7 @@ if (typeof gtag !== \"function\") {
     static function canUpload($doNotCheckPlugins=false) {
         global $global, $config, $advancedCustomUser;
         if (User::isAdmin()) {
-            return true;
+            //return true;
         }
         if(empty($doNotCheckPlugins) && !AVideoPlugin::userCanUpload(User::getId())){
             return false;

@@ -56,8 +56,19 @@ $cssFiles[] = "view/js/seetalert/sweetalert.css";
 $cssFiles[] = "view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
 $cssFiles[] = "view/js/bootgrid/jquery.bootgrid.css";
 $cssFiles[] = "view/css/custom/{$theme}.css";
+$cssFiles = array_merge($cssFiles);
+$cssURL = combineFiles($cssFiles, "css");
+?>
+<link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
+<?php
+$filename = "{$global['systemRootPath']}videos/cache/custom.css";
+if($theme === "default" && file_exists($filename) && AVideoPlugin::isEnabledByName("Customize")){
+    echo '<link href="'.$global['webSiteRootURL'].'videos/cache/custom.css?'.  filectime($filename) .'" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
+}else{
+    echo '<link href="" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
+}
+$cssFiles = array();
 $cssFiles[] = "view/css/main.css";
-//$cssFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.css";
 $cssFiles = array_merge($cssFiles, AVideoPlugin::getCSSFiles());
 $cssURL = combineFiles($cssFiles, "css");
 ?>

@@ -56,32 +56,60 @@ if (User::isAdmin()) {
                                             <span class="fa fa-info-circle"></span>
                                             <?php echo __("We would like to thanks http://bootswatch.com/"); ?>
                                         </div>
-                                        <?php
-                                        foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
-                                            //echo "$filename size " . filesize($filename) . "\n";
-                                            $file = basename($filename);         // $file is set to "index.php"
-                                            $fileEx = basename($filename, ".css"); // $file is set to "index"
-                                            $savedTheme = $config->getTheme();
-                                            if ($fileEx == $savedTheme) {
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <div class="panel panel-success">
+                                                    <div class="panel-heading">Customize Your site colors <div class="pull-right"><?php echo getPluginSwitch('Customize'); ?></div></div>
+                                                    <div class="panel-body">
+                                                        <img src="<?php echo $global['webSiteRootURL'], "view/css/custom/customize.png"; ?>" class="img-responsive">
+                                                        <?php
+                                                        if (!AVideoPlugin::exists('Customize')) {
+                                                            ?>
+                                                            <a href="https://youphp.tube/plugins/" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i>  Purchase the Customize Plugin</a>
+                                                            <?php
+                                                        } else {
+                                                            ?>
+                                                            <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Customize/page/editor.php" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i>  Customize Colors</a>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <?php
+                                            foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
+                                                //echo "$filename size " . filesize($filename) . "\n";
+                                                $file = basename($filename);         // $file is set to "index.php"
+                                                $fileEx = basename($filename, ".css"); // $file is set to "index"
+                                                $savedTheme = $config->getTheme();
+                                                if ($fileEx == $savedTheme) {
+                                                    ?>
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            setTimeout(function () {
+                                                                $("#btn<?php echo ($fileEx); ?>").trigger("click");
+                                                            }, 1000);
+                                                        });
+                                                    </script>
+                                                    <?php
+                                                }
                                                 ?>
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        setTimeout(function () {
-                                                            $("#btn<?php echo ($fileEx); ?>").trigger("click");
-                                                        }, 1000);
-                                                    });
-                                                </script>
+                                                <div class="col-xs-4">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading"><?php echo ucfirst($fileEx); ?></div>
+                                                        <div class="panel-body">
+
+                                                            <img src="<?php echo $global['webSiteRootURL'], "view/css/custom/", $fileEx, ".png"; ?>" class="img-responsive img-radio">
+                                                            <button type="button" class="btn btn-default btn-radio btn-block btn-xs" id="btn<?php echo ($fileEx); ?>"><?php echo ucfirst($fileEx); ?></button>
+                                                            <input type="checkbox" value="<?php echo ($fileEx); ?>"  class="hidden left-item">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <?php
                                             }
                                             ?>
-                                            <div class="col-xs-4" style="padding: 10px;">
-                                                <img src="<?php echo $global['webSiteRootURL'], "view/css/custom/", $fileEx, ".png"; ?>" class="img-responsive img-radio">
-                                                <button type="button" class="btn btn-default btn-radio btn-block btn-xs" id="btn<?php echo ($fileEx); ?>"><?php echo ucfirst($fileEx); ?></button>
-                                                <input type="checkbox" value="<?php echo ($fileEx); ?>"  class="hidden left-item">
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
+                                        </div>
 
                                     </div>
                                 </div>

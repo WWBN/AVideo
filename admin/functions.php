@@ -9,15 +9,15 @@ function createTable($pluginName, $filter = array()) {
     }
     //var_dump($filter);exit;
     echo '<form class="adminOptionsForm">';
-    echo '<input type="hidden" value="'.$pluginName.'" name="pluginName"/>';
-    echo '<input type="hidden" value="'.implode("|", array_keys($filter)).'" name="pluginsList"/>';
+    echo '<input type="hidden" value="' . $pluginName . '" name="pluginName"/>';
+    echo '<input type="hidden" value="' . implode("|", array_keys($filter)) . '" name="pluginsList"/>';
     echo '<table class="table table-hover">';
     $pluginsList = array();
     if (!AVideoPlugin::exists($pluginName)) {
         echo "<tr><td colspan='2'> Sorry you do not have the plugin </td></tr>";
     } else {
         if (!empty($plugin)) {
-            $form = jsonToFormElements($plugin,$filter);
+            $form = jsonToFormElements($plugin, $filter);
             //var_dump($form);
             echo implode("", $form);
         }
@@ -43,7 +43,8 @@ function jsonToFormElements($json, $filter = array()) {
         if (is_object($valueJson)) {
             if ($valueJson->type === 'textarea') {
                 $input = "<textarea class='form-control jsonElement' name='{$keyJson}' pluginType='object'>{$valueJson->value}</textarea>";
-            } else {                var_dump($keyJson, $valueJson);
+            } else {
+                var_dump($keyJson, $valueJson);
                 $input = "<input class='form-control jsonElement' name='{$keyJson}' pluginType='object' type='{$valueJson->type}' value='{$valueJson->value}'/>";
             }
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
@@ -64,7 +65,7 @@ function jsonToFormElements($json, $filter = array()) {
 
 function getPluginSwitch($pluginName) {
     if (!AVideoPlugin::exists($pluginName)) {
-       $input = '<a href="https://www.avideo.com/plugins/" class="btn btn-danger btn-sm btn-xs">Buy this plugin now</a>';
+        $input = '<a href="https://youphp.tube/plugins/" class="btn btn-danger btn-sm btn-xs">Buy this plugin now</a>';
     } else {
         $plugin = AVideoPlugin::loadPluginIfEnabled($pluginName);
         $pluginForced = AVideoPlugin::loadPlugin($pluginName);

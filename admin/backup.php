@@ -19,7 +19,7 @@
                         <h2><i class="fas fa-undo"></i> Prevent Data Loss</h2>
                         Backing up your video files and databases, running test restores procedures on your backups, and storing copies of backups in a safe, off-site location protects you from potentially catastrophic data loss. Backing up is the only way to protect your data.
                         <br> We can help you with this task,
-                        <a class="btn btn-info btn-sm btn-xs" href="https://www.avideo.com/plugins/">Buy our Backup Plugin Now</a>
+                        <a class="btn btn-info btn-sm btn-xs" href="https://youphp.tube/plugins/">Buy our Backup Plugin Now</a>
                     </div>
                     <?php
                 }

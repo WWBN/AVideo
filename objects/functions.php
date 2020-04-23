@@ -1678,7 +1678,7 @@ function combineFiles($filesArray, $extension = "js") {
                 $str .= "\n/*{$value} created via web with own url ({$allowed}) */\n" . $content;
             }
         }
-        if (($extension == "js") && ($minifyEnabled)) {
+        if ((($extension == "js") && ($minifyEnabled)) || $extension == "css") {
             require_once $global['systemRootPath'] . 'objects/jshrink.php';
             $str = \JShrink\Minifier::minify($str, array('flaggedComments' => false));
         }
@@ -2051,7 +2051,7 @@ function siteMap() {
                     <video:view_count>' . $video['views_count'] . '</video:view_count>
                     <video:publication_date>' . date("Y-m-d\TH:i:s", strtotime($video['created'])) . '+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>' . (Video::isPublic($video['id'])?"no":"yes") . '</video:requires_subscription>
+                    <video:requires_subscription>' . (Video::isPublic($video['id']) ? "no" : "yes") . '</video:requires_subscription>
                     <video:uploader info="' . User::getChannelLink($video['users_id']) . '">' . User::getNameIdentificationById($video['users_id']) . '</video:uploader>
                     <video:live>no</video:live>
                 </video:video>
@@ -2694,6 +2694,20 @@ function remove_utf8_bom($text) {
 function getCacheDir() {
     $p = AVideoPlugin::loadPlugin("Cache");
     return $p->getCacheDir();
+}
+
+function clearCache() {
+    global $global;
+    $dir = "{$global['systemRootPath']}videos/cache/";
+    if (!empty($_GET['FirstPage'])) {
+        $dir .= "firstPage/";
+    }
+    rrmdir($dir);
+    $dir = getCacheDir();
+    if (!empty($_GET['FirstPage'])) {
+        $dir .= "firstPage/";
+    }
+    rrmdir($dir);
 }
 
 function getUsageFromFilename($filename, $dir = "") {
