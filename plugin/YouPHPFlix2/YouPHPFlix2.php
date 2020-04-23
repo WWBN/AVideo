@@ -75,6 +75,10 @@ class YouPHPFlix2 extends PluginAbstract {
     public function getHeadCode() {
         global $global;
         $obj = $this->getDataObject();
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+        if($baseName == 'channel.php'){
+            return "";
+        }
         $css = "";
         //$css .= "<link href=\"{$global['webSiteRootURL']}view/css/custom/".$obj->theme.".css\" rel=\"stylesheet\" type=\"text/css\"/>";
         $css .= "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/css/style.css?".  filectime("{$global['systemRootPath']}plugin/YouPHPFlix2/view/css/style.css")."\" rel=\"stylesheet\" type=\"text/css\"/>";
