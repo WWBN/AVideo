@@ -608,7 +608,8 @@ function playerPlay(currentTime) {
                                     showCancelButton: true,
                                     confirmButtonColor: "#DD6B55",
                                     confirmButtonText: "Yes, unmute it!",
-                                    closeOnConfirm: true
+                                    closeOnConfirm: true,
+                                    className: "swal-noform"
                                 },
                                         function () {
                                             player.muted(false);
