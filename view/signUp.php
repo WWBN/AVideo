@@ -170,7 +170,7 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                         swal({
                                             title: "<?php echo __("Congratulations!"); ?>",
                                             text: "<?php echo __("Your user account has been created!"); ?><br><?php echo!empty($advancedCustomUser->unverifiedEmailsCanNOTLogin) ? __("Sign in to your email to verify your account!") : ""; ?>",
-                                                                            type: "success",
+                                                                            icon: "success",
                                                                             html: true
                                                                         },
                                                                                 function () {

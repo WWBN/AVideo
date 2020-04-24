@@ -688,7 +688,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                             swal({
                                                                 title: "<?php echo __("Sorry!"); ?>",
                                                                 text: json.msg,
-                                                                type: "error",
+                                                                icon: "error",
                                                                 html: true
                                                             });
                                                         } else {
@@ -756,7 +756,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     swal({
                         title: "<?php echo __("Sorry!"); ?>",
                         text: response.msg,
-                        type: "error",
+                        icon: "error",
                         html: true
                     });
                 } else {
@@ -779,7 +779,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     swal({
                         title: "<?php echo __("Sorry!"); ?>",
                         text: response.msg,
-                        type: "error",
+                        icon: "error",
                         html: true
                     });
                 } else {
@@ -806,7 +806,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                         swal({
                             title: "<?php echo __("Sorry!"); ?>",
                             text: response.msg,
-                            type: "error",
+                            icon: "error",
                             html: true
                         });
                     } else {
@@ -1213,7 +1213,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                             swal({
                                 title: "<?php echo __("Sorry!"); ?>",
                                 text: response.error,
-                                type: "error",
+                                icon: "error",
                                 html: true
                             });
                         } else {
@@ -1648,14 +1648,14 @@ echo AVideoPlugin::getManagerVideosReset();
                             swal({
                                 title: "<?php echo __("Sorry!"); ?>",
                                 text: response.msg,
-                                type: "error",
+                                icon: "error",
                                 html: true
                             });
                         } else {
                             swal({
                                 title: "<?php echo __("Success!"); ?>",
                                 text: response.msg,
-                                type: "success",
+                                icon: "success",
                                 html: true
                             });
                         }
@@ -1694,7 +1694,7 @@ if (empty($advancedCustom->disableVideoSwap)) {
                     swal({
                         title: "<?php echo __("Sorry!"); ?>",
                         text: "<?php echo __("Mou MUST select 2 videos to swap"); ?>",
-                        type: "error",
+                        icon: "error",
                         html: true
                     });
                     return false;
@@ -1711,14 +1711,14 @@ if (empty($advancedCustom->disableVideoSwap)) {
                             swal({
                                 title: "<?php echo __("Sorry!"); ?>",
                                 text: response.error,
-                                type: "error",
+                                icon: "error",
                                 html: true
                             });
                         } else {
                             swal({
                                 title: "<?php echo __("Success!"); ?>",
                                 text: "<?php echo __("Video Swaped!"); ?>",
-                                type: "success",
+                                icon: "success",
                                 html: true
                             });
                             $("#grid").bootgrid("reload");
@@ -1742,14 +1742,14 @@ if (User::isAdmin()) {
                             swal({
                                 title: "<?php echo __("Sorry!"); ?>",
                                 text: response.error,
-                                type: "error",
+                                icon: "error",
                                 html: true
                             });
                         } else {
                             swal({
                                 title: "<?php echo __("Success!"); ?>",
                                 text: "<?php echo __("Videos Updated!"); ?>",
-                                type: "success",
+                                icon: "success",
                                 html: true
                             });
                             $("#grid").bootgrid("reload");
@@ -2102,8 +2102,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                             swal({
                                 title: "<?php echo __("Sorry!"); ?>",
                                 text: response.error,
-                                type: "error",
-                                html: true
+                                icon: "error",
                             });
                         } else {
                             $("#grid").bootgrid("reload");
@@ -2126,15 +2125,13 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                             swal({
                                 title: "<?php echo __("Sorry!"); ?>",
                                 text: response.msg,
-                                type: "error",
-                                html: true
+                                icon: "error",
                             });
                         } else {
                             swal({
                                 title: "<?php echo __("Success!"); ?>",
                                 text: response.msg,
-                                type: "success",
-                                html: true
+                                icon: "success",
                             });
                             $("#grid").bootgrid("reload");
                         }

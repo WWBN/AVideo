@@ -44,21 +44,21 @@
 <?php
 if (!empty($_GET['error'])) {
     ?>
-            swal({title: "Sorry!", text: "<?php echo $_GET['error']; ?>", type: "error", html: true});
+            swal({title: "Sorry!", text: "<?php echo $_GET['error']; ?>", icon: "error", html: true});
     <?php
 }
 ?>
 <?php
 if (!empty($_GET['msg'])) {
     ?>
-            swal({title: "Ops!", text: "<?php echo $_GET['msg']; ?>", type: "info", html: true});
+            swal({title: "Ops!", text: "<?php echo $_GET['msg']; ?>", icon: "info", html: true});
     <?php
 }
 ?>
 <?php
 if (!empty($_GET['success']) && strlen($_GET['success']) > 4) {
     ?>
-            swal({title: "<?php echo __("Congratulations"); ?>", text: "<?php echo $_GET['success']; ?>", type: "success", html: true});
+            swal({title: "<?php echo __("Congratulations"); ?>", text: "<?php echo $_GET['success']; ?>", icon: "success", html: true});
     <?php
 }
 ?>
