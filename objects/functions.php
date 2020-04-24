@@ -2712,6 +2712,11 @@ function clearCache() {
 
 function getUsageFromFilename($filename, $dir = "") {
     global $global;
+    
+    if(!empty($global['getUsageFromFilename'])){ // manually add this variable in your configuration.php file to not scan your video usage
+        return 0;
+    }
+    
     if (empty($dir)) {
         $dir = "{$global['systemRootPath']}videos/";
     }
