@@ -2778,6 +2778,12 @@ function getUsageFromFilename($filename, $dir = "") {
  * could not be determined.
  */
 function getUsageFromURL($url) {
+    global $global;
+    
+    if(!empty($global['doNotGetUsageFromURL'])){ // manually add this variable in your configuration.php file to not scan your video usage
+        return 0;
+    }
+    
     _error_log("getUsageFromURL: start ({$url})");
     // Assume failure.
     $result = false;
