@@ -616,5 +616,5 @@ $t['Comment thumbs up - per Person'] = "Comment thumbs up - per Person";
 $t['Video thumbs up - per Channel'] = "Video thumbs up - per Channel";
 $t['Private'] = "Private";
 $t['Owner'] = "Owner";
-$t['You all ready sign up for this plan'] = "Έχετε ήδη εγγραφεί";
+$t['You already sign up for this plann'] = "Έχετε ήδη εγγραφεί";
 $t['Choose this plan'] = "Επιλέξτε αυτό το σχέδιο";
