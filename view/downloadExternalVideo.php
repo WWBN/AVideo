@@ -119,18 +119,20 @@ function isYoutubeDl() {
                                             html: true
                                         });
                                     } else {
-                                        swal({
-                                            title: "<?php echo __("Congratulations!"); ?>",
-                                            text: "<?php echo __("Your video is downloading now"); ?>",
-                                            type: "success",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "#DD6B55",
-                                            confirmButtonText: "<?php echo __("Go to manager videos page!"); ?>",
-                                            closeOnConfirm: false
-                                        },
-                                                function () {
-                                                    window.location.href = '<?php echo $global['webSiteRootURL']; ?>mvideos';
-                                                });
+                                                
+                                         swal({
+                                            title: "<?php echo __("Are you sure?"); ?>",
+                                            text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                                            icon: "warning",
+                                            buttons: true,
+                                            dangerMode: true,
+                                        })
+                                        .then((willDelete) => {
+                                          if (willDelete) {
+                                                 window.location.href = '<?php echo $global['webSiteRootURL']; ?>mvideos';
+                                          } 
+                                        });       
+                                                
                                         if (response.filename) {
                                             checkProgress(response.filename);
                                         }

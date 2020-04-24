@@ -404,16 +404,17 @@ $_GET['channelName'] = $channelName;
     $(function () {
         $('.removeVideo').click(function () {
             currentObject = this;
-            swal({
+                    
+                    swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                closeOnConfirm: true
-            },
-                    function () {
+                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
                         modal.showPleaseWait();
                         var playlist_id = $(currentObject).attr('playlist_id');
                         var video_id = $(currentObject).attr('video_id');
@@ -431,21 +432,23 @@ $_GET['channelName'] = $channelName;
                                 modal.hidePleaseWait();
                             }
                         });
-                    });
+              } 
+            });
         });
 
         $('.deletePlaylist').click(function () {
             currentObject = this;
-            swal({
+                    
+                 swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                closeOnConfirm: true
-            },
-                    function () {
+                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
                         modal.showPleaseWait();
                         var playlist_id = $(currentObject).attr('playlist_id');
                         console.log(playlist_id);
@@ -460,7 +463,8 @@ $_GET['channelName'] = $channelName;
                                 modal.hidePleaseWait();
                             }
                         });
-                    });
+              } 
+            });   
 
         });
 

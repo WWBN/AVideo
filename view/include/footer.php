@@ -24,6 +24,7 @@
     ?>
 </footer>
 <script>
+    /*
     window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
         if (url == "") {
             url = "embed in html";
@@ -36,7 +37,7 @@
         });
         return false;
     }
-
+    */
     // Just for testing
     // throw "A Bug";
     $(function () {

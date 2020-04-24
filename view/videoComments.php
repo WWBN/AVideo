@@ -295,14 +295,15 @@ if (User::canSeeCommentTextarea()) {
                             comments_id = $(this).closest('.replySet').attr("comments_id");
                             t = this;
                             swal({
-                                title: "<?php echo __("Are you sure?"); ?>",
-                                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                                closeOnConfirm: true
-                            }, function () {
+                title: "<?php echo __("Are you sure?"); ?>",
+                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
                                 modal.showPleaseWait();
                                 $.ajax({
                                     url: '<?php echo $global['webSiteRootURL']; ?>objects/commentDelete.json.php',
@@ -317,7 +318,8 @@ if (User::canSeeCommentTextarea()) {
                                         modal.hidePleaseWait();
                                     }
                                 });
-                            });
+              } 
+            });
                         });
                         $('.reply').click(function () {
                             $(this).closest('.replySet').find('.formRepy').first().slideToggle();

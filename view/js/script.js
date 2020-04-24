@@ -599,20 +599,18 @@ function playerPlay(currentTime) {
                             player.muted(true);
                             playerPlay(currentTime);
                         } else {
-                            if (player.muted() && !inIframe()) {
-                                swal({
-                                    html: true,
-                                    title: "Your Media is Muted",
-                                    text: "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>",
-                                    type: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonColor: "#DD6B55",
-                                    confirmButtonText: "Yes, unmute it!",
-                                    closeOnConfirm: true,
-                                    className: "swal-noform"
-                                },
-                                        function () {
+                            if (player.muted() && !inIframe()) {                                        
+                                        swal({
+                                            title: "Your Media is Muted",
+                                                                text: "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>",
+                                                                icon: "warning",
+                                            buttons: true,
+                                            dangerMode: true,
+                                        })
+                                        .then((willDelete) => {
+                                          if (willDelete) {
                                             player.muted(false);
+                                          } 
                                         });
                                 setTimeout(function () {
                                     $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");

@@ -128,16 +128,17 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                 });
 
                 $('#transferNow').click(function () {
-                    swal({
-                        title: "<?php echo __("Are you sure?"); ?>",
-                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "<?php echo __("Yes, transfer it!"); ?>",
-                        closeOnConfirm: true
-                    },
-                            function () {
+                            
+                            swal({
+                title: "<?php echo __("Are you sure?"); ?>",
+                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+
                                 modal.showPleaseWait();
                                 $.ajax({
                                     url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/transferFunds.json.php',
@@ -161,7 +162,8 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                                         }
                                     }
                                 });
-                            });
+              } 
+            });
                 });
 
                 $("#users_name").autocomplete({

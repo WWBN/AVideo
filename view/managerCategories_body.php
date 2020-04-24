@@ -187,18 +187,17 @@
                 $('#categoryFormModal').modal();
             }).end().find(".command-delete").on("click", function (e) {
                 var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                console.log(row);
-                swal({
-                    title: "<?php echo __("Are you sure?"); ?>",
-                    text: "<?php echo __("You will not be able to recover this category!"); ?>",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                    closeOnConfirm: false
-                },
-                        function () {
+                var row = $("#grid").bootgrid("getCurrentRows")[row_index];                        
+                        swal({
+                            title: "<?php echo __("Are you sure?"); ?>",
+                            text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                          if (willDelete) {
+
 
                             modal.showPleaseWait();
                             $.ajax({
@@ -215,6 +214,7 @@
                                     modal.hidePleaseWait();
                                 }
                             });
+                          } 
                         });
             });
         });

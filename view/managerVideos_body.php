@@ -1663,22 +1663,26 @@ echo AVideoPlugin::getManagerVideosReset();
                 });
             });
 <?php } ?>
-        $("#deleteBtn").click(function () {
+        $("#deleteBtn").click(function () {                    
             swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover these videos!"); ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                closeOnConfirm: false
-            },
-                    function () {
-                        swal.close();
-                        modal.showPleaseWait();
-                        var vals = getSelectedVideos();
-                        deleteVideo(vals);
-                    });
+                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                swal("Deleted!", {
+                  icon: "success",
+                });
+                modal.showPleaseWait();
+                var vals = getSelectedVideos();
+                deleteVideo(vals);
+              } else {
+
+              }
+            });
         });
 <?php
 if (empty($advancedCustom->disableVideoSwap)) {
@@ -2000,20 +2004,19 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
             }).end().find(".command-delete").on("click", function (e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                console.log(row);
-                swal({
-                    title: "<?php echo __("Are you sure?"); ?>",
-                    text: "<?php echo __("You will not be able to recover this video!"); ?>",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                    closeOnConfirm: false
-                },
-                        function () {
-                            swal.close();
-                            deleteVideo(row.id);
-                        });
+                        
+                        swal({
+                title: "<?php echo __("Are you sure?"); ?>",
+                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                deleteVideo(row.id);
+              } 
+            });
             })
                     .end().find(".command-refresh").on("click", function (e) {
                 var row_index = $(this).closest('tr').index();
