@@ -1093,7 +1093,7 @@ if (!class_exists('Video')) {
             $video = new Video("", "", $videos_id);
             $filename = $video->getFilename();
             if(empty($filename) || !($video->getType()=="video" || $video->getType()=="audio")){
-                _error_log("updateFilesize: Not updated, this filetype is ".$video->getType());
+                //_error_log("updateFilesize: Not updated, this filetype is ".$video->getType());
                 return false;
             }
             $filesize = getUsageFromFilename($filename);
