@@ -795,3 +795,7 @@ img.blur{
     display: none !important;
   }
 }
+
+.swal-noform .form-group{
+    display: none;
+}
