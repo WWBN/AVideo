@@ -6,7 +6,7 @@ $isChannel = 1; // still workaround, for gallery-functions, please let it there.
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-_error_log("modeYoutube: session_id = " . session_id() . " IP = " . getRealIpAddr());
+//_error_log("modeYoutube: session_id = " . session_id() . " IP = " . getRealIpAddr());
 if (!empty($_GET['evideo'])) {
     $evideo = json_decode(decryptString($_GET['evideo']));
 }
@@ -373,7 +373,7 @@ if (!empty($evideo)) {
                         $modeYouTubeTime = microtime(true);
                         ?>
                     </div>
-                    <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar">
+                    <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar" id="yptRightBar">
                         <div class="col-lg-12 col-sm-12 col-xs-12 text-center">
                             <?php echo getAdsSideRectangle(); ?>
                         </div>
