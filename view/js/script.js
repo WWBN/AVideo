@@ -599,12 +599,14 @@ function playerPlay(currentTime) {
                             player.muted(true);
                             playerPlay(currentTime);
                         } else {
-                            if (player.muted() && !inIframe()) {                                        
+                            if (player.muted() && !inIframe()) {   
+                                        var span = document.createElement("span");
+                                        span.innerHTML = "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>";
                                         swal({
                                             title: "Your Media is Muted",
-                                                                text: "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>",
-                                                                icon: "warning",
+                                            icon: "warning",
                                             buttons: true,
+                                            content: span,
                                             dangerMode: true,
                                         })
                                         .then((willDelete) => {
