@@ -163,7 +163,7 @@ $contentSearchFound = false;
                         if ($obj->Categories && empty($_GET['catName']) && empty($_GET['showOnly'])) {
                             ?>
                             <div id="categoriesContainer"></div>
-                                <p class="pagination">
+                                <p class="pagination infiniteScrollPagination">
                                     <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?current=1"></a>
                                 </p>
                             <div class="scroller-status">
@@ -177,7 +177,7 @@ $contentSearchFound = false;
                                         path: '.pagination__next',
                                         append: '.categoriesContainerItem',
                                         status: '.scroller-status',
-                                        hideNav: '.pagination',
+                                        hideNav: '.infiniteScrollPagination',
                                         prefill: true,
                                         history: false
                                     });

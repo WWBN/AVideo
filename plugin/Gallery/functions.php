@@ -65,6 +65,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         </div>
     </div>
     <script>
+        <?php
+        if($totalPages>1){
+        ?>
         $(document).ready(function () {
             $('#<?php echo $paggingId; ?>').bootpag({
                 total: <?php echo $totalPages; ?>,
@@ -75,6 +78,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                 window.location.replace("<?php echo $url; ?>" + num + args);
             });
         });
+        <?php
+        }
+        ?>
     </script>
     <?php
 }
