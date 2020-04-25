@@ -22,7 +22,7 @@
                             $.ajax({
                                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/ReportVideo/report.json.php',
                                 method: 'POST',
-                                data: {'videos_id': <?php echo $video['id']; ?>},
+                                data: {'videos_id': '<?php echo $video['id']; ?>'},
                                 success: function (response) {
                                     setTimeout(function () {
                                         modal.hidePleaseWait();
