@@ -60,39 +60,69 @@ $liveDO = AVideoPlugin::getObjectData("Live");
         if ($lt->userCanSeeTransmition()) {
             ?>
 
-            <div class="container-fluid principalContainer ">
-                <div class="col-md-12">
-                    <?php
-                    require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
-                    ?>
-                </div>  
-            </div>
-            <div class="container-fluid ">
+            <div class="container-fluid principalContainer">
                 <div class="row">
-                    <div class="col-md-5 col-md-offset-2 list-group-item">
-                        <h1 itemprop="name">
-                            <i class="fas fa-video"></i> <?php echo $livet['title']; ?>
-                        </h1>
-                        <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                        <p><?php echo nl2br(textToLink($livet['description'])); ?></p>
-                        <div class="row">
-                            <div class="col-md-12 watch8-action-buttons text-muted">
+                    <div class="col-md-12">
+                        <center style="margin:5px;">
+                            <?php echo getAdsLeaderBoardTop(); ?>
+                        </center>
+                    </div>  
+                    <div class="col-md-12">
+                        <?php
+                        require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
+                        ?>
+                    </div>  
+                    <div class="col-md-12">
+                        <center style="margin:5px;">
+                            <?php echo getAdsLeaderBoardTop2(); ?>
+                        </center>
+                    </div>  
+                </div>
+                <div class="row" id="modeYoutubeBottom" style="margin: 0;">
 
-                                <?php echo AVideoPlugin::getWatchActionButton(0); ?>
+                    <div class="col-sm-1 col-md-1"></div>
+                    <div class="col-sm-6 col-md-6" id="modeYoutubeBottomContent">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <h1 itemprop="name">
+                                    <i class="fas fa-video"></i> <?php echo $livet['title']; ?>
+                                </h1>
+                                <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
+                                <p><?php echo nl2br(textToLink($livet['description'])); ?></p>
+                                <div class="row">
+                                    <div class="col-md-12 watch8-action-buttons text-muted">
+
+                                        <?php echo AVideoPlugin::getWatchActionButton(0); ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
+                    </div>
+                    <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar" id="yptRightBar" style="">
 
-                            <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
-                        </div>
-                    </div> 
-                    <div class="col-md-3"  id="LivePanel">
                         <?php
                         echo getAdsSideRectangle();
                         ?>
+
                     </div>
-                </div>
+                    <div class="col-sm-1 col-md-1"></div>
+                </div>    
+
             </div>
+
+
+
+
+
+
+
+
+
+
             <?php
         } else {
             ?>

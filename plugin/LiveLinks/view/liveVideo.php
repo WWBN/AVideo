@@ -10,9 +10,9 @@ if (filter_var($t['link'], FILTER_VALIDATE_URL)) {
 }
 ?>
 <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/live.css" rel="stylesheet" type="text/css"/>
-<div class="row main-video">
-    <div class="col-xs-12 col-sm-12 col-lg-2"></div>
-    <div class="col-xs-12 col-sm-12 col-lg-8">
+<div class="row main-video" id="mvideo">
+    <div class="firstC col-sm-2 col-md-2"></div>
+    <div class="secC col-sm-8 col-md-8">
         <div id="videoContainer">
             <div id="floatButtons" style="display: none;">
                 <p class="btn btn-outline btn-xs move">
@@ -30,10 +30,9 @@ if (filter_var($t['link'], FILTER_VALIDATE_URL)) {
                 </video>
             </div>
         </div>
-    </div> 
-
-    <div class="col-xs-12 col-sm-12 col-lg-2"></div>
-</div><!--/row-->
+    </div>
+    <div class="col-sm-2 col-md-2"></div>
+</div>
 <script>
 
     $(document).ready(function () {
