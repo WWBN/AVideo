@@ -12,7 +12,8 @@ body {
     padding: 0 !important;
     margin: 0 !important;
 }
-.videoLink > .duration {
+.videoLink > .duration, 
+time.duration{
     position: absolute;
     background: rgba(0, 0, 0, 0.6)!important;
     padding: 2px;
@@ -597,7 +598,7 @@ nav ul.items-container li ul.right-menus li li {
     z-index: 100;
     overflow: visible;
 }
-.floatVideo #main-video {
+.floatVideo > #main-video {
     -webkit-box-shadow: 2px 0px 19px 2px rgba(0, 0, 0, 1);
     -moz-box-shadow: 2px 0px 19px 2px rgba(0, 0, 0, 1);
     box-shadow: 2px 0px 19px 2px rgba(0, 0, 0, 1);
