@@ -1693,7 +1693,7 @@ if (empty($advancedCustom->disableVideoSwap)) {
                 if (vals.length !== 2) {
                     swal({
                         title: "<?php echo __("Sorry!"); ?>",
-                        text: "<?php echo __("Mou MUST select 2 videos to swap"); ?>",
+                        text: "<?php echo __("You MUST select 2 videos to swap"); ?>",
                         icon: "error",
                         html: true
                     });
