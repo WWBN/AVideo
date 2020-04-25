@@ -12,7 +12,7 @@ body {
     padding: 0 !important;
     margin: 0 !important;
 }
-.duration {
+.videoLink .duration {
     position: absolute;
     background: rgba(0, 0, 0, 0.6)!important;
     padding: 2px;
