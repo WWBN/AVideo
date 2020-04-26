@@ -1,10 +1,4 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
-	typeof define === 'function' && define.amd ? define(['video.js'], factory) :
-	(global.videojsIma = factory(global.videojs));
-}(this, (function (videojs) { 'use strict';
-
-videojs = videojs && videojs.hasOwnProperty('default') ? videojs['default'] : videojs;
+import videojs from 'video.js';
 
 /**
  * Copyright 2017 Google Inc.
@@ -2803,6 +2797,4 @@ var init = function init(options) {
 var registerPlugin = videojs.registerPlugin || videojs.plugin;
 registerPlugin('ima', init);
 
-return ImaPlugin;
-
-})));
+export default ImaPlugin;

@@ -22,8 +22,8 @@ $files = getVideosURL($video->getFilename());
     <Ad id="709684336">
         <InLine>
             <AdSystem>GDFP</AdSystem>
-            <AdTitle>External NCA1C1L1 Preroll</AdTitle>
-            <Description><![CDATA[External NCA1C1L1 Preroll ad]]></Description>
+            <AdTitle><![CDATA[<?php echo $vastCampaingVideos->getAd_title(); ?>]]></AdTitle>
+            <Description><![CDATA[<?php echo $vastCampaingVideos->getAd_title(); ?>]]></Description>
             <Error><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=Error&[ERRORCODE]]]></Error>
             <Impression><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=Impression&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Impression>
             <Creatives>
