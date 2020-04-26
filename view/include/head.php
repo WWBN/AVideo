@@ -62,7 +62,8 @@ $cssURL = combineFiles($cssFiles, "css");
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
 <?php
 $filename = "{$global['systemRootPath']}videos/cache/custom.css";
-if($theme === "default" && file_exists($filename) && AVideoPlugin::isEnabledByName("Customize")){
+$objData = AVideoPlugin::getObjectDataIfEnabled("Customize");
+if($theme === "default" && !empty($obj->showCustomCSS) && file_exists($filename)){
     echo '<link href="'.$global['webSiteRootURL'].'videos/cache/custom.css?'.  filectime($filename) .'" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 }else{
     echo '<link href="" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
