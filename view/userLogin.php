@@ -131,6 +131,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
     ?>
                 var email = $("#inputUser").val();
                 if (!validateEmail(email) && email.toLowerCase() !== "admin") {
+                    // if the user is admin, let it go
                     swal("<?php echo __("Sorry!"); ?>", "<?php echo __("The username must be an email"); ?>", "error");
                     return false;
                 }
