@@ -748,11 +748,15 @@ img.blur{
 #mainNavBar ul.items-container li:last-child {
     margin-right: 0 !important;
 }  
-/* 
+
 .ima-controls-div{
     pointer-events: none !important;
 }
-*/
+
+.ima-controls-div div{
+    pointer-events: auto !important;
+}
+
 .btn-circle {
     width: 30px;
     height: 30px;
