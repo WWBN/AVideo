@@ -1435,15 +1435,17 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
             _error_log("decideMoveUploadedToVideos: FTP {$filename}");
             $ftp->move_uploaded_file($tmp_name, $filename);
         } else {
+            $destinationFile = "{$global['systemRootPath']}videos/{$filename}";
             _error_log("decideMoveUploadedToVideos: Local {$filename}");
-            if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-                if (!rename($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-                    if (!copy($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-                        $obj->msg = "Error on decideMoveUploadedToVideos({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+            if (!move_uploaded_file($tmp_name, $destinationFile)) {
+                if (!rename($tmp_name, $destinationFile)) {
+                    if (!copy($tmp_name, $destinationFile)) {
+                        $obj->msg = "Error on decideMoveUploadedToVideos({$tmp_name}, $destinationFile)";
                         die(json_encode($obj));
                     }
                 }
             }
+            chmod( $destinationFile, 0644);
         }
     }
 }
