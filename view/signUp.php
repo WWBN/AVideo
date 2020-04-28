@@ -167,29 +167,30 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                 type: 'post',
                                 success: function (response) {
                                     if (response.status > 0) {
+                                        var span = document.createElement("span");
+                                        span.innerHTML = "<?php echo __("Your user account has been created!"); ?><br><?php echo!empty($advancedCustomUser->unverifiedEmailsCanNOTLogin) ? __("Sign in to your email to verify your account!") : ""; ?>";
                                         swal({
                                             title: "<?php echo __("Congratulations!"); ?>",
-                                            text: "<?php echo __("Your user account has been created!"); ?><br><?php echo!empty($advancedCustomUser->unverifiedEmailsCanNOTLogin) ? __("Sign in to your email to verify your account!") : ""; ?>",
-                                                                            icon: "success",
-                                                                            html: true
-                                                                        },
-                                                                                function () {
-                                                                                    window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>';
-                                                                                                                        });
-                                                                                                            } else {
-                                                                                                                if (response.error) {
-                                                                                                                    swal("<?php echo __("Sorry!"); ?>", response.error, "error");
-                                                                                                                } else {
-                                                                                                                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been created!"); ?>", "error");
-                                                                                                                }
-                                                                                                            }
-                                                                                                            modal.hidePleaseWait();
-                                                                                                        }
-                                                                                                    });
-                                                                                                    return false;
-                                                                                                }
-                                                                                            });
-                                                                                        });
+                                            content: span,
+                                            icon: "success",
+                                        }).then(function () {
+                                             window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>';
+                                        });
+
+                                    } else {
+                                        if (response.error) {
+                                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                                        } else {
+                                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been created!"); ?>", "error");
+                                        }
+                                    }
+                                    modal.hidePleaseWait();
+                                }
+                            });
+                            return false;
+                        }
+                    });
+                });
             </script>
         </div><!--/.container-->
 
