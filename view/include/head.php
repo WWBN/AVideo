@@ -66,6 +66,15 @@ $objData = AVideoPlugin::getObjectDataIfEnabled("Customize");
 if($theme === "default" && !empty($obj->showCustomCSS) && file_exists($filename)){
     echo '<link href="'.$global['webSiteRootURL'].'videos/cache/custom.css?'.  filectime($filename) .'" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 }else{
+    if($theme !== "default"){
+        echo "<!-- theme is not default -->";
+    }
+    if(empty($obj->showCustomCSS)){
+        echo "<!-- showCustomCSS is empty -->";
+    }
+    if(!file_exists($filename)){
+        echo "<!-- css file does not exist -->";
+    }
     echo '<link href="" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 }
 $cssFiles = array();
