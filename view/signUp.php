@@ -174,7 +174,18 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                             content: span,
                                             icon: "success",
                                         }).then(function () {
-                                             window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>';
+                                            <?php
+                                            if(!empty($_GET['siteRedirectUri'])){
+                                                ?>
+                                                 window.location.href = '<?php echo $_GET['siteRedirectUri']; ?>';    
+                                                <?php
+                                            }else{
+                                                ?>
+                                                window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>';
+                                                <?php
+                                            }
+                                            ?>
+                                             
                                         });
 
                                     } else {
