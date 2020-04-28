@@ -110,6 +110,6 @@ if (empty($global['bodyClass'])) {
 $global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3','m4a', 'ogg', 'zip');
 $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
-$customizePlugin = AVideoPlugin::getObjectData("CustomizeUser");
+$customizePlugin = AVideoPlugin::getObjectData("Customize");
 AVideoPlugin::loadPlugin("PlayerSkins");
 $sitemapFile = "{$global['systemRootPath']}sitemap.xml";
