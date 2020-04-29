@@ -121,7 +121,7 @@ if (!empty($_GET['t'])) {
     $t = intval($video['progress']['lastVideoTime']);
 } else if (!empty($video['externalOptions']->videoStartSeconds)) {
     $t = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
-}$sources = getVideosURLPDF($video['filename']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -190,9 +190,9 @@ if (!empty($_GET['t'])) {
             }
             ?>"></iframe>
             <script>
-            $(document).ready(function () {
-                addView(<?php echo $video['id']; ?>, 0);
-            });
+                $(document).ready(function () {
+                    addView(<?php echo $video['id']; ?>, 0);
+                });
             </script>
             <?php
         } else if ($video['type'] == "article") {
@@ -215,6 +215,7 @@ if (!empty($_GET['t'])) {
             </div>
             <?php
         } else if ($video['type'] == "pdf") {
+            $sources = getVideosURLPDF($video['filename']);
             ?>
             <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
@@ -226,229 +227,265 @@ if (!empty($_GET['t'])) {
                 });
             </script>
             <?php
-        } else if ($video['type'] == "embed") {
+        } else if ($video['type'] == "image") {
+            $sources = getVideosURLIMAGE($video['filename']);
             ?>
-            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
-            <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
-            echo parseVideos($video['videoLink']);
-            if ($autoplay) {
-                echo "?autoplay=1";
-            }
-            ?>"></iframe>
-            <script>
-                $(document).ready(function () {
-                    addView(<?php echo $video['id']; ?>, 0);
-                });
-            </script>
-            <?php
-        } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
-            ?>
-            <audio style="width: 100%; height: 100%;"  id="mainAudio" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
-                   poster="<?php echo $global['webSiteRootURL']; ?>view/img/recorder.gif">
-                       <?php
-                       $ext = "";
-                       if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
-                           ?>
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
-                    <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
+        <center style="height: 100%;">
+            <img src="<?php
+            echo $sources["image"]['url']
+            ?>" class="img img-responsive"  style="height: 100%;" >
+        </center>
+        <script>
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, 0);
+            });
+        </script>
+        <?php
+    } else if ($video['type'] == "zip") {
+        $sources = getVideosURLZIP($video['filename']);
+        ?>
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="far fa-file-archive"></i> <?php echo $video['title']; ?></div>
+            <div class="panel-body">
+                <ul class="list-group">
                     <?php
-                    $ext = ".ogg";
-                } else {
+                    $za = new ZipArchive();
+                    $za->open($sources['zip']["path"]);
+                    for ($i = 0; $i < $za->numFiles; $i++) {
+                        $stat = $za->statIndex($i);
+                        $fname = basename($stat['name']);
+                        ?>
+                        <li class="list-group-item"  style="text-align: left;"><i class="<?php echo fontAwesomeClassName($fname) ?>"></i> <?php echo $fname; ?></li>
+                        <?php
+                    }
                     ?>
-                    <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
-                    <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
-                    <?php
-                    $ext = ".mp3";
-                }
-                ?>
-            </audio>
-            <script>
-                $(document).ready(function () {
-                    addView(<?php echo $video['id']; ?>, this.currentTime());
-                });
-            </script>
-            <?php
-        } else if ($video['type'] == "linkVideo") {
-            ?>
-            <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
-                   class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
-                <source src="<?php echo $video['videoLink']; ?>" type="<?php echo (strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
-                <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
-            </video>
-
-            <?php
-            // the live users plugin
-            if (empty($modestbranding) && AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
-
-                require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-                $style = VideoLogoOverlay::getStyle();
-                $url = VideoLogoOverlay::getLink();
-                ?>
-                <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
-                    <a href="<?php echo $url; ?>"  target="_blank">
-                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
-                    </a>
-                </div>
-                <?php
-            }
-            ?>
-            <script>
-                $(document).ready(function () {
-                    //Prevent HTML5 video from being downloaded (right-click saved)?
-                    $('#mainVideo').bind('contextmenu', function () {
-                        return false;
-                    });
-                    if (typeof player === 'undefined') {
-                        player = videojs('mainVideo');
-                    }
-                    player.on('play', function () {
-                        addView(<?php echo $video['id']; ?>, this.currentTime());
-                    });
-
-                    player.on('timeupdate', function () {
-                        var time = Math.round(this.currentTime());
-                        if (time >= 5 && time % 5 === 0) {
-                            addView(<?php echo $video['id']; ?>, time);
-                        }
-                    });
-                    player.on('ended', function () {
-                        var time = Math.round(this.currentTime());
-                        addView(<?php echo $video['id']; ?>, time);
-                    });
-
-    <?php
-    if ($autoplay) {
-        ?>
-                        setTimeout(function () {
-                            if (typeof player === 'undefined') {
-                                player = videojs('mainVideo');
-                            }
-                            playerPlay(<?php echo $t; ?>);
-                        }, 150);
+                </ul>
+            </div>
+        </div>
         <?php
-    } else {
+    } else if ($video['type'] == "embed") {
         ?>
-                        setTimeout(function () {
-                            if (typeof player === 'undefined') {
-                                player = videojs('mainVideo');
-                            }
-                            try {
-                                player.currentTime(<?php echo $t; ?>);
-                            } catch (e) {
-                                setTimeout(function () {
-                                    player.currentTime(<?php echo $t; ?>);
-                                }, 1000);
-                            }
-                        }, 150);
+        <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+        <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
+        echo parseVideos($video['videoLink']);
+        if ($autoplay) {
+            echo "?autoplay=1";
+        }
+        ?>"></iframe>
+        <script>
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, 0);
+            });
+        </script>
         <?php
-    }
-    ?>
-                });
-            </script>
-            <?php
-        } else {
-            ?>
-            <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
-                   class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
-                       <?php
-                       echo getSources($video['filename']);
+    } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+        ?>
+        <audio style="width: 100%; height: 100%;"  id="mainAudio" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainAudio"  data-setup='{ "fluid": true }'
+               poster="<?php echo $global['webSiteRootURL']; ?>view/img/recorder.gif">
+                   <?php
+                   $ext = "";
+                   if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
                        ?>
-                <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
-            </video>
-
-            <?php
-            // the live users plugin
-            if (empty($modestbranding) && AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
-
-                require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-                $style = VideoLogoOverlay::getStyle();
-                $url = VideoLogoOverlay::getLink();
-                ?>
-                <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
-                    <a href="<?php echo $url; ?>"  target="_blank">
-                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
-                    </a>
-                </div>
+                <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
+                <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
                 <?php
+                $ext = ".ogg";
+            } else {
+                ?>
+                <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
+                <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
+                <?php
+                $ext = ".mp3";
             }
             ?>
-            <script>
-                $(document).ready(function () {
-                    //Prevent HTML5 video from being downloaded (right-click saved)?
-                    $('#mainVideo').bind('contextmenu', function () {
-                        return false;
-                    });
-                    if (typeof player === 'undefined') {
-                        player = videojs('mainVideo');
-                    }
-                    player.on('play', function () {
-                        addView(<?php echo $video['id']; ?>, this.currentTime());
-                    });
-
-                    player.on('timeupdate', function () {
-                        var time = Math.round(this.currentTime());
-                        if (time >= 5 && time % 5 === 0) {
-                            addView(<?php echo $video['id']; ?>, time);
-                        }
-                    });
-                    player.on('ended', function () {
-                        var time = Math.round(this.currentTime());
-                        addView(<?php echo $video['id']; ?>, time);
-                    });
-
-    <?php
-    if ($autoplay) {
-        ?>
-                        setTimeout(function () {
-                            if (typeof player === 'undefined') {
-                                player = videojs('mainVideo');
-                            }
-                            playerPlay(<?php echo $t; ?>);
-                        }, 150);
+        </audio>
+        <script>
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, this.currentTime());
+            });
+        </script>
         <?php
-    } else {
+    } else if ($video['type'] == "linkVideo") {
         ?>
-                        setTimeout(function () {
-                            if (typeof player === 'undefined') {
-                                player = videojs('mainVideo');
-                            }
-                            try {
-                                player.currentTime(<?php echo $t; ?>);
-                            } catch (e) {
-                                setTimeout(function () {
-                                    player.currentTime(<?php echo $t; ?>);
-                                }, 1000);
-                            }
-                        }, 150);
+        <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
+               class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
+            <source src="<?php echo $video['videoLink']; ?>" type="<?php echo (strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
+            <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
+        </video>
+
         <?php
-    }
-    ?>
-                });
-            </script>
+        // the live users plugin
+        if (empty($modestbranding) && AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+
+            require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+            $style = VideoLogoOverlay::getStyle();
+            $url = VideoLogoOverlay::getLink();
+            ?>
+            <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
+                <a href="<?php echo $url; ?>"  target="_blank">
+                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
+                </a>
+            </div>
             <?php
         }
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
-        <?php
-        echo AVideoPlugin::afterVideoJS();
-        $jsFiles = array();
-        $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
-        $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
-        $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
-        $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
-        $jsFiles[] = "view/js/script.js";
-        $jsFiles[] = "view/js/js-cookie/js.cookie.js";
-        $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
-        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
-        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
-        $jsURL = combineFiles($jsFiles, "js");
+        <script>
+            $(document).ready(function () {
+                //Prevent HTML5 video from being downloaded (right-click saved)?
+                $('#mainVideo').bind('contextmenu', function () {
+                    return false;
+                });
+                if (typeof player === 'undefined') {
+                    player = videojs('mainVideo');
+                }
+                player.on('play', function () {
+                    addView(<?php echo $video['id']; ?>, this.currentTime());
+                });
+
+                player.on('timeupdate', function () {
+                    var time = Math.round(this.currentTime());
+                    if (time >= 5 && time % 5 === 0) {
+                        addView(<?php echo $video['id']; ?>, time);
+                    }
+                });
+                player.on('ended', function () {
+                    var time = Math.round(this.currentTime());
+                    addView(<?php echo $video['id']; ?>, time);
+                });
+
+    <?php
+    if ($autoplay) {
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+                    setTimeout(function () {
+                        if (typeof player === 'undefined') {
+                            player = videojs('mainVideo');
+                        }
+                        playerPlay(<?php echo $t; ?>);
+                    }, 150);
         <?php
-        echo AVideoPlugin::getFooterCode();
+    } else {
         ?>
-    </body>
+                    setTimeout(function () {
+                        if (typeof player === 'undefined') {
+                            player = videojs('mainVideo');
+                        }
+                        try {
+                            player.currentTime(<?php echo $t; ?>);
+                        } catch (e) {
+                            setTimeout(function () {
+                                player.currentTime(<?php echo $t; ?>);
+                            }, 1000);
+                        }
+                    }, 150);
+        <?php
+    }
+    ?>
+            });
+        </script>
+        <?php
+    } else {
+        ?>
+        <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
+               class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
+                   <?php
+                   echo getSources($video['filename']);
+                   ?>
+            <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
+        </video>
+
+        <?php
+        // the live users plugin
+        if (empty($modestbranding) && AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+
+            require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+            $style = VideoLogoOverlay::getStyle();
+            $url = VideoLogoOverlay::getLink();
+            ?>
+            <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
+                <a href="<?php echo $url; ?>"  target="_blank">
+                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
+                </a>
+            </div>
+            <?php
+        }
+        ?>
+        <script>
+            $(document).ready(function () {
+                //Prevent HTML5 video from being downloaded (right-click saved)?
+                $('#mainVideo').bind('contextmenu', function () {
+                    return false;
+                });
+                if (typeof player === 'undefined') {
+                    player = videojs('mainVideo');
+                }
+                player.on('play', function () {
+                    addView(<?php echo $video['id']; ?>, this.currentTime());
+                });
+
+                player.on('timeupdate', function () {
+                    var time = Math.round(this.currentTime());
+                    if (time >= 5 && time % 5 === 0) {
+                        addView(<?php echo $video['id']; ?>, time);
+                    }
+                });
+                player.on('ended', function () {
+                    var time = Math.round(this.currentTime());
+                    addView(<?php echo $video['id']; ?>, time);
+                });
+
+    <?php
+    if ($autoplay) {
+        ?>
+                    setTimeout(function () {
+                        if (typeof player === 'undefined') {
+                            player = videojs('mainVideo');
+                        }
+                        playerPlay(<?php echo $t; ?>);
+                    }, 150);
+        <?php
+    } else {
+        ?>
+                    setTimeout(function () {
+                        if (typeof player === 'undefined') {
+                            player = videojs('mainVideo');
+                        }
+                        try {
+                            player.currentTime(<?php echo $t; ?>);
+                        } catch (e) {
+                            setTimeout(function () {
+                                player.currentTime(<?php echo $t; ?>);
+                            }, 1000);
+                        }
+                    }, 150);
+        <?php
+    }
+    ?>
+            });
+        </script>
+        <?php
+    }
+    ?>
+    <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
+    <?php
+    echo AVideoPlugin::afterVideoJS();
+    $jsFiles = array();
+    $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+    $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
+    $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
+    $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
+    $jsFiles[] = "view/js/script.js";
+    $jsFiles[] = "view/js/js-cookie/js.cookie.js";
+    $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
+    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+    $jsURL = combineFiles($jsFiles, "js");
+    ?>
+    <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+    <?php
+    echo AVideoPlugin::getFooterCode();
+    ?>
+</body>
 </html>
 
 <?php

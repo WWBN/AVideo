@@ -38,6 +38,10 @@ foreach ($videos as $key => $value) {
     }
     if($videos[$key]['type']=='article'){
         $videos[$key]['videosURL'] = getVideosURLArticle($videos[$key]['filename']);
+    }else if($videos[$key]['type']=='image'){
+        $videos[$key]['videosURL'] = getVideosURLIMAGE($videos[$key]['filename']);
+    }else if($videos[$key]['type']=='zip'){
+        $videos[$key]['videosURL'] = getVideosURLZIP($videos[$key]['filename']);
     }else 
     if($videos[$key]['type']=='pdf'){
         $videos[$key]['videosURL'] = getVideosURLPDF($videos[$key]['filename']);

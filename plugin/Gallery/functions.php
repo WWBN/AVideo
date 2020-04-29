@@ -172,7 +172,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds=fal
                     ?>
                 </div>
                 <?php
-                if ($value['type'] !== 'pdf' && $value['type'] !== 'article' && $value['type'] !== 'serie') {
+                if (isToShowDuration($value['type'])) {
                     ?>
                     <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                     <div class="progress" style="height: 3px; margin-bottom: 2px;">

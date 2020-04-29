@@ -156,7 +156,7 @@ foreach ($videos as $key => $value) {
                         <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" ></span>
                         <span itemprop="uploadDate" content="<?php echo $value['created']; ?>"></span>
                     <?php
-                    if ($value['type'] !== 'pdf' && $value['type'] !== 'article') {
+                    if (isToShowDuration($value['type'])) {
                         ?>
                         <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                         <?php

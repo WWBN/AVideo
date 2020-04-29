@@ -85,7 +85,7 @@ class TheaterButton extends PluginAbstract {
         if(($isEmbed==1 || $video['type']=='embed') && $advancedCustom->disableYoutubePlayerIntegration){
             return false;
         }
-        if($video['type']=='article' || $video['type']=='pdf'){
+        if($video['type']=='article' || $video['type']=='pdf' || $video['type']=='image' || $video['type']=='zip'){
             return false;
         }
         return true;

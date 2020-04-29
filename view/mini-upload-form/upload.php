@@ -83,6 +83,24 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         }
         $video->setType("pdf", true);
     }
+    if (($extension == "jpg" || $extension == "jpeg" || $extension == "png" || $extension == "gif" || $extension == "webp")) {
+        if(!empty($advancedCustom->disableImageUpload)){
+            $obj->msg = "Images Files are not Allowed";
+            die(json_encode($obj));
+        }
+        $video->setType("image", true);
+    }
+    if (($extension == "zip")) {
+        if (!empty($global['disableAdvancedConfigurations'])) {
+            $obj->msg = "Zip is disabled on this server";
+            die(json_encode($obj));
+        }
+        if(!empty($advancedCustom->disableZipUpload)){
+            $obj->msg = "Zip Files are not Allowed";
+            die(json_encode($obj));
+        }
+        $video->setType("zip", true);
+    }
     if (empty($advancedCustom->makeVideosInactiveAfterEncode) && $video->getTitle() !== "Video automatically booked") {
 
         // set active
@@ -99,13 +117,14 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     $id = $video->save();
     if ($id) {
+        
         /**
          * This is when is using in a non uploaded movie
          */
         $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
         $tmp_name = $_FILES['upl']['tmp_name'];
         $filenameMP4 = $filename . "." . $extension;
-        decideMoveUploadedToVideos($tmp_name, $filenameMP4);
+        decideMoveUploadedToVideos($tmp_name, $filenameMP4,$video->getType());
         if ((AVideoPlugin::isEnabled("996c9afb-b90e-40ca-90cb-934856180bb9")) && ($extension == "mp4" || $extension == "webm")) {
             require_once $global['systemRootPath'] . 'plugin/MP4ThumbsAndGif/MP4ThumbsAndGif.php';
 
@@ -126,6 +145,19 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         if(!empty($_FILES['upl']['tmp_name'])){
             AVideoPlugin::afterNewVideo($obj->videos_id);
         }
+        
+        
+        if($extension !== "jpg" && $video->getType() == "image"){
+            sleep(1);// to make sure the file will be available
+            $file = "{$global['systemRootPath']}videos/". $video->getFilename();
+            try {
+                convertImage("{$file}.{$extension}", "{$file}.jpg", 70); 
+            } catch (Exception $exc) {
+                _error_log("We could not convert the image to JPG ".$exc->getMessage());
+            } 
+
+        }
+        
         die(json_encode($obj));
     }
 }
