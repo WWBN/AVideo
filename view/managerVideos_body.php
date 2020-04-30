@@ -31,9 +31,9 @@
         <?php
     }
     ?>
-        #actionButtonsVideoManager button{
-            font-size: 12px;
-        }
+    #actionButtonsVideoManager button{
+        font-size: 12px;
+    }
 </style>
 <div class="container">
     <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
@@ -284,7 +284,7 @@
                             <div id="pmedia" class="tab-pane fade in active">
                                 <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
                                     <div id="drop">
-<?php echo __("Drop Here"); ?>
+                                        <?php echo __("Drop Here"); ?>
 
                                         <a><?php echo __("Browse"); ?></a>
                                         <input type="file" name="upl" />
@@ -436,7 +436,7 @@
                                                         </div>
                                                     </li>
                                                     <li class="list-group-item active non-public">
-    <?php echo __("Groups that can see this video"); ?>
+                                                        <?php echo __("Groups that can see this video"); ?>
                                                         <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                                     </li>
                                                     <?php
@@ -444,7 +444,7 @@
                                                         ?>
                                                         <li class="list-group-item non-public">
                                                             <span class="fa fa-lock"></span>
-        <?php echo $value['group_name']; ?>
+                                                            <?php echo $value['group_name']; ?>
                                                             <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
                                                             <div class="material-switch pull-right">
                                                                 <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
@@ -461,7 +461,7 @@
                                     <div id="videoExtraDetails">
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
-<?php echo __("Autoplay Next Video"); ?>
+                                                <?php echo __("Autoplay Next Video"); ?>
                                                 <button class="btn btn-danger btn-sm btn-xs pull-right" id="removeAutoplay"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button>
                                             </div>
                                             <div class="panel-body">

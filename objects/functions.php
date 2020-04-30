@@ -851,7 +851,7 @@ function _getImagesURL($fileName, $type) {
             'url' => $source['url'],
             'type' => 'image',
         );
-    } else {
+    } else if($type!='image') {
         $files["pjpg"] = array(
             'filename' => "{$type}_portrait.png",
             'path' => "{$global['systemRootPath']}view/img/{$type}_portrait.png",
@@ -906,10 +906,10 @@ function getVideosURLIMAGE($fileName) {
         $source = Video::getSourceFile($fileName, ".{$value}");
         $file = $source['path'];
         $files["image"] = array(
-            'filename' => "{$fileName}.pdf",
+            'filename' => "{$fileName}.{$value}",
             'path' => $file,
             'url' => $source['url'],
-            'type' => 'pdf',
+            'type' => 'image',
         );
         if (file_exists($file)) {
             break;
@@ -945,7 +945,7 @@ function getVideosURLZIP($fileName) {
             'filename' => "{$fileName}.zip",
             'path' => $file,
             'url' => $source['url'],
-            'type' => 'pdf',
+            'type' => 'zip',
         );
         if (file_exists($file)) {
             break;

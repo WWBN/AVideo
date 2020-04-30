@@ -2649,17 +2649,17 @@ if (!class_exists('Video')) {
                     $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/article_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/article_portrait.png";
                     $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/article_portrait.png";
-                } if ($type == "pdf") {
+                } else if ($type == "pdf") {
                     $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
                     $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
                     $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
-                } if ($type == "image") {
+                } /* else if ($type == "image") {
                     $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/image_portrait.png";
                     $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/image_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/image_portrait.png";
                     $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/image_portrait.png";
-                } if ($type == "zip") {
+                } */ else if ($type == "zip") {
                     $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
                     $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/zip_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
