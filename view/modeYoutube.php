@@ -233,8 +233,9 @@ if (!empty($evideo)) {
         $type = 'video';
         if ($video['type'] === 'pdf') {
             $type = 'pdf';
-        }
-        if ($video['type'] === 'article') {
+        }else if ($video['type'] === 'zip') {
+            $type = 'zip';
+        }else if ($video['type'] === 'article') {
             $type = 'article';
         }
         $images = Video::getImageFromFilename($video['filename'], $type);

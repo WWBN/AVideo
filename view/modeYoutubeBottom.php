@@ -19,6 +19,10 @@ if (empty($video) && !empty($_GET['videos_id'])) {
     $type = 'video';
     if ($video['type'] === 'pdf') {
         $type = 'pdf';
+    } else if ($video['type'] === 'zip') {
+        $type = 'zip';
+    } else if ($video['type'] === 'article') {
+        $type = 'article';
     }
     $images = Video::getImageFromFilename($video['filename'], $type);
     $poster = $images->poster;
@@ -36,7 +40,13 @@ if (empty($video) && !empty($_GET['videos_id'])) {
     <div class="row divMainVideo">
         <div class="col-xs-4 col-sm-4 col-md-4">
             <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
-            <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
+            <?php
+            if (isToShowDuration($video['type'])) {
+                ?>
+                <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
+                <?php
+            }
+            ?>
             <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
             <span itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>" />
             <span itemprop="embedURL" content="<?php echo Video::getLink($video['id'], $video['clean_title'], true); ?>" />
@@ -87,96 +97,105 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             ?>
         </div>
     </div>
-    <?php 
-    if(empty($_GET['evideo'])){
-    ?>
-    <div class="row">
-        <div class="col-md-12 watch8-action-buttons text-muted">
-            <?php if (empty($advancedCustom->disableShareAndPlaylist)) { ?>
-                <?php if (CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
-                    <a href="#" class="btn btn-default no-outline" id="shareBtn">
-                        <span class="fa fa-share"></span> <?php echo __("Share"); ?>
-                    </a>
-                    <?php
-                }
-
-                if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
+    <?php
+    if (empty($_GET['evideo'])) {
+        ?>
+        <div class="row">
+            <div class="col-md-12 watch8-action-buttons text-muted">
+                <?php if (empty($advancedCustom->disableShareAndPlaylist)) { ?>
+                    <?php if (CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
+                        <a href="#" class="btn btn-default no-outline" id="shareBtn">
+                            <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                        </a>
+                        <?php
+                    }
+                    $filesToDownload = array();
+                    if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
+                        if($video['type']=="zip"){
+                            $files = getVideosURLZIP($video['filename']);
+                        }else{
+                            $files = getVideosURL($video['filename']);
+                        }
+                        foreach ($files as $key => $theLink) {
+                            if (empty($advancedCustom->showImageDownloadOption)) {
+                                if ($key == "jpg" || $key == "gif" || $key == "webp" || $key == "pjpg" || $key == "m3u8") {
+                                    continue;
+                                }
+                            }
+                            if (strpos($theLink['url'], '?') === false) {
+                                $theLink['url'] .= "?download=1&title=" . urlencode($video['title'] . "_{$key}_.mp4");
+                            }
+                            $filesToDownload[] = array('name' => $key, 'url' => $theLink['url']);
+                        }
+                        if (!empty($filesToDownload)) {
+                            ?>
+                            <a href="#" class="btn btn-default no-outline" id="downloadBtn">
+                                <span class="fa fa-download"></span> <?php echo __("Download"); ?>
+                            </a>
+                            <?php
+                        }
+                    }
                     ?>
-                    <a href="#" class="btn btn-default no-outline" id="downloadBtn">
-                        <span class="fa fa-download"></span> <?php echo __("Download"); ?>
+                <?php } echo AVideoPlugin::getWatchActionButton($video['id']); ?>
+                <?php
+                if (empty($advancedCustom->removeThumbsUpAndDown)) {
+                    ?>
+                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
+                        <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
                     </a>
+                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
+                        <span class="fa fa-thumbs-up"></span>
+                        <small><?php echo $video['likes']; ?></small>
+                    </a>
+                    <script>
+                        $(document).ready(function () {
+        <?php if (User::isLogged()) { ?>
+                                $("#dislikeBtn, #likeBtn").click(function () {
+                                    $.ajax({
+                                        url: '<?php echo $global['webSiteRootURL']; ?>' + ($(this).attr("id") == "dislikeBtn" ? "dislike" : "like"),
+                                        method: 'POST',
+                                        data: {'videos_id': <?php echo $video['id']; ?>},
+                                        success: function (response) {
+                                            $("#likeBtn, #dislikeBtn").removeClass("myVote");
+                                            if (response.myVote == 1) {
+                                                $("#likeBtn").addClass("myVote");
+                                            } else if (response.myVote == -1) {
+                                                $("#dislikeBtn").addClass("myVote");
+                                            }
+                                            $("#likeBtn small").text(response.likes);
+                                            $("#dislikeBtn small").text(response.dislikes);
+                                        }
+                                    });
+                                    return false;
+                                });
+        <?php } else { ?>
+                                $("#dislikeBtn, #likeBtn").click(function () {
+                                    $(this).tooltip("show");
+                                    return false;
+                                });
+        <?php } ?>
+                        });
+                    </script>
+
                     <?php
                 }
                 ?>
-            <?php } echo AVideoPlugin::getWatchActionButton($video['id']); ?>
-            <?php
-            if (empty($advancedCustom->removeThumbsUpAndDown)) {
-                ?>
-                <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
-                    <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
-                </a>
-                <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
-                    <span class="fa fa-thumbs-up"></span>
-                    <small><?php echo $video['likes']; ?></small>
-                </a>
-                <script>
-                    $(document).ready(function () {
-    <?php if (User::isLogged()) { ?>
-                            $("#dislikeBtn, #likeBtn").click(function () {
-                                $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>' + ($(this).attr("id") == "dislikeBtn" ? "dislike" : "like"),
-                                    method: 'POST',
-                                    data: {'videos_id': <?php echo $video['id']; ?>},
-                                    success: function (response) {
-                                        $("#likeBtn, #dislikeBtn").removeClass("myVote");
-                                        if (response.myVote == 1) {
-                                            $("#likeBtn").addClass("myVote");
-                                        } else if (response.myVote == -1) {
-                                            $("#dislikeBtn").addClass("myVote");
-                                        }
-                                        $("#likeBtn small").text(response.likes);
-                                        $("#dislikeBtn small").text(response.dislikes);
-                                    }
-                                });
-                                return false;
-                            });
-    <?php } else { ?>
-                            $("#dislikeBtn, #likeBtn").click(function () {
-                                $(this).tooltip("show");
-                                return false;
-                            });
-    <?php } ?>
-                    });
-                </script>
-
-                <?php
-            }
-            ?>
+            </div>
         </div>
-    </div>
-    <?php 
+        <?php
     }
     ?>
 </div>
 
-<?php if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) { ?>
+<?php if (!empty($filesToDownload) && CustomizeUser::canDownloadVideosFromVideo($video['id'])) { ?>
     <div class="row bgWhite list-group-item menusDiv" id="downloadDiv">
         <div class="tabbable-panel">
             <div class="list-group">
                 <?php
-                $files = getVideosURL($video['filename']);
-                foreach ($files as $key => $theLink) {
-                    if (empty($advancedCustom->showImageDownloadOption)) {
-                        if ($key == "jpg" || $key == "gif" || $key == "webp" || $key == "pjpg" || $key == "m3u8") {
-                            continue;
-                        }
-                    }
-                    if (strpos($theLink['url'], '?') === false) {
-                        $theLink['url'] .= "?download=1&title=" . urlencode($video['title'] . "_{$key}_.mp4");
-                    }
+                foreach ($filesToDownload as $theLink) {
                     ?>
                     <a href="<?php echo $theLink['url']; ?>" class="list-group-item list-group-item-action" target="_blank">
-                        <i class="fas fa-download"></i> <?php echo $key; ?>
+                        <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
                     </a>
                     <?php
                 }
@@ -401,10 +420,10 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description">
-                    <?php 
+                    <?php
                     if (strpos($video['description'], '<br') !== false || strpos($video['description'], '<p') !== false) {
                         echo $video['description'];
-                    }else{
+                    } else {
                         echo nl2br(textToLink(htmlentities($video['description'])));
                     }
                     ?>
@@ -418,13 +437,13 @@ if (empty($video) && !empty($_GET['videos_id'])) {
 </div>
 <script>
     $(document).ready(function () {
-        <?php
-        if(empty($advancedCustom->showShareMenuOpenByDefault)){
-        ?>
-        $("#shareDiv").slideUp();
-        <?php
-        }
-        ?>
+<?php
+if (empty($advancedCustom->showShareMenuOpenByDefault)) {
+    ?>
+            $("#shareDiv").slideUp();
+    <?php
+}
+?>
         $("#shareBtn").click(function () {
             $(".menusDiv").not("#shareDiv").slideUp();
             $("#shareDiv").slideToggle();

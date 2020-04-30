@@ -35,7 +35,7 @@ if (!class_exists('Video')) {
         private $videoLink;
         private $next_videos_id;
         private $isSuggested;
-        static $types = array('webm', 'mp4', 'mp3', 'ogg', 'pdf');
+        static $types = array('webm', 'mp4', 'mp3', 'ogg', 'pdf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'zip');
         private $videoGroups;
         private $trailer1;
         private $trailer2;
@@ -67,7 +67,7 @@ if (!class_exists('Video')) {
         static $rratingOptions = array('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
 //ver 3.4
         private $youtubeId;
-        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie');
+        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip');
 
         function __construct($title = "", $filename = "", $id = 0) {
             global $global;
@@ -1092,7 +1092,7 @@ if (!class_exists('Video')) {
             set_time_limit(300);
             $video = new Video("", "", $videos_id);
             $filename = $video->getFilename();
-            if(empty($filename) || !($video->getType()=="video" || $video->getType()=="audio")){
+            if(empty($filename) || !($video->getType()=="video" || $video->getType()=="audio" || $video->getType()=="zip" || $video->getType()=="image")){
                 //_error_log("updateFilesize: Not updated, this filetype is ".$video->getType());
                 return false;
             }
@@ -2441,7 +2441,7 @@ if (!class_exists('Video')) {
                 }
                 $token = "";
                 $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-                if (($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".pdf")) {
+                if (($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".pdf" || $type == ".zip")) {
                     $vars = array();
                     if (!empty($secure)) {
                         $vars[] = $secure->getToken($filename);
@@ -2459,7 +2459,7 @@ if (!class_exists('Video')) {
                 $video = Video::getVideoFromFileNameLight(str_replace(array('_Low', '_SD', '_HD'), array('', '', ''), $filename));
                 $canUseCDN = canUseCDN($video['id']);
 
-                if (!empty($video['sites_id']) && ($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".pdf")) {
+                if (!empty($video['sites_id']) && ($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".pdf" || $type == ".zip")) {
                     $site = new Sites($video['sites_id']);
                     $siteURL = rtrim($site->getUrl(), '/') . '/';
                     $source['url'] = "{$siteURL}videos/{$filename}{$type}{$token}";
@@ -2479,7 +2479,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 /* need it because getDurationFromFile */
-                if ($includeS3 && ($type == ".mp4" || $type == ".webm" || $type == ".mp3" || $type == ".ogg" || $type == ".pdf")) {
+                if ($includeS3 && ($type == ".mp4" || $type == ".webm" || $type == ".mp3" || $type == ".ogg" || $type == ".pdf" || $type == ".zip")) {
                     if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
                         if (!empty($aws_s3)) {
                             $source = $aws_s3->getAddress("{$filename}{$type}");
@@ -2543,6 +2543,10 @@ if (!class_exists('Video')) {
             $source = self::getSourceFile($filename, ".pdf", $includeS3);
             if (!empty($source['url'])) {
                 $videos['pdf'] = $source['url'];
+            }
+            $source = self::getSourceFile($filename, ".zip", $includeS3);
+            if (!empty($source['url'])) {
+                $videos['zip'] = $source['url'];
             }
             $source = self::getSourceFile($filename, ".mp3", $includeS3);
             if (!empty($source['url'])) {
@@ -2645,11 +2649,21 @@ if (!class_exists('Video')) {
                     $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/article_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/article_portrait.png";
                     $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/article_portrait.png";
-                } if ($type == "pdf") {
+                } else if ($type == "pdf") {
                     $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
                     $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
                     $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
                     $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
+                } /* else if ($type == "image") {
+                    $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/image_portrait.png";
+                    $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/image_portrait.png";
+                    $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/image_portrait.png";
+                    $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/image_portrait.png";
+                } */ else if ($type == "zip") {
+                    $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
+                    $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/zip_portrait.png";
+                    $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
+                    $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
                 } else {
                     $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
                     $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/notfound_portrait.png";
@@ -2688,6 +2702,14 @@ if (!class_exists('Video')) {
                     $obj->poster = "{$global['webSiteRootURL']}view/img/pdf.png";
                     $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/pdf.png";
                     $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/pdf.png";
+                }  else if ($type == "image") {
+                    $obj->poster = "{$global['webSiteRootURL']}view/img/image.png";
+                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/image.png";
+                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/image.png";
+                }  else if ($type == "zip") {
+                    $obj->poster = "{$global['webSiteRootURL']}view/img/zip.png";
+                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/zip.png";
+                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/zip.png";
                 } else if (($type !== "audio") && ($type !== "linkAudio")) {
                     $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
                     $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";

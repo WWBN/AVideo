@@ -23,7 +23,7 @@ if (!User::canUpload()) {
 }
 
 // A list of permitted file extensions
-$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv', 'mpg', 'mpeg', 'f4v', 'm4v', 'm4a', 'm2p', 'rm', 'vob', 'mkv');
+$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv', 'mpg', 'mpeg', 'f4v', 'm4v', 'm4a', 'm2p', 'rm', 'vob', 'mkv', 'jpg', 'jpeg', 'gif', 'png', 'webp');
 _error_log("MOBILE UPLOAD: Starts");
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 

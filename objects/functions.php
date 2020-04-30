@@ -822,6 +822,46 @@ function recreateCache($filename) {
     return false;
 }
 
+function _getImagesURL($fileName, $type) {
+    global $global;
+    $files = array();
+    $source = Video::getSourceFile($fileName, ".jpg");
+    $file = $source['path'];
+    if (file_exists($file)) {
+        $files["jpg"] = array(
+            'filename' => "{$fileName}.jpg",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'image',
+        );
+    } else {
+        $files["jpg"] = array(
+            'filename' => "{$type}.png",
+            'path' => "{$global['systemRootPath']}view/img/{$type}.png",
+            'url' => "{$global['webSiteRootURL']}view/img/{$type}.png",
+            'type' => 'image',
+        );
+    }
+    $source = Video::getSourceFile($fileName, "_portrait.jpg");
+    $file = $source['path'];
+    if (file_exists($file)) {
+        $files["pjpg"] = array(
+            'filename' => "{$fileName}_portrait.jpg",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'image',
+        );
+    } else if($type!='image') {
+        $files["pjpg"] = array(
+            'filename' => "{$type}_portrait.png",
+            'path' => "{$global['systemRootPath']}view/img/{$type}_portrait.png",
+            'url' => "{$global['webSiteRootURL']}view/img/{$type}_portrait.png",
+            'type' => 'image',
+        );
+    }
+    return $files;
+}
+
 function getVideosURLPDF($fileName) {
     global $global;
     if (empty($fileName)) {
@@ -840,41 +880,79 @@ function getVideosURLPDF($fileName) {
         'url' => $source['url'],
         'type' => 'pdf',
     );
+    $files = array_merge($files, _getImagesURL($fileName, 'pdf'));
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $finish = $time;
+    $total_time = round(($finish - $start), 4);
+    //_error_log("getVideosURLPDF generated in {$total_time} seconds. fileName: $fileName ");
+    return $files;
+}
 
-    $source = Video::getSourceFile($fileName, ".jpg");
-    $file = $source['path'];
-    if (file_exists($file)) {
-        $files["jpg"] = array(
-            'filename' => "{$fileName}.jpg",
+function getVideosURLIMAGE($fileName) {
+    global $global;
+    if (empty($fileName)) {
+        return array();
+    }
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $start = $time;
+
+    $types = array('png', 'gif', 'webp', 'jpg');
+
+    foreach ($types as $value) {
+        $source = Video::getSourceFile($fileName, ".{$value}");
+        $file = $source['path'];
+        $files["image"] = array(
+            'filename' => "{$fileName}.{$value}",
             'path' => $file,
             'url' => $source['url'],
             'type' => 'image',
         );
-    } else {
-        $files["jpg"] = array(
-            'filename' => "pdf.png",
-            'path' => "{$global['systemRootPath']}view/img/pdf.png",
-            'url' => "{$global['webSiteRootURL']}view/img/pdf.png",
-            'type' => 'image',
-        );
+        if (file_exists($file)) {
+            break;
+        }
     }
-    $source = Video::getSourceFile($fileName, "_portrait.jpg");
-    $file = $source['path'];
-    if (file_exists($file)) {
-        $files["pjpg"] = array(
-            'filename' => "{$fileName}_portrait.jpg",
+
+    $files = array_merge($files, _getImagesURL($fileName, 'image'));
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $finish = $time;
+    $total_time = round(($finish - $start), 4);
+    //_error_log("getVideosURLPDF generated in {$total_time} seconds. fileName: $fileName ");
+    return $files;
+}
+
+function getVideosURLZIP($fileName) {
+    global $global;
+    if (empty($fileName)) {
+        return array();
+    }
+    $time = microtime();
+    $time = explode(' ', $time);
+    $time = $time[1] + $time[0];
+    $start = $time;
+
+    $types = array('zip');
+
+    foreach ($types as $value) {
+        $source = Video::getSourceFile($fileName, ".{$value}");
+        $file = $source['path'];
+        $files["zip"] = array(
+            'filename' => "{$fileName}.zip",
             'path' => $file,
             'url' => $source['url'],
-            'type' => 'image',
+            'type' => 'zip',
         );
-    } else {
-        $files["pjpg"] = array(
-            'filename' => "pdf_portrait.png",
-            'path' => "{$global['systemRootPath']}view/img/pdf_portrait.png",
-            'url' => "{$global['webSiteRootURL']}view/img/pdf_portrait.png",
-            'type' => 'image',
-        );
+        if (file_exists($file)) {
+            break;
+        }
     }
+
+    $files = array_merge($files, _getImagesURL($fileName, 'zip'));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -893,41 +971,7 @@ function getVideosURLArticle($fileName) {
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-    $files = array();
-    $source = Video::getSourceFile($fileName, ".jpg");
-    $file = $source['path'];
-    if (file_exists($file)) {
-        $files["jpg"] = array(
-            'filename' => "{$fileName}.jpg",
-            'path' => $file,
-            'url' => $source['url'],
-            'type' => 'image',
-        );
-    } else {
-        $files["jpg"] = array(
-            'filename' => "pdf.png",
-            'path' => "{$global['systemRootPath']}view/img/article.png",
-            'url' => "{$global['webSiteRootURL']}view/img/article.png",
-            'type' => 'image',
-        );
-    }
-    $source = Video::getSourceFile($fileName, "_portrait.jpg");
-    $file = $source['path'];
-    if (file_exists($file)) {
-        $files["pjpg"] = array(
-            'filename' => "{$fileName}_portrait.jpg",
-            'path' => $file,
-            'url' => $source['url'],
-            'type' => 'image',
-        );
-    } else {
-        $files["pjpg"] = array(
-            'filename' => "pdf_portrait.png",
-            'path' => "{$global['systemRootPath']}view/img/article_portrait.png",
-            'url' => "{$global['webSiteRootURL']}view/img/article_portrait.png",
-            'type' => 'image',
-        );
-    }
+    $files = array_merge($files, _getImagesURL($fileName, 'article'));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -956,40 +1000,8 @@ function getVideosURLAudio($fileName) {
         'type' => 'audio',
     );
 
-    $source = Video::getSourceFile($fileName, ".jpg");
-    $file = $source['path'];
-    if (file_exists($file)) {
-        $files["jpg"] = array(
-            'filename' => "{$fileName}.jpg",
-            'path' => $file,
-            'url' => $source['url'],
-            'type' => 'image',
-        );
-    } else {
-        $files["jpg"] = array(
-            'filename' => "audio_wave.jpg",
-            'path' => "{$global['systemRootPath']}view/img/audio_wave.jpg",
-            'url' => "{$global['webSiteRootURL']}view/img/audio_wave.jpg",
-            'type' => 'image',
-        );
-    }
-    $source = Video::getSourceFile($fileName, "_portrait.jpg");
-    $file = $source['path'];
-    if (file_exists($file)) {
-        $files["pjpg"] = array(
-            'filename' => "{$fileName}_portrait.jpg",
-            'path' => $file,
-            'url' => $source['url'],
-            'type' => 'image',
-        );
-    } else {
-        $files["pjpg"] = array(
-            'filename' => "audio_wave_portrait.jpg",
-            'path' => "{$global['systemRootPath']}view/img/audio_wave_portrait.jpg",
-            'url' => "{$global['webSiteRootURL']}view/img/audio_wave_portrait.jpg",
-            'type' => 'image',
-        );
-    }
+
+    $files = array_merge($files, _getImagesURL($fileName, 'audio_wave'));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1402,7 +1414,32 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
     imagedestroy($dst);
 }
 
-function decideMoveUploadedToVideos($tmp_name, $filename) {
+function convertImage($originalImage, $outputImage, $quality) {
+    // jpg, png, gif or bmp?
+    $exploded = explode('.', $originalImage);
+    $ext = $exploded[count($exploded) - 1];
+
+    if (preg_match('/jpg|jpeg/i', $ext))
+        $imageTmp = imagecreatefromjpeg($originalImage);
+    else if (preg_match('/png/i', $ext))
+        $imageTmp = imagecreatefrompng($originalImage);
+    else if (preg_match('/gif/i', $ext))
+        $imageTmp = imagecreatefromgif($originalImage);
+    else if (preg_match('/bmp/i', $ext))
+        $imageTmp = imagecreatefrombmp($originalImage);
+    else if (preg_match('/webp/i', $ext))
+        $imageTmp = imagecreatefromwebp($originalImage);
+    else
+        return 0;
+
+    // quality is a value from 0 (worst) to 100 (best)
+    imagejpeg($imageTmp, $outputImage, $quality);
+    imagedestroy($imageTmp);
+
+    return 1;
+}
+
+function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     global $global;
     $obj = new stdClass();
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
@@ -1411,7 +1448,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
 
     _error_log("decideMoveUploadedToVideos: {$filename}");
     $path_info = pathinfo($filename);
-    if ($path_info['extension'] === 'zip') {
+    if ($type !== "zip" && $path_info['extension'] === 'zip') {
         _error_log("decideMoveUploadedToVideos: ZIp file {$filename}");
         $dir = "{$global['systemRootPath']}videos/{$path_info['filename']}";
         unzipDirectory($tmp_name, $dir); // unzip it
@@ -1435,15 +1472,17 @@ function decideMoveUploadedToVideos($tmp_name, $filename) {
             _error_log("decideMoveUploadedToVideos: FTP {$filename}");
             $ftp->move_uploaded_file($tmp_name, $filename);
         } else {
+            $destinationFile = "{$global['systemRootPath']}videos/{$filename}";
             _error_log("decideMoveUploadedToVideos: Local {$filename}");
-            if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-                if (!rename($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-                    if (!copy($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-                        $obj->msg = "Error on decideMoveUploadedToVideos({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+            if (!move_uploaded_file($tmp_name, $destinationFile)) {
+                if (!rename($tmp_name, $destinationFile)) {
+                    if (!copy($tmp_name, $destinationFile)) {
+                        $obj->msg = "Error on decideMoveUploadedToVideos({$tmp_name}, $destinationFile)";
                         die(json_encode($obj));
                     }
                 }
             }
+            chmod($destinationFile, 0644);
         }
     }
 }
@@ -1550,6 +1589,41 @@ if (!function_exists('mime_content_type')) {
         return mime_content_type_per_filename($filename);
     }
 
+}
+
+function fontAwesomeClassName($filename) {
+    $mime_type = mime_content_type_per_filename($filename);
+    // List of official MIME Types: http://www.iana.org/assignments/media-types/media-types.xhtml
+    $icon_classes = array(
+        // Media
+        'image' => 'fas fa-file-image',
+        'audio' => 'fas fa-file-audio',
+        'video' => 'fas fa-file-video',
+        // Documents
+        'application/pdf' => 'fas fa-file-pdf',
+        'application/msword' => 'fas fa-file-word',
+        'application/vnd.ms-word' => 'fas fa-file-word',
+        'application/vnd.oasis.opendocument.text' => 'fas fa-file-word',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml' => 'fas fa-file-word',
+        'application/vnd.ms-excel' => 'fas fa-file-excel',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml' => 'fas fa-file-excel',
+        'application/vnd.oasis.opendocument.spreadsheet' => 'fas fa-file-excel',
+        'application/vnd.ms-powerpoint' => 'fas fa-file-powerpoint',
+        'application/vnd.openxmlformats-officedocument.presentationml' => 'fas fa-file-powerpoint',
+        'application/vnd.oasis.opendocument.presentation' => 'fas fa-file-powerpoint',
+        'text/plain' => 'far fa-file-alt',
+        'text/html' => 'fas fa-code',
+        'application/json' => 'fas fa-code',
+        // Archives
+        'application/gzip' => 'far fa-file-archive',
+        'application/zip' => 'far fa-file-archive',
+    );
+    foreach ($icon_classes as $text => $icon) {
+        if (strpos($mime_type, $text) === 0) {
+            return $icon;
+        }
+    }
+    return 'fas fa-file';
 }
 
 function mime_content_type_per_filename($filename) {
@@ -2482,6 +2556,12 @@ function getItemprop($videos_id) {
     if ($video['type'] === 'pdf') {
         $type = 'pdf';
     }
+    if ($video['type'] === 'image') {
+        $type = 'image';
+    }
+    if ($video['type'] === 'zip') {
+        $type = 'zip';
+    }
     if ($video['type'] === 'article') {
         $type = 'article';
     }
@@ -2712,11 +2792,11 @@ function clearCache() {
 
 function getUsageFromFilename($filename, $dir = "") {
     global $global;
-    
-    if(!empty($global['getUsageFromFilename'])){ // manually add this variable in your configuration.php file to not scan your video usage
+
+    if (!empty($global['getUsageFromFilename'])) { // manually add this variable in your configuration.php file to not scan your video usage
         return 0;
     }
-    
+
     if (empty($dir)) {
         $dir = "{$global['systemRootPath']}videos/";
     }
@@ -2759,6 +2839,12 @@ function getUsageFromFilename($filename, $dir = "") {
                     if (!empty($urls["pdf"]['url'])) {
                         $filesize+=getUsageFromURL($urls["pdf"]['url']);
                     }
+                    if (!empty($urls["image"]['url'])) {
+                        $filesize+=getUsageFromURL($urls["image"]['url']);
+                    }
+                    if (!empty($urls["zip"]['url'])) {
+                        $filesize+=getUsageFromURL($urls["zip"]['url']);
+                    }
                     if (!empty($urls["mp3"]['url'])) {
                         $filesize+=getUsageFromURL($urls["mp3"]['url']);
                     }
@@ -2784,11 +2870,11 @@ function getUsageFromFilename($filename, $dir = "") {
  */
 function getUsageFromURL($url) {
     global $global;
-    
-    if(!empty($global['doNotGetUsageFromURL'])){ // manually add this variable in your configuration.php file to not scan your video usage
+
+    if (!empty($global['doNotGetUsageFromURL'])) { // manually add this variable in your configuration.php file to not scan your video usage
         return 0;
     }
-    
+
     _error_log("getUsageFromURL: start ({$url})");
     // Assume failure.
     $result = false;
@@ -2913,4 +2999,13 @@ class YPTvideoObject {
         $this->videoLink = $videoLink;
     }
 
+}
+
+function isToShowDuration($type){
+    $notShowTo = array('pdf','article','serie','zip','image');
+    if(in_array($type, $notShowTo)){
+        return false;
+    }else{
+        return true;
+    }
 }

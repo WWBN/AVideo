@@ -37,6 +37,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->encoderNetworkLabel = "";
         $obj->doNotShowUploadMP4Button = true;
         $obj->disablePDFUpload = false;
+        $obj->disableImageUpload = false;
+        $obj->disableZipUpload = true;
         $obj->disableMP4Upload = false;
         $obj->disableMP3Upload = false;
         $obj->uploadMP4ButtonLabel = "";
