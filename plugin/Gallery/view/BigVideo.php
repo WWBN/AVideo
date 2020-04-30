@@ -75,7 +75,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                         <?php } ?>
                                     </div>
                                     <?php
-                                    if ($videoRow['type'] !== 'pdf' && $videoRow['type'] !== 'article') {
+                                    if (isToShowDuration($videoRow['type'])) {
                                         ?>
                                         <span class="duration"><?php echo Video::getCleanDuration($videoRow['duration']); ?></span>
                                         <div class="progress" style="height: 3px; margin-bottom: 2px;">
