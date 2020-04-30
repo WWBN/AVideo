@@ -93,10 +93,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     </a>
                                     <div class="mainAreaDescriptionContainer">
                                         <h4 class="mainAreaDescription" itemprop="description"><?php
-                                            if (strpos($video['description'], '<br') !== false || strpos($video['description'], '<p') !== false) {
-                                                echo $video['description'];
+                                            if (strpos($videoRow['description'], '<br') !== false || strpos($videoRow['description'], '<p') !== false) {
+                                                echo $videoRow['description'];
                                             } else {
-                                                echo nl2br(textToLink(htmlentities($video['description'])));
+                                                echo nl2br(textToLink(htmlentities($videoRow['description'])));
                                             }
                                             ?></h4>
                                     </div>
