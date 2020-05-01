@@ -2441,7 +2441,7 @@ if (!class_exists('Video')) {
                 }
                 $token = "";
                 $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-                if (($type == ".mp3" || $type == ".mp4" || $type == ".webm" || $type == ".m3u8" || $type == ".pdf" || $type == ".zip")) {
+                if ((preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || preg_match("/.*\\.m3u8$/", $type) || preg_match("/.*\\.pdf$/", $type) || preg_match("/.*\\.zip$/", $type) )) {
                     $vars = array();
                     if (!empty($secure)) {
                         $vars[] = $secure->getToken($filename);
