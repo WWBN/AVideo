@@ -30,6 +30,9 @@ class VideoLandscapeFullscreen extends PluginAbstract {
 
     public function getFooterCode(){
         global $video;
+        if(!isMobile()){
+            return "";
+        }
         if (empty($_GET['videoName']) || (!empty($video['type']) && $video['type']=="embed")) {
             return "";
         }
