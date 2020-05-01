@@ -2812,7 +2812,10 @@ function getUsageFromFilename($filename, $dir = "") {
             $totalSize += $dirSize;
             if($dirSize<10000 && AVideoPlugin::isEnabledByName('YPTStorage')){
                 // probably the HLS file is hosted on the YPTStorage
-                
+                $info = YPTStorage::getFileInfo($filename);
+                if(!empty($info->size)){
+                    $totalSize += $info->size;
+                }
             }
         } else if (is_file($f)) {
             $filesize = filesize($f);
