@@ -7,12 +7,12 @@ if(!isCommandLineInterface()){
 }
 
 $total = Video::getTotalVideos("",false, true, true, false, false);
-$videos = Video::getAllVideosLight("", false, true, true);
+$videos = Video::getAllVideosLight("", false, true, false);
 $count = 0;
 foreach ($videos as $value){
     $count++;
     $updated = Video::updateFilesize($value['id']);
-    echo "{$count}/{$total} (".($updated?"success":"fail").") {$value['title']}".PHP_EOL;
+    echo "{$count}/{$total} (".($updated?"success":"fail").") [{$value['id']}] {$value['title']}".PHP_EOL;
 }
 
 die();
