@@ -13,6 +13,7 @@ foreach ($videos as $value){
     $count++;
     $updated = Video::updateFilesize($value['id']);
     echo "{$count}/{$total} (".($updated?"success":"fail").") [{$value['id']}] {$value['title']}".PHP_EOL;
+    ob_flush();
 }
 
 die();
