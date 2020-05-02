@@ -246,16 +246,22 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     <li style="max-width: 40px;">
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="bottom" ><span class="fa fa-bars"></span></button>
                         <script>
+                            function YPTSidebarOpen(){
+                                $('body').addClass('youtube')
+                                $("#sidebar").fadeIn();
+                            }
+                            function YPTSidebarClose(){
+                                $('body').removeClass('youtube');
+                                $("#sidebar").fadeOut();
+                            }
                             $(document).ready(function () {
                                 $('#buttonMenu').on("click.sidebar", function (event) {
                                     event.stopPropagation();
                                     //$('#sidebar').fadeToggle();
                                     if ($('body').hasClass('youtube')) {
-                                        $('body').removeClass('youtube')
-                                        $("#sidebar").fadeOut();
+                                        YPTSidebarClose();
                                     } else {
-                                        $('body').addClass('youtube')
-                                        $("#sidebar").fadeIn();
+                                        YPTSidebarOpen();
                                     }
 
                                     $('#myNavbar').removeClass("in");
@@ -263,7 +269,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                 });
 
                                 $(document).on("click.sidebar", function () {
-                                    $('#buttonMenu').trigger('click');
+                                    YPTSidebarClose();
                                 });
                                 $("#sidebar").on("click", function (event) {
                                     event.stopPropagation();
