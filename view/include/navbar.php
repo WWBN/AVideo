@@ -246,13 +246,17 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                     <li style="max-width: 40px;">
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="bottom" ><span class="fa fa-bars"></span></button>
                         <script>
-                            function YPTSidebarOpen(){
+                            var youTubeMenuIsOpened = false
+                            
+                            function YPTSidebarOpen() {
                                 $('body').addClass('youtube')
                                 $("#sidebar").fadeIn();
+                                youTubeMenuIsOpened = true;
                             }
-                            function YPTSidebarClose(){
+                            function YPTSidebarClose() {
                                 $('body').removeClass('youtube');
                                 $("#sidebar").fadeOut();
+                                youTubeMenuIsOpened = false;
                             }
                             $(document).ready(function () {
                                 $('#buttonMenu').on("click.sidebar", function (event) {
@@ -267,10 +271,11 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                     $('#myNavbar').removeClass("in");
                                     $('#mysearch').removeClass("in");
                                 });
-
-                                $(document).on("click.sidebar", function () {
-                                    YPTSidebarClose();
-                                });
+                                /*
+                                 $(document).on("click.sidebar", function () {
+                                 YPTSidebarClose();
+                                 });
+                                 */
                                 $("#sidebar").on("click", function (event) {
                                     event.stopPropagation();
                                 });
