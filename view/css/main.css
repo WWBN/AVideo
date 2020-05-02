@@ -6,7 +6,7 @@ html {
     scroll-behavior: smooth;
 }
 body {
-    padding-top: 60px;
+    padding-top: 55px;
 }
 .nopadding {
     padding: 0 !important;
@@ -461,7 +461,9 @@ img.rotate-90 {
 }
 .profileBg {
     padding: 20px;
-    min-height: 200px;
+    height: 27vw;
+    min-height: 90px;
+    max-height: 300px;
     margin: 10px 0;
     -webkit-background-size: cover;
     -moz-background-size: cover;
