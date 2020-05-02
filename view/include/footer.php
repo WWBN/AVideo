@@ -73,6 +73,7 @@ $jsFiles = array();
 //$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
 //$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
 //$jsFiles[] = "view/js/script.js";
+$jsFiles[] = "view/js/jquery-ui/jquery-ui.min.js";
 $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
 $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
 $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
