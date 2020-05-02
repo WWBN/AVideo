@@ -217,7 +217,9 @@ if (!$includeDefaultNavBar) {
     li.navsub-toggle a + ul {
         padding-left: 15px;
     }
-
+    <?php
+    if(AVideoPlugin::isEnabledByName("Gallery")){
+    ?>
     @media screen and (min-width: 992px) {
 
         body.youtube div.container-fluid{
@@ -229,7 +231,9 @@ if (!$includeDefaultNavBar) {
             width: 100%;
         }
     }
-
+    <?php
+    }
+    ?>
 </style>
 <?php
 if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
