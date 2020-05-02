@@ -220,14 +220,6 @@ if (!$includeDefaultNavBar) {
     <?php
     if (AVideoPlugin::isEnabledByName("Gallery")) {
         ?>
-
-        body div.container-fluid{
-            margin-left: 0;
-            -webkit-transition: all 0.1s ease-in-out;
-            -moz-transition: all 0.1s ease-in-out;
-            -o-transition: all 0.1s ease-in-out;
-            transition: all 0.1s ease-in-out;
-        }
         @media screen and (min-width: 992px) {
 
             body.youtube div.container-fluid{
