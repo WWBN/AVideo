@@ -263,7 +263,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                                 });
 
                                 $(document).on("click.sidebar", function () {
-                                    $("#sidebar").fadeOut();
+                                    $('#buttonMenu').trigger('click');
                                 });
                                 $("#sidebar").on("click", function (event) {
                                     event.stopPropagation();
