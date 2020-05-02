@@ -218,20 +218,28 @@ if (!$includeDefaultNavBar) {
         padding-left: 15px;
     }
     <?php
-    if(AVideoPlugin::isEnabledByName("Gallery")){
-    ?>
-    @media screen and (min-width: 992px) {
+    if (AVideoPlugin::isEnabledByName("Gallery")) {
+        ?>
 
-        body.youtube div.container-fluid{
-            margin-left: 300px;
-        }
-        body.youtube div.container-fluid .col-sm-10.col-sm-offset-1.list-group-item{
+        body div.container-fluid{
             margin-left: 0;
-            margin-right: 0;
-            width: 100%;
+            -webkit-transition: all 0.1s ease-in-out;
+            -moz-transition: all 0.1s ease-in-out;
+            -o-transition: all 0.1s ease-in-out;
+            transition: all 0.1s ease-in-out;
         }
-    }
-    <?php
+        @media screen and (min-width: 992px) {
+
+            body.youtube div.container-fluid{
+                margin-left: 300px;
+            }
+            body.youtube div.container-fluid .col-sm-10.col-sm-offset-1.list-group-item{
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+            }
+        }
+        <?php
     }
     ?>
 </style>
