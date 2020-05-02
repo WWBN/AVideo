@@ -217,6 +217,19 @@ if (!$includeDefaultNavBar) {
     li.navsub-toggle a + ul {
         padding-left: 15px;
     }
+
+    @media screen and (min-width: 992px) {
+
+        body.youtube div.container-fluid{
+            margin-left: 300px;
+        }
+        body.youtube div.container-fluid .col-sm-10.col-sm-offset-1.list-group-item{
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+    }
+
 </style>
 <?php
 if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
@@ -532,8 +545,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <?php
                         if (empty($advancedCustomUser->doNotShowRightProfile)) {
                             $tooltip = "";
-                            if(User::isLogged()){
-                                $tooltip = 'data-toggle="tooltip" data-html="true" title="'.User::getName().":: ".User::getMail().'" data-placement="left"';   
+                            if (User::isLogged()) {
+                                $tooltip = 'data-toggle="tooltip" data-html="true" title="' . User::getName() . ":: " . User::getMail() . '" data-placement="left"';
                             }
                             ?>
                             <li class="rightProfile" >
