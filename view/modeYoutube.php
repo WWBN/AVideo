@@ -322,7 +322,7 @@ if (!empty($evideo)) {
                 $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                 ?>
                 <div class="row">
-                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-sm-12 col-xs-12 AdsLeaderBoard AdsLeaderBoardTop">
                         <center style="margin:5px;">
                             <?php
                             $getAdsLeaderBoardTop = getAdsLeaderBoardTop();
@@ -359,7 +359,7 @@ if (!empty($evideo)) {
                 <div class="row" id="modeYoutubeBottom" style="margin: 0;">
                     <div class="row">
                         <div class="col-sm-1 col-md-1"></div>
-                        <div class="col-sm-10 col-md-10">
+                        <div class="col-sm-10 col-md-10 AdsLeaderBoard AdsLeaderBoardTop2">
                             <center style="margin:5px;">
                                 <?php echo getAdsLeaderBoardTop2(); ?>
                             </center>
@@ -579,7 +579,7 @@ if (!empty($evideo)) {
         $modeYouTubeTimeLog['before add js '] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
         <?php
         echo AVideoPlugin::afterVideoJS();
         if ($advancedCustom != false) {
