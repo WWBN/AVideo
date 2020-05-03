@@ -218,7 +218,7 @@ if (!$includeDefaultNavBar) {
         padding-left: 15px;
     }
     <?php
-    if (AVideoPlugin::isEnabledByName("Gallery")) {
+    if (AVideoPlugin::isEnabledByName("Gallery") || AVideoPlugin::isEnabledByName("YouPHPFlix2")) {
         ?>
         @media screen and (min-width: 992px) {
 
