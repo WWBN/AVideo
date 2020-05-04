@@ -172,7 +172,7 @@ foreach ($playlists as $key => $playlist) {
                     $poster = $images->thumbsJpg;
                     $category = new Category($serie['categories_id']);
                     ?>
-                    <div style="height: 200px; overflow: hidden;">
+                    <div style="overflow: hidden;">
                         <div class="col-sm-4" id="serie<?php echo $serie['id']; ?>" style="padding: 1px;">
                             <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" />
                         </div>
