@@ -73,7 +73,7 @@ TimeLogEnd($timeLog, __LINE__);
         <?php
         if (!empty($palyListsObj)) {
         ?>
-        <li><a data-toggle="tab" href="#channelPlayLists"><?php echo __("Play Lists"); ?></a></li>
+        <li><a data-toggle="tab" href="#channelPlayLists"><?php echo __("Playlists"); ?></a></li>
         <?php
         }
         ?>
