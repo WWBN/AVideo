@@ -248,7 +248,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                         $desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($value['description']))));
                         if (!empty($desc)) {
                             ?>
-                            <a href="#" onclick='alertHTMLText("<?php echo str_replace(array('"'), array('``'), $value['title']); ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>");return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
+                            <a href="#" onclick='alertHTMLText("<?php echo str_replace(array('"', "'"), array('``', "`"), $value['title']); ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>");return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
                             <?php
                         }
                     }
