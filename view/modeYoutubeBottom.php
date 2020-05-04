@@ -400,7 +400,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         </div>
     </div>
 <?php } ?>
-<div class="row bgWhite list-group-item">
+    <div class="row bgWhite list-group-item" id="modeYoutubeBottomContentDetails">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-lg-12">
             <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
