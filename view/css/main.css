@@ -806,3 +806,7 @@ img.blur{
 .swal-noform .form-group{
     display: none;
 }
+
+#modeYoutubeBottomContentDetails{
+    overflow: hidden;
+}
