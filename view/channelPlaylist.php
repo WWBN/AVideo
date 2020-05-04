@@ -174,7 +174,7 @@ foreach ($playlists as $key => $playlist) {
                     ?>
                     <div style="overflow: hidden;">
                         <div class="col-sm-4" id="serie<?php echo $serie['id']; ?>" style="padding: 1px;">
-                            <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" />
+                            <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" style="height: 200px;" />
                         </div>
                         <div class="col-sm-8"  style="padding: 1px 5px;">
                             <a class="hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo $serie['title']; ?>">
