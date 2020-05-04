@@ -1,7 +1,7 @@
 <?php
 $isMyChannel = false;
 if (User::isLogged() && $user_id == User::getId()) {
-    $isMyChannel = true;
+$isMyChannel = true;
 }
 $user = new User($user_id);
 $_GET['channelName'] = $user->getChannelName();
@@ -10,9 +10,9 @@ TimeLogStart($timeLog);
 $_POST['sort']['created'] = "DESC";
 
 if (empty($_GET['current'])) {
-    $_POST['current'] = 1;
+$_POST['current'] = 1;
 } else {
-    $_POST['current'] = $_GET['current'];
+$_POST['current'] = $_GET['current'];
 }
 $current = $_POST['current'];
 $rowCount = 25;
@@ -44,11 +44,11 @@ TimeLogEnd($timeLog, __LINE__);
     </div>
     <?php
     if (empty($advancedCustomUser->doNotShowTopBannerOnChannel)) {
-        ?>
-        <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(), "?", @filectime($global['systemRootPath'] . $user->getBackgroundURL()); ?>')  no-repeat 50% 50%;">
-            <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
-        </div>    
-        <?php
+    ?>
+    <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(), "?", @filectime($global['systemRootPath'] . $user->getBackgroundURL()); ?>')  no-repeat 50% 50%;">
+        <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
+    </div>    
+    <?php
     }
     ?>
     <div class="row"><div class="col-6 col-md-12">
@@ -68,64 +68,83 @@ TimeLogEnd($timeLog, __LINE__);
     <div class="col-md-12">
         <?php echo nl2br($user->getAbout()); ?>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <?php
-            if ($isMyChannel) {
-                ?>
-                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
-                    <span class="glyphicon glyphicon-film"></span>
-                    <span class="glyphicon glyphicon-headphones"></span>
-                    <?php echo __("My videos"); ?>
-                </a>
-                <?php
-            } else {
-                echo __("My videos");
-            }
-            echo AVideoPlugin::getChannelButton();
-            ?>
-        </div>
-        <div class="panel-body">
-            <?php
-            if (!empty($uploadedVideos[0])) {
-                $video = $uploadedVideos[0];
-                $obj = new stdClass();
-                $obj->BigVideo = true;
-                $obj->Description = false;
-                include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
-                unset($uploadedVideos[0]);
-            }
-            ?>
-            <div class="row mainArea">
-                <?php
-                TimeLogEnd($timeLog, __LINE__);
-                createGallerySection($uploadedVideos, "", $get);
-                TimeLogEnd($timeLog, __LINE__);
-                ?>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#channelVideos"><?php echo __("Videos"); ?></a></li>
+        <?php
+        if (!empty($palyListsObj)) {
+        ?>
+        <li><a data-toggle="tab" href="#channelPlayLists"><?php echo __("Play Lists"); ?></a></li>
+        <?php
+        }
+        ?>
+    </ul>
+
+    <div class="tab-content">
+        <div id="channelVideos" class="tab-pane fade in active">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <?php
+                    if ($isMyChannel) {
+                    ?>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
+                        <span class="glyphicon glyphicon-film"></span>
+                        <span class="glyphicon glyphicon-headphones"></span>
+                        <?php echo __("My videos"); ?>
+                    </a>
+                    <?php
+                    } else {
+                    echo __("My videos");
+                    }
+                    echo AVideoPlugin::getChannelButton();
+                    ?>
+                </div>
+                <div class="panel-body">
+                    <?php
+                    if (!empty($uploadedVideos[0])) {
+                    $video = $uploadedVideos[0];
+                    $obj = new stdClass();
+                    $obj->BigVideo = true;
+                    $obj->Description = false;
+                    include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
+                    unset($uploadedVideos[0]);
+                    }
+                    ?>
+                    <div class="row mainArea">
+                        <?php
+                        TimeLogEnd($timeLog, __LINE__);
+                        createGallerySection($uploadedVideos, "", $get);
+                        TimeLogEnd($timeLog, __LINE__);
+                        ?>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <ul id="channelPagging"></ul>
+                    <script>
+                        $(document).ready(function () {
+                            $('#channelPagging').bootpag({
+                                total: <?php echo $totalPages; ?>,
+                                page: <?php echo $current; ?>,
+                                maxVisible: 10
+                            }).on('page', function (event, num) {
+                                document.location = ("<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $_GET['channelName']; ?>?current=" + num);
+                            });
+                        });
+                    </script>
+                </div>
             </div>
         </div>
-
-        <div class="panel-footer">
-            <ul id="channelPagging"></ul>
-            <script>
-                $(document).ready(function () {
-                    $('#channelPagging').bootpag({
-                        total: <?php echo $totalPages; ?>,
-                        page: <?php echo $current; ?>,
-                        maxVisible: 10
-                    }).on('page', function (event, num) {
-                        document.location = ("<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $_GET['channelName']; ?>?current=" + num);
-                    });
-                });
-            </script>
+        <?php
+        if (!empty($palyListsObj)) {
+        ?>
+        <div id="channelPlayLists" class="tab-pane fade">
+            <?php
+            include $global['systemRootPath'] . 'view/channelPlaylist.php';
+            ?>
         </div>
+        <?php
+        }
+        ?>
     </div>
-    <?php
-    if (!empty($palyListsObj)) {
-        TimeLogEnd($timeLog, __LINE__);
-        include $global['systemRootPath'] . 'view/channelPlaylist.php';
-        TimeLogEnd($timeLog, __LINE__);
-    }
-    ?>
 </div>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
