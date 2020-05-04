@@ -16,7 +16,6 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <style>
             .ui-menu .ui-menu-item {
                 list-style-image: none !important;
@@ -119,7 +118,6 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
                 $('#btnReloadCapcha').click(function () {

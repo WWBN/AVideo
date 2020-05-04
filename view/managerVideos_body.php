@@ -35,7 +35,7 @@
         font-size: 12px;
     }
 </style>
-<div class="container">
+<div class="container-fluid">
     <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
     <?php
     if (empty($_GET['iframe'])) {

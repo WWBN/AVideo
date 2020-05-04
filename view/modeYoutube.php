@@ -291,7 +291,6 @@ if (!empty($evideo)) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         getOpenGraph(0);
@@ -569,12 +568,6 @@ if (!empty($evideo)) {
                 </div>
             <?php } ?>
         </div>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-        <script>
-                            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                            $.widget.bridge('uibutton', $.ui.button);
-                            $.widget.bridge('uitooltip', $.ui.tooltip);
-        </script>
         <?php
         $modeYouTubeTimeLog['before add js '] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);

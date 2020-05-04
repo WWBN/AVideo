@@ -1460,10 +1460,24 @@ if (typeof gtag !== \"function\") {
     }
 
     function getBackgroundURL() {
-        if (empty($this->backgroundURL)) {
-            $this->backgroundURL = "view/img/background.png";
-        }
+        global $global;
+        $this->backgroundURL = self::getBackgroundURLFromUserID($this->id);
         return $this->backgroundURL;
+    }
+    
+    static function getBackgroundURLFromUserID($users_id=0){
+        if(empty($users_id)){
+            $users_id = User::getId();
+        }
+        global $global;
+        $backgroundURL = "videos/userPhoto/background{$users_id}.jpg";
+        if(!file_exists($global['systemRootPath'] . $backgroundURL)){
+            $backgroundURL = "videos/userPhoto/background{$users_id}.png";
+        }
+        if(!file_exists($global['systemRootPath'] . $backgroundURL)){
+            $backgroundURL = "view/img/background.jpg";
+        }
+        return $backgroundURL;
     }
 
     function setBackgroundURL($backgroundURL) {

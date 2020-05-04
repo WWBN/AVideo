@@ -1,3 +1,12 @@
+<style>
+    .file-caption{
+        padding: 6px 12px !important;
+    }
+    .file-preview-frame,.krajee-default.file-preview-frame .kv-file-content {
+        width: 95%;
+        height: auto;
+    }
+</style>
 <div class="form-group">
     <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>
     <div class="col-md-8 inputGroupContainer">
@@ -13,7 +22,7 @@
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input  id="inputUser" placeholder="<?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail)?"text":"email"?>" value="<?php echo $user->getUser(); ?>" required <?php echo (AVideoPlugin::isEnabledByName("LoginLDAP") || empty($advancedCustomUser->userCanChangeUsername))?"readonly":""; ?>  >
+            <input  id="inputUser" placeholder="<?php echo!empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail) ? "text" : "email" ?>" value="<?php echo $user->getUser(); ?>" required <?php echo (AVideoPlugin::isEnabledByName("LoginLDAP") || empty($advancedCustomUser->userCanChangeUsername)) ? "readonly" : ""; ?>  >
         </div>
     </div>
 </div>
@@ -24,9 +33,11 @@
         <div class="input-group">
             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
             <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email" value="<?php echo $user->getEmail(); ?>" required
-                    <?php if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
-                        echo "readonly";
-                    } ?>    >
+            <?php
+            if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
+                echo "readonly";
+            }
+            ?>    >
         </div>
     </div>
     <div class="col-md-2">
@@ -86,7 +97,11 @@
     </div>
 </div>
 
-<div class="form-group <?php if(!empty($advancedCustomUser->doNotShowMyChannelNameOnBasicInfo)){echo " hidden ";} ?>">
+<div class="form-group <?php
+if (!empty($advancedCustomUser->doNotShowMyChannelNameOnBasicInfo)) {
+    echo " hidden ";
+}
+?>">
     <label class="col-md-4 control-label"><?php echo __("Channel Name"); ?></label>
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
@@ -96,7 +111,11 @@
     </div>
 </div>
 
-<div class="form-group <?php if(empty($advancedCustomUser->allowDonationLink)){echo " hidden ";} ?>">
+<div class="form-group <?php
+if (empty($advancedCustomUser->allowDonationLink)) {
+    echo " hidden ";
+}
+?>">
     <label class="col-md-4 control-label"><?php echo __("Donation Link"); ?></label>
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
@@ -106,7 +125,11 @@
     </div>
 </div>
 
-<div class="form-group <?php if(!empty($advancedCustomUser->doNotShowMyAnalyticsCodeOnBasicInfo)){echo " hidden ";} ?>">
+<div class="form-group <?php
+if (!empty($advancedCustomUser->doNotShowMyAnalyticsCodeOnBasicInfo)) {
+    echo " hidden ";
+}
+?>">
     <label class="col-md-4 control-label"><?php echo __("Analytics Code"); ?></label>
     <div class="col-md-8 inputGroupContainer">
         <div class="input-group">
@@ -117,7 +140,11 @@
     </div>
 </div>
 
-<div class="form-group <?php if(!empty($advancedCustomUser->doNotShowMyAboutOnBasicInfo)){echo " hidden ";} ?> ">
+<div class="form-group <?php
+if (!empty($advancedCustomUser->doNotShowMyAboutOnBasicInfo)) {
+    echo " hidden ";
+}
+?> ">
     <label class="col-md-4 control-label"><?php echo __("About"); ?></label>
     <div class="col-md-8 inputGroupContainer">
         <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>
@@ -127,26 +154,50 @@
 <?php
 AVideoPlugin::getMyAccount(User::getId());
 ?>
-
-<div class="form-group">
-    <div class="col-md-12 ">
-        <div id="croppie"></div>
-        <center>
-            <a id="upload-btn" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo __("Upload a Photo"); ?></a>
-        </center>
+<div class="row">
+    <div class="col-sm-3">
+        <div class="panel panel-default">
+            <div class="panel-heading"><?php echo __("Profile Photo"); ?><br><small><?php echo __("You must click save to confirm"); ?></small></div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-md-12 ">
+                        <div id="croppie"></div>
+                        <center>
+                            <a id="upload-btn" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo __("Upload a Photo"); ?></a>
+                        </center>
+                        <div class="alert alert-info">
+                            <?php echo __("Make sure you click on the Save button after change the photo"); ?>
+                        </div>
+                    </div>
+                    <input type="file" id="upload" value="Choose a file" accept="image/*" style="display: none;" />
+                </div>
+            </div>
+        </div>
     </div>
-    <input type="file" id="upload" value="Choose a file" accept="image/*" style="display: none;" />
+    <div class="col-sm-9">
+        <div class="panel panel-default">
+            <div class="panel-heading"><?php echo __("Channel Art"); ?><br>
+                <small><?php echo __("For the best results, please Use this image as a guide to create your Channel Art"); ?></small>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-7">
+                        <input id="input-jpg" type="file" class="file-loading" accept="image/*">
+                    </div>
+                    <div class="col-sm-5">
+                        <img src="<?php echo $global['webSiteRootURL']; ?>view/img/sampleGuide.png" class="img img-responsive">
+                        <hr>
+                        <b><?php echo __("minImageWidth"); ?>:</b> 2048px<br>
+                        <b><?php echo __("minImageHeight"); ?>:</b> 1152px<br>
+                        <b><?php echo __("maxImageWidth"); ?>:</b> 2560px<br>
+                        <b><?php echo __("maxImageHeight"); ?>:</b> 1440px<br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="form-group">
-    <div class="col-md-12 ">
-        <div id="croppieBg"></div>
-        <center>
-            <a id="upload-btnBg" class="btn btn-success"><i class="fa fa-upload"></i> <?php echo __("Upload a Background"); ?></a>
-        </center>
-    </div>
-    <input type="file" id="uploadBg" value="Choose a file" accept="image/*" style="display: none;" />
-</div>
 <script>
     var uploadCrop;
 
@@ -206,25 +257,11 @@ AVideoPlugin::getMyAccount(User::getId());
                                 imgBase64: resp
                             },
                             success: function () {
-                                console.log("userSaveBackground");
-                                uploadCropBg.croppie('result', {
-                                    type: 'canvas',
-                                    size: 'viewport'
-                                }).then(function (resp) {
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "<?php echo $global['webSiteRootURL']; ?>objects/userSaveBackground.php",
-                                        data: {
-                                            imgBase64: resp
-                                        }, success: function (response) {
-                                            console.log("SavePersonal");
-                                            modal.hidePleaseWait();
+                                console.log("SavePersonal");
+                                modal.hidePleaseWait();
 <?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>
-                                                savePersonalInfo();
+                                    savePersonalInfo();
 <?php } ?>
-                                        }
-                                    });
-                                });
                             }
                         });
                     });
@@ -239,17 +276,34 @@ AVideoPlugin::getMyAccount(User::getId());
         });
     }
     $(document).ready(function () {
+
+        $("#input-jpg").fileinput({
+            uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadChannelArt.php",
+            autoReplace: true,
+            overwriteInitial: true,
+            showUploadedThumbs: false,
+            showPreview: true,
+            maxFileCount: 1,
+            initialPreview: [
+                "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL'], User::getBackgroundURLFromUserID(User::getId()); ?>'>",
+            ],
+            initialCaption: 'channelArt.jpg',
+            initialPreviewShowDelete: false,
+            showRemove: false,
+            showClose: false,
+            layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+            allowedFileExtensions: ["jpg", "jpeg", "png"],
+            //minImageWidth: 2048,
+            //minImageHeight: 1152,
+            //maxImageWidth: 2560,
+            //maxImageHeight: 1440
+        });
+
         $('#upload').on('change', function () {
             readFile(this, uploadCrop);
         });
         $('#upload-btn').on('click', function (ev) {
             $('#upload').trigger("click");
-        });
-        $('#uploadBg').on('change', function () {
-            readFile(this, uploadCropBg);
-        });
-        $('#upload-btnBg').on('click', function (ev) {
-            $('#uploadBg').trigger("click");
         });
 <?php
 if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
@@ -274,21 +328,6 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
             boundary: {
                 width: 150,
                 height: 150
-            }
-        });
-
-        uploadCropBg = $('#croppieBg').croppie({
-            url: '<?php echo $user->getBackgroundURL(); ?>',
-            enableExif: true,
-            enforceBoundary: false,
-            mouseWheelZoom: false,
-            viewport: {
-                width: 1250,
-                height: 250
-            },
-            boundary: {
-                width: 1250,
-                height: 250
             }
         });
         $('#updateUserForm').submit(function (evt) {
