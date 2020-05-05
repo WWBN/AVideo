@@ -69,7 +69,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     $poster = $images->poster;
                                     ?>
                                     <div>
-                                        <img src="<?php echo $poster; ?>" alt="<?php echo $videoRow['title']; ?>" class="thumbsJPG img img-responsive <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" id="thumbsJPG<?php echo $videoRow['id']; ?>"  style="height: 350px;" />
+                                        <img src="<?php echo $poster; ?>" alt="<?php echo $videoRow['title']; ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $videoRow['id']; ?>"  style="height: 350px;" />
                                         <?php if (!empty($obj->GifOnBigVideo) && !empty($imgGif)) { ?>
                                             <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $videoRow['title']; ?>" id="thumbsGIF<?php echo $videoRow['id']; ?>" class="thumbsGIF img-responsive <?php echo @$img_portrait; ?>  rotate<?php echo $videoRow['rotation']; ?>" height="350" />
                                         <?php } ?>
