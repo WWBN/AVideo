@@ -36,11 +36,6 @@ if(AVideoPlugin::isEnabledByName("VideoTags")){
 <?php
 }
 ?>
-<script>
-    /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-    $.widget.bridge('uibutton', $.ui.button);
-    $.widget.bridge('uitooltip', $.ui.tooltip);
-</script>
 <style>
     #inputNextVideo-poster {
         height: 90px;

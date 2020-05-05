@@ -20,11 +20,6 @@ if(!isset($global['systemRootPath'])){
         <script src="<?php echo $global['webSiteRootURL']; ?>view/view/js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
-        <script>
-                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                        $.widget.bridge('uibutton', $.ui.button);
-                        $.widget.bridge('uitooltip', $.ui.tooltip);
-        </script>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">

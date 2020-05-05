@@ -205,11 +205,6 @@ if (!empty($video['id'])) {
                 </div>
             <?php } ?>
         </div>
-        <script>
-                                            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                                            $.widget.bridge('uibutton', $.ui.button);
-                                            $.widget.bridge('uitooltip', $.ui.tooltip);
-        </script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
         <?php
         echo AVideoPlugin::afterVideoJS();
