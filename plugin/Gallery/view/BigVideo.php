@@ -14,39 +14,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     }
     ?>
     <style>
-        #bigVideoCarousel {
-            margin-left: -10px;;
-        }
-        
         #bigVideoCarousel .carousel-indicators .active {
             border-color: #777 !important;
-        }
-        
-        #bigVideoCarousel .thumbsImage img {
-            height: 350px;
-        }
-        @media (max-width: 1200px){
-            #bigVideoCarousel .thumbsImage img {
-                height: 200px;
-            }
-        }
-        @media (max-width: 768px){
-            #bigVideoCarousel .thumbsImage {
-                display: block !important;
-            }
-            
-            #bigVideoCarousel .thumbsImage div {
-                margin: 0 !important;
-            }
-            
-            #bigVideoCarousel .thumbsImage img {
-                height: auto;
-                width: 100%;
-            }
-            
-            #bigVideoCarousel {
-                margin: 0 -10px;;
-            }
         }
     </style>
     <div id="bigVideoCarousel" class="carousel slide" data-ride="carousel">
@@ -80,29 +49,29 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     $get = array();
                 }
                 $bigVideoAd = getAdsLeaderBoardBigVideo();
-                //$colClass1 = "col-sm-6";
-                //$colClass2 = "col-sm-6";
+                $colClass1 = "col-sm-5";
+                $colClass2 = "col-sm-7";
                 $colClass3 = "";
                 if (!empty($bigVideoAd)) {
-                    //$colClass1 = "col-sm-4";
-                    //$colClass2 = "col-sm-8";
+                    $colClass1 = "col-sm-4";
+                    $colClass2 = "col-sm-8";
                     $colClass3 = "col-sm-6";
                 }
                 ?>
                 <div class="item <?php echo $count === 1 ? "active" : ""; ?>">
-                    <div class="clear clearfix" >
-                        <div class="thumbsImage" style="display: flex; margin-bottom: 10px; ">
-                            <div style=" margin-right: 10px;" >
+                    <div class="clear clearfix">
+                        <div class="row thumbsImage">
+                            <div class="<?php echo $colClass1; ?>">
                                 <a class="galleryLink" videos_id="<?php echo $videoRow['id']; ?>" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" title="<?php echo $videoRow['title']; ?>" style="">
                                     <?php
                                     $images = Video::getImageFromFilename($videoRow['filename'], $videoRow['type']);
                                     $imgGif = $images->thumbsGif;
                                     $poster = $images->poster;
                                     ?>
-                                    <div>
-                                        <img src="<?php echo $poster; ?>" alt="<?php echo $videoRow['title']; ?>" class="thumbsJPG img" id="thumbsJPG<?php echo $videoRow['id']; ?>" />
+                                    <div class="aspectRatio16_9">
+                                        <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $videoRow['title']; ?>" class="thumbsJPG img img-responsive <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" style="height: auto; width: 100%;" id="thumbsJPG<?php echo $videoRow['id']; ?>" />
                                         <?php if (!empty($obj->GifOnBigVideo) && !empty($imgGif)) { ?>
-                                            <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $videoRow['title']; ?>" id="thumbsGIF<?php echo $videoRow['id']; ?>" class="thumbsGIF <?php echo @$img_portrait; ?>  rotate<?php echo $videoRow['rotation']; ?>" />
+                                            <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $videoRow['title']; ?>" id="thumbsGIF<?php echo $videoRow['id']; ?>" class="thumbsGIF img-responsive <?php echo @$img_portrait; ?>  rotate<?php echo $videoRow['rotation']; ?>" height="130" />
                                         <?php } ?>
                                     </div>
                                     <?php
@@ -117,7 +86,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     ?>
                                 </a>
                             </div>
-                            <div>
+                            <div class="<?php echo $colClass2; ?>">
                                 <div class="<?php echo $colClass3; ?>">
                                     <a class="h6 galleryLink" videos_id="<?php echo $videoRow['id']; ?>" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" title="<?php echo $videoRow['title']; ?>">
                                         <h1><?php echo $videoRow['title']; ?></h1>
