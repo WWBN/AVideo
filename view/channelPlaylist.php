@@ -79,7 +79,7 @@ foreach ($playlists as $key => $playlist) {
         <div class="panel-heading">
 
             <strong style="font-size: 1.1em;" class="playlistName">
-    <?php echo $playlist['name']; ?> 
+                <?php echo $playlist['name']; ?> 
             </strong>
 
             <?php
@@ -154,7 +154,7 @@ foreach ($playlists as $key => $playlist) {
                 }
                 ?>
                 <a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>viewProgram/<?php echo $playlist['id']; ?>/<?php echo urlencode($playlist['name']); ?>/">
-    <?php echo __('More'); ?> <i class="fas fa-ellipsis-h"></i> 
+                    <?php echo __('More'); ?> <i class="fas fa-ellipsis-h"></i> 
                 </a>
             </div>
         </div>
@@ -173,43 +173,44 @@ foreach ($playlists as $key => $playlist) {
                     $category = new Category($serie['categories_id']);
                     ?>
                     <div style="overflow: hidden;">
-                        <div class="col-sm-4" id="serie<?php echo $serie['id']; ?>" style="padding: 1px;">
-                            <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" style="height: 200px;" />
-                        </div>
-                        <div class="col-sm-8"  style="padding: 1px 5px;">
-                            <a class="hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo $serie['title']; ?>">
-                                <h2><?php echo $serie['title']; ?></h2>
-                            </a>
-                            <small class="text-muted galeryDetails">
-                                <a class="label label-default" href="<?php echo Video::getLink($videoRow['id'], $category->getClean_name(), false, $get); ?>/">
-                                    <?php
-                                    if (!empty($category->getIconClass())) {
-                                        ?>
-                                        <i class="<?php echo $category->getIconClass(); ?>"></i>
-                                        <?php
-                                    }
-                                    ?>
-                                <?php echo $category->getName(); ?>
+                        <div style="display: flex; margin-bottom: 10px;">
+                            <div style="margin-right: 5px;">
+                                <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" style="max-height: 200px;" />
+                            </div>  
+                            <div>
+                                <a class="hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo $serie['title']; ?>">
+                                    <h2><?php echo $serie['title']; ?></h2>
                                 </a>
-                                <?php
-                                $serie['tags'] = Video::getTags($serie['id']);
-                                foreach ($serie['tags'] as $value2) {
-                                    if ($value2->label === __("Group")) {
-                                        ?>
-                                        <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                <small class="text-muted galeryDetails">
+                                    <a class="label label-default" href="<?php echo Video::getLink($videoRow['id'], $category->getClean_name(), false, $get); ?>/">
                                         <?php
+                                        if (!empty($category->getIconClass())) {
+                                            ?>
+                                            <i class="<?php echo $category->getIconClass(); ?>"></i>
+                                            <?php
+                                        }
+                                        ?>
+                                        <?php echo $category->getName(); ?>
+                                    </a>
+                                    <?php
+                                    $serie['tags'] = Video::getTags($serie['id']);
+                                    foreach ($serie['tags'] as $value2) {
+                                        if ($value2->label === __("Group")) {
+                                            ?>
+                                            <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                            <?php
+                                        }
                                     }
-                                }
-                                ?>
-                                <i class="far fa-clock"></i>
-                                <?php
-                                echo humanTiming(strtotime($serie['created'])), " ", __('ago');
-                                ?>
-
-                                <?php
-                                if (!empty($serie['trailer1'])) {
                                     ?>
-                                    <a href="#" class="btn btn-xs btn-warning" onclick="$(this).removeAttr('href');$('#serie<?php echo $serie['id']; ?> img').fadeOut();$('<iframe>', {
+                                    <i class="far fa-clock"></i>
+                                    <?php
+                                    echo humanTiming(strtotime($serie['created'])), " ", __('ago');
+                                    ?>
+
+                                    <?php
+                                    if (!empty($serie['trailer1'])) {
+                                        ?>
+                                        <a href="#" class="btn btn-xs btn-warning" onclick="$(this).removeAttr('href');$('#serie<?php echo $serie['id']; ?> img').fadeOut();$('<iframe>', {
                                                                 src: '<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>',
                                                                 id: 'myFrame<?php echo $serie['id']; ?>',
                                                                 allow: 'autoplay',
@@ -217,18 +218,21 @@ foreach ($playlists as $key => $playlist) {
                                                                 height: 200,
                                                                 width: '100%',
                                                                 scrolling: 'no'
-                                                            }).appendTo('#serie<?php echo $serie['id']; ?>');$(this).removeAttr('onclick');
-                                                            $(this).fadeOut();return false;">
-                                        <span class="fa fa-film"></span> 
-                                        <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
-                                    </a>
-                                    <?php
-                                }
-                                ?>
-                            </small>
-                            <p>
-            <?php echo $serie['description']; ?>
-                            </p>
+                                                            }).appendTo('#serie<?php echo $serie['id']; ?>');
+                                                            $(this).removeAttr('onclick');
+                                                            $(this).fadeOut();
+                                                            return false;">
+                                            <span class="fa fa-film"></span> 
+                                            <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
+                                </small>
+                                <p>
+                                    <?php echo $serie['description']; ?>
+                                </p>
+                            </div>  
                         </div>
                     </div>
                     <?php
@@ -289,7 +293,7 @@ foreach ($playlists as $key => $playlist) {
                                 <div>
                                     <i class="fa fa-eye"></i>
                                     <span itemprop="interactionCount">
-                <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                        <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                                     </span>
                                 </div>
                                 <?php
@@ -404,67 +408,67 @@ $_GET['channelName'] = $channelName;
     $(function () {
         $('.removeVideo').click(function () {
             currentObject = this;
-                    
-                    swal({
+
+            swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                text: "<?php echo __("You will not be able to recover this action!"); ?>",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
-            .then((willDelete) => {
-              if (willDelete) {
+                    .then((willDelete) => {
+                        if (willDelete) {
 
-                        modal.showPleaseWait();
-                        var playlist_id = $(currentObject).attr('playlist_id');
-                        var video_id = $(currentObject).attr('video_id');
-                        $.ajax({
-                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
-                            data: {
-                                "playlist_id": playlist_id,
-                                "video_id": video_id
-                            },
-                            type: 'post',
-                            success: function (response) {
-                                reloadPlayLists();
-                                $(".playListsIds" + video_id).prop("checked", false);
-                                $(currentObject).closest('.galleryVideo').fadeOut();
-                                modal.hidePleaseWait();
-                            }
-                        });
-              } 
-            });
+                            modal.showPleaseWait();
+                            var playlist_id = $(currentObject).attr('playlist_id');
+                            var video_id = $(currentObject).attr('video_id');
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
+                                data: {
+                                    "playlist_id": playlist_id,
+                                    "video_id": video_id
+                                },
+                                type: 'post',
+                                success: function (response) {
+                                    reloadPlayLists();
+                                    $(".playListsIds" + video_id).prop("checked", false);
+                                    $(currentObject).closest('.galleryVideo').fadeOut();
+                                    modal.hidePleaseWait();
+                                }
+                            });
+                        }
+                    });
         });
 
         $('.deletePlaylist').click(function () {
             currentObject = this;
-                    
-                 swal({
+
+            swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                text: "<?php echo __("You will not be able to recover this action!"); ?>",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
-            .then((willDelete) => {
-              if (willDelete) {
+                    .then((willDelete) => {
+                        if (willDelete) {
 
-                        modal.showPleaseWait();
-                        var playlist_id = $(currentObject).attr('playlist_id');
-                        console.log(playlist_id);
-                        $.ajax({
-                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
-                            data: {
-                                "playlist_id": playlist_id
-                            },
-                            type: 'post',
-                            success: function (response) {
-                                $(currentObject).closest('.panel').slideUp();
-                                modal.hidePleaseWait();
-                            }
-                        });
-              } 
-            });   
+                            modal.showPleaseWait();
+                            var playlist_id = $(currentObject).attr('playlist_id');
+                            console.log(playlist_id);
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
+                                data: {
+                                    "playlist_id": playlist_id
+                                },
+                                type: 'post',
+                                success: function (response) {
+                                    $(currentObject).closest('.panel').slideUp();
+                                    modal.hidePleaseWait();
+                                }
+                            });
+                        }
+                    });
 
         });
 
