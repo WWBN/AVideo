@@ -18,7 +18,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             border-color: #777 !important;
         }
     </style>
-    <div id="bigVideoCarousel" class="carousel slide" data-ride="carousel">
+    <div id="bigVideoCarousel" class="carousel slide" data-ride="carousel" style="margin-left: -10px;">
         <?php
         if (count($videoRows) > 1) {
             ?>
@@ -61,7 +61,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 <div class="item <?php echo $count === 1 ? "active" : ""; ?>">
                     <div class="clear clearfix" >
                         <div class="thumbsImage" style="display: flex; margin-bottom: 10px; ">
-                            <div >
+                            <div style=" margin-right: 10px;" >
                                 <a class="galleryLink" videos_id="<?php echo $videoRow['id']; ?>" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" title="<?php echo $videoRow['title']; ?>" style="">
                                     <?php
                                     $images = Video::getImageFromFilename($videoRow['filename'], $videoRow['type']);
