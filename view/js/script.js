@@ -13,6 +13,8 @@ var doNotFloatVideo = false;
 var mouseX;
 var mouseY;
 var videoContainerDragged = false;
+var youTubeMenuIsOpened = false;
+
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
     mouseY = e.pageY;

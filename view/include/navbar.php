@@ -245,9 +245,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                 <ul class="left-side">
                     <li style="max-width: 40px;">
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="bottom" ><span class="fa fa-bars"></span></button>
-                        <script>
-                            var youTubeMenuIsOpened = false
-                            
+                        <script>                            
                             function YPTSidebarOpen() {
                                 $('body').addClass('youtube')
                                 $("#sidebar").fadeIn();
