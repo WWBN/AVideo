@@ -23,7 +23,9 @@ if (!empty($_GET['v'])) {
 } else if (!empty($_GET['videoName'])) {
     $video = Video::getVideoFromCleanTitle($_GET['videoName']);
 }
-
+if (!CustomizeUser::canShareVideosFromVideo($video['id'])) {
+    die("Embed is forbidden");
+}
 Video::unsetAddView($video['id']);
 
 
