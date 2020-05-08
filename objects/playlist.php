@@ -96,7 +96,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
             }
-            if (empty($status) && $config->currentVersionGreaterThen("6.4")) {
+            if (empty($_POST['current']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
                 if (empty($favorite)) {
                     $pl = new PlayList(0);
                     $pl->setName("Favorite");
