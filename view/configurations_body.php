@@ -436,7 +436,7 @@ if (User::isAdmin()) {
                                                             <small id="encoder_urlHelp" class="form-text text-muted">
                                                                 <?php echo __("You need to set up an encoder server"); ?><br>
                                                                 <?php echo __("You can use our public encoder on"); ?>: https://encoder2.avideo.com/ or
-                                                                <a href="https://github.com/WWBN/AVideo-Encoder" class="btn btn-default btn-xs" target="_blank"><?php echo __("For faster encode, download your own encoder"); ?></a>
+                                                                <a href="https://github.com/WWBN/AVideo-Encoder" class="btn btn-default btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("For faster encode, download your own encoder"); ?></a>
                                                             </small>
                                                         </div>
                                                     </div>
@@ -507,7 +507,7 @@ if (User::isAdmin()) {
                                                         <h3>
                                                             <i class="fas fa-info-circle"></i>
                                                             If you are not sure how to configure your email, 
-                                                            please try <a href="https://github.com/WWBN/AVideo/wiki/Setting-up-AVideo-Platform-to-send-emails" target="_blank">this help</a>
+                                                            please try <a href="https://github.com/WWBN/AVideo/wiki/Setting-up-AVideo-Platform-to-send-emails" target="_blank" rel="noopener noreferrer" >this help</a>
                                                         </h3>
                                                     </div>
 
@@ -601,7 +601,7 @@ if (User::isAdmin()) {
                                     <label class="col-md-2 control-label"><?php echo __("Head Code"); ?></label>
                                     <div class="col-md-10">
                                         <textarea id="head" class="form-control" type="text" rows="20" ><?php echo $config->getHead(); ?></textarea>
-                                        <small>For Google Analytics code: <a href='https://analytics.google.com'  target="_blank">https://analytics.google.com</a></small><br>
+                                        <small>For Google Analytics code: <a href='https://analytics.google.com'  target="_blank" rel="noopener noreferrer">https://analytics.google.com</a></small><br>
                                         <small>Leave blank for native code</small>
                                     </div>
                                 </div>

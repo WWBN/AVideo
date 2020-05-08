@@ -80,7 +80,7 @@ if (!empty($videos)) {
                             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                             <p class="vjs-no-js">
                                 <?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
-                                <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                                <a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a>
                             </p>
                         </video>
                         <?php
