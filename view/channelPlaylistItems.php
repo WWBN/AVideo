@@ -52,6 +52,7 @@
     unset($_GET['channelName']);
     $startC = microtime(true);
     TimeLogEnd($timeLog2, __LINE__);
+    $countSuccess = 0;
     foreach ($playlists as $key => $playlist) {
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
@@ -84,6 +85,7 @@
         $playListButtons = AVideoPlugin::getPlayListButtons($playlist['id']);
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
+        $countSuccess++;
         ?>
 
         <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
@@ -361,6 +363,9 @@
 
         </div>
         <?php
+    }
+    if(!empty($videosP) && empty($countSuccess)){
+        header("Location: {$global['webSiteRootURL']}view/channelPlaylistItems.php?current=".(count($playlists) ? $_POST['current'] + 1 : $_POST['current'])."&channelName={$_GET['channelName']}");
     }
     TimeLogEnd($timeLog2, __LINE__);
     $_GET['channelName'] = $channelName;
