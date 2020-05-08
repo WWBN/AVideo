@@ -154,7 +154,7 @@ TimeLogEnd($timeLog, __LINE__);
                 if (!empty($palyListsObj)) {
                     ?>
 
-                    <div class="tab-pane fade" id="channelPlayLists">
+                    <div class="tab-pane fade" id="channelPlayLists" style="min-height: 800px;">
                         <?php
                         include $global['systemRootPath'] . 'view/channelPlaylist.php';
                         ?>
@@ -168,3 +168,4 @@ TimeLogEnd($timeLog, __LINE__);
 
 </div>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
