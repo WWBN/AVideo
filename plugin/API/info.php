@@ -56,7 +56,7 @@ $reflector = new ReflectionClass('API');
                     <details>
                         <summary style="cursor: pointer;"><i class="fas fa-file-upload"></i> Upload a Video</summary>
                         <br>
-                        For more detailed instructions please <a href="https://github.com/WWBN/AVideo/wiki/Upload-videos-from-third-party-applications" target="_blank">read this</a>
+                        For more detailed instructions please <a href="https://github.com/WWBN/AVideo/wiki/Upload-videos-from-third-party-applications" target="_blank" rel="noopener noreferrer" >read this</a>
                         <br>
                         Your HTML Form should looks like this. The user and the pass values on the action URL will be the video owner
                         <pre><?php
@@ -71,7 +71,7 @@ $reflector = new ReflectionClass('API');
                             ?>
                         </pre>
 
-                        You can get notified for the new video uploads with the Webhook in the Notification plugin, Check <a href="https://github.com/WWBN/AVideo/wiki/Notifications-Plugin#webhooks" target="_blank">here</a> for more details
+                        You can get notified for the new video uploads with the Webhook in the Notification plugin, Check <a href="https://github.com/WWBN/AVideo/wiki/Notifications-Plugin#webhooks" target="_blank" rel="noopener noreferrer">here</a> for more details
 
                     </details> 
                 </li>
