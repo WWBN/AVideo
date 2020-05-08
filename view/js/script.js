@@ -259,8 +259,8 @@ $(document).ready(function () {
         }
         changingVideoFloat = 1;
         var s = $(window).scrollTop();
-        console.log("$(window).scrollTop()= " + s);
-        console.log("mainVideoHeight = $('#videoContainer').innerHeight()= " + mainVideoHeight);
+        //console.log("$(window).scrollTop()= " + s);
+        //console.log("mainVideoHeight = $('#videoContainer').innerHeight()= " + mainVideoHeight);
         if (s > mainVideoHeight) {
             setFloatVideo();
         } else {

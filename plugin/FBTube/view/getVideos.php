@@ -138,7 +138,7 @@ if (!empty($videos)) {
                                         <?php echo __("Make it public"); ?>
                                         <div class="material-switch pull-right">
                                             <input id="publicPlayList<?php echo $video['id']; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
-                                            <label for="publicPlayList" class="label-success"></label>
+                                            <label for="publicPlayList<?php echo $video['id']; ?>" class="label-success"></label>
                                         </div>
                                     </div>
                                     <div class="form-group">

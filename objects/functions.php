@@ -3017,3 +3017,9 @@ function isToShowDuration($type){
         return true;
     }
 }
+
+function _dieAndLogObject($obj, $prefix=""){
+    $objString = json_encode($obj);
+    _error_log($prefix.$objString);
+    die($objString);
+}
