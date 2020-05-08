@@ -217,6 +217,23 @@ if (!$includeDefaultNavBar) {
     li.navsub-toggle a + ul {
         padding-left: 15px;
     }
+    <?php
+    if (AVideoPlugin::isEnabledByName("Gallery") || AVideoPlugin::isEnabledByName("YouPHPFlix2")) {
+        ?>
+        @media screen and (min-width: 992px) {
+
+            body.youtube div.container-fluid{
+                margin-left: 300px;
+            }
+            body.youtube div.container-fluid .col-sm-10.col-sm-offset-1.list-group-item{
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+            }
+        }
+        <?php
+    }
+    ?>
 </style>
 <?php
 if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
@@ -228,26 +245,35 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                 <ul class="left-side">
                     <li style="max-width: 40px;">
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="bottom" ><span class="fa fa-bars"></span></button>
-                        <script>
+                        <script>                            
+                            function YPTSidebarOpen() {
+                                $('body').addClass('youtube')
+                                $("#sidebar").fadeIn();
+                                youTubeMenuIsOpened = true;
+                            }
+                            function YPTSidebarClose() {
+                                $('body').removeClass('youtube');
+                                $("#sidebar").fadeOut();
+                                youTubeMenuIsOpened = false;
+                            }
                             $(document).ready(function () {
                                 $('#buttonMenu').on("click.sidebar", function (event) {
                                     event.stopPropagation();
                                     //$('#sidebar').fadeToggle();
                                     if ($('body').hasClass('youtube')) {
-                                        $('body').removeClass('youtube')
-                                        $("#sidebar").fadeOut();
+                                        YPTSidebarClose();
                                     } else {
-                                        $('body').addClass('youtube')
-                                        $("#sidebar").fadeIn();
+                                        YPTSidebarOpen();
                                     }
 
                                     $('#myNavbar').removeClass("in");
                                     $('#mysearch').removeClass("in");
                                 });
-
-                                $(document).on("click.sidebar", function () {
-                                    $("#sidebar").fadeOut();
-                                });
+                                /*
+                                 $(document).on("click.sidebar", function () {
+                                 YPTSidebarClose();
+                                 });
+                                 */
                                 $("#sidebar").on("click", function (event) {
                                     event.stopPropagation();
                                 });
@@ -532,8 +558,8 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                         <?php
                         if (empty($advancedCustomUser->doNotShowRightProfile)) {
                             $tooltip = "";
-                            if(User::isLogged()){
-                                $tooltip = 'data-toggle="tooltip" data-html="true" title="'.User::getName().":: ".User::getMail().'" data-placement="left"';   
+                            if (User::isLogged()) {
+                                $tooltip = 'data-toggle="tooltip" data-html="true" title="' . User::getName() . ":: " . User::getMail() . '" data-placement="left"';
                             }
                             ?>
                             <li class="rightProfile" >

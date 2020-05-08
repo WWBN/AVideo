@@ -22,14 +22,17 @@ class VideoLandscapeFullscreen extends PluginAbstract {
 
    public function getEmptyDataObject() {
         $obj = new stdClass();
-        $obj->enterOnRotate = True;
-        $obj->alwaysInLandscapeMode = True;
-        $obj->iOS = True;
+        $obj->enterOnRotate = true;
+        $obj->alwaysInLandscapeMode = true;
+        $obj->iOS = true;
         return $obj;
     }
 
     public function getFooterCode(){
         global $video;
+        if(!isMobile()){
+            return "";
+        }
         if (empty($_GET['videoName']) || (!empty($video['type']) && $video['type']=="embed")) {
             return "";
         }
@@ -37,7 +40,7 @@ class VideoLandscapeFullscreen extends PluginAbstract {
        $obj3 = AVideoPlugin::getObjectData('VideoLandscapeFullscreen');
        $js = '<script src="'.$global['webSiteRootURL'].'plugin/VideoLandscapeFullscreen/videojs-landscape-fullscreen.js" type="text/javascript"></script>';
         $js .= '<script>'
-               . 'if(typeof player == \'undefined\'){player = videojs(\'mainVideo\'' . PlayerSkins::getDataSetup() . ');}player = videojs(\'mainVideo\').landscapeFullscreen({fullscreen: {enterOnRotate: ' . $obj3->enterOnRotate .', alwaysInLandscapeMode: ' . $obj3->alwaysInLandscapeMode .', iOS: ' . $obj3->iOS .'}});'
+               . 'if(typeof player == \'undefined\'){player = videojs(\'mainVideo\'' . PlayerSkins::getDataSetup() . ');}player = videojs(\'mainVideo\').landscapeFullscreen({fullscreen: {enterOnRotate: ' . ($obj3->enterOnRotate?"true":"false") .', alwaysInLandscapeMode: ' . ($obj3->alwaysInLandscapeMode?"true":"false") .', iOS: ' . ($obj3->iOS?"true":"false") .'}});'
                 . '</script>';
         return $js;
     }

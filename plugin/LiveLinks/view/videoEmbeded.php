@@ -46,7 +46,7 @@ if(!empty($objSecure)){
             </video>
         </div>
 
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
         <?php
         echo AVideoPlugin::afterVideoJS();
         ?>

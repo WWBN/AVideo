@@ -59,6 +59,19 @@ class Sites extends ObjectYPT {
         return parent::save();
     }
 
+    static function getFromFileName($fileName){
+        $obj = new stdClass();
+        $obj->url = "";
+        $obj->secret = "";
+        $obj->filename = $fileName;
+        $video = Video::getVideoFromFileNameLight($fileName);
+        if(!empty($video['sites_id'])){
+            $site = new Sites($video['sites_id']);
+            $obj->url = $site->getUrl();
+            $obj->secret = $site->getSecret();
+        }
+        return $obj;
+    }
 
 
 }

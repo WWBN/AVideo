@@ -12,15 +12,17 @@ $menu = Menu::getAllActive(1);
 foreach ($menu as $key => $value) {
     ?>
     <li class="dropdown">    
-        <a href="#" class=" btn  btn-default btn-light navbar-btn" data-toggle="dropdown">
+        <a href="#" class=" btn  btn-default btn-light navbar-btn" data-toggle="dropdown" data-toggle="tooltip" title="<?php echo $value['menuName']; ?>" data-placement="bottom" >
             <?php
+            $hiddenClass = "hidden-md hidden-sm";
             if (!empty($value['icon'])) {
                 ?>
                 <i class="<?php echo $value['icon'] ?>"></i> 
                 <?php
+                $hiddenClass = "hidden-md hidden-sm  hidden-mdx";
             }
             ?>
-            <span class="hidden-md hidden-sm  hidden-mdx">
+            <span class="<?php echo $hiddenClass; ?>">
                 <?php echo $value['menuName']; ?>
             </span>
             <b class="caret"></b>

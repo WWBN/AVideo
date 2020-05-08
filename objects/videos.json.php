@@ -31,6 +31,7 @@ foreach ($videos as $key => $value) {
     $videos[$key]['next_video'] = array();
     $videos[$key]['description'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['description']);
     $videos[$key]['title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['title']);
+    $videos[$key]['clean_title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['clean_title']);
     $videos[$key]['typeLabels'] = Video::getVideoTypeLabels($videos[$key]['filename']);
     if(!empty($videos[$key]['next_videos_id'])){
         unset($_POST['searchPhrase']);

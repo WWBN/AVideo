@@ -291,7 +291,6 @@ if (!empty($evideo)) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         getOpenGraph(0);
@@ -322,7 +321,7 @@ if (!empty($evideo)) {
                 $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
                 ?>
                 <div class="row">
-                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-12 col-sm-12 col-xs-12 AdsLeaderBoard AdsLeaderBoardTop">
                         <center style="margin:5px;">
                             <?php
                             $getAdsLeaderBoardTop = getAdsLeaderBoardTop();
@@ -359,7 +358,7 @@ if (!empty($evideo)) {
                 <div class="row" id="modeYoutubeBottom" style="margin: 0;">
                     <div class="row">
                         <div class="col-sm-1 col-md-1"></div>
-                        <div class="col-sm-10 col-md-10">
+                        <div class="col-sm-10 col-md-10 AdsLeaderBoard AdsLeaderBoardTop2">
                             <center style="margin:5px;">
                                 <?php echo getAdsLeaderBoardTop2(); ?>
                             </center>
@@ -569,17 +568,11 @@ if (!empty($evideo)) {
                 </div>
             <?php } ?>
         </div>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-        <script>
-                            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                            $.widget.bridge('uibutton', $.ui.button);
-                            $.widget.bridge('uitooltip', $.ui.tooltip);
-        </script>
         <?php
         $modeYouTubeTimeLog['before add js '] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
         <?php
         echo AVideoPlugin::afterVideoJS();
         if ($advancedCustom != false) {

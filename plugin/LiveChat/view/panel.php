@@ -5,7 +5,6 @@ $canSendMessage = $p->canSendMessage();
 <link href="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/style.css" rel="stylesheet" type="text/css"/>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/LiveChat/view/script.js" type="text/javascript"></script>
 <link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
 <div class="alert alert-warning" id="chatOffline">
     <?php echo __("Trying to establish a chat server connection"); ?>
 </div>
@@ -48,7 +47,6 @@ $canSendMessage = $p->canSendMessage();
         </li>
     </div>
 </div>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 <script>
     var attempChatConnections = 3;
     var conn;

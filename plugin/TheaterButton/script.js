@@ -9,6 +9,10 @@ function compress(t) {
     $('#mvideo').find('.secC').removeClass('col-md-8');
     $('#mvideo').find('.secC').addClass('col-sm-6');
     $('#mvideo').find('.secC').addClass('col-md-6');
+    //$('.AdsLeaderBoardTop').removeClass('col-lg-12 col-sm-12');
+    //$('.AdsLeaderBoardTop').addClass('col-sm-offset-1 col-lg-6 col-sm-6');
+    //$('.AdsLeaderBoardTop2').removeClass('col-lg-10 col-sm-10  col-md-10');
+    //$('.AdsLeaderBoardTop2').addClass('col-sm-6 col-md-6 col-sm-6');
     $('.rightBar').addClass('compress');
     setInterval(function () {
         $('.principalContainer').css({'min-height': $('.rightBar').height()});
@@ -30,6 +34,10 @@ function expand(t) {
     $('#mvideo').find('.secC').removeClass('col-md-6');
     $('#mvideo').find('.secC').addClass('col-sm-8');
     $('#mvideo').find('.secC').addClass('col-md-8');
+    //$('.AdsLeaderBoardTop').removeClass('col-sm-offset-1 col-lg-6 col-sm-6');
+    //$('.AdsLeaderBoardTop').addClass('col-lg-12 col-sm-12 ');
+    //$('.AdsLeaderBoardTop2').removeClass('col-lg-6 col-sm-6 col-md-6');
+    //$('.AdsLeaderBoardTop2').addClass('col-sm-10 col-md-10 col-sm-10');
     $(".compress").css('left', "");
     $('.rightBar').removeClass('compress');
     $('#mvideo').addClass('main-video');
@@ -56,9 +64,25 @@ function toogleEC(t) {
         }
     }
 }
+var oldYouTubeMenuIsOpened;
+function fixCompressSize(){
+    console.log("fixCompressSize "+youTubeMenuIsOpened);
+    left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width() + 30;
+    if(youTubeMenuIsOpened){
+        left = left-300;
+    }
+    $(".compress").css('left', left);
+}
 $(document).ready(function () {
     $(window).on('resize', function () {
-        left = $('#mvideo').find('.secC').offset().left + $('#mvideo').find('.secC').width() + 30;
-        $(".compress").css('left', left);
+        fixCompressSize();
     });
+    // this is to make sure we read the correct menu state
+    setInterval(function(){
+        if(oldYouTubeMenuIsOpened === youTubeMenuIsOpened){
+            return false;
+        }
+        oldYouTubeMenuIsOpened = youTubeMenuIsOpened;
+        fixCompressSize();
+    }, 1000);
 });

@@ -49,8 +49,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     $get = array();
                 }
                 $bigVideoAd = getAdsLeaderBoardBigVideo();
-                $colClass1 = "col-sm-6";
-                $colClass2 = "col-sm-6";
+                $colClass1 = "col-sm-5";
+                $colClass2 = "col-sm-7";
                 $colClass3 = "";
                 if (!empty($bigVideoAd)) {
                     $colClass1 = "col-sm-4";

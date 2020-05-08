@@ -2808,7 +2808,15 @@ function getUsageFromFilename($filename, $dir = "") {
     foreach ($files as $f) {
         if (is_dir($f)) {
             _error_log("getUsageFromFilename: {$f} is Dir");
-            $totalSize += getDirSize($f);
+            $dirSize = getDirSize($f);
+            $totalSize += $dirSize;
+            if($dirSize<10000 && AVideoPlugin::isEnabledByName('YPTStorage')){
+                // probably the HLS file is hosted on the YPTStorage
+                $info = YPTStorage::getFileInfo($filename);
+                if(!empty($info->size)){
+                    $totalSize += $info->size;
+                }
+            }
         } else if (is_file($f)) {
             $filesize = filesize($f);
             if ($filesize < 20) { // that means it is a dummy file

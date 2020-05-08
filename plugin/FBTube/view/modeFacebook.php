@@ -15,18 +15,11 @@ if(!isset($global['systemRootPath'])){
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/view/js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-        <script>
-                        /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-                        $.widget.bridge('uibutton', $.ui.button);
-                        $.widget.bridge('uitooltip', $.ui.tooltip);
-        </script>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">

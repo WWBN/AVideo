@@ -1,26 +1,24 @@
 var modal;
 var player;
-
 var floatLeft = "";
 var floatTop = "";
 var floatWidth = "";
 var floatHeight = "";
-
 var changingVideoFloat = 0;
 var floatClosed = 0;
 var fullDuration = 0;
 var isPlayingAd = false;
-
 var mainVideoHeight = 0;
 var doNotFloatVideo = false;
-
 var mouseX;
 var mouseY;
+var videoContainerDragged = false;
+var youTubeMenuIsOpened = false;
+
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
 });
-
 String.prototype.stripAccents = function () {
     var returnvar = this.replace(/[áàâãªä]/g, 'a');
     returnvar = returnvar.replace(/[ÁÀÂÃÄ]/g, 'A');
@@ -140,8 +138,56 @@ try {
 } catch (e) {
 }
 
+function setFloatVideo() {
+    if (!videoContainerDragged) {
+        if (!floatLeft || parseInt(floatLeft) < 10 || parseInt(floatLeft) === 310) {
+            floatLeft = "10px";
+        }
+        if (parseInt(floatLeft) === 10 && youTubeMenuIsOpened) {
+            floatLeft = "310px";
+        }
+        $("#videoContainer").css({"left": floatLeft});
+    }
+    if (!$('#videoContainer').hasClass("floatVideo") && !floatClosed) {
+        $('#videoContainer').hide();
+        $('#videoContainer').addClass('floatVideo');
+        $('#videoContainer').parent().css('height', mainVideoHeight);
+        if (parseInt(floatTop) < 70) {
+            floatTop = "70px";
+        }
+        $("#videoContainer").css({"top": floatTop});
+        $("#videoContainer").css({"height": floatHeight});
+        $("#videoContainer").css({"width": floatWidth});
+        $("#videoContainer").resizable({
+            aspectRatio: 16 / 9,
+            minHeight: 150,
+            minWidth: 266
+        });
+        $("#videoContainer").draggable({
+            handle: ".move",
+            containment: ".principalContainer",
+            drag: function () {
+                videoContainerDragged = true;
+            }
+        });
+        changingVideoFloat = 0;
+        $('#videoContainer').fadeIn();
+        $('#floatButtons').fadeIn();
+    } else {
+        changingVideoFloat = 0;
+    }
+}
+
 var pleaseWaitIsINUse = false;
+var setFloatVideoYouTubeMenuIsOpened;
 $(document).ready(function () {
+    setInterval(function () {
+        if (setFloatVideoYouTubeMenuIsOpened === youTubeMenuIsOpened || !$('#videoContainer').hasClass("floatVideo")) {
+            return false;
+        }
+        setFloatVideoYouTubeMenuIsOpened = youTubeMenuIsOpened;
+        setFloatVideo();
+    }, 1000);
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
         if (pleaseWaitDiv.length === 0) {
@@ -168,14 +214,14 @@ $(document).ready(function () {
             },
         };
     })();
-
     $('[data-toggle="popover"]').popover();
     $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     $('[data-toggle="tooltip"]').on('click', function () {
         var t = this;
-        setTimeout(function(){$(t).tooltip('hide');}, 2000);
+        setTimeout(function () {
+            $(t).tooltip('hide');
+        }, 2000);
     });
-    
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');
         $(".thumbsGIF").fadeOut();
@@ -190,11 +236,9 @@ $(document).ready(function () {
             $(this).find(".thumbsGIF").stop(true, true).fadeIn();
         }
     });
-
     $(".thumbsImage").on("mouseleave", function () {
         $(this).find(".thumbsGIF").stop(true, true).fadeOut();
     });
-
     if ($(".thumbsJPG").length) {
         $('.thumbsJPG').lazy({
             effect: 'fadeIn',
@@ -215,37 +259,10 @@ $(document).ready(function () {
         }
         changingVideoFloat = 1;
         var s = $(window).scrollTop();
+        console.log("$(window).scrollTop()= " + s);
+        console.log("mainVideoHeight = $('#videoContainer').innerHeight()= " + mainVideoHeight);
         if (s > mainVideoHeight) {
-            if (!$('#videoContainer').hasClass("floatVideo") && !floatClosed) {
-                $('#videoContainer').hide();
-                $('#videoContainer').addClass('floatVideo');
-                $('#videoContainer').parent().css('height', mainVideoHeight);
-                if (parseInt(floatTop) < 70) {
-                    floatTop = "70px";
-                }
-                if (parseInt(floatLeft) < 10) {
-                    floatLeft = "10px";
-                }
-                $("#videoContainer").css({"top": floatTop});
-                $("#videoContainer").css({"left": floatLeft});
-                $("#videoContainer").css({"height": floatHeight});
-                $("#videoContainer").css({"width": floatWidth});
-
-                $("#videoContainer").resizable({
-                    aspectRatio: 16 / 9,
-                    minHeight: 150,
-                    minWidth: 266
-                });
-                $("#videoContainer").draggable({
-                    handle: ".move",
-                    containment: ".principalContainer"
-                });
-                changingVideoFloat = 0;
-                $('#videoContainer').fadeIn();
-                $('#floatButtons').fadeIn();
-            } else {
-                changingVideoFloat = 0;
-            }
+            setFloatVideo();
         } else {
             floatClosed = 0;
             if ($('#videoContainer').hasClass("floatVideo")) {
@@ -255,7 +272,6 @@ $(document).ready(function () {
             }
         }
     });
-
     $("a").each(function () {
         var location = window.location.toString()
         var res = location.split("?");
@@ -266,8 +282,6 @@ $(document).ready(function () {
             $(this).addClass("selected");
         }
     });
-
-
     $('#clearCache, .clearCacheButton').on('click', function (ev) {
         ev.preventDefault();
         modal.showPleaseWait();
@@ -283,7 +297,6 @@ $(document).ready(function () {
             }
         });
     });
-
     $('.clearCacheFirstPageButton').on('click', function (ev) {
         ev.preventDefault();
         modal.showPleaseWait();
@@ -299,7 +312,6 @@ $(document).ready(function () {
             }
         });
     });
-
     $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
         ev.preventDefault();
         modal.showPleaseWait();
@@ -315,9 +327,7 @@ $(document).ready(function () {
             }
         });
     });
-
 });
-
 function removeTracks() {
     var oldTracks = player.remoteTextTracks();
     var i = oldTracks.length;
@@ -361,7 +371,6 @@ function changeVideoSrcLoad() {
             }, 1000);
         }
     });
-    ;
 }
 
 
@@ -457,7 +466,7 @@ function subscribeNotify(email, user_id) {
 
 function closeFloatVideo() {
     $('#videoContainer').fadeOut('fast', function () {
-        // this is to remove the dragable and resize
+// this is to remove the dragable and resize
         floatLeft = $("#videoContainer").css("left");
         floatTop = $("#videoContainer").css("top");
         floatWidth = $("#videoContainer").css("width");
@@ -466,7 +475,6 @@ function closeFloatVideo() {
         $("#videoContainer").css({"left": ""});
         $("#videoContainer").css({"height": ""});
         $("#videoContainer").css({"width": ""});
-
         $('#videoContainer').parent().css('height', '');
         $('#videoContainer').removeClass('floatVideo');
         $("#videoContainer").resizable('destroy');
@@ -489,7 +497,6 @@ function mouseEffect() {
         $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
         $(this).find(".thumbsGIF").stop(true, true).fadeIn();
     });
-
     $(".thumbsImage").on("mouseleave", function () {
         $(this).find(".thumbsGIF").stop(true, true).fadeOut();
     });
@@ -599,25 +606,24 @@ function playerPlay(currentTime) {
                             player.muted(true);
                             playerPlay(currentTime);
                         } else {
-                            if (player.muted() && !inIframe()) {   
-                                        var span = document.createElement("span");
-                                        span.innerHTML = "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>";
-                                        swal({
-                                            title: "Your Media is Muted",
-                                            icon: "warning",
-                                            buttons: true,
-                                            content: span,
-                                            dangerMode: true,
-                                        })
+                            if (player.muted() && !inIframe()) {
+                                var span = document.createElement("span");
+                                span.innerHTML = "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>";
+                                swal({
+                                    title: "Your Media is Muted",
+                                    icon: "warning",
+                                    buttons: true,
+                                    content: span,
+                                    dangerMode: true,
+                                })
                                         .then((willDelete) => {
-                                          if (willDelete) {
-                                            player.muted(false);
-                                          } 
+                                            if (willDelete) {
+                                                player.muted(false);
+                                            }
                                         });
                                 setTimeout(function () {
                                     $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
                                 }, 500);
-
                             }
                         }
 
@@ -626,7 +632,6 @@ function playerPlay(currentTime) {
                     console.log("playerPlay: Autoplay was prevented, trying to mute and play ***");
                     player.muted(true);
                     playerPlay(currentTime);
-
                 });
             } else {
                 promisePlayTimeout = setTimeout(function () {
@@ -655,4 +660,14 @@ function formatBytes(bytes, decimals) {
             sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
             i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+function alertHTMLText(title, text) {
+    var span = document.createElement("span");
+    span.innerHTML = text;
+
+    swal({
+        title: title,
+        content: span
+    });
 }

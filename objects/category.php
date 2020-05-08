@@ -527,9 +527,7 @@ class Category {
             foreach ($rows as $value) {
                 $total += self::getTotalVideosFromCategory($value['id'], $showUnlisted, $getAllVideos, $renew);
             }
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+            _session_start();
             $_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)] = $total;
         }
         return $_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)];
@@ -537,9 +535,7 @@ class Category {
 
     static function clearCacheCount() {
         // clear category count cache
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        _session_start();
         unset($_SESSION['categoryTotal']);
         //session_write_close();
     }

@@ -23,7 +23,9 @@ if (!empty($_GET['v'])) {
 } else if (!empty($_GET['videoName'])) {
     $video = Video::getVideoFromCleanTitle($_GET['videoName']);
 }
-
+if (!CustomizeUser::canShareVideosFromVideo($video['id'])) {
+    die("Embed is forbidden");
+}
 Video::unsetAddView($video['id']);
 
 
@@ -465,7 +467,7 @@ if (!empty($_GET['t'])) {
         <?php
     }
     ?>
-    <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
+    <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
     <?php
     echo AVideoPlugin::afterVideoJS();
     $jsFiles = array();

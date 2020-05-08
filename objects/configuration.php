@@ -184,7 +184,7 @@ class Configuration {
     }
 
     function setAuthCanUploadVideos($authCanUploadVideos) {
-        $this->authCanUploadVideos = $authCanUploadVideos;
+        $this->authCanUploadVideos = intval($authCanUploadVideos);
     }
 
     function setAuthCanViewChart($authCanViewChart) {

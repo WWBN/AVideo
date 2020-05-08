@@ -25,8 +25,16 @@ if (empty($_GET['channelName'])) {
     }
 }
 $user_id = $_GET['user_id'];
+$user = new User($user_id);
 $isMyChannel = $user_id == User::getId();
 AVideoPlugin::getChannel($user_id, $user);
+$channelFluidLayout = true;
+// verify the width to match with the old profile bg image
+$bgImagePath = $global['systemRootPath'] . $user->getBackgroundURL();
+$bgSize = getimagesize($bgImagePath);
+if($bgSize[0]<2048){
+    $channelFluidLayout = false;
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -41,7 +49,7 @@ AVideoPlugin::getChannel($user_id, $user);
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container">
+        <div class="container<?php echo !empty($channelFluidLayout)?"-fluid":""; ?>">
             <?php
             include $global['systemRootPath'] . 'view/channelBody.php';
             ?>
