@@ -23,9 +23,7 @@ if (!empty($_GET['v'])) {
 } else if (!empty($_GET['videoName'])) {
     $video = Video::getVideoFromCleanTitle($_GET['videoName']);
 }
-if (!CustomizeUser::canShareVideosFromVideo($video['id'])) {
-    die("Embed is forbidden");
-}
+
 Video::unsetAddView($video['id']);
 
 
@@ -38,9 +36,18 @@ if (empty($video)) {
 
 $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
-$objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-if (!empty($objSecure)) {
-    $objSecure->verifyEmbedSecurity();
+// allow embrd from in same site
+$host = strtolower(parse_url(@$_SERVER['HTTP_REFERER'], PHP_URL_HOST));
+$allowedHost = strtolower(parse_url($global['webSiteRootURL'], PHP_URL_HOST));
+if ($allowedHost !== $host) {
+    if (!CustomizeUser::canShareVideosFromVideo($video['id'])) {
+        die("Embed is forbidden");
+    }
+    
+    $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
+    if (!empty($objSecure)) {
+        $objSecure->verifyEmbedSecurity();
+    }
 }
 
 $imgw = 1280;
