@@ -261,13 +261,6 @@ class CustomizeUser extends PluginAbstract {
             return false;
         }
         
-        // allow share from in same site
-        $host = strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST));
-        $allowedHost = strtolower(parse_url($global['webSiteRootURL'], PHP_URL_HOST));
-        if ($allowedHost === $host) {
-            return true;
-        }
-        
         $users_id = $video->getUsers_id();
         if (!self::canShareVideosFromUser($users_id)) {
             return false;
