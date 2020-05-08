@@ -2805,6 +2805,7 @@ function getUsageFromFilename($filename, $dir = "") {
     $totalSize = 0;
     _error_log("getUsageFromFilename: start {$dir}{$filename}");
     $files = glob("{$dir}{$filename}*");
+    session_write_close();
     foreach ($files as $f) {
         if (is_dir($f)) {
             _error_log("getUsageFromFilename: {$f} is Dir");
