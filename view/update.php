@@ -65,7 +65,7 @@ $version = json_decode(url_get_contents("https://tutorials.avideo.com/version"))
                     ?>
                     <div class="alert alert-warning">
                         Our repository is now running at version <?php echo $version->version; ?>. 
-                        You can follow this <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/How-to-Update-your-AVideo-Platform" class="btn btn-warning btn-xs">Update Tutorial</a> 
+                        You can follow this <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/How-to-Update-your-AVideo-Platform" class="btn btn-warning btn-xs" rel="noopener noreferrer">Update Tutorial</a> 
                         to update your files and get the latest version.
                     </div>
                     <?php

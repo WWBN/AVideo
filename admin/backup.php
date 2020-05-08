@@ -33,7 +33,7 @@
             <div class="panel-body" style="overflow: hidden;">
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle"></i> This Plugin helps you to clone your video site, it is really helpful for backup routines, load balance, etc.<br>
-                    You May find some help how to use Clone Plugin <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/Clone-Site-Plugin">here</a>
+                    You May find some help how to use Clone Plugin <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/Clone-Site-Plugin" rel="noopener noreferrer">here</a>
                 </div>
                 <?php
                 $filter = array(

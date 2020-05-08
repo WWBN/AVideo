@@ -34,7 +34,7 @@ class Category {
         
     function getUsers_id() {
         if (empty($this->users_id)) {
-            $this->users_id == User::getId();
+            $this->users_id = User::getId();
         }
         return $this->users_id;
     }
