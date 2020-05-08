@@ -366,6 +366,7 @@
     }
     if(!empty($videosP) && empty($countSuccess)){
         header("Location: {$global['webSiteRootURL']}view/channelPlaylistItems.php?current=".(count($playlists) ? $_POST['current'] + 1 : $_POST['current'])."&channelName={$_GET['channelName']}");
+        exit;
     }
     TimeLogEnd($timeLog2, __LINE__);
     $_GET['channelName'] = $channelName;
