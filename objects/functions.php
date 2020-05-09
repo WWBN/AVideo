@@ -3002,13 +3002,17 @@ function decryptString($string) {
 
 function getToken($timeout=0, $salt=""){
     global $global;
-    if(empty($timeout)){
-        $timeout = 600;
-    }
     $obj = new stdClass();
     $obj->salt = $global['salt'].$salt;
-    $obj->time = time();
-    $obj->timeout = $obj->time+$timeout;
+    
+    if(empty($timeout)){
+        $obj->time = time();
+        $obj->timeout = $obj->time+$timeout;
+    }else{
+        $obj->time = strtotime("Today 01:00:00");
+        $obj->timeout = strtotime("Today 23:59:59");
+    }
+    
     return encryptString(json_encode($obj));
 }
 
