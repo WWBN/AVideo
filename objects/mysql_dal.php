@@ -77,7 +77,11 @@ class sqlDAL {
         if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable") {
             $audit = AVideoPlugin::loadPluginIfEnabled('Audit');
             if (!empty($audit)) {
-                $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
+                try {
+                    $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
+                } catch (Exception $exc) {
+                    echo log_error($exc->getTraceAsString());
+                }  
             }
         }
 
