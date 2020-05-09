@@ -3000,6 +3000,30 @@ function decryptString($string) {
     return encrypt_decrypt($string, 'decrypt');
 }
 
+function getToken($timeout, $salt=""){
+    global $global;
+    $obj = new stdClass();
+    $obj->salt = $global['salt'].$salt;
+    $obj->time = time();
+    $obj->timeout = $obj->time+$timeout;
+    return encryptString(json_encode($obj));
+}
+
+function verifyToken($token, $salt=""){
+    global $global;
+    $obj = json_decode(decryptString($token));
+    if($obj->salt !== $global['salt'].$salt){
+        _error_log("verifyToken salt fail");
+        return false;
+    }
+    $time = $time();
+    if(!($time>=$obj->time && $obj->timeout<=$time)){
+        _error_log("verifyToken token timout");
+        return false;
+    }
+    return true;
+}
+
 class YPTvideoObject {
 
     public $id, $title, $description, $thumbnails, $channelTitle, $videoLink;
