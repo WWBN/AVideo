@@ -3012,6 +3012,10 @@ function getToken($timeout, $salt=""){
 function verifyToken($token, $salt=""){
     global $global;
     $obj = json_decode(decryptString($token));
+    if(empty($obj)){
+        _error_log("verifyToken invalid token");
+        return false;
+    }
     if($obj->salt !== $global['salt'].$salt){
         _error_log("verifyToken salt fail");
         return false;
