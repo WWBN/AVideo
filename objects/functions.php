@@ -3005,7 +3005,7 @@ function getToken($timeout=0, $salt=""){
     $obj = new stdClass();
     $obj->salt = $global['salt'].$salt;
     
-    if(empty($timeout)){
+    if(!empty($timeout)){
         $obj->time = time();
         $obj->timeout = $obj->time+$timeout;
     }else{
