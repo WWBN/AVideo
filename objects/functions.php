@@ -3012,8 +3012,10 @@ function getToken($timeout=0, $salt=""){
         $obj->time = strtotime("Today 01:00:00");
         $obj->timeout = strtotime("Today 23:59:59");
     }
+    $strObj = json_encode($obj);
+    _error_log("Token created: {$strObj}");
     
-    return encryptString(json_encode($obj));
+    return encryptString($strObj);
 }
 
 function verifyToken($token, $salt=""){
