@@ -3000,8 +3000,11 @@ function decryptString($string) {
     return encrypt_decrypt($string, 'decrypt');
 }
 
-function getToken($timeout, $salt=""){
+function getToken($timeout=0, $salt=""){
     global $global;
+    if(empty($timeout)){
+        $timeout = 600;
+    }
     $obj = new stdClass();
     $obj->salt = $global['salt'].$salt;
     $obj->time = time();
