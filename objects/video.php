@@ -1026,7 +1026,7 @@ if (!class_exists('Video')) {
                 unset($_GET['limitOnceToOne']);
             }
             if (strpos(strtolower($sql), 'limit') === false) {
-                $sql .= " LIMIT 1";
+                $sql .= " LIMIT 12";
             }
 //echo $sql;exit;
 //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
