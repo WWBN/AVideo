@@ -3013,7 +3013,7 @@ function getToken($timeout=0, $salt=""){
         $obj->timeout = strtotime("Today 23:59:59");
     }
     $strObj = json_encode($obj);
-    _error_log("Token created: {$strObj}");
+    //_error_log("Token created: {$strObj}");
     
     return encryptString($strObj);
 }
