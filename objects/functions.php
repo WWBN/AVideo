@@ -3009,7 +3009,7 @@ function getToken($timeout=0, $salt=""){
         $obj->time = time();
         $obj->timeout = $obj->time+$timeout;
     }else{
-        $obj->time = strtotime("Today 01:00:00");
+        $obj->time = strtotime("Today 00:00:00");
         $obj->timeout = strtotime("Today 23:59:59");
     }
     $strObj = json_encode($obj);
