@@ -58,7 +58,7 @@ class Live extends PluginAbstract {
         $port = "8080";
         if (strtolower($server["scheme"]) == "https") {
             $scheme = "https";
-            $port = "444";
+            $port = "8443";
         }
 
         $obj = new stdClass();
