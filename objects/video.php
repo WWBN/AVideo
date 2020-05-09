@@ -1200,6 +1200,9 @@ if (!class_exists('Video')) {
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 ";
                 $sql .= " ORDER BY RAND() ";
+            }            
+            if (strpos(strtolower($sql), 'limit') === false) {
+                $sql .= " LIMIT 1";
             }
             //echo $sql;
             $res = sqlDAL::readSql($sql);
