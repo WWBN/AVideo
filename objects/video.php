@@ -1008,10 +1008,13 @@ if (!class_exists('Video')) {
                 unset($_POST['sort']['trending']);
                 unset($_GET['sort']['trending']);
                 $_POST['sort']['created'] = 'DESC';
+                $current = $_POST['current'];
                 $rowCount = $_POST['rowCount'];
+                $_POST['current'] = 1;
                 $_POST['rowCount'] *= 2; // double it to make it random
                 $rows = self::getAllVideosLight($status, $showOnlyLoggedUserVideos, $showUnlisted);
                 $_POST['rowCount'] = $rowCount;
+                $_POST['current'] = $current;
                 $ids = array();
                 foreach ($rows as $row) {
                     $ids[] = $row['id'];
@@ -1202,7 +1205,7 @@ if (!class_exists('Video')) {
                 $sql .= " ORDER BY RAND() ";
             }            
             if (strpos(strtolower($sql), 'limit') === false) {
-                $sql .= " LIMIT 1";
+                $sql .= " LIMIT 24";
             }
             //echo $sql;
             $res = sqlDAL::readSql($sql);
