@@ -2993,6 +2993,9 @@ function encrypt_decrypt($string, $action) {
 }
 
 function encryptString($string) {
+    if(is_object($string)){
+        $string = json_encode($string);
+    }
     return encrypt_decrypt($string, 'encrypt');
 }
 
@@ -3011,6 +3014,7 @@ function getToken($timeout=0, $salt=""){
     }else{
         $obj->time = strtotime("Today 00:00:00");
         $obj->timeout = strtotime("Today 23:59:59");
+        $obj->timeout += cacheExpirationTime();
     }
     $strObj = json_encode($obj);
     //_error_log("Token created: {$strObj}");
