@@ -150,6 +150,7 @@ class CustomizeUser extends PluginAbstract {
         global $advancedCustom;
 
         if (!empty($advancedCustom->disableShareAndPlaylist)) {
+            _error_log("CustomizeUser::canShareVideosFromUser disableShareAndPlaylist");
             return false;
         }
 
