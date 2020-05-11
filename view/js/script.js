@@ -607,20 +607,39 @@ function playerPlay(currentTime) {
                             playerPlay(currentTime);
                         } else {
                             if (player.muted() && !inIframe()) {
-                                var span = document.createElement("span");
-                                span.innerHTML = "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>";
-                                swal({
-                                    title: "Your Media is Muted",
-                                    icon: "warning",
-                                    buttons: true,
-                                    content: span,
-                                    dangerMode: true,
-                                })
-                                        .then((willDelete) => {
-                                            if (willDelete) {
-                                                player.muted(false);
-                                            }
-                                        });
+                                var donotShowUnmuteAgain = Cookies.get('donotShowUnmuteAgain');
+                                if (!donotShowUnmuteAgain) {
+                                    var span = document.createElement("span");
+                                    span.innerHTML = "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>";
+                                    swal({
+                                        title: "Your Media is Muted",
+                                        icon: "warning",
+                                        content: span,
+                                        dangerMode: true,
+                                        buttons: {
+                                            cancel: "Cancel",
+                                            unmute: true,
+                                            donotShowUnmuteAgain: {
+                                                text: "Don't show again",
+                                                value: "donotShowUnmuteAgain",
+                                                className: "btn-danger",
+                                            },
+                                        }
+                                    })
+                                            .then((value) => {
+                                                switch (value) {
+                                                    case "unmute":
+                                                        player.muted(false);
+                                                        break;
+                                                    case "donotShowUnmuteAgain":
+                                                        Cookies.set('donotShowUnmuteAgain', true, {
+                                                            path: '/',
+                                                            expires: 365
+                                                        });
+                                                        break;
+                                                }
+                                            });
+                                }
                                 setTimeout(function () {
                                     $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
                                 }, 500);
