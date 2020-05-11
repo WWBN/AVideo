@@ -40,7 +40,7 @@ $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 $host = strtolower(parse_url(@$_SERVER['HTTP_REFERER'], PHP_URL_HOST));
 $allowedHost = strtolower(parse_url($global['webSiteRootURL'], PHP_URL_HOST));
 if ($allowedHost !== $host) {
-    if (!CustomizeUser::canShareVideosFromVideo($video['id'])) {
+    if (!CustomizeUser::canShareVideosFromVideo($video['id']) || empty($advancedCustomUser->blockEmbedFromSharedVideos)) {
         die("Embed is forbidden");
     }
     
