@@ -29,7 +29,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->userCanAllowFilesShare = false;
         $obj->userCanAllowFilesDownloadSelectPerVideo = false;
         $obj->userCanAllowFilesShareSelectPerVideo = false;
-        $obj->blockEmbedFromBlockedVideos = true;
+        $obj->blockEmbedFromSharedVideos = true;
         $obj->userCanProtectVideosWithPassword = true;
 
         $obj->usersCanCreateNewCategories = !isset($advancedCustom->usersCanCreateNewCategories) ? false : $advancedCustom->usersCanCreateNewCategories;
@@ -266,7 +266,7 @@ class CustomizeUser extends PluginAbstract {
             return false;
         }
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
-        if (!empty($obj->userCanAllowFilesShareSelectPerVideo) && !empty($obj->blockEmbedFromBlockedVideos)) {
+        if (!empty($obj->userCanAllowFilesShareSelectPerVideo) && !empty($obj->blockEmbedFromSharedVideos)) {
             if (empty($video->getCan_share())) {
                 return false;
             }
