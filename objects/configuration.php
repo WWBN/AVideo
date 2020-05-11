@@ -320,9 +320,9 @@ class Configuration {
             $global['salt'] = uniqid();
         }
         $content = "<?php
-\$global['configurationVersion'] = 2;
-\$global['disableAdvancedConfigurations'] = 0;
-\$global['videoStorageLimitMinutes'] = 0;
+\$global['configurationVersion'] = 3;
+\$global['disableAdvancedConfigurations'] = {$global['disableAdvancedConfigurations']};
+\$global['videoStorageLimitMinutes'] = {$global['videoStorageLimitMinutes']};
 if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) { 
     // get the subdirectory, if exists
     \$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), __FILE__);
@@ -332,11 +332,21 @@ if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' &&
 }
 \$global['systemRootPath'] = '{$global['systemRootPath']}';
 \$global['salt'] = '{$global['salt']}';
-\$global['enableDDOSprotection'] = 1;
-\$global['ddosMaxConnections'] = 40;
-\$global['ddosSecondTimeout'] = 5;
-\$global['strictDDOSprotection'] = 0;
-\$global['noDebug'] = 0;
+\$global['enableDDOSprotection'] = {$global['enableDDOSprotection']};
+\$global['ddosMaxConnections'] = {$global['ddosMaxConnections']};
+\$global['ddosSecondTimeout'] = {$global['ddosSecondTimeout']};
+\$global['strictDDOSprotection'] = {$global['strictDDOSprotection']};
+\$global['noDebug'] = {$global['noDebug']};
+\$global['webSiteRootPath'] = '';
+if(empty(\$global['webSiteRootPath'])){
+    preg_match('/https?:\/\/[^\/]+(.*)/i', \$global['webSiteRootURL'], \$matches);
+    if(!empty(\$matches[1])){
+        \$global['webSiteRootPath'] = \$matches[1];
+    }
+}
+if(empty(\$global['webSiteRootPath'])){
+    die('Please configure your webSiteRootPath');
+}
 
 \$mysqlHost = '{$mysqlHost}';
 \$mysqlUser = '{$mysqlUser}';
