@@ -157,7 +157,6 @@ if (!$includeDefaultNavBar) {
         #mainNavBar .navbar-brand{
             width: 100% !important;
             text-align: center;
-            padding: 15px;
         }
         #mainNavBar .navbar-brand>img {
             display: unset;
