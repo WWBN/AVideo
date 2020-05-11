@@ -336,7 +336,7 @@ if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' &&
 \$global['ddosMaxConnections'] = {$global['ddosMaxConnections']};
 \$global['ddosSecondTimeout'] = {$global['ddosSecondTimeout']};
 \$global['strictDDOSprotection'] = {$global['strictDDOSprotection']};
-\$global['noDebug'] = {$global['noDebug']};
+\$global['noDebug'] = 0;
 \$global['webSiteRootPath'] = '';
 if(empty(\$global['webSiteRootPath'])){
     preg_match('/https?:\/\/[^\/]+(.*)/i', \$global['webSiteRootURL'], \$matches);
