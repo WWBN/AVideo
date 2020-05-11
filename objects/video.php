@@ -2017,10 +2017,13 @@ if (!class_exists('Video')) {
 
             if (empty($type) || $type === "category") {
                 require_once 'category.php';
+                $sort = null;
                 if (!empty($_POST['sort']['title'])) {
+                    $sort = $_POST['sort'];
                     unset($_POST['sort']);
                 }
                 $category = Category::getCategory($video->getCategories_id());
+                $_POST['sort'] = $sort;
                 $objTag = new stdClass();
                 $objTag->label = __("Category");
                 if (!empty($category)) {
