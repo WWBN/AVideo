@@ -259,15 +259,18 @@ class CustomizeUser extends PluginAbstract {
     static function canShareVideosFromVideo($videos_id) {
         $video = new Video("", "", $videos_id);
         if (empty($video)) {
+            _error_log("CustomizeUser::canShareVideosFromVideo video not found");
             return false;
         }
         $users_id = $video->getUsers_id();
         if (!self::canShareVideosFromUser($users_id)) {
+            _error_log("CustomizeUser::canShareVideosFromVideo canShareVideosFromUser($users_id) = false");
             return false;
         }
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
         if (!empty($obj->userCanAllowFilesShareSelectPerVideo) && !empty($obj->blockEmbedFromSharedVideos)) {
             if (empty($video->getCan_share())) {
+                _error_log("CustomizeUser::canShareVideosFromVideo video->getCan_share() = false");
                 return false;
             }
         }
