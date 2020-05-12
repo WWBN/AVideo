@@ -52,7 +52,7 @@ class IP2Location extends ObjectYPT {
             }
         }//var_dump($_SESSION['IP2Location'][$ip]);exit;
         if ($_SESSION['IP2Location'][$ip]['country_name'] == "United States of America") {
-            $_SESSION['IP2Location'][$ip]['country_name'] == "United States";
+            $_SESSION['IP2Location'][$ip]['country_name'] = "United States";
         }
         _error_log("IP2Location::getLocation({$ip}) " . get_browser_name() . " " . json_encode($_SESSION['IP2Location'][$ip]));
         return $_SESSION['IP2Location'][$ip];
