@@ -35,6 +35,8 @@ class IP2Location extends ObjectYPT {
             $row['ip'] = $ip;
             $_SESSION['IP2Location'][$ip] = $row;
         }//var_dump($_SESSION['IP2Location'][$ip]);exit;
+        
+        _error_log("IP2Location::getLocation({$ip}) {$_SESSION['IP2Location'][$ip]}  ". get_browser_name());
         return $_SESSION['IP2Location'][$ip];
     }
 
