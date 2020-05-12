@@ -54,7 +54,7 @@ class User_Location extends PluginAbstract {
     
     static  function getThisUserLocation() {
         $location = self::getSessionLocation();
-        if(!empty($location)){
+        if(!empty($location['country_code'])){
             return $location;
         }
         return IP2Location::getLocation(getRealIpAddr());
