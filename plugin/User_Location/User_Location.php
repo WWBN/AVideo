@@ -42,7 +42,7 @@ class User_Location extends PluginAbstract {
         $ip = getRealIpAddr();
         if(!empty($_SESSION['User_Location'][$ip]['country_name'])){
             if ($_SESSION['IP2Location'][$ip]['country_name'] == "United States of America") {
-                $_SESSION['IP2Location'][$ip]['country_name'] == "United States";
+                $_SESSION['IP2Location'][$ip]['country_name'] = "United States";
             }
             return $_SESSION['User_Location'][$ip];
         }
