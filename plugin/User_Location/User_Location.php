@@ -41,6 +41,9 @@ class User_Location extends PluginAbstract {
     static function getSessionLocation(){
         $ip = getRealIpAddr();
         if(!empty($_SESSION['User_Location'][$ip])){
+            if ($_SESSION['IP2Location'][$ip]['country_name'] == "United States of America") {
+                $_SESSION['IP2Location'][$ip]['country_name'] == "United States";
+            }
             return $_SESSION['User_Location'][$ip];
         }
         return false;
