@@ -44,8 +44,8 @@ class IP2Location extends ObjectYPT {
                 sqlDAL::close($res);
                 if ($res) {
                     // fix names to be the same as IPV4
-                    if($data['country'] == "United States of America"){
-                        $data['country'] == "United States";
+                    if($data['country_name'] == "United States of America"){
+                        $data['country_name'] == "United States";
                     }
                     $row = $data;
                 } else {
