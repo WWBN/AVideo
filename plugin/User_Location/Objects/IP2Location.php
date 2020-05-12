@@ -21,8 +21,7 @@ class IP2Location extends ObjectYPT {
         // japan 2.16.40.123
         // USA 	2.16.13.123
         //$ip = '2.16.40.123';
-
-        if (empty($_SESSION['IP2Location'][$ip])) {
+        if (empty($_SESSION['IP2Location'][$ip]['country_code'])) {
             $_SESSION['IP2Location'][$ip] = false;
             if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
                 $sql = "SELECT * FROM ip2location_db3 WHERE INET_ATON(?) <= ip_to LIMIT 1";
@@ -37,9 +36,9 @@ class IP2Location extends ObjectYPT {
                 }
                 $row['ip'] = $ip;
                 $_SESSION['IP2Location'][$ip] = $row;
-            } else if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && self::isTableInstalled("ip2location_db1_ipv6")) {
+            } else if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && ObjectYPT::isTableInstalled("ip2location_db1_ipv6")) {
                 $ipno = self::Dot2LongIPv6($ip);
-                $query = "SELECT * FROM ip2location_db1_ipv6 WHERE ip_to >= $ipno order by ip_to limit 1 ";
+                $sql = "SELECT * FROM ip2location_db1_ipv6 WHERE ip_to >= $ipno order by ip_to limit 1 ";
                 $res = sqlDAL::readSql($sql);
                 $data = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
