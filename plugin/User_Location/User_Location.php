@@ -43,6 +43,7 @@ class User_Location extends PluginAbstract {
     static function setSessionLocation($value){
         $ip = getRealIpAddr();
         $_SESSION['User_Location'][$ip] = $value;
+        _error_log("User Location: $ip {$_SESSION['User_Location'][$ip]}");
     }
     
     static  function getThisUserLocation() {
