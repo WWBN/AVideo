@@ -43,10 +43,6 @@ class IP2Location extends ObjectYPT {
                 $data = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
                 if ($res) {
-                    // fix names to be the same as IPV4
-                    if($data['country_name'] == "United States of America"){
-                        $data['country_name'] == "United States";
-                    }
                     $row = $data;
                 } else {
                     $row = false;
@@ -55,7 +51,9 @@ class IP2Location extends ObjectYPT {
                 $_SESSION['IP2Location'][$ip] = $row;
             }
         }//var_dump($_SESSION['IP2Location'][$ip]);exit;
-
+        if ($_SESSION['IP2Location'][$ip]['country_name'] == "United States of America") {
+            $_SESSION['IP2Location'][$ip]['country_name'] == "United States";
+        }
         _error_log("IP2Location::getLocation({$ip}) " . get_browser_name() . " " . json_encode($_SESSION['IP2Location'][$ip]));
         return $_SESSION['IP2Location'][$ip];
     }
