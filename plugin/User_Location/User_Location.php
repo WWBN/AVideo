@@ -6,11 +6,17 @@ require_once $global['systemRootPath'] . 'plugin/User_Location/Objects/IP2Locati
 class User_Location extends PluginAbstract {
 
     public function getDescription() {
-        global $global;
+        global $global, $mysqlDatabase;
         $ret = "Detects user location for various purposes";
         $ret .= "<br>This site or product includes IP2Location LITE data available from http://www.ip2location.com.";
         $ret .= "<br><strong>Before use this plugin unzip the install.zip file and install the IPs tables<strong>";
         $ret .= "<br><pre>cd {$global['systemRootPath']}plugin/User_Location/install && unzip install.zip</pre>";
+        
+        if(ObjectYPT::isTableInstalled("ip2location_db1_ipv6")){
+            $ret .= "<br><strong>For IPV6 support unzip the ip2location_db1_ipv6.zip file and install the IPs tables<strong>";
+            $ret .= "<br><pre>cd {$global['systemRootPath']}plugin/User_Location/install && unzip ip2location_db1_ipv6.zip && mysql -u root -p {$mysqlDatabase} <  {$global['systemRootPath']}plugin/User_Location/install/ip2location_db1_ipv6.sql </pre>";
+        }
+        
         return $ret;
     }
 
