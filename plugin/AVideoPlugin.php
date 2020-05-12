@@ -953,7 +953,11 @@ class AVideoPlugin {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $resp = $resp && $p->showAds($videos_id);
+                $showAds = $p->showAds($videos_id);
+                if(!$showAds){
+                    _error_log("showAds: {$value['dirName']} said NOT to show ads on {$videos_id}");
+                    return false;
+                }
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
