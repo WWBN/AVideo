@@ -32,9 +32,23 @@ class User_Location extends PluginAbstract {
         return $obj;
     }    
     
+    static function getSessionLocation(){
+        $ip = getRealIpAddr();
+        if(!empty($_SESSION['User_Location'][$ip])){
+            return $_SESSION['User_Location'][$ip];
+        }
+        return false;
+    }
+    
+    static function setSessionLocation($value){
+        $ip = getRealIpAddr();
+        $_SESSION['User_Location'][$ip] = $value;
+    }
+    
     static  function getThisUserLocation() {
-        if(!empty($_SESSION['User_Location'])){
-            return $_SESSION['User_Location'];
+        $location = self::getSessionLocation();
+        if(!empty($location)){
+            return $location;
         }
         return IP2Location::getLocation(getRealIpAddr());
     }
@@ -47,7 +61,8 @@ class User_Location extends PluginAbstract {
             session_start();
         }
         if($obj->autoChangeLanguage){
-            if(empty($_SESSION['User_Location']) && !empty($User_Location['country_code'])){
+            $location = self::getSessionLocation();
+            if(empty($location) && !empty($User_Location['country_code'])){
                 $_SESSION['language'] = strtolower($User_Location['country_code']);
                 $file = "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
                 if(file_exists($file)){
@@ -57,7 +72,8 @@ class User_Location extends PluginAbstract {
                 }
             }
         }
-        $_SESSION['User_Location'] = $global['User_Location'] = $User_Location;
+        $global['User_Location'] = $User_Location;
+        self::setSessionLocation($global['User_Location']);
         return false;
     }
 
