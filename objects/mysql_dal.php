@@ -145,7 +145,10 @@ class sqlDAL {
                     $stmt->close();
                     $disableMysqlNdMethods = true;
                     // try again with noMysqlND
-                    return self::readSql($preparedStatement, $formats, $values, $refreshCache);
+                    TimeLogStart("[$preparedStatement], $formats, $values, $refreshCache");
+                    $read = self::readSql($preparedStatement, $formats, $values, $refreshCache);
+                    TimeLogEnd("[$preparedStatement], $formats, $values, $refreshCache", "mysql_dal");
+                    return $read;
                 }
                 $stmt->close();
             } else if (is_object($readSqlCached[$crc])) {
