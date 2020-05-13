@@ -15,9 +15,9 @@ if (empty($url)) {
     $url = $_POST['swfurl'];
 }
 $parts = parse_url($url);
-_error_log(print_r($parts, true));
 parse_str($parts["query"], $_GET);
-_error_log(print_r($_GET, true));
+_error_log("NGINX ON Publish parse_url: ".json_encode($parts));
+_error_log("NGINX ON Publish parse_str: ".json_encode($_GET));
 
 
 if(empty($_POST['name']) && !empty($_GET['name'])){
@@ -30,11 +30,13 @@ if(empty($_POST['name']) && !empty($_GET['key'])){
 
 if (!empty($_GET['p'])) {
     $_GET['p'] = str_replace("/", "", $_GET['p']);
+    _error_log("NGINX ON Publish check if key exists");
     $obj->row = LiveTransmition::keyExists($_POST['name']);
+    _error_log("NGINX ON Publish confirmed, key exists! ". json_encode($obj));
     if (!empty($obj->row)) {
         $user = new User($obj->row['users_id']);
         if(!$user->thisUserCanStream()){
-            _error_log("User [{$obj->row['users_id']}] can not stream");
+            _error_log("NGINX ON Publish User [{$obj->row['users_id']}] can not stream");
         }else if ($_GET['p'] === $user->getPassword()) {
             $lth = new LiveTransmitionHistory();
             $lth->setTitle($obj->row['title']);
@@ -45,13 +47,13 @@ if (!empty($_GET['p'])) {
             $obj->error = false;
             
         } else {
-            _error_log("Stream Publish error, Password does not match");
+            _error_log("NGINX ON Publish error, Password does not match");
         }
     } else {
-        _error_log("Stream Publish error, Transmition name not found ({$_POST['name']})");
+        _error_log("NGINX ON Publish error, Transmition name not found ({$_POST['name']})");
     }
 } else {
-    _error_log("Stream Publish error, Password not found");
+    _error_log("NGINX ON Publish error, Password not found");
 }
 
 if (!empty($obj) && empty($obj->error)) {
