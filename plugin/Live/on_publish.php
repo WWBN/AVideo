@@ -59,7 +59,7 @@ if (!empty($_GET['p'])) {
 } else {
     _error_log("NGINX ON Publish error, Password not found");
 }
-
+_error_log("NGINX ON Publish deciding ...");
 if (!empty($obj) && empty($obj->error)) {
     _error_log("NGINX ON Publish saved LiveTransmitionHistory");
     http_response_code(200);
