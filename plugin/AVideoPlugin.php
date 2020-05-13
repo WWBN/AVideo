@@ -1082,11 +1082,8 @@ class AVideoPlugin {
                 }
                 TimeLogEnd($TimeLog, __LINE__, 0.1);
             }
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+            _session_start();
             $_SESSION['getVideoTags'][$videos_id] = $array;
-            session_write_close();
         } 
         TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__);
         return $_SESSION['getVideoTags'][$videos_id];
