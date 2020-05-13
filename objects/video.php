@@ -3102,8 +3102,13 @@ if (!class_exists('Video')) {
         }
 
         static function userGroupAndVideoGroupMatch($users_id, $videos_id) {
-            if (empty($users_id) || empty($videos_id)) {
+            if(empty($videos_id)){
                 return false;
+            }
+            
+            $ppv = AVideoPlugin::loadPluginIfEnabled("PayPerView");
+            if($ppv){
+                $ppv->userCanWatchVideo($users_id, $videos_id);
             }
 // check if the video is not public 
             $rows = UserGroups::getVideoGroups($videos_id);
@@ -3111,6 +3116,10 @@ if (!class_exists('Video')) {
                 return true;
             }
 
+            if (empty($users_id)) {
+                return false;
+            }
+            
             $rowsUser = UserGroups::getUserGroups(User::getId());
             if (empty($rowsUser)) {
                 return false;
