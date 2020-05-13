@@ -2,6 +2,7 @@
 
 //streamer config
 require_once '../videos/configuration.php';
+require_once $global['systemRootPath'] . 'objects/playlist.php';
 
 if (!isCommandLineInterface()) {
     return die('Command Line only');
@@ -35,6 +36,11 @@ foreach ($users_ids as $user_id) {
             if ($key === 0) {
                 continue;
             }
+            
+            if(!empty(PlayList::getVideosIDFromPlaylistLight($row['id']))){
+                continue;
+            }
+            
             $sql = "DELETE FROM playlists ";
             $sql .= " WHERE id = ?";
             
