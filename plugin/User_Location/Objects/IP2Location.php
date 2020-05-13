@@ -60,6 +60,10 @@ class IP2Location extends ObjectYPT {
 
     // Function to convert IP address to IP number (IPv6)
     static function Dot2LongIPv6($IPaddr) {
+        if(!function_exists("gmp_strval")){
+            _error_log("To query IPV6 you must install php-gmp (apt-get install php-gmp)");
+            return 0;
+        }
         $int = inet_pton($IPaddr);
         $bits = 15;
         $ipv6long = 0;
