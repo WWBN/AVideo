@@ -1017,6 +1017,7 @@ class AVideoPlugin {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                _error_log("AVideoPlugin:onLiveStream {$value['dirName']}");
                 $p->onLiveStream($users_id);
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
