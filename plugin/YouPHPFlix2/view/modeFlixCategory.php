@@ -87,9 +87,9 @@ if ($obj->Categories) {
             <!-- Categories -->
             <?php
             
-            TimeLogStart("modeFlixCategory.php getAllVideos");
+            TimeLogStart("modeFlixCategory.php include row");
             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';     
-            TimeLogEnd("modeFlixCategory.php getAllVideos", __LINE__);
+            TimeLogEnd("modeFlixCategory.php include row", __LINE__, 0.2);
 
             if ($showAllVideos) {
                 TimeLogStart("modeFlixCategory.php showAllVideos");
@@ -101,7 +101,7 @@ if ($obj->Categories) {
                     }
                     include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
                 } 
-                TimeLogEnd("modeFlixCategory.php showAllVideos", __LINE__);
+                TimeLogEnd("modeFlixCategory.php showAllVideos", __LINE__, 0.2);
             }
             ?>
         </div>
