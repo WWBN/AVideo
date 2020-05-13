@@ -2786,6 +2786,8 @@ function clearCache() {
     $dir = getCacheDir();
     if (!empty($_GET['FirstPage'])) {
         $dir .= "firstPage/";
+    }else if (!empty($_GET['getAllVideos'])) {
+        $dir .= "getAllVideos/";
     }
     rrmdir($dir);
 }
