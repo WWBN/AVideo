@@ -2023,7 +2023,9 @@ if (!class_exists('Video')) {
                     unset($_POST['sort']);
                 }
                 $category = Category::getCategory($video->getCategories_id());
-                $_POST['sort'] = $sort;
+                if(!empty($sort)){
+                    $_POST['sort'] = $sort;
+                }
                 $objTag = new stdClass();
                 $objTag->label = __("Category");
                 if (!empty($category)) {
