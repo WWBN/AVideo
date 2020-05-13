@@ -903,7 +903,9 @@ if (!class_exists('Video')) {
             }
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
+                    TimeLogStart("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})");
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
+                    TimeLogEnd("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})", __LINE__);
                 }
             }
             $status = str_replace("'", "", $status);
@@ -937,10 +939,12 @@ if (!class_exists('Video')) {
 
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
+                TimeLogStart("video::getAllVideos::getAllVideosExcludeVideosIDArray");
                 $arrayNotIN = AVideoPlugin::getAllVideosExcludeVideosIDArray();
                 if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
                     $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
                 }
+                TimeLogEnd("video::getAllVideos::getAllVideosExcludeVideosIDArray", __LINE__);
             }
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL();
@@ -1085,7 +1089,7 @@ if (!class_exists('Video')) {
                         $row['filesize'] = Video::updateFilesize($row['id']);
                     }
                     TimeLogEnd("video::getAllVideos otherInfo", __LINE__);
-                    
+
                     TimeLogStart("video::getAllVideos getAllVideosArray");
                     $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
                     TimeLogEnd("video::getAllVideos getAllVideosArray", __LINE__);
@@ -1216,7 +1220,7 @@ if (!class_exists('Video')) {
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 ";
                 $sql .= " ORDER BY RAND() ";
-            }            
+            }
             if (strpos(strtolower($sql), 'limit') === false) {
                 $sql .= " LIMIT 24";
             }
@@ -2034,7 +2038,7 @@ if (!class_exists('Video')) {
                     unset($_POST['sort']);
                 }
                 $category = Category::getCategory($video->getCategories_id());
-                if(!empty($sort)){
+                if (!empty($sort)) {
                     $_POST['sort'] = $sort;
                 }
                 $objTag = new stdClass();
@@ -3115,12 +3119,12 @@ if (!class_exists('Video')) {
         }
 
         static function userGroupAndVideoGroupMatch($users_id, $videos_id) {
-            if(empty($videos_id)){
+            if (empty($videos_id)) {
                 return false;
             }
-            
+
             $ppv = AVideoPlugin::loadPluginIfEnabled("PayPerView");
-            if($ppv){
+            if ($ppv) {
                 $ppv->userCanWatchVideo($users_id, $videos_id);
             }
 // check if the video is not public 
@@ -3132,7 +3136,7 @@ if (!class_exists('Video')) {
             if (empty($users_id)) {
                 return false;
             }
-            
+
             $rowsUser = UserGroups::getUserGroups(User::getId());
             if (empty($rowsUser)) {
                 return false;
