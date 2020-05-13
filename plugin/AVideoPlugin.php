@@ -1074,12 +1074,13 @@ class AVideoPlugin {
             $plugins = Plugin::getAllEnabled();
             $array = array();
             foreach ($plugins as $value) {
-                TimeLogStart("AVideoPlugin::getVideoTags($videos_id) {$value['dirName']} ");
+                $TimeLog = "AVideoPlugin::getVideoTags($videos_id) {$value['dirName']} ";
+                TimeLogStart($TimeLog);
                 $p = static::loadPlugin($value['dirName']);
                 if (is_object($p)) {
                     $array = array_merge($array, $p->getVideoTags($videos_id));
                 }
-                TimeLogEnd("AVideoPlugin::getVideoTags($videos_id) {$value['dirName']} ", __LINE__);
+                TimeLogEnd($TimeLog, __LINE__, 0.1);
             }
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
