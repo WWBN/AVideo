@@ -61,9 +61,10 @@ if (!empty($_GET['p'])) {
 }
 _error_log("NGINX ON Publish deciding ...");
 if (!empty($obj) && empty($obj->error)) {
-    _error_log("NGINX ON Publish saved LiveTransmitionHistory");
+    _error_log("NGINX ON Publish success");
     http_response_code(200);
     header("HTTP/1.1 200 OK");
+    echo "success";
     exit;
 } else {
     _error_log("NGINX ON Publish denied");
