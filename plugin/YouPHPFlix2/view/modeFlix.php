@@ -219,8 +219,13 @@ TimeLogStart($timeLog);
                         $_POST['sort']['likes'] = "DESC";
                         $_POST['current'] = 1;
                         $_POST['rowCount'] = $obj->maxVideos;
+                        
+                        TimeLogStart("modeFlix.php::getAllVideos");
                         $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                        TimeLogEnd("modeFlix.php::getAllVideos", __LINE__);
+                        TimeLogStart("modeFlix.php::getCategoryByName");
                         $category = Category::getCategoryByName($_GET['catName']);
+                        TimeLogEnd("modeFlix.php::getCategoryByName", __LINE__);
                         ?>
                         <div class="row topicRow">
                             <span class="md-col-12">&nbsp;</span>
@@ -233,6 +238,7 @@ TimeLogStart($timeLog);
                             ?>
                         </div>
                         <?php
+                        TimeLogStart("modeFlix.php::while(1)");
                         while (1) {
                             $_POST['current'] ++;
                             $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
@@ -243,8 +249,10 @@ TimeLogStart($timeLog);
                             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
                             echo '</div>';
                         }
+                        TimeLogEnd("modeFlix.php::while(1)", __LINE__);
                         ?>
                         <?php
+                        TimeLogStart("modeFlix.php::getChildCategoriesFromTitle");
                         unset($_POST['sort']);
                         $categoriesC = Category::getChildCategoriesFromTitle($_GET['catName']);
                         foreach ($categoriesC as $value) {
@@ -270,6 +278,7 @@ TimeLogStart($timeLog);
                             <?php
                             unset($_GET['catName']);
                         }
+                        TimeLogEnd("modeFlix.php::getChildCategoriesFromTitle", __LINE__);
                     } else {
                         ?>
                         <div id="categoriesContainer">
