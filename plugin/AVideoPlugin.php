@@ -1069,6 +1069,7 @@ class AVideoPlugin {
         if(empty($videos_id)){
             return array();
         }
+        TimeLogStart("AVideoPlugin::getVideoTags($videos_id)");
         if(true || empty($_SESSION['getVideoTags'][$videos_id])){
             $plugins = Plugin::getAllEnabled();
             $array = array();
@@ -1086,6 +1087,7 @@ class AVideoPlugin {
             $_SESSION['getVideoTags'][$videos_id] = $array;
             session_write_close();
         } 
+        TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__);
         return $_SESSION['getVideoTags'][$videos_id];
     }
     
