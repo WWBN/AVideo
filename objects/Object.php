@@ -222,6 +222,7 @@ abstract class ObjectYPT implements ObjectInterface {
             return $id;
         } else {
             _error_log("ObjectYPT::save Error on save: ".$sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
     }
 
