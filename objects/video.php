@@ -125,15 +125,8 @@ if (!class_exists('Video')) {
         static function unsetAddView($videos_id) {
             // allow users to count a view again in case it is refreshed
             if (!empty($_SESSION['addViewCount'][$videos_id]['time']) && $_SESSION['addViewCount'][$videos_id]['time'] <= time()) {
-                $close = false;
-                if (session_status() == PHP_SESSION_NONE) {
-                    session_start();
-                    $close = true;
-                }
+                _session_start();
                 unset($_SESSION['addViewCount'][$videos_id]);
-                if (!empty($close)) {
-                    session_write_close();
-                }
             }
         }
 
@@ -1035,7 +1028,10 @@ if (!class_exists('Video')) {
                 unset($_GET['limitOnceToOne']);
             }
             if (strpos(strtolower($sql), 'limit') === false) {
-                $sql .= " LIMIT 12";
+                if(empty($global['limitForUnlimitedVideos'])){
+                    $global['limitForUnlimitedVideos'] = 12;
+                }
+                $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
             }
 //echo $sql;exit;
 //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
