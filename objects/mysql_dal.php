@@ -147,7 +147,7 @@ class sqlDAL {
                     // try again with noMysqlND
                     TimeLogStart("[$preparedStatement], $formats, $values, $refreshCache");
                     $read = self::readSql($preparedStatement, $formats, $values, $refreshCache);
-                    TimeLogEnd("[$preparedStatement], $formats, $values, $refreshCache", "mysql_dal");
+                    TimeLogEnd("[$preparedStatement], $formats, $values, $refreshCache", "mysql_dal", 0.5);
                     return $read;
                 }
                 $stmt->close();
