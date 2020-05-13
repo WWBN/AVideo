@@ -138,7 +138,8 @@ class sqlDAL {
                     log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
                     return false;
                 }
-                TimeLogStart("[$preparedStatement], $formats, $values, $refreshCache");
+                $TimeLog = "[$preparedStatement], $formats, ". json_encode($values).", $refreshCache";
+                TimeLogStart($TimeLog);
                 $stmt->execute();
                 $readSqlCached[$crc] = $stmt->get_result();
                 if ($stmt->errno != 0) {
@@ -147,10 +148,10 @@ class sqlDAL {
                     $disableMysqlNdMethods = true;
                     // try again with noMysqlND
                     $read = self::readSql($preparedStatement, $formats, $values, $refreshCache);
-                    TimeLogEnd("[$preparedStatement], $formats, $values, $refreshCache", "mysql_dal", 0.5);
+                    TimeLogEnd($TimeLog, "mysql_dal", 0.5);
                     return $read;
                 }
-                TimeLogStart("[$preparedStatement], $formats, $values, $refreshCache");
+                TimeLogEnd($TimeLog);
                 $stmt->close();
             } else if (is_object($readSqlCached[$crc])) {
 
