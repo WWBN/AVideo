@@ -32,18 +32,22 @@ if (!empty($_GET['p'])) {
     $_GET['p'] = str_replace("/", "", $_GET['p']);
     _error_log("NGINX ON Publish check if key exists");
     $obj->row = LiveTransmition::keyExists($_POST['name']);
-    _error_log("NGINX ON Publish confirmed, key exists! ". json_encode($obj));
+    _error_log("NGINX ON Publish key exists return ". json_encode($obj->row));
     if (!empty($obj->row)) {
+        _error_log("NGINX ON Publish new User({$obj->row['users_id']})");
         $user = new User($obj->row['users_id']);
         if(!$user->thisUserCanStream()){
             _error_log("NGINX ON Publish User [{$obj->row['users_id']}] can not stream");
         }else if ($_GET['p'] === $user->getPassword()) {
+            _error_log("NGINX ON Publish get LiveTransmitionHistory");
             $lth = new LiveTransmitionHistory();
             $lth->setTitle($obj->row['title']);
             $lth->setDescription($obj->row['description']);
             $lth->setKey($_POST['name']);
             $lth->setUsers_id($user->getBdId());
+            _error_log("NGINX ON Publish saving LiveTransmitionHistory");
             $lth->save();
+            _error_log("NGINX ON Publish saved LiveTransmitionHistory");
             $obj->error = false;
             
         } else {
