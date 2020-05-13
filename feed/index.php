@@ -26,7 +26,7 @@ if (file_exists($extraPluginFile) && AVideoPlugin::isEnabledByName("Customize"))
 if(!empty($_GET['channelName'])){
     $user = User::getChannelOwner($_GET['channelName']);
     $showOnlyLoggedUserVideos = $user['id'];
-    $title = "RSS ".User::getNameIdentificationById($user['id']);
+    $title = User::getNameIdentificationById($user['id']);
     $link = User::getChannelLink($user['id']);
     $logo = User::getPhoto($user['id']);
 }
