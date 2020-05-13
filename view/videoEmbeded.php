@@ -419,10 +419,6 @@ if (!empty($_GET['t'])) {
 
         <script>
             $(document).ready(function () {
-                //Prevent HTML5 video from being downloaded (right-click saved)?
-                $('#mainVideo').bind('contextmenu', function () {
-                    return false;
-                });
                 if (typeof player === 'undefined') {
                     player = videojs('mainVideo');
                 }
