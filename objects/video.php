@@ -315,8 +315,6 @@ if (!class_exists('Video')) {
                 }
                 ObjectYPT::deleteCache("getItemprop{$this->id}");
                 ObjectYPT::deleteCache("getLdJson{$this->id}");
-                $_GET['getAllVideos'] = 1;
-                clearCache();
                 self::deleteTagsAsync($this->id);
                 if ($updateVideoGroups) {
                     require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -1036,12 +1034,6 @@ if (!class_exists('Video')) {
                 $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
             }
             
-            $cacheName = "getAllVideos/".md5($sql);
-            $cache = ObjectYPT::getCache($cacheName);
-            
-            if(!empty($cache)){
-                return object_to_array($cache);
-            }
             //echo $sql;exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             $res = sqlDAL::readSql($sql);
@@ -1106,7 +1098,6 @@ if (!class_exists('Video')) {
                 $videos = false;
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
-            ObjectYPT::setCache($cacheName, $videos);
             return $videos;
         }
 
@@ -1550,8 +1541,6 @@ if (!class_exists('Video')) {
                 }
                 $this->removeFiles($video['filename']);
                 self::deleteThumbs($video['filename']);
-                $_GET['getAllVideos'] = 1;
-                clearCache();
             }
             return $resp;
         }
