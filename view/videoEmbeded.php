@@ -352,6 +352,13 @@ if (!empty($_GET['t'])) {
                 });
                 player.on('timeupdate', function () {
                     var time = Math.round(this.currentTime());
+                    var url = '<?php echo Video::getURLFriendly($video['id']); ?>';
+                    if (url.indexOf('?') > -1){
+                        url+='&t=' + time;
+                    }else{
+                        url+='?t=' + time;
+                    }
+                    $('#linkCurrentTime').val(url);
                     if (time >= 5 && time % 5 === 0) {
                         addView(<?php echo $video['id']; ?>, time);
                     }
