@@ -151,7 +151,7 @@ class sqlDAL {
                     TimeLogEnd($TimeLog, "mysql_dal", 0.5);
                     return $read;
                 }
-                TimeLogEnd($TimeLog);
+                TimeLogEnd($TimeLog, "mysql_dal", 0.5);
                 $stmt->close();
             } else if (is_object($readSqlCached[$crc])) {
 
