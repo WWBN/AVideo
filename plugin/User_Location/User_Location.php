@@ -52,7 +52,7 @@ class User_Location extends PluginAbstract {
     static function setSessionLocation($value){
         $ip = getRealIpAddr();
         $_SESSION['User_Location'][$ip] = $value;
-        _error_log("User_Location: $ip ". json_encode($_SESSION['User_Location'][$ip]));
+        //_error_log("User_Location: $ip ". json_encode($_SESSION['User_Location'][$ip]));
     }
     
     static  function getThisUserLocation() {
