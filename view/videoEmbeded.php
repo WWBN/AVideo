@@ -43,7 +43,7 @@ if ($allowedHost !== $host) {
     if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($video['id'])) {
         die("Embed is forbidden");
     }
-    
+
     $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
     if (!empty($objSecure)) {
         $objSecure->verifyEmbedSecurity();
@@ -350,7 +350,6 @@ if (!empty($_GET['t'])) {
                 player.on('play', function () {
                     addView(<?php echo $video['id']; ?>, this.currentTime());
                 });
-
                 player.on('timeupdate', function () {
                     var time = Math.round(this.currentTime());
                     if (time >= 5 && time % 5 === 0) {
@@ -361,7 +360,6 @@ if (!empty($_GET['t'])) {
                     var time = Math.round(this.currentTime());
                     addView(<?php echo $video['id']; ?>, time);
                 });
-
     <?php
     if ($autoplay) {
         ?>
@@ -418,6 +416,7 @@ if (!empty($_GET['t'])) {
             <?php
         }
         ?>
+
         <script>
             $(document).ready(function () {
                 //Prevent HTML5 video from being downloaded (right-click saved)?
@@ -430,7 +429,6 @@ if (!empty($_GET['t'])) {
                 player.on('play', function () {
                     addView(<?php echo $video['id']; ?>, this.currentTime());
                 });
-
                 player.on('timeupdate', function () {
                     var time = Math.round(this.currentTime());
                     if (time >= 5 && time % 5 === 0) {
@@ -441,43 +439,99 @@ if (!empty($_GET['t'])) {
                     var time = Math.round(this.currentTime());
                     addView(<?php echo $video['id']; ?>, time);
                 });
-
-    <?php
+                
+                <?php
     if ($autoplay) {
         ?>
-                    setTimeout(function () {
-                        if (typeof player === 'undefined') {
-                            player = videojs('mainVideo');
-                        }
-                        playerPlay(<?php echo $t; ?>);
-                    }, 150);
+                setTimeout(function () {
+                if (typeof player === 'undefined') {
+                player = videojs('mainVideo');
+                }
+                playerPlay(<?php echo $t; ?>);
+                }, 150);
         <?php
     } else {
         ?>
-                    setTimeout(function () {
-                        if (typeof player === 'undefined') {
-                            player = videojs('mainVideo');
-                        }
-                        try {
-                            player.currentTime(<?php echo $t; ?>);
-                        } catch (e) {
-                            setTimeout(function () {
-                                player.currentTime(<?php echo $t; ?>);
-                            }, 1000);
-                        }
-                    }, 150);
+                setTimeout(function () {
+                if (typeof player === 'undefined') {
+                player = videojs('mainVideo');
+                }
+                try {
+                player.currentTime(<?php echo $t; ?>);
+                } catch (e) {
+                setTimeout(function () {
+                player.currentTime(<?php echo $t; ?>);
+                }, 1000);
+                }
+                }, 150);
         <?php
     }
     ?>
-            });
-        </script>
-        <?php
-    }
+            var menu = new BootstrapMenu('#mainVideo', {
+            actions: [{
+            name: '<?php echo __("Copy video URL"); ?>',
+                    onClick: function () {
+                    copyToClipboard($('#linkFriendly').val());
+                    }, iconClass: 'fas fa-link'
+            }, {
+            name: '<?php echo __("Copy video URL at current time"); ?>',
+                    onClick: function () {
+                    copyToClipboard($('#linkCurrentTime').val());
+                    }, iconClass: 'fas fa-link'
+            }, {
+            name: '<?php echo __("Copy embed code"); ?>',
+                    onClick: function () {
+                    $('#textAreaEmbed').focus();
+                    copyToClipboard($('#textAreaEmbed').val());
+                    }, iconClass: 'fas fa-code'
+            }
+    <?php
+        if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
+            if ($video['type'] == "video") {
+                $files = getVideosURL($video['filename']);
+                foreach ($files as $key => $theLink) {
+                    if (empty($advancedCustom->showImageDownloadOption)) {
+                        if ($key == "jpg" || $key == "gif" || $key == "webp" || $key == "pjpg" || $key == "m3u8") {
+                            continue;
+                        }
+                    }
+                    ?>
+                            , {
+                            name: '<?php echo __("Download video") . " (" . $key . ")"; ?>',
+                                    onClick: function () {
+                                    document.location = '<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.mp4"); ?>';
+                                                }, iconClass: 'fas fa-download'
+                                        }
+                    <?php
+                }
+            } else {
+                ?>
+                                    , {
+                                    name: '<?php echo __("Download video"); ?>',
+                                            onClick: function () {
+                                            document.location = '<?php echo $video['videoLink']; ?>?download=1&title=<?php echo urlencode($video['title'] . ".mp4"); ?>';
+                                                        }, iconClass: 'fas fa-download'
+                                                }
+
+                <?php
+            }
+        }
+        ?>
+
+                                        ]
+                                        });
+
+                });
+            </script>
+            <?php
+        }
     ?>
     <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
     <?php
     echo AVideoPlugin::afterVideoJS();
     $jsFiles = array();
+    $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
+    $jsFiles[] = "view/js/BootstrapMenu.min.js";
     $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
     $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
     $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
@@ -487,6 +541,7 @@ if (!empty($_GET['t'])) {
     $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+    $jsFiles[] = "view/js/jquery-ui/jquery-ui.min.js";
     $jsURL = combineFiles($jsFiles, "js");
     ?>
     <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -494,6 +549,23 @@ if (!empty($_GET['t'])) {
     <?php
     echo AVideoPlugin::getFooterCode();
     ?>
+    <input type="hidden" value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"  id="linkPermanent"/>
+    <input type="hidden" value="<?php echo Video::getURLFriendly($video['id']); ?>" class="form-control" readonly="readonly" id="linkFriendly"/>
+    <input type="hidden" value="<?php echo Video::getURLFriendly($video['id']); ?>?t=0" class="form-control" readonly="readonly" id="linkCurrentTime"/>
+    <textarea class="form-control" style="display: none;" rows="5" id="textAreaEmbed" readonly="readonly"><?php
+    $code = str_replace("{embedURL}", Video::getLink($video['id'], $video['clean_title'], true), $advancedCustom->embedCodeTemplate);
+    echo htmlentities($code);
+    ?></textarea>
+    <textarea id="elementToCopy" style="
+          filter: alpha(opacity=0);
+          -moz-opacity: 0;
+          -khtml-opacity: 0;
+          opacity: 0;
+          position: absolute;
+          z-index: -9999;
+          top: 0;
+          left: 0;
+          pointer-events: none;"></textarea>
 </body>
 </html>
 
