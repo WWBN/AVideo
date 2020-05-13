@@ -61,13 +61,15 @@ if (!empty($_GET['p'])) {
 }
 
 if (!empty($obj) && empty($obj->error)) {
+    _error_log("NGINX ON Publish saved LiveTransmitionHistory");
     http_response_code(200);
+    header("HTTP/1.1 200 OK");
+    exit;
 } else {
+    _error_log("NGINX ON Publish denied");
     http_response_code(401);
-    _error_log("Publish denied");
-    _error_log(print_r($_GET, true));
-    _error_log(print_r($_POST, true));
-    _error_log(print_r($obj, true));
+    header("HTTP/1.1 401 Unauthorized Error");
+    exit;
 }
 //_error_log(print_r($_POST, true));
 //_error_log(print_r($obj, true));
