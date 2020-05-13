@@ -735,16 +735,14 @@ if (typeof gtag !== \"function\") {
 
     static function checkLoginAttempts() {
         global $advancedCustomUser, $global;
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
         // check for multiple logins attempts to prevent hacking
         if (empty($_SESSION['loginAttempts'])) {
+            _session_start();
             $_SESSION['loginAttempts'] = 0;
         }
         if (!empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)) {
+            _session_start();
             $_SESSION['loginAttempts'] ++;
-            session_write_close();
             if ($_SESSION['loginAttempts'] > $advancedCustomUser->requestCaptchaAfterLoginsAttempts) {
                 if (empty($_POST['captcha'])) {
                     return false;
@@ -755,7 +753,6 @@ if (typeof gtag !== \"function\") {
                 }
             }
         }
-        session_write_close();
         return true;
     }
 
