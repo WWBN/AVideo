@@ -1051,6 +1051,7 @@ if (!class_exists('Video')) {
             $videos = array();
             if ($res != false) {
                 require_once 'userGroups.php';
+                TimeLogStart("video::getAllVideos foreach");
                 foreach ($fullData as $row) {
                     unset($row['password']);
                     unset($row['recoverPass']);
@@ -1062,6 +1063,7 @@ if (!class_exists('Video')) {
                         }
                     }
                     if ($getStatistcs) {
+                        TimeLogStart("video::getAllVideos getStatistcs");
                         $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
                         $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
                         $today = date('Y-m-d 23:59:59');
@@ -1070,7 +1072,9 @@ if (!class_exists('Video')) {
                         $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsWeek, $today);
                         $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsMonth, $today);
                         $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
+                        TimeLogEnd("video::getAllVideos getStatistcs", __LINE__);
                     }
+                    TimeLogStart("video::getAllVideos otherInfo");
                     $row['progress'] = self::getVideoPogressPercent($row['id']);
                     $row['category'] = xss_esc_back($row['category']);
                     $row['groups'] = UserGroups::getVideoGroups($row['id']);
@@ -1080,9 +1084,14 @@ if (!class_exists('Video')) {
                     if (empty($row['filesize'])) {
                         $row['filesize'] = Video::updateFilesize($row['id']);
                     }
+                    TimeLogEnd("video::getAllVideos otherInfo", __LINE__);
+                    
+                    TimeLogStart("video::getAllVideos getAllVideosArray");
                     $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
+                    TimeLogEnd("video::getAllVideos getAllVideosArray", __LINE__);
                     $videos[] = $row;
                 }
+                TimeLogEnd("video::getAllVideos foreach", __LINE__);
 //$videos = $res->fetch_all(MYSQLI_ASSOC);
             } else {
                 $videos = false;
@@ -1096,6 +1105,7 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('8.5')) {
                 return false;
             }
+            TimeLogStart("Video::updateFilesize {$videos_id}");
             ini_set('max_execution_time', 300); // 5 
             set_time_limit(300);
             $video = new Video("", "", $videos_id);
@@ -1122,6 +1132,7 @@ if (!class_exists('Video')) {
                 return $filesize;
             }
             $video->setFilesize($filesize);
+            TimeLogEnd("Video::updateFilesize {$videos_id}", $line);
             if ($video->save(false, true)) {
                 _error_log("updateFilesize: videos_id=$videos_id filename=$filename filesize=$filesize");
                 return $filesize;
