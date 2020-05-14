@@ -3,6 +3,7 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
+session_write_close();
 if(!User::isLogged()){
     die();
 }

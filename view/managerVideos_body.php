@@ -227,7 +227,7 @@
                     </div>
                     <?php
                 }
-                if (empty($advancedCustom->disableVideoSwap)) {
+                if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwapVideosOnlyForAdmin) || User::isAdmin())) {
                     ?>
                     <button class="btn btn-primary" id="swapBtn">
                         <i class="fas fa-random"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Swap Video File'); ?></span>
@@ -1647,7 +1647,7 @@ echo AVideoPlugin::getManagerVideosReset();
             });
     });
 <?php
-if (empty($advancedCustom->disableVideoSwap)) {
+if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwapVideosOnlyForAdmin) || User::isAdmin())) {
     ?>
 
         $("#swapBtn").click(function () {

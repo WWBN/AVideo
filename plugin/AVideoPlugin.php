@@ -953,7 +953,11 @@ class AVideoPlugin {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $resp = $resp && $p->showAds($videos_id);
+                $showAds = $p->showAds($videos_id);
+                if(!$showAds){
+                    _error_log("showAds: {$value['dirName']} said NOT to show ads on {$videos_id}");
+                    return false;
+                }
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
@@ -1065,23 +1069,23 @@ class AVideoPlugin {
         if(empty($videos_id)){
             return array();
         }
+        TimeLogStart("AVideoPlugin::getVideoTags($videos_id)");
         if(true || empty($_SESSION['getVideoTags'][$videos_id])){
             $plugins = Plugin::getAllEnabled();
             $array = array();
             foreach ($plugins as $value) {
-                self::YPTstart();
+                $TimeLog = "AVideoPlugin::getVideoTags($videos_id) {$value['dirName']} ";
+                TimeLogStart($TimeLog);
                 $p = static::loadPlugin($value['dirName']);
                 if (is_object($p)) {
                     $array = array_merge($array, $p->getVideoTags($videos_id));
                 }
-                self::YPTend("{$value['dirName']}::".__FUNCTION__);
+                TimeLogEnd($TimeLog, __LINE__, 0.1);
             }
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+            _session_start();
             $_SESSION['getVideoTags'][$videos_id] = $array;
-            session_write_close();
         } 
+        TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__);
         return $_SESSION['getVideoTags'][$videos_id];
     }
     

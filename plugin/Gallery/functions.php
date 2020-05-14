@@ -20,8 +20,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     }
     global $global, $args, $url;
     $paggingId = uniqid();
+    $uid = "gallery".uniqid();
     ?>
-    <div class="clear clearfix">
+    <div class="clear clearfix galeryRowElement" id="<?php echo $uid; ?>">
         <h3 class="galleryTitle">
             <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $getName; ?>">
                 <i class="<?php echo $icon; ?>"></i>
@@ -57,13 +58,24 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         }
         $videos = Video::getAllVideos("viewable", false, $ignoreGroup);
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
-        createGallerySection($videos, dechex(crc32($getName)));
+        $countCols = createGallerySection($videos, dechex(crc32($getName)));
         ?>
         <div class="col-sm-12" style="z-index: 1;">
             <ul id="<?php echo $paggingId; ?>">
             </ul>
         </div>
     </div>
+    <?php
+    if(empty($countCols)){
+     ?>
+    <style>
+        #<?php echo $uid; ?>{
+            display: none;
+        }
+    </style>
+     <?php   
+    }
+    ?>
     <script>
     <?php
     if ($totalPages > 1) {
@@ -134,10 +146,9 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
         $name = User::getNameIdentificationById($value['users_id']);
         $name .= " " . User::getEmailVerifiedIcon($value['users_id']);
-        ;
         // make a row each 6 cols
         if ($countCols % $obj->screenColsLarge === 0) {
-            echo '</div><div class="row aligned-row ">';
+            echo '<div class="clearfix "></div>';
         }
 
         $countCols++;
@@ -335,6 +346,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
     -->
     <?php
     unset($_POST['disableAddTo']);
+    return $countCols;
 }
 
 function createChannelItem($users_id, $photoURL = "", $identification = "", $rowCount = 12) {

@@ -14,7 +14,7 @@ require_once '../objects/functions.php';
         
         <link href="../view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
         <link href="../view/js/seetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
-        <script src="../view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="../view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
         <link href="../view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
     </head>
 

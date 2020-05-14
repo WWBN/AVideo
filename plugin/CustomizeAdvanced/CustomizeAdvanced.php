@@ -109,6 +109,10 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableNavbar= false;
         $obj->videosCDN = "";
         $obj->useFFMPEGToGenerateThumbs = false;
+        $obj->thumbsWidthPortrait = 170;
+        $obj->thumbsHeightPortrait = 250;
+        $obj->thumbsWidthLandscape = 250;
+        $obj->thumbsHeightLandscape = 140;
         $obj->showImageDownloadOption = false;
         $obj->doNotDisplayViews = false;
         $obj->doNotDisplayLikes = false;
@@ -153,6 +157,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableHTMLDescription = false;
         $obj->disableTopMenusInsideIframe = true;
         $obj->disableVideoSwap = false;
+        $obj->makeSwapVideosOnlyForAdmin = false;
         
         $parse = parse_url($global['webSiteRootURL']);
         $domain = str_replace(".", "", $parse['host']);
@@ -231,7 +236,8 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getVideosManagerListButton(){
         $btn = "";
         if(User::isAdmin()){
-            $btn = '<br><button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="updateDiskUsage(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="Update Disk usage"><i class="fas fa-chart-line"></i> Update Disk Usage</button>';
+            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="updateDiskUsage(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="Update Disk usage"><i class="fas fa-chart-line"></i> Update Disk Usage</button>';
+            $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="removeThumbs(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="RemoveThumbs"><i class="fas fa-images"></i> Remove Thumbs</button>';
         }
         return $btn;
     }
@@ -258,6 +264,30 @@ class CustomizeAdvanced extends PluginAbstract {
                                             });
                                         }else{
                                             $(\"#grid\").bootgrid('reload');
+                                        }
+                                            console.log(response);
+                                            modal.hidePleaseWait();
+                                        }
+                                    });}</script>";
+            $js .= "<script>function removeThumbs(videos_id){
+                                    modal.showPleaseWait();
+                                    \$.ajax({
+                                        url: '{$global['webSiteRootURL']}plugin/CustomizeAdvanced/deleteThumbs.php',
+                                        data: {\"videos_id\": videos_id},
+                                        type: 'post',
+                                        success: function (response) {
+                                        if(response.error){
+                                            swal({
+                                                title: \"".__("Sorry!")."\",
+                                                text: response.msg,
+                                                icon: \"error\"
+                                            });
+                                        }else{
+                                            swal({
+                                                title: \"".__("Success!")."\",
+                                                text: \"\",
+                                                icon: \"success\"
+                                            });
                                         }
                                             console.log(response);
                                             modal.hidePleaseWait();

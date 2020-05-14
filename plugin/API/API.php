@@ -173,14 +173,14 @@ class API extends PluginAbstract {
             if (empty($value['filename'])) {
                 continue;
             }
-            if($value['type']=='serie'){
+            if ($value['type'] == 'serie') {
                 require_once $global['systemRootPath'] . 'objects/playlist.php';
                 $rows[$key]['playlist'] = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
             }
             $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
             $rows[$key]['images'] = $images;
             $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
-            if(empty($rows[$key]['videos'])){
+            if (empty($rows[$key]['videos'])) {
                 $rows[$key]['videos'] = new stdClass();
             }
             $rows[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
@@ -193,7 +193,7 @@ class API extends PluginAbstract {
 
             if ($SubtitleSwitcher) {
                 $rows[$key]['subtitles'] = getVTTTracks($value['filename'], true);
-                foreach ($rows[$key]['subtitles'] as $key2=>$value) {
+                foreach ($rows[$key]['subtitles'] as $key2 => $value) {
                     $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
                 }
             }
@@ -235,7 +235,7 @@ class API extends PluginAbstract {
         $obj->rows = $rows;
         return new ApiObject("", false, $obj);
     }
-    
+
     /**
      * @param type $parameters 
      * ['APISecret' to list all videos]
@@ -261,7 +261,7 @@ class API extends PluginAbstract {
         $obj->totalRows = $totalRows;
         return new ApiObject("", false, $obj);
     }
-    
+
     /**
      * Return a user information
      * @param type $parameters 
@@ -277,30 +277,29 @@ class API extends PluginAbstract {
         $obj = $this->startResponseObject($parameters);
         $dataObj = $this->getDataObject();
         if ($dataObj->APISecret === @$_GET['APISecret']) {
-            if(!empty($_GET['users_id'])){
+            if (!empty($_GET['users_id'])) {
                 $user = new User($_GET['users_id']);
-            }else if(!empty($_GET['user'])){
+            } else if (!empty($_GET['user'])) {
                 $user = new User(0, $_GET['user'], false);
-            }else{
+            } else {
                 return new ApiObject("User Not defined");
             }
-            
-            if(empty($user) || empty($user->getId())){
+
+            if (empty($user) || empty($user->getId())) {
                 return new ApiObject("User Not found");
             }
             $p = AVideoPlugin::loadPlugin("Live");
-            
+
             $obj->user = User::getUserFromID($user->getBdId());
             $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
-            $obj->livestream["server"] = $p->getServer()."?p=".$user->getPassword();
-            
+            $obj->livestream["server"] = $p->getServer() . "?p=" . $user->getPassword();
+
             return new ApiObject("", false, $obj);
         } else {
             return new ApiObject("API Secret is not valid");
         }
     }
-    
-    
+
     /**
      * @param type $parameters 
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
@@ -311,7 +310,7 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'plugin/Live/stats.json.php';
         exit;
     }
-    
+
     /**
      * @param type $parameters 
      * ['APISecret' to list all videos]
@@ -358,6 +357,79 @@ class API extends PluginAbstract {
         return new ApiObject("", false, $obj);
     }
 
+    /**
+     * @param type $parameters
+     * Return all channels on this site
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function get_api_channels($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/Channel.php';
+        $channels = Channel::getChannels();
+        $list = array();
+        foreach ($channels as $value) {
+            $obj = new stdClass();
+            $obj->id = $value['id'];
+            $obj->photo = User::getPhoto($value['id']);
+            $obj->channelLink = User::getChannelLink($value['id']);
+            $obj->name = User::getNameIdentificationById($value['id']);
+            $list[] = $obj;
+        }
+        return new ApiObject("", false, $list);
+    }
+    
+    /**
+     * @param type $parameters
+     * Return all Programs (Playlists) on this site
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function get_api_programs($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/category.php';
+        $playlists = PlayList::getAll();
+        foreach ($playlists as $value) {
+            $videosArrayId = PlayList::getVideosIdFromPlaylist($value['id']);
+            if (empty($videosArrayId) || $value['status'] == "favorite" || $value['status'] == "watch_later") {
+                continue;
+            }
+            $obj = new stdClass();
+            $obj->id = $value['id'];
+            $obj->photo = User::getPhoto($value['users_id']);
+            $obj->channelLink = User::getChannelLink($value['users_id']);
+            $obj->username = User::getNameIdentificationById($value['users_id']);
+            $obj->name = $value['name'];
+            $obj->link = PlayLists::getLink($value['id']);
+            $list[] = $obj;
+        }
+        return new ApiObject("", false, $list);
+    }
+    
+    /**
+     * @param type $parameters
+     * Return all categories on this site
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function get_api_categories($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/category.php';
+        $categories = Category::getAllCategories();
+        array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
+        $list = array();
+        foreach ($categories as $value) {
+            $obj = new stdClass();
+            $obj->id = $value['id'];
+            $obj->iconClass = $value['iconClass'];
+            $obj->hierarchyAndName = $value['hierarchyAndName'];
+            $obj->name = $value['name'];
+            $obj->fullTotal = $value['fullTotal'];
+            $obj->total = $value['total'];
+            $list[] = $obj;
+        }
+        return new ApiObject("", false, $list);
+    }
 
     /**
      * @param type $parameters

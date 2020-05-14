@@ -851,7 +851,7 @@ function _getImagesURL($fileName, $type) {
             'url' => $source['url'],
             'type' => 'image',
         );
-    } else if($type!='image') {
+    } else if ($type != 'image') {
         $files["pjpg"] = array(
             'filename' => "{$type}_portrait.png",
             'path' => "{$global['systemRootPath']}view/img/{$type}_portrait.png",
@@ -2805,57 +2805,63 @@ function getUsageFromFilename($filename, $dir = "") {
     $totalSize = 0;
     _error_log("getUsageFromFilename: start {$dir}{$filename}");
     $files = glob("{$dir}{$filename}*");
+    session_write_close();
     foreach ($files as $f) {
         if (is_dir($f)) {
             _error_log("getUsageFromFilename: {$f} is Dir");
             $dirSize = getDirSize($f);
             $totalSize += $dirSize;
-            if($dirSize<10000 && AVideoPlugin::isEnabledByName('YPTStorage')){
+            if ($dirSize < 10000 && AVideoPlugin::isEnabledByName('YPTStorage')) {
                 // probably the HLS file is hosted on the YPTStorage
                 $info = YPTStorage::getFileInfo($filename);
-                if(!empty($info->size)){
+                if (!empty($info->size)) {
                     $totalSize += $info->size;
                 }
             }
         } else if (is_file($f)) {
             $filesize = filesize($f);
             if ($filesize < 20) { // that means it is a dummy file
-                _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
-                $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
-                //$bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
-                if (!empty($aws_s3)) {
-                    _error_log("getUsageFromFilename: Get from S3");
-                    $filesize += $aws_s3->getFilesize($filename);
-                } else if (!empty($bb_b2)) {
-                    // TODO
-                } else {
-                    $urls = Video::getVideosPaths($filename, true);
-                    _error_log("getUsageFromFilename: Paths " . json_encode($urls));
-                    if (!empty($urls["m3u8"]['url'])) {
-                        $filesize+=getUsageFromURL($urls["m3u8"]['url']);
-                    }
-                    if (!empty($urls['mp4'])) {
-                        foreach ($urls['mp4'] as $mp4) {
-                            $filesize+=getUsageFromURL($mp4);
+                $lockFile = $f . ".size.lock";
+                if (!file_exists($lockFile) || (time() - 600) > filemtime($cachefile)) {
+                    file_put_contents($lockFile, time());
+                    _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
+                    $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
+                    //$bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
+                    if (!empty($aws_s3)) {
+                        _error_log("getUsageFromFilename: Get from S3");
+                        $filesize += $aws_s3->getFilesize($filename);
+                    } else if (!empty($bb_b2)) {
+                        // TODO
+                    } else {
+                        $urls = Video::getVideosPaths($filename, true);
+                        _error_log("getUsageFromFilename: Paths " . json_encode($urls));
+                        if (!empty($urls["m3u8"]['url'])) {
+                            $filesize += getUsageFromURL($urls["m3u8"]['url']);
+                        }
+                        if (!empty($urls['mp4'])) {
+                            foreach ($urls['mp4'] as $mp4) {
+                                $filesize += getUsageFromURL($mp4);
+                            }
+                        }
+                        if (!empty($urls['webm'])) {
+                            foreach ($urls['webm'] as $mp4) {
+                                $filesize += getUsageFromURL($mp4);
+                            }
+                        }
+                        if (!empty($urls["pdf"]['url'])) {
+                            $filesize += getUsageFromURL($urls["pdf"]['url']);
+                        }
+                        if (!empty($urls["image"]['url'])) {
+                            $filesize += getUsageFromURL($urls["image"]['url']);
+                        }
+                        if (!empty($urls["zip"]['url'])) {
+                            $filesize += getUsageFromURL($urls["zip"]['url']);
+                        }
+                        if (!empty($urls["mp3"]['url'])) {
+                            $filesize += getUsageFromURL($urls["mp3"]['url']);
                         }
                     }
-                    if (!empty($urls['webm'])) {
-                        foreach ($urls['webm'] as $mp4) {
-                            $filesize+=getUsageFromURL($mp4);
-                        }
-                    }
-                    if (!empty($urls["pdf"]['url'])) {
-                        $filesize+=getUsageFromURL($urls["pdf"]['url']);
-                    }
-                    if (!empty($urls["image"]['url'])) {
-                        $filesize+=getUsageFromURL($urls["image"]['url']);
-                    }
-                    if (!empty($urls["zip"]['url'])) {
-                        $filesize+=getUsageFromURL($urls["zip"]['url']);
-                    }
-                    if (!empty($urls["mp3"]['url'])) {
-                        $filesize+=getUsageFromURL($urls["mp3"]['url']);
-                    }
+                    unlink($lockFile);
                 }
             } else {
                 _error_log("getUsageFromFilename: {$f} is File ({$filesize})");
@@ -2987,11 +2993,52 @@ function encrypt_decrypt($string, $action) {
 }
 
 function encryptString($string) {
+    if(is_object($string)){
+        $string = json_encode($string);
+    }
     return encrypt_decrypt($string, 'encrypt');
 }
 
 function decryptString($string) {
     return encrypt_decrypt($string, 'decrypt');
+}
+
+function getToken($timeout=0, $salt=""){
+    global $global;
+    $obj = new stdClass();
+    $obj->salt = $global['salt'].$salt;
+    
+    if(!empty($timeout)){
+        $obj->time = time();
+        $obj->timeout = $obj->time+$timeout;
+    }else{
+        $obj->time = strtotime("Today 00:00:00");
+        $obj->timeout = strtotime("Today 23:59:59");
+        $obj->timeout += cacheExpirationTime();
+    }
+    $strObj = json_encode($obj);
+    //_error_log("Token created: {$strObj}");
+    
+    return encryptString($strObj);
+}
+
+function verifyToken($token, $salt=""){
+    global $global;
+    $obj = json_decode(decryptString($token));
+    if(empty($obj)){
+        _error_log("verifyToken invalid token");
+        return false;
+    }
+    if($obj->salt !== $global['salt'].$salt){
+        _error_log("verifyToken salt fail");
+        return false;
+    }
+    $time = $time();
+    if(!($time>=$obj->time && $obj->timeout<=$time)){
+        _error_log("verifyToken token timout");
+        return false;
+    }
+    return true;
 }
 
 class YPTvideoObject {
@@ -3009,11 +3056,17 @@ class YPTvideoObject {
 
 }
 
-function isToShowDuration($type){
-    $notShowTo = array('pdf','article','serie','zip','image');
-    if(in_array($type, $notShowTo)){
+function isToShowDuration($type) {
+    $notShowTo = array('pdf', 'article', 'serie', 'zip', 'image');
+    if (in_array($type, $notShowTo)) {
         return false;
-    }else{
+    } else {
         return true;
     }
+}
+
+function _dieAndLogObject($obj, $prefix = "") {
+    $objString = json_encode($obj);
+    _error_log($prefix . $objString);
+    die($objString);
 }

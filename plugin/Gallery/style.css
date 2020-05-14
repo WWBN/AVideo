@@ -76,13 +76,6 @@ h3.galleryTitle{
     border-bottom: solid 1px #EEE;
 }
 
-.aligned-row {
-    overflow: hidden;
-    border-bottom: solid 1px #EEE;
-    margin-bottom: 10px; 
-    padding-bottom: 10px; 
-}
-
 .galeryDetails div{
     float: left;
     overflow: hidden;
@@ -111,9 +104,6 @@ h3.galleryTitle{
 .popover-content>div{
     overflow-y: auto;
     height: 140px;
-}
-.aligned-row{
-    overflow: visible !important;
 }
 
 .mainAreaDescription{
@@ -150,4 +140,8 @@ a.h6{
 
 .galleryTitle a.btn-default:hover{
     background-color: transparent;
+}
+
+.galeryRowElement .galleryVideo {
+    margin-bottom: 10px; 
 }

@@ -145,6 +145,16 @@ if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' &&
 \$global['ddosSecondTimeout'] = 5;
 \$global['strictDDOSprotection'] = 0;
 \$global['noDebug'] = 0;
+\$global['webSiteRootPath'] = '';
+if(empty(\$global['webSiteRootPath'])){
+    preg_match('/https?:\/\/[^\/]+(.*)/i', \$global['webSiteRootURL'], \$matches);
+    if(!empty(\$matches[1])){
+        \$global['webSiteRootPath'] = \$matches[1];
+    }
+}
+if(empty(\$global['webSiteRootPath'])){
+    die('Please configure your webSiteRootPath');
+}
 
 \$mysqlHost = '{$_POST['databaseHost']}';
 \$mysqlPort = '{$_POST['databasePort']}';

@@ -37,7 +37,7 @@ Options All -Indexes
     <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
         Header set Cache-Control "max-age=2592000, public"
     </filesMatch>
-    <filesMatch "\.(css)$">
+    <filesMatch "\.(woff2|css)$">
         Header set Cache-Control "max-age=604800, public"
     </filesMatch>
     <filesMatch "\.(js)$">

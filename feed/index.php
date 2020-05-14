@@ -11,14 +11,22 @@ $_POST['current'] = 1;
 $_POST['rowCount'] = 50;
 
 $showOnlyLoggedUserVideos = false;
-$title = "RSS ".$config->getWebSiteTitle();
+$title = $config->getWebSiteTitle();
 $link = $global['webSiteRootURL'];
 $logo = "{$global['webSiteRootURL']}videos/userPhoto/logo.png";
+$description = "";
+
+$extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+if (file_exists($extraPluginFile) && AVideoPlugin::isEnabledByName("Customize")) {
+    require_once $extraPluginFile;
+    $ec = new ExtraConfig();
+    $description = $ec->getDescription();
+}
 
 if(!empty($_GET['channelName'])){
     $user = User::getChannelOwner($_GET['channelName']);
     $showOnlyLoggedUserVideos = $user['id'];
-    $title = "RSS ".User::getNameIdentificationById($user['id']);
+    $title = User::getNameIdentificationById($user['id']);
     $link = User::getChannelLink($user['id']);
     $logo = User::getPhoto($user['id']);
 }
@@ -37,7 +45,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
     <channel>
         <atom:link href="<?php echo $global['webSiteRootURL'].ltrim($_SERVER["REQUEST_URI"],"/"); ?>" rel="self" type="application/rss+xml" />
         <title><?php echo $title; ?></title>
-        <description>Rss Feed</description>
+        <description><?php echo $description; ?></description>
         <link><?php echo $link; ?></link>
         <sy:updatePeriod>hourly</sy:updatePeriod>
         <sy:updateFrequency>1</sy:updateFrequency>

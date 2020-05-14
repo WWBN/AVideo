@@ -77,7 +77,11 @@ class sqlDAL {
         if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable") {
             $audit = AVideoPlugin::loadPluginIfEnabled('Audit');
             if (!empty($audit)) {
-                $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
+                try {
+                    $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
+                } catch (Exception $exc) {
+                    echo log_error($exc->getTraceAsString());
+                }  
             }
         }
 
@@ -134,6 +138,8 @@ class sqlDAL {
                     log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
                     return false;
                 }
+                $TimeLog = "[$preparedStatement], $formats, ". json_encode($values).", $refreshCache";
+                TimeLogStart($TimeLog);
                 $stmt->execute();
                 $readSqlCached[$crc] = $stmt->get_result();
                 if ($stmt->errno != 0) {
@@ -141,8 +147,11 @@ class sqlDAL {
                     $stmt->close();
                     $disableMysqlNdMethods = true;
                     // try again with noMysqlND
-                    return self::readSql($preparedStatement, $formats, $values, $refreshCache);
+                    $read = self::readSql($preparedStatement, $formats, $values, $refreshCache);
+                    TimeLogEnd($TimeLog, "mysql_dal", 0.5);
+                    return $read;
                 }
+                TimeLogEnd($TimeLog, "mysql_dal", 0.5);
                 $stmt->close();
             } else if (is_object($readSqlCached[$crc])) {
 

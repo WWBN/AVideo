@@ -27,6 +27,7 @@ $log = new CloneLog();
 $log->add("Clone: Clone Start");
 
 $objClone = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
+$argv[1] = preg_replace("/[^A-Za-z0-9 ]/", '', @$argv[1]);
 
 if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
     if (!User::isAdmin()) {

@@ -198,12 +198,12 @@ class Cache extends PluginAbstract {
         $time = microtime();
         $time = explode(' ', $time);
         $time = $time[1] + $time[0];
-        $global['start'] = $time;
+        $global['cachePluginStart'] = $time;
     }
 
     private function end($type = "No Cache") {
         global $global;
-        if (empty($global['start'])) {
+        if (empty($global['cachePluginStart'])) {
             return false;
         }
         require_once $global['systemRootPath'] . 'objects/user.php';
@@ -217,7 +217,7 @@ class Cache extends PluginAbstract {
         } else {
             $type = "User: Not Logged - " . $type;
         }
-        $t = (floatval($finish) - floatval($global['start']));
+        $t = (floatval($finish) - floatval($global['cachePluginStart']));
         $total_time = round($t, 4);
         _error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
     }

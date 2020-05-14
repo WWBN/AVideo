@@ -10,6 +10,10 @@ $obj = new stdClass();
 $obj->msg = "";
 $obj->error = true;
 
+if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwapVideosOnlyForAdmin) || User::isAdmin())) {
+    $obj->msg = __("Swap Disabled");
+    die(json_encode($obj));
+}
 
 if (!User::canUpload()) {
     $obj->msg = __("Permission denied");

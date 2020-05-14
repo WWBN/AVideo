@@ -3,6 +3,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../../../videos/configuration.php';
 }
+session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
@@ -67,7 +68,11 @@ if ($obj->Categories) {
         unset($_POST['sort']);
         $_POST['sort']['v.created'] = "DESC";
         $_POST['sort']['likes'] = "DESC";
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+        
+        TimeLogStart("modeFlixCategory.php getAllVideos");
+        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);        
+        TimeLogEnd("modeFlixCategory.php getAllVideos", __LINE__);
+        
         TimeLogEnd($timeLog2, __LINE__);
         if (empty($videos)) {
             $_GET['catName'] = $oldCatName;
@@ -81,9 +86,13 @@ if ($obj->Categories) {
             </h2>
             <!-- Categories -->
             <?php
-            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+            
+            TimeLogStart("modeFlixCategory.php include row");
+            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';     
+            TimeLogEnd("modeFlixCategory.php include row", __LINE__, 0.2);
 
             if ($showAllVideos) {
+                TimeLogStart("modeFlixCategory.php showAllVideos");
                 while (1) {
                     $_POST['current'] ++;
                     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
@@ -91,7 +100,8 @@ if ($obj->Categories) {
                         break;
                     }
                     include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
-                }
+                } 
+                TimeLogEnd("modeFlixCategory.php showAllVideos", __LINE__, 0.2);
             }
             ?>
         </div>

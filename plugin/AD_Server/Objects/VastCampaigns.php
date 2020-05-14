@@ -202,15 +202,16 @@ class VastCampaigns extends ObjectYPT {
 
     static public function getValidCampaigns() {
         global $global;
-
         $ad_server_location = AVideoPlugin::loadPluginIfEnabled('AD_Server_Location');
+        AVideoPlugin::loadPlugin('User_Location');
+        $User_Location = User_Location::getSessionLocation();
         $sql = "SELECT * from " . static::getTableName() . " vc  WHERE status = 'a' AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cpm_current_prints ";
-        if(!empty($ad_server_location) && !empty($_SESSION['User_Location']) && $_SESSION['User_Location']['country_name'] !== '-'){
+        if(!empty($ad_server_location) && !empty($User_Location) && $User_Location['country_name'] !== '-'){
             // show only campaign for the user location
             $sql .= " AND ( (vc.id IN (SELECT vast_campaigns_id FROM campaign_locations WHERE (country_name = 'All' OR country_name IS NULL OR country_name = '') OR  "
-                    . " (country_name = \"{$_SESSION['User_Location']['country_name']}\" AND region_name = 'All') OR "
-                    . " (country_name = \"{$_SESSION['User_Location']['country_name']}\" AND region_name = \"{$_SESSION['User_Location']['region_name']}\" AND city_name = 'All') OR"
-                    . " (country_name = \"{$_SESSION['User_Location']['country_name']}\" AND region_name = \"{$_SESSION['User_Location']['region_name']}\" AND city_name = \"{$_SESSION['User_Location']['city_name']}\") ) ) "
+                    . " (country_name = \"{$User_Location['country_name']}\" AND region_name = 'All') OR "
+                    . " (country_name = \"{$User_Location['country_name']}\" AND region_name = \"{$User_Location['region_name']}\" AND city_name = 'All') OR"
+                    . " (country_name = \"{$User_Location['country_name']}\" AND region_name = \"{$User_Location['region_name']}\" AND city_name = \"{$User_Location['city_name']}\") ) ) "
                     . " OR vc.id NOT IN(SELECT vast_campaigns_id FROM campaign_locations) )";
         }
 

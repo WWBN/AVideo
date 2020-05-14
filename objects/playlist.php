@@ -96,7 +96,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
             }
-            if (empty($status) && $config->currentVersionGreaterThen("6.4")) {
+            if (empty($_POST['current']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
                 if (empty($favorite)) {
                     $pl = new PlayList(0);
                     $pl->setName("Favorite");
@@ -142,9 +142,7 @@ class PlayList extends ObjectYPT {
                 $rows[$key]['isOnPlaylist'] = in_array($videos_id, $videos);
             }
 
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+            _session_start();
             $_SESSION['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)] = $rows;
         } else {
             $rows = $_SESSION['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)];
@@ -155,14 +153,8 @@ class PlayList extends ObjectYPT {
 
     static private function removeCache($videos_id) {
         $close = false;
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-            $close = true;
-        }
+        _session_start();
         unset($_SESSION['getAllFromUserVideo'][$videos_id]);
-        if (!empty($close)) {
-            session_write_close();
-        }
     }
 
     static function getVideosIDFromPlaylistLight($playlists_id) {

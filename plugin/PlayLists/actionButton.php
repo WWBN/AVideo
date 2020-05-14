@@ -25,7 +25,7 @@ $crc = uniqid();
                         <?php echo __("Make it public"); ?>
                         <div class="material-switch pull-right">
                             <input id="publicPlayList<?php echo $videos_id . $crc; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
-                            <label for="publicPlayList" class="label-success"></label>
+                            <label for="publicPlayList<?php echo $videos_id . $crc; ?>" class="label-success"></label>
                         </div>
                     </div>
                     <div class="form-group">

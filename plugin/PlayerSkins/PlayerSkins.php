@@ -34,6 +34,7 @@ class PlayerSkins extends PluginAbstract {
         $obj = new stdClass();
         $obj->skin = "youtube";
         $obj->playbackRates = "[0.5, 1, 1.5, 2]";
+        $obj->playerCustomDataSetup = "";
         return $obj;
     }
 
@@ -73,7 +74,7 @@ class PlayerSkins extends PluginAbstract {
         }
         
         if(!empty($dataSetup)){
-            return ",{". implode(",", $dataSetup)."{$str}}";
+            return ",{". implode(",", $dataSetup)."{$str}{$obj->playerCustomDataSetup}}";
         }
         
         return "";
