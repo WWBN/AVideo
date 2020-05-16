@@ -234,7 +234,17 @@ if (!$includeDefaultNavBar) {
     ?>
 </style>
 <?php
-if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
+if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
+    ?>
+    <nav class="navbar navbar-default navbar-fixed-top " id="mainNavBar">
+        <div class="pull-right">
+            <a id="buttonMyNavbar" class=" btn btn-default navbar-btn" style="padding: 6px 12px; margin-right: 40px;" href="<?php echo $advancedCustomUser->userMustBeLoggedInCloseButtonURL; ?>">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
+    </nav>
+    <?php
+} else if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
     $updateFiles = getUpdatesFilesArray();
     ?>
     <nav class="navbar navbar-default navbar-fixed-top " id="mainNavBar">
@@ -243,7 +253,7 @@ if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->d
                 <ul class="left-side">
                     <li style="max-width: 40px;">
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="bottom" ><span class="fa fa-bars"></span></button>
-                        <script>                            
+                        <script>
                             function YPTSidebarOpen() {
                                 $('body').addClass('youtube')
                                 $("#sidebar").fadeIn();

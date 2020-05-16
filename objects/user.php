@@ -1182,7 +1182,7 @@ if (typeof gtag !== \"function\") {
         $this->photoURL = strip_tags($photoURL);
     }
 
-    static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about')) {
+    static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about'), $status="") {
         if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
@@ -1190,7 +1190,13 @@ if (typeof gtag !== \"function\") {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT * FROM users WHERE 1=1 ";
-
+        if(!empty($status)){
+            if(strtolower($status)==='i'){
+                $sql .= " AND status = 'i' ";
+            }else{
+                $sql .= " AND status = 'a' ";
+            }
+        }
         $sql .= BootGrid::getSqlFromPost($searchFields);
 
         $user = array();
@@ -1241,7 +1247,7 @@ if (typeof gtag !== \"function\") {
         return $user;
     }
 
-    static function getTotalUsers($ignoreAdmin = false) {
+    static function getTotalUsers($ignoreAdmin = false, $status="") {
         if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
@@ -1250,6 +1256,13 @@ if (typeof gtag !== \"function\") {
         global $global;
         $sql = "SELECT id FROM users WHERE 1=1  ";
 
+        if(!empty($status)){
+            if(strtolower($status)==='i'){
+                $sql .= " AND status = 'i' ";
+            }else{
+                $sql .= " AND status = 'a' ";
+            }
+        }
         $sql .= BootGrid::getSqlSearchFromPost(array('name', 'email', 'user'));
 
         $res = sqlDAL::readSql($sql);
