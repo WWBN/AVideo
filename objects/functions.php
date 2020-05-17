@@ -2609,7 +2609,7 @@ function get_browser_name($user_agent = "") {
     $t = " " . $t;
 
     // Humans / Regular Users  
-    if (strpos($t, 'CrKey')) {
+    if (strpos($t, 'crkey')) {
         return 'Chromecast';
     }else if (strpos($t, 'opera') || strpos($t, 'opr/'))
         return 'Opera';
