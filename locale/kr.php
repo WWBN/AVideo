@@ -504,7 +504,7 @@ $t['This e-mail will be used for this web site notifications'] = "이 전자 메
 $t['This help us to track and dettect errors'] = "이것은 우리가 오류를 추적하고 탐지하는데 도움을 준다.";
 $t['This is an experimental resource'] = "이것은 실험적인 자원이다.";
 $t['This is where you can create groups and associate them with your videos and users. This will make your videos private. Only users who are in the same group as the videos can view them'] = "여기서 그룹을 만들고 비디오 및 사용자와 연결할 수 있다. 이렇게 하면 비디오가 비공개 상태가 된다. 동영상과 같은 그룹에 있는 사용자만 볼 수 있음";
-$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder2.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "이 페이지는 MP4,MP3 및 OGG 파일에서만 작동하며, 다른 형식이 있거나 필요한 경우 자신의 Public Encoder를 설치하거나 를 사용하십시오.";
+$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "이 페이지는 MP4,MP3 및 OGG 파일에서만 작동하며, 다른 형식이 있거나 필요한 경우 자신의 Public Encoder를 설치하거나 를 사용하십시오.";
 $t['This value must match with the language files on'] = "이 값은 의 언어 파일과 일치해야 함";
 $t['This video was reported to our team, we will review it soon'] = "이 비디오는 우리 팀에게 보고되었다. 우리는 곧 그것을 검토할 것이다.";
 $t['Thumbs Down'] = "엄지손가락 아래";
