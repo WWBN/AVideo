@@ -1031,7 +1031,9 @@ if (!class_exists('Video')) {
                 if(empty($global['limitForUnlimitedVideos'])){
                     $global['limitForUnlimitedVideos'] = 12;
                 }
-                $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                if($global['limitForUnlimitedVideos'] > 0){
+                    $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                }
             }
             
             //echo $sql;exit;
