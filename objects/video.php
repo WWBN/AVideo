@@ -152,7 +152,9 @@ if (!class_exists('Video')) {
         }
 
         function setEncoderURL($encoderURL) {
-            $this->encoderURL = $encoderURL;
+            if (filter_var($encoderURL, FILTER_VALIDATE_URL) !== false){
+                $this->encoderURL = $encoderURL;
+            }
         }
 
         function setFilepath($filepath) {
