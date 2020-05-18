@@ -350,7 +350,7 @@ print AVideoPlugin::loadUsersFormJS();
         });
 
 
-        var grid = $("#gridInactive").bootgrid({
+        var gridInactive = $("#gridInactive").bootgrid({
             labels: {
                 noResults: "<?php echo __("No results found!"); ?>",
                 all: "<?php echo __("All"); ?>",
@@ -363,8 +363,8 @@ print AVideoPlugin::loadUsersFormJS();
             url: "<?php echo $global['webSiteRootURL']; ?>objects/users.json.php?status=i",
             formatters: {
                 "commands": function (column, row) {
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                    var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Info"><i class="fas fa-info-circle"></i></button>'
+                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-editInactive" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                    var infoBtn = '<button type="button" class="btn btn-xs btn-default command-infoInactive" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Info"><i class="fas fa-info-circle"></i></button>'
                     //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
                     var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
                     return editBtn + infoBtn + pluginsButtons;
@@ -390,9 +390,9 @@ print AVideoPlugin::loadUsersFormJS();
         }).on("loaded.rs.jquery.bootgrid", function ()
         {
             /* Executes after data is loaded and rendered */
-            grid.find(".command-edit").on("click", function (e) {
+            gridInactive.find(".command-editInactive").on("click", function (e) {
                 var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                var row = $("#gridInactive").bootgrid("getCurrentRows")[row_index];
                 console.log(row);
 
                 $('#inputUserId').val(row.id);
@@ -418,10 +418,10 @@ print AVideoPlugin::loadUsersFormJS();
 ?>
 
                 $('#userFormModal').modal();
-            }).end().find(".command-info").on("click", function (e) {
+            }).end().find(".command-infoInactive").on("click", function (e) {
 
                 var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                var row = $("#gridInactive").bootgrid("getCurrentRows")[row_index];
                 console.log(row);
                 modal.showPleaseWait();
                 $('#first_name').val(row.first_name);
@@ -503,6 +503,7 @@ print AVideoPlugin::updateUserFormJS();
                         if (response.status > "0") {
                         $('#userFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
+                                $("#gridInactive").bootgrid("reload");
                                 swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been saved!"); ?>", "success");
                         } else if (response.error){
                         swal("<?php echo __("Sorry!"); ?>", response.error, "error");
