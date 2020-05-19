@@ -16,6 +16,8 @@ $resp->error = true;
 $resp->msg = "";
 $resp->url = $_GET['url'];
 $resp->key = $_GET['key'];
+$resp->useRsync = intval($_GET['useRsync']);
+$resp->videosDir = "{$global['systemRootPath']}videos/";
 $resp->sqlFile = "";
 $resp->videoFiles = array();
 $resp->photoFiles = array();
@@ -50,7 +52,9 @@ if ($return_val !== 0) {
     _error_log("Clone Error: ". print_r($output, true));
 }
 
-$resp->videoFiles = getCloneFilesInfo($videosDir);
-$resp->photoFiles = getCloneFilesInfo($photosDir, "userPhoto/");
+if(empty($resp->useRsync)){
+    $resp->videoFiles = getCloneFilesInfo($videosDir);
+    $resp->photoFiles = getCloneFilesInfo($photosDir, "userPhoto/");
+}
 
 echo json_encode($resp);

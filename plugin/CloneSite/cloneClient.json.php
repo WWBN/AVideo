@@ -59,7 +59,7 @@ if (!file_exists($photosDir)) {
     mkdir($photosDir, 0777, true);
 }
 
-$url = $objClone->cloneSiteURL . "plugin/CloneSite/cloneServer.json.php?url=" . urlencode($global['webSiteRootURL']) . "&key={$objClone->myKey}";
+$url = $objClone->cloneSiteURL . "plugin/CloneSite/cloneServer.json.php?url=" . urlencode($global['webSiteRootURL']) . "&key={$objClone->myKey}&useRsync=" . intval($objClone->useRsync);
 // check if it respond
 $log->add("Clone (1 of {$totalSteps}): Asking the Server the database and the files");
 $content = url_get_contents($url);
@@ -104,47 +104,61 @@ if ($return_val !== 0) {
 }
 $log->add("Clone: Great! we overwrite it with success.");
 
-$videoFiles = getCloneFilesInfo($videosDir);
-$newVideoFiles = detectNewFiles($json->videoFiles, $videoFiles);
-$photoFiles = getCloneFilesInfo($photosDir, "userPhoto/");
-$newPhotoFiles = detectNewFiles($json->photoFiles, $photoFiles);
+if (empty($objClone->useRsync)) {
+    $videoFiles = getCloneFilesInfo($videosDir);
+    $newVideoFiles = detectNewFiles($json->videoFiles, $videoFiles);
+    $photoFiles = getCloneFilesInfo($photosDir, "userPhoto/");
+    $newPhotoFiles = detectNewFiles($json->photoFiles, $photoFiles);
 
-$total = count($newVideoFiles);
-$count = 0;
+    $total = count($newVideoFiles);
+    $count = 0;
 
-if (!empty($total)) {
-    $log->add("Clone (4 of {$totalSteps}): Now we will copy {$total} new video files, usually this takes a while.");
-    // copy videos
-    foreach ($newVideoFiles as $value) {
-        $query = parse_url($value->url, PHP_URL_QUERY);
-        if ($query) {
-            $value->url .= '&ignoreXsendfilePreVideoPlay=1';
-        } else {
-            $value->url .= '?ignoreXsendfilePreVideoPlay=1';
+    if (!empty($total)) {
+        $log->add("Clone (4 of {$totalSteps}): Now we will copy {$total} new video files, usually this takes a while.");
+        // copy videos
+        foreach ($newVideoFiles as $value) {
+            $query = parse_url($value->url, PHP_URL_QUERY);
+            if ($query) {
+                $value->url .= '&ignoreXsendfilePreVideoPlay=1';
+            } else {
+                $value->url .= '?ignoreXsendfilePreVideoPlay=1';
+            }
+            $count++;
+            $log->add("Clone: Copying Videos {$count} of {$total} {$value->url}");
+            file_put_contents("{$videosDir}{$value->filename}", fopen("$value->url", 'r'));
         }
-        $count++;
-        $log->add("Clone: Copying Videos {$count} of {$total} {$value->url}");
-        file_put_contents("{$videosDir}{$value->filename}", fopen("$value->url", 'r'));
+        $log->add("Clone: Copying video files done.");
+    } else {
+        $log->add("Clone (4 of {$totalSteps}): There is no new video file to copy.");
     }
-    $log->add("Clone: Copying video files done.");
-} else {
-    $log->add("Clone (4 of {$totalSteps}): There is no new video file to copy.");
-}
 
-$total2 = count($newPhotoFiles);
-$count2 = 0;
+    $total2 = count($newPhotoFiles);
+    $count2 = 0;
 
-if (!empty($total2)) {
-    $log->add("Clone (5 of {$totalSteps}): Now we will copy {$total2} new user photo files.");
-// copy Photos
-    foreach ($newPhotoFiles as $value) {
-        $count2++;
-        $log->add("Clone: Copying Photos {$count2} of {$total2} {$value->url}");
-        file_put_contents("{$photosDir}{$value->filename}", fopen("$value->url", 'r'));
+    if (!empty($total2)) {
+        $log->add("Clone (5 of {$totalSteps}): Now we will copy {$total2} new user photo files.");
+        // copy Photos
+        foreach ($newPhotoFiles as $value) {
+            $count2++;
+            $log->add("Clone: Copying Photos {$count2} of {$total2} {$value->url}");
+            file_put_contents("{$photosDir}{$value->filename}", fopen("$value->url", 'r'));
+        }
+        $log->add("Clone: Copying user photo files done.");
+    } else {
+        $log->add("Clone (5 of {$totalSteps}): There is no new user photo file to copy.");
     }
-    $log->add("Clone: Copying user photo files done.");
 } else {
-    $log->add("Clone (5 of {$totalSteps}): There is no new user photo file to copy.");
+    // decrypt the password now
+    $objClone = Plugin::decryptIfNeed($objClone);
+    $rsync = "sshpass -p '{password}' rsync --progress -avz --exclude '*.php' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$obj->cloneSiteSSHIP}:{$json->videosDir} {$global['systemRootPath']}videos/ --log-file='{$log->file}' ";
+    $cmd = str_replace("{password}", $objClone->cloneSiteSSHPassword, $rsync);
+    $log->add("Clone (4 of {$totalSteps}): execute rsync ({$rsync})");
+    
+    exec($cmd . " 2>&1", $output, $return_val);
+    if ($return_val !== 0) {
+        $log->add("Clone Error: " . print_r($output, true));
+    }
+    $log->add("Clone (4 of {$totalSteps}): rsync finished");
 }
 
 // notify to delete dump
