@@ -2860,7 +2860,7 @@ if (!class_exists('Video')) {
          * @return String a web link
          */
         static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = array()) {
-            global $global, $advancedCustomUser;
+            global $global, $advancedCustomUser, $advancedCustom;
             if (empty($videos_id) && !empty($clean_title)) {
                 $videos_id = self::get_id_from_clean_title($clean_title);
             }
@@ -2893,11 +2893,17 @@ if (!class_exists('Video')) {
                 }
 
                 if ($embed) {
-                    //return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}{$get_http}";
-                    return "{$global['webSiteRootURL']}videoEmbed/{$videos_id}/{$clean_title}{$get_http}";
+                    if(empty($advancedCustom->useVideoIDOnSEOLinks)){
+                        return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}{$get_http}";
+                    }else{
+                        return "{$global['webSiteRootURL']}videoEmbed/{$videos_id}/{$clean_title}{$get_http}";
+                    }
                 } else {
-                    //return "{$global['webSiteRootURL']}{$cat}video/{$clean_title}{$get_http}";
-                    return "{$global['webSiteRootURL']}video/{$videos_id}/{$clean_title}{$get_http}";
+                    if(empty($advancedCustom->useVideoIDOnSEOLinks)){
+                        return "{$global['webSiteRootURL']}{$cat}video/{$clean_title}{$get_http}";
+                    }else{
+                        return "{$global['webSiteRootURL']}video/{$videos_id}/{$clean_title}{$get_http}";
+                    }
                 }
             } else {
                 if ($embed) {
