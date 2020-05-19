@@ -78,11 +78,9 @@ class AD_Server extends PluginAbstract {
         if (empty($_GET['videoName'])) {
             return false;
         }
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
         // count it each 2 seconds
         if (empty($_SESSION['lastAdShowed']) || $_SESSION['lastAdShowed'] + 2 <= time()) {
+            _session_start();
             $_SESSION['lastAdShowed'] = time();
 
             if (!isset($_SESSION['showAdsCount'])) {
@@ -97,7 +95,6 @@ class AD_Server extends PluginAbstract {
         if (!empty($obj->showAdsOnEachVideoView) && $_SESSION['showAdsCount'] % $obj->showAdsOnEachVideoView === 0) {
             return true;
         }
-        session_write_close();
         return false;
     }
 

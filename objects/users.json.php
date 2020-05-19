@@ -13,8 +13,8 @@ if(empty($_POST['current'])){
 if(empty($_POST['rowCount'])){
     $_POST['rowCount'] = 10;
 }
-$users = User::getAllUsers();
-$total = User::getTotalUsers();
+$users = User::getAllUsers(false, array('name', 'email', 'user', 'channelName', 'about'), @$_GET['status']);
+$total = User::getTotalUsers(false, @$_GET['status']);
 $json = json_encode($users);
 
 if(empty($json)){

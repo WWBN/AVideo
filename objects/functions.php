@@ -2608,8 +2608,10 @@ function get_browser_name($user_agent = "") {
     //     http://php.net/manual/en/function.strpos.php
     $t = " " . $t;
 
-    // Humans / Regular Users     
-    if (strpos($t, 'opera') || strpos($t, 'opr/'))
+    // Humans / Regular Users  
+    if (strpos($t, 'crkey')) {
+        return 'Chromecast';
+    }else if (strpos($t, 'opera') || strpos($t, 'opr/'))
         return 'Opera';
     elseif (strpos($t, 'edge'))
         return 'Edge';

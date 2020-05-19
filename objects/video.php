@@ -152,7 +152,9 @@ if (!class_exists('Video')) {
         }
 
         function setEncoderURL($encoderURL) {
-            $this->encoderURL = $encoderURL;
+            if (filter_var($encoderURL, FILTER_VALIDATE_URL) !== false){
+                $this->encoderURL = $encoderURL;
+            }
         }
 
         function setFilepath($filepath) {
@@ -1031,7 +1033,9 @@ if (!class_exists('Video')) {
                 if(empty($global['limitForUnlimitedVideos'])){
                     $global['limitForUnlimitedVideos'] = 12;
                 }
-                $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                if($global['limitForUnlimitedVideos'] > 0){
+                    $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                }
             }
             
             //echo $sql;exit;

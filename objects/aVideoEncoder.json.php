@@ -154,8 +154,8 @@ if (!empty($_FILES['gifimage']['tmp_name']) && !file_exists("{$destination_local
     }
 }
 
-if (!empty($_POST['categories_id'])) {
-    $video->setCategories_id($_POST['categories_id']);
+if (!empty($_POST['encoderURL'])) {
+    $video->setEncoderURL($_POST['encoderURL']);
 }
 
 $video_id = $video->save();
