@@ -180,7 +180,7 @@ $log->add("Clone (7 of {$totalSteps}): Resotre the Clone Configuration");
 $plugin = new CloneSite();
 $p = new Plugin(0);
 $p->loadFromUUID($plugin->getUUID());
-$p->setObject_data(json_encode($objClone, JSON_UNESCAPED_UNICODE));
+$p->setObject_data(addcslashes(json_encode($objClone),'\\'));
 $p->save();
 
 echo json_encode($json);
