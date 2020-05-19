@@ -26,17 +26,9 @@ foreach ($menu as $key => $value) {
     <?php
     $menuItems = MenuItem::getAllFromMenu($value['id'], true);
     foreach ($menuItems as $key2 => $value2) {
-        $url = $value2['url'];
-        if (empty($url) || strpos($url, 'iframe:') !== false) {
-            if (!empty($value2['menuSeoUrlItem'])) {
-                $url = $global['webSiteRootURL'] . "menu/{$value2['menuSeoUrlItem']}";
-            } else {
-                $url = $global['webSiteRootURL'] . "plugin/TopMenu/?id={$value2['id']}";
-            }
-        }
         ?>
         <li>
-            <a  href="<?php echo $url; ?>" >
+            <a  href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?> >
                 <?php
                 if (!empty($value2['icon'])) {
                     ?>
