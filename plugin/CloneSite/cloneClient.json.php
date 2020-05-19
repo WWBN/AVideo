@@ -182,7 +182,7 @@ $plugin = new CloneSite();
 $p = new Plugin(0);
 $p->loadFromUUID($plugin->getUUID());
 $p->setObject_data(addcslashes(json_encode($objCloneOriginal),'\\'));
-$p->setStatus('a');
+$p->setStatus('active');
 $p->save();
 
 echo json_encode($json);
