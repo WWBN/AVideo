@@ -55,12 +55,14 @@ function toogleEC(t) {
                 path: '/',
                 expires: 365
             });
+		t.controlText('Default view');
         } else {
             compress(t);
             Cookies.set('compress', true, {
                 path: '/',
                 expires: 365
             });
+		t.controlText('Theater mode');
         }
     }
 }
