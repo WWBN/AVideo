@@ -61,6 +61,7 @@ $cssFiles = array_merge($cssFiles);
 $cssURL = combineFiles($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/css/improved-style.min.css" rel="stylesheet" type="text/css"/>
 <?php
 $filename = "{$global['systemRootPath']}videos/cache/custom.css";
 if($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exists($filename)){

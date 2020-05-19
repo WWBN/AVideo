@@ -1,0 +1,32 @@
+@import 'fonts/fonts-index';
+
+$bodyFont: 'Noto Sans', sans-serif;
+$titleFont: 'Cooper Hewitt', sans-serif;
+
+@mixin titleText($size: 1.8rem) {
+  font-family: $titleFont;
+  font-size: $size;
+  color: black;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+@mixin bodyText($size: 1.5rem, $color: black) {
+  font-family: $bodyFont;
+  font-size: $size;
+  color: $color;
+  font-weight: lighter;
+}
+
+@mixin btnText($size: 1.5rem) {
+  font-family: $titleFont;
+  font-size: $size;
+  //text-transform: uppercase;
+  //color: black;
+  //font-weight: lighter;
+}
+
+.inputGroupContainer{
+  top: 1rem;
+  position: relative;
+}

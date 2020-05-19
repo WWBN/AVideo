@@ -284,6 +284,7 @@ if (!empty($evideo)) {
     $modeYouTubeTime = microtime(true);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>

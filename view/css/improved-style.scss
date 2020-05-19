@@ -1,0 +1,84 @@
+@import "mixins";
+
+body {
+  font-family: $bodyFont;
+}
+
+legend {
+  @include titleText();
+}
+
+label, .form-control {
+  @include bodyText();
+}
+
+.btn {
+  @include btnText();
+}
+
+.alert {
+  font-family: $titleFont;
+}
+
+.input-lg {
+  @include bodyText(1.8rem);
+  font-family: $titleFont;
+  padding-top: 1.4rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $titleFont;
+  text-transform: uppercase;
+}
+
+.label {
+  margin-right: 0.5rem;
+  font-weight: normal;
+  font-size: 1rem;
+  padding:.4rem;
+}
+
+.label-default {
+  background-color: #FABD28;
+  border-radius: .3rem;
+  color: black;
+}
+
+.article {
+  max-height: 80vh;
+  overflow: hidden;
+  overflow-y: auto;
+  font-size: 1.5em;
+  box-shadow: none !important;
+
+  h1 {
+    border: none;
+    margin-top: 1.5rem;
+  }
+
+  p {
+    @include bodyText(1.6rem);
+    padding: 1rem;
+  }
+
+  .articleTitle {
+    @include titleText(2.5rem);
+  }
+}
+
+.article-video {
+  padding: 10px;
+  background: white !important;
+}
+
+.videosDetails {
+  strong.title {
+    @include titleText(1.2rem);
+    margin-bottom: 1rem;
+  }
+}
+
+.author-link {
+  position: relative;
+  top: 2.5rem;
+}

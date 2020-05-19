@@ -1,8 +1,7 @@
 <?php
 $sources = getVideosURLPDF($video['filename']);
-//var_dump($sources);exit;
 ?>
-<div class="row main-video" style="padding: 10px;" id="mvideo">
+<div class="row main-video article-video" id="mvideo">
     <div class="col-xs-12 col-sm-12 col-lg-2 firstC"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8 secC">
 
@@ -15,16 +14,17 @@ $sources = getVideosURLPDF($video['filename']);
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
-            <div id="main-video" class="bgWhite list-group-item" style="max-height: 80vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
-                <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
+            <video playsinline webkit-playsinline="webkit-playsinline" id="mainVideo"
+                   style="display: none; height: 0;width: 0;"></video>
+            <div id="main-video" class="bgWhite list-group-item article">
+                <h1 class="articleTitle">
                     <?php
                     echo $video['title'];
                     ?>
                 </h1>
                 <?php
                 echo $video['description'];
-                ?>     
+                ?>
                 <script>
                     $(document).ready(function () {
                         addView(<?php echo $video['id']; ?>, 0);
@@ -40,15 +40,17 @@ $sources = getVideosURLPDF($video['filename']);
                 $url = VideoLogoOverlay::getLink();
                 ?>
                 <div style="<?php echo $style; ?>">
-                    <a href="<?php echo $url; ?>"  target="_blank">
-                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
+                    <a href="<?php echo $url; ?>" target="_blank">
+                        <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"
+                             class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
                     </a>
                 </div>
                 <?php
             }
             ?>
-            
-            <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs" style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
+
+            <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs"
+               style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
                 <i class="fas fa-times"></i>
             </a>
         </div>

@@ -23,7 +23,7 @@ require_once $global['systemRootPath'].'plugin/AVideoPlugin.php';
 $firstPage = AVideoPlugin::getFirstPage();
 if (empty($firstPage) || !empty($_GET['videoName']) || !empty($_GET['v']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName']) || !empty($_GET['evideo'])) {
     require $global['systemRootPath'].'view/modeYoutube.php';
-}else{
+} else {
     require $firstPage;
 }
 include $global['systemRootPath'].'objects/include_end.php';

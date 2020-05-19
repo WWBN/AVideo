@@ -1,0 +1,213 @@
+@font-face {
+  font-family: 'Noto Sans';
+  src: url("NotoSans.eot");
+  src: url("NotoSans.eot?#iefix") format("embedded-opentype"), url("NotoSans.woff2") format("woff2"), url("NotoSans.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url("NotoSans-Italic.eot");
+  src: url("NotoSans-Italic.eot?#iefix") format("embedded-opentype"), url("NotoSans-Italic.woff2") format("woff2"), url("NotoSans-Italic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url("NotoSans-Bold.eot");
+  src: url("NotoSans-Bold.eot?#iefix") format("embedded-opentype"), url("NotoSans-Bold.woff2") format("woff2"), url("NotoSans-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Noto Sans';
+  src: url("NotoSans-BoldItalic.eot");
+  src: url("NotoSans-BoldItalic.eot?#iefix") format("embedded-opentype"), url("NotoSans-BoldItalic.woff2") format("woff2"), url("NotoSans-BoldItalic.woff") format("woff");
+  font-weight: bold;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Cooper Hewitt Book';
+  src: url("CooperHewitt-Book.eot");
+  src: url("CooperHewitt-Book.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-Book.woff2") format("woff2"), url("CooperHewitt-Book.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-Light.eot");
+  src: url("CooperHewitt-Light.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-Light.woff2") format("woff2"), url("CooperHewitt-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-MediumItalic.eot");
+  src: url("CooperHewitt-MediumItalic.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-MediumItalic.woff2") format("woff2"), url("CooperHewitt-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-SemiboldItalic.eot");
+  src: url("CooperHewitt-SemiboldItalic.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-SemiboldItalic.woff2") format("woff2"), url("CooperHewitt-SemiboldItalic.woff") format("woff");
+  font-weight: 600;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-LightItalic.eot");
+  src: url("CooperHewitt-LightItalic.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-LightItalic.woff2") format("woff2"), url("CooperHewitt-LightItalic.woff") format("woff");
+  font-weight: 300;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-Thin.eot");
+  src: url("CooperHewitt-Thin.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-Thin.woff2") format("woff2"), url("CooperHewitt-Thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Cooper Hewitt Book';
+  src: url("CooperHewitt-BookItalic.eot");
+  src: url("CooperHewitt-BookItalic.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-BookItalic.woff2") format("woff2"), url("CooperHewitt-BookItalic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-ThinItalic.eot");
+  src: url("CooperHewitt-ThinItalic.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-ThinItalic.woff2") format("woff2"), url("CooperHewitt-ThinItalic.woff") format("woff");
+  font-weight: 100;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-HeavyItalic.eot");
+  src: url("CooperHewitt-HeavyItalic.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-HeavyItalic.woff2") format("woff2"), url("CooperHewitt-HeavyItalic.woff") format("woff");
+  font-weight: 900;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-Bold.eot");
+  src: url("CooperHewitt-Bold.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-Bold.woff2") format("woff2"), url("CooperHewitt-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-BoldItalic.eot");
+  src: url("CooperHewitt-BoldItalic.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-BoldItalic.woff2") format("woff2"), url("CooperHewitt-BoldItalic.woff") format("woff");
+  font-weight: bold;
+  font-style: italic; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-Medium.eot");
+  src: url("CooperHewitt-Medium.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-Medium.woff2") format("woff2"), url("CooperHewitt-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-Heavy.eot");
+  src: url("CooperHewitt-Heavy.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-Heavy.woff2") format("woff2"), url("CooperHewitt-Heavy.woff") format("woff");
+  font-weight: 900;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url("CooperHewitt-Semibold.eot");
+  src: url("CooperHewitt-Semibold.eot?#iefix") format("embedded-opentype"), url("CooperHewitt-Semibold.woff2") format("woff2"), url("CooperHewitt-Semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal; }
+
+.inputGroupContainer {
+  top: 1rem;
+  position: relative; }
+
+body {
+  font-family: "Noto Sans", sans-serif; }
+
+legend {
+  font-family: "Cooper Hewitt", sans-serif;
+  font-size: 1.8rem;
+  color: black;
+  text-transform: uppercase;
+  font-weight: bold; }
+
+label, .form-control {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.5rem;
+  color: black;
+  font-weight: lighter; }
+
+.btn {
+  font-family: "Cooper Hewitt", sans-serif;
+  font-size: 1.5rem; }
+
+.alert {
+  font-family: "Cooper Hewitt", sans-serif; }
+
+.input-lg {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.8rem;
+  color: black;
+  font-weight: lighter;
+  font-family: "Cooper Hewitt", sans-serif;
+  padding-top: 1.4rem; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cooper Hewitt", sans-serif;
+  text-transform: uppercase; }
+
+.label {
+  margin-right: 0.5rem;
+  font-weight: normal;
+  font-size: 1rem;
+  padding: .4rem; }
+
+.label-default {
+  background-color: #FABD28;
+  border-radius: .3rem;
+  color: black; }
+
+.article {
+  max-height: 80vh;
+  overflow: hidden;
+  overflow-y: auto;
+  font-size: 1.5em;
+  box-shadow: none !important; }
+  .article h1 {
+    border: none;
+    margin-top: 1.5rem; }
+  .article p {
+    font-family: "Noto Sans", sans-serif;
+    font-size: 1.6rem;
+    color: black;
+    font-weight: lighter;
+    padding: 1rem; }
+  .article .articleTitle {
+    font-family: "Cooper Hewitt", sans-serif;
+    font-size: 2.5rem;
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold; }
+
+.article-video {
+  padding: 10px;
+  background: white !important; }
+
+.videosDetails strong.title {
+  font-family: "Cooper Hewitt", sans-serif;
+  font-size: 1.2rem;
+  color: black;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 1rem; }
+
+.author-link {
+  position: relative;
+  top: 2.5rem; }
