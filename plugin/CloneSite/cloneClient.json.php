@@ -158,7 +158,7 @@ if (empty($objClone->useRsync)) {
     if ($return_val !== 0) {
         $log->add("Clone Error: " . print_r($output, true));
     }
-    $log->add("Clone (4 of {$totalSteps}): rsync finished");
+    $log->add("Clone (5 of {$totalSteps}): rsync finished");
 }
 
 // notify to delete dump
