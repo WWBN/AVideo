@@ -22,6 +22,11 @@ $resp->sqlFile = "";
 $resp->videoFiles = array();
 $resp->photoFiles = array();
 
+$objClone = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
+if(empty($objClone)){
+    $resp->msg = "CloneSite is not enabled on the Master site";
+    die(json_encode($resp));
+}
 // check if the url is allowed to clone it
 $canClone = Clones::thisURLCanCloneMe($resp->url, $resp->key);
 if(empty($canClone->canClone)){

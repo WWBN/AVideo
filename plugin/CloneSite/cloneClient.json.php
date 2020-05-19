@@ -27,6 +27,7 @@ $log = new CloneLog();
 $log->add("Clone: Clone Start");
 
 $objClone = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
+$objCloneOriginal = $objClone;
 $argv[1] = preg_replace("/[^A-Za-z0-9 ]/", '', @$argv[1]);
 
 if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
@@ -180,7 +181,8 @@ $log->add("Clone (7 of {$totalSteps}): Resotre the Clone Configuration");
 $plugin = new CloneSite();
 $p = new Plugin(0);
 $p->loadFromUUID($plugin->getUUID());
-$p->setObject_data(addcslashes(json_encode($objClone),'\\'));
+$p->setObject_data(addcslashes(json_encode($objCloneOriginal),'\\'));
+$p->setStatus('a');
 $p->save();
 
 echo json_encode($json);
