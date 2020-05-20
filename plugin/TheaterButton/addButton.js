@@ -12,7 +12,7 @@ $(document).ready(function () {
             Button.apply(this, arguments);
             this.addClass('ypt-compress');
             this.addClass('vjs-button-fa-size');
-            this.controlText("Theater");
+            this.controlText("Theater mode");
             if (Cookies.get('compress') === "true") {
                 toogleEC(this);
             }
@@ -24,6 +24,6 @@ $(document).ready(function () {
 
 // Register the new component
     videojs.registerComponent('Theater', Theater);
-    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('RemainingTimeDisplay') + 1);
+    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('CaptionsButton') + 1);
     }, 30);
 });
