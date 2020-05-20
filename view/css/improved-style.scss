@@ -35,7 +35,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: 0.5rem;
   font-weight: normal;
   font-size: 1rem;
-  padding:.4rem;
+  padding: .4rem;
 }
 
 .label-default {
@@ -81,4 +81,10 @@ h1, h2, h3, h4, h5, h6 {
 .author-link {
   position: relative;
   top: 2.5rem;
+}
+
+.floatVideo {
+  background: white !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
