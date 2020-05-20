@@ -12,7 +12,7 @@ $(document).ready(function () {
             Button.apply(this, arguments);
             this.addClass('ypt-compress');
             this.addClass('vjs-button-fa-size');
-            this.controlText("Theater mode");
+            this.controlText("Default view");
             if (Cookies.get('compress') === "true") {
                 toogleEC(this);
             }
