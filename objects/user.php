@@ -1305,6 +1305,7 @@ if (typeof gtag !== \"function\") {
     static function createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false) {
         global $global;
         $user = $global['mysqli']->real_escape_string($user);
+        $userId = 0;
         if (!$userId = self::userExists($user)) {
             if (empty($pass)) {
                 $pass = uniqid();
@@ -1318,6 +1319,14 @@ if (typeof gtag !== \"function\") {
             $userObject->setEmailVerified($emailVerified);
             $userId = $userObject->save();
             return $userId;
+        }else{
+            if($emailVerified){
+                $userObj = new User($userId);
+                if(!$userObj->getEmailVerified()){
+                    $userObj->setEmailVerified(1);
+                    $userObj->save();
+                }
+            }
         }
         return $userId;
     }
@@ -1516,7 +1525,7 @@ if (typeof gtag !== \"function\") {
     }
 
     function getEmailVerified() {
-        return $this->emailVerified;
+        return intval($this->emailVerified);
     }
 
     /**

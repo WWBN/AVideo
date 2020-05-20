@@ -61,6 +61,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->makeVideosInactiveAfterEncode = false;
         $obj->makeVideosUnlistedAfterEncode = false;
         $obj->usePermalinks = false;
+        $obj->useVideoIDOnSEOLinks = true;
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
         $obj->EnableWavesurfer = false;

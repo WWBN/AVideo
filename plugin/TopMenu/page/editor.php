@@ -44,71 +44,133 @@ $groups = UserGroups::getAllUsersGroups();
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container">
-            <div class="bgWhite bg-light clear clearfix">
+            <div class="panel panel-default">
+                <div class="panel-body">
 
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#menu">Menu</a></li>
-                    <li class="disabled" id="menuItemsTab"><a data-toggle="tab" href="#menuItems" id="menuItemsTabButton">Menu Items</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div id="menu" class="tab-pane fade in active">
-                        <div class="col-md-8">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#menu">Menu</a></li>
+                        <li class="disabled" id="menuItemsTab"><a data-toggle="tab" href="#menuItems" id="menuItemsTabButton">Menu Items</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="menu" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Menu Form</div>
+                                        <div class="panel-body">
+                                            <div>
+                                                <button class="btn btn-default" id="btnNewMenu"><i class="fa fa-plus"></i> New Menu</button>
+                                                <button class="btn btn-success" id="btnSaveMenu"><i class="fa fa-save"></i> Save Menu</button>
+                                                <button class="btn btn-primary showWhenHaveId" id="btnEditMenuItens" style="display: none;"><i class="fa fa-edit"></i> Edit Menu Items</button>
+                                                <button class="btn btn-danger showWhenHaveId" id="btnDeleteMenu" style="display: none;"><i class="fa fa-times"></i> Delete Menu</button>
+                                            </div>
+                                            <hr>
+                                            <div id="menuForm">
+                                                <input type="hidden" id="menuId">
+                                                <div class="form-group">
+                                                    <label for="menuName">Name:</label>
+                                                    <input type="text" class="form-control" id="menuName">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="menu_order">Order:</label>
+                                                        <select class="form-control" id="menu_order">
+                                                            <?php
+                                                            for ($i = 0; $i < 30; $i++) {
+                                                                ?>
 
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Menu Form</div>
-                                <div class="panel-body">
-                                    <div>
-                                        <button class="btn btn-default" id="btnNewMenu"><i class="fa fa-plus"></i> New Menu</button>
-                                        <button class="btn btn-success" id="btnSaveMenu"><i class="fa fa-save"></i> Save Menu</button>
-                                        <button class="btn btn-primary showWhenHaveId" id="btnEditMenuItens" style="display: none;"><i class="fa fa-edit"></i> Edit Menu Items</button>
-                                        <button class="btn btn-danger showWhenHaveId" id="btnDeleteMenu" style="display: none;"><i class="fa fa-times"></i> Delete Menu</button>
+                                                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="status">Status:</label>
+                                                        <select class="form-control" id="status">
+                                                            <option value="active"><?php echo __('Active'); ?></option>
+                                                            <option value="inactive"><?php echo __('Inactive'); ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="type">Type:</label>
+                                                        <select class="form-control" id="type">
+                                                            <option value="1"><?php echo __('Default'); ?></option>
+                                                            <option value="2"><?php echo __('Left Menu'); ?></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Icon:</label><br>
+                                                        <div class="btn-group">
+                                                            <button data-selected="graduation-cap" type="button" class="icp iconMenu btn  btn-default btn-light  dropdown-toggle iconpicker-component" data-toggle="dropdown">
+                                                                <?php echo __("Select an icon for the menu"); ?>  <i class="fa fa-fw"></i>
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <div class="dropdown-menu"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
-                                    <hr>
-                                    <div id="menuForm">
-                                        <input type="hidden" id="menuId">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="panel  panel-default">
+                                        <div class="panel-heading">Menus Available</div>
+                                        <div class="panel-body">
+                                            <table id="example" class="display table table-striped table-hover" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="menuItems" class="tab-pane fade" >
+                            <div class="row">
+                            <div class="col-md-8  showWhenHaveId" style="display: none;">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Menu Item Form</div>
+                                    <div class="panel-body">
+                                        <div>
+                                            <button class="btn btn-primary" id="btnNewMenuItem"><i class="fa fa-plus"></i> New Menu Item</button>
+                                            <button class="btn btn-success" id="btnSaveMenuItem"><i class="fa fa-save"></i> Save Menu Item</button>
+                                        </div>
+                                        <hr>
+
+                                        <input type="hidden" class="form-control" id="menuItemId">
                                         <div class="form-group">
-                                            <label for="menuName">Name:</label>
-                                            <input type="text" class="form-control" id="menuName">
+                                            <label for="title" >Title:</label>
+                                            <input type="text" class="form-control" id="title">
                                         </div>
-                                        <!--
-                                        <div class="col-md-6">
-
-                                            <div class="form-group">
-                                                <label for="categories_id">Category:</label>
-                                                <select class="form-control" id="categories_id">
-                                                    <option value="0">All Categories</option>
-                                        <?php
-                                        foreach ($categories as $key => $value) {
-                                            ?>
-
-                                                                                <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
-                                            <?php
-                                        }
-                                        ?>
-                                                </select>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="menuSeoUrlItem">SEO friedly url:</label>
+                                            <?php echo $global['webSiteRootURL']; ?>menu/<input type="text" class="form-control" id="menuSeoUrlItem">
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="users_groups_id">Group:</label>
-                                                <select class="form-control" id="users_groups_id">
-                                                    <option value="0">All Groups</option>
-                                        <?php
-                                        foreach ($groups as $key => $value) {
-                                            ?>
-
-                                                                                <option value="<?php echo $value['id']; ?>"><?php echo $value['group_name']; ?></option>
-                                            <?php
-                                        }
-                                        ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        -->
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="menu_order">Order:</label>
-                                                <select class="form-control" id="menu_order">
+                                                <label for="item_order">Order:</label>
+                                                <select class="form-control" id="item_order">
                                                     <?php
                                                     for ($i = 0; $i < 30; $i++) {
                                                         ?>
@@ -122,32 +184,20 @@ $groups = UserGroups::getAllUsersGroups();
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="status">Status:</label>
-                                                <select class="form-control" id="status">
+                                                <label for="item_status">Status:</label>
+                                                <select class="form-control" id="item_status">
                                                     <option value="active"><?php echo __('Active'); ?></option>
                                                     <option value="inactive"><?php echo __('Inactive'); ?></option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <!--
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="position">Position:</label>
-                                                <select class="form-control" id="position">
-                                                    <option value="left"><?php echo __('Left'); ?></option>
-                                                    <option value="right"><?php echo __('Right'); ?></option>
-                                                    <option value="center"><?php echo __('Center'); ?></option>
-                                                    <option value="bottom"><?php echo __('Bottom'); ?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        -->
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="type">Type:</label>
-                                                <select class="form-control" id="type">
-                                                    <option value="1"><?php echo __('Default'); ?></option>
-                                                    <option value="2"><?php echo __('Left Menu'); ?></option>
+                                                <label for="pageType">Type:</label>
+                                                <select class="form-control" id="pageType">
+                                                    <option value="url"><?php echo __('URL'); ?></option>
+                                                    <option value="urlIframe"><?php echo __('URL Iframe'); ?></option>
+                                                    <option value="page"><?php echo __('Page'); ?></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -155,7 +205,7 @@ $groups = UserGroups::getAllUsersGroups();
                                             <div class="form-group">
                                                 <label>Icon:</label><br>
                                                 <div class="btn-group">
-                                                    <button data-selected="graduation-cap" type="button" class="icp iconMenu btn  btn-default btn-light  dropdown-toggle iconpicker-component" data-toggle="dropdown">
+                                                    <button data-selected="graduation-cap" type="button" class="icp iconMenuItem btn  btn-default btn-light dropdown-toggle iconpicker-component" data-toggle="dropdown">
                                                         <?php echo __("Select an icon for the menu"); ?>  <i class="fa fa-fw"></i>
                                                         <span class="caret"></span>
                                                     </button>
@@ -163,161 +213,46 @@ $groups = UserGroups::getAllUsersGroups();
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card ">
-                                <div class="card-header">Menus Available</div>
-                                <div class="card-body">
-                                    <table id="example" class="display" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div id="menuItems" class="tab-pane fade" >
-                        <div class="col-md-8  showWhenHaveId" style="display: none;">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Menu Item Form</div>
-                                <div class="panel-body">
-                                    <div>
-                                        <button class="btn btn-primary" id="btnNewMenuItem"><i class="fa fa-plus"></i> New Menu Item</button>
-                                        <button class="btn btn-success" id="btnSaveMenuItem"><i class="fa fa-save"></i> Save Menu Item</button>
-                                    </div>
-                                    <hr>
-
-                                    <input type="hidden" class="form-control" id="menuItemId">
-                                    <div class="form-group">
-                                        <label for="title" >Title:</label>
-                                        <input type="text" class="form-control" id="title">
-                                    </div>
-                                        <div class="form-group">
-                                            <label for="menuSeoUrlItem">SEO friedly url:</label>
-                                            <?=$global['webSiteRootURL'];?>menu/<input type="text" class="form-control" id="menuSeoUrlItem">
-                                        </div>                                    <!--
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="image">Image:</label>
-                                            <input type="text" class="form-control" id="image">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="class">class:</label>
-                                            <input type="text" class="form-control" id="class">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="style">style:</label>
-                                            <input type="text" class="form-control" id="style">
-                                        </div>
-                                    </div>
-                                    -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="item_order">Order:</label>
-                                            <select class="form-control" id="item_order">
-                                                <?php
-                                                for ($i = 0; $i < 30; $i++) {
-                                                    ?>
-
-                                                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="item_status">Status:</label>
-                                            <select class="form-control" id="item_status">
-                                                <option value="active"><?php echo __('Active'); ?></option>
-                                                <option value="inactive"><?php echo __('Inactive'); ?></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="pageType">Type:</label>
-                                            <select class="form-control" id="pageType">
-                                                <option value="url"><?php echo __('URL'); ?></option>
-                                                <option value="urlIframe"><?php echo __('URL Iframe'); ?></option>
-                                                <option value="page"><?php echo __('Page'); ?></option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Icon:</label><br>
-                                            <div class="btn-group">
-                                                <button data-selected="graduation-cap" type="button" class="icp iconMenuItem btn  btn-default btn-light dropdown-toggle iconpicker-component" data-toggle="dropdown">
-                                                    <?php echo __("Select an icon for the menu"); ?>  <i class="fa fa-fw"></i>
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <div class="dropdown-menu"></div>
+                                        <hr>
+                                        <div class="col-md-12">
+                                            <div id="divURL" class="divType" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="url">URL:</label>
+                                                    <input type="text" class="form-control" id="url">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="col-md-12">
-                                        <div id="divURL" class="divType" style="display: none;">
-                                            <div class="form-group">
-                                                <label for="url">URL:</label>
-                                                <input type="text" class="form-control" id="url">
+                                            <div id="divURLIframe" class="divType" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="urlIframe">URL:</label>
+                                                    <input type="text" class="form-control" id="urlIframe">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div id="divURLIframe" class="divType" style="display: none;">
-                                            <div class="form-group">
-                                                <label for="urlIframe">URL:</label>
-                                                <input type="text" class="form-control" id="urlIframe">
-                                            </div>
-                                        </div>
-                                        <div id="divText" class="divType"  style="display: none;">
-                                            <div class="form-group">
-                                                <label for="text">text:</label>
-                                                <textarea type="text" class="form-control" id="text"></textarea>
+                                            <div id="divText" class="divType"  style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="text">text:</label>
+                                                    <textarea type="text" class="form-control" id="text"></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-4  showWhenHaveId" style="display: none;">
-                            <div class="card">
-                                <div class="card-header">Menu Items Order</div>
-                                <div class="card-body">
-                                    <div class="alert alert-warning">Drag and Drop Items to Sort</div>
-                                    <ul id="sortable">
-                                    </ul>
+                            <div class="col-md-4  showWhenHaveId" style="display: none;">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Menu Items Order</div>
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">Drag and Drop Items to Sort</div>
+                                        <ul id="sortable">
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
+</div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
     <li class="ui-state-default hidden liModel" itemid="0">
         <button class="btn  btn-default btn-light btn-sm" onclick="editItem(this)">
@@ -339,12 +274,12 @@ $groups = UserGroups::getAllUsersGroups();
     <script>
             var currentItem = [];
 
-            function checkIfHasId(){
+            function checkIfHasId() {
                 menuId = $('#menuId').val();
-                if(!menuId){
+                if (!menuId) {
                     $('#menuItemsTab').addClass('disabled');
                     $('.showWhenHaveId').fadeOut();
-                }else{
+                } else {
                     $('#menuItemsTab').removeClass('disabled');
                     $('.showWhenHaveId').fadeIn();
                 }
@@ -488,7 +423,7 @@ $groups = UserGroups::getAllUsersGroups();
                         $('#pageType').val('page');
                     }
                     expr = /iframe:/;
-                    if(expr.test(item.url)){
+                    if (expr.test(item.url)) {
                         $('#url').val(item.url.replace("iframe:", ""));
                         $('#pageType').val('urlIframe');
                     }
@@ -595,7 +530,7 @@ $groups = UserGroups::getAllUsersGroups();
                             "menuId": $('#menuId').val(),
                             "title": $('#title').val(),
                             "image": $('#image').val(),
-                            "url": $('#pageType').val() == 'url' ? $('#url').val() : ($('#pageType').val() == 'urlIframe' ? ("iframe:"+$('#url').val()) : ''),
+                            "url": $('#pageType').val() == 'url' ? $('#url').val() : ($('#pageType').val() == 'urlIframe' ? ("iframe:" + $('#url').val()) : ''),
                             "menuSeoUrlItem": $("#menuSeoUrlItem").val(),
                             "class": $('#class').val(),
                             "style": $('#style').val(),

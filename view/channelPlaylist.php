@@ -104,13 +104,3 @@
 
     });
 </script>
-<!--
-channelPlaylist
-<?php
-$timesC[__LINE__] = microtime(true) - $startC;
-$startC = microtime(true);
-foreach ($timesC as $key => $value) {
-    echo "Line: {$key} -> {$value}\n";
-}
-?>
--->

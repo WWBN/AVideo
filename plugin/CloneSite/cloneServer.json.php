@@ -16,10 +16,17 @@ $resp->error = true;
 $resp->msg = "";
 $resp->url = $_GET['url'];
 $resp->key = $_GET['key'];
+$resp->useRsync = intval($_GET['useRsync']);
+$resp->videosDir = "{$global['systemRootPath']}videos/";
 $resp->sqlFile = "";
 $resp->videoFiles = array();
 $resp->photoFiles = array();
 
+$objClone = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
+if(empty($objClone)){
+    $resp->msg = "CloneSite is not enabled on the Master site";
+    die(json_encode($resp));
+}
 // check if the url is allowed to clone it
 $canClone = Clones::thisURLCanCloneMe($resp->url, $resp->key);
 if(empty($canClone->canClone)){
@@ -50,7 +57,9 @@ if ($return_val !== 0) {
     _error_log("Clone Error: ". print_r($output, true));
 }
 
-$resp->videoFiles = getCloneFilesInfo($videosDir);
-$resp->photoFiles = getCloneFilesInfo($photosDir, "userPhoto/");
+if(empty($resp->useRsync)){
+    $resp->videoFiles = getCloneFilesInfo($videosDir);
+    $resp->photoFiles = getCloneFilesInfo($photosDir, "userPhoto/");
+}
 
 echo json_encode($resp);

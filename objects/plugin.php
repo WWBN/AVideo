@@ -1,6 +1,7 @@
 <?php
+
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -28,11 +29,11 @@ class Plugin extends ObjectYPT {
     function getObject_data() {
         return $this->object_data;
     }
-    
+
     function getPluginVersion() {
         return $this->pluginVersion;
     }
-    
+
     function getName() {
         return $this->name;
     }
@@ -71,45 +72,44 @@ class Plugin extends ObjectYPT {
         $dirName = preg_replace("/[^A-Za-z0-9 _-]/", '', $dirName);
         $this->dirName = $dirName;
     }
-    
+
     function setPluginversion($pluginversion) {
         $this->pluginversion = $pluginversion;
     }
-        
-    static function setCurrentVersionByUuid($uuid, $currentVersion){
+
+    static function setCurrentVersionByUuid($uuid, $currentVersion) {
         _error_log("plugin::setCurrentVersionByUuid $uuid, $currentVersion");
-        $p=static::getPluginByUUID($uuid);
-        if(!$p){
+        $p = static::getPluginByUUID($uuid);
+        if (!$p) {
             _error_log("plugin::setCurrentVersionByUuid error on get plugin");
             return false;
         }
         //pluginversion isn't an object property so we must explicity update it using this function
-        $sql="update ".static::getTableName()." set pluginversion='$currentVersion' where uuid='$uuid'";
-        $res=sqlDal::writeSql($sql); 
+        $sql = "update " . static::getTableName() . " set pluginversion='$currentVersion' where uuid='$uuid'";
+        $res = sqlDal::writeSql($sql);
     }
-    
-    static function getCurrentVersionByUuid($uuid){
-        $p=static::getPluginByUUID($uuid);
-        if(!$p)
-        return false;
+
+    static function getCurrentVersionByUuid($uuid) {
+        $p = static::getPluginByUUID($uuid);
+        if (!$p)
+            return false;
         //pluginversion isn't an object property so we must explicity update it using this function
-        $sql="SELECT pluginversion FROM ".static::getTableName()." WHERE uuid=? LIMIT 1 ";
+        $sql = "SELECT pluginversion FROM " . static::getTableName() . " WHERE uuid=? LIMIT 1 ";
         $res = sqlDAL::readSql($sql, "s", array($uuid));
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!empty($data)) {
             return $data['pluginversion'];
-        } 
+        }
         return false;
     }
-        
 
     static function getPluginByName($name) {
         global $global, $getPluginByName;
-        if(empty($getPluginByName)){
+        if (empty($getPluginByName)) {
             $getPluginByName = array();
         }
-        if(empty($getPluginByName[$name])){
+        if (empty($getPluginByName[$name])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = ? LIMIT 1";
             $res = sqlDAL::readSql($sql, "s", array($name));
             $data = sqlDAL::fetchAssoc($res);
@@ -124,17 +124,17 @@ class Plugin extends ObjectYPT {
     }
 
     static function getPluginByUUID($uuid) {
-        global $global,$getPluginByUUID;
-        if(empty($getPluginByUUID)){
+        global $global, $getPluginByUUID;
+        if (empty($getPluginByUUID)) {
             $getPluginByUUID = array();
         }
-        if(empty($getPluginByUUID[$uuid])){
+        if (empty($getPluginByUUID[$uuid])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = ? LIMIT 1";
             $res = sqlDAL::readSql($sql, "s", array($uuid));
             $data = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if (!empty($data)) {
-                if(empty($data['pluginversion'])){
+                if (empty($data['pluginversion'])) {
                     $data['pluginversion'] = "1.0";
                 }
                 $getPluginByUUID[$uuid] = $data;
@@ -171,8 +171,8 @@ class Plugin extends ObjectYPT {
     }
 
     static function getAvailablePlugins() {
-        global $global,$getAvailablePlugins;
-        if(empty($getAvailablePlugins)){
+        global $global, $getAvailablePlugins;
+        if (empty($getAvailablePlugins)) {
             $dir = $global['systemRootPath'] . "plugin";
             $getAvailablePlugins = array();
             $cdir = scandir($dir);
@@ -196,7 +196,7 @@ class Plugin extends ObjectYPT {
                         $obj->databaseScript = !empty(static::getDatabaseFile($value));
                         $obj->pluginMenu = $p->getPluginMenu();
                         $obj->tags = $p->getTags();
-                        $obj->pluginversion=$p->getPluginVersion();
+                        $obj->pluginversion = $p->getPluginVersion();
                         $getAvailablePlugins[] = $obj;
                     }
                 }
@@ -225,7 +225,7 @@ class Plugin extends ObjectYPT {
 
     static function getAllEnabled() {
         global $global, $getAllEnabledRows;
-        if(empty($getAllEnabledRows)){
+        if (empty($getAllEnabledRows)) {
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
@@ -239,36 +239,35 @@ class Plugin extends ObjectYPT {
         return $getAllEnabledRows;
     }
 
-    static function getAllDisabled()
-    {
+    static function getAllDisabled() {
         global $global, $getAllDisabledRows;
-        if(empty($getAllDisabledRows)){
-          $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='inactive' ";
-          $res = sqlDAL::readSql($sql);
-          $fullData = sqlDAL::fetchAllAssoc($res);
-          sqlDAL::close($res);
-          $getAllDisabledRows = array();
-          foreach ($fullData as $row) {
-            $getAllDisabledRows[] = $row;
-          }
-          uasort($getAllDisabledRows, 'cmpPlugin');
-      }
+        if (empty($getAllDisabledRows)) {
+            $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='inactive' ";
+            $res = sqlDAL::readSql($sql);
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            $getAllDisabledRows = array();
+            foreach ($fullData as $row) {
+                $getAllDisabledRows[] = $row;
+            }
+            uasort($getAllDisabledRows, 'cmpPlugin');
+        }
         return $getAllDisabledRows;
     }
 
     static function getEnabled($uuid) {
-        global $global,$getEnabled;
-        if(empty($getEnabled)){
+        global $global, $getEnabled;
+        if (empty($getEnabled)) {
             $getEnabled = array();
         }
-        if(empty($getEnabled[$uuid])){
+        if (empty($getEnabled[$uuid])) {
             $getEnabled[$uuid] = array();
-            $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' AND uuid = '".$uuid."' ;";
+            $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' AND uuid = '" . $uuid . "' ;";
             $res = sqlDAL::readSql($sql);
             $pluginRows = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
-            if($pluginRows!=false){
-                foreach($pluginRows as $row){
+            if ($pluginRows != false) {
+                foreach ($pluginRows as $row) {
                     $getEnabled[$uuid][] = $row;
                 }
             }
@@ -276,11 +275,11 @@ class Plugin extends ObjectYPT {
         return $getEnabled[$uuid];
     }
 
-    static function getOrCreatePluginByName($name, $statusIfCreate='inactive'){
+    static function getOrCreatePluginByName($name, $statusIfCreate = 'inactive') {
         global $global;
-        if(self::getPluginByName($name)===false){
+        if (self::getPluginByName($name) === false) {
             $pluginFile = $global['systemRootPath'] . "plugin/{$name}/{$name}.php";
-            if(file_exists($pluginFile)){
+            if (file_exists($pluginFile)) {
                 require_once $pluginFile;
                 $code = "\$p = new {$name}();";
                 eval($code);
@@ -296,19 +295,80 @@ class Plugin extends ObjectYPT {
         }
         return self::getPluginByName($name);
     }
-    
+
     function save() {
         global $getAllEnabledRows;
-        if(empty($this->uuid)){
+        if (empty($this->uuid)) {
             return false;
         }
         global $global;
         $this->object_data = $global['mysqli']->real_escape_string($this->object_data);
-        if(empty($this->object_data)){
+        if (empty($this->object_data)) {
             $this->object_data = 'null';
         }
         $getAllEnabledRows = array();
         return parent::save();
+    }
+
+    static function encryptIfNeed($object_data) {
+        $isString = false;
+        if (!is_object($object_data)) {
+            $object_data = json_decode($object_data);
+            $isString = true;
+        }
+        if (!empty($object_data)) {
+            foreach ($object_data as $key => $value) {
+                if (!empty($value->type) && !empty($value->value) && strtolower($value->type) === "encrypted") {
+                    if(!self::isEncrypted($value->value)){
+                        $obj2 = new stdClass();
+                        $obj2->dateEncrypted = time();
+                        $obj2->value = $value->value;
+                        $object_data->$key->value = encryptString($obj2);
+                    }
+                }
+            }
+            if($isString){
+                $object_data = json_encode($object_data);
+            }
+            return $object_data;
+        }else{
+            return '';
+        }
+    }
+    
+    static function decryptIfNeed($object_data) {
+        $isString = false;
+        if (!is_object($object_data)) {
+            $object_data = json_decode($object_data);
+            $isString = true;
+        }
+        if (!empty($object_data)) {
+            foreach ($object_data as $key => $value) {
+                if (!empty($value->type) && !empty($value->value) && strtolower($value->type) === "encrypted") {
+                    $isEncrypted = self::isEncrypted($value->value);
+                    if($isEncrypted){
+                        $object_data->$key->value = $isEncrypted;
+                    }
+                }
+            }
+            if($isString){
+                $object_data = json_encode($object_data);
+            }
+            return $object_data;
+        }else{
+            return '';
+        }
+    }
+    
+    static function isEncrypted($object_data_element_value) {
+        if (!empty($object_data_element_value)) {
+            $object_data_element_value_json = decryptString($object_data_element_value);
+            $object_data_element_value_json = json_decode($object_data_element_value_json);
+            if(!empty($object_data_element_value_json) && !empty($object_data_element_value_json->dateEncrypted)){
+                return $object_data_element_value_json->value;
+            }
+        }
+        return false;
     }
 
 }
