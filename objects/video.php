@@ -1137,7 +1137,7 @@ if (!class_exists('Video')) {
                 return $filesize;
             }
             $video->setFilesize($filesize);
-            TimeLogEnd("Video::updateFilesize {$videos_id}", $line);
+            TimeLogEnd("Video::updateFilesize {$videos_id}", __LINE__);
             if ($video->save(false, true)) {
                 _error_log("updateFilesize: videos_id=$videos_id filename=$filename filesize=$filesize");
                 return $filesize;
