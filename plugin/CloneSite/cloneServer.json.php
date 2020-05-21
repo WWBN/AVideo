@@ -51,7 +51,7 @@ $resp->error = !$canClone->clone->updateLastCloneRequest();
 
 // get mysql dump
 $cmd = "mysqldump -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} > {$clonesDir}{$resp->sqlFile}";
-_error_log("Clone: Dump {$cmd}");
+_error_log("Clone: Dump to {$clonesDir}{$resp->sqlFile}");
 exec($cmd." 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     _error_log("Clone Error: ". print_r($output, true));
