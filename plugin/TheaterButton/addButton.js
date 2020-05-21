@@ -12,7 +12,7 @@ $(document).ready(function () {
             Button.apply(this, arguments);
             this.addClass('ypt-compress');
             this.addClass('vjs-button-fa-size');
-            this.controlText("Theater");
+            this.controlText("Default view");
             if (Cookies.get('compress') === "true") {
                 toogleEC(this);
             }
@@ -22,8 +22,11 @@ $(document).ready(function () {
         }
     });
 
-// Register the new component
+// Register the new component and set the right location as FF is not having a PIP button.
     videojs.registerComponent('Theater', Theater);
-    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('RemainingTimeDisplay') + 1);
+    if (player.getChild('controlBar').getChild('PictureInPictureToggle')){
+    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
+    }  else {
+    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
     }, 30);
 });
