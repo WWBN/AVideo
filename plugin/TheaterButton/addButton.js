@@ -28,5 +28,6 @@ $(document).ready(function () {
     player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
     }  else {
     player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
+    }
     }, 30);
 });
