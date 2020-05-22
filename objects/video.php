@@ -286,7 +286,7 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo() && !$allowOfflineUser) {
                     header('Content-Type: application/json');
-                    die('{"error":"' . __("Permission denied") . '"}');
+                    die('{"error":"3 ' . __("Permission denied") . '"}');
                 }
                 $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                         . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
@@ -1848,14 +1848,22 @@ if (!class_exists('Video')) {
         }
 
         function userCanManageVideo() {
+            global $advancedCustomUser;
             if (User::isAdmin()) {
                 return true;
             }
             if (empty($this->users_id) || !User::canUpload()) {
                 return false;
             }
-// if you not admin you can only manager yours video
-            if ($this->users_id != User::getId()) {
+            
+            // if you not admin you can only manager yours video
+            $users_id = $this->users_id;
+            if($advancedCustomUser->userCanChangeVideoOwner){
+                $video = new Video("","",$this->id); // query again to make sure the user is not changing the owner
+                $users_id = $video->getUsers_id();
+            }
+            
+            if ($users_id != User::getId()) {
                 return false;
             }
             return true;

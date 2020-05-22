@@ -367,8 +367,10 @@
                                         }
                                         ?>
                                     </select>
-
-                                    <div class="row" <?php if ($advancedCustomUser->userCanChangeVideoOwner || !User::isAdmin()) { ?> style="display: none;" <?php } ?>>
+<?php
+                                        var_dump($advancedCustomUser->userCanChangeVideoOwner);
+?>
+                                    <div class="row" <?php if (empty($advancedCustomUser->userCanChangeVideoOwner) && !User::isAdmin()) { ?> style="display: none;" <?php } ?>>
                                         <h3><?php echo __("Media Owner"); ?></h3>
                                         <div class="col-md-2">
                                             <img id="inputUserOwner-img" src="view/img/userSilhouette.jpg" class="img img-responsive img-circle" style="max-height: 60px;">
