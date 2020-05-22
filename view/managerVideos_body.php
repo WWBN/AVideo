@@ -367,9 +367,6 @@
                                         }
                                         ?>
                                     </select>
-<?php
-                                        var_dump($advancedCustomUser->userCanChangeVideoOwner);
-?>
                                     <div class="row" <?php if (empty($advancedCustomUser->userCanChangeVideoOwner) && !User::isAdmin()) { ?> style="display: none;" <?php } ?>>
                                         <h3><?php echo __("Media Owner"); ?></h3>
                                         <div class="col-md-2">
