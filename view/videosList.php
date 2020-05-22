@@ -256,19 +256,19 @@ if (!empty($get)) {
         <?php
         if(!empty($videoName) && !empty($video['id'])){
         ?>
-        var url = '<?php echo $global['webSiteRootURL'], $catLink; ?>video/<?php echo $videoName; ?>' + page + query;
+        var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>' + page + query;
         <?php
         }else if(!empty ($_GET['evideo'])){
         ?>
-        var url = '<?php echo $global['webSiteRootURL'], $catLink; ?>evideo/<?php echo $_GET['evideo']; ?>';
+        var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>evideo/<?php echo $_GET['evideo']; ?>';
         <?php
         }else{
         ?>
-        var url = '<?php echo $global['webSiteRootURL'], $catLink; ?>';
+        var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>';
         <?php
         }
         ?>
-        var urlList = "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo $catLink; ?>video/<?php echo $videoName; ?>" + page + query;
+        var urlList = "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>" + page + query;
 
 
                         history.pushState(null, null, url);
