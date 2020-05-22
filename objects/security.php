@@ -6,7 +6,7 @@ $securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 's
 $securityFilterInt = array('videos_id', 'video_id', 'categories_id', 'user_id', 'users_id', 'comments_id', 'isAdmin', 'priority', 'totalClips');
 $securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password');
 $securityRemoveNonChars = array('resolution', 'format', 'videoDirectory');
-$filterURL = array('videoURL', 'siteURL');
+$filterURL = array('videoURL', 'siteURL', 'redirectUri');
 
 if (!empty($_GET['base64Url'])) {
     if (!filter_var(base64_decode($_GET['base64Url']), FILTER_VALIDATE_URL)) {
@@ -24,15 +24,15 @@ if (!empty($_POST['base64Url'])) {
 
 foreach ($filterURL as $key => $value) {
     if (!empty($_GET[$value])) {
-        if (!filter_var($_GET[$value], FILTER_VALIDATE_URL)) {
+        if (!filter_var($_GET[$value], FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $_GET[$value])) {
             _error_log($value.' attack ' . json_encode($_SERVER));
-            exit;
+            unset($_GET[$value]);
         }
     }
     if (!empty($_POST[$value])) {
-        if (!filter_var($_POST[$value], FILTER_VALIDATE_URL)) {
+        if (!filter_var($_POST[$value], FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $_POST[$value])) {
             _error_log($value.' attack ' . json_encode($_SERVER));
-            exit;
+            unset($_POST[$value]);
         }
     }
 }
