@@ -9,6 +9,10 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
     return false;
 }
 
+if(!preg_match("/.*\\.mp4$/i", $_POST['fileURI'])){
+    return false;
+}
+
 $obj = new stdClass();
 
 $obj->error = true;
