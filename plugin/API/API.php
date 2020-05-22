@@ -374,6 +374,7 @@ class API extends PluginAbstract {
             $obj->photo = User::getPhoto($value['id']);
             $obj->channelLink = User::getChannelLink($value['id']);
             $obj->name = User::getNameIdentificationById($value['id']);
+            
             $list[] = $obj;
         }
         return new ApiObject("", false, $list);
@@ -387,8 +388,9 @@ class API extends PluginAbstract {
      */
     public function get_api_programs($parameters) {
         global $global;
-        require_once $global['systemRootPath'] . 'objects/category.php';
+        require_once $global['systemRootPath'] . 'objects/playlist.php';
         $playlists = PlayList::getAll();
+        $list = array();
         foreach ($playlists as $value) {
             $videosArrayId = PlayList::getVideosIdFromPlaylist($value['id']);
             if (empty($videosArrayId) || $value['status'] == "favorite" || $value['status'] == "watch_later") {

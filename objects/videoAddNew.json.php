@@ -103,7 +103,7 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
 if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
     $obj->setVideoGroups(empty($_POST['videoGroups']) ? array() : $_POST['videoGroups']);
 }
-if (User::isAdmin()) {
+if ($advancedCustomUser->userCanChangeVideoOwner || User::isAdmin()) {
     $obj->setUsers_id($_POST['users_id']);
 }
 
