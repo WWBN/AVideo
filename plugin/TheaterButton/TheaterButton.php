@@ -81,12 +81,14 @@ class TheaterButton extends PluginAbstract {
         if (isMobile()) {
             return false;
         }
-        $video = Video::getVideoFromCleanTitle(@$_GET['videoName']);
-        if(($isEmbed==1 || $video['type']=='embed') && $advancedCustom->disableYoutubePlayerIntegration){
-            return false;
-        }
-        if($video['type']=='article' || $video['type']=='pdf' || $video['type']=='image' || $video['type']=='zip'){
-            return false;
+        if(!empty($_GET['videoName'])){
+            $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+            if(($isEmbed==1 || $video['type']=='embed') && $advancedCustom->disableYoutubePlayerIntegration){
+                return false;
+            }
+            if($video['type']=='article' || $video['type']=='pdf' || $video['type']=='image' || $video['type']=='zip'){
+                return false;
+            }
         }
         return true;
     }
