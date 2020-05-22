@@ -27,12 +27,16 @@ foreach ($filterURL as $key => $value) {
         if (!filter_var($_GET[$value], FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $_GET[$value])) {
             _error_log($value.' attack ' . json_encode($_SERVER));
             unset($_GET[$value]);
+        }else{
+            $_GET[$value] = str_replace(array("'",'"',"<",">"), array("","","",""), $_GET[$value]);
         }
     }
     if (!empty($_POST[$value])) {
         if (!filter_var($_POST[$value], FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $_POST[$value])) {
             _error_log($value.' attack ' . json_encode($_SERVER));
             unset($_POST[$value]);
+        }else{
+            $_POST[$value] = str_replace(array("'",'"',"<",">"), array("","","",""), $_POST[$value]);
         }
     }
 }
