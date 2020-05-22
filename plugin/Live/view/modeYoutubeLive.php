@@ -50,6 +50,9 @@ $liveDO = AVideoPlugin::getObjectData("Live");
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
+        <?php 
+        echo AVideoPlugin::getHeadCode();
+        ?>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
