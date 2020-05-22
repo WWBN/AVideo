@@ -1031,7 +1031,7 @@ if (!class_exists('Video')) {
             }
             if (strpos(strtolower($sql), 'limit') === false) {
                 if(empty($global['limitForUnlimitedVideos'])){
-                    $global['limitForUnlimitedVideos'] = 12;
+                    $global['limitForUnlimitedVideos'] = 100;
                 }
                 if($global['limitForUnlimitedVideos'] > 0){
                     $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
@@ -1223,7 +1223,12 @@ if (!class_exists('Video')) {
                 $sql .= " ORDER BY RAND() ";
             }
             if (strpos(strtolower($sql), 'limit') === false) {
-                $sql .= " LIMIT 24";
+                if(empty($global['limitForUnlimitedVideos'])){
+                    $global['limitForUnlimitedVideos'] = 100;
+                }
+                if($global['limitForUnlimitedVideos'] > 0){
+                    $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                }
             }
             //echo $sql;
             $res = sqlDAL::readSql($sql);
