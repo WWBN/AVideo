@@ -1031,7 +1031,7 @@ if (!class_exists('Video')) {
             }
             if (strpos(strtolower($sql), 'limit') === false) {
                 if(empty($global['limitForUnlimitedVideos'])){
-                    $global['limitForUnlimitedVideos'] = 100;
+                    $global['limitForUnlimitedVideos'] = 1000;
                 }
                 if($global['limitForUnlimitedVideos'] > 0){
                     $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
@@ -1224,7 +1224,7 @@ if (!class_exists('Video')) {
             }
             if (strpos(strtolower($sql), 'limit') === false) {
                 if(empty($global['limitForUnlimitedVideos'])){
-                    $global['limitForUnlimitedVideos'] = 100;
+                    $global['limitForUnlimitedVideos'] = 1000;
                 }
                 if($global['limitForUnlimitedVideos'] > 0){
                     $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
