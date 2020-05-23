@@ -233,9 +233,9 @@ if (!empty($evideo)) {
         $type = 'video';
         if ($video['type'] === 'pdf') {
             $type = 'pdf';
-        }else if ($video['type'] === 'zip') {
+        } else if ($video['type'] === 'zip') {
             $type = 'zip';
-        }else if ($video['type'] === 'article') {
+        } else if ($video['type'] === 'article') {
             $type = 'article';
         }
         $images = Video::getImageFromFilename($video['filename'], $type);
@@ -283,6 +283,33 @@ if (!empty($evideo)) {
     $modeYouTubeTimeLog['Code part 6'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
 }
+
+// video not found
+if (empty($video)) {
+    $img = "{$global['webSiteRootURL']}view/img/this-video-is-not-available.jpg";
+    $poster = "{$global['webSiteRootURL']}view/img/this-video-is-not-available.jpg";
+    $imgw = 1280;
+    $imgh = 720;
+    unset($_SESSION['type']);
+    session_write_close();
+    $video = array();    
+    $video['id'] = 0;
+    $video['type'] = 'notfound';
+    $video['rotation'] = 0;
+    $video['videoLink'] = "";
+    $video['title'] = __("Video Not Available");
+    $video['clean_title'] = "video-not-available";
+    $video['description'] = "";
+    $video['duration'] = "";
+    $video['creator'] = "";
+    $video['likes'] = "";
+    $video['dislikes'] = "";
+    $video['category'] = "embed";
+    $video['views_count'] = 0;
+    $video['filename'] = "";
+    
+    header('HTTP/1.0 404 Not Found', true, 404);
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -291,96 +318,96 @@ if (!empty($evideo)) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        getOpenGraph(0);
-        getLdJson(0);
-        $modeYouTubeTimeLog['After head'] = microtime(true) - $modeYouTubeTime;
-        $modeYouTubeTime = microtime(true);
-        ?>
+<?php
+include $global['systemRootPath'] . 'view/include/head.php';
+getOpenGraph(0);
+getLdJson(0);
+$modeYouTubeTimeLog['After head'] = microtime(true) - $modeYouTubeTime;
+$modeYouTubeTime = microtime(true);
+?>
 
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
-        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
+<?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <?php
         if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
             ?>
             <div class="container" style="margin-bottom: 10px;">
                 <img src="<?php echo User::getBackground($video['users_id']); ?>" class="img img-responsive" />
             </div>
-            <?php
-        }
-        ?>
+    <?php
+}
+?>
         <div class="container-fluid principalContainer">
-            <?php
-            if (!empty($video)) {
-                if (empty($video['type'])) {
-                    $video['type'] = "video";
-                }
-                $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
-                ?>
+        <?php
+        if (!empty($video)) {
+            if (empty($video['type'])) {
+                $video['type'] = "video";
+            }
+            $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
+            ?>
                 <div class="row">
                     <div class="col-lg-12 col-sm-12 col-xs-12 AdsLeaderBoard AdsLeaderBoardTop">
                         <center style="margin:5px;">
-                            <?php
-                            $getAdsLeaderBoardTop = getAdsLeaderBoardTop();
-                            if (!empty($getAdsLeaderBoardTop)) {
-                                ?>
+    <?php
+    $getAdsLeaderBoardTop = getAdsLeaderBoardTop();
+    if (!empty($getAdsLeaderBoardTop)) {
+        ?>
                                 <style>
                                     .compress {
                                         top: 100px !important;
                                     }
                                 </style>
-                                <?php
-                                echo $getAdsLeaderBoardTop;
-                            }
-                            ?>
+        <?php
+        echo $getAdsLeaderBoardTop;
+    }
+    ?>
                         </center>
                     </div>
                 </div>
-                <?php
-                $vType = $video['type'];
-                if ($vType == "linkVideo") {
-                    $vType = "video";
-                } else if ($vType == "live") {
-                    $vType = "../../plugin/Live/view/liveVideo";
-                } else if ($vType == "linkAudio") {
-                    $vType = "audio";
-                }
-                if (!in_array($vType, Video::$typeOptions)) {
-                    $vType = 'video';
-                }
-                require "{$global['systemRootPath']}view/include/{$vType}.php";
-                $modeYouTubeTimeLog['After include video ' . $vType] = microtime(true) - $modeYouTubeTime;
-                $modeYouTubeTime = microtime(true);
-                ?>
+    <?php
+    $vType = $video['type'];
+    if ($vType == "linkVideo") {
+        $vType = "video";
+    } else if ($vType == "live") {
+        $vType = "../../plugin/Live/view/liveVideo";
+    } else if ($vType == "linkAudio") {
+        $vType = "audio";
+    }
+    if (!in_array($vType, Video::$typeOptions)) {
+        $vType = 'video';
+    }
+    require "{$global['systemRootPath']}view/include/{$vType}.php";
+    $modeYouTubeTimeLog['After include video ' . $vType] = microtime(true) - $modeYouTubeTime;
+    $modeYouTubeTime = microtime(true);
+    ?>
                 <div class="row" id="modeYoutubeBottom" style="margin: 0;">
                     <div class="row">
                         <div class="col-sm-1 col-md-1"></div>
                         <div class="col-sm-10 col-md-10 AdsLeaderBoard AdsLeaderBoardTop2">
                             <center style="margin:5px;">
-                                <?php echo getAdsLeaderBoardTop2(); ?>
+    <?php echo getAdsLeaderBoardTop2(); ?>
                             </center>
                         </div>
                     </div>
 
                     <div class="col-sm-1 col-md-1"></div>
                     <div class="col-sm-6 col-md-6" id="modeYoutubeBottomContent">
-                        <?php
-                        require "{$global['systemRootPath']}view/modeYoutubeBottom.php";
-                        $modeYouTubeTimeLog['After include bottom '] = microtime(true) - $modeYouTubeTime;
-                        $modeYouTubeTime = microtime(true);
-                        ?>
+    <?php
+    require "{$global['systemRootPath']}view/modeYoutubeBottom.php";
+    $modeYouTubeTimeLog['After include bottom '] = microtime(true) - $modeYouTubeTime;
+    $modeYouTubeTime = microtime(true);
+    ?>
                     </div>
                     <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar" id="yptRightBar">
                         <div class="col-lg-12 col-sm-12 col-xs-12 text-center">
-                            <?php echo getAdsSideRectangle(); ?>
+    <?php echo getAdsSideRectangle(); ?>
                         </div>
-                        <?php
-                        if (!empty($playlist_id)) {
-                            include $global['systemRootPath'] . 'view/include/playlist.php';
-                            ?>
+                            <?php
+                            if (!empty($playlist_id)) {
+                                include $global['systemRootPath'] . 'view/include/playlist.php';
+                                ?>
                             <script>
                                 $(document).ready(function () {
                                     Cookies.set('autoplay', true, {
@@ -389,8 +416,8 @@ if (!empty($evideo)) {
                                     });
                                 });
                             </script>
-                        <?php } else if (empty($autoPlayVideo)) {
-                            ?>
+    <?php } else if (empty($autoPlayVideo)) {
+        ?>
                             <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" >
                                 <strong><?php echo __("Autoplay ended"); ?></strong>
                                 <span class="pull-right">
@@ -404,7 +431,7 @@ if (!empty($evideo)) {
                                     </div>
                                 </span>
                             </div>
-                        <?php } else if (!empty($autoPlayVideo)) { ?>
+    <?php } else if (!empty($autoPlayVideo)) { ?>
                             <div class="row">
                                 <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted">
                                     <strong><?php echo __("Up Next"); ?></strong>
@@ -423,22 +450,22 @@ if (!empty($evideo)) {
                             <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" id="autoPlayVideoDiv" itemscope itemtype="http://schema.org/VideoObject" >
                                 <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], "", $get); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
                                     <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
-                                        <?php
-                                        $imgGif = "";
-                                        if (file_exists("{$global['systemRootPath']}videos/{$autoPlayVideo['filename']}.gif")) {
-                                            $imgGif = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.gif";
-                                        }
-                                        if ($autoPlayVideo['type'] === "pdf") {
-                                            $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.png";
-                                            $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
-                                        } else if (($autoPlayVideo['type'] !== "audio") && ($autoPlayVideo['type'] !== "linkAudio")) {
-                                            $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
-                                            $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
-                                        } else {
-                                            $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                                            $img_portrait = "";
-                                        }
-                                        ?>
+        <?php
+        $imgGif = "";
+        if (file_exists("{$global['systemRootPath']}videos/{$autoPlayVideo['filename']}.gif")) {
+            $imgGif = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.gif";
+        }
+        if ($autoPlayVideo['type'] === "pdf") {
+            $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.png";
+            $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
+        } else if (($autoPlayVideo['type'] !== "audio") && ($autoPlayVideo['type'] !== "linkAudio")) {
+            $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
+            $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
+        } else {
+            $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+            $img_portrait = "";
+        }
+        ?>
                                         <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130" itemprop="thumbnail" />
                                         <?php if (!empty($imgGif)) { ?>
                                             <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" id="thumbsGIF<?php echo $autoPlayVideo['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130" />
@@ -455,27 +482,27 @@ if (!empty($evideo)) {
                                             <div>
                                                 <strong><?php echo __("Category"); ?>: </strong>
                                                 <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span>
-                                                <?php echo $autoPlayVideo['category']; ?>
+        <?php echo $autoPlayVideo['category']; ?>
                                             </div>
 
-                                            <?php
-                                            if (empty($advancedCustom->doNotDisplayViews)) {
-                                                ?> 
+        <?php
+        if (empty($advancedCustom->doNotDisplayViews)) {
+            ?> 
                                                 <div>
                                                     <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong>
-                                                    <?php echo __("Views"); ?>
+            <?php echo __("Views"); ?>
                                                 </div>
-                                                <?php
-                                            }
-                                            ?>
+                                                    <?php
+                                                }
+                                                ?>
                                             <div><?php echo $autoPlayVideo['creator']; ?></div>
                                         </div>
                                         <div class="row">
-                                            <?php
-                                            if (!empty($autoPlayVideo['tags'])) {
-                                                foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
-                                                    if ($autoPlayVideo2->label === __("Group")) {
-                                                        ?>
+        <?php
+        if (!empty($autoPlayVideo['tags'])) {
+            foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
+                if ($autoPlayVideo2->label === __("Group")) {
+                    ?>
                                                         <span class="label label-<?php echo $autoPlayVideo2->type; ?>"><?php echo $autoPlayVideo2->text; ?></span>
                                                         <?php
                                                     }
@@ -486,21 +513,21 @@ if (!empty($evideo)) {
                                     </div>
                                 </a>
                             </div>
-                            <?php
-                        }
+        <?php
+    }
 
 
-                        $modeYouTubeTimeLog['After autoplay and playlist '] = microtime(true) - $modeYouTubeTime;
-                        $modeYouTubeTime = microtime(true);
-                        ?>
+    $modeYouTubeTimeLog['After autoplay and playlist '] = microtime(true) - $modeYouTubeTime;
+    $modeYouTubeTime = microtime(true);
+    ?>
                         <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                         <!-- videos List -->
                         <div id="videosList">
-                            <?php
-                            if (empty($playlist_id)) {
-                                include $global['systemRootPath'] . 'view/videosList.php';
-                            }
-                            ?>
+    <?php
+    if (empty($playlist_id)) {
+        include $global['systemRootPath'] . 'view/videosList.php';
+    }
+    ?>
                         </div>
                         <!-- End of videos List -->
 
@@ -556,9 +583,9 @@ if (!empty($evideo)) {
                     <div class="col-sm-1 col-md-1"></div>
                 </div>    
 
-                <?php
-            } else {
-                ?>
+    <?php
+} else {
+    ?>
                 <br>
                 <br>
                 <br>
@@ -566,12 +593,12 @@ if (!empty($evideo)) {
                 <div class="alert alert-warning">
                     <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
                 </div>
-            <?php } ?>
+<?php } ?>
         </div>
-        <?php
-        $modeYouTubeTimeLog['before add js '] = microtime(true) - $modeYouTubeTime;
-        $modeYouTubeTime = microtime(true);
-        ?>
+            <?php
+            $modeYouTubeTimeLog['before add js '] = microtime(true) - $modeYouTubeTime;
+            $modeYouTubeTime = microtime(true);
+            ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
         <?php
         echo AVideoPlugin::afterVideoJS();

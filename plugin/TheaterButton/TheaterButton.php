@@ -73,11 +73,16 @@ class TheaterButton extends PluginAbstract {
     }
     
     private function showButton(){
-        global $global, $isEmbed, $advancedCustom;
+        global $global, $isEmbed, $advancedCustom, $video;
         
         if (empty($_GET['videoName']) && empty($_GET['u']) && empty($_GET['link'])) {
             return false;
         }
+        
+        if(!empty($video) && $video['type']=='notfound'){
+            return false;
+        }
+        
         if (isMobile()) {
             return false;
         }

@@ -319,10 +319,14 @@ class Configuration {
         if (empty($global['salt'])) {
             $global['salt'] = uniqid();
         }
+        if (empty($global['disableTimeFix'])) {
+            $global['disableTimeFix'] = 0;
+        }
         $content = "<?php
 \$global['configurationVersion'] = 3;
 \$global['disableAdvancedConfigurations'] = {$global['disableAdvancedConfigurations']};
 \$global['videoStorageLimitMinutes'] = {$global['videoStorageLimitMinutes']};
+\$global['disableTimeFix'] = {$global['disableTimeFix']};
 if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) { 
     // get the subdirectory, if exists
     \$file = str_replace(\"\\\\\", \"/\", __FILE__);
