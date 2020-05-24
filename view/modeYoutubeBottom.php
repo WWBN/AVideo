@@ -58,7 +58,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             <h1 itemprop="name">
                 <?php
                 echo $video['title'];
-                if (empty($_GET['evideo']) && Video::canEdit($video['id'])) {
+                if (Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                     ?>
                     <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="btn btn-primary btn-xs" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                 <?php } ?>
@@ -84,7 +84,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             </div>
 
             <?php
-            if (empty($_GET['evideo']) && empty($advancedCustom->doNotDisplayViews)) {
+            if (Video::showYoutubeModeOptions() && empty($advancedCustom->doNotDisplayViews)) {
                 ?> 
                 <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
                 <?php
@@ -98,7 +98,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         </div>
     </div>
     <?php
-    if (empty($_GET['evideo'])) {
+    if (Video::showYoutubeModeOptions()) {
         ?>
         <div class="row">
             <div class="col-md-12 watch8-action-buttons text-muted">
@@ -214,7 +214,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         });
     </script>
 <?php } ?>
-<?php if (CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
+<?php if ($video['type']!=='notfound' && CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
     <div class="row bgWhite list-group-item menusDiv" id="shareDiv">
         <div class="tabbable-panel">
             <div class="tabbable-line text-muted">
@@ -408,7 +408,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                 </div>
                 <?php
             }
-            if ($video['type'] !== 'article') {
+            if ($video['type']!=='notfound' && $video['type'] !== 'article') {
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description">
@@ -444,7 +444,7 @@ if (empty($advancedCustom->showShareMenuOpenByDefault)) {
     });
 </script>
 <?php
-if (empty($advancedCustom->disableComments) && empty($_GET['evideo'])) {
+if (empty($advancedCustom->disableComments) && Video::showYoutubeModeOptions()) {
     ?>
     <div class="row bgWhite list-group-item">
         <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>

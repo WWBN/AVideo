@@ -31,6 +31,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->userCanAllowFilesShareSelectPerVideo = false;
         $obj->blockEmbedFromSharedVideos = true;
         $obj->userCanProtectVideosWithPassword = true;
+        $obj->userCanChangeVideoOwner = false;
 
         $obj->usersCanCreateNewCategories = !isset($advancedCustom->usersCanCreateNewCategories) ? false : $advancedCustom->usersCanCreateNewCategories;
         $obj->userCanNotChangeCategory = !isset($advancedCustom->userCanNotChangeCategory) ? false : $advancedCustom->userCanNotChangeCategory;

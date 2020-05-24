@@ -4,7 +4,7 @@ if (file_exists("../videos/configuration.php")) {
     exit;
 }
 
-$installationVersion = "8.8";
+$installationVersion = "8.9";
 
 
 header('Content-Type: application/json');
@@ -130,9 +130,11 @@ $content = "<?php
 \$global['configurationVersion'] = 2;
 \$global['disableAdvancedConfigurations'] = 0;
 \$global['videoStorageLimitMinutes'] = 0;
+\$global['disableTimeFix'] = 0;
 if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) { 
     // get the subdirectory, if exists
-    \$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), __FILE__);
+    \$file = str_replace(\"\\\\\", \"/\", __FILE__);
+    \$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), \$file);
     \$global['webSiteRootURL'] = \"http\".(!empty(\$_SERVER['HTTPS'])?\"s\":\"\").\"://\".\$_SERVER['SERVER_NAME'].\$subDir;
 }else{
     \$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';

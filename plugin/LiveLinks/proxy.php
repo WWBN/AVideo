@@ -12,7 +12,7 @@ try {
 /*
  * this file is to handle HTTP URLs into HTTPS
  */
-if (!filter_var($_GET['livelink'], FILTER_VALIDATE_URL)) {
+if (!filter_var($_GET['livelink'], FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $_GET['livelink'])) {
     echo "Invalid Link";
     exit;
 }

@@ -29,6 +29,7 @@ $imgw = 640;
 $imgh = 360;
 
 $liveDO = AVideoPlugin::getObjectData("Live");
+$video['type'] = 'video';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -50,6 +51,9 @@ $liveDO = AVideoPlugin::getObjectData("Live");
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
+        <?php 
+        echo AVideoPlugin::getHeadCode();
+        ?>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">

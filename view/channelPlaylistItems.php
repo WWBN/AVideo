@@ -53,6 +53,10 @@
     $startC = microtime(true);
     TimeLogEnd($timeLog2, __LINE__);
     $countSuccess = 0;
+    $get = array(); 
+    if(!empty($_GET['channelName'])){
+       $get = array('channelName' => $_GET['channelName']); 
+    }
     foreach ($playlists as $key => $playlist) {
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
@@ -198,7 +202,7 @@
                                         <h2><?php echo $serie['title']; ?></h2>
                                     </a>
                                     <small class="text-muted galeryDetails">
-                                        <a class="label label-default" href="<?php echo Video::getLink($videoRow['id'], $category->getClean_name(), false, $get); ?>/">
+                                        <a class="label label-default" href="<?php echo Video::getLink($serie['id'], $category->getClean_name(), false, $get); ?>/">
                                             <?php
                                             if (!empty($category->getIconClass())) {
                                                 ?>

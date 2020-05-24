@@ -49,8 +49,26 @@ class CloneSite extends PluginAbstract {
         $o->value = "";        
         $obj->cloneSiteSSHPassword = $o;
         $obj->useRsync = true;
+        $obj->MaintenanceMode = false;
         $obj->myKey = md5($global['systemRootPath'].$global['salt']);
         return $obj;
+    }
+    
+    
+    public function getStart() {
+        $obj = $this->getDataObject();
+        if($obj->MaintenanceMode){
+            $m = AVideoPlugin::loadPlugin("MaintenanceMode");
+            $m->getStart();
+        }
+    }
+
+    public function getFooterCode() {
+        $obj = $this->getDataObject();
+        if($obj->MaintenanceMode){
+            $m = AVideoPlugin::loadPlugin("MaintenanceMode");
+            $m->getFooterCode();
+        }
     }
 
 }

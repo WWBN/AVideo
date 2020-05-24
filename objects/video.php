@@ -67,7 +67,7 @@ if (!class_exists('Video')) {
         static $rratingOptions = array('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
 //ver 3.4
         private $youtubeId;
-        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip');
+        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound');
 
         function __construct($title = "", $filename = "", $id = 0) {
             global $global;
@@ -286,7 +286,7 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo() && !$allowOfflineUser) {
                     header('Content-Type: application/json');
-                    die('{"error":"' . __("Permission denied") . '"}');
+                    die('{"error":"3 ' . __("Permission denied") . '"}');
                 }
                 $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                         . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
@@ -1031,7 +1031,7 @@ if (!class_exists('Video')) {
             }
             if (strpos(strtolower($sql), 'limit') === false) {
                 if(empty($global['limitForUnlimitedVideos'])){
-                    $global['limitForUnlimitedVideos'] = 12;
+                    $global['limitForUnlimitedVideos'] = 1000;
                 }
                 if($global['limitForUnlimitedVideos'] > 0){
                     $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
@@ -1223,7 +1223,12 @@ if (!class_exists('Video')) {
                 $sql .= " ORDER BY RAND() ";
             }
             if (strpos(strtolower($sql), 'limit') === false) {
-                $sql .= " LIMIT 24";
+                if(empty($global['limitForUnlimitedVideos'])){
+                    $global['limitForUnlimitedVideos'] = 1000;
+                }
+                if($global['limitForUnlimitedVideos'] > 0){
+                    $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                }
             }
             //echo $sql;
             $res = sqlDAL::readSql($sql);
@@ -1843,14 +1848,22 @@ if (!class_exists('Video')) {
         }
 
         function userCanManageVideo() {
+            global $advancedCustomUser;
             if (User::isAdmin()) {
                 return true;
             }
             if (empty($this->users_id) || !User::canUpload()) {
                 return false;
             }
-// if you not admin you can only manager yours video
-            if ($this->users_id != User::getId()) {
+            
+            // if you not admin you can only manager yours video
+            $users_id = $this->users_id;
+            if($advancedCustomUser->userCanChangeVideoOwner){
+                $video = new Video("","",$this->id); // query again to make sure the user is not changing the owner
+                $users_id = $video->getUsers_id();
+            }
+            
+            if ($users_id != User::getId()) {
                 return false;
             }
             return true;
@@ -3189,6 +3202,21 @@ if (!class_exists('Video')) {
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             return $video;
+        }
+        
+        /**
+         * if will show likes, comments, share, etc
+         * @return boolean
+         */
+        static function showYoutubeModeOptions() {
+            global $video;
+            if(!empty($_GET['evideo'])){
+                return false;
+            }
+            if(empty($video) || $video['type'] === 'notfound'){
+                return false;
+            }
+            return true;
         }
 
     }

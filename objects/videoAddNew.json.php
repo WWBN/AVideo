@@ -8,7 +8,7 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::canUpload()) {
-    die('{"error":"' . __("Permission denied") . '"}');
+    die('{"error":"1 ' . __("Permission denied") . '"}');
 }
 
 $msg = "";
@@ -17,7 +17,7 @@ require_once 'video.php';
 
 if (!empty($_POST['id'])) {
     if (!Video::canEdit($_POST['id'])) {
-        die('{"error":"' . __("Permission denied") . '"}');
+        die('{"error":"2 ' . __("Permission denied") . '"}');
     }
 }
 
@@ -103,7 +103,7 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
 if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
     $obj->setVideoGroups(empty($_POST['videoGroups']) ? array() : $_POST['videoGroups']);
 }
-if (User::isAdmin()) {
+if ($advancedCustomUser->userCanChangeVideoOwner || User::isAdmin()) {
     $obj->setUsers_id($_POST['users_id']);
 }
 

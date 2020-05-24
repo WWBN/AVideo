@@ -73,20 +73,27 @@ class TheaterButton extends PluginAbstract {
     }
     
     private function showButton(){
-        global $global, $isEmbed, $advancedCustom;
+        global $global, $isEmbed, $advancedCustom, $video;
         
         if (empty($_GET['videoName']) && empty($_GET['u']) && empty($_GET['link'])) {
             return false;
         }
+        
+        if(!empty($video) && $video['type']=='notfound'){
+            return false;
+        }
+        
         if (isMobile()) {
             return false;
         }
-        $video = Video::getVideoFromCleanTitle(@$_GET['videoName']);
-        if(($isEmbed==1 || $video['type']=='embed') && $advancedCustom->disableYoutubePlayerIntegration){
-            return false;
-        }
-        if($video['type']=='article' || $video['type']=='pdf' || $video['type']=='image' || $video['type']=='zip'){
-            return false;
+        if(!empty($_GET['videoName'])){
+            $videoT = Video::getVideoFromCleanTitle($_GET['videoName']);
+            if(($isEmbed==1 || $videoT['type']=='embed') && $advancedCustom->disableYoutubePlayerIntegration){
+                return false;
+            }
+            if($videoT['type']=='article' || $videoT['type']=='pdf' || $videoT['type']=='image' || $videoT['type']=='zip'){
+                return false;
+            }
         }
         return true;
     }
