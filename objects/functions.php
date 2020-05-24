@@ -1287,8 +1287,14 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
         _error_log("im_resize: Function does not exists: {$icfunc}");
         return false;
     }
+    try {
+        $src = $icfunc($file_src);
+    } catch (Exception $exc) {
+        _error_log($exc->getMessage());
+        return false;
+    }
 
-    $src = $icfunc($file_src);
+    
 
     $ws = imagesx($src);
     $hs = imagesy($src);
