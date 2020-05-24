@@ -1289,7 +1289,10 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
     }
     
     $imgSize = getimagesize($file_src);
-    _error_log("im_resize: getimagesize($file_src) ". json_encode($imgSize));
+    if(empty($imgSize)){
+        _error_log("im_resize: getimagesize($file_src) return false ". json_encode($imgSize));
+        return false;
+    }
     try {
         $src = $icfunc($file_src);
     } catch (Exception $exc) {
