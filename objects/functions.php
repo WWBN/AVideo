@@ -1287,6 +1287,9 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
         _error_log("im_resize: Function does not exists: {$icfunc}");
         return false;
     }
+    
+    $imgSize = getimagesize($file_src);
+    _error_log("im_resize: getimagesize($file_src) ". json_encode($imgSize));
     try {
         $src = $icfunc($file_src);
     } catch (Exception $exc) {
