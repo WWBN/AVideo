@@ -278,15 +278,23 @@ if (User::isAdmin()) {
                                             <div class="panel-heading"><h2><?php echo __("Basic"); ?></h2></div>
                                             <div class="panel-body">
                                                 <div class="form-group">
-                                                    <label class="col-md-4 control-label"><?php echo __("Language"); ?></label>
+                                                  <label class="col-md-4 control-label"><?php echo __("Language"); ?></label>
                                                     <div class="col-md-8 inputGroupContainer">
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                                                            <input  id="inputLanguage" placeholder="<?php echo __("Language"); ?>" class="form-control"  type="text"  value="<?php echo $config->getLanguage(); ?>" >
+                                                            <select class="form-control" id="inputLanguage" >
+                                                            <?php
+                                                                foreach (glob("{$global['systemRootPath']}locale/??.php") as $filename) {
+                                                                    $filename = basename($filename);
+                                                                    $fileEx = basename($filename, ".php");
+                                                                    echo "<option value=\"" . $fileEx . "\"" . (($config->getLanguage() == $fileEx) ? " selected" : "") . ">". $fileEx ."</option>";
+                                                                           }
+                                                            ?>
+                                                            </select>
                                                         </div>
-                                                        <small class="form-text text-muted"><?php echo __("This value must match with the language files on"); ?><code><?php echo $global['systemRootPath']; ?>locale</code></small>
                                                     </div>
                                                 </div>
+
                                                 <div class="form-group">
                                                     <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
                                                     <div class="col-md-8 inputGroupContainer">
