@@ -1290,8 +1290,13 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
     try {
         $src = @$icfunc($file_src);
     } catch (Exception $exc) {
-        _error_log($exc->getMessage());
-        return false;
+        _error_log("im_resize: ".$exc->getMessage());
+        _error_log("im_resize: Try {$icfunc} from string");
+        $src= imagecreatefromstring(file_get_contents($file_src));
+        if(!$src){
+            _error_log("im_resize: fail {$icfunc} from string");
+            return false;
+        }
     }
 
     
