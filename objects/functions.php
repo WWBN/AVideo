@@ -1288,7 +1288,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
         return false;
     }
     try {
-        $src = $icfunc($file_src);
+        $src = @$icfunc($file_src);
     } catch (Exception $exc) {
         _error_log($exc->getMessage());
         return false;
