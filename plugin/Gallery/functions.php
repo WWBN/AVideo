@@ -20,7 +20,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     }
     global $global, $args, $url;
     $paggingId = uniqid();
-    $uid = "gallery".uniqid();
+    $uid = "gallery" . uniqid();
     ?>
     <div class="clear clearfix galeryRowElement" id="<?php echo $uid; ?>">
         <h3 class="galleryTitle">
@@ -66,14 +66,14 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         </div>
     </div>
     <?php
-    if(empty($countCols)){
-     ?>
-    <style>
-        #<?php echo $uid; ?>{
-            display: none;
-        }
-    </style>
-     <?php   
+    if (empty($countCols)) {
+        ?>
+        <style>
+            #<?php echo $uid; ?>{
+                display: none;
+            }
+        </style>
+        <?php
     }
     ?>
     <script>
@@ -270,6 +270,14 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary">
                             <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
                         </a>
+                    </div>
+                <?php }
+                ?>
+                <?php if (!empty($value['trailer1'])) { ?>
+                    <div>
+                        <span onclick="showTrailer('<?php echo parseVideos($value['trailer1'], 1); ?>'); return false;" class="text-primary cursorPointer" >
+                            <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
+                        </span>
                     </div>
                 <?php }
                 ?>

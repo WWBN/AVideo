@@ -810,3 +810,8 @@ img.blur{
 #modeYoutubeBottomContentDetails{
     overflow: hidden;
 }
+
+.cursorPointer:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
