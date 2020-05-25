@@ -987,6 +987,10 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
 
 
                     <?php
+                    echo AVideoPlugin::getHTMLMenuLeft();
+                    ?>
+
+                    <?php
                     if (empty($advancedCustom->doNotShowLeftMenuAudioAndVideoButtons)) {
                         ?>
                         <li>
@@ -1111,10 +1115,6 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                         $_POST = $post;
                         $_GET = $get;
                     }
-                    ?>
-
-                    <?php
-                    echo AVideoPlugin::getHTMLMenuLeft();
                     ?>
 
                     <!-- categories END -->

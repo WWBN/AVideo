@@ -34,6 +34,8 @@ class PlayLists extends PluginAbstract {
         $obj->useOldPlayList = false;
         $obj->expandPlayListOnChannels = false;
         $obj->usePlaylistPlayerForSeries = true;
+        $obj->showWatchLaterOnLeftMenu = true;
+        $obj->showFavoriteOnLeftMenu = true;
 
         return $obj;
     }
@@ -122,6 +124,24 @@ class PlayLists extends PluginAbstract {
         return PlayList::getWatchLaterIdFromUser($users_id);
     }
 
+    static function getWatchLaterLink() {
+        if (!User::isLogged()) {
+            return "";
+        }
+        global $global;
+        $id = PlayList::getWatchLaterIdFromUser(User::getId());
+        return "{$global['webSiteRootURL']}program/{$id}";
+    }
+
+    static function getFavoriteLink() {
+        if (!User::isLogged()) {
+            return "";
+        }
+        global $global;
+        $id = PlayList::getFavoriteIdFromUser(User::getId());
+        return "{$global['webSiteRootURL']}program/{$id}";
+    }
+
     public function thumbsOverlay($videos_id) {
         global $global;
         include $global['systemRootPath'] . 'plugin/PlayLists/buttons.php';
@@ -176,9 +196,9 @@ class PlayLists extends PluginAbstract {
             if ($obj->usePlaylistPlayerForSeries) {
                 $video = Video::getVideoFromCleanTitle($_GET['videoName']);
                 if ($video['type'] == 'serie' && !empty($video['serie_playlists_id'])) {
-                    if(basename($_SERVER["SCRIPT_FILENAME"])== "videoEmbeded.php"){
+                    if (basename($_SERVER["SCRIPT_FILENAME"]) == "videoEmbeded.php") {
                         $link = PlayLists::getLink($video['serie_playlists_id'], true);
-                    }else{
+                    } else {
                         $link = PlayLists::getLink($video['serie_playlists_id']);
                     }
                     header("Location: {$link}");
@@ -188,18 +208,45 @@ class PlayLists extends PluginAbstract {
         }
     }
 
-    static function getLink($playlists_id, $embed=false) {
+    static function getLink($playlists_id, $embed = false) {
         global $global;
         $obj = AVideoPlugin::getObjectData("PlayLists");
-        if($embed){
+        if ($embed) {
             return $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?playlists_id=" . $playlists_id;
-        }else{
+        } else {
             if (empty($obj->useOldPlayList)) {
                 return $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
             } else {
                 return $global['webSiteRootURL'] . "program/" . $playlists_id;
             }
         }
+    }
+
+    public function getHTMLMenuLeft() {
+        if (!User::isLogged()) {
+            return "";
+        }
+        $obj = AVideoPlugin::getObjectData("PlayLists");
+        $r = "<hr>";
+        
+        if($obj->showFavoriteOnLeftMenu){
+            $r .= '<li>
+    <a  href="' . self::getFavoriteLink() . '" >
+        <i class="fas fa-heart"></i>
+        ' . __("Favorite") . '
+    </a>
+</li>';
+        }
+        if($obj->showWatchLaterOnLeftMenu){
+            $r .= '<li>
+    <a  href="' . self::getWatchLaterLink() . '" >
+        <i class="fas fa-clock"></i>
+        ' . __("Watch Later") . '
+    </a>
+</li>';
+        }
+        return $r;
+        
     }
 
 }
