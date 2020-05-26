@@ -53,7 +53,7 @@ $uid = uniqid();
         </div>
         <div class="panel-footer">
 
-            <button class="btn btn-primary btn-block">Submit Payment</button>
+            <button class="btn btn-primary btn-block"><?php echo __('Submit Payment'); ?></button>
         </div>
     </div>
 </form>
