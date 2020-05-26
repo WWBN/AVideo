@@ -39,10 +39,11 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->MostPopularAutoPlay = true;
         $obj->MostWatched = true;
         $obj->MostWatchedAutoPlay = true;
+        $obj->SortByName = false;
+        $obj->SortByNameAutoPlay = true;
         $obj->Categories = true;
         $obj->CategoriesAutoPlay = true;
         $obj->maxVideos = 20;
-        $obj->SortByName = false;
         $obj->BigVideo = true;
         $obj->RemoveBigVideoDescription = false;
         $obj->BigVideoPlayIcon = true;

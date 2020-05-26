@@ -199,6 +199,38 @@ TimeLogStart($timeLog);
                     <?php
                 }
                 TimeLogEnd($timeLog, __LINE__);
+                if ($obj->SortByName) {
+                    $_POST['rowCount'] = $obj->maxVideos;
+                    $dataFlickirty = new stdClass();
+                    $dataFlickirty->wrapAround = true;
+                    $dataFlickirty->pageDots = !empty($obj->pageDots);
+                    $dataFlickirty->lazyLoad = 15;
+                    $dataFlickirty->setGallerySize = false;
+                    $dataFlickirty->cellAlign = 'left';
+                    if ($obj->SortByNameAutoPlay) {
+                        $dataFlickirty->autoPlay = true;
+                        $dataFlickirty->wrapAround = true;
+                    } else {
+                        $dataFlickirty->wrapAround = true;
+                    }
+                    unset($_POST['sort']);
+                    $_POST['sort']['title'] = "ASC";
+                    $_POST['sort']['created'] = "DESC";
+                    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+                    ?>
+                    <span class="md-col-12">&nbsp;</span>
+                    <div class="row topicRow">
+                        <h2>
+                            <i class="fas fa-sort-alpha-down"></i> <?php echo __("Alphabetical"); ?>
+                        </h2>
+                        <!-- Most watched -->
+                        <?php
+                        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                        ?>
+                    </div>
+                    <?php
+                }
+                TimeLogEnd($timeLog, __LINE__);
                 if ($obj->Categories) {
                     $dataFlickirty = new stdClass();
                     $dataFlickirty->wrapAround = true;
