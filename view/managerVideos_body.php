@@ -284,8 +284,6 @@
                             <div id="pmedia" class="tab-pane fade in active">
                                 <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
                                     <div id="drop">
-                                        <?php echo __("Drop Here"); ?>
-
                                         <a><?php echo __("Browse"); ?></a>
                                         <input type="file" name="upl" />
                                         <input type="hidden" name="videos_id" id="fileUploadVideos_id" />
@@ -1062,7 +1060,9 @@ echo AVideoPlugin::getManagerVideosEdit();
             showRemove: false,
             showClose: false,
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["jpg", "jpeg"]
+            allowedFileExtensions: ["jpg", "jpeg"],
+            dropZone: null,
+            pasteZone: null
     });
     $("#input-pjpg").fileinput({
     uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pjpg",
@@ -1078,7 +1078,9 @@ echo AVideoPlugin::getManagerVideosEdit();
             showRemove: false,
             showClose: false,
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["jpg", "jpeg"]
+            allowedFileExtensions: ["jpg", "jpeg"],
+            dropZone: null,
+            pasteZone: null
     });
     $("#input-gif").fileinput({
     uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=gif",
@@ -1094,7 +1096,9 @@ echo AVideoPlugin::getManagerVideosEdit();
             showRemove: false,
             showClose: false,
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["gif"]
+            allowedFileExtensions: ["gif"],
+            dropZone: null,
+            pasteZone: null
     });
     $("#input-pgif").fileinput({
     uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pgif",
@@ -1110,7 +1114,9 @@ echo AVideoPlugin::getManagerVideosEdit();
             showRemove: false,
             showClose: false,
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["gif"]
+            allowedFileExtensions: ["gif"],
+            dropZone: null,
+            pasteZone: null
     });
     $("#input-webp").fileinput({
     uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=webp",
@@ -1126,7 +1132,9 @@ echo AVideoPlugin::getManagerVideosEdit();
             showRemove: false,
             showClose: false,
             layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-            allowedFileExtensions: ["webp"]
+            allowedFileExtensions: ["webp"],
+            dropZone: null,
+            pasteZone: null
     });
     }
 
@@ -1429,8 +1437,8 @@ echo AVideoPlugin::getManagerVideosReset();
     });
     // Initialize the jQuery File Upload plugin
     $('#upload').fileupload({
-    // This element will accept file drag/drop uploading
-    dropZone: $('#drop'),
+            dropZone: null,
+            pasteZone: null,
             // This function is called when a file is added to the queue;
             // either via the browse button, or via drag/drop:
             add: function (e, data) {
