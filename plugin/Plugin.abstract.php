@@ -304,6 +304,10 @@ abstract class PluginAbstract {
     public function navBarButtons() {
         return "";
     }
+    
+    public function navBarProfileButtons() {
+        return "";
+    }
 
     public function navBar() {
         return "";

@@ -629,13 +629,6 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                                 </a>
                                             </li>
 
-                                            <li>
-                                                <a href="<?php echo User::getChannelLink(); ?>" >
-                                                    <span class="fas fa-play-circle"></span>
-                                                    <?php echo __($advancedCustomUser->MyChannelLabel); ?>
-                                                </a>
-                                            </li>
-
                                             <?php
                                             if (User::canUpload(true)) {
                                                 ?>
@@ -648,8 +641,16 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                                 </li>
                                                 <?php
                                             }
+                                            ?>
+                                            <li>
+                                                <a href="<?php echo User::getChannelLink(); ?>" >
+                                                    <span class="fas fa-play-circle"></span>
+                                                    <?php echo __($advancedCustomUser->MyChannelLabel); ?>
+                                                </a>
+                                            </li>    
+                                            <?php
 
-                                            print AVideoPlugin::navBarButtons();
+                                            print AVideoPlugin::navBarProfileButtons();
 
                                             if ((($config->getAuthCanViewChart() == 0) && (User::canUpload())) || (($config->getAuthCanViewChart() == 1) && (User::canViewChart()))) {
                                                 ?>
@@ -809,17 +810,6 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                 </div>
                             </li>
 
-                            <li>
-
-                                <div>
-                                    <a href="<?php echo User::getChannelLink(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
-                                        <span class="fas fa-play-circle"></span>
-                                        <?php echo __($advancedCustomUser->MyChannelLabel); ?>
-                                    </a>
-
-                                </div>
-                            </li>
-
                             <?php
                             if (User::canUpload()) {
                                 ?>
@@ -834,7 +824,18 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                 </li>
                                 <?php
                             }
+                            ?>
+                            <li>
 
+                                <div>
+                                    <a href="<?php echo User::getChannelLink(); ?>" class="btn btn-danger btn-block" style="border-radius: 0;">
+                                        <span class="fas fa-play-circle"></span>
+                                        <?php echo __($advancedCustomUser->MyChannelLabel); ?>
+                                    </a>
+
+                                </div>
+                            </li>    
+                            <?php
                             print AVideoPlugin::navBarButtons();
 
                             if ((($config->getAuthCanViewChart() == 0) && (User::canUpload())) || (($config->getAuthCanViewChart() == 1) && (User::canViewChart()))) {

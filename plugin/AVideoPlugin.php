@@ -754,6 +754,21 @@ class AVideoPlugin {
         }
         return $navBarButtons;
     }
+
+    public static function navBarProfileButtons() {
+        $plugins = Plugin::getAllEnabled();
+        $userOptions = array();
+        $navBarButtons = "";
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $navBarButtons .= $p->navBarProfileButtons();
+            }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
+        }
+        return $navBarButtons;
+    }
     
     public static function navBar() {
         $plugins = Plugin::getAllEnabled();

@@ -36,6 +36,8 @@ class PlayLists extends PluginAbstract {
         $obj->usePlaylistPlayerForSeries = true;
         $obj->showWatchLaterOnLeftMenu = true;
         $obj->showFavoriteOnLeftMenu = true;
+        $obj->showWatchLaterOnProfileMenu = true;
+        $obj->showFavoriteOnProfileMenu = true;
 
         return $obj;
     }
@@ -219,38 +221,58 @@ class PlayLists extends PluginAbstract {
             }
         }
     }
-
-    public function getHTMLMenuLeft() {
-        if (!User::isLogged()) {
-            return "";
-        }
+    
+    public function navBarButtons() {
+        
         $obj = AVideoPlugin::getObjectData("PlayLists");
-        $r = "";
+        $str = "";
         
         if($obj->showWatchLaterOnLeftMenu){
-            $r .= '<li>
-    <a  href="' . self::getWatchLaterLink() . '" >
-        <i class="fas fa-clock"></i>
-        ' . __("Watch Later") . '
-    </a>
-</li>';
+            $str .= '<li>
+                        <div>
+                            <a href="' . self::getWatchLaterLink() . '" class="btn btn-danger btn-block" style="border-radius: 0;">
+                                <i class="fas fa-clock"></i>
+                                ' . __("Watch Later") . '
+                            </a>
+                        </div>
+                    </li>';
         }
         if($obj->showFavoriteOnLeftMenu){
-            $r .= '<li>
-    <a  href="' . self::getFavoriteLink() . '" >
-        <i class="fas fa-heart"></i>
-        ' . __("Favorite") . '
-    </a>
-</li>';
+            $str .= '<li>
+                        <div>
+                            <a href="' . self::getFavoriteLink() . '" class="btn btn-danger btn-block" style="border-radius: 0;">
+                                <i class="fas fa-heart"></i>
+                                ' . __("Favorite") . '
+                            </a>
+                        </div>
+                    </li>';
         }
-        return $r;
+        return $str;
+    }
+    
+    
+    public function navBarProfileButtons() {
         
+        $obj = AVideoPlugin::getObjectData("PlayLists");
+        $str = "";
+        
+        if($obj->showWatchLaterOnProfileMenu){
+            $str .= '<li>
+                            <a href="' . self::getWatchLaterLink() . '" class="" style="border-radius: 0;">
+                                <i class="fas fa-clock"></i>
+                                ' . __("Watch Later") . '
+                            </a>
+                    </li>';
+        }
+        if($obj->showFavoriteOnProfileMenu){
+            $str .= '<li>
+                            <a href="' . self::getFavoriteLink() . '" class="" style="border-radius: 0;">
+                                <i class="fas fa-heart"></i>
+                                ' . __("Favorite") . '
+                            </a>
+                    </li>';
+        }
+        return $str;
     }
-    /*
-    public function navBarButtons() {
-        return $this->getHTMLMenuLeft();
-    }
-     * 
-     */
 
 }
