@@ -43,6 +43,6 @@ $p->setObject_data(json_encode($pluginDO));
 
 $obj = new stdClass();
 $obj->save = $p->save();
-if ($obj->save === false) _error_log("[ERROR] Error saving plugin $pluginName data. Maybe plugin is not enabled?");
+if ($obj->save === false) _error_log("[ERROR] Error saving plugin $pluginName data. Maybe plugin is not enabled?", AVideoLog::$ERROR);
 
 echo (json_encode($obj));

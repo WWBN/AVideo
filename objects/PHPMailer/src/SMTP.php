@@ -270,7 +270,7 @@ class SMTP
         switch ($this->Debugoutput) {
             case 'error_log':
                 //Don't output, just log
-                _error_log($str);
+                _error_log($str, AVideoLog::$ERROR);
                 break;
             case 'html':
                 //Cleans up output a bit for a better looking, HTML-safe output

@@ -21,8 +21,8 @@ class AVideoPlugin {
         $finish = $time;
         $total_time = round(($finish - $global['AVideoPluginStart']), 4);
         if($total_time > 0.05){
-            _error_log("Warning: The plugin [{$pluginName}] takes {$total_time} seconds to complete. ");
-            _error_log($_SERVER["SCRIPT_FILENAME"]);
+            _error_log("Warning: The plugin [{$pluginName}] takes {$total_time} seconds to complete. ", AVideoLog::$WARNING);
+            _error_log($_SERVER["SCRIPT_FILENAME"], AVideoLog::$WARNING);
             
         }
     }
@@ -299,17 +299,12 @@ class AVideoPlugin {
                 $code = "\$p = new {$name}();";
                 $codeResult = @eval($code . " return \$p;");
                 if ($codeResult == false) {
-                    _error_log("[loadPlugin] eval failed for plugin " . $name);
+                    _error_log("[loadPlugin] eval failed for plugin " . $name, AVideoLog::$ERROR);
                 }
                 $pluginIsLoaded[$crc] = $codeResult;
                 return $codeResult;
             } else {
-                // _error_log("Plugin File Not found ".$file );
                 $pluginIsLoaded[$crc] = "false"; // only for pass empty-function
-            }
-        } else {
-            if (!empty($global['debug'])) {
-                _error_log("Plugin was already executed " . $file);
             }
         }
         if ($pluginIsLoaded[$crc] == "false") {
@@ -785,13 +780,13 @@ class AVideoPlugin {
         $uuid = $p->getUUID();
         _error_log("AVideoPlugin::updatePlugin name=($name) uuid=($uuid) ");
         if (method_exists($p, 'updateScript')) {
-            _error_log("AVideoPlugin::updatePlugin method_exists ");
+            _error_log("AVideoPlugin::updatePlugin method_exists ", AVideoLog::$WARNING);
             if ($p->updateScript())
                 Plugin::setCurrentVersionByUuid($uuid, $currentVersion);
             else
                 return false;
         }else {
-            _error_log("AVideoPlugin::updatePlugin method NOT exists ");
+            _error_log("AVideoPlugin::updatePlugin method NOT exists ", AVideoLog::$WARNING);
             Plugin::setCurrentVersionByUuid($uuid, $currentVersion);
         }
         return true;

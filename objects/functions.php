@@ -2721,12 +2721,29 @@ function TimeLogEnd($name, $line, $limit = 0.7) {
     TimeLogStart($name);
 }
 
-function _error_log($message, $message_type = 0, $destination = null, $extra_headers = null) {
+class AVideoLog{
+    static $DEBUG = 0;
+    static $WARNING = 1;
+    static $ERROR = 2;
+}
+function _error_log($message, $type = 0) {
     global $global;
-    if (!empty($global['noDebug'])) {
+    if (!empty($global['noDebug']) && $type==0) {
         return false;
     }
-    error_log($message, $message_type, $destination, $extra_headers);
+    $prefix = "AVideoLog::";
+    switch ($type) {
+        case 0:
+            $prefix .= "DEBUG: "; 
+            break;
+        case 1:
+            $prefix .= "WARNING: "; 
+            break;
+        case 2:
+            $prefix .= "ERROR: "; 
+            break;
+    }
+    error_log($prefix.$message);
 }
 
 function postVariables($url, $array) {

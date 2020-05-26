@@ -172,7 +172,7 @@ abstract class ObjectYPT implements ObjectInterface {
 
     function save() {
         if (!$this->tableExists()) {
-            _error_log("Save error, table " . static::getTableName() . " does not exists");
+            _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
             return false;
         }
         global $global;
@@ -221,7 +221,7 @@ abstract class ObjectYPT implements ObjectInterface {
             }
             return $id;
         } else {
-            _error_log("ObjectYPT::save Error on save: ".$sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            _error_log("ObjectYPT::save Error on save: ".$sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error, AVideoLog::$ERROR);
             return false;
         }
     }
@@ -252,7 +252,7 @@ abstract class ObjectYPT implements ObjectInterface {
             //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql, "i", array($this->id));
         }
-        _error_log("Id for table " . static::getTableName() . " not defined for deletion");
+        _error_log("Id for table " . static::getTableName() . " not defined for deletion", AVideoLog::$ERROR);
         return false;
     }
 
