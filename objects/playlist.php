@@ -88,9 +88,13 @@ class PlayList extends ObjectYPT {
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
+                $row['isFavorite'] = false;
+                $row['isWatchLater'] = false;
                 if ($row['status'] === "favorite") {
+                    $row['isFavorite'] = true;
                     $favorite = $row;
                 } else if ($row['status'] === "watch_later") {
+                    $row['isWatchLater'] = true;
                     $watch_later = $row;
                 } else {
                     $rows[] = $row;

@@ -1086,6 +1086,10 @@ if (!class_exists('Video')) {
                     $row['tags'] = self::getTags($row['id']);
                     $row['title'] = UTF8encode($row['title']);
                     $row['description'] = UTF8encode($row['description']);
+                    $row['isFavorite'] = self::isFavorite($row['id']);
+                    $row['isWatchLater'] = self::isWatchLater($row['id']);
+                    $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
+                    $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
                     if (empty($row['filesize'])) {
                         $row['filesize'] = Video::updateFilesize($row['id']);
                     }
@@ -1103,6 +1107,34 @@ if (!class_exists('Video')) {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return $videos;
+        }
+        
+        static function isFavorite($videos_id) {
+            if(AVideoPlugin::isEnabledByName("PlayLists")){
+                return PlayList::isVideoOnFavorite($videos_id, User::getId());
+            }
+            return false;
+        }
+        
+        static function isWatchLater($videos_id) {
+            if(AVideoPlugin::isEnabledByName("PlayLists")){
+                return PlayList::isVideoOnWatchLater($videos_id, User::getId());
+            }
+            return false;
+        }
+        
+        static function getFavoriteIdFromUser($users_id) {
+            if(AVideoPlugin::isEnabledByName("PlayLists")){
+                return PlayList::getFavoriteIdFromUser($users_id);
+            }
+            return false;
+        }
+        
+        static function getWatchLaterIdFromUser($users_id) {
+            if(AVideoPlugin::isEnabledByName("PlayLists")){
+                return PlayList::getWatchLaterIdFromUser($users_id);
+            }
+            return false;
         }
 
         static function updateFilesize($videos_id) {

@@ -64,18 +64,28 @@ if (!empty($evideo)) {
     $modeYouTubeTimeLog['Code part 1'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
     if (!empty($_GET['playlist_id'])) {
-        $playlist_id = $_GET['playlist_id'];
+        
+        if(preg_match("/^[0-9]+$/", $_GET['playlist_id'])){
+            $playlist_id = $_GET['playlist_id'];
+        }else if(User::isLogged()){
+            if($_GET['playlist_id'] == "favorite"){
+                $playlist_id = PlayList::getFavoriteIdFromUser(User::getId());
+            }else{
+                $playlist_id = PlayList::getWatchLaterIdFromUser(User::getId());
+            }
+        }
+        
         if (!empty($_GET['playlist_index'])) {
             $playlist_index = $_GET['playlist_index'];
         } else {
             $playlist_index = 0;
         }
 
-        $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['playlist_id']);
+        $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist_id);
         $videosPlayList = Video::getAllVideos("viewable", false, false, $videosArrayId, false, true);
         $videosPlayList = PlayList::sortVideos($videosPlayList, $videosArrayId);
 
-        $videoSerie = Video::getVideoFromSeriePlayListsId($_GET['playlist_id']);
+        $videoSerie = Video::getVideoFromSeriePlayListsId($playlist_id);
 
         unset($_GET['playlist_id']);
         $isPlayListTrailer = false;

@@ -129,8 +129,7 @@ class PlayLists extends PluginAbstract {
             return "";
         }
         global $global;
-        $id = PlayList::getWatchLaterIdFromUser(User::getId());
-        return "{$global['webSiteRootURL']}program/{$id}";
+        return "{$global['webSiteRootURL']}watch-later";
     }
 
     static function getFavoriteLink() {
@@ -138,8 +137,7 @@ class PlayLists extends PluginAbstract {
             return "";
         }
         global $global;
-        $id = PlayList::getFavoriteIdFromUser(User::getId());
-        return "{$global['webSiteRootURL']}program/{$id}";
+        return "{$global['webSiteRootURL']}favorite";
     }
 
     public function thumbsOverlay($videos_id) {
@@ -227,16 +225,8 @@ class PlayLists extends PluginAbstract {
             return "";
         }
         $obj = AVideoPlugin::getObjectData("PlayLists");
-        $r = "<hr>";
+        $r = "";
         
-        if($obj->showFavoriteOnLeftMenu){
-            $r .= '<li>
-    <a  href="' . self::getFavoriteLink() . '" >
-        <i class="fas fa-heart"></i>
-        ' . __("Favorite") . '
-    </a>
-</li>';
-        }
         if($obj->showWatchLaterOnLeftMenu){
             $r .= '<li>
     <a  href="' . self::getWatchLaterLink() . '" >
@@ -245,8 +235,22 @@ class PlayLists extends PluginAbstract {
     </a>
 </li>';
         }
+        if($obj->showFavoriteOnLeftMenu){
+            $r .= '<li>
+    <a  href="' . self::getFavoriteLink() . '" >
+        <i class="fas fa-heart"></i>
+        ' . __("Favorite") . '
+    </a>
+</li>';
+        }
         return $r;
         
     }
+    /*
+    public function navBarButtons() {
+        return $this->getHTMLMenuLeft();
+    }
+     * 
+     */
 
 }

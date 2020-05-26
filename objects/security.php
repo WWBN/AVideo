@@ -6,7 +6,7 @@ $securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 's
 $securityFilterInt = array('videos_id', 'video_id', 'categories_id', 'user_id', 'users_id', 'comments_id', 'isAdmin', 'priority', 'totalClips');
 $securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password');
 $securityRemoveNonChars = array('resolution', 'format', 'videoDirectory');
-$filterURL = array('videoURL', 'siteURL', 'redirectUri');
+$filterURL = array('videoURL', 'siteURL', 'redirectUri', 'encoderURL');
 
 if (!empty($_GET['base64Url'])) {
     if (!filter_var(base64_decode($_GET['base64Url']), FILTER_VALIDATE_URL)) {

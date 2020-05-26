@@ -151,6 +151,14 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $videoRow['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                                             </div>
                                         <?php } ?>
+                                        <?php if (!empty($videoRow['trailer1'])) { ?>
+                                            <div>
+                                                <span onclick="showTrailer('<?php echo parseVideos($videoRow['trailer1'], 1); ?>'); return false;" class="text-primary cursorPointer" >
+                                                    <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
+                                                </span>
+                                            </div>
+                                        <?php }
+                                        ?>
                                         <?php
                                         echo AVideoPlugin::getGalleryActionButton($videoRow['id']);
                                         ?>

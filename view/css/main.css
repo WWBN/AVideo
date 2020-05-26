@@ -815,3 +815,15 @@ img.blur{
     cursor: pointer;
     text-decoration: underline;
 }
+
+.btn-dark {
+  color: #CCC;
+  background-color: #111;
+  border-color: #000;
+}
+
+.btn-dark:hover {
+  color: #FFF;
+  background-color: #000;
+  border-color: #000;
+}

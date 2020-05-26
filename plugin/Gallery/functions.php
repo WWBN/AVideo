@@ -134,6 +134,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
     $obj = AVideoPlugin::getObjectData("Gallery");
     $zindex = 1000;
     $startG = microtime(true);
+    $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
     foreach ($videos as $value) {
 
         // that meas auto generate the channelName
@@ -180,6 +181,36 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                     echo AVideoPlugin::thumbsOverlay($value['id']);
                     @$timesG[__LINE__] += microtime(true) - $startG;
                     $startG = microtime(true);
+                    if (!empty($program)) {
+                        ?>
+                        <div class="galleryVideoButtons">
+                            <?php
+                            //var_dump($value['isWatchLater'], $value['isFavorite']);
+                            if ($value['isWatchLater']) {
+                                $watchLaterBtnAddedStyle = "";
+                                $watchLaterBtnStyle = "display: none;";
+                            } else {
+                                $watchLaterBtnAddedStyle = "display: none;";
+                                $watchLaterBtnStyle = "";
+                            }
+                            if ($value['isFavorite']) {
+                                $favoriteBtnAddedStyle = "";
+                                $favoriteBtnStyle = "display: none;";
+                            } else {
+                                $favoriteBtnAddedStyle = "display: none;";
+                                $favoriteBtnStyle = "";
+                            }
+                            ?>
+                            
+                            <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
+                            <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
+                            <br>
+                            <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
+                            <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
+                            
+                        </div>
+                        <?php
+                    }
                     ?>
                 </div>
                 <?php

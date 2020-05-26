@@ -145,3 +145,20 @@ a.h6{
 .galeryRowElement .galleryVideo {
     margin-bottom: 10px; 
 }
+
+.galleryVideoButtons{
+    position: absolute; 
+    right: 5px; 
+    top: 5px; 
+    z-index: 9999;
+    display: none;
+}
+.galleryVideo  .galleryVideoButtons button{
+    opacity: 0.5;
+} 
+.galleryVideo:hover  .galleryVideoButtons{
+    display: block !important;
+} 
+.galleryVideo  .galleryVideoButtons  button:hover{
+    opacity: 1;
+} 

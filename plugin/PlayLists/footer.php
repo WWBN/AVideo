@@ -6,14 +6,37 @@
             url: webSiteRootURL + 'objects/playlists.json.php',
             success: function (response) {
                 playList = response;
+                reloadPlayListButtons();
             }
         });
+    }
+
+    function reloadPlayListButtons() {
+        $('.watchLaterBtnAdded').hide();
+        $('.favoriteBtnAdded').hide();
+        $('.watchLaterBtn').show();
+        $('.favoriteBtn').show();
+        for (var i in playList) {
+            if (!playList[i].id || (playList[i].status !== 'watch_later' && playList[i].status !== 'favorite')) {
+                continue;
+            }
+            for (var x in playList[i].videos) {
+                if (typeof (playList[i].videos[x]) === 'object') {
+                    if (playList[i].status === 'watch_later') {
+                        $('.watchLaterBtn' + playList[i].videos[x].videos_id).hide();
+                        $('.watchLaterBtnAdded' + playList[i].videos[x].videos_id).show();
+                    } else if (playList[i].status === 'favorite') {
+                        $('.favoriteBtn' + playList[i].videos[x].videos_id).hide();
+                        $('.favoriteBtnAdded' + playList[i].videos[x].videos_id).show();
+                    }
+                }
+            }
+        }
     }
 
     loadPlayListsResponseObject = {timestamp: 0, response: false};
     function loadPlayLists(videos_id, crc) {
         if (loadPlayListsResponseObject.timestamp + 5000 < Date.now()) {
-            console.log('loadPlayLists');
             loadPlayListsResponseObject.timestamp = Date.now();
             loadPlayListsResponseObject.response = [];
             setTimeout(function () {
@@ -30,10 +53,8 @@
 
         } else {
             if (loadPlayListsResponseObject.response) {
-                console.log('loadPlayLists NOT empty response');
                 loadPlayListsResponse(loadPlayListsResponseObject.response, videos_id, crc);
             } else {
-                console.log('loadPlayLists empty response');
                 setTimeout(function () {
                     loadPlayLists(videos_id, crc);
                 }, 1500);
@@ -48,9 +69,13 @@
             if (!response[i].id) {
                 continue;
             }
-            var icon = "lock"
+            var icon = "fa fa-lock"
             if (response[i].status == "public") {
-                icon = "globe"
+                icon = "fa fa-globe"
+            }else if (response[i].status == "watch_later") {
+                icon = "fas fa-clock"
+            }else if (response[i].status == "favorite") {
+                icon = "fas fa-heart"
             }
             var checked = "";
             for (var x in response[i].videos) {
@@ -58,7 +83,7 @@
                     checked = "checked";
                 }
             }
-            $(".searchlist" + videos_id + crc).append('<a class="list-group-item"><i class="fa fa-' + icon + '"></i> <span>'
+            $(".searchlist" + videos_id + crc).append('<a class="list-group-item"><i class="' + icon + '"></i> <span>'
                     + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
                     + response[i].id + videos_id + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsIds' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
                     + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
@@ -71,31 +96,32 @@
                 return false;
             }
             playListsAdding = true;
-            modal.showPleaseWait();
 
-            //tmp-variables simply make the values avaible on success.
-            tmpPIdBigVideo = $(this).val();
-            tmpSaveBigVideo = $(this).is(":checked");
-            $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
-                method: 'POST',
-                data: {
-                    'videos_id': videos_id,
-                    'add': $(this).is(":checked"),
-                    'playlists_id': $(this).val()
-                },
-                success: function (response) {
-                    $(".playListsIds" + tmpPIdBigVideo).prop("checked", tmpSaveBigVideo);
-                    modal.hidePleaseWait();
-                    setTimeout(function () {
-                        playListsAdding = false
-                    }, 500);
-                }
-            });
+            addVideoToPlayList(videos_id, $(this).is(":checked"), $(this).val());
             return false;
         });
     }
 
+    function addVideoToPlayList(videos_id, isChecked, playlists_id) {
+        modal.showPleaseWait();
+        $.ajax({
+            url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
+            method: 'POST',
+            data: {
+                'videos_id': videos_id,
+                'add': isChecked,
+                'playlists_id': playlists_id
+            },
+            success: function (response) {
+                reloadPlayLists();
+                $(".playListsIds" + videos_id).prop("checked", isChecked);
+                modal.hidePleaseWait();
+                setTimeout(function () {
+                    playListsAdding = false
+                }, 500);
+            }
+        });
+    }
 
     $(document).ready(function () {
         reloadPlayLists();
