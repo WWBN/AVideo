@@ -181,7 +181,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                     echo AVideoPlugin::thumbsOverlay($value['id']);
                     @$timesG[__LINE__] += microtime(true) - $startG;
                     $startG = microtime(true);
-                    if (!empty($program)) {
+                    if (User::isLogged() && !empty($program)) {
                         ?>
                         <div class="galleryVideoButtons">
                             <?php
