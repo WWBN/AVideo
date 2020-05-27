@@ -842,7 +842,7 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                 ?>
                                 <li>
                                     <div>
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-info btn-block" style="border-radius: 0;">
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>charts" class="btn btn-default btn-block" style="border-radius: 0;">
                                             <span class="fas fa-tachometer-alt"></span>
                                             <?php echo __("Dashboard"); ?>
                                         </a>
@@ -853,7 +853,7 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                 ?>
                                 <li>
                                     <div>
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-warning btn-block" style="border-radius: 0">
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>subscribes" class="btn btn-default btn-block" style="border-radius: 0">
                                             <span class="fa fa-check"></span>
                                             <?php echo __("My Subscribers"); ?>
                                         </a>
@@ -865,7 +865,7 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
 
                                     <li>
                                         <div>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>categories" class="btn btn-info btn-block" style="border-radius: 0;">
+                                            <a href="<?php echo $global['webSiteRootURL']; ?>categories" class="btn btn-default btn-block" style="border-radius: 0;">
                                                 <span class="glyphicon glyphicon-list"></span>
                                                 <?php echo __($advancedCustom->CategoryLabel); ?>
                                             </a>
