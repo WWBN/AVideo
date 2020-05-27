@@ -4,7 +4,12 @@ $global['webSiteRootURL'] .= (substr($global['webSiteRootURL'], -1) == '/' ? '' 
 $global['systemRootPath'] .= (substr($global['systemRootPath'], -1) == '/' ? '' : '/');
 $global['session_name'] = preg_replace( '/[\W]/', '', $global['webSiteRootURL']);
 session_name($global['session_name']);
-ini_set('error_log', $global['systemRootPath'] . 'videos/avideo.log');
+
+if(empty($global['logfile'])){
+    $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
+}
+
+ini_set('error_log', $global['logfile']);
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
