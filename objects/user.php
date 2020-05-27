@@ -233,13 +233,41 @@ if (typeof gtag !== \"function\") {
         if (self::isLogged()) {
 
             if (empty($_SESSION['user']['channelName'])) {
-                $_SESSION['user']['channelName'] = uniqid();
+                $_SESSION['user']['channelName'] = self::_recommendChannelName();
                 $user = new User(User::getId());
                 $user->setChannelName($_SESSION['user']['channelName']);
                 $user->save();
             }
 
             return $_SESSION['user']['channelName'];
+        } else {
+            return false;
+        }
+    }
+    
+    static private function _recommendChannelName($name=""){
+        if(empty($name)){
+            $name = self::getNameIdentification();
+            $name = cleanString($name);
+        }
+        $user = self::getUserFromChannelName($channelName);
+        if($user && $user['id']!== User::getId()){
+            return self::_recommendChannelName($name. "_".uniqid());
+        }
+        return $name;
+    }
+    
+    static function getUserFromChannelName($channelName) {
+        $channelName = cleanString($channelName);
+        global $global;
+        $channelName = $global['mysqli']->real_escape_string($channelName);
+        $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($channelName));
+        $user = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+
+        if ($user != false) {
+            return $user;
         } else {
             return false;
         }
@@ -437,16 +465,9 @@ if (typeof gtag !== \"function\") {
         }
         if (empty($this->emailVerified))
             $this->emailVerified = "false";
-        if (empty($this->channelName)) {
-            $this->channelName = uniqid();
-        } else {
-            $channelOwner = static::getChannelOwner($this->channelName);
-            if (!empty($channelOwner)) { // if the channel name exists and it is not from this user, rename the channel name
-                if (empty($this->id) || $channelOwner['id'] != $this->id) {
-                    $this->channelName .= uniqid();
-                }
-            }
-        }
+        
+        $this->channelName = self::_recommendChannelName($this->channelName);
+        
         $this->user = $global['mysqli']->real_escape_string($this->user);
         $this->password = $global['mysqli']->real_escape_string($this->password);
         $this->name = $global['mysqli']->real_escape_string($this->name);
@@ -454,9 +475,7 @@ if (typeof gtag !== \"function\") {
         $this->about = $global['mysqli']->real_escape_string($this->about);
         $this->about = preg_replace("/(\\\)+n/", "\n", $this->about);
         $this->channelName = $global['mysqli']->real_escape_string($this->channelName);
-        if (empty($this->channelName)) {
-            $this->channelName = uniqid();
-        }
+        $this->channelName = self::_recommendChannelName($this->channelName);
         if (filter_var($this->donationLink, FILTER_VALIDATE_URL) === FALSE) {
             $this->donationLink = "";
         }
@@ -1505,7 +1524,7 @@ if (typeof gtag !== \"function\") {
 
     function getChannelName() {
         if (empty($this->channelName)) {
-            $this->channelName = uniqid();
+            $this->channelName = self::_recommendChannelName($this->channelName);
             $this->save();
         }
         return $this->channelName;
