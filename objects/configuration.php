@@ -322,11 +322,15 @@ class Configuration {
         if (empty($global['disableTimeFix'])) {
             $global['disableTimeFix'] = 0;
         }
+        if(empty($global['logfile'])){
+            $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
+        }
         $content = "<?php
-\$global['configurationVersion'] = 3;
+\$global['configurationVersion'] = 3.1;
 \$global['disableAdvancedConfigurations'] = {$global['disableAdvancedConfigurations']};
 \$global['videoStorageLimitMinutes'] = {$global['videoStorageLimitMinutes']};
 \$global['disableTimeFix'] = {$global['disableTimeFix']};
+\$global['logfile'] = '{$global['logfile']}';
 if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) { 
     // get the subdirectory, if exists
     \$file = str_replace(\"\\\\\", \"/\", __FILE__);

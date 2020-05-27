@@ -41,7 +41,7 @@ require_once $global['systemRootPath'] . 'objects/security.php';
 $config = new Configuration();
 
 // for update config from old versions 2020-05-11
-if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3) {
+if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) {
     Configuration::rewriteConfigFile();
 }
 
