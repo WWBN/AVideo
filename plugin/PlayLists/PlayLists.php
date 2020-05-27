@@ -230,7 +230,7 @@ class PlayLists extends PluginAbstract {
         if($obj->showWatchLaterOnLeftMenu){
             $str .= '<li>
                         <div>
-                            <a href="' . self::getWatchLaterLink() . '" class="btn btn-danger btn-block" style="border-radius: 0;">
+                            <a href="' . self::getWatchLaterLink() . '" class="btn btn-default btn-block" style="border-radius: 0;">
                                 <i class="fas fa-clock"></i>
                                 ' . __("Watch Later") . '
                             </a>
@@ -240,7 +240,7 @@ class PlayLists extends PluginAbstract {
         if($obj->showFavoriteOnLeftMenu){
             $str .= '<li>
                         <div>
-                            <a href="' . self::getFavoriteLink() . '" class="btn btn-danger btn-block" style="border-radius: 0;">
+                            <a href="' . self::getFavoriteLink() . '" class="btn btn-default btn-block" style="border-radius: 0;">
                                 <i class="fas fa-heart"></i>
                                 ' . __("Favorite") . '
                             </a>
