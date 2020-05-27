@@ -28,7 +28,7 @@ foreach ($categories as $value) {
     unset($_POST['sort']);
     $_POST['sort']['v.created'] = "DESC";
     $_POST['sort']['likes'] = "DESC";
-    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+    $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
     if (empty($videos)) {
         continue;
     }

@@ -56,7 +56,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $page = $totalPages;
             $_POST['current'] = $totalPages;
         }
-        $videos = Video::getAllVideos("viewable", false, $ignoreGroup);
+        $videos = Video::getAllVideos("viewableNotUnlisted", false, $ignoreGroup);
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         $countCols = createGallerySection($videos, dechex(crc32($getName)));
         ?>
