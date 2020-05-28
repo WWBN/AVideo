@@ -100,7 +100,7 @@ abstract class PluginAbstract {
                 $o = json_decode(stripslashes($obj['object_data']));
                 $json_last_error = json_last_error();
                 if ($json_last_error !== JSON_ERROR_NONE) {
-                    _error_log('getDataObject - JSON error (' . $json_last_error . ') ' . $this->getName()." ".$this->getUUID());
+                    //_error_log('getDataObject - JSON error (' . $json_last_error . ') ' . $this->getName()." ".$this->getUUID());
                     $o = json_decode($obj['object_data']);
                     $json_last_error = json_last_error();
                 }
