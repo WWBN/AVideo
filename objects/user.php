@@ -245,7 +245,7 @@ if (typeof gtag !== \"function\") {
         }
     }
     
-    static private function _recommendChannelName($name=""){
+    static function _recommendChannelName($name=""){
         if(empty($name)){
             $name = self::getNameIdentification();
             $name = cleanString($name);
