@@ -245,7 +245,11 @@ if (typeof gtag !== \"function\") {
         }
     }
     
-    static function _recommendChannelName($name=""){
+    static function _recommendChannelName($name="", $try = 0){
+        if($try>10){
+            _error_log("User:_recommendChannelName too many tries ", AVideoLog::$ERROR);
+            die("Too many tries");
+        }
         if(empty($name)){
             $name = self::getNameIdentification();
             $name = cleanString($name);
@@ -258,7 +262,7 @@ if (typeof gtag !== \"function\") {
         if(!User::isAdmin()){
             $user = self::getUserFromChannelName($name);
             if($user && $user['id']!== User::getId()){
-                return self::_recommendChannelName($name. "_".uniqid());
+                return self::_recommendChannelName($name. "_".uniqid(), $try+1);
             }
         }
         return $name;
