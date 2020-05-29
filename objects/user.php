@@ -250,7 +250,7 @@ if (typeof gtag !== \"function\") {
             $name = self::getNameIdentification();
             $name = cleanString($name);
         }
-        $user = self::getUserFromChannelName($channelName);
+        $user = self::getUserFromChannelName($name);
         if($user && $user['id']!== User::getId()){
             return self::_recommendChannelName($name. "_".uniqid());
         }
