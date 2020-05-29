@@ -72,7 +72,7 @@ if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannel
 }
 
 $objGallery = AVideoPlugin::getObjectData("Gallery");
-if(empty($video['id'])){
+if (empty($video['id'])) {
     $video['id'] = 0;
 }
 ?>
@@ -101,6 +101,7 @@ if(empty($video['id'])){
 </div>
 
 <?php
+$program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
 foreach ($videos as $key => $value) {
     if (!empty($video['id']) && $video['id'] == $value['id']) {
         continue; // skip video
@@ -121,53 +122,85 @@ foreach ($videos as $key => $value) {
             $link .= "{$connection}page={$_GET['page']}";
         }
         ?>
-        <a href="<?php echo $link; ?>" title="<?php echo $value['title']; ?>">
-            <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage videoLink h6" >
-                <?php
-                $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage videoLink h6" >
+            <?php
+            $images = Video::getImageFromFilename($value['filename'], $value['type']);
 
-                if (!is_object($images)) {
-                    $images = new stdClass();
-                    $images->thumbsGif = "";
-                    $images->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
-                    $images->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
-                    $images->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
-                }
+            if (!is_object($images)) {
+                $images = new stdClass();
+                $images->thumbsGif = "";
+                $images->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+                $images->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
+                $images->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
+            }
 
-                $imgGif = $images->thumbsGif;
-                $img = $images->thumbsJpg;
-                if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
-                    $imgGif = $images->gifPortrait;
-                    $img = $images->posterPortrait;
-                }
-                if (($value['type'] !== "audio") && ($value['type'] !== "linkAudio")) {
-                    $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
-                } else {
-                    $img_portrait = "";
-                }
-                ?>
-                <div style="position: relative;">
+            $imgGif = $images->thumbsGif;
+            $img = $images->thumbsJpg;
+            if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+                $imgGif = $images->gifPortrait;
+                $img = $images->posterPortrait;
+            }
+            if (($value['type'] !== "audio") && ($value['type'] !== "linkAudio")) {
+                $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
+            } else {
+                $img_portrait = "";
+            }
+            ?>
+            <div style="position: relative;" class="galleryVideo">
+                <a href="<?php echo $link; ?>" title="<?php echo $value['title']; ?>">
+
                     <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img-responsive text-center <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($img != $images->thumbsJpgSmall) ? "blur" : ""; ?>" height="130" />
                     <?php
                     if (!empty($imgGif)) {
                         ?>
                         <img src="<?php echo $global['webSiteRootURL']; ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                     <?php } ?>
-                        <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" ></span>
-                        <span itemprop="uploadDate" content="<?php echo $value['created']; ?>"></span>
-                    <?php
-                    if (isToShowDuration($value['type'])) {
-                        ?>
-                        <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
-                        <?php
-                    }
+
+                </a>
+                <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" ></span>
+                <span itemprop="uploadDate" content="<?php echo $value['created']; ?>"></span>
+                <?php
+                if (isToShowDuration($value['type'])) {
                     ?>
-                </div>
-                <div class="progress" style="height: 3px; margin-bottom: 2px;">
-                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                    <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
+                    <?php
+                }
+                if (User::isLogged() && !empty($program)) {
+                    ?>
+                    <div class="galleryVideoButtons">
+                        <?php
+                        //var_dump($value['isWatchLater'], $value['isFavorite']);
+                        if ($value['isWatchLater']) {
+                            $watchLaterBtnAddedStyle = "";
+                            $watchLaterBtnStyle = "display: none;";
+                        } else {
+                            $watchLaterBtnAddedStyle = "display: none;";
+                            $watchLaterBtnStyle = "";
+                        }
+                        if ($value['isFavorite']) {
+                            $favoriteBtnAddedStyle = "";
+                            $favoriteBtnStyle = "display: none;";
+                        } else {
+                            $favoriteBtnAddedStyle = "display: none;";
+                            $favoriteBtnStyle = "";
+                        }
+                        ?>
+
+                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
+                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
+                        <br>
+                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
+                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
+
+                    </div>
+                    <?php
+                }
+                ?>
             </div>
-        </a>
+            <div class="progress" style="height: 3px; margin-bottom: 2px;">
+                <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
         <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails" style="font-size: 0.75em;">
 
             <a href="<?php echo $link; ?>" title="<?php echo $value['title']; ?>">
@@ -200,7 +233,7 @@ foreach ($videos as $key => $value) {
                 <?php
                 if (empty($advancedCustom->doNotDisplayViews)) {
                     ?>
-                <div class="col-sm-6 nopadding">
+                    <div class="col-sm-6 nopadding">
                         <strong class="view-count<?php echo $value['id']; ?>"> <i class="fas fa-eye"></i> <?php echo number_format($value['views_count'], 0); ?></strong>
                     </div>
                 <?php } ?>
@@ -253,84 +286,84 @@ if (!empty($get)) {
         if (disableChannel) {
             query = "";
         }
-        <?php
-        if(!empty($videoName) && !empty($video['id'])){
-        ?>
-        var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>' + page + query;
-        <?php
-        }else if(!empty ($_GET['evideo'])){
-        ?>
-        var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>evideo/<?php echo $_GET['evideo']; ?>';
-        <?php
-        }else{
-        ?>
-        var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>';
-        <?php
-        }
-        ?>
-        var urlList = "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>" + page + query;
+<?php
+if (!empty($videoName) && !empty($video['id'])) {
+    ?>
+            var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>' + page + query;
+    <?php
+} else if (!empty($_GET['evideo'])) {
+    ?>
+                    var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>evideo/<?php echo $_GET['evideo']; ?>';
+    <?php
+} else {
+    ?>
+                            var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>';
+    <?php
+}
+?>
+                        var urlList = "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>" + page + query;
 
 
-                        history.pushState(null, null, url);
-                        $('.pages').slideUp();
-                        $('#pageLoader').fadeIn();
-                        rowCount = $('#rowCount').val();
-                        sortBy = $('#sortBy').val();
-                        console.log(sortBy);
-                        if (sortBy == 'newest') {
-                            sortBy = {'created': 'desc'};
-                        } else
-                        if (sortBy == 'oldest') {
-                            sortBy = {'created': 'asc'};
-                        } else if (sortBy == 'views_count') {
-                            sortBy = {'views_count': 'desc'};
-                        } else if (sortBy == 'titleAZ') {
-                            sortBy = {'title': 'asc'};
-                        } else if (sortBy == 'titleZA') {
-                            sortBy = {'title': 'desc'};
-                        } else {
-                            sortBy = {'likes': 'desc'};
-                        }
-                        $.ajax({
-                            type: "POST",
-                            url: urlList,
-                            data: {
-                                rowCount: rowCount,
-                                sort: sortBy,
-                                video_id: <?php echo $video['id']; ?>
-                            }
-                        }).done(function (result) {
-                            $("#videosList").html(result);
-                            setBootPage();
-                            $("#videosList").removeClass('transparent');
-                        });
-                    }
-
-                    $(document).ready(function () {
-                        setBootPage();
-                        mouseEffect();
-                        $('#rowCount, #sortBy').change(function () {
-                            num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
-                            loadPage(num, false);
-                        });
-                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-                            $('#rowCount, #sortBy').selectpicker('mobile');
-                        } else {
-                            $('#rowCount, #sortBy').selectpicker();
-                        }
-
-                        $('.thumbsJPG').lazy({
-                            effect: 'fadeIn',
-                            visibleOnly: true,
-                            // called after an element was successfully handled
-                            afterLoad: function (element) {
-                                element.removeClass('blur');
-                                element.parent().find('.thumbsGIF').lazy({
-                                    effect: 'fadeIn'
+                                history.pushState(null, null, url);
+                                $('.pages').slideUp();
+                                $('#pageLoader').fadeIn();
+                                rowCount = $('#rowCount').val();
+                                sortBy = $('#sortBy').val();
+                                console.log(sortBy);
+                                if (sortBy == 'newest') {
+                                    sortBy = {'created': 'desc'};
+                                } else
+                                if (sortBy == 'oldest') {
+                                    sortBy = {'created': 'asc'};
+                                } else if (sortBy == 'views_count') {
+                                    sortBy = {'views_count': 'desc'};
+                                } else if (sortBy == 'titleAZ') {
+                                    sortBy = {'title': 'asc'};
+                                } else if (sortBy == 'titleZA') {
+                                    sortBy = {'title': 'desc'};
+                                } else {
+                                    sortBy = {'likes': 'desc'};
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: urlList,
+                                    data: {
+                                        rowCount: rowCount,
+                                        sort: sortBy,
+                                        video_id: <?php echo $video['id']; ?>
+                                    }
+                                }).done(function (result) {
+                                    $("#videosList").html(result);
+                                    setBootPage();
+                                    $("#videosList").removeClass('transparent');
                                 });
                             }
-                        });
-                    });
+
+                            $(document).ready(function () {
+                                setBootPage();
+                                mouseEffect();
+                                $('#rowCount, #sortBy').change(function () {
+                                    num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
+                                    loadPage(num, false);
+                                });
+                                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+                                    $('#rowCount, #sortBy').selectpicker('mobile');
+                                } else {
+                                    $('#rowCount, #sortBy').selectpicker();
+                                }
+
+                                $('.thumbsJPG').lazy({
+                                    effect: 'fadeIn',
+                                    visibleOnly: true,
+                                    // called after an element was successfully handled
+                                    afterLoad: function (element) {
+                                        element.removeClass('blur');
+                                        element.parent().find('.thumbsGIF').lazy({
+                                            effect: 'fadeIn'
+                                        });
+                                    }
+                                });
+                            });
 </script>
 <?php
 include $global['systemRootPath'] . 'objects/include_end.php';

@@ -53,10 +53,11 @@
     $startC = microtime(true);
     TimeLogEnd($timeLog2, __LINE__);
     $countSuccess = 0;
-    $get = array(); 
-    if(!empty($_GET['channelName'])){
-       $get = array('channelName' => $_GET['channelName']); 
+    $get = array();
+    if (!empty($_GET['channelName'])) {
+        $get = array('channelName' => $_GET['channelName']);
     }
+    $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
     foreach ($playlists as $key => $playlist) {
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
@@ -115,12 +116,12 @@
                                 ?>
                                 <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val());setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
                                 <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<?php
-                            $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
-                            echo ($code);
-                            ?>'/>
-                                <?php
-                            }
-                            ?>
+                                $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
+                                echo ($code);
+                                ?>'/>
+                                       <?php
+                                   }
+                                   ?>
                             <button class="btn btn-xs btn-info seriePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-film"></i> <?php echo __("Serie"); ?></button>
 
                             <div id="seriePlaylistModal" class="modal fade" tabindex="-1" role="dialog" >
@@ -289,7 +290,40 @@
                                     </div> 
                                     <?php
                                 }
-                                ?>
+                                if (User::isLogged() && !empty($program)) {
+                                    ?>
+                                    <div class="galleryVideoButtons">
+                                        <?php
+                                        //var_dump($value['isWatchLater'], $value['isFavorite']);
+                                        if ($value['isWatchLater']) {
+                                            $watchLaterBtnAddedStyle = "";
+                                            $watchLaterBtnStyle = "display: none;";
+                                        } else {
+                                            $watchLaterBtnAddedStyle = "display: none;";
+                                            $watchLaterBtnStyle = "";
+                                        }
+                                        if ($value['isFavorite']) {
+                                            $favoriteBtnAddedStyle = "";
+                                            $favoriteBtnStyle = "display: none;";
+                                        } else {
+                                            $favoriteBtnAddedStyle = "display: none;";
+                                            $favoriteBtnStyle = "";
+                                        }
+                                        ?>
+
+                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
+                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['watchLaterId']; ?>);
+                                                return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
+                                        <br>
+                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['favoriteId']; ?>);
+                                                return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
+                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);
+                                                return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
+
+                                    </div>
+                <?php
+            }
+            ?>
                             </a>
                             <a class="hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
                                 <h2><?php echo $value['title']; ?></h2>
@@ -307,34 +341,34 @@
                                     }
                                     ?>
                                 </div>
-                                <?php
-                                if (empty($advancedCustom->doNotDisplayViews)) {
-                                    ?> 
+            <?php
+            if (empty($advancedCustom->doNotDisplayViews)) {
+                ?> 
                                     <div>
                                         <i class="fa fa-eye"></i>
                                         <span itemprop="interactionCount">
-                                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                    <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                                         </span>
                                     </div>
-                                    <?php
-                                }
-                                ?>
+                <?php
+            }
+            ?>
 
                                 <div>
                                     <i class="far fa-clock"></i>
-                                    <?php
-                                    echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-                                    ?>
+            <?php
+            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
+            ?>
                                 </div>
                                 <div>
                                     <i class="fa fa-user"></i>
-                                    <?php
-                                    echo $name;
-                                    ?>
-                                </div>
                                 <?php
-                                if (Video::canEdit($value['id'])) {
-                                    ?>
+                                echo $name;
+                                ?>
+                                </div>
+            <?php
+            if (Video::canEdit($value['id'])) {
+                ?>
                                     <div>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
 
@@ -343,33 +377,33 @@
                                     <?php
                                 }
                                 ?>
-                                <?php
-                                if ($isMyChannel) {
-                                    ?>
+            <?php
+            if ($isMyChannel) {
+                ?>
                                     <div>
                                         <span style=" cursor: pointer;" class="btn-link text-primary removeVideo" playlist_id="<?php echo $playlist['id']; ?>" video_id="<?php echo $value['id']; ?>">
                                             <i class="fa fa-trash"></i> <?php echo __("Remove"); ?>
                                         </span>
                                     </div>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </div>
-
                 <?php
             }
             ?>
+                            </div>
+                        </div>
+            <?php
+        }
+        ?>
+                </div>
+
+        <?php
+    }
+    ?>
 
         </div>
         <?php
     }
-    if(!empty($videosP) && empty($countSuccess)){
-        header("Location: {$global['webSiteRootURL']}view/channelPlaylistItems.php?current=".(count($playlists) ? $_POST['current'] + 1 : $_POST['current'])."&channelName={$_GET['channelName']}");
+    if (!empty($videosP) && empty($countSuccess)) {
+        header("Location: {$global['webSiteRootURL']}view/channelPlaylistItems.php?current=" . (count($playlists) ? $_POST['current'] + 1 : $_POST['current']) . "&channelName={$_GET['channelName']}");
         exit;
     }
     TimeLogEnd($timeLog2, __LINE__);
@@ -487,7 +521,7 @@
                     closeOnConfirm: true,
                     inputPlaceholder: "<?php echo __("Playlist name?"); ?>"
                 }).then(inputValue => {
-                    
+
                     if (!inputValue || inputValue === false || inputValue === "")
                         return false;
 
