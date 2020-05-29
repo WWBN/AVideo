@@ -250,6 +250,11 @@ if (typeof gtag !== \"function\") {
             $name = self::getNameIdentification();
             $name = cleanString($name);
         }
+        // in case is a email get only the username
+        $parts = explode("@", $name);
+        $name = $parts[0];
+        // do not exceed 36 chars to leave some room for the unique id;
+        $name = substr($name, 0, 36);
         $user = self::getUserFromChannelName($name);
         if($user && $user['id']!== User::getId()){
             return self::_recommendChannelName($name. "_".uniqid());
