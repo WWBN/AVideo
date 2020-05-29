@@ -255,9 +255,11 @@ if (typeof gtag !== \"function\") {
         $name = $parts[0];
         // do not exceed 36 chars to leave some room for the unique id;
         $name = substr($name, 0, 36);
-        $user = self::getUserFromChannelName($name);
-        if($user && $user['id']!== User::getId()){
-            return self::_recommendChannelName($name. "_".uniqid());
+        if(!User::isAdmin()){
+            $user = self::getUserFromChannelName($name);
+            if($user && $user['id']!== User::getId()){
+                return self::_recommendChannelName($name. "_".uniqid());
+            }
         }
         return $name;
     }
@@ -477,7 +479,7 @@ if (typeof gtag !== \"function\") {
         $this->status = $global['mysqli']->real_escape_string($this->status);
         $this->about = $global['mysqli']->real_escape_string($this->about);
         $this->about = preg_replace("/(\\\)+n/", "\n", $this->about);
-        //$this->channelName = self::_recommendChannelName($this->channelName);
+        $this->channelName = self::_recommendChannelName($this->channelName);
         $this->channelName = $global['mysqli']->real_escape_string($this->channelName);
         if (filter_var($this->donationLink, FILTER_VALIDATE_URL) === FALSE) {
             $this->donationLink = "";
