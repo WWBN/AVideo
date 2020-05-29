@@ -158,6 +158,10 @@ if (!empty($_POST['encoderURL'])) {
     $video->setEncoderURL($_POST['encoderURL']);
 }
 
+if (!empty($_POST['categories_id'])) {
+    $video->setCategories_id($_POST['categories_id']);
+}
+
 $video_id = $video->save();
 $video->updateDurationIfNeed();
 $video->updateHLSDurationIfNeed();
