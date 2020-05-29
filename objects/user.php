@@ -470,9 +470,7 @@ if (typeof gtag !== \"function\") {
         }
         if (empty($this->emailVerified))
             $this->emailVerified = "false";
-        
-        $this->channelName = self::_recommendChannelName($this->channelName);
-        
+                
         $this->user = $global['mysqli']->real_escape_string($this->user);
         $this->password = $global['mysqli']->real_escape_string($this->password);
         $this->name = $global['mysqli']->real_escape_string($this->name);
