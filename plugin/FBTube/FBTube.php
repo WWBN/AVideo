@@ -5,7 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class FBTube extends PluginAbstract {
     
     public function getDescription() {
-        return "Make the first page works as a facebook page";
+        return "<b>(Deprecated, will be removed in next version)</b> Make the first page works as a facebook page";
     }
 
     public function getName() {

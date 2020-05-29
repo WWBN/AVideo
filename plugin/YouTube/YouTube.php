@@ -5,7 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 class YouTube extends PluginAbstract {
 
     public function getDescription() {
-        return "Make the first page works as a YouTube";
+        return "<b>(Deprecated, will be removed in next version)</b> Make the first page works as a YouTube";
     }
 
     public function getName() {

@@ -6,7 +6,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class ShareSocialButtonsOnEmbed extends PluginAbstract {
 
     public function getDescription() {
-        return "Enable Or disable Share Social Buttons on Embed videos";
+        return "<b>(Deprecated, will be removed next version)</b> Enable Or disable Share Social Buttons on Embed videos";
     }
 
     public function getName() {

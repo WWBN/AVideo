@@ -5,7 +5,7 @@ class LiveChat extends PluginAbstract{
 
     public function getDescription() {
         global $global;
-        $desc = "This plugin is Discontinued. you should move to Chat2 plugin.<br>A live chat for multiple propouses<br>Initiate it on terminal with the command <code>nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &</code>";
+        $desc = "<b>(Deprecated, will be removed next version)</b> This plugin is Discontinued. you should move to Chat2 plugin.<br>A live chat for multiple propouses<br>Initiate it on terminal with the command <code>nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &</code>";
         $desc .= $this->isReadyLabel(array('Live'));
         return $desc;
     }
