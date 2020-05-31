@@ -57,7 +57,7 @@ class PlayList extends ObjectYPT {
      * @param type $isVideoIdPresent pass the ID of the video checking
      * @return boolean
      */
-    static function getAllFromUser($userId, $publicOnly = true, $status = false, $playlists_id = 0) {
+    static function getAllFromUser($userId, $publicOnly = true, $status = false, $playlists_id = 0, $try=0) {
         global $global, $config, $refreshCacheFromPlaylist;
         $playlists_id = intval($playlists_id);
         $formats = "";
@@ -106,10 +106,10 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
             }
-            if($favoriteCount>1 || $watch_laterCount > 1){
+            if($try=0 && ($favoriteCount>1 || $watch_laterCount > 1)){
                 self::fixDuplicatePlayList($user_id);
                 $refreshCacheFromPlaylist = true;
-                return self::getAllFromUser($userId, $publicOnly, $status, $playlists_id);
+                return self::getAllFromUser($userId, $publicOnly, $status, $playlists_id, $try+1);
             }
             if (empty($_POST['current']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
                 if (empty($favorite)) {
