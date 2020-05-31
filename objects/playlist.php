@@ -1,6 +1,8 @@
 <?php
 
-global $global, $config;
+global $global, $config, $refreshCacheFromPlaylist;
+$refreshCacheFromPlaylist = false; // this is because it was creating playlists multiple times
+
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
@@ -56,7 +58,7 @@ class PlayList extends ObjectYPT {
      * @return boolean
      */
     static function getAllFromUser($userId, $publicOnly = true, $status = false, $playlists_id = 0) {
-        global $global, $config;
+        global $global, $config, $refreshCacheFromPlaylist;
         $playlists_id = intval($playlists_id);
         $formats = "";
         $values = array();
@@ -79,12 +81,14 @@ class PlayList extends ObjectYPT {
         }
         $sql .= self::getSqlFromPost("pl.");
         //echo $sql, $userId;exit;
-        $res = sqlDAL::readSql($sql, $formats, $values);
+        $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
         $favorite = array();
         $watch_later = array();
+        $favoriteCount = 0;
+        $watch_laterCount = 0;
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
@@ -92,13 +96,20 @@ class PlayList extends ObjectYPT {
                 $row['isWatchLater'] = false;
                 if ($row['status'] === "favorite") {
                     $row['isFavorite'] = true;
+                    $favoriteCount++;
                     $favorite = $row;
                 } else if ($row['status'] === "watch_later") {
+                    $watch_laterCount++;
                     $row['isWatchLater'] = true;
                     $watch_later = $row;
                 } else {
                     $rows[] = $row;
                 }
+            }
+            if($favoriteCount>1 || $watch_laterCount > 1){
+                self::fixDuplicatePlayList($user_id);
+                $refreshCacheFromPlaylist = true;
+                return self::getAllFromUser($userId, $publicOnly, $status, $playlists_id);
             }
             if (empty($_POST['current']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
                 if (empty($favorite)) {
@@ -107,6 +118,7 @@ class PlayList extends ObjectYPT {
                     $pl->setStatus("favorite");
                     $pl->setUsers_id($userId);
                     $id = $pl->save();
+                    $refreshCacheFromPlaylist = true;
                     $row['id'] = $id;
                     $row['name'] = $pl->getName();
                     $row['status'] = $pl->getStatus();
@@ -119,6 +131,7 @@ class PlayList extends ObjectYPT {
                     $pl->setStatus("watch_later");
                     $pl->setUsers_id($userId);
                     $id = $pl->save();
+                    $refreshCacheFromPlaylist = true;
                     $row['id'] = $id;
                     $row['name'] = $pl->getName();
                     $row['status'] = $pl->getStatus();
@@ -136,6 +149,56 @@ class PlayList extends ObjectYPT {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+
+    static function fixDuplicatePlayList($user_id) {
+        _error_log("PlayList::fixDuplicatePlayList Process user_id = {$user_id} favorite");
+        $sql = "SELECT * FROM  playlists WHERE users_id = ? AND status = 'favorite' ORDER BY created ";
+        $res = sqlDAL::readSql($sql, "i", array($user_id), true);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $key => $row) {
+                if ($key === 0) {
+                    continue;
+                }
+
+                if (!empty(PlayList::getVideosIDFromPlaylistLight($row['id']))) {
+                    _error_log("PlayList::fixDuplicatePlayList favorite PlayList NOT empty {$row['id']}");
+                    continue;
+                }
+
+                $sql = "DELETE FROM playlists ";
+                $sql .= " WHERE id = ?";
+                
+                _error_log("PlayList::fixDuplicatePlayList favorite {$row['id']}");
+                sqlDAL::writeSql($sql, "i", array($row['id']));
+            }
+        }
+
+        _error_log("PlayList::fixDuplicatePlayList Process user_id = {$user_id} watch_later");
+        $sql = "SELECT * FROM  playlists WHERE users_id = ? AND status = 'watch_later' ORDER BY created ";
+        $res = sqlDAL::readSql($sql, "i", array($user_id), true);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $key => $row) {
+                if ($key === 0) {
+                    continue;
+                }
+                if (!empty(PlayList::getVideosIDFromPlaylistLight($row['id']))) {
+                    _error_log("PlayList::fixDuplicatePlayList watch_later PlayList NOT empty {$row['id']}");
+                    continue;
+                }
+                $sql = "DELETE FROM playlists ";
+                $sql .= " WHERE id = ?";
+                _error_log("PlayList::fixDuplicatePlayList watch_later {$row['id']}");
+                ob_flush();
+                sqlDAL::writeSql($sql, "i", array($row['id']));
+            }
+        } 
     }
 
     static function getAllFromUserVideo($userId, $videos_id, $publicOnly = true, $status = false) {
@@ -252,8 +315,7 @@ class PlayList extends ObjectYPT {
             } else {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
-        }
-        else{
+        } else {
             $rows = object_to_array($rows);
         }
         return $rows;
@@ -289,6 +351,7 @@ class PlayList extends ObjectYPT {
     }
 
     static function getFavoriteIdFromUser($users_id) {
+        global $refreshCacheFromPlaylist;
         $favorite = self::getIdFromUser($users_id, "favorite");
         if (empty($favorite)) {
             $pl = new PlayList(0);
@@ -296,12 +359,14 @@ class PlayList extends ObjectYPT {
             $pl->setUsers_id($users_id);
             $pl->setStatus("favorite");
             $pl->save();
+            $refreshCacheFromPlaylist = true;
             $favorite = self::getIdFromUser($users_id, "favorite");
         }
         return $favorite;
     }
 
     static function getWatchLaterIdFromUser($users_id) {
+        global $refreshCacheFromPlaylist;
         $watch_later = self::getIdFromUser($users_id, "watch_later");
 
         if (empty($watch_later)) {
@@ -310,6 +375,7 @@ class PlayList extends ObjectYPT {
             $pl->setUsers_id($users_id);
             $pl->setStatus("watch_later");
             $pl->save();
+            $refreshCacheFromPlaylist = true;
             $watch_later = self::getIdFromUser($users_id, "watch_later");
         }
         return $watch_later;
@@ -352,12 +418,12 @@ class PlayList extends ObjectYPT {
                     $found = true;
                 }
             }
-            if(!$found){
-                $v = new Video("","",$value);
-                if(empty($v->getFilename())){
+            if (!$found) {
+                $v = new Video("", "", $value);
+                if (empty($v->getFilename())) {
                     continue;
                 }
-                $list[] = array('id'=>$value);
+                $list[] = array('id' => $value);
             }
         }
         return $list;
@@ -371,7 +437,7 @@ class PlayList extends ObjectYPT {
         $users_id = User::getId();
         $this->setUsers_id($users_id);
         $playlists_id = parent::save();
-        if(!empty($playlists_id)){
+        if (!empty($playlists_id)) {
             self::deleteCache("getVideosFromPlaylist{$playlists_id}");
         }
         return $playlists_id;

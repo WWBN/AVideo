@@ -24,7 +24,7 @@ if ($res != false) {
 
 
 foreach ($users_ids as $user_id) {
-    echo "Process user_id = {$user_id}\n";
+    echo "Process user_id = {$user_id} favorite\n";
     ob_flush();
     $sql = "SELECT * FROM  playlists WHERE users_id = {$user_id} AND status = 'favorite' ORDER BY created ";
     $res = sqlDAL::readSql($sql);
@@ -53,6 +53,8 @@ foreach ($users_ids as $user_id) {
     }
     
     
+    echo "Process user_id = {$user_id} watch_later\n";
+    ob_flush();
     $sql = "SELECT * FROM  playlists WHERE users_id = {$user_id} AND status = 'watch_later' ORDER BY created ";
     $res = sqlDAL::readSql($sql);
     $fullData = sqlDAL::fetchAllAssoc($res);
