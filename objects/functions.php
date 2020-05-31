@@ -2725,6 +2725,7 @@ class AVideoLog{
     static $DEBUG = 0;
     static $WARNING = 1;
     static $ERROR = 2;
+    static $SECURITY = 3;
 }
 function _error_log($message, $type = 0) {
     global $global;
@@ -2741,6 +2742,9 @@ function _error_log($message, $type = 0) {
             break;
         case 2:
             $prefix .= "ERROR: "; 
+            break;
+        case 3:
+            $prefix .= "SECURITY: "; 
             break;
     }
     error_log($prefix.$message);
