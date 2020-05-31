@@ -54,10 +54,10 @@ if (!empty($_GET['p'])) {
             _error_log("NGINX ON Publish error, Password does not match");
         }
     } else {
-        _error_log("NGINX ON Publish error, Transmition name not found ({$_POST['name']})");
+        _error_log("NGINX ON Publish error, Transmition name not found ({$_POST['name']}) ". getRealIpAddr(), AVideoLog::$SECURITY);
     }
 } else {
-    _error_log("NGINX ON Publish error, Password not found");
+    _error_log("NGINX ON Publish error, Password not found". getRealIpAddr(), AVideoLog::$SECURITY);
 }
 _error_log("NGINX ON Publish deciding ...");
 if (!empty($obj) && empty($obj->error)) {
@@ -67,7 +67,7 @@ if (!empty($obj) && empty($obj->error)) {
     echo "success";
     exit;
 } else {
-    _error_log("NGINX ON Publish denied");
+    _error_log("NGINX ON Publish denied ". getRealIpAddr(), AVideoLog::$SECURITY);
     http_response_code(401);
     header("HTTP/1.1 401 Unauthorized Error");
     exit;
