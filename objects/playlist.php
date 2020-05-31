@@ -108,7 +108,7 @@ class PlayList extends ObjectYPT {
             }
             if(!empty($userId)){
                 if($try==0 && ($favoriteCount>1 || $watch_laterCount > 1)){
-                    self::fixDuplicatePlayList($user_id);
+                    self::fixDuplicatePlayList($userId);
                     $refreshCacheFromPlaylist = true;
                     return self::getAllFromUser($userId, $publicOnly, $status, $playlists_id, $try+1);
                 }
