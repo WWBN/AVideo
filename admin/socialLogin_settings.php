@@ -36,7 +36,7 @@
                 createTable("LoginGoogle");
                 ?>
                 <small class="form-text text-muted">
-                    <a href="https://console.developers.google.com/apis/credentials">Get Facebook ID and Key</a><br>
+                    <a href="https://console.developers.google.com/apis/credentials">Get Google ID and Key</a><br>
                     Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Google</strong><br>
                     For mobile a Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Google</strong>
                 </small>
