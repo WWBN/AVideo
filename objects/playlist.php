@@ -106,37 +106,39 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
             }
-            if($try==0 && ($favoriteCount>1 || $watch_laterCount > 1)){
-                self::fixDuplicatePlayList($user_id);
-                $refreshCacheFromPlaylist = true;
-                return self::getAllFromUser($userId, $publicOnly, $status, $playlists_id, $try+1);
-            }
-            if (empty($_POST['current']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
-                if (empty($favorite)) {
-                    $pl = new PlayList(0);
-                    $pl->setName("Favorite");
-                    $pl->setStatus("favorite");
-                    $pl->setUsers_id($userId);
-                    $id = $pl->save();
+            if(!empty($userId)){
+                if($try==0 && ($favoriteCount>1 || $watch_laterCount > 1)){
+                    self::fixDuplicatePlayList($user_id);
                     $refreshCacheFromPlaylist = true;
-                    $row['id'] = $id;
-                    $row['name'] = $pl->getName();
-                    $row['status'] = $pl->getStatus();
-                    $row['users_id'] = $pl->getUsers_id();
-                    $favorite = $row;
+                    return self::getAllFromUser($userId, $publicOnly, $status, $playlists_id, $try+1);
                 }
-                if (empty($watch_later)) {
-                    $pl = new PlayList(0);
-                    $pl->setName("Watch Later");
-                    $pl->setStatus("watch_later");
-                    $pl->setUsers_id($userId);
-                    $id = $pl->save();
-                    $refreshCacheFromPlaylist = true;
-                    $row['id'] = $id;
-                    $row['name'] = $pl->getName();
-                    $row['status'] = $pl->getStatus();
-                    $row['users_id'] = $pl->getUsers_id();
-                    $watch_later = $row;
+                if (empty($_POST['current']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
+                    if (empty($favorite)) {
+                        $pl = new PlayList(0);
+                        $pl->setName("Favorite");
+                        $pl->setStatus("favorite");
+                        $pl->setUsers_id($userId);
+                        $id = $pl->save();
+                        $refreshCacheFromPlaylist = true;
+                        $row['id'] = $id;
+                        $row['name'] = $pl->getName();
+                        $row['status'] = $pl->getStatus();
+                        $row['users_id'] = $pl->getUsers_id();
+                        $favorite = $row;
+                    }
+                    if (empty($watch_later)) {
+                        $pl = new PlayList(0);
+                        $pl->setName("Watch Later");
+                        $pl->setStatus("watch_later");
+                        $pl->setUsers_id($userId);
+                        $id = $pl->save();
+                        $refreshCacheFromPlaylist = true;
+                        $row['id'] = $id;
+                        $row['name'] = $pl->getName();
+                        $row['status'] = $pl->getStatus();
+                        $row['users_id'] = $pl->getUsers_id();
+                        $watch_later = $row;
+                    }
                 }
             }
             if (!empty($favorite)) {
