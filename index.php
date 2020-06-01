@@ -123,9 +123,5 @@ if (!file_exists('videos/configuration.php')) {
     header("Location: install/index.php");
 }
 require_once 'videos/configuration.php';
-require_once 'objects/configuration.php';
 $basePath = parse_url ($global['webSiteRootURL'], PHP_URL_PATH);
-use Pecee\SimpleRouter\SimpleRouter;
-$config = new Configuration();
-SimpleRouter::start();
 ?>
