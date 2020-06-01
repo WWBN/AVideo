@@ -122,12 +122,10 @@ if (!file_exists('videos/configuration.php')) {
     }
     header("Location: install/index.php");
 }
-require_once 'objects/simple-php-router/vendor/autoload.php';
 require_once 'videos/configuration.php';
 require_once 'objects/configuration.php';
 $basePath = parse_url ($global['webSiteRootURL'], PHP_URL_PATH);
 use Pecee\SimpleRouter\SimpleRouter;
 $config = new Configuration();
-include $global['systemRootPath']."routes.php";
 SimpleRouter::start();
 ?>
