@@ -455,6 +455,13 @@ function setSiteSendMessage(&$mail) {
         _error_log("Sending SMTP Email");
         $mail->CharSet = 'UTF-8';
         $mail->IsSMTP(); // enable SMTP
+        $mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
         $mail->SMTPAuth = $config->getSmtpAuth(); // authentication enabled
         $mail->SMTPSecure = $config->getSmtpSecure(); // secure transfer enabled REQUIRED for Gmail
         $mail->Host = $config->getSmtpHost();
@@ -1287,25 +1294,25 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
         _error_log("im_resize: Function does not exists: {$icfunc}");
         return false;
     }
-    
+
     $imgSize = getimagesize($file_src);
-    if(empty($imgSize)){
-        _error_log("im_resize: getimagesize($file_src) return false ". json_encode($imgSize));
+    if (empty($imgSize)) {
+        _error_log("im_resize: getimagesize($file_src) return false " . json_encode($imgSize));
         return false;
     }
     try {
         $src = $icfunc($file_src);
     } catch (Exception $exc) {
-        _error_log("im_resize: ".$exc->getMessage());
+        _error_log("im_resize: " . $exc->getMessage());
         _error_log("im_resize: Try {$icfunc} from string");
-        $src= imagecreatefromstring(file_get_contents($file_src));
-        if(!$src){
+        $src = imagecreatefromstring(file_get_contents($file_src));
+        if (!$src) {
             _error_log("im_resize: fail {$icfunc} from string");
             return false;
         }
     }
 
-    
+
 
     $ws = imagesx($src);
     $hs = imagesy($src);
@@ -2628,7 +2635,7 @@ function get_browser_name($user_agent = "") {
     // Humans / Regular Users  
     if (strpos($t, 'crkey')) {
         return 'Chromecast';
-    }else if (strpos($t, 'opera') || strpos($t, 'opr/'))
+    } else if (strpos($t, 'opera') || strpos($t, 'opr/'))
         return 'Opera';
     elseif (strpos($t, 'edge'))
         return 'Edge';
@@ -2721,33 +2728,36 @@ function TimeLogEnd($name, $line, $limit = 0.7) {
     TimeLogStart($name);
 }
 
-class AVideoLog{
+class AVideoLog {
+
     static $DEBUG = 0;
     static $WARNING = 1;
     static $ERROR = 2;
     static $SECURITY = 3;
+
 }
+
 function _error_log($message, $type = 0) {
     global $global;
-    if (!empty($global['noDebug']) && $type==0) {
+    if (!empty($global['noDebug']) && $type == 0) {
         return false;
     }
     $prefix = "AVideoLog::";
     switch ($type) {
         case 0:
-            $prefix .= "DEBUG: "; 
+            $prefix .= "DEBUG: ";
             break;
         case 1:
-            $prefix .= "WARNING: "; 
+            $prefix .= "WARNING: ";
             break;
         case 2:
-            $prefix .= "ERROR: "; 
+            $prefix .= "ERROR: ";
             break;
         case 3:
-            $prefix .= "SECURITY: "; 
+            $prefix .= "SECURITY: ";
             break;
     }
-    error_log($prefix.$message);
+    error_log($prefix . $message);
 }
 
 function postVariables($url, $array) {
@@ -3033,7 +3043,7 @@ function encrypt_decrypt($string, $action) {
 }
 
 function encryptString($string) {
-    if(is_object($string)){
+    if (is_object($string)) {
         $string = json_encode($string);
     }
     return encrypt_decrypt($string, 'encrypt');
@@ -3043,38 +3053,38 @@ function decryptString($string) {
     return encrypt_decrypt($string, 'decrypt');
 }
 
-function getToken($timeout=0, $salt=""){
+function getToken($timeout = 0, $salt = "") {
     global $global;
     $obj = new stdClass();
-    $obj->salt = $global['salt'].$salt;
-    
-    if(!empty($timeout)){
+    $obj->salt = $global['salt'] . $salt;
+
+    if (!empty($timeout)) {
         $obj->time = time();
-        $obj->timeout = $obj->time+$timeout;
-    }else{
+        $obj->timeout = $obj->time + $timeout;
+    } else {
         $obj->time = strtotime("Today 00:00:00");
         $obj->timeout = strtotime("Today 23:59:59");
         $obj->timeout += cacheExpirationTime();
     }
     $strObj = json_encode($obj);
     //_error_log("Token created: {$strObj}");
-    
+
     return encryptString($strObj);
 }
 
-function verifyToken($token, $salt=""){
+function verifyToken($token, $salt = "") {
     global $global;
     $obj = json_decode(decryptString($token));
-    if(empty($obj)){
+    if (empty($obj)) {
         _error_log("verifyToken invalid token");
         return false;
     }
-    if($obj->salt !== $global['salt'].$salt){
+    if ($obj->salt !== $global['salt'] . $salt) {
         _error_log("verifyToken salt fail");
         return false;
     }
     $time = $time();
-    if(!($time>=$obj->time && $obj->timeout<=$time)){
+    if (!($time >= $obj->time && $obj->timeout <= $time)) {
         _error_log("verifyToken token timout");
         return false;
     }
