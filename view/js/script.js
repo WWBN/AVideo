@@ -711,6 +711,9 @@ function setPlayerLoop(loop){
                     path: '/',
                     expires: 365
                 });                                                   
+    if(typeof setImageLoop === 'function'){
+        setImageLoop();
+    }
 }
 
 function isPlayerLoop(){
