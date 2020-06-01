@@ -46,9 +46,9 @@ class PlayerSkins extends PluginAbstract {
         $css = "";
         if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
-        }
-        if ($obj->showLoopButton) {
-            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+            if ($obj->showLoopButton) {
+                $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+            }
         }
         return $css;
     }
@@ -58,8 +58,10 @@ class PlayerSkins extends PluginAbstract {
         global $global;
         $js = "";
         $obj = $this->getDataObject();
-        if ($obj->showLoopButton) {
-            $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
+        if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
+            if ($obj->showLoopButton) {
+                $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
+            }
         }
         
         return $js;
