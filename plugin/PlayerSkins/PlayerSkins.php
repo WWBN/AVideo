@@ -35,6 +35,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->skin = "youtube";
         $obj->playbackRates = "[0.5, 1, 1.5, 2]";
         $obj->playerCustomDataSetup = "";
+        $obj->showSocialShareOnEmbed = true;
         return $obj;
     }
 

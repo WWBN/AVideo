@@ -131,6 +131,8 @@ if (!empty($_GET['t'])) {
 } else if (!empty($video['externalOptions']->videoStartSeconds)) {
     $t = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
 }
+
+$playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -426,29 +428,30 @@ if (!empty($_GET['t'])) {
 
         <script>
             $(document).ready(function () {
-                if (typeof player === 'undefined') {
-                    player = videojs('mainVideo');
-                }
-                player.on('play', function () {
-                    addView(<?php echo $video['id']; ?>, this.currentTime());
-                });
-                player.on('timeupdate', function () {
-                    var time = Math.round(this.currentTime());
-                    var url = '<?php echo Video::getURLFriendly($video['id']); ?>';
-                    if (url.indexOf('?') > -1){
-                        url+='&t=' + time;
-                    }else{
-                        url+='?t=' + time;
+                
+            if (typeof player === 'undefined') {
+                        player = videojs('mainVideo');
                     }
-                    $('#linkCurrentTime').val(url);
-                    if (time >= 5 && time % 5 === 0) {
-                        addView(<?php echo $video['id']; ?>, time);
-                    }
-                });
-                player.on('ended', function () {
-                    var time = Math.round(this.currentTime());
-                    addView(<?php echo $video['id']; ?>, time);
-                });
+                        player.on('play', function () {
+                            addView(<?php echo $video['id']; ?>, this.currentTime());
+                        });
+                        player.on('timeupdate', function () {
+                            var time = Math.round(this.currentTime());
+                            var url = '<?php echo Video::getURLFriendly($video['id']); ?>';
+                            if (url.indexOf('?') > -1){
+                                url+='&t=' + time;
+                            }else{
+                                url+='?t=' + time;
+                            }
+                            $('#linkCurrentTime').val(url);
+                            if (time >= 5 && time % 5 === 0) {
+                                addView(<?php echo $video['id']; ?>, time);
+                            }
+                        });
+                        player.on('ended', function () {
+                            var time = Math.round(this.currentTime());
+                            addView(<?php echo $video['id']; ?>, time);
+                        });
                 
                 <?php
     if ($autoplay) {
@@ -526,6 +529,16 @@ if (!empty($_GET['t'])) {
                 <?php
             }
         }
+        if($playerSkinsObj->showSocialShareOnEmbed) {
+            ?>
+                , {
+            name: '<?php echo __("Share"); ?>',
+                    onClick: function () {
+                    showSharing();
+                    }, iconClass: 'fas fa-share'
+            }
+            <?php
+        }
         ?>
 
                                         ]
@@ -576,6 +589,39 @@ if (!empty($_GET['t'])) {
           top: 0;
           left: 0;
           pointer-events: none;"></textarea>
+    <?php
+    if($playerSkinsObj->showSocialShareOnEmbed) {
+        ?>
+        <div id="SharingModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <center>
+                        <?php
+                        include $global['systemRootPath'] . 'view/include/social.php';
+                        ?>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function showSharing() {
+                $('#SharingModal').modal("show");
+                return false;
+            }
+            $(document).ready(function () {
+                    
+                $('#SharingModal').modal({show: false});
+                    
+            });
+        </script>
+        <?php
+    }
+    ?>
+        
 </body>
 </html>
 

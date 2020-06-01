@@ -1,4 +1,15 @@
 <?php
+
+if((empty($url) || empty($title)) && !empty($video['id'])){
+    $url = Video::getLinkToVideo($video['id']);
+    if(!empty($video['title'])){
+        $title = $video['title'];
+    }else{
+        $video = new Video("", "", $video['id']);
+        $title = $video['title'];
+    }
+}
+
 //set the $url and the $title before include this
 $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
 $twitterURL = "http://twitter.com/intent/tweet?text={$title}+{$url}";
