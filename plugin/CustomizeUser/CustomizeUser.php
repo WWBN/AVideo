@@ -36,6 +36,11 @@ class CustomizeUser extends PluginAbstract {
         $obj->usersCanCreateNewCategories = !isset($advancedCustom->usersCanCreateNewCategories) ? false : $advancedCustom->usersCanCreateNewCategories;
         $obj->userCanNotChangeCategory = !isset($advancedCustom->userCanNotChangeCategory) ? false : $advancedCustom->userCanNotChangeCategory;
         $obj->userCanNotChangeUserGroup = false;
+        
+        $o = new stdClass();
+        $o->type = array(0=>_("Default"))+UserGroups::getAllUsersGroupsArray();
+        $o->value = 0;
+        $obj->userDefaultUserGroup = $o;
         $obj->userMustBeLoggedIn = !isset($advancedCustom->userMustBeLoggedIn) ? false : $advancedCustom->userMustBeLoggedIn;
         $obj->userMustBeLoggedInCloseButtonURL = "";
         $obj->onlyVerifiedEmailCanUpload = !isset($advancedCustom->onlyVerifiedEmailCanUpload) ? false : $advancedCustom->onlyVerifiedEmailCanUpload;

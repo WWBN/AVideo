@@ -117,6 +117,26 @@ class UserGroups {
         }
         return $arr;
     }
+    
+    static function getAllUsersGroupsArray() {
+        global $global;
+        $sql = "SELECT * FROM users_groups as ug WHERE 1=1 ";
+
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $arr = array();
+        if ($res!=false) {
+            foreach ($fullData as $row) {
+                $arr[$row['id']] = $row['group_name'];
+            }
+            //$category = $res->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $arr = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $arr;
+    }
 
     static function getTotalUsersGroups() {
         global $global;

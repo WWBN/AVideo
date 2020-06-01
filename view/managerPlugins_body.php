@@ -153,6 +153,17 @@
                     input = $('<textarea />', {"class": 'form-control jsonElement', "name": i, "pluginType": "object"});
 
                     input.text(val.value);
+                } else if (typeof val.type === 'object') {
+                    input = $('<select />', {"class": 'form-control jsonElement', "name": i, "pluginType": "select"});
+
+                    $.each(val.type, function (index, value) {
+                        var select = "";
+                        if (val.value == index) {
+                            select = "selected";
+                        }
+                        $(input).append('<option value="' + index + '" ' + select + '>' + value + '</option>')
+                    });
+
                 } else {
                     input = $('<input />', {"class": 'form-control jsonElement', "type": val.type, "name": i, "value": val.value, "pluginType": "object"});
                 }
@@ -191,6 +202,14 @@
                 if (typeof type === 'undefined') {
                     type = 'textarea';
                 }
+                json [name] = {type: type, value: $(this).val()};
+            } else if (pluginType === 'select') {
+                console.log(type);
+                type = {};
+                $(this).find("option").each(function (i) {
+                    type[$(this).val()] = $(this).text();
+                });
+                console.log(type);
                 json [name] = {type: type, value: $(this).val()};
             } else if (type === 'checkbox') {
                 json [name] = $(this).is(":checked");
@@ -326,6 +345,8 @@
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                 $('#inputPluginId').val(row.id);
                 var json = JSON.stringify(row.data_object);
+                console.log(json);
+                console.log(row.data_object);
                 jsonToForm(row.data_object);
                 $('#inputData').val(json);
                 $('#pluginsFormModal').modal();

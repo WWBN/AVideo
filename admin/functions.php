@@ -43,8 +43,18 @@ function jsonToFormElements($json, $filter = array()) {
         if (is_object($valueJson)) {
             if ($valueJson->type === 'textarea') {
                 $input = "<textarea class='form-control jsonElement' name='{$keyJson}' pluginType='object'>{$valueJson->value}</textarea>";
+            } else if (is_array($valueJson->type)) {
+                $input = "<select class='form-control jsonElement' name='{$keyJson}'  pluginType='object'>";
+                foreach ($valueJson->type as $key => $value) {
+                    $select = "";
+                    if($valueJson->value == $key){
+                        $select = "selected";
+                    }
+                    $input .= "<option value='{$key}' {$select}>{$value}</option>";
+                }
+                $input .= "</select>";
             } else {
-                var_dump($keyJson, $valueJson);
+                //var_dump($keyJson, $valueJson);
                 $input = "<input class='form-control jsonElement' name='{$keyJson}' pluginType='object' type='{$valueJson->type}' value='{$valueJson->value}'/>";
             }
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";

@@ -18,7 +18,7 @@ if (!empty($input)) {
     }
 }
 $obj = new stdClass();
-if(empty($ignoreCaptcha)){
+if (empty($ignoreCaptcha)) {
     if (empty($_POST['captcha'])) {
         $obj->error = __("The captcha is empty");
         die(json_encode($obj));
@@ -43,12 +43,12 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
 }
 $_POST['email'] = trim(@$_POST['email']);
 if (!empty($advancedCustomUser->emailMustBeUnique)) {
-    if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){        
+    if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $obj->error = __("You must specify an valid email");
         die(json_encode($obj));
     }
     $userFromEmail = User::getUserFromEmail($_POST['email']);
-    if(!empty($userFromEmail)){ 
+    if (!empty($userFromEmail)) {
         $obj->error = __("Email already exists");
         die(json_encode($obj));
     }
@@ -76,6 +76,9 @@ $user->setCanUpload($config->getAuthCanUploadVideos());
 $users_id = $user->save();
 
 if (!empty($users_id)) {
+    if (!empty($advancedCustomUser->userDefaultUserGroup->value)) { // for new users use the default usergroup
+        UserGroups::updateUserGroups($users_id, array($advancedCustomUser->userDefaultUserGroup->value), true);
+    }
     AVideoPlugin::onUserSignup($users_id);
 }
 

@@ -58,7 +58,14 @@ if(!empty($_POST['channelName']) && !$unique){
     $user->setChannelName(User::_recommendChannelName($_POST['channelName']));
     _error_log("userAddNew.json.php: new channel name: ".$user->getChannelName());
 }
-$user->setUserGroups(@$_POST['userGroups']);
+
+if(empty($_POST['userGroups'])){
+    if(empty($_POST['id']) && !empty($advancedCustomUser->userDefaultUserGroup->value)){ // for new users use the default usergroup
+        $user->setUserGroups(array($advancedCustomUser->userDefaultUserGroup->value));
+    }
+}else{
+    $user->setUserGroups($_POST['userGroups']);
+}
 
 _error_log("userAddNew.json.php: saving");
 $users_id = $user->save(true);
