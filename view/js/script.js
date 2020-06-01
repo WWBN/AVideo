@@ -700,10 +700,10 @@ function setPlayerLoop(loop){
         console.log("Loop ON");
         player.loop(1);
         $(".loop-button").removeClass('loop-disabled-button');
-        $(".loop-button").addClass('fa-spin');
+        $(".loop-button, .loopButton").addClass('fa-spin');
     }else{
         $(".loop-button").addClass('loop-disabled-button');
-        $(".loop-button").removeClass('fa-spin');
+        $(".loop-button, .loopButton").removeClass('fa-spin');
         console.log("Loop OFF");
         player.loop(0);
     }
