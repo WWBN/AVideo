@@ -121,6 +121,14 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+$sql = "INSERT INTO `plugins` VALUES (NULL, 'a06505bf-3570-4b1f-977a-fd0e5cab205d', 'active', now(), now(), '', 'Gallery', 'Gallery', '1.0');";
+if ($mysqli->query($sql) !== TRUE) {
+    $obj->error = "Error enabling Gallery Plugin: " . $mysqli->error;
+    echo json_encode($obj);
+    exit;
+}
+
+
 $mysqli->close();
 
 if(empty($_POST['salt'])){
