@@ -455,9 +455,6 @@ function setSiteSendMessage(&$mail) {
         _error_log("Sending SMTP Email");
         $mail->CharSet = 'UTF-8';
         $mail->IsSMTP(); // enable SMTP
-        if(User::isAdmin()){
-            $mail->SMTPDebug = 3;
-        }
         $mail->SMTPOptions = array(
             'ssl' => array(
                 'verify_peer' => false,
