@@ -154,6 +154,9 @@ class PlayList extends ObjectYPT {
     }
 
     static function fixDuplicatePlayList($user_id) {
+        if(empty($user_id)){
+            return false;
+        }
         _error_log("PlayList::fixDuplicatePlayList Process user_id = {$user_id} favorite");
         $sql = "SELECT * FROM  playlists WHERE users_id = ? AND status = 'favorite' ORDER BY created ";
         $res = sqlDAL::readSql($sql, "i", array($user_id), true);
