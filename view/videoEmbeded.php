@@ -427,6 +427,22 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
         ?>
 
         <script>
+            
+            
+            function setImageLoop(){
+               if(isPlayerLoop()){
+                   $('.loopButton').removeClass('fa-times').addClass('fa-undo-alt');
+               } else{
+                   $('.loopButton').removeClass('fa-undo-alt').addClass('fa-times');
+               }
+            }
+            
+            function toogleImageLoop(t){
+                tooglePlayerLoop();
+                setImageLoop();
+                
+            }
+            
             $(document).ready(function () {
                 
             if (typeof player === 'undefined') {
@@ -482,6 +498,11 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
     ?>
             var menu = new BootstrapMenu('#mainVideo', {
             actions: [{
+            name: '<?php echo __("Loop"); ?>',
+                    onClick: function () {
+                    toogleImageLoop($(this));
+                    }, iconClass: 'fas fa-undo-alt loopButton'
+            }, {
             name: '<?php echo __("Copy video URL"); ?>',
                     onClick: function () {
                     copyToClipboard($('#linkFriendly').val());
@@ -543,6 +564,7 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
 
                                         ]
                                         });
+                                        setImageLoop();
 
                 });
             </script>

@@ -690,3 +690,30 @@ function alertHTMLText(title, text) {
         content: span
     });
 }
+
+function tooglePlayerLoop(){
+    setPlayerLoop(!isPlayerLoop());
+}
+
+function setPlayerLoop(loop){
+    if(loop){
+        console.log("Loop ON");
+        player.loop(1);
+    }else{
+        console.log("Loop OFF");
+        player.loop(0);
+    }
+    Cookies.set('playerLoop', loop, {
+                    path: '/',
+                    expires: 365
+                });                                                   
+}
+
+function isPlayerLoop(){
+    var loop = Cookies.get('playerLoop');
+    if(loop === "false"){
+        return false;
+    }else{
+        return true;
+    }
+}
