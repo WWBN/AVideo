@@ -36,6 +36,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->playbackRates = "[0.5, 1, 1.5, 2]";
         $obj->playerCustomDataSetup = "";
         $obj->showSocialShareOnEmbed = true;
+        $obj->showLoopButton = true;
         return $obj;
     }
 
@@ -46,9 +47,24 @@ class PlayerSkins extends PluginAbstract {
         if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
         }
+        if ($obj->showLoopButton) {
+            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+        }
         return $css;
     }
 
+    
+    public function getFooterCode() {
+        global $global;
+        $js = "";
+        $obj = $this->getDataObject();
+        if ($obj->showLoopButton) {
+            $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
+        }
+        
+        return $js;
+    }
+    
     public function getTags() {
         return array('free');
     }

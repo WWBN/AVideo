@@ -183,6 +183,9 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
             .video-js {
                 position: static;
             }
+            .opacityBtn{
+             opacity: 0.2;   
+            }
         </style>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
@@ -427,13 +430,13 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
         ?>
 
         <script>
-            
-            
             function setImageLoop(){
                if(isPlayerLoop()){
-                   $('.loopButton').removeClass('fa-times').addClass('fa-undo-alt');
+                   $('.loopButton').removeClass('opacityBtn');
+                   $('.loopButton').addClass('fa-spin');
                } else{
-                   $('.loopButton').removeClass('fa-undo-alt').addClass('fa-times');
+                   $('.loopButton').addClass('opacityBtn');
+                   $('.loopButton').removeClass('fa-spin');
                }
             }
             
@@ -501,7 +504,7 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
             name: '<?php echo __("Loop"); ?>',
                     onClick: function () {
                     toogleImageLoop($(this));
-                    }, iconClass: 'fas fa-undo-alt loopButton'
+                    }, iconClass: 'fas fa-sync loopButton'
             }, {
             name: '<?php echo __("Copy video URL"); ?>',
                     onClick: function () {
