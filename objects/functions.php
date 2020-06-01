@@ -455,6 +455,10 @@ function setSiteSendMessage(&$mail) {
         _error_log("Sending SMTP Email");
         $mail->CharSet = 'UTF-8';
         $mail->IsSMTP(); // enable SMTP
+        if(!empty($_POST) && $_POST["comment"] == "Teste of comment" && User::isAdmin()){
+            $mail->SMTPDebug = 3;
+            $mail->Debugoutput = function($str, $level) {_error_log("SMTP ERROR $level; message: $str", AVideoLog::$ERROR);};
+        }
         $mail->SMTPOptions = array(
             'ssl' => array(
                 'verify_peer' => false,
