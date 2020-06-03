@@ -244,13 +244,13 @@ if (typeof gtag !== \"function\") {
             return false;
         }
     }
-    
-    static function _recommendChannelName($name="", $try = 0){
-        if($try>10){
+
+    static function _recommendChannelName($name = "", $try = 0) {
+        if ($try > 10) {
             _error_log("User:_recommendChannelName too many tries ", AVideoLog::$ERROR);
             die("Too many tries");
         }
-        if(empty($name)){
+        if (empty($name)) {
             $name = self::getNameIdentification();
             $name = cleanString($name);
         }
@@ -259,15 +259,15 @@ if (typeof gtag !== \"function\") {
         $name = $parts[0];
         // do not exceed 36 chars to leave some room for the unique id;
         $name = substr($name, 0, 36);
-        if(!User::isAdmin()){
+        if (!User::isAdmin()) {
             $user = self::getUserFromChannelName($name);
-            if($user && $user['id']!== User::getId()){
-                return self::_recommendChannelName($name. "_".uniqid(), $try+1);
+            if ($user && $user['id'] !== User::getId()) {
+                return self::_recommendChannelName($name . "_" . uniqid(), $try + 1);
             }
         }
         return $name;
     }
-    
+
     static function getUserFromChannelName($channelName) {
         $channelName = cleanString($channelName);
         global $global;
@@ -476,7 +476,7 @@ if (typeof gtag !== \"function\") {
         }
         if (empty($this->emailVerified))
             $this->emailVerified = "false";
-                
+
         $this->user = $global['mysqli']->real_escape_string($this->user);
         $this->password = $global['mysqli']->real_escape_string($this->password);
         $this->name = $global['mysqli']->real_escape_string($this->name);
@@ -624,7 +624,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!User::isLogged()) {
-            _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=". session_id()." SCRIPT_NAME=".$_SERVER["SCRIPT_NAME"]." IP = ".  getRealIpAddr());
+            _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=" . session_id() . " SCRIPT_NAME=" . $_SERVER["SCRIPT_NAME"] . " IP = " . getRealIpAddr());
             return false;
         }
         // if is not public check if the user is on one of its groups
@@ -770,7 +770,7 @@ if (typeof gtag !== \"function\") {
         }
         if (!empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)) {
             _session_start();
-            $_SESSION['loginAttempts'] ++;
+            $_SESSION['loginAttempts']++;
             if ($_SESSION['loginAttempts'] > $advancedCustomUser->requestCaptchaAfterLoginsAttempts) {
                 if (empty($_POST['captcha'])) {
                     return false;
@@ -1137,7 +1137,6 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
-    
     static function getUserFromEmail($email) {
         $sql = "SELECT * FROM users WHERE email = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($email));
@@ -1148,7 +1147,7 @@ if (typeof gtag !== \"function\") {
         }
         return false;
     }
-    
+
     function setUser($user) {
         global $advancedCustomUser;
         if (empty($advancedCustomUser->userCanChangeUsername)) {
@@ -1167,11 +1166,11 @@ if (typeof gtag !== \"function\") {
         global $advancedCustomUser;
         $email = strip_tags($email);
         if (!empty($advancedCustomUser->emailMustBeUnique)) {
-            if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)){        
+            if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 return false;
             }
             $userFromEmail = User::getUserFromEmail($email);
-            if(!empty($userFromEmail)){     
+            if (!empty($userFromEmail)) {
                 return false;
             }
         }
@@ -1210,7 +1209,7 @@ if (typeof gtag !== \"function\") {
         $this->photoURL = strip_tags($photoURL);
     }
 
-    static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about'), $status="") {
+    static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about'), $status = "") {
         if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
@@ -1218,10 +1217,10 @@ if (typeof gtag !== \"function\") {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT * FROM users WHERE 1=1 ";
-        if(!empty($status)){
-            if(strtolower($status)==='i'){
+        if (!empty($status)) {
+            if (strtolower($status) === 'i') {
                 $sql .= " AND status = 'i' ";
-            }else{
+            } else {
                 $sql .= " AND status = 'a' ";
             }
         }
@@ -1275,7 +1274,7 @@ if (typeof gtag !== \"function\") {
         return $user;
     }
 
-    static function getTotalUsers($ignoreAdmin = false, $status="") {
+    static function getTotalUsers($ignoreAdmin = false, $status = "") {
         if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
@@ -1284,10 +1283,10 @@ if (typeof gtag !== \"function\") {
         global $global;
         $sql = "SELECT id FROM users WHERE 1=1  ";
 
-        if(!empty($status)){
-            if(strtolower($status)==='i'){
+        if (!empty($status)) {
+            if (strtolower($status) === 'i') {
                 $sql .= " AND status = 'i' ";
-            }else{
+            } else {
                 $sql .= " AND status = 'a' ";
             }
         }
@@ -1331,7 +1330,7 @@ if (typeof gtag !== \"function\") {
     }
 
     static function createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false) {
-        global $global;
+        global $global, $advancedCustomUser;
         $user = $global['mysqli']->real_escape_string($user);
         $userId = 0;
         if (!$userId = self::userExists($user)) {
@@ -1346,11 +1345,16 @@ if (typeof gtag !== \"function\") {
             $userObject->setPhotoURL($photoURL);
             $userObject->setEmailVerified($emailVerified);
             $userId = $userObject->save();
+            if (!empty($userId)) {
+                if (!empty($advancedCustomUser->userDefaultUserGroup->value)) { // for new users use the default usergroup
+                    UserGroups::updateUserGroups($userId, array($advancedCustomUser->userDefaultUserGroup->value), true);
+                }
+            }
             return $userId;
-        }else{
-            if($emailVerified){
+        } else {
+            if ($emailVerified) {
                 $userObj = new User($userId);
-                if(!$userObj->getEmailVerified()){
+                if (!$userObj->getEmailVerified()) {
                     $userObj->setEmailVerified(1);
                     $userObj->save();
                 }
@@ -1372,19 +1376,19 @@ if (typeof gtag !== \"function\") {
         return $this->recoverPass;
     }
 
-    static function canUpload($doNotCheckPlugins=false) {
+    static function canUpload($doNotCheckPlugins = false) {
         global $global, $config, $advancedCustomUser;
         if (User::isAdmin()) {
             //return true;
         }
-        if(empty($doNotCheckPlugins) && !AVideoPlugin::userCanUpload(User::getId())){
+        if (empty($doNotCheckPlugins) && !AVideoPlugin::userCanUpload(User::getId())) {
             return false;
         }
-        
-        if(isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified()){
+
+        if (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified()) {
             return false;
         }
-        
+
         if ($config->getAuthCanUploadVideos()) {
             return self::isLogged();
         }
@@ -1404,16 +1408,15 @@ if (typeof gtag !== \"function\") {
 
     static function canComment() {
         global $global, $config, $advancedCustomUser;
-        if(self::isAdmin()){
+        if (self::isAdmin()) {
             return true;
         }
         if ($config->getAuthCanComment()) {
-            if(empty($advancedCustomUser->unverifiedEmailsCanNOTComment)){
+            if (empty($advancedCustomUser->unverifiedEmailsCanNOTComment)) {
                 return self::isLogged();
-            }else{
+            } else {
                 return self::isVerified();
             }
-            
         }
         return false;
     }
@@ -1511,17 +1514,17 @@ if (typeof gtag !== \"function\") {
         $this->backgroundURL = self::getBackgroundURLFromUserID($this->id);
         return $this->backgroundURL;
     }
-    
-    static function getBackgroundURLFromUserID($users_id=0){
-        if(empty($users_id)){
+
+    static function getBackgroundURLFromUserID($users_id = 0) {
+        if (empty($users_id)) {
             $users_id = User::getId();
         }
         global $global;
         $backgroundURL = "videos/userPhoto/background{$users_id}.jpg";
-        if(!file_exists($global['systemRootPath'] . $backgroundURL)){
+        if (!file_exists($global['systemRootPath'] . $backgroundURL)) {
             $backgroundURL = "videos/userPhoto/background{$users_id}.png";
         }
-        if(!file_exists($global['systemRootPath'] . $backgroundURL)){
+        if (!file_exists($global['systemRootPath'] . $backgroundURL)) {
             $backgroundURL = "view/img/background.jpg";
         }
         return $backgroundURL;
@@ -1648,7 +1651,7 @@ if (typeof gtag !== \"function\") {
             $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine3), $webSiteTitle);
             $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine4));
             $msg .= "<br><br>" . " <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
-            
+
             $mail->msgHTML($msg);
             $resp = $mail->send();
             if (!$resp) {
