@@ -121,7 +121,7 @@ if (empty($channelName)) {
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading"><i class="fa fa-hdd-o"></i> <?php echo __("Devices Stream Info"); ?></div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="overflow: hidden;">
                         <div class="form-group">
                             <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
                             <input type="text" class="form-control" id="server" value="<?php echo $p->getServer(); ?>?p=<?php echo User::getUserPass(); ?>" readonly="readonly">
