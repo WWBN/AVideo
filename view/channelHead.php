@@ -32,4 +32,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixHead.php';
     #loading{
         display: none;
     }
+    .topicRow h2{
+        display: none;
+    }
 </style>
