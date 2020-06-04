@@ -37,7 +37,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->playerCustomDataSetup = "";
         $obj->showSocialShareOnEmbed = true;
         $obj->showLoopButton = true;
-        $obj->showLogo = true;
+        $obj->showLogo = false;
         $obj->showLogoAdjustScale = "0.4";
         $obj->showLogoAdjustLeft = "-74px";
         $obj->showLogoAdjustTop = "-22px;";
