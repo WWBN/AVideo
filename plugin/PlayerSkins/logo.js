@@ -10,7 +10,7 @@ $(document).ready(function () {
             this.controlText(PlayerSkinLogoTitle);
         },
         handleClick: function () {
-            tooglePlayerLoop();
+            document.location = webSiteRootURL ;
         }
     });
 

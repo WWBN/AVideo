@@ -64,6 +64,8 @@ class PlayerSkins extends PluginAbstract {
 }
 .player-logo:hover{
   filter: none;
+  -webkit-filter: drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.5));
+  filter: drop-shadow(1px 1px 1px rgba(255, 255, 255, 0.5));
 }
 .player-logo:before {
     display: inline-block;
