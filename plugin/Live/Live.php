@@ -160,5 +160,13 @@ class Live extends PluginAbstract {
             LiveTransmitionHistoryLog::addLog($latest['id']);
         }
     }
+    
+    public function dataSetup() {
+        $obj = $this->getDataObject();
+        if($obj->disableDVR){
+            return "";
+        }
+        return "liveui: true";
+    }
 
 }

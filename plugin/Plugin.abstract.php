@@ -466,5 +466,9 @@ abstract class PluginAbstract {
     public function getUploadMenuButton() {
         return "";
     }
+    
+    public function dataSetup() {
+        return "";
+    }
 
 }

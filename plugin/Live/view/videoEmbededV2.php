@@ -172,22 +172,6 @@ if ($config->getAutoplay()) {
         <?php
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         echo AVideoPlugin::getFooterCode();
-        ?>
-        <?php
-        if (empty($liveDO->disableDVR)) {
-            ?>
-            <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/videojs-dvr/videojs-dvrseekbar.min.js" type="text/javascript"></script>          
-            <script>
-                $(document).ready(function () {
-                    if (typeof player === 'undefined') {
-                        player = videojs('mainVideo');
-                    }
-
-                    player.dvrseekbar();
-                });
-            </script>      
-            <?php
-        }
-        ?>    
+        ?>  
     </body>
 </html>

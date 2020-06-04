@@ -127,6 +127,10 @@ class PlayerSkins extends PluginAbstract {
             }
         }
         
+        $pluginsDataSetup = AVideoPlugin::dataSetup();
+        if(!empty($pluginsDataSetup)){
+            $dataSetup[] = $pluginsDataSetup;
+        }
         if(!empty($dataSetup)){
             return ",{". implode(",", $dataSetup)."{$str}{$obj->playerCustomDataSetup}}";
         }

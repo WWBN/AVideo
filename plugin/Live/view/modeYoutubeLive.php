@@ -141,24 +141,7 @@ $video['type'] = 'video';
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-
-        <?php
-        if (empty($liveDO->disableDVR)) {
-            ?>
-            <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/videojs-dvr/videojs-dvrseekbar.min.js" type="text/javascript"></script>          
-            <script>
-            $(document).ready(function () {
-                if (typeof player === 'undefined') {
-                    player = videojs('mainVideo');
-                }
-
-                player.dvrseekbar();
-            });
-            </script>      
-            <?php
-        }
-        ?>    
+        ?>  
         <?php
         if (!empty($p)) {
             $p->getChat($uuid);

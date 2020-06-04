@@ -1252,6 +1252,23 @@ class AVideoPlugin {
         }
         return $r;
     }
+    
+    public static function dataSetup(){
+        $plugins = Plugin::getAllEnabled();
+        $r = array();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $data = $p->dataSetup();
+                if(!empty($data)){
+                    $r[] = $data;
+                }
+            }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
+        }
+        return implode(",",$r);
+    }
 }
 
 class YouPHPTubePlugin extends AVideoPlugin{
