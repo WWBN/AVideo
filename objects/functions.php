@@ -3144,3 +3144,16 @@ function isLive(){
     global $isLive;
     return !empty($isLive);
 }
+
+function isVideoPlayerHasProgressBar(){
+    if(isLive()){
+        $obj = AVideoPlugin::getObjectData('Live');
+        if(empty($obj->disableDVR)){
+            return true;
+        }
+    }else if(isAVideoPlayer()){
+        return true;
+    }
+    return false;
+    
+}
