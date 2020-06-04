@@ -3157,3 +3157,14 @@ function isVideoPlayerHasProgressBar(){
     return false;
     
 }
+
+function isHLS(){
+    global $video, $global;
+    if(isLive()){
+        return true;
+    }else if($video['type']=='video' && file_exists("{$global['systemRootPath']}videos/{$video['filename']}/index.m3u8")){
+        return true;
+    }
+    return false;
+    
+}
