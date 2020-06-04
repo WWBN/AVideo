@@ -1849,6 +1849,9 @@ if (User::isAdmin()) {
                     tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
                     tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span><br>";
                     tags += "<span class='label label-primary fix-width'><?php echo __("Format") . ":"; ?> </span>" + row.typeLabels;
+                    if(row.encoderURL){
+                        tags += "<span class='label label-primary fix-width'><?php echo __("Encoder") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.encoderURL + "</span><br>";
+                    }
                     return tags;
                     },
                     "filesize": function (column, row) {
