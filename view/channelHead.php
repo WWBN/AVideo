@@ -21,7 +21,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixHead.php';
         padding: 0;
     }
     #carouselRows, .modeFlixContainer .carousel {
-        height: 750px;
+        min-height: 300px;
     }
     #carouselRows, .modeFlixContainer .poster {
         margin-top: 25px;
