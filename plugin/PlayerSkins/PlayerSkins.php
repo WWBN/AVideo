@@ -37,11 +37,12 @@ class PlayerSkins extends PluginAbstract {
         $obj->playerCustomDataSetup = "";
         $obj->showSocialShareOnEmbed = true;
         $obj->showLoopButton = true;
+        $obj->showLogo = true;
         return $obj;
     }
 
     public function getHeadCode() {
-        global $global;
+        global $global, $config;
         $obj = $this->getDataObject();
         $css = "";
         if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
@@ -49,18 +50,45 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showLoopButton) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
+            if ($obj->showLogo) {
+                $logo = "{$global['webSiteRootURL']}".$config->getLogo(true);
+                $css .= "<style>"
+                        . ".player-logo{
+  outline: none;
+  filter: grayscale(100%);
+}
+.player-logo:hover{
+  filter: none;
+}
+.player-logo:before {
+    display: inline-block;
+    content: url({$logo});
+    transform: scale(0.2);
+  position: relative;
+  left:-105px;
+  top:-20px;
+    
+}"
+                        . "</style>";
+            }
         }
         return $css;
     }
 
     
     public function getFooterCode() {
-        global $global;
+        global $global, $config;
         $js = "";
         $obj = $this->getDataObject();
         if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             if ($obj->showLoopButton) {
                 $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
+            }
+            if ($obj->showLogo) {
+                $title = $config->getWebSiteTitle();
+                $url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
+                $js .= "<script>var PlayerSkinLogoTitle = '{$title}';</script>";
+                $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/logo.js\"></script>";
             }
         }
         
@@ -98,5 +126,6 @@ class PlayerSkins extends PluginAbstract {
         
         return "";
     }
+    
     
 }
