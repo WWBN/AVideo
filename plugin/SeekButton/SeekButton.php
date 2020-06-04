@@ -32,7 +32,7 @@ class SeekButton extends PluginAbstract {
     public function getHeadCode() {
         global $global;
         $css = "";
-        if (isAVideoPlayer() || isLive()) {
+        if (isVideoPlayerHasProgressBar()) {
             $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css" rel="stylesheet" type="text/css"/>';
             $css .= '<style>.video-js .vjs-seek-button {font-size: 20px;width: 2em !important;}</style>';
         }
@@ -41,7 +41,7 @@ class SeekButton extends PluginAbstract {
 
     public function getFooterCode() {
         global $global;
-        if (isAVideoPlayer() || isLive()) {
+        if (isVideoPlayerHasProgressBar()) {
             $obj = $this->getDataObject();
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.min.js" type="text/javascript"></script>';
             if (!empty($_SESSION['type'])) {
