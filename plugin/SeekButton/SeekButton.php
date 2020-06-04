@@ -46,12 +46,12 @@ class SeekButton extends PluginAbstract {
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.min.js" type="text/javascript"></script>';
             if (!empty($_SESSION['type'])) {
                 if (($_SESSION['type'] == "audio") || ($_SESSION['type'] == "linkAudio")) {
-                    $js .= '<script>$(document).ready(function () {  setTimeout(function(){ if(typeof player == \'undefined\'){player = videojs(\'mainAudio\');} ';
+                    $js .= '<script>$(document).ready(function () {  setTimeout(function(){ if(typeof player == \'undefined\'){player = videojs(\'mainAudio\''.PlayerSkins::getDataSetup().');} ';
                 } else {
-                    $js .= '<script>$(document).ready(function () {  setTimeout(function(){ if(typeof player == \'undefined\'){player = videojs(\'mainVideo\');} ';
+                    $js .= '<script>$(document).ready(function () {  setTimeout(function(){ if(typeof player == \'undefined\'){player = videojs(\'mainVideo\''.PlayerSkins::getDataSetup().');} ';
                 }
             } else {
-                $js .= '<script>$(document).ready(function () {  setTimeout(function(){ if(typeof player == \'undefined\'){player = videojs(\'mainVideo\');} ';
+                $js .= '<script>$(document).ready(function () {  setTimeout(function(){ if(typeof player == \'undefined\'){player = videojs(\'mainVideo\''.PlayerSkins::getDataSetup().');} ';
             }
             $js .= 'player.seekButtons({forward: ' . $obj->forward . ',back: ' . $obj->back . ' }); }, 30); });' . '</script>';
             return $js;
