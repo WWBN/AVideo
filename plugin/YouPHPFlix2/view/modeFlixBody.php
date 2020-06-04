@@ -1,7 +1,7 @@
 <?php
 include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
 ?>
-<div id="carouselRows">
+<div id="carouselRows" style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);">
     <?php
     $_POST['current'] = 1;
     $_POST['rowCount'] = $obj->maxVideos;
