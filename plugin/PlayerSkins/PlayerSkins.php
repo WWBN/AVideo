@@ -38,6 +38,9 @@ class PlayerSkins extends PluginAbstract {
         $obj->showSocialShareOnEmbed = true;
         $obj->showLoopButton = true;
         $obj->showLogo = true;
+        $obj->showLogoAdjustScale = "0.4";
+        $obj->showLogoAdjustLeft = "-74px";
+        $obj->showLogoAdjustTop = "-22px;";
         return $obj;
     }
 
@@ -56,6 +59,7 @@ class PlayerSkins extends PluginAbstract {
                         . ".player-logo{
   outline: none;
   filter: grayscale(100%);
+  width:100px !important;
 }
 .player-logo:hover{
   filter: none;
@@ -63,10 +67,10 @@ class PlayerSkins extends PluginAbstract {
 .player-logo:before {
     display: inline-block;
     content: url({$logo});
-    transform: scale(0.2);
+    transform: scale({$obj->showLogoAdjustScale});
   position: relative;
-  left:-105px;
-  top:-20px;
+  left:{$obj->showLogoAdjustLeft};
+  top:{$obj->showLogoAdjustTop};
     
 }"
                         . "</style>";
