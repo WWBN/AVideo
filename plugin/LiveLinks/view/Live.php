@@ -1,4 +1,6 @@
 <?php
+global $isLive;
+$isLive = 1;
 require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';

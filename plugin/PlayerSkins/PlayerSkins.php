@@ -51,7 +51,7 @@ class PlayerSkins extends PluginAbstract {
         $css = "";
         if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
-            if ($obj->showLoopButton) {
+            if ($obj->showLoopButton && !isLive()) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
             if($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo ){
@@ -86,7 +86,7 @@ class PlayerSkins extends PluginAbstract {
         $js = "";
         $obj = $this->getDataObject();
         if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
-            if ($obj->showLoopButton) {
+            if ($obj->showLoopButton && !isLive()) {
                 $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
             }
             if($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo ){

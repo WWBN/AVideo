@@ -1,4 +1,6 @@
 <?php
+global $isLive;
+$isLive = 1;
 require_once '../../videos/configuration.php';
 /**
  * this was made to mask the main URL

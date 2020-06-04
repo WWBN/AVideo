@@ -1,4 +1,6 @@
 <?php
+global $isLive;
+$isLive = 1;
 $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
 $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');

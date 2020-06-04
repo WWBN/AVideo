@@ -33,7 +33,7 @@ class VideoLandscapeFullscreen extends PluginAbstract {
         if(!isMobile()){
             return "";
         }
-        if (empty($_GET['videoName']) || (!empty($video['type']) && $video['type']=="embed")) {
+        if (!isAVideoPlayer() || (!empty($video['type']) && $video['type']=="embed")) {
             return "";
         }
         global $global;

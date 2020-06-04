@@ -3137,6 +3137,10 @@ function isAVideoPlayer(){
 
 function isEmbed(){
     global $isEmbed;
-    
     return !empty($isEmbed);
+}
+
+function isLive(){
+    global $isLive;
+    return !empty($isLive);
 }
