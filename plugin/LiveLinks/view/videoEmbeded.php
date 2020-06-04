@@ -59,7 +59,7 @@ if(!empty($objSecure)){
 
             $(document).ready(function () {
                 if (typeof player === 'undefined') {
-                    player = videojs('mainVideo');
+                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                 }
                 player.ready(function () {
                     var err = this.error();
