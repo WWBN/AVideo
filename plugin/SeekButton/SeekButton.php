@@ -34,7 +34,7 @@ class SeekButton extends PluginAbstract {
         $css = "";
         if (isVideoPlayerHasProgressBar()) {
             $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css" rel="stylesheet" type="text/css"/>';
-            $css .= '<style>.video-js .vjs-seek-button {font-size: 30px;width: 2em !important;}</style>';
+            $css .= '<style>.video-js .vjs-seek-button {font-size: 25px;width: 2em !important;}</style>';
         }
         return $css;
     }
