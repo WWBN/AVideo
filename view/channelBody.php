@@ -75,6 +75,11 @@ TimeLogEnd($timeLog, __LINE__);
         <div class="tabbable-line">
             <ul class="nav nav-tabs">
                 <li class="nav-item active">
+                    <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false">
+                        <?php echo strtoupper(__("Home")); ?>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
                         <?php echo strtoupper(__("Videos")); ?>
                     </a>
@@ -93,7 +98,33 @@ TimeLogEnd($timeLog, __LINE__);
                 ?>
             </ul>
             <div class="tab-content clearfix">
-                <div class="tab-pane active fade in" id="channelVideos">
+
+
+                <div class="tab-pane active fade in" id="channelHome" style="min-height: 800px;">
+                    <div class="container-fluid modeFlixContainer"> 
+                        <?php
+                        $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
+                        $obj->BigVideo = true;
+                        $obj->Trending = true;
+                        $obj->pageDots = false;
+                        $obj->TrendingAutoPlay = true;
+                        $obj->maxVideos = 12;
+                        $obj->Suggested = false;
+                        $obj->paidOnlyLabelOverPoster = false;
+                        $obj->DateAdded = false;
+                        $obj->MostPopular = false;
+                        $obj->MostWatched = false;
+                        $obj->SortByName = false;
+                        $obj->Categories = false;
+                        $obj->playVideoOnFullscreen  = false;
+                        $obj->titleLabel  = true;
+
+                        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixBody.php';
+                        ?>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="channelVideos">
 
                     <div class="panel panel-default">
                         <div class="panel-heading">

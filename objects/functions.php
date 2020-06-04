@@ -3124,3 +3124,19 @@ function _dieAndLogObject($obj, $prefix = "") {
     _error_log($prefix . $objString);
     die($objString);
 }
+
+function isAVideoPlayer(){
+    global $isEmbed;
+    
+    if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
+        return true;
+    }
+    return false;
+}
+
+
+function isEmbed(){
+    global $isEmbed;
+    
+    return !empty($isEmbed);
+}

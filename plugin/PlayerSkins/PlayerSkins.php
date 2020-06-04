@@ -38,6 +38,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->showSocialShareOnEmbed = true;
         $obj->showLoopButton = true;
         $obj->showLogo = false;
+        $obj->showLogoOnEmbed = false;
         $obj->showLogoAdjustScale = "0.4";
         $obj->showLogoAdjustLeft = "-74px";
         $obj->showLogoAdjustTop = "-22px;";
@@ -53,7 +54,7 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showLoopButton) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            if ($obj->showLogo) {
+            if($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo ){
                 $logo = "{$global['webSiteRootURL']}".$config->getLogo(true);
                 $css .= "<style>"
                         . ".player-logo{
@@ -88,7 +89,7 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showLoopButton) {
                 $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
             }
-            if ($obj->showLogo) {
+            if($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo ){
                 $title = $config->getWebSiteTitle();
                 $url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
                 $js .= "<script>var PlayerSkinLogoTitle = '{$title}';</script>";

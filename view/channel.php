@@ -55,7 +55,8 @@ if($bgSize[0]<2048){
             ?>
         </div>
         <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
+        //include $global['systemRootPath'] . 'view/include/footer.php';
+        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixFooter.php';
         ?>
     </body>
 </html>
