@@ -112,10 +112,10 @@ class PlayerSkins extends PluginAbstract {
         
         $dataSetup = array();
         
-        if(!empty($obj->playbackRates)){
+        if(!isLive() && !empty($obj->playbackRates)){
             $dataSetup[] = "'playbackRates':{$obj->playbackRates}";
         }
-        if ((isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false) && !empty($video['videoLink'])) {
+        if (!isLive() && (isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false) && !empty($video['videoLink'])) {
             if ($_GET['isEmbedded'] == "y") {
                 $dataSetup[] = "techOrder:[\"youtube\"]";
                 $dataSetup[] = "sources:[{type: \"video/youtube\", src: \"{$video['videoLink']}\"}]";
