@@ -156,10 +156,10 @@ footer ul.list-inline li {
     }
 }
 @media (max-width: 450px) {
-    #captchaText, .input-group{
+    #captchaText, .captcha .input-group{
         display: block;
     }
-    .input-group-addon:first-child {
+    .captcha .input-group-addon:first-child {
         border-right: 1px solid rgb(204, 204, 204);
     }
 }
