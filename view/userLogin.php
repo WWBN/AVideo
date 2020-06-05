@@ -44,7 +44,7 @@ if (empty($_GET['redirectUri'])) {
                     <?php
                     $captcha = User::getCaptchaForm();
                     ?>
-                    <div class="form-group" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
+                    <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
                         <?php echo $captcha; ?>
                     </div>
                     <div class="form-group">
