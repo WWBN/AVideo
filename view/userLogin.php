@@ -12,7 +12,7 @@ if (empty($_GET['redirectUri'])) {
     <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
     <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 list-group-item ">
         <fieldset>
-            <legend><?php echo __("Please sign in"); ?></legend>
+            <legend class=" hidden-xs"><?php echo __("Please sign in"); ?></legend>
 
 
             <?php
@@ -21,8 +21,8 @@ if (empty($_GET['redirectUri'])) {
                 <form class="form-compact well form-horizontal"  id="loginForm">
                     <input type="hidden" name="redirectUri" value=""/>
                     <div class="form-group">
-                        <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
-                        <div class="col-md-8 inputGroupContainer">
+                        <label class="col-sm-4 control-label hidden-xs"><?php echo __("User"); ?></label>
+                        <div class="col-sm-8 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                 <input  id="inputUser" placeholder="<?php echo!empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="text" value="" required >
@@ -32,8 +32,8 @@ if (empty($_GET['redirectUri'])) {
 
 
                     <div class="form-group">
-                        <label class="col-md-4 control-label"><?php echo __("Password"); ?></label>
-                        <div class="col-md-8 inputGroupContainer">
+                        <label class="col-sm-4 control-label hidden-xs"><?php echo __("Password"); ?></label>
+                        <div class="col-sm-8 inputGroupContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                 <input  id="inputPassword" placeholder="<?php echo __("Password"); ?>" class="form-control"  type="password" value="" >
@@ -48,21 +48,23 @@ if (empty($_GET['redirectUri'])) {
                         <?php echo $captcha; ?>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label"><?php echo __("Remember me"); ?></label>
-                        <div class="col-md-8 inputGroupContainer">
-                            <div class="material-switch">
-                                <input  id="inputRememberMe" class="form-control"  type="checkbox">
-                                <label for="inputRememberMe" class="label-success"></label>
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-8">
+                            <div class="pull-left" style="margin-right: 10px;">
+                                <div class="material-switch">
+                                    <input  id="inputRememberMe" class="form-control"  type="checkbox">
+                                    <label for="inputRememberMe" class="label-success"></label>
+                                </div>
                             </div>
+                            <label class="pull-left"><?php echo __("Remember me"); ?></label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-4 control-label"></label>
-                        <div class="col-md-8 inputGroupContainer">
+                        <div class="col-xs-12 inputGroupContainer">
                             <?php
                             if (empty($advancedCustomUser->disableNativeSignUp)) {
                                 ?>
-                                <small><a href="#" class="btn" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
+                                <small><a href="#" class="btn btn-block" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
                                 <?php
                             }
                             ?>
@@ -173,36 +175,36 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
             var span = document.createElement("span");
             span.innerHTML = "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha;
             swal({
-            title: "<?php echo __("Are you sure?"); ?>",
-                    content: span,
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
+                title: "<?php echo __("Are you sure?"); ?>",
+                content: span,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
             })
                     .then((willDelete) => {
-                    if (willDelete) {
+                        if (willDelete) {
 
-                        modal.showPleaseWait();
-                        $.ajax({
-                            url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
-                            data: {"user": $('#inputUser').val(), "captcha": $('#captchaText2').val()},
-                            type: 'post',
-                            success: function (response) {
-                                if (response.error) {
-                                    swal("<?php echo __("Error"); ?>", response.error, "error");
-                                } else {
-                                    swal("<?php echo __("E-mail sent"); ?>", "<?php echo __("We sent you an e-mail with instructions"); ?>", "success");
+                            modal.showPleaseWait();
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
+                                data: {"user": $('#inputUser').val(), "captcha": $('#captchaText2').val()},
+                                type: 'post',
+                                success: function (response) {
+                                    if (response.error) {
+                                        swal("<?php echo __("Error"); ?>", response.error, "error");
+                                    } else {
+                                        swal("<?php echo __("E-mail sent"); ?>", "<?php echo __("We sent you an e-mail with instructions"); ?>", "success");
+                                    }
+                                    modal.hidePleaseWait();
                                 }
-                                modal.hidePleaseWait();
-                            }
-                        });
-                    }
-                });
-        $('#btnReloadCapcha').click(function () {
-            $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
-            $('#captchaText').val('');
+                            });
+                        }
+                    });
+            $('#btnReloadCapcha').click(function () {
+                $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
+                $('#captchaText').val('');
+            });
         });
-    });
     });
 
 </script>
