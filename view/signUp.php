@@ -28,8 +28,8 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
         ?>
         <div class="container">
             <div class="row">
-                <div class="col-xs-1 col-sm-1 col-lg-2"></div>
-                <div class="col-xs-10 col-sm-10 col-lg-8">
+                <div class="col-xs-12 col-sm-12 col-md-2"></div>
+                <div class="col-xs-12 col-sm-12 col-lg-8">
                     <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
                         <fieldset>
                             <legend><?php echo __("Sign Up"); ?></legend>
@@ -45,8 +45,8 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>
-                                <div class="col-md-8 inputGroupContainer">
+                                <label class="col-sm-4 control-label"><?php echo __("Name"); ?></label>
+                                <div class="col-sm-8 inputGroupContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                                         <input  id="inputName" placeholder="<?php echo __("Name"); ?>" class="form-control"  type="text" value="" required >
@@ -54,8 +54,8 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
-                                <div class="col-md-8 inputGroupContainer">
+                                <label class="col-sm-4 control-label"><?php echo __("User"); ?></label>
+                                <div class="col-sm-8 inputGroupContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                         <input  id="inputUser" placeholder="<?php echo!empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail) ? "text" : "email"; ?>" value="" required >
@@ -66,8 +66,8 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                             if (empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                                 ?>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
-                                    <div class="col-md-8 inputGroupContainer">
+                                    <label class="col-sm-4 control-label"><?php echo __("E-mail"); ?></label>
+                                    <div class="col-sm-8 inputGroupContainer">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                             <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email" value="" required >
@@ -76,8 +76,8 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                 </div>
                             <?php } ?>
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
-                                <div class="col-md-8 inputGroupContainer">
+                                <label class="col-sm-4 control-label"><?php echo __("New Password"); ?></label>
+                                <div class="col-sm-8 inputGroupContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                         <input  id="inputPassword" placeholder="<?php echo __("New Password"); ?>" class="form-control"  type="password" value=""  autocomplete="off" >
@@ -86,8 +86,8 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
-                                <div class="col-md-8 inputGroupContainer">
+                                <label class="col-sm-4 control-label"><?php echo __("Confirm New Password"); ?></label>
+                                <div class="col-sm-8 inputGroupContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                         <input  id="inputPasswordConfirm" placeholder="<?php echo __("Confirm New Password"); ?>" class="form-control"  type="password" value="" >
@@ -102,8 +102,8 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                             ?>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
-                                <div class="col-md-8 inputGroupContainer">
+                                <label class="col-sm-4 control-label"><?php echo __("Type the code"); ?></label>
+                                <div class="col-sm-8 inputGroupContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span>
                                         <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
@@ -127,7 +127,7 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                         </fieldset>
                     </form>
                 </div>
-                <div class="col-xs-1 col-sm-1 col-lg-8"></div>
+                <div class="col-xs-12 col-sm-12 col-md-2"></div>
             </div>
             <script>
                 $(document).ready(function () {
