@@ -344,6 +344,20 @@ class YPTWallet extends PluginAbstract {
 
     static function getAvailableRecurrentPayments() {
         global $global;
+
+        if (!User::isLogged()) {
+            $redirectUri = getSelfURI();
+            if(!empty($redirectUri)){
+                $redirectUri = "&redirectUri=".urlencode($redirectUri);
+            }
+            echo '<div class="btn-group  btn-group-justified"><a href="'.$global['webSiteRootURL'].'signUp?redirectUri'.$redirectUri.'" class="btn btn-primary" id="YPTWalletSignUp">'
+                    . '<i class="fas fa-user-plus"></i>  ' . __("Sign Up")
+                    . '</a><a href="'.$global['webSiteRootURL'].'user?redirectUri'.$redirectUri.'" class="btn btn-success" id="YPTWalletSignIn">'
+                    . '<i class="fas fa-sign-in-alt"></i>  ' . __("Sign In")
+                    . '</a></div>';
+            return false;
+        }
+
         $dir = self::getPluginDir();
         $plugins = self::getEnabledPlugins();
         foreach ($plugins as $value) {
