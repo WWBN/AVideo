@@ -32,7 +32,7 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                 <div class="col-xs-12 col-sm-12 col-lg-8">
                     <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
                         <fieldset>
-                            <legend><?php echo __("Sign Up"); ?></legend>
+                            <legend class="hidden-xs"><?php echo __("Sign Up"); ?></legend>
                             <div class="form-group">
                                 <div class="col-md-12 inputGroupContainer">
                                     <div class="input-group">
