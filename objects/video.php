@@ -2599,6 +2599,43 @@ if (!class_exists('Video')) {
             return false;
         }
 
+        static function getHigherVideosPathsFromID($videos_id){
+            if(empty($videos_id)){
+                return false;
+            }
+            $paths = self::getVideosPathsFromID($videos_id);
+            $types = array(0, 'HD', 'SD', 'Low');
+            
+            if(!empty($paths['mp4'])){
+                foreach ($types as $value) {
+                    if(!empty($paths['mp4'][$value])){
+                        return $paths['mp4'][$value];
+                    }
+                }
+            }
+            if(!empty($paths['webm'])){
+                foreach ($types as $value) {
+                    if(!empty($paths['webm'][$value])){
+                        return $paths['webm'][$value];
+                    }
+                }
+            }
+            if(!empty($paths['m3u8'])){
+                if(!empty($paths['m3u8'])){
+                    return $paths['m3u8'];
+                }
+            }
+            return false;
+        }
+        
+        static function getVideosPathsFromID($videos_id) {
+            if(empty($videos_id)){
+                return false;
+            }
+            $video = new Video("", "", $videos_id);
+            return self::getVideosPaths($video->getId(), true);
+        }
+        
         static function getVideosPaths($filename, $includeS3 = false) {
             $types = array('', '_Low', '_SD', '_HD');
             $videos = array();

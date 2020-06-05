@@ -265,6 +265,10 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                 youTubeMenuIsOpened = false;
                             }
                             $(document).ready(function () {
+                                if(inIframe()){
+                                    $("#mainNavBar").hide();
+                                    $("body").css("padding-top", "0");
+                                }
                                 $('#buttonMenu').on("click.sidebar", function (event) {
                                     event.stopPropagation();
                                     //$('#sidebar').fadeToggle();

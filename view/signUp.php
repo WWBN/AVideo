@@ -22,15 +22,11 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
     </head>
-
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-
         <div class="container">
-
-
             <div class="row">
                 <div class="col-xs-1 col-sm-1 col-lg-2"></div>
                 <div class="col-xs-10 col-sm-10 col-lg-8">
@@ -48,7 +44,6 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
@@ -58,7 +53,6 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                     </div>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
@@ -68,7 +62,6 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                     </div>
                                 </div>
                             </div>
-
                             <?php
                             if (empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                                 ?>
@@ -128,12 +121,11 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" class="btn btn-success btn-block" ><i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?></a>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php echo urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""); ?>" class="btn btn-success btn-block" ><i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?></a>
                                 </div>
                             </div>
                         </fieldset>
                     </form>
-
                 </div>
                 <div class="col-xs-1 col-sm-1 col-lg-8"></div>
             </div>
@@ -181,7 +173,7 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                                                 <?php
                                             }else{
                                                 ?>
-                                                window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>';
+                                                window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php echo urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""); ?>';
                                                 <?php
                                             }
                                             ?>

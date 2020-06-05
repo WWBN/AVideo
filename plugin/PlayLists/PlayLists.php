@@ -38,6 +38,7 @@ class PlayLists extends PluginAbstract {
         $obj->showFavoriteOnLeftMenu = true;
         $obj->showWatchLaterOnProfileMenu = true;
         $obj->showFavoriteOnProfileMenu = true;
+        $obj->showPlayLiveButton = true;
 
         return $obj;
     }
@@ -273,6 +274,56 @@ class PlayLists extends PluginAbstract {
                     </li>';
         }
         return $str;
+    }
+    
+    static function getLiveLink($playlists_id){
+        global $global;
+        if(!self::canPlayProgramsLive()){
+            return false;
+        }
+        // does it has videos?
+        $videosArrayId = PlayLists::getOnlyVideosAndAudioIDFromPlaylistLight($playlists_id);
+        if(empty($videosArrayId)){
+            return false;
+        }
+        
+        return "{$global['webSiteRootURL']}plugin/PlayLists/playProgramsLive.json.php?playlists_id=" . $playlists_id;
+    }
+    
+    static function canPlayProgramsLive(){
+        // can the user live?
+        if(!User::canStream()){
+            return false;
+        }
+        // Is API enabled
+        if(!AVideoPlugin::isEnabledByName("API")){
+            return false;
+        }
+        return true;
+    }
+    
+    static function getOnlyVideosAndAudioIDFromPlaylistLight($playlists_id) {
+        global $global;
+        $sql = "SELECT * FROM  playlists_has_videos p "
+                . " LEFT JOIN videos v ON videos_id = v.id "
+                . " WHERE playlists_id = ? AND v.status IN ('" . implode("','", Video::getViewableStatus(true)) . "')";
+
+        $sort = @$_POST['sort'];
+        $_POST['sort'] = array();
+        $_POST['sort']['p.`order`'] = 'ASC';
+        $_POST['sort'] = $sort;
+        $res = sqlDAL::readSql($sql, "i", array($playlists_id));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $rows[] = $row;
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
     }
 
 }

@@ -74,6 +74,7 @@ class Live extends PluginAbstract {
         $obj->experimentalWebcam = false;
         $obj->doNotShowLiveOnVideosList = false;
         $obj->doNotProcessNotifications = false;
+        $obj->hls_path = "/HLS/live";
         return $obj;
     }
 
@@ -167,6 +168,60 @@ class Live extends PluginAbstract {
             return "";
         }
         return "liveui: true";
+    }
+    
+    
+    static function stopLive($users_id) {
+        if(!User::isAdmin() && User::getId() != $users_id){
+            return false;
+        }        
+        $obj = AVideoPlugin::getObjectData("Live");
+        if (!empty($obj)) {
+            $server = str_replace("stats", "", $obj->stats);
+            $lt = new LiveTransmition(0);
+            $lt->loadByUser($users_id);
+            $key = $lt->getKey();
+            $url = "{$server}control/drop/publisher?app=live&name=$key";
+            url_get_contents($url);
+            $dir = $obj->hls_path . "/$key";
+            if (is_dir($dir)) {
+                exec("rm -fR $dir");
+                rrmdir($dir);
+            }
+        }
+    }
+    
+    // not implemented yet
+    static function startRecording($users_id) {
+        if(!User::isAdmin() && User::getId() != $users_id){
+            return false;
+        }        
+        $obj = AVideoPlugin::getObjectData("Live");
+        if (!empty($obj)) {
+            $server = str_replace("stats", "", $obj->stats);
+            $lt = new LiveTransmition(0);
+            $lt->loadByUser($users_id);
+            $key = $lt->getKey();
+            $url = "{$server}control/record/start?app=live&name=$key";
+            url_get_contents($url);
+        }
+    }
+    
+    
+    // not implemented yet
+    static function stopRecording($users_id) {
+        if(!User::isAdmin() && User::getId() != $users_id){
+            return false;
+        }        
+        $obj = AVideoPlugin::getObjectData("Live");
+        if (!empty($obj)) {
+            $server = str_replace("stats", "", $obj->stats);
+            $lt = new LiveTransmition(0);
+            $lt->loadByUser($users_id);
+            $key = $lt->getKey();
+            $url = "{$server}control/record/stop?app=live&name=$key";
+            url_get_contents($url);
+        }
     }
 
 }

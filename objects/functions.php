@@ -3168,3 +3168,17 @@ function isHLS(){
     return false;
     
 }
+
+function getRequestURI(){
+    if(empty($_SERVER['REQUEST_URI'])){
+        return "";
+    }
+    return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+}
+
+function getSelfURI(){
+    if(empty($_SERVER['PHP_SELF'])){
+        return "";
+    }
+    return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]?$_SERVER[QUERY_STRING]";
+}

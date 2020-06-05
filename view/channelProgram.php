@@ -109,6 +109,12 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             ?>
                             <a href="<?php echo $link; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
                             <?php
+                            $liveLink = PlayLists::getLiveLink($program['id']);
+                            if(false && !empty($liveLink)){
+                                ?>
+                                <a href="<?php echo $liveLink; ?>" class="btn btn-xs btn-default playAll hrefLink" ><i class="fas fa-broadcast-tower"></i> <?php echo __("Play Live"); ?></a>
+                                <?php
+                            }
                         }
                         if ($isMyChannel) {
                             ?>

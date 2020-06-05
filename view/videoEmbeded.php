@@ -6,8 +6,6 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-require_once $global['systemRootPath'] . 'objects/video.php';
-
 // for mobile login
 if (!empty($_GET['user']) && !empty($_GET['pass'])) {
     $user = $_GET['user'];
@@ -25,7 +23,6 @@ if (!empty($_GET['v'])) {
 }
 
 Video::unsetAddView($video['id']);
-
 
 AVideoPlugin::getEmbed($video['id']);
 

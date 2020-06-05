@@ -284,7 +284,7 @@ class YPTWallet extends PluginAbstract {
         if (!empty($forceDescription)) {
             $description = $forceDescription;
         }
-        WalletLog::addLog($wallet_id, "-".$value, $description, "{}", "success", "transferBalance to");
+        WalletLog::addLog($wallet_id, "-" . $value, $description, "{}", "success", "transferBalance to");
 
 
         $wallet = $this->getWallet($users_id_to);
@@ -314,6 +314,20 @@ class YPTWallet extends PluginAbstract {
 
     static function getAvailablePayments() {
         global $global;
+
+        if (!User::isLogged()) {
+            $redirectUri = getSelfURI();
+            if(!empty($redirectUri)){
+                $redirectUri = "&redirectUri=".urlencode($redirectUri);
+            }
+            echo '<div class="btn-group  btn-group-justified"><a href="'.$global['webSiteRootURL'].'signUp?redirectUri'.$redirectUri.'" class="btn btn-primary" id="YPTWalletSignUp">'
+                    . '<i class="fas fa-user-plus"></i>  ' . __("Sign Up")
+                    . '</a><a href="'.$global['webSiteRootURL'].'user?redirectUri'.$redirectUri.'" class="btn btn-success" id="YPTWalletSignIn">'
+                    . '<i class="fas fa-sign-in-alt"></i>  ' . __("Sign In")
+                    . '</a></div>';
+            return false;
+        }
+
         $dir = self::getPluginDir();
         $plugins = self::getEnabledPlugins();
         foreach ($plugins as $value) {
@@ -325,6 +339,7 @@ class YPTWallet extends PluginAbstract {
                 eval($eval);
             }
         }
+        return true;
     }
 
     static function getAvailableRecurrentPayments() {
@@ -417,8 +432,8 @@ class YPTWallet extends PluginAbstract {
         global $global, $config;
 
         require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
 
         //Create a new PHPMailer instance
         $mail = new PHPMailer\PHPMailer\PHPMailer;
