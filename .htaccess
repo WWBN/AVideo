@@ -1,4 +1,20 @@
 # BEGIN Expires Don't forget to enable mod_headers and mod_expires, you can do so by running a2enmod rewrite and a2enmod headers
+
+# Temporary fix for OFFLINE status when live-stream is ON .
+# Ensure that all requests goes thru HTTPS except /plugin/Live/on_publish.php
+
+# Force HTTPS
+  RewriteCond %{HTTPS} off
+  RewriteCond %{REQUEST_URI} !^/plugin/Live/on_publish.php$ [NC]
+  RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Ensure that Careers page is not forced over HTTPS
+  RewriteCond %{HTTPS} on
+  RewriteCond %{REQUEST_URI} ^/plugin/Live/on_publish.php$ [NC]
+  RewriteRule ^(.*)$ http://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</VirtualHost>
+
+
 <ifModule mod_expires.c>
     ExpiresActive On
     ExpiresDefault "access plus 1 seconds"
