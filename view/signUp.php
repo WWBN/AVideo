@@ -103,7 +103,7 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
 
                             <div class="form-group">
                                 <label class="col-sm-4 control-label hidden-xs"><?php echo __("Type the code"); ?></label>
-                                <div class="col-sm-8 inputGroupContainer">
+                                <div class="col-sm-8 inputGroupContainer captcha">
                                     <div class="input-group">
                                         <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span>
                                         <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
