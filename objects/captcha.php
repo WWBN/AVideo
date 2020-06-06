@@ -12,9 +12,6 @@ class Captcha{
     private $largura, $altura, $tamanho_fonte, $quantidade_letras;
 
     function __construct($largura, $altura, $tamanho_fonte, $quantidade_letras) {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
         $this->largura = $largura;
         $this->altura = $altura;
         $this->tamanho_fonte = $tamanho_fonte;
@@ -39,7 +36,7 @@ class Captcha{
         }
         _session_start();
         $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
-        _error_log("getCaptchaImage: ".$palavra." - session_name ". session_name());
+        _error_log("getCaptchaImage: ".$palavra." - session_name ". session_name()." session_id: ". session_id());
         for ($i = 1; $i <= $this->quantidade_letras; $i++) {
             imagettftext(
                 $imagem,
@@ -54,7 +51,7 @@ class Captcha{
         }
         imagejpeg($imagem); // gera a imagem
         imagedestroy($imagem); // limpa a imagem da memoria
-        _error_log("getCaptchaImage _SESSION[palavra] = ($_SESSION[palavra]) - session_name ". session_name());
+        _error_log("getCaptchaImage _SESSION[palavra] = ($_SESSION[palavra]) - session_name ". session_name()." session_id: ". session_id());
     }
 
     static public function validation($word) {
@@ -63,12 +60,12 @@ class Captcha{
         }
         _session_start();
         if(empty($_SESSION["palavra"])){
-            _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name());
+            _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name()." session_id: ". session_id());
             return false;
         }
         $validation = (strcasecmp($word, $_SESSION["palavra"]) == 0);
         if(!$validation){
-            _error_log("Captcha validation Error: you type ({$word}) and session is ({$_SESSION["palavra"]})- session_name ". session_name());
+            _error_log("Captcha validation Error: you type ({$word}) and session is ({$_SESSION["palavra"]})- session_name ". session_name()." session_id: ". session_id());
         }
         return $validation;
     }
