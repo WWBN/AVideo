@@ -8,6 +8,12 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+if(!empty($_GET['PHPSESSID'])){
+    session_write_close();
+    session_id($_GET['PHPSESSID']);
+    _error_log("userCreate.json: session_id changed to ". $_GET['PHPSESSID']);
+    session_start();
+}
 require_once $global['systemRootPath'] . 'objects/user.php';
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
