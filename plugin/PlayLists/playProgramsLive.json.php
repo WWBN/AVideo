@@ -34,7 +34,7 @@ if (empty($obj)) {
     die(json_encode($obj));
 }
 
-$live = AVideoPlugin::loadPluginIfEnabled("Live");
+$live = AVideoPlugin::getObjectDataIfEnabled("Live");
 if (empty($live)) {
     $obj->msg = __("Live Plugin is not enabled");
     _error_log("playProgramsLive:: {$obj->msg}");
@@ -70,14 +70,14 @@ if(empty($status->version) || version_compare($status->version, "3.2") < 0){
 }
 
 Live::stopLive($users_id);
-
-$videosListToLive = "{$encoder}videosListToLive.php?playlists_id={$playlists_id}&APISecret={$api->APISecret}&webSiteRootURL={$global['webSiteRootURL']}&user=".User::getUserName()."&pass=".User::getUserPass()."&liveKey={$key}&rtmp=". urlencode($live->server);
+$webSiteRootURL = urlencode($global['webSiteRootURL']);
+$videosListToLive = "{$encoder}videosListToLive?playlists_id={$playlists_id}&APISecret={$api->APISecret}&webSiteRootURL={$webSiteRootURL}&user=".User::getUserName()."&pass=".User::getUserPass()."&liveKey={$key}&rtmp=". urlencode($live->server);
 
 $cmd = "wget -O/dev/null -q \"{$videosListToLive}\" > /dev/null 2>/dev/null &";
 _error_log("playProgramsLive:: {$cmd}");
 //echo "** executing command {$cmd}\n";
 exec($cmd);
 
-
+$obj->videosListToLive = $videosListToLive;
 $obj->error = false;
 die(json_encode($obj));

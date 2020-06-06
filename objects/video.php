@@ -124,7 +124,7 @@ if (!class_exists('Video')) {
         // allow users to count a view again in case it is refreshed
         static function unsetAddView($videos_id) {
             // allow users to count a view again in case it is refreshed
-            if (!empty($_SESSION['addViewCount'][$videos_id]['time']) && $_SESSION['addViewCount'][$videos_id]['time']+30 <= time()) {// added 30 seconds tolerance
+            if (!empty($_SESSION['addViewCount'][$videos_id]['time']) && $_SESSION['addViewCount'][$videos_id]['time'] <= time()) {
                 _session_start();
                 unset($_SESSION['addViewCount'][$videos_id]);
             }

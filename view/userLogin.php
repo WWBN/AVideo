@@ -1,4 +1,7 @@
 <?php
+if (empty($_COOKIE) && empty($_GET['cookieLogin'])) {
+   // TODO implement a popup login for cross domain cookie block
+}
 if (empty($_GET['redirectUri'])) {
     if (!empty($_SERVER["HTTP_REFERER"])) {
         // if comes from the streamer domain

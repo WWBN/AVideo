@@ -16,7 +16,7 @@ $obj = new Video("", "", $_POST['id']);
 if (empty($obj)) {
     die("Object not found");
 }
-
+_session_start();
 if (empty($_SESSION['addViewCount'])) {
     $_SESSION['addViewCount'] = array();
 }
@@ -30,14 +30,16 @@ if (!empty($seconds)) {
         if ($percent >= $value) {
             if (empty($_SESSION['addViewCount'][$_POST['id']][$value]) && !empty($_POST['currentTime'])) {
                 if ($obj->addViewPercent($value)) {
+                    _session_start();
                     $_SESSION['addViewCount'][$_POST['id']][$value] = 1;
                 }
             }
         }
     }
-}
+} 
 if (empty($_SESSION['addViewCount'][$_POST['id']]['time'])) {
     $resp = $obj->addView();
+    _session_start();
     $_SESSION['addViewCount'][$_POST['id']]['time'] = strtotime("+{$seconds} seconds");
 } else if (!empty($_POST['currentTime'])) {
     $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), intval($_POST['currentTime']));

@@ -136,36 +136,35 @@ class API extends PluginAbstract {
     public function get_api_video_from_program($parameters){
         global $global;
         $playlists = AVideoPlugin::loadPlugin("PlayLists");
-        $obj = $this->startResponseObject($parameters);
-        if(empty($obj->playlists_id)){
-            return new ApiObject("Playlist ID is empty", true, $obj);
+        if(empty($parameters['playlists_id'])){
+            return new ApiObject("Playlist ID is empty", true, $parameters);
         }
-        $videos = PlayLists::getOnlyVideosAndAudioIDFromPlaylistLight($obj->playlists_id);
+        $videos = PlayLists::getOnlyVideosAndAudioIDFromPlaylistLight($parameters['playlists_id']);
         
         if(empty($videos)){
-            return new ApiObject("There are no videos for this playlist", true, $obj);
+            return new ApiObject("There are no videos for this playlist", true, $parameters);
         }
         
-        if(empty($obj->index)){
-            $obj->index = 0;
+        if(empty($parameters['index'])){
+            $parameters['index'] = 0;
         }
         
-        if(empty($videos[$obj->index])){
-            $videos_id = $videos[0];
+        if(empty($videos[$parameters['index']])){
+            $video = $videos[0];
         }else{
-            $videos_id = $videos[$obj->index];
+            $video = $videos[$parameters['index']];
         }
         
-        $obj->nextIndex = $obj->index+1;
+        $parameters['nextIndex'] = $parameters['index']+1;
         
-        if(empty($videos[$obj->nextIndex])){
-            $obj->nextIndex = 0;
+        if(empty($videos[$parameters['nextIndex']])){
+            $parameters['nextIndex'] = 0;
         }
+        $videoPath = Video::getHigherVideoPathFromID($video['id']);
+        $parameters['videos_id'] = $video['id'];
+        $parameters['path'] = $videoPath;
         
-        $video = Video::getHigherVideosPathsFromID($videos_id);
-        $obj->path = $video;
-        $obj->nextIndex = $video;
-        return new ApiObject("", false, $obj);
+        return new ApiObject("", false, $parameters);
     }
     
     /**

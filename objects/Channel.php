@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Channel{
     
-    static function getChannels($activeOnly=true){        
+    static function getChannels($activeOnly=true, $FIND_IN_SET = ""){        
         global $global;
         $sql = "SELECT u.*, "
                 . " (SELECT count(v.id) FROM videos v where v.users_id = u.id) as total_videos "
@@ -17,7 +17,8 @@ class Channel{
         if($activeOnly){
             $sql .= " AND u.status = 'a' ";
         }
-        $sql .= BootGrid::getSqlFromPost(array('user', 'about'));
+        $sql .= BootGrid::getSqlFromPost(array('user', 'about'), "", "", false, $FIND_IN_SET);
+        
         $res = sqlDAL::readSql($sql); 
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);

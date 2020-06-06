@@ -20,9 +20,12 @@ if (!empty($_GET['page'])) {
 } else {
     $_POST['current'] = 1;
 }
+
+$users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
+
 $current = $_POST['current'];
 $_POST['rowCount'] = 10;
-$channels = Channel::getChannels();
+$channels = Channel::getChannels(true, "u.id, '". implode(",", $users_id_array)."'");
 
 $totalPages = ceil($totalChannels / $_POST['rowCount']);
 ?>

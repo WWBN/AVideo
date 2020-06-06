@@ -1,7 +1,7 @@
 <?php
 class BootGrid {
 
-    static function getSqlFromPost($searchFieldsNames = array(), $keyPrefix = "", $alternativeOrderBy = "", $doNotSearch=false) {
+    static function getSqlFromPost($searchFieldsNames = array(), $keyPrefix = "", $alternativeOrderBy = "", $doNotSearch=false, $FIND_IN_SET = "") {
         if(empty($doNotSearch)){
             $sql = self::getSqlSearchFromPost($searchFieldsNames);
         }else{
@@ -14,7 +14,10 @@ class BootGrid {
             $_POST['sort'][$_GET['columns'][$index]['data']] = $_GET['order'][0]['dir'];
         }
         
-        if (!empty($_POST['sort'])) {
+        
+        if(!empty($FIND_IN_SET)){
+            $sql .= " ORDER BY FIND_IN_SET({$FIND_IN_SET}) ";
+        }else if (!empty($_POST['sort'])) {
             $orderBy = array();
             foreach ($_POST['sort'] as $key => $value) {
                 $direction = "ASC";

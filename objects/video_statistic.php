@@ -30,15 +30,15 @@ class VideoStatistic extends ObjectYPT {
         global $global;
         /**
          * Dont crash if is an old version
-        
-        $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
-        $result = sqlDal::num_rows($res);
-        sqlDAL::close($res);
-        if (empty($result)) {
-            echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
-            return false;
-        }
- */
+
+          $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
+          $result = sqlDal::num_rows($res);
+          sqlDAL::close($res);
+          if (empty($result)) {
+          echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
+          return false;
+          }
+         */
         if (empty($videos_id)) {
             die(__("You need a video to generate statistics"));
         }
@@ -95,10 +95,10 @@ class VideoStatistic extends ObjectYPT {
     static function getLastStatistics($videos_id, $users_id = 0) {
         if (!empty($users_id)) {
             $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY modified DESC LIMIT 1 ";
-            $res = sqlDAL::readSql($sql, 'ii', array($videos_id, $users_id));
+            $res = sqlDAL::readSql($sql, 'ii', array($videos_id, $users_id), true);
         } else {
             $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY modified DESC LIMIT 1 ";
-            $res = sqlDAL::readSql($sql, 'is', array($videos_id, session_id()));
+            $res = sqlDAL::readSql($sql, 'is', array($videos_id, session_id()), true);
         }
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
@@ -155,7 +155,7 @@ class VideoStatistic extends ObjectYPT {
     static function getTotalLastDaysAsync($video_id, $numberOfDays) {
         global $global, $advancedCustom;
         $md5 = ("{$video_id}_{$numberOfDays}");
-        $path = getCacheDir()."getTotalLastDaysAsync/";
+        $path = getCacheDir() . "getTotalLastDaysAsync/";
         make_path($path);
         $cacheFileName = "{$path}{$md5}";
         if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
@@ -199,7 +199,7 @@ class VideoStatistic extends ObjectYPT {
 
     static function getTotalTodayAsync($video_id) {
         global $global, $advancedCustom;
-        $cacheFileName = getCacheDir()."getTotalTodayAsync_{$video_id}";
+        $cacheFileName = getCacheDir() . "getTotalTodayAsync_{$video_id}";
         if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
             if (file_exists($cacheFileName . ".lock")) {
                 return array();
@@ -267,6 +267,53 @@ class VideoStatistic extends ObjectYPT {
 
     function setSession_id($session_id) {
         $this->session_id = $session_id;
+    }
+
+    static function getChannelsWithMoreViews($daysLimit = 30) {
+        global $global;
+        // get unique videos ids from the requested timeframe
+        $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics WHERE DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        // get the channel owner from each of those videos
+        $channels = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $users_id = Video::getOwner($row['videos_id']);
+                if (empty($channels[$users_id])) {
+                    $channels[$users_id] = array();
+                }
+                $channels[$users_id][] = $row['videos_id'];
+            }
+
+            foreach ($channels as $key => $value) {
+                // count how many views each one has
+                $sql2 = "SELECT count(id) as total FROM videos_statistics WHERE videos_id IN (" . implode(",", $value) . ") AND DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+                $res2 = sqlDAL::readSql($sql2);
+                $result2 = sqlDAL::fetchAssoc($res2);
+                sqlDAL::close($res2);
+                if (!empty($result2)) {
+                    $channels[$key]['users_id'] = $key;
+                    $channels[$key]['total'] = intval($result2['total']);
+                }
+            }
+        }
+        // return more first
+        usort($channels, function($a, $b) {
+            return $b['total'] - $a['total'];
+        });
+        return $channels;
+    }
+
+    static function getUsersIDFromChannelsWithMoreViews($daysLimit = 30) {
+        $channels = self::getChannelsWithMoreViews($daysLimit);
+        $users_id = array();
+        foreach ($channels as $value) {
+            $users_id[] = $value['users_id'];
+        }
+        return $users_id;
     }
 
 }

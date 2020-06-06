@@ -306,7 +306,8 @@ class PlayLists extends PluginAbstract {
         global $global;
         $sql = "SELECT * FROM  playlists_has_videos p "
                 . " LEFT JOIN videos v ON videos_id = v.id "
-                . " WHERE playlists_id = ? AND v.status IN ('" . implode("','", Video::getViewableStatus(true)) . "')";
+                . " WHERE playlists_id = ? AND v.status IN ('" . implode("','", Video::getViewableStatus(true)) . "')"
+                . " AND (`type` = 'video' OR `type` = 'audio' ) ORDER BY p.`order` ";
 
         $sort = @$_POST['sort'];
         $_POST['sort'] = array();
