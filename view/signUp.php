@@ -148,7 +148,7 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                             return false;
                         } else {
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/userCreate.json.php',
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/userCreate.json.php?PHPSESSID=<?php echo session_id(); ?>',
                                 data: {
                                     "user": $('#inputUser').val(),
                                     "pass": $('#inputPassword').val(),
