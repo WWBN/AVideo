@@ -2,7 +2,7 @@
 
 $global['webSiteRootURL'] .= (substr($global['webSiteRootURL'], -1) == '/' ? '' : '/');
 $global['systemRootPath'] .= (substr($global['systemRootPath'], -1) == '/' ? '' : '/');
-$global['session_name'] = preg_replace( '/[\W]/', '', $global['webSiteRootURL']);
+$global['session_name'] = md5($global['systemRootPath']);
 session_name($global['session_name']);
 
 if(empty($global['logfile'])){
