@@ -37,6 +37,7 @@ class Captcha{
         if(User::isAdmin()){
             $palavra = "admin";
         }
+        _session_start();
         $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
         _error_log("getCaptchaImage: ".$palavra." - session_name ". session_name());
         for ($i = 1; $i <= $this->quantidade_letras; $i++) {
@@ -59,9 +60,7 @@ class Captcha{
         if(User::isAdmin()){
             return true;
         }
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        _session_start();
         if(empty($_SESSION["palavra"])){
             _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name());
             return false;
