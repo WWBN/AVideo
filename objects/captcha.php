@@ -6,6 +6,7 @@ if(!isset($global['systemRootPath'])){
 if(!empty($_GET['PHPSESSID'])){
     session_write_close();
     session_id($_GET['PHPSESSID']);
+    _error_log("getCaptchaImage: session_id changed to ". $_GET['PHPSESSID']);
     session_start();
 }
 class Captcha{
