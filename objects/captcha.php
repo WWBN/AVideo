@@ -38,6 +38,7 @@ class Captcha{
             $palavra = "admin";
         }
         $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
+        _error_log("getCaptchaImage: ".$palavra." - session_name ". session_name());
         for ($i = 1; $i <= $this->quantidade_letras; $i++) {
             imagettftext(
                 $imagem,
@@ -62,12 +63,12 @@ class Captcha{
             session_start();
         }
         if(empty($_SESSION["palavra"])){
-            _error_log("Captcha validation Error: you type ({$word}) and session is empty");
+            _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name());
             return false;
         }
         $validation = (strcasecmp($word, $_SESSION["palavra"]) == 0);
         if(!$validation){
-            _error_log("Captcha validation Error: you type ({$word}) and session is ({$_SESSION["palavra"]})");
+            _error_log("Captcha validation Error: you type ({$word}) and session is ({$_SESSION["palavra"]})- session_name ". session_name());
         }
         return $validation;
     }
