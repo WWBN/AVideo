@@ -54,6 +54,7 @@ class Captcha{
         }
         imagejpeg($imagem); // gera a imagem
         imagedestroy($imagem); // limpa a imagem da memoria
+        _error_log("getCaptchaImage _SESSION[palavra] = ($_SESSION[palavra]) - session_name ". session_name());
     }
 
     static public function validation($word) {
