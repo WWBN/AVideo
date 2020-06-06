@@ -124,7 +124,7 @@ if (!class_exists('Video')) {
         // allow users to count a view again in case it is refreshed
         static function unsetAddView($videos_id) {
             // allow users to count a view again in case it is refreshed
-            if (!empty($_SESSION['addViewCount'][$videos_id]['time']) && $_SESSION['addViewCount'][$videos_id]['time'] <= time()) {
+            if (!empty($_SESSION['addViewCount'][$videos_id]['time']) && $_SESSION['addViewCount'][$videos_id]['time']+30 <= time()) {// added 30 seconds tolerance
                 _session_start();
                 unset($_SESSION['addViewCount'][$videos_id]);
             }
@@ -2599,8 +2599,8 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        static function getHigherVideosPathsFromID($videos_id){
-            if(empty($videos_id)){
+        static function getHigherVideoPathFromID($videos_id){
+            if(empty($videos_id)){                
                 return false;
             }
             $paths = self::getVideosPathsFromID($videos_id);
@@ -2609,20 +2609,20 @@ if (!class_exists('Video')) {
             if(!empty($paths['mp4'])){
                 foreach ($types as $value) {
                     if(!empty($paths['mp4'][$value])){
-                        return $paths['mp4'][$value];
+                        return $paths['mp4'][$value]["url"];
                     }
                 }
             }
             if(!empty($paths['webm'])){
                 foreach ($types as $value) {
                     if(!empty($paths['webm'][$value])){
-                        return $paths['webm'][$value];
+                        return $paths['webm'][$value]["url"];
                     }
                 }
             }
             if(!empty($paths['m3u8'])){
                 if(!empty($paths['m3u8'])){
-                    return $paths['m3u8'];
+                    return $paths['m3u8']["url"];
                 }
             }
             return false;
@@ -2633,7 +2633,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             $video = new Video("", "", $videos_id);
-            return self::getVideosPaths($video->getId(), true);
+            return self::getVideosPaths($video->getFilename(), true);
         }
         
         static function getVideosPaths($filename, $includeS3 = false) {
