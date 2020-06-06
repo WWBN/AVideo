@@ -164,7 +164,7 @@ class Live extends PluginAbstract {
     
     public function dataSetup() {
         $obj = $this->getDataObject();
-        if($obj->disableDVR){
+        if(!isLive() || $obj->disableDVR){
             return "";
         }
         return "liveui: true";
