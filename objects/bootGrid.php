@@ -16,7 +16,7 @@ class BootGrid {
         
         
         if(!empty($FIND_IN_SET)){
-            $sql .= " ORDER BY FIND_IN_SET({$FIND_IN_SET}) ";
+            $sql .= " ORDER BY FIND_IN_SET({$FIND_IN_SET}) DESC ";
         }else if (!empty($_POST['sort'])) {
             $orderBy = array();
             foreach ($_POST['sort'] as $key => $value) {
