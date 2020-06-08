@@ -77,6 +77,9 @@ TimeLogEnd($timeLog, __LINE__);
                 <?php
                 $active = "active";
                 if ($advancedCustomUser->showChannelHomeTab) {
+                    if(!empty($_GET['current'])){ // means you are paging the Videos tab
+                        $active = "";
+                    }
                     ?>
                     <li class="nav-item <?php echo $active; ?>">
                         <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false">
@@ -87,6 +90,9 @@ TimeLogEnd($timeLog, __LINE__);
                     $active = "";
                 }
                 if ($advancedCustomUser->showChannelVideosTab) {
+                    if(!empty($_GET['current'])){ // means you are paging the Videos tab
+                        $active = "active";
+                    }
                     ?>
                     <li class="nav-item <?php echo $active; ?>">
                         <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
@@ -112,6 +118,9 @@ TimeLogEnd($timeLog, __LINE__);
                 <?php
                 $active = "active fade in";
                 if ($advancedCustomUser->showChannelHomeTab) {
+                    if(!empty($_GET['current'])){ // means you are paging the Videos tab
+                        $active = "";
+                    }
                     ?>
                     <div class="tab-pane  <?php echo $active; ?>" id="channelHome" style="min-height: 800px;">
                         <div class="container-fluid modeFlixContainer" style="padding: 15px;"> 
@@ -141,6 +150,9 @@ TimeLogEnd($timeLog, __LINE__);
                     $active = "fade";
                 }
                 if ($advancedCustomUser->showChannelVideosTab) {
+                    if(!empty($_GET['current'])){ // means you are paging the Videos tab
+                        $active = "active fade in";
+                    }
                     ?>
 
                     <div class="tab-pane <?php echo $active; ?>" id="channelVideos">
