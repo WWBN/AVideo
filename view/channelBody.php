@@ -98,7 +98,7 @@ TimeLogEnd($timeLog, __LINE__);
                 }
                 if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
                     ?>
-                    <li class="nav-item <?php echo $active; ?>">
+                    <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
                         <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
                             <?php echo strtoupper(__("Playlists")); ?>
                         </a>
@@ -114,7 +114,7 @@ TimeLogEnd($timeLog, __LINE__);
                 if ($advancedCustomUser->showChannelHomeTab) {
                     ?>
                     <div class="tab-pane  <?php echo $active; ?>" id="channelHome" style="min-height: 800px;">
-                        <div class="container-fluid modeFlixContainer"> 
+                        <div class="container-fluid modeFlixContainer" style="padding: 15px;"> 
                             <?php
                             $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                             $obj->BigVideo = true;
@@ -131,6 +131,7 @@ TimeLogEnd($timeLog, __LINE__);
                             $obj->Categories = false;
                             $obj->playVideoOnFullscreen = false;
                             $obj->titleLabel = true;
+                            $obj->RemoveBigVideoDescription = true;
 
                             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixBody.php';
                             ?>
@@ -163,7 +164,7 @@ TimeLogEnd($timeLog, __LINE__);
                             </div>
                             <div class="panel-body">
                                 <?php
-                                if (!empty($uploadedVideos[0])) {
+                                if ($advancedCustomUser->showBigVideoOnChannelVideosTab && !empty($uploadedVideos[0])) {
                                     $video = $uploadedVideos[0];
                                     $obj = new stdClass();
                                     $obj->BigVideo = true;

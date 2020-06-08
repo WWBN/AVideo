@@ -1,4 +1,9 @@
 <div class="programsContainerItem">
+    <style>
+        #channelPlayListsLi{
+            display: block !important;
+        }
+    </style>
     <?php
     global $global, $config, $isChannel;
     $isChannel = 1; // still workaround, for gallery-functions, please let it there.
@@ -114,7 +119,7 @@
                         if ($playlist['status'] != "favorite" && $playlist['status'] != "watch_later") {
                             if (AVideoPlugin::isEnabledByName("PlayLists")) {
                                 ?>
-                                <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val());setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
+                                <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val()); setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
                                 <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<?php
                                 $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
                                 echo ($code);
@@ -141,13 +146,13 @@
                             </div><!-- /.modal -->
                             <script>
                                 $(function () {
-                                    $('.seriePlaylist').click(function () {
-                                        $($('#seriePlaylistModal').find('iframe')[0]).attr('src', 'about:blank');
-                                        var playlist_id = $(this).attr('playlist_id');
-                                        $($('#seriePlaylistModal').find('iframe')[0]).attr('src', '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=' + playlist_id);
-                                        $('#seriePlaylistModal').modal();
-                                        //$('#seriePlaylistModal').modal('hide');
-                                    });
+                                $('.seriePlaylist').click(function () {
+                                $($('#seriePlaylistModal').find('iframe')[0]).attr('src', 'about:blank');
+                                var playlist_id = $(this).attr('playlist_id');
+                                $($('#seriePlaylistModal').find('iframe')[0]).attr('src', '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=' + playlist_id);
+                                $('#seriePlaylistModal').modal();
+                                //$('#seriePlaylistModal').modal('hide');
+                                });
                                 });
                             </script>
 
@@ -231,18 +236,18 @@
                                         <?php
                                         if (!empty($serie['trailer1'])) {
                                             ?>
-                                            <a href="#" class="btn btn-xs btn-warning" onclick="$(this).removeAttr('href');$('#serie<?php echo $serie['id']; ?> img').fadeOut();$('<iframe>', {
-                                                        src: '<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>',
-                                                        id: 'myFrame<?php echo $serie['id']; ?>',
-                                                        allow: 'autoplay',
-                                                        frameborder: 0,
-                                                        height: 200,
-                                                        width: '100%',
-                                                        scrolling: 'no'
-                                                    }).appendTo('#serie<?php echo $serie['id']; ?>');
-                                                    $(this).removeAttr('onclick');
-                                                    $(this).fadeOut();
-                                                    return false;">
+                                            <a href="#" class="btn btn-xs btn-warning" onclick="$(this).removeAttr('href'); $('#serie<?php echo $serie['id']; ?> img').fadeOut(); $('<iframe>', {
+                                                                src: '<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>',
+                                                                        id: 'myFrame<?php echo $serie['id']; ?>',
+                                                                        allow: 'autoplay',
+                                                                        frameborder: 0,
+                                                                        height: 200,
+                                                                        width: '100%',
+                                                                        scrolling: 'no'
+                                                                }).appendTo('#serie<?php echo $serie['id']; ?>');
+                                                                $(this).removeAttr('onclick');
+                                                                $(this).fadeOut();
+                                                                return false;">
                                                 <span class="fa fa-film"></span> 
                                                 <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
                                             </a>
@@ -311,19 +316,19 @@
                                         }
                                         ?>
 
-                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
+                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['watchLaterId']; ?>); return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['watchLaterId']; ?>);
-                                                return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
+                                                            return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
                                         <br>
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['favoriteId']; ?>);
-                                                return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
+                                                            return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);
-                                                return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
+                                                            return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
 
                                     </div>
-                <?php
-            }
-            ?>
+                                    <?php
+                                }
+                                ?>
                             </a>
                             <a class="hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
                                 <h2><?php echo $value['title']; ?></h2>
@@ -341,34 +346,34 @@
                                     }
                                     ?>
                                 </div>
-            <?php
-            if (empty($advancedCustom->doNotDisplayViews)) {
-                ?> 
+                                <?php
+                                if (empty($advancedCustom->doNotDisplayViews)) {
+                                    ?> 
                                     <div>
                                         <i class="fa fa-eye"></i>
                                         <span itemprop="interactionCount">
-                                    <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                                         </span>
                                     </div>
-                <?php
-            }
-            ?>
+                                    <?php
+                                }
+                                ?>
 
                                 <div>
                                     <i class="far fa-clock"></i>
-            <?php
-            echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
-            ?>
+                                    <?php
+                                    echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago');
+                                    ?>
                                 </div>
                                 <div>
                                     <i class="fa fa-user"></i>
-                                <?php
-                                echo $name;
-                                ?>
+                                    <?php
+                                    echo $name;
+                                    ?>
                                 </div>
-            <?php
-            if (Video::canEdit($value['id'])) {
-                ?>
+                                <?php
+                                if (Video::canEdit($value['id'])) {
+                                    ?>
                                     <div>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
 
@@ -377,27 +382,27 @@
                                     <?php
                                 }
                                 ?>
-            <?php
-            if ($isMyChannel) {
-                ?>
+                                <?php
+                                if ($isMyChannel) {
+                                    ?>
                                     <div>
                                         <span style=" cursor: pointer;" class="btn-link text-primary removeVideo" playlist_id="<?php echo $playlist['id']; ?>" video_id="<?php echo $value['id']; ?>">
                                             <i class="fa fa-trash"></i> <?php echo __("Remove"); ?>
                                         </span>
                                     </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+
                 <?php
             }
             ?>
-                            </div>
-                        </div>
-            <?php
-        }
-        ?>
-                </div>
-
-        <?php
-    }
-    ?>
 
         </div>
         <?php
@@ -412,150 +417,138 @@
     <script>
 
         $(function () {
-            $('.removeVideo').click(function () {
-                currentObject = this;
+        $('.removeVideo').click(function () {
+        currentObject = this;
+        swal({
+        title: "<?php echo __("Are you sure?"); ?>",
+                text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+        })
+                .then((willDelete) = > {
+                if (willDelete) {
 
-                swal({
-                    title: "<?php echo __("Are you sure?"); ?>",
-                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                        .then((willDelete) => {
-                            if (willDelete) {
-
-                                modal.showPleaseWait();
-                                var playlist_id = $(currentObject).attr('playlist_id');
-                                var video_id = $(currentObject).attr('video_id');
-                                $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
-                                    data: {
-                                        "playlist_id": playlist_id,
-                                        "video_id": video_id
-                                    },
-                                    type: 'post',
-                                    success: function (response) {
-                                        reloadPlayLists();
-                                        $(".playListsIds" + video_id).prop("checked", false);
-                                        $(currentObject).closest('.galleryVideo').fadeOut();
-                                        modal.hidePleaseWait();
-                                    }
-                                });
-                            }
-                        });
-            });
-
-            $('.deletePlaylist').click(function () {
-                currentObject = this;
-
-                swal({
-                    title: "<?php echo __("Are you sure?"); ?>",
-                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                        .then((willDelete) => {
-                            if (willDelete) {
-
-                                modal.showPleaseWait();
-                                var playlist_id = $(currentObject).attr('playlist_id');
-                                console.log(playlist_id);
-                                $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
-                                    data: {
-                                        "playlist_id": playlist_id
-                                    },
-                                    type: 'post',
-                                    success: function (response) {
-                                        $(currentObject).closest('.panel').slideUp();
-                                        modal.hidePleaseWait();
-                                    }
-                                });
-                            }
-                        });
-
-            });
-
-            $('.statusPlaylist').click(function () {
-                var playlist_id = $(this).attr('playlist_id');
-                var status = "public";
-                if ($('#statusPrivate' + playlist_id).is(":visible")) {
-                    status = "public";
-                    $('.statusPlaylist' + playlist_id + ' span').hide();
-                    $('#statusPublic' + playlist_id).fadeIn();
-                } else if ($('#statusPublic' + playlist_id).is(":visible")) {
-                    status = "unlisted";
-                    $('.statusPlaylist' + playlist_id + ' span').hide();
-                    $('#statusUnlisted' + playlist_id).fadeIn();
-                } else if ($('#statusUnlisted' + playlist_id).is(":visible")) {
-                    status = "private";
-                    $('.statusPlaylist' + playlist_id + ' span').hide();
-                    $('#statusPrivate' + playlist_id).fadeIn();
-                }
                 modal.showPleaseWait();
-                console.log(playlist_id);
+                var playlist_id = $(currentObject).attr('playlist_id');
+                var video_id = $(currentObject).attr('video_id');
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistStatus.php',
-                    data: {
-                        "playlist_id": playlist_id,
-                        "status": status
-                    },
-                    type: 'post',
-                    success: function (response) {
-
-                        modal.hidePleaseWait();
-                    }
-                });
-
-            });
-
-            $('.renamePlaylist').click(function () {
-                currentObject = this;
-                swal({
-                    title: "<?php echo __("Change Playlist Name"); ?>!",
-                    text: "<?php echo __("What is the new name?"); ?>",
-                    content: "input",
-                    showCancelButton: true,
-                    closeOnConfirm: true,
-                    inputPlaceholder: "<?php echo __("Playlist name?"); ?>"
-                }).then(inputValue => {
-
-                    if (!inputValue || inputValue === false || inputValue === "")
-                        return false;
-
-                    modal.showPleaseWait();
-                    var playlist_id = $(currentObject).attr('playlist_id');
-                    console.log(playlist_id);
-                    $.ajax({
-                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php',
+                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
                         data: {
-                            "playlist_id": playlist_id,
-                            "name": inputValue
+                        "playlist_id": playlist_id,
+                                "video_id": video_id
                         },
                         type: 'post',
                         success: function (response) {
-                            $(currentObject).closest('.panel').find('.playlistName').text(inputValue);
-                            modal.hidePleaseWait();
+                        reloadPlayLists();
+                        $(".playListsIds" + video_id).prop("checked", false);
+                        $(currentObject).closest('.galleryVideo').fadeOut();
+                        modal.hidePleaseWait();
                         }
-                    });
-                    return false;
                 });
-
-            });
-
-            $('.sortNow').click(function () {
-                var $val = $(this).siblings("input").val();
-                sortNow(this, $val);
-            });
-
-            $('.video_order').keypress(function (e) {
-                if (e.which == 13) {
-                    sortNow(this, $(this).val());
                 }
-            });
+                });
+        });
+        $('.deletePlaylist').click(function () {
+        currentObject = this;
+        swal({
+        title: "<?php echo __("Are you sure?"); ?>",
+                text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+        })
+                .then((willDelete) = > {
+                if (willDelete) {
 
+                modal.showPleaseWait();
+                var playlist_id = $(currentObject).attr('playlist_id');
+                console.log(playlist_id);
+                $.ajax({
+                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
+                        data: {
+                        "playlist_id": playlist_id
+                        },
+                        type: 'post',
+                        success: function (response) {
+                        $(currentObject).closest('.panel').slideUp();
+                        modal.hidePleaseWait();
+                        }
+                });
+                }
+                });
+        });
+        $('.statusPlaylist').click(function () {
+        var playlist_id = $(this).attr('playlist_id');
+        var status = "public";
+        if ($('#statusPrivate' + playlist_id).is(":visible")) {
+        status = "public";
+        $('.statusPlaylist' + playlist_id + ' span').hide();
+        $('#statusPublic' + playlist_id).fadeIn();
+        } else if ($('#statusPublic' + playlist_id).is(":visible")) {
+        status = "unlisted";
+        $('.statusPlaylist' + playlist_id + ' span').hide();
+        $('#statusUnlisted' + playlist_id).fadeIn();
+        } else if ($('#statusUnlisted' + playlist_id).is(":visible")) {
+        status = "private";
+        $('.statusPlaylist' + playlist_id + ' span').hide();
+        $('#statusPrivate' + playlist_id).fadeIn();
+        }
+        modal.showPleaseWait();
+        console.log(playlist_id);
+        $.ajax({
+        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistStatus.php',
+                data: {
+                "playlist_id": playlist_id,
+                        "status": status
+                },
+                type: 'post',
+                success: function (response) {
+
+                modal.hidePleaseWait();
+                }
+        });
+        });
+        $('.renamePlaylist').click(function () {
+        currentObject = this;
+        swal({
+        title: "<?php echo __("Change Playlist Name"); ?>!",
+                text: "<?php echo __("What is the new name?"); ?>",
+                content: "input",
+                showCancelButton: true,
+                closeOnConfirm: true,
+                inputPlaceholder: "<?php echo __("Playlist name?"); ?>"
+        }).then(inputValue = > {
+
+        if (!inputValue || inputValue === false || inputValue === "")
+                return false;
+        modal.showPleaseWait();
+        var playlist_id = $(currentObject).attr('playlist_id');
+        console.log(playlist_id);
+        $.ajax({
+        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php',
+                data: {
+                "playlist_id": playlist_id,
+                        "name": inputValue
+                },
+                type: 'post',
+                success: function (response) {
+                $(currentObject).closest('.panel').find('.playlistName').text(inputValue);
+                modal.hidePleaseWait();
+                }
+        });
+        return false;
+        });
+        });
+        $('.sortNow').click(function () {
+        var $val = $(this).siblings("input").val();
+        sortNow(this, $val);
+        });
+        $('.video_order').keypress(function (e) {
+        if (e.which == 13) {
+        sortNow(this, $(this).val());
+        }
+        });
         });
     </script>
     <!--

@@ -286,7 +286,7 @@ footer .btn-outline {
     height: 210px;
 }
 #bigVideo .posterPortrait {
-    height: 30vh;
+    height: auto;
 }
 #bigVideo .mainInfoText{
     max-height: 29vh;
@@ -323,6 +323,9 @@ footer .btn-outline {
 #carouselRows h2{
     position: relative;
 }
+#carouselRows{
+    margin-top: -20%;
+}
 
 body.fullscreen{
     margin: 0;
@@ -349,11 +352,6 @@ body.fullscreen{
         margin-bottom: -10px !important;
         overflow: hidden;
         height: 450px !important;
-    }
-    #bigVideo .posterPortrait {
-        height: 20vh;
-        min-height: 193px;
-        min-width: 135px !important;
     }
 }
 .paidOnlyLabel{

@@ -24,16 +24,14 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         }
         $_GET = $get;
         ?>
-        <div class="clear clearfix" id="bigVideo" style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);background: url(<?php echo $poster; ?>) no-repeat center center fixed; -webkit-background-size: cover;
+        <div class="row" id="bigVideo" style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);background: url(<?php echo $poster; ?>) no-repeat center center fixed; -webkit-background-size: cover;
              -moz-background-size: cover;
              -o-background-size: cover;
              background-size: cover; 
              height: 0;
              padding-bottom: 56.25%;/* Aspect ratio */
-             margin: -120px -20px; 
-             margin-bottom: 0; 
-             position: relative;
              margin-bottom: <?php echo $obj->BigVideoMarginBottom; ?>;
+             position: relative;
              z-index: 0;" >
              <?php
              if (!isMobile() && !empty($video['trailer1'])) {
@@ -42,7 +40,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 'fill'); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
                 </div>
                 <div id="bg_container_overlay" ></div>
-                <div class="posterDetails " style=" padding: 30px; padding-top: 120px;
+                <div class="posterDetails " style=" padding: 30px;
                      background: -webkit-linear-gradient(bottom, rgba(<?php echo $obj->backgroundRGB; ?>,1) 2%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
                      background: -o-linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) 2%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
                      background: linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) 2%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
@@ -50,7 +48,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                      <?php
                  } else {
                      ?>
-                    <div class="posterDetails " style=" padding: 30px;  padding-top: 120px;
+                    <div class="posterDetails " style=" padding: 30px;
                          background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
                          background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
                          background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
@@ -113,9 +111,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     </h4>
                     <div class="row">                
                         <?php
-                        $colClass = "col-md-2 col-sm-4 col-xs-6";
+                        $colClass = "col-md-4 col-sm-6 col-xs-6";
                         if (!empty($obj->RemoveBigVideoDescription)) {
-                            $colClass = "col-md-4 col-sm-4 col-xs-6";
+                            $colClass = "col-md-4 col-sm-6 col-xs-6";
                         }
                         if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
                             ?>
@@ -128,7 +126,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             <div class="<?php echo $colClass; ?>">
                                 <a href="<?php echo YouPHPFlix2::getLinkToVideo($video['id']); ?>">
                                     <div class="thumbsImage">
-                                        <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->poster; ?>" style="min-width: 135px; height: auto;" />
+                                        <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->poster; ?>" />
                                         <?php if (!empty($images->thumbsGif)) { ?>
                                             <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo $video['title']; ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
                                         <?php } ?>

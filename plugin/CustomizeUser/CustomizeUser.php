@@ -1,6 +1,9 @@
 <?php
 
 global $global;
+if(empty($global['systemRootPath'])){
+    require_once '../../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class CustomizeUser extends PluginAbstract {
@@ -38,7 +41,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->userCanNotChangeUserGroup = false;
         
         $o = new stdClass();
-        $o->type = array(0=>_("Default"))+UserGroups::getAllUsersGroupsArray();
+        $o->type = array(0=>__("Default"))+UserGroups::getAllUsersGroupsArray();
         $o->value = 0;
         $obj->userDefaultUserGroup = $o;
         $obj->userMustBeLoggedIn = !isset($advancedCustom->userMustBeLoggedIn) ? false : $advancedCustom->userMustBeLoggedIn;
@@ -66,6 +69,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->showChannelHomeTab = true;
         $obj->showChannelVideosTab = true;
         $obj->showChannelProgramsTab = true;
+        $obj->showBigVideoOnChannelVideosTab = true;
         $obj->encryptPasswordsWithSalt = !isset($advancedCustom->encryptPasswordsWithSalt) ? false : $advancedCustom->encryptPasswordsWithSalt;
         $obj->requestCaptchaAfterLoginsAttempts = !isset($advancedCustom->requestCaptchaAfterLoginsAttempts) ? 0 : $advancedCustom->requestCaptchaAfterLoginsAttempts;
         $obj->disableSignOutButton = false;

@@ -8,9 +8,6 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixHead.php';
     .galleryVideo {
         padding-bottom: 10px;
     }
-    #bigVideo{
-        margin: 0 0 -350px 0!important;
-    }
     #bigVideoCarousel{
         height: auto;
     }
@@ -19,12 +16,6 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixHead.php';
     }
     .modeFlixContainer{
         padding: 0;
-    }
-    #carouselRows, .modeFlixContainer .carousel {
-        min-height: 300px;
-    }
-    #carouselRows, .modeFlixContainer .poster {
-        margin-top: 25px;
     }
     .topicRow{
         margin: 0;
