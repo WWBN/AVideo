@@ -302,7 +302,7 @@ class VideoStatistic extends ObjectYPT {
         }
         // return more first
         usort($channels, function($a, $b) {
-            return $b['total'] - $a['total'];
+            return $a['total'] - $b['total'];
         });
         return $channels;
     }
