@@ -38,7 +38,7 @@ if (empty($_COOKIE)) {
             }, 1000);
             $(document).ready(function () {
                 if (!win || win.closed || typeof win.closed == 'undefined') {
-                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("In order to enjoy our login feature, you need to allow our pop-ups in your browser."); ?>", "error");
+                    //swal("<?php echo __("Sorry!"); ?>", "<?php echo __("In order to enjoy our login feature, you need to allow our pop-ups in your browser."); ?>", "error");
                 }
             });
     </script>
