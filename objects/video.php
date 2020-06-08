@@ -1016,7 +1016,7 @@ if (!class_exists('Video')) {
                 $current = $_POST['current'];
                 $rowCount = $_POST['rowCount'];
                 $_POST['current'] = 1;
-                $_POST['rowCount'] *= 2; // double it to make it random
+                $_POST['rowCount'] *= 4; // quardruple it to make it random
                 $rows = self::getAllVideosLight($status, $showOnlyLoggedUserVideos, $showUnlisted);
                 $_POST['rowCount'] = $rowCount;
                 $_POST['current'] = $current;
