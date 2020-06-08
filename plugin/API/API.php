@@ -243,8 +243,8 @@ class API extends PluginAbstract {
             $rows[$key]['Thumbnail'] = !empty($objMob->portraitImage) ? $images->posterPortraitThumbs : $images->thumbsJpg;
             $rows[$key]['imageClass'] = !empty($objMob->portraitImage) ? "portrait" : "landscape";
             $rows[$key]['createdHumanTiming'] = humanTiming(strtotime($rows[$key]['created']));
-            $rows[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/" . $rows[$key]['clean_title'];
-            $rows[$key]['embedUrl'] = "{$global['webSiteRootURL']}videoEmbeded/" . $rows[$key]['clean_title'];
+            $rows[$key]['pageUrl'] = Video::getLink($rows[$key]['id'], $rows[$key]['clean_title'], false);
+            $rows[$key]['embedUrl'] = Video::getLink($rows[$key]['id'], $rows[$key]['clean_title'], true);
             $rows[$key]['UserPhoto'] = User::getPhoto($rows[$key]['users_id']);
 
             if ($SubtitleSwitcher) {
