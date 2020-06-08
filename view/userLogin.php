@@ -1,6 +1,6 @@
 <?php
 if (empty($_COOKIE) && empty($_GET['cookieLogin'])) {
-   // TODO implement a popup login for cross domain cookie block
+    // TODO implement a popup login for cross domain cookie block
 }
 if (empty($_GET['redirectUri'])) {
     if (!empty($_SERVER["HTTP_REFERER"])) {
@@ -9,6 +9,41 @@ if (empty($_GET['redirectUri'])) {
             $_GET['redirectUri'] = $_SERVER["HTTP_REFERER"];
         }
     }
+}
+if (empty($_COOKIE)) {
+    ?>
+    <div style="padding: 10px;">
+        <div class="alert alert-warning">
+            <h1><i class="fas fa-exclamation-circle"></i> <?php echo __("Login Alert"); ?></h1>
+            <h2><?php echo __("Please Login in the window pop up"); ?></h2>
+
+            <button class="btn btn-block btn-warning" onclick="openLoginWindow()"><i class="fas fa-sign-in-alt"></i> <?php echo __("Open pop-up Login window"); ?></button><br>      
+            <?php echo __("In case the login window does not open, check how do I disable the pop-up blocker in your browser"); ?>:<br>        
+            <a href="https://support.mozilla.org/en-US/kb/pop-blocker-settings-exceptions-troubleshooting" target="_blank">Mozilla Firefox</a><br>
+            <a href="https://support.google.com/chrome/answer/95472" target="_blank">Google Chrome</a>
+
+        </div>
+    </div>
+    <script>
+        function openLoginWindow(){
+            win = window.open('<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>', 'Login Page', "width=640,height=480,scrollbars=no");
+        }
+        var win;
+        openLoginWindow();
+            var logintimer = setInterval(function () {
+                if (win.closed) {
+                    clearInterval(logintimer);
+                    document.location = "<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : $global['webSiteRootURL']; ?>";
+                }
+            }, 1000);
+            $(document).ready(function () {
+                if (!win || win.closed || typeof win.closed == 'undefined') {
+                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("In order to enjoy our login feature, you need to allow our pop-ups in your browser."); ?>", "error");
+                }
+            });
+    </script>
+    <?php
+    return false;
 }
 ?>
 <div class="row">
