@@ -26,4 +26,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixHead.php';
     .topicRow h2{
         display: none;
     }
+    #channelHome #bigVideo{
+        margin-bottom: 0 !important;
+    }
 </style>
