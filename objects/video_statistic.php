@@ -277,18 +277,17 @@ class VideoStatistic extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        // get the channel owner from each of those videos
         $channels = array();
         if ($res != false) {
             $channelsPerUser = array();
+            // get the channel owner from each of those videos
             foreach ($fullData as $row) {
                 $users_id = Video::getOwner($row['videos_id']);
-                if (empty($channels[$users_id])) {
+                if (empty($channelsPerUser[$users_id])) {
                     $channelsPerUser[$users_id] = array();
                 }
                 $channelsPerUser[$users_id][] = $row['videos_id'];
             }
-
             foreach ($channelsPerUser as $key => $value) {
                 // count how many views each one has
                 $sql2 = "SELECT count(id) as total FROM videos_statistics WHERE videos_id IN (" . implode(",", $value) . ") AND DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
@@ -305,6 +304,7 @@ class VideoStatistic extends ObjectYPT {
         usort($channels, function($a, $b) {
             return $b['total'] - $a['total'];
         });
+        var_dump($channels);
         return $channels;
     }
 
