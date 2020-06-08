@@ -315,5 +315,21 @@ class VideoStatistic extends ObjectYPT {
         }
         return $users_id;
     }
+    
+    static function getChannelsTotalViews($users_id, $daysLimit = 30) {
+        global $global;
+        $users_id = intval($users_id);
+        // count how many views each one has
+        $sql2 = "SELECT count(s.id) as total FROM videos_statistics s "
+                . " LEFT JOIN videos v ON v.id = videos_id WHERE v.users_id = $users_id "
+                . " AND DATE(s.created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+        $res2 = sqlDAL::readSql($sql2);
+        $result2 = sqlDAL::fetchAssoc($res2);
+        sqlDAL::close($res2);
+        if (!empty($result2)) {
+            return intval($result2['total']);
+        }
+        return 0;
+    }
 
 }
