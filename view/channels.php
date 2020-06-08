@@ -138,6 +138,9 @@ $totalPages = ceil($totalChannels / $_POST['rowCount']);
                                 }
                                 ?>
                             </div>
+                            <div class="text-muted pull-right" style="font-size: 0.8em">
+                                <?php echo VideoStatistic::getChannelsTotalViews($value['id'])," ",__("Views in the last 30 days"); ?>
+                            </div>
                         </div>
                         <?php
                     }
