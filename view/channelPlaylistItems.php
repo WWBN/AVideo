@@ -1,9 +1,4 @@
 <div class="programsContainerItem">
-    <style>
-        #channelPlayListsLi{
-            display: block !important;
-        }
-    </style>
     <?php
     global $global, $config, $isChannel;
     $isChannel = 1; // still workaround, for gallery-functions, please let it there.
