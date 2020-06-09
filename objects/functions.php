@@ -3182,3 +3182,31 @@ function getSelfURI(){
     }
     return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]?$_SERVER[QUERY_STRING]";
 }
+
+function getCurrentPage(){
+    if(!empty($_REQUEST['current'])){
+        return intval($_REQUEST['current']);
+    }else if(!empty($_POST['current'])){
+        return intval($_POST['current']);
+    }else if(!empty($_GET['current'])){
+        return intval($_GET['current']);
+    }
+    return 1;
+}
+
+function getRowCount(){
+    if(!empty($_REQUEST['rowCount'])){
+        return intval($_REQUEST['rowCount']);
+    }else if(!empty($_POST['rowCount'])){
+        return intval($_POST['rowCount']);
+    }else if(!empty($_GET['rowCount'])){
+        return intval($_GET['rowCount']);
+    }else if(!empty($_REQUEST['length'])){
+        return intval($_REQUEST['length']);
+    }else if(!empty($_POST['length'])){
+        return intval($_POST['length']);
+    }else if(!empty($_GET['length'])){
+        return intval($_GET['length']);
+    }
+    return 1;
+}

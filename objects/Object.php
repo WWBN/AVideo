@@ -115,6 +115,15 @@ abstract class ObjectYPT implements ObjectInterface {
             $sql .= " ORDER BY " . implode(",", $orderBy);
         }
 
+        $sql .= self::getSqlLimit();
+        return $sql;
+    }
+    
+    
+    static function getSqlLimit() {
+        global $global;
+        $sql = "";
+
         if (empty($_POST['rowCount']) && !empty($_GET['length'])) {
             $_POST['rowCount'] = intval($_GET['length']);
         }

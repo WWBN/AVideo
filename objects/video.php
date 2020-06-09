@@ -1012,21 +1012,29 @@ if (!class_exists('Video')) {
             } else {
                 unset($_POST['sort']['trending']);
                 unset($_GET['sort']['trending']);
-                $_POST['sort']['created'] = 'DESC';
-                $current = $_POST['current'];
-                $rowCount = $_POST['rowCount'];
-                $_POST['current'] = 1;
-                $_POST['rowCount'] *= 4; // quardruple it to make it random
-                $rows = self::getAllVideosLight($status, $showOnlyLoggedUserVideos, $showUnlisted);
-                $_POST['rowCount'] = $rowCount;
-                $_POST['current'] = $current;
+                //$_POST['sort']['created'] = 'DESC';
+                //$current = $_POST['current'];
+                $_POST['current'] = getCurrentPage();
+                $_POST['rowCount'] = getRowCount();
+                //$_POST['current'] = 1;
+                //$_POST['rowCount'] *= 10; // quardruple it to make it random
+                //$rows = self::getAllVideosLight($status, $showOnlyLoggedUserVideos, $showUnlisted);
+                $rows = array();
+                if(!empty($_POST['current']) && $_POST['current']==1){
+                    $rows = VideoStatistic::getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
+                }
+                //$_POST['rowCount'] = $rowCount;
+                //$_POST['current'] = $current;
                 $ids = array();
                 foreach ($rows as $row) {
                     $ids[] = $row['id'];
                 }
                 if (!empty($ids)) {
-                    $sql .= " AND v.id IN (" . implode(",", $ids) . ") AND v.created  >= (NOW() - INTERVAL 6 MONTH) ORDER BY RAND() LIMIT {$rowCount}";
+                    $sql .= " ORDER BY FIND_IN_SET(v.id, '" . implode(",", $ids) . "') DESC, likes DESC ";
+                }else{
+                    $sql .= " ORDER BY likes DESC ";
                 }
+                $sql .= ObjectYPT::getSqlLimit();
             }
 
             if (!empty($_GET['limitOnceToOne'])) {

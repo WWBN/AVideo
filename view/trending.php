@@ -38,7 +38,9 @@ if (empty($_POST['current'])) {
         $_POST['current'] = 1;
     }
 }
-$_POST['sort']['likes'] = "DESC";
+//$_POST['sort']['likes'] = "DESC";
+$_GET['sort']['trending'] = 1;
+var_dump($_POST);
 $pages = ceil($total / $_POST['rowCount']);
 $videos = Video::getAllVideos();
 unset($_POST['sort']);
