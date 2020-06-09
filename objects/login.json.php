@@ -1,5 +1,7 @@
 <?php
-
+_error_log("LoginBefore: User or pass empty on login POST: " . json_encode($_POST));
+_error_log("LoginBefore: User or pass empty on login GET: " . json_encode($_GET));
+_error_log("LoginBefore: User or pass empty on login Request: " . json_encode($_REQUEST));
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
