@@ -19,7 +19,8 @@ $reddit = "http://www.reddit.com/submit?url=$url&title=$title";
 $linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$url&title=$title&summary=&source=$url";
 $wordpress = "http://wordpress.com/press-this.php?u=$url&quote=$title&s=";
 $pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=";
-?>                                           
+?>     
+<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
 <ul class="social-network social-circle">
     <li><a href="<?php echo $facebookURL; ?>" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-square"></i></a></li>
     <li><a href="<?php echo $twitterURL; ?>" target="_blank"  class="icoTwitter" title="Twitter"><i class="fab fa-twitter"></i></a></li>
@@ -29,6 +30,4 @@ $pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=
     <li><a href="<?php echo $linkedin; ?>" target="_blank"  class="icoLinkedin" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
     <li><a href="<?php echo $wordpress; ?>" target="_blank"  class="icoWordpress" title="Wordpress"><i class="fab fa-wordpress-simple"></i></a></li>
     <li><a href="<?php echo $pinboard; ?>" target="_blank"  class="icoPinboard" title="Pinboard"><i class="fas fa-thumbtack"></i></a></li>
-  
-    
 </ul>
