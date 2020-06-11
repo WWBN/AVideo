@@ -1608,27 +1608,29 @@ echo AVideoPlugin::getManagerVideosReset();
         var vals = getSelectedVideos();
         $.ajax({
         url: '<?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php',
-                data: {"id": vals},
-                type: 'post',
-                success: function (response) {
+            data: {"id": vals},
+            type: 'post',
+            success: function (response) {
                 console.log(response);
                 modal.hidePleaseWait();
                 if (!response.success) {
-                swal({
-                title: "<?php echo __("Sorry!"); ?>",
-                        text: response.msg,
-                        icon: "error",
-                        html: true
-                });
+                    var span = document.createElement("span");
+                    span.innerHTML = response.msg;
+                    swal({
+                        title: "<?php echo __("Sorry!"); ?>", 
+                        content: span,
+                        icon: "error"
+                    });   
                 } else {
-                swal({
-                title: "<?php echo __("Success!"); ?>",
-                        text: response.msg,
-                        icon: "success",
-                        html: true
-                });
+                    var span = document.createElement("span");
+                    span.innerHTML = response.msg;
+                    swal({
+                        title: "<?php echo __("Success!"); ?>", 
+                        content: span,
+                        icon: "success"
+                    }); 
                 }
-                }
+            }
         });
         });
 <?php } ?>
