@@ -5,7 +5,7 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage this plugin"));
     exit;
 }
-require_once $global['systemRootPath'] . 'objects/channel.php';
+require_once $global['systemRootPath'] . 'objects/Channel.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSitesDB.php';
 ?>
