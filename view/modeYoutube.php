@@ -7,23 +7,13 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 //_error_log("modeYoutube: session_id = " . session_id() . " IP = " . getRealIpAddr());
+
 if (!empty($_GET['evideo'])) {
-    $evideo = json_decode(decryptString($_GET['evideo']));
+    $v = Video::decodeEvideo();
+    $evideo = $v['evideo'];
 }
 if (!empty($evideo)) {
-    $video['id'] = 0;
-    $video['type'] = 'embed';
-    $video['rotation'] = 0;
-    $video['videoLink'] = $evideo->videoLink;
-    $video['title'] = $evideo->title;
-    $video['clean_title'] = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\] ]+/', '-', trim(strtolower(cleanString($evideo->title))));
-    $video['description'] = $evideo->description;
-    $video['duration'] = "";
-    $video['creator'] = "";
-    $video['likes'] = "";
-    $video['dislikes'] = "";
-    $video['category'] = "embed";
-    $video['views_count'] = 0;
+    $video = $v['video'];
     $img = $evideo->thumbnails;
     $poster = $evideo->thumbnails;
     $imgw = 1280;

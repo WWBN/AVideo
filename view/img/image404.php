@@ -5,7 +5,7 @@ session_write_close();
 
 //$file = 'static2.gif';
 //$type = 'image/gif';
-$file = 'video-placeholder.png';
+$file = 'video-placeholder-gray.png';
 $type = 'image/png';
 
 // if the thumb is not ready yet, try to find the default image

@@ -58,7 +58,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
             <h1 itemprop="name">
                 <?php
                 echo $video['title'];
-                if (Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
+                if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                     ?>
                     <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="btn btn-primary btn-xs" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                 <?php } ?>
@@ -138,7 +138,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                     ?>
                 <?php } echo AVideoPlugin::getWatchActionButton($video['id']); ?>
                 <?php
-                if (empty($advancedCustom->removeThumbsUpAndDown)) {
+                if (!empty($video['id']) && empty($advancedCustom->removeThumbsUpAndDown)) {
                     ?>
                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                         <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
@@ -412,11 +412,11 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description">
-                    <?php
+                    <?php echo $video['description'];
                     if (strpos($video['description'], '<br') !== false || strpos($video['description'], '<p') !== false) {
-                        echo $video['description'];
+                        //echo $video['description'];
                     } else {
-                        echo nl2br(textToLink(htmlentities($video['description'])));
+                        //echo nl2br(textToLink(htmlentities($video['description'])));
                     }
                     ?>
                 </div>
@@ -444,7 +444,7 @@ if (empty($advancedCustom->showShareMenuOpenByDefault)) {
     });
 </script>
 <?php
-if (empty($advancedCustom->disableComments) && Video::showYoutubeModeOptions()) {
+if (!empty($video['id']) && empty($advancedCustom->disableComments) && Video::showYoutubeModeOptions()) {
     ?>
     <div class="row bgWhite list-group-item">
         <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>

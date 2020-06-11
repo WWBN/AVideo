@@ -15,7 +15,21 @@ if (!empty($_GET['user']) && !empty($_GET['pass'])) {
     $userObj->login(false, true);
 }
 
-if (!empty($_GET['v'])) {
+if (!empty($_GET['evideo'])) {
+    $v = Video::decodeEvideo();
+    $evideo = $v['evideo'];
+}
+if (!empty($evideo)) {
+    $video = $v['video'];
+    $img = $evideo->thumbnails;
+    $poster = $evideo->thumbnails;
+    $imgw = 1280;
+    $imgh = 720;
+    $autoPlaySources = array();
+    $autoPlayURL = '';
+    $autoPlayPoster = '';
+    $autoPlayThumbsSprit = '';
+} else if (!empty($_GET['v'])) {
     $video = Video::getVideo($_GET['v'], "", true, false, false, true);
     //$video['id'] = $_GET['v'];
 } else if (!empty($_GET['videoName'])) {

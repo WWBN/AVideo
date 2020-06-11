@@ -68,7 +68,8 @@ class YouPHPFlix2 extends PluginAbstract {
     
     public function getFirstPage(){
         global $global; 
-        if(!AVideoPlugin::isEnabled("d3sa2k4l3-23rds421-re323-4ae-423")){
+        
+        if(!AVideoPlugin::isEnabledByName("CombineSites")){
             return $global['systemRootPath'].'plugin/YouPHPFlix2/view/modeFlix.php';
         }
     }   

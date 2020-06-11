@@ -665,57 +665,51 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         return '//vid.me/e/' . $id;
     } else if (strpos($link, 'rutube.ru') !== false) {
 //extract the ID
-        preg_match(
-                '/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)\/.*/', $link, $matches
-        );
+        preg_match('/\/\/(www\.)?rutube.ru\/video\/([a-zA-Z0-9_-]+)\/.*/', $link, $matches);
         $id = $matches[2];
         return '//rutube.ru/play/embed/' . $id;
     } else if (strpos($link, 'ok.ru') !== false) {
 //extract the ID
-        preg_match(
-                '/\/\/(www\.)?ok.ru\/video\/([a-zA-Z0-9_-]+)$/', $link, $matches
-        );
+        preg_match('/\/\/(www\.)?ok.ru\/video\/([a-zA-Z0-9_-]+)$/', $link, $matches);
 
         $id = $matches[2];
         return '//ok.ru/videoembed/' . $id;
     } else if (strpos($link, 'streamable.com') !== false) {
 //extract the ID
-        preg_match(
-                '/\/\/(www\.)?streamable.com\/([a-zA-Z0-9_-]+)$/', $link, $matches
-        );
+        preg_match('/\/\/(www\.)?streamable.com\/([a-zA-Z0-9_-]+)$/', $link, $matches);
 
         $id = $matches[2];
         return '//streamable.com/s/' . $id;
     } else if (strpos($link, 'twitch.tv/videos') !== false) {
 //extract the ID
-        preg_match(
-                '/\/\/(www\.)?twitch.tv\/videos\/([a-zA-Z0-9_-]+)$/', $link, $matches
-        );
+        preg_match('/\/\/(www\.)?twitch.tv\/videos\/([a-zA-Z0-9_-]+)$/', $link, $matches);
         if (!empty($matches[2])) {
             $id = $matches[2];
             return '//player.twitch.tv/?video=' . $id . '#';
         }
 //extract the ID
-        preg_match(
-                '/\/\/(www\.)?twitch.tv\/[a-zA-Z0-9_-]+\/v\/([a-zA-Z0-9_-]+)$/', $link, $matches
-        );
+        preg_match('/\/\/(www\.)?twitch.tv\/[a-zA-Z0-9_-]+\/v\/([a-zA-Z0-9_-]+)$/', $link, $matches);
 
         $id = $matches[2];
         return '//player.twitch.tv/?video=' . $id . '#';
     } else if (strpos($link, 'twitch.tv') !== false) {
 //extract the ID
-        preg_match(
-                '/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches
-        );
+        preg_match('/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches);
 
         $id = $matches[2];
         return '//player.twitch.tv/?channel=' . $id . '#';
-    } else if (strpos($link, '/video/') !== false) {
+    } else if (strpos($link, '/evideo/') !== false) {
 //extract the ID
-        preg_match(
-                '/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches
-        );
+        preg_match('/(http.+)\/evideo\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
 
+//the AVideo site
+        $site = $matches[1];
+        $id = $matches[2];
+        return $site . '/evideoEmbed/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
+    }else if (strpos($link, '/video/') !== false) {
+//extract the ID
+        preg_match('/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
+        
 //the AVideo site
         $site = $matches[1];
         $id = $matches[2];
@@ -3046,6 +3040,19 @@ function encrypt_decrypt($string, $action) {
     return $output;
 }
 
+function compressString($string){
+    if(function_exists("gzdeflate")){
+        $string = gzdeflate($string,  9);
+    }
+    return $string;
+}
+function decompressString($string){
+    if(function_exists("gzinflate")){
+        $string = gzinflate($string);
+    }
+    return $string;
+}
+
 function encryptString($string) {
     if (is_object($string)) {
         $string = json_encode($string);
@@ -3194,7 +3201,7 @@ function getCurrentPage(){
     return 1;
 }
 
-function getRowCount(){
+function getRowCount($default=1000){
     if(!empty($_REQUEST['rowCount'])){
         return intval($_REQUEST['rowCount']);
     }else if(!empty($_POST['rowCount'])){
@@ -3208,5 +3215,36 @@ function getRowCount(){
     }else if(!empty($_GET['length'])){
         return intval($_GET['length']);
     }
-    return 1;
+    return $default;
+}
+
+
+function getSearchVar(){
+    if (!empty($_REQUEST['search'])) {
+        return $_REQUEST['search'];
+    }else if (!empty($_REQUEST['q'])) {
+        return $_REQUEST['q'];
+    } if (!empty($_REQUEST['searchPhrase'])) {
+        return $_REQUEST['searchPhrase'];
+    } else if (!empty($_REQUEST['search']['value'])) {
+        return $_REQUEST['search']['value'];
+    }
+    return "";
+}
+
+$cleanSearchHistory = "";
+function cleanSearchVar(){
+    global $cleanSearchHistory;
+    $cleanSearchHistory = getSearchVar();
+    $searchIdex = array('q', 'searchPhrase', 'search');
+    foreach ($searchIdex as $value) {
+        unset($_REQUEST[$value]);
+        unset($_POST[$value]);
+        unset($_GET[$value]);
+    }
+}
+
+function reloadSearchVar(){
+    global $cleanSearchHistory;
+    $_REQUEST['search'] = $cleanSearchHistory;
 }
