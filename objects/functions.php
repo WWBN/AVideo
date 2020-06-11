@@ -3094,7 +3094,7 @@ function verifyToken($token, $salt = "") {
         _error_log("verifyToken salt fail");
         return false;
     }
-    $time = $time();
+    $time = time();
     if (!($time >= $obj->time && $obj->timeout <= $time)) {
         _error_log("verifyToken token timout");
         return false;
