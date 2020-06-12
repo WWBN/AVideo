@@ -2323,24 +2323,15 @@ if (!class_exists('Video')) {
         }
 
         function getExistingVideoFile() {
-            global $global;
-            $file = $global['systemRootPath'] . "videos/original_" . $this->getFilename();
-            if (!file_exists($file)) {
-                $file = $global['systemRootPath'] . "videos/" . $this->getFilename() . ".mp4";
-                if (!file_exists($file)) {
-                    $file = $global['systemRootPath'] . "videos/" . $this->getFilename() . ".webm";
-                    if (!file_exists($file)) {
-                        $videos = getVideosURL($this->getFilename());
-                        foreach ($videos as $value) {
-                            if ($value['type'] == 'video' && file_exists($value['path'])) {
-                                return $value['path'];
-                            }
-                        }
-                        $file = false;
-                    }
-                }
+            $source = self::getHigestResolutionVideoMP4Source($this->getFilename(), true);
+            $size = filesize($source['path']);
+            if($size<=20){// it is a dummy file
+                $url = $source['url'];
+                $filename = getTmpDir("getExistingVideoFile") . md5($url);
+                wget($url, $filename);
+                return $filename;
             }
-            return $file;
+            return $source['path'];
         }
 
         function getTrailer1() {

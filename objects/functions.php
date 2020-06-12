@@ -455,9 +455,11 @@ function setSiteSendMessage(&$mail) {
         _error_log("Sending SMTP Email");
         $mail->CharSet = 'UTF-8';
         $mail->IsSMTP(); // enable SMTP
-        if(!empty($_POST) && $_POST["comment"] == "Teste of comment" && User::isAdmin()){
+        if (!empty($_POST) && $_POST["comment"] == "Teste of comment" && User::isAdmin()) {
             $mail->SMTPDebug = 3;
-            $mail->Debugoutput = function($str, $level) {_error_log("SMTP ERROR $level; message: $str", AVideoLog::$ERROR);};
+            $mail->Debugoutput = function($str, $level) {
+                _error_log("SMTP ERROR $level; message: $str", AVideoLog::$ERROR);
+            };
         }
         $mail->SMTPOptions = array(
             'ssl' => array(
@@ -706,10 +708,10 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $site = $matches[1];
         $id = $matches[2];
         return $site . '/evideoEmbed/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
-    }else if (strpos($link, '/video/') !== false) {
+    } else if (strpos($link, '/video/') !== false) {
 //extract the ID
         preg_match('/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
-        
+
 //the AVideo site
         $site = $matches[1];
         $id = $matches[2];
@@ -1792,9 +1794,9 @@ function local_get_contents($path) {
     }
 }
 
-function url_get_contents($Url, $ctx = "", $timeout = 0) {
+function url_get_contents($url, $ctx = "", $timeout = 0) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-    if (filter_var($Url, FILTER_VALIDATE_URL)) {
+    if (filter_var($url, FILTER_VALIDATE_URL)) {
 
         $session = $_SESSION;
         session_write_close();
@@ -1802,7 +1804,24 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
             ini_set('default_socket_timeout', $timeout);
         }
         @$global['mysqli']->close();
+
+        // If is URL try wget First
+        if (empty($ctx)) {
+            $filename = getTmpDir("YPTurl_get_contents") . md5($url);
+            wget($url, $filename);
+            $result = file_get_contents($filename);
+            unlink($filename);
+            if(!empty($result)){
+                if (filter_var($url, FILTER_VALIDATE_URL)) {
+                    _session_start();
+                    $_SESSION = $session;
+                    _mysql_connect();
+                }
+                return remove_utf8_bom($result);
+            }
+        }
     }
+
     if (empty($ctx)) {
         $opts = array(
             "ssl" => array(
@@ -1821,9 +1840,9 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
     }
     if (ini_get('allow_url_fopen')) {
         try {
-            $tmp = @file_get_contents($Url, false, $context);
+            $tmp = @file_get_contents($url, false, $context);
             if ($tmp != false) {
-                if (filter_var($Url, FILTER_VALIDATE_URL)) {
+                if (filter_var($url, FILTER_VALIDATE_URL)) {
                     _session_start();
                     $_SESSION = $session;
                     _mysql_connect();
@@ -1835,7 +1854,7 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         }
     } else if (function_exists('curl_init')) {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
@@ -1845,15 +1864,15 @@ function url_get_contents($Url, $ctx = "", $timeout = 0) {
         }
         $output = curl_exec($ch);
         curl_close($ch);
-        if (filter_var($Url, FILTER_VALIDATE_URL)) {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
             _session_start();
             $_SESSION = $session;
             _mysql_connect();
         }
         return remove_utf8_bom($output);
     }
-    $result = @file_get_contents($Url, false, $context);
-    if (filter_var($Url, FILTER_VALIDATE_URL)) {
+    $result = @file_get_contents($url, false, $context);
+    if (filter_var($url, FILTER_VALIDATE_URL)) {
         _session_start();
         $_SESSION = $session;
         _mysql_connect();
@@ -3040,14 +3059,15 @@ function encrypt_decrypt($string, $action) {
     return $output;
 }
 
-function compressString($string){
-    if(function_exists("gzdeflate")){
-        $string = gzdeflate($string,  9);
+function compressString($string) {
+    if (function_exists("gzdeflate")) {
+        $string = gzdeflate($string, 9);
     }
     return $string;
 }
-function decompressString($string){
-    if(function_exists("gzinflate")){
+
+function decompressString($string) {
+    if (function_exists("gzinflate")) {
         $string = gzinflate($string);
     }
     return $string;
@@ -3132,97 +3152,93 @@ function _dieAndLogObject($obj, $prefix = "") {
     die($objString);
 }
 
-function isAVideoPlayer(){
+function isAVideoPlayer() {
     global $isEmbed;
-    
-    if (!empty($_GET['videoName']) || !empty($_GET['u'])  || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
+
+    if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
         return true;
     }
     return false;
 }
 
-
-function isEmbed(){
+function isEmbed() {
     global $isEmbed;
     return !empty($isEmbed);
 }
 
-function isLive(){
+function isLive() {
     global $isLive;
     return !empty($isLive);
 }
 
-function isVideoPlayerHasProgressBar(){
-    if(isLive()){
+function isVideoPlayerHasProgressBar() {
+    if (isLive()) {
         $obj = AVideoPlugin::getObjectData('Live');
-        if(empty($obj->disableDVR)){
+        if (empty($obj->disableDVR)) {
             return true;
         }
-    }else if(isAVideoPlayer()){
+    } else if (isAVideoPlayer()) {
         return true;
     }
     return false;
-    
 }
 
-function isHLS(){
+function isHLS() {
     global $video, $global;
-    if(isLive()){
+    if (isLive()) {
         return true;
-    }else if($video['type']=='video' && file_exists("{$global['systemRootPath']}videos/{$video['filename']}/index.m3u8")){
+    } else if ($video['type'] == 'video' && file_exists("{$global['systemRootPath']}videos/{$video['filename']}/index.m3u8")) {
         return true;
     }
     return false;
-    
 }
 
-function getRequestURI(){
-    if(empty($_SERVER['REQUEST_URI'])){
+function getRequestURI() {
+    if (empty($_SERVER['REQUEST_URI'])) {
         return "";
     }
     return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 }
 
-function getSelfURI(){
-    if(empty($_SERVER['PHP_SELF'])){
+function getSelfURI() {
+    if (empty($_SERVER['PHP_SELF'])) {
         return "";
     }
     return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]?$_SERVER[QUERY_STRING]";
 }
 
-function getCurrentPage(){
-    if(!empty($_REQUEST['current'])){
+function getCurrentPage() {
+    if (!empty($_REQUEST['current'])) {
         return intval($_REQUEST['current']);
-    }else if(!empty($_POST['current'])){
+    } else if (!empty($_POST['current'])) {
         return intval($_POST['current']);
-    }else if(!empty($_GET['current'])){
+    } else if (!empty($_GET['current'])) {
         return intval($_GET['current']);
     }
     return 1;
 }
 
-function getRowCount($default=1000){
-    if(!empty($_REQUEST['rowCount'])){
+function getRowCount($default = 1000) {
+    if (!empty($_REQUEST['rowCount'])) {
         return intval($_REQUEST['rowCount']);
-    }else if(!empty($_POST['rowCount'])){
+    } else if (!empty($_POST['rowCount'])) {
         return intval($_POST['rowCount']);
-    }else if(!empty($_GET['rowCount'])){
+    } else if (!empty($_GET['rowCount'])) {
         return intval($_GET['rowCount']);
-    }else if(!empty($_REQUEST['length'])){
+    } else if (!empty($_REQUEST['length'])) {
         return intval($_REQUEST['length']);
-    }else if(!empty($_POST['length'])){
+    } else if (!empty($_POST['length'])) {
         return intval($_POST['length']);
-    }else if(!empty($_GET['length'])){
+    } else if (!empty($_GET['length'])) {
         return intval($_GET['length']);
     }
     return $default;
 }
 
-
-function getSearchVar(){
+function getSearchVar() {
     if (!empty($_REQUEST['search'])) {
         return $_REQUEST['search'];
-    }else if (!empty($_REQUEST['q'])) {
+    } else if (!empty($_REQUEST['q'])) {
         return $_REQUEST['q'];
     } if (!empty($_REQUEST['searchPhrase'])) {
         return $_REQUEST['searchPhrase'];
@@ -3233,7 +3249,8 @@ function getSearchVar(){
 }
 
 $cleanSearchHistory = "";
-function cleanSearchVar(){
+
+function cleanSearchVar() {
     global $cleanSearchHistory;
     $cleanSearchHistory = getSearchVar();
     $searchIdex = array('q', 'searchPhrase', 'search');
@@ -3244,7 +3261,69 @@ function cleanSearchVar(){
     }
 }
 
-function reloadSearchVar(){
+function reloadSearchVar() {
     global $cleanSearchHistory;
     $_REQUEST['search'] = $cleanSearchHistory;
+}
+
+function wget($url, $filename) {
+    if (wgetIsLocked($url)) {
+        error_log("wget: ERROR the url is already downloading $url, $filename");
+        return false;
+    }
+    wgetLock($url);
+    $cmd = "wget {$url} -O {$filename}";
+    error_log("wget Start ({$cmd}) ");
+    //echo $cmd;
+    exec($cmd);
+    wgetRemoveLock($url);
+    if (filesize($filename) > 1000000) {
+        return true;
+    }
+    return false;
+}
+
+function wgetLockFile($url) {
+    return getTmpDir("YPTWget") . md5($url) . ".lock";
+}
+
+function wgetLock($url) {
+    $file = wgetLockFile($url);
+    return file_put_contents($file, time() . PHP_EOL, FILE_APPEND | LOCK_EX);
+}
+
+function wgetRemoveLock($url) {
+    $filename = wgetLockFile($url);
+    if (!file_exists($filename)) {
+        return false;
+    }
+    return unlink($filename);
+}
+
+function wgetIsLocked($url) {
+    $filename = wgetLockFile($url);
+    if (!file_exists($filename)) {
+        return false;
+    }
+    $time = file_get_contents($filename);
+    if (time() - $time > 36000) { // more then 10 hours
+        unlink($filename);
+        return false;
+    }
+    return true;
+}
+
+function getTmpDir($subdir = "") {
+    global $global;
+    $tmpDir = sys_get_temp_dir();
+    if (!is_writable($tmpDir)) {
+        $tmpDir = "{$global['systemRootPath']}videos/cache/";
+    }
+    $tmpDir = rtrim($tmpDir, '/') . '/';
+    $tmpDir = "{$tmpDir}{$subdir}";
+    $tmpDir = rtrim($tmpDir, '/') . '/';
+    if (!is_dir($tmpDir)) {
+        mkdir($tmpDir, 0755, true);
+    }
+    return $tmpDir;
 }
