@@ -1808,16 +1808,17 @@ function url_get_contents($url, $ctx = "", $timeout = 0) {
         // If is URL try wget First
         if (empty($ctx)) {
             $filename = getTmpDir("YPTurl_get_contents") . md5($url);
-            wget($url, $filename);
-            $result = file_get_contents($filename);
-            unlink($filename);
-            if(!empty($result)){
-                if (filter_var($url, FILTER_VALIDATE_URL)) {
-                    _session_start();
-                    $_SESSION = $session;
-                    _mysql_connect();
+            if(wget($url, $filename)){
+                $result = file_get_contents($filename);
+                unlink($filename);
+                if(!empty($result)){
+                    if (filter_var($url, FILTER_VALIDATE_URL)) {
+                        _session_start();
+                        $_SESSION = $session;
+                        _mysql_connect();
+                    }
+                    return remove_utf8_bom($result);
                 }
-                return remove_utf8_bom($result);
             }
         }
     }
@@ -3277,6 +3278,9 @@ function wget($url, $filename) {
     //echo $cmd;
     exec($cmd);
     wgetRemoveLock($url);
+    if(!file_exists($filename)){
+        return false;
+    }
     if (filesize($filename) > 1000000) {
         return true;
     }
