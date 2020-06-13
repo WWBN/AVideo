@@ -3313,10 +3313,27 @@ function wgetIsLocked($url) {
     return true;
 }
 
+// due the some OS gives a fake is_writable response
+function isWritable($dir){
+    $dir = rtrim($dir, '/') . '/';
+    $file = $dir.uniqid();
+    $result = false;
+    $time = time();
+    if(@file_put_contents($file, $time)){
+        if($fileTime = @file_get_contents($file)){
+            if($fileTime==$time){
+                $result = true;
+            }
+        }
+    }
+    @unlink($file);
+    return $result;
+}
+
 function getTmpDir($subdir = "") {
     global $global;
     $tmpDir = sys_get_temp_dir();
-    if (!is_writable($tmpDir)) {
+    if (!isWritable($tmpDir)) {
         $tmpDir = "{$global['systemRootPath']}videos/cache/";
     }
     $tmpDir = rtrim($tmpDir, '/') . '/';
