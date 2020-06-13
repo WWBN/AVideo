@@ -3272,7 +3272,7 @@ function wget($url, $filename) {
         return false;
     }
     wgetLock($url);
-    $cmd = "wget {$url} -O {$filename}";
+    $cmd = "wget {$url} -O {$filename} --no-check-certificate";
     error_log("wget Start ({$cmd}) ");
     //echo $cmd;
     exec($cmd);
