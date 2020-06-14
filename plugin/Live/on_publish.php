@@ -20,9 +20,10 @@ _error_log("NGINX ON Publish parse_url: ".json_encode($parts));
 _error_log("NGINX ON Publish parse_str: ".json_encode($_GET));
 
 if($_POST['name']=='live'){
+    _error_log("NGINX ON Publish wrong name {$_POST['p']}");
     // fix name for streamlab
     $pParts = explode("/", $_POST['p']);
-    if(empty($pParts[1])){
+    if(!empty($pParts[1])){
         _error_log("NGINX ON Publish like key fixed");
         $_POST['name']==$pParts[1];
     }
