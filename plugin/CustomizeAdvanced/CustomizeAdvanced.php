@@ -108,6 +108,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableNavbar = false;
         $obj->disableNavBarInsideIframe = true;
         $obj->autoHideNavbar = true;
+        $obj->autoHideNavbarInSeconds = 0;
         $obj->videosCDN = "";
         $obj->useFFMPEGToGenerateThumbs = false;
         $obj->thumbsWidthPortrait = 170;
@@ -205,6 +206,30 @@ class CustomizeAdvanced extends PluginAbstract {
         }
         if ($obj->autoHideNavbar) {
             $content .= '<script>$(function () {$("#mainNavBar").autoHidingNavbar();});</script>';
+        }
+        if ($obj->autoHideNavbarInSeconds) {
+            $content .= '<script>'
+                    . 'var autoHidingNavbarTimeout;'
+                    . 'function autoHideNavbar(){'
+                    . 'console.log("autoHidingNavbar");'
+                    . 'autoHidingNavbarTimeout = setTimeout(function(){$("#mainNavBar").autoHidingNavbar("hide");},'. intval($obj->autoHideNavbarInSeconds*1000).');'
+                    . '}'
+                    . '</script>';
+            $content .= '<script>$(function () {'
+                    . 'autoHideNavbar();'
+                    . '$("#mainNavBar").mouseover(function() {
+                        console.log("clearTimeout autoHidingNavbar");
+                        clearTimeout(autoHidingNavbarTimeout);
+                        });
+                        $("#mainNavBar").mouseout(function() {
+                        autoHideNavbar();
+                        });
+                        $(document).mousemove(function(event) {
+                            if(event.pageY-$(document).scrollTop()<=20){
+                                $("#mainNavBar").autoHidingNavbar("show");
+                            }
+                        });
+                        });</script>';
         }
         return $content;
     }
