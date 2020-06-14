@@ -69,6 +69,7 @@
             if (!response[i].id) {
                 continue;
             }
+            
             var icon = "fa fa-lock"
             if (response[i].status == "public") {
                 icon = "fa fa-globe"
@@ -83,9 +84,10 @@
                     checked = "checked";
                 }
             }
+            var randId = (("_"+response[i].id) + videos_id)+ Math.rand()
             $(".searchlist" + videos_id + crc).append('<a class="list-group-item"><i class="' + icon + '"></i> <span>'
                     + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                    + response[i].id + videos_id + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsIds' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
+                    + randId + '" name="someSwitchOption' + randId + '" class="playListsIds' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
                     + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
                     + response[i].id + videos_id + '" class="label-success"></label></div></a>');
 
