@@ -84,12 +84,12 @@
                     checked = "checked";
                 }
             }
-            var randId = (("_"+response[i].id) + videos_id)+ Math.rand()
+            var randId = (("_"+response[i].id) + videos_id)+ Math.rand();
             $(".searchlist" + videos_id + crc).append('<a class="list-group-item"><i class="' + icon + '"></i> <span>'
                     + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                    + randId + '" name="someSwitchOption' + randId + '" class="playListsIds' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
+                    + randId + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsIds' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
                     + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
-                    + response[i].id + videos_id + '" class="label-success"></label></div></a>');
+                    + randId + '" class="label-success"></label></div></a>');
 
         }
         $('.searchlist' + videos_id + crc).btsListFilter('#searchinput' + videos_id + crc, {itemChild: 'span'});
