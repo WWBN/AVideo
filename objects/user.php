@@ -252,6 +252,9 @@ if (typeof gtag !== \"function\") {
         }
         if (empty($name)) {
             $name = self::getNameIdentification();
+            if($name == __("Unknown User") && !empty($this->user)){
+                $name = $this->user;
+            }
             $name = cleanString($name);
         }
         // in case is a email get only the username
