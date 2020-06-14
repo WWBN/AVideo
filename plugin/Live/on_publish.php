@@ -19,6 +19,15 @@ parse_str($parts["query"], $_GET);
 _error_log("NGINX ON Publish parse_url: ".json_encode($parts));
 _error_log("NGINX ON Publish parse_str: ".json_encode($_GET));
 
+if($_POST['name']=='live'){
+    // fix name for streamlab
+    $pParts = explode("/", $_POST['p']);
+    if(empty($pParts[1])){
+        _error_log("NGINX ON Publish like key fixed");
+        $_POST['name']==$pParts[1];
+    }
+    
+}
 
 if(empty($_POST['name']) && !empty($_GET['name'])){
     $_POST['name'] = $_GET['name'];
