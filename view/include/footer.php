@@ -68,6 +68,7 @@ $jsFiles[] = "view/js/jquery.bootstrap-autohidingnavbar.min.js";
 $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
 $jsFiles[] = "view/js/webui-popover/jquery.webui-popover.min.js";
 $jsFiles[] = "view/js/bootstrap-list-filter/bootstrap-list-filter.min.js";
+$jsFiles[] = "view/js/js-cookie/js.cookie.js";
 if (!empty($video['type'])) {
 
     $waveSurferEnabled = AVideoPlugin::getObjectDataIfEnabled("CustomizeAdvanced");
