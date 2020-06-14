@@ -84,7 +84,7 @@
                     checked = "checked";
                 }
             }
-            var randId = (("_"+response[i].id) + videos_id)+ Math.rand();
+            var randId = (("_"+response[i].id) + videos_id)+ Math.random();
             $(".searchlist" + videos_id + crc).append('<a class="list-group-item"><i class="' + icon + '"></i> <span>'
                     + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
                     + randId + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsIds' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
