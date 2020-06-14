@@ -245,15 +245,15 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-    static function _recommendChannelName($name = "", $try = 0) {
+    static function _recommendChannelName($name = "", $try = 0, $unknown="") {
         if ($try > 10) {
             _error_log("User:_recommendChannelName too many tries ({$name}) (".User::getId().") ", AVideoLog::$ERROR);
             return uniqid();
         }
         if (empty($name)) {
             $name = self::getNameIdentification();
-            if($name == __("Unknown User") && !empty($this->user)){
-                $name = $this->user;
+            if($name == __("Unknown User") && !empty($unknown)){
+                $name = $unknown;
             }
             $name = cleanString($name);
         }
@@ -486,7 +486,7 @@ if (typeof gtag !== \"function\") {
         $this->status = $global['mysqli']->real_escape_string($this->status);
         $this->about = $global['mysqli']->real_escape_string($this->about);
         $this->about = preg_replace("/(\\\)+n/", "\n", $this->about);
-        $this->channelName = self::_recommendChannelName($this->channelName);
+        $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user);
         $this->channelName = $global['mysqli']->real_escape_string($this->channelName);
         if (filter_var($this->donationLink, FILTER_VALIDATE_URL) === FALSE) {
             $this->donationLink = "";
