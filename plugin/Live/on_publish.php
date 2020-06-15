@@ -8,6 +8,7 @@ $obj->error = true;
 
 _error_log("NGINX ON Publish POST: ".json_encode($_POST));
 _error_log("NGINX ON Publish GET: ".json_encode($_GET));
+_error_log("NGINX ON Publish php://input" .file_get_contents("php://input"));
 
 // get GET parameters
 $url = $_POST['tcurl'];
@@ -40,7 +41,7 @@ if(empty($_POST['name']) && !empty($_GET['key'])){
 
 if (!empty($_GET['p'])) {
     $_GET['p'] = str_replace("/", "", $_GET['p']);
-    _error_log("NGINX ON Publish check if key exists");
+    _error_log("NGINX ON Publish check if key exists ({$_POST['name']})");
     $obj->row = LiveTransmition::keyExists($_POST['name']);
     _error_log("NGINX ON Publish key exists return ". json_encode($obj->row));
     if (!empty($obj->row)) {
