@@ -3274,7 +3274,7 @@ function wget($url, $filename) {
     }
     wgetLock($url);
     $cmd = "wget {$url} -O {$filename} --no-check-certificate";
-    error_log("wget Start ({$cmd}) ");
+    //_error_log("wget Start ({$cmd}) ");
     //echo $cmd;
     exec($cmd);
     wgetRemoveLock($url);
