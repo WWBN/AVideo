@@ -73,7 +73,7 @@
             ?>
             <div id="categoriesContainer"></div>
             <p class="pagination infiniteScrollPagination">
-                <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?current=1"></a>
+                <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?current=1&search=<?php echo getSearchVar(); ?>"></a>
             </p>
             <div class="scroller-status">
                 <div class="infinite-scroll-request loader-ellips text-center">
