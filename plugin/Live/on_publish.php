@@ -26,7 +26,7 @@ if($_POST['name']=='live'){
     $pParts = explode("/", $_POST['p']);
     if(!empty($pParts[1])){
         _error_log("NGINX ON Publish like key fixed");
-        $_POST['name']==$pParts[1];
+        $_POST['name']=$pParts[1];
     }
     
 }
