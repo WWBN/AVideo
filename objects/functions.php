@@ -3290,7 +3290,7 @@ function wget($url, $filename) {
     if(!file_exists($filename)){
         return false;
     }
-    if (filesize($filename) > 1000) {
+    if (filesize($filename) > 100) {
         return true;
     }
     return false;
