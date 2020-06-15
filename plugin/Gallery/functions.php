@@ -417,7 +417,7 @@ function createChannelItem($users_id, $photoURL = "", $identification = "", $row
             echo Subscribe::getButton($users_id);
             ?>
         </h3>
-        <div class="row">
+        <div class="">
             <?php
             $countCols = 0;
             unset($_POST['sort']);

@@ -6,12 +6,12 @@
 
     if ($obj->searchOnChannels && !empty($_GET['search'])) {
         $channels = User::getAllUsers(true);
-        clearSearch();
+        //cleanSearchVar();
         foreach ($channels as $value) {
             $contentSearchFound = true;
             createChannelItem($value['id'], $value['photoURL'], $value['identification']);
         }
-        reloadSearch();
+        //reloadSearchVar();
     }
 
     if (!empty($video)) {

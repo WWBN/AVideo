@@ -41,6 +41,20 @@ class AD_Overlay extends PluginAbstract {
 </script>
 ';
         $obj->adText = $o;
+        
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- AVideo Videos -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:468px;height:60px"
+     data-ad-client="ca-pub-8404441263723333"
+     data-ad-slot="6092946505"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+';
+        $obj->mobileAdText = $o;
 
         //$obj->allowUsersToAddCustomText = false;
         //Where to display overlays, by default. Assuming the included stylesheet is used, the following values are supported:
@@ -84,7 +98,7 @@ class AD_Overlay extends PluginAbstract {
         }
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.css" rel="stylesheet" type="text/css"/>';
 
-        $css .= '<style>.video-js .vjs-overlay-background, .video-js .vjs-overlay-no-background {
+        $css .= '<style>#adOverlay{min-width: 640px;}.video-js .vjs-overlay-background, .video-js .vjs-overlay-no-background {
     max-height: 50%;
     max-width: 100%;
     ' . $style . '
@@ -106,7 +120,12 @@ class AD_Overlay extends PluginAbstract {
         }
         $obj = $this->getDataObject();
 
-        $adText = $obj->adText->value;
+        if(isMobile()){
+            $adText = $obj->mobileAdText->value;
+        }else{
+            $adText = $obj->adText->value;
+        }
+        
 
         if ($obj->allowUserAds) {
             if (!empty($video['id'])) {

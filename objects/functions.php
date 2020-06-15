@@ -3253,7 +3253,10 @@ $cleanSearchHistory = "";
 
 function cleanSearchVar() {
     global $cleanSearchHistory;
-    $cleanSearchHistory = getSearchVar();
+    $search = getSearchVar();
+    if(!empty($search)){
+        $cleanSearchHistory = $search;
+    }
     $searchIdex = array('q', 'searchPhrase', 'search');
     foreach ($searchIdex as $value) {
         unset($_REQUEST[$value]);
@@ -3265,6 +3268,12 @@ function cleanSearchVar() {
 function reloadSearchVar() {
     global $cleanSearchHistory;
     $_REQUEST['search'] = $cleanSearchHistory;
+    if(empty($_GET['search'])){
+        $_GET['search'] = $cleanSearchHistory;
+    }
+    if(empty($_POST['search'])){
+        $_POST['search'] = $cleanSearchHistory;
+    }
 }
 
 function wget($url, $filename) {
