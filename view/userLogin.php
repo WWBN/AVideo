@@ -25,22 +25,22 @@ if (empty($_COOKIE)) {
         </div>
     </div>
     <script>
-        function openLoginWindow(){
+        function openLoginWindow() {
             win = window.open('<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>', 'Login Page', "width=640,height=480,scrollbars=no");
-        }
-        var win;
-        openLoginWindow();
-            var logintimer = setInterval(function () {
-                if (win.closed) {
-                    clearInterval(logintimer);
-                    document.location = "<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : $global['webSiteRootURL']; ?>";
                 }
-            }, 1000);
-            $(document).ready(function () {
-                if (!win || win.closed || typeof win.closed == 'undefined') {
-                    //swal("<?php echo __("Sorry!"); ?>", "<?php echo __("In order to enjoy our login feature, you need to allow our pop-ups in your browser."); ?>", "error");
-                }
-            });
+                var win;
+                openLoginWindow();
+                var logintimer = setInterval(function () {
+                    if (win.closed) {
+                        clearInterval(logintimer);
+                        document.location = "<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : $global['webSiteRootURL']; ?>";
+                    }
+                }, 1000);
+                $(document).ready(function () {
+                    if (!win || win.closed || typeof win.closed == 'undefined') {
+                        //swal("<?php echo __("Sorry!"); ?>", "<?php echo __("In order to enjoy our login feature, you need to allow our pop-ups in your browser."); ?>", "error");
+                    }
+                });
     </script>
     <?php
     return false;
@@ -50,7 +50,20 @@ if (empty($_COOKIE)) {
     <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
     <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 list-group-item ">
         <fieldset>
-            <legend class=" hidden-xs"><?php echo __("Please sign in"); ?></legend>
+            <legend class=" hidden-xs">
+                <?php
+                echo __("Please sign in");
+                if (!empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
+                    ?>
+                    <div class="pull-right">
+                        <a id="buttonMyNavbar" class=" btn btn-default navbar-btn" style="padding: 6px 12px; margin-right: 40px;" href="<?php echo $advancedCustomUser->userMustBeLoggedInCloseButtonURL; ?>">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                    <?php
+                }
+                ?>
+            </legend>
 
 
             <?php
