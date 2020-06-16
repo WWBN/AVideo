@@ -205,7 +205,7 @@ class CustomizeAdvanced extends PluginAbstract {
             $content .= '<script>$(function () {if(inIframe()){$("#mainNavBar").fadeOut();}});</script>';
         }
         if ($obj->autoHideNavbar) {
-            $content .= '<script>$(function () {setTimeout(function(){$("#mainNavBar").autoHidingNavbar();},1000);});</script>';
+            $content .= '<script>$(function () {setTimeout(function(){$("#mainNavBar").autoHidingNavbar();},5000);});</script>';
         }
         if ($obj->autoHideNavbarInSeconds) {
             $content .= '<script>'
