@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   INDEX `fk_categories_users1_idx` (`users_id` ASC),
   INDEX `clean_name_INDEX2` (`clean_name` ASC),
   INDEX `sortcategoryOrderIndex` (`order` ASC),
+  INDEX `category_name_idx` (`name` ASC),
   UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 
   CONSTRAINT `fk_categories_users1`
     FOREIGN KEY (`users_id`)
