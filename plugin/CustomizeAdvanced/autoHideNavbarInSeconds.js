@@ -1,6 +1,6 @@
 var autoHidingNavbarTimeout;
 function autoHideNavbar() {
-    console.log("autoHidingNavbar");
+    //console.log("autoHidingNavbar");
     autoHidingNavbarTimeout = setTimeout(function () {
         $("#mainNavBar").autoHidingNavbar("hide");
     }, autoHidingNavbarTimeoutMiliseconds);
@@ -8,7 +8,7 @@ function autoHideNavbar() {
 $(function () {
     autoHideNavbar();
     $("#mainNavBar").mouseover(function () {
-        console.log("clearTimeout autoHidingNavbar");
+        //console.log("clearTimeout autoHidingNavbar");
         clearTimeout(autoHidingNavbarTimeout);
     });
     $("#mainNavBar").mouseout(function () {
