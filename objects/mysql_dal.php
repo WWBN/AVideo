@@ -210,18 +210,6 @@ class sqlDAL {
         return $readSqlCached[$crc];
     }
 
-    static function readSqlCache($preparedStatement, $formats = "", $values = array(), $refreshCache = false, $lifetime=60) {
-        $cacheName = md5(json_encode(array($preparedStatement, $formats, $values)));
-        if(empty($refreshCache)){
-            $cache = ObjectYPT::getCache($cacheName, $lifetime);
-        }
-        if(empty($cache) || !is_object($cache) || $cache->field_count === NULL){
-            $cache = self::readSql($preparedStatement, $formats, $values, $refreshCache);
-            ObjectYPT::setCache($cacheName, $cache);
-        }
-        return $cache;
-    }
-    
     /*
      * This closes the readSql
      * @param Object $result A object from sqlDAL::readSql
