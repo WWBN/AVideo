@@ -359,7 +359,14 @@ class Category {
             unset($_POST['sort']['title']);
         }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY `order`, name ASC ");
-        $res = sqlDAL::readSql($sql);
+        if(empty($_SESSION['getAllCategoriesClearCache'])){
+            $res = sqlDAL::readSqlCache($sql);
+        }else{
+            _session_start();
+            unset($_SESSION['getAllCategoriesClearCache']);
+            $res = sqlDAL::readSqlCache($sql, "", array(), true);
+        }
+        
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $category = array();
@@ -537,6 +544,7 @@ class Category {
         // clear category count cache
         _session_start();
         unset($_SESSION['categoryTotal']);
+        $_SESSION['getAllCategoriesClearCache'] = 1;
         //session_write_close();
     }
 
