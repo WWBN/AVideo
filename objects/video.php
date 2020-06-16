@@ -719,20 +719,26 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
                 }
             }
+            // replace random based on this
+            $firstClauseLimit = "";
             if (empty($id)) {
                 if (empty($random) && !empty($_GET['videoName'])) {
                     $sql .= " AND v.clean_title = '{$_GET['videoName']}' ";
                 } elseif (!empty($random)) {
                     $sql .= " AND v.id != {$random} ";
-                    $sql .= " ORDER BY RAND() ";
+                    $rand = rand(0,self::getTotalVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly));
+                    $firstClauseLimit = "$rand, ";
+                    //$sql .= " ORDER BY RAND() ";
                 } else if ($suggestedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
                     $sql .= " AND v.isSuggested = 1 ";
-                    $sql .= " ORDER BY RAND() ";
+                    $rand = rand(0,self::getTotalVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly));
+                    $firstClauseLimit = "$rand, ";
+                    //$sql .= " ORDER BY RAND() ";
                 } else {
                     $sql .= " ORDER BY v.Created DESC ";
                 }
             }
-            $sql .= " LIMIT 1";
+            $sql .= " LIMIT {$firstClauseLimit}1";
 //echo $sql;exit;
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
