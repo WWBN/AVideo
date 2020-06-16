@@ -210,7 +210,7 @@ class sqlDAL {
         return $readSqlCached[$crc];
     }
 
-    static function readSqlCache($preparedStatement, $formats = "", $values = array(), $refreshCache = false) {
+    static function readSqlCache($preparedStatement, $formats = "", $values = array(), $refreshCache = false, $lifetime=60) {
         $cacheName = md5(json_encode(array($preparedStatement, $formats, $values)));
         if(empty($refreshCache)){
             $cache = ObjectYPT::getCache($cacheName, $lifetime);
