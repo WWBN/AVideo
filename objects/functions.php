@@ -3318,7 +3318,7 @@ function wgetIsLocked($url) {
     if (!file_exists($filename)) {
         return false;
     }
-    $time = file_get_contents($filename);
+    $time = intval(file_get_contents($filename));
     if (time() - $time > 36000) { // more then 10 hours
         unlink($filename);
         return false;
