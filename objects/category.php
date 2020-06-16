@@ -362,7 +362,7 @@ class Category {
         
         $cacheName = md5($sql);
         if(empty($_SESSION['getAllCategoriesClearCache'])){
-            $category = object_to_array(ObjectYPT::getCache($cacheName));
+            $category = object_to_array(ObjectYPT::getCache($cacheName, 36000));
         }else{
             _session_start();
             unset($_SESSION['getAllCategoriesClearCache']);
