@@ -215,7 +215,7 @@ class sqlDAL {
         if(empty($refreshCache)){
             $cache = ObjectYPT::getCache($cacheName, $lifetime);
         }
-        if(empty($cache) || !is_object($cache)){
+        if(true || empty($cache) || !is_object($cache)){
             $cache = self::readSql($preparedStatement, $formats, $values, $refreshCache);
             ObjectYPT::setCache($cacheName, $cache);
         }
