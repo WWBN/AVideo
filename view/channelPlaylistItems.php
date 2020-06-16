@@ -61,7 +61,11 @@
     foreach ($playlists as $key => $playlist) {
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
+        $_REQUEST['current'] = 1;
+        $_REQUEST['rowCount'] = 6;
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist['id']);
+        $_REQUEST['current'] = 1;
+        $_REQUEST['rowCount'] = 6;
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
         $rowCount = $_POST['rowCount'];
