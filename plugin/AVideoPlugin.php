@@ -373,6 +373,21 @@ class AVideoPlugin {
         return $str;
     }
 
+    static function getVideosManagerListButtonTitle() {
+        $plugins = Plugin::getAllEnabled();
+        $str = "";
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+
+            if (is_object($p)) {
+                $str .= $p->getVideosManagerListButtonTitle();
+            }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
+        }
+        return $str;
+    }
+
     static function getUsersManagerListButton() {
         $plugins = Plugin::getAllEnabled();
         $str = "";
@@ -589,7 +604,18 @@ class AVideoPlugin {
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
-    
+
+    public static function getModeYouTubeLive($users_id) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->getModeYouTubeLive($users_id);
+            }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
+        }
+    }
     
     public static function getEmbed($videos_id) {
         $plugins = Plugin::getAllEnabled();
