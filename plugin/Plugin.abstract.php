@@ -75,6 +75,10 @@ abstract class PluginAbstract {
         return array();
     }
 
+    public function getVideosManagerListButtonTitle() {
+        return "";
+    }
+
     public function getVideosManagerListButton() {
         return "";
     }
@@ -277,6 +281,10 @@ abstract class PluginAbstract {
     }
 
     public function getModeYouTube($videos_id) {
+        return false;
+    }
+
+    public function getModeYouTubeLive($users_id) {
         return false;
     }
     
