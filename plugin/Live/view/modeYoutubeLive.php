@@ -32,6 +32,7 @@ $imgh = 360;
 
 $liveDO = AVideoPlugin::getObjectData("Live");
 $video['type'] = 'video';
+AVideoPlugin::getModeYouTubeLive($user_id);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

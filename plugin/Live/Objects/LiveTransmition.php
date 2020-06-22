@@ -93,6 +93,16 @@ class LiveTransmition extends ObjectYPT {
         return true;
     }
 
+    function loadByKey($uuid) {
+        $row = self::getFromKey($uuid);
+        if (empty($row))
+            return false;
+        foreach ($row as $key => $value) {
+            $this->$key = $value;
+        }
+        return true;
+    }
+
     static function getFromDbByUser($user_id) {
         global $global;
         $user_id = intval($user_id);
@@ -240,6 +250,20 @@ class LiveTransmition extends ObjectYPT {
         } else {
             return true;
         }
+    }
+
+    static function getFromKey($key) {
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($key), true);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res != false) {
+            $user = $data;
+        } else {
+            $user = false;
+        }
+        return $user;
     }
 
 }
