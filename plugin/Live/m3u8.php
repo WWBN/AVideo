@@ -57,7 +57,7 @@ if (empty($_SESSION['m3u8Verified'])) {
 }
 $lines = preg_split("/((\r?\n)|(\r\n?))/", $content);
 for ($i = 0; $i < count($lines); $i++) {
-    if (preg_match('/.*\.ts$/i', $lines[$i])) {
+    if (preg_match('/.*\.(m3u8|ts)$/i', $lines[$i])) {
         echo $complement;
     }
     echo $lines[$i] . PHP_EOL;
