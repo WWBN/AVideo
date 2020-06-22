@@ -10,9 +10,9 @@ if (!empty($_GET['c'])) {
         $_GET['u'] = $user['user'];
     }
 }
-if(!empty($_GET['c'])){
+if (!empty($_GET['c'])) {
     $user = User::getChannelOwner($_GET['c']);
-    if($user['status']!=='a'){
+    if ($user['status'] !== 'a') {
         header("Location: {$global['webSiteRootURL']}");
     }
 }
@@ -23,7 +23,7 @@ if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
     include $global['systemRootPath'] . 'plugin/Live/view/videoEmbeded.php';
     exit;
 } else if (!empty($_GET['u'])) {
-    include $global['systemRootPath'].'plugin/Live/view/modeYoutubeLive.php';
+    include $global['systemRootPath'] . 'plugin/Live/view/modeYoutubeLive.php';
     exit;
 } else if (!User::canStream()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not stream live videos"));
@@ -34,10 +34,15 @@ require_once $global['systemRootPath'] . 'objects/userGroups.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
+$users_id = User::getId();
+if(!empty($_GET['users_id']) && User::isAdmin()){
+    $users_id = intval($_GET['users_id']);
+}
+
 // if user already have a key
-$trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
+$trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
 if (!empty($_GET['resetKey'])) {
-    LiveTransmition::resetTransmitionKey(User::getId());
+    LiveTransmition::resetTransmitionKey($users_id);
     header("Location: {$global['webSiteRootURL']}plugin/Live/");
     exit;
 }
@@ -53,7 +58,7 @@ $obj = $p->getDataObject();
 $channelName = User::getUserChannelName();
 if (empty($channelName)) {
     $channelName = uniqid();
-    $user = new User(User::getId());
+    $user = new User($users_id);
     $user->setChannelName($channelName);
     $user->save();
 }
@@ -103,7 +108,7 @@ if (empty($channelName)) {
                 }
                 ?>
                 <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-share"></i> <?php echo __("Share Info"); ?></div>
+                    <div class="panel-heading"><i class="fa fa-share"></i> <?php echo __("Share Info"); ?> (<?php echo $channelName; ?>)</div>
                     <div class="panel-body">          
                         <div class="form-group">
                             <label for="playerURL"><i class="fa fa-play-circle"></i> <?php echo __("Player URL"); ?>:</label>
@@ -111,16 +116,16 @@ if (empty($channelName)) {
                         </div>       
                         <div class="form-group">
                             <label for="avideoURL"><i class="fa fa-circle"></i> <?php echo __("Live URL"); ?>:</label>
-                            <input type="text" class="form-control" id="avideoURL" value="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode($channelName); ?>"  readonly="readonly">
+                            <input type="text" class="form-control" id="avideoURL" value="<?php echo Live::getLinkToLiveFromUsers_id($users_id); ?>"  readonly="readonly">
                         </div>   
                         <div class="form-group">
                             <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
-                            <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?c=<?php echo urlencode($channelName); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>'  readonly="readonly">
+                            <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo Live::getLinkToLiveFromUsers_id($users_id); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>'  readonly="readonly">
                         </div>
                     </div>
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-heading"><i class="fa fa-hdd-o"></i> <?php echo __("Devices Stream Info"); ?></div>
+                    <div class="panel-heading"><i class="fas fa-hdd"></i> <?php echo __("Devices Stream Info"); ?> (<?php echo $channelName; ?>)</div>
                     <div class="panel-body" style="overflow: hidden;">
                         <div class="form-group">
                             <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
@@ -131,11 +136,14 @@ if (empty($channelName)) {
                             <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Stream name/key"); ?>:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="streamkey" value="<?php echo $trasnmition['key']; ?>" readonly="readonly">
-                                <input type="text" class="form-control" id="serverAndStreamkey" value="<?php echo $p->getServer(); ?>?p=<?php echo User::getUserPass(); ?>/<?php echo $trasnmition['key']; ?>" readonly="readonly">
                                 <span class="input-group-btn">
                                     <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?resetKey=1"><i class="fa fa-refresh"></i> <?php echo __("Reset Key"); ?></a>
                                 </span>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Server URL"); ?> + <?php echo __("Stream name/key"); ?>:</label>
+                            <input type="text" class="form-control" id="serverAndStreamkey" value="<?php echo $p->getServer(); ?>?p=<?php echo User::getUserPass(); ?>/<?php echo $trasnmition['key']; ?>" readonly="readonly">
                             <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Keep Key Private, Anyone with key can broadcast on your account"); ?></span>
                         </div>
                     </div>
