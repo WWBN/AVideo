@@ -71,6 +71,7 @@ class Live extends PluginAbstract {
         $obj->disableDVR = false;
         $obj->disableGifThumbs = false;
         $obj->useAadaptiveMode = false;
+        $obj->protectLive = true;
         $obj->experimentalWebcam = false;
         $obj->doNotShowLiveOnVideosList = false;
         $obj->doNotProcessNotifications = false;
@@ -94,9 +95,12 @@ class Live extends PluginAbstract {
     }
 
     public function getM3U8File($uuid) {
+        global $global;
         $o = $this->getDataObject();
         $playerServer = $o->playerServer;
-        if ($o->useAadaptiveMode) {
+        if ($o->protectLive) {
+            return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?uuid=". encryptString($uuid);
+        } else if ($o->useAadaptiveMode) {
             return $playerServer . "/{$uuid}.m3u8";
         } else {
             return $playerServer . "/{$uuid}/index.m3u8";
@@ -137,7 +141,7 @@ class Live extends PluginAbstract {
     }
 
     function get_data($url) {
-        return url_get_contents($url);
+        return url_get_contents($url, "", 5);
     }
 
     public function getTags() {
@@ -222,6 +226,27 @@ class Live extends PluginAbstract {
             $url = "{$server}control/record/stop?app=live&name=$key";
             url_get_contents($url);
         }
+    }
+    
+    static function getLinkToLiveFromUsers_id($users_id){
+        if(empty($users_id)){
+            return false;
+        }
+        global $global;
+        $user =  new User($users_id);
+        if(empty($user)){
+            return false;
+        }
+        return "{$global['webSiteRootURL']}plugin/Live/?c=".urlencode($user->getChannelName());
+    }
+    
+    public function getVideosManagerListButton(){
+        global $global;
+        if(!User::isAdmin()){
+            return "";
+        }
+        $btn = '<br><button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="document.location = \\\''.$global['webSiteRootURL'].'plugin/Live/?users_id=\' + row.users_id + \'\\\';" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="Extract images from your video"><i class="fa fa-circle"></i> Live Info</button>';
+        return $btn;
     }
 
 }
