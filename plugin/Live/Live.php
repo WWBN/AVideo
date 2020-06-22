@@ -240,7 +240,7 @@ class Live extends PluginAbstract {
         return "{$global['webSiteRootURL']}plugin/Live/?c=".urlencode($user->getChannelName());
     }
     
-    public function getVideosManagerListButton(){
+    public function getVideosManagerListButtonTitle(){
         global $global;
         if(!User::isAdmin()){
             return "";
