@@ -71,7 +71,7 @@ class Live extends PluginAbstract {
         $obj->disableDVR = false;
         $obj->disableGifThumbs = false;
         $obj->useAadaptiveMode = false;
-        $obj->protectLive = true;
+        $obj->protectLive = false;
         $obj->experimentalWebcam = false;
         $obj->doNotShowLiveOnVideosList = false;
         $obj->doNotProcessNotifications = false;
