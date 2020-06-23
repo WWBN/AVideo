@@ -1808,10 +1808,10 @@ function url_get_contents($url, $ctx = "", $timeout = 0) {
         // If is URL try wget First
         if (empty($ctx)) {
             $filename = getTmpDir("YPTurl_get_contents") . md5($url);
-            if(wget($url, $filename)){
+            if (wget($url, $filename)) {
                 $result = file_get_contents($filename);
                 unlink($filename);
-                if(!empty($result)){
+                if (!empty($result)) {
                     if (filter_var($url, FILTER_VALIDATE_URL)) {
                         _session_start();
                         $_SESSION = $session;
@@ -3254,7 +3254,7 @@ $cleanSearchHistory = "";
 function cleanSearchVar() {
     global $cleanSearchHistory;
     $search = getSearchVar();
-    if(!empty($search)){
+    if (!empty($search)) {
         $cleanSearchHistory = $search;
     }
     $searchIdex = array('q', 'searchPhrase', 'search');
@@ -3268,10 +3268,10 @@ function cleanSearchVar() {
 function reloadSearchVar() {
     global $cleanSearchHistory;
     $_REQUEST['search'] = $cleanSearchHistory;
-    if(empty($_GET['search'])){
+    if (empty($_GET['search'])) {
         $_GET['search'] = $cleanSearchHistory;
     }
-    if(empty($_POST['search'])){
+    if (empty($_POST['search'])) {
         $_POST['search'] = $cleanSearchHistory;
     }
 }
@@ -3287,7 +3287,7 @@ function wget($url, $filename) {
     //echo $cmd;
     exec($cmd);
     wgetRemoveLock($url);
-    if(!file_exists($filename)){
+    if (!file_exists($filename)) {
         return false;
     }
     if (filesize($filename) > 100) {
@@ -3327,14 +3327,14 @@ function wgetIsLocked($url) {
 }
 
 // due the some OS gives a fake is_writable response
-function isWritable($dir){
+function isWritable($dir) {
     $dir = rtrim($dir, '/') . '/';
-    $file = $dir.uniqid();
+    $file = $dir . uniqid();
     $result = false;
     $time = time();
-    if(@file_put_contents($file, $time)){
-        if($fileTime = @file_get_contents($file)){
-            if($fileTime==$time){
+    if (@file_put_contents($file, $time)) {
+        if ($fileTime = @file_get_contents($file)) {
+            if ($fileTime == $time) {
                 $result = true;
             }
         }
@@ -3356,4 +3356,19 @@ function getTmpDir($subdir = "") {
         mkdir($tmpDir, 0755, true);
     }
     return $tmpDir;
+}
+
+function getMySQLDate() {
+    global $global;
+    $sql = "SELECT now() as time FROM configurations LIMIT 1";
+    // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
+    $res = sqlDAL::readSql($sql);
+    $data = sqlDAL::fetchAssoc($res);
+    sqlDAL::close($res);
+    if ($res) {
+        $row = $data['time'];
+    } else {
+        $row = false;
+    }
+    return $row;
 }
