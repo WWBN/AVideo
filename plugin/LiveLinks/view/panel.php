@@ -103,7 +103,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var d = new Date(Date.UTC(<?php echo $today['year'].",".$today['mon'].",".$today['mday'].",".$today['hours'].",".$today['minutes'].",".$today['seconds']; ?>));
+        var d = new Date(<?php echo $today['year'].",".$today['mon'].",".$today['mday'].",".$today['hours'].",".$today['minutes'].",".$today['seconds']; ?>);
         setInterval(function() {
             d.setSeconds(d.getSeconds() + 1);
             $('#serverTime').text((d.getHours() +':' + d.getMinutes() + ':' + d.getSeconds() ));
