@@ -727,13 +727,13 @@ if (!class_exists('Video')) {
                 } elseif (!empty($random)) {
                     $sql .= " AND v.id != {$random} ";
                     $rand = rand(0,self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly));
-                    $rand = empty($rand)?0:$rand-1;
+                    $rand = ($rand-2)<0?0:$rand-2;
                     $firstClauseLimit = "$rand, ";
                     //$sql .= " ORDER BY RAND() ";
                 } else if ($suggestedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
                     $sql .= " AND v.isSuggested = 1 ";
                     $rand = rand(0,self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly));
-                    $rand = empty($rand)?0:$rand-1;
+                    $rand = ($rand-2)<0?0:$rand-2;
                     $firstClauseLimit = "$rand, ";
                     //$sql .= " ORDER BY RAND() ";
                 } else {
