@@ -18,7 +18,7 @@
     }
 </style>
 <?php
-if (User::canStream()) {
+if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
     ?>
     <li>
         <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live"  class="btn btn-danger navbar-btn" data-toggle="tooltip" title="<?php echo __("Broadcast a Live Stream"); ?>" data-placement="bottom" >

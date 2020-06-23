@@ -74,6 +74,7 @@ class Live extends PluginAbstract {
         $obj->protectLive = false;
         $obj->experimentalWebcam = false;
         $obj->doNotShowLiveOnVideosList = false;
+        $obj->doNotShowGoLiveButton = false;
         $obj->doNotProcessNotifications = false;
         $obj->hls_path = "/HLS/live";
         return $obj;
