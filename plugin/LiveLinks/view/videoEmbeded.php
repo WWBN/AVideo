@@ -4,7 +4,7 @@ $isLive = 1;
 $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
 $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-if(!empty($objSecure)){
+if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 ?>
@@ -30,7 +30,7 @@ if(!empty($objSecure)){
                 padding: 0 !important;
                 margin: 0 !important;
                 <?php
-                if(!empty($customizedAdvanced->embedBackgroundColor)){
+                if (!empty($customizedAdvanced->embedBackgroundColor)) {
                     echo "background-color: $customizedAdvanced->embedBackgroundColor;";
                 }
                 ?>
@@ -48,6 +48,16 @@ if(!empty($objSecure)){
             </video>
         </div>
 
+        <?php
+        if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
+            require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
+            $style = VideoLogoOverlay::getStyle();
+            $url = VideoLogoOverlay::getLink();
+            ?>
+            <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
+                <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
+            </div>
+        <?php } ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
         <?php
         echo AVideoPlugin::afterVideoJS();
