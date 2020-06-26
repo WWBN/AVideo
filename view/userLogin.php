@@ -179,6 +179,9 @@ if (!empty($_GET['error'])) {
 ?>
         $('#loginForm').submit(function (evt) {
             evt.preventDefault();
+            if(!$('#inputUser').val() || !$('#inputPassword').val()){
+                return false;
+            }
 <?php
 if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
     ?>
