@@ -22,6 +22,7 @@ class LiveLinks extends PluginAbstract {
         $obj->onlyAdminCanAddLinks = true;
         $obj->buttonTitle = "Add a Live Link";
         $obj->disableGifThumbs = false;
+        $obj->doNotShowLiveLinksLabel = false;
         return $obj;
     }
 
@@ -146,6 +147,20 @@ class LiveLinks extends PluginAbstract {
         global $global;
         sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV2.0.sql'));
         return true;
+    }
+    
+    
+    public function getHeadCode() {
+        global $global;
+        $obj = $this->getDataObject();
+        // preload image
+        $js = "";
+        $css = '';
+        if(!empty($obj->doNotShowLiveLinksLabel)){
+            $css .= '<style>.livelinksLabel{display: none;}</style>';
+        }
+        
+        return $js.$css;
     }
 
 }
