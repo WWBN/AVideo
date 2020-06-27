@@ -1,0 +1,35 @@
+<?php
+
+require_once '../objects/functions.php';
+if (!isCommandLineInterface()) {
+    die('Command Line only');
+}
+if (file_exists("../videos/configuration.php")) {
+    die("Can not create configuration again: " . json_encode($_SERVER));
+}
+
+$webSiteRootURL = @$argv[1];
+while (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
+    if (!empty($webSiteRootURL)) {
+        echo "Invalid Site URL\n";
+    }
+    echo "Enter Site URL\n";
+    ob_flush();
+    $webSiteRootURL = trim(readline(""));
+}
+
+
+$_POST['systemRootPath'] = getPathToApplication();
+$_POST['databaseHost'] = "localhost";
+$_POST['databaseUser'] = "youphptube";
+$_POST['databasePass'] = "youphptube";
+$_POST['databasePort'] = "3306";
+$_POST['databaseName'] = "AVideoStreamer";
+$_POST['createTables'] = 2;
+$_POST['contactEmail'] = "undefined@youremail.com";
+$_POST['systemAdminPass'] = "123";
+$_POST['mainLanguage'] = "en";
+$_POST['webSiteTitle'] = "AVideo";
+$_POST['webSiteRootURL'] = getURLToApplication();
+
+include './checkConfiguration.php';
