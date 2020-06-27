@@ -34,6 +34,6 @@ $_POST['contactEmail'] = $contactEmail;
 $_POST['systemAdminPass'] = $systemAdminPass;
 $_POST['mainLanguage'] = "en";
 $_POST['webSiteTitle'] = "AVideo";
-$_POST['webSiteRootURL'] = getURLToApplication();
+$_POST['webSiteRootURL'] = $webSiteRootURL;
 
 include './checkConfiguration.php';
