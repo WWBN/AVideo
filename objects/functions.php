@@ -2131,7 +2131,7 @@ function siteMap() {
     _error_log("siteMap: getAllVideos ".count($rows));
     foreach ($rows as $video) {
         $videos_id = $video['id'];
-        _error_log("siteMap: getAllVideos videos_id {$videos_id} start");
+        //_error_log("siteMap: getAllVideos videos_id {$videos_id} start");
         $source = Video::getSourceFile($video['filename']);
         if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
             $img = $source['url'];
@@ -2181,7 +2181,17 @@ function siteMap() {
     }
     $xml .= '</urlset> ';
     _error_log("siteMap: done ");
-    return preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml));
+    $newXML1 = preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml);
+    if(empty($newXML1)){
+        _error_log("siteMap: pregreplace1 fail ");
+        $newXML1 = $xml;
+    }
+    $newXML2 = preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', $newXML1);
+    if(empty($newXML2)){
+        _error_log("siteMap: pregreplace2 fail ");
+        $newXML2 = $newXML1;
+    }
+    return $newXML2;
 }
 
 function object_to_array($obj) {
