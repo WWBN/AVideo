@@ -2043,11 +2043,11 @@ function isMobile() {
 }
 
 function siteMap() {
+    _error_log("siteMap: start");
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 0);
     global $global, $advancedCustom;
     $date = date('Y-m-d\TH:i:s') . "+00:00";
-
     $xml = '<?xml version="1.0" encoding="UTF-8"?>
     <urlset
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -2093,8 +2093,10 @@ function siteMap() {
         ';
 
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit;
+    _error_log("siteMap: rowCount {$_POST['rowCount']} ");
     $_POST['sort']['modified'] = "DESC";
     $users = User::getAllUsers(true);
+    _error_log("siteMap: getAllUsers ".count($users));
     foreach ($users as $value) {
         $xml .= '        
             <url>
@@ -2111,6 +2113,7 @@ function siteMap() {
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit;
     $_POST['sort']['modified'] = "DESC";
     $rows = Category::getAllCategories();
+    _error_log("siteMap: getAllCategories ".count($rows));
     foreach ($rows as $value) {
         $xml .= '  
             <url>
@@ -2125,6 +2128,7 @@ function siteMap() {
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
+    _error_log("siteMap: getAllVideos ".count($rows));
     foreach ($rows as $video) {
         $videos_id = $video['id'];
         $source = Video::getSourceFile($video['filename']);
