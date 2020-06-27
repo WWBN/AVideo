@@ -19,6 +19,11 @@ if (!User::isAdmin()) {
 }
 $sitemap = siteMap();
 
+if(empty($sitemap)){
+    $obj->msg = "Sitemao content is empty";
+    die(json_encode($obj));
+}
+
 if(!file_put_contents($sitemapFile, $sitemap)){
     $obj->msg = "We could not save the sitemap";
     die(json_encode($obj));
