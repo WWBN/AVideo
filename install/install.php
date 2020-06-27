@@ -23,7 +23,7 @@ while (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
 }
 
 
-$_POST['systemRootPath'] = getPathToApplication();
+$_POST['systemRootPath'] = "/var/www/html/YouPHPTube/";
 $_POST['databaseHost'] = "localhost";
 $_POST['databaseUser'] = $databaseUser;
 $_POST['databasePass'] = $databasePass;
