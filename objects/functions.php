@@ -2131,6 +2131,7 @@ function siteMap() {
     _error_log("siteMap: getAllVideos ".count($rows));
     foreach ($rows as $video) {
         $videos_id = $video['id'];
+        _error_log("siteMap: getAllVideos videos_id {$videos_id}");
         $source = Video::getSourceFile($video['filename']);
         if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
             $img = $source['url'];
@@ -2179,6 +2180,7 @@ function siteMap() {
             ';
     }
     $xml .= '</urlset> ';
+    _error_log("siteMap: done ");
     return preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml));
 }
 
