@@ -2096,7 +2096,7 @@ function siteMap() {
     _error_log("siteMap: rowCount {$_POST['rowCount']} ");
     $_POST['sort']['modified'] = "DESC";
     $users = User::getAllUsers(true);
-    _error_log("siteMap: getAllUsers ".count($users));
+    _error_log("siteMap: getAllUsers " . count($users));
     foreach ($users as $value) {
         $xml .= '        
             <url>
@@ -2113,7 +2113,7 @@ function siteMap() {
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit;
     $_POST['sort']['modified'] = "DESC";
     $rows = Category::getAllCategories();
-    _error_log("siteMap: getAllCategories ".count($rows));
+    _error_log("siteMap: getAllCategories " . count($rows));
     foreach ($rows as $value) {
         $xml .= '  
             <url>
@@ -2128,7 +2128,7 @@ function siteMap() {
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
-    _error_log("siteMap: getAllVideos ".count($rows));
+    _error_log("siteMap: getAllVideos " . count($rows));
     foreach ($rows as $video) {
         $videos_id = $video['id'];
         //_error_log("siteMap: getAllVideos videos_id {$videos_id} start");
@@ -2182,16 +2182,32 @@ function siteMap() {
     $xml .= '</urlset> ';
     _error_log("siteMap: done ");
     $newXML1 = preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml);
-    if(empty($newXML1)){
+    if (empty($newXML1)) {
         _error_log("siteMap: pregreplace1 fail ");
         $newXML1 = $xml;
     }
     $newXML2 = preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', $newXML1);
-    if(empty($newXML2)){
+    if (empty($newXML2)) {
         _error_log("siteMap: pregreplace2 fail ");
         $newXML2 = $newXML1;
     }
-    return $newXML2;
+    $newXML3 = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $newXML2);
+    if (empty($newXML3)) {
+        _error_log("siteMap: pregreplace3 fail ");
+        $newXML3 = $newXML2;
+    }
+    $newXML4 = preg_replace('/[\x00-\x1F\x7F]/', '', $newXML3);
+    if (empty($newXML4)) {
+        _error_log("siteMap: pregreplace4 fail ");
+        $newXML4 = $newXML3;
+    }
+    $newXML5 = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $newXML4);
+    if (empty($newXML5)) {
+        _error_log("siteMap: pregreplace5 fail ");
+        $newXML5 = $newXML4;
+    }
+
+    return $newXML5;
 }
 
 function object_to_array($obj) {
