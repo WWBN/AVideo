@@ -2131,7 +2131,7 @@ function siteMap() {
     _error_log("siteMap: getAllVideos ".count($rows));
     foreach ($rows as $video) {
         $videos_id = $video['id'];
-        _error_log("siteMap: getAllVideos videos_id {$videos_id}");
+        _error_log("siteMap: getAllVideos videos_id {$videos_id} start");
         $source = Video::getSourceFile($video['filename']);
         if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
             $img = $source['url'];
