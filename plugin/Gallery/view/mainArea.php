@@ -97,6 +97,9 @@
                         console.log('Append page: ' + path);
                         lazyImage();
                     });
+                    setTimeout(function () {
+                        lazyImage();
+                    }, 500);
                 });
 
                 function lazyImage() {
