@@ -73,7 +73,7 @@
             ?>
             <div id="categoriesContainer"></div>
             <p class="pagination infiniteScrollPagination">
-                <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?current=1&search=<?php echo getSearchVar(); ?>"></a>
+                <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?tags_id=<?php echo intval(@$_GET['tags_id']); ?>&current=1&search=<?php echo getSearchVar(); ?>"></a>
             </p>
             <div class="scroller-status">
                 <div class="infinite-scroll-request loader-ellips text-center">
@@ -91,10 +91,10 @@
                         history: false
                     });
                     $container.on('request.infiniteScroll', function (event, path) {
-                        console.log('Loading page: ' + path);
+                        //console.log('Loading page: ' + path);
                     });
                     $container.on('append.infiniteScroll', function (event, response, path, items) {
-                        console.log('Append page: ' + path);
+                        //console.log('Append page: ' + path);
                         lazyImage();
                     });
                     setTimeout(function () {
