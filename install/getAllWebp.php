@@ -6,7 +6,7 @@ require_once '../videos/configuration.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-
+$global['limitForUnlimitedVideos'] = -1;
 $videos = video::getAllVideosLight("", false, true);
 $count = 0;
 foreach ($videos as $value) {
