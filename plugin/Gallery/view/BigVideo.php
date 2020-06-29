@@ -67,7 +67,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     <?php
                                     $images = Video::getImageFromFilename($videoRow['filename'], $videoRow['type']);
                                     $imgGif = $images->thumbsGif;
-                                    $poster = $images->poster;
+                                    $poster = isMobile()?$images->thumbsJpg:$images->poster;
                                     ?>
                                     <div class="aspectRatio16_9">
                                         <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $videoRow['title']; ?>" class="thumbsJPG img img-responsive <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" style="height: auto; width: 100%;" id="thumbsJPG<?php echo $videoRow['id']; ?>" />

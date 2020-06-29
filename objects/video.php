@@ -740,7 +740,9 @@ if (!class_exists('Video')) {
                     $sql .= " ORDER BY v.Created DESC ";
                 }
             }
-            $sql .= " LIMIT {$firstClauseLimit}1";
+            if (strpos($sql, 'v.id IN') === false) {
+                $sql .= " LIMIT {$firstClauseLimit}1";
+            }
 //echo $sql, "<br>";//exit;
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);

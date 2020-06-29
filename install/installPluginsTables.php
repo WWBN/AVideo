@@ -62,7 +62,14 @@ if ($option == 1 || $option == 3) {
         array('b5e223db-785b-4436-8f7b-f297860c9be0','ReportVideo','ReportVideo'),
         array('f7596843-51b1-47a0-8bb1-b4ad91f87d6b','TheaterButton','TheaterButton'),
         array('45432a78-d0c6-47f3-8ac4-8fd05f507386','User_Location','User_Location'),
-        array('4c1f4f76-b336-4ddc-a4de-184efe715c09','MobileManager','MobileManager')
+        array('4c1f4f76-b336-4ddc-a4de-184efe715c09','MobileManager','MobileManager'),
+        array('52chata2-3f14-49db-958e-15ccb1a07f0e','Chat2','Chat2'),
+        array('cf145581-7d5e-4bb6-8c12-48fc37c0630d','LiveUsers','LiveUsers'),
+        array('996c9afb-b90e-40ca-90cb-934856180bb9','MP4ThumbsAndGif','MP4ThumbsAndGif'),
+        array('eb6e2808-d876-4488-94cb-2448a6b14e0b','SendRecordedToEncoder','SendRecordedToEncoder'),
+        array('f2hls8c6-9359-4cc1-809f-fac32c8a4333','VideoHLS','VideoHLS'),
+        array('4b9142c0-f0c3-42be-8fe5-a4775111239c','VideoResolutionSwitcher','VideoResolutionSwitcher'),
+        array('28e74f9a-a2ef-4644-86f0-40234ae7c1b5','VideoThumbnails','VideoThumbnails')
     );
     foreach ($EnablePlugins as $value) {
         if ($plugin = Plugin::getOrCreatePluginByName($value[2], 'active')) {

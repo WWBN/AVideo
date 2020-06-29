@@ -321,7 +321,11 @@ $(document).ready(function () {
                 if (!response.error) {
                     swal("Congratulations!", "File created!", "success");
                 } else {
-                    swal("Sorry!", "File NOT created!", "error");
+                    if(response.msg){
+                        swal("Sorry!", response.msg, "error");
+                    }else{
+                        swal("Sorry!", "File NOT created!", "error");
+                    }
                 }
                 modal.hidePleaseWait();
             }

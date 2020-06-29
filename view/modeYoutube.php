@@ -239,14 +239,14 @@ if (!empty($evideo)) {
             $type = 'article';
         }
         $images = Video::getImageFromFilename($video['filename'], $type);
-        $poster = $images->poster;
+        $poster = isMobile()?$images->thumbsJpg:$images->poster;
         if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
             $img = $images->posterPortrait;
             $data = getimgsize($source['path']);
             $imgw = $data[0];
             $imgh = $data[1];
         } else {
-            $img = $images->poster;
+            $img = isMobile()?$images->thumbsJpg:$images->poster;
         }
     } else {
         $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";

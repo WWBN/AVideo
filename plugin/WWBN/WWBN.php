@@ -32,7 +32,7 @@ class WWBN extends PluginAbstract {
         global $global;
         return '
             <a href="'.$global['webSiteRootURL'].'plugin/WWBN/page/info.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-info-circle"></i> Info</a>
-            <a href="'.$global['webSiteRootURL'].'plugin/WWBN/page/wwbn_signup.php?webSiteRootURL='.urlencode($global['webSiteRootURL']).'" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-cog"></i> Set up</a>';
+            <a href="'.$global['webSiteRootURL'].'plugin/WWBN/page/wwbn_signup.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-cog"></i> Set up</a>';
     }
 
 }
