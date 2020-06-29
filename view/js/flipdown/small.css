@@ -1,0 +1,68 @@
+.flipdown {
+    width: 312px;
+    height: 70px;
+}
+
+.flipdown .rotor {
+    font-size: 2.2rem;
+    margin-right: 3px;
+}
+
+.flipdown .rotor,
+.flipdown .rotor-leaf,
+.flipdown .rotor-leaf-front,
+.flipdown .rotor-leaf-rear,
+.flipdown .rotor-top,
+.flipdown .rotor-bottom,
+.flipdown .rotor:after {
+    width: 30px;
+}
+
+.flipdown .rotor-group {
+    padding-right: 20px;
+}
+
+.flipdown .rotor-group:last-child {
+    padding-right: 0px;
+}
+
+.flipdown .rotor-group-heading:before {
+    font-size: 0.8rem;
+    height: 20px;
+    line-height: 20px;
+}
+
+.flipdown .rotor-group:nth-child(n+2):nth-child(-n+3):before,
+.flipdown .rotor-group:nth-child(n+2):nth-child(-n+3):after {
+    left: 69px;
+}
+
+.flipdown .rotor-group:nth-child(n+2):nth-child(-n+3):before {
+    bottom: 13px;
+    height: 8px;
+    width: 8px;
+}
+
+.flipdown .rotor-group:nth-child(n+2):nth-child(-n+3):after {
+    bottom: 29px;
+    height: 8px;
+    width: 8px;
+}
+
+.flipdown .rotor-leaf-front,
+.flipdown .rotor-top {
+    line-height: 50px;
+}
+
+.flipdown .rotor-leaf,
+.flipdown .rotor {
+    height: 50px;
+}
+
+.flipdown .rotor-leaf-front,
+.flipdown .rotor-leaf-rear,
+.flipdown .rotor-top,
+.flipdown .rotor-bottom,
+.flipdown .rotor:after {
+    height: 25px;
+}
