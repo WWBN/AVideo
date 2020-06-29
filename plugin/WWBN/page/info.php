@@ -51,6 +51,10 @@ if(empty($obj)){
 			        				When registration approved by the admin, you will receive an email like this; <br>
 			        				<img src="../assets/images/activated.PNG"><br><br>
 			        			</li>
+			        			<li>
+			        				Signin to view the indexing module/page <br>
+			        				<img src="../assets/images/signin.PNG"><br><br>
+			        			</li>
 			        		</ul>
 			        	</li>
 			        	<li>
@@ -63,11 +67,33 @@ if(empty($obj)){
 			        		</ul>
 			        	</li>
 			        	<li>
-			        		<b> Submitting index of your platfor</b> <br><br>
+			        		<b> Submitting index of your platform</b> <br><br>
 			        		<ul>
 			        			<li>
-			        				
+			        				Click the menu <b>Network Index</b> in the sidebar, then click the <b>plus sign [+] button</b> on the right side of <b>MY INDEX LIST</b>.<br>
+			        				<img src="../assets/images/network_index_module.PNG" width="100%"><br><br>
 			        			</li>
+			        			<li>
+			        				Fill-up the information for your platform
+			        				<img src="../assets/images/submit_index.PNG"><br><br>
+			        			</li>
+			        		</ul>
+			        	</li>
+			        	<li>
+			        		<b> Index data</b> <br><br>
+			        		<ul>
+			        			<li>
+			        				This will be look like when successfully submitted an index; <br>
+			        				<b>1</b> - Edit button, to edit the content type and restriction <br>
+			        				<b>2</b> - Link button, this will redirect to your platform (URL) <br>
+			        				<b>3</b> - Deactivate button, this will remove your index<br>
+			        				<b>4</b> - Active/Deactivated, Active means your index has been approved and Deactivated means not <br>
+			        				<img src="../assets/images/index_info.PNG" width="100%"><br><br>
+			        			</li>
+			        			<!-- <li>
+			        				Updating data <br>
+			        				<img src="../assets/images/index_info.PNG" width="100%"><br><br>
+			        			</li> -->
 			        		</ul>
 			        	</li>
 			        </ol>
