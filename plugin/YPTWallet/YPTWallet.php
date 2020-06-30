@@ -228,6 +228,9 @@ class YPTWallet extends PluginAbstract {
 
     public function transferBalanceToSiteOwner($users_id_from, $value, $description = "", $forceTransfer = false) {
         $obj = $this->getDataObject();
+        if(empty($obj->manualWithdrawFundsTransferToUserId)){
+            _error_log("YPTWallet::transferBalanceToSiteOwner site owner is not defined in the plugin, define it on the option manualWithdrawFundsTransferToUserId", AVideoLog::$ERROR);
+        }
         return $this->transferBalance($users_id_from, $obj->manualWithdrawFundsTransferToUserId, $value, $description, $forceTransfer);
     }
 
@@ -271,7 +274,7 @@ class YPTWallet extends PluginAbstract {
         $balance = $wallet->getBalance();
         $newBalance = $balance - $value;
         if ($newBalance < 0) {
-            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value");
+            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value (Balance: {$balance}) (New Balance: {$newBalance})");
             return false;
         }
         $identificationFrom = User::getNameIdentificationById($users_id_from);

@@ -124,7 +124,7 @@ class API extends PluginAbstract {
         $obj->rows = $rows;
         return new ApiObject("", false, $obj);
     }
-    
+
     /**
      * @param type $parameters 
      * 'APISecret' to list all videos
@@ -133,40 +133,40 @@ class API extends PluginAbstract {
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&playlists_id=1&index=2&APISecret={APISecret}
      * @return \ApiObject
      */
-    public function get_api_video_from_program($parameters){
+    public function get_api_video_from_program($parameters) {
         global $global;
         $playlists = AVideoPlugin::loadPlugin("PlayLists");
-        if(empty($parameters['playlists_id'])){
+        if (empty($parameters['playlists_id'])) {
             return new ApiObject("Playlist ID is empty", true, $parameters);
         }
         $videos = PlayLists::getOnlyVideosAndAudioIDFromPlaylistLight($parameters['playlists_id']);
-        
-        if(empty($videos)){
+
+        if (empty($videos)) {
             return new ApiObject("There are no videos for this playlist", true, $parameters);
         }
-        
-        if(empty($parameters['index'])){
+
+        if (empty($parameters['index'])) {
             $parameters['index'] = 0;
         }
-        
-        if(empty($videos[$parameters['index']])){
+
+        if (empty($videos[$parameters['index']])) {
             $video = $videos[0];
-        }else{
+        } else {
             $video = $videos[$parameters['index']];
         }
-        
-        $parameters['nextIndex'] = $parameters['index']+1;
-        
-        if(empty($videos[$parameters['nextIndex']])){
+
+        $parameters['nextIndex'] = $parameters['index'] + 1;
+
+        if (empty($videos[$parameters['nextIndex']])) {
             $parameters['nextIndex'] = 0;
         }
         $videoPath = Video::getHigherVideoPathFromID($video['id']);
         $parameters['videos_id'] = $video['id'];
         $parameters['path'] = $videoPath;
-        
+
         return new ApiObject("", false, $parameters);
     }
-    
+
     /**
      * @param type $parameters 
      * 'APISecret' to list all videos
@@ -174,13 +174,13 @@ class API extends PluginAbstract {
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&APISecret={APISecret}
      * @return \ApiObject
      */
-    public function get_api_video_file($parameters){
+    public function get_api_video_file($parameters) {
         global $global;
         $obj = $this->startResponseObject($parameters);
         $obj->video_file = Video::getHigherVideosPathsFromID($videos_id);
         return new ApiObject("", false, $obj);
     }
-    
+
     /**
      * @param type $parameters 
      * ['APISecret' to list all videos]
@@ -430,12 +430,12 @@ class API extends PluginAbstract {
             $obj->photo = User::getPhoto($value['id']);
             $obj->channelLink = User::getChannelLink($value['id']);
             $obj->name = User::getNameIdentificationById($value['id']);
-            
+
             $list[] = $obj;
         }
         return new ApiObject("", false, $list);
     }
-    
+
     /**
      * @param type $parameters
      * Return all Programs (Playlists) on this site
@@ -463,7 +463,7 @@ class API extends PluginAbstract {
         }
         return new ApiObject("", false, $list);
     }
-    
+
     /**
      * @param type $parameters
      * Return all categories on this site
@@ -713,6 +713,118 @@ class API extends PluginAbstract {
         $_POST['add'] = $add;
         $_POST['playlists_id'] = PlayLists::getFavoriteIdFromUser(User::getId());
         require_once $global['systemRootPath'] . 'objects/playListAddVideo.json.php';
+        exit;
+    }
+
+    /**
+     * @param type $parameters
+     * Try this API <a href="../Chat2/api.html">here</a>
+     * 'message' the message for the chat
+     * ['users_id'] User's ID to what this message will be sent to (send the users_id or room_users_id)
+     * ['room_users_id'] User's ID from the channel where this message will be sent to (send the users_id or room_users_id)
+     * 'message' URL encoded message
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&message=HelloWorld&users_id=2&room_users_id=4&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function set_api_chat2_message($parameters) {
+        global $global;
+        $plugin = AVideoPlugin::loadPluginIfEnabled("Chat2");
+        if (empty($plugin)) {
+            return new ApiObject("Plugin disabled");
+        }
+        if (!User::isLogged()) {
+            return new ApiObject("User must be logged");
+        }
+        $_POST['message'] = $parameters['message'];
+        $_GET['users_id'] = $parameters['users_id'];
+        $_GET['room_users_id'] = $parameters['room_users_id'];
+        include $global['systemRootPath'] . 'plugin/Chat2/sendMessage.json.php';
+        exit;
+    }
+    
+    
+    /**
+     * @param type $parameters
+     * The sample here will return 10 messages
+     * Try this API <a href="../Chat2/api.html">here</a>
+     * ['to_users_id'] User's ID where this message was private sent to
+     * ['lower_then_id'] Chat message ID to filter the message search. will only return messages before that chat id
+     * ['greater_then_id'] Chat message ID to filter the message search. will only return messages after that chat id
+     * 'message' URL encoded message
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&greater_then_id=88&lower_then_id=98&to_users_id=2&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function get_api_chat2_chat($parameters) {
+        global $global;
+        $plugin = AVideoPlugin::loadPluginIfEnabled("Chat2");
+        if (empty($plugin)) {
+            return new ApiObject("Plugin disabled");
+        }
+        if (!User::isLogged()) {
+            return new ApiObject("User must be logged");
+        }
+        $_GET['to_users_id'] = $parameters['to_users_id'];
+        $_GET['lower_then_id'] = $parameters['lower_then_id'];
+        
+        if(!empty($parameters['greater_then_id'])){
+            if(empty($_SESSION['chatLog'])){
+                $_SESSION['chatLog'] = array();
+            }
+            if(empty($_SESSION['chatLog'][$_GET['to_users_id']])){
+                $_SESSION['chatLog'][$_GET['to_users_id']] = array();
+            }
+            $_SESSION['chatLog'][$_GET['to_users_id']][0]['id'] = $parameters['greater_then_id'];
+        }
+        
+        include $global['systemRootPath'] . 'plugin/Chat2/getChat.json.php';
+        exit;
+    }
+    
+    
+    
+    /**
+     * @param type $parameters
+     * The sample here will return 10 messages id greater then 88 and lower then 98
+     * Try this API <a href="../Chat2/api.html">here</a>
+     * ['room_users_id'] User's ID (channel) where this message was public sent to
+     * ['lower_then_id'] Chat message ID to filter the message search. will only return messages before that chat id
+     * ['greater_then_id'] Chat message ID to filter the message search. will only return messages after that chat id
+     * 'message' URL encoded message
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&greater_then_id=88&lower_then_id=98&room_users_id=2&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function get_api_chat2_room($parameters) {
+        global $global;
+        $plugin = AVideoPlugin::loadPluginIfEnabled("Chat2");
+        if (empty($plugin)) {
+            return new ApiObject("Plugin disabled");
+        }
+        if (!User::isLogged()) {
+            return new ApiObject("User must be logged");
+        }
+        $_GET['room_users_id'] = $parameters['room_users_id'];
+        $_GET['lower_then_id'] = $parameters['lower_then_id'];
+        
+        if(!empty($parameters['greater_then_id'])){
+            if(empty($_SESSION['chatLog'])){
+                $_SESSION['chatLog'] = array();
+            }
+            if(empty($_SESSION['chatLog'][$_GET['to_users_id']])){
+                $_SESSION['chatLog'][$_GET['to_users_id']] = array();
+            }
+            $_SESSION['chatLog'][$_GET['to_users_id']][0]['id'] = $parameters['greater_then_id'];
+        }
+        
+        include $global['systemRootPath'] . 'plugin/Chat2/getRoom.json.php';
         exit;
     }
 

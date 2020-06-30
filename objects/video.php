@@ -1327,6 +1327,13 @@ if (!class_exists('Video')) {
             if (!empty($_GET['catName'])) {
                 $cn .= ", c.clean_name as cn";
             }
+            if (AVideoPlugin::isEnabledByName("VideoTags")) {
+                if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
+                    TimeLogStart("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})");
+                    $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
+                    TimeLogEnd("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})", __LINE__);
+                }
+            }
 
             $sql = "SELECT v.users_id, v.type, v.id, v.title,v.description, c.name as category {$cn} "
                     . "FROM videos v "
@@ -1340,6 +1347,9 @@ if (!class_exists('Video')) {
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL();
+            }
+            if (!empty($videosArrayId) && is_array($videosArrayId)) {
+                $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
             if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
@@ -1380,7 +1390,17 @@ if (!class_exists('Video')) {
 
             $sql .= AVideoPlugin::getVideoWhereClause();
 
-            $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name'));
+
+            if (!empty($_POST['searchPhrase'])) {
+                if (AVideoPlugin::isEnabledByName("VideoTags")) {
+                    $sql .= " AND (";
+                    $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
+                    $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), "OR");
+                    $sql .= ")";
+                } else {
+                    $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
+                }
+            }
 
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 ";

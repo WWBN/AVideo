@@ -72,6 +72,7 @@ class Wallet extends ObjectYPT {
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $row = $res->fetch_assoc();
+            $res->free();// do not cache the result
         } else {
             $row = false;
         }
