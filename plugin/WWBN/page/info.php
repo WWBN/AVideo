@@ -61,7 +61,7 @@ if(empty($obj)){
 			        		<b>Encountering Error</b> <br><br>
 			        		<ul>
 			        			<li>
-			        				Email is already registered. Possible reason is you have unsubscribe your account or your account isn't approve yet by the admin, just click <b>click here</b> (#2) to request/notify the admin about your registration again. <br>
+			        				Email is already registered. Possible reason is your account isn't approve yet by the admin, just click the <b>click here</b> link (#2) to request/notify the admin about your registration again if your registration is taking more days. <br>
 			        				<img src="../assets/images/email_already_registered.PNG"><br><br>
 			        			</li>
 			        		</ul>
@@ -74,7 +74,7 @@ if(empty($obj)){
 			        				<img src="../assets/images/network_index_module.PNG" width="100%"><br><br>
 			        			</li>
 			        			<li>
-			        				Fill-up the information for your platform
+			        				Change the two fields depends on what you like, only the Content Type and Country Restriction will be editable and the other four fields are auto generated.
 			        				<img src="../assets/images/submit_index.PNG"><br><br>
 			        			</li>
 			        		</ul>
@@ -84,10 +84,10 @@ if(empty($obj)){
 			        		<ul>
 			        			<li>
 			        				This will be look like when successfully submitted an index; <br>
-			        				<b>1</b> - Edit button, to edit the content type and restriction <br>
-			        				<b>2</b> - Link button, this will redirect to your platform (URL) <br>
-			        				<b>3</b> - Deactivate button, this will remove your index<br>
-			        				<b>4</b> - Active/Deactivated, Active means your index has been approved and Deactivated means not <br>
+			        				<b>1</b> - Edit button, to edit the content type and restriction fields <br>
+			        				<b>2</b> - Link button, this will be the redirect link to your platform (URL) <br>
+			        				<b>3</b> - Deactivate/Re-activate button, deactivating will remove your index to all affilates connected with and the re-activate will send an notification for activation similar when submitting new index<br>
+			        				<b>4</b> - Active/Deactivated, Active means your index can be assigned to any affiliates and Deactivated means your index is not available to be index. <br>
 			        				<img src="../assets/images/index_info.PNG" width="100%"><br><br>
 			        			</li>
 			        			<!-- <li>
