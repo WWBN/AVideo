@@ -96,8 +96,9 @@ abstract class PluginAbstract {
     }
 
     public function getDataObject() {
-        if (empty(PluginAbstract::$dataObject[$this->getUUID()])) {
-            $obj = Plugin::getPluginByUUID($this->getUUID());
+        $uuid = $this->getUUID();
+        if (empty(PluginAbstract::$dataObject[$uuid])) {
+            $obj = Plugin::getPluginByUUID($uuid);
             //echo $obj['object_data'];
             $o = array();
             if (!empty($obj['object_data'])) {

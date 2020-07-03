@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveTransmitionHistory extends ObjectYPT {
 
-    protected $id, $title, $description, $key, $created, $modified, $users_id;
+    protected $id, $title, $description, $key, $created, $modified, $users_id, $live_servers_id;
 
     static function getSearchFieldsNames() {
         return array('title', 'description');
@@ -76,6 +76,14 @@ class LiveTransmitionHistory extends ObjectYPT {
         $this->users_id = $users_id;
     }
     
+    function getLive_servers_id() {
+        return intval($this->live_servers_id);
+    }
+
+    function setLive_servers_id($live_servers_id) {
+        $this->live_servers_id = intval($live_servers_id);
+    }
+    
     function getAllFromUser($users_id){
         global $global;
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE users_id = ? ";
@@ -115,6 +123,11 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public function save() {
         AVideoPlugin::onLiveStream($this->users_id);
+        
+        if(empty($this->live_servers_id)){
+            $this->live_servers_id = 'NULL';
+        }
+        
         return parent::save();
     }
     

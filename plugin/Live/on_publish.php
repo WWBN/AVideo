@@ -56,6 +56,7 @@ if (!empty($_GET['p'])) {
             $lth->setDescription($obj->row['description']);
             $lth->setKey($_POST['name']);
             $lth->setUsers_id($user->getBdId());
+            $lth->setLive_servers_id(Live_servers::getServerIdFromRTMPHost($url));
             _error_log("NGINX ON Publish saving LiveTransmitionHistory");
             $lth->save();
             _error_log("NGINX ON Publish saved LiveTransmitionHistory");

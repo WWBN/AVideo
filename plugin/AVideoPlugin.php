@@ -325,14 +325,30 @@ class AVideoPlugin {
     }
 
     static function getObjectData($name) {
+        return self::getDataObject($name);
+    }
+    
+    static function getDataObject($name) {
+        global $pluginGetDataObject;
+        if(!isset($pluginGetDataObject)){
+            $pluginGetDataObject = array();
+        }
+        if(!empty($pluginGetDataObject[$name])){
+            return $pluginGetDataObject[$name];
+        }
         $p = static::loadPlugin($name);
         if ($p) {
-            return $p->getDataObject();
+            $pluginGetDataObject[$name] = $p->getDataObject();
+            return $pluginGetDataObject[$name];
         }
         return false;
     }
 
     static function getObjectDataIfEnabled($name) {
+        return self::getDataObjectIfEnabled($name);
+    }
+
+    static function getDataObjectIfEnabled($name) {
         $p = static::loadPlugin($name);
         if ($p) {
             $uuid = $p->getUUID();

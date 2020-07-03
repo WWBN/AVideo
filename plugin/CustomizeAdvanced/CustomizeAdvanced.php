@@ -204,10 +204,10 @@ class CustomizeAdvanced extends PluginAbstract {
         if ($obj->disableNavBarInsideIframe) {
             $content .= '<script>$(function () {if(inIframe()){$("#mainNavBar").fadeOut();}});</script>';
         }
-        if ($obj->autoHideNavbar) {
+        if ($obj->autoHideNavbar && !isEmbed()) {
             $content .= '<script>$(function () {setTimeout(function(){$("#mainNavBar").autoHidingNavbar();},5000);});</script>';
         }
-        if ($obj->autoHideNavbarInSeconds) {
+        if ($obj->autoHideNavbarInSeconds && !isEmbed()) {
             $content .= '<script>'
                     . 'var autoHidingNavbarTimeoutMiliseconds = '.intval($obj->autoHideNavbarInSeconds*1000).';'
                     .file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideNavbarInSeconds.js')
