@@ -17,6 +17,7 @@ $obj->version = $config->getVersion();
 if(empty($_GET['version'])){
     $obj->videos = array();
     //$_GET['modified'] = "2018-03-13 15:46:57";
+    $_POST['rowCount'] = 100;
     $videos = Video::getAllVideos();
 
     foreach ($videos as $key => $value) {
