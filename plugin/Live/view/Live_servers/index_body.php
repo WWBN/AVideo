@@ -132,9 +132,9 @@ $obj = AVideoPlugin::getObjectData("Live");
                             <hr>
                             <code>
                                 
-                            on_publish <?php echo $global['webSiteRootURL']; ?>plugin/Live/on_publish.php;<br>
-                            on_play <?php echo $global['webSiteRootURL']; ?>plugin/Live/on_play.php;<br>
-                            on_record_done <?php echo $global['webSiteRootURL']; ?>plugin/Live/on_record_done.php;<br>
+                            on_publish <?php echo str_replace("https:", "http:", $global['webSiteRootURL']); ?>plugin/Live/on_publish.php;<br>
+                            on_play <?php echo str_replace("https:", "http:", $global['webSiteRootURL']); ?>plugin/Live/on_play.php;<br>
+                            on_record_done <?php echo str_replace("https:", "http:", $global['webSiteRootURL']); ?>plugin/Live/on_record_done.php;<br>
 
                             </code>
                         </div>
