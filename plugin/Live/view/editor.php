@@ -1,10 +1,6 @@
 <?php
 require_once '../../../videos/configuration.php';
 AVideoPlugin::loadPlugin("Live");
-if (!PayPerview::canCreatePPV()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage this plugin"));
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
