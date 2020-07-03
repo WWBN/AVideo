@@ -85,21 +85,27 @@ if (empty($channelName)) {
                 <div class="panel-heading">
                     <ul class="nav nav-tabs">
                         <?php
-                        $servers = Live::getAllServers();
-                        $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
-                        foreach ($servers as $key => $value) {
-                            $active = "";
-                            if ($_REQUEST['live_servers_id']) {
-                                if ($_REQUEST['live_servers_id'] == $value['id']) {
+                        if(!$obj->useLiveServers){
+                            ?>
+                            <li class="active"><a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=0"><?php echo __("Local Server"); ?></a></li>
+                            <?php
+                        }else{
+                            $servers = Live::getAllServers();
+                            $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
+                            foreach ($servers as $key => $value) {
+                                $active = "";
+                                if ($_REQUEST['live_servers_id']) {
+                                    if ($_REQUEST['live_servers_id'] == $value['id']) {
+                                        $active = "active";
+                                    }
+                                } else if ($key == 0) {
+                                    $_REQUEST['live_servers_id'] = $value['id'];
                                     $active = "active";
                                 }
-                            } else if ($key == 0) {
-                                $_REQUEST['live_servers_id'] = $value['id'];
-                                $active = "active";
+                                ?>
+                                <li class="<?php echo $active; ?>"><a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></li>
+                                <?php
                             }
-                            ?>
-                            <li class="<?php echo $active; ?>"><a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></li>
-                            <?php
                         }
                         ?>
                     </ul>
