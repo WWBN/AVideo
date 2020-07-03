@@ -3401,7 +3401,7 @@ function _isWritable($dir){
         return false;
     }
     $tmpFile = "{$dir}". uniqid();
-    $bytes = file_put_contents($tmpFile, time());
+    $bytes = @file_put_contents($tmpFile, time());
     @unlink($tmpFile);
     return !empty($bytes);
 }
