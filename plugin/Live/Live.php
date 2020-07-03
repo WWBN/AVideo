@@ -401,7 +401,7 @@ class Live extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        return '<a href="plugin/Live/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit Live Servers</a>';
+        return '<a href="plugin/Live/view/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit Live Servers</a>';
     }
 
     static function getStats() {
