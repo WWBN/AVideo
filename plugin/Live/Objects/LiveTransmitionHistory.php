@@ -122,11 +122,11 @@ class LiveTransmitionHistory extends ObjectYPT {
     }
 
     public function save() {
-        AVideoPlugin::onLiveStream($this->users_id);
-        
         if(empty($this->live_servers_id)){
             $this->live_servers_id = 'NULL';
         }
+        
+        AVideoPlugin::onLiveStream($this->users_id, $this->live_servers_id);
         
         return parent::save();
     }

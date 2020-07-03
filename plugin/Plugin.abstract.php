@@ -408,7 +408,7 @@ abstract class PluginAbstract {
         return null;
     }
 
-    public function onLiveStream($users_id) {
+    public function onLiveStream($users_id, $live_servers_id) {
         return null;
     }
 
