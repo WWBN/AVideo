@@ -170,6 +170,11 @@ class Live extends PluginAbstract {
         $o = AVideoPlugin::getObjectData("Live");
         $playerServer = self::getPlayerServer();
         $live_servers_id = self::getLiveServersIdRequest();
+        $liveServer = new Live_servers($live_servers_id);
+        if ($liveServer->getStats_url()) {
+            $o->protectLive = $liveServer->getProtectLive();
+            $o->useAadaptiveMode = $liveServer->getUseAadaptiveMode();
+        }
         if ($o->protectLive) {
             return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$live_servers_id}&uuid=" . encryptString($uuid);
         } else if ($o->useAadaptiveMode) {
