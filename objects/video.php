@@ -301,6 +301,7 @@ if (!class_exists('Video')) {
             }
             $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
+                _error_log("Video::save ({$this->title}) Saved id = {$insert_row} ");
                 Category::clearCacheCount();
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
@@ -331,7 +332,7 @@ if (!class_exists('Video')) {
                 self::deleteThumbs($this->filename, true);
                 return $id;
             } else {
-                _error_log($sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
+                _error_log('Video::save '.$sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
                 return false;
             }
         }
