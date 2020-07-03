@@ -2465,7 +2465,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            _error_log("SEND To QUEUE: " . print_r($postFields, true));
+            _error_log("SEND To QUEUE: ($target) " . json_encode($postFields));
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $target);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
