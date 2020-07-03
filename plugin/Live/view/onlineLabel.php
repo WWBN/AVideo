@@ -5,16 +5,26 @@ $live_servers_id = Live::getCurrentLiveServersId();
 <script>
 
     function isOfflineVideo() {
-        if (player.readyState()) {
-            var uri = player.tech_.hls.selectPlaylist().uri;
-            if (uri.includes("loopBGHLS/res")) {
-                return true;
+        <?php
+        if(isMobile()){
+            ?>
+                return !$('#liveViewStatus<?php echo $live_servers_id; ?>').hasClass('isOnline');
+            <?php
+        }else{
+            ?>
+            if (player.readyState()) {
+                var uri = player.tech_.hls.selectPlaylist().uri;
+                if (uri.includes("loopBGHLS/res")) {
+                    return true;
+                }
+                if (player.tech_.hls.playlists.media_.segments[0].resolvedUri.includes(".ts?seq=")) {
+                    return true;
+                }
+                return false;
             }
-            if (player.tech_.hls.playlists.media_.segments[0].resolvedUri.includes(".ts?seq=")) {
-                return true;
-            }
-            return false;
+            <?php
         }
+        ?>
         return true;
     }
     var playCorrectSource<?php echo $live_servers_id; ?>Timout;
