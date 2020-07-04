@@ -487,6 +487,7 @@ class Live extends PluginAbstract {
         $obj->msg = "OFFLINE";
         $obj->nclients = 0;
         $obj->applications = array();
+        $obj->hidden_applications = array();
         $obj->name = $_REQUEST['name'];
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         $p = AVideoPlugin::loadPlugin("Live");
@@ -528,6 +529,7 @@ class Live extends PluginAbstract {
                     $obj->msg = "ONLINE";
                 }
                 if (empty($row) || empty($row['public'])) {
+                    $obj->hidden_applications[] = "{$value->name} is set to not be listed";
                     continue;
                 }
 
@@ -543,6 +545,7 @@ class Live extends PluginAbstract {
 
                 $u = new User($row['users_id']);
                 if ($u->getStatus() !== 'a') {
+                    $obj->hidden_applications[] = "{$value->name} the user is inactive";
                     continue;
                 }
 
