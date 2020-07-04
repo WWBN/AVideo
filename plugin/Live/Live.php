@@ -505,9 +505,12 @@ class Live extends PluginAbstract {
                 
                 $stream = $application->live->stream;
                 if(empty($application->live->stream->name) && !empty($application->live->stream[0]->name)){
-                    $stream = $application->live->stream[0];
+                    foreach ($application->live->stream as $stream) {
+                        $lifeStream[] = $stream;
+                    }
+                }else{
+                    $lifeStream[] = $application->live->stream;
                 }
-                $lifeStream[] = $stream;
             }
         }
 
