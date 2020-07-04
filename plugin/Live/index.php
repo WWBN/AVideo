@@ -85,27 +85,53 @@ if (empty($channelName)) {
                 <div class="panel-heading">
                     <ul class="nav nav-tabs">
                         <?php
-                        if(!$obj->useLiveServers){
+                        $activeServerFound = false;
+                        if (!$obj->useLiveServers) {
+                            $activeServerFound = true;
                             ?>
-                            <li class="active"><a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=0"><?php echo __("Local Server"); ?></a></li>
+                            <li class="active">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=0">
+                                    <i class="fas fa-broadcast-tower"></i> <?php echo __("Local Server"); ?>
+                                </a>
+                            </li>
                             <?php
-                        }else{
+                        } else {
                             $servers = Live::getAllServers();
                             $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
                             foreach ($servers as $key => $value) {
                                 $active = "";
                                 if ($_REQUEST['live_servers_id']) {
                                     if ($_REQUEST['live_servers_id'] == $value['id']) {
+                                        $activeServerFound = true;
                                         $active = "active";
                                     }
                                 } else if ($key == 0) {
                                     $_REQUEST['live_servers_id'] = $value['id'];
+                                    $activeServerFound = true;
                                     $active = "active";
                                 }
                                 ?>
-                                <li class="<?php echo $active; ?>"><a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=<?php echo $value['id']; ?>"><?php echo $value['name']; ?></a></li>
+                                <li class="<?php echo $active; ?>">
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=<?php echo $value['id']; ?>">
+                                        <i class="fas fa-broadcast-tower"></i> <?php echo $value['name']; ?>
+                                    </a>
+                                </li>
                                 <?php
                             }
+                            if (User::isAdmin()) {
+                                ?>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/editor.php" class="btn btn-primary pull-right"><i class="fa fa-edit"></i> Edit Live Servers</a>
+                                <?php
+                            }
+                        }
+                        if (empty($activeServerFound)) {
+                            ?>
+                            <li>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/editor.php" class="btn btn-danger">
+                                    <i class="fas fa-exclamation-triangle"></i> <?php echo __("Server not found or inactive"); ?>
+                                </a>
+                            </li>
+                            <?php
                         }
                         ?>
                     </ul>

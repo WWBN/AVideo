@@ -146,6 +146,9 @@ $obj = AVideoPlugin::getObjectData("Live");
 </div>
 <div id="Live_serversbtnModelLinks" style="display: none;">
     <div class="btn-group pull-right">
+        <button href="" class="go_Live_servers btn btn-primary btn-xs">
+            <i class="fa fa-circle"></i>
+        </button>
         <button href="" class="edit_Live_servers btn btn-default btn-xs">
             <i class="fa fa-edit"></i>
         </button>
@@ -276,6 +279,12 @@ $obj = AVideoPlugin::getObjectData("Live");
             $('#Live_serversuseAadaptiveMode').val(data.useAadaptiveMode);
             $('#Live_serversprotectLive').val(data.protectLive);
             $('#Live_serversgetRemoteFile').val(data.getRemoteFile);
+        });
+        $('#Live_serversTable').on('click', 'button.go_Live_servers', function (e) {
+            e.preventDefault();
+            var tr = $(this).closest('tr')[0];
+            var data = Live_serverstableVar.row(tr).data();
+            document.location = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id="+data.id;
         });
     });
 </script>

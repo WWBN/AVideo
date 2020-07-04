@@ -178,4 +178,13 @@ class Live_servers extends ObjectYPT {
         return $id;
     }
 
+    public function delete() {
+        
+        if(!empty($this->id)){
+            LiveTransmitionHistory::deleteAllFromLiveServer($this->id);
+        }
+        
+        return parent::delete();
+    }
+    
 }
