@@ -108,7 +108,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
                     $('#onlineApplications').text(response.applications.lenght);
                 }
                 if(response.error){
-                    var timeout = 2000;
+                    var timeout = 5000;
                 }
                 setTimeout(function () {
                     getStats<?php echo $live_servers_id; ?>();
