@@ -469,6 +469,9 @@ class Live extends PluginAbstract {
     static function _getStats($live_servers_id = 0) {
         global $global, $_getStats;
         if (empty($_REQUEST['name'])) {
+            _error_log("Live::_getStats {$live_servers_id} GET ".json_encode($_GET));
+            _error_log("Live::_getStats {$live_servers_id} POST ".json_encode($_POST));
+            _error_log("Live::_getStats {$live_servers_id} REQUEST ".json_encode($_REQUEST));
             $_REQUEST['name'] = "undefined";
         }
         if(!empty($_getStats[$live_servers_id][$_REQUEST['name']])){
