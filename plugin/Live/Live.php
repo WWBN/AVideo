@@ -478,8 +478,7 @@ class Live extends PluginAbstract {
             $_REQUEST['name'] = "undefined";
         }
         if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']])) {
-            $_getStats[$live_servers_id][$_REQUEST['name']] = $_REQUEST['name'];
-            //_error_log("Live::_getStats cached result {$_REQUEST['name']} " . json_encode($_getStats[$live_servers_id][$_REQUEST['name']]));
+            _error_log("Live::_getStats cached result {$_REQUEST['name']} " . json_encode($_getStats[$live_servers_id][$_REQUEST['name']]));
             return $_getStats[$live_servers_id][$_REQUEST['name']];
         }
         session_write_close();
@@ -566,7 +565,7 @@ class Live extends PluginAbstract {
         $appArray = AVideoPlugin::getLiveApplicationArray();
         $obj->applications = array_merge($obj->applications, $appArray);
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
-        //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
+        _error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         return $obj;
     }
 
