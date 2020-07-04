@@ -477,12 +477,10 @@ class Live extends PluginAbstract {
         $obj->msg = "OFFLINE";
         $obj->nclients = 0;
         $obj->applications = array();
-        if (empty($_POST['name']) && !empty($_GET['name'])) {
-            $_POST['name'] = $_GET['name'];
-        } else if (empty($_POST['name'])) {
-            $_POST['name'] = "undefined";
+        if (empty($_REQUEST['name'])) {
+            $_REQUEST['name'] = "undefined";
         }
-        $obj->name = $_POST['name'];
+        $obj->name = $_REQUEST['name'];
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         $p = AVideoPlugin::loadPlugin("Live");
         $xml = $p->getStatsObject($live_servers_id);
@@ -519,7 +517,7 @@ class Live extends PluginAbstract {
         foreach ($lifeStream as $value) {
             if (!empty($value->name)) {
                 $row = LiveTransmition::keyExists($value->name);
-                if (!empty($row) && $value->name === $_POST['name']) {
+                if (!empty($row) && $value->name === $obj->name) {
                     $obj->msg = "ONLINE";
                 }
                 if (empty($row) || empty($row['public'])) {
@@ -547,7 +545,7 @@ class Live extends PluginAbstract {
                 $photo = $u->getPhotoDB();
                 $UserPhoto = $u->getPhoto();
                 $obj->applications[] = array("key" => $value->name, "users" => $users, "name" => $userName, "user" => $user, "photo" => $photo, "UserPhoto" => $UserPhoto, "title" => $row['title'], 'channelName' => $channelName);
-                if ($value->name === $_POST['name']) {
+                if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;
                     $obj->msg = (!$obj->error) ? "ONLINE" : "Waiting for Streamer";
                     $obj->stream = $value;
