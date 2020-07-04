@@ -97,7 +97,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
             type: 'post',
             success: function (response) {
                 if(response.name == "<?php echo $streamName; ?>"){
-                    if (!response.error && response.msg === "ONLINE") {
+                    if (response.msg === "ONLINE") {
                         $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('isOnline');
                     } else {
                         $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('isOnline');
