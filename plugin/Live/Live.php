@@ -426,7 +426,7 @@ class Live extends PluginAbstract {
         $getLiveServersIdRequest = self::getLiveServersIdRequest();
         foreach ($ls as $value) {
             $server = Live_servers::getStatsFromId($value['id']);
-            if(!empty($server)){
+            if(!empty($server) || !is_object($server)){
                 $server->live_servers_id = $value['id'];
                 $server->playerServer = $value['playerServer'];
 
