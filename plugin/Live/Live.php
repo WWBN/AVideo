@@ -528,8 +528,9 @@ class Live extends PluginAbstract {
                 if (!empty($row) && $value->name === $obj->name) {
                     $obj->msg = "ONLINE";
                 }
+                $hiddenName = preg_replace('/^(.{5})/', '*****', $value->name);
                 if (empty($row) || empty($row['public'])) {
-                    $obj->hidden_applications[] = "{$value->name} is set to not be listed";
+                    $obj->hidden_applications[] = "{$row['channelName']} ($hiddenName} is set to not be listed";
                     continue;
                 }
 
@@ -545,7 +546,7 @@ class Live extends PluginAbstract {
 
                 $u = new User($row['users_id']);
                 if ($u->getStatus() !== 'a') {
-                    $obj->hidden_applications[] = "{$value->name} the user is inactive";
+                    $obj->hidden_applications[] = "{$row['channelName']} {$hiddenName} the user is inactive";
                     continue;
                 }
 
