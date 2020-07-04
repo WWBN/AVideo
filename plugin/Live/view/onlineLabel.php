@@ -95,18 +95,20 @@ $live_servers_id = Live::getCurrentLiveServersId();
             data: {"name": "<?php echo $streamName; ?>"},
             type: 'post',
             success: function (response) {
-                if (!response.error && response.msg === "ONLINE") {
-                    $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('isOnline');
-                } else {
-                    $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('isOnline');
+                if(response.name == "<?php echo $streamName; ?>"){
+                    if (!response.error && response.msg === "ONLINE") {
+                        $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('isOnline');
+                    } else {
+                        $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('isOnline');
+                    }
+                    playCorrectSource<?php echo $live_servers_id; ?>();
+                    $('.liveViewCount').text(" " + response.nclients);
+                    $('#liveViewStatus<?php echo $live_servers_id; ?>').text(response.msg);
+                    $('#onlineApplications').text(response.applications.lenght);
+                    setTimeout(function () {
+                        getStats<?php echo $live_servers_id; ?>();
+                    }, 15000);
                 }
-                playCorrectSource<?php echo $live_servers_id; ?>();
-                $('.liveViewCount').text(" " + response.nclients);
-                $('#liveViewStatus<?php echo $live_servers_id; ?>').text(response.msg);
-                $('#onlineApplications').text(response.applications.lenght);
-                setTimeout(function () {
-                    getStats<?php echo $live_servers_id; ?>();
-                }, 15000);
             }
         });
     }
