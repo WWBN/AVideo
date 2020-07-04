@@ -472,6 +472,7 @@ class Live extends PluginAbstract {
             $_REQUEST['name'] = "undefined";
         }
         if(!empty($_getStats[$live_servers_id][$_REQUEST['name']])){
+            $_getStats[$live_servers_id][$_REQUEST['name']] = $_REQUEST['name'];
             return $_getStats[$live_servers_id][$_REQUEST['name']];
         }
         session_write_close();
