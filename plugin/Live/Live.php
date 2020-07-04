@@ -502,7 +502,12 @@ class Live extends PluginAbstract {
                 if (empty($lifeStream)) {
                     $lifeStream = array();
                 }
-                $lifeStream[] = $application->live->stream;
+                
+                $stream = $application->live->stream;
+                if(empty($application->live->stream->name) && !empty($application->live->stream[0]->name)){
+                    $stream = $application->live->stream[0];
+                }
+                $lifeStream[] = $stream;
             }
         }
 
