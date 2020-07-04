@@ -14,7 +14,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
 $cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']);
 $json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout);
 if(empty($json)){
-    $json = json_encode(Live::getStats());
+    $json = Live::getStats();
     ObjectYPT::setCache($cacheName, $json);
 }
-echo $json;
+echo json_encode($json);
