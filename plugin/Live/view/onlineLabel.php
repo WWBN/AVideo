@@ -105,10 +105,10 @@ $live_servers_id = Live::getCurrentLiveServersId();
                     $('.liveViewCount').text(" " + response.nclients);
                     $('#liveViewStatus<?php echo $live_servers_id; ?>').text(response.msg);
                     $('#onlineApplications').text(response.applications.lenght);
-                    setTimeout(function () {
-                        getStats<?php echo $live_servers_id; ?>();
-                    }, 15000);
                 }
+                setTimeout(function () {
+                    getStats<?php echo $live_servers_id; ?>();
+                }, 10000);
             }
         });
     }
