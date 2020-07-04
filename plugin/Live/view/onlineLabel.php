@@ -90,7 +90,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
     }
 
     function getStats<?php echo $live_servers_id; ?>() {
-        var timeout = 5000;
+        var timeout = 10000;
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?live_servers_id=<?php echo $live_servers_id; ?>&Label',
             data: {"name": "<?php echo $streamName; ?>"},
