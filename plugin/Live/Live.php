@@ -468,8 +468,11 @@ class Live extends PluginAbstract {
 
     static function _getStats($live_servers_id = 0) {
         global $global, $_getStats;
-        if(!empty($_getStats[$live_servers_id])){
-            return $_getStats[$live_servers_id];
+        if (empty($_REQUEST['name'])) {
+            $_REQUEST['name'] = "undefined";
+        }
+        if(!empty($_getStats[$live_servers_id][$_REQUEST['name']])){
+            return $_getStats[$live_servers_id][$_REQUEST['name']];
         }
         session_write_close();
         $obj = new stdClass();
@@ -477,9 +480,6 @@ class Live extends PluginAbstract {
         $obj->msg = "OFFLINE";
         $obj->nclients = 0;
         $obj->applications = array();
-        if (empty($_REQUEST['name'])) {
-            $_REQUEST['name'] = "undefined";
-        }
         $obj->name = $_REQUEST['name'];
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         $p = AVideoPlugin::loadPlugin("Live");
@@ -557,7 +557,7 @@ class Live extends PluginAbstract {
 
         $appArray = AVideoPlugin::getLiveApplicationArray();
         $obj->applications = array_merge($obj->applications, $appArray);
-        $_getStats[$live_servers_id] = $obj;
+        $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         return $obj;
     }
 
