@@ -11,7 +11,7 @@ if (empty($pobj)) {
     die(json_encode("Plugin disabled"));
 }
 $live_servers_id = Live::getCurrentLiveServersId();
-$cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']);
+$cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']. json_encode($_REQUEST));
 $json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout);
 if(empty($json)){
     $json = Live::getStats();
