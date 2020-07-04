@@ -8,6 +8,8 @@ if (empty($_REQUEST['file'])) {
 }
 $file = preg_replace("/[^0-9a-z_:-]/i", "", $_REQUEST['file']);
 
+ini_set('memory_limit', '-1');
+
 $filename = $record_path . $file . ".flv";
 if(!file_exists($filename)){
     die('file does not exists');
