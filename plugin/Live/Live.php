@@ -110,24 +110,24 @@ class Live extends PluginAbstract {
         $obj = AVideoPlugin::getObjectData("Live");
         if (!empty($obj->useLiveServers)) {
             $ls = new Live_servers(self::getCurrentLiveServersId());
-            if(!empty($ls->getRtmp_server())){
+            if (!empty($ls->getRtmp_server())) {
                 return $ls->getRtmp_server();
             }
         }
         return $obj->server;
     }
-    
+
     static function getPlayerServer() {
         $obj = AVideoPlugin::getObjectData("Live");
         if (!empty($obj->useLiveServers)) {
             $ls = new Live_servers(self::getCurrentLiveServersId());
-            if(!empty($ls->getPlayerServer())){
+            if (!empty($ls->getPlayerServer())) {
                 return $ls->getPlayerServer();
             }
         }
         return $obj->playerServer;
     }
-    
+
     static function getUseAadaptiveMode() {
         $obj = AVideoPlugin::getObjectData("Live");
         if (!empty($obj->useLiveServers)) {
@@ -136,7 +136,7 @@ class Live extends PluginAbstract {
         }
         return $obj->useAadaptiveMode;
     }
-    
+
     static function getRemoteFile() {
         $obj = AVideoPlugin::getObjectData("Live");
         if (!empty($obj->useLiveServers)) {
@@ -145,26 +145,26 @@ class Live extends PluginAbstract {
         }
         return false;
     }
-    
+
     static function getRemoteFileFromRTMPHost($rtmpHostURI) {
         $obj = AVideoPlugin::getObjectData("Live");
         if (!empty($obj->useLiveServers)) {
             $live_servers_id = Live_servers::getServerIdFromRTMPHost($rtmpHostURI);
-            if($live_servers_id){
+            if ($live_servers_id) {
                 $ls = new Live_servers($live_servers_id);
                 return $ls->getGetRemoteFile();
             }
         }
         return false;
     }
-    
+
     static function getLiveServersIdRequest() {
-        if(empty($_REQUEST['live_servers_id'])){
+        if (empty($_REQUEST['live_servers_id'])) {
             return 0;
         }
         return intval($_REQUEST['live_servers_id']);
     }
-    
+
     static function getM3U8File($uuid) {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
@@ -213,7 +213,7 @@ class Live extends PluginAbstract {
 
     function getStatsObject($live_servers_id = 0) {
         global $getStatsObject;
-        if(!empty($getStatsObject[$live_servers_id])){
+        if (!empty($getStatsObject[$live_servers_id])) {
             return $getStatsObject[$live_servers_id];
         }
         $o = $this->getDataObject();
@@ -223,30 +223,30 @@ class Live extends PluginAbstract {
             $xml->server->application = array();
             return $xml;
         }
-        if(empty($o->requestStatsTimout)){
+        if (empty($o->requestStatsTimout)) {
             $o->requestStatsTimout = 2;
         }
         ini_set('allow_url_fopen ', 'ON');
         $url = $this->getStatsURL($live_servers_id);
-        if(!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])){
+        if (!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
             _error_log("Live::getStatsObject RTMP Server ($url) is NOT responding we will wait less from now on => live_servers_id = ($live_servers_id) ");
             // if the server already fail, do not wait mutch for it next time, just wait 0.5 seconds
             $o->requestStatsTimout = $_SESSION['getStatsObjectRequestStatsTimout'][$url];
         }
         $data = $this->get_data($url, $o->requestStatsTimout);
-        if(empty($data)){
-            if(empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])){
+        if (empty($data)) {
+            if (empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
                 // the server fail to respont, just wait 0.5 seconds until it respond again
                 _session_start();
-                if(empty($_SESSION['getStatsObjectRequestStatsTimout'])){
+                if (empty($_SESSION['getStatsObjectRequestStatsTimout'])) {
                     $_SESSION['getStatsObjectRequestStatsTimout'] = array();
                 }
                 $_SESSION['getStatsObjectRequestStatsTimout'][$url] = 0.5;
             }
             _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE, we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
             $data = '<?xml version="1.0" encoding="utf-8" ?><?xml-stylesheet type="text/xsl" href="stat.xsl" ?><rtmp><server><application><name>The RTMP Server is Unavailable</name><live><nclients>0</nclients></live></application></server></rtmp>';
-        }else{
-            if(!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])){
+        } else {
+            if (!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
                 _error_log("Live::getStatsObject RTMP Server ($url) is respond again => live_servers_id = ($live_servers_id) ");
                 // the server respont again, wait the default time
                 $_SESSION['getStatsObjectRequestStatsTimout'][$url] = 0;
@@ -263,7 +263,7 @@ class Live extends PluginAbstract {
             return @url_get_contents($url, "", $timeout);
         } catch (Exception $exc) {
             _error_log($exc->getTraceAsString());
-        } 
+        }
         return false;
     }
 
@@ -375,22 +375,21 @@ class Live extends PluginAbstract {
         $ls = self::getCurrentLiveServersId();
         return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$ls}&c=" . urlencode($user->getChannelName());
     }
-    
-    static function getAvailableLiveServersId(){
+
+    static function getAvailableLiveServersId() {
         $ls = self::getAvailableLiveServer();
-        if(empty($ls)){
+        if (empty($ls)) {
             return 0;
-        }else{
+        } else {
             return intval($ls->live_servers_id);
         }
     }
-    
-    
-    static function getCurrentLiveServersId(){
+
+    static function getCurrentLiveServersId() {
         $live_servers_id = self::getLiveServersIdRequest();
-        if($live_servers_id){
+        if ($live_servers_id) {
             return $live_servers_id;
-        }else{
+        } else {
             return self::getAvailableLiveServersId();
         }
     }
@@ -415,36 +414,40 @@ class Live extends PluginAbstract {
             return self::_getStats(0);
         } else if (!empty(Live::getLiveServersIdRequest())) {
             $ls = new Live_servers(Live::getLiveServersIdRequest());
-            if(!empty($ls->getPlayerServer())){
+            if (!empty($ls->getPlayerServer())) {
                 $server = self::_getStats($ls->getId());
                 $server->live_servers_id = $ls->getId();
                 $server->playerServer = $ls->getPlayerServer();
                 return $server;
             }
-        } 
+        }
         $ls = Live_servers::getAllActive();
-            $liveServers = array();
-            $getLiveServersIdRequest = self::getLiveServersIdRequest();
-            foreach ($ls as $value) {
-                $server = Live_servers::getStatsFromId($value['id']);
+        $liveServers = array();
+        $getLiveServersIdRequest = self::getLiveServersIdRequest();
+        foreach ($ls as $value) {
+            $server = Live_servers::getStatsFromId($value['id']);
+            if(!empty($server)){
                 $server->live_servers_id = $value['id'];
                 $server->playerServer = $value['playerServer'];
-                
+
                 foreach ($server->applications as $key => $app) {
                     $_REQUEST['live_servers_id'] = $value['id'];
                     $server->applications[$key]['m3u8'] = self::getM3U8File($app['key']);
                 }
-                
+
                 $liveServers[] = $server;
+            }else{
+                _error_log("Live::getStats Live Server NOT found {$value['id']}" . json_encode($value));
             }
-            $_REQUEST['live_servers_id'] = $getLiveServersIdRequest;
-            return $liveServers;
+        }
+        $_REQUEST['live_servers_id'] = $getLiveServersIdRequest;
+        return $liveServers;
     }
-    
+
     static function getAllServers() {
         $obj = AVideoPlugin::getObjectData("Live");
         if (empty($obj->useLiveServers)) {
-            return array("id"=> 0, "name"=> __("Default"), "status"=> "a", "rtmp_server"=> $obj->server, 'playerServer'=>  $obj->playerServer, "stats_url"=>  $obj->stats, "disableDVR"=>  $obj->disableDVR, "disableGifThumbs"=>  $obj->disableGifThumbs, "useAadaptiveMode"=>  $obj->useAadaptiveMode, "protectLive"=>  $obj->protectLive, "getRemoteFile"=>"");
+            return array("id" => 0, "name" => __("Default"), "status" => "a", "rtmp_server" => $obj->server, 'playerServer' => $obj->playerServer, "stats_url" => $obj->stats, "disableDVR" => $obj->disableDVR, "disableGifThumbs" => $obj->disableGifThumbs, "useAadaptiveMode" => $obj->useAadaptiveMode, "protectLive" => $obj->protectLive, "getRemoteFile" => "");
         } else {
             return Live_servers::getAllActive();
         }
@@ -469,12 +472,12 @@ class Live extends PluginAbstract {
     static function _getStats($live_servers_id = 0) {
         global $global, $_getStats;
         if (empty($_REQUEST['name'])) {
-            _error_log("Live::_getStats {$live_servers_id} GET ".json_encode($_GET));
-            _error_log("Live::_getStats {$live_servers_id} POST ".json_encode($_POST));
-            _error_log("Live::_getStats {$live_servers_id} REQUEST ".json_encode($_REQUEST));
+            _error_log("Live::_getStats {$live_servers_id} GET " . json_encode($_GET));
+            _error_log("Live::_getStats {$live_servers_id} POST " . json_encode($_POST));
+            _error_log("Live::_getStats {$live_servers_id} REQUEST " . json_encode($_REQUEST));
             $_REQUEST['name'] = "undefined";
         }
-        if(!empty($_getStats[$live_servers_id][$_REQUEST['name']])){
+        if (!empty($_getStats[$live_servers_id][$_REQUEST['name']])) {
             $_getStats[$live_servers_id][$_REQUEST['name']] = $_REQUEST['name'];
             return $_getStats[$live_servers_id][$_REQUEST['name']];
         }
@@ -504,13 +507,13 @@ class Live extends PluginAbstract {
                 if (empty($lifeStream)) {
                     $lifeStream = array();
                 }
-                
+
                 $stream = $application->live->stream;
-                if(empty($application->live->stream->name) && !empty($application->live->stream[0]->name)){
+                if (empty($application->live->stream->name) && !empty($application->live->stream[0]->name)) {
                     foreach ($application->live->stream as $stream) {
                         $lifeStream[] = $stream;
                     }
-                }else{
+                } else {
                     $lifeStream[] = $application->live->stream;
                 }
             }
