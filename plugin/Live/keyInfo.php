@@ -13,8 +13,13 @@ if (!User::isAdmin()) {
 $row = LiveTransmition::keyExists($_REQUEST['key']);
 
 if(!empty($row)){
-    foreach ($row as $key => $value) {
-        echo "<b>{$key}</b> {$value}<br>";
+    if(empty($_REQUEST['json'])){
+        foreach ($row as $key => $value) {
+            echo "<b>{$key}</b> {$value}<br>";
+        }
+    }else{
+        header('Content-Type: application/json');
+        echo json_encode($row);
     }
 }else{
     echo "Key not found";
