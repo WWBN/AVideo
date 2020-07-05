@@ -5,7 +5,7 @@ $pobj = AVideoPlugin::getDataObject("Live");
 if (empty($_REQUEST['key'])) {
     die("We need a Key");
 }
-if (User::isAdmin()) {
+if (!User::isAdmin()) {
     die("Login as Admin first");
 }
 //header('Content-Type: application/json');
