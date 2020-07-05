@@ -2,6 +2,7 @@
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistory.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistoryLog.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_servers.php';
