@@ -206,14 +206,17 @@ $photo = User::getPhoto($video['users_id']);
                 position: absolute;
                 top: 0;
                 left: 0;
+                width: 100%;
                 min-height: 52px;
-                text-shadow: 0 0 2px rgba(0,0,0,.5);
                 font: 12px Roboto, Arial, sans-serif;
                 color: #FFF;
-                padding: 10px;
+                padding: 15px;
+                background-image: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));
+                
             }
             #topInfo a{
                 color: #EEE;
+                text-shadow: 0 0 5px rgba(0,0,0,1);
             }
             #topInfo a:hover{
                 color: #FFF;
@@ -225,12 +228,18 @@ $photo = User::getPhoto($video['users_id']);
                 margin-right: 10px;
             }
             #topInfo div{
+                position: absolute;
+                top: 15px;
+                left: 0;
                 display: flex; 
                 height: 40px; 
-                float: left;
                 justify-content: center;
                 align-items: center; 
                 font-size: 1.5em;
+                margin-left: 65px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         </style>
         <?php
@@ -684,21 +693,21 @@ $photo = User::getPhoto($video['users_id']);
         </div>
 
         <script>
-                                    function showSharing() {
-                                    $('#SharingModal').modal("show");
-                                    return false;
-                                    }
-                                    var topInfoTimeout;
-                                    $(document).ready(function () {
-                                    setInterval(function(){
-                                    if ($('#mainVideo').hasClass('vjs-user-active')){
-                                    $('#topInfo').fadeIn();
-                                    } else{
-                                    $('#topInfo').fadeOut();
-                                    }
-                                    }, 1000);
-                                    $('#SharingModal').modal({show: false});
-                                    });
+            function showSharing() {
+                $('#SharingModal').modal("show");
+                    return false;
+                }
+                var topInfoTimeout;
+                $(document).ready(function () {
+                setInterval(function(){
+                    if ($('#mainVideo').hasClass('vjs-user-active')){
+                        $('#topInfo').fadeIn();
+                    } else{
+                        $('#topInfo').fadeOut();
+                    }
+                }, 1000);
+                $('#SharingModal').modal({show: false});
+            });
         </script>
         <?php
     }
