@@ -2160,6 +2160,10 @@ function siteMap() {
 
         $description = str_replace(array('"', "\n", "\r"), array('', ' ', ' '), empty(trim($video['description'])) ? $video['title'] : $video['description']);
         $duration = parseDurationToSeconds($video['duration']);
+        if($duration>28800){
+            // this is because this issue https://github.com/WWBN/AVideo/issues/3338 remove in the future if is not necessary anymore
+            $duration=28800;
+        }
         $xml .= '
             <url>
                 <loc>' . Video::getLink($video['id'], $video['clean_title']) . '</loc>
