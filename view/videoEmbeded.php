@@ -696,16 +696,28 @@ $photo = User::getPhoto($video['users_id']);
             function showSharing() {
                 $('#SharingModal').modal("show");
                     return false;
-                }
-                var topInfoTimeout;
-                $(document).ready(function () {
+            }
+            var topInfoTimeout;
+            $(document).ready(function () {
                 setInterval(function(){
                     if ($('#mainVideo').hasClass('vjs-user-active')){
                         $('#topInfo').fadeIn();
                     } else{
                         $('#topInfo').fadeOut();
                     }
+
                 }, 1000);
+
+                $("iframe, #topInfo").mouseover(function(e){
+                    clearTimeout(topInfoTimeout);
+                    $('#mainVideo').addClass("vjs-user-active");
+                });
+
+                $("iframe").mouseout(function(e){
+                    topInfoTimeout = setTimeout(function(){
+                        $('#mainVideo').removeClass("vjs-user-active");
+                    },500);
+                });
                 $('#SharingModal').modal({show: false});
             });
         </script>
