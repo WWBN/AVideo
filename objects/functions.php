@@ -2103,7 +2103,7 @@ function siteMap() {
                 <loc>' . User::getChannelLink($value['id']) . '</loc>
                 <lastmod>' . $date . '</lastmod>
                 <changefreq>daily</changefreq>
-                <priority>0.70</priority>
+                <priority>0.90</priority>
             </url>
             ';
     }
