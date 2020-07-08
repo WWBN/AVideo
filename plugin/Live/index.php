@@ -74,7 +74,8 @@ if (empty($channelName)) {
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/swfobject.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
@@ -97,10 +98,9 @@ if (empty($channelName)) {
                             <?php
                         } else {
                             $servers = Live::getAllServers();
-                            $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
                             foreach ($servers as $key => $value) {
                                 $active = "";
-                                if ($_REQUEST['live_servers_id']) {
+                                if (isset($_REQUEST['live_servers_id'])) {
                                     if ($_REQUEST['live_servers_id'] == $value['id']) {
                                         $activeServerFound = true;
                                         $active = "active";
@@ -133,6 +133,9 @@ if (empty($channelName)) {
                             </li>
                             <?php
                         }
+                        
+                        $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
+                        $poster = Live::getPosterImage(User::getId(), $_REQUEST['live_servers_id']);
                         ?>
                     </ul>
                 </div>
@@ -219,12 +222,23 @@ if (empty($channelName)) {
                             </div>
                             <div class="panel-body">          
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls 
+                                    <video poster="<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>" controls 
                                            class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                                            id="mainVideo" >
                                         <source src="<?php echo Live::getM3U8File($trasnmition['key']); ?>" type='application/x-mpegURL'>
                                     </video>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <?php
+                                echo __("Upload Poster Image");
+                                ?>
+                            </div>
+                            <div class="panel-body"> 
+                                <input id="input-jpg" type="file" class="file-loading" accept="image/*">
                             </div>
                         </div>
                         <div class="panel panel-default">
@@ -336,6 +350,28 @@ if (empty($channelName)) {
                     });
                 }
                 $(document).ready(function () {
+                    $("#input-jpg").fileinput({
+                        uploadUrl: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/uploadPoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>",
+                        autoReplace: true,
+                        overwriteInitial: true,
+                        showUploadedThumbs: false,
+                        showPreview: true,
+                        maxFileCount: 1,
+                        initialPreview: [
+                            "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>'>",
+                        ],
+                        initialCaption: 'LiveBG.jpg',
+                        initialPreviewShowDelete: false,
+                        showRemove: false,
+                        showClose: false,
+                        layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+                        allowedFileExtensions: ["jpg", "jpeg", "png"],
+                        //minImageWidth: 2048,
+                        //minImageHeight: 1152,
+                        //maxImageWidth: 2560,
+                        //maxImageHeight: 1440
+                    });
+
                     $('#btnSaveStream').click(function () {
                         saveStream();
                     });

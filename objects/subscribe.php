@@ -132,49 +132,54 @@ class Subscribe {
      */
     static function getAllSubscribes($user_id = "", $status = "a") {
         global $global;
-        $status = str_replace("'","", $status);
-        $sql = "SELECT subscriber_users_id as subscriber_id, s.id, s.status, s.ip, s.users_id, s.notify, "
-                . " s.subscriber_users_id , s.created , s.modified, suId.email as email, suId.emailVerified as emailVerified FROM subscribes as s "
-                //. " LEFT JOIN users as su ON s.email = su.email   "
-                . " LEFT JOIN users as suId ON suId.id = s.subscriber_users_id   "
-                . " LEFT JOIN users as u ON users_id = u.id  WHERE 1=1 AND subscriber_users_id > 0 ";
-        if (!empty($user_id)) {
-            $sql .= " AND users_id = {$user_id} ";
-        }
-        if (!empty($status)) {
-            $sql .= " AND u.status = '{$status}' ";
-            //$sql .= " AND su.status = '{$status}' ";
-        }
-        
-        //$sql .= " GROUP BY subscriber_id ";
-        
-        $sql .= BootGrid::getSqlFromPost(array('email'));
-
-        
-        $res = sqlDAL::readSql($sql);
-        $fullData = sqlDAL::fetchAllAssoc($res);
-        sqlDAL::close($res);
-        $subscribe = array();
-        if ($res != false) {
-            $emails = array();
-            foreach ($fullData as $row) {
-                if (in_array($row['email'], $emails)) {
-                    //continue;
-                }
-                $emails[] = $row['email'];
-                $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
-                if ($row['identification'] === __("Unknown User")) {
-                    $row['identification'] = $row['email'];
-                }
-                $row['backgroundURL'] = User::getBackground($row['subscriber_id']);
-                $row['photoURL'] = User::getPhoto($row['subscriber_id']);
-
-                $subscribe[] = $row;
+        $cacheName = "getAllSubscribes_{$user_id}_{$status}";
+        $subscribe = ObjectYPT::getCache($cacheName, 300);// 5 minutes
+        if(empty($subscribe)){
+            $status = str_replace("'","", $status);
+            $sql = "SELECT subscriber_users_id as subscriber_id, s.id, s.status, s.ip, s.users_id, s.notify, "
+                    . " s.subscriber_users_id , s.created , s.modified, suId.email as email, suId.emailVerified as emailVerified FROM subscribes as s "
+                    //. " LEFT JOIN users as su ON s.email = su.email   "
+                    . " LEFT JOIN users as suId ON suId.id = s.subscriber_users_id   "
+                    . " LEFT JOIN users as u ON users_id = u.id  WHERE 1=1 AND subscriber_users_id > 0 ";
+            if (!empty($user_id)) {
+                $sql .= " AND users_id = {$user_id} ";
             }
-            //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
-        } else {
-            $subscribe = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            if (!empty($status)) {
+                $sql .= " AND u.status = '{$status}' ";
+                //$sql .= " AND su.status = '{$status}' ";
+            }
+
+            //$sql .= " GROUP BY subscriber_id ";
+
+            $sql .= BootGrid::getSqlFromPost(array('email'));
+
+
+            $res = sqlDAL::readSql($sql);
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            $subscribe = array();
+            if ($res != false) {
+                $emails = array();
+                foreach ($fullData as $row) {
+                    if (in_array($row['email'], $emails)) {
+                        //continue;
+                    }
+                    $emails[] = $row['email'];
+                    $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
+                    if ($row['identification'] === __("Unknown User")) {
+                        $row['identification'] = $row['email'];
+                    }
+                    $row['backgroundURL'] = User::getBackground($row['subscriber_id']);
+                    $row['photoURL'] = User::getPhoto($row['subscriber_id']);
+
+                    $subscribe[] = $row;
+                }
+                //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
+            } else {
+                $subscribe = false;
+                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+            ObjectYPT::setCache($cacheName, $subscribe);
         }
         return $subscribe;
     }

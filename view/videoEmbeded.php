@@ -700,10 +700,10 @@ $photo = User::getPhoto($video['users_id']);
             var topInfoTimeout;
             $(document).ready(function () {
                 setInterval(function(){
-                    if ($('#mainVideo').hasClass('vjs-user-active')){
-                        $('#topInfo').fadeIn();
-                    } else{
+                    if (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0"){
                         $('#topInfo').fadeOut();
+                    } else{
+                        $('#topInfo').fadeIn();
                     }
 
                 }, 1000);
