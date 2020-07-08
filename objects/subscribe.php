@@ -180,6 +180,8 @@ class Subscribe {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             ObjectYPT::setCache($cacheName, $subscribe);
+        }else{
+            $subscribe = object_to_array($subscribe);
         }
         return $subscribe;
     }
