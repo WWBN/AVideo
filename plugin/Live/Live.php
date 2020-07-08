@@ -427,7 +427,7 @@ class Live extends PluginAbstract {
         $getLiveServersIdRequest = self::getLiveServersIdRequest();
         foreach ($ls as $value) {
             $server = Live_servers::getStatsFromId($value['id']);
-            if(!empty($server) && is_object($server)){
+            if (!empty($server) && is_object($server)) {
                 $server->live_servers_id = $value['id'];
                 $server->playerServer = $value['playerServer'];
 
@@ -437,8 +437,8 @@ class Live extends PluginAbstract {
                 }
 
                 $liveServers[] = $server;
-            }else{
-                _error_log("Live::getStats Live Server NOT found {$value['id']} " . json_encode($server)." " . json_encode($value));
+            } else {
+                _error_log("Live::getStats Live Server NOT found {$value['id']} " . json_encode($server) . " " . json_encode($value));
             }
         }
         $_REQUEST['live_servers_id'] = $getLiveServersIdRequest;
@@ -572,6 +572,36 @@ class Live extends PluginAbstract {
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         return $obj;
+    }
+
+    public function getPosterImage($users_id, $live_servers_id) {
+        global $global;
+        $file = self::_getPosterImage($users_id, $live_servers_id);
+
+        if (!file_exists($global['systemRootPath'] . $file)) {
+            $file = "plugin/Live/view/OnAir.jpg";
+        }
+
+        return $file;
+    }
+    public function getPosterThumbsImage($users_id, $live_servers_id) {
+        global $global;
+        $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
+
+        if (!file_exists($global['systemRootPath'] . $file)) {
+            $file = "plugin/Live/view/OnAir.jpg";
+        }
+
+        return $file;
+    }
+    
+    public function _getPosterImage($users_id, $live_servers_id) {
+        $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}.jpg";
+        return $file;
+    }
+    public function _getPosterThumbsImage($users_id, $live_servers_id) {
+        $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}.jpg";
+        return $file;
     }
 
 }

@@ -272,6 +272,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
         make_path($cachefile);
         file_put_contents($cachefile, json_encode($value));
+        self::setSessionCache($name, $value);
     }
 
     /**
@@ -288,11 +289,17 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
+        
+        $session = self::getSessionCache($name, $lifetime);
+        if(!empty($session)){
+            return $session;
+        }
+        
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
             $c = @url_get_contents($cachefile);
             return json_decode($c);
         } else if (file_exists($cachefile)) {
-            unlink($cachefile);
+            self::deleteCache($name);
         }
     }
 
@@ -302,6 +309,8 @@ abstract class ObjectYPT implements ObjectInterface {
 
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
         @unlink($cachefile);
+        
+        self::deleteSessionCache($name);
     }
     /**
      * Make sure you start the session before any output
@@ -325,12 +334,14 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
-        _session_start();
-        if (!empty($_SESSION['sessionCache'][$name]) && (empty($lifetime) || time() - $lifetime <= $_SESSION['sessionCache'][$name]['time'])) {
-            $c = $_SESSION['sessionCache'][$name]['value'];
-            return json_decode($c);
-        } else if (!empty($_SESSION['sessionCache'][$name])) {
-            unset($_SESSION['sessionCache'][$name]);
+        if(!empty($_SESSION['sessionCache'][$name])){
+            if ((empty($lifetime) || time() - $lifetime <= $_SESSION['sessionCache'][$name]['time'])) {
+                $c = $_SESSION['sessionCache'][$name]['value'];
+                return json_decode($c);
+            } else {
+                _session_start();
+                unset($_SESSION['sessionCache'][$name]);
+            }
         }
     }
 

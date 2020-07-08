@@ -20,6 +20,8 @@ $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
 if(!empty($objSecure)){
     $objSecure->verifyEmbedSecurity();
 }
+$_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
+$poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -55,7 +57,7 @@ if(!empty($objSecure)){
 
     <body>
         <div class="">
-            <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls  playsinline webkit-playsinline="webkit-playsinline" 
+            <video poster="<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>" controls  playsinline webkit-playsinline="webkit-playsinline" 
                    class="video-js vjs-default-skin vjs-big-play-centered"
                    id="mainVideo" style="width: 100%; height: 100%; position: absolute;">
                 <source src="<?php echo Live::getM3U8File($uuid); ?>" type='application/x-mpegURL'>
