@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(1);
+
 require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
@@ -26,81 +30,83 @@ if(empty($obj)){
 
         <div class="container">
         	<br><br>
-        	<div class="row" style="background: #fff;">
-        		<div class="col-md-12">
 
-		        	<h1>INSTRUCTION : </h1>
+        	<div class="panel panel-default">
+			  	<div class="panel-heading">
+			    	<h3 class="panel-title"><b>INSTRUCTION</b></h3>
+			  	</div>
+			  	<div class="panel-body">
 
-			        <ol>
-			        	<li>
-			        		<b>Sign Up</b><br><br>
-			        		<ul>
-			        			<li>
-			        				Enter your email, then click next. <br>
-			        				<img src="../assets/images/signup.PNG"><br>
-			        			</li>
-			        			<li>
-			        				Fill-up the following information <br>
-			        				<img src="../assets/images/signup_info.PNG"><br><br>
-			        			</li>
-			        			<li>
-			        				A success message will display after signup completion <br>
-			        				<img src="../assets/images/success_message.PNG"><br><br>
-			        			</li>
-			        			<li>
-			        				When registration approved by the admin, you will receive an email like this; <br>
-			        				<img src="../assets/images/activated.PNG"><br><br>
-			        			</li>
-			        			<li>
-			        				Signin to view the indexing module/page <br>
-			        				<img src="../assets/images/signin.PNG"><br><br>
-			        			</li>
-			        		</ul>
-			        	</li>
-			        	<li>
-			        		<b>Encountering Error</b> <br><br>
-			        		<ul>
-			        			<li>
-			        				Email is already registered. Possible reason is your account isn't approve yet by the admin, just click the <b>click here</b> link (#2) to request/notify the admin about your registration again if your registration is taking more days. <br>
-			        				<img src="../assets/images/email_already_registered.PNG"><br><br>
-			        			</li>
-			        		</ul>
-			        	</li>
-			        	<li>
-			        		<b> Submitting index of your platform</b> <br><br>
-			        		<ul>
-			        			<li>
-			        				Click the menu <b>Network Index</b> in the sidebar, then click the <b>plus sign [+] button</b> on the right side of <b>MY INDEX LIST</b>.<br>
-			        				<img src="../assets/images/network_index_module.PNG" width="100%"><br><br>
-			        			</li>
-			        			<li>
-			        				Change the two fields depends on what you like, only the Content Type and Country Restriction will be editable and the other four fields are auto generated.
-			        				<img src="../assets/images/submit_index.PNG"><br><br>
-			        			</li>
-			        		</ul>
-			        	</li>
-			        	<li>
-			        		<b> Index data</b> <br><br>
-			        		<ul>
-			        			<li>
-			        				This will be look like when successfully submitted an index; <br>
-			        				<b>1</b> - Edit button, to edit the content type and restriction fields <br>
-			        				<b>2</b> - Link button, this will be the redirect link to your platform (URL) <br>
-			        				<b>3</b> - Deactivate/Re-activate button, deactivating will remove your index to all affilates connected with and the re-activate will send an notification for activation similar when submitting new index<br>
-			        				<b>4</b> - Active/Deactivated, Active means your index can be assigned to any affiliates and Deactivated means your index is not available to be index. <br>
-			        				<img src="../assets/images/index_info.PNG" width="100%"><br><br>
-			        			</li>
-			        			<!-- <li>
-			        				Updating data <br>
-			        				<img src="../assets/images/index_info.PNG" width="100%"><br><br>
-			        			</li> -->
-			        		</ul>
-			        	</li>
-			        </ol>
-		        </div>
-	        </div>
+			  		<div class="thumbnail">
+				      	<video width="100%" controls="">
+							<source src="../assets/videos/enable_plugin_signup.mp4" type="video/mp4">
+						</video>
+				      	<div class="caption">
+				       	 	<h3><b>Step #1 - Setup</b></h3>
+					        <p>Enable "WWBN" plugin and Create an Account.</p>
+				      	</div>
+				    </div>
+
+				    <div class="thumbnail">
+				      	<img class="img-responsive" src="../assets/images/account_activated.png" width="100%">
+				      	<div class="caption">
+				       	 	<h3><b>Step #2 - Account Verified</b></h3>
+					        <p>Wait until you received an email similar to this one. Then you can login from here to submit/update your index or go back "WWBN" plugin.</p>
+				      	</div>
+				    </div>
+			  		
+
+			  		<div class="thumbnail">
+				      	<video width="100%" controls="">
+							<source src="../assets/videos/adding_index.mp4" type="video/mp4">
+						</video>
+				      	<div class="caption">
+				       	 	<h3><b>Step #3 - Signin and Submit an Index</b></h3>
+					        <p>For adding new index; for the first time the data from your platform will be automatically generated and if you already have an existing data you need to type your other platform url then click generate. </p>
+				      	</div>
+				    </div>
+
+				    <div class="thumbnail">
+				      	<video width="100%" controls="">
+							<source src="../assets/videos/updating_index.mp4" type="video/mp4">
+						</video>
+				      	<div class="caption">
+				       	 	<h3><b>Step #4 - Updating Index</b></h3>
+					        <p>Click the edit button of your index, change/update the data for the allowed/editable field then click update button to appy changes.  </p>
+				      	</div>
+				    </div>
+
+			  		<div class="thumbnail">
+				      	<video width="100%" controls="">
+							<source src="../assets/videos/deactivate_reactivate.mp4" type="video/mp4">
+						</video>
+				      	<div class="caption">
+				       	 	<h3><b>Step #5 - Deactivating/Re-activating Index</b></h3>
+					        <p>Changing status of your index to inreview or inactive</p>
+				      	</div>
+				    </div>
+
+				    <div class="thumbnail">
+				      	<img class="img-responsive" src="../assets/images/data_info.PNG" width="100%">
+				      	<div class="caption">
+				       	 	<h3><b>Additional Info - Index data</b></h3>
+					        <ol>
+					        	<li>Display for engine name with your platform icon.</li>
+					        	<li>Inreview = Pending for approval, Inactive = Indexing is not avaible for indexing, Approved = Index is ready/avialble to be assign to an affiliate</li>
+					        	<li>The content of your platform.</li>
+					        	<li>Edit button, redirect to update form to edit the content type or country restriction.</li>
+					        	<li>Link button, redirect to your platform home page.</li>
+					        	<li>Deactivate = To set the status to inactive, Re-activate = To set/resubmit your index to be index to an affiliate</li>
+					        	<li>Display list for affiliate</li>
+					        </ol>
+				      	</div>
+				    </div>
+
+
+			  	</div>
+
+			</div>
         </div>
-        
 
     </body>
 
