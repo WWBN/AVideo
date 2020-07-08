@@ -1,6 +1,7 @@
 <?php
 global $isLive;
 $isLive = 1;
+$isEmbed = 1;
 require_once '../../videos/configuration.php';
 /**
  * this was made to mask the main URL
@@ -33,7 +34,7 @@ if(!empty($objSecure)){
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="view/img/favicon.ico">
+        <link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?> </title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
@@ -73,6 +74,10 @@ if(!empty($objSecure)){
 
             }
         </style>
+        <script>
+            var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+            var player;
+        </script>
     </head>
 
     <body style="background-color: black; overflow-x: hidden;">
@@ -85,7 +90,7 @@ if(!empty($objSecure)){
                     <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls autoplay="autoplay"  playsinline webkit-playsinline="webkit-playsinline" 
                            class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered"
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                        <source src="<?php echo getM3U8File($uuid); ?>" type='application/x-mpegURL'>
+                        <source src="<?php echo Live::getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                     </video>
                     <?php
                     if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
@@ -138,8 +143,8 @@ if(!empty($objSecure)){
         </script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
         <script>
 
             $(document).ready(function () {

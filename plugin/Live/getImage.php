@@ -34,7 +34,7 @@ _error_log("Live:getImage  start");
 if($lt->userCanSeeTransmition()){
     $uuid = $livet['key'];
     $p = AVideoPlugin::loadPlugin("Live");
-    $video = "{$p->getM3U8File($uuid)}";
+    $video = Live::getM3U8File($uuid);
     $url = $config->getEncoderURL()."getImage/". base64_encode($video)."/{$_GET['format']}";
     _error_log("Live:getImage $url");
         

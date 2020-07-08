@@ -2160,13 +2160,17 @@ function siteMap() {
 
         $description = str_replace(array('"', "\n", "\r"), array('', ' ', ' '), empty(trim($video['description'])) ? $video['title'] : $video['description']);
         $duration = parseDurationToSeconds($video['duration']);
+        if($duration>28800){
+            // this is because this issue https://github.com/WWBN/AVideo/issues/3338 remove in the future if is not necessary anymore
+            $duration=28800;
+        }
         $xml .= '
             <url>
                 <loc>' . Video::getLink($video['id'], $video['clean_title']) . '</loc>
                 <video:video>
                     <video:thumbnail_loc>' . $img . '</video:thumbnail_loc>
                     <video:title>' . str_replace('"', '', $video['title']) . '</video:title>
-                    <video:description>' . (strip_tags($description)) . '</video:description>
+                    <video:description><![CDATA[' . substr(strip_tags($description,0,2048)) . ']]></video:description>
                     <video:player_loc>' . htmlentities(parseVideos(Video::getLinkToVideo($videos_id))) . '</video:player_loc>
                     <video:duration>' . $duration . '</video:duration>
                     <video:view_count>' . $video['views_count'] . '</video:view_count>
@@ -2288,6 +2292,9 @@ function ddosProtection() {
 //progressive timeout-> more requests, longer timeout
     $active_connections = count($_SESSION['bruteForceBlock']);
     $timeoutReal = ($active_connections / $maxCon) < 1 ? 0 : ($active_connections / $maxCon) * $secondTimeout;
+    if($timeoutReal){
+        _error_log("ddosProtection:: progressive timeout timeoutReal = ($timeoutReal) active_connections = ($active_connections) maxCon = ($maxCon) ", AVideoLog::$SECURITY);
+    }
     sleep($timeoutReal);
 
 //with strict mode, penalize "attacker" with sleep() above, log and then die
@@ -2906,6 +2913,7 @@ function getUsageFromFilename($filename, $dir = "") {
     _error_log("getUsageFromFilename: start {$dir}{$filename}");
     $files = glob("{$dir}{$filename}*");
     session_write_close();
+    $filesProcessed = array();
     foreach ($files as $f) {
         if (is_dir($f)) {
             _error_log("getUsageFromFilename: {$f} is Dir");
@@ -2940,11 +2948,19 @@ function getUsageFromFilename($filename, $dir = "") {
                         }
                         if (!empty($urls['mp4'])) {
                             foreach ($urls['mp4'] as $mp4) {
+                                if(in_array($mp4, $filesProcessed)){
+                                    continue;
+                                }
+                                $filesProcessed[] = $mp4;
                                 $filesize += getUsageFromURL($mp4);
                             }
                         }
                         if (!empty($urls['webm'])) {
                             foreach ($urls['webm'] as $mp4) {
+                                if(in_array($mp4, $filesProcessed)){
+                                    continue;
+                                }
+                                $filesProcessed[] = $mp4;
                                 $filesize += getUsageFromURL($mp4);
                             }
                         }
@@ -3314,6 +3330,15 @@ function wget($url, $filename) {
         return false;
     }
     wgetLock($url);
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $content = file_get_contents($url);
+        if(file_put_contents($filename, $content) > 100){
+            wgetRemoveLock($url);
+            return true;
+        }
+        wgetRemoveLock($url);
+        return false;
+    }
     $cmd = "wget {$url} -O {$filename} --no-check-certificate";
     //_error_log("wget Start ({$cmd}) ");
     //echo $cmd;
@@ -3375,17 +3400,36 @@ function isWritable($dir) {
     return $result;
 }
 
+function _isWritable($dir){
+    if (!isWritable($dir)) {
+        return false;
+    }
+    $tmpFile = "{$dir}". uniqid();
+    $bytes = @file_put_contents($tmpFile, time());
+    @unlink($tmpFile);
+    return !empty($bytes);
+}
+
 function getTmpDir($subdir = "") {
     global $global;
-    $tmpDir = sys_get_temp_dir();
-    if (!isWritable($tmpDir)) {
-        $tmpDir = "{$global['systemRootPath']}videos/cache/";
+    if(empty($_SESSION['getTmpDir'])){
+        $_SESSION['getTmpDir'] = array();
     }
-    $tmpDir = rtrim($tmpDir, '/') . '/';
-    $tmpDir = "{$tmpDir}{$subdir}";
-    $tmpDir = rtrim($tmpDir, '/') . '/';
-    if (!is_dir($tmpDir)) {
-        mkdir($tmpDir, 0755, true);
+    if(empty($_SESSION['getTmpDir'][$subdir."_"])){
+        $tmpDir = sys_get_temp_dir();
+        if (!_isWritable($tmpDir)) {
+            $tmpDir = "{$global['systemRootPath']}videos/cache/";
+        }
+        $tmpDir = rtrim($tmpDir, '/') . '/';
+        $tmpDir = "{$tmpDir}{$subdir}";
+        $tmpDir = rtrim($tmpDir, '/') . '/';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir, 0755, true);
+        }
+        _session_start();
+        $_SESSION['getTmpDir'][$subdir."_"] = $tmpDir;
+    }else{
+        $tmpDir = $_SESSION['getTmpDir'][$subdir."_"];
     }
     return $tmpDir;
 }

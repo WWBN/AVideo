@@ -1,6 +1,7 @@
 <?php
 global $isLive;
 $isLive = 1;
+$isEmbed = 1;
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
@@ -26,10 +27,10 @@ if(!empty($objSecure)){
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="view/img/favicon.ico">
+        <link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
@@ -46,14 +47,18 @@ if(!empty($objSecure)){
                 overflow:hidden;
             }
         </style>
+        <script>
+            var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+            var player;
+        </script>
     </head>
 
     <body>
         <div class="">
             <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls  playsinline webkit-playsinline="webkit-playsinline" 
                    class="video-js vjs-default-skin vjs-big-play-centered"
-                   id="mainVideo" data-setup='{  "techorder" : ["flash", "html5"] }' style="width: 100%; height: 100%; position: absolute;">
-                <source src="<?php echo $p->getM3U8File($uuid); ?>" type='application/x-mpegURL'>
+                   id="mainVideo" style="width: 100%; height: 100%; position: absolute;">
+                <source src="<?php echo Live::getM3U8File($uuid); ?>" type='application/x-mpegURL'>
             </video>
             <?php
             if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
@@ -91,8 +96,8 @@ if(!empty($objSecure)){
         echo AVideoPlugin::afterVideoJS();
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
         <?php
         echo AVideoPlugin::getHeadCode();
         ?>

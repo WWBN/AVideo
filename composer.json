@@ -1,0 +1,16 @@
+{
+    "name": "wwbn/avideo",
+    "description": "Audio Video Platform",
+    "type": "project",
+    "require": {
+		"php": ">=5.6.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mysqli": "*",
+        "chrisjean/php-ico": "^1.0",
+        "phpmailer/phpmailer": "^6.1",
+        "hybridauth/hybridauth": "^3.3",
+        "james-heinrich/getid3": "^1.9",
+        "ezyang/htmlpurifier": "^4.13"
+    }
+}

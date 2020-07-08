@@ -325,14 +325,30 @@ class AVideoPlugin {
     }
 
     static function getObjectData($name) {
+        return self::getDataObject($name);
+    }
+    
+    static function getDataObject($name) {
+        global $pluginGetDataObject;
+        if(!isset($pluginGetDataObject)){
+            $pluginGetDataObject = array();
+        }
+        if(!empty($pluginGetDataObject[$name])){
+            return $pluginGetDataObject[$name];
+        }
         $p = static::loadPlugin($name);
         if ($p) {
-            return $p->getDataObject();
+            $pluginGetDataObject[$name] = $p->getDataObject();
+            return $pluginGetDataObject[$name];
         }
         return false;
     }
 
     static function getObjectDataIfEnabled($name) {
+        return self::getDataObjectIfEnabled($name);
+    }
+
+    static function getDataObjectIfEnabled($name) {
         $p = static::loadPlugin($name);
         if ($p) {
             $uuid = $p->getUUID();
@@ -1047,13 +1063,13 @@ class AVideoPlugin {
         }
     }
     
-    public static function onLiveStream($users_id){
+    public static function onLiveStream($users_id, $live_servers_id){
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->onLiveStream($users_id);
+                $p->onLiveStream($users_id, $live_servers_id);
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }

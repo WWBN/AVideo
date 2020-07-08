@@ -129,6 +129,7 @@ class LiveLinks extends PluginAbstract {
             $newContent = str_replace($search, $replace, $content);
             $newContentExtra = str_replace($search, $replace, $contentExtra);
             $array[] = array(
+                "type" => "LiveLink",
                 "html" => $newContent,
                 "htmlExtra" => $newContentExtra,
                 "UserPhoto" => $UserPhoto,

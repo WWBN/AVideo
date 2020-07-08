@@ -1,7 +1,7 @@
 <?php
-
 $recheckTolerance = 600; // 10 min
 require_once '../../videos/configuration.php';
+error_reporting(0);
 session_write_close();
 
 if (empty($_GET['uuid'])) {
@@ -31,24 +31,55 @@ if (empty($_SESSION['m3u8Verified']) || $_SESSION['m3u8Verified'] + $recheckTole
     }
     unset($_SESSION['m3u8Verified']);
 }
-if (empty($_SESSION['playerServer'])) {
+
+if(!isset($_SESSION['playerServer']) || !is_array($_SESSION['playerServer'])){
+    _session_start();
+    $_SESSION['playerServer'] = array();
+}
+if(!isset($_SESSION['useAadaptiveMode']) || !is_array($_SESSION['useAadaptiveMode'])){
+    _session_start();
+    $_SESSION['useAadaptiveMode'] = array();
+}
+
+$live_servers_id = Live::getCurrentLiveServersId();
+
+if (true || empty($_SESSION['playerServer'][$live_servers_id])) {
     _session_start();
     $obj = AVideoPlugin::getObjectData('Live');
-    $_SESSION['playerServer'] = $obj->playerServer;
-    $_SESSION['useAadaptiveMode'] = $obj->useAadaptiveMode;
+    $_SESSION['playerServer'][$live_servers_id] = Live::getPlayerServer();
+    $_SESSION['useAadaptiveMode'][$live_servers_id] = Live::getUseAadaptiveMode();
 } else {
     @$global['mysqli']->close();
 }
-if ($_SESSION['useAadaptiveMode']) {
-    $complement = $_SESSION['playerServer'] . "/";
-    $url = $_SESSION['playerServer'] . "/{$uuid}.m3u8";
+if ($_SESSION['useAadaptiveMode'][$live_servers_id]) {
+    $complement = $_SESSION['playerServer'][$live_servers_id] . "/";
+    $url = $_SESSION['playerServer'][$live_servers_id] . "/{$uuid}.m3u8";
     $content = url_get_contents($url);
 }
-
 if (empty($content)) {
-    $complement = $_SESSION['playerServer'] . "/{$uuid}/";
-    $url = $_SESSION['playerServer'] . "/{$uuid}/index.m3u8";
+    $complement = $_SESSION['playerServer'][$live_servers_id] . "/{$uuid}/";
+    $url = $_SESSION['playerServer'][$live_servers_id] . "/{$uuid}/index.m3u8";
     $content = url_get_contents($url);
+    if (!empty($content)) {
+        _session_start();
+        $_SESSION['useAadaptiveMode'][$live_servers_id] = 0;
+    }
+}
+if (empty($_SESSION['useAadaptiveMode'][$live_servers_id]) && empty($content)) {
+    $complement = $_SESSION['playerServer'][$live_servers_id] . "/";
+    $url = $_SESSION['playerServer'][$live_servers_id] . "/{$uuid}.m3u8";
+    $content = url_get_contents($url);
+    if (!empty($content)) {
+        _session_start();
+        $_SESSION['useAadaptiveMode'][$live_servers_id] = 1;
+    }
+}
+
+if(empty($content)){ // get the default loop
+    //$complement = "{$global['webSiteRootURL']}plugin/Live/view/loopBGHLS/";
+    //$content = file_get_contents("{$global['systemRootPath']}plugin/Live/view/loopBGHLS/index.m3u8");
+    include "{$global['systemRootPath']}plugin/Live/view/loopBGHLS/index.m3u8.php";
+    exit;
 }
 
 if (empty($_SESSION['m3u8Verified'])) {
@@ -57,7 +88,7 @@ if (empty($_SESSION['m3u8Verified'])) {
 }
 $lines = preg_split("/((\r?\n)|(\r\n?))/", $content);
 for ($i = 0; $i < count($lines); $i++) {
-    if (preg_match('/.*\.(m3u8|ts)$/i', $lines[$i])) {
+    if (preg_match('/.*\.(m3u8|ts|key)$/i', $lines[$i])) {
         echo $complement;
     }
     echo $lines[$i] . PHP_EOL;

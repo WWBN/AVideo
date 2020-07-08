@@ -96,8 +96,9 @@ abstract class PluginAbstract {
     }
 
     public function getDataObject() {
-        if (empty(PluginAbstract::$dataObject[$this->getUUID()])) {
-            $obj = Plugin::getPluginByUUID($this->getUUID());
+        $uuid = $this->getUUID();
+        if (empty(PluginAbstract::$dataObject[$uuid])) {
+            $obj = Plugin::getPluginByUUID($uuid);
             //echo $obj['object_data'];
             $o = array();
             if (!empty($obj['object_data'])) {
@@ -407,7 +408,7 @@ abstract class PluginAbstract {
         return null;
     }
 
-    public function onLiveStream($users_id) {
+    public function onLiveStream($users_id, $live_servers_id) {
         return null;
     }
 
