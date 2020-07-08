@@ -38,9 +38,7 @@ if(empty($obj)){
 			  	<div class="panel-body">
 
 			  		<div class="thumbnail">
-				      	<video width="100%" controls="">
-							<source src="../assets/videos/enable_plugin_signup.mp4" type="video/mp4">
-						</video>
+						<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---enable-and-signup" width="100%" height="500" frameborder="0"></iframe>
 				      	<div class="caption">
 				       	 	<h3><b>Step #1 - Setup</b></h3>
 					        <p>Enable "WWBN" plugin and Create an Account.</p>
@@ -57,9 +55,7 @@ if(empty($obj)){
 			  		
 
 			  		<div class="thumbnail">
-				      	<video width="100%" controls="">
-							<source src="../assets/videos/adding_index.mp4" type="video/mp4">
-						</video>
+				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---submitting-adding-index" width="100%" height="500" frameborder="0"></iframe>
 				      	<div class="caption">
 				       	 	<h3><b>Step #3 - Signin and Submit an Index</b></h3>
 					        <p>For adding new index; for the first time the data from your platform will be automatically generated and if you already have an existing data you need to type your other platform url then click generate. </p>
@@ -67,9 +63,7 @@ if(empty($obj)){
 				    </div>
 
 				    <div class="thumbnail">
-				      	<video width="100%" controls="">
-							<source src="../assets/videos/updating_index.mp4" type="video/mp4">
-						</video>
+				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---updating-index" width="100%" height="500" frameborder="0"></iframe>
 				      	<div class="caption">
 				       	 	<h3><b>Step #4 - Updating Index</b></h3>
 					        <p>Click the edit button of your index, change/update the data for the allowed/editable field then click update button to appy changes.  </p>
@@ -77,9 +71,7 @@ if(empty($obj)){
 				    </div>
 
 			  		<div class="thumbnail">
-				      	<video width="100%" controls="">
-							<source src="../assets/videos/deactivate_reactivate.mp4" type="video/mp4">
-						</video>
+				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---deactivate-re-activate-index" width="100%" height="500" frameborder="0"></iframe>
 				      	<div class="caption">
 				       	 	<h3><b>Step #5 - Deactivating/Re-activating Index</b></h3>
 					        <p>Changing status of your index to inreview or inactive</p>
