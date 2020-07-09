@@ -13,7 +13,7 @@ class WWBN extends PluginAbstract {
         $obj->webSiteRootURL = $global['webSiteRootURL'];
         $obj->time = time();
         
-        $desc .= "Validation Token: <strong>". encryptString($obj)."</strong>";
+        $desc .= "Validation Token: <input type='text' value='". encryptString($obj)."' readonly>";
         return $desc;
     }
 
