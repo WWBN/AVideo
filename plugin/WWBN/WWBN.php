@@ -9,6 +9,7 @@ class WWBN extends PluginAbstract {
         $desc = "WWBN Network Index (this plugin is under development)<br>";
         
         $obj = new stdClass();
+        $obj->plugin = "WWBN";
         $obj->webSiteRootURL = $global['webSiteRootURL'];
         $obj->time = time();
         
