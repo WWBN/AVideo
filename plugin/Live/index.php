@@ -133,7 +133,7 @@ if (empty($channelName)) {
                             </li>
                             <?php
                         }
-                        
+
                         $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
                         $poster = Live::getPosterImage(User::getId(), $_REQUEST['live_servers_id']);
                         ?>
@@ -236,6 +236,9 @@ if (empty($channelName)) {
                                 <?php
                                 echo __("Upload Poster Image");
                                 ?>
+                                <button class="btn btn-danger btn-sm btn-xs pull-right" id="removePoster">
+                                    <i class="far fa-trash-alt"></i> <?php echo __("Remove Poster"); ?>
+                                </button>
                             </div>
                             <div class="panel-body"> 
                                 <input id="input-jpg" type="file" class="file-loading" accept="image/*">
@@ -352,36 +355,51 @@ if (empty($channelName)) {
                 $(document).ready(function () {
                     $("#input-jpg").fileinput({
                         uploadUrl: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/uploadPoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>",
-                        autoReplace: true,
-                        overwriteInitial: true,
-                        showUploadedThumbs: false,
-                        showPreview: true,
-                        maxFileCount: 1,
-                        initialPreview: [
-                            "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>'>",
-                        ],
-                        initialCaption: 'LiveBG.jpg',
-                        initialPreviewShowDelete: false,
-                        showRemove: false,
-                        showClose: false,
-                        layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                        allowedFileExtensions: ["jpg", "jpeg", "png"],
-                        //minImageWidth: 2048,
-                        //minImageHeight: 1152,
-                        //maxImageWidth: 2560,
-                        //maxImageHeight: 1440
-                    });
+                                    autoReplace: true,
+                                    overwriteInitial: true,
+                                    showUploadedThumbs: false,
+                                    showPreview: true,
+                                    maxFileCount: 1,
+                                    initialPreview: [
+                                        "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>'>",
+                                    ],
+                                    initialCaption: 'LiveBG.jpg',
+                                    initialPreviewShowDelete: false,
+                                    showRemove: false,
+                                    showClose: false,
+                                    layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+                                    allowedFileExtensions: ["jpg", "jpeg", "png"],
+                                    //minImageWidth: 2048,
+                                    //minImageHeight: 1152,
+                                    //maxImageWidth: 2560,
+                                    //maxImageHeight: 1440
+                                });
 
-                    $('#btnSaveStream').click(function () {
-                        saveStream();
-                    });
-                    $('#enableWebCam').click(function () {
-                        amIOnline();
-                    });
-                    if (typeof player === 'undefined') {
-                        player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                    }
-                });
+                                $('#removePoster').click(function () {
+                                    modal.showPleaseWait();
+                                    $.ajax({
+                                        url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/removePoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>",
+                                        success: function (response) {
+                                            modal.hidePleaseWait();
+                                            if(response.error){
+                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                            }else{
+                                                $('.vjs-poster').css('background-image', 'url("<?php echo $global['webSiteRootURL']; ?>'+response.newPoster+'")');
+                                                $('.kv-file-content img').attr('src', '<?php echo $global['webSiteRootURL']; ?>'+response.newPoster);
+                                            }
+                                        }
+                                    });
+                                });
+                                $('#btnSaveStream').click(function () {
+                                    saveStream();
+                                });
+                                $('#enableWebCam').click(function () {
+                                    amIOnline();
+                                });
+                                if (typeof player === 'undefined') {
+                                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
+                                }
+                            });
         </script>
     </body>
 </html>
