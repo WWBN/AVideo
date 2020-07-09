@@ -52,7 +52,7 @@ class MonetizeUsers extends PluginAbstract {
 
         $wallet = AVideoPlugin::loadPlugin("YPTWallet");
         $video = new Video("", "", $videos_id);
-        return $wallet->transferBalanceFromSiteOwner($video->getUsers_id(), $obj->rewardPerView, "Reward from video <a href='{$global['webSiteRootURL']}v/{$videos_id}'>" . $video->getTitle() . "</a>", true);
+        return YPTWallet::transferBalanceFromSiteOwner($video->getUsers_id(), $obj->rewardPerView, "Reward from video <a href='{$global['webSiteRootURL']}v/{$videos_id}'>" . $video->getTitle() . "</a>", true);
     }
 
 }

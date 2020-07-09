@@ -181,6 +181,10 @@ abstract class PluginAbstract {
     public function afterNewVideo($videos_id) {
         return false;
     }
+    
+    public function afterDonation($from_users_id, $videos_id, $how_much) {
+        return false;
+    }
 
     public function afterNewComment($comments_id) {
         return false;

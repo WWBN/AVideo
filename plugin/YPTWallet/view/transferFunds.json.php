@@ -36,7 +36,7 @@ if(empty($_POST['users_id'])){
 $_POST['value'] = floatval($_POST['value']);
 
 
-if($plugin->transferBalance(User::getId(),$_POST['users_id'], $_POST['value'])){
+if(YPTWallet::transferBalance(User::getId(),$_POST['users_id'], $_POST['value'])){
     $obj->error = false;
 }else{
     $obj->msg = "We could not transfer funds, please check your balance";

@@ -21,7 +21,7 @@ if(empty($plugin)){
 
 $value = floatval($_POST['value']);
 
-if($plugin->transferBalance(User::getId(),$dataObj->manualWithdrawFundsTransferToUserId, $value)){
+if(YPTWallet::transferBalance(User::getId(),$dataObj->manualWithdrawFundsTransferToUserId, $value)){
     //send an email
     $emailsArray = array();
     $emailsArray[] = $dataObj->manualWithdrawFundsNotifyEmail;
