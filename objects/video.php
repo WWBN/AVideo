@@ -2158,8 +2158,10 @@ if (!class_exists('Video')) {
                     $objTag = new stdClass();
                 }
             }
-
-            $tags = array_merge($tags, AVideoPlugin::getVideoTags($video_id));
+            $array2 = AVideoPlugin::getVideoTags($video_id);
+            if(is_array($array2)){
+                $tags = array_merge($tags, $array2);
+            }
             //var_dump($tags);
             return $tags;
         }
