@@ -2557,7 +2557,7 @@ function getLdJson($videos_id) {
         $img = $images->poster;
     }
 
-    $description = str_replace(array('"', "\n", "\r"), array('', ' ', ' '), empty(trim($video['description'])) ? $video['title'] : $video['description']);
+    $description = html2plainText(empty(trim($video['description'])) ? $video['title'] : $video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
@@ -2567,7 +2567,7 @@ function getLdJson($videos_id) {
         {
         "@context": "http://schema.org/",
         "@type": "VideoObject",
-        "name": "' . str_replace('"', '', $video['title']) . '",
+        "name": "' . html2plainText($video['title']) . '",
         "description": "' . $description . '",
         "thumbnailUrl": [
         "' . $img . '"
