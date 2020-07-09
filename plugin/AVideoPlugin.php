@@ -549,6 +549,18 @@ class AVideoPlugin {
         }
     }
 
+    public static function afterDonation($from_users_id, $videos_id, $how_much) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->afterDonation($from_users_id, $videos_id, $how_much);
+            }
+            self::YPTend("{$value['dirName']}::".__FUNCTION__);
+        }
+    }
+
     public static function afterNewComment($comments_id) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
@@ -1122,7 +1134,7 @@ class AVideoPlugin {
             return array();
         }
         TimeLogStart("AVideoPlugin::getVideoTags($videos_id)");
-        if(true || empty($_SESSION['getVideoTags'][$videos_id])){
+        if(empty($_SESSION['getVideoTags'][$videos_id])){
             $plugins = Plugin::getAllEnabled();
             $array = array();
             foreach ($plugins as $value) {
