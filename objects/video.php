@@ -1796,7 +1796,11 @@ if (!class_exists('Video')) {
         static function getItemPropDuration($duration = '') {
             $duration = static::getCleanDuration($duration);
             $parts = explode(':', $duration);
-            return 'PT' . intval($parts[0]) . 'H' . intval($parts[1]) . 'M' . intval($parts[2]) . 'S';
+            $duration = 'PT' . intval($parts[0]) . 'H' . intval($parts[1]) . 'M' . intval($parts[2]) . 'S';
+            if ($duration == "PT0H0M0S") {
+                $duration = "PT0H0M1S";
+            }
+            return $duration;
         }
 
         static function getItemDurationSeconds($duration = '') {
