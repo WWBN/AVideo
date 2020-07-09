@@ -574,13 +574,13 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                 $tooltip = 'data-toggle="tooltip" data-html="true" title="' . User::getName() . ":: " . User::getMail() . '" data-placement="left"';
                             }
                             ?>
-                            <li class="rightProfile" >
+                            <li class="rightProfile" 
+                                             <?php echo $tooltip; ?> >
                                 <div class="btn-group" >
                                     <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton" style="">
                                         <img src="<?php echo User::getPhoto(); ?>" 
                                              style="width: 32px; height: 32px; max-width: 32px;"  
                                              class="img img-responsive img-circle"
-                                             <?php echo $tooltip; ?>
                                              />
                                     </button>
 
