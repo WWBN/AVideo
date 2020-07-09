@@ -23,6 +23,48 @@ if(empty($obj)){
         ?>
 
     </head>
+
+    <!-- RESPONSIVE -->
+    <style>
+    	
+    	/* Extra small devices (phones, 600px and down) */
+		@media only screen and (max-width: 600px) {
+			iframe {
+	    		height: auto;
+	    	}
+		}
+
+		/* Small devices (portrait tablets and large phones, 600px and up) */
+		@media only screen and (min-width: 600px) {
+			iframe {
+	    		height: 300px;
+	    	}
+		}
+
+		/* Medium devices (landscape tablets, 768px and up) */
+		@media only screen and (min-width: 768px) {
+			iframe {
+	    		height: 500px
+	    	}
+		}
+
+		/* Large devices (laptops/desktops, 992px and up) */
+		@media only screen and (min-width: 992px) {
+			iframe {
+	    		height: 600px;
+	    	}
+		}
+
+		/* Extra large devices (large laptops and desktops, 1200px and up) */
+		@media only screen and (min-width: 1200px) {
+			iframe {
+	    		height: 700px;
+	    	}
+		}
+
+
+    </style>
+
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
@@ -38,7 +80,7 @@ if(empty($obj)){
 			  	<div class="panel-body">
 
 			  		<div class="thumbnail">
-						<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---enable-and-signup" width="100%" height="500" frameborder="0"></iframe>
+						<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---enable-and-signup?objectFit=fill" width="100%" frameborder="0"></iframe>
 				      	<div class="caption">
 				       	 	<h3><b>Step #1 - Setup</b></h3>
 					        <p>Enable "WWBN" plugin and Create an Account.</p>
@@ -55,7 +97,7 @@ if(empty($obj)){
 			  		
 
 			  		<div class="thumbnail">
-				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---submitting-adding-index" width="100%" height="500" frameborder="0"></iframe>
+				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---submitting-adding-index?objectFit=fill" width="100%" frameborder="0"></iframe>
 				      	<div class="caption">
 				       	 	<h3><b>Step #3 - Signin and Submit an Index</b></h3>
 					        <p>For adding new index; for the first time the data from your platform will be automatically generated and if you already have an existing data you need to type your other platform url then click generate. </p>
@@ -63,7 +105,7 @@ if(empty($obj)){
 				    </div>
 
 				    <div class="thumbnail">
-				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---updating-index" width="100%" height="500" frameborder="0"></iframe>
+				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---updating-index?objectFit=fill" width="100%" frameborder="0"></iframe>
 				      	<div class="caption">
 				       	 	<h3><b>Step #4 - Updating Index</b></h3>
 					        <p>Click the edit button of your index, change/update the data for the allowed/editable field then click update button to appy changes.  </p>
@@ -71,7 +113,7 @@ if(empty($obj)){
 				    </div>
 
 			  		<div class="thumbnail">
-				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---deactivate-re-activate-index" width="100%" height="500" frameborder="0"></iframe>
+				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---deactivate-re-activate-index?objectFit=cover" width="100%" frameborder="0"></iframe>
 				      	<div class="caption">
 				       	 	<h3><b>Step #5 - Deactivating/Re-activating Index</b></h3>
 					        <p>Changing status of your index to inreview or inactive</p>
