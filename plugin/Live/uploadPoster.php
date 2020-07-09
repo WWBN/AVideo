@@ -9,10 +9,6 @@ $obj = new stdClass();
 $obj->error = true;
 
 $live_servers_id = intval($_REQUEST['live_servers_id']);
-if(empty($live_servers_id)){
-    $obj->msg = 'live_servers_id is empty';
-    die(json_encode($obj));
-}
 
 if (!User::isLogged()) {
     $obj->msg = 'You cant edit this file';
