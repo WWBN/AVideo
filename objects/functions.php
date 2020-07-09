@@ -3450,7 +3450,7 @@ function getMySQLDate() {
     return $row;
 }
 
-function _file_put_contents($filename, $data, $flags, $context){
+function _file_put_contents($filename, $data, $flags = 0, $context = NULL){
     make_path($filename);
     return file_put_contents($filename, $data, $flags, $context);
 }
