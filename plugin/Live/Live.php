@@ -13,7 +13,14 @@ $_getStats = array();
 class Live extends PluginAbstract {
 
     public function getDescription() {
-        return "Broadcast a RTMP video from your computer<br> and receive HLS streaming from servers";
+        $desc = "Broadcast a RTMP video from your computer<br> and receive HLS streaming from servers";
+        $lu = AVideoPlugin::loadPlugin("LiveUsers");
+        if(!empty($lu)){
+            if(version_compare($lu->getPluginVersion(), "2.0")<0){
+                $desc = "<div class='alert alert-danger'>You MUST update your LiveUsers plugin to version 2.0 or greater</div>";
+            }
+        }
+        return $desc;
     }
 
     public function getName() {
