@@ -77,7 +77,7 @@ class Configuration {
         }
         $this->users_id = User::getId();
 
-
+        ObjectYPT::deleteCache("getEncoderURL");
 
         $sql = "UPDATE configurations SET "
                 . "video_resolution = '{$this->video_resolution}',"
@@ -446,26 +446,31 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function getEncoderURL() {
-        global $advancedCustom;
-        if (!empty($advancedCustom->useEncoderNetworkRecomendation) && !empty($advancedCustom->encoderNetwork)) {
-            if (substr($advancedCustom->encoderNetwork, -1) !== '/') {
-                $advancedCustom->encoderNetwork .= "/";
+        $encoder = ObjectYPT::getCache("getEncoderURL", 60);
+        if(empty($encoder)){
+            global $advancedCustom;
+            if (!empty($advancedCustom->useEncoderNetworkRecomendation) && !empty($advancedCustom->encoderNetwork)) {
+                if (substr($advancedCustom->encoderNetwork, -1) !== '/') {
+                    $advancedCustom->encoderNetwork .= "/";
+                }
+                $bestEncoder = json_decode(url_get_contents($advancedCustom->encoderNetwork . "view/getBestEncoder.php", "", 10));
+                if (!empty($bestEncoder->siteURL)) {
+                    $this->encoderURL = $bestEncoder->siteURL;
+                }else{
+                    error_log("Configuration::getEncoderURL ERROR your network ($advancedCustom->encoderNetwork) is not configured properly This slow down your site a lot, disable the option useEncoderNetworkRecomendation in your CustomizeAdvanced plugin");
+                }
             }
-            $bestEncoder = json_decode(url_get_contents($advancedCustom->encoderNetwork . "view/getBestEncoder.php", "", 10));
-            if (!empty($bestEncoder->siteURL)) {
-                $this->encoderURL = $bestEncoder->siteURL;
-            }else{
-                error_log("Configuration::getEncoderURL ERROR your network ($advancedCustom->encoderNetwork) is not configured properly This slow down your site a lot, disable the option useEncoderNetworkRecomendation in your CustomizeAdvanced plugin");
-            }
-        }
 
-        if (empty($this->encoderURL)) {
-            return "https://encoder1.avideo.com/";
+            if (empty($this->encoderURL)) {
+                $encoder = "https://encoder1.avideo.com/";
+            }
+            if (substr($this->encoderURL, -1) !== '/') {
+                $this->encoderURL .= "/";
+            }
+            $encoder = $this->encoderURL;
+            ObjectYPT::setCache("getEncoderURL", $encoder);
         }
-        if (substr($this->encoderURL, -1) !== '/') {
-            $this->encoderURL .= "/";
-        }
-        return $this->encoderURL;
+        return $encoder;
     }
 
     function setEncoderURL($encoderURL) {
