@@ -2895,6 +2895,7 @@ function clearCache() {
         $dir .= "firstPage/";
     }
     rrmdir($dir);
+    ObjectYPT::deleteCache("getEncoderURL");
 }
 
 function getUsageFromFilename($filename, $dir = "") {
@@ -3447,4 +3448,9 @@ function getMySQLDate() {
         $row = false;
     }
     return $row;
+}
+
+function _file_put_contents($filename, $data, $flags, $context){
+    make_path($filename);
+    return file_put_contents($filename, $data, $flags, $context);
 }
