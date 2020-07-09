@@ -70,6 +70,9 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                         $video['tags'] = array();
                     }
                     foreach ($video['tags'] as $value) {
+                        if(is_array($value)){
+                            $value = (object)$value;
+                        }
                         if ($value->label === __("Group")) {
                             ?>
                             <span class="label label-<?php echo $value->type; ?>"><?php echo $value->text; ?></span>
