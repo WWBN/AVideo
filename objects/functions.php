@@ -2455,8 +2455,8 @@ function getOpenGraph($videos_id) {
     <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
 
     <meta property="fb:app_id"             content="774958212660408" />
-    <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?>" />
-    <meta property="og:description"        content="<?php echo str_replace('"', '', $video['description']); ?>" />
+    <meta property="og:title"              content="<?php echo html2plainText($video['title']); ?>" />
+    <meta property="og:description"        content="<?php echo html2plainText($video['description']); ?>" />
     <meta property="og:url"                content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
     <meta property="og:type"               content="video.other" />
 
@@ -2503,8 +2503,8 @@ function getOpenGraph($videos_id) {
     ?>
     <meta name="twitter:site" content="<?php echo $twitter_site; ?>" />
     <meta name="twitter:url" content="<?php echo Video::getLinkToVideo($videos_id); ?>"/>
-    <meta name="twitter:title" content="<?php echo str_replace('"', '', $video['title']); ?>"/>
-    <meta name="twitter:description" content="<?php echo str_replace('"', '', $video['description']); ?>"/>
+    <meta name="twitter:title" content="<?php echo html2plainText($video['title']); ?>"/>
+    <meta name="twitter:description" content="<?php echo html2plainText($video['description']); ?>"/>
     <meta name="twitter:image" content="<?php echo $img; ?>"/>
     <?php
 }
@@ -3453,4 +3453,10 @@ function getMySQLDate() {
 function _file_put_contents($filename, $data, $flags = 0, $context = NULL){
     make_path($filename);
     return file_put_contents($filename, $data, $flags, $context);
+}
+
+function html2plainText($html){
+    $text = strip_tags($html);
+    $text = str_replace(array('\\',"\n", "\r", '"'), array('', ' ', ' ', ''), trim($text));
+    return $text;
 }
