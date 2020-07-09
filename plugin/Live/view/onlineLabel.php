@@ -84,7 +84,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
                 clearTimeout(playCorrectSource<?php echo $live_servers_id; ?>Timout);
                 playCorrectSource<?php echo $live_servers_id; ?>Timout = setTimeout(function () {
                     playCorrectSource<?php echo $live_servers_id; ?>();
-                }, 1000);
+                }, 15000);
             }
         }
     }
