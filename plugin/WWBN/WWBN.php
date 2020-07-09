@@ -7,15 +7,18 @@ class WWBN extends PluginAbstract {
     public function getDescription() {
         global $global;
         $desc = "WWBN Network Index (this plugin is under development)<br>";
-        
+        $desc .= "<b>Validation Token:</b><br>"
+                . "<input style='width:100%' type='text' value='". self::getToken()."' readonly>";
+        return $desc;
+    }
+    
+    static function getToken(){
+        global $global;
         $obj = new stdClass();
         $obj->plugin = "WWBN";
         $obj->webSiteRootURL = $global['webSiteRootURL'];
         $obj->time = time();
-        
-        $desc .= "<b>Validation Token:</b><br>"
-                . "<input style='width:100%' type='text' value='". encryptString($obj)."' readonly>";
-        return $desc;
+        return encryptString($obj);
     }
 
     public function getName() {
