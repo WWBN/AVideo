@@ -6,7 +6,13 @@ class WWBN extends PluginAbstract {
 
     public function getDescription() {
         global $global;
-        $desc = "WWBN Network Index (this plugin is under development)";
+        $desc = "WWBN Network Index (this plugin is under development)<br>";
+        
+        $obj = new stdClass();
+        $obj->webSiteRootURL = $global['webSiteRootURL'];
+        $obj->time = time();
+        
+        $desc .= "Validation Token: <strong>". encryptString($obj)."</strong>";
         return $desc;
     }
 
