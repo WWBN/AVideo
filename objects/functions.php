@@ -3418,7 +3418,7 @@ function getTmpDir($subdir = "") {
     }
     if(empty($_SESSION['getTmpDir'][$subdir."_"])){
         $tmpDir = sys_get_temp_dir();
-        if (!_isWritable($tmpDir)) {
+        if (empty($tmpDir) || !_isWritable($tmpDir)) {
             $tmpDir = "{$global['systemRootPath']}videos/cache/";
         }
         $tmpDir = rtrim($tmpDir, '/') . '/';
