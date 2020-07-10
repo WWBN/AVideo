@@ -17,7 +17,7 @@ class Live extends PluginAbstract {
         $lu = AVideoPlugin::loadPlugin("LiveUsers");
         if(!empty($lu)){
             if(version_compare($lu->getPluginVersion(), "2.0")<0){
-                $desc = "<div class='alert alert-danger'>You MUST update your LiveUsers plugin to version 2.0 or greater</div>";
+                $desc .= "<div class='alert alert-danger'>You MUST update your LiveUsers plugin to version 2.0 or greater</div>";
             }
         }
         return $desc;
