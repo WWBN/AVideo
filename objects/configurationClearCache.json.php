@@ -15,5 +15,6 @@ if (!User::isAdmin()) {
     die(json_encode($obj));
 }
 clearCache();
+ObjectYPT::deleteALLCache();
 $obj->error = false;
 die(json_encode($obj));

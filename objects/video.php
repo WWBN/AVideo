@@ -2622,7 +2622,13 @@ if (!class_exists('Video')) {
                 $source = $videosPaths[$filename][$type][intval($includeS3)];
             }
             if (substr($type, -4) === ".jpg" || substr($type, -4) === ".png" || substr($type, -4) === ".gif" || substr($type, -4) === ".webp") {
-                $source['url'] .= "?" . @filectime($source['path']);
+                $x = uniqid();
+                if(file_exists($source['path'])){
+                    $x = filectime($source['path']);
+                }else if(!empty($video)){
+                    $x = strtotime($video['modified']);
+                }
+                $source['url'] .= "?{$x}";
             }
             //ObjectYPT::setCache($name, $source);
             return $source;

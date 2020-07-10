@@ -266,7 +266,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function setCache($name, $value) {
-        $tmpDir = sys_get_temp_dir();
+        $tmpDir = self::getCacheDir();
         $uniqueHash = md5(__FILE__);
 
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
@@ -282,7 +282,7 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     static function getCache($name, $lifetime = 60) {
-        $tmpDir = sys_get_temp_dir();
+        $tmpDir = self::getCacheDir();
         $uniqueHash = md5(__FILE__);
 
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
@@ -304,7 +304,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function deleteCache($name) {
-        $tmpDir = sys_get_temp_dir();
+        $tmpDir = self::getCacheDir();
         $uniqueHash = md5(__FILE__);
 
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
@@ -312,6 +312,25 @@ abstract class ObjectYPT implements ObjectInterface {
         
         self::deleteSessionCache($name);
     }
+    
+    
+    static function deleteALLCache() {
+        $tmpDir = self::getCacheDir();
+        rrmdir($tmpDir);
+        self::deleteAllSessionCache();
+    }
+    
+    static function getCacheDir() {
+        $tmpDir = getTmpDir();
+        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $tmpDir .= "YPTObjectCache". DIRECTORY_SEPARATOR;
+        make_path($tmpDir);
+        if(!file_exists($tmpDir."index.html")){// to avoid search into the directory
+            file_put_contents($tmpDir."index.html", time());
+        }
+        return $tmpDir;
+    }
+    
     /**
      * Make sure you start the session before any output
      * @param type $name
@@ -348,6 +367,12 @@ abstract class ObjectYPT implements ObjectInterface {
     static function deleteSessionCache($name) {
         _session_start();
         unset($_SESSION['sessionCache'][$name]);
+    }
+    
+    
+    static function deleteAllSessionCache() {
+        _session_start();
+        unset($_SESSION['sessionCache']);
     }
 
     function tableExists() {
