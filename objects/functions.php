@@ -3349,8 +3349,8 @@ function wget($url, $filename) {
         _error_log("wget: ERROR the url does not download $url, $filename");
         return false;
     }
-    if (filesize($filename) > 100) {
-        _error_log("wget: ERROR the url download but is too small $url, $filename");
+    if (empty(filesize($filename))) {
+        _error_log("wget: ERROR the url download but is empty $url, $filename");
         return true;
     }
     return false;
