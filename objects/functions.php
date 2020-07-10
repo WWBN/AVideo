@@ -3327,7 +3327,7 @@ function reloadSearchVar() {
 
 function wget($url, $filename) {
     if (wgetIsLocked($url)) {
-        error_log("wget: ERROR the url is already downloading $url, $filename");
+        _error_log("wget: ERROR the url is already downloading $url, $filename");
         return false;
     }
     wgetLock($url);
@@ -3346,9 +3346,11 @@ function wget($url, $filename) {
     exec($cmd);
     wgetRemoveLock($url);
     if (!file_exists($filename)) {
+        _error_log("wget: ERROR the url does not download $url, $filename");
         return false;
     }
     if (filesize($filename) > 100) {
+        _error_log("wget: ERROR the url download but is too small $url, $filename");
         return true;
     }
     return false;
