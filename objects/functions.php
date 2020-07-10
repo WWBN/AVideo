@@ -3327,7 +3327,7 @@ function reloadSearchVar() {
 
 function wget($url, $filename) {
     if (wgetIsLocked($url)) {
-        _error_log("wget: ERROR the url is already downloading $url, $filename");
+        //_error_log("wget: ERROR the url is already downloading $url, $filename");
         return false;
     }
     wgetLock($url);
