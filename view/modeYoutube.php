@@ -502,6 +502,9 @@ $modeYouTubeTime = microtime(true);
         <?php
         if (!empty($autoPlayVideo['tags'])) {
             foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
+                if(is_array($autoPlayVideo2)){
+                    $autoPlayVideo2 = (object)$autoPlayVideo2;
+                }
                 if ($autoPlayVideo2->label === __("Group")) {
                     ?>
                                                         <span class="label label-<?php echo $autoPlayVideo2->type; ?>"><?php echo $autoPlayVideo2->text; ?></span>
