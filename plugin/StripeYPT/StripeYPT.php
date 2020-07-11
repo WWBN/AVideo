@@ -105,7 +105,7 @@ class StripeYPT extends PluginAbstract {
                 _error_log("StripeYPT::setUpPayment charge ".  json_encode($charge));
                 return $charge;
             } catch (Exception $exc) {
-                _error_log("StripeYPT::setUpPayment error ");
+                _error_log("StripeYPT::setUpPayment error ".$exc->getMessage());
                 _error_log($exc->getTraceAsString());
             }
         }else{
