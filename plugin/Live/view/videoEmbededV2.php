@@ -27,6 +27,10 @@ $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
 if(!empty($objSecure)){
     $objSecure->verifyEmbedSecurity();
 }
+$u = new User(0, $_GET['u'], false);
+$user_id = $u->getBdId();
+$video['users_id'] = $user_id;
+AVideoPlugin::getModeYouTubeLive($user_id);
 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
 $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id']);
 ?>
