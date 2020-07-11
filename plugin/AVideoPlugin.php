@@ -1153,7 +1153,7 @@ class AVideoPlugin {
             TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__);
             ObjectYPT::setCache($name, $array);
         }else{
-            $array = object_to_array($array);
+            //$array = object_to_array($array);
         }
         return $array;
     }
