@@ -235,7 +235,8 @@ class YPTWallet extends PluginAbstract {
      */
     public function addBalance($users_id, $value, $description = "", $json_data = "{}", $mainWallet_user_id = 0, $noNotExchangeValue = false) {
         global $global;
-        if(empty($noNotExchangeValue)){
+        $obj = $this->getDataObject();
+        if(empty($noNotExchangeValue) && !empty($obj->virtual_currency_enable)){
             $originalValue = $value;
             $value = self::exchange($value);
             
