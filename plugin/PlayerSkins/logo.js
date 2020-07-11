@@ -10,7 +10,7 @@ $(document).ready(function () {
             this.controlText(PlayerSkinLogoTitle);
         },
         handleClick: function () {
-            document.location = webSiteRootURL ;
+            window.open(webSiteRootURL, '_blank');
         }
     });
 
