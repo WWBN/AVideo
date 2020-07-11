@@ -82,6 +82,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         <?php
                         foreach ($video['tags'] as $value2) {
                             if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayGroupsTags)) {
+                                if(is_array($value2)){
+                                    $value2 = (object) $value2;
+                                }
                                 if ($value2->label === __("Group")) {
                                     ?>
                                     <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
