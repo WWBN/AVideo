@@ -580,7 +580,9 @@ if (User::isAdmin()) {
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label"><?php echo __("SMTP Password"); ?></label>
                                                         <div class="col-md-8">
-                                                            <input id="smtpPassword" class="form-control"  type="password" value="<?php echo $config->getSmtpPassword(); ?>" >
+                                                            <?php
+                                                            getInputPassword("smtpPassword", 'class="form-control" value="'.$config->getSmtpPassword().'"', __("SMTP Password"));
+                                                            ?>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">

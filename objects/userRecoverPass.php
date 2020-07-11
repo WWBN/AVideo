@@ -104,20 +104,18 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input name="newPassword" placeholder="<?php echo __("New Password"); ?>" class="form-control"  type="password" value="" >
-                                    </div>
+                                    <?php
+                                    getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password"));
+                                    ?>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input  name="newPasswordConfirm" placeholder="<?php echo __("Confirm New Password"); ?>" class="form-control"  type="password" value="" >
-                                    </div>
+                                    <?php
+                                    getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password"));
+                                    ?>
                                 </div>
                             </div>
 

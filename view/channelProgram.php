@@ -238,7 +238,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                     <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo showMoreLess <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;  <?php echo $style; ?>">
                                         <div class="panel panel-default" playListId="<?php echo $program['id']; ?>" style="min-height: 215px;">
                                             <div class="panel-body" style="overflow: hidden;">
-                                                <a class="aspectRatio16_9" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>" style="margin: 3px 0; overflow: visible;" >
+                                                <a class="aspectRatio16_9" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>" style="margin: 15px 0; overflow: visible;" >
                                                     <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                                     <?php
                                                     if ($value['type'] !== 'pdf' && $value['type'] !== 'article' && $value['type'] !== 'serie') {

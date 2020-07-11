@@ -3462,3 +3462,29 @@ function html2plainText($html){
     $text = str_replace(array('\\',"\n", "\r", '"'), array('', ' ', ' ', ''), trim($text));
     return $text;
 }
+
+function getInputPassword($id, $attributes = 'class="form-control"', $paceholder=''){
+    if(empty($paceholder)){
+        $paceholder = __("Password");
+    }
+    
+    ?>
+    <div class="input-group">
+        <span class="input-group-addon"><i class="fas fa-lock"></i></span>
+        <input id="<?php echo $id; ?>" type="password"  placeholder="<?php echo $paceholder; ?>" <?php echo $attributes; ?> >
+        <span class="input-group-addon" style="cursor: pointer;" id="toggle_<?php echo $id; ?>"><i class="fas fa-eye-slash"></i></span>
+    </div>    
+    <script>
+        $(document).ready(function () {
+            $('#toggle_<?php echo $id; ?>').click(function(){
+                $(this).find('i').toggleClass("fa-eye fa-eye-slash");
+                if($(this).find('i').hasClass("fa-eye")){
+                    $("#<?php echo $id; ?>").attr("type", "text");
+                }else{
+                    $("#<?php echo $id; ?>").attr("type", "password");
+                }
+            })
+        });
+    </script>
+    <?php
+}

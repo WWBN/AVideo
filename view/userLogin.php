@@ -85,10 +85,9 @@ if (empty($_COOKIE)) {
                     <div class="form-group">
                         <label class="col-sm-4 control-label hidden-xs"><?php echo __("Password"); ?></label>
                         <div class="col-sm-8 inputGroupContainer">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input  id="inputPassword" placeholder="<?php echo __("Password"); ?>" class="form-control"  type="password" value="" >
-                            </div>
+                            <?php
+                            getInputPassword("inputPassword");
+                            ?>
                         </div>
                     </div>
 

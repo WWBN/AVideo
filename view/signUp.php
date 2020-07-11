@@ -78,6 +78,9 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                             <div class="form-group">
                                 <label class="col-sm-4 control-label hidden-xs"><?php echo __("New Password"); ?></label>
                                 <div class="col-sm-8 inputGroupContainer">
+                                    <?php
+                                    getInputPassword("inputPassword", 'class="form-control" autocomplete="off', __("New Password"));
+                                    ?>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                         <input  id="inputPassword" placeholder="<?php echo __("New Password"); ?>" class="form-control"  type="password" value=""  autocomplete="off" >

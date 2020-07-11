@@ -80,20 +80,18 @@
 <div class="form-group">
     <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
     <div class="col-md-8 inputGroupContainer">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input  id="inputPassword" placeholder="<?php echo __("New Password"); ?>" class="form-control"  type="password" value="" autocomplete="off" >
-        </div>
+        <?php
+        getInputPassword("inputPassword", 'class="form-control"  autocomplete="off"', __("New Password"));
+        ?>
     </div>
 </div>
 
 <div class="form-group">
     <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
     <div class="col-md-8 inputGroupContainer">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input  id="inputPasswordConfirm" placeholder="<?php echo __("Confirm New Password"); ?>" class="form-control"  type="password" value="" autocomplete="off" >
-        </div>
+        <?php
+        getInputPassword("inputPasswordConfirm", 'class="form-control"  autocomplete="off"', __("Confirm New Password"));
+        ?>
     </div>
 </div>
 
@@ -200,7 +198,6 @@ AVideoPlugin::getMyAccount(User::getId());
 
 <script>
     var uploadCrop;
-
     function isAnalytics() {
         return true;
         str = $('#analyticsCode').val();
