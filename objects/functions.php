@@ -1794,9 +1794,9 @@ function local_get_contents($path) {
     }
 }
 
-function url_get_contents($url, $ctx = "", $timeout = 0, $debug=false) {
+function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-    if($debug){
+    if ($debug) {
         _error_log("url_get_contents: Start $url, $ctx, $timeout");
     }
     if (filter_var($url, FILTER_VALIDATE_URL)) {
@@ -1804,8 +1804,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug=false) {
         $session = $_SESSION;
         session_write_close();
         if (!empty($timeout)) {
-            if($debug){
-                _error_log("url_get_contents: no timout");
+            if ($debug) {
+                _error_log("url_get_contents: no timout {$url}");
             }
             ini_set('default_socket_timeout', $timeout);
         }
@@ -1814,12 +1814,12 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug=false) {
         // If is URL try wget First
         if (empty($ctx)) {
             $filename = getTmpDir("YPTurl_get_contents") . md5($url);
-            if($debug){
-                _error_log("url_get_contents: try wget $filename");
+            if ($debug) {
+                _error_log("url_get_contents: try wget $filename {$url}");
             }
-            if (wget($url, $filename)) {
-                if($debug){
-                    _error_log("url_get_contents: wget success ");
+            if (wget($url, $filename, $debug)) {
+                if ($debug) {
+                    _error_log("url_get_contents: wget success {$url} ");
                 }
                 $result = file_get_contents($filename);
                 unlink($filename);
@@ -1831,8 +1831,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug=false) {
                     }
                     return remove_utf8_bom($result);
                 }
-            }else if($debug){
-                _error_log("url_get_contents: try wget fail");
+            } else if ($debug) {
+                _error_log("url_get_contents: try wget fail {$url}");
             }
         }
     }
@@ -1854,8 +1854,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug=false) {
         $context = $ctx;
     }
     if (ini_get('allow_url_fopen')) {
-        if($debug){
-            _error_log("url_get_contents: allow_url_fopen");
+        if ($debug) {
+            _error_log("url_get_contents: allow_url_fopen {$url}");
         }
         try {
             $tmp = @file_get_contents($url, false, $context);
@@ -1865,23 +1865,23 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug=false) {
                     $_SESSION = $session;
                     _mysql_connect();
                 }
-                if($debug){
+                if ($debug) {
                     _error_log("url_get_contents: SUCCESS file_get_contents($url) ");
                 }
                 return remove_utf8_bom($tmp);
             }
-            if($debug){
+            if ($debug) {
                 _error_log("url_get_contents: ERROR file_get_contents($url) ");
             }
         } catch (ErrorException $e) {
-            if($debug){
-                _error_log("url_get_contents: allow_url_fopen ERROR ".$e->getMessage());
+            if ($debug) {
+                _error_log("url_get_contents: allow_url_fopen ERROR " . $e->getMessage(). "  {$url}");
             }
             return "url_get_contents: " . $e->getMessage();
         }
     } else if (function_exists('curl_init')) {
-        if($debug){
-            _error_log("url_get_contents: CURL ");
+        if ($debug) {
+            _error_log("url_get_contents: CURL  {$url} ");
         }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -1899,13 +1899,13 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug=false) {
             $_SESSION = $session;
             _mysql_connect();
         }
-        if($debug){
-            _error_log("url_get_contents: CURL SUCCESS ");
+        if ($debug) {
+            _error_log("url_get_contents: CURL SUCCESS {$url}");
         }
         return remove_utf8_bom($output);
     }
-    if($debug){
-        _error_log("url_get_contents: Nothing yet ");
+    if ($debug) {
+        _error_log("url_get_contents: Nothing yet  {$url}");
     }
     $result = @file_get_contents($url, false, $context);
     if (filter_var($url, FILTER_VALIDATE_URL)) {
@@ -1913,8 +1913,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug=false) {
         $_SESSION = $session;
         _mysql_connect();
     }
-    if($debug){
-        _error_log("url_get_contents: Last try ");
+    if ($debug) {
+        _error_log("url_get_contents: Last try  {$url}");
     }
     return remove_utf8_bom($result);
 }
@@ -2198,9 +2198,9 @@ function siteMap() {
 
         $description = str_replace(array('"', "\n", "\r"), array('', ' ', ' '), empty(trim($video['description'])) ? $video['title'] : $video['description']);
         $duration = parseDurationToSeconds($video['duration']);
-        if($duration>28800){
+        if ($duration > 28800) {
             // this is because this issue https://github.com/WWBN/AVideo/issues/3338 remove in the future if is not necessary anymore
-            $duration=28800;
+            $duration = 28800;
         }
         $xml .= '
             <url>
@@ -2208,7 +2208,7 @@ function siteMap() {
                 <video:video>
                     <video:thumbnail_loc>' . $img . '</video:thumbnail_loc>
                     <video:title>' . str_replace('"', '', $video['title']) . '</video:title>
-                    <video:description><![CDATA[' . substr(strip_tags($description),0,2048) . ']]></video:description>
+                    <video:description><![CDATA[' . substr(strip_tags($description), 0, 2048) . ']]></video:description>
                     <video:player_loc>' . htmlentities(parseVideos(Video::getLinkToVideo($videos_id))) . '</video:player_loc>
                     <video:duration>' . $duration . '</video:duration>
                     <video:view_count>' . $video['views_count'] . '</video:view_count>
@@ -2330,7 +2330,7 @@ function ddosProtection() {
 //progressive timeout-> more requests, longer timeout
     $active_connections = count($_SESSION['bruteForceBlock']);
     $timeoutReal = ($active_connections / $maxCon) < 1 ? 0 : ($active_connections / $maxCon) * $secondTimeout;
-    if($timeoutReal){
+    if ($timeoutReal) {
         _error_log("ddosProtection:: progressive timeout timeoutReal = ($timeoutReal) active_connections = ($active_connections) maxCon = ($maxCon) ", AVideoLog::$SECURITY);
     }
     sleep($timeoutReal);
@@ -2789,7 +2789,7 @@ function get_browser_name($user_agent = "") {
             strpos($t, 'bot') || strpos($t, 'archive') ||
             strpos($t, 'info') || strpos($t, 'data'))
         return '[Bot] Other';
-    _error_log("Unknow user agent ($t) IP=". getRealIpAddr(). " URI=" .getRequestURI());
+    _error_log("Unknow user agent ($t) IP=" . getRealIpAddr() . " URI=" . getRequestURI());
     return 'Other (Unknown)';
 }
 
@@ -2987,7 +2987,7 @@ function getUsageFromFilename($filename, $dir = "") {
                         }
                         if (!empty($urls['mp4'])) {
                             foreach ($urls['mp4'] as $mp4) {
-                                if(in_array($mp4, $filesProcessed)){
+                                if (in_array($mp4, $filesProcessed)) {
                                     continue;
                                 }
                                 $filesProcessed[] = $mp4;
@@ -2996,7 +2996,7 @@ function getUsageFromFilename($filename, $dir = "") {
                         }
                         if (!empty($urls['webm'])) {
                             foreach ($urls['webm'] as $mp4) {
-                                if(in_array($mp4, $filesProcessed)){
+                                if (in_array($mp4, $filesProcessed)) {
                                     continue;
                                 }
                                 $filesProcessed[] = $mp4;
@@ -3363,15 +3363,17 @@ function reloadSearchVar() {
     }
 }
 
-function wget($url, $filename) {
+function wget($url, $filename, $debug = false) {
     if (wgetIsLocked($url)) {
-        //_error_log("wget: ERROR the url is already downloading $url, $filename");
+        if ($debug) {
+            _error_log("wget: ERROR the url is already downloading $url, $filename");
+        }
         return false;
     }
     wgetLock($url);
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         $content = file_get_contents($url);
-        if(file_put_contents($filename, $content) > 100){
+        if (file_put_contents($filename, $content) > 100) {
             wgetRemoveLock($url);
             return true;
         }
@@ -3379,7 +3381,9 @@ function wget($url, $filename) {
         return false;
     }
     $cmd = "wget {$url} -O {$filename} --no-check-certificate";
-    //_error_log("wget Start ({$cmd}) ");
+    if ($debug) {
+        _error_log("wget Start ({$cmd}) ");
+    }
     //echo $cmd;
     exec($cmd);
     wgetRemoveLock($url);
@@ -3441,11 +3445,11 @@ function isWritable($dir) {
     return $result;
 }
 
-function _isWritable($dir){
+function _isWritable($dir) {
     if (!isWritable($dir)) {
         return false;
     }
-    $tmpFile = "{$dir}". uniqid();
+    $tmpFile = "{$dir}" . uniqid();
     $bytes = @file_put_contents($tmpFile, time());
     @unlink($tmpFile);
     return !empty($bytes);
@@ -3453,10 +3457,10 @@ function _isWritable($dir){
 
 function getTmpDir($subdir = "") {
     global $global;
-    if(empty($_SESSION['getTmpDir'])){
+    if (empty($_SESSION['getTmpDir'])) {
         $_SESSION['getTmpDir'] = array();
     }
-    if(empty($_SESSION['getTmpDir'][$subdir."_"])){
+    if (empty($_SESSION['getTmpDir'][$subdir . "_"])) {
         $tmpDir = sys_get_temp_dir();
         if (empty($tmpDir) || !_isWritable($tmpDir)) {
             $tmpDir = "{$global['systemRootPath']}videos/cache/";
@@ -3468,9 +3472,9 @@ function getTmpDir($subdir = "") {
             mkdir($tmpDir, 0755, true);
         }
         _session_start();
-        $_SESSION['getTmpDir'][$subdir."_"] = $tmpDir;
-    }else{
-        $tmpDir = $_SESSION['getTmpDir'][$subdir."_"];
+        $_SESSION['getTmpDir'][$subdir . "_"] = $tmpDir;
+    } else {
+        $tmpDir = $_SESSION['getTmpDir'][$subdir . "_"];
     }
     return $tmpDir;
 }
@@ -3490,35 +3494,34 @@ function getMySQLDate() {
     return $row;
 }
 
-function _file_put_contents($filename, $data, $flags = 0, $context = NULL){
+function _file_put_contents($filename, $data, $flags = 0, $context = NULL) {
     make_path($filename);
     return file_put_contents($filename, $data, $flags, $context);
 }
 
-function html2plainText($html){
+function html2plainText($html) {
     $text = strip_tags($html);
-    $text = str_replace(array('\\',"\n", "\r", '"'), array('', ' ', ' ', ''), trim($text));
+    $text = str_replace(array('\\', "\n", "\r", '"'), array('', ' ', ' ', ''), trim($text));
     return $text;
 }
 
-function getInputPassword($id, $attributes = 'class="form-control"', $paceholder=''){
-    if(empty($paceholder)){
+function getInputPassword($id, $attributes = 'class="form-control"', $paceholder = '') {
+    if (empty($paceholder)) {
         $paceholder = __("Password");
     }
-    
     ?>
     <div class="input-group">
         <span class="input-group-addon"><i class="fas fa-lock"></i></span>
         <input id="<?php echo $id; ?>" type="password"  placeholder="<?php echo $paceholder; ?>" <?php echo $attributes; ?> >
-        <span class="input-group-addon" style="cursor: pointer;" id="toggle_<?php echo $id; ?>"><i class="fas fa-eye-slash"></i></span>
+            <span class="input-group-addon" style="cursor: pointer;" id="toggle_<?php echo $id; ?>"><i class="fas fa-eye-slash"></i></span>
     </div>    
     <script>
         $(document).ready(function () {
-            $('#toggle_<?php echo $id; ?>').click(function(){
+            $('#toggle_<?php echo $id; ?>').click(function () {
                 $(this).find('i').toggleClass("fa-eye fa-eye-slash");
-                if($(this).find('i').hasClass("fa-eye")){
+                if ($(this).find('i').hasClass("fa-eye")) {
                     $("#<?php echo $id; ?>").attr("type", "text");
-                }else{
+                } else {
                     $("#<?php echo $id; ?>").attr("type", "password");
                 }
             })
