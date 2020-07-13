@@ -1,4 +1,6 @@
-
+<style>
+    td.wrapText{white-space: normal;}
+</style>
 <div class="container-fluid">
     <?php
     include $global['systemRootPath'] . 'view/include/updateCheck.php';
@@ -20,7 +22,7 @@
                     <thead>
                         <tr>
                             <th data-column-id="name" data-formatter="name" data-width="300px" ><?php echo __("Name"); ?></th>
-                            <th data-column-id="description"><?php echo __("description"); ?></th>
+                            <th data-column-id="description" data-css-class="wrapText"><?php echo __("description"); ?></th>
                             <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="150px"></th>
                         </tr>
                     </thead>
