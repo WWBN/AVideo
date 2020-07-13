@@ -1794,13 +1794,19 @@ function local_get_contents($path) {
     }
 }
 
-function url_get_contents($url, $ctx = "", $timeout = 0) {
+function url_get_contents($url, $ctx = "", $timeout = 0, $debug=false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
+    if($debug){
+        _error_log("url_get_contents: Start $url, $ctx, $timeout");
+    }
     if (filter_var($url, FILTER_VALIDATE_URL)) {
 
         $session = $_SESSION;
         session_write_close();
         if (!empty($timeout)) {
+            if($debug){
+                _error_log("url_get_contents: no timout");
+            }
             ini_set('default_socket_timeout', $timeout);
         }
         @$global['mysqli']->close();
@@ -1808,7 +1814,13 @@ function url_get_contents($url, $ctx = "", $timeout = 0) {
         // If is URL try wget First
         if (empty($ctx)) {
             $filename = getTmpDir("YPTurl_get_contents") . md5($url);
+            if($debug){
+                _error_log("url_get_contents: try wget $filename");
+            }
             if (wget($url, $filename)) {
+                if($debug){
+                    _error_log("url_get_contents: wget success ");
+                }
                 $result = file_get_contents($filename);
                 unlink($filename);
                 if (!empty($result)) {
@@ -1819,6 +1831,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0) {
                     }
                     return remove_utf8_bom($result);
                 }
+            }else if($debug){
+                _error_log("url_get_contents: try wget fail");
             }
         }
     }
@@ -1840,6 +1854,9 @@ function url_get_contents($url, $ctx = "", $timeout = 0) {
         $context = $ctx;
     }
     if (ini_get('allow_url_fopen')) {
+        if($debug){
+            _error_log("url_get_contents: allow_url_fopen");
+        }
         try {
             $tmp = @file_get_contents($url, false, $context);
             if ($tmp != false) {
@@ -1848,12 +1865,24 @@ function url_get_contents($url, $ctx = "", $timeout = 0) {
                     $_SESSION = $session;
                     _mysql_connect();
                 }
+                if($debug){
+                    _error_log("url_get_contents: SUCCESS file_get_contents($url) ");
+                }
                 return remove_utf8_bom($tmp);
             }
+            if($debug){
+                _error_log("url_get_contents: ERROR file_get_contents($url) ");
+            }
         } catch (ErrorException $e) {
+            if($debug){
+                _error_log("url_get_contents: allow_url_fopen ERROR ".$e->getMessage());
+            }
             return "url_get_contents: " . $e->getMessage();
         }
     } else if (function_exists('curl_init')) {
+        if($debug){
+            _error_log("url_get_contents: CURL ");
+        }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -1870,13 +1899,22 @@ function url_get_contents($url, $ctx = "", $timeout = 0) {
             $_SESSION = $session;
             _mysql_connect();
         }
+        if($debug){
+            _error_log("url_get_contents: CURL SUCCESS ");
+        }
         return remove_utf8_bom($output);
+    }
+    if($debug){
+        _error_log("url_get_contents: Nothing yet ");
     }
     $result = @file_get_contents($url, false, $context);
     if (filter_var($url, FILTER_VALIDATE_URL)) {
         _session_start();
         $_SESSION = $session;
         _mysql_connect();
+    }
+    if($debug){
+        _error_log("url_get_contents: Last try ");
     }
     return remove_utf8_bom($result);
 }
