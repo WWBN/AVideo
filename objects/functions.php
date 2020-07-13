@@ -3380,7 +3380,7 @@ function wget($url, $filename, $debug = false) {
         wgetRemoveLock($url);
         return false;
     }
-    $cmd = "wget {$url} -O {$filename} --no-check-certificate";
+    $cmd = "wget --tries=1 {$url} -O {$filename} --no-check-certificate";
     if ($debug) {
         _error_log("wget Start ({$cmd}) ");
     }
