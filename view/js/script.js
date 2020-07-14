@@ -520,14 +520,6 @@ function isMobile() {
     return check;
 }
 
-function copyToClipboard(text) {
-    var $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val(text).select();
-    document.execCommand("copy");
-    $temp.remove();
-}
-
 var last_videos_id = 0;
 var last_currentTime = -1;
 function addView(videos_id, currentTime) {
@@ -559,14 +551,13 @@ function getPlayerButtonIndex(name) {
     return children.length;
 }
 
-
 function copyToClipboard(text) {
-
     $('#elementToCopy').css({'top': mouseY, 'left': mouseX}).fadeIn('slow');
     $('#elementToCopy').val(text);
     $('#elementToCopy').focus();
     $('#elementToCopy').select();
     document.execCommand('copy');
+    $.toast("Copied to Clipboard");
 }
 
 function nl2br(str, is_xhtml) {

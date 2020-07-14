@@ -188,7 +188,18 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
                             var id = $(response.applications[i].htmlExtra).attr('id');
                             if (loadedExtraVideos.indexOf(id) == -1) {
                                 loadedExtraVideos.push(id)
-                                $('.extraVideos').append(response.applications[i].htmlExtra);
+                                <?php
+                                if(isLive()){
+                                    ?>
+                                        $('.extraVideos').append(response.applications[i].htmlExtraVideoPage);
+                                    <?php
+                                }else{
+                                    ?>
+                                        $('.extraVideos').append(response.applications[i].htmlExtra);
+                                    <?php
+                                }
+                                ?>
+                                
                             }
                         }
                         $('#liveVideos').slideDown();

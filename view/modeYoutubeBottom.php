@@ -271,13 +271,13 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                         ?>
                     </div>
                     <div class="tab-pane" id="tabEmbed">
-                        <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?> (Iframe):</h4>
+                        <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?> (Iframe): <?php echo getButtontCopyToClipboard('textAreaEmbed'); ?></h4> 
                         <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbed" readonly="readonly"><?php
                             $code = str_replace("{embedURL}", Video::getLink($video['id'], $video['clean_title'], true), $advancedCustom->embedCodeTemplate);
                             echo htmlentities($code);
                             ?>
                         </textarea>
-                        <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?> (Object):</h4>
+                        <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?> (Object): <?php echo getButtontCopyToClipboard('textAreaEmbedObject'); ?></h4>
                         <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbedObject" readonly="readonly"><?php
                             $code = str_replace("{embedURL}", Video::getLink($video['id'], $video['clean_title'], true), $advancedCustom->embedCodeTemplateObject);
                             echo htmlentities($code);
@@ -373,21 +373,21 @@ if (empty($video) && !empty($_GET['videos_id'])) {
                     <div class="tab-pane" id="tabPermaLink">
                         <div class="form-group">
                             <label class="control-label"><?php echo __("Permanent Link") ?></label>
-                            <div class="">
-                                <input value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"  id="linkPermanent"/>
-                            </div>
+                            <?php
+                            getInputCopyToClipboard('linkPermanent', Video::getPermaLink($video['id']));
+                            ?>
                         </div>
                         <div class="form-group">
                             <label class="control-label"><?php echo __("URL Friendly") ?> (SEO)</label>
-                            <div class="">
-                                <input value="<?php echo Video::getURLFriendly($video['id']); ?>" class="form-control" readonly="readonly" id="linkFriendly"/>
-                            </div>
+                            <?php
+                            getInputCopyToClipboard('linkFriendly', Video::getURLFriendly($video['id']));
+                            ?>
                         </div>
                         <div class="form-group">
                             <label class="control-label"><?php echo __("Current Time") ?> (SEO)</label>
-                            <div class="">
-                                <input value="<?php echo Video::getURLFriendly($video['id']); ?>?t=0" class="form-control" readonly="readonly" id="linkCurrentTime"/>
-                            </div>
+                            <?php
+                            getInputCopyToClipboard('linkCurrentTime', Video::getURLFriendly($video['id']));
+                            ?>
                         </div>
                     </div>
                 </div>

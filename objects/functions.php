@@ -1875,7 +1875,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
             }
         } catch (ErrorException $e) {
             if ($debug) {
-                _error_log("url_get_contents: allow_url_fopen ERROR " . $e->getMessage(). "  {$url}");
+                _error_log("url_get_contents: allow_url_fopen ERROR " . $e->getMessage() . "  {$url}");
             }
             return "url_get_contents: " . $e->getMessage();
         }
@@ -3373,7 +3373,7 @@ function wget($url, $filename, $debug = false) {
     wgetLock($url);
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         $content = file_get_contents($url);
-        if (file_put_contents($filename, $content) > 100) {
+        if (!empty($content) && file_put_contents($filename, $content) > 100) {
             wgetRemoveLock($url);
             return true;
         }
@@ -3513,7 +3513,7 @@ function getInputPassword($id, $attributes = 'class="form-control"', $paceholder
     <div class="input-group">
         <span class="input-group-addon"><i class="fas fa-lock"></i></span>
         <input id="<?php echo $id; ?>" type="password"  placeholder="<?php echo $paceholder; ?>" <?php echo $attributes; ?> >
-            <span class="input-group-addon" style="cursor: pointer;" id="toggle_<?php echo $id; ?>"><i class="fas fa-eye-slash"></i></span>
+            <span class="input-group-addon" style="cursor: pointer;" id="toggle_<?php echo $id; ?>"  data-toggle="tooltip" data-placement="left" title="<?php echo __('Show/Hide Password'); ?>"><i class="fas fa-eye-slash"></i></span>
     </div>    
     <script>
         $(document).ready(function () {
@@ -3528,4 +3528,82 @@ function getInputPassword($id, $attributes = 'class="form-control"', $paceholder
         });
     </script>
     <?php
+}
+
+function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control" readonly="readonly"', $paceholder = '') {
+    if (strpos($value, '"') !== false) {
+        $valueAttr = "value='{$value}'";
+    } else {
+        $valueAttr = 'value="' . $value . '"';
+    }
+    ?>
+    <div class="input-group">
+        <input id="<?php echo $id; ?>" type="text"  placeholder="<?php echo $paceholder; ?>" <?php echo $attributes; ?> <?php echo $valueAttr; ?> >
+            <span class="input-group-addon" style="cursor: pointer;" id="copyToClipboard_<?php echo $id; ?>"  data-toggle="tooltip" data-placement="left" title="<?php echo __('Copy to Clipboard'); ?>"><i class="fas fa-clipboard"></i></span>
+    </div>    
+    <script>
+        var timeOutCopyToClipboard_<?php echo $id; ?>;
+        $(document).ready(function () {
+            $('#copyToClipboard_<?php echo $id; ?>').click(function () {
+                clearTimeout(timeOutCopyToClipboard_<?php echo $id; ?>);
+                $('#copyToClipboard_<?php echo $id; ?>').find('i').removeClass("fa-clipboard");
+                $('#copyToClipboard_<?php echo $id; ?>').find('i').addClass("text-success");
+                $('#copyToClipboard_<?php echo $id; ?>').addClass('bg-success');
+                $('#copyToClipboard_<?php echo $id; ?>').find('i').addClass("fa-clipboard-check");
+                timeOutCopyToClipboard_<?php echo $id; ?> = setTimeout(function () {
+                    $('#copyToClipboard_<?php echo $id; ?>').find('i').removeClass("fa-clipboard-check");
+                    $('#copyToClipboard_<?php echo $id; ?>').find('i').removeClass("text-success");
+                    $('#copyToClipboard_<?php echo $id; ?>').removeClass('bg-success');
+                    $('#copyToClipboard_<?php echo $id; ?>').find('i').addClass("fa-clipboard");
+                }, 3000);
+                copyToClipboard($('#<?php echo $id; ?>').val());
+            })
+        });
+    </script>
+    <?php
+}
+
+function getButtontCopyToClipboard($elemToCopyId, $attributes = 'class="btn btn-default btn-sm btn-xs pull-right"', $label = "Copy to Clipboard") {
+    $id = "getButtontCopyToClipboard" . uniqid();
+    ?>
+    <button id="<?php echo $id; ?>" <?php echo $attributes; ?> data-toggle="tooltip" data-placement="left" title="<?php echo __($label); ?>"><i class="fas fa-clipboard"></i> <?php echo __($label); ?></button>
+    <script>
+        var timeOutCopyToClipboard_<?php echo $id; ?>;
+        $(document).ready(function () {
+            $('#<?php echo $id; ?>').click(function () {
+                clearTimeout(timeOutCopyToClipboard_<?php echo $id; ?>);
+                $('#<?php echo $id; ?>').find('i').removeClass("fa-clipboard");
+                $('#<?php echo $id; ?>').find('i').addClass("text-success");
+                $('#<?php echo $id; ?>').addClass('bg-success');
+                $('#<?php echo $id; ?>').find('i').addClass("fa-clipboard-check");
+                timeOutCopyToClipboard_<?php echo $id; ?> = setTimeout(function () {
+                    $('#<?php echo $id; ?>').find('i').removeClass("fa-clipboard-check");
+                    $('#<?php echo $id; ?>').find('i').removeClass("text-success");
+                    $('#<?php echo $id; ?>').removeClass('bg-success');
+                    $('#<?php echo $id; ?>').find('i').addClass("fa-clipboard");
+                }, 3000);
+                copyToClipboard($('#<?php echo $elemToCopyId; ?>').val());
+            })
+        });
+    </script>
+    <?php
+}
+
+function fakeBrowser($url) {
+    // create curl resource
+    $ch = curl_init();
+
+    // set url
+    curl_setopt($ch, CURLOPT_URL, $url);
+
+    //return the transfer as a string
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
+
+    // $output contains the output string
+    $output = curl_exec($ch);
+
+    // close curl resource to free up system resources
+    curl_close($ch);
+    return $output;
 }

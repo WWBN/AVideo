@@ -437,9 +437,11 @@ class Live extends PluginAbstract {
             if (!empty($server) && is_object($server)) {
                 $server->live_servers_id = $value['id'];
                 $server->playerServer = $value['playerServer'];
-
                 foreach ($server->applications as $key => $app) {
                     $_REQUEST['live_servers_id'] = $value['id'];
+                    if(empty($app['key'])){
+                        $app['key'] = "";
+                    }
                     $server->applications[$key]['m3u8'] = self::getM3U8File($app['key']);
                 }
 
@@ -574,8 +576,6 @@ class Live extends PluginAbstract {
             }
         }
 
-        $appArray = AVideoPlugin::getLiveApplicationArray();
-        $obj->applications = array_merge($obj->applications, $appArray);
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         return $obj;

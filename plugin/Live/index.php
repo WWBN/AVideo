@@ -172,15 +172,21 @@ if (empty($channelName)) {
                             <div class="panel-body">          
                                 <div class="form-group">
                                     <label for="playerURL"><i class="fa fa-play-circle"></i> <?php echo __("Player URL"); ?>:</label>
-                                    <input type="text" class="form-control" id="playerURL" value="<?php echo Live::getM3U8File($trasnmition['key']); ?>"  readonly="readonly">
+                                    <?php
+                                    getInputCopyToClipboard('playerURL', Live::getM3U8File($trasnmition['key']));
+                                    ?>
                                 </div>       
                                 <div class="form-group">
                                     <label for="avideoURL"><i class="fa fa-circle"></i> <?php echo __("Live URL"); ?>:</label>
-                                    <input type="text" class="form-control" id="avideoURL" value="<?php echo Live::getLinkToLiveFromUsers_id($users_id); ?>"  readonly="readonly">
+                                    <?php
+                                    getInputCopyToClipboard('avideoURL', Live::getLinkToLiveFromUsers_id($users_id));
+                                    ?>
                                 </div>   
                                 <div class="form-group">
                                     <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
-                                    <input type="text" class="form-control" id="embedStream" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo Live::getLinkToLiveFromUsers_id($users_id); ?>&embed=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>'  readonly="readonly">
+                                    <?php
+                                    getInputCopyToClipboard('embedStream', '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="'.Live::getLinkToLiveFromUsers_id($users_id).'&embed=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>');
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -189,21 +195,27 @@ if (empty($channelName)) {
                             <div class="panel-body" style="overflow: hidden;">
                                 <div class="form-group">
                                     <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
-                                    <input type="text" class="form-control" id="server" value="<?php echo Live::getServer(); ?>?p=<?php echo User::getUserPass(); ?>" readonly="readonly">
+                                    <?php
+                                    getInputCopyToClipboard('server', Live::getServer()."?p=".User::getUserPass());
+                                    ?>
                                     <small class="label label-info"><i class="fa fa-warning"></i> <?php echo __("If you change your password the Server URL parameters will be changed too."); ?></small>
                                 </div>
                                 <div class="form-group">
                                     <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Stream name/key"); ?>:</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="streamkey" value="<?php echo $trasnmition['key']; ?>" readonly="readonly">
                                         <span class="input-group-btn">
                                             <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?resetKey=1"><i class="fa fa-refresh"></i> <?php echo __("Reset Key"); ?></a>
                                         </span>
+                                        <?php
+                                        getInputCopyToClipboard('streamkey', $trasnmition['key']);
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Server URL"); ?> + <?php echo __("Stream name/key"); ?>:</label>
-                                    <input type="text" class="form-control" id="serverAndStreamkey" value="<?php echo Live::getServer(); ?>?p=<?php echo User::getUserPass(); ?>/<?php echo $trasnmition['key']; ?>" readonly="readonly">
+                                    <label for="serverAndStreamkey"><i class="fa fa-key"></i> <?php echo __("Server URL"); ?> + <?php echo __("Stream name/key"); ?>:</label>
+                                    <?php
+                                    getInputCopyToClipboard('serverAndStreamkey', Live::getServer()."?p=".User::getUserPass()."/".$trasnmition['key']);
+                                    ?>
                                     <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Keep Key Private, Anyone with key can broadcast on your account"); ?></span>
                                 </div>
                             </div>

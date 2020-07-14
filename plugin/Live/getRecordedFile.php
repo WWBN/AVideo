@@ -37,3 +37,5 @@ $fp = fopen($filename, 'rb');
 fpassthru($fp);
 error_log("getRecordedFile: $filename finish ");
 //unlink($filename); uncomment this for autodelete, or create a crontab to delete old files
+// Auto delete files older than 7 days
+//@daily root find /var/www/tmp/*.flv -mtime +6 -type f -delete

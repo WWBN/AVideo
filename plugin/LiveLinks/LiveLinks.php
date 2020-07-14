@@ -80,6 +80,7 @@ class LiveLinks extends PluginAbstract {
         $obj = $this->getDataObject();
         $filename = $global['systemRootPath'] . 'plugin/LiveLinks/view/menuItem.html';
         $filenameExtra = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItem.html';
+        $filenameExtraVideoPage = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItemVideoPage.html';
         $row = LiveLinks::getAllActive();
         $array = array();
         $search = array(
@@ -95,6 +96,7 @@ class LiveLinks extends PluginAbstract {
         );
         $content = file_get_contents($filename);
         $contentExtra = file_get_contents($filenameExtra);
+        $contentExtraVideoPage = file_get_contents($filenameExtraVideoPage);
         
         if(empty($_GET['requestComesFromVideoPage'])){
             $regex = "/".addcslashes($global['webSiteRootURL'],"/")."video\/.*/";
@@ -128,10 +130,12 @@ class LiveLinks extends PluginAbstract {
 
             $newContent = str_replace($search, $replace, $content);
             $newContentExtra = str_replace($search, $replace, $contentExtra);
+            $newContentExtraVideoPage = str_replace($search, $replace, $contentExtraVideoPage);
             $array[] = array(
                 "type" => "LiveLink",
                 "html" => $newContent,
                 "htmlExtra" => $newContentExtra,
+                "htmlExtraVideoPage" => $newContentExtraVideoPage,
                 "UserPhoto" => $UserPhoto,
                 "title" => $value['title'],
                 "name" => $name,
