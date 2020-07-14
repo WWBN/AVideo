@@ -1,12 +1,14 @@
 <?php
-
+/**
+ * This script will get all the saved lives on remote servers ans send them to the recorder plugin
+ */
 if (php_sapi_name() !== 'cli') {
     return die('Command Line only');
 }
 
 $record_path = "/var/www/tmp/";
 $liveServerURL = "encoder.gdrive.local"; // your live server URL
-$streamerServerURL = "https://vod.lifestream.tv/"; // your live server URL
+$streamerServerURL = "https://www.yourStreamerSite.tv/"; // your live server URL
 $secretRecorderKey = "xxx"; // must match with the plugin parameter
 
 
