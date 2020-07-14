@@ -52,7 +52,7 @@ if (!empty($_POST['videos_id'])) {
         die(json_encode($obj));
     }
 
-    if (YPTWallet::transferBalance(User::getId(), $video->getUsers_id(), $value, "Donation to video ($videos_id) " . $video->getClean_title())) {
+    if (YPTWallet::transferBalance(User::getId(), $video->getUsers_id(), $value, "Donation from ".User::getNameIdentification()." to video ($videos_id) " . $video->getClean_title())) {
         $obj->error = false;
         AVideoPlugin::afterDonation(User::getId(), $value, $videos_id, 0);
     }
@@ -70,7 +70,7 @@ if (!empty($_POST['videos_id'])) {
         die(json_encode($obj));
     }
 
-    if (YPTWallet::transferBalance(User::getId(), $users_id, $value, "Donation to Live for  " . $user->getNameIdentificationBd())) {
+    if (YPTWallet::transferBalance(User::getId(), $users_id, $value, "Donation from ".User::getNameIdentification()." to Live for  " . $user->getNameIdentificationBd())) {
         $obj->error = false;
         AVideoPlugin::afterDonation(User::getId(), $value, 0, $users_id);
     }
