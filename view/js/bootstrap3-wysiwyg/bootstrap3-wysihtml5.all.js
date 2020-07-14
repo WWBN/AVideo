@@ -14700,10 +14700,7 @@ function program17(depth0,data) {
           dialog.on('show', function() {
             $(this.container).modal('show');
           });
-          dialog.on('hide', function() {
-            $(this.container).modal('hide');
-            setTimeout(editor.composer.focus, 0);
-          });
+          dialog.on('hide', function() { $(this.container).modal('hide'); setTimeout(function () { editor.composer.focus.call(editor.composer); }, 0); });
           $(dialog.container).on('shown.bs.modal', function () {
             $(this).find('input, select, textarea').first().focus();
           });
