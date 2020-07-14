@@ -51,26 +51,29 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id'])) {
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success btn-block"><i class="fas fa-hand-holding-usd" onclick="submitDonation<?php echo $uid; ?>();"></i> <?php echo __("Confirm Donation"); ?></button>
+                        <button class="btn btn-success btn-block" onclick="submitDonation<?php echo $uid; ?>();" ><i class="fas fa-hand-holding-usd"></i> <?php echo __("Confirm Donation"); ?></button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <script>
             function submitDonation<?php echo $uid; ?>() {
+                modal.showPleaseWait();
                 $.ajax({
                     url: '<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/donate.json.php',
                     data: {
                         "value": $('#donationValue<?php echo $uid; ?>').val(),
-                        "videos_id": <?php echo $video['id']; ?>,
+                        "videos_id": <?php echo intval(@$video['id']); ?>,
+                        "users_id": <?php echo intval(@$video['users_id']); ?>,
                         "captcha": $('#captchaText<?php echo $uid; ?>').val()
                     },
                     type: 'post',
                     success: function (response) {
+                        modal.hidePleaseWait();
                         if (response.error) {
                             swal("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
-                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Thank you!"); ?>", "error");
+                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Thank you!"); ?>", "success");
                         }
                     }
                 });
