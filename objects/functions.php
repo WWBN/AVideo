@@ -1810,31 +1810,6 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
             ini_set('default_socket_timeout', $timeout);
         }
         @$global['mysqli']->close();
-
-        // If is URL try wget First
-        if (empty($ctx)) {
-            $filename = getTmpDir("YPTurl_get_contents") . md5($url);
-            if ($debug) {
-                _error_log("url_get_contents: try wget $filename {$url}");
-            }
-            if (wget($url, $filename, $debug)) {
-                if ($debug) {
-                    _error_log("url_get_contents: wget success {$url} ");
-                }
-                $result = file_get_contents($filename);
-                unlink($filename);
-                if (!empty($result)) {
-                    if (filter_var($url, FILTER_VALIDATE_URL)) {
-                        _session_start();
-                        $_SESSION = $session;
-                        _mysql_connect();
-                    }
-                    return remove_utf8_bom($result);
-                }
-            } else if ($debug) {
-                _error_log("url_get_contents: try wget fail {$url}");
-            }
-        }
     }
 
     if (empty($ctx)) {
@@ -1907,6 +1882,30 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     if ($debug) {
         _error_log("url_get_contents: Nothing yet  {$url}");
     }
+
+    // try wget
+    $filename = getTmpDir("YPTurl_get_contents") . md5($url);
+    if ($debug) {
+        _error_log("url_get_contents: try wget $filename {$url}");
+    }
+    if (wget($url, $filename, $debug)) {
+        if ($debug) {
+            _error_log("url_get_contents: wget success {$url} ");
+        }
+        $result = file_get_contents($filename);
+        unlink($filename);
+        if (!empty($result)) {
+            if (filter_var($url, FILTER_VALIDATE_URL)) {
+                _session_start();
+                $_SESSION = $session;
+                _mysql_connect();
+            }
+            return remove_utf8_bom($result);
+        }
+    } else if ($debug) {
+        _error_log("url_get_contents: try wget fail {$url}");
+    }
+
     $result = @file_get_contents($url, false, $context);
     if (filter_var($url, FILTER_VALIDATE_URL)) {
         _session_start();
