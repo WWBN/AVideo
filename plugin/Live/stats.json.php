@@ -15,6 +15,9 @@ $cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']. jso
 $json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout);
 if(empty($json)){
     $json = Live::getStats();
+    if(!is_array($json) && is_object($json)){
+        $json = object_to_array($json);
+    }
     $appArray = AVideoPlugin::getLiveApplicationArray();
     if(!empty($appArray)){
         $obj = new stdClass();
