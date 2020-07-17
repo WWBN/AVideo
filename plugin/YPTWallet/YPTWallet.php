@@ -105,7 +105,7 @@ class YPTWallet extends PluginAbstract {
         $currency_symbol = $obj->currency_symbol;
         $decimalPrecision = $obj->decimalPrecision;
         $currency = $obj->currency;
-        if ($obj->virtual_currency_enable) {
+        if (empty($doNotUseVirtualCurrency) && $obj->virtual_currency_enable) {
             $currency_symbol = $obj->virtual_currency_symbol;
             $decimalPrecision = $obj->virtual_currency_decimalPrecision;
             $currency = $obj->virtual_currency;

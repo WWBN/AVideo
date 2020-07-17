@@ -341,7 +341,7 @@ class API extends PluginAbstract {
                 return new ApiObject("User Not defined");
             }
 
-            if (empty($user) || empty($user->getId())) {
+            if (empty($user) || empty($user->getBdId())) {
                 return new ApiObject("User Not found");
             }
             $p = AVideoPlugin::loadPlugin("Live");
@@ -462,6 +462,30 @@ class API extends PluginAbstract {
             $list[] = $obj;
         }
         return new ApiObject("", false, $list);
+    }
+    
+    
+    /**
+     * @param type $parameters
+     * Return all Subscribers from an user
+     * 'users_id' users ID
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?users_id=1&APIName={APIName}&APISecret={APISecret}
+     * @return \ApiObject
+     */
+    public function get_api_subscribers($parameters) {
+        global $global;
+        
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret !== @$_GET['APISecret']) {
+            return new ApiObject("Invalid APISecret");
+        }
+        if (empty($parameters['users_id'])) {
+            return new ApiObject("User ID can not be empty");
+        }
+        require_once $global['systemRootPath'].'objects/subscribe.php';
+        $subscribers = Subscribe::getAllSubscribes($parameters['users_id']);
+        return new ApiObject("", false, $subscribers);
     }
 
     /**
@@ -738,9 +762,9 @@ class API extends PluginAbstract {
         if (!User::isLogged()) {
             return new ApiObject("User must be logged");
         }
-        $_POST['message'] = $parameters['message'];
-        $_GET['users_id'] = $parameters['users_id'];
-        $_GET['room_users_id'] = $parameters['room_users_id'];
+        $_POST['message'] = @$parameters['message'];
+        $_GET['users_id'] = @$parameters['users_id'];
+        $_GET['room_users_id'] = @$parameters['room_users_id'];
         include $global['systemRootPath'] . 'plugin/Chat2/sendMessage.json.php';
         exit;
     }
@@ -769,8 +793,8 @@ class API extends PluginAbstract {
         if (!User::isLogged()) {
             return new ApiObject("User must be logged");
         }
-        $_GET['to_users_id'] = $parameters['to_users_id'];
-        $_GET['lower_then_id'] = $parameters['lower_then_id'];
+        $_GET['to_users_id'] = @$parameters['to_users_id'];
+        $_GET['lower_then_id'] = @$parameters['lower_then_id'];
         
         if(!empty($parameters['greater_then_id'])){
             if(empty($_SESSION['chatLog'])){
@@ -811,8 +835,8 @@ class API extends PluginAbstract {
         if (!User::isLogged()) {
             return new ApiObject("User must be logged");
         }
-        $_GET['room_users_id'] = $parameters['room_users_id'];
-        $_GET['lower_then_id'] = $parameters['lower_then_id'];
+        $_GET['room_users_id'] = @$parameters['room_users_id'];
+        $_GET['lower_then_id'] = @$parameters['lower_then_id'];
         
         if(!empty($parameters['greater_then_id'])){
             if(empty($_SESSION['chatLog'])){
@@ -826,6 +850,11 @@ class API extends PluginAbstract {
         
         include $global['systemRootPath'] . 'plugin/Chat2/getRoom.json.php';
         exit;
+    }
+    
+    static function getAPISecret(){
+        $obj = AVideoPlugin::getDataObject("API");
+        return $obj->APISecret;
     }
 
 }

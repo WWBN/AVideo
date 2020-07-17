@@ -89,7 +89,7 @@ class WalletLog extends ObjectYPT {
         $rows = array();
         if ($res) {
             while ($row = $res->fetch_assoc()) {
-                $row['valueText'] = "{$obj->currency_symbol} ".number_format($row['value'], $obj->decimalPrecision)." {$obj->currency}";
+                $row['valueText'] = YPTWallet::formatCurrency($row['value']);
                 $row['wallet'] = Wallet::getFromWalletId($row['wallet_id']);
                 $row['user'] = $row['wallet']['user'];
                 $row['balance'] = $row['wallet']['balance'];

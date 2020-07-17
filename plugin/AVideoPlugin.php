@@ -20,7 +20,7 @@ class AVideoPlugin {
         $time = $time[1] + $time[0];
         $finish = $time;
         $total_time = round(($finish - $global['AVideoPluginStart']), 4);
-        if($total_time > 0.05){
+        if($total_time > 0.25){
             _error_log("Warning: The plugin [{$pluginName}] takes {$total_time} seconds to complete. ", AVideoLog::$WARNING);
             _error_log($_SERVER["SCRIPT_FILENAME"], AVideoLog::$WARNING);
             

@@ -185,7 +185,7 @@ if (empty($channelName)) {
                                 <div class="form-group">
                                     <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
                                     <?php
-                                    getInputCopyToClipboard('embedStream', '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="'.Live::getLinkToLiveFromUsers_id($users_id).'&embed=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>');
+                                    getInputCopyToClipboard('embedStream', '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . Live::getLinkToLiveFromUsers_id($users_id) . '&embed=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>');
                                     ?>
                                 </div>
                             </div>
@@ -196,7 +196,7 @@ if (empty($channelName)) {
                                 <div class="form-group">
                                     <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
                                     <?php
-                                    getInputCopyToClipboard('server', Live::getServer()."?p=".User::getUserPass());
+                                    getInputCopyToClipboard('server', Live::getServer() . "?p=" . User::getUserPass());
                                     ?>
                                     <small class="label label-info"><i class="fa fa-warning"></i> <?php echo __("If you change your password the Server URL parameters will be changed too."); ?></small>
                                 </div>
@@ -214,7 +214,7 @@ if (empty($channelName)) {
                                 <div class="form-group">
                                     <label for="serverAndStreamkey"><i class="fa fa-key"></i> <?php echo __("Server URL"); ?> + <?php echo __("Stream name/key"); ?>:</label>
                                     <?php
-                                    getInputCopyToClipboard('serverAndStreamkey', Live::getServer()."?p=".User::getUserPass()."/".$trasnmition['key']);
+                                    getInputCopyToClipboard('serverAndStreamkey', Live::getServer() . "?p=" . User::getUserPass() . "/" . $trasnmition['key']);
                                     ?>
                                     <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Keep Key Private, Anyone with key can broadcast on your account"); ?></span>
                                 </div>
@@ -385,33 +385,38 @@ if (empty($channelName)) {
                                     //minImageHeight: 1152,
                                     //maxImageWidth: 2560,
                                     //maxImageHeight: 1440
+                                }).on('fileuploaded', function (event, previewId, index, fileId) {
+                                    var poster = webSiteRootURL+'<?php echo Live::_getPosterImage(User::getId(), $_REQUEST['live_servers_id']); ?>?'+Math.random();
+                                    $('#mainVideo video').attr('poster', poster);
+                                    $('#mainVideo .vjs-poster').css('background-image', 'url("'+poster+'"');
                                 });
 
                                 $('#removePoster').click(function () {
                                     modal.showPleaseWait();
                                     $.ajax({
                                         url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/removePoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>",
-                                        success: function (response) {
-                                            modal.hidePleaseWait();
-                                            if(response.error){
-                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                                            }else{
-                                                $('.vjs-poster').css('background-image', 'url("<?php echo $global['webSiteRootURL']; ?>'+response.newPoster+'")');
-                                                $('.kv-file-content img').attr('src', '<?php echo $global['webSiteRootURL']; ?>'+response.newPoster);
-                                            }
-                                        }
-                                    });
-                                });
-                                $('#btnSaveStream').click(function () {
-                                    saveStream();
-                                });
-                                $('#enableWebCam').click(function () {
-                                    amIOnline();
-                                });
-                                if (typeof player === 'undefined') {
-                                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                                }
-                            });
+                                                        success: function (response) {
+                                                            modal.hidePleaseWait();
+                                                            if (response.error) {
+                                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                            } else {
+                                                                $('#mainVideo video').attr('poster', webSiteRootURL + response.newPoster);
+                                                                $('#mainVideo .vjs-poster').css('background-image', 'url("'+webSiteRootURL+ response.newPoster + '")');
+                                                                $('.kv-file-content img').attr('src', '<?php echo $global['webSiteRootURL']; ?>' + response.newPoster);
+                                                            }
+                                                        }
+                                                    });
+                                                });
+                                                $('#btnSaveStream').click(function () {
+                                                    saveStream();
+                                                });
+                                                $('#enableWebCam').click(function () {
+                                                    amIOnline();
+                                                });
+                                                if (typeof player === 'undefined') {
+                                                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
+                                                }
+                                            });
         </script>
     </body>
 </html>

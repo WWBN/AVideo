@@ -1097,7 +1097,9 @@ if (typeof gtag !== \"function\") {
 
     static function getUserFromID($users_id) {
         global $global;
-
+        if(empty($users_id)){
+            return false;
+        }
         $sql = "SELECT * FROM users WHERE id = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($users_id));
         $user = sqlDAL::fetchAssoc($res);

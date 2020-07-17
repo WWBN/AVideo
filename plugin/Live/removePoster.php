@@ -32,8 +32,8 @@ $obj->file = Live::_getPosterImage(User::getId(), $live_servers_id);
 $obj->fileThumbs = Live::_getPosterThumbsImage(User::getId(), $live_servers_id);
 $obj->newPoster = 'plugin/Live/view/OnAir.jpg';
 
-unlink($global['systemRootPath'].$obj->file);
-unlink($global['systemRootPath'].$obj->fileThumbs);
+@unlink($global['systemRootPath'].$obj->file);
+@unlink($global['systemRootPath'].$obj->fileThumbs);
 
 $obj->error = false;
 

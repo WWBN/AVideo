@@ -81,8 +81,11 @@ function startModeFlix(container) {
     });
 
     $(container + '.carousel').each(function (index) {
-        var json = JSON.parse($(this).attr('data-flickity'));
-        $carousel.push($(this).flickity(json));
+        var dataFlickirty = $(this).attr('data-flickity');
+        if (typeof dataFlickirty != 'undefined') {
+            var json = JSON.parse($(this).attr('data-flickity'));
+            $carousel.push($(this).flickity(json));
+        }
     });
 
     $(container + ".thumbsImage").attr('startModeFlix', 1);
