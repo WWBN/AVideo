@@ -713,9 +713,13 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         preg_match('/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
 
 //the AVideo site
-        $site = $matches[1];
-        $id = $matches[2];
-        return $site . '/videoEmbeded/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
+        if(!empty($matches[1])){
+            $site = $matches[1];
+            $id = $matches[2];
+            return $site . '/videoEmbeded/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
+        }else{
+            return $link;
+        }
     }
 
     $url = $videoString;
