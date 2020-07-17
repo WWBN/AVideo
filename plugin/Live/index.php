@@ -167,6 +167,7 @@ if (empty($channelName)) {
                             <?php
                         }
                         ?>
+                        <div class="clear clearfix"></div>
                         <div class="panel panel-default">
                             <div class="panel-heading"><i class="fa fa-share"></i> <?php echo __("Share Info"); ?> (<?php echo $channelName; ?>)</div>
                             <div class="panel-body">          
