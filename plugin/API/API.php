@@ -105,6 +105,29 @@ class API extends PluginAbstract {
 
     /**
      * @param type $parameters 
+     * 'plugin_name' The plugin name that you want to retreive the parameters
+     * 'APISecret' to list all videos
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&rowCount=3&APISecret={APISecret}
+     * @return \ApiObject
+     */
+    public function get_api_plugin_parameters($parameters) {
+        global $global;
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if (!empty($parameters['plugin_name'])) {
+            if ($dataObj->APISecret === @$_GET['APISecret']) {
+                $obj->response = AVideoPlugin::getDataObject($parameters['plugin_name']); 
+            }else{
+                return new ApiObject("APISecret is required");
+            }
+        }else{
+            return new ApiObject("Plugin name Not found");
+        }
+        return new ApiObject("", false, $obj);
+    }
+    
+    /**
+     * @param type $parameters 
      * ['sort' database sort column]
      * ['rowCount' max numbers of rows]
      * ['current' current page]
