@@ -2283,6 +2283,10 @@ function allowOrigin() {
 }
 
 function rrmdir($dir) {
+    global $global;
+    if($dir == "{$global['systemRootPath']}videos/" || $dir == "{$global['systemRootPath']}videos"){
+        return false;
+    }
     if (is_dir($dir)) {
         $objects = scandir($dir);
         foreach ($objects as $object) {
