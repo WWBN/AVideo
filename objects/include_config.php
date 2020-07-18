@@ -55,6 +55,14 @@ ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 // each client should remember their session id for EXACTLY 1 hour
 session_set_cookie_params($config->getSession_timeout());
 
+//Fix “set SameSite cookie to none” warning
+if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
+    setcookie('key', 'value', ['samesite' => 'None', 'secure' => true]);
+}else{
+    header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
+    setcookie('key', 'value', time()+$config->getSession_timeout(), "/; SameSite=None; Secure");
+}
+
 session_start();
 
 // DDOS protection can be disabled in video/configuration.php
