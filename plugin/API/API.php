@@ -378,6 +378,79 @@ class API extends PluginAbstract {
             return new ApiObject("API Secret is not valid");
         }
     }
+    
+    
+    /**
+     * @param type $parameters 
+     * 'videos_id' the video id that will be deleted
+     * ['APISecret' if passed will not require user and pass]
+     * ['user' usename of the user that will like the video]
+     * ['pass' password  of the user that will like the video]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
+     * @return \ApiObject
+     */
+    public function get_api_video_delete($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/video.php';
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if (!empty($parameters['videos_id'])) {
+            if (!User::canUpload()) {
+                return new ApiObject("Access denied");
+            }
+            if (!empty($_GET['APISecret']) && $dataObj->APISecret !== $_GET['APISecret']) {
+                return new ApiObject("Secret does not match");
+            }
+            $obj = new Video("", "", $parameters['videos_id']);
+            if (!$obj->userCanManageVideo()) {
+               return new ApiObject("User cannot manage the video");
+            }
+            $id = $obj->delete();
+            return new ApiObject("", !$id, $id);
+        } else {
+            return new ApiObject("Video ID is required");
+        }
+    }
+    
+    /**
+     * @param type $parameters 
+     * 'videos_id' the video id that will be deleted
+     * 'title' the video title
+     * 'status' the video status
+     * ['APISecret' if passed will not require user and pass]
+     * ['user' usename of the user that will like the video]
+     * ['pass' password  of the user that will like the video]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
+     * @return \ApiObject
+     */
+    public function get_api_video_save($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/video.php';
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if (!empty($parameters['videos_id'])) {
+            if (!User::canUpload()) {
+                return new ApiObject("Access denied");
+            }
+            if (!empty($_GET['APISecret']) && $dataObj->APISecret !== $_GET['APISecret']) {
+                return new ApiObject("Secret does not match");
+            }
+            $obj = new Video("", "", $parameters['videos_id']);
+            if (!$obj->userCanManageVideo()) {
+               return new ApiObject("User cannot manage the video");
+            }
+            if(!empty($parameters['title'])){
+                $obj->setTitle($parameters['title']);
+            }
+            if(!empty($parameters['status'])){
+                $obj->setStatus($parameters['status']);
+            }
+            $id = $obj->save();
+            return new ApiObject("", !$id, $id);
+        } else {
+            return new ApiObject("Video ID is required");
+        }
+    }
 
     /**
      * @param type $parameters 
