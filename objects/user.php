@@ -1839,5 +1839,13 @@ if (typeof gtag !== \"function\") {
     function setDonationLink($donationLink) {
         $this->donationLink = $donationLink;
     }
+    
+    static function donationLink(){
+        if (self::isLogged()) {
+            return $_SESSION['user']['donationLink'];
+        } else {
+            return false;
+        }
+    }
 
 }

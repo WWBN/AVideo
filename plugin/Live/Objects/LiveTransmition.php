@@ -58,7 +58,7 @@ class LiveTransmition extends ObjectYPT {
     }
 
     function setPublic($public) {
-        $this->public = $public;
+        $this->public = intval($public);
     }
 
     function setSaveTransmition($saveTransmition) {

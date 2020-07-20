@@ -114,10 +114,13 @@ class Live extends PluginAbstract {
         return $o->key;
     }
 
-    static function getServer() {
+    static function getServer($live_servers_id=-1) {
         $obj = AVideoPlugin::getObjectData("Live");
         if (!empty($obj->useLiveServers)) {
-            $ls = new Live_servers(self::getCurrentLiveServersId());
+            if($live_servers_id<0){
+                $live_servers_id =self::getCurrentLiveServersId();
+            }
+            $ls = new Live_servers($live_servers_id);
             if (!empty($ls->getRtmp_server())) {
                 return $ls->getRtmp_server();
             }
@@ -380,8 +383,13 @@ class Live extends PluginAbstract {
         if (empty($user)) {
             return false;
         }
-        $ls = self::getCurrentLiveServersId();
-        return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$ls}&c=" . urlencode($user->getChannelName());
+        $live_servers_id = self::getCurrentLiveServersId();
+        return self::getLinkToLiveFromChannelNameAndLiveServer($user->getChannelName(), $live_servers_id);
+    }
+    
+    static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id) {
+        global $global;
+        return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
     }
 
     static function getAvailableLiveServersId() {
@@ -535,6 +543,9 @@ class Live extends PluginAbstract {
         foreach ($lifeStream as $value) {
             if (!empty($value->name)) {
                 $row = LiveTransmition::keyExists($value->name);
+                if(empty($row['users_id'])){
+                    continue;
+                }
                 if (!empty($row) && $value->name === $obj->name) {
                     $obj->msg = "ONLINE";
                 }
@@ -564,8 +575,22 @@ class Live extends PluginAbstract {
                 $user = $u->getUser();
                 $channelName = $u->getChannelName();
                 $photo = $u->getPhotoDB();
-                $UserPhoto = $u->getPhoto();
-                $obj->applications[] = array("key" => $value->name, "users" => $users, "name" => $userName, "user" => $user, "photo" => $photo, "UserPhoto" => $UserPhoto, "title" => $row['title'], 'channelName' => $channelName);
+                $poster = $global['webSiteRootURL'].$p->getPosterImage($row['users_id'], $live_servers_id);
+                $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id);
+                // this variable is to keep it compatible for Mobile app
+                $UserPhoto = $photo;
+                $obj->applications[] = array(
+                    "key" => $value->name, 
+                    "users" => $users, 
+                    "name" => $userName, 
+                    "user" => $user, 
+                    "photo" => $photo, 
+                    "UserPhoto" => $UserPhoto, 
+                    "title" => $row['title'], 
+                    'channelName' => $channelName,
+                    'poster' => $poster,
+                    'link' => $link."&embed=1"
+                );
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;
                     $obj->msg = (!$obj->error) ? "ONLINE" : "Waiting for Streamer";

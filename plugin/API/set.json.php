@@ -8,6 +8,8 @@ if (!file_exists($configFile)) {
 require_once $configFile;
 require_once $global['systemRootPath'].'plugin/API/API.php';
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: Content-Type");
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("API");
 $objData = AVideoPlugin::getObjectDataIfEnabled("API");
@@ -17,7 +19,14 @@ if(empty($plugin)){
     die(json_encode($obj));
 }
 
-$parameters = array_merge($_GET, $_POST);
+// gettig the mobile submited value
+$inputJSON = url_get_contents('php://input');
+$input = json_decode($inputJSON, TRUE); //convert JSON into array
+if(empty($input)){
+    $input = array();
+}
+
+$parameters = array_merge($_GET, $_POST, $input);
 
 $obj = $plugin->set($parameters);
 

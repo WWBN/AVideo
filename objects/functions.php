@@ -713,11 +713,11 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         preg_match('/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
 
 //the AVideo site
-        if(!empty($matches[1])){
+        if (!empty($matches[1])) {
             $site = $matches[1];
             $id = $matches[2];
             return $site . '/videoEmbeded/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
-        }else{
+        } else {
             return $link;
         }
     }
@@ -2280,11 +2280,13 @@ function allowOrigin() {
         header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
     }
     header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+    header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 }
 
 function rrmdir($dir) {
     global $global;
-    if($dir == "{$global['systemRootPath']}videos/" || $dir == "{$global['systemRootPath']}videos"){
+    if ($dir == "{$global['systemRootPath']}videos/" || $dir == "{$global['systemRootPath']}videos") {
         return false;
     }
     if (is_dir($dir)) {

@@ -1,5 +1,4 @@
 <?php
-
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
@@ -116,16 +115,16 @@ class API extends PluginAbstract {
         $dataObj = $this->getDataObject();
         if (!empty($parameters['plugin_name'])) {
             if ($dataObj->APISecret === @$_GET['APISecret']) {
-                $obj->response = AVideoPlugin::getDataObject($parameters['plugin_name']); 
-            }else{
+                $obj->response = AVideoPlugin::getDataObject($parameters['plugin_name']);
+            } else {
                 return new ApiObject("APISecret is required");
             }
-        }else{
+        } else {
             return new ApiObject("Plugin name Not found");
         }
         return new ApiObject("", false, $obj);
     }
-    
+
     /**
      * @param type $parameters 
      * ['sort' database sort column]
@@ -342,45 +341,6 @@ class API extends PluginAbstract {
     }
 
     /**
-     * Return a user information
-     * @param type $parameters 
-     * 'APISecret' to list all videos
-     * ['users_id' the user ID]
-     * ['user' the user name]
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}
-     * @return \ApiObject
-     */
-    public function get_api_user($parameters) {
-        global $global;
-        require_once $global['systemRootPath'] . 'objects/video.php';
-        $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret === @$_GET['APISecret']) {
-            if (!empty($_GET['users_id'])) {
-                $user = new User($_GET['users_id']);
-            } else if (!empty($_GET['user'])) {
-                $user = new User(0, $_GET['user'], false);
-            } else {
-                return new ApiObject("User Not defined");
-            }
-
-            if (empty($user) || empty($user->getBdId())) {
-                return new ApiObject("User Not found");
-            }
-            $p = AVideoPlugin::loadPlugin("Live");
-
-            $obj->user = User::getUserFromID($user->getBdId());
-            $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
-            $obj->livestream["server"] = $p->getServer() . "?p=" . $user->getPassword();
-
-            return new ApiObject("", false, $obj);
-        } else {
-            return new ApiObject("API Secret is not valid");
-        }
-    }
-    
-    
-    /**
      * @param type $parameters 
      * 'videos_id' the video id that will be deleted
      * ['APISecret' if passed will not require user and pass]
@@ -403,7 +363,7 @@ class API extends PluginAbstract {
             }
             $obj = new Video("", "", $parameters['videos_id']);
             if (!$obj->userCanManageVideo()) {
-               return new ApiObject("User cannot manage the video");
+                return new ApiObject("User cannot manage the video");
             }
             $id = $obj->delete();
             return new ApiObject("", !$id, $id);
@@ -411,7 +371,47 @@ class API extends PluginAbstract {
             return new ApiObject("Video ID is required");
         }
     }
-    
+
+    /**
+     * @param type $parameters 
+     * 'comment' String with the comment
+     * 'videos_id' the video that will receive the comment
+     * ['id' the comment id if you will edit some]
+     * ['APISecret' if passed will not require user and pass]
+     * ['user' usename of the user that will like the video]
+     * ['pass' password  of the user that will like the video]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
+     * @return \ApiObject
+     */
+    public function set_api_comment($parameters) {
+        global $global;
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if (!empty($parameters['videos_id'])) {
+            if (!empty($_GET['APISecret']) && $dataObj->APISecret !== $_GET['APISecret']) {
+                return new ApiObject("Secret does not match");
+            } else if (!User::canComment()) {
+                return new ApiObject("Access denied");
+            }
+            $parameters['comments_id'] = intval(@$parameters['comments_id']);
+            require_once $global['systemRootPath'] . 'objects/comment.php';
+            if (!empty($parameters['id'])) {
+                $parameters['id'] = intval($parameters['id']);
+                if (Comment::userCanEditComment($parameters['id'])) {
+                    $obj = new Comment("", 0, $parameters['id']);
+                    $obj->setComment($parameters['comment']);
+                }
+            } else {
+                $obj = new Comment($parameters['comment'], $parameters['videos_id']);
+                $obj->setComments_id_pai($parameters['comments_id']);
+            }
+            $id = $obj->save();
+            return new ApiObject("", !$id, $id);
+        } else {
+            return new ApiObject("Video ID is required");
+        }
+    }
+
     /**
      * @param type $parameters 
      * 'videos_id' the video id that will be deleted
@@ -423,7 +423,7 @@ class API extends PluginAbstract {
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
      * @return \ApiObject
      */
-    public function get_api_video_save($parameters) {
+    public function set_api_video_save($parameters) {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
@@ -437,15 +437,16 @@ class API extends PluginAbstract {
             }
             $obj = new Video("", "", $parameters['videos_id']);
             if (!$obj->userCanManageVideo()) {
-               return new ApiObject("User cannot manage the video");
+                return new ApiObject("User cannot manage the video");
             }
-            if(!empty($parameters['title'])){
+            if (!empty($parameters['title'])) {
                 $obj->setTitle($parameters['title']);
             }
-            if(!empty($parameters['status'])){
+            $id = $obj->save();
+            // set status must be after save videos parameters
+            if (!empty($parameters['status'])) {
                 $obj->setStatus($parameters['status']);
             }
-            $id = $obj->save();
             return new ApiObject("", !$id, $id);
         } else {
             return new ApiObject("Video ID is required");
@@ -461,6 +462,99 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'plugin/Live/stats.json.php';
         exit;
+    }
+    
+    
+    /**
+     * Return a user livestream information
+     * @param type $parameters 
+     * ['title' Livestream title]
+     * ['public' 1 = live is listed; 0 = not listed]
+     * ['APISecret' if passed will not require user and pass]
+     * ['users_id' the user ID]
+     * ['user' usename if does not have the APISecret]
+     * ['pass' password  if does not have the APISecret]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&users_id=1
+     * @return \ApiObject
+     */
+    public function set_api_livestream_save($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/video.php';
+        $obj = $this->startResponseObject($parameters);
+        if(empty($parameters['title']) && !isset($parameters['public'])){
+            return new ApiObject("Invalid parameters");
+        }
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret === @$_GET['APISecret'] || User::isLogged()) {
+            if(!empty($parameters['users_id'])){
+                if($dataObj->APISecret !== @$_GET['APISecret']){
+                    $parameters['users_id'] = User::getId();
+                }
+            }else{
+                $parameters['users_id'] = User::getId();
+            }
+            
+            $user = new User($parameters['users_id']);
+            if (empty($user->getUser())){
+                return new ApiObject("User Not defined");
+            }
+            $p = AVideoPlugin::loadPlugin("Live");
+
+            $trasnmition = LiveTransmition::createTransmitionIfNeed($parameters['users_id']);
+            $trans = new LiveTransmition($trasnmition['id']);
+            $trans->setTitle($parameters['title']);
+            $trans->setPublic($parameters['public']);
+            if($obj->id = $trans->save()){
+                return new ApiObject("", false, $obj);
+            }else{
+                return new ApiObject("Error on save");
+            }
+        } else {
+            return new ApiObject("API Secret is not valid");
+        }
+    }
+    
+    /**
+     * Return a user livestream information
+     * @param type $parameters 
+     * ['APISecret' if passed will not require user and pass]
+     * ['users_id' the user ID]
+     * ['user' usename if does not have the APISecret]
+     * ['pass' password  if does not have the APISecret]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&users_id=1
+     * @return \ApiObject
+     */
+    public function get_api_user($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/video.php';
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret === @$_GET['APISecret'] || User::isLogged()) {
+            
+            if(!empty($parameters['users_id'])){
+                if($dataObj->APISecret !== @$_GET['APISecret']){
+                    $parameters['users_id'] = User::getId();
+                }
+            }else{
+                $parameters['users_id'] = User::getId();
+            }
+            
+            $user = new User($parameters['users_id']);
+            if (empty($user->getUser())){
+                return new ApiObject("User Not defined");
+            }
+            $p = AVideoPlugin::loadPlugin("Live");
+
+            $obj->user = User::getUserFromID($user->getBdId());
+            $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
+            $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
+            $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
+            $obj->livestream["poster"] = $global['webSiteRootURL'].$p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
+
+            return new ApiObject("", false, $obj);
+        } else {
+            return new ApiObject("API Secret is not valid");
+        }
     }
 
     /**
@@ -559,8 +653,7 @@ class API extends PluginAbstract {
         }
         return new ApiObject("", false, $list);
     }
-    
-    
+
     /**
      * @param type $parameters
      * Return all Subscribers from an user
@@ -570,7 +663,7 @@ class API extends PluginAbstract {
      */
     public function get_api_subscribers($parameters) {
         global $global;
-        
+
         $obj = $this->startResponseObject($parameters);
         $dataObj = $this->getDataObject();
         if ($dataObj->APISecret !== @$_GET['APISecret']) {
@@ -579,7 +672,7 @@ class API extends PluginAbstract {
         if (empty($parameters['users_id'])) {
             return new ApiObject("User ID can not be empty");
         }
-        require_once $global['systemRootPath'].'objects/subscribe.php';
+        require_once $global['systemRootPath'] . 'objects/subscribe.php';
         $subscribers = Subscribe::getAllSubscribes($parameters['users_id']);
         return new ApiObject("", false, $subscribers);
     }
@@ -864,8 +957,7 @@ class API extends PluginAbstract {
         include $global['systemRootPath'] . 'plugin/Chat2/sendMessage.json.php';
         exit;
     }
-    
-    
+
     /**
      * @param type $parameters
      * The sample here will return 10 messages
@@ -891,23 +983,21 @@ class API extends PluginAbstract {
         }
         $_GET['to_users_id'] = @$parameters['to_users_id'];
         $_GET['lower_then_id'] = @$parameters['lower_then_id'];
-        
-        if(!empty($parameters['greater_then_id'])){
-            if(empty($_SESSION['chatLog'])){
+
+        if (!empty($parameters['greater_then_id'])) {
+            if (empty($_SESSION['chatLog'])) {
                 $_SESSION['chatLog'] = array();
             }
-            if(empty($_SESSION['chatLog'][$_GET['to_users_id']])){
+            if (empty($_SESSION['chatLog'][$_GET['to_users_id']])) {
                 $_SESSION['chatLog'][$_GET['to_users_id']] = array();
             }
             $_SESSION['chatLog'][$_GET['to_users_id']][0]['id'] = $parameters['greater_then_id'];
         }
-        
+
         include $global['systemRootPath'] . 'plugin/Chat2/getChat.json.php';
         exit;
     }
-    
-    
-    
+
     /**
      * @param type $parameters
      * The sample here will return 10 messages id greater then 88 and lower then 98
@@ -933,22 +1023,22 @@ class API extends PluginAbstract {
         }
         $_GET['room_users_id'] = @$parameters['room_users_id'];
         $_GET['lower_then_id'] = @$parameters['lower_then_id'];
-        
-        if(!empty($parameters['greater_then_id'])){
-            if(empty($_SESSION['chatLog'])){
+
+        if (!empty($parameters['greater_then_id'])) {
+            if (empty($_SESSION['chatLog'])) {
                 $_SESSION['chatLog'] = array();
             }
-            if(empty($_SESSION['chatLog'][$_GET['to_users_id']])){
+            if (empty($_SESSION['chatLog'][$_GET['to_users_id']])) {
                 $_SESSION['chatLog'][$_GET['to_users_id']] = array();
             }
             $_SESSION['chatLog'][$_GET['to_users_id']][0]['id'] = $parameters['greater_then_id'];
         }
-        
+
         include $global['systemRootPath'] . 'plugin/Chat2/getRoom.json.php';
         exit;
     }
-    
-    static function getAPISecret(){
+
+    static function getAPISecret() {
         $obj = AVideoPlugin::getDataObject("API");
         return $obj->APISecret;
     }

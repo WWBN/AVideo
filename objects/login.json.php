@@ -164,6 +164,7 @@ if ($resp === User::CAPTCHA_ERROR) {
 $object->siteLogo = $global['webSiteRootURL'] . $config->getLogo();
 $object->id = User::getId();
 $object->user = User::getUserName();
+$object->donationLink = User::donationLink();
 $object->name = User::getName();
 $object->nameIdentification = User::getNameIdentification();
 $object->pass = User::getUserPass();
