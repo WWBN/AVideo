@@ -8,12 +8,6 @@ if (!isset($global['systemRootPath'])) {
 header("Content-type: text/plain");
 ?>
 Sitemap: <?php echo $global['webSiteRootURL']; ?>sitemap.xml
-User-agent: Semrushbot-SA
-Allow: /
-
-User-agent: Semrushbot-SI
-Allow: /
-
 User-Agent: *
 Allow: /plugin/Live/?*
 Allow: /plugin/PlayLists/*.css
