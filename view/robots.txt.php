@@ -24,7 +24,6 @@ Allow: /plugin/*.css
 Allow: /plugin/*.js
 Allow: .js
 Allow: .css
-Disallow: 
 Disallow: /user
 Disallow: /mvideos
 Disallow: /usersGroups
