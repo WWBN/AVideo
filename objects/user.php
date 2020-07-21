@@ -1278,6 +1278,29 @@ if (typeof gtag !== \"function\") {
 
         return $user;
     }
+    
+    static function getAllUsersThatCanUpload($ignoreAdmin = false) {
+        if (!self::isAdmin() && !$ignoreAdmin) {
+            return false;
+        }
+        global $global;
+        $sql = "SELECT * FROM users WHERE status = 'a' AND (canUpload = 1 || isAdmin = 1) ";
+
+        $user = array();
+        $res = sqlDAL::readSql($sql . ";");
+        $downloadedArray = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        if ($res != false) {
+            foreach ($downloadedArray as $row) {
+                $user[] = $row;
+            }
+        } else {
+            $user = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+
+        return $user;
+    }
 
     static function getTotalUsers($ignoreAdmin = false, $status = "") {
         if (!self::isAdmin() && !$ignoreAdmin) {
