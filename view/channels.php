@@ -28,12 +28,12 @@ $_POST['rowCount'] = 10;
 $channels = Channel::getChannels(true, "u.id, '". implode(",", $users_id_array)."'");
 
 $totalPages = ceil($totalChannels / $_POST['rowCount']);
-$metaDescription = " Our Channels";
+$metaDescription = __("Channels");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channels"); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channels").getSEOComplement(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

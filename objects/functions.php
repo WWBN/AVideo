@@ -3317,6 +3317,17 @@ function URLHasLastSlash(){
     return hasLastSlash($_SERVER["REQUEST_URI"]);
 }
 
+function getSEOComplement(){
+    $txt = "";
+    if(URLHasLastSlash()){
+        $txt .= ".";
+    }
+    if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
+        $txt .= ".";
+    }
+    return $txt;
+}
+
 function getCurrentPage() {
     if (!empty($_REQUEST['current'])) {
         return intval($_REQUEST['current']);

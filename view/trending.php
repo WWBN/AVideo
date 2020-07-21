@@ -44,11 +44,12 @@ $_GET['sort']['trending'] = 1;
 $pages = ceil($total / $_POST['rowCount']);
 $videos = Video::getAllVideos();
 unset($_POST['sort']);
+$metaDescription = __("Trending");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> <?php echo __("Trending"); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> <?php echo __("Trending").getSEOComplement(); ?></title>
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
     </head>

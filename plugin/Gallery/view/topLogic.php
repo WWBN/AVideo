@@ -71,4 +71,4 @@ if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
 }
 $contentSearchFound = false;
 // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
-$siteTitle .= URLHasLastSlash()?".":"";
+$siteTitle .= getSEOComplement();

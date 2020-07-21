@@ -40,7 +40,7 @@ $metaDescription = " Channel - {$_GET['channelName']}";
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channel"); ?> :: <?php echo @$_GET['channelName']; ?> </title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channel"); ?> :: <?php echo @$_GET['channelName'].getSEOComplement(); ?> </title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         include $global['systemRootPath'] . 'view/channelHead.php';
