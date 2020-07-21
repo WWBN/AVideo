@@ -3333,6 +3333,9 @@ function getSEOComplement(){
     if(!empty($_GET['showOnly'])){
         $txt .= " {$_GET['showOnly']}";
     }
+    if(!empty($_GET['error'])){
+        $txt .= " ".__("Error");
+    }
     if(URLHasLastSlash()){
         $txt .= ": •";
     }
