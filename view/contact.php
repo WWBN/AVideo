@@ -8,6 +8,7 @@ $email = "";
 if (User::isLogged()) {
     $email = User::getEmail_();
 }
+$metaDescription = " Contact Form";
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

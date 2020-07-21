@@ -1,4 +1,5 @@
 <?php
+
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
@@ -463,8 +464,7 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'plugin/Live/stats.json.php';
         exit;
     }
-    
-    
+
     /**
      * Return a user livestream information
      * @param type $parameters 
@@ -481,21 +481,21 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        if(empty($parameters['title']) && !isset($parameters['public'])){
+        if (empty($parameters['title']) && !isset($parameters['public'])) {
             return new ApiObject("Invalid parameters");
         }
         $dataObj = $this->getDataObject();
         if ($dataObj->APISecret === @$_GET['APISecret'] || User::isLogged()) {
-            if(!empty($parameters['users_id'])){
-                if($dataObj->APISecret !== @$_GET['APISecret']){
+            if (!empty($parameters['users_id'])) {
+                if ($dataObj->APISecret !== @$_GET['APISecret']) {
                     $parameters['users_id'] = User::getId();
                 }
-            }else{
+            } else {
                 $parameters['users_id'] = User::getId();
             }
-            
+
             $user = new User($parameters['users_id']);
-            if (empty($user->getUser())){
+            if (empty($user->getUser())) {
                 return new ApiObject("User Not defined");
             }
             $p = AVideoPlugin::loadPlugin("Live");
@@ -504,16 +504,16 @@ class API extends PluginAbstract {
             $trans = new LiveTransmition($trasnmition['id']);
             $trans->setTitle($parameters['title']);
             $trans->setPublic($parameters['public']);
-            if($obj->id = $trans->save()){
+            if ($obj->id = $trans->save()) {
                 return new ApiObject("", false, $obj);
-            }else{
+            } else {
                 return new ApiObject("Error on save");
             }
         } else {
             return new ApiObject("API Secret is not valid");
         }
     }
-    
+
     /**
      * Return a user livestream information
      * @param type $parameters 
@@ -530,17 +530,17 @@ class API extends PluginAbstract {
         $obj = $this->startResponseObject($parameters);
         $dataObj = $this->getDataObject();
         if ($dataObj->APISecret === @$_GET['APISecret'] || User::isLogged()) {
-            
-            if(!empty($parameters['users_id'])){
-                if($dataObj->APISecret !== @$_GET['APISecret']){
+
+            if (!empty($parameters['users_id'])) {
+                if ($dataObj->APISecret !== @$_GET['APISecret']) {
                     $parameters['users_id'] = User::getId();
                 }
-            }else{
+            } else {
                 $parameters['users_id'] = User::getId();
             }
-            
+
             $user = new User($parameters['users_id']);
-            if (empty($user->getUser())){
+            if (empty($user->getUser())) {
                 return new ApiObject("User Not defined");
             }
             $p = AVideoPlugin::loadPlugin("Live");
@@ -549,7 +549,7 @@ class API extends PluginAbstract {
             $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
             $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
             $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
-            $obj->livestream["poster"] = $global['webSiteRootURL'].$p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
+            $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
 
             return new ApiObject("", false, $obj);
         } else {
@@ -1041,6 +1041,48 @@ class API extends PluginAbstract {
     static function getAPISecret() {
         $obj = AVideoPlugin::getDataObject("API");
         return $obj->APISecret;
+    }
+
+    /**
+     * @param type $parameters
+     * Return available locales translations
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return type
+     */
+    public function get_api_locales($parameters) {
+        global $global, $config;
+        $langs = new stdClass();
+        $langs->default = $config->getLanguage();
+        $langs->options = getEnabledLangs();
+        $langs->isRTL = isRTL();
+        return new ApiObject("", false, $langs);
+    }
+
+    /**
+     * @param type $parameters
+     * 'language' specify what translation array the API should return, for example cn = chinese
+     * Return available locales translations
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&language=cn
+     * @return type
+     */
+    public function get_api_locale($parameters) {
+        global $global, $config;
+        $obj = $this->startResponseObject($parameters);
+
+        if (empty($parameters['language'])) {
+            return new ApiObject("You must specify a language");
+        }
+        $parameters['language'] = strtolower($parameters['language']);
+        $file = "{$global['systemRootPath']}locale/{$parameters['language']}.php";
+        if (!file_exists("{$file}")) {
+            return new ApiObject("This language does not exists");
+        }
+        include $file;
+        if(empty($t)){
+            return new ApiObject("This language is empty");
+        }
+        
+        return new ApiObject("", false, $t);
     }
 
 }

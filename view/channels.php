@@ -28,6 +28,7 @@ $_POST['rowCount'] = 10;
 $channels = Channel::getChannels(true, "u.id, '". implode(",", $users_id_array)."'");
 
 $totalPages = ceil($totalChannels / $_POST['rowCount']);
+$metaDescription = " Our Channels";
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

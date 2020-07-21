@@ -35,6 +35,7 @@ $bgSize = getimagesize($bgImagePath);
 if($bgSize[0]<2048){
     $channelFluidLayout = false;
 }
+$metaDescription = " Channel - {$_GET['channelName']}";
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

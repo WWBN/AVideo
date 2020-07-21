@@ -33,12 +33,18 @@ foreach ($custom as $key => $value) {
     }
 }
 
+if(!empty($metaDescription)){
+    $metaDescription = implode(" - ", $custom)." - {$metaDescription}";
+}else{
+    $metaDescription = implode(" - ", $custom);
+}
+
 $theme = $config->getTheme();
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="<?php echo implode(" - ", $custom); ?>">
+<meta name="description" content="<?php echo $metaDescription; ?>">
 
 <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $config->getFavicon(true); ?>">
 <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">
