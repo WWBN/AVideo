@@ -3323,11 +3323,12 @@ function getSEOComplement(){
         $txt .= ".";
     }
     if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
-        $txt .= ".";
+        $txt .= "·";
     }
     if(!empty($_GET['error'])){
-        $txt .= ".";
+        $txt .= "¨";
     }
+    //…
     return $txt;
 }
 
