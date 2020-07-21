@@ -3313,7 +3313,7 @@ function addLastSlash($word){
     return $word.(hasLastSlash($word)?"":"/");
 }
 
-function URLHasLastSlash($word){
+function URLHasLastSlash(){
     return hasLastSlash($_SERVER["REQUEST_URI"]);
 }
 
