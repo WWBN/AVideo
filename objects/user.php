@@ -1279,12 +1279,13 @@ if (typeof gtag !== \"function\") {
         return $user;
     }
     
-    static function getAllUsersThatCanUpload($ignoreAdmin = false) {
+    static function getAllUsersThatHasVideos($ignoreAdmin = false) {
         if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
         }
         global $global;
-        $sql = "SELECT * FROM users WHERE status = 'a' AND (canUpload = 1 || isAdmin = 1) ";
+        $sql = "SELECT * FROM users u WHERE status = 'a' AND (canUpload = 1 || isAdmin = 1) AND "
+                . " (SELECT count(id) FROM videos where users_id = u.id )>0 ";
 
         $user = array();
         $res = sqlDAL::readSql($sql . ";");
