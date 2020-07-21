@@ -2136,7 +2136,7 @@ function siteMap() {
     $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit;
     _error_log("siteMap: rowCount {$_POST['rowCount']} ");
     $_POST['sort']['modified'] = "DESC";
-    $users = User::getAllUsers(true);
+    $users = User::getAllUsersThatCanUpload(true);
     _error_log("siteMap: getAllUsers " . count($users));
     foreach ($users as $value) {
         $xml .= '        
