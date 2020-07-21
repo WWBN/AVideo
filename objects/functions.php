@@ -3318,6 +3318,12 @@ function URLHasLastSlash(){
 
 function getSEOComplement(){
     $txt = "";
+    if(!empty($_GET['catName'])){
+        $txt .= " {$_GET['catName']}";
+    }
+    if(!empty($_GET['page'])){
+        $txt .= " ".__("Page")." {$_GET['page']}";
+    }
     if(!empty($_GET['channelName'])){
         $txt .= " {$_GET['channelName']}";
     }
