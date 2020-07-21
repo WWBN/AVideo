@@ -207,7 +207,7 @@
                                         <h2><?php echo $serie['title']; ?></h2>
                                     </a>
                                     <small class="text-muted galeryDetails">
-                                        <a class="label label-default" href="<?php echo Video::getLink($serie['id'], $category->getClean_name(), false, $get); ?>/">
+                                        <a class="label label-default" href="<?php echo Video::getLink($serie['id'], $category->getClean_name(), false, $get); ?>">
                                             <?php
                                             if (!empty($category->getIconClass())) {
                                                 ?>

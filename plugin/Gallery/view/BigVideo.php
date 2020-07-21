@@ -134,7 +134,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     <div class="text-muted galeryDetails">
                                         <div>
                                             <?php if (empty($_GET['catName'])) { ?>
-                                                <a class="label label-default" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>/">
+                                                <a class="label label-default" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>">
                                                     <?php
                                                     if (!empty($videoRow['iconClass'])) {
                                                         ?>

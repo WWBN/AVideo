@@ -282,7 +282,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 </div>
                 <div>
                     <i class="fa fa-user"></i>
-                    <a class="text-muted" href="<?php echo User::getChannelLink($value['users_id']); ?>/">
+                    <a class="text-muted" href="<?php echo User::getChannelLink($value['users_id']); ?>">
                         <?php echo $name; ?>
                     </a>
                     <?php
