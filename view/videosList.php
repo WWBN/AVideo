@@ -208,7 +208,7 @@ foreach ($videos as $key => $value) {
             </a>
             <div class="details row" itemprop="description">
                 <div class="col-sm-6 nopadding">
-                    <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
+                    <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>">
                         <span class="<?php echo $value['iconClass']; ?>"></span>
                         <span class="hidden-sm"><?php echo $value['category']; ?></span>
                     </a>
