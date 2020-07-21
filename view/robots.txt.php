@@ -21,6 +21,6 @@ Disallow: /subscribes
 Disallow: /update
 Disallow: /locale
 Disallow: /objects/*
-Allow: /plugin/Live/
+Allow: /plugin/Live/?*
 Allow: .js
 Allow: .css
