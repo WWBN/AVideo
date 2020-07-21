@@ -91,7 +91,7 @@ foreach ($videos as $video) {
     $evideo->trailer1 = $video['trailer1'];
     $evideo->creator = '<div class="col-xs-12 col-sm-12 col-md-12">
         <div class="pull-left">
-                <img src="'.$config->getFavicon(true).'" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;">'
+                <img src="'.$config->getFavicon(true).'" alt="User Photo" class="img img-responsive img-circle zoom" style="max-width: 40px;">'
             . '</div>'
             . '<div class="commentDetails" style="margin-left:45px;">'
             . '<div class="commenterName text-muted">'

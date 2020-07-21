@@ -195,7 +195,7 @@ if (!empty($evideo)) {
         if (!empty($autoPlayVideo)) {
 
             $name2 = User::getNameIdentificationById($autoPlayVideo['users_id']) . ' ' . User::getEmailVerifiedIcon($autoPlayVideo['users_id']);
-            $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
+            $autoPlayVideo['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($autoPlayVideo['users_id']) . '" alt="User Photo" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName"><strong>' . $name2 . '</strong> <small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small></div></div>';
             $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id']);
 //$autoPlayVideo['url'] = $global['webSiteRootURL'] . $catLink . "video/" . $autoPlayVideo['clean_title'];
             $autoPlayVideo['url'] = Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], false, $get);
@@ -207,7 +207,7 @@ if (!empty($evideo)) {
         $name = User::getNameIdentificationById($video['users_id']);
         $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($video['users_id']) . "</a>";
         $subscribe = Subscribe::getButton($video['users_id']);
-        $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br />' . $subscribe . '<br /><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
+        $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="User Photo" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br />' . $subscribe . '<br /><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
         $obj = new Video("", "", $video['id']);
 
 // dont need because have one embeded video on this page
@@ -311,6 +311,17 @@ if (empty($video)) {
     header('HTTP/1.0 404 Not Found', true, 404);
 }
 $metaDescription = " {$video['id']}";
+
+// make sure the title tag does not have more then 70 chars
+$titleTag = "{$video['title']}";
+if(strlen($titleTag)>50){
+    $titleTag = substr($titleTag, 0, 50);
+}else{
+    $titleTag .= " - ".$config->getWebSiteTitle();
+}
+$titleTag = substr($titleTag, 0, 60);
+$titleTag .= " - ".getSEOComplement();
+$titleTag = substr($titleTag, 0, 70);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

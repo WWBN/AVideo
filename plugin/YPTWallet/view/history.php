@@ -31,7 +31,7 @@ if (!empty($_GET['users_id'])) {
         <div class="container">
             <div class="panel panel-default">
                 <div class="panel-heading"  style="height: 70px;">
-                    <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-circle pull-left" style="height: 50px; margin-right: 10px;">
+                    <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-circle pull-left" style="height: 50px; margin-right: 10px;" alt="User Photo">
                     <h1><?php echo User::getNameIdentificationById($users_id); ?></h1>
                 </div>
                 <div class="panel-body">

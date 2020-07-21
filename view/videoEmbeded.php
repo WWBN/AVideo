@@ -628,7 +628,7 @@ $photo = User::getPhoto($video['users_id']);
     ?>
     <div id="topInfo" style="display: none;">
         <a href="<?php echo $url; ?>" target="_blank">
-            <img src="<?php echo $photo; ?>" class="img img-responsive img-circle" style=""> 
+            <img src="<?php echo $photo; ?>" class="img img-responsive img-circle" style="" alt="User Photo"> 
             <div style="">    
                 <?php echo $title; ?>
             </div>

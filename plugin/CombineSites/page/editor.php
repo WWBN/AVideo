@@ -92,7 +92,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                                                                 <label for="givechannelsSwitch<?php echo $value['id']; ?>" class="label-primary"></label>
                                                             </div>
                                                             <img src="<?php echo User::getPhoto($value['id']); ?>"
-                                                                 class="img img-responsive img-circle pull-left" style="max-height: 25px; margin: 0 10px;" />
+                                                                 class="img img-responsive img-circle pull-left" style="max-height: 25px; margin: 0 10px;" alt="User Photo" />
                                                             <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default btn-xs">
                                                                 <i class="fas fa-play-circle"></i>
                                                                 <?php
@@ -156,7 +156,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                                                                 <label for="giveprogramsSwitch<?php echo $playlist['id']; ?>" class="label-primary"></label>
                                                             </div>
                                                             <img src="<?php echo User::getPhoto($playlist['users_id']); ?>"
-                                                                 class="img img-responsive img-circle pull-left" style="max-height: 25px; margin: 0 10px;" />
+                                                                 class="img img-responsive img-circle pull-left" style="max-height: 25px; margin: 0 10px;" alt="User Photo" />
                                                             <a href="<?php echo User::getChannelLink($playlist['users_id']); ?>" class="btn btn-default btn-xs">
                                                                 <i class="fas fa-play-circle"></i>
                                                                 <?php
@@ -192,7 +192,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                                                             <label for="getchannelsSwitch{id}" class="label-primary"></label>
                                                         </div>
                                                         <img src="{photo}"
-                                                             class="img img-responsive img-circle pull-left" style="max-height: 25px; margin: 0 10px;" />
+                                                             class="img img-responsive img-circle pull-left" style="max-height: 25px; margin: 0 10px;"  alt="User Photo" />
                                                         <a href="{channelsLink}" class="btn btn-default btn-xs">
                                                             <i class="fas fa-play-circle"></i>
                                                             {name}
@@ -227,7 +227,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                                                             <label for="getprogramsSwitch{id}" class="label-primary"></label>
                                                         </div>
                                                         <img src="{photo}"
-                                                             class="img img-responsive img-circle pull-left" style="max-height: 25px; margin: 0 10px;" />
+                                                             class="img img-responsive img-circle pull-left" style="max-height: 25px; margin: 0 10px;"  alt="User Photo" />
                                                         <a href="{channelsLink}" class="btn btn-default btn-xs">
                                                             <i class="fas fa-play-circle"></i>
                                                             {username}

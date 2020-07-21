@@ -368,7 +368,7 @@
                                     <div class="row" <?php if (empty($advancedCustomUser->userCanChangeVideoOwner) && !User::isAdmin()) { ?> style="display: none;" <?php } ?>>
                                         <h3><?php echo __("Media Owner"); ?></h3>
                                         <div class="col-md-2">
-                                            <img id="inputUserOwner-img" src="view/img/userSilhouette.jpg" class="img img-responsive img-circle" style="max-height: 60px;">
+                                            <img id="inputUserOwner-img" src="view/img/userSilhouette.jpg" class="img img-responsive img-circle" style="max-height: 60px;" alt="User Photo">
                                         </div>
                                         <div class="col-md-10">
                                             <input id="inputUserOwner" placeholder="<?php echo __("Media Owner"); ?>" class="form-control">

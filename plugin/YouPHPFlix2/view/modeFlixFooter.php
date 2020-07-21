@@ -1,6 +1,6 @@
 <div id="loading" class="loader"
      style="border-width: 0; width: 20vh; height: 20vh; position: absolute; left: 50%; top: 50%; margin-left: -10vh; margin-top: -10vh;">
-    <img src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/img/loading.png" class="img img-responsive"/>
+    <img src="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/img/loading.png" class="img img-responsive" alt="Loading"/>
 </div>
 <div style="display: none;" id="footerDiv">
     <?php

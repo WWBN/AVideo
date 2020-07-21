@@ -109,7 +109,7 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
 
         <div class="hidden" id="model">
             <div style="background-image: url('{background}'); background-size: cover; height: 50px; width: 100%;" >
-                <img src="{photo}" class="pull-left img img-responsive img-circle" style="max-height: 40px;">
+                <img src="{photo}" class="pull-left img img-responsive img-circle" style="max-height: 40px;" alt="User Photo">
                 <div class="pull-left">
                     {identification}
                 </div>

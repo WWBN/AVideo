@@ -35,7 +35,7 @@ $subscribe = Subscribe::getButton($user_id);
 $name = $u->getNameIdentificationBd();
 $name = "<a href='" . User::getChannelLink($user_id) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($user_id) . "</a>";
 
-$video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_id) . '" alt="" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
+$video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_id) . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
 $video['type'] = "liveLink";
 $img = "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?link={$_GET['link']}&format=jpg";
 $imgw = 640;

@@ -63,7 +63,7 @@ if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannel
     //var_dump($user);exit;
     ?>
     <div class="col-md-12" >
-        <img src="<?php echo User::getPhoto($user['id']); ?>" class="img img-responsive img-circle" style="max-width: 60px;"/>
+        <img src="<?php echo User::getPhoto($user['id']); ?>" class="img img-responsive img-circle" style="max-width: 60px;" alt="User Photo"/>
         <div style="position: absolute; right: 5px; top: 5px;">
             <button class="btn btn-default btn-xs btn-sm" onclick="loadPage(<?php echo $_GET['page']; ?>, true);"><?php echo User::getNameIdentificationById($user['id']); ?> <i class="fa fa-times"></i></button>
         </div>
@@ -108,7 +108,7 @@ foreach ($videos as $key => $value) {
     }
     $name = User::getNameIdentificationById($value['users_id']) . ' ' . User::getEmailVerifiedIcon($value['users_id']);
     $value['creator'] = '<div class="pull-left">'
-            . '<a href="' . User::getChannelLink($value['users_id']) . '"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle zoom" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>'
+            . '<a href="' . User::getChannelLink($value['users_id']) . '"><img src="' . User::getPhoto($value['users_id']) . '" alt="User Photo" class="img img-responsive img-circle zoom" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>'
             . '</a>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
     ?>
     <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" id="divVideo-<?php echo $value['id']; ?>" >

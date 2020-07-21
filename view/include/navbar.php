@@ -592,7 +592,7 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                             ?>
                                             <li>
                                                 <div class="pull-left" style="margin-left: 10px;">
-                                                    <img src="<?php echo User::getPhoto(); ?>" style="max-width: 50px;"  class="img img-responsive img-circle"/>
+                                                    <img src="<?php echo User::getPhoto(); ?>" style="max-width: 50px;"  class="img img-responsive img-circle" alt="User Photo"/>
                                                 </div>
                                                 <div  class="pull-left" >
                                                     <h2><?php echo User::getName(); ?></h2>
