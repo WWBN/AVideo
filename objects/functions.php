@@ -3305,8 +3305,7 @@ function getSelfURI() {
 }
 
 function hasLastSlash($word){
-    $pos = strrpos($word, '/');
-    return ($pos === false);
+    return substr($word, -1)==='/';
 }
 
 function addLastSlash($word){
