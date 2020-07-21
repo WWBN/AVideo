@@ -3332,7 +3332,7 @@ function getSEOComplement(){
         $txt .= "¨";
     }
     //…
-    return $txt;
+    return htmlentities(strip_tags($txt));
 }
 
 function getCurrentPage() {
