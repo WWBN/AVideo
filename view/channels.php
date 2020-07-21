@@ -103,7 +103,7 @@ $metaDescription = __("Channels");
                         <div class="  bgWhite clear clearfix" style="margin: 10px 0;">
                             <div class="clear clearfix">
                                 <img src="<?php echo User::getPhoto($value['id']); ?>"
-                                     class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" />
+                                     class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />
                                 <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
                                     <i class="fas fa-play-circle"></i>
                                     <?php
