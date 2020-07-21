@@ -392,7 +392,7 @@ $photo = User::getPhoto($video['users_id']);
             ?>
             <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
                 <a href="<?php echo $url; ?>"  target="_blank">
-                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
+                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
                 </a>
             </div>
             <?php
@@ -477,7 +477,7 @@ $photo = User::getPhoto($video['users_id']);
             ?>
             <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
                 <a href="<?php echo $url; ?>"  target="_blank">
-                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
+                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
                 </a>
             </div>
             <?php
