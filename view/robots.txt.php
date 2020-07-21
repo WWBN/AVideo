@@ -22,5 +22,5 @@ Disallow: /update
 Disallow: /locale
 Disallow: /objects/*
 Allow: /plugin/Live/
-Allow: /plugin/*.css
-Allow: /plugin/*.js
+Allow: .js
+Allow: .css
