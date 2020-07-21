@@ -3304,6 +3304,19 @@ function getSelfURI() {
     return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]?$_SERVER[QUERY_STRING]";
 }
 
+function hasLastSlash($word){
+    $pos = strrpos($word, '/');
+    return ($pos === false);
+}
+
+function addLastSlash($word){
+    return $word.(hasLastSlash($word)?"":"/");
+}
+
+function URLHasLastSlash($word){
+    return hasLastSlash($_SERVER["REQUEST_URI"]);
+}
+
 function getCurrentPage() {
     if (!empty($_REQUEST['current'])) {
         return intval($_REQUEST['current']);
