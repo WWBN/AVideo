@@ -9,8 +9,6 @@ header("Content-type: text/plain");
 ?>
 Sitemap: <?php echo $global['webSiteRootURL']; ?>sitemap.xml
 User-Agent: *
-Allow: .js
-Allow: .css
 Disallow: 
 Disallow: /user
 Disallow: /plugin
@@ -23,4 +21,8 @@ Disallow: /subscribes
 Disallow: /update
 Disallow: /locale
 Disallow: /objects/*
-Allow: /plugin/Live/?*
+Allow: /plugin/Live/
+Allow: /plugin/*.css
+Allow: /plugin/*.js
+Allow: .js
+Allow: .css
