@@ -3319,6 +3319,9 @@ function URLHasLastSlash(){
 
 function getSEOComplement(){
     $txt = "";
+    if(!empty($_GET['channelName'])){
+        $txt .= " {$_GET['channelName']}";
+    }
     if(URLHasLastSlash()){
         $txt .= ".";
     }
