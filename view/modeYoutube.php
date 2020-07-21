@@ -310,6 +310,7 @@ if (empty($video)) {
     
     header('HTTP/1.0 404 Not Found', true, 404);
 }
+$metaDescription = " {$video['id']}";
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
