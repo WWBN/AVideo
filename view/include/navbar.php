@@ -580,7 +580,7 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                     <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton" style="">
                                         <img src="<?php echo User::getPhoto(); ?>" 
                                              style="width: 32px; height: 32px; max-width: 32px;"  
-                                             class="img img-responsive img-circle"
+                                             class="img img-responsive img-circle" alt="User Photo"
                                              />
                                     </button>
 
