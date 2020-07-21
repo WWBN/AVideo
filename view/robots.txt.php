@@ -22,6 +22,15 @@ Disallow: /update
 Disallow: /locale
 Disallow: /objects/*
 Allow: /plugin/Live/
+Allow: /plugin/PlayLists/*.css
+Allow: /plugin/PlayLists/*.js
+Allow: /plugin/TopMenu/*.css
+Allow: /plugin/TopMenu/*.js
+Allow: /plugin/SubtitleSwitcher/*.css
+Allow: /plugin/SubtitleSwitcher/*.js
+Allow: /plugin/Gallery/*.css
+Allow: /plugin/Gallery/*.js
+Allow: /plugin/Live/
 Allow: /plugin/*.css
 Allow: /plugin/*.js
 Allow: .js
