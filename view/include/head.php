@@ -38,7 +38,8 @@ if(!empty($metaDescription)){
 }else{
     $metaDescription = implode(" - ", $custom);
 }
-
+// for SEO to not rise an error of duplicated title or description of same pages with and without last slash
+$metaDescription .= URLHasLastSlash($word)?".":"";
 $theme = $config->getTheme();
 ?>
 <meta charset="utf-8">
