@@ -3327,6 +3327,12 @@ function getSEOComplement(){
     if(!empty($_GET['channelName'])){
         $txt .= " {$_GET['channelName']}";
     }
+    if(!empty($_GET['type'])){
+        $txt .= " {$_GET['type']}";
+    }
+    if(!empty($_GET['showOnly'])){
+        $txt .= " {$_GET['showOnly']}";
+    }
     if(URLHasLastSlash()){
         $txt .= ": •";
     }
