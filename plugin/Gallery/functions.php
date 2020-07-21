@@ -404,7 +404,7 @@ function createChannelItem($users_id, $photoURL = "", $identification = "", $row
         <h3 class="galleryTitle">
             <img src="<?php
             echo $photoURL;
-            ?>" class="img img-circle img-responsive pull-left" style="max-height: 20px;">
+            ?>" class="img img-circle img-responsive pull-left" style="max-height: 20px;" alt="Channel Owner">
             <span style="margin: 0 5px;">
                 <?php
                 echo $identification;
