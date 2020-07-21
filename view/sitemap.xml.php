@@ -5,7 +5,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-$time = 600; //10 minutes
+$time = 43200; //12 hours
 
 if (!file_exists($sitemapFile) || (time() - filemtime($sitemapFile)) > $time) {
     $sitemap = siteMap();
