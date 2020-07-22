@@ -137,6 +137,8 @@
     }
 
     if (!$contentSearchFound) {
+        _session_start();
+        unset($_SESSION['type']);
         ?>
         <div class="alert alert-warning">
             <h1>
