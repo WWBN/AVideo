@@ -2256,16 +2256,16 @@ function siteMap() {
 }
 
 function object_to_array($obj) {
-//only process if it's an object or array being passed to the function
+    //only process if it's an object or array being passed to the function
     if (is_object($obj) || is_array($obj)) {
         $ret = (array) $obj;
         foreach ($ret as &$item) {
-//recursively process EACH element regardless of type
+            //recursively process EACH element regardless of type
             $item = object_to_array($item);
         }
         return $ret;
     }
-//otherwise (i.e. for scalar values) return without modification
+    //otherwise (i.e. for scalar values) return without modification
     else {
         return $obj;
     }
@@ -3762,4 +3762,72 @@ function fakeBrowser($url) {
     // close curl resource to free up system resources
     curl_close($ch);
     return $output;
+}
+
+function examineJSONError($object){
+    $json = json_encode($object);
+    if (json_last_error()) {
+        echo "Error 1 Found: ".json_last_error_msg()."<br>".PHP_EOL;
+    }else{
+        return __LINE__;
+    }
+    $object = object_to_array($object);
+    $json = json_encode($object);
+    if (json_last_error()) {
+        echo "Error 1 Found after array conversion: ".json_last_error_msg()."<br>".PHP_EOL;
+    }else{
+        return __LINE__;
+    }
+    
+    $json = json_encode($object, JSON_UNESCAPED_UNICODE);
+    if (json_last_error()) {
+        echo "Error 1 Found with JSON_UNESCAPED_UNICODE: ".json_last_error_msg()."<br>".PHP_EOL;
+    }else{
+        return __LINE__;
+    }
+    
+    $objectEncoded = $object;
+    
+    array_walk_recursive($objectEncoded, function(&$item) {
+        if (is_string($item)) {
+            $item = utf8_encode($item);
+        }
+    });
+    $json = json_encode($objectEncoded);
+    if (json_last_error()) {
+        echo "Error 2 Found after array conversion: ".json_last_error_msg()."<br>".PHP_EOL;
+    }else{
+        return __LINE__;
+    }
+    
+    $json = json_encode($objectEncoded, JSON_UNESCAPED_UNICODE);
+    if (json_last_error()) {
+        echo "Error 2 Found with JSON_UNESCAPED_UNICODE: ".json_last_error_msg()."<br>".PHP_EOL;
+    }else{
+        return __LINE__;
+    }
+    
+    
+    $objectDecoded = $object;
+    
+    array_walk_recursive($objectDecoded, function(&$item) {
+        if (is_string($item)) {
+            $item = utf8_encode($item);
+        }
+    });
+    $json = json_encode($objectDecoded);
+    if (json_last_error()) {
+        echo "Error 2 Found after array conversion: ".json_last_error_msg()."<br>".PHP_EOL;
+    }else{
+        return __LINE__;
+    }
+    
+    $json = json_encode($objectDecoded, JSON_UNESCAPED_UNICODE);
+    if (json_last_error()) {
+        echo "Error 2 Found with JSON_UNESCAPED_UNICODE: ".json_last_error_msg()."<br>".PHP_EOL;
+    }else{
+        return __LINE__;
+    }
+    
+    return false;
 }

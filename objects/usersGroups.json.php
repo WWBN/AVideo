@@ -5,7 +5,18 @@ if(!isset($global['systemRootPath'])){
 }
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
 header('Content-Type: application/json');
-$users = UserGroups::getAllUsersGroups();
+$rows = UserGroups::getAllUsersGroups();
 $total = UserGroups::getTotalUsersGroups();
-
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($users).'}';
+$json = json_encode($rows);
+if (json_last_error()) {
+    _error_log("users.json error 1: " . print_r($rows, true));
+    $rows = object_to_array($rows);
+    //echo examineJSONError($users);exit;
+    array_walk_recursive($rows, function(&$item) {
+        if (is_string($item)) {
+            $item = cleanString($item);
+        }
+    });
+    $json = json_encode($rows);
+}
+echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. $json.'}';
