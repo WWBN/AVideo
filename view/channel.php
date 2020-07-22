@@ -3,28 +3,14 @@ global $global, $config, $isChannel;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+$isChannel = 1;
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 session_write_close();
-if (empty($_GET['channelName'])) {
-    if (User::isLogged()) {
-        $_GET['user_id'] = User::getId();
-    } else {
-        return false;
-    }
-} else {
-    $_GET['channelName'] = xss_esc($_GET['channelName']);
-    $user = User::getChannelOwner($_GET['channelName']);
-    if (!empty($user)) {
-        $_GET['user_id'] = $user['id'];
-    } else {
-        $_GET['user_id'] = $_GET['channelName'];
-    }
-}
-$user_id = $_GET['user_id'];
+$user_id = isChannel();
 $user = new User($user_id);
 $isMyChannel = $user_id == User::getId();
 AVideoPlugin::getChannel($user_id, $user);

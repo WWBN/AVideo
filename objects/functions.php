@@ -2447,6 +2447,42 @@ function isToHidePrivateVideos() {
     return false;
 }
 
+function ogSite() {
+    global $global, $config;
+    echo "<!-- OpenGraph for the Site -->";
+    if ($user_id = isChannel()) {
+        $imgw = 150;
+        $imgh = 150;
+        $img = User::getPhoto($user_id);
+        $title = User::getNameIdentificationById($user_id);
+    }else if (!isVideo()) {
+        $imgw = 250;
+        $imgh = 70;
+        $img = $global['webSiteRootURL'] . $config->getLogo(true);
+        $title = html2plainText($config->getWebSiteTitle());
+    } else {
+        return false;
+    }
+    ?>
+    <link rel="image_src" href="<?php echo $img; ?>" />
+    <meta property="og:image" content="<?php echo $img; ?>" />
+    <meta property="og:image:secure_url" content="<?php echo $img; ?>" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
+    <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
+
+    <meta property="fb:app_id"             content="774958212660408" />
+    <meta property="og:title"              content="<?php echo $title; ?>" />
+    <meta property="og:description"        content="<?php echo $title; ?>" />
+    <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>" />
+
+    <meta name="twitter:url" content="<?php echo $global['webSiteRootURL']; ?>"/>
+    <meta name="twitter:title" content="<?php echo $title; ?>"/>
+    <meta name="twitter:description" content="<?php echo $title; ?>"/>
+    <meta name="twitter:image" content="<?php echo $img; ?>"/>
+    <?php
+}
+
 function getOpenGraph($videos_id) {
     global $global, $config, $advancedCustom;
     echo "<!-- OpenGraph -->";
@@ -3258,6 +3294,35 @@ function isAVideoPlayer() {
     return false;
 }
 
+function isVideo() {
+    global $isModeYouTube; 
+    return !empty($isModeYouTube) || isEmbed() || isLive();
+}
+
+function isChannel() {
+    global $isChannel;
+    if (!empty($isChannel) && !isVideo()) {
+        $user_id = 0;
+        if (empty($_GET['channelName'])) {
+            if (User::isLogged()) {
+                $user_id = User::getId();
+            } else {
+                return false;
+            }
+        } else {
+            $_GET['channelName'] = xss_esc($_GET['channelName']);
+            $user = User::getChannelOwner($_GET['channelName']);
+            if (!empty($user)) {
+                $user_id = $user['id'];
+            } else {
+                $user_id = $_GET['channelName'];
+            }
+        }
+        return $user_id;
+    }
+    return false;
+}
+
 function isEmbed() {
     global $isEmbed;
     return !empty($isEmbed);
@@ -3304,45 +3369,45 @@ function getSelfURI() {
     return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]?$_SERVER[QUERY_STRING]";
 }
 
-function hasLastSlash($word){
-    return substr($word, -1)==='/';
+function hasLastSlash($word) {
+    return substr($word, -1) === '/';
 }
 
-function addLastSlash($word){
-    return $word.(hasLastSlash($word)?"":"/");
+function addLastSlash($word) {
+    return $word . (hasLastSlash($word) ? "" : "/");
 }
 
-function URLHasLastSlash(){
+function URLHasLastSlash() {
     return hasLastSlash($_SERVER["REQUEST_URI"]);
 }
 
-function getSEOComplement(){
+function getSEOComplement() {
     $txt = "";
-    if(!empty($_GET['catName'])){
+    if (!empty($_GET['catName'])) {
         $txt .= " {$_GET['catName']}";
     }
-    if(!empty($_GET['page'])){
-        $txt .= " ".__("Page")." {$_GET['page']}";
+    if (!empty($_GET['page'])) {
+        $txt .= " " . __("Page") . " {$_GET['page']}";
     }
-    if(!empty($_GET['channelName'])){
+    if (!empty($_GET['channelName'])) {
         $txt .= " {$_GET['channelName']}";
     }
-    if(!empty($_GET['type'])){
+    if (!empty($_GET['type'])) {
         $txt .= " {$_GET['type']}";
     }
-    if(!empty($_GET['showOnly'])){
+    if (!empty($_GET['showOnly'])) {
         $txt .= " {$_GET['showOnly']}";
     }
-    if(!empty($_GET['error'])){
-        $txt .= " ".__("Error");
+    if (!empty($_GET['error'])) {
+        $txt .= " " . __("Error");
     }
-    if(URLHasLastSlash()){
+    if (URLHasLastSlash()) {
         $txt .= ": •";
     }
-    if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
+    if (strrpos($_SERVER['HTTP_HOST'], 'www.') === false) {
         $txt .= ": ¨";
     }
-    if(!empty($_GET['error'])){
+    if (!empty($_GET['error'])) {
         $txt .= ": …";
     }
     return htmlentities(strip_tags($txt));
