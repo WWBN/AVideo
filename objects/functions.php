@@ -2490,7 +2490,6 @@ function ogSite() {
         return false;
     }
     ?>
-    <link rel="canonical" href="<?php echo $url; ?>">
     <link rel="image_src" href="<?php echo $img; ?>" />
     <meta property="og:image" content="<?php echo $img; ?>" />
     <meta property="og:image:url" content="<?php echo $img; ?>" />
