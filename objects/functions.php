@@ -2455,11 +2455,19 @@ function ogSite() {
         $imgh = 150;
         $img = User::getPhoto($user_id);
         $title = User::getNameIdentificationById($user_id);
-    }else if (!isVideo()) {
+        ?>
+        <meta property="og:type" content="profile" />
+        <meta property="profile:username" content="<?php echo $title; ?>" />
+        <?php
+    } else if (!isVideo()) {
         $imgw = 250;
         $imgh = 70;
         $img = $global['webSiteRootURL'] . $config->getLogo(true);
         $title = html2plainText($config->getWebSiteTitle());
+        ?>
+        <meta property="og:type" content="website" />
+        <meta property="profile:username" content="<?php echo $title; ?>" />
+        <?php
     } else {
         return false;
     }
@@ -3295,7 +3303,7 @@ function isAVideoPlayer() {
 }
 
 function isVideo() {
-    global $isModeYouTube; 
+    global $isModeYouTube;
     return !empty($isModeYouTube) || isEmbed() || isLive();
 }
 
