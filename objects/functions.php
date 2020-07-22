@@ -2477,7 +2477,7 @@ function ogSite() {
     <meta property="og:image" content="<?php echo $img; ?>" />
     <meta property="og:image:url" content="<?php echo $img; ?>" />
     <meta property="og:image:secure_url" content="<?php echo $img; ?>" />
-    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
     <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
 
