@@ -2460,9 +2460,9 @@ function ogSite() {
         <meta property="profile:username" content="<?php echo $title; ?>" />
         <?php
     } else if (!isVideo()) {
-        $imgw = 250;
-        $imgh = 70;
-        $img = $global['webSiteRootURL'] . $config->getLogo(true);
+        $imgw = 180;
+        $imgh = 180;
+        $img = $global['webSiteRootURL'] . $config->getFavicon(true);
         $title = html2plainText($config->getWebSiteTitle());
         ?>
         <meta property="og:type" content="website" />
@@ -2474,6 +2474,7 @@ function ogSite() {
     ?>
     <link rel="image_src" href="<?php echo $img; ?>" />
     <meta property="og:image" content="<?php echo $img; ?>" />
+    <meta property="og:image:url" content="<?php echo $img; ?>" />
     <meta property="og:image:secure_url" content="<?php echo $img; ?>" />
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
