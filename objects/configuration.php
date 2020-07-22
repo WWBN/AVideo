@@ -212,7 +212,7 @@ class Configuration {
         return $this->logo . $get;
     }
 
-    function getFavicon($getPNG = false) {
+    function getFavicon($getPNG = false, $getTime = true) {
         global $global;
         if (!$getPNG) {
             $file = $global['systemRootPath'] . "videos/favicon.ico";
@@ -230,7 +230,11 @@ class Configuration {
                 $url = "{$global['webSiteRootURL']}view/img/favicon.png";
             }
         }
-        return $url . "?" . filectime($file);
+        if($getTime){
+            return $url . "?" . filectime($file);
+        }else{
+            return $url;
+        }
     }
 
     function setHead($head) {
