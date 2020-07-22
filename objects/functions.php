@@ -3440,13 +3440,13 @@ function getSEOComplement() {
         $txt .= " " . __("Error");
     }
     if (URLHasLastSlash()) {
-        $txt .= ": •";
+        $txt .= "‧";
     }
     if (strrpos($_SERVER['HTTP_HOST'], 'www.') === false) {
-        $txt .= ": ¨";
+        $txt = "‧{$txt}";
     }
     if (!empty($_GET['error'])) {
-        $txt .= ": …";
+        $txt .= "‧‧";
     }
     return htmlentities(strip_tags($txt));
 }
