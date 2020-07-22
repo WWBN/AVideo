@@ -401,6 +401,7 @@ if (typeof gtag !== \"function\") {
     }
     
     static function getOGImage($users_id = ""){
+        global $global;
         $photo = self::_getPhoto($users_id);
         if($photo == "view/img/userSilhouette.jpg"){
             return "{$global['webSiteRootURL']}view/img/userSilhouette.jpg";
@@ -408,7 +409,6 @@ if (typeof gtag !== \"function\") {
         if(empty($photo)){
             return false;
         }
-        global $global;
         $source = $global['systemRootPath'].$photo;
         $destination = "{$source}_og_200X200.jpg";
         
