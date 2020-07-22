@@ -2462,7 +2462,7 @@ function ogSite() {
     } else if (!isVideo()) {
         $imgw = 200;
         $imgh = 200;
-        $img = $config->getFavicon(true);
+        $img = $config->getFavicon(true, false);
         $title = html2plainText($config->getWebSiteTitle());
         ?>
         <meta property="og:type" content="website" />
