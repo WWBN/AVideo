@@ -2471,6 +2471,7 @@ function ogSite() {
         $imgh = 200;
         $img = User::getOGImage($user_id);
         $title = User::getNameIdentificationById($user_id);
+        $url = User::getChannelLink($users_id);
         ?>
         <meta property="og:type" content="profile" />
         <meta property="profile:username" content="<?php echo $title; ?>" />
@@ -2480,6 +2481,7 @@ function ogSite() {
         $imgh = 200;
         $img = Configuration::getOGImage();
         $title = html2plainText($config->getWebSiteTitle());
+        $url = $global['webSiteRootURL'];
         ?>
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="<?php echo $title; ?>">
@@ -2488,7 +2490,7 @@ function ogSite() {
         return false;
     }
     ?>
-    <link rel="canonical" href="<?php echo $global['webSiteRootURL']; ?>">
+    <link rel="canonical" href="<?php echo $url; ?>">
     <link rel="image_src" href="<?php echo $img; ?>" />
     <meta property="og:image" content="<?php echo $img; ?>" />
     <meta property="og:image:url" content="<?php echo $img; ?>" />
@@ -2500,7 +2502,7 @@ function ogSite() {
     <meta property="fb:app_id"             content="774958212660408" />
     <meta property="og:title"              content="<?php echo $title; ?>" />
     <meta property="og:description"        content="<?php echo $title; ?>" />
-    <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>" />
+    <meta property="og:url"                content="<?php echo $url; ?>" />
 
     <?php
     if (!empty($advancedCustom->twitter_summary_large_image)) {
