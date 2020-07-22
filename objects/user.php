@@ -402,6 +402,9 @@ if (typeof gtag !== \"function\") {
     
     static function getOGImage($users_id = ""){
         $photo = self::_getPhoto($users_id);
+        if($photo == "view/img/userSilhouette.jpg"){
+            return "{$global['webSiteRootURL']}view/img/userSilhouette.jpg";
+        }
         if(empty($photo)){
             return false;
         }
