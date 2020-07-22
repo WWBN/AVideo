@@ -2451,8 +2451,8 @@ function ogSite() {
     global $global, $config;
     echo "<!-- OpenGraph for the Site -->";
     if ($user_id = isChannel()) {
-        $imgw = 150;
-        $imgh = 150;
+        $imgw = 200;
+        $imgh = 200;
         $img = User::getPhoto($user_id);
         $title = User::getNameIdentificationById($user_id);
         ?>
@@ -2460,18 +2460,19 @@ function ogSite() {
         <meta property="profile:username" content="<?php echo $title; ?>" />
         <?php
     } else if (!isVideo()) {
-        $imgw = 180;
-        $imgh = 180;
+        $imgw = 200;
+        $imgh = 200;
         $img = $global['webSiteRootURL'] . $config->getFavicon(true);
         $title = html2plainText($config->getWebSiteTitle());
         ?>
         <meta property="og:type" content="website" />
-        <meta property="profile:username" content="<?php echo $title; ?>" />
+        <meta property="og:site_name" content="<?php echo $title; ?>">
         <?php
     } else {
         return false;
     }
     ?>
+    <link rel="canonical" href="<?php echo $global['webSiteRootURL']; ?>">
     <link rel="image_src" href="<?php echo $img; ?>" />
     <meta property="og:image" content="<?php echo $img; ?>" />
     <meta property="og:image:url" content="<?php echo $img; ?>" />
