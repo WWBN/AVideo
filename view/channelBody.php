@@ -52,13 +52,13 @@ TimeLogEnd($timeLog, __LINE__);
     }
     ?>
     <div class="row"><div class="col-6 col-md-12">
-            <h1 class="pull-left">
+            <h2 class="pull-left">
                 <?php
                 echo $user->getNameIdentificationBd();
                 ?>
                 <?php
                 echo User::getEmailVerifiedIcon($user_id)
-                ?></h1>
+                ?></h2>
             <span class="pull-right">
                 <?php
                 echo Subscribe::getButton($user_id);
