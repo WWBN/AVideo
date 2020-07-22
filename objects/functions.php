@@ -2484,6 +2484,17 @@ function ogSite() {
     <meta property="og:description"        content="<?php echo $title; ?>" />
     <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>" />
 
+    <?php
+    if (!empty($advancedCustom->twitter_summary_large_image)) {
+        ?>
+        <meta name="twitter:card" content="summary_large_image" />   
+        <?php
+    } else {
+        ?>
+        <meta name="twitter:card" content="summary" />   
+        <?php
+    }
+    ?>
     <meta name="twitter:url" content="<?php echo $global['webSiteRootURL']; ?>"/>
     <meta name="twitter:title" content="<?php echo $title; ?>"/>
     <meta name="twitter:description" content="<?php echo $title; ?>"/>
