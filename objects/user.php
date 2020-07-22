@@ -400,6 +400,16 @@ if (typeof gtag !== \"function\") {
         return $photo;
     }
     
+    static function _getOGImage($users_id){
+        return "/videos/userPhoto/photo{$users_id}_og_200X200.jpg";
+    }
+    
+    static function deleteOGImage($users_id){
+        global $global;
+        $photo = $global['systemRootPath'].self::_getOGImage($users_id);
+        unlink($photo);        
+    }
+    
     static function getOGImage($users_id = ""){
         global $global;
         $photo = self::_getPhoto($users_id);
@@ -410,11 +420,11 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         $source = $global['systemRootPath'].$photo;
-        $destination = "{$source}_og_200X200.jpg";
+        $destination = $global['systemRootPath'].self::_getOGImage($users_id);
         
         convertImageToOG($source, $destination);
         
-        return $global['webSiteRootURL']."{$photo}_og_200X200.jpg";
+        return $global['webSiteRootURL'].self::_getOGImage($users_id);;
     }
 
 
