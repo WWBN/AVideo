@@ -2466,11 +2466,11 @@ function convertImageToOG($source, $destination){
 function ogSite() {
     global $global, $config;
     echo "<!-- OpenGraph for the Site -->";
-    if ($user_id = isChannel()) {
+    if ($users_id = isChannel()) {
         $imgw = 200;
         $imgh = 200;
-        $img = User::getOGImage($user_id);
-        $title = User::getNameIdentificationById($user_id);
+        $img = User::getOGImage($users_id);
+        $title = User::getNameIdentificationById($users_id);
         $url = User::getChannelLink($users_id);
         ?>
         <meta property="og:type" content="profile" />
