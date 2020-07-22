@@ -350,6 +350,32 @@ if (typeof gtag !== \"function\") {
     function _getName() {
         return $this->name;
     }
+    
+    static function _getPhoto($id = "") {
+        global $global;
+        if (!empty($id)) {
+            $user = self::findById($id);
+            if (!empty($user)) {
+                $photo = $user['photoURL'];
+            }
+        } elseif (self::isLogged()) {
+            $photo = $_SESSION['user']['photoURL'];
+        }
+        if (!empty($photo)) {
+            if (preg_match("/videos\/userPhoto\/.*/", $photo) && file_exists($global['systemRootPath'] . $photo)) {
+                return $photo;
+            } else {
+                $photoPath = "/videos/userPhoto/photo{$id}.png";
+                $content = url_get_contents($photo);
+                file_put_contents($global['systemRootPath'] . $photoPath, $content);
+                $photo = $photoPath;
+            }
+        }
+        if (empty($photo)) {
+            $photo = $global['webSiteRootURL'] . "view/img/userSilhouette.jpg";
+        }
+        return $photo;
+    }
 
     static function getPhoto($id = "") {
         global $global;
@@ -373,6 +399,21 @@ if (typeof gtag !== \"function\") {
         }
         return $photo;
     }
+    
+    static function getOGImage($users_id = ""){
+        $photo = self::_getPhoto($users_id);
+        if(empty($photo)){
+            return false;
+        }
+        global $global;
+        $source = $global['systemRootPath'].$photo;
+        $destination = "{$source}_og_200X200.jpg";
+        
+        convertImageToOG($source, $destination);
+        
+        return $global['webSiteRootURL']."{$photo}_og_200X200.jpg";
+    }
+
 
     static function getEmailVerifiedIcon($id = "") {
         global $advancedCustomUser;

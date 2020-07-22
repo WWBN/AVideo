@@ -2447,13 +2447,29 @@ function isToHidePrivateVideos() {
     return false;
 }
 
+function convertImageToOG($source, $destination){
+    if(!file_exists($destination)){
+        $w = 200;
+        $h = 200;
+        $sizes = getimagesize($source);
+        if($sizes[0]<$w || $sizes[1]<$h ){
+            $tmpDir = getTmpDir();
+            $fileConverted = $tmpDir."_jpg_".uniqid().".jpg";
+            convertImage($source, $fileConverted, 100);
+            im_resizeV2($fileConverted, $destination, $w, $h, 100);
+            unlink($fileConverted);
+        }
+    }
+    return $destination;
+}
+
 function ogSite() {
     global $global, $config;
     echo "<!-- OpenGraph for the Site -->";
     if ($user_id = isChannel()) {
         $imgw = 200;
         $imgh = 200;
-        $img = User::getPhoto($user_id);
+        $img = $global['webSiteRootURL'].User::getOGImage($user_id);
         $title = User::getNameIdentificationById($user_id);
         ?>
         <meta property="og:type" content="profile" />
@@ -2462,7 +2478,7 @@ function ogSite() {
     } else if (!isVideo()) {
         $imgw = 200;
         $imgh = 200;
-        $img = $config->getFavicon(true, false);
+        $img = Configuration::getOGImage();
         $title = html2plainText($config->getWebSiteTitle());
         ?>
         <meta property="og:type" content="website" />
@@ -2477,7 +2493,7 @@ function ogSite() {
     <meta property="og:image" content="<?php echo $img; ?>" />
     <meta property="og:image:url" content="<?php echo $img; ?>" />
     <meta property="og:image:secure_url" content="<?php echo $img; ?>" />
-    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
     <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
 

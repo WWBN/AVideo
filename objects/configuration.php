@@ -211,9 +211,11 @@ class Configuration {
         }
         return $this->logo . $get;
     }
-
-    function getFavicon($getPNG = false, $getTime = true) {
+    
+    static function _getFavicon($getPNG = false) {
         global $global;
+        $file = false;
+        $url = false;
         if (!$getPNG) {
             $file = $global['systemRootPath'] . "videos/favicon.ico";
             $url = "{$global['webSiteRootURL']}videos/favicon.ico";
@@ -230,11 +232,24 @@ class Configuration {
                 $url = "{$global['webSiteRootURL']}view/img/favicon.png";
             }
         }
+        return array('file'=>$file, 'url'=>$url);
+    }
+
+    function getFavicon($getPNG = false, $getTime = true) {
+        $return = self::_getFavicon($getPNG);
         if($getTime){
-            return $url . "?" . filectime($file);
+            return $return['url'] . "?" . filectime($return['file']);
         }else{
-            return $url;
+            return $return['url'];
         }
+    }
+    
+    static function getOGImage(){
+        global $global;
+        $destination = "{$global['systemRootPath']}videos/cache/og_200X200.jpg";
+        $return = self::_getFavicon(true);
+        convertImageToOG($return['file'], $destination);
+        return $global['webSiteRootURL']."videos/cache/og_200X200.jpg";
     }
 
     function setHead($head) {
