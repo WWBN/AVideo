@@ -123,16 +123,30 @@
 
         <?php
     } else {
+        $ob = ob_get_clean();
+        ob_start();
         echo AVideoPlugin::getGallerySection();
-        $contentSearchFound = true;
+        $ob2 = ob_get_clean();
+        echo $ob;
+        if(empty($ob2)){
+            $contentSearchFound = false;
+        }else{
+            $contentSearchFound = true;
+        }
+        
     }
 
     if (!$contentSearchFound) {
         ?>
         <div class="alert alert-warning">
-            <span class="glyphicon glyphicon-facetime-video"></span>
-            <strong><?php echo __("Warning"); ?>!</strong>
+            <h1>
+                <span class="glyphicon glyphicon-facetime-video"></span>
+                <?php echo __("Warning"); ?>!
+            </h1>
             <?php echo __("We have not found any videos or audios to show"); ?>.
         </div>
-    <?php } ?>
+    <?php 
+        include $global['systemRootPath'] . 'view/include/notfound.php';
+    
+    } ?>
 </div>
