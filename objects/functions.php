@@ -2469,7 +2469,7 @@ function ogSite() {
     if ($user_id = isChannel()) {
         $imgw = 200;
         $imgh = 200;
-        $img = $global['webSiteRootURL'].User::getOGImage($user_id);
+        $img = User::getOGImage($user_id);
         $title = User::getNameIdentificationById($user_id);
         ?>
         <meta property="og:type" content="profile" />
