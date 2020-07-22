@@ -372,7 +372,7 @@ if (typeof gtag !== \"function\") {
             }
         }
         if (empty($photo)) {
-            $photo = $global['webSiteRootURL'] . "view/img/userSilhouette.jpg";
+            $photo = "view/img/userSilhouette.jpg";
         }
         return $photo;
     }
