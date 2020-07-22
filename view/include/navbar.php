@@ -89,9 +89,14 @@ if (!$includeDefaultNavBar) {
 
     #rightProfileButton{
         padding: 0; 
-        margin-left: 10px; 
+        margin-left: 5px; 
         margin-right: 40px; 
         border: 0;
+    }
+
+    #rightLoginButton{
+        margin-left: 5px; 
+        margin-right: 40px; 
     }
 
     #navbarRegularButtons{
@@ -123,8 +128,9 @@ if (!$includeDefaultNavBar) {
         #searchForm {
             padding-left: 10px;
         }
-        #rightProfileButton{
+        #rightLoginButton, #rightProfileButton{
             margin-right: 5px; 
+            margin-left: 0;
         }
 
         #searchForm > div{
@@ -265,7 +271,7 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                 youTubeMenuIsOpened = false;
                             }
                             $(document).ready(function () {
-                                if(inIframe()){
+                                if (inIframe()) {
                                     $("#mainNavBar").hide();
                                     $("body").css("padding-top", "0");
                                 }
@@ -396,7 +402,7 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                                         <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off" />
                                                     </form>
                                                     <a href="#" onclick="$('#formEncoderN').submit();
-                                                            return false;">
+                                                                            return false;">
                                                         <span class="fa fa-cogs"></span> <?php echo empty($advancedCustom->encoderNetworkLabel) ? __("Encoder Network") : $advancedCustom->encoderNetworkLabel; ?>
                                                     </a>
                                                 </li>
@@ -412,7 +418,7 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                                             <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off"  />
                                                         </form>
                                                         <a href="#" onclick="$('#formEncoder').submit();
-                                                                return false;">
+                                                                                    return false;">
                                                             <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?>
                                                         </a>
                                                     </li>
@@ -572,24 +578,24 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                             $tooltip = "";
                             if (User::isLogged()) {
                                 $tooltip = 'data-toggle="tooltip" data-html="true" title="' . User::getName() . ":: " . User::getMail() . '" data-placement="left"';
+                            }else{
+                                $tooltip = 'data-toggle="tooltip" data-html="true" title="' .__("Login") . '" data-placement="left"';
                             }
                             ?>
-                            <li class="rightProfile" 
-                                             <?php echo $tooltip; ?> >
+                            <li class="rightProfile" <?php echo $tooltip; ?> >
                                 <div class="btn-group" >
-                                    <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton" style="">
-                                        <img src="<?php echo User::getPhoto(); ?>" 
-                                             style="width: 32px; height: 32px; max-width: 32px;"  
-                                             class="img img-responsive img-circle" alt="User Photo"
-                                             />
-                                    </button>
 
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                    <?php
+                                    if (User::isLogged()) {
+                                        ?>
+                                        <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton" style="min-height:34px;">
+                                            <img src="<?php echo User::getPhoto(); ?>" 
+                                                 style="width: 32px; height: 32px; max-width: 32px;"  
+                                                 class="img img-responsive img-circle" alt="User Photo"
+                                                 />
+                                        </button>
 
-
-                                        <?php
-                                        if (User::isLogged()) {
-                                            ?>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <li>
                                                 <div class="pull-left" style="margin-left: 10px;">
                                                     <img src="<?php echo User::getPhoto(); ?>" style="max-width: 50px;"  class="img img-responsive img-circle" alt="User Photo"/>
@@ -653,7 +659,6 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                                 </a>
                                             </li>    
                                             <?php
-
                                             print AVideoPlugin::navBarProfileButtons();
 
                                             if ((($config->getAuthCanViewChart() == 0) && (User::canUpload())) || (($config->getAuthCanViewChart() == 1) && (User::canViewChart()))) {
@@ -696,19 +701,17 @@ if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUse
                                                 <?php
                                             }
                                             ?>
-                                            <?php
-                                        } else {
-                                            ?>
-                                            <li>
-                                                <a href="<?php echo $global['webSiteRootURL']; ?>user" >
-                                                    <i class="fas fa-sign-in-alt"></i>
-                                                    <?php echo __("Sign In"); ?>
-                                                </a>
-                                            </li>
-                                            <?php
-                                        }
+
+                                        </ul>
+                                        <?php
+                                    } else {
                                         ?>
-                                    </ul>
+                                        <a class="btn btn-default navbar-btn " href="<?php echo $global['webSiteRootURL']; ?>user"   id="rightLoginButton" style="min-height:34px; padding: 6px 12px; border-width: 1px;">
+                                            <i class="fas fa-sign-in-alt"></i>
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
 
                             </li>
