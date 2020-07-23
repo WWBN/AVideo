@@ -234,6 +234,6 @@ if ($object->isLogged) {
     TimeLogEnd($timeLog2, __LINE__);
 }
 TimeLogEnd($timeLog, __LINE__);
-$json = json_encode($object, JSON_UNESCAPED_UNICODE);
+$json = _json_encode($object);
 header("Content-length: " . strlen($json));
 echo $json;
