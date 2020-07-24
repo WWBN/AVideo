@@ -3398,6 +3398,16 @@ function ogSite() {
         }
         return false;
     }
+    
+    function getRedirectUri() {
+        if (!empty($_GET['redirectUri'])) {
+            return $_GET['redirectUri'];
+        }
+        if(!empty($_SERVER["HTTP_REFERER"])){
+            return $_GET['redirectUri'];
+        }
+        return getRequestURI();
+    }
 
     function getRequestURI() {
         if (empty($_SERVER['REQUEST_URI'])) {
