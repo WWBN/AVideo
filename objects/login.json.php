@@ -1,7 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
-header('Content-Type: application/json');
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -131,7 +130,6 @@ if (!empty($_GET['type'])) {
         //header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
         //echo $e->getMessage();
     }
-    header('Content-Type:text/html');
     ?>
 <sctipt>
     window.opener = self;
@@ -144,6 +142,8 @@ if (!empty($_GET['type'])) {
     <?php
     return;
 }
+
+header('Content-Type: application/json');
 TimeLogEnd($timeLog, __LINE__);
 $object = new stdClass();
 if (!empty($_GET['user'])) {
