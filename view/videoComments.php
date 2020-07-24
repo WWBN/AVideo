@@ -12,19 +12,23 @@ if (User::canSeeCommentTextarea()) {
             }
             ?>><?php
                           if (!User::canComment()) {
-                              echo __("You cannot comment on videos");
+                              if (User::isLogged()) {
+                                  echo __("Verify your email to be able to comment");
+                              } else {
+                                  echo __("You must login to be able to comment on videos");
+                              }
                           }
                           ?></textarea>
-            <?php if (User::canComment()) { ?>
+                <?php if (User::canComment()) { ?>
                 <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php
-                if (!User::canComment()) {
-                    echo "disabled='disabled'";
-                }
-                ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
-                  <?php } else if(User::isLogged()){ ?>
-                <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("Verify your email to be able to comment"); ?></a>
+            if (!User::canComment()) {
+                echo "disabled='disabled'";
+            }
+                    ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
+                  <?php } else if (User::isLogged()) { ?>
+                <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user" data-toggle="tooltip" title="<?php echo __("Verify your email to be able to comment"); ?>"><span class="glyphicon glyphicon-log-in"></span> <span class="hidden-sm hidden-xs"><?php echo __("Verify your email to be able to comment"); ?></span></a>
             <?php } else { ?>
-                <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("You must login to be able to comment on videos"); ?></a>
+                <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user" data-toggle="tooltip" title="<?php echo __("You must login to be able to comment on videos"); ?>"><span class="glyphicon glyphicon-log-in"></span> <span class="hidden-sm hidden-xs"><?php echo __("You must login to be able to comment on videos"); ?></span></a>
             <?php } ?>
         </div>
         <div class="pull-right" id="count_message"></div>
@@ -295,31 +299,31 @@ if (User::canSeeCommentTextarea()) {
                             comments_id = $(this).closest('.replySet').attr("comments_id");
                             t = this;
                             swal({
-                title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-              if (willDelete) {
+                                title: "<?php echo __("Are you sure?"); ?>",
+                                text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                                    .then((willDelete) => {
+                                        if (willDelete) {
 
-                                modal.showPleaseWait();
-                                $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/commentDelete.json.php',
-                                    method: 'POST',
-                                    data: {'id': comments_id},
-                                    success: function (response) {
-                                        if (response.status) {
-                                            $(t).closest('tr').fadeOut();
-                                        } else {
-                                            swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been deleted!"); ?>", "error");
+                                            modal.showPleaseWait();
+                                            $.ajax({
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/commentDelete.json.php',
+                                                method: 'POST',
+                                                data: {'id': comments_id},
+                                                success: function (response) {
+                                                    if (response.status) {
+                                                        $(t).closest('tr').fadeOut();
+                                                    } else {
+                                                        swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been deleted!"); ?>", "error");
+                                                    }
+                                                    modal.hidePleaseWait();
+                                                }
+                                            });
                                         }
-                                        modal.hidePleaseWait();
-                                    }
-                                });
-              } 
-            });
+                                    });
                         });
                         $('.reply').click(function () {
                             $(this).closest('.replySet').find('.formRepy').first().slideToggle();
