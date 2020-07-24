@@ -137,7 +137,7 @@ if (!empty($_GET['type'])) {
     if(window.name == 'loginYPT'){
         window.close();
     }else{
-        document.location = "";
+        document.location = "<?php echo $location; ?>";
     }
 </script>    
     <?php
