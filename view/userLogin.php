@@ -164,7 +164,6 @@ if (empty($_COOKIE)) {
                                         clearInterval(popupTick);
                                         console.log('window closed!');
                                         location.reload();
-                                        modal.hidePleaseWait();
                                       }
                                     }, 500);
                                 } else {
