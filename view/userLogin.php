@@ -133,7 +133,7 @@ if (empty($_COOKIE)) {
                     ?>
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" class="btn btn-primary btn-block" ><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" class="btn btn-primary btn-block" ><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
                         </div>
                     </div>
                     <?php
@@ -147,10 +147,30 @@ if (empty($_COOKIE)) {
                 if (is_string($value) && file_exists($value)) { // it is a include path for a form
                     include $value;
                 } else if (is_array($value)) {
+                    $uid = uniqid();
+                    $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=".(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : "");
                     ?>
                     <div class="col-md-6">
-                        <a href="login?type=<?php echo $value['parameters']->type; ?>&redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></a>
+                        <button id="login<?php echo $uid; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></button>
                     </div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#login<?php echo $uid; ?>').click(function () {
+                                if (inIframe()) {
+                                    var popup = window.open('<?php echo $oauthURL; ?>', 'loginYPT');
+                                    var popupTick = setInterval(function() {
+                                      if (popup.closed) {
+                                        clearInterval(popupTick);
+                                        console.log('window closed!');
+                                        location.reload();
+                                      }
+                                    }, 500);
+                                } else {
+                                    document.location = "<?php echo $oauthURL; ?>";
+                                }
+                            });
+                        });
+                    </script>
                     <?php
                 }
             }
@@ -178,7 +198,7 @@ if (!empty($_GET['error'])) {
 ?>
         $('#loginForm').submit(function (evt) {
             evt.preventDefault();
-            if(!$('#inputUser').val() || !$('#inputPassword').val()){
+            if (!$('#inputUser').val() || !$('#inputPassword').val()) {
                 return false;
             }
 <?php
@@ -224,7 +244,6 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                 return false;
             }
             var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText2">';
-
             var span = document.createElement("span");
             span.innerHTML = "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha;
             swal({

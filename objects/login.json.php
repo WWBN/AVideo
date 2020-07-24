@@ -118,16 +118,29 @@ if (!empty($_GET['type'])) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
-            header("Location: {$_SESSION['redirectUri']}");
+            $location = $_SESSION['redirectUri'];
+            //header("Location: {$_SESSION['redirectUri']}");
             $_SESSION['redirectUri'] = "";
             unset($_SESSION['redirectUri']);
         } else {
-            header("Location: {$global['webSiteRootURL']}");
+            $location = $global['webSiteRootURL'];
+            //header("Location: {$global['webSiteRootURL']}");
         }
     } catch (\Exception $e) {
-        header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
+        $location = "{$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage());
+        //header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
         //echo $e->getMessage();
     }
+    ?>
+<sctipt>
+    window.opener = self;
+    if(window.name == 'loginYPT'){
+        window.close();
+    }else{
+        document.location = "";
+    }
+</sctipt>    
+    <?php
     return;
 }
 TimeLogEnd($timeLog, __LINE__);
