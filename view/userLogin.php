@@ -156,6 +156,7 @@ if (empty($_COOKIE)) {
                     <script>
                         $(document).ready(function () {
                             $('#login<?php echo $uid; ?>').click(function () {
+                                modal.showPleaseWait();
                                 if (inIframe()) {
                                     var popup = window.open('<?php echo $oauthURL; ?>', 'loginYPT');
                                     var popupTick = setInterval(function() {
@@ -163,6 +164,7 @@ if (empty($_COOKIE)) {
                                         clearInterval(popupTick);
                                         console.log('window closed!');
                                         location.reload();
+                                        modal.hidePleaseWait();
                                       }
                                     }, 500);
                                 } else {

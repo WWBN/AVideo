@@ -131,6 +131,7 @@ if (!empty($_GET['type'])) {
         //header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
         //echo $e->getMessage();
     }
+    header('Content-Type:text/html');
     ?>
 <sctipt>
     window.opener = self;
