@@ -130,15 +130,16 @@ if (!empty($_GET['type'])) {
         //header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
         //echo $e->getMessage();
     }
+    header('Content-Type: text/html');
     ?>
-<sctipt>
+<script>
     window.opener = self;
     if(window.name == 'loginYPT'){
         window.close();
     }else{
         document.location = "";
     }
-</sctipt>    
+</script>    
     <?php
     return;
 }
