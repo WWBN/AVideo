@@ -13,6 +13,11 @@ if (!empty($advancedCustomUser->disableNativeSignUp)) {
 }
 
 $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
+
+$signInLink = "{$global['webSiteRootURL']}user?redirectUri=".urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : "");
+if(!empty($_GET['siteRedirectUri'])){
+    $signInLink = $_GET['siteRedirectUri'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -119,7 +124,7 @@ $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php echo urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""); ?>" class="btn btn-success btn-block" ><i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?></a>
+                                    <a href="<?php echo $signInLink; ?>" class="btn btn-success btn-block" ><i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?></a>
                                 </div>
                             </div>
                         </fieldset>
