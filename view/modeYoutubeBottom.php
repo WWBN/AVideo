@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 if (empty($video) && !empty($_GET['videos_id'])) {
-    $video = Video::getVideo(intval($_GET['videos_id']), "viewable", false, false, true, true);
+    $video = Video::getVideo(intval($_GET['videos_id']), "viewable", true, false, true, true);
     $name = User::getNameIdentificationById($video['users_id']);
     $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($video['users_id']) . "</a>";
     $subscribe = Subscribe::getButton($video['users_id']);
