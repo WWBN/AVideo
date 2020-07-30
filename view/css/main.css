@@ -800,9 +800,9 @@ img.blur{
 
 
 @media (min-width: 1200px) and (max-width: 1600px) {
-  .hidden-mdx {
-    display: none !important;
-  }
+    .hidden-mdx {
+        display: none !important;
+    }
 }
 
 .swal-noform .form-group{
@@ -819,13 +819,17 @@ img.blur{
 }
 
 .btn-dark {
-  color: #CCC;
-  background-color: #111;
-  border-color: #000;
+    color: #CCC;
+    background-color: #111;
+    border-color: #000;
 }
 
 .btn-dark:hover {
-  color: #FFF;
-  background-color: #000;
-  border-color: #000;
+    color: #FFF;
+    background-color: #000;
+    border-color: #000;
+}
+
+.opacityBtn{
+    opacity: 0.2;   
 }

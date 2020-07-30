@@ -5,7 +5,7 @@ if ($obj->allowDonationLink && !empty($video['users_id'])) {
     if (!empty($donationLink)) {
         ?>
         <a class="btn btn-success no-outline" href="<?php echo $donationLink; ?>" target="_blank">
-            <i class="fas fa-donate"></i> <small><?php echo __($obj->donationButtonLabel); ?></small>
+            <i class="fas fa-donate"></i> <small><?php echo __($obj->donationButtonLabel); ?> <i class="fas fa-external-link-alt"></i></small>
         </a>    
         <?php
     }
@@ -74,6 +74,8 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id'])) {
                             swal("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
                             swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Thank you!"); ?>", "success");
+                            $('#donationModal<?php echo $uid; ?>').modal('hide');
+                            $(".walletBalance").text(response.walletBalance);
                         }
                     }
                 });

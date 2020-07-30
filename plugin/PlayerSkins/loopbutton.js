@@ -1,3 +1,19 @@
+
+function setImageLoop() {
+    if (isPlayerLoop()) {
+        $('.loopButton').removeClass('opacityBtn');
+        $('.loopButton').addClass('fa-spin');
+    } else {
+        $('.loopButton').addClass('opacityBtn');
+        $('.loopButton').removeClass('fa-spin');
+    }
+}
+
+function toogleImageLoop(t) {
+    tooglePlayerLoop();
+    setImageLoop();
+}
+
 $(document).ready(function () {
 
     var Button = videojs.getComponent('Button');
@@ -7,9 +23,9 @@ $(document).ready(function () {
         constructor: function () {
             Button.apply(this, arguments);
             this.addClass('loop-button');
-            if (!isPlayerLoop()){
+            if (!isPlayerLoop()) {
                 this.addClass('loop-disabled-button');
-            }else{
+            } else {
                 this.addClass('fa-spin');
             }
             this.controlText("Loop");

@@ -76,4 +76,5 @@ if (!empty($_POST['videos_id'])) {
     }
 }
 
+$obj->walletBalance = $wallet->getBalance(User::getId());
 die(json_encode($obj));

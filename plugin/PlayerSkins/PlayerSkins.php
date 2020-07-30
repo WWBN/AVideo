@@ -42,6 +42,12 @@ class PlayerSkins extends PluginAbstract {
         $obj->showLogoAdjustScale = "0.4";
         $obj->showLogoAdjustLeft = "-74px";
         $obj->showLogoAdjustTop = "-22px;";
+        $obj->contextMenuDisableEmbedOnly = false;
+        $obj->contextMenuLoop = true;
+        $obj->contextMenuCopyVideoURL = true;
+        $obj->contextMenuCopyVideoURLCurrentTime = true;
+        $obj->contextMenuCopyEmbedCode = true;
+        $obj->contextMenuShare = true;
         return $obj;
     }
 
