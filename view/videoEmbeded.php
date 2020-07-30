@@ -537,6 +537,7 @@ $photo = User::getPhoto($video['users_id']);
         </script>
         <?php
     }
+    if(empty($playerSkinsObj->disableEmbedTopInfo)){
     ?>
     <div id="topInfo" style="display: none;">
         <a href="<?php echo $url; ?>" target="_blank">
@@ -546,6 +547,9 @@ $photo = User::getPhoto($video['users_id']);
             </div>
         </a>
     </div>
+    <?php
+    }
+    ?>
     <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
     <?php
     echo AVideoPlugin::afterVideoJS();
