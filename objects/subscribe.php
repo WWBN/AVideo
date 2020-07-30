@@ -140,7 +140,7 @@ class Subscribe {
                     . " s.subscriber_users_id , s.created , s.modified, suId.email as email, suId.emailVerified as emailVerified FROM subscribes as s "
                     //. " LEFT JOIN users as su ON s.email = su.email   "
                     . " LEFT JOIN users as suId ON suId.id = s.subscriber_users_id   "
-                    . " LEFT JOIN users as u ON users_id = u.id  WHERE 1=1 AND subscriber_users_id > 0 ";
+                    . " LEFT JOIN users as u ON users_id = u.id  WHERE 1=1 AND subscriber_users_id > 0 AND suId.status = 'a'  ";
             if (!empty($user_id)) {
                 $sql .= " AND users_id = {$user_id} ";
             }
