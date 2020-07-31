@@ -19,7 +19,7 @@ if ($res != false) {
     foreach ($users as $row) {
         echo "-----------------------------------".PHP_EOL;
         echo "{$row['id']} - {$row['user']} ".PHP_EOL;
-        echo Live::getLinkToLiveFromUsers_id($row['id']).PHP_EOL;        
+        echo Live::getServer() . "?p=" . $row['password'] . "/" . $row['key'].PHP_EOL;        
         echo "-----------------------------------".PHP_EOL;
     }
 }
