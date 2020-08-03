@@ -1768,7 +1768,7 @@ if (User::isAdmin()) {
                 refresh: "<?php echo __("Refresh"); ?>",
                 search: "<?php echo __("Search"); ?>",
             },
-            rowCount: <?php $advancedCustom->videosManegerRowCount; ?>,
+            rowCount: <?php echo $advancedCustom->videosManegerRowCount; ?>,
             ajax: true,
             url: "<?php echo $global['webSiteRootURL'] . "objects/videos.json.php?showAll=1"; ?>",
             formatters: {
