@@ -161,13 +161,15 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->makeSwapVideosOnlyForAdmin = false;
         $obj->disableCopyEmbed = false;
         $obj->disableDownloadVideosList = false;
+        $obj->videosManegerRowCount = "[10, 25, 50, -1]"; //An Array of Integer which will be shown in the dropdown box to choose the row count. Default value is [10, 25, 50, -1]. -1 means all. When passing an Integer value the dropdown box will disapear.
 
         $parse = parse_url($global['webSiteRootURL']);
         $domain = str_replace(".", "", $parse['host']);
         $obj->twitter_site = "@{$domain}";
         $obj->twitter_player = true;
         $obj->twitter_summary_large_image = false;
-
+        
+        
         return $obj;
     }
 
