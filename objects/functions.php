@@ -3482,6 +3482,7 @@ function ogSite() {
     }
 
     function getRowCount($default = 1000) {
+        global $global;
         if (!empty($_REQUEST['rowCount'])) {
             return intval($_REQUEST['rowCount']);
         } else if (!empty($_POST['rowCount'])) {
@@ -3494,6 +3495,8 @@ function ogSite() {
             return intval($_POST['length']);
         } else if (!empty($_GET['length'])) {
             return intval($_GET['length']);
+        } else if (!empty($global['rowCount'])) {
+            return intval($global['rowCount']);
         }
         return $default;
     }
