@@ -17,7 +17,7 @@ require_once $global['systemRootPath'] . 'plugin/CloneSite/CloneLog.php';
 require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
 
 $totalSteps = 7;
-
+$total2 = $total = 0;
 $resp = new stdClass();
 $resp->error = true;
 $resp->msg = "";
