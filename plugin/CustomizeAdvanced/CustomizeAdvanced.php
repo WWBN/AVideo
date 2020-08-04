@@ -162,6 +162,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableCopyEmbed = false;
         $obj->disableDownloadVideosList = false;
         $obj->videosManegerRowCount = "[10, 25, 50, -1]"; //An Array of Integer which will be shown in the dropdown box to choose the row count. Default value is [10, 25, 50, -1]. -1 means all. When passing an Integer value the dropdown box will disapear.
+        $obj->videosListRowCount = "[10, 20, 30, 40, 50]"; //An Array of Integer which will be shown in the dropdown box to choose the row count. Default value is [10, 25, 50, -1]. -1 means all. When passing an Integer value the dropdown box will disapear.
 
         $parse = parse_url($global['webSiteRootURL']);
         $domain = str_replace(".", "", $parse['host']);
