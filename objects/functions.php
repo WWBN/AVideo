@@ -448,7 +448,7 @@ function parseDurationToSeconds($str) {
  */
 function setSiteSendMessage(&$mail) {
     global $global;
-    if(empty($_POST["comment"])){
+    if (empty($_POST["comment"])) {
         $_POST["comment"] = "";
     }
     require_once $global['systemRootPath'] . 'objects/configuration.php';
@@ -511,7 +511,7 @@ function sendSiteEmail($to, $subject, $message) {
     if (empty($to)) {
         return false;
     }
-    if(!is_array($to)){
+    if (!is_array($to)) {
         $to = array($to);
     }
 
@@ -1427,6 +1427,40 @@ function im_resizeV3($file_src, $file_dest, $wd, $hd) {
 
 function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
     $fn = $file_src;
+    $tmpFile = getTmpFile().".jpg";
+    if(empty($fn)){
+        _error_log("im_resize_max_size: file name is empty, Destination: {$file_dest}", AVideoLog::$ERROR);
+        return false;
+    }
+    if (function_exists("exif_read_data")) {        error_log($fn);
+        convertImage($fn, $tmpFile, 100);
+        $exif = exif_read_data($tmpFile);
+        if ($exif && isset($exif['Orientation'])) {
+            $orientation = $exif['Orientation'];
+            if ($orientation != 1) {
+                $img = imagecreatefromjpeg($tmpFile);
+                $deg = 0;
+                switch ($orientation) {
+                    case 3:
+                        $deg = 180;
+                        break;
+                    case 6:
+                        $deg = 270;
+                        break;
+                    case 8:
+                        $deg = 90;
+                        break;
+                }
+                if ($deg) {
+                    $img = imagerotate($img, $deg, 0);
+                }
+                imagejpeg($img, $fn, 100);
+            }
+        }
+    }else{
+        _error_log("Make sure you install the php_mbstring and php_exif to be able to rotate images");
+    }
+    
     $size = getimagesize($fn);
     $ratio = $size[0] / $size[1]; // width/height
     if ($size[0] <= $max_width && $size[1] <= $max_height) {
@@ -1440,32 +1474,41 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
         $width = $max_width * $ratio;
         $height = $max_height;
     }
+
     $src = imagecreatefromstring(file_get_contents($fn));
     $dst = imagecreatetruecolor($width, $height);
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $width, $height, $size[0], $size[1]);
     imagedestroy($src);
     imagejpeg($dst, $file_dest); // adjust format as needed
     imagedestroy($dst);
+    @unlink($file_src);
+    @unlink($tmpFile);
 }
 
 function convertImage($originalImage, $outputImage, $quality) {
+    
+    if(function_exists('exif_imagetype')){
+        $imagetype = exif_imagetype($originalImage);
+    }
+    
     // jpg, png, gif or bmp?
     $exploded = explode('.', $originalImage);
     $ext = $exploded[count($exploded) - 1];
 
-    if (preg_match('/jpg|jpeg/i', $ext))
+    if ($imagetype == IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext))
         $imageTmp = imagecreatefromjpeg($originalImage);
-    else if (preg_match('/png/i', $ext))
+    else if ($imagetype == IMAGETYPE_PNG || preg_match('/png/i', $ext))
         $imageTmp = imagecreatefrompng($originalImage);
-    else if (preg_match('/gif/i', $ext))
+    else if ($imagetype == IMAGETYPE_GIF || preg_match('/gif/i', $ext))
         $imageTmp = imagecreatefromgif($originalImage);
-    else if (preg_match('/bmp/i', $ext))
+    else if ($imagetype == IMAGETYPE_BMP || preg_match('/bmp/i', $ext))
         $imageTmp = imagecreatefrombmp($originalImage);
-    else if (preg_match('/webp/i', $ext))
+    else if ($imagetype == IMAGETYPE_WEBP || preg_match('/webp/i', $ext))
         $imageTmp = imagecreatefromwebp($originalImage);
-    else
+    else{
+        _error_log("convertImage: File Extension not found ($originalImage, $outputImage, $quality) ".exif_imagetype($originalImage));
         return 0;
-
+    }
     // quality is a value from 0 (worst) to 100 (best)
     imagejpeg($imageTmp, $outputImage, $quality);
     imagedestroy($imageTmp);
@@ -2921,7 +2964,14 @@ function ogSite() {
 
     }
 
-    function _error_log($message, $type = 0) {
+    function _error_log($message, $type = 0, $doNotRepeat = false) {
+        if (empty($doNotRepeat)) {
+            // do not log it too many times when you are using HLS format, other wise it will fill the log file with the same error
+            $doNotRepeat = preg_match("/hls.php$/", $_SERVER['SCRIPT_NAME']);
+        }
+        if ($doNotRepeat) {
+            return false;
+        }
         global $global;
         if (!empty($global['noDebug']) && $type == 0) {
             return false;
@@ -2941,7 +2991,7 @@ function ogSite() {
                 $prefix .= "SECURITY: ";
                 break;
         }
-        error_log($prefix . $message);
+        error_log($prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}");
     }
 
     function postVariables($url, $array) {
@@ -3398,12 +3448,12 @@ function ogSite() {
         }
         return false;
     }
-    
+
     function getRedirectUri() {
         if (!empty($_GET['redirectUri'])) {
             return $_GET['redirectUri'];
         }
-        if(!empty($_SERVER["HTTP_REFERER"])){
+        if (!empty($_SERVER["HTTP_REFERER"])) {
             return $_GET['redirectUri'];
         }
         return getRequestURI();
@@ -3655,6 +3705,11 @@ function ogSite() {
             $tmpDir = $_SESSION['getTmpDir'][$subdir . "_"];
         }
         return $tmpDir;
+    }
+    
+    
+    function getTmpFile() {
+        return getTmpDir("tmpFiles").uniqid();
     }
 
     function getMySQLDate() {
