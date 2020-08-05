@@ -169,6 +169,11 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
     static function getLabels($videos_id, $showType=true) {
         global $global;
 
+        $currentPage = getCurrentPage();
+        $rowCount = getRowCount();
+        $_REQUEST['current'] = 1;
+        $_REQUEST['rowCount'] = 1000;           
+
         $post = $_POST;
         unset($_POST);
         $get = $_GET;
@@ -197,6 +202,9 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         }
         $_POST = $post;
         $_GET = $get;
+        
+        $_REQUEST['current'] = $currentPage;
+        $_REQUEST['rowCount'] = $rowCount;  
         return "<div class='text-muted'>".implode("</div><div class='text-muted'>", $tagsStrList)."</div>";
     }
 
