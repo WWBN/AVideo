@@ -206,8 +206,8 @@ class Plugin extends ObjectYPT {
                         $obj->databaseScript = !empty(static::getDatabaseFile($value));
                         $obj->pluginMenu = $p->getPluginMenu();
                         $obj->tags = $p->getTags();
-                        $obj->pluginversion = $p->getPluginVersion();
-                        $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace[$obj->uuid])?$pluginsMarketplace[$obj->uuid]:0);
+                        $obj->pluginversion = $p->getPluginVersion();          
+                        $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace->plugins->{$obj->uuid})?$pluginsMarketplace->plugins->{$obj->uuid}->pluginversion:0);
                         $obj->pluginversionCompare = (!empty($obj->pluginversionMarketPlace)?version_compare($obj->pluginversion, $obj->pluginversionMarketPlace):0);
                         $getAvailablePlugins[] = $obj;
                     }
