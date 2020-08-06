@@ -170,8 +170,16 @@ class Plugin extends ObjectYPT {
         return false;
     }
 
-    static function getAvailablePlugins() {
+    static function getAvailablePlugins($comparePluginVersion=false) {
         global $global, $getAvailablePlugins;
+        $pluginsMarketplace = array();
+        if($comparePluginVersion){
+            $pluginsMarketplace = ObjectYPT::getSessionCache('getAvailablePlugins', 600); // 10 min cache
+            if(empty($pluginsMarketplace)){
+                $pluginsMarketplace = json_decode(url_get_contents("https://tutorials.avideo.com/info?version=1", "", 2));
+                ObjectYPT::setSessionCache('getAvailablePlugins', $pluginsMarketplace);
+            }
+        }
         if (empty($getAvailablePlugins)) {
             $dir = $global['systemRootPath'] . "plugin";
             $getAvailablePlugins = array();
@@ -199,6 +207,8 @@ class Plugin extends ObjectYPT {
                         $obj->pluginMenu = $p->getPluginMenu();
                         $obj->tags = $p->getTags();
                         $obj->pluginversion = $p->getPluginVersion();
+                        $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace[$obj->uuid])?$pluginsMarketplace[$obj->uuid]:0);
+                        $obj->pluginversionCompare = (!empty($obj->pluginversionMarketPlace)?version_compare($obj->pluginversion, $obj->pluginversionMarketPlace):0);
                         $getAvailablePlugins[] = $obj;
                     }
                 }
@@ -225,9 +235,8 @@ class Plugin extends ObjectYPT {
                         }
                         $obj = new stdClass();
                         $obj->name = $p->getName();
-                        $obj->uuid = $p->getUUID();
                         $obj->pluginversion = $p->getPluginVersion();
-                        $getAvailablePlugins[] = $obj;
+                        $getAvailablePlugins[$p->getUUID()] = $obj;
                     }
                 }
             }
