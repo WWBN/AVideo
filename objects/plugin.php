@@ -206,6 +206,34 @@ class Plugin extends ObjectYPT {
         }
         return $getAvailablePlugins;
     }
+    
+    static function getAvailablePluginsBasic() {
+        global $global, $getAvailablePlugins;
+        if (empty($getAvailablePlugins)) {
+            $dir = $global['systemRootPath'] . "plugin";
+            $getAvailablePlugins = array();
+            $cdir = scandir($dir);
+            foreach ($cdir as $key => $value) {
+                if (!in_array($value, array(".", ".."))) {
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
+                        $p = AVideoPlugin::loadPlugin($value);
+                        if (!is_object($p) || $p->hidePlugin()) {
+                            if($value!=="Statistics"){ // avoid error while this plugin is not ready
+                                _error_log("Plugin Not Found: {$value}");
+                            }
+                            continue;
+                        }
+                        $obj = new stdClass();
+                        $obj->name = $p->getName();
+                        $obj->uuid = $p->getUUID();
+                        $obj->pluginversion = $p->getPluginVersion();
+                        $getAvailablePlugins[] = $obj;
+                    }
+                }
+            }
+        }
+        return $getAvailablePlugins;
+    }
 
     static function getDatabaseFile($pluginName) {
         $filename = static::getDatabaseFileName($pluginName);
