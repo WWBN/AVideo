@@ -971,7 +971,6 @@ class AVideoPlugin {
                 if(!empty($can)){
                     if($can < 0){
                         _error_log("userCanWatchVideo: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT watch the video ({$videos_id})");
-                        
                         $resp = false;
                     }
                     if($can>0){
@@ -982,8 +981,7 @@ class AVideoPlugin {
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
-        //_error_log("userCanWatchVideo: No plugins approve you to watch the video ({$videos_id}) ");
-            
+        _error_log("userCanWatchVideo: No plugins approve you to watch the video ({$videos_id}) ");
         return $resp;
     }
     
