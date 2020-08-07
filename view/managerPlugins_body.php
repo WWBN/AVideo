@@ -293,16 +293,20 @@
                     var tags = '';
                     if (row.tags) {
                         for (i = 0; i < row.tags.length; i++) {
-                            var cl = "primary";
-                            if (row.tags[i] === 'free') {
-                                cl = 'success';
-                            } else if (row.tags[i] === 'firstPage') {
-                                cl = 'danger';
-                            } else if (row.tags[i] === 'login') {
-                                cl = 'info';
-                            }
+                            if (row.tags[i] === 'update') {
+                                tags += '<a class="label label-warning" href="https://youphp.tube/marketplace/" target="_blank">Update Available: v' + row.pluginversionMarketPlace + '</a> ';
+                            }else{
+                                var cl = "primary";
+                                if (row.tags[i] === 'free') {
+                                    cl = 'success';
+                                } else if (row.tags[i] === 'firstPage') {
+                                    cl = 'danger';
+                                } else if (row.tags[i] === 'login') {
+                                    cl = 'info';
+                                }
 
-                            tags += '<span class="label label-' + cl + '">' + row.tags[i] + '</span> ';
+                                tags += '<span class="label label-' + cl + '">' + row.tags[i] + '</span> ';
+                            }
                         }
                     }
 

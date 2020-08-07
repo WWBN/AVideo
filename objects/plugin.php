@@ -170,8 +170,16 @@ class Plugin extends ObjectYPT {
         return false;
     }
 
-    static function getAvailablePlugins() {
+    static function getAvailablePlugins($comparePluginVersion=false) {
         global $global, $getAvailablePlugins;
+        $pluginsMarketplace = array();
+        if($comparePluginVersion){
+            $pluginsMarketplace = ObjectYPT::getSessionCache('getAvailablePlugins', 600); // 10 min cache
+            if(empty($pluginsMarketplace)){
+                $pluginsMarketplace = json_decode(url_get_contents("https://tutorials.avideo.com/info?version=1", "", 2));
+                ObjectYPT::setSessionCache('getAvailablePlugins', $pluginsMarketplace);
+            }
+        }
         if (empty($getAvailablePlugins)) {
             $dir = $global['systemRootPath'] . "plugin";
             $getAvailablePlugins = array();
@@ -198,8 +206,40 @@ class Plugin extends ObjectYPT {
                         $obj->databaseScript = !empty(static::getDatabaseFile($value));
                         $obj->pluginMenu = $p->getPluginMenu();
                         $obj->tags = $p->getTags();
-                        $obj->pluginversion = $p->getPluginVersion();
+                        $obj->pluginversion = $p->getPluginVersion();          
+                        $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace->plugins->{$obj->uuid})?$pluginsMarketplace->plugins->{$obj->uuid}->pluginversion:0);
+                        $obj->pluginversionCompare = (!empty($obj->pluginversionMarketPlace)?version_compare($obj->pluginversion, $obj->pluginversionMarketPlace):0);
+                        if($obj->pluginversionCompare<0){
+                            $obj->tags[] = "update";
+                        }
                         $getAvailablePlugins[] = $obj;
+                    }
+                }
+            }
+        }
+        return $getAvailablePlugins;
+    }
+    
+    static function getAvailablePluginsBasic() {
+        global $global, $getAvailablePlugins;
+        if (empty($getAvailablePlugins)) {
+            $dir = $global['systemRootPath'] . "plugin";
+            $getAvailablePlugins = array();
+            $cdir = scandir($dir);
+            foreach ($cdir as $key => $value) {
+                if (!in_array($value, array(".", ".."))) {
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
+                        $p = AVideoPlugin::loadPlugin($value);
+                        if (!is_object($p) || $p->hidePlugin()) {
+                            if($value!=="Statistics"){ // avoid error while this plugin is not ready
+                                _error_log("Plugin Not Found: {$value}");
+                            }
+                            continue;
+                        }
+                        $obj = new stdClass();
+                        $obj->name = $p->getName();
+                        $obj->pluginversion = $p->getPluginVersion();
+                        $getAvailablePlugins[$p->getUUID()] = $obj;
                     }
                 }
             }

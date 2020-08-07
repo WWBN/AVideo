@@ -1280,7 +1280,7 @@ if (!class_exists('Video')) {
             }
             if (strpos(strtolower($sql), 'limit') === false) {
                 if (empty($global['limitForUnlimitedVideos'])) {
-                    $global['limitForUnlimitedVideos'] = 1000;
+                    $global['limitForUnlimitedVideos'] = empty($global['rowCount'])?1000:$global['rowCount'];
                 }
                 if ($global['limitForUnlimitedVideos'] > 0) {
                     $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";

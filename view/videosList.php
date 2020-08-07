@@ -31,6 +31,12 @@ if (empty($_POST['rowCount'])) {
         $_POST['rowCount'] = 10;
     }
 }
+
+if($_POST['rowCount']<=0 || $_POST['rowCount']>100){
+    $_POST['rowCount']=10;
+    echo "<div class='alert alert-warning'>For performance reasons, max rows cannot be null or greater then 100</div>";
+}
+
 if (empty($_POST['sort'])) {
     if (!empty($_SESSION['sort'])) {
         $_POST['sort'] = $_SESSION['sort'];
@@ -92,11 +98,20 @@ if (empty($video['id'])) {
 </div>
 <div class="col-md-4 col-sm-12" style="position: relative; z-index: 2;">
     <select class="form-control" id="rowCount">
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '10') ? "selected='selected'" : "" ?>>10</option>
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '20') ? "selected='selected'" : "" ?>>20</option>
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '30') ? "selected='selected'" : "" ?>>30</option>
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '40') ? "selected='selected'" : "" ?>>40</option>
-        <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == '50') ? "selected='selected'" : "" ?>>50</option>
+        <?php
+        $jsonArray = json_decode($advancedCustom->videosListRowCount);
+        foreach ($jsonArray as $item) {
+            if($item==-1){
+            ?>
+            <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo __("All"); ?></option>
+            <?php
+            }else{
+            ?>
+            <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo $item; ?></option>
+            <?php
+            }
+        }
+        ?>
     </select>
 </div>
 

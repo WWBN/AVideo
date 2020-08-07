@@ -88,7 +88,7 @@ abstract class PluginAbstract {
     }
 
     public function getTags() {
-        
+        return array();
     }
 
     public function getGallerySection() {

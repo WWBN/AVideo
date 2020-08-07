@@ -6,7 +6,7 @@ if(!isset($global['systemRootPath'])){
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
 
-$row = Plugin::getAvailablePlugins();
+$row = Plugin::getAvailablePlugins(true);
 $total = count($row);
 
 if(!User::isAdmin()){
