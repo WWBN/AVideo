@@ -1486,7 +1486,7 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
 }
 
 function convertImage($originalImage, $outputImage, $quality) {
-    
+    $imagetype = 0;
     if(function_exists('exif_imagetype')){
         $imagetype = exif_imagetype($originalImage);
     }
@@ -3957,3 +3957,12 @@ function ogSite() {
         return $json;
     }
     
+    // this will make sure the strring will fits in the database field
+    function _substr($string, $start, $length = NULL){
+        // make sure the name is not chunked in case of multibyte string
+        if(function_exists("mb_strcut")){
+            return mb_strcut($string, $start, $length, "UTF-8");
+        }else{
+            return substr($string, $start, $length);
+        }
+    }

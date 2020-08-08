@@ -1988,6 +1988,11 @@ if (!class_exists('Video')) {
             if (empty($advancedCustom)) {
                 $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
             }
+            $currentPage = getCurrentPage();
+            $rowCount = getRowCount();
+            $_REQUEST['current'] = 1;
+            $_REQUEST['rowCount'] = 1000;           
+            
             $video = new Video("", "", $video_id);
             $tags = array();
             if (empty($type) || $type === "paid") {
@@ -2167,6 +2172,10 @@ if (!class_exists('Video')) {
                 $tags = array_merge($tags, $array2);
             }
             //var_dump($tags);
+           
+            $_REQUEST['current'] = $currentPage;
+            $_REQUEST['rowCount'] = $rowCount;    
+            
             return $tags;
         }
 

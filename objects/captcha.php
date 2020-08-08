@@ -37,7 +37,7 @@ class Captcha{
         }
         _session_start();
         $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
-        _error_log("getCaptchaImage: ".$palavra." - session_name ". session_name()." session_id: ". session_id());
+        //_error_log("getCaptchaImage: ".$palavra." - session_name ". session_name()." session_id: ". session_id());
         for ($i = 1; $i <= $this->quantidade_letras; $i++) {
             imagettftext(
                 $imagem,
@@ -52,7 +52,7 @@ class Captcha{
         }
         imagejpeg($imagem); // gera a imagem
         imagedestroy($imagem); // limpa a imagem da memoria
-        _error_log("getCaptchaImage _SESSION[palavra] = ($_SESSION[palavra]) - session_name ". session_name()." session_id: ". session_id());
+        //_error_log("getCaptchaImage _SESSION[palavra] = ($_SESSION[palavra]) - session_name ". session_name()." session_id: ". session_id());
     }
 
     static public function validation($word) {

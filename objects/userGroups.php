@@ -13,6 +13,7 @@ class UserGroups {
 
     function __construct($id, $group_name = "") {
         if (empty($id)) {
+            $group_name = _substr($group_name, 0, 255);
             // get the category data from category and pass
             $this->group_name = $group_name;
         } else {
@@ -52,6 +53,7 @@ class UserGroups {
         }
         $formats = "";
         $values = array();
+        $this->group_name = _substr($this->group_name, 0, 255);
         if (!empty($this->id)) {
             $sql = "UPDATE users_groups SET group_name = ?, modified = now() WHERE id = ?";
             $formats = "si";
@@ -173,6 +175,7 @@ class UserGroups {
 
     static function getOrCreateUserGroups($group_name){
         $group_name = trim($group_name);
+        $group_name = _substr($group_name, 0, 255);
         if(empty($group_name)){
             return false;
         }

@@ -42,7 +42,7 @@ if ($obj->Categories) {
         unset($_POST['searchPhrase']);
     }
     unset($_POST['sort']);
-    $_POST['rowCount'] = 2;
+    $_POST['rowCount'] = 2;    
     $categories = Category::getAllCategories(false, true);
     if(empty($categories)){
         echo "</div>";
