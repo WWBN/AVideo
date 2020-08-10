@@ -580,6 +580,38 @@ function sendSiteEmail($to, $subject, $message) {
     }
 }
 
+function sendEmailToSiteOwner($subject, $message) {
+    global $advancedCustom;
+    $subject = UTF8encode($subject);
+    $message = UTF8encode($message);
+    _error_log("sendEmailToSiteOwner {$subject}");
+    global $config, $global;
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+    $contactEmail = $config->getContactEmail();
+    $webSiteTitle = $config->getWebSiteTitle();
+    try {
+        $mail = new PHPMailer\PHPMailer\PHPMailer;
+        setSiteSendMessage($mail);
+        $mail->setFrom($contactEmail, $webSiteTitle);
+        $mail->Subject = $subject . " - " . $webSiteTitle;
+        $mail->msgHTML($message);
+        $mail->addAddress($contactEmail);
+        $resp = $mail->send();
+        if (!$resp) {
+            _error_log("sendEmailToSiteOwner Error Info: {$mail->ErrorInfo}");
+        } else {
+            _error_log("sendEmailToSiteOwner Success Info: $subject " . json_encode($to));
+        }
+        return $resp;
+    } catch (phpmailerException $e) {
+        _error_log($e->errorMessage()); //Pretty error messages from PHPMailer
+    } catch (Exception $e) {
+        _error_log($e->getMessage()); //Boring error messages from anything else!
+    }
+}
+
 function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $showinfo = 0, $controls = 1, $time = 0, $objectFit = "") {
     //_error_log("parseVideos: $videoString");
     if (strpos($videoString, 'youtube.com/embed') !== false) {
@@ -1427,12 +1459,13 @@ function im_resizeV3($file_src, $file_dest, $wd, $hd) {
 
 function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
     $fn = $file_src;
-    $tmpFile = getTmpFile().".jpg";
-    if(empty($fn)){
+    $tmpFile = getTmpFile() . ".jpg";
+    if (empty($fn)) {
         _error_log("im_resize_max_size: file name is empty, Destination: {$file_dest}", AVideoLog::$ERROR);
         return false;
     }
-    if (function_exists("exif_read_data")) {        error_log($fn);
+    if (function_exists("exif_read_data")) {
+        error_log($fn);
         convertImage($fn, $tmpFile, 100);
         $exif = exif_read_data($tmpFile);
         if ($exif && isset($exif['Orientation'])) {
@@ -1457,10 +1490,10 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
                 imagejpeg($img, $fn, 100);
             }
         }
-    }else{
+    } else {
         _error_log("Make sure you install the php_mbstring and php_exif to be able to rotate images");
     }
-    
+
     $size = getimagesize($fn);
     $ratio = $size[0] / $size[1]; // width/height
     if ($size[0] <= $max_width && $size[1] <= $max_height) {
@@ -1487,10 +1520,10 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
 
 function convertImage($originalImage, $outputImage, $quality) {
     $imagetype = 0;
-    if(function_exists('exif_imagetype')){
+    if (function_exists('exif_imagetype')) {
         $imagetype = exif_imagetype($originalImage);
     }
-    
+
     // jpg, png, gif or bmp?
     $exploded = explode('.', $originalImage);
     $ext = $exploded[count($exploded) - 1];
@@ -1505,8 +1538,8 @@ function convertImage($originalImage, $outputImage, $quality) {
         $imageTmp = imagecreatefrombmp($originalImage);
     else if ($imagetype == IMAGETYPE_WEBP || preg_match('/webp/i', $ext))
         $imageTmp = imagecreatefromwebp($originalImage);
-    else{
-        _error_log("convertImage: File Extension not found ($originalImage, $outputImage, $quality) ".exif_imagetype($originalImage));
+    else {
+        _error_log("convertImage: File Extension not found ($originalImage, $outputImage, $quality) " . exif_imagetype($originalImage));
         return 0;
     }
     // quality is a value from 0 (worst) to 100 (best)
@@ -3706,10 +3739,9 @@ function ogSite() {
         }
         return $tmpDir;
     }
-    
-    
+
     function getTmpFile() {
-        return getTmpDir("tmpFiles").uniqid();
+        return getTmpDir("tmpFiles") . uniqid();
     }
 
     function getMySQLDate() {
@@ -3956,13 +3988,14 @@ function ogSite() {
         }
         return $json;
     }
-    
+
     // this will make sure the strring will fits in the database field
-    function _substr($string, $start, $length = NULL){
+    function _substr($string, $start, $length = NULL) {
         // make sure the name is not chunked in case of multibyte string
-        if(function_exists("mb_strcut")){
+        if (function_exists("mb_strcut")) {
             return mb_strcut($string, $start, $length, "UTF-8");
-        }else{
+        } else {
             return substr($string, $start, $length);
         }
     }
+    

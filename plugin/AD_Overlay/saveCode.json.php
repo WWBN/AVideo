@@ -56,6 +56,9 @@ if(User::isAdmin()){
 }
 
 if($ad->save()){
+    if(!User::isAdmin()){
+        sendEmailToSiteOwner("AD Overlay Code Update", "The user [".User::getId()."]".User::getNameIdentification()." send an update to his Overlay Code");
+    }
     $response->error = false;
 }
 die(json_encode($response));
