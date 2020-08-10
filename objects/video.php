@@ -740,7 +740,7 @@ if (!class_exists('Video')) {
                     //$sql .= " ORDER BY RAND() ";
                 } else if(!empty($_GET['v']) && is_numeric($_GET['v'])){
                     $vid = intval($_GET['v']);
-                    $sql .= " AND v.id = {$vid} LIMIT 1";
+                    $sql .= " AND v.id = {$vid} ";
                 }else {
                     $sql .= " ORDER BY v.Created DESC ";
                 }
