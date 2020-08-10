@@ -46,11 +46,11 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $_GET['page'] = 1;
         }
         $_POST['sort'][$sort] = $_GET[$getName];
-        $_POST['current'] = $_GET['page'];
-        $_POST['rowCount'] = $rowCount;
+        $_REQUEST['current'] = $_GET['page'];
+        $_REQUEST['rowCount'] = $rowCount;
 
         $total = Video::getTotalVideos("viewable");
-        $totalPages = ceil($total / $_POST['rowCount']);
+        $totalPages = ceil($total / $_REQUEST['rowCount']);
         $page = $_GET['page'];
         if ($totalPages < $_GET['page']) {
             $page = $totalPages;

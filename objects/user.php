@@ -163,6 +163,10 @@ if (typeof gtag !== \"function\") {
     }
 
     private function load($id) {
+        $id = intval($id);
+        if(empty($id)){
+            return false;
+        }
         $user = self::getUserDb($id);
         if (empty($user))
             return false;
@@ -465,8 +469,13 @@ if (typeof gtag !== \"function\") {
         return $mark;
     }
 
-    function getPhotoDB() {
-        return self::getPhoto($this->id);
+    function getPhotoDB($fullURL = false) {
+        global $global;
+        $photo = self::getPhoto($this->id);
+        if($fullURL){
+            $photo = "{$global['webSiteRootURL']}{$photo}";
+        }
+        return $photo;
     }
 
     static function getBackground($id = "") {

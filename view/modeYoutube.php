@@ -117,7 +117,7 @@ if (!empty($evideo)) {
         if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $advancedCustom->forceCategory === false)) {
             $_GET['catName'] = "";
         }
-
+        
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, true, true);
         }
@@ -128,7 +128,11 @@ if (!empty($evideo)) {
         if (empty($video)) {
             $video = AVideoPlugin::getVideo();
         }
-
+        
+        if(!empty($_GET['v']) && $video['id']!=$_GET['v']){
+            $video = false;
+        }
+        
 // allow users to count a view again in case it is refreshed
         Video::unsetAddView($video['id']);
 

@@ -15,9 +15,9 @@
         <thead>
             <tr>
                 <th data-column-id="group_name" data-order="asc"><?php echo __("Name"); ?></th>
-                <th data-column-id="created"><?php echo __("Created"); ?></th>
-                <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
-                <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
+                <th data-column-id="created" data-width="150px"  ><?php echo __("Created"); ?></th>
+                <th data-column-id="modified" data-width="150px"  ><?php echo __("Modified"); ?></th>
+                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="100px"  ></th>
             </tr>
         </thead>
     </table>

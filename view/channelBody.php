@@ -4,6 +4,12 @@ if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;
 }
 $user = new User($user_id);
+
+if($user->getBdId() != $user_id){
+   header("Location: {$global['webSiteRootURL']}channels");
+   exit;
+}
+
 $_GET['channelName'] = $user->getChannelName();
 $timeLog = __FILE__ . " - channelName: {$_GET['channelName']}";
 TimeLogStart($timeLog);
