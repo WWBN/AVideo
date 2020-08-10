@@ -3180,6 +3180,24 @@ if (!class_exists('Video')) {
             clearVideosURL($filename);
             return true;
         }
+        
+        static function clearCache($videos_id){
+            $video = new Video("", "", $videos_id);
+            $filename = $video->getFilename();
+            if (empty($filename)) {
+                return false;
+            }
+            ObjectYPT::deleteCache($filename);
+            ObjectYPT::deleteCache($filename . "article");
+            ObjectYPT::deleteCache($filename . "pdf");
+            ObjectYPT::deleteCache($filename . "video");
+            Video::clearImageCache($filename);
+            Video::clearImageCache($filename, "article");
+            Video::clearImageCache($filename, "pdf");
+            Video::clearImageCache($filename, "audio");
+            clearVideosURL($filename);
+            return true;
+        }
 
         static function getVideoPogress($videos_id, $users_id = 0) {
             if (empty($users_id)) {
