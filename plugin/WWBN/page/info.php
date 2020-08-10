@@ -91,7 +91,7 @@ if(empty($obj)){
 				      	<img class="img-responsive" src="../assets/images/account_activated.png" width="100%">
 				      	<div class="caption">
 				       	 	<h3><b>Step #2 - Account Verified</b></h3>
-					        <p>Wait until you received an email similar to this one. Then you can login from here to submit/update your index or go back "WWBN" plugin.</p>
+					        <p>Wait until you received an email similar to this one. Then you can login from here to submit/update your index or go back to your "WWBN" plugin then login through the setup button.</p>
 				      	</div>
 				    </div>
 			  		
@@ -105,9 +105,17 @@ if(empty($obj)){
 				    </div>
 
 				    <div class="thumbnail">
+				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---verify-index?objectFit=fill" width="100%" frameborder="0"></iframe>
+				      	<div class="caption">
+				       	 	<h3><b>Step #4 - Verify Index</b></h3>
+					        <p>Click the unverified/verified button of your index, A form to input your validation token will pop-up or an alert message that your index is already verified.</p>
+				      	</div>
+				    </div>
+
+				    <div class="thumbnail">
 				      	<iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---updating-index?objectFit=fill" width="100%" frameborder="0"></iframe>
 				      	<div class="caption">
-				       	 	<h3><b>Step #4 - Updating Index</b></h3>
+				       	 	<h3><b>Step #5 - Updating Index</b></h3>
 					        <p>Click the edit button of your index, change/update the data for the allowed/editable field then click update button to appy changes.  </p>
 				      	</div>
 				    </div>
@@ -125,13 +133,14 @@ if(empty($obj)){
 				      	<div class="caption">
 				       	 	<h3><b>Additional Info - Index data</b></h3>
 					        <ol>
-					        	<li>Display for engine name with your platform icon.</li>
-					        	<li>Inreview = Pending for approval, Inactive = Indexing is not avaible for indexing, Approved = Index is ready/avialble to be assign to an affiliate</li>
-					        	<li>The content of your platform.</li>
+					        	<li>Display engine name with your platform icon.</li>
+					        	<li>Display verify or unverified, Click the to unverified to show form to verify your Index so that the admin can assign your it to an affiliate.</li>
+					        	<li>Inreview = Pending for approval, Inactive = Indexing is not avaible for assigning to an Affiliate or Disapproved by the admin due to some contents conflict, Approved = Index is ready/avialable to be assign to an Affiliate but still need verified.</li>
+					        	<li>The Content Type of your Platform.</li>
 					        	<li>Edit button, redirect to update form to edit the content type or country restriction.</li>
 					        	<li>Link button, redirect to your platform home page.</li>
 					        	<li>Deactivate = To set the status to inactive, Re-activate = To set/resubmit your index to be index to an affiliate</li>
-					        	<li>Display list for affiliate</li>
+					        	<li>Display list of Affiliate/s.</li>
 					        </ol>
 				      	</div>
 				    </div>
