@@ -1021,7 +1021,9 @@ if (!class_exists('Video')) {
                 $sort = @$_POST['sort'];
                 unset($_POST['sort']);
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
-                $sql .= " LIMIT 20 ";
+                if (strpos(strtolower($sql), 'limit') === false) {
+                    $sql .= " LIMIT 60 ";
+                }
                 $_POST['sort'] = $sort;
             } else if (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
@@ -1043,12 +1045,11 @@ if (!class_exists('Video')) {
                 }
                 $sql .= ObjectYPT::getSqlLimit();
             }
-
-            if (!empty($_GET['limitOnceToOne'])) {
-                $sql .= " LIMIT 1";
-                unset($_GET['limitOnceToOne']);
-            }
-            if (strpos(strtolower($sql), 'limit') === false) { 
+            if (strpos(strtolower($sql), 'limit') === false) {
+                if (!empty($_GET['limitOnceToOne'])) {
+                    $sql .= " LIMIT 1";
+                    unset($_GET['limitOnceToOne']);
+                }
                 $_REQUEST['rowCount'] = getRowCount();
                 if(!empty($_REQUEST['rowCount'])){
                     $sql .= " LIMIT {$_REQUEST['rowCount']}";
