@@ -745,7 +745,7 @@ if (!class_exists('Video')) {
                     $sql .= " ORDER BY v.Created DESC ";
                 }
             }
-            if (strpos($sql, 'v.id IN') === false) {
+            if (strpos($sql, 'v.id IN') === false && strpos(strtolower($sql), 'limit') === false) {
                 $sql .= " LIMIT {$firstClauseLimit}1";
             }
 //echo $sql, "<br>";//exit;
