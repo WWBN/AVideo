@@ -1021,6 +1021,7 @@ if (!class_exists('Video')) {
                 $sort = @$_POST['sort'];
                 unset($_POST['sort']);
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
+                $sql .= " LIMIT 20 ";
                 $_POST['sort'] = $sort;
             } else if (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
@@ -1056,7 +1057,8 @@ if (!class_exists('Video')) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);
             }
-            if (strpos(strtolower($sql), 'limit') === false) {
+            if (strpos(strtolower($sql), 'limit') === false) { 
+                _error_log("getAllVideos without limit ".json_encode(debug_backtrace()));
                 if (empty($global['limitForUnlimitedVideos'])) {
                     $global['limitForUnlimitedVideos'] = 100;
                 }
