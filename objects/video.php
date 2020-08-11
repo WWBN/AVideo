@@ -1028,19 +1028,10 @@ if (!class_exists('Video')) {
             } else {
                 unset($_POST['sort']['trending']);
                 unset($_GET['sort']['trending']);
-                //$_POST['sort']['created'] = 'DESC';
-                //$current = $_REQUEST['current'];
-                $_REQUEST['current'] = getCurrentPage();
-                $_REQUEST['rowCount'] = getRowCount();
-                //$_REQUEST['current'] = 1;
-                //$_REQUEST['rowCount'] *= 10; // quardruple it to make it random
-                //$rows = self::getAllVideosLight($status, $showOnlyLoggedUserVideos, $showUnlisted);
                 $rows = array();
                 if (!empty($_REQUEST['current']) && $_REQUEST['current'] == 1) {
                     $rows = VideoStatistic::getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
                 }
-                //$_REQUEST['rowCount'] = $rowCount;
-                //$_REQUEST['current'] = $current;
                 $ids = array();
                 foreach ($rows as $row) {
                     $ids[] = $row['id'];
@@ -1058,12 +1049,17 @@ if (!class_exists('Video')) {
                 unset($_GET['limitOnceToOne']);
             }
             if (strpos(strtolower($sql), 'limit') === false) { 
-                _error_log("getAllVideos without limit ".json_encode(debug_backtrace()));
-                if (empty($global['limitForUnlimitedVideos'])) {
-                    $global['limitForUnlimitedVideos'] = 100;
-                }
-                if ($global['limitForUnlimitedVideos'] > 0) {
-                    $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                $_REQUEST['rowCount'] = getRowCount();
+                if(!empty($_REQUEST['rowCount'])){
+                    $sql .= " LIMIT {$_REQUEST['rowCount']}";
+                }else{
+                    _error_log("getAllVideos without limit ".json_encode(debug_backtrace()));
+                    if (empty($global['limitForUnlimitedVideos'])) {
+                        $global['limitForUnlimitedVideos'] = 100;
+                    }
+                    if ($global['limitForUnlimitedVideos'] > 0) {
+                        $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                    }
                 }
             }
 
