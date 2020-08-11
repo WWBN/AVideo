@@ -7,7 +7,7 @@ if ((!empty($videos)) || ($obj->SubCategorys)) {
         <?php
     }
     if (($obj->SubCategorys) && (!empty($_GET['catName']))) {
-        unset($_POST['rowCount']);
+        unset($_REQUEST['rowCount']);
         if (!empty($currentCat)) {
             $childCategories = Category::getChildCategories($currentCat['id']);
             $parentCat = Category::getCategory($currentCat['parentId']);

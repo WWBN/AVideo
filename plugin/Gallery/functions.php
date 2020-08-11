@@ -54,7 +54,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $page = $_GET['page'];
         if ($totalPages < $_GET['page']) {
             $page = $totalPages;
-            $_POST['current'] = $totalPages;
+            $_REQUEST['current'] = $totalPages;
         }
         $videos = Video::getAllVideos("viewableNotUnlisted", false, $ignoreGroup);
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
@@ -422,8 +422,8 @@ function createChannelItem($users_id, $photoURL = "", $identification = "", $row
             $countCols = 0;
             unset($_POST['sort']);
             $_POST['sort']['created'] = "DESC";
-            $_POST['current'] = 1;
-            $_POST['rowCount'] = $rowCount;
+            $_REQUEST['current'] = 1;
+            $_REQUEST['rowCount'] = $rowCount;
             $videos = Video::getAllVideos("viewable", $users_id);
             createGallerySection($videos);
             ?>

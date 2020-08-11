@@ -7,19 +7,19 @@ require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 $obj = AVideoPlugin::getObjectData("Gallery");
-$_POST['rowCount'] = 2;
+$_REQUEST['rowCount'] = 2;
 if(empty($_GET['current'])){
-    $_POST['current'] = 1;
+    $_REQUEST['current'] = 1;
 }else{
-    $_POST['current'] = intval($_GET['current']);
+    $_REQUEST['current'] = intval($_GET['current']);
 }
 $categories = Category::getAllCategories(false, true);
 
 if(empty($categories)){
     return false;
 }
-$_POST['current'] = 1;
-$_POST['rowCount'] = $obj->CategoriesRowCount;
+$_REQUEST['current'] = 1;
+$_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 ?>
 <div class="categoriesContainerItem">
 <?php
@@ -49,5 +49,5 @@ foreach ($categories as $value) {
 ?>
 </div>
 <p class="pagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?tags_id=<?php echo intval(@$_GET['tagsid']); ?>&current=<?php echo count($categories)?$_POST['current'] + 1:$_POST['current']; ?>&search=<?php echo getSearchVar(); ?>"></a>
+    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?tags_id=<?php echo intval(@$_GET['tagsid']); ?>&current=<?php echo count($categories)?$_REQUEST['current'] + 1:$_REQUEST['current']; ?>&search=<?php echo getSearchVar(); ?>"></a>
 </p>
