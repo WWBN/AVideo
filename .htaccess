@@ -58,6 +58,8 @@ Options All -Indexes
     RewriteRule    ^videos/([^/]+)/(.*).key$ plugin/VideoHLS/downloadProtection.php?filename=$1&key=$2    [QSA]
 
     RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
+    
+    RewriteRule    ^meet/(.+)$ plugin/Meet/iframe.php?roomName=$1 [NC,L]
 
     #main Files
     RewriteRule    ^index.php$ view/index.php    [NC,L]
