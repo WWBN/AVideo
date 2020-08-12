@@ -201,18 +201,9 @@ TimeLogEnd($timeLog, __LINE__);
                             </div>
 
                             <div class="panel-footer">
-                                <ul id="channelPagging"></ul>
-                                <script>
-                                    $(document).ready(function () {
-                                        $('#channelPagging').bootpag({
-                                            total: <?php echo $totalPages; ?>,
-                                            page: <?php echo $current; ?>,
-                                            maxVisible: 10
-                                        }).on('page', function (event, num) {
-                                            document.location = ("<?php echo $global['webSiteRootURL']; ?>channel/<?php echo $_GET['channelName']; ?>?current=" + num);
-                                        });
-                                    });
-                                </script>
+                                <?php 
+                                echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current={page}");
+                                ?>
                             </div>
                         </div>
                     </div>

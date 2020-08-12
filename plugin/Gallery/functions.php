@@ -61,8 +61,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $countCols = createGallerySection($videos, dechex(crc32($getName)));
         ?>
         <div class="col-sm-12" style="z-index: 1;">
-            <ul id="<?php echo $paggingId; ?>">
-            </ul>
+            <?php 
+            echo getPagination($totalPages, $page, "{$url}{page}{$args}");
+            ?>
         </div>
     </div>
     <?php
@@ -75,26 +76,6 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         </style>
         <?php
     }
-    ?>
-    <script>
-    <?php
-    if ($totalPages > 1) {
-        ?>
-            $(document).ready(function () {
-                $('#<?php echo $paggingId; ?>').bootpag({
-                    total: <?php echo $totalPages; ?>,
-                    page: <?php echo $page; ?>,
-                    maxVisible: 10
-                }).on('page', function (event, num) {
-        <?php echo 'var args = "' . $args . '";'; ?>
-                    window.location.replace("<?php echo $url; ?>" + num + args);
-                });
-            });
-        <?php
-    }
-    ?>
-    </script>
-    <?php
 }
 
 function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {

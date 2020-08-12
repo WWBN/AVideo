@@ -145,10 +145,10 @@ $metaDescription = __("Channels");
                         </div>
                         <?php
                     }
+                    
+                    echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channels?current={page}");
+                               
                     ?>
-
-                    <ul class="pages">
-                    </ul>
                 </div>
             </div>
         </div>
@@ -156,16 +156,5 @@ $metaDescription = __("Channels");
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script>
-            $(function () {
-                $('.pages').bootpag({
-                    total: <?php echo $totalPages; ?>,
-                    page: <?php echo $current; ?>,
-                    maxVisible: 10
-                }).on('page', function (event, num) {
-                    document.location = "<?php echo $global['webSiteRootURL']; ?>channels?page=" + num;
-                });
-            });
-        </script>
     </body>
 </html>
