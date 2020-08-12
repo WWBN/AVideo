@@ -127,6 +127,14 @@ class Live extends PluginAbstract {
         }
         return $obj->server;
     }
+    
+    static function getRTMPLink(){
+        if(!User::canStream()){
+            return false;
+        }
+        $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
+        return self::getServer() . "?p=" . User::getUserPass() . "/" . $trasnmition['key'];
+    }
 
     static function getPlayerServer() {
         $obj = AVideoPlugin::getObjectData("Live");
