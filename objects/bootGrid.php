@@ -37,8 +37,9 @@ class BootGrid {
 
         $rowCount = getRowCount();
         $current = getCurrentPage();      
+        $currentP = ($current-1)*$rowCount;
         
-        $sql .= " LIMIT $current, {$rowCount} ";
+        $sql .= " LIMIT $currentP, {$rowCount} ";
         
         return $sql;
     }
