@@ -1,3 +1,11 @@
+<?php
+$uuids = AVideoPlugin::getPluginsOnByDefault();
+$rowId = array();
+foreach ($uuids as $value) {
+    $rowId[] = " row.uuid != '{$value}' ";
+}
+$uuidJSCondition = implode(" && ", $rowId);
+?>
 <style>
     td.wrapText{white-space: normal;}
 </style>
@@ -163,7 +171,7 @@
                         if (val.value == index) {
                             select = "selected";
                         }
-                        $(input).append('<option value="' + index + '" ' + select + '>' + value + '</option>')
+                        $(input).append('<option value="' + index + '" ' + select + '>' + value + '</option>');
                     });
 
                 } else {
@@ -274,7 +282,7 @@
                 "name": function (column, row) {
                     var checked = "";
 
-                    if (row.uuid != '55a4fa56-8a30-48d4-a0fb-8aa6b3fuser3' && row.uuid != '55a4fa56-8a30-48d4-a0fb-8aa6b3f69033') {
+                    if (<?php echo $uuidJSCondition; ?>) {
                         if (row.enabled) {
                             checked = " checked='checked' ";
                         }

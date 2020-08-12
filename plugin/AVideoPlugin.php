@@ -1326,6 +1326,37 @@ class AVideoPlugin {
         }
         return implode(",",$r);
     }
+    
+    public static function getPluginsOnByDefault($getUUID = true){
+        if(empty($getUUID)){
+            return array(
+                'CustomizeUser',// CustomizeUser
+                'CustomizeAdvanced',// CustomizeAdvanced
+                'Layout',// Layout
+            );
+        }else{
+            return array(
+                '55a4fa56-8a30-48d4-a0fb-8aa6b3fuser3',// CustomizeUser
+                '55a4fa56-8a30-48d4-a0fb-8aa6b3f69033',// CustomizeAdvanced
+                'layout83-8f5a-4d1b-b912-172c608bf9e3',// Layout
+            );
+        }
+    }
+    
+    public static function getPluginsNameOnByDefaultFromUUID($UUID){
+        $UUIDs = self::getPluginsOnByDefault();
+        $key = array_search($UUID, $UUIDs);
+        $names = self::getPluginsOnByDefault(false);
+        if(empty($names[$key])){
+            return false;
+        }
+        return $names[$key];
+    }
+    
+    public static function isPluginOnByDefault($UUID){
+        $UUIDs = self::getPluginsOnByDefault();
+        return in_array($UUID, $UUIDs);
+    }
 }
 
 class YouPHPTubePlugin extends AVideoPlugin{

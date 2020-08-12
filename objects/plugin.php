@@ -137,6 +137,9 @@ class Plugin extends ObjectYPT {
                 if (empty($data['pluginversion'])) {
                     $data['pluginversion'] = "1.0";
                 }
+                if(AVideoPlugin::isPluginOnByDefault($uuid)){
+                    $data['status'] = 'active';
+                }
                 $getPluginByUUID[$uuid] = $data;
             } else {
                 $getPluginByUUID[$uuid] = false;
@@ -301,7 +304,13 @@ class Plugin extends ObjectYPT {
         global $global, $getEnabled;
         if (empty($getEnabled)) {
             $getEnabled = array();
+        }        
+        
+        if(in_array($uuid, AVideoPlugin::getPluginsOnByDefault())){
+            // make sure the OnByDefault plugins are enabled
+            return self::getOrCreatePluginByName(AVideoPlugin::getPluginsNameOnByDefaultFromUUID($uuid));
         }
+        
         if (empty($getEnabled[$uuid])) {
             $getEnabled[$uuid] = array();
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' AND uuid = '" . $uuid . "' ;";
@@ -314,6 +323,7 @@ class Plugin extends ObjectYPT {
                 }
             }
         }
+        
         return $getEnabled[$uuid];
     }
 
