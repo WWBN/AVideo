@@ -44,10 +44,14 @@ class BootGrid {
         } else if (empty($_POST['current']) && isset($_GET['start'])) {
             $_POST['current'] = 1;
         }
-
         $_POST['current'] = intval(@$_POST['current']);
         $_POST['rowCount'] = intval(@$_POST['rowCount']);
-        
+        if(empty($_POST['current'])){
+            $_POST['current'] = getCurrentPage();
+        }
+        if(empty($_POST['rowCount'])){
+            $_POST['rowCount'] = getRowCount();
+        }
         if(!empty($_POST['rowCount']) && $_POST['rowCount']>0){
             if(empty($_POST['current'])){
                 $_POST['current'] = 1;
