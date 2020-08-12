@@ -146,7 +146,7 @@ $metaDescription = __("Channels");
                         <?php
                     }
                     
-                    echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channels?current={page}");
+                    echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channels?page={page}");
                                
                     ?>
                 </div>
