@@ -266,6 +266,6 @@ if ($object->isLogged) {
 TimeLogEnd($timeLog, __LINE__);
 _error_log("login.json.php almost complete");
 $json = _json_encode($object);
-_error_log("login.json.php complete");
-header("Content-length: " . strlen($json));
+_error_log("login.json.php complete ({$json})");
+//header("Content-length: " . strlen($json));
 echo $json;
