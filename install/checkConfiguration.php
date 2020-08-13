@@ -84,6 +84,7 @@ if ($_POST['createTables'] > 0) {
 // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
+            error_log("Installation: ".$templine);
             if (!$mysqli->query($templine)) {
                 $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $mysqli->error . '<br /><br />');
             }
