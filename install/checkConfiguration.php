@@ -78,9 +78,9 @@ if ($_POST['createTables'] > 0) {
 
 $sql = "DELETE FROM users WHERE id = 1 ";
 if ($mysqli->query($sql) !== TRUE) {
-    $obj->error = "Error deleting user: " . $mysqli->error;
-    echo json_encode($obj);
-    exit;
+    //$obj->error = "Error deleting user: " . $mysqli->error;
+    //echo json_encode($obj);
+    //exit;
 }
 
 
