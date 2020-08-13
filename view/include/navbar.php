@@ -240,7 +240,7 @@ if (!$includeDefaultNavBar) {
     ?>
 </style>
 <?php
-if (!empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
+if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
     ?>
     <nav class="navbar navbar-default navbar-fixed-top " id="mainNavBar">
         <div class="pull-right">
