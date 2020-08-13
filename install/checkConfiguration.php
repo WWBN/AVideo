@@ -6,7 +6,7 @@ if (file_exists("../videos/configuration.php")) {
 
 $installationVersion = "9.4";
 
-
+error_log("Installation: ".__LINE__." ". json_encode($_POST));
 header('Content-Type: application/json');
 
 $obj = new stdClass();
@@ -17,6 +17,7 @@ if (!file_exists($_POST['systemRootPath'] . "index.php")) {
     echo json_encode($obj);
     exit;
 }
+error_log("Installation: ".__LINE__);
 
 $mysqli = @new mysqli($_POST['databaseHost'], $_POST['databaseUser'], $_POST['databasePass'], "", $_POST['databasePort']);
 
@@ -29,6 +30,7 @@ if ($mysqli->connect_error) {
     echo json_encode($obj);
     exit;
 }
+error_log("Installation: ".__LINE__);
 
 if ($_POST['createTables'] == 2) {
     $sql = "CREATE DATABASE IF NOT EXISTS {$_POST['databaseName']}";
@@ -40,6 +42,7 @@ if ($_POST['createTables'] == 2) {
 }
 $mysqli->select_db($_POST['databaseName']);
 
+error_log("Installation: ".__LINE__);
 /*
   $cmd = "mysql -h {$_POST['databaseHost']} -u {$_POST['databaseUser']} -p {$_POST['databasePass']} {$_POST['databaseName']} < {$_POST['systemRootPath']}install/database.sql";
   exec("{$cmd} 2>&1", $output, $return_val);
@@ -49,6 +52,7 @@ $mysqli->select_db($_POST['databaseName']);
   exit;
   }
  */
+error_log("Installation: ".__LINE__);
 if ($_POST['createTables'] > 0) {
 // Temporary variable, used to store current query
     $templine = '';
@@ -85,6 +89,7 @@ if ($_POST['createTables'] > 0) {
     }
 }
 
+error_log("Installation: ".__LINE__);
 
 $sql = "DELETE FROM users WHERE id = 1 ";
 if ($mysqli->query($sql) !== TRUE) {
@@ -94,6 +99,7 @@ if ($mysqli->query($sql) !== TRUE) {
 }
 
 
+error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO users (id, user, email, password, created, modified, isAdmin) VALUES (1, 'admin', '" . $_POST['contactEmail'] . "', '" . md5($_POST['systemAdminPass']) . "', now(), now(), true)";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating admin user: " . $mysqli->error;
@@ -101,6 +107,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+error_log("Installation: ".__LINE__);
 $sql = "DELETE FROM categories WHERE id = 1 ";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error deleting category: " . $mysqli->error;
@@ -108,6 +115,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO categories (id, name, clean_name, description, created, modified) VALUES (1, 'Default', 'default','', now(), now())";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating category: " . $mysqli->error;
@@ -115,6 +123,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+error_log("Installation: ".__LINE__);
 $sql = "DELETE FROM configurations WHERE id = 1 ";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error deleting configuration: " . $mysqli->error;
@@ -122,6 +131,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO configurations (id, video_resolution, users_id, version, webSiteTitle, language, contactEmail, encoderURL,  created, modified) "
         . " VALUES "
         . " (1, '858:480', 1,'{$installationVersion}', '{$_POST['webSiteTitle']}', '{$_POST['mainLanguage']}', '{$_POST['contactEmail']}', 'https://encoder1.avideo.com/', now(), now())";
@@ -131,6 +141,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO `plugins` VALUES (NULL, 'a06505bf-3570-4b1f-977a-fd0e5cab205d', 'active', now(), now(), '', 'Gallery', 'Gallery', '1.0');";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error enabling Gallery Plugin: " . $mysqli->error;
@@ -139,6 +150,7 @@ if ($mysqli->query($sql) !== TRUE) {
 }
 
 
+error_log("Installation: ".__LINE__);
 $mysqli->close();
 
 if(empty($_POST['salt'])){
@@ -190,9 +202,11 @@ if(empty(\$global['webSiteRootPath'])){
 require_once \$global['systemRootPath'].'objects/include_config.php';
 ";
 
+error_log("Installation: ".__LINE__);
 $fp = fopen($_POST['systemRootPath'] . "videos/configuration.php", "wb");
 fwrite($fp, $content);
 fclose($fp);
+error_log("Installation: ".__LINE__);
 /*
 //copy the 100% progress sample file to be used when the uploaded file is already encoded in the MP4 or WBM formats
 exec("cp {$_POST['systemRootPath']}install/FinishedProgressSample.* {$_POST['systemRootPath']}videos/", $output, $return_val);
@@ -203,5 +217,8 @@ if ($return_val !== 0) {
     exit;
 }
 */
+error_log("Installation: ".__LINE__);
 $obj->success = true;
 echo json_encode($obj);
+
+error_log("Installation: ".__LINE__);
