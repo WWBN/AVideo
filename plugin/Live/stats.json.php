@@ -20,12 +20,13 @@ if(empty($json)){
     }
     $appArray = AVideoPlugin::getLiveApplicationArray();
     if(!empty($appArray)){
-        $obj = new stdClass();
-        $obj->error = false;
-        $obj->msg = "OFFLINE";
-        $obj->nclients = count($appArray);
-        $obj->applications = $appArray;
-        $json[] = $obj;
+        if(empty($json)){
+            $json = new stdClass();
+        }
+        $json->error = false;
+        $json->msg = "OFFLINE";
+        $json->nclients = count($appArray);
+        $json->applications = $appArray;
     }
     
     ObjectYPT::setCache($cacheName, $json);
