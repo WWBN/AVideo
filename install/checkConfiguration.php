@@ -52,8 +52,18 @@ $mysqli->select_db($_POST['databaseName']);
 if ($_POST['createTables'] > 0) {
 // Temporary variable, used to store current query
     $templine = '';
+    if(empty($lines)){
+        $obj->error = "File Not found {$_POST['systemRootPath']}install/database.sql";
+        echo json_encode($obj);
+        exit;
+    }
 // Read in entire file
     $lines = file("{$_POST['systemRootPath']}install/database.sql");
+    if(empty($lines)){
+        $obj->error = "File is empty {$_POST['systemRootPath']}install/database.sql";
+        echo json_encode($obj);
+        exit;
+    }
 // Loop through each line
     $obj->error = "";
     foreach ($lines as $line) {
@@ -78,9 +88,9 @@ if ($_POST['createTables'] > 0) {
 
 $sql = "DELETE FROM users WHERE id = 1 ";
 if ($mysqli->query($sql) !== TRUE) {
-    //$obj->error = "Error deleting user: " . $mysqli->error;
-    //echo json_encode($obj);
-    //exit;
+    $obj->error = "Error deleting user: " . $mysqli->error;
+    echo json_encode($obj);
+    exit;
 }
 
 
