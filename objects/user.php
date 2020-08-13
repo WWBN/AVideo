@@ -16,6 +16,7 @@ class User {
     private $isAdmin;
     private $canStream;
     private $canUpload;
+    private $canCreateMeet;
     private $canViewChart;
     private $status;
     private $photoURL;
@@ -89,6 +90,14 @@ class User {
         $this->canViewChart = (empty($canViewChart) || strtolower($canViewChart) === 'false') ? 0 : 1;
     }
 
+    function getCanCreateMeet() {
+        return $this->canCreateMeet;
+    }
+
+    function setCanCreateMeet($canCreateMeet) {
+        $this->canCreateMeet = (empty($canCreateMeet) || strtolower($canCreateMeet) === 'false') ? 0 : 1;;
+    }
+        
     function getCanUpload() {
         return $this->canUpload;
     }
@@ -469,12 +478,9 @@ if (typeof gtag !== \"function\") {
         return $mark;
     }
 
-    function getPhotoDB($fullURL = false) {
+    function getPhotoDB() {
         global $global;
         $photo = self::getPhoto($this->id);
-        if($fullURL){
-            $photo = "{$global['webSiteRootURL']}{$photo}";
-        }
         return $photo;
     }
 
@@ -555,11 +561,11 @@ if (typeof gtag !== \"function\") {
             $this->donationLink = "";
         }
         if (!empty($this->id)) {
-            $formats = "ssssiii";
-            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload);
+            $formats = "ssssiiii";
+            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet);
             $sql = "UPDATE users SET user = ?, password = ?, "
                     . "email = ?, name = ?, isAdmin = ?,"
-                    . "canStream = ?,canUpload = ?,";
+                    . "canStream = ?,canUpload = ?,canCreateMeet = ?,";
             if (isset($this->canViewChart)) {
                 $formats .= "i";
                 $values[] = $this->canViewChart;
@@ -593,10 +599,10 @@ if (typeof gtag !== \"function\") {
                     . " modified = now() WHERE id = ?";
         } else {
             $formats = "ssssiiissssss";
-            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload,
+            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload,$this->canCreateMeet,
                 $this->status, $this->photoURL, $this->recoverPass, $this->channelName, $this->analyticsCode, $this->externalOptions);
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) "
-                    . " VALUES (?,?,?,?,?,?,?, false, "
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) "
+                    . " VALUES (?,?,?,?,?,?,?,?, false, "
                     . "?,?,?, now(), now(),?,?,?)";
         }
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
@@ -1498,6 +1504,14 @@ if (typeof gtag !== \"function\") {
         return self::isAdmin();
     }
 
+    static function canCreateMeet() {
+        global $global, $config;
+        if (self::isLogged() && !empty($_SESSION['user']['canCreateMeet'])) {
+            return true;
+        }
+        return self::isAdmin();
+    }
+
     static function canComment() {
         global $global, $config, $advancedCustomUser;
         if (self::isAdmin()) {
@@ -1651,13 +1665,17 @@ if (typeof gtag !== \"function\") {
         return intval($this->emailVerified);
     }
 
+    static function validateChannelName($channelName){
+        return trim(preg_replace("/[^0-9A-Z_]/i", "", ucwords($channelName)));
+    }
+    
     /**
      *
      * @param type $channelName
      * @return boolean return true is is unique
      */
     function setChannelName($channelName) {
-        $channelName = trim(preg_replace("/[^0-9A-Z_ -]/i", "", $channelName));
+        $channelName = self::validateChannelName($channelName);
         $user = static::getChannelOwner($channelName);
         if (!empty($user)) { // if the channel name exists and it is not from this user, rename the channel name
             if (empty($this->id) || $user['id'] != $this->id) {

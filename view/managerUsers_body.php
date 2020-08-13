@@ -114,6 +114,13 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
+                                <?php echo __("Can create meet"); ?>
+                                <div class="material-switch pull-right">
+                                    <input type="checkbox" value="canCreateMeet" id="canCreateMeet"/>
+                                    <label for="canCreateMeet" class="label-success"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
                                 <?php echo __("E-mail Verified"); ?>
                                 <div class="material-switch pull-right">
                                     <input type="checkbox" value="isEmailVerified" id="isEmailVerified"/>
@@ -323,6 +330,7 @@
                 $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
                 $('#canUpload').prop('checked', (row.canUpload == "1" ? true : false));
                 $('#canViewChart').prop('checked', (row.canViewChart == "1" ? true : false));
+                $('#canCreateMeet').prop('checked', (row.canCreateMeet == "1" ? true : false));
                 $('#status').prop('checked', (row.status === "a" ? true : false));
                 $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
 <?php
@@ -412,6 +420,7 @@ print AVideoPlugin::loadUsersFormJS();
                 $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
                 $('#canUpload').prop('checked', (row.canUpload == "1" ? true : false));
                 $('#canViewChart').prop('checked', (row.canViewChart == "1" ? true : false));
+                $('#canCreateMeet').prop('checked', (row.canCreateMeet == "1" ? true : false));
                 $('#status').prop('checked', (row.status === "a" ? true : false));
                 $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
 <?php
@@ -452,6 +461,7 @@ print AVideoPlugin::loadUsersFormJS();
             $('#canStream').prop('checked', false);
             $('#canUpload').prop('checked', false);
             $('#canViewChart').prop('checked', false);
+            $('#canCreateMeet').prop('checked', false);
             $('.userGroups').prop('checked', false);
             $('#status').prop('checked', true);
             $('#isEmailVerified').prop('checked', false);
@@ -495,6 +505,7 @@ print AVideoPlugin::updateUserFormJS();
                                 "canStream": $('#canStream').is(':checked'),
                                 "canUpload": $('#canUpload').is(':checked'),
                                 "canViewChart": $('#canViewChart').is(':checked'),
+                                "canCreateMeet": $('#canCreateMeet').is(':checked'),
                                 "status": $('#status').is(':checked') ? 'a' : 'i',
                                 "isEmailVerified": $('#isEmailVerified').is(':checked'),
                                 "userGroups": selectedUserGroups

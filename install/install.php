@@ -22,7 +22,7 @@ while (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
     $webSiteRootURL = trim(readline(""));
 }
 
-
+$webSiteRootURL = rtrim($webSiteRootURL, '/') . '/';
 $_POST['systemRootPath'] = "/var/www/html/YouPHPTube/";
 $_POST['databaseHost'] = "localhost";
 $_POST['databaseUser'] = $databaseUser;

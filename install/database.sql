@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `backgroundURL` VARCHAR(255) NULL,
   `canStream` TINYINT(1) NULL,
   `canUpload` TINYINT(1) NULL,
+  `canCreateMeet` TINYINT(1) NULL ;
   `canViewChart` TINYINT(1) NOT NULL DEFAULT 0,
   `about` TEXT NULL,
   `channelName` VARCHAR(45) NULL,
@@ -330,7 +331,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users_groups` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `group_name` VARCHAR(45) NULL,
+  `group_name` VARCHAR(255) NULL,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   PRIMARY KEY (`id`))
