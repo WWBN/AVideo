@@ -52,15 +52,15 @@ $mysqli->select_db($_POST['databaseName']);
 if ($_POST['createTables'] > 0) {
 // Temporary variable, used to store current query
     $templine = '';
-    if(empty($lines)){
-        $obj->error = "File Not found {$_POST['systemRootPath']}install/database.sql";
-        echo json_encode($obj);
+    $installFile = "{$_POST['systemRootPath']}install/database.sql";
+    if(file_exists($installFile)){
+        $obj->error = "File Not found {$installFile}";
         exit;
     }
 // Read in entire file
-    $lines = file("{$_POST['systemRootPath']}install/database.sql");
+    $lines = file($installFile);
     if(empty($lines)){
-        $obj->error = "File is empty {$_POST['systemRootPath']}install/database.sql";
+        $obj->error = "File is empty {$installFile}";
         echo json_encode($obj);
         exit;
     }
