@@ -3,8 +3,8 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
 ?>
 <div id="carouselRows" style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);">
     <?php
-    $_POST['current'] = 1;
-    $_POST['rowCount'] = $obj->maxVideos;
+    $_REQUEST['current'] = 1;
+    $_REQUEST['rowCount'] = $obj->maxVideos;
 
     TimeLogEnd($timeLog, __LINE__);
     if ($obj->Suggested) {
@@ -104,7 +104,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
     }
     TimeLogEnd($timeLog, __LINE__);
     if ($obj->MostPopular) {
-        $_POST['rowCount'] = $obj->maxVideos;
+        $_REQUEST['rowCount'] = $obj->maxVideos;
         $dataFlickirty = new stdClass();
         $dataFlickirty->wrapAround = true;
         $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -138,7 +138,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
     }
     TimeLogEnd($timeLog, __LINE__);
     if ($obj->MostWatched) {
-        $_POST['rowCount'] = $obj->maxVideos;
+        $_REQUEST['rowCount'] = $obj->maxVideos;
         $dataFlickirty = new stdClass();
         $dataFlickirty->wrapAround = true;
         $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -170,7 +170,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
     }
     TimeLogEnd($timeLog, __LINE__);
     if ($obj->SortByName) {
-        $_POST['rowCount'] = $obj->maxVideos;
+        $_REQUEST['rowCount'] = $obj->maxVideos;
         $dataFlickirty = new stdClass();
         $dataFlickirty->wrapAround = true;
         $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -219,8 +219,8 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
             $_POST['sort']['likes'] = "DESC";
-            $_POST['current'] = 1;
-            $_POST['rowCount'] = $obj->maxVideos;
+            $_REQUEST['current'] = 1;
+            $_REQUEST['rowCount'] = $obj->maxVideos;
 
             TimeLogStart("modeFlix.php::getAllVideos");
             $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
@@ -242,7 +242,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
             <?php
             TimeLogStart("modeFlix.php::while(1)");
             while (1) {
-                $_POST['current']++;
+                $_REQUEST['current']++;
                 $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
                 if (empty($videos)) {
                     break;
@@ -340,7 +340,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
     }
     TimeLogEnd($timeLog, __LINE__);
     unset($_POST['sort']);
-    unset($_POST['current']);
-    unset($_POST['rowCount']);
+    unset($_REQUEST['current']);
+    unset($_REQUEST['rowCount']);
     ?>
 </div>
