@@ -28,7 +28,6 @@ if($_POST['name']=='live'){
         _error_log("NGINX ON Publish like key fixed");
         $_POST['name']=$pParts[1];
     }
-    
 }
 
 if(empty($_POST['name']) && !empty($_GET['name'])){
@@ -37,7 +36,13 @@ if(empty($_POST['name']) && !empty($_GET['name'])){
 if(empty($_POST['name']) && !empty($_GET['key'])){
     $_POST['name'] = $_GET['key'];
 }
-
+if(empty($_POST['name'])){
+    $parts = explode("/",$_GET['p']);
+    if(!empty($parts[1])){
+        $_GET['p'] = $parts[0];
+        $_POST['name'] = $parts[1];
+    }
+}
 
 if (!empty($_GET['p'])) {
     $_GET['p'] = str_replace("/", "", $_GET['p']);
