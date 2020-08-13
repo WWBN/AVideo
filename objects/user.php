@@ -801,16 +801,21 @@ if (typeof gtag !== \"function\") {
                     $config = new Configuration();
                 }
                 $cookie = $config->getSession_timeout();
+                _error_log("user::login: getSession_timeout {$cookie}");
             }
             if (empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))) {
                 if (empty($cookie)) {
                     $cookie = 86400; // 24 hours
                 }
+                _error_log("user::login: set cookies {$cookie}");
                 setcookie("rememberme", $rememberme, $cookie, "/", $_SERVER['HTTP_HOST']);
                 setcookie("user", $user['user'], $cookie, "/", $_SERVER['HTTP_HOST']);
                 setcookie("pass", $user['password'], $cookie, "/", $_SERVER['HTTP_HOST']);
+                _error_log("user::login: set cookies done");
             }
+            _error_log("user::login: onUserSignIn {$_SESSION['user']['id']}");
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
+            _error_log("user::login: onUserSignIn Done");
             $_SESSION['loginAttempts'] = 0;
             return self::USER_LOGGED;
         } else {
