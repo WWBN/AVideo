@@ -2954,7 +2954,7 @@ function ogSite() {
                 strpos($t, 'bot') || strpos($t, 'archive') ||
                 strpos($t, 'info') || strpos($t, 'data'))
             return '[Bot] Other';
-        _error_log("Unknow user agent ($t) IP=" . getRealIpAddr() . " URI=" . getRequestURI());
+        //_error_log("Unknow user agent ($t) IP=" . getRealIpAddr() . " URI=" . getRequestURI());
         return 'Other (Unknown)';
     }
 
