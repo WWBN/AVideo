@@ -86,6 +86,7 @@ if ($_POST['createTables'] > 0) {
             // Perform the query
             error_log("Installation: ".$templine);
             if (!$mysqli->query($templine)) {
+                error_log("Installation: ".$mysqli->error);
                 $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $mysqli->error . '<br /><br />');
             }
             // Reset temp variable to empty
