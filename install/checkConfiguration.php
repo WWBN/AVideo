@@ -57,8 +57,9 @@ if ($_POST['createTables'] > 0) {
 // Temporary variable, used to store current query
     $templine = '';
     $installFile = "{$_POST['systemRootPath']}install/database.sql";
-    if(file_exists($installFile)){
+    if(!file_exists($installFile)){
         $obj->error = "File Not found {$installFile}";
+        echo json_encode($obj);
         exit;
     }
 // Read in entire file
