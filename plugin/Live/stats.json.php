@@ -24,7 +24,9 @@ if(empty($json)){
             $json = new stdClass();
         }
         $json['error'] = false;
-        $json['msg'] = "OFFLINE";
+        if(empty($json['msg'])){
+            $json['msg'] = "OFFLINE";
+        }
         $json['nclients'] = count($appArray);
         $json['applications'] = array_merge($json['applications'] , $appArray);
     }
