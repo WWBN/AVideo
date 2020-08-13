@@ -26,7 +26,7 @@ if(empty($json)){
         $json['error'] = false;
         $json['msg'] = "OFFLINE";
         $json['nclients'] = count($appArray);
-        $json['applications'] = $appArray;
+        $json['applications'] = array_merge($json['applications'] , $appArray);
     }
     
     ObjectYPT::setCache($cacheName, $json);
