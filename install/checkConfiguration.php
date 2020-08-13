@@ -54,6 +54,7 @@ error_log("Installation: ".__LINE__);
  */
 error_log("Installation: ".__LINE__);
 if ($_POST['createTables'] > 0) {
+    error_log("Installation: ".__LINE__);
 // Temporary variable, used to store current query
     $templine = '';
     $installFile = "{$_POST['systemRootPath']}install/database.sql";
@@ -62,6 +63,7 @@ if ($_POST['createTables'] > 0) {
         echo json_encode($obj);
         exit;
     }
+    error_log("Installation: ".__LINE__);
 // Read in entire file
     $lines = file($installFile);
     if(empty($lines)){
@@ -69,6 +71,7 @@ if ($_POST['createTables'] > 0) {
         echo json_encode($obj);
         exit;
     }
+    error_log("Installation: ".__LINE__);
 // Loop through each line
     $obj->error = "";
     foreach ($lines as $line) {
@@ -88,6 +91,7 @@ if ($_POST['createTables'] > 0) {
             $templine = '';
         }
     }
+    error_log("Installation: ".__LINE__);
 }
 
 error_log("Installation: ".__LINE__);
