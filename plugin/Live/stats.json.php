@@ -23,10 +23,10 @@ if(empty($json)){
         if(empty($json)){
             $json = new stdClass();
         }
-        $json->error = false;
-        $json->msg = "OFFLINE";
-        $json->nclients = count($appArray);
-        $json->applications = $appArray;
+        $json['error'] = false;
+        $json['msg'] = "OFFLINE";
+        $json['nclients'] = count($appArray);
+        $json['applications'] = $appArray;
     }
     
     ObjectYPT::setCache($cacheName, $json);
