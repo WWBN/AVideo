@@ -34,7 +34,9 @@ if (empty($_REQUEST['rowCount'])) {
 
 if($_REQUEST['rowCount']<=0 || $_REQUEST['rowCount']>100){
     $_REQUEST['rowCount']=10;
-    echo "<div class='alert alert-warning'>For performance reasons, max rows cannot be null or greater then 100</div>";
+    if(User::isAdmin()){
+        echo "<div class='alert alert-warning'>For performance reasons, max rows cannot be null or greater then 100</div>";
+    }
 }
 
 if (empty($_POST['sort'])) {
