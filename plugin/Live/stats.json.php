@@ -34,6 +34,16 @@ if(empty($json)){
         $json['applications'] = array_merge($json['applications'] , $appArray);
     }
     
+    $count = 0;
+    $json['total'] = 0;
+    if(!empty($json['applications'])){
+        $json['total'] += count($json['applications']);
+    }
+    while (!empty($json[$count])) {
+        $json['total'] += count($json[$count]->applications);
+        $count++;
+    }    
+    
     ObjectYPT::setCache($cacheName, $json);
 }
 echo json_encode($json);

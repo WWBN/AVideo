@@ -147,14 +147,12 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu<?php echo (!empty($_GET['videoName']) ? "&requestComesFromVideoPage=1" : "") ?>',
             success: function (response) {
                 if (typeof response !== 'undefined') {
-                    var total = 0;
                     $('#availableLiveStream').empty();
                     if (isArray(response)) {
                         for (var i in response) {
                             if (typeof response[i] !== 'object') {
                                 continue;
                             }
-                            total += response[i].applications.length;
                             processApplicationLive(response[i]);
                         }
                     } else {
@@ -166,7 +164,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
                     } else {
                         $('#availableLiveStream').removeClass('notfound');
                     }
-                    $('.onlineApplications').text(total);
+                    $('.onlineApplications').text(response.total);
                 }
                 if (recurrentCall) {
                     setTimeout(function () {
@@ -182,49 +180,18 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             if (response.applications.length) {
                 disableGif = response.disableGif;
                 for (i = 0; i < response.applications.length; i++) {
-                    if (typeof response.applications[i].html != 'undefined') {
-                        $('#availableLiveStream').append(response.applications[i].html);
-                        if (typeof response.applications[i].htmlExtra != 'undefined') {
-                            var id = $(response.applications[i].htmlExtra).attr('id');
-                            if (loadedExtraVideos.indexOf(id) == -1) {
-                                loadedExtraVideos.push(id)
-                                <?php
-                                if(isLive()){
-                                    ?>
-                                        $('.extraVideos').append(response.applications[i].htmlExtraVideoPage);
-                                    <?php
-                                }else{
-                                    ?>
-                                        $('.extraVideos').append(response.applications[i].htmlExtra);
-                                    <?php
-                                }
-                                ?>
-                                
-                            }
-                        }
-                        $('#liveVideos').slideDown();
-                    } else {
-                        href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=" + response.live_servers_id + "&c=" + response.applications[i].channelName;
-                        title = response.applications[i].title;
-                        name = response.applications[i].name;
-                        user = response.applications[i].user;
-                        photo = response.applications[i].photo;
-                        online = response.applications[i].users.online;
-                        views = response.applications[i].users.views;
-                        key = response.applications[i].key;
-                        live_servers_id = response.live_servers_id;
-                        createLiveItem(href, title, name, photo, false, online, views, key);
-<?php
-if (empty($obj->doNotShowLiveOnVideosList)) {
-    ?>
-                            createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id);
-    <?php
-}
-?>
-                    }
+                    processApplication(response.applications[i], 0);
                 }
                 mouseEffect();
             }
+        }
+        // check for live servers
+        var count = 0;
+        while (typeof response[count] !== 'undefined') {
+            for (i = 0; i < response[count].applications.length; i++) {
+                processApplication(response[count].applications[i], response[count].live_servers_id);
+            }
+            count++;
         }
     }
 
@@ -242,6 +209,49 @@ if (empty($obj->doNotShowLiveOnVideosList)) {
         $('#availableLiveStream').empty();
         createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true);
         $('#availableLiveStream').find('.liveLink div').attr('style', '');
+    }
+
+    function processApplication(application, live_servers_id) {
+        if (typeof application.html != 'undefined') {
+            $('#availableLiveStream').append(application.html);
+            if (typeof application.htmlExtra != 'undefined') {
+                var id = $(application.htmlExtra).attr('id');
+                if (loadedExtraVideos.indexOf(id) == -1) {
+                    loadedExtraVideos.push(id)
+<?php
+if (isLive()) {
+    ?>
+                        $('.extraVideos').append(application.htmlExtraVideoPage);
+    <?php
+} else {
+    ?>
+                        $('.extraVideos').append(application.htmlExtra);
+    <?php
+}
+?>
+
+                }
+            }
+            $('#liveVideos').slideDown();
+        } else {
+            href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=" + live_servers_id + "&c=" + application.channelName;
+            title = application.title;
+            name = application.name;
+            user = application.user;
+            photo = application.photo;
+            online = application.users.online;
+            views = application.users.views;
+            key = application.key;
+            live_servers_id = live_servers_id;
+            createLiveItem(href, title, name, photo, false, online, views, key);
+<?php
+if (empty($obj->doNotShowLiveOnVideosList)) {
+    ?>
+                createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id);
+    <?php
+}
+?>
+        }
     }
 
     $(document).ready(function () {
