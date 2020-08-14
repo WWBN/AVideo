@@ -22,18 +22,18 @@ if (empty($_GET['page'])) {
 } else {
     $_GET['page'] = intval($_GET['page']);
 }
-$_POST['current'] = $_GET['page'];
+$_REQUEST['current'] = $_GET['page'];
 
-if (empty($_POST['rowCount'])) {
+if (empty($_REQUEST['rowCount'])) {
     if (!empty($_SESSION['rowCount'])) {
-        $_POST['rowCount'] = $_SESSION['rowCount'];
+        $_REQUEST['rowCount'] = $_SESSION['rowCount'];
     } else {
-        $_POST['rowCount'] = 10;
+        $_REQUEST['rowCount'] = 10;
     }
 }
 
-if($_POST['rowCount']<=0 || $_POST['rowCount']>100){
-    $_POST['rowCount']=10;
+if($_REQUEST['rowCount']<=0 || $_REQUEST['rowCount']>100){
+    $_REQUEST['rowCount']=10;
     echo "<div class='alert alert-warning'>For performance reasons, max rows cannot be null or greater then 100</div>";
 }
 
@@ -44,13 +44,13 @@ if (empty($_POST['sort'])) {
         $_POST['sort']['created'] = 'desc';
     }
 }
-$_SESSION['rowCount'] = $_POST['rowCount'];
+$_SESSION['rowCount'] = $_REQUEST['rowCount'];
 $_SESSION['sort'] = $_POST['sort'];
 
 
 $videos = Video::getAllVideos("viewableNotUnlisted");
 $total = Video::getTotalVideos("viewableNotUnlisted");
-$totalPages = ceil($total / $_POST['rowCount']);
+$totalPages = ceil($total / $_REQUEST['rowCount']);
 $_POST = $post;
 if (empty($totalPages)) {
     $totalPages = 1;
@@ -103,11 +103,11 @@ if (empty($video['id'])) {
         foreach ($jsonArray as $item) {
             if($item==-1){
             ?>
-            <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo __("All"); ?></option>
+            <option <?php echo (!empty($_REQUEST['rowCount']) && $_REQUEST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo __("All"); ?></option>
             <?php
             }else{
             ?>
-            <option <?php echo (!empty($_POST['rowCount']) && $_POST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo $item; ?></option>
+            <option <?php echo (!empty($_REQUEST['rowCount']) && $_REQUEST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo $item; ?></option>
             <?php
             }
         }
