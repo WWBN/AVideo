@@ -28,6 +28,9 @@ if(empty($json)){
             $json['msg'] = "OFFLINE";
         }
         $json['nclients'] = count($appArray);
+        if(empty($json['applications'])){
+            $json['applications'] = array();
+        }
         $json['applications'] = array_merge($json['applications'] , $appArray);
     }
     
