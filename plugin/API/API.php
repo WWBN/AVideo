@@ -822,6 +822,25 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
         exit;
     }
+    
+    /**
+     * If you do not pass the user and password, it will always show ads, if you pass it the script will check if will display ads or not
+     * @param type $parameters
+     * 'videos_id' the video id to calculate the ads length
+     * ['optionalAdTagUrl' a tag number 1 or 2 or 3 or 4 to use another tag, if do not pass it will use the default tag]
+     * ['user' usename of the user]
+     * ['pass' password  of the user]
+     * ['encodedPass' tell the script id the password submited is raw or encrypted]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2
+     * @return type
+     */
+    public function get_api_vast($parameters) {
+        global $global;
+        $this->getToPost();
+        $vastOnly = 1;
+        require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
+        exit;
+    }
 
     /**
      * Return the location based on the provided IP
