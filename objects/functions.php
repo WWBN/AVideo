@@ -3567,21 +3567,21 @@ function ogSite() {
     function getRowCount($default = 1000) {
         global $global;
         if (!empty($_REQUEST['rowCount'])) {
-            return intval($_REQUEST['rowCount']);
+            $defaultN = intval($_REQUEST['rowCount']);
         } else if (!empty($_POST['rowCount'])) {
-            return intval($_POST['rowCount']);
+            $defaultN = intval($_POST['rowCount']);
         } else if (!empty($_GET['rowCount'])) {
-            return intval($_GET['rowCount']);
+            $defaultN = intval($_GET['rowCount']);
         } else if (!empty($_REQUEST['length'])) {
-            return intval($_REQUEST['length']);
+            $defaultN = intval($_REQUEST['length']);
         } else if (!empty($_POST['length'])) {
-            return intval($_POST['length']);
+            $defaultN = intval($_POST['length']);
         } else if (!empty($_GET['length'])) {
-            return intval($_GET['length']);
+            $defaultN = intval($_GET['length']);
         } else if (!empty($global['rowCount'])) {
-            return intval($global['rowCount']);
+            $defaultN = intval($global['rowCount']);
         }
-        return $default;
+        return !empty($defaultN)?$defaultN:$default;
     }
 
     function getSearchVar() {
