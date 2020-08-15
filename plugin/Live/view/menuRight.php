@@ -156,10 +156,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
                             processApplicationLive(response[i]);
                         }
                     } else {
-                        total = response.applications.length;
                         processApplicationLive(response);
                     }
-                    if (!total) {
+                    if (!response.total) {
                         availableLiveStreamNotFound();
                     } else {
                         $('#availableLiveStream').removeClass('notfound');
@@ -180,7 +179,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             if (response.applications.length) {
                 disableGif = response.disableGif;
                 for (i = 0; i < response.applications.length; i++) {
-                    processApplication(response.applications[i], 0);
+                    processApplication(response.applications[i], disableGif, 0);
                 }
                 mouseEffect();
             }
@@ -189,7 +188,8 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         var count = 0;
         while (typeof response[count] !== 'undefined') {
             for (i = 0; i < response[count].applications.length; i++) {
-                processApplication(response[count].applications[i], response[count].live_servers_id);
+                disableGif = response[count].disableGif;
+                processApplication(response[count].applications[i], disableGif, response[count].live_servers_id);
             }
             count++;
         }
@@ -211,7 +211,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         $('#availableLiveStream').find('.liveLink div').attr('style', '');
     }
 
-    function processApplication(application, live_servers_id) {
+    function processApplication(application, disableGif, live_servers_id) {
         if (typeof application.html != 'undefined') {
             $('#availableLiveStream').append(application.html);
             if (typeof application.htmlExtra != 'undefined') {
