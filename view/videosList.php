@@ -5,6 +5,10 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
+if(isBot()){
+    return;
+}
+
 require_once $global['systemRootPath'] . 'objects/video.php';
 $post = $_POST;
 if (!empty($_POST['video_id'])) {

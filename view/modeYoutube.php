@@ -543,6 +543,7 @@ $modeYouTubeTime = microtime(true);
     ?>
                         <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                         <!-- videos List -->
+                        <!--googleoff: all-->
                         <div id="videosList">
     <?php
     if (empty($playlist_id)) {
@@ -550,6 +551,7 @@ $modeYouTubeTime = microtime(true);
     }
     ?>
                         </div>
+                        <!--googleon: all-->
                         <!-- End of videos List -->
 
                         <script>
