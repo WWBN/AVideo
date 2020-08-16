@@ -112,16 +112,21 @@ class API extends PluginAbstract {
      */
     public function get_api_plugin_parameters($parameters) {
         global $global;
-        $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
-        if (!empty($parameters['plugin_name'])) {
-            if ($dataObj->APISecret === @$_GET['APISecret']) {
-                $obj->response = AVideoPlugin::getDataObject($parameters['plugin_name']);
+        $name = "get_api_plugin_parameters" . json_encode($parameters);
+        $obj = ObjectYPT::getCache($name, 3600);
+        if (empty($obj)) {
+            $obj = $this->startResponseObject($parameters);
+            $dataObj = $this->getDataObject();
+            if (!empty($parameters['plugin_name'])) {
+                if ($dataObj->APISecret === @$_GET['APISecret']) {
+                    $obj->response = AVideoPlugin::getDataObject($parameters['plugin_name']);
+                } else {
+                    return new ApiObject("APISecret is required");
+                }
             } else {
-                return new ApiObject("APISecret is required");
+                return new ApiObject("Plugin name Not found");
             }
-        } else {
-            return new ApiObject("Plugin name Not found");
+            ObjectYPT::setCache($name, $obj);
         }
         return new ApiObject("", false, $obj);
     }
@@ -822,7 +827,7 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
         exit;
     }
-    
+
     /**
      * If you do not pass the user and password, it will always show ads, if you pass it the script will check if will display ads or not
      * @param type $parameters
@@ -1097,10 +1102,10 @@ class API extends PluginAbstract {
             return new ApiObject("This language does not exists");
         }
         include $file;
-        if(empty($t)){
+        if (empty($t)) {
             return new ApiObject("This language is empty");
         }
-        
+
         return new ApiObject("", false, $t);
     }
 
