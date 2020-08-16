@@ -33,6 +33,9 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         $imgh = $data[1];
     }
 }
+if(empty($video['created'])){
+    return false;
+}
 ?>
 
 

@@ -3011,16 +3011,16 @@ function ogSite() {
         }
         $prefix = "AVideoLog::";
         switch ($type) {
-            case 0:
+            case AVideoLog::$DEBUG:
                 $prefix .= "DEBUG: ";
                 break;
-            case 1:
+            case AVideoLog::$WARNING:
                 $prefix .= "WARNING: ";
                 break;
-            case 2:
+            case AVideoLog::$ERROR:
                 $prefix .= "ERROR: ";
                 break;
-            case 3:
+            case AVideoLog::$SECURITY:
                 $prefix .= "SECURITY: ";
                 break;
         }
