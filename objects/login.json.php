@@ -179,17 +179,17 @@ if ($resp === User::CAPTCHA_ERROR) {
     die(json_encode($object));
 }
 
-_error_log("login.json.php setup object");
+//_error_log("login.json.php setup object");
 $object->siteLogo = $global['webSiteRootURL'] . $config->getLogo();
 $object->id = User::getId();
 $object->user = User::getUserName();
 $object->donationLink = User::donationLink();
 $object->name = User::getName();
-_error_log("login.json.php get name identification");
+//_error_log("login.json.php get name identification");
 $object->nameIdentification = User::getNameIdentification();
 $object->pass = User::getUserPass();
 $object->email = User::getMail();
-_error_log("login.json.php get channel name");
+//_error_log("login.json.php get channel name");
 $object->channelName = User::_getChannelName($object->id);
 $object->photo = User::getPhoto();
 $object->backgroundURL = User::getBackground($object->id);
@@ -209,7 +209,7 @@ if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRoo
 }
 
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
-    _error_log("login.json.php get categories");
+    //_error_log("login.json.php get categories");
     $object->categories = Category::getAllCategories(true);
     if(is_array($object->categories)){
         array_multisort(array_column($object->categories, 'hierarchyAndName'), SORT_ASC, $object->categories);
@@ -217,7 +217,7 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
 } else {
     $object->categories = array();
 }
-_error_log("login.json.php get user groups");
+//_error_log("login.json.php get user groups");
 TimeLogEnd($timeLog, __LINE__);
 $object->userGroups = UserGroups::getAllUsersGroups();
 TimeLogEnd($timeLog, __LINE__);
@@ -227,7 +227,7 @@ if ($object->isLogged) {
     $timeLog2 = __FILE__."::Is Logged ";
     TimeLogStart($timeLog2);
     
-    _error_log("login.json.php get Live");
+    //_error_log("login.json.php get Live");
     $p = AVideoPlugin::loadPluginIfEnabled("Live");
     if (!empty($p)) {
         require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
@@ -236,7 +236,7 @@ if ($object->isLogged) {
         $object->streamKey = $trasnmition['key'];
     }
     TimeLogEnd($timeLog2, __LINE__);
-    _error_log("login.json.php get MobileManager");
+    //_error_log("login.json.php get MobileManager");
     $p = AVideoPlugin::loadPluginIfEnabled("MobileManager");
     if (!empty($p)) {
         $object->streamer = json_decode(url_get_contents($global['webSiteRootURL'] . "objects/status.json.php"));
@@ -244,19 +244,19 @@ if ($object->isLogged) {
         $object->encoder = $config->getEncoderURL();
     }
     TimeLogEnd($timeLog2, __LINE__);
-    _error_log("login.json.php get VideoHLS");
+    //_error_log("login.json.php get VideoHLS");
     $p = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
     if (!empty($p)) {
         $object->videoHLS = true;
     }
     TimeLogEnd($timeLog2, __LINE__);
-    _error_log("login.json.php get Subscriptions");
+    //_error_log("login.json.php get Subscriptions");
     $p = AVideoPlugin::loadPluginIfEnabled("Subscription");
     if (!empty($p)) {
         $object->Subscription = Subscription::getAllFromUser($object->id);
     }
     TimeLogEnd($timeLog2, __LINE__);
-    _error_log("login.json.php get PayPerView");
+    //_error_log("login.json.php get PayPerView");
     $p = AVideoPlugin::loadPluginIfEnabled("PayPerView");
     if (!empty($p) && class_exists('PayPerView')) {
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
@@ -264,8 +264,8 @@ if ($object->isLogged) {
     TimeLogEnd($timeLog2, __LINE__);
 }
 TimeLogEnd($timeLog, __LINE__);
-_error_log("login.json.php almost complete");
+//_error_log("login.json.php almost complete");
 $json = _json_encode($object);
-_error_log("login.json.php complete ({$json})");
+_error_log("login.json.php complete");
 //header("Content-length: " . strlen($json));
 echo $json;

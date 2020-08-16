@@ -789,31 +789,31 @@ if (typeof gtag !== \"function\") {
             $this->setLastLogin($_SESSION['user']['id']);
             $rememberme = 0;
             if ((!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
-                _error_log("user::login: Do login with cookie (log in for next 10 years)!");
+                //_error_log("user::login: Do login with cookie (log in for next 10 years)!");
                 //$url = parse_url($global['webSiteRootURL']);
                 //setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
                 $cookie = 2147483647;
                 $rememberme = 1;
             } else {
-                _error_log("user::login: Do login without cookie");
+                //_error_log("user::login: Do login without cookie");
                 if (empty($config) || !is_object($config)) {
                     $config = new Configuration();
                 }
                 $cookie = $config->getSession_timeout();
-                _error_log("user::login: getSession_timeout {$cookie}");
+                //_error_log("user::login: getSession_timeout {$cookie}");
             }
             if (empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))) {
                 if (empty($cookie)) {
                     $cookie = 86400; // 24 hours
                 }
-                _error_log("user::login: set cookies {$cookie}");
+                //_error_log("user::login: set cookies {$cookie}");
                 setcookie("rememberme", $rememberme, $cookie, "/", $_SERVER['HTTP_HOST']);
                 setcookie("user", $user['user'], $cookie, "/", $_SERVER['HTTP_HOST']);
                 setcookie("pass", $user['password'], $cookie, "/", $_SERVER['HTTP_HOST']);
-                _error_log("user::login: set cookies done");
+                //_error_log("user::login: set cookies done");
             }
-            _error_log("user::login: onUserSignIn {$_SESSION['user']['id']}");
+            //_error_log("user::login: onUserSignIn {$_SESSION['user']['id']}");
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             _error_log("user::login: onUserSignIn Done");
             $_SESSION['loginAttempts'] = 0;
