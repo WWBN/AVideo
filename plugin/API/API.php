@@ -669,16 +669,21 @@ class API extends PluginAbstract {
     public function get_api_subscribers($parameters) {
         global $global;
 
-        $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret !== @$_GET['APISecret']) {
-            return new ApiObject("Invalid APISecret");
+        $name = "get_api_subscribers" . json_encode($parameters);
+        $subscribers = ObjectYPT::getCache($name, 3600);
+        if (empty($subscribers)) {
+            $obj = $this->startResponseObject($parameters);
+            $dataObj = $this->getDataObject();
+            if ($dataObj->APISecret !== @$_GET['APISecret']) {
+                return new ApiObject("Invalid APISecret");
+            }
+            if (empty($parameters['users_id'])) {
+                return new ApiObject("User ID can not be empty");
+            }
+            require_once $global['systemRootPath'] . 'objects/subscribe.php';
+            $subscribers = Subscribe::getAllSubscribes($parameters['users_id']);
+            ObjectYPT::setCache($name, $subscribers);
         }
-        if (empty($parameters['users_id'])) {
-            return new ApiObject("User ID can not be empty");
-        }
-        require_once $global['systemRootPath'] . 'objects/subscribe.php';
-        $subscribers = Subscribe::getAllSubscribes($parameters['users_id']);
         return new ApiObject("", false, $subscribers);
     }
 
