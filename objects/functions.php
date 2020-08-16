@@ -3625,6 +3625,9 @@ function ogSite() {
     }
 
     function wget($url, $filename, $debug = false) {
+        if(empty($url) || $url == "php://input"){
+            return false;
+        }
         if (wgetIsLocked($url)) {
             if ($debug) {
                 _error_log("wget: ERROR the url is already downloading $url, $filename");
