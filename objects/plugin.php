@@ -269,7 +269,8 @@ class Plugin extends ObjectYPT {
     }
 
     static function getAllEnabled() {
-        global $global, $getAllEnabledRows;
+        global $global;
+        $getAllEnabledRows = ObjectYPT::getSessionCache("plugin::getAllEnabled", 3600);
         if (empty($getAllEnabledRows)) {
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
             $res = sqlDAL::readSql($sql);
@@ -280,6 +281,7 @@ class Plugin extends ObjectYPT {
                 $getAllEnabledRows[] = $row;
             }
             uasort($getAllEnabledRows, 'cmpPlugin');
+            ObjectYPT::setSessionCache("plugin::getAllEnabled", $getAllEnabledRows);
         }
         return $getAllEnabledRows;
     }
@@ -349,7 +351,6 @@ class Plugin extends ObjectYPT {
     }
 
     function save() {
-        global $getAllEnabledRows;
         if (empty($this->uuid)) {
             return false;
         }
@@ -358,7 +359,7 @@ class Plugin extends ObjectYPT {
         if (empty($this->object_data)) {
             $this->object_data = 'null';
         }
-        $getAllEnabledRows = array();
+        ObjectYPT::deleteAllSessionCache("plugin::getAllEnabled");
         return parent::save();
     }
 
