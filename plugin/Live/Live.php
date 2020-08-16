@@ -15,8 +15,8 @@ class Live extends PluginAbstract {
     public function getDescription() {
         $desc = "Broadcast a RTMP video from your computer<br> and receive HLS streaming from servers";
         $lu = AVideoPlugin::loadPlugin("LiveUsers");
-        if(!empty($lu)){
-            if(version_compare($lu->getPluginVersion(), "2.0")<0){
+        if (!empty($lu)) {
+            if (version_compare($lu->getPluginVersion(), "2.0") < 0) {
                 $desc .= "<div class='alert alert-danger'>You MUST update your LiveUsers plugin to version 2.0 or greater</div>";
             }
         }
@@ -114,11 +114,11 @@ class Live extends PluginAbstract {
         return $o->key;
     }
 
-    static function getServer($live_servers_id=-1) {
+    static function getServer($live_servers_id = -1) {
         $obj = AVideoPlugin::getObjectData("Live");
         if (!empty($obj->useLiveServers)) {
-            if($live_servers_id<0){
-                $live_servers_id =self::getCurrentLiveServersId();
+            if ($live_servers_id < 0) {
+                $live_servers_id = self::getCurrentLiveServersId();
             }
             $ls = new Live_servers($live_servers_id);
             if (!empty($ls->getRtmp_server())) {
@@ -127,9 +127,9 @@ class Live extends PluginAbstract {
         }
         return $obj->server;
     }
-    
-    static function getRTMPLink(){
-        if(!User::canStream()){
+
+    static function getRTMPLink() {
+        if (!User::canStream()) {
             return false;
         }
         $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
@@ -394,7 +394,7 @@ class Live extends PluginAbstract {
         $live_servers_id = self::getCurrentLiveServersId();
         return self::getLinkToLiveFromChannelNameAndLiveServer($user->getChannelName(), $live_servers_id);
     }
-    
+
     static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id) {
         global $global;
         return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
@@ -455,7 +455,7 @@ class Live extends PluginAbstract {
                 $server->playerServer = $value['playerServer'];
                 foreach ($server->applications as $key => $app) {
                     $_REQUEST['live_servers_id'] = $value['id'];
-                    if(empty($app['key'])){
+                    if (empty($app['key'])) {
                         $app['key'] = "";
                     }
                     $server->applications[$key]['m3u8'] = self::getM3U8File($app['key']);
@@ -480,19 +480,26 @@ class Live extends PluginAbstract {
     }
 
     static function getAvailableLiveServer() {
-        $obj = AVideoPlugin::getObjectData("Live");
-        if (empty($obj->useLiveServers)) {
-            return false;
-        } else {
-            $liveServers = self::getStats();
-            usort($liveServers, function($a, $b) {
-                if ($a->countLiveStream == $b->countLiveStream) {
-                    return 0;
-                }
-                return ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;
-            });
-            return $liveServers[0];
+        // create 1 min cache
+        $name = "Live::getAvailableLiveServer";
+        $return = ObjectYPT::getCache($name, 60);
+        if (empty($return)) {
+            $obj = AVideoPlugin::getObjectData("Live");
+            if (empty($obj->useLiveServers)) {
+                $return = false;
+            } else {
+                $liveServers = self::getStats();
+                usort($liveServers, function($a, $b) {
+                    if ($a->countLiveStream == $b->countLiveStream) {
+                        return 0;
+                    }
+                    return ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;
+                });
+                $return = $liveServers[0];
+                ObjectYPT::setCache($name, $return);
+            }
         }
+        return $return;
     }
 
     static function _getStats($live_servers_id = 0) {
@@ -551,7 +558,7 @@ class Live extends PluginAbstract {
         foreach ($lifeStream as $value) {
             if (!empty($value->name)) {
                 $row = LiveTransmition::keyExists($value->name);
-                if(empty($row['users_id'])){
+                if (empty($row['users_id'])) {
                     continue;
                 }
                 if (!empty($row) && $value->name === $obj->name) {
@@ -583,21 +590,21 @@ class Live extends PluginAbstract {
                 $user = $u->getUser();
                 $channelName = $u->getChannelName();
                 $photo = $u->getPhotoDB();
-                $poster = $global['webSiteRootURL'].$p->getPosterImage($row['users_id'], $live_servers_id);
+                $poster = $global['webSiteRootURL'] . $p->getPosterImage($row['users_id'], $live_servers_id);
                 $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id);
                 // this variable is to keep it compatible for Mobile app
                 $UserPhoto = $photo;
                 $obj->applications[] = array(
-                    "key" => $value->name, 
-                    "users" => $users, 
-                    "name" => $userName, 
-                    "user" => $user, 
-                    "photo" => $photo, 
-                    "UserPhoto" => $UserPhoto, 
-                    "title" => $row['title'], 
+                    "key" => $value->name,
+                    "users" => $users,
+                    "name" => $userName,
+                    "user" => $user,
+                    "photo" => $photo,
+                    "UserPhoto" => $UserPhoto,
+                    "title" => $row['title'],
                     'channelName' => $channelName,
                     'poster' => $poster,
-                    'link' => $link."&embed=1"
+                    'link' => $link . "&embed=1"
                 );
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;
@@ -624,6 +631,7 @@ class Live extends PluginAbstract {
 
         return $file;
     }
+
     public function getPosterThumbsImage($users_id, $live_servers_id) {
         global $global;
         $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
@@ -634,11 +642,12 @@ class Live extends PluginAbstract {
 
         return $file;
     }
-    
+
     public function _getPosterImage($users_id, $live_servers_id) {
         $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}.jpg";
         return $file;
     }
+
     public function _getPosterThumbsImage($users_id, $live_servers_id) {
         $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}.jpg";
         return $file;
