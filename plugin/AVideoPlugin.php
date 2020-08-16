@@ -20,9 +20,9 @@ class AVideoPlugin {
         $time = $time[1] + $time[0];
         $finish = $time;
         $total_time = round(($finish - $global['AVideoPluginStart']), 4);
-        $timeLimit = empty($global['noDebug'])?0.25:0.5;
+        $timeLimit = empty($global['noDebug'])?0.5:1;
         if($total_time > $timeLimit){
-            _error_log("Warning: The plugin [{$pluginName}] takes {$total_time} seconds to complete. {$_SERVER["SCRIPT_FILENAME"]} URL: ". getSelfURI(), AVideoLog::$WARNING);
+            _error_log("The plugin [{$pluginName}] takes {$total_time} seconds to complete. URL: ". getSelfURI(), AVideoLog::$WARNING);
         }
     }
 
