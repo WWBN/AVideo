@@ -3625,7 +3625,7 @@ function ogSite() {
     }
 
     function wget($url, $filename, $debug = false) {
-        if(empty($url) || $url == "php://input"){
+        if(empty($url) || $url == "php://input" || !preg_match("/^http/", $url)){
             return false;
         }
         if (wgetIsLocked($url)) {
