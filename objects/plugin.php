@@ -271,6 +271,7 @@ class Plugin extends ObjectYPT {
     static function getAllEnabled() {
         global $global;
         $getAllEnabledRows = ObjectYPT::getSessionCache("plugin::getAllEnabled", 3600);
+        $getAllEnabledRows = object_to_array($getAllEnabledRows);
         if (empty($getAllEnabledRows)) {
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
             $res = sqlDAL::readSql($sql);
