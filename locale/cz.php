@@ -1,5 +1,6 @@
 <?php
 //https://wiki.l10n.cz/P%C5%99ekladatelsk%C3%BD_slovn%C3%ADk dictionary used for translation
+
 global $t;
 
 $t['%s ERROR: You must set a ID on config'] = "%s ERROR: You must set a ID on config";
