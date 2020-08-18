@@ -7,6 +7,8 @@ if(!isset($global['systemRootPath'])){
 require_once $global['systemRootPath'].'objects/category.php';
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
+$_REQUEST['rowCount'] = getRowCount(1000);
+$_REQUEST['current'] = getCurrentPage();
 $categories = Category::getAllCategories(true);
 $total = Category::getTotalCategories(true);
 $breaks = array("<br />","<br>","<br/>");  
@@ -30,4 +32,4 @@ foreach ($categories as $key => $value) {
 if(empty($_POST['sort']) && empty($_GET['sort'])){
     array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
 }
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($categories).'}';
+echo '{  "current": '.$_REQUEST['current'].',"rowCount": '.$_REQUEST['rowCount'].', "total": '.$total.', "rows":'. json_encode($categories).'}';

@@ -3678,6 +3678,33 @@ function ogSite() {
         }
         return unlink($filename);
     }
+    
+    function getLockFile($name) {
+        return getTmpDir("YPTLockFile") . md5($name) . ".lock";
+    }
+
+    function setLock($name) {
+        $file = getLockFile($name);
+        return file_put_contents($file, time());
+    }
+    
+    function isLock($name, $timeout = 60){
+        $file = getLockFile($name);
+        if(file_exists($file)){
+            $time = intval(file_get_contents($file));
+            if($time+$timeout<time()){
+                return false;
+            }
+        }
+    }
+
+    function removeLock($name) {
+        $filename = getLockFile($name);
+        if (!file_exists($filename)) {
+            return false;
+        }
+        return unlink($filename);
+    }
 
     function wgetIsLocked($url) {
         $filename = wgetLockFile($url);
