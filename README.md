@@ -15,7 +15,7 @@ AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.co
 When we say a clone or copy of AVideo we mean an instance of AVideo Platform Enterprise or Open-Source and every instance of the AVideo Platform can be indexed as a network in the World Wide Broadcast Network Platform System.
 
 ### AVideo trademark is FREE to use
-AVideo is a registered trademark owned by WWBN (World Wide Broadcast Network, Inc.) and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
+AVideo is a registered trademark owned by WWBN/PeachWiz (World Wide Broadcast Network) the media division of PeachWiz, Inc. and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
 * Word Mark:	AVIDEO
 * Translations:	"AVideo" has no meaning in any foreign language.
 * Description:	"AVideo" constitutes Audio Video.
