@@ -103,7 +103,21 @@ function humanTiming($time, $precision = 0) {
     return secondsToHumanTiming($time, $precision);
 }
 
+function humanTimingAgo($time, $precision = 0) {
+    if (!is_int($time)) {
+        $time = strtotime($time);
+    }
+    $time = time() - $time; // to get the time since that moment
+    if(empty($time)){
+        return __("Now");
+    }
+    return secondsToHumanTiming($time, $precision)." ".__("ago");
+}
+
 function secondsToHumanTiming($time, $precision = 0) {
+    if(empty($time)){
+        return __("Now");
+    }
     $time = ($time < 0) ? $time * -1 : $time;
     $time = ($time < 1) ? 1 : $time;
     $tokens = array(
@@ -335,6 +349,11 @@ function cleanString($text) {
         '/—/' => '-', '/«/' => '', '/»/' => '', '/…/' => ''
     );
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
+}
+
+function cleanURLName($name){
+    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]% ]+/', '-', trim(strtolower(cleanString($name))));
+    return preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
 }
 
 /**

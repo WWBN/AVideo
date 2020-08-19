@@ -326,10 +326,12 @@ if (empty($channelName)) {
                         type: 'post',
                         success: function (response) {
                             offLine = true;
-                            for (i = 0; i < response.applications.length; i++) {
-                                if (response.applications[i].key === "<?php echo $trasnmition['key']; ?>") {
-                                    offLine = false;
-                                    break;
+                            if(response.applications){
+                                for (i = 0; i < response.applications.length; i++) {
+                                    if (response.applications[i].key === "<?php echo $trasnmition['key']; ?>") {
+                                        offLine = false;
+                                        break;
+                                    }
                                 }
                             }
                             // you online do not show webcam

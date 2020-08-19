@@ -234,7 +234,8 @@ if (isLive()) {
             }
             $('#liveVideos').slideDown();
         } else {
-            href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=" + live_servers_id + "&c=" + application.channelName;
+            //href = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=" + live_servers_id + "&c=" + application.channelName;
+            href = "<?php echo $global['webSiteRootURL']; ?>live/" + live_servers_id + "/" + application.channelName;
             title = application.title;
             name = application.name;
             user = application.user;

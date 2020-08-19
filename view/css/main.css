@@ -139,6 +139,9 @@ footer ul.list-inline li {
 .form-compact input.form-control {
     border-radius: 0;
 }
+.form-group {
+    min-height: 60px;
+}
 .form-compact input.first,
 .form-compact select.first {
     border-top-left-radius: 5px;
@@ -832,4 +835,12 @@ img.blur{
 
 .opacityBtn{
     opacity: 0.2;   
+}
+
+.btn-group.justified {
+  display: flex;
+}
+
+.justified .btn {
+  flex: 1
 }
