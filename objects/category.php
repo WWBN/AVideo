@@ -186,6 +186,7 @@ class Category {
 
         $insert_row = sqlDAL::writeSql($sql, $format, $values);
         if ($insert_row) {
+            $_SESSION['getAllCategoriesClearCache'] = 1;
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
             } else {
@@ -234,6 +235,7 @@ class Category {
 
         global $global;
         if (!empty($this->id)) {
+            $_SESSION['getAllCategoriesClearCache'] = 1;
             $categories_id = self::getSiteCategoryDefaultID();
             if($categories_id){
                 $sql = "UPDATE videos SET categories_id = ? WHERE categories_id = ?";

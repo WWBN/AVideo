@@ -83,6 +83,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
         }
 
         unset($_POST['sort']);
+        $_POST['sort']['created'] = "DESC";
 
         $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
         if (!empty($videos)) {

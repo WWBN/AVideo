@@ -92,14 +92,17 @@
         });
 
         function refreshSubCategoryList() {
-            $.getJSON("<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>", function (data) {
-                var tmpHtml = "<option value='0' ><?php echo __("None (Parent)"); ?></option>";
-                fullCatList = data;
-                $.each(data.rows, function (key, val) {
-                    console.log(val.id + " " + val.hierarchyAndName);
-                    tmpHtml += "<option id='subcat" + val.id + "' value='" + val.id + "' >" + val.hierarchyAndName + "</option>";
-                });
-                $("#inputParentId").html(tmpHtml);
+            $.ajax({
+                url: '<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>',
+                success: function (data) {
+                    var tmpHtml = "<option value='0' ><?php echo __("None (Parent)"); ?></option>";
+                    fullCatList = data;
+                    $.each(data.rows, function (key, val) {
+                        console.log(val.id + " " + val.hierarchyAndName);
+                        tmpHtml += "<option id='subcat" + val.id + "' value='" + val.id + "' >" + val.hierarchyAndName + "</option>";
+                    });
+                    $("#inputParentId").html(tmpHtml);
+                }
             });
         }
 
@@ -157,12 +160,12 @@
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __("Edit"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                     var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo __("Delete"); ?>"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
                     var rssBtn = '<a class="btn btn-info btn-xs" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>feed/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
-                    
-                    if(!row.canEdit){
+
+                    if (!row.canEdit) {
                         editBtn = "";
                         deleteBtn = "";
                     }
-    
+
                     return editBtn + deleteBtn + rssBtn;
                 }
             }
@@ -187,34 +190,34 @@
                 $('#categoryFormModal').modal();
             }).end().find(".command-delete").on("click", function (e) {
                 var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];                        
-                        swal({
-                            title: "<?php echo __("Are you sure?"); ?>",
-                            text: "<?php echo __("You will not be able to recover this action!"); ?>", 
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                        })
+                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                swal({
+                    title: "<?php echo __("Are you sure?"); ?>",
+                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
                         .then((willDelete) => {
-                          if (willDelete) {
+                            if (willDelete) {
 
 
-                            modal.showPleaseWait();
-                            $.ajax({
-                                url: '<?php echo $global['webSiteRootURL'] . "objects/categoryDelete.json.php"; ?>',
-                                data: {"id": row.id},
-                                type: 'post',
-                                success: function (response) {
-                                    if (response.status === "1") {
-                                        $("#grid").bootgrid("reload");
-                                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been deleted!"); ?>", "success");
-                                    } else {
-                                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been deleted!"); ?>", "error");
+                                modal.showPleaseWait();
+                                $.ajax({
+                                    url: '<?php echo $global['webSiteRootURL'] . "objects/categoryDelete.json.php"; ?>',
+                                    data: {"id": row.id},
+                                    type: 'post',
+                                    success: function (response) {
+                                        if (response.status === "1") {
+                                            $("#grid").bootgrid("reload");
+                                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been deleted!"); ?>", "success");
+                                        } else {
+                                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been deleted!"); ?>", "error");
+                                        }
+                                        modal.hidePleaseWait();
                                     }
-                                    modal.hidePleaseWait();
-                                }
-                            });
-                          } 
+                                });
+                            }
                         });
             });
         });
@@ -249,8 +252,8 @@
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL'] . "objects/categoryAddNew.json.php"; ?>',
                 data: {
-                    "id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "description": $('#inputDescription').val(), "nextVideoOrder": $('#inputNextVideoOrder').val(), "private": $('#inputPrivate').val(), 
-            "allow_download": $('#allow_download').val(), "order": $('#order').val(), "parentId": $('#inputParentId').val(), "type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
+                    "id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "description": $('#inputDescription').val(), "nextVideoOrder": $('#inputNextVideoOrder').val(), "private": $('#inputPrivate').val(),
+                    "allow_download": $('#allow_download').val(), "order": $('#order').val(), "parentId": $('#inputParentId').val(), "type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
                 type: 'post',
                 success: function (response) {
                     if (response.status) {

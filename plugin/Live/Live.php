@@ -397,7 +397,8 @@ class Live extends PluginAbstract {
 
     static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id) {
         global $global;
-        return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
+        //return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
+        return "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName);
     }
 
     static function getAvailableLiveServersId() {

@@ -103,7 +103,21 @@ function humanTiming($time, $precision = 0) {
     return secondsToHumanTiming($time, $precision);
 }
 
+function humanTimingAgo($time, $precision = 0) {
+    if (!is_int($time)) {
+        $time = strtotime($time);
+    }
+    $time = time() - $time; // to get the time since that moment
+    if(empty($time)){
+        return __("Now");
+    }
+    return secondsToHumanTiming($time, $precision)." ".__("ago");
+}
+
 function secondsToHumanTiming($time, $precision = 0) {
+    if(empty($time)){
+        return __("Now");
+    }
     $time = ($time < 0) ? $time * -1 : $time;
     $time = ($time < 1) ? 1 : $time;
     $tokens = array(
@@ -335,6 +349,11 @@ function cleanString($text) {
         '/—/' => '-', '/«/' => '', '/»/' => '', '/…/' => ''
     );
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
+}
+
+function cleanURLName($name){
+    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]% ]+/', '-', trim(strtolower(cleanString($name))));
+    return preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
 }
 
 /**
@@ -3673,6 +3692,33 @@ function ogSite() {
 
     function wgetRemoveLock($url) {
         $filename = wgetLockFile($url);
+        if (!file_exists($filename)) {
+            return false;
+        }
+        return unlink($filename);
+    }
+    
+    function getLockFile($name) {
+        return getTmpDir("YPTLockFile") . md5($name) . ".lock";
+    }
+
+    function setLock($name) {
+        $file = getLockFile($name);
+        return file_put_contents($file, time());
+    }
+    
+    function isLock($name, $timeout = 60){
+        $file = getLockFile($name);
+        if(file_exists($file)){
+            $time = intval(file_get_contents($file));
+            if($time+$timeout<time()){
+                return false;
+            }
+        }
+    }
+
+    function removeLock($name) {
+        $filename = getLockFile($name);
         if (!file_exists($filename)) {
             return false;
         }
