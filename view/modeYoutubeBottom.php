@@ -418,11 +418,11 @@ if(empty($video['created'])){
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description">
-                    <?php echo $video['description'];
-                    if (strpos($video['description'], '<br') !== false || strpos($video['description'], '<p') !== false) {
-                        //echo $video['description'];
+                    <?php 
+                    if (strip_tags($video['description']) != $video['description']) {
+                        echo $video['description'];
                     } else {
-                        //echo nl2br(textToLink(htmlentities($video['description'])));
+                        echo nl2br(textToLink(htmlentities($video['description'])));
                     }
                     ?>
                 </div>
