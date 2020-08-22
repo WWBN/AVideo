@@ -271,8 +271,9 @@ abstract class ObjectYPT implements ObjectInterface {
 
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
         make_path($cachefile);
-        file_put_contents($cachefile, json_encode($value));
+        $bytes = file_put_contents($cachefile, json_encode($value));
         self::setSessionCache($name, $value);
+        return $bytes;
     }
 
     static function cleanCacheName($name) {
@@ -289,6 +290,7 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     static function getCache($name, $lifetime = 60) {
+        $name = self::cleanCacheName($name);
         $tmpDir = self::getCacheDir();
         $uniqueHash = md5(__FILE__);
 
