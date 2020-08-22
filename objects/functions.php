@@ -1039,7 +1039,8 @@ function getVideosURLArticle($fileName) {
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-    $files = array_merge($files, _getImagesURL($fileName, 'article'));
+    //$files = array_merge($files, _getImagesURL($fileName, 'article'));
+    $files = _getImagesURL($fileName, 'article');
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
