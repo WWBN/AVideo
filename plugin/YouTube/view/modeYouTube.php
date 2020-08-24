@@ -153,7 +153,7 @@ $contentSearchFound = false;
                             unset($_POST['sort']);
                             unset($_POST['rowCount']);
                             $categories = Category::getAllCategories();
-                            $_POST['rowCount'] = $objYTube->CategoriesRowCount;
+                            $_REQUEST['rowCount'] = $objYTube->CategoriesRowCount;
                             $showAllVideos = false;
                             if (!empty($_GET['catName'])) {
                                 $showAllVideos = true;

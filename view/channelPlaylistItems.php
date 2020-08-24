@@ -39,7 +39,7 @@
     } else {
         $_POST['current'] = intval($_GET['current']);
     }
-    $_POST['rowCount'] = 4;
+    $_REQUEST['rowCount'] = 4;
     $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
     $current = $_POST['current'];
     unset($_POST['current']);
@@ -69,7 +69,7 @@
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
         $rowCount = $_POST['rowCount'];
-        $_POST['rowCount'] = 6;
+        $_REQUEST['rowCount'] = 6;
 
         //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
         if (empty($videosArrayId) && ($playlist['status'] == "favorite" || $playlist['status'] == "watch_later")) {
@@ -82,7 +82,7 @@
         } else {
             $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
         }//var_dump($videosArrayId, $videosP); exit;
-        $_POST['rowCount'] = $rowCount;
+        $_REQUEST['rowCount'] = $rowCount;
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
         //_error_log("channelPlaylist videosP: ".json_encode($videosP));

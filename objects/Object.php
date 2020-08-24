@@ -313,6 +313,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function deleteCache($name) {
+        $name = self::cleanCacheName($name);
         $tmpDir = self::getCacheDir();
         $uniqueHash = md5(__FILE__);
 

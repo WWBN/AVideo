@@ -2235,7 +2235,7 @@ function siteMap() {
         </url>
         ';
 
-    $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit;
+    $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
     _error_log("siteMap: rowCount {$_POST['rowCount']} ");
     $_POST['sort']['modified'] = "DESC";
     $users = User::getAllUsersThatHasVideos(true);
@@ -2253,7 +2253,7 @@ function siteMap() {
     $xml .= ' 
         <!-- Categories -->
         ';
-    $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit;
+    $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
     $_POST['sort']['modified'] = "DESC";
     $rows = Category::getAllCategories();
     _error_log("siteMap: getAllCategories " . count($rows));
@@ -2268,7 +2268,7 @@ function siteMap() {
             ';
     }
     $xml .= '<!-- Videos -->';
-    $_POST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
+    $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
     _error_log("siteMap: getAllVideos " . count($rows));

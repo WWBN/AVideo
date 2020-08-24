@@ -44,7 +44,7 @@ if ($_REQUEST['token'] !== $o->getGive_token()) {
     die(json_encode($obj));
 }
 $_POST['current'] = getCurrentPage();
-$_POST['rowCount'] = getRowCount(12);
+$_REQUEST['rowCount'] = getRowCount(12);
 $videos = array();
 // verify if the site can access the requested content
 if (!empty($_REQUEST['users_id'])) {

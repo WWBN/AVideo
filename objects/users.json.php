@@ -12,7 +12,7 @@ if (empty($_POST['current'])) {
     $_POST['current'] = 1;
 }
 if (empty($_POST['rowCount'])) {
-    $_POST['rowCount'] = 10;
+    $_REQUEST['rowCount'] = 10;
 }
 $users = User::getAllUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, array('name', 'email', 'user', 'channelName', 'about'), @$_GET['status']);
 $total = User::getTotalUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, @$_GET['status']);
