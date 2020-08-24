@@ -22,7 +22,7 @@ if (empty($_GET['current'])) {
 }
 $current = $_POST['current'];
 $rowCount = 25;
-$_POST['rowCount'] = $rowCount;
+$_REQUEST['rowCount'] = $rowCount;
 
 $uploadedVideos = Video::getAllVideos("a", $user_id, !isToHidePrivateVideos());
 $uploadedTotalVideos = Video::getTotalVideos("a", $user_id, !isToHidePrivateVideos());

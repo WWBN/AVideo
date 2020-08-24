@@ -24,7 +24,7 @@ if (!empty($_GET['page'])) {
 $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
 
 $current = $_POST['current'];
-$_POST['rowCount'] = 10;
+$_REQUEST['rowCount'] = 10;
 $channels = Channel::getChannels(true, "u.id, '". implode(",", $users_id_array)."'");
 
 $totalPages = ceil($totalChannels / $_POST['rowCount']);
@@ -121,7 +121,7 @@ $metaDescription = __("Channels");
                                 <h2><?php echo __("Preview"); ?></h2>
                                 <?php
                                 $_POST['current'] = 1;
-                                $_POST['rowCount'] = 6;
+                                $_REQUEST['rowCount'] = 6;
                                 $_POST['sort']['created'] = "DESC";
                                 $uploadedVideos = Video::getAllVideosAsync("viewable", $value['id']);
                                 foreach ($uploadedVideos as $value2) {

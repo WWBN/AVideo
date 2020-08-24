@@ -22,7 +22,7 @@ if (empty($_GET['page'])) {
 } else {
     $_GET['page'] = intval($_GET['page']);
 }
-$_POST['rowCount'] = 4;
+$_REQUEST['rowCount'] = 4;
 $half = floor($_POST['rowCount'] / 2);
 $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';

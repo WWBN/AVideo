@@ -271,13 +271,15 @@ abstract class ObjectYPT implements ObjectInterface {
 
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
         make_path($cachefile);
-        file_put_contents($cachefile, json_encode($value));
+        $bytes = file_put_contents($cachefile, json_encode($value));
         self::setSessionCache($name, $value);
+        return $bytes;
     }
 
-    private static function cleanCacheName($name) {
+    static function cleanCacheName($name) {
         $name = str_replace(array('/','\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), $name);
         $name = preg_replace('/[!#$&\'()*+,:;=?@[\\]% ]+/', '_', trim(strtolower(cleanString($name))));
+        $name = preg_replace('/\/{2,}/', '/', trim(strtolower(cleanString($name))));
         return preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
     }
 
@@ -288,6 +290,7 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     static function getCache($name, $lifetime = 60) {
+        $name = self::cleanCacheName($name);
         $tmpDir = self::getCacheDir();
         $uniqueHash = md5(__FILE__);
 
@@ -310,6 +313,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function deleteCache($name) {
+        $name = self::cleanCacheName($name);
         $tmpDir = self::getCacheDir();
         $uniqueHash = md5(__FILE__);
 

@@ -288,7 +288,7 @@ class API extends PluginAbstract {
                 unset($_POST['sort']);
                 unset($_POST['current']);
                 unset($_POST['searchPhrase']);
-                $_POST['rowCount'] = 10;
+                $_REQUEST['rowCount'] = 10;
                 $_POST['sort']['created'] = "desc";
                 $rows[$key]['comments'] = Comment::getAllComments($rows[$key]['id']);
                 $rows[$key]['commentsTotal'] = Comment::getTotalComments($rows[$key]['id']);

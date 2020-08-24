@@ -459,7 +459,7 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
                                                 <?php echo __("Autoplay Next Video"); ?>
-                                                <button class="btn btn-danger btn-sm btn-xs pull-right" id="removeAutoplay"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button>
+                                                <button class="btn btn-danger btn-sm btn-xs pull-right" id="removeAutoplay" type="button"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button>
                                             </div>
                                             <div class="panel-body">
                                                 <div class="row">
@@ -467,8 +467,8 @@
                                                         <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
                                                     </div>
                                                     <div class="col-md-8">
-                                                        <input id="inputNextVideo" placeholder="<?php echo __("Autoplay Next Video"); ?>" class="form-control first">
-                                                        <input id="inputNextVideoClean" placeholder="<?php echo __("Autoplay Next Video URL"); ?>" class="form-control last" readonly="readonly">
+                                                        <input id="inputNextVideo" placeholder="<?php echo __("Autoplay Next Video"); ?>" class="form-control first" name="inputNextVideo">
+                                                        <input id="inputNextVideoClean" placeholder="<?php echo __("Autoplay Next Video URL"); ?>" class="form-control last" readonly="readonly" name="inputNextVideoClean">
                                                         <input type="hidden" id="inputNextVideo-id">
                                                     </div>
                                                 </div>
@@ -488,7 +488,7 @@
                                                 minLength: 0,
                                                 source: function (req, res) {
                                                     $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/videos.json.php',
+                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/videos.json.php?rowCount=6',
                                                         type: "POST",
                                                         data: {
                                                             searchPhrase: req.term
@@ -531,7 +531,6 @@
                                                     return false;
                                                 },
                                                 select: function (event, ui) {
-                                                    console.log(ui.item);
                                                     $("#inputUserOwner").val(ui.item.user);
                                                     $("#inputUserOwner_id").val(ui.item.id);
                                                     var photoURL = '<?php echo $global['webSiteRootURL']; ?>img/userSilhouette.jpg'
@@ -683,7 +682,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
                                                         json = xhr.responseText;
                                                         json = JSON.parse(json);
-                                                        console.log(json);
                                                         if (json.error === false && json.url) {
                                                             success(json.url);
                                                         } else if (json.msg) {
@@ -749,7 +747,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             data: {"id": vals, "status": status},
             type: 'post',
             success: function (response) {
-                console.log(response);
                 modal.hidePleaseWait();
                 if (!response.status) {
                     swal({
@@ -772,7 +769,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             data: {"id": vals, "category_id": category_id},
             type: 'post',
             success: function (response) {
-                console.log(response);
                 modal.hidePleaseWait();
                 if (!response.status) {
                     swal({
@@ -799,7 +795,6 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                 data: {"id": vals, "users_groups_id": users_groups_id, "add": add},
                 type: 'post',
                 success: function (response) {
-                    console.log(response);
                     modal.hidePleaseWait();
                     if (!response.status) {
                         swal({
@@ -901,7 +896,6 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
     }
 
     function editVideo(row) {
-        console.log(row.id);
         if (!row.id) {
             row.id = videos_id;
         }
@@ -1038,8 +1032,6 @@ echo AVideoPlugin::getManagerVideosEdit();
         if (!row || typeof row === 'undefined') {
             row = {id: 0, filename: "filename", clean_title: "blank"};
         }
-        console.log(row);
-        console.log(videos_id);
         if (!row.id && videos_id) {
             row.id = videos_id;
         }
@@ -1446,7 +1438,6 @@ echo AVideoPlugin::getManagerVideosReset();
             // This function is called when a file is added to the queue;
             // either via the browse button, or via drag/drop:
             add: function (e, data) {
-                console.log('add');
                 var tpl = $('<li class="working"><input type="text" value="0" data-width="48" data-height="48"' +
                         ' data-fgColor="#0788a5" data-readOnly="1" data-bgColor="#3e4043" /><p style="color:#AAA;" class="action">Uploading...</p><p class="filename"></p><span></span></li>');
                 // Append the file name and file size
@@ -1487,7 +1478,6 @@ echo AVideoPlugin::getManagerVideosReset();
                 data.context.addClass('error');
             },
             done: function (e, data) {
-                console.log(data);
                 if (data.result.error && data.result.msg) {
                     swal({
                         title: "Sorry!",
@@ -1615,7 +1605,6 @@ echo AVideoPlugin::getManagerVideosReset();
                     data: {"id": vals},
                     type: 'post',
                     success: function (response) {
-                        console.log(response);
                         modal.hidePleaseWait();
                         if (!response.success) {
                             var span = document.createElement("span");
@@ -1816,7 +1805,6 @@ if (User::isAdmin()) {
                             continue;
                         }
                         var url = row.videosURL[k].url;
-                        console.log(url);
                         if (url.indexOf('?') > -1) {
                             //url += "&download=1";
                         } else {
@@ -2101,7 +2089,6 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     data: {"id": row.id},
                     type: 'post',
                     success: function (response) {
-                        console.log(response);
                         modal.hidePleaseWait();
                         if (!response.success) {
                             swal({

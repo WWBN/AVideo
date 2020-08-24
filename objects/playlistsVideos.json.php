@@ -47,7 +47,7 @@ foreach ($videos as $key => $value) {
     unset($_POST['sort']);
     unset($_POST['current']);
     unset($_POST['searchPhrase']);
-    $_POST['rowCount'] = 10;
+    $_REQUEST['rowCount'] = 10;
     $_POST['sort']['created'] = "desc";
     $videos[$key]['comments'] = Comment::getAllComments($videos[$key]['id']);
     $videos[$key]['commentsTotal'] = Comment::getTotalComments($videos[$key]['id']);

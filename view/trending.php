@@ -25,9 +25,9 @@ $total = Video::getTotalVideos();
 
 if (empty($_POST['rowCount'])) {
     if (!empty($_GET['rowCount'])) {
-        $_POST['rowCount'] = $_GET['rowCount'];
+        $_REQUEST['rowCount'] = $_GET['rowCount'];
     } else {
-        $_POST['rowCount'] = 5;
+        $_REQUEST['rowCount'] = 5;
     }
 }
 

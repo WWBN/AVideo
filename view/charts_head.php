@@ -17,7 +17,7 @@ if (!User::isLogged()) {
 }
 
 if (empty($_POST['rowCount'])) {
-    $_POST['rowCount'] = $limitVideos;
+    $_REQUEST['rowCount'] = $limitVideos;
 }
 $times = array();
 $start = microtime(true);

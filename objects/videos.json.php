@@ -1,5 +1,4 @@
 <?php
-error_reporting(0);
 global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
@@ -56,4 +55,4 @@ foreach ($videos as $key => $value) {
     unset($videos[$key]['recoverPass']);
 }
 
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($videos).'}';
+echo '{  "current": '.$_REQUEST['current'].',"rowCount": '.$_REQUEST['rowCount'].', "total": '.$total.', "rows":'. json_encode($videos).'}';
