@@ -270,7 +270,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $name = self::cleanCacheName($name);
 
         $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
-        make_path($cachefile);
+        makePath($cachefile);
         $bytes = file_put_contents($cachefile, json_encode($value));
         self::setSessionCache($name, $value);
         return $bytes;
@@ -333,7 +333,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
-        make_path($tmpDir);
+        makePath($tmpDir);
         if (!file_exists($tmpDir . "index.html")) {// to avoid search into the directory
             file_put_contents($tmpDir . "index.html", time());
         }

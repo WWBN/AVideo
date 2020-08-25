@@ -1211,7 +1211,7 @@ if (!class_exists('Video')) {
             $post = json_encode(@$_POST);
             $md5 = md5("{$users_id}{$get}{$post}{$status}{$showOnlyLoggedUserVideos}{$ignoreGroup}" . implode("_", $videosArrayId) . "{$getStatistcs}{$showUnlisted}{$activeUsersOnly}");
             $path = getCacheDir() . "getAllVideosAsync/";
-            make_path($path);
+            makePath($path);
             $cacheFileName = "{$path}{$md5}";
             if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName) || filesize($cacheFileName) === 0) {
                 if (file_exists($cacheFileName . ".lock")) {
@@ -1445,7 +1445,7 @@ if (!class_exists('Video')) {
         static function getTotalVideosInfoAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false) {
             global $global, $advancedCustom;
             $path = getCacheDir() . "getTotalVideosInfo/";
-            make_path($path);
+            makePath($path);
             $cacheFileName = "{$path}_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode($videosArrayId) . "_{$getStatistcs}";
             $return = array();
             if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
@@ -2204,7 +2204,7 @@ if (!class_exists('Video')) {
         static function getTagsAsync($video_id, $type = "video") {
             global $global, $advancedCustom;
             $path = getCacheDir() . "getTagsAsync/";
-            make_path($path);
+            makePath($path);
             $cacheFileName = "{$path}_{$video_id}_{$type}";
 
             $return = array();
@@ -2914,7 +2914,7 @@ if (!class_exists('Video')) {
             global $global, $advancedCustom;
             $return = array();
             $path = getCacheDir() . "getImageFromFilenameAsync/";
-            make_path($path);
+            makePath($path);
             $cacheFileName = "{$path}_{$filename}_{$type}";
             if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
                 if (file_exists($cacheFileName . ".lock")) {

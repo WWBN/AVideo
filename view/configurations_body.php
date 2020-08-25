@@ -221,7 +221,7 @@ if (User::isAdmin()) {
                                 ?>
 
                                 <?php
-                                if (check_post_max_size()) {
+                                if (checkPostMaxSize()) {
                                     ?>
                                     <div class="alert alert-success">
                                         <span class="glyphicon glyphicon-check"></span>
@@ -245,7 +245,7 @@ if (User::isAdmin()) {
                                 ?>
 
                                 <?php
-                                if (check_upload_max_filesize()) {
+                                if (checkUploadMaxFilesize()) {
                                     ?>
                                     <div class="alert alert-success">
                                         <span class="glyphicon glyphicon-check"></span>

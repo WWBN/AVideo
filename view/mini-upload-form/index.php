@@ -56,7 +56,7 @@ if (!User::canUpload()) {
                     <div class="alert alert-info">
                         <h1>
                             <span class="glyphicon glyphicon-info-sign" style="font-size:1em;"></span>
-                            <?php echo __("Your maximum file size is:"), " ", "" . get_max_file_size() . ""; ?>
+                            <?php echo __("Your maximum file size is:"), " ", "" . getMaxFileSize() . ""; ?>
                         </h1>
                     </div>
                     

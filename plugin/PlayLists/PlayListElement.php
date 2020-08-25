@@ -77,7 +77,7 @@ class playListSource {
         if($youtube){
             $this->type = "video/youtube";
         }else{
-            $this->type = mime_content_type_per_filename($src);
+            $this->type = mimeContentTypePerFilename($src);
         }
     }
 

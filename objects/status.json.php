@@ -8,8 +8,8 @@ require_once $global['systemRootPath'] . 'plugin/MobileManager/MobileManager.php
 require_once 'functions.php';
 header('Content-Type: application/json');
 $obj = new stdClass();
-$obj->max_file_size = get_max_file_size();
-$obj->file_upload_max_size = file_upload_max_size();
+$obj->max_file_size = getMaxFileSize();
+$obj->file_upload_max_size = fileUploadMaxSize();
 $obj->videoStorageLimitMinutes = $global['videoStorageLimitMinutes'];
 $obj->currentStorageUsage = getSecondsTotalVideosLength();
 $obj->webSiteLogo = $config->getLogo(true);

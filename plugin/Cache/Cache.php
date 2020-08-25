@@ -136,7 +136,7 @@ class Cache extends PluginAbstract {
                 if ($isBot && $_SERVER['REQUEST_URI'] !== '/login') {
                     //_error_log("Bot Detected, showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
                 }
-                $c = @local_get_contents($cachefile);
+                $c = @localGetContents($cachefile);
                 if (preg_match("/\.json\.?/", $baseName)) {
                     header('Content-Type: application/json');
                 }
@@ -183,7 +183,7 @@ class Cache extends PluginAbstract {
          * 
          */
         
-        make_path($cachefile);
+        makePath($cachefile);
 
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             file_put_contents($cachefile, $c);

@@ -115,7 +115,7 @@ if (!empty($_FILES['video']['error'])) {
         if($file){
             $temp = "{$global['systemRootPath']}videos/cache/tmpFile/{$_FILES['video']['name']}";
             _error_log("aVideoEncoder.json: save ".$temp);
-            make_path($temp);
+            makePath($temp);
             file_put_contents($temp, $file);
             $_FILES['video']['tmp_name'] = $temp;
         }

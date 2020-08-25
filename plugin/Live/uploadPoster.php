@@ -35,7 +35,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     $obj->file = Live::_getPosterImage(User::getId(), $live_servers_id);
     $obj->fileThumbs = Live::_getPosterThumbsImage(User::getId(), $live_servers_id);;
     $tmpDestination = "{$global['systemRootPath']}{$obj->file}.{$extension}";
-    make_path($global['systemRootPath'].$obj->file);
+    makePath($global['systemRootPath'].$obj->file);
     if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $tmpDestination)) {
         $obj->msg = "Error on move_file_uploaded_file {$obj->file}" ;
         die(json_encode($obj));

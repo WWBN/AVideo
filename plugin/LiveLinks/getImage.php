@@ -3,7 +3,6 @@
 require_once '../../videos/configuration.php';
 session_write_close();
 $filename = $global['systemRootPath'] . 'plugin/Live/view/OnAir.jpg';
-//echo file_get_contents($filename);exit;
 
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
@@ -41,5 +40,5 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
 if(!empty($content)){
     echo $content;
 }else{
-     echo local_get_contents($filename);
+     echo localGetContents($filename);
 }

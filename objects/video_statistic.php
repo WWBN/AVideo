@@ -156,7 +156,7 @@ class VideoStatistic extends ObjectYPT {
         global $global, $advancedCustom;
         $md5 = ("{$video_id}_{$numberOfDays}");
         $path = getCacheDir() . "getTotalLastDaysAsync/";
-        make_path($path);
+        makePath($path);
         $cacheFileName = "{$path}{$md5}";
         if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
             if (file_exists($cacheFileName . ".lock")) {

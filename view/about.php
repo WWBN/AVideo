@@ -44,7 +44,7 @@ $metaDescription = "About Page";
                 <span class="label label-success"><?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?></span>
 
                 <span class="label label-success">
-                    <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>
+                    <?php printf(__("You can upload max of %s!"), getMaxFileSize()); ?>
                 </span>
                 <span class="label label-success">
                     <?php printf(__("You can storage %s minutes of videos!"), (empty($global['videoStorageLimitMinutes']) ? "unlimited" : $global['videoStorageLimitMinutes'])); ?>
