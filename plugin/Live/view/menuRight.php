@@ -116,6 +116,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
     function createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id) {
         limitLiveOnVideosListCount++;
         if(limitLiveOnVideosListCount><?php echo intval($obj->limitLiveOnVideosList); ?>){
+            console.log("Max live videos on first page reached");
             return false;
         }
         
