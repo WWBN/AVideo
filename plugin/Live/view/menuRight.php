@@ -112,7 +112,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         $('.liveUsersOnline_' + key).text(online);
         $('.liveUsersViews_' + key).text(views);
     }
-    var limitLiveOnVideosListCount = <?php echo $obj->limitLiveOnVideosList; ?>;
+    var limitLiveOnVideosListCount = 0;
     function createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id) {
         limitLiveOnVideosListCount++;
         if(limitLiveOnVideosListCount><?php echo intval($obj->limitLiveOnVideosList); ?>){
