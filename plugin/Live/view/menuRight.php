@@ -151,6 +151,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         $.ajax({
             url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu<?php echo (!empty($_GET['videoName']) ? "&requestComesFromVideoPage=1" : "") ?>',
             success: function (response) {
+                limitLiveOnVideosListCount = 0;
                 if (typeof response !== 'undefined') {
                     $('#availableLiveStream').empty();
                     if (isArray(response)) {
