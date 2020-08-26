@@ -44,6 +44,7 @@ if(empty($meet->getPublic()) && !User::isLogged()){
     exit;
 }
 
+$objLive = AVideoPlugin::getObjectData("Live");
 Meet_join_log::log($meet_schedule_id);
 
 $apiExecute = array();
