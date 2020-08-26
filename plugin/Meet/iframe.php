@@ -33,14 +33,14 @@ if (empty($meet_schedule_id)) {
 
 $canJoin = Meet::canJoinMeetWithReason($meet_schedule_id);
 if (!$canJoin->canJoin) {
-    header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=". urlencode($canJoin->reason));
+    header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=" . urlencode($canJoin->reason));
     exit;
 }
 
 $meet = new Meet_schedule($meet_schedule_id);
 
-if(empty($meet->getPublic()) && !User::isLogged()){
-    header("Location: {$global['webSiteRootURL']}user?redirectUri=". urlencode($meet->getMeetLink())."&msg=". urlencode(__("Please, login before join a meeting")));
+if (empty($meet->getPublic()) && !User::isLogged()) {
+    header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($meet->getMeetLink()) . "&msg=" . urlencode(__("Please, login before join a meeting")));
     exit;
 }
 
@@ -83,6 +83,38 @@ if (Meet::isModerator($meet_schedule_id)) {
         <script>
             var getRTMPLink = '<?php echo Live::getRTMPLink(); ?>';
         </script>
+        <?php
+        if (!$config->getDisable_analytics()) {
+            ?>
+            <script>
+                // AVideo Analytics
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o),
+                            m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-96597943-1', 'auto', 'aVideo');
+                ga('aVideo.send', 'pageview');
+            </script>
+            <?php
+        }
+        echo $config->getHead();
+        if (!empty($video)) {
+            if (!empty($video['users_id'])) {
+                $userAnalytics = new User($video['users_id']);
+                echo $userAnalytics->getAnalytics();
+                unset($userAnalytics);
+            }
+        }
+        ogSite();
+        ?>
         <style>
             html, body {
                 height: 100%;
