@@ -939,11 +939,15 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
         $('#inputVideoPassword').val(row.video_password);
         $('#inputTrailer').val(row.trailer1);
         $('#inputCleanTitle').val(row.clean_title);
-        $('#inputDescription').val(row.description);
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
-            tinymce.get('inputDescription').setContent(row.description);
+        $('#inputDescription').val(row.descriptionHTML);
+        tinymce.get('inputDescription').setContent(row.descriptionHTML);
+    <?php
+}else{
+    ?>
+        $('#inputDescription').val(row.descriptionHTML);
     <?php
 }
 ?>
