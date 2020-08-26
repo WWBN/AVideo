@@ -112,8 +112,13 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         $('.liveUsersOnline_' + key).text(online);
         $('.liveUsersViews_' + key).text(views);
     }
-
+    var limitLiveOnVideosListCount = <?php echo $obj->limitLiveOnVideosList; ?>;
     function createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id) {
+        limitLiveOnVideosListCount++;
+        if(limitLiveOnVideosListCount><?php echo intval($obj->limitLiveOnVideosList); ?>){
+            return false;
+        }
+        
         var id = 'extraVideo' + user + "_" + live_servers_id;
         id = id.replace(/\W/g, '');
         if ($(".extraVideos").length && $("#" + id).length == 0) {
