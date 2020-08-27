@@ -53,7 +53,7 @@ Passcode: {password}
         $o->value = 'ca1.ypt.me';
         $obj->server = $o;
 
-        $obj->CUSTOM_JITSI_DOMAIN = "jitsi.youphp.tube";
+        $obj->CUSTOM_JITSI_DOMAIN = "jitsi.eu1.ypt.me";
         $obj->JWT_APP_ID = "my_jitsi_app_id";
         $obj->JWT_APP_SECRET = "my_jitsi_app_secret";
         return $obj;
