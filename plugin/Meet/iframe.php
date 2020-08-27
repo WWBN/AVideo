@@ -24,7 +24,6 @@ if (empty($meetDomain)) {
     exit;
 }
 
-
 $meet_schedule_id = intval($_GET['meet_schedule_id']);
 
 if (empty($meet_schedule_id)) {
@@ -60,6 +59,12 @@ if (Meet::isModerator($meet_schedule_id)) {
         youtubeStreamKey: '" . Live::getRTMPLink() . "',
     });";
     }
+}
+
+if($meetDomain=='custom'){
+    $domain = $objM->CUSTOM_JITSI_DOMAIN;
+}else{
+    $domain = "{$meetDomain}?getRTMPLink=".urlencode(Live::getRTMPLink());
 }
 /*
   $obj->link = Meet::getMeetRoomLink($_GET['roomName']);
@@ -130,7 +135,7 @@ if (Meet::isModerator($meet_schedule_id)) {
     <body>
         <div id="meet"></div> 
         <script>
-            const domain = '<?php echo $meetDomain; ?>?getRTMPLink=<?php echo urlencode(Live::getRTMPLink()); ?>';
+            const domain = '<?php echo $domain; ?>';
                 const options = {
                     roomName: '<?php echo $meet->getName(); ?>',
                     jwt: '<?php echo Meet::getToken($meet_schedule_id); ?>',

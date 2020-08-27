@@ -49,14 +49,19 @@ Passcode: {password}
         $obj->invitation = $o;
 
         $o = new stdClass();
-        $o->type = array('ca1.ypt.me' => "North America 1", 'eu1.ypt.me' => "Europe 1");
+        $o->type = array('ca1.ypt.me' => "North America 1", 'eu1.ypt.me' => "Europe 1", 'custom' => "Custom Jitsi");
         $o->value = 'ca1.ypt.me';
         $obj->server = $o;
+
+        $obj->CUSTOM_JITSI_DOMAIN = "jitsi.youphp.tube";
+        $obj->JWT_APP_ID = "my_jitsi_app_id";
+        $obj->JWT_APP_SECRET = "my_jitsi_app_secret";
         return $obj;
     }
 
     static function getTokenArray($meet_schedule_id, $users_id = 0, $expirationInMinutes = 2) {
         global $config;
+        $obj = AVideoPlugin::getDataObject("Meet");
         if (empty($users_id)) {
             $users_id = User::getId();
         }
@@ -79,9 +84,9 @@ Passcode: {password}
                 "user" => $user,
                 "group" => $config->getWebSiteTitle()
             ],
-            "aud" => "avideo",
+            "aud" => ($obj->server->value=='custom')?$obj->JWT_APP_ID:"avideo",
             //"iss" => "avideo",
-            "iss" => "*",
+            "iss" => ($obj->server->value=='custom')?$obj->JWT_APP_ID:"*",
             "sub" => "meet.jitsi",
             "room" => $room,
             "exp" => strtotime("+{$expirationInMinutes} min"),
@@ -94,13 +99,18 @@ Passcode: {password}
         $m = new Meet_schedule($meet_schedule_id);
         $jitsiPayload = self::getTokenArray($meet_schedule_id);
         $key = self::getSecret();
+        //var_dump($jitsiPayload, $key);
 
         return JWT::encode($jitsiPayload, $key); // HS256
     }
 
     static function getSecret() {
         $obj = AVideoPlugin::getDataObject("Meet");
-        return $obj->secret;
+        if($obj->server->value=='custom'){
+            return $obj->JWT_APP_SECRET;
+        }else{
+            return $obj->secret;
+        }
     }
 
     static function getMeetServer() {
@@ -118,6 +128,18 @@ Passcode: {password}
         global $global;
         $secret = self::getSecret();
         $meetServer = self::getMeetServer();
+        if ($meetServer == "https://custom/") {
+            $obj = AVideoPlugin::getDataObject("Meet");
+            $json = new stdClass();
+            $json->error = false;
+            $json->url = $obj->CUSTOM_JITSI_DOMAIN;
+            $json->isInstalled = true;
+            $json->msg = $obj->CUSTOM_JITSI_DOMAIN;
+            $json->host = "custom";
+            $json->jibrisInfo = new stdClass();
+            $json->jibrisInfo->jibris = array();
+            return $json;
+        }
         $name = "getMeetServerStatus{$global['webSiteRootURL']}{$secret}{$meetServer}";
         $json = new stdClass();
         $json->content = ObjectYPT::getCache($name, $cache);
@@ -157,6 +179,9 @@ Passcode: {password}
         $json = self::getMeetServerStatus();
         if (empty($json) || empty($json->host) || empty($json->isInstalled)) {
             return false;
+        }
+        if($json->host=='custom'){
+            return "custom";
         }
         $obj = AVideoPlugin::getDataObject("Meet");
         return "{$json->host}.{$obj->server->value}";
@@ -336,9 +361,11 @@ Passcode: {password}
     }
 
     static function getServer() {
-        $obj = AVideoPlugin::getDataObject("Meet");
+        $m = AVideoPlugin::loadPlugin("Meet");
+        $pObj = AVideoPlugin::getDataObject("Meet");
+        $obj = $m->getEmptyDataObject();
         $obj->server->type = object_to_array($obj->server->type);
-        return array("name" => $obj->server->type[$obj->server->value], "domain" => $obj->server->value);
+        return array("name" => $obj->server->type[$pObj->server->value], "domain" => $pObj->server->value);
     }
 
 }
