@@ -74,6 +74,7 @@ class MobileManager extends PluginAbstract {
         
         
         $obj->disableWhitelabel = false;
+        $obj->approvalMode = false;
         
         return $obj;
     }
