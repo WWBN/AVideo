@@ -20,6 +20,8 @@ parse_str($parts["query"], $_GET);
 _error_log("NGINX ON Publish parse_url: ".json_encode($parts));
 _error_log("NGINX ON Publish parse_str: ".json_encode($_GET));
 
+$_GET = object_to_array($_GET);
+
 if($_POST['name']=='live'){
     _error_log("NGINX ON Publish wrong name {$_POST['p']}");
     // fix name for streamlab
@@ -54,7 +56,7 @@ if (!empty($_GET['p'])) {
         $user = new User($obj->row['users_id']);
         if(!$user->thisUserCanStream()){
             _error_log("NGINX ON Publish User [{$obj->row['users_id']}] can not stream");
-        }else if (!empty ($_GET['p']) && $_GET['p'] === $user->getPassword()) {
+        }else if (!empty($_GET['p']) && $_GET['p'] === $user->getPassword()) {
             _error_log("NGINX ON Publish get LiveTransmitionHistory");
             $lth = new LiveTransmitionHistory();
             $lth->setTitle($obj->row['title']);
@@ -67,8 +69,10 @@ if (!empty($_GET['p'])) {
             _error_log("NGINX ON Publish saved LiveTransmitionHistory");
             $obj->error = false;
             
+        } else if(empty ($_GET['p'])) {
+            _error_log("NGINX ON Publish error, Password is empty");
         } else {
-            _error_log("NGINX ON Publish error, Password does not match");
+            _error_log("NGINX ON Publish error, Password does not match ({$_GET['p']})");
         }
     } else {
         _error_log("NGINX ON Publish error, Transmition name not found ({$_POST['name']}) ", AVideoLog::$SECURITY);
