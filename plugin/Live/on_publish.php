@@ -54,7 +54,7 @@ if (!empty($_GET['p'])) {
         $user = new User($obj->row['users_id']);
         if(!$user->thisUserCanStream()){
             _error_log("NGINX ON Publish User [{$obj->row['users_id']}] can not stream");
-        }else if ($_GET['p'] === $user->getPassword()) {
+        }else if (!empty ($_GET['p']) && $_GET['p'] === $user->getPassword()) {
             _error_log("NGINX ON Publish get LiveTransmitionHistory");
             $lth = new LiveTransmitionHistory();
             $lth->setTitle($obj->row['title']);
