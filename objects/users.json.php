@@ -11,7 +11,7 @@ header('Content-Type: application/json');
 if (empty($_POST['current'])) {
     $_POST['current'] = 1;
 }
-if (empty($_POST['rowCount'])) {
+if (empty($_REQUEST['rowCount'])) {
     $_REQUEST['rowCount'] = 10;
 }
 $users = User::getAllUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, array('name', 'email', 'user', 'channelName', 'about'), @$_GET['status']);
@@ -37,4 +37,4 @@ if (json_last_error()) {
     $json = json_encode($users);
 }
 
-echo '{  "current": ' . $_POST['current'] . ',"rowCount": ' . $_POST['rowCount'] . ', "total": ' . $total . ', "rows":' . $json . '}';
+echo '{  "current": ' . $_POST['current'] . ',"rowCount": ' . $_REQUEST['rowCount'] . ', "total": ' . $total . ', "rows":' . $json . '}';
