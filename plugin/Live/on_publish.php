@@ -72,7 +72,7 @@ if (!empty($_GET['p'])) {
         } else if(empty ($_GET['p'])) {
             _error_log("NGINX ON Publish error, Password is empty");
         } else {
-            _error_log("NGINX ON Publish error, Password does not match ({$_GET['p']})");
+            _error_log("NGINX ON Publish error, Password does not match ({$_GET['p']}) expect (".$user->getPassword().")");
         }
     } else {
         _error_log("NGINX ON Publish error, Transmition name not found ({$_POST['name']}) ", AVideoLog::$SECURITY);
