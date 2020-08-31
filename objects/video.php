@@ -2592,7 +2592,7 @@ if (!class_exists('Video')) {
                 $video = Video::getVideoFromFileNameLight(str_replace(array('_Low', '_SD', '_HD'), array('', '', ''), $filename));
                 $canUseCDN = canUseCDN($video['id']);
 
-                if (!empty($video['sites_id']) && (preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || $type == ".m3u8" || $type == ".pdf" || $type == ".zip") && filesize($source['path']) < 20) {
+                if (!empty($video['sites_id']) && (preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || $type == ".m3u8" || $type == ".pdf" || $type == ".zip") && @filesize($source['path']) < 20) {
                     $site = new Sites($video['sites_id']);
                     $siteURL = rtrim($site->getUrl(), '/') . '/';
                     $source['url'] = "{$siteURL}videos/{$filename}{$type}{$token}";
@@ -3182,9 +3182,11 @@ if (!class_exists('Video')) {
         }
 
         static function clearCache($videos_id) {
+            _error_log("Video:clearCache($videos_id)");
             $video = new Video("", "", $videos_id);
             $filename = $video->getFilename();
             if (empty($filename)) {
+                _error_log("Video:clearCache filename not found");
                 return false;
             }
             ObjectYPT::deleteCache($filename);
@@ -3196,8 +3198,8 @@ if (!class_exists('Video')) {
             Video::clearImageCache($filename, "pdf");
             Video::clearImageCache($filename, "audio");
             Video::deleteTagsAsync($videos_id);
-            AVideoPlugin::deleteVideoTags($videos_id);
             clearVideosURL($filename);
+            AVideoPlugin::deleteVideoTags($videos_id);
             return true;
         }
 
