@@ -1155,6 +1155,14 @@ class AVideoPlugin {
         return $array;
     }
     
+    public static function deleteVideoTags($videos_id){
+        if(empty($videos_id)){
+            return false;
+        }
+        $name = "getVideoTags{$videos_id}";
+        return ObjectYPT::deleteCache($name);
+    }
+    
     public static function getVideoWhereClause(){
         $plugins = Plugin::getAllEnabled();
         $r = "";

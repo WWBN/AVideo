@@ -3195,6 +3195,8 @@ if (!class_exists('Video')) {
             Video::clearImageCache($filename, "article");
             Video::clearImageCache($filename, "pdf");
             Video::clearImageCache($filename, "audio");
+            Video::deleteTagsAsync($videos_id);
+            AVideoPlugin::deleteVideoTags($videos_id);
             clearVideosURL($filename);
             return true;
         }
