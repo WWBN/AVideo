@@ -1132,7 +1132,7 @@ class AVideoPlugin {
         }
         $name = "getVideoTags{$videos_id}";
         $array = ObjectYPT::getCache($name, 0);
-        _error_log("getVideoTags $name ".(empty($array)?"new":"old"));
+        //_error_log("getVideoTags $name ".(empty($array)?"new":"old"));
         if(empty($array)){
             TimeLogStart("AVideoPlugin::getVideoTags($videos_id)");
             if(empty($_SESSION['getVideoTags'][$videos_id])){
