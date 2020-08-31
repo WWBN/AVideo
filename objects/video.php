@@ -2437,6 +2437,9 @@ if (!class_exists('Video')) {
         }
 
         function setTitle($title) {
+            if($title === "Video automatically booked" && !empty($this->title)){
+                return false;
+            }
             $this->title = strip_tags($title);
             if (strlen($this->title) > 190)
                 $this->title = substr($this->title, 0, 187) . '...';
