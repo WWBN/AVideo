@@ -342,7 +342,11 @@ class VAST {
     function __construct($id) {
         $this->id = $id;
         $row = AD_Server::getRandomVideo();
-        $this->campaing = $row['id'];
+        if(!empty($row)){
+            $this->campaing = $row['id'];
+        }else{
+            $this->campaing = false;
+        }
     }
 
 }
