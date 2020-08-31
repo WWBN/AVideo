@@ -395,7 +395,7 @@ class PlayList extends ObjectYPT {
         $res = sqlDAL::readSql($sql, "i", array($users_id));
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res) {
+        if ($res && !empty($data)) {
             $row = $data['id'];
         } else {
             $row = false;
