@@ -84,6 +84,7 @@ if ($meetDomain == 'custom') {
                             //DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
                             //DISABLE_VIDEO_BACKGROUND: true,
                             DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
+                            SHOW_WATERMARK_FOR_GUESTS: false,
                             disableAudioLevels: true,
                             requireDisplayName: true,
                             enableLayerSuspension: true,
