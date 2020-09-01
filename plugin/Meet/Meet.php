@@ -186,6 +186,17 @@ Passcode: {password}
         $obj = AVideoPlugin::getDataObject("Meet");
         return "{$json->host}.{$obj->server->value}";
     }
+    
+    static function isCustomJitsi() {
+        $json = self::getMeetServerStatus();
+        if (empty($json) || empty($json->host) || empty($json->isInstalled)) {
+            return true;
+        }
+        if($json->host=='custom'){
+            return true;
+        }
+        return false;
+    }
 
     static function validateRoomName($room) {
         return cleanURLName(ucwords($room));

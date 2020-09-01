@@ -114,12 +114,31 @@ CREATE TABLE IF NOT EXISTS `live_servers` (
   `useAadaptiveMode` TINYINT(1) NULL DEFAULT NULL,
   `protectLive` TINYINT(1) NULL DEFAULT NULL,
   `getRemoteFile` VARCHAR(255) NULL DEFAULT NULL,
+  `restreamerURL` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `live_serversindex2` (`status` ASC),
   INDEX `live_servers` (`url` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+CREATE TABLE IF NOT EXISTS `live_restreams` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `stream_url` VARCHAR(255) NOT NULL,
+  `stream_key` VARCHAR(255) NOT NULL,
+  `status` CHAR(1) NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `parameters` TEXT NULL,
+  `users_id` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_live_restreams_users_idx` (`users_id` ASC),
+  CONSTRAINT `fk_live_restreams_users`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

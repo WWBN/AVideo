@@ -6,6 +6,7 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.ph
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistory.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistoryLog.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_servers.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
 
 $getStatsObject = array();
 $_getStats = array();
@@ -39,7 +40,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "4.0";
+        return "5.1";
     }
 
     public function updateScript() {
@@ -69,6 +70,25 @@ class Live extends PluginAbstract {
                 sqlDal::writeSql(trim($value));
             }
         }
+        //update version 5.0
+        $sql = "SELECT 1 FROM live_restreams LIMIT 1";
+        $res = sqlDAL::readSql($sql);
+        $fetch = sqlDAL::fetchAssoc($res);
+        if (!$fetch) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV5.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        //update version 5.1
+        if (AVideoPlugin::compareVersion($this->getName(), "5.1") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV5.1.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
         return true;
     }
 
@@ -88,6 +108,8 @@ class Live extends PluginAbstract {
         $obj->server = "rtmp://{$server['host']}/live";
         $obj->playerServer = "{$scheme}://{$server['host']}:{$port}/live";
         $obj->stats = "{$scheme}://{$server['host']}:{$port}/stat";
+        $obj->restreamerURL = "{$global['webSiteRootURL']}plugin/Live/restreamer.json.php";
+        $obj->disableRestream = false;
         $obj->disableDVR = false;
         $obj->disableGifThumbs = false;
         $obj->useAadaptiveMode = false;
@@ -98,6 +120,7 @@ class Live extends PluginAbstract {
         $obj->doNotShowGoLiveButton = false;
         $obj->doNotProcessNotifications = false;
         $obj->useLiveServers = false;
+        $obj->disableMeetCamera = false;
         $obj->hls_path = "/HLS/live";
         $obj->requestStatsTimout = 4; // if the server does not respond we stop wait
         $obj->cacheStatsTimout = 15; // we will cache the result
@@ -127,6 +150,20 @@ class Live extends PluginAbstract {
             }
         }
         return $obj->server;
+    }
+
+    static function getRestreamer($live_servers_id = -1) {
+        $obj = AVideoPlugin::getObjectData("Live");
+        if (!empty($obj->useLiveServers)) {
+            if ($live_servers_id < 0) {
+                $live_servers_id = self::getCurrentLiveServersId();
+            }
+            $ls = new Live_servers($live_servers_id);
+            if (!empty($ls->getRestreamerURL())) {
+                return $ls->getRestreamerURL();
+            }
+        }
+        return $obj->restreamerURL;
     }
 
     static function getRTMPLink() {
@@ -653,6 +690,89 @@ class Live extends PluginAbstract {
     public function _getPosterThumbsImage($users_id, $live_servers_id) {
         $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}.jpg";
         return $file;
+    }
+
+    public static function on_publish($liveTransmitionHistory_id) {
+        $obj = AVideoPlugin::getDataObject("Live");
+        if (empty($obj->disableRestream)) {
+            self::restream($liveTransmitionHistory_id);
+        }
+    }
+
+    public static function getRestreamObject($liveTransmitionHistory_id) {
+
+        if (empty($liveTransmitionHistory_id)) {
+            return false;
+        }
+        $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
+        if (empty($lth->getKey())) {
+            return false;
+        }
+
+        $obj = new stdClass();
+        $obj->m3u8 = self::getM3U8File($lth->getKey());
+        $obj->restreamerURL = self::getRestreamer($lth->getLive_servers_id());
+        $obj->restreamsDestinations = array();
+        $obj->token = getToken(60);
+        $obj->users_id = $lth->getUsers_id();
+
+        $rows = Live_restreams::getAllFromUser($lth->getUsers_id());
+        foreach ($rows as $value) {
+            $value['stream_url'] = rtrim($value['stream_url'],"/").'/';
+            $obj->restreamsDestinations[] = "{$value['stream_url']}{$value['stream_key']}";
+        }
+        return $obj;
+    }
+
+    public static function restream($liveTransmitionHistory_id) {
+
+        $obj = self::getRestreamObject($liveTransmitionHistory_id);
+        if (empty($obj)) {
+            return false;
+        }
+        $data_string = json_encode($obj);
+        _error_log("Live:restream ({$obj->restreamerURL}) {$data_string}");
+        //open connection
+        $ch = curl_init();
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $obj->restreamerURL);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data_string))
+        );
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output);
+    }
+    
+    public static function canStreamWithMeet(){
+        if(!User::canStream()){
+            return false;
+        }
+        
+        if(!User::canCreateMeet()){
+            return false;
+        }
+        
+        $mobj = AVideoPlugin::getObjectDataIfEnabled("Meet");
+        
+        if(empty($mobj)){
+            return false;
+        }
+        
+        $obj = AVideoPlugin::getObjectDataIfEnabled("Live");
+        if(!empty($obj->disableMeetCamera)){
+            return false;
+        }
+        
+        return true;
+        
     }
 
 }

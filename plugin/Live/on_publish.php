@@ -5,6 +5,7 @@ require_once './Objects/LiveTransmition.php';
 require_once './Objects/LiveTransmitionHistory.php';
 $obj = new stdClass();
 $obj->error = true;
+$obj->liveTransmitionHistory_id = 0;
 
 _error_log("NGINX ON Publish POST: ".json_encode($_POST));
 _error_log("NGINX ON Publish GET: ".json_encode($_GET));
@@ -65,7 +66,7 @@ if (!empty($_GET['p'])) {
             $lth->setUsers_id($user->getBdId());
             $lth->setLive_servers_id(Live_servers::getServerIdFromRTMPHost($url));
             _error_log("NGINX ON Publish saving LiveTransmitionHistory");
-            $lth->save();
+            $obj->liveTransmitionHistory_id = $lth->save();
             _error_log("NGINX ON Publish saved LiveTransmitionHistory");
             $obj->error = false;
             
@@ -86,6 +87,7 @@ if (!empty($obj) && empty($obj->error)) {
     http_response_code(200);
     header("HTTP/1.1 200 OK");
     echo "success";
+    Live::on_publish($obj->liveTransmitionHistory_id);
     exit;
 } else {
     _error_log("NGINX ON Publish denied ", AVideoLog::$SECURITY);
