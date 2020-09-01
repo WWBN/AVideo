@@ -44,23 +44,22 @@ if ($meetDomain == 'custom') {
     <input type="hidden" value="" id="meetLink"/>
     <input type="hidden" value="" id="meetPassword"/>
     <?php
-    getButtontCopyToClipboard('meetLink','class="btn btn-default btn-sm btn-xs showOnMeet"', __("Copy Meet Link"));
-    getButtontCopyToClipboard('meetPassword','class="btn btn-default btn-sm btn-xs showOnMeet"', __("Copy Meet Password"));
-    if(Meet::isCustomJitsi() && User::isAdmin()){
+    getButtontCopyToClipboard('meetLink', 'class="btn btn-default btn-sm btn-xs showOnMeet meetLink"', __("Copy Meet Link"));
+    if (Meet::isCustomJitsi() && User::isAdmin()) {
         ?><i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("A custom Jitsi may not work"); ?>"></i><?php
     }
     ?>
 </span>
 <script>
+    var meetPassword;
+    var meetLink;
     function startMeetNow() {
         modal.showPleaseWait();
         showMeet();
-        $('.meetPassword').text('');
-        $('#meetPassword').val('');
         $('#meetLink').val('');
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php',
-            data: {RoomPasswordNew: Math.random().toString(36).substring(6), RoomTopic: $('#title').val(),public:2},
+            data: {RoomPasswordNew: Math.random().toString(36).substring(6), RoomTopic: $('#title').val(), public: 2},
             type: 'post',
             success: function (response) {
                 if (response.error) {
@@ -100,11 +99,9 @@ if ($meetDomain == 'custom') {
                     api.addEventListeners({
                         readyToClose: readyToClose,
                     });
-
-                    api.executeCommand('password', response.password);
-                    
-                    $('#meetPassword').val(response.password);
-                    $('#meetLink').val(response.link);
+                    meetPassword = response.password;
+                    meetLink = response.link;
+                    $('#meetLink').val(meetLink);
                 }
                 modal.hidePleaseWait();
             }
@@ -144,11 +141,11 @@ if ($meetDomain == 'custom') {
     function stopRecording() {
         api.executeCommand('stopRecording', 'stream');
     }
-$(document).ready(function () {
-    hideMeet();
-    setTimeout(function (){
-        $('#meetButtons').fadeIn();
-    },500);
-    
-});
+    $(document).ready(function () {
+        hideMeet();
+        setTimeout(function () {
+            $('#meetButtons').fadeIn();
+        }, 500);
+
+    });
 </script>
