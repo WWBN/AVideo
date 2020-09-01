@@ -198,7 +198,7 @@ $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
 $object->redirectUri = @$_POST['redirectUri'];
-_error_log("login.json.php setup object done");
+//_error_log("login.json.php setup object done");
 
 if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRootURL'])) {
     if (!empty($advancedCustomUser->afterLoginGoToMyChannel)) {
@@ -266,6 +266,6 @@ if ($object->isLogged) {
 TimeLogEnd($timeLog, __LINE__);
 //_error_log("login.json.php almost complete");
 $json = _json_encode($object);
-_error_log("login.json.php complete");
+//_error_log("login.json.php complete");
 //header("Content-length: " . strlen($json));
 echo $json;

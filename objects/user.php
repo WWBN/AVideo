@@ -815,7 +815,7 @@ if (typeof gtag !== \"function\") {
             }
             //_error_log("user::login: onUserSignIn {$_SESSION['user']['id']}");
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
-            _error_log("user::login: onUserSignIn Done");
+            //_error_log("user::login: onUserSignIn Done");
             $_SESSION['loginAttempts'] = 0;
             session_write_close();
             return self::USER_LOGGED;

@@ -69,7 +69,8 @@ if ($option == 1 || $option == 3) {
         array('eb6e2808-d876-4488-94cb-2448a6b14e0b','SendRecordedToEncoder','SendRecordedToEncoder'),
         array('f2hls8c6-9359-4cc1-809f-fac32c8a4333','VideoHLS','VideoHLS'),
         array('4b9142c0-f0c3-42be-8fe5-a4775111239c','VideoResolutionSwitcher','VideoResolutionSwitcher'),
-        array('28e74f9a-a2ef-4644-86f0-40234ae7c1b5','VideoThumbnails','VideoThumbnails')
+        array('28e74f9a-a2ef-4644-86f0-40234ae7c1b5','VideoThumbnails','VideoThumbnails'),
+        array('meet225-3807-4167-ba81-0509dd280e06','Meet','Meet')
     );
     foreach ($EnablePlugins as $value) {
         if ($plugin = Plugin::getOrCreatePluginByName($value[2], 'active')) {

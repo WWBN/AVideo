@@ -265,11 +265,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function setCache($name, $value) {
-        $tmpDir = self::getCacheDir();
-        $uniqueHash = md5(__FILE__);
-        $name = self::cleanCacheName($name);
-
-        $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
+        $cachefile = self::getCacheFileName($name);
         make_path($cachefile);
         $bytes = file_put_contents($cachefile, json_encode($value));
         self::setSessionCache($name, $value);
@@ -290,18 +286,15 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     static function getCache($name, $lifetime = 60) {
-        $name = self::cleanCacheName($name);
-        $tmpDir = self::getCacheDir();
-        $uniqueHash = md5(__FILE__);
-
-        $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
+        $cachefile = self::getCacheFileName($name);
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
-
-        $session = self::getSessionCache($name, $lifetime);
-        if (!empty($session)) {
-            return $session;
+        if(!empty($lifetime)){// do not session cache if there is not timeout limit
+            $session = self::getSessionCache($name, $lifetime);
+            if (!empty($session)) {
+                return $session;
+            }
         }
 
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
@@ -313,11 +306,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function deleteCache($name) {
-        $name = self::cleanCacheName($name);
-        $tmpDir = self::getCacheDir();
-        $uniqueHash = md5(__FILE__);
-
-        $cachefile = $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash; // e.g. cache/index.php.
+        $cachefile = self::getCacheFileName($name);
         @unlink($cachefile);
 
         self::deleteSessionCache($name);
@@ -340,12 +329,20 @@ abstract class ObjectYPT implements ObjectInterface {
         return $tmpDir;
     }
 
+    static function getCacheFileName($name) {
+        $name = self::cleanCacheName($name);
+        $tmpDir = self::getCacheDir();
+        $uniqueHash = md5(__FILE__);
+        return $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash;
+    }
+
     /**
      * Make sure you start the session before any output
      * @param type $name
      * @param type $value
      */
     static function setSessionCache($name, $value) {
+        $name = self::cleanCacheName($name);
         _session_start();
         $_SESSION['sessionCache'][$name]['value'] = json_encode($value);
         $_SESSION['sessionCache'][$name]['time'] = time();
@@ -358,6 +355,7 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     static function getSessionCache($name, $lifetime = 60) {
+        $name = self::cleanCacheName($name);
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
@@ -373,7 +371,9 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function deleteSessionCache($name) {
+        $name = self::cleanCacheName($name);
         _session_start();
+        $_SESSION['sessionCache'][$name] = null;
         unset($_SESSION['sessionCache'][$name]);
     }
 

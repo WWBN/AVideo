@@ -44,7 +44,7 @@ foreach ($filterURL as $key => $value) {
 
 if (!empty($_FILES)) {
     foreach ($_FILES as $key=>$value) {
-        $_FILES[$key]['name'] = preg_replace('/[^a-z0-9.]/i', '', $_FILES[$key]['name']);
+        $_FILES[$key]['name'] = preg_replace('/[^a-z0-9.,()+& #-]/i', '', cleanString($_FILES[$key]['name']));
     }
 }
 

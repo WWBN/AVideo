@@ -94,6 +94,7 @@ class Live extends PluginAbstract {
         $obj->protectLive = false;
         $obj->experimentalWebcam = false;
         $obj->doNotShowLiveOnVideosList = false;
+        $obj->limitLiveOnVideosList = 12;
         $obj->doNotShowGoLiveButton = false;
         $obj->doNotProcessNotifications = false;
         $obj->useLiveServers = false;

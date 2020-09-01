@@ -39,15 +39,17 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }else if(!empty($_POST['videos_id'])){
         $videos_id = $_POST['videos_id'];
     }
+    $title = preg_replace("/_+/", " ", str_ireplace(".{$extension}", "", $_FILES['upl']['name']));
     if(empty($videos_id)){
-        $video = new Video(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']), 0, -4), $filename, 0);
+        $video = new Video($title, $filename, 0);
     }else{
         $video = new Video("", $filename, $videos_id);
         if($video->getTitle() === "Video automatically booked"){
-            $video->setTitle(substr(preg_replace("/_+/", " ", $_FILES['upl']['name']), 0, -4));
+            $video->setTitle($title);
             $video->setStatus('i');
         }
     }
+    //var_dump($videos_id, $_FILES['upl']['name'], $title, $video->getTitle());exit;
     $video->setDuration($duration);
 
     if (!empty($_POST['title'])) {
@@ -135,7 +137,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
         //    } else if(($extension=="mp3")||($extension=="ogg")){
         //  }
-
+        $obj->title = $video->getTitle();
         $obj->error = false;
         $obj->filename = $filename;
         $obj->duration = $duration;

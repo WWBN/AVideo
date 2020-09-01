@@ -24,7 +24,6 @@ if (empty($meetDomain)) {
     exit;
 }
 
-
 $meet_schedule_id = intval($_GET['meet_schedule_id']);
 
 if (empty($meet_schedule_id)) {
@@ -33,17 +32,18 @@ if (empty($meet_schedule_id)) {
 
 $canJoin = Meet::canJoinMeetWithReason($meet_schedule_id);
 if (!$canJoin->canJoin) {
-    header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=". urlencode($canJoin->reason));
+    header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=" . urlencode($canJoin->reason));
     exit;
 }
 
 $meet = new Meet_schedule($meet_schedule_id);
 
-if(empty($meet->getPublic()) && !User::isLogged()){
-    header("Location: {$global['webSiteRootURL']}user?redirectUri=". urlencode($meet->getMeetLink())."&msg=". urlencode(__("Please, login before join a meeting")));
+if (empty($meet->getPublic()) && !User::isLogged()) {
+    header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($meet->getMeetLink()) . "&msg=" . urlencode(__("Please, login before join a meeting")));
     exit;
 }
 
+$objLive = AVideoPlugin::getObjectData("Live");
 Meet_join_log::log($meet_schedule_id);
 
 $apiExecute = array();
@@ -59,6 +59,12 @@ if (Meet::isModerator($meet_schedule_id)) {
         youtubeStreamKey: '" . Live::getRTMPLink() . "',
     });";
     }
+}
+
+if($meetDomain=='custom'){
+    $domain = $objM->CUSTOM_JITSI_DOMAIN;
+}else{
+    $domain = "{$meetDomain}?getRTMPLink=".urlencode(Live::getRTMPLink());
 }
 /*
   $obj->link = Meet::getMeetRoomLink($_GET['roomName']);
@@ -78,10 +84,43 @@ if (Meet::isModerator($meet_schedule_id)) {
         <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
         <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
         <script>
             var getRTMPLink = '<?php echo Live::getRTMPLink(); ?>';
         </script>
+        <?php
+        if (!$config->getDisable_analytics()) {
+            ?>
+            <script>
+                // AVideo Analytics
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o),
+                            m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+                ga('create', 'UA-96597943-1', 'auto', 'aVideo');
+                ga('aVideo.send', 'pageview');
+            </script>
+            <?php
+        }
+        echo $config->getHead();
+        if (!empty($video)) {
+            if (!empty($video['users_id'])) {
+                $userAnalytics = new User($video['users_id']);
+                echo $userAnalytics->getAnalytics();
+                unset($userAnalytics);
+            }
+        }
+        ogSite();
+        ?>
         <style>
             html, body {
                 height: 100%;
@@ -97,7 +136,7 @@ if (Meet::isModerator($meet_schedule_id)) {
     <body>
         <div id="meet"></div> 
         <script>
-            const domain = '<?php echo $meetDomain; ?>?getRTMPLink=<?php echo urlencode(Live::getRTMPLink()); ?>';
+            const domain = '<?php echo $domain; ?>';
                 const options = {
                     roomName: '<?php echo $meet->getName(); ?>',
                     jwt: '<?php echo Meet::getToken($meet_schedule_id); ?>',

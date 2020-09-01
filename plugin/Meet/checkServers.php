@@ -21,6 +21,8 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("Meet");
 if (empty($obj)) {
     die("Plugin disabled");
 }
+$m = AVideoPlugin::loadPlugin("Meet");
+$emptyObject = $m->getEmptyDataObject();
 
 $timeouts = 2000;
 ?>
@@ -47,75 +49,105 @@ $timeouts = 2000;
                 <div class="panel-body tabbable-line">
                     <div class="row"> 
                         <?php
-                        foreach ($obj->server->type as $key => $value) {
-                            $newKey = str_replace(".", "_", $key);
-                            ?>
-                            <div class="col-xs-6">
-                                <div class="panel panel-default" id="panel<?php echo $newKey; ?>">
-                                    <div class="panel-heading ">
-                                        <?php
-                                        echo "<b>{$value}</b> ";
-                                        if ($obj->server->value !== $key) {
-                                            ?>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/?newServer=<?php echo $key; ?>" data-toggle="tooltip" data-placement="bottom" title="Change to (<?php echo $value; ?>) server" >
-                                                <i class="fas fa-random" ></i>
-                                            </a>
+                        foreach ($emptyObject->server->type as $key => $value) {
+                            if ($key == "custom") {
+                                ?>
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default" id="panel<?php echo $newKey; ?>">
+                                        <div class="panel-heading ">
                                             <?php
-                                        } else {
+                                            echo "<b>{$value} ({$obj->CUSTOM_JITSI_DOMAIN})</b> ";
+                                            if ($obj->server->value !== $key) {
+                                                ?>
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/?newServer=<?php echo $key; ?>" data-toggle="tooltip" data-placement="bottom" title="Change to (<?php echo $value; ?>) server" >
+                                                    <i class="fas fa-random" ></i>
+                                                </a>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/" data-toggle="tooltip" data-placement="bottom" title="Stay on (<?php echo $value; ?>)" >
+                                                    <i class="fas fa-check" ></i>
+                                                </a>
+                                                <?php
+                                            }
                                             ?>
-                                            <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/" data-toggle="tooltip" data-placement="bottom" title="Stay on (<?php echo $value; ?>)" >
-                                                <i class="fas fa-check" ></i>
-                                            </a>
-                                            <?php
-                                        }
-                                        ?>
-                                        <span class="label label-primary grade pull-right" id="grade<?php echo $newKey; ?>">
-                                            <i class="fas fa-cog"></i>
-                                        </span>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <?php
+                            } else {
 
+
+
+                                $newKey = str_replace(".", "_", $key);
+                                ?>
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default" id="panel<?php echo $newKey; ?>">
+                                        <div class="panel-heading ">
+                                            <?php
+                                            echo "<b>{$value}</b> ";
+                                            if ($obj->server->value !== $key) {
+                                                ?>
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/?newServer=<?php echo $key; ?>" data-toggle="tooltip" data-placement="bottom" title="Change to (<?php echo $value; ?>) server" >
+                                                    <i class="fas fa-random" ></i>
+                                                </a>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/" data-toggle="tooltip" data-placement="bottom" title="Stay on (<?php echo $value; ?>)" >
+                                                    <i class="fas fa-check" ></i>
+                                                </a>
+                                                <?php
+                                            }
+                                            ?>
+                                            <span class="label label-primary grade pull-right" id="grade<?php echo $newKey; ?>">
+                                                <i class="fas fa-cog"></i>
+                                            </span>
+
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-download"></i> Download Speed
+                                                    <small class="text-muted" id='gradespeed<?php echo $newKey; ?>'></small>
+                                                    <span class="badge" id='speed<?php echo $newKey; ?>'>
+                                                        <i class="fas fa-cog"></i>
+                                                    </span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-upload"></i> Upload Speed
+                                                    <small class="text-muted" id='gradeUspeed<?php echo $newKey; ?>'></small>
+                                                    <span class="badge" id='Uspeed<?php echo $newKey; ?>'>
+                                                        <i class="fas fa-cog"></i>
+                                                    </span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-stopwatch"></i> Response Time
+                                                    <small class="text-muted" id='graderesponse<?php echo $newKey; ?>'></small>
+                                                    <span class="badge" id='response<?php echo $newKey; ?>'>
+                                                        <i class="fas fa-cog"></i>
+                                                    </span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-network-wired"></i> Sites Active
+                                                    <small class="text-muted" id='gradetotalSitesActive<?php echo $newKey; ?>'></small>
+                                                    <span class="badge" id='totalSitesActive<?php echo $newKey; ?>'>
+                                                        <i class="fas fa-cog"></i>
+                                                    </span>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <i class="fas fa-video"></i> Streamers Services
+                                                    <small class="text-muted" id='gradeStreamersServices<?php echo $newKey; ?>'></small>
+                                                    <span class="badge" id='StreamersServices<?php echo $newKey; ?>'>
+                                                        <i class="fas fa-cog"></i>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="panel-body">
-                                        <ul class="list-group">
-                                            <li class="list-group-item">
-                                                <i class="fas fa-download"></i> Download Speed
-                                                <small class="text-muted" id='gradespeed<?php echo $newKey; ?>'></small>
-                                                <span class="badge" id='speed<?php echo $newKey; ?>'>
-                                                    <i class="fas fa-cog"></i>
-                                                </span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <i class="fas fa-upload"></i> Upload Speed
-                                                <small class="text-muted" id='gradeUspeed<?php echo $newKey; ?>'></small>
-                                                <span class="badge" id='Uspeed<?php echo $newKey; ?>'>
-                                                    <i class="fas fa-cog"></i>
-                                                </span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <i class="fas fa-stopwatch"></i> Response Time
-                                                <small class="text-muted" id='graderesponse<?php echo $newKey; ?>'></small>
-                                                <span class="badge" id='response<?php echo $newKey; ?>'>
-                                                    <i class="fas fa-cog"></i>
-                                                </span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <i class="fas fa-network-wired"></i> Sites Active
-                                                <small class="text-muted" id='gradetotalSitesActive<?php echo $newKey; ?>'></small>
-                                                <span class="badge" id='totalSitesActive<?php echo $newKey; ?>'>
-                                                    <i class="fas fa-cog"></i>
-                                                </span>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <i class="fas fa-video"></i> Streamers Services
-                                                <small class="text-muted" id='gradeStreamersServices<?php echo $newKey; ?>'></small>
-                                                <span class="badge" id='StreamersServices<?php echo $newKey; ?>'>
-                                                    <i class="fas fa-cog"></i>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>  
-                            <?php
+                                </div>  
+                                <?php
+                            }
                         }
                         ?>
                     </div>
@@ -344,7 +376,10 @@ $timeouts = 2000;
 
 <?php
 $count = 0;
-foreach ($obj->server->type as $key => $value) {
+foreach ($emptyObject->server->type as $key => $value) {
+    if ($key == 'custom') {
+        continue;
+    }
     $count++;
     echo "setTimeout(function(){runAll('{$key}')}," . ($count * $timeouts) . ");";
 }

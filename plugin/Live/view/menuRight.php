@@ -112,8 +112,14 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         $('.liveUsersOnline_' + key).text(online);
         $('.liveUsersViews_' + key).text(views);
     }
-
+    var limitLiveOnVideosListCount = 0;
     function createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id) {
+        limitLiveOnVideosListCount++;
+        if(limitLiveOnVideosListCount><?php echo intval($obj->limitLiveOnVideosList); ?>){
+            console.log("Max live videos on first page reached");
+            return false;
+        }
+        
         var id = 'extraVideo' + user + "_" + live_servers_id;
         id = id.replace(/\W/g, '');
         if ($(".extraVideos").length && $("#" + id).length == 0) {
@@ -146,6 +152,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         $.ajax({
             url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu<?php echo (!empty($_GET['videoName']) ? "&requestComesFromVideoPage=1" : "") ?>',
             success: function (response) {
+                limitLiveOnVideosListCount = 0;
                 if (typeof response !== 'undefined') {
                     $('#availableLiveStream').empty();
                     if (isArray(response)) {

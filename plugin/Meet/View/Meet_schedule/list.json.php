@@ -3,7 +3,7 @@ require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule.php';
 header('Content-Type: application/json');
 if(!User::isAdmin()){
-    $total = Meet_schedule::getAllFromUsersId(User::getId(), @$_REQUEST['meet_scheduled'], empty($_GET['manageMeetings']));
+    $total = Meet_schedule::getTotalFromUsersId(User::getId(), @$_REQUEST['meet_scheduled'], empty($_GET['manageMeetings']));
     $rows = Meet_schedule::getAllFromUsersId(User::getId(), @$_REQUEST['meet_scheduled'], empty($_GET['manageMeetings']));
 }else{
     $total = Meet_schedule::getTotal(@$_REQUEST['meet_scheduled']);

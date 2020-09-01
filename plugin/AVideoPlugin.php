@@ -1132,6 +1132,7 @@ class AVideoPlugin {
         }
         $name = "getVideoTags{$videos_id}";
         $array = ObjectYPT::getCache($name, 0);
+        //_error_log("getVideoTags $name ".(empty($array)?"new":"old"));
         if(empty($array)){
             TimeLogStart("AVideoPlugin::getVideoTags($videos_id)");
             if(empty($_SESSION['getVideoTags'][$videos_id])){
@@ -1153,6 +1154,16 @@ class AVideoPlugin {
             //$array = object_to_array($array);
         }
         return $array;
+    }
+    
+    public static function deleteVideoTags($videos_id){
+        if(empty($videos_id)){
+            return false;
+        }
+        $name = "getVideoTags{$videos_id}";
+        _error_log("deleteVideoTags {$name}");
+        ObjectYPT::deleteSessionCache($name);
+        return ObjectYPT::deleteCache($name);
     }
     
     public static function getVideoWhereClause(){
