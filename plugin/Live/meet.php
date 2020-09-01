@@ -60,7 +60,7 @@ if ($meetDomain == 'custom') {
         $('#meetLink').val('');
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php',
-            data: {RoomPasswordNew: Math.random().toString(36).substring(6), RoomTopic: $('#title').val()},
+            data: {RoomPasswordNew: Math.random().toString(36).substring(6), RoomTopic: $('#title').val(),public:2},
             type: 'post',
             success: function (response) {
                 if (response.error) {
