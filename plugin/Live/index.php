@@ -69,8 +69,8 @@ $col2Class = "hidden";
 $col3Class = "col-md-6 col-lg-6";
 $chat2 = AVideoPlugin::getObjectDataIfEnabled("Chat2");
 if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
-    $col1Class = "col-md-6 col-lg-4";
-    $col2Class = "col-md-6 col-lg-4";
+    $col1Class = "col-md-6 col-lg-5";
+    $col2Class = "col-md-6 col-lg-3";
     $col3Class = "col-md-6 col-lg-4";
 }
 ?>

@@ -38,6 +38,9 @@
                         </div>
                     </div>  
                 </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStream"><?php echo __("Save Stream"); ?></button>
+                </div>
             </div>
         </div>
         <div id="tabPosterImage" class="tab-pane fade"> 
@@ -75,7 +78,9 @@
                         <?php
                     }
                     ?>
-                    <button type="button" class="btn btn-success" id="btnSaveStream"><?php echo __("Save Stream"); ?></button>
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStream"><?php echo __("Save Stream"); ?></button>
                     <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-primary"><span class="fa fa-users"></span> <?php echo __("Add more user Groups"); ?></a>
                 </div>
             </div>

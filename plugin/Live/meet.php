@@ -140,7 +140,7 @@ if ($meetDomain == 'custom') {
         });
     }
     function stopRecording() {
-        api.executeCommand('stopRecording', {mode: 'stream'});
+        api.executeCommand('stopRecording', 'stream');
     }
 $(document).ready(function () {
     hideMeet();
