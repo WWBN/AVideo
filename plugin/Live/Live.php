@@ -708,7 +708,7 @@ class Live extends PluginAbstract {
         if (empty($lth->getKey())) {
             return false;
         }
-
+        $_REQUEST['live_servers_id'] = $lth->getLive_servers_id();
         $obj = new stdClass();
         $obj->m3u8 = self::getM3U8File($lth->getKey(), true);
         $obj->restreamerURL = self::getRestreamer($lth->getLive_servers_id());
