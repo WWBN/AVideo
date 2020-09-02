@@ -137,13 +137,13 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries=1) {
      * 
      */
     if(count($restreamsDestinations)>1){
-        $command = "ffmpeg -i {$m3u8} ";
+        $command = "ffmpeg -i \"{$m3u8}\" ";
         foreach ($restreamsDestinations as $value) {
             $value = clearCommandURL($value);
             $command .= ' -max_muxing_queue_size 1024 -acodec copy -vcodec copy -f flv "' . $value . '" ';
         }
     }else{
-        $command = "ffmpeg -i {$m3u8} -max_muxing_queue_size 1024 -acodec copy -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
+        $command = "ffmpeg -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
     }
     error_log("Restreamer.json.php startRestream {$command}, check the file ($logFile) for the log");
     exec('echo \'' . $command . PHP_EOL . '\'  > ' . $logFile);
