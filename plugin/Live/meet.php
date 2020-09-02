@@ -145,6 +145,10 @@ if ($meetDomain == 'custom') {
     }
     function stopRecording() {
         api.executeCommand('stopRecording', 'stream');
+        $.ajax({
+            url: '<?php echo Live::getDropURL($trasnmition['key']); ?>',
+            success: function (response) {}
+        });
     }
     $(document).ready(function () {
         hideMeet();

@@ -151,6 +151,15 @@ class Live extends PluginAbstract {
         }
         return $obj->server;
     }
+    
+    static function getDropURL($key, $live_servers_id = -1){
+        $server = self::getServer($live_servers_id = -1);
+        $server = rtrim($server,"/");
+        $parts = explode("/", $server);
+        $app = array_pop($parts);
+        $domain = implode("/", $parts);
+        return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
+    }
 
     static function getRestreamer($live_servers_id = -1) {
         $obj = AVideoPlugin::getObjectData("Live");

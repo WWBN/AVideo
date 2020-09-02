@@ -22,8 +22,9 @@ $logFileLocation = '/var/www/tmp/';
  */
 $separateRestreams = false;
 
-// optional you can change the log file location here
-$ffmpegBinary = '/usr/bin/ffmpeg';
+// optional you can change the default FFMPEG
+//$ffmpegBinary = '/usr/bin/ffmpeg';
+$ffmpegBinary = '/usr/local/bin/ffmpeg';
 
 /*
  * DO NOT EDIT AFTER THIS LINE
@@ -44,6 +45,11 @@ if (file_exists($configFile)) {
 }
 
 error_log("Restreamer.json.php start");
+$whichffmpeg = whichffmpeg();
+if($whichffmpeg!==$ffmpegBinary){
+    error_log("Restreamer.json.php WARNING you are using a different FFMPEG $whichffmpeg!==$ffmpegBinary");
+}
+
 $request = file_get_contents("php://input");
 error_log("Restreamer.json.php php://input {$request}");
 $robj = json_decode($request);
@@ -141,6 +147,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     }
     $m3u8 = clearCommandURL($m3u8);
 
+    killIfIsFunning($m3u8);
+    
     if (!isURL200($m3u8)) {
         if ($tries > 10) {
             error_log("Restreamer.json.php tried too many times, we could not find your stream URL");
@@ -201,4 +209,46 @@ function isOpenSSLEnabled() {
     }
     $isOpenSSLEnabled = false;
     return $isOpenSSLEnabled;
+}
+
+function whichffmpeg() {
+    exec("which ffmpeg 2>&1", $output, $return_var);
+    return @$output[0];
+}
+
+function getProcess($m3u8){
+    $m3u8 = clearCommandURL($m3u8);
+    global $ffmpegBinary;
+    exec("ps -ax 2>&1", $output, $return_var);
+    //error_log("Restreamer.json.php:getProcess ". json_encode($output));
+    foreach ($output as $value) {
+        $pattern = "/^([0-9]+).*".replaceSlashesForPregMatch($ffmpegBinary).".*".replaceSlashesForPregMatch($m3u8)."/i";
+        //error_log("Restreamer.json.php:getProcess {$pattern}");
+        if (preg_match($pattern, trim($value), $matches)) {
+            return $matches;
+        }
+    }
+    return false;
+}
+
+function killIfIsFunning($m3u8){
+    $process = getProcess($m3u8);
+    error_log("Restreamer.json.php killIfIsFunning checking if there is a process running for {$m3u8} ");
+    if(!empty($process)){
+        error_log("Restreamer.json.php killIfIsFunning there is a process running for {$m3u8} ". json_encode($process));
+        $pid = intval($process[1]);
+        if(!empty($pid)){
+            error_log("Restreamer.json.php killIfIsFunning killing {$pid} ");
+            exec("kill -9 {$pid} 2>&1", $output, $return_var);
+            sleep(1);
+        }
+        return true;
+    }else{
+        error_log("Restreamer.json.php killIfIsFunning there is not a process running for {$m3u8} ");
+    }
+    return false;
+}
+
+function replaceSlashesForPregMatch($str){
+    return str_replace('/', '.', $str);
 }
