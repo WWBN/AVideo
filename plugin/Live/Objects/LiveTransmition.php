@@ -166,7 +166,7 @@ class LiveTransmition extends ObjectYPT {
         }
         $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
         $name = "LivetransmitionkeyExists($key)";
-        $row = ObjectYPT::getCache($name, 3600);
+        $row = ObjectYPT::getCache($name, 60);
         $row = object_to_array($row);
         if(empty($row)){
             $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
