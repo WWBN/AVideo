@@ -147,7 +147,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     }
     $m3u8 = clearCommandURL($m3u8);
 
-    killIfIsFunning($m3u8);
+    killIfIsRunning($m3u8);
     
     if (!isURL200($m3u8)) {
         if ($tries > 10) {
@@ -231,20 +231,20 @@ function getProcess($m3u8){
     return false;
 }
 
-function killIfIsFunning($m3u8){
+function killIfIsRunning($m3u8){
     $process = getProcess($m3u8);
-    error_log("Restreamer.json.php killIfIsFunning checking if there is a process running for {$m3u8} ");
+    error_log("Restreamer.json.php killIfIsRunning checking if there is a process running for {$m3u8} ");
     if(!empty($process)){
-        error_log("Restreamer.json.php killIfIsFunning there is a process running for {$m3u8} ". json_encode($process));
+        error_log("Restreamer.json.php killIfIsRunning there is a process running for {$m3u8} ". json_encode($process));
         $pid = intval($process[1]);
         if(!empty($pid)){
-            error_log("Restreamer.json.php killIfIsFunning killing {$pid} ");
+            error_log("Restreamer.json.php killIfIsRunning killing {$pid} ");
             exec("kill -9 {$pid} 2>&1", $output, $return_var);
             sleep(1);
         }
         return true;
     }else{
-        error_log("Restreamer.json.php killIfIsFunning there is not a process running for {$m3u8} ");
+        error_log("Restreamer.json.php killIfIsRunning there is not a process running for {$m3u8} ");
     }
     return false;
 }
