@@ -136,6 +136,7 @@ if ($meetDomain == 'custom') {
         $('#mainVideo').slideDown();
         $('#mainVideo source').attr('src','<?php echo Live::getM3U8File($trasnmition['key']); ?>');
         $('#divMeetToIFrame').slideUp();
+        stopRecording();
     }
     function startRecording() {
         api.executeCommand('startRecording', {
@@ -144,11 +145,11 @@ if ($meetDomain == 'custom') {
         });
     }
     function stopRecording() {
-        api.executeCommand('stopRecording', 'stream');
         $.ajax({
             url: '<?php echo Live::getDropURL($trasnmition['key']); ?>',
             success: function (response) {}
         });
+        api.executeCommand('stopRecording', 'stream');
     }
     $(document).ready(function () {
         hideMeet();
