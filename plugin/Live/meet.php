@@ -54,6 +54,8 @@ if ($meetDomain == 'custom') {
 <script>
     var meetPassword;
     var meetLink;
+    
+    var mainVideoElement;
     function startMeetNow() {
         modal.showPleaseWait();
         showMeet();
@@ -113,14 +115,15 @@ if ($meetDomain == 'custom') {
         api.dispose();
         hideMeet();
     }
-
     function showMeet() {
+        
         $('.meetPassword').fadeIn();
         $('#meetLink').fadeIn();
         $('#meetPassword').fadeIn();
         $('.showOnMeet').fadeIn();
         $('.hideOnMeet').fadeOut();
         $('#mainVideo').slideUp();
+        $('#mainVideo source').attr('src','');
         $('#divMeetToIFrame').slideDown();
     }
 
@@ -131,6 +134,7 @@ if ($meetDomain == 'custom') {
         $('.showOnMeet').fadeOut();
         $('.hideOnMeet').fadeIn();
         $('#mainVideo').slideDown();
+        $('#mainVideo source').attr('src','<?php echo Live::getM3U8File($trasnmition['key']); ?>');
         $('#divMeetToIFrame').slideUp();
     }
     function startRecording() {
