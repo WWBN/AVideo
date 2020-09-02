@@ -75,8 +75,10 @@ if ($meet_schedule_id) {
     Meet_schedule_has_users_groups::saveUsergroupsToMeet($meet_schedule_id, $_POST['userGroups']);
 }
 
+$obj->password = @$_POST['RoomPasswordNew'];
 $obj->error = empty($meet_schedule_id);
 $obj->link = Meet::getMeetLink($meet_schedule_id);
+$obj->jwt = Meet::getToken($meet_schedule_id);;
         
         
 die(json_encode($obj));

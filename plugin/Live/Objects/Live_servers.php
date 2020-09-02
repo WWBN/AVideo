@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
 class Live_servers extends ObjectYPT {
 
-    protected $id, $name, $url, $status, $rtmp_server, $playerServer, $stats_url, $disableDVR, $disableGifThumbs, $useAadaptiveMode, $protectLive, $getRemoteFile;
+    protected $id, $name, $url, $status, $rtmp_server, $playerServer, $stats_url, $disableDVR, $disableGifThumbs, $useAadaptiveMode, $protectLive, $getRemoteFile, $restreamerURL;
 
     static function getSearchFieldsNames() {
         return array('name', 'url', 'rtmp_server', 'playerServer', 'stats_url', 'getRemoteFile');
@@ -109,7 +109,15 @@ class Live_servers extends ObjectYPT {
     function getGetRemoteFile() {
         return $this->getRemoteFile;
     }
+    
+    function getRestreamerURL() {
+        return $this->restreamerURL;
+    }
 
+    function setRestreamerURL($restreamerURL) {
+        $this->restreamerURL = $restreamerURL;
+    }
+    
     static function getStatsFromId($live_servers_id) {
         $ls = new Live_servers($live_servers_id);
         if (empty($ls->getStatus()) || $ls->getStatus()=='i') {
