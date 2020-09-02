@@ -19,6 +19,9 @@ $separateRestreams = false;
  * DO NOT EDIT AFTER THIS LINE
  */
 
+set_time_limit(300);
+ini_set('max_execution_time', 300);
+
 $logFileLocation = rtrim($logFileLocation,"/").'/';
 $logFile = $logFileLocation."ffmpeg_{users_id}_".date("Y-m-d-h-i-s").".log";
 
@@ -49,6 +52,7 @@ if (empty($robj->restreamsDestinations) || !is_array($robj->restreamsDestination
     error_log("Restreamer.json.php ERROR {$obj->msg}");
     die(json_encode($obj));
 }
+error_log("Restreamer.json.php Found ".count($robj->restreamsDestinations)." destinations: ". json_encode($robj->restreamsDestinations));
 
 // check the token
 if (empty($obj->token)) {
@@ -58,7 +62,11 @@ if (empty($obj->token)) {
 }
 
 $verifyTokenURL = "{$obj->streamerURL}plugin/Live/verifyToken.json.php?token={$obj->token}";
-$json = json_decode(file_get_contents($verifyTokenURL));
+
+error_log("Restreamer.json.php verifying token {$verifyTokenURL}");
+$content = file_get_contents($verifyTokenURL);
+error_log("Restreamer.json.php verification respond content {$content}");
+$json = json_decode($content);
 
 if (empty($json)) {
     $obj->msg = "Could not verify token";
@@ -69,6 +77,7 @@ if (empty($json)) {
     error_log("Restreamer.json.php ERROR {$obj->msg} ({$verifyTokenURL}) " . json_encode($json));
     die(json_encode($obj));
 }
+error_log("Restreamer.json.php token is correct");
 
 ignore_user_abort(true);
 ob_start();
@@ -76,6 +85,7 @@ header("Connection: close");
 @header("Content-Length: " . ob_get_length());
 ob_end_flush();
 flush();
+
 if(empty($separateRestreams)){
     error_log("Restreamer.json.php all in one command ");
     $obj->pid[] = startRestream($robj->m3u8, $robj->restreamsDestinations, $obj->logFile);
