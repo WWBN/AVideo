@@ -136,7 +136,6 @@ if ($meetDomain == 'custom') {
         $('#mainVideo').slideDown();
         $('#mainVideo source').attr('src','<?php echo Live::getM3U8File($trasnmition['key']); ?>');
         $('#divMeetToIFrame').slideUp();
-        stopRecording();
     }
     function startRecording() {
         api.executeCommand('startRecording', {
