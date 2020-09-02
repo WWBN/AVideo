@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file intent to restream your lives, you can copy this file in any server with FFMPEG 
  * Make sure you add the correct path to this file on the Live plugin restreamerURL parameter
@@ -12,7 +13,6 @@
  * make install
  */
 $streamerURL = "https://demo.avideo.com/"; // change it to your streamer URL
-
 // optional you can change the log file location here
 $logFileLocation = '/var/www/tmp/';
 
@@ -32,8 +32,8 @@ $ffmpegBinary = '/usr/bin/ffmpeg';
 set_time_limit(300);
 ini_set('max_execution_time', 300);
 
-$logFileLocation = rtrim($logFileLocation,"/").'/';
-$logFile = $logFileLocation."ffmpeg_{users_id}_".date("Y-m-d-h-i-s").".log";
+$logFileLocation = rtrim($logFileLocation, "/") . '/';
+$logFile = $logFileLocation . "ffmpeg_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
 
 header('Content-Type: application/json');
 $configFile = '../../videos/configuration.php';
@@ -62,7 +62,7 @@ if (empty($robj->restreamsDestinations) || !is_array($robj->restreamsDestination
     error_log("Restreamer.json.php ERROR {$obj->msg}");
     die(json_encode($obj));
 }
-error_log("Restreamer.json.php Found ".count($robj->restreamsDestinations)." destinations: ". json_encode($robj->restreamsDestinations));
+error_log("Restreamer.json.php Found " . count($robj->restreamsDestinations) . " destinations: " . json_encode($robj->restreamsDestinations));
 
 // check the token
 if (empty($obj->token)) {
@@ -96,10 +96,10 @@ header("Connection: close");
 ob_end_flush();
 flush();
 
-if(empty($separateRestreams)){
+if (empty($separateRestreams)) {
     error_log("Restreamer.json.php all in one command ");
     $obj->pid[] = startRestream($robj->m3u8, $robj->restreamsDestinations, $obj->logFile);
-}else{
+} else {
     error_log("Restreamer.json.php separateRestreams " . count($robj->restreamsDestinations));
     foreach ($robj->restreamsDestinations as $key => $value) {
         sleep(0.5);
@@ -133,42 +133,72 @@ function isURL200($url) {
     return $httpcode == 200;
 }
 
-function startRestream($m3u8, $restreamsDestinations, $logFile, $tries=1) {
-    if(empty($restreamsDestinations)){
+function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
+    global $ffmpegBinary;
+    if (empty($restreamsDestinations)) {
         error_log("Restreamer.json.php ERROR empty restreamsDestinations");
         return false;
     }
     $m3u8 = clearCommandURL($m3u8);
-    
-    if(!isURL200($m3u8)){
-        if($tries>10){
+
+    if (!isURL200($m3u8)) {
+        if ($tries > 10) {
             error_log("Restreamer.json.php tried too many times, we could not find your stream URL");
             return false;
         }
         error_log("Restreamer.json.php URL is not ready. trying again ({$tries})");
         sleep($tries);
-        return startRestream($m3u8, $restreamsDestinations, $logFile, $tries+1);
+        return startRestream($m3u8, $restreamsDestinations, $logFile, $tries + 1);
     }
     /*
-    $command = "ffmpeg -i {$m3u8} ";
-    foreach ($restreamsDestinations as $value) {
-        $value = clearCommandURL($value);
-        $command .= ' -max_muxing_queue_size 1024 -f flv "' . $value . '" ';
-    }
+      $command = "ffmpeg -i {$m3u8} ";
+      foreach ($restreamsDestinations as $value) {
+      $value = clearCommandURL($value);
+      $command .= ' -max_muxing_queue_size 1024 -f flv "' . $value . '" ';
+      }
      * 
      */
-    if(count($restreamsDestinations)>1){
+    if (count($restreamsDestinations) > 1) {
         $command = "{$ffmpegBinary} -i \"{$m3u8}\" ";
         foreach ($restreamsDestinations as $value) {
+            if(!isOpenSSLEnabled() && preg_match("/rtpms:/i", $value)){
+                error_log("Restreamer.json.php ERROR #1 FFMPEG openssl is not enabled, ignoring $value ");
+                continue;
+            }
             $value = clearCommandURL($value);
             $command .= ' -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv "' . $value . '" ';
         }
-    }else{
-        $command = "ffmpeg -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
+    } else {
+        if(!isOpenSSLEnabled() && preg_match("/rtpms:/i", $restreamsDestinations[0])){
+            error_log("Restreamer.json.php ERROR #2 FFMPEG openssl is not enabled, ignoring {$restreamsDestinations[0]} ");
+        }else{
+            $command = "ffmpeg -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
+        }
     }
-    error_log("Restreamer.json.php startRestream {$command}, check the file ($logFile) for the log");
-    exec('echo \'' . $command . PHP_EOL . '\'  > ' . $logFile);
-    exec('nohup ' . $command . '  2>> ' . $logFile . ' > /dev/null &');
-    error_log("Restreamer.json.php startRestream finish");
+    if(empty($command) || !preg_match("/-f flv/i", $command)){
+        error_log("Restreamer.json.php ERROR command is empty ");
+    }else{
+        error_log("Restreamer.json.php startRestream {$command}, check the file ($logFile) for the log");
+        exec('echo \'' . $command . PHP_EOL . '\'  > ' . $logFile);
+        exec('nohup ' . $command . '  2>> ' . $logFile . ' > /dev/null &');
+        error_log("Restreamer.json.php startRestream finish");
+    }
     return true;
+}
+
+$isOpenSSLEnabled = null;
+function isOpenSSLEnabled() {
+    global $isOpenSSLEnabled, $ffmpegBinary;
+    if(isset($isOpenSSLEnabled)){
+        return $isOpenSSLEnabled;
+    }
+    exec("{$ffmpegBinary} 2>&1", $output, $return_var);
+    foreach ($output as $value) {
+        if (preg_match("/configuration:.*--enable-openssl/i", $value)) {
+            $isOpenSSLEnabled = true;
+            return $isOpenSSLEnabled;
+        }
+    }
+    $isOpenSSLEnabled = false;
+    return $isOpenSSLEnabled;
 }
