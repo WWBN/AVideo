@@ -28,7 +28,6 @@ if (file_exists($configFile)) {
     include_once $configFile;
     $streamerURL = $global['webSiteRootURL'];
 }
-error_log("Restreamer.json.php ". json_encode($_SERVER));die();
 
 error_log("Restreamer.json.php start");
 $request = file_get_contents("php://input");
