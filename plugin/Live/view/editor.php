@@ -26,11 +26,17 @@ AVideoPlugin::loadPlugin("Live");
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#Live_servers"><i class="fas fa-broadcast-tower"></i> <?php echo __("Live Servers"); ?></a></li>
+                        <li class=""><a data-toggle="tab" href="#Live_restreams"><?php echo __("Live Restreams"); ?></a></li>
                     </ul>
                     <div class="tab-content">
                         <div id="Live_servers" class="tab-pane fade in active" style="padding: 10px;">
                             <?php
                             include $global['systemRootPath'] . 'plugin/Live/view/Live_servers/index_body.php';
+                            ?>
+                        </div>
+                        <div id="Live_restreams" class="tab-pane fade" style="padding: 10px;">
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/index_body.php';
                             ?>
                         </div>
                     </div>
