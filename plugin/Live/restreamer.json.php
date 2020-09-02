@@ -2,6 +2,7 @@
 /**
  * This file intent to restream your lives, you can copy this file in any server with FFMPEG 
  * Make sure you add the correct path to this file on the Live plugin restreamerURL parameter
+ * 
  */
 $streamerURL = "https://demo.avideo.com/"; // change it to your streamer URL
 
@@ -140,10 +141,10 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries=1) {
         $command = "ffmpeg -i \"{$m3u8}\" ";
         foreach ($restreamsDestinations as $value) {
             $value = clearCommandURL($value);
-            $command .= ' -max_muxing_queue_size 1024 -acodec copy -vcodec copy -f flv "' . $value . '" ';
+            $command .= ' -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv "' . $value . '" ';
         }
     }else{
-        $command = "ffmpeg -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
+        $command = "ffmpeg -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
     }
     error_log("Restreamer.json.php startRestream {$command}, check the file ($logFile) for the log");
     exec('echo \'' . $command . PHP_EOL . '\'  > ' . $logFile);

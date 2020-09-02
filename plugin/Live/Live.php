@@ -222,7 +222,7 @@ class Live extends PluginAbstract {
         return intval($_REQUEST['live_servers_id']);
     }
 
-    static function getM3U8File($uuid) {
+    static function getM3U8File($uuid, $doNotProtect=false) {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
         $playerServer = self::getPlayerServer();
@@ -232,7 +232,7 @@ class Live extends PluginAbstract {
             $o->protectLive = $liveServer->getProtectLive();
             $o->useAadaptiveMode = $liveServer->getUseAadaptiveMode();
         }
-        if ($o->protectLive) {
+        if ($o->protectLive && empty($doNotProtect)) {
             return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$live_servers_id}&uuid=" . encryptString($uuid);
         } else if ($o->useAadaptiveMode) {
             return $playerServer . "/{$uuid}.m3u8";
@@ -710,7 +710,7 @@ class Live extends PluginAbstract {
         }
 
         $obj = new stdClass();
-        $obj->m3u8 = self::getM3U8File($lth->getKey());
+        $obj->m3u8 = self::getM3U8File($lth->getKey(), true);
         $obj->restreamerURL = self::getRestreamer($lth->getLive_servers_id());
         $obj->restreamsDestinations = array();
         $obj->token = getToken(60);
