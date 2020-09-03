@@ -229,9 +229,14 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     
     function startRecording() {
         on_processingLive();
-        api.executeCommand('startRecording', {
-            mode: 'stream',
-            youtubeStreamKey: '<?php echo Live::getRTMPLink(); ?>',
+        $.ajax({
+            url: '<?php echo Live::getDropURL($trasnmition['key']); ?>',
+            success: function (response) {
+                api.executeCommand('startRecording', {
+                    mode: 'stream',
+                    youtubeStreamKey: '<?php echo Live::getRTMPLink(); ?>',
+                });
+            }
         });
     }
     
