@@ -152,7 +152,7 @@ class Live extends PluginAbstract {
         return $obj->server;
     }
     
-    static function getDropURL($key, $live_servers_id = -1){
+    static function getDropURL($key){
         $server = self::getPlayerServer();
         $server = rtrim($server,"/");
         $parts = explode("/", $server);

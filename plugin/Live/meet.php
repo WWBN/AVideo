@@ -16,6 +16,8 @@ if ($meetDomain == 'custom') {
 } else {
     $domain = "{$meetDomain}?getRTMPLink=" . urlencode(Live::getRTMPLink());
 }
+
+$dropURL = "{$global['webSiteRootURL']}plugin/Live/droplive.json.php?live_transmition_id={$trasnmition['id']}&live_servers_id=".Live::getCurrentLiveServersId();
 ?>
 <script>
     var api;
@@ -230,8 +232,10 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     function startRecording() {
         on_processingLive();
         $.ajax({
-            url: '<?php echo Live::getDropURL($trasnmition['key']); ?>',
+            url: '<?php echo $dropURL; ?>',
             success: function (response) {
+                console.log("YPTMeetScript Start Recording Drop");
+                console.log(response);
                 api.executeCommand('startRecording', {
                     mode: 'stream',
                     youtubeStreamKey: '<?php echo Live::getRTMPLink(); ?>',
@@ -244,8 +248,11 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         on_processingLive();
         api.executeCommand('stopRecording', 'stream');
         $.ajax({
-            url: '<?php echo Live::getDropURL($trasnmition['key']); ?>',
-            success: function (response) {}
+            url: '<?php echo $dropURL; ?>',
+            success: function (response) {
+                console.log("YPTMeetScript Stop Recording Drop");
+                console.log(response);
+            }
         });
     }    
     
