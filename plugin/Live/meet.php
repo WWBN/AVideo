@@ -173,7 +173,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
             $('#meetButtons').fadeIn();
         }, 500);
         showStopStart();
-        setTimeout(function () {
+        setInterval(function () {
             showStopStart();
         }, 1000);
 
