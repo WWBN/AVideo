@@ -32,7 +32,7 @@ if ($meetDomain == 'custom') {
 </style>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
 <?php
-include $global['systemRootPath'] . 'plugin/Meet/Meet/listener.js.php';
+include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
 ?>
 <span class=" pull-right" style="display: none;" id="meetButtons">
     <button class="btn btn-primary btn-xs showOnLive" id="stopRecording" style="display: none;" onclick="stopRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
@@ -123,16 +123,14 @@ include $global['systemRootPath'] . 'plugin/Meet/Meet/listener.js.php';
         api.dispose();
         hideMeet();
     }
-    var mainVideoTagSRC;
     function showMeet() {
         userIsControling = true;
         $('.showOnMeet').show();
         $('.hideOnMeet').hide();
         $('#mainVideo').slideUp();
         mainVideoTagSRC = $('#mainVideo video').attr('src');
-        $('#mainVideo video').attr('src', '');
-        $('#mainVideo source').attr('src', '');
         $('#divMeetToIFrame').slideDown();
+        player.pause();
         showStopStart();
     }
     function hideMeet() {
@@ -140,8 +138,6 @@ include $global['systemRootPath'] . 'plugin/Meet/Meet/listener.js.php';
         $('.showOnMeet').hide();
         $('.hideOnMeet').show();
         $('#mainVideo').slideDown();
-        $('#mainVideo video').attr('src', mainVideoTagSRC);
-        $('#mainVideo source').attr('src', '<?php echo Live::getM3U8File($trasnmition['key']); ?>');
         $('#divMeetToIFrame').slideUp();
         showStopStart();
     }
