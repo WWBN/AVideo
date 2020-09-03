@@ -210,7 +210,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         $('.showOnMeetNotReady').hide();
         $('.showOnProcessingMeetReady').hide();
         $('.showOnProcessingLive').hide();
-        $('.showOnMeetReady').show();
+        $('.showOnLive').show();
     }   
     
     function showMeet() {
