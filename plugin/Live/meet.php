@@ -237,12 +237,11 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     
     function stopRecording() {
         on_processingLive();
-        on_liveStop();
+        api.executeCommand('stopRecording', 'stream');
         $.ajax({
             url: '<?php echo Live::getDropURL($trasnmition['key']); ?>',
             success: function (response) {}
         });
-        api.executeCommand('stopRecording', 'stream');
     }    
     
     var setProcessingIsLiveTimeout;
