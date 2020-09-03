@@ -109,7 +109,6 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
 
                     };
                     
-                    $('.showOnMeetReady').hide();
                     api = new JitsiMeetExternalAPI(domain, options);
 
                     api.addEventListeners({
@@ -197,6 +196,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     }
     $(document).ready(function () {
         $('#meetButtons').fadeIn();
+        $('.showOnMeetReady').hide();
         hideMeet();
     });
 </script>
