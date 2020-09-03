@@ -35,11 +35,14 @@ if ($meetDomain == 'custom') {
 include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
 ?>
 <span class=" pull-right" style="display: none;" id="meetButtons">
-    <button class="btn btn-primary btn-xs showOnLive" id="stopRecording" style="display: none;" onclick="stopRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
+    <button class="btn btn-danger btn-xs showOnLive" id="stopRecording" style="display: none;" onclick="stopRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
         <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
     </button>
-    <button class="btn btn-danger btn-xs showOnNoLive" id="startRecording" style="display: none;" onclick="startRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
+    <button class="btn btn-success btn-xs showOnNoLive" id="startRecording" style="display: none;" onclick="startRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
         <i class="fas fa-circle"></i> <?php echo __("Start"); ?>
+    </button>
+    <button class="btn btn-success btn-xs" id="processRecording" style="display: none;" onclick="startRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
+        <i class="fas fa-circle-notch fa-spin"></i> <?php echo __("Please Wait"); ?>
     </button>
     <button class="btn btn-default btn-xs hideOnMeet" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
         <i class="fas fa-camera"></i> <?php echo __("Webcam"); ?>/<?php echo __("Meet"); ?>
@@ -154,7 +157,30 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         });
         api.executeCommand('stopRecording', 'stream');
     }
+    
+    var processingRecording = false;
+    var processingRecordingTimeout;
+    function processRecording(){
+        clearTimeout(processingRecordingTimeout);
+        processingRecording = true;
+        $('.showOnLive').hide();
+        $('.showOnNoLive').hide();
+        $('#processRecording').show();
+        processingRecordingTimeout = setTimeout(function(){processingRecording=false},30000); // wait 30 seconds then allow it again
+    }
+    
+    var lastjitsiIsLive;
     function showStopStart() {
+        if(lastjitsiIsLive !== jitsiIsLive){
+            clearTimeout(processingRecordingTimeout);
+            processingRecording = false;
+        }
+        if(processingRecording){
+            return false;
+        }
+        if(typeof jitsiIsLive !== 'undefined'){
+            lastjitsiIsLive = jitsiIsLive;
+        }
         if (typeof jitsiIsLive !== 'undefined' && $(".showOnMeet").is(":visible")) {
             if (jitsiIsLive) {
                 $('.showOnLive').show();
