@@ -74,8 +74,6 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     var processingIsLive = false;
     var mainVideoElement;
     
-    
-    
     function event_on_liveStatusChange(){
         console.log("YPTMeetScript event_on_liveStatusChange");
         clearTimeout(setProcessingIsLiveTimeout);
@@ -101,8 +99,6 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         jitsiIsLive = true;
         on_live();
     }
-    
-    
     
     function startMeetNow() {
         modal.showPleaseWait();
