@@ -6,7 +6,7 @@ function setLivestreamURL() {
         $(selector).val('');
         var input = document.querySelector(selector);
         var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-        nativeInputValueSetter.call(input, '$getRTMPLink');
+        nativeInputValueSetter.call(input, getRTMPLink);
         var ev2 = new Event('input', {bubbles: true});
         input.dispatchEvent(ev2);
     }
