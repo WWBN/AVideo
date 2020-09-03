@@ -41,11 +41,14 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     <button class="btn btn-success btn-xs showOnNoLive" id="startRecording" style="display: none;" onclick="startRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
         <i class="fas fa-circle"></i> <?php echo __("Start"); ?>
     </button>
-    <button class="btn btn-success btn-xs" id="processRecording" style="display: none;" onclick="startRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
+    <button class="btn btn-warning btn-xs" id="processRecording" style="display: none;">
         <i class="fas fa-circle-notch fa-spin"></i> <?php echo __("Please Wait"); ?>
     </button>
-    <button class="btn btn-default btn-xs hideOnMeetReady" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
+    <button class="btn btn-default btn-xs hideOnMeetReady" id="startMeet" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
         <i class="fas fa-camera"></i> <?php echo __("Webcam"); ?>/<?php echo __("Meet"); ?>
+    </button>
+    <button class="btn btn-warning btn-xs" id="processMeet" style="display: none;" >
+        <i class="fas fa-cog fa-spin"></i> <?php echo __("Please Wait"); ?>
     </button>
     <input type="hidden" value="" id="meetLink"/>
     <input type="hidden" value="" id="meetPassword"/>
@@ -70,6 +73,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     function startMeetNow() {
         modal.showPleaseWait();
         showMeet();
+        processMeet();
         $('#meetLink').val('');
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php',
@@ -146,6 +150,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         showStopStart();
     }
     function startRecording() {
+        processRecording();
         api.executeCommand('startRecording', {
             mode: 'stream',
             youtubeStreamKey: '<?php echo Live::getRTMPLink(); ?>',
@@ -168,6 +173,17 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         $('.showOnNoLive').hide();
         $('#processRecording').show();
         processingRecordingTimeout = setTimeout(function(){processingRecording=false},30000); // wait 30 seconds then allow it again
+    }
+    
+    
+    var processingMeet = false;
+    var processingMeetTimeout;
+    function processMeet(){
+        clearTimeout(processingRecordingTimeout);
+        processingRecording = true;
+        $('.showOnLive, .showOnNoLive, #startMeet').hide();
+        $('#processMeet').show();
+        processingMeetTimeout = setTimeout(function(){processingMeet=false},30000); // wait 30 seconds then allow it again
     }
     
     var lastjitsiIsLive;
