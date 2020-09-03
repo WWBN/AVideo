@@ -116,8 +116,8 @@ class Live extends PluginAbstract {
         $obj->server = "rtmp://{$server['host']}/live";
         $obj->playerServer = "{$scheme}://{$server['host']}:{$port}/live";
         $obj->stats = "{$scheme}://{$server['host']}:{$port}/stat";
-        $obj->restreamerURL = "{$global['webSiteRootURL']}plugin/Live/StandAloneFiles/restreamer.json.php";
-        $obj->controlURL = "{$global['webSiteRootURL']}plugin/Live/StandAloneFiles/control.json.php";
+        $obj->restreamerURL = "{$global['webSiteRootURL']}plugin/Live/standAloneFiles/restreamer.json.php";
+        $obj->controlURL = "{$global['webSiteRootURL']}plugin/Live/standAloneFiles/control.json.php";
         $obj->disableRestream = false;
         $obj->disableDVR = false;
         $obj->disableGifThumbs = false;
