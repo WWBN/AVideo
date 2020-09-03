@@ -12,6 +12,7 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 $obj->response = "";
+$obj->dropURL = "";
 if(!User::canStream()){
     $obj->msg = __("Permition denied");
     die(json_encode($obj));
@@ -55,9 +56,8 @@ if(!User::isAdmin()){
     }
 }
 
-$dropURL = Live::getDropURL($l->getKey(), $live_servers_id);
-
+$obj->dropURL = Live::getDropURL($l->getKey(), $live_servers_id);
 $obj->error = false;
-$obj->response = url_get_contents($dropURL);;
+$obj->response = url_get_contents($obj->dropURL);
 
 die(json_encode($obj));
