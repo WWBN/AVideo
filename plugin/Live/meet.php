@@ -195,13 +195,5 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     }
     $(document).ready(function () {
         hideMeet();
-        setTimeout(function () {
-            $('#meetButtons').fadeIn();
-        }, 500);
-        showStopStart();
-        setInterval(function () {
-            showStopStart();
-        }, 1000);
-
     });
 </script>
