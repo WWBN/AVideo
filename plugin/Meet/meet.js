@@ -40,6 +40,8 @@ function startYPTScripts() {
                 $(e.data.hideElement).hide();
             }
         });
+        
+        window.parent.postMessage({"YPTisReady": true}, "*");
     } else {
         setTimeout(function () {
             startYPTScripts();

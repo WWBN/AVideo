@@ -11,8 +11,8 @@
     eventer(messageEvent, function (e) {
         if(typeof e.data.isLive !== 'undefined'){
             jitsiIsLive = e.data.isLive;
+        }else if(typeof e.data.YPTisReady !== 'undefined'){
+            document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"},"*");
         }
     });
-    
-    document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"},"*");
 </script>
