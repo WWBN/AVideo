@@ -44,7 +44,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     <button class="btn btn-warning btn-xs showOnProcessingLive hideOnMeetNotReady" style="display: none;">
         <i class="fas fa-circle-notch fa-spin"></i> <?php echo __("Please Wait"); ?>
     </button>
-    <button class="btn btn-default btn-xs hideOnMeetReady showOnMeetNotReady" id="startMeet" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
+    <button class="btn btn-default btn-xs hideOnMeetReady showOnMeetNotReady hideOnProcessingMeetReady" id="startMeet" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
         <i class="fas fa-camera"></i> <?php echo __("Webcam"); ?>/<?php echo __("Meet"); ?>
     </button>
     <button class="btn btn-warning btn-xs hideOnMeetReady showOnProcessingMeetReady" id="processMeet" style="display: none;" >
@@ -67,9 +67,6 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
 </span>
 
 <script>
-    //hideOnProcessingLive showOnLive showOnNoLive showOnProcessingLive hideOnNoLive
-    //hideOnMeetNotReady showOnMeetReady showOnMeetNotReady showOnProcessingMeetReady
-    // userIsControling = true;
     var meetPassword;
     var meetLink;
     var conferenceIsReady = false;
@@ -170,6 +167,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         on_liveStop();
         $('.showOnMeetReady').hide();
         $('.showOnProcessingMeetReady').hide();
+        $('.hideOnMeetNotReady').hide();
         $('.showOnMeetNotReady').show();
     }   
     
@@ -177,6 +175,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         on_liveStop();
         $('.hideOnMeetNotReady').hide();
         $('.showOnMeetReady').hide();
+        $('.hideOnProcessingMeetReady').hide();
         $('.showOnMeetNotReady').show();
         $('.showOnProcessingMeetReady').show();
     }   
