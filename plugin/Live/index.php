@@ -69,9 +69,9 @@ $col2Class = "hidden";
 $col3Class = "col-md-6 col-lg-6";
 $chat2 = AVideoPlugin::getObjectDataIfEnabled("Chat2");
 if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
-    $col1Class = "col-md-6 col-lg-5";
-    $col2Class = "col-md-6 col-lg-3";
-    $col3Class = "col-md-6 col-lg-4";
+    $col1Class = "col-md-8 col-lg-5";
+    $col2Class = "col-md-4 col-lg-3";
+    $col3Class = "col-md-12 col-lg-4";
 }
 ?>
 <!DOCTYPE html>
@@ -204,7 +204,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                         ?>
                         <div class="clear clearfix"></div>
 
-                        <div class="col-xs-12 tabbable-line"  id="indexTabs">
+                        <div class="tabbable-line"  id="indexTabs">
                             <ul class="nav nav-tabs">
                                 <li class="active" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use streaming software or hardware"); ?>"><a data-toggle="tab" href="#tabStreamKey"><i class="fas fa-key"></i> <?php echo __("Stream Key"); ?></a></li>
                                 <li class="" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Share information about your live"); ?>"><a data-toggle="tab" href="#tabShare"><i class="fa fa-share"></i> <?php echo __("Share"); ?></a></li>
@@ -356,9 +356,10 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                                 $('#enableWebCam').click(function () {
                                                     amIOnline();
                                                 });
-                                                if (typeof player === 'undefined') {
-                                                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                                                }
+                                                
+                                                <?php
+                                                echo PlayerSkins::getStartPlayerJS("", "", true);
+                                                ?>
                                             });
         </script>
     </body>

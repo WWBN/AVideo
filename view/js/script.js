@@ -14,6 +14,7 @@ var mouseX;
 var mouseY;
 var videoContainerDragged = false;
 var youTubeMenuIsOpened = false;
+var userIsControling = false;
 
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
@@ -336,7 +337,27 @@ $(document).ready(function () {
             }
         });
     });
+    setPlayerListners();
 });
+
+function setPlayerListners() {
+    if (typeof player !== 'undefined') {
+        player.on('pause', function () {
+            clearTimeout(promisePlayTimeout);
+            userIsControling = true;
+        });
+
+        player.on('play', function () {
+            clearTimeout(promisePlayTimeout);
+            userIsControling = true;
+        });
+    } else {
+        setTimeout(function () {
+            setPlayerListners();
+        }, 2000);
+    }
+}
+
 function removeTracks() {
     var oldTracks = player.remoteTextTracks();
     var i = oldTracks.length;
@@ -579,6 +600,9 @@ var promisePlayTimeoutTime = 0;
 var promisePlayTimeout;
 var promisePlay;
 function playerPlay(currentTime) {
+    if (userIsControling) { // stops here if the user already clicked on play or pause
+        return true;
+    }
     if (promisePlaytry <= 0) {
         return false;
     }
@@ -732,4 +756,31 @@ function isArray(what) {
 function reloadVideoJS() {
     var src = player.currentSources();
     player.src(src);
+}
+
+var initdone = false;
+function setCurrentTime(currentTime) {
+    if (typeof player !== 'undefined') {
+        player.currentTime(currentTime);
+        if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+            playerPlay(currentTime);
+        }
+        initdone = false;
+        // wait for video metadata to load, then set time 
+        player.on("loadedmetadata", function () {
+            player.currentTime(currentTime);
+        });
+        // iPhone/iPad need to play first, then set the time
+        // events: https://www.w3.org/TR/html5/embedded-content-0.html#mediaevents
+        player.on("canplaythrough", function () {
+            if (!initdone) {
+                player.currentTime(currentTime);
+                initdone = true;
+            }
+        });
+    } else {
+        setTimeout(function () {
+            setCurrentTime(currentTime);
+        }, 1000);
+    }
 }

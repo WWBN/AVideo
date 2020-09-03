@@ -398,59 +398,34 @@ $photo = User::getPhoto($video['users_id']);
         }
         ?>
         <script>
-            $(document).ready(function () {
-                //Prevent HTML5 video from being downloaded (right-click saved)?
-                if (typeof player === 'undefined') {
-                    player = videojs('mainVideo');
-                }
-                player.on('play', function () {
-                    addView(<?php echo $video['id']; ?>, this.currentTime());
-                });
-                player.on('timeupdate', function () {
-                    var time = Math.round(this.currentTime());
-                    var url = '<?php echo Video::getURLFriendly($video['id']); ?>';
-                    if (url.indexOf('?') > -1) {
-                        url += '&t=' + time;
-                    } else {
-                        url += '?t=' + time;
-                    }
-                    $('#linkCurrentTime').val(url);
-                    if (time >= 5 && time % 5 === 0) {
-                        addView(<?php echo $video['id']; ?>, time);
-                    }
-                });
-                player.on('ended', function () {
-                    var time = Math.round(this.currentTime());
-                    addView(<?php echo $video['id']; ?>, time);
-                });
     <?php
-    if ($autoplay) {
-        ?>
-                    setTimeout(function () {
-                        if (typeof player === 'undefined') {
-                            player = videojs('mainVideo');
-                        }
-                        playerPlay(<?php echo $t; ?>);
-                    }, 150);
-        <?php
+    $onPlayerReady = "player.on('play', function () {addView({$playNowVideo['id']}, this.currentTime());});";
+    $onPlayerReady .= "player.on('timeupdate', function () {
+    var time = Math.round(this.currentTime());
+    var url = '" . Video::getURLFriendly($video['id']) . "';
+    if (url.indexOf('?') > -1) {
+        url += '&t=' + time;
     } else {
-        ?>
-                    setTimeout(function () {
-                        if (typeof player === 'undefined') {
-                            player = videojs('mainVideo');
-                        }
-                        try {
-                            player.currentTime(<?php echo $t; ?>);
-                        } catch (e) {
-                            setTimeout(function () {
-                                player.currentTime(<?php echo $t; ?>);
-                            }, 1000);
-                        }
-                    }, 150);
-        <?php
+        url += '?t=' + time;
     }
+    $('#linkCurrentTime').val(url);
+    if (time >= 5 && time % 5 === 0) {
+        addView({$video['id']}, time);
+    }
+});";
+
+    if ($autoplay) {
+        $onPlayerReady .= "playerPlay({$currentTime});";
+    } else {
+        $onPlayerReady .= "setCurrentTime({$currentTime});";
+    }
+    $onPlayerReady .= "player.on('ended', function () {console.log(\"Finish Video\");
+var time = Math.round(this.currentTime());
+addView({$video['id']}, time);";
+    $onPlayerReady .= "});";
+
+    echo PlayerSkins::getStartPlayerJS($onPlayerReady);
     ?>
-            });
         </script>
         <?php
     } else {
@@ -480,74 +455,48 @@ $photo = User::getPhoto($video['users_id']);
         }
         ?>
 
-        <script>
-            $(document).ready(function () {
-
-                if (typeof player === 'undefined') {
-                    player = videojs('mainVideo');
-                }
-                player.on('play', function () {
-                    addView(<?php echo $video['id']; ?>, this.currentTime());
-                });
-                player.on('timeupdate', function () {
-                    var time = Math.round(this.currentTime());
-                    var url = '<?php echo Video::getURLFriendly($video['id']); ?>';
-                    if (url.indexOf('?') > -1) {
-                        url += '&t=' + time;
-                    } else {
-                        url += '?t=' + time;
-                    }
-                    $('#linkCurrentTime').val(url);
-                    if (time >= 5 && time % 5 === 0) {
-                        addView(<?php echo $video['id']; ?>, time);
-                    }
-                });
-                player.on('ended', function () {
-                    var time = Math.round(this.currentTime());
-                    addView(<?php echo $video['id']; ?>, time);
-                });
-    <?php
-    if ($autoplay) {
-        ?>
-                    setTimeout(function () {
-                        if (typeof player === 'undefined') {
-                            player = videojs('mainVideo');
-                        }
-                        playerPlay(<?php echo $t; ?>);
-                    }, 150);
-        <?php
+        <script><?php
+    $onPlayerReady = "player.on('play', function () {addView({$playNowVideo['id']}, this.currentTime());});";
+    $onPlayerReady .= "player.on('timeupdate', function () {
+    var time = Math.round(this.currentTime());
+    var url = '" . Video::getURLFriendly($video['id']) . "';
+    if (url.indexOf('?') > -1) {
+        url += '&t=' + time;
     } else {
-        ?>
-                    setTimeout(function () {
-                        if (typeof player === 'undefined') {
-                            player = videojs('mainVideo');
-                        }
-                        try {
-                            player.currentTime(<?php echo $t; ?>);
-                        } catch (e) {
-                            setTimeout(function () {
-                                player.currentTime(<?php echo $t; ?>);
-                            }, 1000);
-                        }
-                    }, 150);
-        <?php
+        url += '?t=' + time;
     }
+    $('#linkCurrentTime').val(url);
+    if (time >= 5 && time % 5 === 0) {
+        addView({$video['id']}, time);
+    }
+});";
+
+    if ($autoplay) {
+        $onPlayerReady .= "playerPlay({$currentTime});";
+    } else {
+        $onPlayerReady .= "setCurrentTime({$currentTime});";
+    }
+    $onPlayerReady .= "player.on('ended', function () {console.log(\"Finish Video\");
+var time = Math.round(this.currentTime());
+addView({$video['id']}, time);";
+    $onPlayerReady .= "});";
+
+    echo PlayerSkins::getStartPlayerJS($onPlayerReady);
     ?>
-            });
         </script>
         <?php
     }
-    if(empty($playerSkinsObj->disableEmbedTopInfo)){
-    ?>
-    <div id="topInfo" style="display: none;">
-        <a href="<?php echo $url; ?>" target="_blank">
-            <img src="<?php echo $photo; ?>" class="img img-responsive img-circle" style="" alt="User Photo"> 
-            <div style="">    
-                <?php echo $title; ?>
-            </div>
-        </a>
-    </div>
-    <?php
+    if (empty($playerSkinsObj->disableEmbedTopInfo)) {
+        ?>
+        <div id="topInfo" style="display: none;">
+            <a href="<?php echo $url; ?>" target="_blank">
+                <img src="<?php echo $photo; ?>" class="img img-responsive img-circle" style="" alt="User Photo"> 
+                <div style="">    
+                    <?php echo $title; ?>
+                </div>
+            </a>
+        </div>
+        <?php
     }
     ?>
     <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
@@ -586,28 +535,28 @@ $photo = User::getPhoto($video['users_id']);
               left: 0;
               pointer-events: none;"></textarea>
     <script>
-        var topInfoTimeout;
-        $(document).ready(function () {
-            setInterval(function () {
-                if (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0") {
-                    $('#topInfo').fadeOut();
-                } else {
-                    $('#topInfo').fadeIn();
-                }
+            var topInfoTimeout;
+            $(document).ready(function () {
+                setInterval(function () {
+                    if (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0") {
+                        $('#topInfo').fadeOut();
+                    } else {
+                        $('#topInfo').fadeIn();
+                    }
 
-            }, 1000);
+                }, 1000);
 
-            $("iframe, #topInfo").mouseover(function (e) {
-                clearTimeout(topInfoTimeout);
-                $('#mainVideo').addClass("vjs-user-active");
+                $("iframe, #topInfo").mouseover(function (e) {
+                    clearTimeout(topInfoTimeout);
+                    $('#mainVideo').addClass("vjs-user-active");
+                });
+
+                $("iframe").mouseout(function (e) {
+                    topInfoTimeout = setTimeout(function () {
+                        $('#mainVideo').removeClass("vjs-user-active");
+                    }, 500);
+                });
             });
-
-            $("iframe").mouseout(function (e) {
-                topInfoTimeout = setTimeout(function () {
-                    $('#mainVideo').removeClass("vjs-user-active");
-                }, 500);
-            });
-        });
     </script>
 </body>
 </html>

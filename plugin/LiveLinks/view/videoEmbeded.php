@@ -71,33 +71,9 @@ if (!empty($objSecure)) {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
         <script>
-
-            $(document).ready(function () {
-                if (typeof player === 'undefined') {
-                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                }
-                player.ready(function () {
-                    var err = this.error();
-                    if (err && err.code) {
-                        $('.vjs-error-display').hide();
-                        $('#mainVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
-<?php
-if (!empty($html)) {
-    echo "showCountDown();";
-}
-?>
-                    }
-<?php
-if ($config->getAutoplay()) {
-    echo "this.play();";
-}
-?>
-
-                });
-                player.persistvolume({
-                    namespace: "AVideo"
-                });
-            });
+        <?php
+        echo PlayerSkins::getStartPlayerJS();
+        ?>
         </script>
         <?php
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';

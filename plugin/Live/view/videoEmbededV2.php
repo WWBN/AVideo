@@ -128,17 +128,6 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
                 ?>
             </div>
         </div>
-
-        <?php
-        $liveCount = AVideoPlugin::loadPluginIfEnabled('LiveCountdownEvent');
-        $html = array();
-        if ($liveCount) {
-            $html = $liveCount->getNextLiveApplicationFromUser($user_id);
-        }
-        foreach ($html as $value) {
-            echo $value['html'];
-        };
-        ?>
         <script>
             $(function () {
                 $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
@@ -153,32 +142,9 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
         <script>
 
-            $(document).ready(function () {
-                if (typeof player === 'undefined') {
-                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                }
-                player.ready(function () {
-                    var err = this.error();
-                    if (err && err.code) {
-                        $('.vjs-error-display').hide();
-                        $('#mainVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
 <?php
-if (!empty($html)) {
-    echo "showCountDown();";
-}
+echo PlayerSkins::getStartPlayerJS();
 ?>
-                    }
-<?php
-if ($config->getAutoplay()) {
-    echo "this.play();";
-}
-?>
-
-                });
-                player.persistvolume({
-                    namespace: "AVideo"
-                });
-            });
         </script>
         <?php
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';

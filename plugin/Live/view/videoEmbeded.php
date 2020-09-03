@@ -13,11 +13,11 @@ if (!empty($_GET['c'])) {
 }
 $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
-$livet =  LiveTransmition::getFromDbByUserName($_GET['u']);
+$livet = LiveTransmition::getFromDbByUserName($_GET['u']);
 $uuid = $livet['key'];
 $p = AVideoPlugin::loadPlugin("Live");
 $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-if(!empty($objSecure)){
+if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 $u = new User(0, $_GET['u'], false);
@@ -76,17 +76,6 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
                     <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
                 </div>
             <?php } ?>
-
-            <?php
-            $liveCount = AVideoPlugin::loadPluginIfEnabled('LiveCountdownEvent');
-            $html = array();
-            if ($liveCount) {
-                $html = $liveCount->getNextLiveApplicationFromUser($user_id);
-            }
-            foreach ($html as $value) {
-                echo $value['html'];
-            };
-            ?>
         </div>
 
         <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
@@ -108,33 +97,9 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
         echo AVideoPlugin::getHeadCode();
         ?>
         <script>
-
-            $(document).ready(function () {
-                if (typeof player === 'undefined') {
-                    player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                }
-                player.ready(function () {
-                    var err = this.error();
-                    if (err && err.code) {
-                        $('.vjs-error-display').hide();
-                        $('#mainVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
 <?php
-if (!empty($html)) {
-    echo "showCountDown();";
-}
+echo PlayerSkins::getStartPlayerJS();
 ?>
-                    }
-<?php
-if ($config->getAutoplay()) {
-    echo "this.play();";
-}
-?>
-
-                });
-                player.persistvolume({
-                    namespace: "AVideo"
-                });
-            });
         </script>
         <?php
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
