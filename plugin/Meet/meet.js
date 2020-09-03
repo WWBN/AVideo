@@ -16,6 +16,11 @@ function isJitsiLive() {
     window.parent.postMessage({"isLive": jitsiIsLive}, "*");
 }
 
+function isConferenceReady() {
+    jitsiIsLive = $(".circular-label.stream").is(":visible");
+    window.parent.postMessage({"isLive": jitsiIsLive}, "*");
+}
+
 function startYPTScripts() {
     if (window.jQuery) {
         console.log("startYPTScripts started");

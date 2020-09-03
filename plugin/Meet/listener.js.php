@@ -13,10 +13,7 @@
             jitsiIsLive = e.data.isLive;
         }else if(typeof e.data.YPTisReady !== 'undefined'){
             document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"},"*");
-            hideMeet();
-            setTimeout(function () {
-                $('#meetButtons').fadeIn();
-            }, 500);
+            $('#meetButtons').fadeIn();
             showStopStart();
             setInterval(function () {
                 showStopStart();
