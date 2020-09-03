@@ -1,7 +1,4 @@
 <script>
-    var jitsiIsLive = false;
-    var conferenceIsReady = false;
-
     var eventMethod = window.addEventListener
             ? "addEventListener"
             : "attachEvent";
@@ -11,17 +8,15 @@
             : "message";
     eventer(messageEvent, function (e) {
         if(typeof e.data.isLive !== 'undefined'){
-            jitsiIsLive = e.data.isLive;
+            if(e.data.isLive){
+                event_on_live();
+            }else{
+                event_on_liveStop();
+            }            
         }else if(typeof e.data.YPTisReady !== 'undefined'){
-            document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"},"*");
-            showStopStart();
-            setInterval(function () {
-                showStopStart();
-            }, 1000);
-        }else if(typeof e.data.conferenceIsReady !== 'undefined'){     
-            conferenceIsReady = true;
-            $('.showOnMeetReady').show();
-            $('.hideOnMeetReady').hide();
+            console.log("YPTMeetScript is loaded");
+        }else if(typeof e.data.conferenceIsReady !== 'undefined'){   
+            event_on_meetReady();
         }
     });
 </script>
