@@ -21,9 +21,9 @@
             lastLiveStatus = e.data.isLive;           
         }else if(typeof e.data.YPTisReady !== 'undefined'){
             console.log("YPTMeetScript is loaded");
+            event_on_meetReady();
         }else if(typeof e.data.conferenceIsReady !== 'undefined'){   
             console.log("YPTMeetScript conference is ready");
-            event_on_meetReady();
         }
     });
 </script>
