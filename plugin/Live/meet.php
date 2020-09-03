@@ -17,7 +17,6 @@ if ($meetDomain == 'custom') {
     $domain = "{$meetDomain}?getRTMPLink=" . urlencode(Live::getRTMPLink());
 }
 ?>
-<a href="{$global['webSiteRootURL']}plugin/Meet/Meet/listener.js.php"></a>
 <script>
     var api;
 </script>
@@ -32,6 +31,9 @@ if ($meetDomain == 'custom') {
 
 </style>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
+<?php
+include $global['systemRootPath'] . 'plugin/Meet/Meet/listener.js.php';
+?>
 <span class=" pull-right" style="display: none;" id="meetButtons">
     <button class="btn btn-primary btn-xs showOnLive" id="stopRecording" style="display: none;" onclick="stopRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
         <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
