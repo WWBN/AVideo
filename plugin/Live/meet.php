@@ -69,7 +69,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
 <script>
     var meetPassword;
     var meetLink;
-    var conferenceIsReady = false;
+    var meetIsReady = false;
     var jitsiIsLive = false;
     var processingIsLive = false;
     var mainVideoElement;
@@ -151,7 +151,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     
     function event_on_meetReady(){
         document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"},"*");
-        conferenceIsReady = true;
+        meetIsReady = true;
         showMeet();
         on_meetReady();
     }
@@ -245,7 +245,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     
     function showStopStart() {
         if(!processingIsLive){
-            if (typeof jitsiIsLive !== 'undefined' && typeof conferenceIsReady !== 'undefined' && conferenceIsReady) {
+            if (typeof jitsiIsLive !== 'undefined' && typeof meetIsReady !== 'undefined' && meetIsReady) {
                 if (jitsiIsLive) {
                     $("#startRecording").hide();
                     $("#stopRecording").show();
