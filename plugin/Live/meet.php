@@ -71,7 +71,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     var meetLink;
     var conferenceIsReady = false;
     var jitsiIsLive = false;
-
+    var processingIsLive = false;
     var mainVideoElement;
     function startMeetNow() {
         modal.showPleaseWait();
@@ -134,6 +134,11 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         hideMeet();
     }
     
+    event_on_liveStatusChange(){
+        clearTimeout(setProcessingIsLiveTimeout);
+        processingIsLive = false;
+    }
+    
     var showStopStartInterval;
     function on_meetReady(){
         $('.showOnMeetNotReady').hide();
@@ -175,13 +180,15 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         on_liveStop();
         $('.hideOnMeetNotReady').hide();
         $('.showOnMeetReady').hide();
-        $('.hideOnProcessingMeetReady').hide();
         $('.showOnMeetNotReady').show();
+        $('.hideOnProcessingMeetReady').hide();
         $('.showOnProcessingMeetReady').show();
     }   
     
     function on_processingLive(){
         on_meetReady();
+        $("#startRecording").hide();
+        $("#stopRecording").hide();
         $('.hideOnProcessingLive').hide();
         $('.showOnLive').hide();
         $('.hideOnNoLive').hide();
@@ -221,6 +228,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         });
     }
     function stopRecording() {
+        on_processingLive();
         on_liveStop();
         $.ajax({
             url: '<?php echo Live::getDropURL($trasnmition['key']); ?>',
@@ -229,19 +237,27 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         api.executeCommand('stopRecording', 'stream');
     }    
     
-    var lastjitsiIsLive;
+    var setProcessingIsLiveTimeout;
+    function setProcessingIsLive(){
+        clearTimeout(setProcessingIsLiveTimeout);
+        processingIsLive = true;
+        setProcessingIsLiveTimeout = setTimeout(function(){processingIsLive = false;},30000);
+    }
+    
     function showStopStart() {
-        if (typeof jitsiIsLive !== 'undefined' && typeof conferenceIsReady !== 'undefined' && conferenceIsReady) {
-            if (jitsiIsLive) {
-                $("#startRecording").hide();
-                $("#stopRecording").show();
+        if(!processingIsLive){
+            if (typeof jitsiIsLive !== 'undefined' && typeof conferenceIsReady !== 'undefined' && conferenceIsReady) {
+                if (jitsiIsLive) {
+                    $("#startRecording").hide();
+                    $("#stopRecording").show();
+                } else {
+                    $("#startRecording").show();
+                    $("#stopRecording").hide();
+                }
             } else {
-                $("#startRecording").show();
+                $("#startRecording").hide();
                 $("#stopRecording").hide();
             }
-        } else {
-            $("#startRecording").hide();
-            $("#stopRecording").hide();
         }
     }
     $(document).ready(function () {
