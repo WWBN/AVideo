@@ -17,7 +17,7 @@ if ($meetDomain == 'custom') {
     $domain = "{$meetDomain}?getRTMPLink=" . urlencode(Live::getRTMPLink());
 }
 
-$dropURL = "{$global['webSiteRootURL']}plugin/Live/droplive.json.php?live_transmition_id={$trasnmition['id']}&live_servers_id=".Live::getCurrentLiveServersId();
+$dropURL = "{$global['webSiteRootURL']}plugin/Live/droplive.json.php?live_transmition_id={$trasnmition['id']}&live_servers_id=" . Live::getCurrentLiveServersId();
 ?>
 <script>
     var api;
@@ -75,33 +75,33 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     var jitsiIsLive = false;
     var processingIsLive = false;
     var mainVideoElement;
-    
-    function event_on_liveStatusChange(){
+
+    function event_on_liveStatusChange() {
         console.log("YPTMeetScript event_on_liveStatusChange");
         clearTimeout(setProcessingIsLiveTimeout);
         processingIsLive = false;
         showStopStart();
     }
-    
-    function event_on_meetReady(){
+
+    function event_on_meetReady() {
         console.log("YPTMeetScript event_on_meetReady");
-        document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"},"*");
+        document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"}, "*");
         meetIsReady = true;
         showMeet();
         on_meetReady();
     }
-    function event_on_liveStop(){
+    function event_on_liveStop() {
         console.log("YPTMeetScript event_on_liveStop");
         jitsiIsLive = false;
         on_liveStop();
-    }   
-    
-    function event_on_live(){
+    }
+
+    function event_on_live() {
         console.log("YPTMeetScript event_on_live");
         jitsiIsLive = true;
         on_live();
     }
-    
+
     function startMeetNow() {
         modal.showPleaseWait();
         on_processingMeetReady();
@@ -143,7 +143,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
                         }
 
                     };
-                    
+
                     api = new JitsiMeetExternalAPI(domain, options);
 
                     api.addEventListeners({
@@ -161,42 +161,42 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         api.dispose();
         hideMeet();
     }
-    
+
     var showStopStartInterval;
-    function on_meetReady(){
+    function on_meetReady() {
         modal.hidePleaseWait();
         $('.showOnMeetNotReady').hide();
         $('.showOnProcessingMeetReady').hide();
         $('.showOnMeetReady').show();
         clearInterval(showStopStartInterval);
         showStopStart();
-    }   
-    
-    function on_liveStop(){
+    }
+
+    function on_liveStop() {
         $('.showOnProcessingLive').hide();
         $('.showOnLive').hide();
         $('.showOnNoLive').show();
-    }   
-    
-    function on_meetStop(){
+    }
+
+    function on_meetStop() {
         clearInterval(showStopStartInterval);
         on_liveStop();
         $('.showOnMeetReady').hide();
         $('.showOnProcessingMeetReady').hide();
         $('.hideOnMeetNotReady').hide();
         $('.showOnMeetNotReady').show();
-    }   
-    
-    function on_processingMeetReady(){
+    }
+
+    function on_processingMeetReady() {
         on_liveStop();
         $('.hideOnMeetNotReady').hide();
         $('.showOnMeetReady').hide();
         $('.showOnMeetNotReady').show();
         $('.hideOnProcessingMeetReady').hide();
         $('.showOnProcessingMeetReady').show();
-    }   
-    
-    function on_processingLive(){
+    }
+
+    function on_processingLive() {
         on_meetReady();
         $('.hideOnProcessingLive').hide();
         $('.showOnLive').hide();
@@ -205,16 +205,16 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         $("#startRecording").hide();
         $("#stopRecording").hide();
         $('.showOnProcessingLive').show();
-    }   
-    
-    function on_live(){
+    }
+
+    function on_live() {
         on_meetReady();
         $('.showOnMeetNotReady').hide();
         $('.showOnProcessingMeetReady').hide();
         $('.showOnProcessingLive').hide();
         $('.showOnLive').show();
-    }   
-    
+    }
+
     function showMeet() {
         userIsControling = true;
         on_processingMeetReady();
@@ -222,13 +222,13 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         $('#divMeetToIFrame').slideDown();
         player.pause();
     }
-    
+
     function hideMeet() {
         on_meetStop();
         $('#mainVideo').slideDown();
         $('#divMeetToIFrame').slideUp();
     }
-    
+
     function startRecording() {
         on_processingLive();
         $.ajax({
@@ -243,28 +243,33 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
             }
         });
     }
-    
+
     function stopRecording() {
         on_processingLive();
         api.executeCommand('stopRecording', 'stream');
-        $.ajax({
-            url: '<?php echo $dropURL; ?>',
-            success: function (response) {
-                console.log("YPTMeetScript Stop Recording Drop");
-                console.log(response);
-            }
-        });
-    }    
-    
+        setTimeout(function () { // if I run the drop on the same time, the stopRecording fails
+            $.ajax({
+                url: '<?php echo $dropURL; ?>',
+                success: function (response) {
+                    console.log("YPTMeetScript Stop Recording Drop");
+                    console.log(response);
+                }
+            });
+        }, 2000);
+
+    }
+
     var setProcessingIsLiveTimeout;
-    function setProcessingIsLive(){
+    function setProcessingIsLive() {
         clearTimeout(setProcessingIsLiveTimeout);
         processingIsLive = true;
-        setProcessingIsLiveTimeout = setTimeout(function(){processingIsLive = false;},30000);
+        setProcessingIsLiveTimeout = setTimeout(function () {
+            processingIsLive = false;
+        }, 30000);
     }
-    
+
     function showStopStart() {
-        if(!processingIsLive){
+        if (!processingIsLive) {
             if (typeof jitsiIsLive !== 'undefined' && typeof meetIsReady !== 'undefined' && meetIsReady) {
                 if (jitsiIsLive) {
                     $("#startRecording").hide();
@@ -279,7 +284,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
             }
         }
     }
-    
+
     $(document).ready(function () {
         $('#meetButtons').fadeIn();
         $('.showOnMeetReady').hide();
