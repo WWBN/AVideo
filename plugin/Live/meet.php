@@ -44,13 +44,13 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     <button class="btn btn-success btn-xs" id="processRecording" style="display: none;" onclick="startRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
         <i class="fas fa-circle-notch fa-spin"></i> <?php echo __("Please Wait"); ?>
     </button>
-    <button class="btn btn-default btn-xs hideOnMeet" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
+    <button class="btn btn-default btn-xs" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
         <i class="fas fa-camera"></i> <?php echo __("Webcam"); ?>/<?php echo __("Meet"); ?>
     </button>
     <input type="hidden" value="" id="meetLink"/>
     <input type="hidden" value="" id="meetPassword"/>
     <?php
-    getButtontCopyToClipboard('meetLink', 'class="btn btn-default btn-sm btn-xs showOnMeet meetLink"', __("Copy Meet Link"));
+    getButtontCopyToClipboard('meetLink', 'class="btn btn-default btn-sm btn-xs showOnMeetReady meetLink"', __("Copy Meet Link"));
     getButtontCopyToClipboard('avideoURL', 'class="btn btn-default btn-sm btn-xs showOnLive meetLink"', __("Copy Live Link"));
     if (Meet::isCustomJitsi() && User::isAdmin()) {
         ?>
@@ -108,6 +108,8 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
                         }
 
                     };
+                    
+                    $('.showOnMeetReady').hide();
                     api = new JitsiMeetExternalAPI(domain, options);
 
                     api.addEventListeners({
@@ -194,6 +196,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         }
     }
     $(document).ready(function () {
+        $('#meetButtons').fadeIn();
         hideMeet();
     });
 </script>
