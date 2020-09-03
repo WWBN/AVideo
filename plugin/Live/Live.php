@@ -151,6 +151,15 @@ class Live extends PluginAbstract {
         }
         return $obj->server;
     }
+    
+    static function getDropURL($key, $live_servers_id = -1){
+        $server = self::getPlayerServer();
+        $server = rtrim($server,"/");
+        $parts = explode("/", $server);
+        $app = array_pop($parts);
+        $domain = implode("/", $parts);
+        return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
+    }
 
     static function getRestreamer($live_servers_id = -1) {
         $obj = AVideoPlugin::getObjectData("Live");
@@ -222,7 +231,7 @@ class Live extends PluginAbstract {
         return intval($_REQUEST['live_servers_id']);
     }
 
-    static function getM3U8File($uuid) {
+    static function getM3U8File($uuid, $doNotProtect=false) {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
         $playerServer = self::getPlayerServer();
@@ -232,7 +241,7 @@ class Live extends PluginAbstract {
             $o->protectLive = $liveServer->getProtectLive();
             $o->useAadaptiveMode = $liveServer->getUseAadaptiveMode();
         }
-        if ($o->protectLive) {
+        if ($o->protectLive && empty($doNotProtect)) {
             return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$live_servers_id}&uuid=" . encryptString($uuid);
         } else if ($o->useAadaptiveMode) {
             return $playerServer . "/{$uuid}.m3u8";
@@ -708,9 +717,9 @@ class Live extends PluginAbstract {
         if (empty($lth->getKey())) {
             return false;
         }
-
+        $_REQUEST['live_servers_id'] = $lth->getLive_servers_id();
         $obj = new stdClass();
-        $obj->m3u8 = self::getM3U8File($lth->getKey());
+        $obj->m3u8 = self::getM3U8File($lth->getKey(), true);
         $obj->restreamerURL = self::getRestreamer($lth->getLive_servers_id());
         $obj->restreamsDestinations = array();
         $obj->token = getToken(60);
@@ -725,30 +734,40 @@ class Live extends PluginAbstract {
     }
 
     public static function restream($liveTransmitionHistory_id) {
-
-        $obj = self::getRestreamObject($liveTransmitionHistory_id);
-        if (empty($obj)) {
-            return false;
-        }
-        $data_string = json_encode($obj);
-        _error_log("Live:restream ({$obj->restreamerURL}) {$data_string}");
-        //open connection
-        $ch = curl_init();
-        //set the url, number of POST vars, POST data
-        curl_setopt($ch, CURLOPT_URL, $obj->restreamerURL);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($data_string))
-        );
-        $output = curl_exec($ch);
-        curl_close($ch);
-        return json_decode($output);
+        ignore_user_abort(true);
+        ob_start();
+        header("Connection: close");
+        @header("Content-Length: " . ob_get_length());
+        ob_end_flush();
+        flush();
+        try {
+            $obj = self::getRestreamObject($liveTransmitionHistory_id);
+            if (empty($obj)) {
+                return false;
+            }
+            $data_string = json_encode($obj);
+            _error_log("Live:restream ({$obj->restreamerURL}) {$data_string}");
+            //open connection
+            $ch = curl_init();
+            //set the url, number of POST vars, POST data
+            curl_setopt($ch, CURLOPT_URL, $obj->restreamerURL);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_string))
+            );
+            $output = curl_exec($ch);
+            curl_close($ch);
+            return json_decode($output);
+        } catch (Exception $exc) {
+            _error_log("Live:restream ".$exc->getTraceAsString());
+        } 
+        return false;
     }
     
     public static function canStreamWithMeet(){

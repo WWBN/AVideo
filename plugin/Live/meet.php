@@ -45,6 +45,7 @@ if ($meetDomain == 'custom') {
     <input type="hidden" value="" id="meetPassword"/>
     <?php
     getButtontCopyToClipboard('meetLink', 'class="btn btn-default btn-sm btn-xs showOnMeet meetLink"', __("Copy Meet Link"));
+    getButtontCopyToClipboard('avideoURL', 'class="btn btn-default btn-sm btn-xs showOnMeet meetLink"', __("Copy Live Link"));
     if (Meet::isCustomJitsi() && User::isAdmin()) {
         ?><i class="fas fa-exclamation-triangle" data-toggle="tooltip" data-placement="bottom" title="A custom Jitsi may not work, you can disable this feature on Plugins->Live->disableMeetCamera"></i><?php
     }
@@ -53,6 +54,8 @@ if ($meetDomain == 'custom') {
 <script>
     var meetPassword;
     var meetLink;
+    
+    var mainVideoElement;
     function startMeetNow() {
         modal.showPleaseWait();
         showMeet();
@@ -112,14 +115,15 @@ if ($meetDomain == 'custom') {
         api.dispose();
         hideMeet();
     }
-
     function showMeet() {
+        
         $('.meetPassword').fadeIn();
         $('#meetLink').fadeIn();
         $('#meetPassword').fadeIn();
         $('.showOnMeet').fadeIn();
         $('.hideOnMeet').fadeOut();
         $('#mainVideo').slideUp();
+        $('#mainVideo source').attr('src','');
         $('#divMeetToIFrame').slideDown();
     }
 
@@ -130,6 +134,7 @@ if ($meetDomain == 'custom') {
         $('.showOnMeet').fadeOut();
         $('.hideOnMeet').fadeIn();
         $('#mainVideo').slideDown();
+        $('#mainVideo source').attr('src','<?php echo Live::getM3U8File($trasnmition['key']); ?>');
         $('#divMeetToIFrame').slideUp();
     }
     function startRecording() {
@@ -139,6 +144,10 @@ if ($meetDomain == 'custom') {
         });
     }
     function stopRecording() {
+        $.ajax({
+            url: '<?php echo Live::getDropURL($trasnmition['key']); ?>',
+            success: function (response) {}
+        });
         api.executeCommand('stopRecording', 'stream');
     }
     $(document).ready(function () {
