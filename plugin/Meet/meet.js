@@ -18,6 +18,7 @@ function isJitsiLive() {
 
 function startYPTScripts() {
     if (window.jQuery) {
+        console.log("startYPTScripts started");
         isJitsiLive();
         setInterval(function () {
             isJitsiLive();
@@ -45,3 +46,4 @@ function startYPTScripts() {
         }, 500);
     }
 }
+startYPTScripts();
