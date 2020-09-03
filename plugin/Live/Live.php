@@ -261,7 +261,12 @@ class Live extends PluginAbstract {
                         modal.hidePleaseWait();
                         if (response.error) {
                             swal('" . __("Sorry!") . "', response.msg, 'error');
-                        } 
+                        } else{
+                            if(response.newkey != response.key){
+                                swal('" . __("Congratulations!") . "', '" . __("New Key") . ": '+response.newkey, 'success');
+                            }
+                            $('#streamkey, .streamkey').val(response.newkey);
+                        }
                     }
                 });
             });

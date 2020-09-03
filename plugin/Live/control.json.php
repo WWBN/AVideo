@@ -16,6 +16,8 @@ $obj->commandURL = "";
 $obj->command = $_REQUEST['command'];
 $obj->live_transmition_id = $_REQUEST['live_transmition_id'];
 $obj->live_servers_id = $_REQUEST['live_servers_id'];
+$obj->key = "";
+$obj->newkey = "";
 
 if (empty($obj->command)) {
     $obj->msg = __("empty command");
@@ -63,7 +65,10 @@ if (!User::isAdmin()) {
     }
 }
 
-if (empty($l->getKey())) {
+
+$obj->key = $l->getKey();
+$obj->newkey = $obj->key;
+if (empty($obj->key)) {
     $obj->msg = __("key cannot be empty");
     die(json_encode($obj));
 }
@@ -72,24 +77,23 @@ if (empty($l->getKey())) {
 switch ($obj->command) {
     case "record_start":
         //http://server.com/control/record/start|stop?srv=SRV&app=APP&name=NAME&rec=REC
-        $obj->commandURL = Live::getStartRecordURL($l->getKey(), $obj->live_servers_id);
+        $obj->commandURL = Live::getStartRecordURL($obj->key, $obj->live_servers_id);
         break;
     case "record_stop":
         //http://server.com/control/record/start|stop?srv=SRV&app=APP&name=NAME&rec=REC
-        $obj->commandURL = Live::getStopRecordURL($l->getKey(), $obj->live_servers_id);
+        $obj->commandURL = Live::getStopRecordURL($obj->key, $obj->live_servers_id);
         break;
     case "drop_publisher_reset_key":
-        LiveTransmition::resetTransmitionKey($l->getUsers_id());
+        $obj->newkey = LiveTransmition::resetTransmitionKey($l->getUsers_id());
     case "drop_publisher":
         //http://server.com/control/drop/publisher|subscriber|client?srv=SRV&app=APP&name=NAME&addr=ADDR&clientid=CLIENTID
-        $obj->commandURL = Live::getDropURL($l->getKey(), $obj->live_servers_id);
+        $obj->commandURL = Live::getDropURL($obj->key, $obj->live_servers_id);
         break;
     default:
         $obj->msg = "Command is invalid ($obj->command)";
         die(json_encode($obj));
         break;
 }
-
 
 $obj->commandURL = Live::getDropURL($l->getKey(), $obj->live_servers_id);
 $obj->response = json_decode(url_get_contents($obj->commandURL));

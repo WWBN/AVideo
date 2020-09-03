@@ -141,8 +141,13 @@ class LiveTransmition extends ObjectYPT {
         $row = static::getFromDbByUser($user_id);
 
         $l = new LiveTransmition($row['id']);
-        $l->setKey(uniqid());
-        return $l->save();
+        $newKey = uniqid();
+        $l->setKey($newKey);
+        if($l->save()){
+            return $newKey;
+        }else{
+            return false;
+        }
     }
 
     static function getFromDbByUserName($userName) {
@@ -176,7 +181,6 @@ class LiveTransmition extends ObjectYPT {
         } else {
             $row = false;
         }
-        ObjectYPT::setCache($name, $row);
         return $row;
     }
 

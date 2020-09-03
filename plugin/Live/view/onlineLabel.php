@@ -27,10 +27,12 @@ $live_servers_id = Live::getCurrentLiveServersId();
         ?>
         return true;
     }
+    var isOnlineLabel = false;
     var playCorrectSource<?php echo $live_servers_id; ?>Timout;
     function playCorrectSource<?php echo $live_servers_id; ?>() {
         var bigPlayButtonModified = false;
         if($('#liveViewStatus<?php echo $live_servers_id; ?>').hasClass('isOnline') && !isOfflineVideo()){
+            isOnlineLabel=true;
             player.bigPlayButton.show();
             bigPlayButtonModified  = true;
             console.log("Change video to Online");
@@ -40,6 +42,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
             $('#liveViewStatus<?php echo $live_servers_id; ?>').text("<?php echo __("ONLINE"); ?>");
             playerPlay(0);
         }else if ($('#liveViewStatus<?php echo $live_servers_id; ?>').hasClass('isOnline') && isOfflineVideo()) {
+            isOnlineLabel=true;
             player.bigPlayButton.show();
             bigPlayButtonModified  = true;
             console.log("Change video to please wait");
@@ -62,6 +65,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
             }, 5000);
         } else if (!$('#liveViewStatus<?php echo $live_servers_id; ?>').hasClass('isOnline') && !isOfflineVideo()) {
             if (player.readyState() <= 2) {
+                isOnlineLabel=false;
                 console.log("Change video to offline");
                 $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('label-warning');
                 $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('label-success');
@@ -106,8 +110,10 @@ $live_servers_id = Live::getCurrentLiveServersId();
             success: function (response) {
                 if(response.name == "<?php echo $streamName; ?>"){
                     if (response.msg === "ONLINE") {
+                        isOnlineLabel=true;
                         $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('isOnline');
                     } else {
+                        isOnlineLabel=false;
                         $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('isOnline');
                     }
                     playCorrectSource<?php echo $live_servers_id; ?>();

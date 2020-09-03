@@ -188,11 +188,16 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                     </video>
                                 </div>
                             </div>
-                            <div class="panel-footer">
+                            <div class="panel-footer" style="display: none;" id="liveControls">
                                 <?php
                                 echo Live::getAllControlls($trasnmition['id']);
                                 ?>
                             </div>
+                            <script>
+                            $(document).ready(function () {
+                                setInterval(function(){if(isOnlineLabel){$("#liveControls").slideDown();}else{$("#liveControls").slideUp();}},1000);
+                            });
+                            </script>
                         </div>
                         <?php
                         include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.php';
