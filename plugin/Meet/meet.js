@@ -17,8 +17,12 @@ function isJitsiLive() {
 }
 
 function isConferenceReady() {
-    jitsiIsLive = $(".circular-label.stream").is(":visible");
-    window.parent.postMessage({"isLive": jitsiIsLive}, "*");
+    conferenceIsReady = $("#videoconference_page").is(":visible");
+    if(conferenceIsReady){
+        window.parent.postMessage({"conferenceIsReady": true}, "*");
+    }else{
+        setTimeout(function(){isConferenceReady()},1000);
+    }
 }
 
 function startYPTScripts() {
@@ -47,6 +51,7 @@ function startYPTScripts() {
         });
         
         window.parent.postMessage({"YPTisReady": true}, "*");
+        isConferenceReady();
     } else {
         setTimeout(function () {
             startYPTScripts();

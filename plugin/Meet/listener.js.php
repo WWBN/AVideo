@@ -13,6 +13,8 @@
             jitsiIsLive = e.data.isLive;
         }else if(typeof e.data.YPTisReady !== 'undefined'){
             document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"},"*");
+        }else if(typeof e.data.conferenceIsReady !== 'undefined'){
+            document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"},"*");
             $('#meetButtons').fadeIn();
             showStopStart();
             setInterval(function () {
