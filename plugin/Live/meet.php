@@ -196,12 +196,12 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     
     function on_processingLive(){
         on_meetReady();
-        $("#startRecording").hide();
-        $("#stopRecording").hide();
         $('.hideOnProcessingLive').hide();
         $('.showOnLive').hide();
         $('.hideOnNoLive').hide();
         $('.showOnNoLive').show();
+        $("#startRecording").hide();
+        $("#stopRecording").hide();
         $('.showOnProcessingLive').show();
     }   
     
@@ -209,6 +209,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         on_meetReady();
         $('.showOnMeetNotReady').hide();
         $('.showOnProcessingMeetReady').hide();
+        $('.showOnProcessingLive').hide();
         $('.showOnMeetReady').show();
     }   
     
