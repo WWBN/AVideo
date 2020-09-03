@@ -152,6 +152,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
                     meetPassword = response.password;
                     meetLink = response.link;
                     $('#meetLink').val(meetLink);
+                    <?php echo (Meet::isCustomJitsi()?'event_on_meetReady();$("#startRecording").hide();$("#stopRecording").hide();':"") ?>
                 }
             }
         });

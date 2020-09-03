@@ -26,6 +26,8 @@ $o->setDisableGifThumbs(@$_POST['disableGifThumbs']);
 $o->setUseAadaptiveMode(@$_POST['useAadaptiveMode']);
 $o->setProtectLive(@$_POST['protectLive']);
 $o->setGetRemoteFile($_POST['getRemoteFile']);
+$o->setRestreamerURL($_POST['restreamerURL']);
+$o->setControlURL($_POST['controlURL']);
 
 if($id = $o->save()){
     $obj->error = false;

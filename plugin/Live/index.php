@@ -188,6 +188,11 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                     </video>
                                 </div>
                             </div>
+                            <div class="panel-footer">
+                                <?php
+                                echo Live::getAllControlls($trasnmition['id']);
+                                ?>
+                            </div>
                         </div>
                         <?php
                         include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.php';

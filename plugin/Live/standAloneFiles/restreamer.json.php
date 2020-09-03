@@ -37,7 +37,7 @@ $logFileLocation = rtrim($logFileLocation, "/") . '/';
 $logFile = $logFileLocation . "ffmpeg_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
 
 header('Content-Type: application/json');
-$configFile = '../../videos/configuration.php';
+$configFile = '../../../videos/configuration.php';
 
 if (file_exists($configFile)) {
     include_once $configFile;

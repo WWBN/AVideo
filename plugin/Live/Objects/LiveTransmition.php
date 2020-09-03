@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
@@ -118,8 +119,8 @@ class LiveTransmition extends ObjectYPT {
         return $user;
     }
 
-    static function createTransmitionIfNeed($user_id) { 
-        if(empty($user_id)){
+    static function createTransmitionIfNeed($user_id) {
+        if (empty($user_id)) {
             return false;
         }
         $row = static::getFromDbByUser($user_id);
@@ -165,29 +166,25 @@ class LiveTransmition extends ObjectYPT {
             return false;
         }
         $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
-        $name = "LivetransmitionkeyExists($key)";
-        $row = ObjectYPT::getCache($name, 60);
-        $row = object_to_array($row);
-        if(empty($row)){
-            $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
-                    . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
-            $res = sqlDAL::readSql($sql);
-            $data = sqlDAL::fetchAssoc($res);
-            sqlDAL::close($res);
-            if ($res) {
-                $row = $data;
-            } else {
-                $row = false;
-            }
-            ObjectYPT::setCache($name, $row);
+        $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
+                . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
+        $res = sqlDAL::readSql($sql);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
         }
+        ObjectYPT::setCache($name, $row);
         return $row;
     }
 
     function save() {
         $this->public = intval($this->public);
         $this->saveTransmition = intval($this->saveTransmition);
-        return parent::save();
+        $id = parent::save();
+        return $id;
     }
 
     function deleteGroupsTrasmition() {
