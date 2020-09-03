@@ -178,8 +178,8 @@ class AD_Overlay extends PluginAbstract {
           align: '{$obj->align}'
         }]
       });";
-          
-        $js .= PlayerSkins::getStartPlayerJS($onPlayerReady);
+        $js .= '<script>'.PlayerSkins::getStartPlayerJS($onPlayerReady).'</script>';
+        
         return $js;
     }
 
