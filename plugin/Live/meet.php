@@ -85,8 +85,8 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
                 if (response.error) {
                     swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     on_meetStop();
+                    modal.hidePleaseWait();
                 } else {
-                    showMeet();
                     const domain = '<?php echo $domain; ?>';
                     const options = {
                         roomName: response.roomName,
@@ -124,7 +124,6 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
                     meetLink = response.link;
                     $('#meetLink').val(meetLink);
                 }
-                modal.hidePleaseWait();
             }
         });
     }
@@ -137,23 +136,23 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     function event_on_liveStatusChange(){
         clearTimeout(setProcessingIsLiveTimeout);
         processingIsLive = false;
+        showStopStart();
     }
     
     var showStopStartInterval;
     function on_meetReady(){
+        modal.hidePleaseWait();
         $('.showOnMeetNotReady').hide();
         $('.showOnProcessingMeetReady').hide();
         $('.showOnMeetReady').show();
         clearInterval(showStopStartInterval);
         showStopStart();
-        showStopStartInterval = setInterval(function () {
-            showStopStart();
-        }, 1000);
     }   
     
     function event_on_meetReady(){
         document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"},"*");
         conferenceIsReady = true;
+        showMeet();
         on_meetReady();
     }
     
