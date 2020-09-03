@@ -155,11 +155,8 @@ class AD_Overlay extends PluginAbstract {
                 . '</div>';
 
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.js" type="text/javascript"></script>';
-
-        $js .= '<script>'
-                . "$(document).ready(function () {     if (typeof player == 'undefined') {
-                    player = videojs('mainVideo'" . PlayerSkins::getDataSetup() . ");
-                    setTimeout(function(){
+        
+        $onPlayerReady = "setTimeout(function(){
                         \$('#cbb').click(function() {
                             \$('.vjs-overlay').fadeOut();
                             $('#mainVideo .vjs-control-bar').removeClass('vjs-hidden');
@@ -170,7 +167,6 @@ class AD_Overlay extends PluginAbstract {
                         $('#mainVideo .vjs-control-bar').removeClass('vjs-hidden');
                         $('#mainVideo .vjs-control-bar').addClass('vjs-fade-out');
                     },3000);
-                };
                 player.overlay({
         content: $('#adOverlay').html(),
         debug: true,
@@ -181,9 +177,9 @@ class AD_Overlay extends PluginAbstract {
           end: 3600,
           align: '{$obj->align}'
         }]
-      });
-      });"
-                . '</script>';
+      });";
+          
+        $js .= PlayerSkins::getStartPlayerJS($onPlayerReady);
         return $js;
     }
 

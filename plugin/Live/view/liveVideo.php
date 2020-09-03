@@ -41,50 +41,12 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
                 include $global['systemRootPath'] . 'plugin/Live/view/onlineUsers.php';
                 ?>
             </div>
-
-
-            <?php
-            $liveCount = AVideoPlugin::loadPluginIfEnabled('LiveCountdownEvent');
-            $html = array();
-            if ($liveCount) {
-                $html = $liveCount->getNextLiveApplicationFromUser($user_id);
-            }
-            foreach ($html as $value) {
-                echo $value['html'];
-            };
-            ?>
         </div>
     </div>
     <div class="col-sm-2 col-md-2"></div>
 </div>
-
-
-
 <script>
-
-    $(document).ready(function () {
-        if (typeof player === 'undefined') {
-            player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-        }
-        player.ready(function () {
-            var err = this.error();
-            if (err && err.code) {
-                $('.vjs-error-display').hide();
-                $('#mainVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
 <?php
-if (!empty($html)) {
-    echo "showCountDown();";
-}
+echo PlayerSkins::getStartPlayerJS();
 ?>
-            }
-        });
-<?php
-if ($config->getAutoplay()) {
-    echo "setTimeout(function(){playerPlay(0);},500);";
-}
-?>
-        player.persistvolume({
-            namespace: "AVideo"
-        });
-    });
 </script>

@@ -44,26 +44,7 @@ if (filter_var($t['link'], FILTER_VALIDATE_URL)) {
     <div class="col-sm-2 col-md-2"></div>
 </div>
 <script>
-
-    $(document).ready(function () {
-        if (typeof player === 'undefined') {
-            player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-        }
-        player.ready(function () {
-            var err = this.error();
-            if (err && err.code) {
-                $('.vjs-error-display').hide();
-                $('#mainVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
-            }
 <?php
-if ($config->getAutoplay()) {
-    echo "playerPlay(0);";
-}
+echo PlayerSkins::getStartPlayerJS();
 ?>
-
-        });
-        player.persistvolume({
-            namespace: "AVideo"
-        });
-    });
 </script>

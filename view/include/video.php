@@ -32,7 +32,6 @@ if (isset($_GET['t'])) {
 }
 
 $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
-$dataSetup = PlayerSkins::getDataSetup();
 ?>
 <div class="row main-video" id="mvideo">
     <div class="col-sm-2 col-md-2 firstC"></div>
@@ -92,79 +91,24 @@ $dataSetup = PlayerSkins::getDataSetup();
 <script>
     var mediaId = '<?php echo $playNowVideo['id']; ?>';
     var player;
-    $(document).ready(function () {
 
 <?php
-$_GET['isMediaPlaySite'] = $playNowVideo['id'];
-if ($playNowVideo['type'] == "linkVideo") {
-    echo '$("time.duration").hide();';
+$onPlayerReady = "player.on('play', function () {addView({$playNowVideo['id']}, this.currentTime());});";
+
+if ($config->getAutoplay()) {
+    $onPlayerReady .= "playerPlay({$currentTime});";
+} else {
+    $onPlayerReady .= "setCurrentTime({$currentTime});";
 }
-?>
-    if (typeof player === 'undefined') {
-    player = videojs('mainVideo'<?php echo $dataSetup; ?>);
-    }
-    player.on('play', function () {
-    addView(<?php echo $playNowVideo['id']; ?>, this.currentTime());
-    });
-    player.ready(function () {
-
-<?php if ($config->getAutoplay()) {
-    ?>
-        setTimeout(function () {
-        if (typeof player === 'undefined') {
-        player = videojs('mainVideo'<?php echo $dataSetup; ?>);
-        }
-        playerPlay(<?php echo $currentTime; ?>);
-        }, 150);
-<?php } else { ?>
-
-        if (typeof player !== 'undefined') {
-        player.currentTime(<?php echo $currentTime; ?>);
-        } else{
-        setTimeout(function () {
-        player.currentTime(<?php echo $currentTime; ?>);
-        }, 1000);
-        }
-        if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-        setTimeout(function () {
-        if (typeof player === 'undefined') {
-        player = videojs('mainVideo'<?php echo $dataSetup; ?>);
-        }
-        playerPlay(<?php echo $currentTime; ?>);
-        }, 150);
-        }
-
-        var initdone = false;
-        // wait for video metadata to load, then set time 
-        player.on("loadedmetadata", function(){
-        player.currentTime(<?php echo $currentTime; ?>);
-        });
-        // iPhone/iPad need to play first, then set the time
-        // events: https://www.w3.org/TR/html5/embedded-content-0.html#mediaevents
-        player.on("canplaythrough", function(){
-        if (!initdone){
-        player.currentTime(<?php echo $currentTime; ?>);
-        initdone = true;
-        }
-        });
-<?php }
-?>
-    this.on('ended', function () {
-    console.log("Finish Video");
-<?php
-// if autoplay play next video
+$onPlayerReady .= "player.on('ended', function () {console.log(\"Finish Video\");
+    var time = Math.round(this.currentTime());
+    addView({$video['id']}, time);";
 if (!empty($autoPlayVideo)) {
-    ?>
-        if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-    <?php
+    $onPlayerReady .= "if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {";
     if ($autoPlayVideo['type'] !== 'video' || empty($advancedCustom->autoPlayAjax)) {
-        ?>
-
-            document.location = autoPlayURL;
-        <?php
+        $onPlayerReady .= "document.location = autoPlayURL;";
     } else {
-        ?>
-            $('video, #mainVideo').attr('poster', autoPlayPoster);
+        $onPlayerReady .= "$('video, #mainVideo').attr('poster', autoPlayPoster);
             changeVideoSrc(player, autoPlaySources);
             history.pushState(null, null, autoPlayURL);
             $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src', autoPlayThumbsSprit);
@@ -174,44 +118,37 @@ if (!empty($autoPlayVideo)) {
                     modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
                     $('#modeYoutubeBottom').html(modeYoutubeBottom);
                     }
-            });
-        <?php
+            });";
     }
-    ?>
-        }
-<?php } ?>
+    $onPlayerReady .= "}";
+}
+$onPlayerReady .= "});";
+$onPlayerReady .= "player.on('timeupdate', function () {
+                var time = Math.round(this.currentTime());
+                var url = '" . Video::getURLFriendly($video['id']) . "';
+                if (url.indexOf('?') > -1) {
+                    url += '&t=' + time;
+                } else {
+                    url += '?t=' + time;
+                }
+                $('#linkCurrentTime').val(url);
+                if (time >= 5 && time % 5 === 0) {
+                    addView({$video['id']}, time);
+                }
+            });";
 
-    });
-    this.on('timeupdate', function () {
-    var time = Math.round(this.currentTime());
-    var url = '<?php echo Video::getURLFriendly($video['id']); ?>';
-    if (url.indexOf('?') > - 1){
-    url += '&t=' + time;
-    } else{
-    url += '?t=' + time;
-    }
-    $('#linkCurrentTime').val(url);
-    if (time >= 5 && time % 5 === 0) {
-    addView(<?php echo $video['id']; ?>, time);
-    }
-    });
-    this.on('ended', function () {
-    var time = Math.round(this.currentTime());
-    addView(<?php echo $video['id']; ?>, time);
-    });
-    });
-    player.persistvolume({
-    namespace: "AVideo"
-    });
-    // in case the video is muted
-    setTimeout(function () {
-    if (typeof player === 'undefined') {
-    player = videojs('mainVideo'<?php echo $dataSetup; ?>);
-    }
+echo PlayerSkins::getStartPlayerJS($onPlayerReady);
+?>
 
-    }, 1500);
-    }
-    );
+    $(document).ready(function () {
+
+<?php
+$_GET['isMediaPlaySite'] = $playNowVideo['id'];
+if ($playNowVideo['type'] == "linkVideo") {
+    echo '$("time.duration").hide();';
+}
+?>
+    });
 </script>
 <?php
 include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
