@@ -1,5 +1,6 @@
 <script>
     var jitsiIsLive = false;
+    var conferenceIsReady = false;
 
     var eventMethod = window.addEventListener
             ? "addEventListener"
@@ -17,7 +18,8 @@
             setInterval(function () {
                 showStopStart();
             }, 1000);
-        }else if(typeof e.data.conferenceIsReady !== 'undefined'){            
+        }else if(typeof e.data.conferenceIsReady !== 'undefined'){     
+            conferenceIsReady = true;
             $('.showOnMeetReady').show();
             $('.hideOnMeetReady').hide();
         }
