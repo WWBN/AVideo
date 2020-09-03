@@ -41,7 +41,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
     </button>
     <button class="btn btn-success btn-xs showOnNoLive hideOnProcessingLive hideOnMeetNotReady" id="startRecording" style="display: none;" onclick="startRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
-        <i class="fas fa-circle"></i> <?php echo __("Start"); ?>
+        <i class="fas fa-circle"></i> <?php echo __("Go Live"); ?>
     </button>
     <button class="btn btn-warning btn-xs showOnProcessingLive hideOnMeetNotReady" style="display: none;">
         <i class="fas fa-circle-notch fa-spin"></i> <?php echo __("Please Wait"); ?>

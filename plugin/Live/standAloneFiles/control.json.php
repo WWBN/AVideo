@@ -6,19 +6,17 @@
  * This file suppose to sit on the same server as the live stream, and for security reasons you may want to setup your control module in a different port, listning only localhost o port 8080
  * 
   http {
-  ...
-  server {
-  listen       8080;
-  server_name  localhost;
-  location /control {
-  rtmp_control all;
-  }
-  }
+    ...
+    server {
+        listen       8080;
+        server_name  localhost;
+        location /control {
+            rtmp_control all;
+        }
+    }
   }
  */
 $streamerURL = "https://demo.avideo.com/"; // change it to your streamer URL
-// optional you can change the log file location here
-$logFileLocation = '/var/www/tmp/';
 
 $server_name = "localhost";
 $port = "8080";
@@ -26,8 +24,6 @@ $port = "8080";
  * DO NOT EDIT AFTER THIS LINE
  */
 
-$logFileLocation = rtrim($logFileLocation, "/") . '/';
-$logFile = $logFileLocation . "nginx_control.log";
 
 header('Content-Type: application/json');
 $configFile = '../../../videos/configuration.php';
@@ -44,7 +40,6 @@ $obj->error = true;
 $obj->msg = "";
 $obj->streamerURL = $streamerURL;
 $obj->token = $_REQUEST['token'];
-$obj->logFile = $logFile;
 $obj->command = $_REQUEST['command'];
 $obj->app = $_REQUEST['app'];
 $obj->name = $_REQUEST['name'];
