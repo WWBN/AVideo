@@ -21,7 +21,7 @@ function isConferenceReady() {
     if(conferenceIsReady){
         window.parent.postMessage({"conferenceIsReady": true}, "*");
     }else{
-        setTimeout(function(){isConferenceReady()},1000);
+        setTimeout(function(){isConferenceReady();},1000);
     }
 }
 
