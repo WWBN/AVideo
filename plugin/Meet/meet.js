@@ -15,26 +15,33 @@ function isJitsiLive() {
     jitsiIsLive = $(".circular-label.stream").is(":visible");
     window.parent.postMessage({"isLive": jitsiIsLive}, "*");
 }
-$(document).ready(function () {
-    isJitsiLive();
-    setInterval(function () {
-        isJitsiLive();
-    }, 1000);
 
-    setLivestreamURL();
-    setInterval(function () {
+function startYPTScripts() {
+    if (window.jQuery) {
+        isJitsiLive();
+        setInterval(function () {
+            isJitsiLive();
+        }, 1000);
+
         setLivestreamURL();
-    }, 500);
-});
-var eventMethod = window.addEventListener
-        ? "addEventListener"
-        : "attachEvent";
-var eventer = window[eventMethod];
-var messageEvent = eventMethod === "attachEvent"
-        ? "onmessage"
-        : "message";
-eventer(messageEvent, function (e) {
-    if (typeof e.data.hideElement !== 'undefined') {
-        $(e.data.hideElement).hide();
+        setInterval(function () {
+            setLivestreamURL();
+        }, 500);
+        var eventMethod = window.addEventListener
+                ? "addEventListener"
+                : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod === "attachEvent"
+                ? "onmessage"
+                : "message";
+        eventer(messageEvent, function (e) {
+            if (typeof e.data.hideElement !== 'undefined') {
+                $(e.data.hideElement).hide();
+            }
+        });
+    } else {
+        setTimeout(function () {
+            startYPTScripts();
+        }, 500);
     }
-});
+}
