@@ -255,7 +255,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
                     console.log(response);
                 }
             });
-        }, 2000);
+        }, 5000);
 
     }
 
