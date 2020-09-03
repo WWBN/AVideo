@@ -44,7 +44,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
     <button class="btn btn-success btn-xs" id="processRecording" style="display: none;" onclick="startRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
         <i class="fas fa-circle-notch fa-spin"></i> <?php echo __("Please Wait"); ?>
     </button>
-    <button class="btn btn-default btn-xs" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
+    <button class="btn btn-default btn-xs hideOnMeetReady" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
         <i class="fas fa-camera"></i> <?php echo __("Webcam"); ?>/<?php echo __("Meet"); ?>
     </button>
     <input type="hidden" value="" id="meetLink"/>
@@ -177,12 +177,13 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
             processingRecording = false;
         }
         if(processingRecording){
+            console.log("YPTMeet we are processingRecording ");
             return false;
         }
         if(typeof jitsiIsLive !== 'undefined'){
             lastjitsiIsLive = jitsiIsLive;
         }
-        if (typeof jitsiIsLive !== 'undefined' && $(".showOnMeet").is(":visible")) {
+        if (typeof jitsiIsLive !== 'undefined' && typeof conferenceIsReady !== 'undefined' && conferenceIsReady) {
             if (jitsiIsLive) {
                 $('.showOnLive').show();
                 $('.showOnNoLive').hide();
