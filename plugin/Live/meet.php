@@ -134,7 +134,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         hideMeet();
     }
     
-    event_on_liveStatusChange(){
+    function event_on_liveStatusChange(){
         clearTimeout(setProcessingIsLiveTimeout);
         processingIsLive = false;
     }
