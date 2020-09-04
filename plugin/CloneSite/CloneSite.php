@@ -44,6 +44,7 @@ class CloneSite extends PluginAbstract {
         $obj->cloneSiteURL = "";
         $obj->cloneSiteSSHIP = "";
         $obj->cloneSiteSSHUser = "";
+        $obj->cloneSiteSSHPort = "22";
         $o = new stdClass();
         $o->type = "encrypted";
         $o->value = "";        

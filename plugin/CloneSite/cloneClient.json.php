@@ -152,7 +152,11 @@ if (empty($objClone->useRsync)) {
 } else {
     // decrypt the password now
     $objClone = Plugin::decryptIfNeed($objClone);
-    $rsync = "sshpass -p '{password}' rsync -av -e 'ssh -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} {$global['systemRootPath']}videos/ --log-file='{$log->file}' ";
+    $port = intval($objClone->cloneSiteSSHPort);
+    if(empty($port)){
+        $port = 22;
+    }
+    $rsync = "sshpass -p '{password}' rsync -av -e 'ssh -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} {$global['systemRootPath']}videos/ -p {$port} --log-file='{$log->file}' ";
     $cmd = str_replace("{password}", $objClone->cloneSiteSSHPassword->value, $rsync);
     $log->add("Clone (4 of {$totalSteps}): execute rsync ({$rsync})");
     
