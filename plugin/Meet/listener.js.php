@@ -23,6 +23,7 @@
             console.log("YPTMeetScript is loaded");
             event_on_meetReady();
         }else if(typeof e.data.conferenceIsReady !== 'undefined'){   
+            event_on_meetReady();
             console.log("YPTMeetScript conference is ready");
         }
     });
