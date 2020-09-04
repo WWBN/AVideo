@@ -6,7 +6,7 @@ function setLivestreamURL() {
         $(selector).val('');
         var input = document.querySelector(selector);
         var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
-        nativeInputValueSetter.call(input, '$getRTMPLink');
+        nativeInputValueSetter.call(input, getRTMPLink);
         var ev2 = new Event('input', {bubbles: true});
         input.dispatchEvent(ev2);
     }
@@ -14,6 +14,15 @@ function setLivestreamURL() {
 function isJitsiLive() {
     jitsiIsLive = $(".circular-label.stream").is(":visible");
     window.parent.postMessage({"isLive": jitsiIsLive}, "*");
+}
+
+function isConferenceReady() {
+    conferenceIsReady = $("#videoconference_page").is(":visible");
+    if(conferenceIsReady){
+        window.parent.postMessage({"conferenceIsReady": true}, "*");
+    }else{
+        setTimeout(function(){isConferenceReady();},1000);
+    }
 }
 
 function startYPTScripts() {
@@ -40,6 +49,9 @@ function startYPTScripts() {
                 $(e.data.hideElement).hide();
             }
         });
+        
+        window.parent.postMessage({"YPTisReady": true}, "*");
+        isConferenceReady();
     } else {
         setTimeout(function () {
             startYPTScripts();

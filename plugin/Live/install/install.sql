@@ -115,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `live_servers` (
   `protectLive` TINYINT(1) NULL DEFAULT NULL,
   `getRemoteFile` VARCHAR(255) NULL DEFAULT NULL,
   `restreamerURL` VARCHAR(255) NULL DEFAULT NULL,
+  `controlURL` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `live_serversindex2` (`status` ASC),
   INDEX `live_servers` (`url` ASC))

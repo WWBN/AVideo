@@ -40,7 +40,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "5.1";
+        return "5.2";
     }
 
     public function updateScript() {
@@ -89,6 +89,14 @@ class Live extends PluginAbstract {
                 sqlDal::writeSql(trim($value));
             }
         }
+        //update version 5.2
+        if (AVideoPlugin::compareVersion($this->getName(), "5.2") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV5.2.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
         return true;
     }
 
@@ -108,7 +116,8 @@ class Live extends PluginAbstract {
         $obj->server = "rtmp://{$server['host']}/live";
         $obj->playerServer = "{$scheme}://{$server['host']}:{$port}/live";
         $obj->stats = "{$scheme}://{$server['host']}:{$port}/stat";
-        $obj->restreamerURL = "{$global['webSiteRootURL']}plugin/Live/restreamer.json.php";
+        $obj->restreamerURL = "{$global['webSiteRootURL']}plugin/Live/standAloneFiles/restreamer.json.php";
+        $obj->controlURL = "{$global['webSiteRootURL']}plugin/Live/standAloneFiles/control.json.php";
         $obj->disableRestream = false;
         $obj->disableDVR = false;
         $obj->disableGifThumbs = false;
@@ -151,14 +160,147 @@ class Live extends PluginAbstract {
         }
         return $obj->server;
     }
-    
-    static function getDropURL($key, $live_servers_id = -1){
+
+    static function getDropURL($key) {
         $server = self::getPlayerServer();
-        $server = rtrim($server,"/");
+        $server = rtrim($server, "/");
         $parts = explode("/", $server);
         $app = array_pop($parts);
-        $domain = implode("/", $parts);
-        return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
+        $domain = self::getControl();
+        //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
+        return "{$domain}?command=drop_publisher&app={$app}&name={$key}&token=" . getToken(60);
+    }
+
+    static function getStartRecordURL($key) {
+        $server = self::getPlayerServer();
+        $server = rtrim($server, "/");
+        $parts = explode("/", $server);
+        $app = array_pop($parts);
+        $domain = self::getControl();
+        //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
+        return "{$domain}?command=record_start&app={$app}&name={$key}&token=" . getToken(60);
+    }
+
+    static function getStopRecordURL($key) {
+        $server = self::getPlayerServer();
+        $server = rtrim($server, "/");
+        $parts = explode("/", $server);
+        $app = array_pop($parts);
+        $domain = self::getControl();
+        
+        return "{$domain}?command=record_stop&app={$app}&name={$key}&token=" . getToken(60);
+    }
+
+    static function getButton($command, $live_transmition_id, $live_servers_id = 0, $iconsOnly=false, $label = "", $class = "", $tooltip = "") {
+        if (!User::canStream()) {
+            return "";
+        }
+        global $global;
+        $id = "getButton" . uniqid();
+        if (empty($live_servers_id)) {
+            $live_servers_id = self::getLiveServersIdRequest();
+        }
+
+        switch ($command) {
+            case "record_start":
+                $buttonClass = "btn btn-default btn-sm";
+                $iconClass = "fas fa-video";
+                if (empty($label)) {
+                    $label = __("Start Record");
+                }
+                if(empty($tooltip)){
+                    $tooltip = __("Start Record");
+                }
+                break;
+            case "record_stop":
+                $buttonClass = "btn btn-default btn-sm";
+                $iconClass = "fas fa-video-slash";
+                if (empty($label)) {
+                    $label = __("Stop Record");
+                }
+                if(empty($tooltip)){
+                    $tooltip = __("Stop Record");
+                }
+                break;
+            case "drop_publisher":
+                $buttonClass = "btn btn-default btn-sm";
+                $iconClass = "fas fa-wifi";
+                if (empty($label)) {
+                    $label = __("Disconnect Livestream");
+                }
+                if(empty($tooltip)){
+                    $tooltip = __("Disconnect Livestream");
+                }
+                break;
+            case "drop_publisher_reset_key":
+                $buttonClass = "btn btn-default btn-sm";
+                $iconClass = "fas fa-key";
+                if (empty($label)) {
+                    $label = __("Disconnect Livestream");
+                }
+                if(empty($tooltip)){
+                    $tooltip = __("Disconnect Livestream").__(" and also reset the stream name/key");
+                }
+                break;
+            default:
+                return '';
+        }
+        if($iconsOnly){
+            $label = "";
+        }
+        $html = "<button class='{$buttonClass} {$class}' id='{$id}'  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{$tooltip}\"><i class='{$iconClass}'></i> {$label}";
+        $html .= "<script>$(document).ready(function () {
+            $('#{$id}').click(function(){
+        modal.showPleaseWait();
+                $.ajax({
+                    url: '{$global['webSiteRootURL']}plugin/Live/control.json.php?command=$command&live_transmition_id={$live_transmition_id}&live_servers_id={$live_servers_id}',
+                    success: function (response) {
+                        console.log('getDropButton called');
+                        console.log(response);
+                        
+                        modal.hidePleaseWait();
+                        if (response.error) {
+                            swal('" . __("Sorry!") . "', response.msg, 'error');
+                        } else{
+                            if(response.newkey != response.key){
+                                swal('" . __("Congratulations!") . "', '" . __("New Key") . ": '+response.newkey, 'success');
+                            }
+                            $('#streamkey, .streamkey').val(response.newkey);
+                        }
+                    }
+                });
+            });
+    });</script>";
+        $html .= "</button>";
+        return $html;
+    }
+    
+    static function getRecordControlls($live_transmition_id, $live_servers_id = 0, $iconsOnly=false) {
+        if (!User::canStream()) {
+            return "";
+        }
+        
+        $btn = "<div class=\"btn-group justified\">";
+        $btn .= self::getButton("record_start", $live_transmition_id, $live_servers_id, $iconsOnly);
+        $btn .= self::getButton("record_stop", $live_transmition_id, $live_servers_id, $iconsOnly);
+        $btn .= "</div>";
+        
+        return $btn;
+    }
+    
+    static function getAllControlls($live_transmition_id, $live_servers_id = 0, $iconsOnly=false) {
+        if (!User::canStream()) {
+            return "";
+        }
+        
+        $btn = "<div class=\"btn-group justified\">";
+        //$btn .= self::getButton("drop_publisher", $live_transmition_id, $live_servers_id);
+        $btn .= self::getButton("drop_publisher_reset_key", $live_transmition_id, $live_servers_id, $iconsOnly);
+        $btn .= self::getButton("record_start", $live_transmition_id, $live_servers_id, $iconsOnly);
+        $btn .= self::getButton("record_stop", $live_transmition_id, $live_servers_id, $iconsOnly);
+        $btn .= "</div>";
+        
+        return $btn;
     }
 
     static function getRestreamer($live_servers_id = -1) {
@@ -175,6 +317,20 @@ class Live extends PluginAbstract {
         return $obj->restreamerURL;
     }
 
+    static function getControl($live_servers_id = -1) {
+        $obj = AVideoPlugin::getObjectData("Live");
+        if (!empty($obj->controlURL)) {
+            if ($live_servers_id < 0) {
+                $live_servers_id = self::getCurrentLiveServersId();
+            }
+            $ls = new Live_servers($live_servers_id);
+            if (!empty($ls->getControlURL())) {
+                return $ls->getControlURL();
+            }
+        }
+        return $obj->controlURL;
+    }
+    
     static function getRTMPLink() {
         if (!User::canStream()) {
             return false;
@@ -231,7 +387,7 @@ class Live extends PluginAbstract {
         return intval($_REQUEST['live_servers_id']);
     }
 
-    static function getM3U8File($uuid, $doNotProtect=false) {
+    static function getM3U8File($uuid, $doNotProtect = false) {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
         $playerServer = self::getPlayerServer();
@@ -727,7 +883,7 @@ class Live extends PluginAbstract {
 
         $rows = Live_restreams::getAllFromUser($lth->getUsers_id());
         foreach ($rows as $value) {
-            $value['stream_url'] = rtrim($value['stream_url'],"/").'/';
+            $value['stream_url'] = rtrim($value['stream_url'], "/") . '/';
             $obj->restreamsDestinations[] = "{$value['stream_url']}{$value['stream_key']}";
         }
         return $obj;
@@ -765,33 +921,32 @@ class Live extends PluginAbstract {
             curl_close($ch);
             return json_decode($output);
         } catch (Exception $exc) {
-            _error_log("Live:restream ".$exc->getTraceAsString());
-        } 
+            _error_log("Live:restream " . $exc->getTraceAsString());
+        }
         return false;
     }
-    
-    public static function canStreamWithMeet(){
-        if(!User::canStream()){
+
+    public static function canStreamWithMeet() {
+        if (!User::canStream()) {
             return false;
         }
-        
-        if(!User::canCreateMeet()){
+
+        if (!User::canCreateMeet()) {
             return false;
         }
-        
+
         $mobj = AVideoPlugin::getObjectDataIfEnabled("Meet");
-        
-        if(empty($mobj)){
+
+        if (empty($mobj)) {
             return false;
         }
-        
+
         $obj = AVideoPlugin::getObjectDataIfEnabled("Live");
-        if(!empty($obj->disableMeetCamera)){
+        if (!empty($obj->disableMeetCamera)) {
             return false;
         }
-        
+
         return true;
-        
     }
 
 }
