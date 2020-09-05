@@ -579,6 +579,7 @@ function copyToClipboard(text) {
     $('#elementToCopy').focus();
     $('#elementToCopy').select();
     document.execCommand('copy');
+    $('#elementToCopy').hide();
     $.toast("Copied to Clipboard");
 }
 
