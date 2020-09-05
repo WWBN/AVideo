@@ -573,11 +573,12 @@ function getPlayerButtonIndex(name) {
 }
 
 function copyToClipboard(text) {
-    $('#elementToCopy').css({'top': mouseY, 'left': mouseX}).fadeIn('slow');
+    $('#elementToCopy').css({'top': 0, 'left': 0}).fadeIn('slow');
     $('#elementToCopy').val(text);
     $('#elementToCopy').focus();
     $('#elementToCopy').select();
     document.execCommand('copy');
+    $('#elementToCopy').hide();
     $.toast("Copied to Clipboard");
 }
 
