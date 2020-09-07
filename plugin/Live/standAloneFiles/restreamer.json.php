@@ -30,6 +30,13 @@ $ffmpegBinary = '/usr/local/bin/ffmpeg';
  * DO NOT EDIT AFTER THIS LINE
  */
 
+if(!file_exists($ffmpegBinary)){
+    $ffmpegBinary = '/usr/bin/ffmpeg';
+    if(!file_exists($ffmpegBinary)){
+        $ffmpegBinary = '/usr/local/bin/ffmpeg';
+    }
+}
+
 set_time_limit(300);
 ini_set('max_execution_time', 300);
 
