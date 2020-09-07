@@ -11,7 +11,9 @@ function setImageLoop() {
 
 function toogleImageLoop(t) {
     tooglePlayerLoop();
-    setImageLoop();
+    if (typeof setImageLoop === 'function') {
+        setImageLoop();
+    }
 }
 
 $(document).ready(function () {

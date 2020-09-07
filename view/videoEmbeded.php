@@ -148,6 +148,10 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
 $url = Video::getLink($video['id'], $video['clean_title'], false);
 $title = str_replace('"', '', $video['title']) . ' - ' . $config->getWebSiteTitle();
 $photo = User::getPhoto($video['users_id']);
+
+if(empty($currentTime)){
+    $currentTime = 0;
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -399,7 +403,7 @@ $photo = User::getPhoto($video['users_id']);
         ?>
         <script>
     <?php
-    $onPlayerReady = "player.on('play', function () {addView({$playNowVideo['id']}, this.currentTime());});";
+    $onPlayerReady = "player.on('play', function () {addView({$video['id']}, this.currentTime());});";
     $onPlayerReady .= "player.on('timeupdate', function () {
     var time = Math.round(this.currentTime());
     var url = '" . Video::getURLFriendly($video['id']) . "';
@@ -456,7 +460,8 @@ addView({$video['id']}, time);";
         ?>
 
         <script><?php
-    $onPlayerReady = "player.on('play', function () {addView({$playNowVideo['id']}, this.currentTime());});";
+    $onPlayerReady = "";
+    $onPlayerReady = "player.on('play', function () {addView({$video['id']}, this.currentTime());});";
     $onPlayerReady .= "player.on('timeupdate', function () {
     var time = Math.round(this.currentTime());
     var url = '" . Video::getURLFriendly($video['id']) . "';

@@ -63,9 +63,9 @@ class TheaterButton extends PluginAbstract {
         $js = '';
         if(empty($obj->show_switch_button)){
             if($obj->compress_is_default){
-                $js .= '<script>$(document).ready(function () {compress(videojs)});</script>';
+                $js .= '<script>$(document).ready(function () {if (typeof compress === "function" && videojs){compress(videojs);}});</script>';
             }else{
-                $js .= '<script>$(document).ready(function () {expand(videojs)});</script>';
+                $js .= '<script>$(document).ready(function () {if (typeof expand === "function" && videojs){expand(videojs);}});</script>';
             }
         }
         

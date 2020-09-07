@@ -29,7 +29,7 @@ class CloneSite extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";   
+        return "1.1";   
     }
 
     public function getPluginMenu() {
@@ -44,6 +44,7 @@ class CloneSite extends PluginAbstract {
         $obj->cloneSiteURL = "";
         $obj->cloneSiteSSHIP = "";
         $obj->cloneSiteSSHUser = "";
+        $obj->cloneSiteSSHPort = "22";
         $o = new stdClass();
         $o->type = "encrypted";
         $o->value = "";        

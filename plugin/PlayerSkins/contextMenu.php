@@ -113,7 +113,9 @@ if ($playerSkinsObj->showSocialShareOnEmbed && $playerSkinsObj->contextMenuShare
         var menu = new BootstrapMenu('#mainVideo', {
             actions: [<?php echo implode(",", $contextMenu); ?>]
         });
-        setImageLoop();
+        if (typeof setImageLoop === 'function') {
+            setImageLoop();
+        }
         $('#SharingModal').modal({show: false});
     });
 </script>
