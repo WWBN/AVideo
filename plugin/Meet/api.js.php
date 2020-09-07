@@ -93,7 +93,9 @@ if (!empty($livePlugin) && User::canStream()) {
     }
 
     function aVideoMeetStartRecording(RTMPLink, dropURL) {
-        on_processingLive();
+        if(typeof on_processingLive === 'function'){
+            on_processingLive();
+        }
         if (dropURL) {
             $.ajax({
                 url: dropURL,
@@ -116,7 +118,9 @@ if (!empty($livePlugin) && User::canStream()) {
     }
 
     function aVideoMeetStopRecording(dropURL) {
-        on_processingLive();
+        if(typeof on_processingLive === 'function'){
+            on_processingLive();
+        }
         api.executeCommand('stopRecording', 'stream');
         if (dropURL) {
             setTimeout(function () { // if I run the drop on the same time, the stopRecording fails
