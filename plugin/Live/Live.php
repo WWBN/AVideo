@@ -147,6 +147,31 @@ class Live extends PluginAbstract {
         return $o->key;
     }
 
+    static function getDestinationApplicationName() {
+        $server = self::getPlayerServer();
+        $server = rtrim($server, "/");
+        $parts = explode("/", $server);
+        $app = array_pop($parts);
+        $domain = self::getControl();
+        //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
+        return "{$app}?p=".User::getUserPass();
+    }
+
+    static function getDestinationHost() {
+        $server = self::getServer();
+        $host  = parse_url($server, PHP_URL_HOST);
+        return $host;
+    }
+
+    static function getDestinationPort() {
+        $server = self::getServer();
+        $port  = parse_url($server, PHP_URL_PORT);
+        if(empty($port)){
+            $port = 1935;
+        }
+        return $port;
+    }
+    
     static function getServer($live_servers_id = -1) {
         $obj = AVideoPlugin::getObjectData("Live");
         if (!empty($obj->useLiveServers)) {
@@ -171,6 +196,16 @@ class Live extends PluginAbstract {
         return "{$domain}?command=drop_publisher&app={$app}&name={$key}&token=" . getToken(60);
     }
 
+    static function getIsRecording($key) {
+        $server = self::getPlayerServer();
+        $server = rtrim($server, "/");
+        $parts = explode("/", $server);
+        $app = array_pop($parts);
+        $domain = self::getControl();
+        //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
+        return "{$domain}?command=is_recording&app={$app}&name={$key}&token=" . getToken(60);
+    }
+    
     static function getStartRecordURL($key) {
         $server = self::getPlayerServer();
         $server = rtrim($server, "/");
@@ -434,6 +469,11 @@ class Live extends PluginAbstract {
     }
 
     function getStatsObject($live_servers_id = 0) {
+        if (!function_exists('simplexml_load_file')) {
+            _error_log("Live::getStatsObject: You need to install the simplexml_load_file function to be able to see the Live stats", AVideoLog::$ERROR);
+            return false;
+        }
+        
         global $getStatsObject;
         if (!empty($getStatsObject[$live_servers_id])) {
             return $getStatsObject[$live_servers_id];
@@ -627,7 +667,7 @@ class Live extends PluginAbstract {
         if (!User::isAdmin()) {
             return "";
         }
-        $btn = '<br><button type="button" class="btn btn-default btn-light btn-sm btn-xs" onclick="document.location = \\\'' . $global['webSiteRootURL'] . 'plugin/Live/?users_id=\' + row.users_id + \'\\\';" data-row-id="right" ><i class="fa fa-circle"></i> Live Info</button>';
+        $btn = '<br><button type="button" class="btn btn-default btn-light btn-sm btn-xs" onclick="document.location = \\\'' . $global['webSiteRootURL'] . 'plugin/Live/?users_id=\' + row.users_id + \'\\\';" data-row-id="right" ><i class="fa fa-circle"></i> '.__("Live Info").'</button>';
         return $btn;
     }
 

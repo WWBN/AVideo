@@ -310,7 +310,7 @@ if (User::isAdmin()) {
                                                     <label class="col-md-4 control-label"><?php echo __("Authenticated users can upload videos"); ?></label>
                                                     <div class="col-md-8 inputGroupContainer">
                                                         <div class="input-group">
-                                                            <span class="input-group-addon"><i class="fa fa-cloud-upload"></i></span>
+                                                            <span class="input-group-addon"><i class="fas fa-cloud-upload-alt"></i></span>
                                                             <select class="form-control" id="authCanUploadVideos" >
                                                                 <option value="1" <?php echo ($config->getAuthCanUploadVideos() == 1) ? "selected" : ""; ?>><?php echo __("Yes"); ?></option>
                                                                 <option value="0" <?php echo ($config->getAuthCanUploadVideos() == 0) ? "selected" : ""; ?>><?php echo __("No"); ?></option>
@@ -323,7 +323,7 @@ if (User::isAdmin()) {
                                                     <label class="col-md-4 control-label"><?php echo __("Authenticated users can view chart"); ?></label>
                                                     <div class="col-md-8 inputGroupContainer">
                                                         <div class="input-group">
-                                                            <span class="input-group-addon"><i class="fa fa-cloud-upload"></i></span>
+                                                            <span class="input-group-addon"><i class="fas fa-chart-bar"></i></span>
                                                             <select class="form-control" id="authCanViewChart" >
                                                                 <option value="0" <?php echo ($config->getAuthCanViewChart() == 0) ? "selected" : ""; ?>><?php echo __("For uploaders"); ?></option>
                                                                 <option value="1" <?php echo ($config->getAuthCanViewChart() == 1) ? "selected" : ""; ?>><?php echo __("For selected, admin view"); ?></option>
@@ -336,7 +336,7 @@ if (User::isAdmin()) {
                                                     <label class="col-md-4 control-label"><?php echo __("Authenticated users can comment videos"); ?></label>
                                                     <div class="col-md-8 inputGroupContainer">
                                                         <div class="input-group">
-                                                            <span class="input-group-addon"><i class="fa fa-commenting"></i></span>
+                                                            <span class="input-group-addon"><i class="fas fa-comments"></i></span>
 
                                                             <select class="form-control" id="authCanComment"  >
                                                                 <option value="1" <?php echo ($config->getAuthCanComment() == 1) ? "selected" : ""; ?>><?php echo __("Yes"); ?></option>

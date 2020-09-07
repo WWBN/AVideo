@@ -17,6 +17,7 @@
   }
  */
 $streamerURL = "https://demo.avideo.com/"; // change it to your streamer URL
+$record_path = "/var/www/tmp/"; //update this URL
 
 $server_name = "localhost";
 $port = "8080";
@@ -106,6 +107,19 @@ switch ($obj->command) {
         //http://server.com/control/drop/publisher|subscriber|client?srv=SRV&app=APP&name=NAME&addr=ADDR&clientid=CLIENTID
         $obj->requestedURL = "http://{$server_name}:{$port}/control/drop/publisher?app={$obj->app}&name={$obj->name}";
         $obj->response = @file_get_contents($obj->requestedURL);
+        $obj->error = false;
+        break;
+    case "is_recording":
+        $tolerance = 10; // 10 seconds
+        $obj->response = false;
+        // check the last file change time, if is less then x seconds it is recording
+        $files = glob("$record_path/{$obj->name}*.flv");
+        foreach ($files as $value) {
+            if(time()<=filemtime($value)+$tolerance){
+                $obj->response = true;
+                break;
+            }
+        }
         $obj->error = false;
         break;
 

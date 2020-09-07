@@ -61,10 +61,10 @@ if (Meet::isModerator($meet_schedule_id)) {
     }
 }
 
-if($meetDomain=='custom'){
+if ($meetDomain == 'custom') {
     $domain = $objM->CUSTOM_JITSI_DOMAIN;
-}else{
-    $domain = "{$meetDomain}?getRTMPLink=".urlencode(Live::getRTMPLink());
+} else {
+    $domain = "{$meetDomain}?getRTMPLink=" . urlencode(Live::getRTMPLink());
 }
 /*
   $obj->link = Meet::getMeetRoomLink($_GET['roomName']);
@@ -85,7 +85,6 @@ if($meetDomain=='custom'){
         <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
         <script>
             var getRTMPLink = '<?php echo Live::getRTMPLink(); ?>';
         </script>
@@ -132,47 +131,22 @@ if($meetDomain=='custom'){
                 background: #000;
             }
         </style>
+        <?php
+        include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
+        ?>
     </head>
     <body>
         <div id="meet"></div> 
         <script>
-            const domain = '<?php echo $domain; ?>';
-                const options = {
-                    roomName: '<?php echo $meet->getName(); ?>',
-                    jwt: '<?php echo Meet::getToken($meet_schedule_id); ?>',
-                    parentNode: document.querySelector('#meet'),
-                    userInfo: {
-                        email: '<?php echo User::getEmail_(); ?>',
-                        displayName: '<?php echo User::getNameIdentification(); ?>'
-                    },
-                    interfaceConfigOverwrite: {
-                        TOOLBAR_BUTTONS: <?php echo json_encode(Meet::getButtons($meet_schedule_id)); ?>,
-                        //SET_FILMSTRIP_ENABLED: false,
-                        //DISABLE_FOCUS_INDICATOR: true,
-                        //DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
-                        //DISABLE_VIDEO_BACKGROUND: true,
-                        DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
-                        disableAudioLevels: true,
-                        requireDisplayName: true,
-                        enableLayerSuspension: true,
-                        channelLastN: 4,
-                        startVideoMuted: 10,
-                        startAudioMuted: 10,
-                    }
+            aVideoMeetStart('<?php echo $domain; ?>', '<?php echo $meet->getName(); ?>', '<?php echo Meet::getToken($meet_schedule_id); ?>', '<?php echo User::getEmail_(); ?>', '<?php echo User::getNameIdentification(); ?>', <?php echo json_encode(Meet::getButtons($meet_schedule_id)); ?>);
 
-                };
-                const api = new JitsiMeetExternalAPI(domain, options);
-
-                api.addEventListeners({
-                    readyToClose: readyToClose,
-                });
 <?php
 echo implode(PHP_EOL, $apiExecute);
 ?>
 
-                function readyToClose() {
-                    document.location = "<?php echo $readyToClose; ?>";
-                }
+            function readyToClose() {
+                document.location = "<?php echo $readyToClose; ?>";
+            }
 
         </script>
     </body>

@@ -88,7 +88,7 @@ class Gallery extends PluginAbstract {
   
     public function getHelp(){
         if(User::isAdmin()){
-            return "<h2 id='Gallery help'>Gallery options (admin)</h2><table class='table'><thead><th>Option-name</th><th>Default</th><th>Description</th></thead><tbody><tr><td>BigVideo</td><td>checked</td><td>Create a big preview with a direct description on top</td></tr><tr><td>DateAdded,MostPopular,MostWatched,SortByName</td><td>checked,checked,checked,unchecked</td><td>Metacategories</td></tr><tr><td>SubCategorys</td><td>unchecked</td> <td>Enable a view for subcategories on top</td></tr><tr><td>Description</td><td>unchecked</td><td>Enable a small button for show the description</td></tr></tbody></table>";   
+            return "<h2 id='Gallery help'>".__('Gallery options (admin)')."</h2><table class='table'><thead><th>".__('Option-name')."</th><th>".__('Default')."</th><th>".__('Description')."</th></thead><tbody><tr><td>BigVideo</td><td>".__('checked')."</td><td>".__('Create a big preview with a direct description on top')."</td></tr><tr><td>DateAdded,MostPopular,MostWatched,SortByName</td><td>".__('checked').",".__('checked').",".__('checked').",".__('unchecked')."</td><td>".__('Metacategories')."</td></tr><tr><td>SubCategorys</td><td>".__('unchecked')."</td> <td>".__('Enable a view for subcategories on top')."</td></tr><tr><td>Description</td><td>".__('unchecked')."</td><td>".__('Enable a small button for show the description')."</td></tr></tbody></table>";   
         }
         return "";
     }
