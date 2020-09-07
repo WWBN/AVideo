@@ -21,5 +21,5 @@ header("Content-type: text/css", true);
  #welcome_page .header-text-description, 
  #modal-dialog-form> input[name='streamId']{display: none !important;}
  .toolbox-button{
-    margin:0;
+    margin:0 !important;
  }
