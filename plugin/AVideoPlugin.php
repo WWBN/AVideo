@@ -127,7 +127,7 @@ class AVideoPlugin {
             if (is_object($p)) {
                 $t = $p->getHelp();
                 if (!empty($t)) {
-                    $str .= "<li><a href='#" . $value['name'] . " help'>" . $value['name'] . "</a></li>";
+                    $str .= "<li><a href='#" . $value['name'] . " help'>" . __($value['name']) . "</a></li>";
                 }
             }
             self::YPTend("{$value['dirName']}::".__FUNCTION__);
