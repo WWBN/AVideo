@@ -23,7 +23,7 @@ class Hotkeys extends PluginAbstract {
     
     public function getHelp(){
         $obj = $this->getDataObject();
-        $html = "<h2 id='Hotkeys help' >Hotkeys</h2><p>".__("When you are watching media, you can use these keyboard-shortcuts.")."</p><table class='table'><tbody>";
+        $html = "<h2 id='Hotkeys help' >".__('Hotkeys')."</h2><p>".__("When you are watching media, you can use these keyboard-shortcuts.")."</p><table class='table'><tbody>";
         $html .= "<tr><td>".__("Seek")."</td><td>".__("Left")."/".__("right")."-".__("arrow")."</td></tr><tr><td>";
         if($obj->ReplaceVolumeWithPlusMinus){
             $html .= __("Volume")."</td><td>+/-</td></tr>";
