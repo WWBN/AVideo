@@ -1,3 +1,4 @@
+// this is the script that will be executed in the iframe on Jitsi side
 var jitsiIsLive = false;
 function setLivestreamURL() {
     var selector = "input[name='streamId']";
@@ -47,6 +48,10 @@ function startYPTScripts() {
         eventer(messageEvent, function (e) {
             if (typeof e.data.hideElement !== 'undefined') {
                 $(e.data.hideElement).hide();
+            }else if (typeof e.data.append !== 'undefined') {
+                $(e.data.append.parentSelector).append(e.data.append.html);
+            }else if (typeof e.data.prepend !== 'undefined') {
+                $(e.data.prepend.parentSelector).prepend(e.data.prepend.html);
             }
         });
         

@@ -87,7 +87,11 @@ switch ($obj->command) {
         $obj->newkey = LiveTransmition::resetTransmitionKey($l->getUsers_id());
     case "drop_publisher":
         //http://server.com/control/drop/publisher|subscriber|client?srv=SRV&app=APP&name=NAME&addr=ADDR&clientid=CLIENTID
-        $obj->commandURL = Live::getDropURL($obj->key, $obj->live_servers_id);
+        $obj->commandURL = Live::getDropURL($obj->key);
+        break;
+    case "is_recording":
+        //http://server.com/control/drop/publisher|subscriber|client?srv=SRV&app=APP&name=NAME&addr=ADDR&clientid=CLIENTID
+        $obj->commandURL = Live::getIsRecording($obj->key);
         break;
     default:
         $obj->msg = "Command is invalid ($obj->command)";

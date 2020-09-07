@@ -84,9 +84,9 @@ Passcode: {password}
                 "user" => $user,
                 "group" => $config->getWebSiteTitle()
             ],
-            "aud" => ($obj->server->value=='custom')?$obj->JWT_APP_ID:"avideo",
+            "aud" => ($obj->server->value == 'custom') ? $obj->JWT_APP_ID : "avideo",
             //"iss" => "avideo",
-            "iss" => ($obj->server->value=='custom')?$obj->JWT_APP_ID:"*",
+            "iss" => ($obj->server->value == 'custom') ? $obj->JWT_APP_ID : "*",
             "sub" => "meet.jitsi",
             "room" => $room,
             "exp" => strtotime("+{$expirationInMinutes} min"),
@@ -106,9 +106,9 @@ Passcode: {password}
 
     static function getSecret() {
         $obj = AVideoPlugin::getDataObject("Meet");
-        if($obj->server->value=='custom'){
+        if ($obj->server->value == 'custom') {
             return $obj->JWT_APP_SECRET;
-        }else{
+        } else {
             return $obj->secret;
         }
     }
@@ -180,19 +180,19 @@ Passcode: {password}
         if (empty($json) || empty($json->host) || empty($json->isInstalled)) {
             return false;
         }
-        if($json->host=='custom'){
+        if ($json->host == 'custom') {
             return "custom";
         }
         $obj = AVideoPlugin::getDataObject("Meet");
         return "{$json->host}.{$obj->server->value}";
     }
-    
+
     static function isCustomJitsi() {
         $json = self::getMeetServerStatus();
         if (empty($json) || empty($json->host) || empty($json->isInstalled)) {
             return true;
         }
-        if($json->host=='custom'){
+        if ($json->host == 'custom') {
             return true;
         }
         return false;
@@ -316,7 +316,18 @@ Passcode: {password}
         return false;
     }
 
+    
     static function getButtons($meet_schedule_id) {
+        /*
+        return [
+            'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
+            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+            'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+            'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+            'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone', 'security'
+        ];
+         * 
+         */
         if (self::isModerator($meet_schedule_id)) {
             if (self::hasJibris()) {
                 return [
@@ -377,6 +388,35 @@ Passcode: {password}
         $obj = $m->getEmptyDataObject();
         $obj->server->type = object_to_array($obj->server->type);
         return array("name" => $obj->server->type[$pObj->server->value], "domain" => $pObj->server->value);
+    }
+
+    static function createJitsiButton($title, $svg, $onclick) {
+        global $global;
+        $id = "avideoMeet" . uniqid();
+        $svgContent = file_get_contents($global['systemRootPath'] . 'plugin/Meet/buttons/' . $svg);
+        $btn = '<div class="toolbox-button aVideoMeet" tabindex="0" role="button" onclick="' . $onclick . '" id="' . $id . '">'
+                . '<div class="tooltip" style="display:none; position: absolute; bottom: 60px;">' . $title . '</div>'
+                . '<div class="toolbox-icon">'
+                . '<div class="jitsi-icon">' . $svgContent . '</div>'
+                . '</div>'
+                . '</div>'
+                . '<script>'
+                . '$(function () {
+    $("#' . $id . '").on("mouseenter",
+        function () {
+            $(this).find(".tooltip").fadeIn();
+    });
+    $("#' . $id . '").on("mouseleave",
+        function () {
+            $(this).find(".tooltip").fadeOut();
+    });
+});'
+                . '</script>';
+        return $btn;
+    }
+
+    static function getJitsiMeetExternalAPI() {
+        
     }
 
 }

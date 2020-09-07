@@ -32,15 +32,14 @@ $dropURL = "{$global['webSiteRootURL']}plugin/Live/droplive.json.php?live_transm
     }
 
 </style>
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
 <?php
-include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
+include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
 ?>
 <span class=" pull-right" style="display: none;" id="meetButtons">
-    <button class="btn btn-danger btn-xs showOnLive hideOnProcessingLive hideOnMeetNotReady showOnLive hideOnNoLive" id="stopRecording" style="display: none;" onclick="stopRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
+    <button class="btn btn-danger btn-xs showOnLive hideOnProcessingLive hideOnMeetNotReady showOnLive hideOnNoLive" id="stopRecording" style="display: none;" onclick="aVideoMeetStopRecording('<?php echo $dropURL; ?>')" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
         <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
     </button>
-    <button class="btn btn-success btn-xs showOnNoLive hideOnProcessingLive hideOnMeetNotReady" id="startRecording" style="display: none;" onclick="startRecording()" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
+    <button class="btn btn-success btn-xs showOnNoLive hideOnProcessingLive hideOnMeetNotReady" id="startRecording" style="display: none;" onclick="aVideoMeetStartRecording('<?php echo Live::getRTMPLink(); ?>','<?php echo $dropURL; ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
         <i class="fas fa-circle"></i> <?php echo __("Go Live"); ?>
     </button>
     <button class="btn btn-warning btn-xs showOnProcessingLive hideOnMeetNotReady" style="display: none;">
@@ -85,7 +84,7 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
 
     function event_on_meetReady() {
         console.log("YPTMeetScript event_on_meetReady");
-        document.querySelector("iframe").contentWindow.postMessage({hideElement: ".watermark, .toolbox-button-wth-dialog"}, "*");
+        aVideoMeetHideElement(".watermark, .toolbox-button-wth-dialog")
         meetIsReady = true;
         showMeet();
         on_meetReady();
@@ -102,6 +101,11 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         on_live();
     }
 
+    function readyToClose() {
+        api.dispose();
+        hideMeet();
+    }
+
     function startMeetNow() {
         modal.showPleaseWait();
         on_processingMeetReady();
@@ -116,39 +120,8 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
                     on_meetStop();
                     modal.hidePleaseWait();
                 } else {
-                    const domain = '<?php echo $domain; ?>';
-                    const options = {
-                        roomName: response.roomName,
-                        jwt: response.jwt,
-                        parentNode: document.querySelector('#divMeetToIFrame'),
-                        userInfo: {
-                            email: '<?php echo User::getEmail_(); ?>',
-                            displayName: '<?php echo User::getNameIdentification(); ?>'
-                        },
-                        interfaceConfigOverwrite: {
-                            TOOLBAR_BUTTONS: <?php echo json_encode(Meet::getButtons(0)); ?>,
-                            //SET_FILMSTRIP_ENABLED: false,
-                            //DISABLE_FOCUS_INDICATOR: true,
-                            //DISABLE_DOMINANT_SPEAKER_INDICATOR: true,
-                            //DISABLE_VIDEO_BACKGROUND: true,
-                            DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
-                            SHOW_JITSI_WATERMARK: false,
-                            SHOW_BRAND_WATERMARK: false,
-                            disableAudioLevels: true,
-                            requireDisplayName: true,
-                            enableLayerSuspension: true,
-                            channelLastN: 4,
-                            startVideoMuted: 10,
-                            startAudioMuted: 10,
-                        }
-
-                    };
-
-                    api = new JitsiMeetExternalAPI(domain, options);
-
-                    api.addEventListeners({
-                        readyToClose: readyToClose,
-                    });
+                    aVideoMeetStart('<?php echo $domain; ?>', response.roomName, response.jwt, '<?php echo User::getEmail_(); ?>', '<?php echo User::getNameIdentification(); ?>', <?php echo json_encode(Meet::getButtons(0)); ?>);
+                    
                     meetPassword = response.password;
                     meetLink = response.link;
                     $('#meetLink').val(meetLink);
@@ -156,11 +129,6 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
                 }
             }
         });
-    }
-
-    function readyToClose() {
-        api.dispose();
-        hideMeet();
     }
 
     var showStopStartInterval;
@@ -228,37 +196,6 @@ include $global['systemRootPath'] . 'plugin/Meet/listener.js.php';
         on_meetStop();
         $('#mainVideo').slideDown();
         $('#divMeetToIFrame').slideUp();
-    }
-
-    function startRecording() {
-        on_processingLive();
-        $.ajax({
-            url: '<?php echo $dropURL; ?>',
-            success: function (response) {
-                console.log("YPTMeetScript Start Recording Drop");
-                console.log(response);
-            }
-        }).always(function (dataOrjqXHR, textStatus, jqXHRorErrorThrown) {
-            api.executeCommand('startRecording', {
-                mode: 'stream',
-                youtubeStreamKey: '<?php echo Live::getRTMPLink(); ?>',
-            });
-        });
-    }
-
-    function stopRecording() {
-        on_processingLive();
-        api.executeCommand('stopRecording', 'stream');
-        setTimeout(function () { // if I run the drop on the same time, the stopRecording fails
-            $.ajax({
-                url: '<?php echo $dropURL; ?>',
-                success: function (response) {
-                    console.log("YPTMeetScript Stop Recording Drop");
-                    console.log(response);
-                }
-            });
-        }, 5000);
-
     }
 
     var setProcessingIsLiveTimeout;
