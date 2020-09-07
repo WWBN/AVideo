@@ -27,7 +27,7 @@ $current = $_POST['current'];
 $_REQUEST['rowCount'] = 10;
 $channels = Channel::getChannels(true, "u.id, '". implode(",", $users_id_array)."'");
 
-$totalPages = ceil($totalChannels / $_POST['rowCount']);
+$totalPages = ceil($totalChannels / $_REQUEST['rowCount']);
 $metaDescription = __("Channels");
 ?>
 <!DOCTYPE html>
