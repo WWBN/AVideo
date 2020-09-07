@@ -12,6 +12,12 @@ if (!empty($livePlugin) && User::canStream()) {
     $dropURL = "{$global['webSiteRootURL']}plugin/Live/droplive.json.php?live_transmition_id={$trasnmition['id']}&live_servers_id=" . Live::getCurrentLiveServersId();
     $rtmpLink = Live::getRTMPLink();
 }
+
+if(empty($meet_schedule_id)){
+    $meet_schedule_id = 0;
+}else{
+    $meet_schedule_id = intval($meet_schedule_id);
+}
 ?>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
 <script>
@@ -157,7 +163,7 @@ if (!empty($livePlugin) && User::canStream()) {
 
     function aVideoMeetCreateButtons() {
 <?php
-if (!empty($rtmpLink)) {
+if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
     ?>
         aVideoMeetAppendElement(".button-group-center", <?php echo json_encode(Meet::createJitsiRecordStartStopButton($rtmpLink, $dropURL)); ?>);
     <?php

@@ -6,6 +6,12 @@ if (!isset($global['systemRootPath'])) {
     }
 }
 
+$obj = AVideoPlugin::getObjectDataIfEnabled("Meet");
+//_error_log(json_encode($_SERVER));
+if (empty($obj)) {
+    die("Plugin disabled");
+}
+
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
     exit;
@@ -16,11 +22,6 @@ if (!empty($_GET['newServer'])) {
     $p->setDataObjectParameter("server->value", preg_replace("/[^0-1a-z.]/i", "", $_GET['newServer']));
 }
 
-$obj = AVideoPlugin::getObjectDataIfEnabled("Meet");
-//_error_log(json_encode($_SERVER));
-if (empty($obj)) {
-    die("Plugin disabled");
-}
 $m = AVideoPlugin::loadPlugin("Meet");
 $emptyObject = $m->getEmptyDataObject();
 

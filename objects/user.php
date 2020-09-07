@@ -1958,5 +1958,23 @@ if (typeof gtag !== \"function\") {
             return false;
         }
     }
+    
+    static function loginFromRequest(){
+        if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
+            $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
+            $user->login(false, !empty($_REQUEST['encodedPass']));
+        }
+    }
+    
+    static function loginFromRequestToGet(){
+        if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
+            $return = "user={$_REQUEST['user']}&pass={$_REQUEST['pass']}";
+            if(!empty($_REQUEST['encodedPass'])){
+                $return .= "&encodedPass=".intval($_REQUEST['encodedPass']);
+            }
+            return $return;
+        }
+        return "";
+    }
 
 }

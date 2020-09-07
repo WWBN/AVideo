@@ -5,18 +5,32 @@ if (isset($_GET['noNavbar'])) {
         $_SESSION['noNavbar'] = 1;
     } else {
         $_SESSION['noNavbar'] = 0;
+        $_SESSION['noNavbarClose'] = 0;
     }
 }
 if (!empty($_SESSION['noNavbar'])) {
-    //$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $actual_link = basename($_SERVER['PHP_SELF']);
-    $params = $_GET;
-    unset($params['noNavbar']);
-    $params['noNavbar'] = "0";
-    $new_query_string = http_build_query($params);
-    ?>
-    <a href="<?php echo $actual_link, "?", $new_query_string; ?>" class="btn btn-default" style="position: absolute; right: 10px; top: 5px;"><i class="fas fa-bars"></i></a>    
-    <?php
+    if (isset($_GET['noNavbarClose'])) {
+        _session_start();
+        if (!empty($_GET['noNavbar'])) {
+            $_SESSION['noNavbarClose'] = 1;
+        } else {
+            $_SESSION['noNavbarClose'] = 0;
+        }
+    }
+    if(empty($_SESSION['noNavbarClose'])){
+        //$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $actual_link = basename($_SERVER['PHP_SELF']);
+        $params = $_GET;
+        unset($params['noNavbar']);
+        $params['noNavbar'] = "0";
+        $new_query_string = http_build_query($params);
+        ?>
+        <a href="<?php echo $actual_link, "?", $new_query_string; ?>" class="btn btn-default" style="position: absolute; right: 10px; top: 5px;"><i class="fas fa-bars"></i></a>    
+        <?php
+    }else{
+        echo '<style>body{padding-top:0;}</style>';
+    }
+    echo '<nav class="hidden" id="mainNavBar" style="display:none;"></nav>';
     return '';
 }
 if (!empty($advancedCustomUser->keepViewerOnChannel)) {

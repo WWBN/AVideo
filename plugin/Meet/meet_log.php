@@ -6,17 +6,17 @@ if (!isset($global['systemRootPath'])) {
     }
 }
 
-if (!User::isLogged()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
-    exit;
-}
-
-
 $obj = AVideoPlugin::getObjectDataIfEnabled("Meet");
 //_error_log(json_encode($_SERVER));
 if (empty($obj)) {
     die("Plugin disabled");
 }
+
+if (!User::isLogged()) {
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    exit;
+}
+$userCredentials = User::loginFromRequestToGet();
 ?>
 
 <div class="row">
@@ -59,13 +59,13 @@ if (empty($obj)) {
 
                 <div class="tab-content">
                     <div id="mUGToday" class="tab-pane fade in active" style="padding: 10px;" url="<?php
-                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=today&manageMeetings=0';
+                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=today&manageMeetings=0&'.$userCredentials;
                     ?>"><div class="loader"></div></div>
                     <div id="mUGUpcoming" class="tab-pane fade" style="padding: 10px;" url="<?php
-                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=upcoming&manageMeetings=0';
+                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=upcoming&manageMeetings=0&'.$userCredentials;
                     ?>"><div class="loader"></div></div>
                     <div id="mUGPast" class="tab-pane fade" style="padding: 10px;" url="<?php
-                         echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=past&manageMeetings=0';
+                         echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=past&manageMeetings=0&'.$userCredentials;
                          ?>"><div class="loader"></div></div>
                 </div>
             </div>
