@@ -150,7 +150,7 @@ if (!empty($livePlugin) && User::canStream()) {
         document.querySelector("iframe").contentWindow.postMessage({prepend: prepend}, "*");
     }
 
-    function aVideoMeetCreateButtons() {#new-toolbox > div.toolbox-content > div.button-group-right > div > div > div.sc-kgoBCf.iroQPA > div > div > ul > li:nth-child(3)
+    function aVideoMeetCreateButtons() {
 <?php
 if (!empty($rtmpLink)) {
     ?>
