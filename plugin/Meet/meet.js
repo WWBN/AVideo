@@ -15,10 +15,10 @@ function setLivestreamURL() {
 function isJitsiLive() {
     jitsiIsLive = $(".circular-label.stream").is(":visible");
     window.parent.postMessage({"isLive": jitsiIsLive}, "*");
-    if(jitsiIsLive){
+    if (jitsiIsLive) {
         $(".showOnLive").show();
         $(".hideOnLive").hide();
-    }else{
+    } else {
         $(".showOnLive").hide();
         $(".hideOnLive").show();
     }
@@ -26,10 +26,12 @@ function isJitsiLive() {
 
 function isConferenceReady() {
     conferenceIsReady = $("#videoconference_page").is(":visible");
-    if(conferenceIsReady){
+    if (conferenceIsReady) {
         window.parent.postMessage({"conferenceIsReady": true}, "*");
-    }else{
-        setTimeout(function(){isConferenceReady();},1000);
+    } else {
+        setTimeout(function () {
+            isConferenceReady();
+        }, 1000);
     }
 }
 
@@ -55,13 +57,13 @@ function startYPTScripts() {
         eventer(messageEvent, function (e) {
             if (typeof e.data.hideElement !== 'undefined') {
                 $(e.data.hideElement).hide();
-            }else if (typeof e.data.append !== 'undefined') {
+            } else if (typeof e.data.append !== 'undefined') {
                 $(e.data.append.parentSelector).append(e.data.append.html);
-            }else if (typeof e.data.prepend !== 'undefined') {
+            } else if (typeof e.data.prepend !== 'undefined') {
                 $(e.data.prepend.parentSelector).prepend(e.data.prepend.html);
             }
         });
-        
+
         window.parent.postMessage({"YPTisReady": true}, "*");
         isConferenceReady();
     } else {
@@ -69,6 +71,14 @@ function startYPTScripts() {
             startYPTScripts();
         }, 500);
     }
+}
+
+function aVideoMeetStartRecording(RTMPLink, dropURL) {
+    window.parent.postMessage({"aVideoMeetStartRecording": {RTMPLink:RTMPLink, dropURL:dropURL}}, "*");
+}
+
+function aVideoMeetStopRecording(dropURL) {
+    window.parent.postMessage({"aVideoMeetStopRecording": {dropURL:dropURL}}, "*");
 }
 
 startYPTScripts();

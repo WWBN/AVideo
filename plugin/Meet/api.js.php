@@ -51,6 +51,12 @@ if (!empty($livePlugin) && User::canStream()) {
                 event_on_meetReady();
             }
             console.log("YPTMeetScript conference is ready");
+        } else if (typeof e.data.aVideoMeetStartRecording !== 'undefined') {
+            console.log("YPTMeetScript aVideoMeetStartRecording");
+            aVideoMeetStartRecording(e.data.aVideoMeetStartRecording.RTMPLink, e.data.aVideoMeetStartRecording.dropURL);
+        } else if (typeof e.data.aVideoMeetStopRecording !== 'undefined') {
+            console.log("YPTMeetScript aVideoMeetStopRecording");
+            aVideoMeetStopRecording(e.data.aVideoMeetStopRecording.dropURL);
         }
     });
     
@@ -144,7 +150,7 @@ if (!empty($livePlugin) && User::canStream()) {
         document.querySelector("iframe").contentWindow.postMessage({prepend: prepend}, "*");
     }
 
-    function aVideoMeetCreateButtons() {
+    function aVideoMeetCreateButtons() {#new-toolbox > div.toolbox-content > div.button-group-right > div > div > div.sc-kgoBCf.iroQPA > div > div > ul > li:nth-child(3)
 <?php
 if (!empty($rtmpLink)) {
     ?>
