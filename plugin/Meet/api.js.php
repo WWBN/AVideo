@@ -50,6 +50,7 @@ if (!empty($livePlugin) && User::canStream()) {
             if (typeof event_on_meetReady !== "undefined") {
                 event_on_meetReady();
             }
+            aVideoMeetCreateButtons();
             console.log("YPTMeetScript conference is ready");
         } else if (typeof e.data.aVideoMeetStartRecording !== 'undefined') {
             console.log("YPTMeetScript aVideoMeetStartRecording");
@@ -65,7 +66,7 @@ if (!empty($livePlugin) && User::canStream()) {
         const options = {
             roomName: roomName,
             jwt: jwt,
-            parentNode: document.querySelector('#meet'),
+            parentNode: document.querySelector('#divMeetToIFrame'),
             userInfo: {
                 email: email,
                 displayName: displayName

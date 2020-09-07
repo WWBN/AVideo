@@ -126,7 +126,7 @@ if ($meetDomain == 'custom') {
                 margin: 0px;
                 overflow: hidden;
             }
-            #meet {
+            #divMeetToIFrame {
                 height: 100%;
                 background: #000;
             }
@@ -136,7 +136,7 @@ if ($meetDomain == 'custom') {
         ?>
     </head>
     <body>
-        <div id="meet"></div> 
+        <div id="divMeetToIFrame"></div> 
         <script>
             aVideoMeetStart('<?php echo $domain; ?>', '<?php echo $meet->getName(); ?>', '<?php echo Meet::getToken($meet_schedule_id); ?>', '<?php echo User::getEmail_(); ?>', '<?php echo User::getNameIdentification(); ?>', <?php echo json_encode(Meet::getButtons($meet_schedule_id)); ?>);
 
