@@ -53,6 +53,7 @@ if (!empty($livePlugin) && User::canStream()) {
             console.log("YPTMeetScript conference is ready");
         }
     });
+    
     var api;
     function aVideoMeetStart(domain, roomName, jwt, email, displayName, TOOLBAR_BUTTONS) {
         const options = {
@@ -147,13 +148,9 @@ if (!empty($livePlugin) && User::canStream()) {
 <?php
 if (!empty($rtmpLink)) {
     ?>
-            aVideoMeetAppendElement(".button-group-center", <?php echo json_encode(Meet::createJitsiButton(__("Go Live"),"startLive.svg", "alert(1)")); ?>);
-            //aVideoMeetAppendElement(".button-group-center", <?php //echo json_encode(Meet::createJitsiButton("startLive.svg", "aVideoMeetStartRecording('$rtmpLink','$dropURL')")); ?>);
-            //aVideoMeetAppendElement(".button-group-center", <?php //echo json_encode(Meet::createJitsiButton("stopLive.svg", "aVideoMeetStopRecording('$dropURL')")); ?>);
+        aVideoMeetAppendElement(".button-group-center", <?php echo json_encode(Meet::createJitsiRecordStartStopButton($rtmpLink, $dropURL)); ?>);
     <?php
 }
 ?>
-
-
     }
 </script>

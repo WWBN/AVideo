@@ -15,6 +15,13 @@ function setLivestreamURL() {
 function isJitsiLive() {
     jitsiIsLive = $(".circular-label.stream").is(":visible");
     window.parent.postMessage({"isLive": jitsiIsLive}, "*");
+    if(jitsiIsLive){
+        $(".showOnLive").show();
+        $(".hideOnLive").hide();
+    }else{
+        $(".showOnLive").hide();
+        $(".hideOnLive").show();
+    }
 }
 
 function isConferenceReady() {
@@ -63,4 +70,5 @@ function startYPTScripts() {
         }, 500);
     }
 }
+
 startYPTScripts();
