@@ -18,6 +18,8 @@ if (empty($_GET['roomName'])) {
     die(json_encode("Empty Room"));
 }
 
+$userCredentials = User::loginFromRequestToGet();
+
 $meetDomain = Meet::getDomain();
 if (empty($meetDomain)) {
     header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=The Server is Not ready");
@@ -47,9 +49,9 @@ $objLive = AVideoPlugin::getObjectData("Live");
 Meet_join_log::log($meet_schedule_id);
 
 $apiExecute = array();
-$readyToClose = User::getChannelLink($meet->getUsers_id());
+$readyToClose = User::getChannelLink($meet->getUsers_id())."?{$userCredentials}";
 if (Meet::isModerator($meet_schedule_id)) {
-    $readyToClose = "{$global['webSiteRootURL']}plugin/Meet/";
+    $readyToClose = "{$global['webSiteRootURL']}plugin/Meet/?{$userCredentials}";
     if ($meet->getPassword()) {
         $apiExecute[] = "api.executeCommand('password', '" . $meet->getPassword() . "');";
     }
@@ -144,7 +146,7 @@ if ($meetDomain == 'custom') {
 echo implode(PHP_EOL, $apiExecute);
 ?>
 
-            function readyToClose() {
+            function _readyToClose() {
                 document.location = "<?php echo $readyToClose; ?>";
             }
 

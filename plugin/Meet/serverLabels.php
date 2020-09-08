@@ -13,14 +13,14 @@ if (empty($obj)) {
 }
 
 $serverStatus = Meet::getMeetServerStatus();
-$moreJibris = "https://upgrade.".Meet::getServer()['domain']."/?webSiteRootURL=".urlencode($global['webSiteRootURL'])."&secret=".Meet::getSecret();
+$moreJibris = "https://upgrade." . Meet::getServer()['domain'] . "/?webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&secret=" . Meet::getSecret();
 $moreJibris = "#";
 $moreJibrisOnclick = "swal('Comming soon');return false;";
 if (User::isAdmin() && empty($serverStatus->error)) {
     ?>
-    <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="Unlimited number of meetings"><i class="fas fa-comments"></i> Unlimited</span>
-    <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="No limit on meeting legth limit on group meetings"><i class="fas fa-hourglass-start"></i> Unlimited</span>
-    <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="You can have <?php echo empty($serverStatus->MUC_MAX_OCCUPANTS) ? "unlimited" : "up to " . $serverStatus->MUC_MAX_OCCUPANTS; ?> participants in each room"><i class="fas fa-users"></i> <?php echo empty($serverStatus->MUC_MAX_OCCUPANTS) ? "unlimited" : $serverStatus->MUC_MAX_OCCUPANTS; ?></span>
+    <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="Unlimited number of meetings"><i class="fas fa-comments"></i> <span class="hidden-sm hidden-xs"><?php echo __("Unlimited"); ?></span></span>
+    <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="No limit on meeting legth limit on group meetings"><i class="fas fa-hourglass-start"></i>  <span class="hidden-sm hidden-xs"><?php echo __("Unlimited"); ?></span></span>
+    <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="You can have <?php echo empty($serverStatus->MUC_MAX_OCCUPANTS) ? "unlimited" : "up to " . $serverStatus->MUC_MAX_OCCUPANTS; ?> participants in each room"><i class="fas fa-users"></i>  <span class="hidden-sm hidden-xs"><?php echo empty($serverStatus->MUC_MAX_OCCUPANTS) ? __("Unlimited") : $serverStatus->MUC_MAX_OCCUPANTS; ?></span></span>
     <?php
     if (!empty($serverStatus->jibrisInfo->jibris)) {
         ?>
@@ -40,7 +40,7 @@ if (User::isAdmin() && empty($serverStatus->error)) {
                 }
             }
             ?>
-                    &nbsp; <a class="fas fa-plus" data-toggle="tooltip" data-placement="bottom" title="Get more streaming services" href="<?php echo $moreJibris; ?>" style="color: white;" onclick="<?php echo $moreJibrisOnclick; ?>"></a>
+            &nbsp; <a class="fas fa-plus" data-toggle="tooltip" data-placement="bottom" title="Get more streaming services" href="<?php echo $moreJibris; ?>" style="color: white;" onclick="<?php echo $moreJibrisOnclick; ?>"></a>
         </span>
         <?php
     } else {
@@ -54,11 +54,11 @@ if (User::isAdmin() && empty($serverStatus->error)) {
 ?>
 <span class="label label-<?php echo $serverStatus->error ? "danger" : ($serverStatus->isInstalled ? "success" : "warning") ?>" >
     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo User::isAdmin() ? $serverStatus->msg : "Meet Server Status"; ?>">
-          <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "<i class=\"fas fa-exclamation-triangle\"></i>" : "<i class=\"fas fa-check-square\"></i>" ?> 
-          <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "offline" : "online" ?> 
-    (<?php
-    echo Meet::getServer()['name'];
-    ?>)</span> <a class="fas fa-random" data-toggle="tooltip" data-placement="bottom" title="Change Server" href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/checkServers.php" style="color: white;"></a>
+        <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "<i class=\"fas fa-exclamation-triangle\"></i>" : "<i class=\"fas fa-check-square\"></i>" ?> 
+        <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "offline" : "online" ?> 
+        <span class="hidden-sm hidden-xs">(<?php
+            echo Meet::getServer()['name'];
+            ?>)</span></span> <a class="fas fa-random" data-toggle="tooltip" data-placement="bottom" title="Change Server" href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/checkServers.php" style="color: white;"></a>
 </span>
 <?php
 if (!empty($serverStatus->nextUpdate)) {

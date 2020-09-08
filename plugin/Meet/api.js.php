@@ -91,11 +91,9 @@ if(empty($meet_schedule_id)){
         };
         api = new JitsiMeetExternalAPI(domain, options);
 
-        if (typeof readyToClose !== "undefined") {
-            api.addEventListeners({
-                readyToClose: readyToClose,
-            });
-        }
+        api.addEventListeners({
+            readyToClose: readyToClose,
+        });
 
     }
 
@@ -169,5 +167,12 @@ if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
     <?php
 }
 ?>
+    }
+    
+    function readyToClose(){        
+        window.parent.postMessage({"meetIsClosed": true}, "*");
+        if(typeof _readyToClose == "function"){
+            _readyToClose();
+        }
     }
 </script>

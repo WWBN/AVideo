@@ -154,7 +154,7 @@ $userCredentials = User::loginFromRequestToGet();
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php',
+                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php?<?php echo $userCredentials; ?>',
                 data: $('#formMeetManager').serialize(),
                 type: 'post',
                 success: function (response) {

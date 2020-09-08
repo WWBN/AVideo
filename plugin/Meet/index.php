@@ -51,7 +51,7 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid">
+        <div class="container-fluid nopadding">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="far fa-comments"></i> <?php echo __("Meeting"); ?> <span id="serverTime" class="label label-default pull-right"  data-toggle="tooltip" data-placement="bottom" title="Server Time"></span>
@@ -69,11 +69,11 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
                     <div class="row">
                         <div class="col-xs-12 tabbable-line"  id="indexTabs">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#meetLog"><i class="far fa-clock"></i> <?php echo __("Meetings"); ?></a></li>
+                                <li class="active"><a data-toggle="tab" href="#meetLog"><i class="far fa-clock"></i>   <span class="hidden-sm hidden-xs"><?php echo __("Meetings"); ?></span></a></li>
                                 <?php
                                 if (User::canCreateMeet()) {
                                     ?>
-                                    <li><a data-toggle="tab" href="#createMeet"><i class="far fa-calendar-alt"></i>  <?php echo __("Schedule"); ?></a></li>
+                                <li><a data-toggle="tab" href="#createMeet"><i class="far fa-calendar-alt"></i>  <span class="hidden-sm hidden-xs"><?php echo __("Schedule"); ?></span></a></li>
                                     <li><a data-toggle="tab" href="#" onclick="startMeetNow();return false;"><i class="far fa-comments"></i>  <?php echo __("New Meet"); ?></a></li>
                                     <?php
                                 }
