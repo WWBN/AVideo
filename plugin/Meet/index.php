@@ -16,7 +16,7 @@ if (!User::isLogged()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
     exit;
 }
-
+$userCredentials = User::loginFromRequestToGet();
 if (User::isAdmin() && !empty($_GET['newServer'])) {
     $p = AVideoPlugin::loadPluginIfEnabled("Meet");
     $p->setDataObjectParameter("server->value", preg_replace("/[^0-1a-z.]/i", "", $_GET['newServer']));
@@ -81,13 +81,13 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
                             </ul>
                             <div class="tab-content">
                                 <div id="meetLog" class="tab-pane fade in active" url="<?php
-                                echo $global['webSiteRootURL'] . 'plugin/Meet/meet_log.php';
+                                echo $global['webSiteRootURL'] . 'plugin/Meet/meet_log.php?'.$userCredentials;
                                 ?>"><div class="loader"></div></div>
                                      <?php
                                      if (User::canCreateMeet()) {
                                          ?>
                                     <div id="createMeet" class="tab-pane fade" url="<?php
-                                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_manager.php';
+                                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_manager.php?'.$userCredentials;
                                     ?>"><div class="loader"></div></div>
                                         <?php
                                     }
@@ -141,7 +141,7 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
                                         function serverLabels() {
                                             serverLabelsStartTime = new Date().getTime();
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/serverLabels.php',
+                                                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/serverLabels.php?<?php echo $userCredentials; ?>',
                                                 success: function (response) {
                                                     serverLabelsRequestTime = new Date().getTime() - serverLabelsStartTime;
                                                     $('.serverLabels').html(response);
@@ -156,7 +156,7 @@ if (User::canCreateMeet()) {
                                             function startMeetNow() {
                                                 modal.showPleaseWait();
                                                 $.ajax({
-                                                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php',
+                                                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php?<?php echo $userCredentials; ?>',
                                                     data: {},
                                                     type: 'post',
                                                     success: function (response) {
@@ -164,7 +164,9 @@ if (User::canCreateMeet()) {
                                                             swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
                                                             modal.hidePleaseWait();
                                                         } else {
-                                                            document.location = response.link;
+                                                            //console.log(response.link);
+                                                            //console.log(response.link+'?<?php echo $userCredentials; ?>');
+                                                            document.location = response.link+'?<?php echo $userCredentials; ?>';
                                                         }
                                                     }
                                                 });

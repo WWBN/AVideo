@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule_has_users_groups.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_join_log.php';
-
+User::loginFromRequest();
 //require_once $global['systemRootPath'] . 'objects/php-jwt/src/JWT.php';
 //use \Firebase\JWT\JWT;
 class Meet extends PluginAbstract {
@@ -390,11 +390,13 @@ Passcode: {password}
         return array("name" => $obj->server->type[$pObj->server->value], "domain" => $pObj->server->value);
     }
 
-    static function createJitsiButton($title, $svg, $onclick) {
+    static function createJitsiButton($title, $svg, $onclick, $class="", $style="", $id="") {
         global $global;
-        $id = "avideoMeet" . uniqid();
+        if(empty($id)){
+            $id = "avideoMeet" . uniqid();
+        }
         $svgContent = file_get_contents($global['systemRootPath'] . 'plugin/Meet/buttons/' . $svg);
-        $btn = '<div class="toolbox-button aVideoMeet" tabindex="0" role="button" onclick="' . $onclick . '" id="' . $id . '">'
+        $btn = '<div class="toolbox-button aVideoMeet '.$class.'" tabindex="0" role="button" onclick="' . $onclick . '" id="' . $id . '" style="'.$style.'">'
                 . '<div class="tooltip" style="display:none; position: absolute; bottom: 60px;">' . $title . '</div>'
                 . '<div class="toolbox-icon">'
                 . '<div class="jitsi-icon">' . $svgContent . '</div>'
@@ -415,8 +417,10 @@ Passcode: {password}
         return $btn;
     }
 
-    static function getJitsiMeetExternalAPI() {
-        
+    static function createJitsiRecordStartStopButton($rtmpLink, $dropURL) {
+        $start = self::createJitsiButton(__("Go Live"),"startLive.svg", "aVideoMeetStartRecording('$rtmpLink','$dropURL');", "hideOnLive");
+        $stop = self::createJitsiButton(__("Stop Live"),"stopLive.svg", "aVideoMeetStopRecording('$rtmpLink','$dropURL');", "showOnLive", "display:none;");
+        return $start.$stop;
     }
 
 }

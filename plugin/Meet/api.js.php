@@ -12,6 +12,12 @@ if (!empty($livePlugin) && User::canStream()) {
     $dropURL = "{$global['webSiteRootURL']}plugin/Live/droplive.json.php?live_transmition_id={$trasnmition['id']}&live_servers_id=" . Live::getCurrentLiveServersId();
     $rtmpLink = Live::getRTMPLink();
 }
+
+if(empty($meet_schedule_id)){
+    $meet_schedule_id = 0;
+}else{
+    $meet_schedule_id = intval($meet_schedule_id);
+}
 ?>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
 <script>
@@ -50,15 +56,23 @@ if (!empty($livePlugin) && User::canStream()) {
             if (typeof event_on_meetReady !== "undefined") {
                 event_on_meetReady();
             }
+            aVideoMeetCreateButtons();
             console.log("YPTMeetScript conference is ready");
+        } else if (typeof e.data.aVideoMeetStartRecording !== 'undefined') {
+            console.log("YPTMeetScript aVideoMeetStartRecording");
+            aVideoMeetStartRecording(e.data.aVideoMeetStartRecording.RTMPLink, e.data.aVideoMeetStartRecording.dropURL);
+        } else if (typeof e.data.aVideoMeetStopRecording !== 'undefined') {
+            console.log("YPTMeetScript aVideoMeetStopRecording");
+            aVideoMeetStopRecording(e.data.aVideoMeetStopRecording.dropURL);
         }
     });
+    
     var api;
     function aVideoMeetStart(domain, roomName, jwt, email, displayName, TOOLBAR_BUTTONS) {
         const options = {
             roomName: roomName,
             jwt: jwt,
-            parentNode: document.querySelector('#meet'),
+            parentNode: document.querySelector('#divMeetToIFrame'),
             userInfo: {
                 email: email,
                 displayName: displayName
@@ -86,7 +100,9 @@ if (!empty($livePlugin) && User::canStream()) {
     }
 
     function aVideoMeetStartRecording(RTMPLink, dropURL) {
-        on_processingLive();
+        if(typeof on_processingLive === 'function'){
+            on_processingLive();
+        }
         if (dropURL) {
             $.ajax({
                 url: dropURL,
@@ -109,7 +125,9 @@ if (!empty($livePlugin) && User::canStream()) {
     }
 
     function aVideoMeetStopRecording(dropURL) {
-        on_processingLive();
+        if(typeof on_processingLive === 'function'){
+            on_processingLive();
+        }
         api.executeCommand('stopRecording', 'stream');
         if (dropURL) {
             setTimeout(function () { // if I run the drop on the same time, the stopRecording fails
@@ -145,15 +163,11 @@ if (!empty($livePlugin) && User::canStream()) {
 
     function aVideoMeetCreateButtons() {
 <?php
-if (!empty($rtmpLink)) {
+if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
     ?>
-            aVideoMeetAppendElement(".button-group-center", <?php echo json_encode(Meet::createJitsiButton(__("Go Live"),"startLive.svg", "alert(1)")); ?>);
-            //aVideoMeetAppendElement(".button-group-center", <?php //echo json_encode(Meet::createJitsiButton("startLive.svg", "aVideoMeetStartRecording('$rtmpLink','$dropURL')")); ?>);
-            //aVideoMeetAppendElement(".button-group-center", <?php //echo json_encode(Meet::createJitsiButton("stopLive.svg", "aVideoMeetStopRecording('$dropURL')")); ?>);
+        aVideoMeetAppendElement(".button-group-center", <?php echo json_encode(Meet::createJitsiRecordStartStopButton($rtmpLink, $dropURL)); ?>);
     <?php
 }
 ?>
-
-
     }
 </script>

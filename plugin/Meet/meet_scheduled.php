@@ -6,18 +6,17 @@ if (!isset($global['systemRootPath'])) {
     }
 }
 
-if (!User::canCreateMeet()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
-    exit;
-}
-
-
 $obj = AVideoPlugin::getObjectDataIfEnabled("Meet");
 //_error_log(json_encode($_SERVER));
 if (empty($obj)) {
     die("Plugin disabled");
 }
 
+if (!User::canCreateMeet()) {
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
+    exit;
+}
+$userCredentials = User::loginFromRequestToGet();
 if(empty($meet_scheduled)){
     $meet_scheduled = cleanString($_REQUEST['meet_scheduled']);
 }
@@ -98,7 +97,7 @@ if(empty($manageMeetings)){
             
         "processing": true,
         "serverSide": true,
-            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/list.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&manageMeetings=<?php echo $manageMeetings; ?>",
+            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/list.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&manageMeetings=<?php echo $manageMeetings; ?>&<?php echo $userCredentials; ?>",
                         "order": [],
                         "columns": [
                             {
@@ -150,7 +149,7 @@ if(empty($manageMeetings)){
                                         modal.showPleaseWait();
                                         $.ajax({
                                             type: "POST",
-                                            url: "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/delete.json.php",
+                                            url: "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/delete.json.php?<?php echo $userCredentials; ?>",
                                             data: data
 
                                         }).done(function (resposta) {
@@ -173,7 +172,7 @@ if(empty($manageMeetings)){
                         $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal').modal();
                         $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal .modal-body').html('');
                         $.ajax({
-                            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/getMeetInfo.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&meet_schedule_id=' + data.id,
+                            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/getMeetInfo.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&meet_schedule_id=' + data.id+'&<?php echo $userCredentials; ?>',
                             success: function (response) {
                                 if (response.error) {
                                     swal("<?php echo __("Sorry!"); ?>", response.msg, "error");

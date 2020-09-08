@@ -517,6 +517,9 @@ if (!class_exists('Video')) {
         }
 
         function setClean_title($clean_title) {
+            if(preg_match("/video-automatically-booked/i", $clean_title) && !empty($this->clean_title)){
+                return false;
+            }
             $this->clean_title = cleanURLName($clean_title);
         }
 
