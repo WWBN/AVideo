@@ -13,9 +13,9 @@ if (!empty($livePlugin) && User::canStream()) {
     $rtmpLink = Live::getRTMPLink();
 }
 
-if(empty($meet_schedule_id)){
+if (empty($meet_schedule_id)) {
     $meet_schedule_id = 0;
-}else{
+} else {
     $meet_schedule_id = intval($meet_schedule_id);
 }
 ?>
@@ -66,7 +66,7 @@ if(empty($meet_schedule_id)){
             aVideoMeetStopRecording(e.data.aVideoMeetStopRecording.dropURL);
         }
     });
-    
+
     var api;
     function aVideoMeetStart(domain, roomName, jwt, email, displayName, TOOLBAR_BUTTONS) {
         const options = {
@@ -77,9 +77,13 @@ if(empty($meet_schedule_id)){
                 email: email,
                 displayName: displayName
             },
+            ConfigOverwrite: {
+                disableDeepLinking: true,
+            },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,
                 DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
+                MOBILE_APP_PROMO: false,
                 disableAudioLevels: true,
                 requireDisplayName: true,
                 enableLayerSuspension: true,
@@ -98,7 +102,7 @@ if(empty($meet_schedule_id)){
     }
 
     function aVideoMeetStartRecording(RTMPLink, dropURL) {
-        if(typeof on_processingLive === 'function'){
+        if (typeof on_processingLive === 'function') {
             on_processingLive();
         }
         if (dropURL) {
@@ -123,7 +127,7 @@ if(empty($meet_schedule_id)){
     }
 
     function aVideoMeetStopRecording(dropURL) {
-        if(typeof on_processingLive === 'function'){
+        if (typeof on_processingLive === 'function') {
             on_processingLive();
         }
         api.executeCommand('stopRecording', 'stream');
@@ -163,15 +167,15 @@ if(empty($meet_schedule_id)){
 <?php
 if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
     ?>
-        aVideoMeetAppendElement(".button-group-center", <?php echo json_encode(Meet::createJitsiRecordStartStopButton($rtmpLink, $dropURL)); ?>);
+            aVideoMeetAppendElement(".button-group-center", <?php echo json_encode(Meet::createJitsiRecordStartStopButton($rtmpLink, $dropURL)); ?>);
     <?php
 }
 ?>
     }
-    
-    function readyToClose(){        
+
+    function readyToClose() {
         window.parent.postMessage({"meetIsClosed": true}, "*");
-        if(typeof _readyToClose == "function"){
+        if (typeof _readyToClose == "function") {
             _readyToClose();
         }
     }
