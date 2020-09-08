@@ -101,7 +101,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
         on_live();
     }
 
-    function readyToClose() {
+    function _readyToClose() {
         api.dispose();
         hideMeet();
     }

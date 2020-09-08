@@ -1960,6 +1960,15 @@ if (typeof gtag !== \"function\") {
     }
     
     static function loginFromRequest(){
+        $inputJSON = url_get_contents('php://input');
+        $input = json_decode($inputJSON, TRUE); //convert JSON into array
+        if(is_array($input)){
+            foreach ($input as $key => $value) {
+                if(empty($_REQUEST[$key])){
+                    $_REQUEST[$key] = $value;
+                }
+            }
+        }
         if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
             $user->login(false, !empty($_REQUEST['encodedPass']));
