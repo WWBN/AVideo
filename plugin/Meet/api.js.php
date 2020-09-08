@@ -77,9 +77,6 @@ if (empty($meet_schedule_id)) {
                 email: email,
                 displayName: displayName
             },
-            ConfigOverwrite: {
-                disableDeepLinking: false,
-            },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,
                 DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
