@@ -56,11 +56,12 @@ class PlayerSkins extends PluginAbstract {
         global $global, $config;
         $obj = $this->getDataObject();
         $css = "";
-        if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
+        if (isVideo() || !empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             if ($obj->showLoopButton && !isLive()) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
+            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"

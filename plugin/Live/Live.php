@@ -366,12 +366,13 @@ class Live extends PluginAbstract {
         return $obj->controlURL;
     }
     
-    static function getRTMPLink() {
-        if (!User::canStream()) {
+    static function getRTMPLink($users_id) {
+        if (!User::isLogged() || ($users_id!==User::getId() && !User::isAdmin())) {
             return false;
         }
-        $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
-        return self::getServer() . "?p=" . User::getUserPass() . "/" . $trasnmition['key'];
+        $user = new User($users_id);
+        $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
+        return self::getServer() . "?p=" . $user->getPassword() . "/" . $trasnmition['key'];
     }
 
     static function getPlayerServer() {

@@ -14,7 +14,7 @@ if (empty($meetDomain)) {
 if ($meetDomain == 'custom') {
     $domain = $objM->CUSTOM_JITSI_DOMAIN;
 } else {
-    $domain = "{$meetDomain}?getRTMPLink=" . urlencode(Live::getRTMPLink());
+    $domain = "{$meetDomain}?getRTMPLink=" . urlencode(Live::getRTMPLink(User::getId()));
 }
 
 $dropURL = "{$global['webSiteRootURL']}plugin/Live/droplive.json.php?live_transmition_id={$trasnmition['id']}&live_servers_id=" . Live::getCurrentLiveServersId();
@@ -39,7 +39,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
     <button class="btn btn-danger btn-xs showOnLive hideOnProcessingLive hideOnMeetNotReady showOnLive hideOnNoLive" id="stopRecording" style="display: none;" onclick="aVideoMeetStopRecording('<?php echo $dropURL; ?>')" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
         <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
     </button>
-    <button class="btn btn-success btn-xs showOnNoLive hideOnProcessingLive hideOnMeetNotReady" id="startRecording" style="display: none;" onclick="aVideoMeetStartRecording('<?php echo Live::getRTMPLink(); ?>','<?php echo $dropURL; ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
+    <button class="btn btn-success btn-xs showOnNoLive hideOnProcessingLive hideOnMeetNotReady" id="startRecording" style="display: none;" onclick="aVideoMeetStartRecording('<?php echo Live::getRTMPLink(User::getId()); ?>','<?php echo $dropURL; ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
         <i class="fas fa-circle"></i> <?php echo __("Go Live"); ?>
     </button>
     <button class="btn btn-warning btn-xs showOnProcessingLive hideOnMeetNotReady" style="display: none;">
