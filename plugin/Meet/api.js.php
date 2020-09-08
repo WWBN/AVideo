@@ -78,7 +78,7 @@ if (empty($meet_schedule_id)) {
                 displayName: displayName
             },
             ConfigOverwrite: {
-                disableDeepLinking: true,
+                disableDeepLinking: false,
             },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,
