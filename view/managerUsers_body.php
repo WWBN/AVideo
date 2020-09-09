@@ -21,8 +21,8 @@
             </div>
             <hr>
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#usersTab">Users</a></li>
-                <li><a data-toggle="tab" href="#inactiveUsersTab">Inactive Users</a></li>
+                <li class="active"><a data-toggle="tab" href="#usersTab"><?php echo __('Users'); ?></a></li>
+                <li><a data-toggle="tab" href="#inactiveUsersTab"><?php echo __('Inactive Users'); ?></a></li>
             </ul>
             <div class="tab-content">
                 <div id="usersTab" class="tab-pane fade in active">
@@ -282,8 +282,8 @@
             url: "<?php echo $global['webSiteRootURL']; ?>objects/users.json.php?status=a",
             formatters: {
                 "commands": function (column, row) {
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                    var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Info"><i class="fas fa-info-circle"></i></button>'
+                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                    var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Info'); ?>"><i class="fas fa-info-circle"></i></button>'
                     //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
                     var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
                     return editBtn + infoBtn + pluginsButtons;

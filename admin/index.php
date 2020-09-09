@@ -268,8 +268,8 @@ switch ($_GET['page']) {
                                 } else {
                                     ?>
                                     <div class="alert alert-danger">
-                                        Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store
-                                        <a class="btn btn-danger" href="https://youphp.tube/plugins/">Plugin Store</a>
+                                        <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
+                                        <a class="btn btn-danger" href="https://youphp.tube/plugins/"><?php echo __('Plugin Store'); ?></a>
                                     </div>
                                     <?php
                                 }
@@ -280,8 +280,8 @@ switch ($_GET['page']) {
                             } else {
                                 ?>
                                 <div class="alert alert-danger">
-                                    Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store
-                                    <a class="btn btn-danger" href="https://youphp.tube/plugins/">Plugin Store</a>
+                                    <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
+                                    <a class="btn btn-danger" href="https://youphp.tube/plugins/"><?php echo __('Plugin Store'); ?></a>
                                 </div>
                                 <?php
                             }
