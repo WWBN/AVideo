@@ -78,7 +78,8 @@ if ($meet_schedule_id) {
 $obj->password = @$_POST['RoomPasswordNew'];
 $obj->error = empty($meet_schedule_id);
 $obj->link = Meet::getMeetLink($meet_schedule_id);
-$obj->jwt = Meet::getToken($meet_schedule_id);;
+$obj->jwt = Meet::getToken($meet_schedule_id);
+$obj->domain = Meet::getDomainURL($meet_schedule_id, true);
         
         
 die(json_encode($obj));

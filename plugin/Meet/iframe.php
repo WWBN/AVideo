@@ -58,16 +58,12 @@ if (Meet::isModerator($meet_schedule_id)) {
     if ($meet->getLive_stream()) {
         $apiExecute[] = "api.executeCommand('startRecording', {
         mode: 'stream',
-        youtubeStreamKey: '" . Live::getRTMPLink() . "',
+        youtubeStreamKey: '" . Live::getRTMPLink($meet->getUsers_id()) . "',
     });";
     }
 }
 
-if ($meetDomain == 'custom') {
-    $domain = $objM->CUSTOM_JITSI_DOMAIN;
-} else {
-    $domain = "{$meetDomain}?getRTMPLink=" . urlencode(Live::getRTMPLink());
-}
+$domain = Meet::getDomainURL();
 /*
   $obj->link = Meet::getMeetRoomLink($_GET['roomName']);
   if ($obj->link) {
@@ -88,7 +84,7 @@ if ($meetDomain == 'custom') {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js"></script>
         <script>
-            var getRTMPLink = '<?php echo Live::getRTMPLink(); ?>';
+            var getRTMPLink = '<?php echo Live::getRTMPLink($meet->getUsers_id()); ?>';
         </script>
         <?php
         if (!$config->getDisable_analytics()) {

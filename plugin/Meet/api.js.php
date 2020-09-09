@@ -10,7 +10,7 @@ $livePlugin = AVideoPlugin::getDataObjectIfEnabled("Live");
 if (!empty($livePlugin) && User::canStream()) {
     $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
     $dropURL = "{$global['webSiteRootURL']}plugin/Live/droplive.json.php?live_transmition_id={$trasnmition['id']}&live_servers_id=" . Live::getCurrentLiveServersId();
-    $rtmpLink = Live::getRTMPLink();
+    $rtmpLink = Live::getRTMPLink(User::getId());
 }
 
 if (empty($meet_schedule_id)) {
@@ -78,7 +78,7 @@ if (empty($meet_schedule_id)) {
                 displayName: displayName
             },
             ConfigOverwrite: {
-                disableDeepLinking: false,
+                disableDeepLinking: true,
             },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,

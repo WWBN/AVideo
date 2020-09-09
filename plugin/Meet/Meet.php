@@ -95,9 +95,9 @@ Passcode: {password}
         return $jitsiPayload; // HS256
     }
 
-    static function getToken($meet_schedule_id, $users_id = 0, $expirationInMinutes = 2) {
+    static function getToken($meet_schedule_id, $users_id = 0, $expirationInMinutes = 20) {
         $m = new Meet_schedule($meet_schedule_id);
-        $jitsiPayload = self::getTokenArray($meet_schedule_id);
+        $jitsiPayload = self::getTokenArray($meet_schedule_id, $users_id, $expirationInMinutes);
         $key = self::getSecret();
         //var_dump($jitsiPayload, $key);
 
@@ -185,6 +185,33 @@ Passcode: {password}
         }
         $obj = AVideoPlugin::getDataObject("Meet");
         return "{$json->host}.{$obj->server->value}";
+    }
+
+    static function getDomainURL($meet_schedule_id="", $addToken=false) {
+        $meetDomain = self::getDomain();
+        if ($meetDomain == 'custom') {
+            $obj = AVideoPlugin::getDataObject("Meet");
+            $domain = $obj->CUSTOM_JITSI_DOMAIN;
+        } else {
+            $domain = $meetDomain;
+        }
+        
+        $m = new Meet_schedule($meet_schedule_id);
+        if(empty($m->getUsers_id())){
+            return $domain;
+        }
+        if(!empty($meet_schedule_id)){
+            $domain .= "/".$m->getName();
+        }
+        
+        $domain .= "?getRTMPLink=" . urlencode(Live::getRTMPLink($m->getUsers_id()));
+        
+        if($addToken){
+            $token = self::getToken($meet_schedule_id);
+            $domain .= "&jwt={$token}";
+        }
+        
+        return $domain;
     }
 
     static function isCustomJitsi() {
@@ -397,7 +424,7 @@ Passcode: {password}
         }
         $svgContent = file_get_contents($global['systemRootPath'] . 'plugin/Meet/buttons/' . $svg);
         $btn = '<div class="toolbox-button aVideoMeet '.$class.'" tabindex="0" role="button" onclick="' . $onclick . '" id="' . $id . '" style="'.$style.'">'
-                . '<div class="tooltip" style="display:none; position: absolute; bottom: 60px;">' . $title . '</div>'
+                . '<div class="tooltip" style="display:none; position: absolute; bottom: 70px;background-color: rgb(13, 20, 36); padding: 5px; border-radius: 4px; font-weight: bold; color: #909eb5; height: 10px; line-height: normal;">' . $title . '</div>'
                 . '<div class="toolbox-icon">'
                 . '<div class="jitsi-icon">' . $svgContent . '</div>'
                 . '</div>'
