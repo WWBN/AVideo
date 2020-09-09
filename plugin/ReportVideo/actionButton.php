@@ -1,4 +1,8 @@
-
+<?php
+if(empty($video['id'])){
+    return '';
+}
+?>
 <span class="btn btn-default no-outline pull-right" id="reportBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Do you want to report this video? Sign in to make your opinion count."); ?>" <?php } ?>>
     <i class="fas fa-flag"></i> <small><?php echo __('Report'); ?></small>
 </span>
