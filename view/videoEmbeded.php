@@ -543,13 +543,13 @@ addView({$video['id']}, time);";
             var topInfoTimeout;
             $(document).ready(function () {
                 setInterval(function () {
-                    if (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0") {
+                    if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
                         $('#topInfo').fadeOut();
                     } else {
                         $('#topInfo').fadeIn();
                     }
 
-                }, 1000);
+                }, 200);
 
                 $("iframe, #topInfo").mouseover(function (e) {
                     clearTimeout(topInfoTimeout);
