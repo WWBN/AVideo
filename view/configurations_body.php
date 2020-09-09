@@ -59,7 +59,7 @@ if (User::isAdmin()) {
                                         <div class="row">
                                             <div class="col-xs-4">
                                                 <div class="panel panel-success">
-                                                    <div class="panel-heading">Customize Your site colors <div class="pull-right"><?php echo getPluginSwitch('Customize'); ?></div></div>
+                                                    <div class="panel-heading"><?php echo __('Customize Your site colors'); ?> <div class="pull-right"><?php echo getPluginSwitch('Customize'); ?></div></div>
                                                     <div class="panel-body">
                                                         <img src="<?php echo $global['webSiteRootURL'], "view/css/custom/customize.png"; ?>" class="img-responsive">
                                                         <?php
@@ -514,8 +514,8 @@ if (User::isAdmin()) {
                                                     <div class="alert alert-warning">
                                                         <h3>
                                                             <i class="fas fa-info-circle"></i>
-                                                            If you are not sure how to configure your email, 
-                                                            please try <a href="https://github.com/WWBN/AVideo/wiki/Setting-up-AVideo-Platform-to-send-emails" target="_blank" rel="noopener noreferrer" >this help</a>
+                                                            <?php echo __('If you are not sure how to configure your email'); ?>, 
+                                                            <?php echo __('please try'); ?> <a href="https://github.com/WWBN/AVideo/wiki/Setting-up-AVideo-Platform-to-send-emails" target="_blank" rel="noopener noreferrer" ><?php echo __('this help'); ?></a>
                                                         </h3>
                                                     </div>
 
@@ -550,7 +550,7 @@ if (User::isAdmin()) {
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label"><?php echo __("SMTP Secure"); ?></label>
                                                         <div class="col-md-8">
-                                                            <input id="smtpSecure" class="form-control"  type="text" value="<?php echo $config->getSmtpSecure(); ?>" placeholder="tls OR ssl" aria-describedby="smtpSecureHelp"    >
+                                                            <input id="smtpSecure" class="form-control"  type="text" value="<?php echo $config->getSmtpSecure(); ?>" placeholder="<?php echo __('tls OR ssl'); ?>" aria-describedby="smtpSecureHelp"    >
                                                             <small id="smtpSecureHelp" class="form-text text-muted"><?php echo __("Use tls OR ssl"); ?></small>
                                                         </div>
                                                     </div>
@@ -558,7 +558,7 @@ if (User::isAdmin()) {
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label"><?php echo __("SMTP Port"); ?></label>
                                                         <div class="col-md-8">
-                                                            <input id="smtpPort" class="form-control"  type="number" value="<?php echo $config->getSmtpPort(); ?>" placeholder="465 OR 587" aria-describedby="smtpPortHelp"    >
+                                                            <input id="smtpPort" class="form-control"  type="number" value="<?php echo $config->getSmtpPort(); ?>" placeholder="<?php echo __('465 OR 587'); ?>" aria-describedby="smtpPortHelp"    >
                                                             <small id="smtpPortHelp" class="form-text text-muted"><?php echo __("465 OR 587"); ?></small>
                                                         </div>
                                                     </div>
@@ -611,8 +611,8 @@ if (User::isAdmin()) {
                                     <label class="col-md-2 control-label"><?php echo __("Head Code"); ?></label>
                                     <div class="col-md-10">
                                         <textarea id="head" class="form-control" type="text" rows="20" ><?php echo $config->getHead(); ?></textarea>
-                                        <small>For Google Analytics code: <a href='https://analytics.google.com'  target="_blank" rel="noopener noreferrer">https://analytics.google.com</a></small><br>
-                                        <small>Leave blank for native code</small>
+                                        <small><?php echo __('For Google Analytics code'); ?>: <a href='https://analytics.google.com'  target="_blank" rel="noopener noreferrer">https://analytics.google.com</a></small><br>
+                                        <small><?php echo __('Leave blank for native code'); ?></small>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -620,7 +620,7 @@ if (User::isAdmin()) {
                                     <div class="col-md-10">
                                         <input type="hidden" value="" id="adsense"/>
                                         <div class="alert alert-info">
-                                            Google AD Sense and any other Ads provider are moved to the <a href='<?php echo $global['webSiteRootURL']; ?>plugins'>ADs plugin </a>
+                                            <?php echo __('Google AD Sense and any other Ads provider are moved to the'); ?> <a href='<?php echo $global['webSiteRootURL']; ?>plugins'><?php echo __('ADs plugin'); ?> </a>
                                         </div>
                                     </div>
                                 </div>

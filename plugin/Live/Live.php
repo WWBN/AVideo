@@ -535,7 +535,7 @@ class Live extends PluginAbstract {
     }
 
     public function getChartTabs() {
-        return '<li><a data-toggle="tab" id="liveVideos" href="#liveVideosMenu"><i class="fas fa-play-circle"></i> Live videos</a></li>';
+        return '<li><a data-toggle="tab" id="liveVideos" href="#liveVideosMenu"><i class="fas fa-play-circle"></i> '.__('Live videos').'</a></li>';
     }
 
     public function getChartContent() {
@@ -674,7 +674,7 @@ class Live extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        return '<a href="plugin/Live/view/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit Live Servers</a>';
+        return '<a href="plugin/Live/view/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> '.__('Edit Live Servers').'</a>';
     }
 
     static function getStats() {

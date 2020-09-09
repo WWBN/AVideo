@@ -5,11 +5,11 @@
 
         <div class="row">
             <label class="col-md-4">
-                Sent only to this email:
+                <?php echo __('Sent only to this email'); ?>:
             </label>
             <div class="col-md-8">
                 <input class="form-control" type="email" id="email" placeholder="test@email.com">
-                <small>Leave it blank to send to all users</small>
+                <small><?php echo __('Leave it blank to send to all users'); ?></small>
             </div>
         </div>
         <hr>
