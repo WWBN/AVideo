@@ -35,6 +35,9 @@ class ReportVideo extends PluginAbstract {
 
     public function getWatchActionButton($videos_id) {
         global $global, $video;
+        if(!isVideo()){
+            return '';
+        }
         if(empty($video['id']) && empty($videos_id)){
             return '';
         }
