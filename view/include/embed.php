@@ -38,7 +38,7 @@
             <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" >
                 <?php
                 if (function_exists('getVTTTracks')) {
-                    echo getVTTTracks($fileName);
+                    echo getVTTTracks($video['filename']);
                 }
                 ?>
             </video>

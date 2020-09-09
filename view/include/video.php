@@ -61,7 +61,12 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
                     } else {
                         ?>
                         <source src="<?php echo $playNowVideo['videoLink']; ?>" type="<?php echo (strpos($playNowVideo['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
-                    <?php } ?>
+                        <?php
+                        if (function_exists('getVTTTracks')) {
+                            echo getVTTTracks($playNowVideo['filename']);
+                        }
+                    }
+                    ?>
                     <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                     <p class="vjs-no-js"><?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
                         <a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a>
@@ -78,7 +83,7 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
                 <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
                     <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
                 </div>
-            <?php } ?>
+<?php } ?>
 
             <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs" style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
                 <i class="fas fa-times"></i>
