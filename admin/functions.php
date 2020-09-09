@@ -14,7 +14,7 @@ function createTable($pluginName, $filter = array()) {
     echo '<table class="table table-hover">';
     $pluginsList = array();
     if (!AVideoPlugin::exists($pluginName)) {
-        echo "<tr><td colspan='2'> Sorry you do not have the plugin </td></tr>";
+        echo "<tr><td colspan='2'> ".__('Sorry you do not have the plugin')." </td></tr>";
     } else {
         if (!empty($plugin)) {
             $form = jsonToFormElements($plugin, $filter);
@@ -22,7 +22,7 @@ function createTable($pluginName, $filter = array()) {
             echo implode("", $form);
         }
 
-        echo "<tr><td colspan='2'> <button class='btn btn-block btn-primary'><i class='fa fa-save'></i> Save</button> </td></tr>";
+        echo "<tr><td colspan='2'> <button class='btn btn-block btn-primary'><i class='fa fa-save'></i> ".__('Save')."</button> </td></tr>";
     }
     echo '</table></form>';
 }
@@ -75,7 +75,7 @@ function jsonToFormElements($json, $filter = array()) {
 
 function getPluginSwitch($pluginName) {
     if (!AVideoPlugin::exists($pluginName)) {
-        $input = '<a href="https://youphp.tube/plugins/" class="btn btn-danger btn-sm btn-xs">Buy this plugin now</a>';
+        $input = '<a href="https://youphp.tube/plugins/" class="btn btn-danger btn-sm btn-xs">'.__('Buy this plugin now').'</a>';
     } else {
         $plugin = AVideoPlugin::loadPluginIfEnabled($pluginName);
         $pluginForced = AVideoPlugin::loadPlugin($pluginName);
