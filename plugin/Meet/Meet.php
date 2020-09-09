@@ -204,7 +204,7 @@ Passcode: {password}
             $domain .= "/".$m->getName();
         }
         
-        $domain .= "?getRTMPLink=" . urlencode(Live::getRTMPLink($m->getUsers_id()));
+        //$domain .= "?getRTMPLink=" . urlencode(Live::getRTMPLink($m->getUsers_id()));
         
         if($addToken){
             $token = self::getToken($meet_schedule_id);

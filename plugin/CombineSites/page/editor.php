@@ -270,7 +270,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                         if (!response.error) {
                             if (!response.site_is_enabled) {
                                 $('#permissionsHead .label-danger').fadeIn();
-                                swal("Sorry!", "Site " + combineSiteURL + " needs to enable your site  before you get content from them ", "warning");
+                                avideoAlert("Sorry!", "Site " + combineSiteURL + " needs to enable your site  before you get content from them ", "warning");
                             } else {
                                 $('#permissionsHead .label-success').fadeIn();
                             }
@@ -284,13 +284,13 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                             loadItemGet("programs", "playlists_id");
                         } else {
                             $("#sitesPermissionsBody").slideUp();
-                            swal("Sorry!", "Site " + combineSiteURL + " said: " + response.msg, "error");
+                            avideoAlert("Sorry!", "Site " + combineSiteURL + " said: " + response.msg, "error");
                         }
                         modal.hidePleaseWait();
                     },
                     error: function (ajaxContext) {
                         $("#sitesPermissionsBody").slideUp();
-                        swal("Sorry!", "This site is NOT a streamer Site", "error");
+                        avideoAlert("Sorry!", "This site is NOT a streamer Site", "error");
                         modal.hidePleaseWait();
                     }
                 });
@@ -349,7 +349,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                     url: combineSiteURL + "plugin/CombineSites/page/give/checked.json.php?site_url=<?php echo urlencode($global['webSiteRootURL']); ?>&type=" + item,
                     success: function (data) {
                         if (data.error) {
-                            swal("Sorry!", data.msg, "error");
+                            avideoAlert("Sorry!", data.msg, "error");
                             modal.hidePleaseWait();
                         } else {
                             for (x in data.response) {
@@ -369,7 +369,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                     url: "<?php echo $global['webSiteRootURL']; ?>plugin/CombineSites/page/get/checked.json.php?site_url=" + encodeURIComponent(combineSiteURL) + "&type=" + item,
                     success: function (data) {
                         if (data.error) {
-                            swal("Sorry!", data.msg, "error");
+                            avideoAlert("Sorry!", data.msg, "error");
                             modal.hidePleaseWait();
                         } else {
                             for (x in data.response) {
@@ -410,13 +410,13 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                             _switchItem("." + name + "SwitchGet", "plugin/CombineSites/page/get/" + name + "Switch.json.php", "Get");
                         } else {
                             $("#sitesPermissionsBody").slideUp();
-                            swal("Sorry!", "Site " + combineSiteURL + " said: " + response.message, "error");
+                            avideoAlert("Sorry!", "Site " + combineSiteURL + " said: " + response.message, "error");
                         }
                         modal.hidePleaseWait();
                     },
                     error: function (ajaxContext) {
                         $("#sitesPermissionsBody").slideUp();
-                        swal("Sorry!", "This site is NOT a streamer Site", "error");
+                        avideoAlert("Sorry!", "This site is NOT a streamer Site", "error");
                         modal.hidePleaseWait();
                     }
                 });
@@ -427,7 +427,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                     url: combineSiteURL + "plugin/CombineSites/page/get/checked.json.php?site_url=<?php echo urlencode($global['webSiteRootURL']); ?>&type=" + item,
                     success: function (data) {
                         if (data.error) {
-                            swal("Sorry!", data.msg, "error");
+                            avideoAlert("Sorry!", data.msg, "error");
                             modal.hidePleaseWait();
                         } else {
                             for (x in data.response) {
@@ -448,7 +448,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                     url: "<?php echo $global['webSiteRootURL']; ?>plugin/CombineSites/page/give/checked.json.php?site_url=" + encodeURIComponent(combineSiteURL) + "&type=" + item,
                     success: function (data) {
                         if (data.error) {
-                            swal("Sorry!", data.msg, "error");
+                            avideoAlert("Sorry!", data.msg, "error");
                             modal.hidePleaseWait();
                         } else {
                             for (x in data.response) {
@@ -513,7 +513,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                                     url: "<?php echo $global['webSiteRootURL']; ?>plugin/CombineSites/page/siteDelete.json.php?id=" + id,
                                     success: function (data) {
                                         if (data.error) {
-                                            swal("Sorry!", data.msg, "error");
+                                            avideoAlert("Sorry!", data.msg, "error");
                                             modal.hidePleaseWait();
                                         } else {
                                             location.reload();
@@ -542,7 +542,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                         success: function (data) {
                             if (data.error) {
                                 t.prop('checked', !t.is(":checked"));
-                                swal("Sorry!", data.msg, "error");
+                                avideoAlert("Sorry!", data.msg, "error");
                             } else {
                                 processLabelCheck(name, id, isChecked, mode, false);
                             }
@@ -556,7 +556,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                     e.preventDefault(); // avoid to execute the actual submit of the form.
                     var site_url = $('#site_url').val();
                     if (!site_url) {
-                        swal("Sorry!", "You need a valid URL", "error");
+                        avideoAlert("Sorry!", "You need a valid URL", "error");
                         return false;
                     }
                     modal.showPleaseWait();
@@ -564,10 +564,10 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                         url: "<?php echo $global['webSiteRootURL']; ?>plugin/CombineSites/page/addSite.json.php?site_url=" + site_url,
                         success: function (data) {
                             if (data.error) {
-                                swal("Sorry!", data.msg, "error");
+                                avideoAlert("Sorry!", data.msg, "error");
                                 modal.hidePleaseWait();
                             } else if (data.response && data.response.error) {
-                                swal("Sorry!", data.response.msg, "error");
+                                avideoAlert("Sorry!", data.response.msg, "error");
                                 modal.hidePleaseWait();
                             } else {
                                 location.reload();

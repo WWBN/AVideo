@@ -419,9 +419,9 @@ if (!empty($videos)) {
                                                         success: function (response) {
                                                             modal.hidePleaseWait();
                                                             if (!response.error) {
-                                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
+                                                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
                                                             } else {
-                                                                swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
+                                                                avideoAlert("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
                                                             }
                                                             $('#btnReloadCapcha<?php echo $video['id']; ?>').trigger('click');
                                                         }
@@ -514,13 +514,13 @@ if (!empty($videos)) {
                                                 $('#comment<?php echo $video['id']; ?>').val('');
                                                 $('#grid<?php echo $video['id']; ?>').bootgrid('reload');
                                             } else {
-                                                swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
+                                                avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
                                             }
                                             modal.hidePleaseWait();
                                         }
                                     });
                                 } else {
-                                    swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
+                                    avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
                                 }
                             });
                         });

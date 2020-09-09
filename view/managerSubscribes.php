@@ -85,9 +85,9 @@ if (!User::canUpload()) {
                     success: function (response) {
                         console.log(response);
                         if (response.error) {
-                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
-                            swal("<?php echo __("Success"); ?>", "<?php echo __("You have sent the notification"); ?>", "success");
+                            avideoAlert("<?php echo __("Success"); ?>", "<?php echo __("You have sent the notification"); ?>", "success");
                         }
                         modal.hidePleaseWait();
                     }

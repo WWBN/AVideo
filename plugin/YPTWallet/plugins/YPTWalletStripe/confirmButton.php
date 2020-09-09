@@ -138,7 +138,7 @@ $uid = uniqid();
 if (empty($_REQUEST['redirectUri'])) {
     ?>
                         $(".walletBalance").text(response.walletBalance);
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
     <?php
 } else {
     ?>
@@ -147,7 +147,7 @@ if (empty($_REQUEST['redirectUri'])) {
 }
 ?>
                 } else {
-                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");
                 }
                 setTimeout(function () {
                     modal.hidePleaseWait();

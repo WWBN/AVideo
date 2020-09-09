@@ -105,9 +105,9 @@ $('#Meet_schedule_has_users_groupsusers_groups_id').val('');
             type: 'post',
             success: function (response) {
             if (response.error) {
-            swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+            avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
             } else {
-            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
             $("#panelMeet_schedule_has_users_groupsForm").trigger("reset");
             }
             clearMeet_schedule_has_users_groupsForm();
@@ -142,9 +142,9 @@ $('#Meet_schedule_has_users_groupsusers_groups_id').val('');
             type: 'post',
             success: function (response) {
             if (response.error) {
-            swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+            avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
             } else {
-            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
             $("#panelMeet_schedule_has_users_groupsForm").trigger("reset");
             }
             Meet_schedule_has_users_groupstableVar.ajax.reload();
@@ -174,7 +174,7 @@ $('#Meet_schedule_has_users_groupsusers_groups_id').val('');
 
             }).done(function (resposta) {
             if (resposta.error) {
-            swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+            avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
             }
             Meet_schedule_has_users_groupstableVar.ajax.reload();
             modal.hidePleaseWait();

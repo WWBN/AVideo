@@ -41,9 +41,9 @@
             success: function (response) {
                 console.log(response);
                 if (response.error) {
-                    swal("<?php echo __("Sorry!"); ?>", response.msg[0], "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", response.msg[0], "error");
                 } else {
-                    swal("<?php echo __("Success"); ?>", "You have sent "+response.count+" emails", "success");
+                    avideoAlert("<?php echo __("Success"); ?>", "You have sent "+response.count+" emails", "success");
                 }
                 modal.hidePleaseWait();
             }

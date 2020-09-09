@@ -383,7 +383,7 @@ if (!User::isAdmin()) {
 
                     }).done(function (resposta) {
                         if (resposta.error) {
-                            swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                         }
                         tableVideos.ajax.reload();
                         modal.hidePleaseWait();
@@ -417,9 +417,9 @@ if (!User::isAdmin()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                         $("#panelForm").trigger("reset");
                     }
                     clearVideoForm();
@@ -466,9 +466,9 @@ if (!User::isAdmin()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
 <?php
 if (!empty($ad_server_location)) {
     ?>
@@ -534,7 +534,7 @@ if (!empty($ad_server_location)) {
 
                         }).done(function (resposta) {
                             if (resposta.error) {
-                                swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                             }
                             tableLinks.ajax.reload();
                             modal.hidePleaseWait();

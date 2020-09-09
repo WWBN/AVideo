@@ -138,7 +138,7 @@ $obj = $plugin->getDataObject();
                                 $('#userFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
                             } else {
-                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been saved!"); ?>", "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been saved!"); ?>", "error");
                             }
                             modal.hidePleaseWait();
                         }

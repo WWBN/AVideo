@@ -210,9 +210,9 @@
                                     success: function (response) {
                                         if (response.status === "1") {
                                             $("#grid").bootgrid("reload");
-                                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been deleted!"); ?>", "success");
+                                            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been deleted!"); ?>", "success");
                                         } else {
-                                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been deleted!"); ?>", "error");
+                                            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been deleted!"); ?>", "error");
                                         }
                                         modal.hidePleaseWait();
                                     }
@@ -259,9 +259,9 @@
                     if (response.status) {
                         $('#categoryFormModal').modal('hide');
                         $("#grid").bootgrid("reload");
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been saved!"); ?>", "success");
                     } else {
-                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been saved!"); ?>", "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been saved!"); ?>", "error");
                     }
                     modal.hidePleaseWait();
                 }

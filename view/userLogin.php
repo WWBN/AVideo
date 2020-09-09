@@ -36,7 +36,7 @@ if (empty($_COOKIE) && get_browser_name()!=='Other (Unknown)') {
                 }, 1000);
                 $(document).ready(function () {
                     if (!win || win.closed || typeof win.closed == 'undefined') {
-                        //swal("<?php echo __("Sorry!"); ?>", "<?php echo __("In order to enjoy our login feature, you need to allow our pop-ups in your browser."); ?>", "error");
+                        //avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("In order to enjoy our login feature, you need to allow our pop-ups in your browser."); ?>", "error");
                     }
                 });
     </script>
@@ -191,7 +191,7 @@ if (empty($_COOKIE) && get_browser_name()!=='Other (Unknown)') {
 <?php
 if (!empty($_GET['error'])) {
     ?>
-            swal("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");
+            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");
     <?php
 }
 ?>
@@ -206,7 +206,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                 var email = $("#inputUser").val();
                 if (!validateEmail(email) && email.toLowerCase() !== "admin") {
                     // if the user is admin, let it go
-                    //swal("<?php echo __("Sorry!"); ?>", "<?php echo __("The username must be an email"); ?>", "error");
+                    //avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("The username must be an email"); ?>", "error");
                     //return false;
                 }
     <?php
@@ -221,9 +221,9 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                     if (!response.isLogged) {
                         modal.hidePleaseWait();
                         if (response.error) {
-                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
-                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
                         }
                         if (response.isCaptchaNeed) {
                             $("#btnReloadCapcha").trigger('click');
@@ -239,7 +239,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
         $('#forgotPassword').click(function () {
             var user = $('#inputUser').val();
             if (!user) {
-                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("You need to inform what is your user!"); ?>", "error");
+                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("You need to inform what is your user!"); ?>", "error");
                 return false;
             }
             var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText2">';
@@ -262,9 +262,9 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                                 type: 'post',
                                 success: function (response) {
                                     if (response.error) {
-                                        swal("<?php echo __("Error"); ?>", response.error, "error");
+                                        avideoAlert("<?php echo __("Error"); ?>", response.error, "error");
                                     } else {
-                                        swal("<?php echo __("E-mail sent"); ?>", "<?php echo __("We sent you an e-mail with instructions"); ?>", "success");
+                                        avideoAlert("<?php echo __("E-mail sent"); ?>", "<?php echo __("We sent you an e-mail with instructions"); ?>", "success");
                                     }
                                     modal.hidePleaseWait();
                                 }

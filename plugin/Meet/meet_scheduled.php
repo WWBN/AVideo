@@ -17,14 +17,13 @@ if (!User::canCreateMeet()) {
     exit;
 }
 $userCredentials = User::loginFromRequestToGet();
-if(empty($meet_scheduled)){
+if (empty($meet_scheduled)) {
     $meet_scheduled = cleanString($_REQUEST['meet_scheduled']);
 }
 
-if(empty($manageMeetings)){
+if (empty($manageMeetings)) {
     $manageMeetings = intval($_REQUEST['manageMeetings']);
 }
-
 ?>
 <table id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
     <thead>
@@ -65,19 +64,15 @@ if(empty($manageMeetings)){
                     data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Meet Log"); ?>">
                 <i class="fas fa-info-circle"></i>
             </button>
+            <button href="" class="edit_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs"
+                    data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Edit"); ?>">
+                <i class="fa fa-edit"></i>
+            </button>
+            <button href="" class="delete_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-danger btn-xs"
+                    data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Delete"); ?>">
+                <i class="fa fa-trash"></i>
+            </button>
             <?php
-            if ($meet_scheduled !== "past") {
-                ?>
-                <button href="" class="edit_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs"
-                        data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Edit"); ?>">
-                    <i class="fa fa-edit"></i>
-                </button>
-                <button href="" class="delete_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-danger btn-xs"
-                        data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Delete"); ?>">
-                    <i class="fa fa-trash"></i>
-                </button>
-                <?php
-            }
         }
         ?>
     </div>
@@ -94,27 +89,27 @@ if(empty($manageMeetings)){
     var Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar;
     $(document).ready(function () {
         Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar = $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').DataTable({
-            
-        "processing": true,
-        "serverSide": true,
+
+            "processing": true,
+            "serverSide": true,
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/list.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&manageMeetings=<?php echo $manageMeetings; ?>&<?php echo $userCredentials; ?>",
                         "order": [],
                         "columns": [
                             {
                                 /**
-                                * Public = 2
-                                * Logged Users Only = 1
-                                * Specific User Groups = 0
-                                * @return type
-                                */
+                                 * Public = 2
+                                 * Logged Users Only = 1
+                                 * Specific User Groups = 0
+                                 * @return type
+                                 */
                                 sortable: false,
                                 data: 'public',
                                 "render": function (data, type, row) {
-                                    if(data==2){
+                                    if (data == 2) {
                                         return '<i class="fas fa-lock-open" style="color:rgba(0,0,0,0.1);" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Public"); ?>" ></i>';
-                                    }else if(data==1){
+                                    } else if (data == 1) {
                                         return '<i class="fas fa-user-lock" style="color:rgba(0,0,0,0.3);" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Logged Users Only"); ?>" ></i>'
-                                    }else{
+                                    } else {
                                         return '<i class="fas fa-lock" style="color:rgba(0,0,0,1);" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Specific User Groups"); ?>" ></i>'
                                     }
                                 }
@@ -130,95 +125,95 @@ if(empty($manageMeetings)){
                         ],
                         select: true,
                     });
-                    <?php
-        if ($manageMeetings) {
-            ?>
-                    $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.delete_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
-                        e.preventDefault();
-                        var tr = $(this).closest('tr')[0];
-                        var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
-                        swal({
-                            title: "<?php echo __("Are you sure?"); ?>",
-                            text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                            icon: "warning",
-                            buttons: true,
-                            dangerMode: true,
-                        })
-                                .then((willDelete) => {
-                                    if (willDelete) {
-                                        modal.showPleaseWait();
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/delete.json.php?<?php echo $userCredentials; ?>",
-                                            data: data
+<?php
+if ($manageMeetings) {
+    ?>
+                        $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.delete_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
+                            e.preventDefault();
+                            var tr = $(this).closest('tr')[0];
+                            var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
+                            swal({
+                                title: "<?php echo __("Are you sure?"); ?>",
+                                text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                                    .then((willDelete) => {
+                                        if (willDelete) {
+                                            modal.showPleaseWait();
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/delete.json.php?<?php echo $userCredentials; ?>",
+                                                                                data: data
 
-                                        }).done(function (resposta) {
-                                            if (resposta.error) {
-                                                swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
-                                            }
-                                            Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.ajax.reload();
-                                            modal.hidePleaseWait();
-                                        });
-                                    } else {
+                                                                            }).done(function (resposta) {
+                                                                                if (resposta.error) {
+                                                                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                                                                }
+                                                                                Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.ajax.reload();
+                                                                                modal.hidePleaseWait();
+                                                                            });
+                                                                        } else {
 
-                                    }
-                                });
-                    });
-                    $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.log_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
-                        e.preventDefault();
-                        var tr = $(this).closest('tr')[0];
-                        var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
-                        modal.showPleaseWait();
-                        $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal').modal();
-                        $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal .modal-body').html('');
-                        $.ajax({
-                            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/getMeetInfo.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&meet_schedule_id=' + data.id+'&<?php echo $userCredentials; ?>',
-                            success: function (response) {
-                                if (response.error) {
-                                    swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                                } else {
-                                    $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal .modal-body').html(response.html);
-                                }
-                                modal.hidePleaseWait();
-                            }
-                        });
-                    });
-                    $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.edit_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
-                        e.preventDefault();
-                        var tr = $(this).closest('tr')[0];
-                        var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
+                                                                        }
+                                                                    });
+                                                        });
+                                                        $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.log_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
+                                                            e.preventDefault();
+                                                            var tr = $(this).closest('tr')[0];
+                                                            var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
+                                                            modal.showPleaseWait();
+                                                            $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal').modal();
+                                                            $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal .modal-body').html('');
+                                                            $.ajax({
+                                                                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/getMeetInfo.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&meet_schedule_id=' + data.id + '&<?php echo $userCredentials; ?>',
+                                                                success: function (response) {
+                                                                    if (response.error) {
+                                                                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                                    } else {
+                                                                        $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal .modal-body').html(response.html);
+                                                                    }
+                                                                    modal.hidePleaseWait();
+                                                                }
+                                                            });
+                                                        });
+                                                        $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.edit_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
+                                                            e.preventDefault();
+                                                            var tr = $(this).closest('tr')[0];
+                                                            var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
 
-                        clearMeetForm(false);
+                                                            clearMeetForm(false);
 
-                        $('#meet_schedule_id').val(data.id);
-                        $('#RoomTopic').val(data.topic);
-                        $('#RoomPasswordNew').val(data.password);
-                        $('#live_streamNew').val(data.live_stream);
-                        $('#publicNew').val(data.public);
-                        $('#whenNew').val(0);
-                        $('#Meet_schedule2starts').val(data.starts);
+                                                            $('#meet_schedule_id').val(data.id);
+                                                            $('#RoomTopic').val(data.topic);
+                                                            $('#RoomPasswordNew').val(data.password);
+                                                            $('#live_streamNew').val(data.live_stream);
+                                                            $('#publicNew').val(data.public);
+                                                            $('#whenNew').val(0);
+                                                            $('#Meet_schedule2starts').val(data.starts);
 
-                        if (data.userGroups) {
-                            for (i = 0; i < data.userGroups.length; i++) {
-                                $('#userGroupsCheck' + data.userGroups[i].users_groups_id).attr('checked', 1);
-                            }
-                        }
-                        $('#publicNew, #whenNew').trigger("change");
+                                                            if (data.userGroups) {
+                                                                for (i = 0; i < data.userGroups.length; i++) {
+                                                                    $('#userGroupsCheck' + data.userGroups[i].users_groups_id).attr('checked', 1);
+                                                                }
+                                                            }
+                                                            $('#publicNew, #whenNew').trigger("change");
 
-                    });
-                    <?php
-        }
-            ?>
-                    $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
-                        e.preventDefault();
-                        modal.showPleaseWait();
-                        var tr = $(this).closest('tr')[0];
-                        var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
-                        document.location = data.link;
+                                                        });
+    <?php
+}
+?>
+                                                    $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
+                                                        e.preventDefault();
+                                                        modal.showPleaseWait();
+                                                        var tr = $(this).closest('tr')[0];
+                                                        var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
+                                                        document.location = data.link;
 
-                    });
-                    setTimeout(function(){
-                        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-                    },500);
-                });
+                                                    });
+                                                    setTimeout(function () {
+                                                        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+                                                    }, 500);
+                                                });
 </script>

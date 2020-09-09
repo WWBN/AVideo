@@ -185,9 +185,9 @@ $obj = AVideoPlugin::getObjectData("BulkEmbed");
                         type: 'post',
                         success: function (response) {
                             if (!response.error) {
-                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your videos have been saved!"); ?>", "success");
+                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your videos have been saved!"); ?>", "success");
                             } else {
-                                swal("<?php echo __("Sorry!"); ?>", response.msg.join("<br>"), "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg.join("<br>"), "error");
                             }
                             modal.hidePleaseWait();
                         }

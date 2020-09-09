@@ -233,7 +233,7 @@ if (User::canSeeCommentTextarea()) {
                                 data: {'comment': comment, 'video': video, 'comments_id': comments_id, 'id': id},
                                 success: function (response) {
                                     if (response.status === "1") {
-                                        swal("<?php echo __("Congratulations"); ?>!", "<?php echo __("Your comment has been saved!"); ?>", "success");
+                                        avideoAlert("<?php echo __("Congratulations"); ?>!", "<?php echo __("Your comment has been saved!"); ?>", "success");
                                         if (comments_id) {
                                             if ($('.grid' + comments_id).hasClass('bootgrid-table')) {
                                                 $('.grid' + comments_id).bootgrid('reload');
@@ -246,13 +246,13 @@ if (User::canSeeCommentTextarea()) {
                                         }
                                         addCommentCount(comments_id, 1);
                                     } else {
-                                        swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
+                                        avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
                                     }
                                     modal.hidePleaseWait();
                                 }
                             });
                         } else {
-                            swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
+                            avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
                         }
                     }
 
@@ -317,7 +317,7 @@ if (User::canSeeCommentTextarea()) {
                                                     if (response.status) {
                                                         $(t).closest('tr').fadeOut();
                                                     } else {
-                                                        swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been deleted!"); ?>", "error");
+                                                        avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been deleted!"); ?>", "error");
                                                     }
                                                     modal.hidePleaseWait();
                                                 }

@@ -159,15 +159,16 @@ $userCredentials = User::loginFromRequestToGet();
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                         modal.hidePleaseWait();
                     } else {
                         if ($("#whenNew").val() == "1") {
                             document.location = response.link;
                         } else {
-                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                             try {Meet_schedule2today1tableVar.ajax.reload();} catch (e) {}                            
-                            try {Meet_schedule2upcoming1tableVar.ajax.reload();} catch (e) {}                            
+                            try {Meet_schedule2upcoming1tableVar.ajax.reload();} catch (e) {}                         
+                            try {Meet_schedule2past1tableVar.ajax.reload();} catch (e) {}                            
                             
                             clearMeetForm(true);
                             modal.hidePleaseWait();

@@ -138,12 +138,12 @@ $metaDescription = " Contact Form";
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (!response.error) {
-                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
+                            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
 
                             $("#contact_form").hide();
                             $("#messageSuccess").fadeIn();
                         } else {
-                            swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
+                            avideoAlert("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
                         }
                         $('#btnReloadCapcha').trigger('click');
                     }

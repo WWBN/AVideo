@@ -98,9 +98,9 @@
                                 success: function (response) {
                                     if (response.status === "1") {
                                         $("#grid").bootgrid("reload");
-                                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your group has been deleted!"); ?>", "success");
+                                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your group has been deleted!"); ?>", "success");
                                     } else {
-                                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your group has NOT been deleted!"); ?>", "error");
+                                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your group has NOT been deleted!"); ?>", "error");
                                     }
                                     modal.hidePleaseWait();
                                 }
@@ -133,9 +133,9 @@
                     if (response.status === "1") {
                         $('#groupFormModal').modal('hide');
                         $("#grid").bootgrid("reload");
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your group has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your group has been saved!"); ?>", "success");
                     } else {
-                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your group has NOT been saved!"); ?>", "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your group has NOT been saved!"); ?>", "error");
                     }
                     modal.hidePleaseWait();
                 }

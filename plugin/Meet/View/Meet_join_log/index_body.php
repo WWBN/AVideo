@@ -119,9 +119,9 @@ if (!User::isAdmin()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                         $("#panelMeet_join_logForm").trigger("reset");
                     }
                     clearMeet_join_logForm();
@@ -158,9 +158,9 @@ if (!User::isAdmin()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                         $("#panelMeet_join_logForm").trigger("reset");
                     }
                     Meet_join_logtableVar.ajax.reload();
@@ -190,7 +190,7 @@ if (!User::isAdmin()) {
 
                             }).done(function (resposta) {
                                 if (resposta.error) {
-                                    swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                                 }
                                 Meet_join_logtableVar.ajax.reload();
                                 modal.hidePleaseWait();

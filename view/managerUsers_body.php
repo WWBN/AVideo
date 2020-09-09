@@ -478,7 +478,7 @@ print AVideoPlugin::addUserBtnJS();
         $('#updateUserForm').submit(function (evt) {
         evt.preventDefault();
                 if (!isAnalytics()){
-        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
+        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
                 $('#inputAnalyticsCode').focus();
                 return false;
         }
@@ -516,11 +516,11 @@ print AVideoPlugin::updateUserFormJS();
                         $('#userFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
                                 $("#gridInactive").bootgrid("reload");
-                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been saved!"); ?>", "success");
+                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been saved!"); ?>", "success");
                         } else if (response.error){
-                        swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
-                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
                         }
                         modal.hidePleaseWait();
                         }

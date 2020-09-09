@@ -58,9 +58,9 @@ $wallet->setUsers_id(User::getId());
                         type: 'post',
                         success: function (response) {
                             if(!response.error){
-                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Configuration Saved"); ?>", "success");
+                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Configuration Saved"); ?>", "success");
                             }else{
-                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                             }
                             modal.hidePleaseWait();
                             console.log(response);

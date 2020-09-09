@@ -71,9 +71,9 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id'])) {
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (response.error) {
-                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
-                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Thank you!"); ?>", "success");
+                            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Thank you!"); ?>", "success");
                             $('#donationModal<?php echo $uid; ?>').modal('hide');
                             $(".walletBalance").text(response.walletBalance);
                         }

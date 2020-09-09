@@ -151,11 +151,11 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                                         modal.hidePleaseWait();
                                         if (response.error) {
                                             setTimeout(function () {
-                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                                             }, 500);
                                         } else {
                                             setTimeout(function () {
-                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Funds successfully transferred"); ?>", "success");
+                                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Funds successfully transferred"); ?>", "success");
                                             }, 500);
                                         }
                                     }

@@ -102,7 +102,7 @@ if (!User::isAdmin()) {
                         modal.hidePleaseWait();
                         if (response.error) {
                             setTimeout(function () {
-                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                             }, 500);
                         } else {
                             $("#grid").bootgrid("reload");

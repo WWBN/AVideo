@@ -101,7 +101,7 @@ $o = AVideoPlugin::getObjectData("VideoLogoOverlay");
                     }
                     reader.readAsDataURL($(input)[0].files[0]);
                 } else {
-                    swal("Sorry - you're browser doesn't support the FileReader API");
+                    avideoAlert("Sorry - you're browser doesn't support the FileReader API");
                 }
             }
 
@@ -163,9 +163,9 @@ $o = AVideoPlugin::getObjectData("VideoLogoOverlay");
                             type: 'post',
                             success: function (response) {
                                 if (response.saved) {
-                                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
+                                    avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
                                 } else {
-                                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
                                 }
                                 modal.hidePleaseWait();
                             }

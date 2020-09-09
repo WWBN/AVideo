@@ -145,9 +145,9 @@
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your link has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your link has been saved!"); ?>", "success");
                         $("#liveLinksForm").trigger("reset");
                     }
                     tableLinks.ajax.reload();
@@ -179,7 +179,7 @@
 
                         }).done(function (resposta) {
                             if (resposta.error) {
-                                swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                             }
                             tableLinks.ajax.reload();
                             modal.hidePleaseWait();

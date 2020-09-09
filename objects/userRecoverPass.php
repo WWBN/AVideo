@@ -153,9 +153,9 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                         success: function (response) {
                             modal.hidePleaseWait();
                             if (!response.error) {
-                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your new password has been set!"); ?>", "success");
+                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your new password has been set!"); ?>", "success");
                             } else {
-                                swal("<?php echo __("Your new password could not be set!"); ?>", response.error, "error");
+                                avideoAlert("<?php echo __("Your new password could not be set!"); ?>", response.error, "error");
                             }
                         }
                     });

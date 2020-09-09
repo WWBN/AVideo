@@ -287,11 +287,11 @@ require_once '../locale/function.php';
                     var confirmSystemAdminPass = $('#confirmSystemAdminPass').val();
 
                     if (!systemAdminPass) {
-                        swal("Sorry!", "Your System Admin Password can not be blank!", "error");
+                        avideoAlert("Sorry!", "Your System Admin Password can not be blank!", "error");
                         return false;
                     }
                     if (systemAdminPass != confirmSystemAdminPass) {
-                        swal("Sorry!", "Your System Admin Password must be confirmed!", "error");
+                        avideoAlert("Sorry!", "Your System Admin Password must be confirmed!", "error");
                         return false;
                     }
 
@@ -327,18 +327,18 @@ require_once '../locale/function.php';
                         success: function (response) {
                             modal.hidePleaseWait();
                             if (response.error) {
-                                swal("Sorry!", response.error, "error");
+                                avideoAlert("Sorry!", response.error, "error");
                             } else {
-                                swal("Congratulations!", response.error, "success");
+                                avideoAlert("Congratulations!", response.error, "success");
                                 window.location.reload(false);
                             }
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
                             modal.hidePleaseWait();
                             if (xhr.status == 404) {
-                                swal("Sorry!", "Your Site URL is wrong!", "error");
+                                avideoAlert("Sorry!", "Your Site URL is wrong!", "error");
                             } else {
-                                swal("Sorry!", "Unknow error!", "error");
+                                avideoAlert("Sorry!", "Unknow error!", "error");
                             }
                         }
                     });

@@ -18,7 +18,7 @@ $obj = AVideoPlugin::getObjectData("PayPalYPT");
                     if (!response.error) {
                         document.location = response.approvalLink;
                     } else {
-                        swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");
                         modal.hidePleaseWait();
                     }
                 }

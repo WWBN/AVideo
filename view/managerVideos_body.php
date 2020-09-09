@@ -692,7 +692,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                                 html: true
                                                             });
                                                         } else {
-                                                            swal("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
+                                                            avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
                                                         }
 
                                                     };
@@ -888,7 +888,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                 } else if (response.status === "") {
                     $("#grid").bootgrid("reload");
                 } else {
-                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been deleted!"); ?>", "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been deleted!"); ?>", "error");
                 }
                 modal.hidePleaseWait();
             }
@@ -1218,7 +1218,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         html: true
                 });
                 } else {
-                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
                 }
                 }
                 modal.hidePleaseWait();
@@ -1641,7 +1641,7 @@ echo AVideoPlugin::getManagerVideosReset();
             })
                     .then((willDelete) => {
                         if (willDelete) {
-                            swal("Deleted!", {
+                            avideoAlert("Deleted!", {
                                 icon: "success",
                             });
                             modal.showPleaseWait();

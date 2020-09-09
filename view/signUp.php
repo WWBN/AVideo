@@ -147,7 +147,7 @@ if(!empty($_GET['siteRedirectUri'])){
                         // password dont match
                         if (pass1 != '' && pass1 != pass2) {
                             modal.hidePleaseWait();
-                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your password does not match!"); ?>", "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your password does not match!"); ?>", "error");
                             return false;
                         } else {
                             $.ajax({
@@ -185,9 +185,9 @@ if(!empty($_GET['siteRedirectUri'])){
 
                                     } else {
                                         if (response.error) {
-                                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                                         } else {
-                                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been created!"); ?>", "error");
+                                            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been created!"); ?>", "error");
                                         }
                                     }
                                     modal.hidePleaseWait();

@@ -116,7 +116,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
             type: 'post',
             success: function (response) {
                 if (response.error) {
-                    swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     on_meetStop();
                     modal.hidePleaseWait();
                 } else {

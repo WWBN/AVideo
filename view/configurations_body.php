@@ -656,7 +656,7 @@ if (User::isAdmin()) {
 
                 reader.readAsDataURL($(input)[0].files[0]);
             } else {
-                swal("Sorry - you're browser doesn't support the FileReader API");
+                avideoAlert("Sorry - you're browser doesn't support the FileReader API");
             }
         }
 
@@ -686,12 +686,12 @@ if (User::isAdmin()) {
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (!response.error) {
-                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
+                            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
 
                             $("#contact_form").hide();
                             $("#messageSuccess").fadeIn();
                         } else {
-                            swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
+                            avideoAlert("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
                         }
                         $('#btnReloadCapcha').trigger('click');
                     }
@@ -821,9 +821,9 @@ if (User::isAdmin()) {
                             type: 'post',
                             success: function (response) {
                                 if (response.status === "1") {
-                                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
+                                    avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
                                 } else {
-                                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
                                 }
                                 modal.hidePleaseWait();
                             }

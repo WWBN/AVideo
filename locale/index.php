@@ -191,9 +191,9 @@ sort($vars);
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {
-                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your language has been saved!"); ?>", "success");
+                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your language has been saved!"); ?>", "success");
                             } else {
-                                swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                             }
                             modal.hidePleaseWait();
                         }

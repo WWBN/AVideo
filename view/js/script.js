@@ -295,9 +295,9 @@ $(document).ready(function () {
             url: webSiteRootURL + 'objects/configurationClearCache.json.php',
             success: function (response) {
                 if (!response.error) {
-                    swal("Congratulations!", "Your cache has been cleared!", "success");
+                    avideoAlert("Congratulations!", "Your cache has been cleared!", "success");
                 } else {
-                    swal("Sorry!", "Your cache has NOT been cleared!", "error");
+                    avideoAlert("Sorry!", "Your cache has NOT been cleared!", "error");
                 }
                 modal.hidePleaseWait();
             }
@@ -310,9 +310,9 @@ $(document).ready(function () {
             url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=1',
             success: function (response) {
                 if (!response.error) {
-                    swal("Congratulations!", "Your First Page cache has been cleared!", "success");
+                    avideoAlert("Congratulations!", "Your First Page cache has been cleared!", "success");
                 } else {
-                    swal("Sorry!", "Your First Page cache has NOT been cleared!", "error");
+                    avideoAlert("Sorry!", "Your First Page cache has NOT been cleared!", "error");
                 }
                 modal.hidePleaseWait();
             }
@@ -325,12 +325,12 @@ $(document).ready(function () {
             url: webSiteRootURL + 'objects/configurationGenerateSiteMap.json.php',
             success: function (response) {
                 if (!response.error) {
-                    swal("Congratulations!", "File created!", "success");
+                    avideoAlert("Congratulations!", "File created!", "success");
                 } else {
                     if (response.msg) {
-                        swal("Sorry!", response.msg, "error");
+                        avideoAlert("Sorry!", response.msg, "error");
                     } else {
-                        swal("Sorry!", "File NOT created!", "error");
+                        avideoAlert("Sorry!", "File NOT created!", "error");
                     }
                 }
                 modal.hidePleaseWait();
@@ -785,4 +785,17 @@ function setCurrentTime(currentTime) {
             setCurrentTime(currentTime);
         }, 1000);
     }
+}
+
+function avideoAlert(title, msg, type){
+    swal(title, msg, type);
+}
+function avideoAlertInfo(msg){
+    avideoAlert("Info", msg, 'info');
+}
+function avideoAlertError(msg){
+    avideoAlert("Error", msg, 'error');
+}
+function avideoAlertSuccess(msg){
+    avideoAlert("Success", msg, 'success');
 }

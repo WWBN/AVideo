@@ -61,9 +61,9 @@
                             url: "<?php echo $global['webSiteRootURL'] ?>objects/userVerifyEmail.php?users_id=<?php echo $user->getBdId(); ?>"
                                         }).done(function (response) {
                                             if (response.error) {
-                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                                             } else {
-                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
+                                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
                                             }
                                             modal.hidePleaseWait();
                                         });
@@ -221,7 +221,7 @@ AVideoPlugin::getMyAccount(User::getId());
 
             reader.readAsDataURL($(input)[0].files[0]);
         } else {
-            swal("Sorry - you're browser doesn't support the FileReader API");
+            avideoAlert("Sorry - you're browser doesn't support the FileReader API");
         }
     }
 
@@ -263,10 +263,10 @@ AVideoPlugin::getMyAccount(User::getId());
                         });
                     });
                 } else if (response.error) {
-                    swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                     modal.hidePleaseWait();
                 } else {
-                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
                     modal.hidePleaseWait();
                 }
             }
@@ -330,7 +330,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
         $('#updateUserForm').submit(function (evt) {
             evt.preventDefault();
             if (!isAnalytics()) {
-                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
+                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
                 $('#inputAnalyticsCode').focus();
                 return false;
             }
@@ -341,7 +341,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
             // password dont match
             if (pass1 != '' && pass1 != pass2) {
                 modal.hidePleaseWait();
-                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your password does not match!"); ?>", "error");
+                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your password does not match!"); ?>", "error");
                 return false;
             } else {
                 setTimeout(function () {

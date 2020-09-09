@@ -120,7 +120,7 @@ if (!User::isAdmin()) {
 
                     }).done(function (resposta) {
                         if (resposta.error) {
-                            swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                         }
                         tableLinks.ajax.reload();
                         modal.hidePleaseWait();
@@ -148,7 +148,7 @@ modal.showPleaseWait();
 
                                 }).done(function (resposta) {
                                     if (resposta.error) {
-                                        swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                        avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                                     }
                                     tableLinks.ajax.reload();
                                     modal.hidePleaseWait();

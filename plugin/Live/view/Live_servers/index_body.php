@@ -191,9 +191,9 @@ $obj = AVideoPlugin::getObjectData("Live");
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                         $("#panelLive_serversForm").trigger("reset");
                     }
                     clearLive_serversForm();
@@ -231,9 +231,9 @@ $obj = AVideoPlugin::getObjectData("Live");
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                         $("#panelLive_serversForm").trigger("reset");
                     }
                     Live_serverstableVar.ajax.reload();
@@ -263,7 +263,7 @@ $obj = AVideoPlugin::getObjectData("Live");
 
                             }).done(function (resposta) {
                                 if (resposta.error) {
-                                    swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                                 }
                                 Live_serverstableVar.ajax.reload();
                                 modal.hidePleaseWait();

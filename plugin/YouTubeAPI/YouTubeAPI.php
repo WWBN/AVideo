@@ -343,9 +343,9 @@ class YouTubeAPI extends PluginAbstract {
       type: 'post',
       success: function (response) {
       if(response.error){
-      swal('" . __("Sorry!") . "', response.msg, 'error');
+      avideoAlert('" . __("Sorry!") . "', response.msg, 'error');
       }else{
-      swal('" . __("Congratulations!") . "', response.msg, 'success');
+      avideoAlert('" . __("Congratulations!") . "', response.msg, 'success');
       }
       console.log(response);
       modal.hidePleaseWait();
@@ -358,14 +358,14 @@ class YouTubeAPI extends PluginAbstract {
       url: '{$global['webSiteRootURL']}plugin/YouTubeAPI/uploadAll.json.php',
       success: function (response) {
       if(response.error){
-      swal('" . __("Sorry!") . "', response.msg, 'error');
+      avideoAlert('" . __("Sorry!") . "', response.msg, 'error');
       }else{
-      swal('" . __("Congratulations!") . "', response.msg, 'success');
+      avideoAlert('" . __("Congratulations!") . "', response.msg, 'success');
       }
       console.log(response);
       }
       });
-      swal('" . __("Process Start") . "', 'It may take a while', 'warning');
+      avideoAlert('" . __("Process Start") . "', 'It may take a while', 'warning');
       }</script>";
       }
       return $js;

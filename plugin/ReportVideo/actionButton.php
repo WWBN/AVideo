@@ -27,9 +27,9 @@
                                     setTimeout(function () {
                                         modal.hidePleaseWait();
                                         if (response.error) {
-                                            swal("<?php echo __("Error"); ?>", response.msg, "error");
+                                            avideoAlert("<?php echo __("Error"); ?>", response.msg, "error");
                                         } else {
-                                            swal("<?php echo __("Thanks"); ?>", response.msg, "success");
+                                            avideoAlert("<?php echo __("Thanks"); ?>", response.msg, "success");
                                         }
                                     }, 500);
     //                                  

@@ -107,9 +107,9 @@ if (!User::canStream()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                         $("#panelLive_restreamsForm").trigger("reset");
                     }
                     clearLive_restreamsForm();
@@ -146,9 +146,9 @@ if (!User::canStream()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                         $("#panelLive_restreamsForm").trigger("reset");
                     }
                     Live_restreamstableVar.ajax.reload();
@@ -178,7 +178,7 @@ if (!User::canStream()) {
 
                             }).done(function (resposta) {
                                 if (resposta.error) {
-                                    swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                                 }
                                 Live_restreamstableVar.ajax.reload();
                                 modal.hidePleaseWait();

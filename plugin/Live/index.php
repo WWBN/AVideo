@@ -351,7 +351,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                                         success: function (response) {
                                                             modal.hidePleaseWait();
                                                             if (response.error) {
-                                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                                                             } else {
                                                                 $('#mainVideo video').attr('poster', webSiteRootURL + response.newPoster);
                                                                 $('#mainVideo .vjs-poster').css('background-image', 'url("' + webSiteRootURL + response.newPoster + '")');

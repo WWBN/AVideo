@@ -25,9 +25,9 @@ $ad->loadFromUser(User::getId());
             type: 'post',
             success: function (response) {
                 if (response.error) {
-                    swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                 } else {
-                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your code has been saved!"); ?>", "success");
+                    avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your code has been saved!"); ?>", "success");
                 }
                 modal.hidePleaseWait();
             }
