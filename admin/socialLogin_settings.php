@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading"><i class="fa fa-cog"></i> Customize options <div class="pull-right"><?php echo getPluginSwitch('CustomizeAdvanced'); ?></div></div>
+            <div class="panel-heading"><i class="fa fa-cog"></i> <?php echo __('Customize options'); ?> <div class="pull-right"><?php echo getPluginSwitch('CustomizeAdvanced'); ?></div></div>
             <div class="panel-body" style="overflow: hidden;">
                 <?php
                 $filter = array(
-                    'disableNativeSignUp' => 'The form to signup will not exists',
-                    'disableNativeSignIn' => 'The regular form to signin will not exist, if you check this will only have social login or LDAP option',
-                    'userMustBeLoggedIn' => 'The site will display only a login form to un authenticated users');
+                    'disableNativeSignUp' => __('The form to signup will not exists'),
+                    'disableNativeSignIn' => __('The regular form to signin will not exist, if you check this will only have social login or LDAP option'),
+                    'userMustBeLoggedIn' => __('The site will display only a login form to un authenticated users'));
                 createTable("CustomizeUser", $filter);
                 ?>
             </div>
@@ -21,9 +21,9 @@
                 createTable("LoginFacebook");
                 ?>
                 <small class="form-text text-muted">
-                    <a href="https://developers.facebook.com/apps">Get Facebook ID and Key</a><br>
-                    Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Facebook</strong><br>
-                    For mobile a Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Facebook</strong>
+                    <a href="https://developers.facebook.com/apps"><?php echo __('Get Facebook ID and Key'); ?></a><br>
+                    <?php echo __('Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Facebook</strong><br>
+                    <?php echo __('For mobile a Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Facebook</strong>
                 </small>
             </div>
         </div>
@@ -36,9 +36,9 @@
                 createTable("LoginGoogle");
                 ?>
                 <small class="form-text text-muted">
-                    <a href="https://console.developers.google.com/apis/credentials">Get Google ID and Key</a><br>
-                    Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Google</strong><br>
-                    For mobile a Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Google</strong>
+                    <a href="https://console.developers.google.com/apis/credentials"><?php echo __('Get Google ID and Key'); ?></a><br>
+                    <?php echo __('Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Google</strong><br>
+                    <?php echo __('For mobile a Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Google</strong>
                 </small>
             </div>
         </div>
@@ -52,9 +52,9 @@
                 createTable("LoginLinkedin");
                 ?>
                 <small class="form-text text-muted">
-                    <a href="https://www.linkedin.com/secure/developer">Get Linkedin ID and Key</a><br>
-                    Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Linkedin</strong><br>
-                    For mobile a Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Linkedin</strong>
+                    <a href="https://www.linkedin.com/secure/developer"><?php echo __('Get Linkedin ID and Key'); ?></a><br>
+                    <?php echo __('Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Linkedin</strong><br>
+                    <?php echo __('For mobile a Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Linkedin</strong>
                 </small>
             </div>
         </div>
@@ -67,9 +67,9 @@
                 createTable("LoginTwitter");
                 ?>
                 <small class="form-text text-muted">
-                    <a href="https://apps.twitter.com/">Get Twitter ID and Key</a><br>
-                    Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Twitter</strong><br>
-                    For mobile a Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Twitter</strong>
+                    <a href="https://apps.twitter.com/"><?php echo __('Get Twitter ID and Key'); ?></a><br>
+                    <?php echo __('Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Twitter</strong><br>
+                    <?php echo __('For mobile a Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Twitter</strong>
                 </small>
             </div>
         </div>
@@ -82,9 +82,9 @@
                 createTable("LoginYahoo");
                 ?>
                 <small class="form-text text-muted">
-                    <a href="https://developer.yahoo.com/oauth2/guide/flows_authcode/">Get Yahoo ID and Key</a><br>
-                    Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Yahoo</strong><br>
-                    For mobile a Valid OAuth redirect URIs: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Yahoo</strong>
+                    <a href="https://developer.yahoo.com/oauth2/guide/flows_authcode/"><?php echo __('Get Yahoo ID and Key'); ?></a><br>
+                    <?php echo __('Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>objects/login.json.php?type=Yahoo</strong><br>
+                    <?php echo __('For mobile a Valid OAuth redirect URIs'); ?>: <strong><?php echo $global['webSiteRootURL']; ?>plugin/MobileManager/oauth2.php?type=Yahoo</strong>
                 </small>
             </div>
         </div>
@@ -97,7 +97,7 @@
                 createTable("LoginLDAP");
                 ?>
                 <small class="form-text text-muted">
-                    <a href="https://github.com/WWBN/AVideo/wiki/Configure-LDAP-Plugin">Help Page</a>
+                    <a href="https://github.com/WWBN/AVideo/wiki/Configure-LDAP-Plugin"><?php echo __('Help Page'); ?></a>
                 </small>
 
             </div>
