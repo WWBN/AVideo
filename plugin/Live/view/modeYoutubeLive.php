@@ -2,6 +2,12 @@
 global $isLive;
 $isLive = 1;
 require_once '../../videos/configuration.php';
+
+if(!empty($_GET['embed'])){
+    include $global['systemRootPath'] . 'plugin/Live/view/videoEmbeded.php';
+    return false;
+}
+
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
@@ -47,14 +53,14 @@ AVideoPlugin::getModeYouTubeLive($user_id);
         ?>
 
         <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?u=<?php echo $_GET['u']; ?>" />
+        <meta property="og:url"                content="<?php echo Live::getLinkToLiveFromUsers_id($user_id); ?>" />
         <meta property="og:type"               content="video.other" />
         <meta property="og:title"              content="<?php echo str_replace('"', '', $livet['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
         <meta property="og:description"        content="<?php echo str_replace('"', '', $livet['title']); ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
-        <?php 
+        <?php
         echo AVideoPlugin::getHeadCode();
         ?>
     </head>
@@ -97,10 +103,26 @@ AVideoPlugin::getModeYouTubeLive($user_id);
                                 <p><?php echo nl2br(textToLink($livet['description'])); ?></p>
                                 <div class="row">
                                     <div class="col-md-12 watch8-action-buttons text-muted">
-
+                                        <a href="#" class="btn btn-default no-outline" id="shareBtn">
+                                            <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                                        </a>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $("#shareDiv").slideUp();
+                                                $("#shareBtn").click(function () {
+                                                    $(".menusDiv").not("#shareDiv").slideUp();
+                                                    $("#shareDiv").slideToggle();
+                                                    return false;
+                                                });
+                                            });
+                                        </script>
                                         <?php echo AVideoPlugin::getWatchActionButton(0); ?>
                                     </div>
                                 </div>
+                                <?php
+                                $link = Live::getLinkToLiveFromUsers_id($user_id);
+                                getShareMenu($livet['title'], $link, $link, $link.="?embed=1");
+                                ?>
                                 <div class="row">
 
                                     <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>

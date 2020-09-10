@@ -334,7 +334,6 @@ $titleTag = substr($titleTag, 0, 70);
         <title><?php echo $titleTag; ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
 <?php
 include $global['systemRootPath'] . 'view/include/head.php';

@@ -20,7 +20,7 @@ $linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$url&title=$titl
 $wordpress = "http://wordpress.com/press-this.php?u=$url&quote=$title&s=";
 $pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=";
 ?>     
-<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
 <ul class="social-network social-circle">
     <li><a href="<?php echo $facebookURL; ?>" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-facebook-square"></i></a></li>
     <li><a href="<?php echo $twitterURL; ?>" target="_blank"  class="icoTwitter" title="Twitter"><i class="fab fa-twitter"></i></a></li>

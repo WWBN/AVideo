@@ -173,7 +173,6 @@ if (empty($currentTime)) {
 
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
