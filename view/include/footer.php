@@ -28,21 +28,24 @@
 <?php
 if (!empty($_GET['error'])) {
     ?>
-            swal({title: "Sorry!", text: "<?php echo $_GET['error']; ?>", icon: "error", html: true});
+            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo $_GET['error']; ?>", "error");
+            window.history.pushState({}, document.title, '<?php echo getSelfURI(); ?>');
     <?php
 }
 ?>
 <?php
 if (!empty($_GET['msg'])) {
     ?>
-            swal({title: "Ops!", text: "<?php echo $_GET['msg']; ?>", icon: "info", html: true});
+            avideoAlert("<?php echo __("Ops!"); ?>", "<?php echo $_GET['msg']; ?>", "info");
+            window.history.pushState({}, document.title, '<?php echo getSelfURI(); ?>');
     <?php
 }
 ?>
 <?php
 if (!empty($_GET['success']) && strlen($_GET['success']) > 4) {
     ?>
-            swal({title: "<?php echo __("Congratulations"); ?>", text: "<?php echo $_GET['success']; ?>", icon: "success", html: true});
+            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo $_GET['success']; ?>", "info");
+            window.history.pushState({}, document.title, '<?php echo getSelfURI(); ?>');
     <?php
 }
 ?>

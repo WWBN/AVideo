@@ -3523,7 +3523,11 @@ function ogSite() {
         if (empty($_SERVER['PHP_SELF'])) {
             return "";
         }
-        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]?$_SERVER[QUERY_STRING]";
+        $queryStringWithoutError = preg_replace("/error=[^&]*/", "", $_SERVER['QUERY_STRING']);
+        $phpselfWithoutIndex = preg_replace("/index.php/", "", $_SERVER['PHP_SELF']);
+        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryStringWithoutError";
+        $url = rtrim($url, '?');
+        return $url;
     }
 
     function hasLastSlash($word) {

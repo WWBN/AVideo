@@ -1611,21 +1611,9 @@ echo AVideoPlugin::getManagerVideosReset();
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (!response.success) {
-                            var span = document.createElement("span");
-                            span.innerHTML = response.msg;
-                            swal({
-                                title: "<?php echo __("Sorry!"); ?>",
-                                content: span,
-                                icon: "error"
-                            });
+                            avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                         } else {
-                            var span = document.createElement("span");
-                            span.innerHTML = response.msg;
-                            swal({
-                                title: "<?php echo __("Success!"); ?>",
-                                content: span,
-                                icon: "success"
-                            });
+                            avideoAlert("<?php echo __("Success!"); ?>", response.msg, "success");
                         }
                     }
                 });

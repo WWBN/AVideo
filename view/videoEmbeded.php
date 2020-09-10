@@ -149,7 +149,7 @@ $url = Video::getLink($video['id'], $video['clean_title'], false);
 $title = str_replace('"', '', $video['title']) . ' - ' . $config->getWebSiteTitle();
 $photo = User::getPhoto($video['users_id']);
 
-if(empty($currentTime)){
+if (empty($currentTime)) {
     $currentTime = 0;
 }
 ?>
@@ -405,17 +405,17 @@ if(empty($currentTime)){
     <?php
     $onPlayerReady = "player.on('play', function () {addView({$video['id']}, this.currentTime());});";
     $onPlayerReady .= "player.on('timeupdate', function () {
-    var time = Math.round(this.currentTime());
-    var url = '" . Video::getURLFriendly($video['id']) . "';
-    if (url.indexOf('?') > -1) {
-        url += '&t=' + time;
-    } else {
-        url += '?t=' + time;
-    }
-    $('#linkCurrentTime').val(url);
-    if (time >= 5 && time % 5 === 0) {
-        addView({$video['id']}, time);
-    }
+var time = Math.round(this.currentTime());
+var url = '" . Video::getURLFriendly($video['id']) . "';
+if (url.indexOf('?') > -1) {
+url += '&t=' + time;
+} else {
+url += '?t=' + time;
+}
+$('#linkCurrentTime').val(url);
+if (time >= 5 && time % 5 === 0) {
+addView({$video['id']}, time);
+}
 });";
 
     if ($autoplay) {
@@ -463,17 +463,17 @@ addView({$video['id']}, time);";
     $onPlayerReady = "";
     $onPlayerReady = "player.on('play', function () {addView({$video['id']}, this.currentTime());});";
     $onPlayerReady .= "player.on('timeupdate', function () {
-    var time = Math.round(this.currentTime());
-    var url = '" . Video::getURLFriendly($video['id']) . "';
-    if (url.indexOf('?') > -1) {
-        url += '&t=' + time;
-    } else {
-        url += '?t=' + time;
-    }
-    $('#linkCurrentTime').val(url);
-    if (time >= 5 && time % 5 === 0) {
-        addView({$video['id']}, time);
-    }
+var time = Math.round(this.currentTime());
+var url = '" . Video::getURLFriendly($video['id']) . "';
+if (url.indexOf('?') > -1) {
+url += '&t=' + time;
+} else {
+url += '?t=' + time;
+}
+$('#linkCurrentTime').val(url);
+if (time >= 5 && time % 5 === 0) {
+addView({$video['id']}, time);
+}
 });";
 
     if ($autoplay) {
@@ -496,7 +496,7 @@ addView({$video['id']}, time);";
         <div id="topInfo" style="display: none;">
             <a href="<?php echo $url; ?>" target="_blank">
                 <img src="<?php echo $photo; ?>" class="img img-responsive img-circle" style="" alt="User Photo"> 
-                <div style="">    
+                <div style="" class="topInfoTitle">    
                     <?php echo $title; ?>
                 </div>
             </a>
@@ -540,28 +540,29 @@ addView({$video['id']}, time);";
               left: 0;
               pointer-events: none;"></textarea>
     <script>
-            var topInfoTimeout;
-            $(document).ready(function () {
-                setInterval(function () {
-                    if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                        $('#topInfo').fadeOut();
-                    } else {
-                        $('#topInfo').fadeIn();
-                    }
+        var topInfoTimeout;
+        $(document).ready(function () {
+            setInterval(function () {
+                if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                    $('#topInfo').fadeOut();
+                } else {
+                    $('#topInfo').fadeIn();
+                }
 
-                }, 200);
+            }, 200);
 
-                $("iframe, #topInfo").mouseover(function (e) {
-                    clearTimeout(topInfoTimeout);
-                    $('#mainVideo').addClass("vjs-user-active");
-                });
-
-                $("iframe").mouseout(function (e) {
-                    topInfoTimeout = setTimeout(function () {
-                        $('#mainVideo').removeClass("vjs-user-active");
-                    }, 500);
-                });
+            $("iframe, #topInfo").mouseover(function (e) {
+                clearTimeout(topInfoTimeout);
+                $('#mainVideo').addClass("vjs-user-active");
             });
+
+            $("iframe").mouseout(function (e) {
+                topInfoTimeout = setTimeout(function () {
+                    $('#mainVideo').removeClass("vjs-user-active");
+                }, 500);
+            });
+
+        });
     </script>
 </body>
 </html>

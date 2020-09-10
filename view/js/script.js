@@ -707,16 +707,6 @@ function formatBytes(bytes, decimals) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-function alertHTMLText(title, text) {
-    var span = document.createElement("span");
-    span.innerHTML = text;
-
-    swal({
-        title: title,
-        content: span
-    });
-}
-
 function tooglePlayerLoop() {
     setPlayerLoop(!isPlayerLoop());
 }
@@ -788,8 +778,26 @@ function setCurrentTime(currentTime) {
 }
 
 function avideoAlert(title, msg, type){
-    swal(title, msg, type);
+    if(msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")){//it has HTML
+        avideoAlertHTMLText(title, msg, type);
+    }else{
+        swal(title, msg, type);
+    }
 }
+
+function avideoAlertHTMLText(title, msg, type) {
+    var span = document.createElement("span");
+    span.innerHTML = msg;
+    swal({
+        title: title,
+        content: span,
+        type: type,
+        icon: type,
+        html: true,
+        closeModal: true
+    });
+}
+
 function avideoAlertInfo(msg){
     avideoAlert("Info", msg, 'info');
 }
