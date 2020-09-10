@@ -3,7 +3,7 @@ require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 $isLive = 1;
 $p = AVideoPlugin::loadPlugin("Live");
-
+$obj = $p->getDataObject();
 if (!empty($_GET['c'])) {
     $user = User::getChannelOwner($_GET['c']);
     if (!empty($user)) {
@@ -27,7 +27,7 @@ if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
     exit;
 } else if (!User::canStream()) {
     header('HTTP/1.0 403 Forbidden');
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not stream live videos"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __($obj->streamDeniedMsg));
     exit;
 }
 
@@ -53,7 +53,6 @@ $vjsClass = "vjs-16-9";
 
 $trans = new LiveTransmition($trasnmition['id']);
 $groups = $trans->getGroups();
-$obj = $p->getDataObject();
 
 //check if channel name exists
 $channelName = User::getUserChannelName();

@@ -134,6 +134,7 @@ class Live extends PluginAbstract {
         $obj->requestStatsTimout = 4; // if the server does not respond we stop wait
         $obj->cacheStatsTimout = 15; // we will cache the result
         $obj->requestStatsInterval = 15; // how many seconds untill request the stats again
+        $obj->streamDeniedMsg = "You can not stream live videos"; 
         return $obj;
     }
 
@@ -860,7 +861,7 @@ class Live extends PluginAbstract {
                 }
             }
         }
-
+        $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         return $obj;
