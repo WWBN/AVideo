@@ -521,7 +521,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     min-width: 20px;
                                 }
                             </style>
-                            <div id="navBarFlag" data-input-name="country" data-selected-country="<?php echo $lang; ?>"  data-toggle="tooltip" title="<?php echo __('Change Language'); ?>" data-placement="bottom"></div>
+                            <div id="navBarFlag" data-input-name="country" data-selected-country="<?php echo $lang; ?>"  data-toggle="tooltip" title="<?php echo __('Change Language'); ?>" data-placement="left"></div>
                             <script>
                                 $(function () {
                                     $("#navBarFlag").flagStrap({
