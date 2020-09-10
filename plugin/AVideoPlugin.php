@@ -295,6 +295,9 @@ class AVideoPlugin {
 
             if (file_exists($file)) {
                 require_once $file;
+                if(!class_exists($name)){
+                    return false;
+                }
                 $code = "\$p = new {$name}();";
                 $codeResult = @eval($code . " return \$p;");
                 if ($codeResult == false) {
