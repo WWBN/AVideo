@@ -508,7 +508,8 @@ print AVideoPlugin::updateUserFormJS();
                                 "canCreateMeet": $('#canCreateMeet').is(':checked'),
                                 "status": $('#status').is(':checked') ? 'a' : 'i',
                                 "isEmailVerified": $('#isEmailVerified').is(':checked'),
-                                "userGroups": selectedUserGroups
+                                "userGroups": selectedUserGroups,
+                                "do_not_login": 1
                         },
                         type: 'post',
                         success: function (response) {

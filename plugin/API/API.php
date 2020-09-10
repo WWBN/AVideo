@@ -274,6 +274,11 @@ class API extends PluginAbstract {
             $rows[$key]['pageUrl'] = Video::getLink($rows[$key]['id'], $rows[$key]['clean_title'], false);
             $rows[$key]['embedUrl'] = Video::getLink($rows[$key]['id'], $rows[$key]['clean_title'], true);
             $rows[$key]['UserPhoto'] = User::getPhoto($rows[$key]['users_id']);
+            $rows[$key]['isSubscribed'] = false;
+            if(User::isLogged()){
+                require_once $global['systemRootPath'] . 'objects/subscribe.php';
+                $rows[$key]['isSubscribed'] = Subscribe::isSubscribed($rows[$key]['users_id']);
+            }
 
             if ($SubtitleSwitcher) {
                 $rows[$key]['subtitles'] = getVTTTracks($value['filename'], true);

@@ -123,6 +123,18 @@ class Subscribe {
         }
         return $subscribe;
     }
+    
+    static function isSubscribed($subscribed_to_user_id, $user_id=0) {
+        if(empty($user_id)){
+            if(User::isLogged()){
+                $user_id = User::getId();
+            }else{
+                return false;
+            }
+        }
+        $s = self::getSubscribeFromID($subscribed_to_user_id, $user_id);
+        return !empty($s['users_id']);
+    }
 
     /**
      * return all subscribers that has subscribe to an user channel
