@@ -3,6 +3,7 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
+
 session_write_close();
 require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
@@ -36,12 +37,16 @@ if (file_exists($path)) {
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
     }
-    if(empty($_GET['ignoreXsendfilePreVideoPlay'])){
-        AVideoPlugin::xsendfilePreVideoPlay();
-    }
-    if (empty($advancedCustom->doNotUseXsendFile)) {
-        //_error_log("X-Sendfile: {$path}");
-        header("X-Sendfile: {$path}");
+    if(preg_match("/.(mp4|webm|m3u8|mp3|ogg)/i", $path_parts['extension'])){
+        if(empty($_GET['ignoreXsendfilePreVideoPlay'])){
+            AVideoPlugin::xsendfilePreVideoPlay();
+        }
+        if (empty($advancedCustom->doNotUseXsendFile)) {
+            //_error_log("X-Sendfile: {$path}");
+            header("X-Sendfile: {$path}");
+        }
+    }else{
+        $advancedCustom->doNotUseXsendFile = true;
     }
     header("Content-type: " . mime_content_type($path));
     header('Content-Length: ' . filesize($path));

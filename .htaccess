@@ -53,13 +53,13 @@ Options All -Indexes
 # END Caching
 <IfModule mod_rewrite.c>
     RewriteEngine on
-    
     #VideoHLS for DRM
     RewriteRule    ^videos/([^/]+)/(.*).key$ plugin/VideoHLS/downloadProtection.php?filename=$1&key=$2    [QSA]
 
     RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
     
     RewriteRule    ^meet/([0-9]+)/(.+)$ plugin/Meet/iframe.php?meet_schedule_id=$1&roomName=$2 [NC,L,QSA]
+    RewriteRule    ^meet/([0-9]+)$ plugin/Meet/iframe.php?meet_schedule_id=$1 [NC,L,QSA]
     RewriteRule    ^live/([0-9]+)/(.+)$ plugin/Live/?live_servers_id=$1&c=$2 [NC,L,QSA]
 
     #main Files
@@ -252,9 +252,7 @@ Options All -Indexes
     RewriteRule    ^vast.xml/?([0-9]+)?$ plugin/AD_Server/VAST.php?campaign_has_videos_id=$1    [NC,L]
     # It must be before image not found
     <IfModule mod_xsendfile.c>
-        <FilesMatch "\.(mp4|webm|m3u8|mp3|ogg)$">
-            RewriteRule    ^videos/([^!#$&'()*+,\/:;=?@[\]]+)$ view/xsendfile.php?file=$1    [QSA]
-        </FilesMatch>
+        RewriteRule    ^videos/([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ view/xsendfile.php?file=$1    [QSA]
     </IfModule>
 
     # if image do not exists
