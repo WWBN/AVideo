@@ -187,7 +187,7 @@ Passcode: {password}
         return "{$json->host}.{$obj->server->value}";
     }
 
-    static function getDomainURL($meet_schedule_id="", $addToken=false) {
+    static function getDomainURL() {
         $meetDomain = self::getDomain();
         if ($meetDomain == 'custom') {
             $obj = AVideoPlugin::getDataObject("Meet");
@@ -196,22 +196,28 @@ Passcode: {password}
             $domain = $meetDomain;
         }
         
-        $m = new Meet_schedule($meet_schedule_id);
-        if(empty($m->getUsers_id())){
-            return $domain;
-        }
-        if(!empty($meet_schedule_id)){
-            $domain .= "/".$m->getName();
-        }
-        
-        $domain .= "?getRTMPLink=" . urlencode(Live::getRTMPLink($m->getUsers_id()));
-        
-        if($addToken){
-            $token = self::getToken($meet_schedule_id);
-            $domain .= "&jwt={$token}";
-        }
         
         return $domain;
+    }
+    
+    
+
+    static function getRoomNameWithToken($meet_schedule_id="") {
+        $roomName = "";
+        $m = new Meet_schedule($meet_schedule_id);
+        if(empty($m->getUsers_id())){
+            return $roomName;
+        }
+        if(!empty($meet_schedule_id)){
+            $roomName .= "/".$m->getName();
+        }
+        
+        //$roomName .= "?getRTMPLink=" . urlencode(Live::getRTMPLink($m->getUsers_id()));
+        
+        $token = self::getToken($meet_schedule_id);
+        $roomName .= "?jwt={$token}";
+        
+        return $roomName;
     }
 
     static function isCustomJitsi() {
