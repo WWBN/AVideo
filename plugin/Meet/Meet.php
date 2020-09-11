@@ -209,7 +209,7 @@ Passcode: {password}
             return $roomName;
         }
         if(!empty($meet_schedule_id)){
-            $roomName .= "/".$m->getName();
+            $roomName .= $m->getName();
         }
         
         //$roomName .= "?getRTMPLink=" . urlencode(Live::getRTMPLink($m->getUsers_id()));
