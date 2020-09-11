@@ -212,7 +212,7 @@ Passcode: {password}
         //$roomName .= "?getRTMPLink=" . urlencode(Live::getRTMPLink($m->getUsers_id()));
         
         $token = self::getToken($meet_schedule_id);
-        $roomName .= "&jwt={$token}";
+        $roomName .= "?jwt={$token}";
         
         return $roomName;
     }
