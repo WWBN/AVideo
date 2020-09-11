@@ -79,8 +79,7 @@ $obj->password = @$_REQUEST['RoomPasswordNew'];
 $obj->error = empty($meet_schedule_id);
 $obj->link = Meet::getMeetLink($meet_schedule_id);
 $obj->jwt = Meet::getToken($meet_schedule_id);
-$obj->domain = "https://".Meet::getDomainURL();
-$obj->roomName = Meet::getRoomNameWithJWT($meet_schedule_id);
+$obj->domain = "https://".Meet::getDomainURL($meet_schedule_id, true);
 //var_dump($obj->domain);
         
 die(json_encode($obj));
