@@ -685,12 +685,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                         if (json.error === false && json.url) {
                                                             success(json.url);
                                                         } else if (json.msg) {
-                                                            swal({
-                                                                title: "<?php echo __("Sorry!"); ?>",
-                                                                text: json.msg,
-                                                                icon: "error",
-                                                                html: true
-                                                            });
+                                                            avideoAlert("<?php echo __("Sorry!"); ?>",json.msg, "error");
                                                         } else {
                                                             avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
                                                         }
@@ -749,12 +744,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             success: function (response) {
                 modal.hidePleaseWait();
                 if (!response.status) {
-                    swal({
-                        title: "<?php echo __("Sorry!"); ?>",
-                        text: response.msg,
-                        icon: "error",
-                        html: true
-                    });
+                    avideoAlert("<?php echo __("Sorry!"); ?>",response.msg, "error");
                 } else {
                     $("#grid").bootgrid('reload');
                 }
@@ -771,12 +761,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             success: function (response) {
                 modal.hidePleaseWait();
                 if (!response.status) {
-                    swal({
-                        title: "<?php echo __("Sorry!"); ?>",
-                        text: response.msg,
-                        icon: "error",
-                        html: true
-                    });
+                    avideoAlert("<?php echo __("Sorry!"); ?>",response.msg, "error");
                 } else {
                     $("#grid").bootgrid('reload');
                 }
@@ -797,12 +782,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                 success: function (response) {
                     modal.hidePleaseWait();
                     if (!response.status) {
-                        swal({
-                            title: "<?php echo __("Sorry!"); ?>",
-                            text: response.msg,
-                            icon: "error",
-                            html: true
-                        });
+                        avideoAlert("<?php echo __("Sorry!"); ?>",response.msg, "error");
                     } else {
                         $("#grid").bootgrid('reload');
                     }
@@ -1210,16 +1190,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         $('#inputVideoId').val(response.videos_id);
                         videos_id = response.videos_id;
                 } else {
-                if (response.error) {
-                swal({
-                title: "<?php echo __("Sorry!"); ?>",
-                        text: response.error,
-                        icon: "error",
-                        html: true
-                });
-                } else {
-                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
-                }
+                    if (response.error) {
+                        avideoAlert("<?php echo __("Sorry!"); ?>",response.error, "error");
+                    } else {
+                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                    }
                 }
                 modal.hidePleaseWait();
                         setTimeout(function () {
@@ -1483,12 +1458,7 @@ echo AVideoPlugin::getManagerVideosReset();
             },
             done: function (e, data) {
                 if (data.result.error && data.result.msg) {
-                    swal({
-                        title: "Sorry!",
-                        text: data.result.msg,
-                        html: true,
-                        type: "error"
-                    });
+                    avideoAlert("<?php echo __("Sorry!"); ?>",data.result.msg, "error");
                     data.context.addClass('error');
                     data.context.find('p.action').text("Error");
                 } else if (data.result.status === "error") {
@@ -1497,12 +1467,8 @@ echo AVideoPlugin::getManagerVideosReset();
                     } else {
                         msg = data.result.msg[data.result.msg.length - 1];
                     }
-                    swal({
-                        title: "Sorry!",
-                        text: msg,
-                        html: true,
-                        type: "error"
-                    });
+                    
+                    avideoAlert("<?php echo __("Sorry!"); ?>",msg, "error");
                     data.context.addClass('error');
                     data.context.find('p.action').text("Error");
                 } else {
@@ -1629,9 +1595,7 @@ echo AVideoPlugin::getManagerVideosReset();
             })
                     .then((willDelete) => {
                         if (willDelete) {
-                            avideoAlert("Deleted!", {
-                                icon: "success",
-                            });
+                            avideoAlert("Deleted!", "", "success");
                             modal.showPleaseWait();
                             var vals = getSelectedVideos();
                             deleteVideo(vals);
@@ -1647,12 +1611,7 @@ if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwap
             $("#swapBtn").click(function () {
                 var vals = getSelectedVideos();
                 if (vals.length !== 2) {
-                    swal({
-                        title: "<?php echo __("Sorry!"); ?>",
-                        text: "<?php echo __("You MUST select 2 videos to swap"); ?>",
-                        icon: "error",
-                        html: true
-                    });
+                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("You MUST select 2 videos to swap"); ?>", "error");
                     return false;
                 }
                 modal.showPleaseWait();
@@ -1663,19 +1622,9 @@ if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwap
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (response.error) {
-                            swal({
-                                title: "<?php echo __("Sorry!"); ?>",
-                                text: response.error,
-                                icon: "error",
-                                html: true
-                            });
+                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
-                            swal({
-                                title: "<?php echo __("Success!"); ?>",
-                                text: "<?php echo __("Video Swaped!"); ?>",
-                                icon: "success",
-                                html: true
-                            });
+                            avideoAlert("<?php echo __("Success!"); ?>", "<?php echo __("Video Swaped!"); ?>", "success");
                             $("#grid").bootgrid("reload");
                         }
                     }
@@ -1693,19 +1642,9 @@ if (User::isAdmin()) {
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (response.error) {
-                            swal({
-                                title: "<?php echo __("Sorry!"); ?>",
-                                text: response.error,
-                                icon: "error",
-                                html: true
-                            });
+                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
-                            swal({
-                                title: "<?php echo __("Success!"); ?>",
-                                text: "<?php echo __("Videos Updated!"); ?>",
-                                icon: "success",
-                                html: true
-                            });
+                            avideoAlert("<?php echo __("Success!"); ?>", "<?php echo __("Videos Updated!"); ?>", "success");
                             $("#grid").bootgrid("reload");
                         }
                     }
@@ -2061,11 +2000,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (response.error) {
-                            swal({
-                                title: "<?php echo __("Sorry!"); ?>",
-                                text: response.error,
-                                icon: "error",
-                            });
+                            avideoAlert("<?php echo __("Sorry!"); ?>",response.error, "error");
                         } else {
                             $("#grid").bootgrid("reload");
                         }
@@ -2083,17 +2018,9 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (!response.success) {
-                            swal({
-                                title: "<?php echo __("Sorry!"); ?>",
-                                text: response.msg,
-                                icon: "error",
-                            });
+                            avideoAlert("<?php echo __("Sorry!"); ?>",response.error, "error");
                         } else {
-                            swal({
-                                title: "<?php echo __("Success!"); ?>",
-                                text: response.msg,
-                                icon: "success",
-                            });
+                            avideoAlert("<?php echo __("Success!"); ?>",response.error, "success");
                             $("#grid").bootgrid("reload");
                         }
                     }
