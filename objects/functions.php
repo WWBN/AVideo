@@ -1,5 +1,5 @@
 <?php
-
+$AVideoMobileAPP_UA = "AVideoMobileApp";
 function forbiddenWords($text) {
     global $global;
     if (empty($global['forbiddenWords'])) {
@@ -2185,6 +2185,15 @@ function isMobile() {
     return $detect->isMobile();
 }
 
+function isAVideoMobileApp() {
+    global $AVideoMobileAPP_UA;
+    if (empty($_SERVER["HTTP_USER_AGENT"])) {
+        return false;
+    }
+    
+    return $AVideoMobileAPP_UA === $_SERVER["HTTP_USER_AGENT"];
+}
+
 function siteMap() {
     _error_log("siteMap: start");
     ini_set('memory_limit', '-1');
@@ -2898,6 +2907,7 @@ function ogSite() {
     }
 
     function get_browser_name($user_agent = "") {
+        global $AVideoMobileAPP_UA;
         if (empty($user_agent)) {
             $user_agent = @$_SERVER['HTTP_USER_AGENT'];
         }
@@ -2913,7 +2923,9 @@ function ogSite() {
         $t = " " . $t;
 
         // Humans / Regular Users  
-        if (strpos($t, 'crkey')) {
+        if (strpos($t, strtolower($AVideoMobileAPP_UA))) {
+            return 'AVideo Mobile App';
+        } else if (strpos($t, 'crkey')) {
             return 'Chromecast';
         } else if (strpos($t, 'opera') || strpos($t, 'opr/'))
             return 'Opera';

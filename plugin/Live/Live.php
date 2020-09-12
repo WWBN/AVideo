@@ -628,20 +628,32 @@ class Live extends PluginAbstract {
     }
 
     static function getLinkToLiveFromUsers_id($users_id) {
+        $live_servers_id = self::getCurrentLiveServersId();
+        return self::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id);
+    }
+    
+    static function getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id) {
         if (empty($users_id)) {
             return false;
         }
         global $global;
         $user = new User($users_id);
-        if (empty($user)) {
+        if (empty($user->getChannelName())) {
             return false;
         }
-        $live_servers_id = self::getCurrentLiveServersId();
         return self::getLinkToLiveFromChannelNameAndLiveServer($user->getChannelName(), $live_servers_id);
     }
 
     static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id) {
         global $global;
+        $live_servers_id = intval($live_servers_id);
+        if (empty($live_servers_id)) {
+            return false;
+        }
+        $channelName = trim($channelName);
+        if (empty($channelName)) {
+            return false;
+        }
         //return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
         return "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName);
     }

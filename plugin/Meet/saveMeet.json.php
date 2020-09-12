@@ -7,6 +7,7 @@ if (!isset($global['systemRootPath'])) {
         require_once $configFile;
     }
 }
+
 $objM = AVideoPlugin::getObjectDataIfEnabled("Meet");
 //_error_log(json_encode($_SERVER));
 $obj = new stdClass();
@@ -78,9 +79,10 @@ if ($meet_schedule_id) {
 $obj->password = @$_REQUEST['RoomPasswordNew'];
 $obj->error = empty($meet_schedule_id);
 $obj->link = Meet::getMeetLink($meet_schedule_id);
+$obj->shortLink = Meet::getMeetShortLink($meet_schedule_id);
 $obj->jwt = Meet::getToken($meet_schedule_id);
 $obj->domain = Meet::getDomainURL();
-$obj->joinURL = "https://".$obj->domain."/".Meet::getRoomNameWithToken($meet_schedule_id);
+$obj->joinURL = Meet::getJoinURL($meet_schedule_id);
 //var_dump($obj->domain);
         
 die(json_encode($obj));

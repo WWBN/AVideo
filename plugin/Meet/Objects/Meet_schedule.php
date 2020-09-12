@@ -140,6 +140,11 @@ class Meet_schedule extends ObjectYPT {
         global $global;
         return $global['webSiteRootURL'] . 'meet/'.$this->getId().'/' . urlencode($this->getName());
     }
+
+    public function getMeetShortLink() {
+        global $global;
+        return $global['webSiteRootURL'] . 'meet/'.$this->getId();
+    }
     
     static function getAllFromUsersId($users_id, $time="", $canAttend=false) {
         global $global;

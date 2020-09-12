@@ -199,10 +199,8 @@ Passcode: {password}
         
         return $domain;
     }
-    
-    
 
-    static function getRoomNameWithToken($meet_schedule_id="") {
+    static function getRoomNameWithToken($meet_schedule_id) {
         $roomName = "";
         $m = new Meet_schedule($meet_schedule_id);
         if(empty($m->getUsers_id())){
@@ -212,12 +210,22 @@ Passcode: {password}
             $roomName .= $m->getName();
         }
         
-        //$roomName .= "?getRTMPLink=" . urlencode(Live::getRTMPLink($m->getUsers_id()));
-        
         $token = self::getToken($meet_schedule_id);
         $roomName .= "?jwt={$token}";
         
+        $obj =  new stdClass();
+        $obj->getRTMPLink = Live::getRTMPLink($m->getUsers_id());
+        $obj->shareLink = Meet::getMeetShortLink($meet_schedule_id);
+        
+        $roomName .= "&json=" . urlencode(json_encode($obj));
+        
         return $roomName;
+    }
+    
+    static function getJoinURL($meet_schedule_id) {
+        $domain = self::getDomainURL();
+        $url = "https://".$domain."/".self::getRoomNameWithToken($meet_schedule_id);
+        return $url;
     }
 
     static function isCustomJitsi() {
@@ -271,6 +279,16 @@ Passcode: {password}
         $ms = new Meet_schedule($meet_schedule_id);
 
         return $ms->getMeetLink();
+    }
+
+
+    public static function getMeetShortLink($meet_schedule_id) {
+        if (empty($meet_schedule_id)) {
+            return false;
+        }
+        $ms = new Meet_schedule($meet_schedule_id);
+
+        return $ms->getMeetShortLink();
     }
 
     static function canManageSchedule($meet_schedule_id) {

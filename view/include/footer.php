@@ -1,4 +1,6 @@
-<footer>
+<footer style="position: fixed;
+    bottom: 0;
+    width: 100%;" id="mainFooter">
     <?php
     $custom = "";
     $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';

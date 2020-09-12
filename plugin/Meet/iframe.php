@@ -14,8 +14,15 @@ if (empty($objM)) {
     die("Plugin disabled");
 }
 
-if (empty($_GET['roomName'])) {
-    die(json_encode("Empty Room"));
+$meet_schedule_id = intval($_GET['meet_schedule_id']);
+
+if (empty($meet_schedule_id)) {
+    die("meet schedule id cannot be empty");
+}
+
+$meet = new Meet_schedule($meet_schedule_id);
+if(empty($meet->getName())){
+    die("meet not found");
 }
 
 $userCredentials = User::loginFromRequestToGet();
@@ -26,19 +33,11 @@ if (empty($meetDomain)) {
     exit;
 }
 
-$meet_schedule_id = intval($_GET['meet_schedule_id']);
-
-if (empty($meet_schedule_id)) {
-    die("meet schedule id cannot be empty");
-}
-
 $canJoin = Meet::canJoinMeetWithReason($meet_schedule_id);
 if (!$canJoin->canJoin) {
     header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=" . urlencode($canJoin->reason));
     exit;
 }
-
-$meet = new Meet_schedule($meet_schedule_id);
 
 if (empty($meet->getPublic()) && !User::isLogged()) {
     header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($meet->getMeetLink()) . "&msg=" . urlencode(__("Please, login before join a meeting")));
@@ -64,19 +63,11 @@ if (Meet::isModerator($meet_schedule_id)) {
 }
 
 $domain = Meet::getDomainURL();
-/*
-  $obj->link = Meet::getMeetRoomLink($_GET['roomName']);
-  if ($obj->link) {
-  $obj->error = false;
-  }
-  die(json_encode($obj));
- * 
- */
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Meet::<?php echo $_GET['roomName']; ?></title>
+        <title>Meet::<?php echo $meet->getName(); ?></title>
         <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $config->getFavicon(true); ?>">
         <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">
         <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
