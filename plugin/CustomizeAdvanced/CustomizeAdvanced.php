@@ -216,17 +216,7 @@ class CustomizeAdvanced extends PluginAbstract {
                     .file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideNavbarInSeconds.js')
                     . '</script>';
         }
-        $content .= '
-            <script>$(function () {
-        $("#mainNavBar").on("show.autoHidingNavbar", function () {
-            $("body").removeClass("nopadding");
-            $("#mainFooter").slideDown();
-        });
-
-        $("#mainNavBar").on("hide.autoHidingNavbar", function () {
-            $("body").addClass("nopadding");
-            $("#mainFooter").slideUp();
-        });});</script>';
+        $content .= '<script>'. file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/footer.js').'</script>';
         return $content;
     }
 
