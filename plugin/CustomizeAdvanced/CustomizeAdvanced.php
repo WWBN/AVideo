@@ -169,6 +169,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->twitter_site = "@{$domain}";
         $obj->twitter_player = true;
         $obj->twitter_summary_large_image = false;
+        $obj->footerStyle = "position: fixed;bottom: 0;width: 100%; z-index: -1;";
+        $obj->autoHideFooter = true;
         
         
         return $obj;
@@ -209,6 +211,7 @@ class CustomizeAdvanced extends PluginAbstract {
         }
         if ($obj->autoHideNavbar && !isEmbed()) {
             $content .= '<script>$(function () {setTimeout(function(){$("#mainNavBar").autoHidingNavbar();},5000);});</script>';
+            $content .= '<script>'. file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideNavbar.js').'</script>';
         }
         if ($obj->autoHideNavbarInSeconds && !isEmbed()) {
             $content .= '<script>'
@@ -216,7 +219,9 @@ class CustomizeAdvanced extends PluginAbstract {
                     .file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideNavbarInSeconds.js')
                     . '</script>';
         }
-        $content .= '<script>'. file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/footer.js').'</script>';
+        if(!empty($obj->autoHideFooter)){
+            $content .= '<script>'. file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideFooter.js').'</script>';
+        }
         return $content;
     }
 
