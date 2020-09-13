@@ -12,7 +12,7 @@ if (!User::isLogged()) {
     $obj->error = __("Is not logged");
     die(json_encode($obj));
 }
-
+$_REQUEST["do_not_login"]=1;
 require_once $global['systemRootPath'] . 'objects/user.php';
 $user = new User(0);
 $user->loadSelfUser();
