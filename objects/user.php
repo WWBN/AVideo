@@ -1969,7 +1969,7 @@ if (typeof gtag !== \"function\") {
                 }
             }
         }
-        if(!empty($_REQUEST['do_not_login']) || !empty($_REQUEST['inputPasswordConfirm'])){
+        if(!empty($_REQUEST['do_not_login'])){
             return false;
         }
         if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
