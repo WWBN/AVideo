@@ -1,6 +1,5 @@
 var checkFooterTimout;
 $(function () {
-    $("#mainFooter").hide();
     checkFooter();
     $(window).scroll(function () {
         clearTimeout(checkFooterTimout);
@@ -10,19 +9,9 @@ $(function () {
     });
 });
 function checkFooter() {
-    $("body .container, body .container-fluid").first().css("padding-bottom", $("#mainFooter").height() + "px");
-    if (($(window).scrollTop() + $(window).height()+50) >= $(document).height()) {
-        $("#mainFooter").slideDown({
-            complete: function () {
-                //$("html, body").animate({scrollTop: $(document).height()}, 200);
-                //$("html, body").animate({scrollTop: $(document).height()}, 0);
-            }
-        });
-    } else {
-        $("#mainFooter").slideUp({
-            complete: function () {
-                //$("html, body").animate({scrollTop: $(document).height()+500}, 0);
-            }
-        });
+    if($(document).height() <= $(window).height()){
+        $("#mainFooter").css("position", "fixed");
+    }else{
+        $("#mainFooter").css("position", "relative");
     }
 }
