@@ -228,7 +228,7 @@ AVideoPlugin::getMyAccount(User::getId());
     function updateUserFormSubmit() {
 
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>objects/userUpdate.json.php',
+            url: '<?php echo $global['webSiteRootURL']; ?>objects/userUpdate.json.php?do_not_login=1',
             data: {
                 "user": $('#inputUser').val(),
                 "pass": $('#inputPassword').val(),
