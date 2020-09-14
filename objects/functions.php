@@ -4120,11 +4120,11 @@ function ogSite() {
         return $pag;
     }
 
-    function getShareMenu($title, $permaLink, $URLFriendly, $embedURL) {
+    function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $class="row bgWhite list-group-item menusDiv") {
         global $global, $advancedCustom;
         $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
         ?>
-        <div class="row bgWhite list-group-item menusDiv" id="shareDiv">
+        <div class="<?php echo $class; ?>" id="shareDiv">
             <div class="tabbable-panel">
                 <div class="tabbable-line text-muted">
                     <ul class="nav nav-tabs">

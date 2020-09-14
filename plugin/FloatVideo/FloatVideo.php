@@ -23,9 +23,27 @@ class FloatVideo extends PluginAbstract {
         return $obj;
     }
 
+    public function getHeadCode() {
+        global $global;
+        $str = "";
+        if(isVideo()){
+            $o = $this->getDataObject();
+            if(empty($o->doNotFloatVideo)){
+                $str .= "<style> ".(file_get_contents($global['systemRootPath'] . 'plugin/FloatVideo/floatVideo.css'))."</style>";
+            }
+        }
+        return $str;   
+    }
+    
     public function getFooterCode() {
-        $o = $this->getDataObject();
-        $str = "<script> doNotFloatVideo = ".($o->doNotFloatVideo?"true":"false").";</script>";
+        global $global;
+        $str = "";
+        if(isVideo()){
+            $o = $this->getDataObject();
+            if(empty($o->doNotFloatVideo)){
+                $str .= "<script> ".(file_get_contents($global['systemRootPath'] . 'plugin/FloatVideo/floatVideo.js'))."</script>";
+            }
+        }
         return $str;        
     }
     
