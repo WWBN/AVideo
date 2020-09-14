@@ -647,9 +647,6 @@ class Live extends PluginAbstract {
     static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id) {
         global $global;
         $live_servers_id = intval($live_servers_id);
-        if (empty($live_servers_id)) {
-            return false;
-        }
         $channelName = trim($channelName);
         if (empty($channelName)) {
             return false;
