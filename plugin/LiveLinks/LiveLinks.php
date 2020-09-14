@@ -141,8 +141,8 @@ class LiveLinks extends PluginAbstract {
                 "UserPhoto" => $UserPhoto,
                 "title" => $value['title'],
                 "name" => $name,
-                "poster" => "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg",
-                "link" => "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$value['id']}&embed=1"
+                "poster" => self::getPosterToLiveFromId($value['id']),
+                "link" => self::getLinkToLiveFromId($value['id'], true)
             );
         }
 
@@ -168,6 +168,16 @@ class LiveLinks extends PluginAbstract {
         }
         
         return $js.$css;
+    }
+    
+    public function getLinkToLiveFromId($id, $embed=false){
+        global $global;
+        return "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$id}".($embed?"&embed=1":"");
+    }
+
+    public function getPosterToLiveFromId($id){
+        global $global;
+        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=jpg";
     }
 
 }

@@ -59,7 +59,7 @@ if (!empty($_GET['embed'])) {
         ?>
 
         <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/Live.php?link=<?php echo $_GET['link']; ?>" />
+        <meta property="og:url"                content="<?php echo LiveLinks::getLinkToLiveFromId($_GET['link']); ?>" />
         <meta property="og:type"               content="video.other" />
         <meta property="og:title"              content="<?php echo str_replace('"', '', $t['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
         <meta property="og:description"        content="<?php echo str_replace('"', '', $t['title']); ?>" />
@@ -101,6 +101,11 @@ if (!empty($_GET['embed'])) {
                             </h1>
                             <p><?php echo nl2br(textToLink($t['description'])); ?></p>
                             <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
+                            <?php
+                            $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
+                            $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
+                            getShareMenu($t['title'], $link, $link, $linkEmbed, "row");
+                            ?>
                             <div class="col-md-12 watch8-action-buttons text-muted">
 
                                 <?php echo AVideoPlugin::getWatchActionButton(0); ?>
@@ -118,7 +123,6 @@ if (!empty($_GET['embed'])) {
                 </div>
                 <div class="col-sm-1 col-md-1"></div>
             </div>    
-
         </div>
 
         <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.min.js" type="text/javascript"></script>
