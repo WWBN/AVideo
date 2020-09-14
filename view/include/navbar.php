@@ -272,7 +272,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
             <li>
                 <ul class="left-side">
                     <li style="max-width: 40px;">
-                        <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="bottom" ><span class="fa fa-bars"></span></button>
+                        <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="left" ><span class="fa fa-bars"></span></button>
                         <script>
                             function YPTSidebarOpen() {
                                 $('body').addClass('youtube')
