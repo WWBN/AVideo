@@ -1988,5 +1988,46 @@ if (typeof gtag !== \"function\") {
         }
         return "";
     }
+    
+    static function getBlockUserButton($users_id){
+        if (!self::userCanBlockUser($users_id)) {
+            return '';
+        }
+        return ReportVideo::buttonBlockUser($users_id);
+    }
+    
+    static function getActionBlockUserButton($users_id){
+        if (!self::userCanBlockUser($users_id)) {
+            return '';
+        }
+        return ReportVideo::actionButtonBlockUser($users_id);
+    }
+    
+    static function userCanBlockUser($users_id){
+        if (empty($users_id)) {
+            return false;
+        }
+        if (!User::isLogged()) {
+            return false;
+        }
+        if ($users_id== User::getId()) {
+            return false;
+        }
+        $report = AVideoPlugin::getDataObjectIfEnabled("ReportVideo");
+        if(empty($report)){
+            return false;
+        }
+        return true;
+    }
+    
+    static function hasBlockedUser($reported_users_id, $users_id = 0){
+        if (empty($users_id)) {
+            $users_id = User::getId();
+        }
+        if(!self::userCanBlockUser($reported_users_id)){
+            return false;
+        }
+        return ReportVideo::isBlocked($reported_users_id, $users_id);
+    }
 
 }

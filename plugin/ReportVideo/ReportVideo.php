@@ -17,7 +17,7 @@ class ReportVideo extends PluginAbstract {
     public function getUUID() {
         return "b5e223db-785b-4436-8f7b-f297860c9be0";
     }
-    
+
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->emailLogo = "";
@@ -26,25 +26,43 @@ class ReportVideo extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";   
+        return "2.0";
     }
-    
+
+    public function updateScript() {
+        global $global;
+        //update version 2.0
+        if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/ReportVideo/install/updateV2.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        return true;
+    }
+
     public function getTags() {
         return array('free', 'buttons', 'report');
     }
 
     public function getWatchActionButton($videos_id) {
         global $global, $video;
-        if(!isVideo()){
+        if (!isVideo()) {
             return '';
         }
-        if(empty($video['id']) && empty($videos_id)){
+        if (empty($video['id']) && empty($videos_id)) {
             return '';
         }
-        if(empty($video['id'])){
+        if (empty($video['id'])) {
             $video['id'] = intval($videos_id);
         }
         include $global['systemRootPath'] . 'plugin/ReportVideo/actionButton.php';
+
+        if (isVideo() && !empty($video['users_id'])) {
+            $users_id = $video['users_id'];
+            echo self::actionButtonBlockUser($users_id);
+        }
     }
 
     function send($email, $subject, $body) {
@@ -55,8 +73,8 @@ class ReportVideo extends PluginAbstract {
         global $global, $config;
 
         require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
+        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
 
         //Create a new PHPMailer instance
         $mail = new PHPMailer\PHPMailer\PHPMailer;
@@ -138,27 +156,128 @@ class ReportVideo extends PluginAbstract {
                 // notify site owner from configuratios email
                 $siteOwnerEmail = $config->getContactEmail();
                 $siteOwnerSent = $this->send($siteOwnerEmail, $subject, $body);
-                
-                if(!$videoOwnerSent && !$siteOwnerSent){
+
+                if (!$videoOwnerSent && !$siteOwnerSent) {
                     $resp->msg = __("We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as a inapropriated");
-                }else if(!$videoOwnerSent){
+                } else if (!$videoOwnerSent) {
                     $resp->msg = __("We could not notify the video owner {$email}, but we marked it as a inapropriated");
-                }else if(!$siteOwnerSent){
+                } else if (!$siteOwnerSent) {
                     $resp->msg = __("We could not notify the video owner {$siteOwnerEmail}, but we marked it as a inapropriated");
-                }else{
+                } else {
                     $resp->error = false;
                     $resp->msg = __("This video was reported to our team, we will review it soon");
                 }
-            }else{                
-                $resp->msg  = __("Error on report this video");
+            } else {
+                $resp->msg = __("Error on report this video");
             }
         } else {
-            $resp->msg  = __("You already report this video");
+            $resp->msg = __("You already report this video");
         }
-        if($resp->error === true){
-            _error_log("Report Video: ". $resp->msg);
+        if ($resp->error === true) {
+            _error_log("Report Video: " . $resp->msg);
         }
         return $resp;
+    }
+
+    function block($users_id, $reported_users_id) {
+        global $global, $config;
+        // check if this user already report this video
+        $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
+        $resp = new stdClass();
+        $resp->error = true;
+        $resp->msg = "Block not made";
+
+        if (empty($report)) {
+            //save it on the database
+            $reportObj = new VideosReported(0);
+            $reportObj->setUsers_id($users_id);
+            $reportObj->setReported_users_id($reported_users_id);
+            if ($reportObj->save()) {
+                $resp->msg = "";
+                $resp->error = false;
+            } else {
+                $resp->msg = __("Error on block this user");
+            }
+        } else {
+            $resp->msg = __("User Already blocked");
+        }
+        if ($resp->error === true) {
+            _error_log("Block User: " . $resp->msg);
+        }
+        return $resp;
+    }
+
+    function unBlock($users_id, $reported_users_id) {
+        global $global, $config;
+        // check if this user already report this video
+        $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
+        $resp = new stdClass();
+        $resp->error = true;
+        $resp->msg = "Block not made";
+
+        if (!empty($report)) {
+            //save it on the database
+            $reportObj = new VideosReported($report['id']);
+            if ($reportObj->delete()) {
+                $resp->msg = "";
+                $resp->error = false;
+            } else {
+                $resp->msg = __("Error on unblock this user");
+            }
+        } else {
+            $resp->msg = __("User Already unblocked");
+        }
+        if ($resp->error === true) {
+            _error_log("Block user: " . $resp->msg);
+        }
+        return $resp;
+    }
+
+    static function isBlocked($reported_users_id, $users_id = 0) {
+        global $global, $config;
+        if (empty($users_id)) {
+            $users_id = User::getId();
+        }
+        $users_id = intval($users_id);
+        // check if this user already report this video
+        $reportedUsersId = VideosReported::getAllReportedUsersIdFromUser($users_id);
+        return in_array($reported_users_id, $reportedUsersId);
+    }
+
+    static function getAllReportedUsersIdFromUser($users_id=0) {
+        if (empty($users_id)) {
+            $users_id = User::getId();
+        }
+        $users_id = intval($users_id);
+        return VideosReported::getAllReportedUsersIdFromUser($users_id);
+    }
+
+    static function buttonBlockUser($users_id) {
+        if ($users_id == User::getId()) {
+            return '';
+        }
+        global $global, $config;
+        $variable = ob_get_clean();
+        ob_start();
+        include $global['systemRootPath'] . 'plugin/ReportVideo/buttonBlockUser.php';
+        $button = ob_get_clean();
+        ob_start();
+        echo $variable;
+        return $button;
+    }
+
+    static function actionButtonBlockUser($users_id) {
+        if ($users_id == User::getId()) {
+            return '';
+        }
+        global $global, $config;
+        $variable = ob_get_clean();
+        ob_start();
+        include $global['systemRootPath'] . 'plugin/ReportVideo/actionButtonBlockUser.php';
+        $button = ob_get_clean();
+        ob_start();
+        echo $variable;
+        return $button;
     }
 
 }

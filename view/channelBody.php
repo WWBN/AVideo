@@ -67,6 +67,7 @@ TimeLogEnd($timeLog, __LINE__);
                 ?></h2>
             <span class="pull-right">
                 <?php
+                echo User::getBlockUserButton($user_id);
                 echo Subscribe::getButton($user_id);
                 ?>
             </span>
@@ -76,7 +77,9 @@ TimeLogEnd($timeLog, __LINE__);
     </div>
 
 
-
+    <?php
+    if(!User::hasBLockedUser($user_id)){
+    ?>
     <div class="tabbable-panel">
         <div class="tabbable-line">
             <ul class="nav nav-tabs">
@@ -224,7 +227,9 @@ TimeLogEnd($timeLog, __LINE__);
             </div>
         </div>
     </div>
-
+    <?php
+    }
+    ?>
 </div>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>

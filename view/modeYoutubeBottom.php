@@ -36,6 +36,9 @@ if (empty($video) && !empty($_GET['videos_id'])) {
 if(empty($video['created'])){
     return false;
 }
+if(User::hasBlockedUser($video['users_id'])){
+    return false;
+}
 ?>
 
 

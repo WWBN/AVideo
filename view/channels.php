@@ -111,6 +111,9 @@ $metaDescription = __("Channels");
                                     ?>
                                 </a>
                                 <span class="pull-right">
+                                    <?php 
+                                    echo User::getBlockUserButton($value['id']);
+                                    ?>
                                     <?php echo Subscribe::getButton($value['id']); ?>
                                 </span>
                                 <div>

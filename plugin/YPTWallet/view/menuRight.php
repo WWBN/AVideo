@@ -9,7 +9,7 @@ $balance = $plugin->getBalance(User::getId());
 <style>
 </style>
 <li>
-    <div class="btn-group"  data-toggle="tooltip" title="<?php echo __($obj->wallet_button_title); ?>" data-placement="bottom" >
+    <div class="btn-group"  data-toggle="tooltip" title="<?php echo __($obj->wallet_button_title); ?>" data-placement="left" >
         <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
             <span class="badge"><?php echo YPTWallet::formatCurrency($balance, true); ?></span> <span class="caret"></span>
         </button>

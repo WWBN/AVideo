@@ -67,7 +67,7 @@ if (!class_exists('Video')) {
         static $rratingOptions = array('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
 //ver 3.4
         private $youtubeId;
-        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound');
+        static $typeOptions = array('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser');
 
         function __construct($title = "", $filename = "", $id = 0) {
             global $global;
@@ -517,7 +517,7 @@ if (!class_exists('Video')) {
         }
 
         function setClean_title($clean_title) {
-            if(preg_match("/video-automatically-booked/i", $clean_title) && !empty($this->clean_title)){
+            if (preg_match("/video-automatically-booked/i", $clean_title) && !empty($this->clean_title)) {
                 return false;
             }
             $this->clean_title = cleanURLName($clean_title);
@@ -932,7 +932,12 @@ if (!class_exists('Video')) {
                     . " LEFT JOIN categories c ON categories_id = c.id "
                     . " LEFT JOIN users u ON v.users_id = u.id "
                     . " WHERE 1=1 ";
-
+            
+            $blockedUsers = self::getBlockedUsersIdsArray();
+            if(!empty($blockedUsers)){
+                $sql .= " AND v.users_id NOT IN ('". implode("','", $blockedUsers)."') ";
+            }
+            
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
                 $uid = intval(User::getId());
                 $sql .= " AND v.users_id = '{$uid}'";
@@ -1255,7 +1260,10 @@ if (!class_exists('Video')) {
             $sql = "SELECT v.* "
                     . " FROM videos as v "
                     . " WHERE 1=1 ";
-
+            $blockedUsers = self::getBlockedUsersIdsArray();
+            if(!empty($blockedUsers)){
+                $sql .= " AND v.users_id NOT IN ('". implode("','", $blockedUsers)."') ";
+            }
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
@@ -1349,6 +1357,10 @@ if (!class_exists('Video')) {
                     . " LEFT JOIN users u ON v.users_id = u.id "
                     . " WHERE 1=1 ";
 
+            $blockedUsers = self::getBlockedUsersIdsArray();
+            if(!empty($blockedUsers)){
+                $sql .= " AND v.users_id NOT IN ('". implode("','", $blockedUsers)."') ";
+            }
             if ($activeUsersOnly) {
                 $sql .= " AND u.status = 'a' ";
             }
@@ -2440,7 +2452,7 @@ if (!class_exists('Video')) {
         }
 
         function setTitle($title) {
-            if($title === "Video automatically booked" && !empty($this->title)){
+            if ($title === "Video automatically booked" && !empty($this->title)) {
                 return false;
             }
             $this->title = strip_tags($title);
@@ -3436,6 +3448,23 @@ if (!class_exists('Video')) {
                 $video['views_count'] = intval(@$evideo->views_count);
             }
             return array('evideo' => $evideo, 'video' => $video);
+        }
+
+        private function getBlockedUsersIdsArray($users_id=0) {
+            if (empty($users_id)) {
+                $users_id = intval(User::getId());
+            }
+            if (empty($users_id)) {
+                return array();
+            }
+            if (!User::isLogged()) {
+                return array();
+            }
+            $report = AVideoPlugin::getDataObjectIfEnabled("ReportVideo");
+            if (empty($report)) {
+                return array();
+            }
+            return ReportVideo::getAllReportedUsersIdFromUser($users_id);
         }
 
     }

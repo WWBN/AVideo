@@ -38,7 +38,7 @@ $metaDescription = " Channel - {$_GET['channelName']}";
         ?>
         <div class="container<?php echo !empty($channelFluidLayout)?"-fluid":""; ?>">
             <?php
-            include $global['systemRootPath'] . 'view/channelBody.php';
+                include $global['systemRootPath'] . 'view/channelBody.php';
             ?>
         </div>
         <?php

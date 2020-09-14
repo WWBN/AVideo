@@ -347,6 +347,7 @@ class Subscribe {
                     });
                 </script>";
         }
+        
         return $subscribe . $popover . $script;
     }
 
