@@ -154,7 +154,7 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
                                         $.ajax({
                                             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/serverLabels.php?<?php echo $userCredentials; ?>',
                                                         success: function (response) {
-                                                            serverLabelsRunning = false;
+                                                            setTimeout(function(){serverLabelsRunning = false;},2000);
                                                             serverLabelsRequestTime = new Date().getTime() - serverLabelsStartTime;
                                                             $('.serverLabels').html(response);
                                                         }
