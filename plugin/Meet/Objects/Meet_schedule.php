@@ -205,6 +205,10 @@ class Meet_schedule extends ObjectYPT {
                 }else{
                     $row['userGroups'] = array();
                 }
+                $row['joinURL'] = "";
+                if(Meet::canJoinMeet($row['id'])){
+                    $row['joinURL'] = Meet::getJoinURL($row['id']);
+                }
                 $rows[] = $row;
             }
         } else {
@@ -299,6 +303,10 @@ class Meet_schedule extends ObjectYPT {
                     $row['userGroups'] = Meet_schedule_has_users_groups::getAllFromSchedule($row['id']);
                 }else{
                     $row['userGroups'] = array();
+                }
+                $row['joinURL'] = "";
+                if(Meet::canJoinMeet($row['id'])){
+                    $row['joinURL'] = Meet::getJoinURL($row['id']);
                 }
                 $rows[] = $row;
             }

@@ -9,6 +9,9 @@ if(!User::isAdmin()){
     $total = Meet_schedule::getTotal(@$_REQUEST['meet_scheduled']);
     $rows = Meet_schedule::getAll(@$_REQUEST['meet_scheduled']);
 }
+if(empty($_GET['draw'])){
+    $_GET['draw'] = 0;
+}
 ?>
 {
 "draw": <?php echo $_GET['draw']; ?>,
