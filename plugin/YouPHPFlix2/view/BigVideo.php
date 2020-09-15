@@ -82,7 +82,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                         <?php
                         foreach ($video['tags'] as $value2) {
                             if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayGroupsTags)) {
-                                if(is_array($value2)){
+                                if (is_array($value2)) {
                                     $value2 = (object) $value2;
                                 }
                                 if ($value2->label === __("Group")) {
@@ -146,7 +146,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             ?>
                             <div class="infoText col-md-4 col-sm-6 col-xs-6">
                                 <h4 class="mainInfoText" itemprop="description">
-                                    <?php echo $video['description']; ?>
+                                    <?php
+                                    if (strip_tags($video['description']) != $video['description']) {
+                                        echo $video['description'];
+                                    } else {
+                                        echo nl2br(textToLink(htmlentities($video['description'])));
+                                    }
+                                    ?>
                                 </h4>
                                 <?php
                                 if (AVideoPlugin::isEnabledByName("VideoTags")) {

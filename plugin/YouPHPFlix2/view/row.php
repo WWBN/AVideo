@@ -195,7 +195,13 @@ foreach ($videos as $value) {
                 ?>
                 <div class="infoText col-md-4 col-sm-6 col-xs-8">
                     <h4 class="mainInfoText" itemprop="description">
-                        <?php echo $value['description']; ?>
+                        <?php
+                        if (strip_tags($video['description']) != $video['description']) {
+                            echo $video['description'];
+                        } else {
+                            echo nl2br(textToLink(htmlentities($video['description'])));
+                        }
+                        ?>
                     </h4>
                     <?php
                     if (AVideoPlugin::isEnabledByName("VideoTags")) {
