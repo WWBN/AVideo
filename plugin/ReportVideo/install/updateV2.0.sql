@@ -7,6 +7,6 @@ ADD INDEX `fk_videos_reported_users2_idx` (`reported_users_id` ASC);
 ALTER TABLE `videos_reported` 
 ADD CONSTRAINT `fk_videos_reported_users2`
   FOREIGN KEY (`reported_users_id`)
-  REFERENCES `youphptube`.`users` (`id`)
+  REFERENCES `users` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;
