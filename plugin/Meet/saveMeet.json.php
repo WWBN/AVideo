@@ -83,6 +83,7 @@ $obj->shortLink = Meet::getMeetShortLink($meet_schedule_id);
 $obj->jwt = Meet::getToken($meet_schedule_id);
 $obj->domain = Meet::getDomainURL();
 $obj->joinURL = Meet::getJoinURL($meet_schedule_id);
+$obj->invitation = Meet::getInvitation($meet_schedule_id);
 //var_dump($obj->domain);
         
 die(json_encode($obj));

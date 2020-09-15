@@ -39,24 +39,8 @@ ob_start();
 
 
 if ($_REQUEST['meet_scheduled'] !== "past") {
-    $invitation = $objM->invitation->value;
-    $topic = $ms->getTopic();
-    $pass = $ms->getPassword();
-
-    if (empty($topic)) {
-        $invitation = preg_replace("/(\n|\r)[^\n\r]*{topic}[^\n\r]*(\n|\r)/i", "", $invitation);
-    } else {
-        $invitation = preg_replace("/{topic}/i", $topic, $invitation);
-    }
-
-    if (empty($pass)) {
-        $invitation = preg_replace("/(\n|\r)[^\n\r]*{password}[^\n\r]*(\n|\r)/i", "", $invitation);
-    } else {
-        $invitation = preg_replace("/{password}/i", $pass, $invitation);
-    }
-
-    $invitation = preg_replace("/{UserName}/i", User::getNameIdentificationById($ms->getUsers_id()), $invitation);
-    $invitation = preg_replace("/{meetLink}/i", $ms->getMeetLink(), $invitation);
+    $invitation = Meet::getInvitation($obj->meet_schedule_id);
+    
     ?>
     <div class="row">
         <div class="form-group col-sm-9">

@@ -10,6 +10,7 @@ require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule.php'
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule_has_users_groups.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_join_log.php';
 User::loginFromRequest();
+
 //require_once $global['systemRootPath'] . 'objects/php-jwt/src/JWT.php';
 //use \Firebase\JWT\JWT;
 class Meet extends PluginAbstract {
@@ -195,36 +196,36 @@ Passcode: {password}
         } else {
             $domain = $meetDomain;
         }
-        
-        
+
+
         return $domain;
     }
 
     static function getRoomNameWithToken($meet_schedule_id) {
         $roomName = "";
         $m = new Meet_schedule($meet_schedule_id);
-        if(empty($m->getUsers_id())){
+        if (empty($m->getUsers_id())) {
             return $roomName;
         }
-        if(!empty($meet_schedule_id)){
+        if (!empty($meet_schedule_id)) {
             $roomName .= $m->getName();
         }
-        
+
         $token = self::getToken($meet_schedule_id);
         $roomName .= "?jwt={$token}";
-        
-        $obj =  new stdClass();
+
+        $obj = new stdClass();
         $obj->getRTMPLink = Live::getRTMPLink($m->getUsers_id());
         $obj->shareLink = Meet::getMeetShortLink($meet_schedule_id);
-        
+
         $roomName .= "&json=" . urlencode(json_encode($obj));
-        
+
         return $roomName;
     }
-    
+
     static function getJoinURL($meet_schedule_id) {
         $domain = self::getDomainURL();
-        $url = "https://".$domain."/".self::getRoomNameWithToken($meet_schedule_id);
+        $url = "https://" . $domain . "/" . self::getRoomNameWithToken($meet_schedule_id);
         return $url;
     }
 
@@ -280,7 +281,6 @@ Passcode: {password}
 
         return $ms->getMeetLink();
     }
-
 
     public static function getMeetShortLink($meet_schedule_id) {
         if (empty($meet_schedule_id)) {
@@ -367,16 +367,15 @@ Passcode: {password}
         return false;
     }
 
-    
     static function getButtons($meet_schedule_id) {
         /*
-        return [
-            'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
-            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
-            'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
-            'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
-            'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone', 'security'
-        ];
+          return [
+          'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
+          'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+          'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+          'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+          'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone', 'security'
+          ];
          * 
          */
         if (self::isModerator($meet_schedule_id)) {
@@ -441,13 +440,13 @@ Passcode: {password}
         return array("name" => $obj->server->type[$pObj->server->value], "domain" => $pObj->server->value);
     }
 
-    static function createJitsiButton($title, $svg, $onclick, $class="", $style="", $id="") {
+    static function createJitsiButton($title, $svg, $onclick, $class = "", $style = "", $id = "") {
         global $global;
-        if(empty($id)){
+        if (empty($id)) {
             $id = "avideoMeet" . uniqid();
         }
         $svgContent = file_get_contents($global['systemRootPath'] . 'plugin/Meet/buttons/' . $svg);
-        $btn = '<div class="toolbox-button aVideoMeet '.$class.'" tabindex="0" role="button" onclick="' . $onclick . '" id="' . $id . '" style="'.$style.'">'
+        $btn = '<div class="toolbox-button aVideoMeet ' . $class . '" tabindex="0" role="button" onclick="' . $onclick . '" id="' . $id . '" style="' . $style . '">'
                 . '<div class="tooltip" style="display:none; position: absolute; bottom: 70px;background-color: rgb(13, 20, 36); padding: 5px; border-radius: 4px; font-weight: bold; color: #909eb5; height: 10px; line-height: normal;">' . $title . '</div>'
                 . '<div class="toolbox-icon">'
                 . '<div class="jitsi-icon">' . $svgContent . '</div>'
@@ -469,9 +468,33 @@ Passcode: {password}
     }
 
     static function createJitsiRecordStartStopButton($rtmpLink, $dropURL) {
-        $start = self::createJitsiButton(__("Go Live"),"startLive.svg", "aVideoMeetStartRecording('$rtmpLink','$dropURL');", "hideOnLive");
-        $stop = self::createJitsiButton(__("Stop Live"),"stopLive.svg", "aVideoMeetStopRecording('$rtmpLink','$dropURL');", "showOnLive", "display:none;");
-        return $start.$stop;
+        $start = self::createJitsiButton(__("Go Live"), "startLive.svg", "aVideoMeetStartRecording('$rtmpLink','$dropURL');", "hideOnLive");
+        $stop = self::createJitsiButton(__("Stop Live"), "stopLive.svg", "aVideoMeetStopRecording('$rtmpLink','$dropURL');", "showOnLive", "display:none;");
+        return $start . $stop;
+    }
+
+    static function getInvitation($meet_schedule_id) {
+        $objM = AVideoPlugin::getObjectDataIfEnabled("Meet");
+        $ms = new Meet_schedule($meet_schedule_id);
+        $invitation = $objM->invitation->value;
+        $topic = $ms->getTopic();
+        $pass = $ms->getPassword();
+
+        if (empty($topic)) {
+            $invitation = preg_replace("/(\n|\r)[^\n\r]*{topic}[^\n\r]*(\n|\r)/i", "", $invitation);
+        } else {
+            $invitation = preg_replace("/{topic}/i", $topic, $invitation);
+        }
+
+        if (empty($pass)) {
+            $invitation = preg_replace("/(\n|\r)[^\n\r]*{password}[^\n\r]*(\n|\r)/i", "", $invitation);
+        } else {
+            $invitation = preg_replace("/{password}/i", $pass, $invitation);
+        }
+
+        $invitation = preg_replace("/{UserName}/i", User::getNameIdentificationById($ms->getUsers_id()), $invitation);
+        $invitation = preg_replace("/{meetLink}/i", $ms->getMeetLink(), $invitation);
+        return $invitation;
     }
 
 }
