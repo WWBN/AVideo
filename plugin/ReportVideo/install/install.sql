@@ -10,7 +10,7 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 
-CREATE TABLE IF NOT EXISTS `youphptube`.`videos_reported` (
+CREATE TABLE IF NOT EXISTS `videos_reported` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `obs` VARCHAR(255) NULL DEFAULT NULL,
   `videos_id` INT(11) NULL,
@@ -25,17 +25,17 @@ CREATE TABLE IF NOT EXISTS `youphptube`.`videos_reported` (
   INDEX `fk_videos_reported_users2_idx` (`reported_users_id` ASC),
   CONSTRAINT `fk_videos_reported_users1`
     FOREIGN KEY (`users_id`)
-    REFERENCES `youphptube`.`users` (`id`)
+    REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_videos_reported_videos`
     FOREIGN KEY (`videos_id`)
-    REFERENCES `youphptube`.`videos` (`id`)
+    REFERENCES `videos` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_videos_reported_users2`
     FOREIGN KEY (`reported_users_id`)
-    REFERENCES `youphptube`.`users` (`id`)
+    REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
