@@ -144,11 +144,17 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
                                         serverLabels();
                                     });
                                     var serverLabelsStartTime;
+                                    var serverLabelsRunning = false;
                                     function serverLabels() {
+                                        if(serverLabelsRunning){
+                                            return false;
+                                        }
+                                        serverLabelsRunning = true;
                                         serverLabelsStartTime = new Date().getTime();
                                         $.ajax({
                                             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/serverLabels.php?<?php echo $userCredentials; ?>',
                                                         success: function (response) {
+                                                            serverLabelsRunning = false;
                                                             serverLabelsRequestTime = new Date().getTime() - serverLabelsStartTime;
                                                             $('.serverLabels').html(response);
                                                         }
