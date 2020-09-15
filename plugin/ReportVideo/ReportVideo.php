@@ -183,7 +183,7 @@ class ReportVideo extends PluginAbstract {
         global $global, $config;
         // check if this user already report this video
         $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
-        $resp = new stdClass();
+        $resp = new stdClass(); 
         $resp->error = true;
         $resp->msg = "Block not made";
 

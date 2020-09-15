@@ -2003,7 +2003,7 @@ if (typeof gtag !== \"function\") {
         return ReportVideo::actionButtonBlockUser($users_id);
     }
     
-    static function userCanBlockUser($users_id){
+    static function userCanBlockUser($users_id, $ignoreIfIsAlreadyBLocked = false){
         if (empty($users_id)) {
             return false;
         }
@@ -2013,9 +2013,11 @@ if (typeof gtag !== \"function\") {
         if ($users_id== User::getId()) {
             return false;
         }
-        $report = AVideoPlugin::getDataObjectIfEnabled("ReportVideo");
-        if(empty($report)){
-            return false;
+        if(empty($ignoreIfIsAlreadyBLocked)){
+            $report = AVideoPlugin::getDataObjectIfEnabled("ReportVideo");
+            if(empty($report)){
+                return false;
+            }
         }
         return true;
     }
@@ -2024,7 +2026,7 @@ if (typeof gtag !== \"function\") {
         if (empty($users_id)) {
             $users_id = User::getId();
         }
-        if(!self::userCanBlockUser($reported_users_id)){
+        if(!self::userCanBlockUser($reported_users_id, true)){
             return false;
         }
         return ReportVideo::isBlocked($reported_users_id, $users_id);

@@ -51,7 +51,7 @@ class VideosReported extends ObjectYPT {
             return array();
         }
         
-        $sql = "SELECT 1 FROM reported_users_id LIMIT 1";
+        $sql = "SHOW COLUMNS FROM `" . static::getTableName() . "` LIKE 'reported_users_id';";
         $res = sqlDAL::readSql($sql);
         $fetch = sqlDAL::fetchAssoc($res);
         if (!$fetch) { // not installed yet

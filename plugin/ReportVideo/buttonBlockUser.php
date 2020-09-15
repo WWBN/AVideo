@@ -1,11 +1,5 @@
 <?php
-if (empty($users_id)) {
-    return '';
-}
-if (!User::isLogged()) {
-    return '';
-}
-if ($users_id== User::getId()) {
+if(!User::userCanBlockUser($users_id, true)){
     return '';
 }
 ?>
@@ -45,17 +39,18 @@ if ($users_id== User::getId()) {
 
                                 modal.showPleaseWait();
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/ReportVideo/block.json.php?unblock=1',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/ReportVideo/block.json.php?unblock=1&<?php echo User::loginFromRequestToGet(); ?>',
                                     method: 'POST',
                                     data: {'users_id': '<?php echo $users_id; ?>'},
                                     success: function (response) {
                                         setTimeout(function () {
-                                            modal.hidePleaseWait();
                                             if (response.error) {
+                                                modal.hidePleaseWait();
                                                 avideoAlert("<?php echo __("Error"); ?>", response.msg, "error");
                                             } else {
                                                 showBlockButtons<?php echo $users_id; ?>(false);
-                                                avideoAlert("<?php echo __("Success!"); ?>", response.msg, "success");
+                                                //avideoAlert("<?php echo __("Success!"); ?>", response.msg, "success");
+                                                document.location = "<?php echo getSelfURI(); ?>";
                                             }
                                         }, 500);
                                         //                                  
@@ -80,17 +75,18 @@ if ($users_id== User::getId()) {
 
                                 modal.showPleaseWait();
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/ReportVideo/block.json.php',
+                                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/ReportVideo/block.json.php?<?php echo User::loginFromRequestToGet(); ?>',
                                     method: 'POST',
                                     data: {'users_id': '<?php echo $users_id; ?>'},
                                     success: function (response) {
                                         setTimeout(function () {
-                                            modal.hidePleaseWait();
                                             if (response.error) {
+                                                modal.hidePleaseWait();
                                                 avideoAlert("<?php echo __("Error"); ?>", response.msg, "error");
                                             } else {
                                                 showBlockButtons<?php echo $users_id; ?>(true);
-                                                avideoAlert("<?php echo __("Success!"); ?>", response.msg, "success");
+                                                //avideoAlert("<?php echo __("Success!"); ?>", response.msg, "success");
+                                                document.location = "<?php echo getSelfURI(); ?>";
                                             }
                                         }, 500);
                                         //                                  

@@ -6,15 +6,6 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-// for mobile login
-if (!empty($_GET['user']) && !empty($_GET['pass'])) {
-    $user = $_GET['user'];
-    $password = $_GET['pass'];
-
-    $userObj = new User(0, $user, $password);
-    $userObj->login(false, true);
-}
-
 if (!empty($_GET['evideo'])) {
     $v = Video::decodeEvideo();
     $evideo = $v['evideo'];
@@ -152,6 +143,10 @@ $photo = User::getPhoto($video['users_id']);
 if (empty($currentTime)) {
     $currentTime = 0;
 }
+
+if (User::hasBlockedUser($video['users_id'])) {
+    $video['type'] = "blockedUser";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -243,6 +238,21 @@ if (empty($currentTime)) {
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
+            #blockUserTop{
+                position: absolute;
+                right: 5px;
+                top: 10px;
+            }
+            #blockUserTop button{
+                background-color: rgba(255,255,255,0.3);
+                border-color:  rgba(255,255,255,0.2);
+                color: rgba(0,0,0,0.6);
+            }
+            #blockUserTop button:hover{
+                background-color: rgba(255,255,255,0.8);
+                border-color:  rgba(255,255,255,1);
+                color: rgba(0,0,0,1);
+            }
         </style>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
@@ -251,56 +261,74 @@ if (empty($currentTime)) {
 
     <body>
         <?php
-        if ($video['type'] == "serie") {
+        if ($video['type'] == "blockedUser") {
             ?>
             <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
-            <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php
-            echo $video['serie_playlists_id'];
-            if ($config->getAutoplay()) {
-                echo "&autoplay=1";
-            }
-            ?>"></iframe>
-            <script>
-                $(document).ready(function () {
-                    addView(<?php echo $video['id']; ?>, 0);
-                });
-            </script>
+        <center style="height: 100%;">
+            <br>
+            <br>
+            <br>
+            <br>
+            <i class="fas fa-user-slash fa-3x"></i><hr>
+            You've blocked user (<?php echo User::getNameIdentificationById($video['users_id']) ?>)<br>
+            You won't see any comments or videos from this user<hr>
             <?php
-        } else if ($video['type'] == "article") {
+            echo User::getblockUserButton($video['users_id']);
             ?>
-            <div id="main-video" class="bgWhite list-group-item" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
-                <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
-                    <?php
-                    echo $video['title'];
-                    ?>   
-                </h1>
+            <br>
+            <br>
+        </center>
+        <?php
+    } else if ($video['type'] == "serie") {
+        ?>
+        <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+        <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php
+        echo $video['serie_playlists_id'];
+        if ($config->getAutoplay()) {
+            echo "&autoplay=1";
+        }
+        ?>"></iframe>
+        <script>
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, 0);
+            });
+        </script>
+        <?php
+    } else if ($video['type'] == "article") {
+        ?>
+        <div id="main-video" class="bgWhite list-group-item" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
+            <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
                 <?php
-                echo $video['description'];
-                ?>     
-                <script>
-                    $(document).ready(function () {
-                        addView(<?php echo $video['id']; ?>, 0);
-                    });
-                </script>
-
-            </div>
+                echo $video['title'];
+                ?>   
+            </h1>
             <?php
-        } else if ($video['type'] == "pdf") {
-            $sources = getVideosURLPDF($video['filename']);
-            ?>
-            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
-            <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
-            echo $sources["pdf"]['url'];
-            ?>"></iframe>
+            echo $video['description'];
+            ?>     
             <script>
                 $(document).ready(function () {
                     addView(<?php echo $video['id']; ?>, 0);
                 });
             </script>
-            <?php
-        } else if ($video['type'] == "image") {
-            $sources = getVideosURLIMAGE($video['filename']);
-            ?>
+
+        </div>
+        <?php
+    } else if ($video['type'] == "pdf") {
+        $sources = getVideosURLPDF($video['filename']);
+        ?>
+        <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+        <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
+        echo $sources["pdf"]['url'];
+        ?>"></iframe>
+        <script>
+            $(document).ready(function () {
+                addView(<?php echo $video['id']; ?>, 0);
+            });
+        </script>
+        <?php
+    } else if ($video['type'] == "image") {
+        $sources = getVideosURLIMAGE($video['filename']);
+        ?>
         <center style="height: 100%;">
             <img src="<?php
             echo $sources["image"]['url']
@@ -499,6 +527,11 @@ addView({$video['id']}, time);";
                     <?php echo $title; ?>
                 </div>
             </a>
+            <span id="blockUserTop">
+                <?php
+                echo User::getblockUserButton($video['users_id']);
+                ?>
+            </span>
         </div>
         <?php
     }
@@ -539,29 +572,29 @@ addView({$video['id']}, time);";
               left: 0;
               pointer-events: none;"></textarea>
     <script>
-        var topInfoTimeout;
-        $(document).ready(function () {
-            setInterval(function () {
-                if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                    $('#topInfo').fadeOut();
-                } else {
-                    $('#topInfo').fadeIn();
-                }
+            var topInfoTimeout;
+            $(document).ready(function () {
+                setInterval(function () {
+                    if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                        $('#topInfo').fadeOut();
+                    } else {
+                        $('#topInfo').fadeIn();
+                    }
 
-            }, 200);
+                }, 200);
 
-            $("iframe, #topInfo").mouseover(function (e) {
-                clearTimeout(topInfoTimeout);
-                $('#mainVideo').addClass("vjs-user-active");
+                $("iframe, #topInfo").mouseover(function (e) {
+                    clearTimeout(topInfoTimeout);
+                    $('#mainVideo').addClass("vjs-user-active");
+                });
+
+                $("iframe").mouseout(function (e) {
+                    topInfoTimeout = setTimeout(function () {
+                        $('#mainVideo').removeClass("vjs-user-active");
+                    }, 500);
+                });
+
             });
-
-            $("iframe").mouseout(function (e) {
-                topInfoTimeout = setTimeout(function () {
-                    $('#mainVideo').removeClass("vjs-user-active");
-                }, 500);
-            });
-
-        });
     </script>
 </body>
 </html>
