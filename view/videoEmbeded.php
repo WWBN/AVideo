@@ -145,6 +145,7 @@ if (empty($currentTime)) {
 }
 
 if (User::hasBlockedUser($video['users_id'])) {
+    $playerSkinsObj->disableEmbedTopInfo = true;
     $video['type'] = "blockedUser";
 }
 ?>
@@ -240,7 +241,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             }
             #blockUserTop{
                 position: absolute;
-                right: 5px;
+                right: 15px;
                 top: 10px;
             }
             #blockUserTop button{
@@ -265,9 +266,6 @@ if (User::hasBlockedUser($video['users_id'])) {
             ?>
             <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <center style="height: 100%;">
-            <br>
-            <br>
-            <br>
             <br>
             <i class="fas fa-user-slash fa-3x"></i><hr>
             You've blocked user (<?php echo User::getNameIdentificationById($video['users_id']) ?>)<br>
@@ -409,6 +407,11 @@ if (User::hasBlockedUser($video['users_id'])) {
         <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
                class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
             <source src="<?php echo $video['videoLink']; ?>" type="<?php echo (strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
+            <?php
+                if (function_exists('getVTTTracks')) {
+                    echo getVTTTracks($playNowVideo['filename']);
+                }
+            ?>
             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
         </video>
 
