@@ -51,8 +51,20 @@ if (empty($manageMeetings)) {
         if ($meet_scheduled == "today") {
             ?>
             <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success btn-xs" 
-                    data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Join"); ?>">
+                    data-toggle="tooltip" title="<?php echo __("Join"); ?>">
                 <i class="fa fa-plus"></i>
+            </button>
+            <?php
+        }
+        if ($meet_scheduled == "today" || $meet_scheduled == "upcomig") {
+            ?>
+            <button href="" class="copyInvitation_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs" 
+                    data-toggle="tooltip" title="<?php echo __("Copy Invitation"); ?>">
+                <i class="fa fa-copy"></i>
+            </button>
+            <button href="" class="copyLink_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs" 
+                    data-toggle="tooltip" title="<?php echo __("Copy Link"); ?>">
+                <i class="fa fa-link"></i>
             </button>
             <?php
         }
@@ -61,15 +73,15 @@ if (empty($manageMeetings)) {
         if ($manageMeetings) {
             ?>
             <button href="" class="log_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-primary btn-xs"
-                    data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Meet Log"); ?>">
+                    data-toggle="tooltip" title="<?php echo __("Meet Log"); ?>">
                 <i class="fas fa-info-circle"></i>
             </button>
             <button href="" class="edit_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs"
-                    data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Edit"); ?>">
+                    data-toggle="tooltip" title="<?php echo __("Edit"); ?>">
                 <i class="fa fa-edit"></i>
             </button>
             <button href="" class="delete_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-danger btn-xs"
-                    data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Delete"); ?>">
+                    data-toggle="tooltip" title="<?php echo __("Delete"); ?>">
                 <i class="fa fa-trash"></i>
             </button>
             <?php
@@ -106,11 +118,11 @@ if (empty($manageMeetings)) {
                                 data: 'public',
                                 "render": function (data, type, row) {
                                     if (data == 2) {
-                                        return '<i class="fas fa-lock-open" style="color:rgba(0,0,0,0.1);" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Public"); ?>" ></i>';
+                                        return '<i class="fas fa-lock-open" style="color:rgba(0,0,0,0.1);" data-toggle="tooltip" title="<?php echo __("Public"); ?>" ></i>';
                                     } else if (data == 1) {
-                                        return '<i class="fas fa-user-lock" style="color:rgba(0,0,0,0.3);" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Logged Users Only"); ?>" ></i>'
+                                        return '<i class="fas fa-user-lock" style="color:rgba(0,0,0,0.3);" data-toggle="tooltip" title="<?php echo __("Logged Users Only"); ?>" ></i>'
                                     } else {
-                                        return '<i class="fas fa-lock" style="color:rgba(0,0,0,1);" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Specific User Groups"); ?>" ></i>'
+                                        return '<i class="fas fa-lock" style="color:rgba(0,0,0,1);" data-toggle="tooltip" title="<?php echo __("Specific User Groups"); ?>" ></i>'
                                     }
                                 }
                             },
@@ -145,20 +157,20 @@ if ($manageMeetings) {
                                             $.ajax({
                                                 type: "POST",
                                                 url: "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/delete.json.php?<?php echo $userCredentials; ?>",
-                                                                                data: data
+                                                data: data
 
-                                                                            }).done(function (resposta) {
-                                                                                if (resposta.error) {
-                                                                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
-                                                                                }
-                                                                                Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.ajax.reload();
-                                                                                modal.hidePleaseWait();
-                                                                            });
-                                                                        } else {
+                                            }).done(function (resposta) {
+                                                if (resposta.error) {
+                                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                                }
+                                                Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.ajax.reload();
+                                                modal.hidePleaseWait();
+                                            });
+                                        } else {
 
-                                                                        }
-                                                                    });
-                                                        });
+                                        }
+                                    });
+                            });
                                                         $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.log_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
                                                             e.preventDefault();
                                                             var tr = $(this).closest('tr')[0];
@@ -211,6 +223,18 @@ if ($manageMeetings) {
                                                         var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
                                                         document.location = data.link;
 
+                                                    });
+                                                    $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.copyInvitation_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
+                                                        e.preventDefault();
+                                                        var tr = $(this).closest('tr')[0];
+                                                        var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
+                                                        copyToClipboard(data.invitation);
+                                                    });
+                                                    $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.copyLink_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
+                                                        e.preventDefault();
+                                                        var tr = $(this).closest('tr')[0];
+                                                        var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
+                                                        copyToClipboard(data.link);
                                                     });
                                                     setTimeout(function () {
                                                         $('[data-toggle="tooltip"]').tooltip({container: 'body'});

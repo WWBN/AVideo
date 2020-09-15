@@ -208,7 +208,8 @@ class Meet_schedule extends ObjectYPT {
                 $row['invitation'] = Meet::getInvitation($row['id']);
                 $row['joinURL'] = "";
                 if(Meet::canJoinMeet($row['id'])){
-                    $row['joinURL'] = Meet::getJoinURL($row['id']);
+                    $row['joinURL'] = Meet::getJoinURL();
+                    $row['roomID'] = Meet::getRoomID($row['id']);
                 }
                 $rows[] = $row;
             }
@@ -308,7 +309,8 @@ class Meet_schedule extends ObjectYPT {
                 $row['invitation'] = Meet::getInvitation($row['id']);
                 $row['joinURL'] = "";
                 if(Meet::canJoinMeet($row['id'])){
-                    $row['joinURL'] = Meet::getJoinURL($row['id']);
+                    $row['joinURL'] = Meet::getJoinURL();
+                    $row['roomID'] = Meet::getRoomID($row['id']);
                 }
                 $rows[] = $row;
             }

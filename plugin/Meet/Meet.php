@@ -201,7 +201,13 @@ Passcode: {password}
         return $domain;
     }
 
-    static function getRoomNameWithToken($meet_schedule_id) {
+    static function getJoinURL() {
+        $domain = self::getDomainURL();
+        $url = "https://" . $domain . "/";
+        return $url;
+    }
+    
+    static function getRoomID($meet_schedule_id) {
         $roomName = "";
         $m = new Meet_schedule($meet_schedule_id);
         if (empty($m->getUsers_id())) {
@@ -221,12 +227,6 @@ Passcode: {password}
         $roomName .= "&json=" . urlencode(json_encode($obj));
 
         return $roomName;
-    }
-
-    static function getJoinURL($meet_schedule_id) {
-        $domain = self::getDomainURL();
-        $url = "https://" . $domain . "/" . self::getRoomNameWithToken($meet_schedule_id);
-        return $url;
     }
 
     static function isCustomJitsi() {
@@ -384,7 +384,7 @@ Passcode: {password}
                     'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'livestreaming', 'etherpad', 'settings', 'raisehand',
-                    'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
+                    'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone'
                 ];
             } else {
@@ -392,7 +392,7 @@ Passcode: {password}
                     'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'etherpad', 'settings', 'raisehand',
-                    'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
+                    'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone'
                 ];
             }
