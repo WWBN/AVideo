@@ -87,7 +87,16 @@ if (empty($obj->token)) {
 $verifyTokenURL = "{$obj->streamerURL}plugin/Live/verifyToken.json.php?token={$obj->token}";
 
 error_log("Restreamer.json.php verifying token {$verifyTokenURL}");
-$content = file_get_contents($verifyTokenURL);
+
+$arrContextOptions=array(
+    "ssl"=>array(
+        "verify_peer"=>false,
+        "verify_peer_name"=>false,
+    ),
+);  
+
+$content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
+
 error_log("Restreamer.json.php verification respond content {$content}");
 $json = json_decode($content);
 
