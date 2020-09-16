@@ -409,6 +409,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             <source src="<?php echo $video['videoLink']; ?>" type="<?php echo (strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
             <?php
                 if (function_exists('getVTTTracks')) {
+                    echo "<!-- getVTTTracks 2 -->";
                     echo getVTTTracks($playNowVideo['filename']);
                 }
             ?>
