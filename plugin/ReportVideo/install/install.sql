@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `videos_reported` (
   `created` DATETIME NULL DEFAULT NULL,
   `modified` DATETIME NULL DEFAULT NULL,
   `status` CHAR(1) NOT NULL DEFAULT 'a',
-  `reported_users_id` INT(11) NOT NULL,
+  `reported_users_id` INT(11) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_reported_videos_idx` (`videos_id` ASC),
   INDEX `fk_videos_reported_users1_idx` (`users_id` ASC),

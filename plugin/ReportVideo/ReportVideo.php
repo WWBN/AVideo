@@ -26,7 +26,7 @@ class ReportVideo extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "2.1";
     }
 
     public function updateScript() {
@@ -34,6 +34,14 @@ class ReportVideo extends PluginAbstract {
         //update version 2.0
         if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/ReportVideo/install/updateV2.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        //update version 2.1
+        if (AVideoPlugin::compareVersion($this->getName(), "2.1") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/ReportVideo/install/updateV2.1.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
