@@ -7,8 +7,8 @@ if (empty($objM)) {
 
 $meetDomain = Meet::getDomain();
 if (empty($meetDomain)) {
-    header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=The Server is Not ready");
-    exit;
+    echo "<span class='label label-danger'>".__("The server is not ready")."</span>";
+    return '';
 }
 
 if ($meetDomain == 'custom') {
