@@ -410,7 +410,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             <?php
                 if (function_exists('getVTTTracks')) {
                     echo "<!-- getVTTTracks 2 -->";
-                    echo getVTTTracks($playNowVideo['filename']);
+                    echo getVTTTracks($video['filename']);
                 }
             ?>
             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
