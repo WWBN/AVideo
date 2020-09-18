@@ -84,7 +84,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
 
     function event_on_meetReady() {
         console.log("YPTMeetScript event_on_meetReady");
-        aVideoMeetHideElement(".watermark, .toolbox-button-wth-dialog")
+        aVideoMeetHideElement(".watermark")
         meetIsReady = true;
         showMeet();
         on_meetReady();
