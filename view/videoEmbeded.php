@@ -247,12 +247,10 @@ if (User::hasBlockedUser($video['users_id'])) {
             #blockUserTop button{
                 background-color: rgba(255,255,255,0.3);
                 border-color:  rgba(255,255,255,0.2);
-                color: rgba(0,0,0,0.6);
             }
             #blockUserTop button:hover{
                 background-color: rgba(255,255,255,0.8);
                 border-color:  rgba(255,255,255,1);
-                color: rgba(0,0,0,1);
             }
         </style>
         <?php
