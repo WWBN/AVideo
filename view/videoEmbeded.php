@@ -241,8 +241,8 @@ if (User::hasBlockedUser($video['users_id'])) {
             }
             #blockUserTop{
                 position: absolute;
-                right: 15px;
-                top: 10px;
+                right: 20px;
+                top: 20px;
             }
             #blockUserTop button{
                 background-color: rgba(255,255,255,0.3);
