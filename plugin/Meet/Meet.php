@@ -96,7 +96,7 @@ Passcode: {password}
         return $jitsiPayload; // HS256
     }
 
-    static function getToken($meet_schedule_id, $users_id = 0, $expirationInMinutes = 20) {
+    static function getToken($meet_schedule_id, $users_id = 0, $expirationInMinutes = 60) {
         $m = new Meet_schedule($meet_schedule_id);
         $jitsiPayload = self::getTokenArray($meet_schedule_id, $users_id, $expirationInMinutes);
         $key = self::getSecret();
@@ -221,7 +221,9 @@ Passcode: {password}
         $roomName .= "?jwt={$token}";
 
         $obj = new stdClass();
-        $obj->getRTMPLink = Live::getRTMPLink($m->getUsers_id());
+        if(class_exists("Live")){
+            $obj->getRTMPLink = Live::getRTMPLink($m->getUsers_id());
+        }
         $obj->shareLink = Meet::getMeetShortLink($meet_schedule_id);
 
         $roomName .= "&json=" . urlencode(json_encode($obj));
