@@ -90,6 +90,7 @@ if (empty($meet_schedule_id)) {
                 channelLastN: 4,
                 startVideoMuted: 10,
                 startAudioMuted: 10,
+                disableInviteFunctions: true
             }
 
         };

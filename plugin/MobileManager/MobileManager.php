@@ -75,8 +75,8 @@ class MobileManager extends PluginAbstract {
         
         $obj->disableWhitelabel = false;
         $obj->approvalMode = false;
-        $obj->showMeet = false;
-        $obj->goLiveWithMeet = false;
+        $obj->showMeet = true;
+        $obj->goLiveWithMeet = true;
         $obj->doNotAutoSearch = false;
         
         return $obj;

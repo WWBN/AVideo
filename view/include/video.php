@@ -63,7 +63,7 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
                         <source src="<?php echo $playNowVideo['videoLink']; ?>" type="<?php echo (strpos($playNowVideo['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
                         <?php
                         if (function_exists('getVTTTracks')) {
-                            echo "<!-- getVTTTracks -->";
+                            echo "<!-- getVTTTracks 1 -->";
                             echo getVTTTracks($playNowVideo['filename']);
                         }
                     }
