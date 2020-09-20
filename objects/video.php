@@ -1127,8 +1127,6 @@ if (!class_exists('Video')) {
                         }
                         $otherInfo['isFavorite'] = self::isFavorite($otherInfo['id']);
                         $otherInfo['isWatchLater'] = self::isWatchLater($otherInfo['id']);
-                        $otherInfo['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
-                        $otherInfo['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
                         if (empty($row['filesize'])) {
                             $otherInfo['filesize'] = Video::updateFilesize($row['id']);
                         }
@@ -1137,6 +1135,8 @@ if (!class_exists('Video')) {
                     foreach ($otherInfo as $key => $value) {
                         $row[$key]=$value;
                     }
+                    $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
+                    $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
                     TimeLogEnd("video::getAllVideos otherInfo", __LINE__);
 
                     TimeLogStart("video::getAllVideos getAllVideosArray");
