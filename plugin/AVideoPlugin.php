@@ -504,12 +504,12 @@ class AVideoPlugin {
     public static function getStart() {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
-            self::YPTstart();
+            //self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->getStart();
             }
-            self::YPTend("{$value['dirName']}::".__FUNCTION__);
+            //self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
 
