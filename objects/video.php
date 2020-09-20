@@ -1116,7 +1116,6 @@ if (!class_exists('Video')) {
                     $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename),600);
                     if(empty($otherInfo)){
                         $otherInfo = array();
-                        $otherInfo['progress'] = self::getVideoPogressPercent($row['id']);
                         $otherInfo['category'] = xss_esc_back($row['category']);
                         $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
                         $otherInfo['tags'] = self::getTags($row['id']);
@@ -1125,8 +1124,6 @@ if (!class_exists('Video')) {
                         if (empty($advancedCustom->disableHTMLDescription)) {
                             $otherInfo['descriptionHTML'] = strip_tags($otherInfo['description']) === $otherInfo['description'] ? nl2br(textToLink(htmlentities($otherInfo['description']))) : $otherInfo['description'];
                         }
-                        $otherInfo['isFavorite'] = self::isFavorite($row['id']);
-                        $otherInfo['isWatchLater'] = self::isWatchLater($row['id']);
                         if (empty($row['filesize'])) {
                             $otherInfo['filesize'] = Video::updateFilesize($row['id']);
                         }
@@ -1135,6 +1132,9 @@ if (!class_exists('Video')) {
                     foreach ($otherInfo as $key => $value) {
                         $row[$key]=$value;
                     }
+                    $row['progress'] = self::getVideoPogressPercent($row['id']);
+                    $row['isFavorite'] = self::isFavorite($row['id']);
+                    $row['isWatchLater'] = self::isWatchLater($row['id']);
                     $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
                     $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
                     TimeLogEnd("video::getAllVideos otherInfo", __LINE__);
