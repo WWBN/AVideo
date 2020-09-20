@@ -130,7 +130,7 @@ class Plugin extends ObjectYPT {
             $getPluginByUUID = array();
         }
         if(empty($getPluginByUUID[$uuid])){
-            $getPluginByUUID[$uuid] = ObjectYPT::getCache($name, 0);
+            //$getPluginByUUID[$uuid] = ObjectYPT::getCache($name, 0);
         }
         if (empty($getPluginByUUID[$uuid])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = ? LIMIT 1";
