@@ -73,35 +73,25 @@ class TheaterButton extends PluginAbstract {
     }
     
     private function showButton(){
-        global $global, $isEmbed, $advancedCustom, $video;
-        
-        if (empty($_GET['videoName']) && empty($_GET['u']) && empty($_GET['link'])) {
+        if (isMobile() || isEmbed()) {
             return false;
         }
-        
-        if(!empty($video) && $video['type']=='notfound'){
-            return false;
+        if(isVideo() || isLive()){
+            return true;
         }
-        
-        if (isMobile()) {
-            return false;
-        }
-        if(!empty($_GET['videoName'])){
-            $videoT = Video::getVideoFromCleanTitle($_GET['videoName']);
-            if(($isEmbed==1 || $videoT['type']=='embed') && $advancedCustom->disableYoutubePlayerIntegration){
-                return false;
-            }
-            if($videoT['type']=='article' || $videoT['type']=='pdf' || $videoT['type']=='image' || $videoT['type']=='zip'){
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
         
     public function getTags() {
         return array('free', 'buttons', 'video player');
     }
 
-
+    static function isCompressed(){
+        if(empty($_COOKIE['compress'])){
+            $obj = AVideoPlugin::getDataObject('TheaterButton');
+            return $obj->compress_is_default?true:false;
+        }
+        return ($_COOKIE['compress']==='false')?false:true;
+    }
 
 }

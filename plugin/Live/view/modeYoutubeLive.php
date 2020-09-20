@@ -3,7 +3,7 @@ global $isLive;
 $isLive = 1;
 require_once '../../videos/configuration.php';
 
-if(!empty($_GET['embed'])){
+if (!empty($_GET['embed'])) {
     include $global['systemRootPath'] . 'plugin/Live/view/videoEmbeded.php';
     return false;
 }
@@ -39,6 +39,17 @@ $imgh = 360;
 $liveDO = AVideoPlugin::getObjectData("Live");
 $video['type'] = 'video';
 AVideoPlugin::getModeYouTubeLive($user_id);
+
+$isCompressed = AVideoPlugin::loadPluginIfEnabled('TheaterButton') && TheaterButton::isCompressed();
+
+$sideAd = getAdsSideRectangle();
+
+$modeYoutubeBottomClass1 = "col-sm-7 col-md-7 col-lg-6";
+$modeYoutubeBottomClass2 = "col-sm-5 col-md-5 col-lg-4 ";
+if(empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")){
+    $modeYoutubeBottomClass1 = "col-sm-12 col-md-12 col-lg-10";
+    $modeYoutubeBottomClass2 = "hidden ";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -71,29 +82,56 @@ AVideoPlugin::getModeYouTubeLive($user_id);
         $lt = new LiveTransmition($livet['id']);
         if ($lt->userCanSeeTransmition()) {
             ?>
-
-            <div class="container-fluid principalContainer">
-                <div class="row">
-                    <div class="col-md-12">
-                        <center style="margin:5px;">
-                            <?php echo getAdsLeaderBoardTop(); ?>
-                        </center>
-                    </div>  
-                    <div class="col-md-12">
-                        <?php
-                        require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
-                        ?>
-                    </div>  
-                    <div class="col-md-12">
-                        <center style="margin:5px;">
-                            <?php echo getAdsLeaderBoardTop2(); ?>
-                        </center>
-                    </div>  
-                </div>
+            <div class="container-fluid principalContainer" id="modeYoutubePrincipal">
+                <?php
+                if (!$isCompressed) {
+                    ?>
+                    <div class="" id="modeYoutubeTop" >
+                        <div class="col-md-12">
+                            <center style="margin:5px;">
+                                <?php echo getAdsLeaderBoardTop(); ?>
+                            </center>
+                        </div>  
+                        <div class="col-md-12">
+                            <?php
+                            require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
+                            ?>
+                        </div>  
+                        <div class="col-md-12">
+                            <center style="margin:5px;">
+                                <?php echo getAdsLeaderBoardTop2(); ?>
+                            </center>
+                        </div>  
+                    </div>
+                    <?php
+                }
+                ?>
                 <div class="row" id="modeYoutubeBottom" style="margin: 0;">
-
-                    <div class="col-sm-1 col-md-1"></div>
-                    <div class="col-sm-6 col-md-6" id="modeYoutubeBottomContent">
+                    <div class="col-lg-1"></div>
+                    <div class="<?php echo $modeYoutubeBottomClass1; ?>" id="modeYoutubeBottomContent">
+                        <?php
+                        if ($isCompressed) {
+                            ?>
+                            <div class="" id="modeYoutubeTop" >
+                                <div class="col-md-12">
+                                    <center style="margin:5px;">
+                                        <?php echo getAdsLeaderBoardTop(); ?>
+                                    </center>
+                                </div>  
+                                <div class="col-md-12">
+                                    <?php
+                                    require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
+                                    ?>
+                                </div>  
+                                <div class="col-md-12">
+                                    <center style="margin:5px;">
+                                        <?php echo getAdsLeaderBoardTop2(); ?>
+                                    </center>
+                                </div>  
+                            </div>
+                            <?php
+                        }
+                        ?>
                         <div class="panel">
                             <div class="panel-body">
                                 <h1 itemprop="name">
@@ -121,7 +159,7 @@ AVideoPlugin::getModeYouTubeLive($user_id);
                                 </div>
                                 <?php
                                 $link = Live::getLinkToLiveFromUsers_id($user_id);
-                                getShareMenu($livet['title'], $link, $link, $link.="?embed=1");
+                                getShareMenu($livet['title'], $link, $link, $link .= "?embed=1");
                                 ?>
                                 <div class="row">
 
@@ -130,27 +168,17 @@ AVideoPlugin::getModeYouTubeLive($user_id);
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4 col-md-4 bgWhite list-group-item rightBar" id="yptRightBar" style="">
-
-                        <?php
-                        echo getAdsSideRectangle();
-                        ?>
-
+                    <div class="<?php echo $modeYoutubeBottomClass2; ?> rightBar" id="yptRightBar">
+                        <div class="list-group-item ">
+                            <?php
+                            echo $sideAd;
+                            ?>
+                        </div>
                     </div>
-                    <div class="col-sm-1 col-md-1"></div>
-                </div>    
+                    <div class="col-lg-1"></div>
+                </div>  
 
             </div>
-
-
-
-
-
-
-
-
-
-
             <?php
         } else {
             ?>
