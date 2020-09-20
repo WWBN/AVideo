@@ -1125,8 +1125,8 @@ if (!class_exists('Video')) {
                         if (empty($advancedCustom->disableHTMLDescription)) {
                             $otherInfo['descriptionHTML'] = strip_tags($otherInfo['description']) === $otherInfo['description'] ? nl2br(textToLink(htmlentities($otherInfo['description']))) : $otherInfo['description'];
                         }
-                        $otherInfo['isFavorite'] = self::isFavorite($otherInfo['id']);
-                        $otherInfo['isWatchLater'] = self::isWatchLater($otherInfo['id']);
+                        $otherInfo['isFavorite'] = self::isFavorite($row['id']);
+                        $otherInfo['isWatchLater'] = self::isWatchLater($row['id']);
                         if (empty($row['filesize'])) {
                             $otherInfo['filesize'] = Video::updateFilesize($row['id']);
                         }
