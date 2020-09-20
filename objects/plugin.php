@@ -86,6 +86,9 @@ class Plugin extends ObjectYPT {
         }
         //pluginversion isn't an object property so we must explicity update it using this function
         $sql = "update " . static::getTableName() . " set pluginversion='$currentVersion' where uuid='$uuid'";
+        
+        $name = "plugin$uuid";
+        ObjectYPT::deleteCache($name);
         $res = sqlDal::writeSql($sql);
     }
 
@@ -125,7 +128,7 @@ class Plugin extends ObjectYPT {
 
     static function getPluginByUUID($uuid) {
         global $global, $getPluginByUUID;
-        $name = "getPluginByUUID$uuid";
+        $name = "plugin$uuid";
         if (empty($getPluginByUUID)) {
             $getPluginByUUID = array();
         }
@@ -365,6 +368,8 @@ class Plugin extends ObjectYPT {
         if (empty($this->object_data)) {
             $this->object_data = 'null';
         }
+        $name = "plugin$uuid";
+        ObjectYPT::deleteCache($name);
         ObjectYPT::deleteAllSessionCache("plugin::getAllEnabled");
         return parent::save();
     }
