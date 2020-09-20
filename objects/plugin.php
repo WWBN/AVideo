@@ -368,7 +368,7 @@ class Plugin extends ObjectYPT {
         if (empty($this->object_data)) {
             $this->object_data = 'null';
         }
-        $name = "plugin$uuid";
+        $name = "plugin{$this->uuid}";
         ObjectYPT::deleteCache($name);
         ObjectYPT::deleteCache("plugin::getAllEnabled");
         return parent::save();
