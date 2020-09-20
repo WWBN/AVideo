@@ -125,8 +125,12 @@ class Plugin extends ObjectYPT {
 
     static function getPluginByUUID($uuid) {
         global $global, $getPluginByUUID;
+        $name = "getPluginByUUID$uuid";
         if (empty($getPluginByUUID)) {
             $getPluginByUUID = array();
+        }
+        if(empty($getPluginByUUID[$uuid])){
+            $getPluginByUUID[$uuid] = ObjectYPT::getCache($name, 0);
         }
         if (empty($getPluginByUUID[$uuid])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = ? LIMIT 1";
@@ -141,6 +145,7 @@ class Plugin extends ObjectYPT {
                     $data['status'] = 'active';
                 }
                 $getPluginByUUID[$uuid] = $data;
+                ObjectYPT::setCache($name, $getPluginByUUID[$uuid]);
             } else {
                 $getPluginByUUID[$uuid] = false;
             }
