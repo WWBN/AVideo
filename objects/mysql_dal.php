@@ -131,7 +131,7 @@ class sqlDAL {
 
                 $readSqlCached[$crc] = "false";
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
-                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
+                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement} - {$formats}" . json_encode($values));
                     return false;
                 }
                 if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
