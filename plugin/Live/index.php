@@ -278,7 +278,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                                         }
                                                     });
                                                 });
-                                                $('#btnSaveStream').click(function () {
+                                                $('.btnSaveStream').click(function () {
                                                     saveStream();
                                                 });
                                                 $('#enableWebCam').click(function () {
