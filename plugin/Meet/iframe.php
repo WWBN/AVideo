@@ -118,7 +118,10 @@ $domain = Meet::getDomainURL();
             #divMeetToIFrame {
                 height: 100%;
                 background: #000;
+                position: fixed;
+                top: 0;
             }
+            
         </style>
         <?php
         include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
