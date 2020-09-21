@@ -629,7 +629,7 @@ if (!class_exists('Video')) {
         }
 
         static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true) {
-            global $global, $config;
+            global $global, $config, $advancedCustom;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
@@ -786,7 +786,9 @@ if (!class_exists('Video')) {
                     } else {
                         $video['externalOptions'] = new stdClass();
                     }
-
+                    if (empty($advancedCustom->disableHTMLDescription)) {
+                        $video['descriptionHTML'] = strip_tags($video['description']) === $video['description'] ? nl2br(textToLink(htmlentities($video['description']))) : $video['description'];
+                    }
                     if (!$ignoreTags && AVideoPlugin::isEnabledByName("VideoTags")) {
                         $video['videoTags'] = Tags::getAllFromVideosId($video['id']);
                         $video['videoTagsObject'] = Tags::getObjectFromVideosId($video['id']);
