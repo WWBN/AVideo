@@ -81,7 +81,7 @@ $obj->error = empty($meet_schedule_id);
 
 if($obj->error){
     // check if the user install the tables
-    if(Meet_schedule::isTableInstalled()){
+    if(!Meet_schedule::isTableInstalled()){
         $obj->msg = "You need to install the tables for this plugin";
     }
 }
