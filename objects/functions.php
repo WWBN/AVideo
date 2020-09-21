@@ -1437,7 +1437,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
 }
 
 function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 100) {
-
+    _error_log("im_resizeV2: $file_src, $file_dest, $wd, $hd, $q");
     $newImage = im_resize($file_src, $file_dest, $wd, $hd);
     if (!$newImage) {
         return false;
@@ -1471,6 +1471,7 @@ function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 100) {
 }
 
 function im_resizeV3($file_src, $file_dest, $wd, $hd) {
+    _error_log("im_resizeV3: $file_src, $file_dest, $wd, $hd");
 // this trys to preserve the aspect ratio of the thumb while letterboxing it in
 // the same way that the encoder now does.
     eval('$ffmpeg ="ffmpeg -i {$file_src} -filter_complex \"scale=(iw*sar)*min({$wd}/(iw*sar)\,{$hd}/ih):ih*min({$wd}/(iw*sar)\,{$hd}/ih), pad={$wd}:{$hd}:({$wd}-iw*min({$wd}/iw\,{$hd}/ih))/2:({$hd}-ih*min({$wd}/iw\,{$hd}/ih))/2\" -sws_flags lanczos -qscale:v 2 {$file_dest}";');
