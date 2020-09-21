@@ -105,7 +105,7 @@ TimeLogEnd($timeLog, __LINE__);
                     ?>
                     <li class="nav-item <?php echo $active; ?>">
                         <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
-                            <?php echo strtoupper(__("Videos")); ?>
+                            <?php echo strtoupper(__("Videos")); ?> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
                         </a>
                     </li>
                     <?php
