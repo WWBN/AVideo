@@ -4314,3 +4314,20 @@ function ogSite() {
         <?php
     }
     
+    function forbiddenPage($message, $logMessage=false){
+        global $global;
+        $_REQUEST['403ErrorMsg'] = $message;
+        if($logMessage){
+            _error_log($message);
+        }
+        include $global['systemRootPath'] . 'view/forbiddenPage.php';
+        exit;
+    }
+    
+    function isForbidden(){
+        global $global;
+        if(!empty($global['isForbidden'])){
+            return true;
+        }
+        return false;
+    }

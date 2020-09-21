@@ -7,7 +7,7 @@ if(!isset($global['systemRootPath'])){
 
 session_write_close();
 if(empty($_GET['videoDirectory'])){
-    die("No directory set");
+    forbiddenPage("No directory set");
 }
 
 $video = Video::getVideoFromFileName($_GET['videoDirectory'], true);

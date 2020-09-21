@@ -4,7 +4,7 @@ $configFile = '../videos/configuration.php';
 if(!isset($global['systemRootPath'])){
     if (!file_exists($configFile)) {
         if (!file_exists('../install/index.php')) {
-            die("No Configuration and no Installation");
+            forbiddenPage("No Configuration and no Installation");
           }
           header("Location: install/index.php");
           exit;

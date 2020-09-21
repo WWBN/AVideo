@@ -20,8 +20,12 @@ if (!empty($_GET['c'])) {
     }
 }
 
-
 $livet = LiveTransmition::getFromDbByUserName($_GET['u']);
+$lt = new LiveTransmition($livet['id']);
+if(!$lt->userCanSeeTransmition()){
+    forbiddenPage("You are not allowed see this streaming");
+}
+
 $uuid = $livet['key'];
 
 $u = new User(0, $_GET['u'], false);
@@ -79,8 +83,6 @@ if(empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")){
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
-        $lt = new LiveTransmition($livet['id']);
-        if ($lt->userCanSeeTransmition()) {
             ?>
             <div class="container-fluid principalContainer" id="modeYoutubePrincipal">
                 <?php
@@ -179,28 +181,17 @@ if(empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")){
                 </div>  
 
             </div>
-            <?php
-        } else {
-            ?>
-            <h1 class="alert alert-danger"><i class="fa fa-exclamation-triangle"></i> <?php echo __("You are not allowed see this streaming"); ?></h1>    
-            <?php
-        }
-        ?>
+        
 
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
-        <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>  
-        <?php
-        if (!empty($p)) {
-            $p->getChat($uuid);
-        }
-        ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
+            <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.min.js" type="text/javascript"></script>
+            <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
+            <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
+            <?php
+            include $global['systemRootPath'] . 'view/include/footer.php';
+            ?>  
+            <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
+            <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
+            <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
 
     </body>
 </html>

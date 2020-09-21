@@ -95,7 +95,9 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 ?>
 <div id="pluginFooterCode">
     <?php
-    echo AVideoPlugin::getFooterCode();
+    if(!isForbidden()){
+        echo AVideoPlugin::getFooterCode();
+    }
     ?>
 </div>
 <?php

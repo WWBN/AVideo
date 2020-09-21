@@ -32,7 +32,7 @@ Video::unsetAddView($video['id']);
 AVideoPlugin::getEmbed($video['id']);
 
 if (empty($video)) {
-    die("Video not found");
+    forbiddenPage("Video not found");
 }
 
 
@@ -43,7 +43,7 @@ $host = strtolower(parse_url(@$_SERVER['HTTP_REFERER'], PHP_URL_HOST));
 $allowedHost = strtolower(parse_url($global['webSiteRootURL'], PHP_URL_HOST));
 if ($allowedHost !== $host) {
     if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($video['id'])) {
-        die("Embed is forbidden");
+        forbiddenPage("Embed is forbidden");
     }
 
     $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
