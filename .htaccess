@@ -292,3 +292,6 @@ Options All -Indexes
   AddOutputFilterByType DEFLATE text/xml
 
 </IfModule>
+php_value post_max_size 4G
+php_value upload_max_filesize 4G
+php_value memory_limit 512M

@@ -1112,22 +1112,31 @@ if (!class_exists('Video')) {
                         TimeLogEnd("video::getAllVideos getStatistcs", __LINE__);
                     }
                     TimeLogStart("video::getAllVideos otherInfo");
-                    $row['progress'] = self::getVideoPogressPercent($row['id']);
-                    $row['category'] = xss_esc_back($row['category']);
-                    $row['groups'] = UserGroups::getVideoGroups($row['id']);
-                    $row['tags'] = self::getTags($row['id']);
-                    $row['title'] = UTF8encode($row['title']);
-                    $row['description'] = UTF8encode($row['description']);
-                    if (empty($advancedCustom->disableHTMLDescription)) {
-                        $row['descriptionHTML'] = strip_tags($row['description']) === $row['description'] ? nl2br(textToLink(htmlentities($row['description']))) : $row['description'];
+                    $otherInfocachename = "otherInfo{$row['id']}";
+                    $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename),600);
+                    if(empty($otherInfo)){
+                        $otherInfo = array();
+                        $otherInfo['category'] = xss_esc_back($row['category']);
+                        $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
+                        $otherInfo['tags'] = self::getTags($row['id']);
+                        $otherInfo['title'] = UTF8encode($row['title']);
+                        $otherInfo['description'] = UTF8encode($row['description']);
+                        if (empty($advancedCustom->disableHTMLDescription)) {
+                            $otherInfo['descriptionHTML'] = strip_tags($otherInfo['description']) === $otherInfo['description'] ? nl2br(textToLink(htmlentities($otherInfo['description']))) : $otherInfo['description'];
+                        }
+                        if (empty($row['filesize'])) {
+                            $otherInfo['filesize'] = Video::updateFilesize($row['id']);
+                        }
+                        ObjectYPT::setCache($otherInfocachename, $otherInfo);
                     }
+                    foreach ($otherInfo as $key => $value) {
+                        $row[$key]=$value;
+                    }
+                    $row['progress'] = self::getVideoPogressPercent($row['id']);
                     $row['isFavorite'] = self::isFavorite($row['id']);
                     $row['isWatchLater'] = self::isWatchLater($row['id']);
                     $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
                     $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
-                    if (empty($row['filesize'])) {
-                        $row['filesize'] = Video::updateFilesize($row['id']);
-                    }
                     TimeLogEnd("video::getAllVideos otherInfo", __LINE__);
 
                     TimeLogStart("video::getAllVideos getAllVideosArray");
@@ -3207,6 +3216,8 @@ if (!class_exists('Video')) {
                 _error_log("Video:clearCache filename not found");
                 return false;
             }
+            
+            ObjectYPT::deleteCache("otherInfo{$videos_id}");
             ObjectYPT::deleteCache($filename);
             ObjectYPT::deleteCache($filename . "article");
             ObjectYPT::deleteCache($filename . "pdf");

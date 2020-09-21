@@ -3596,6 +3596,12 @@ function ogSite() {
             return intval($_POST['current']);
         } else if (!empty($_GET['current'])) {
             return intval($_GET['current']);
+        } else if (isset($_GET['start']) && isset($_GET['length'])) { // for the bootgrid
+            $start = intval($_GET['start']);
+            $length = intval($_GET['length']);
+            if(!empty($start) && !empty($length)){
+                return floor($start/$length)+1;
+            }
         }
         return 1;
     }
@@ -4308,3 +4314,20 @@ function ogSite() {
         <?php
     }
     
+    function forbiddenPage($message, $logMessage=false){
+        global $global;
+        $_REQUEST['403ErrorMsg'] = $message;
+        if($logMessage){
+            _error_log($message);
+        }
+        include $global['systemRootPath'] . 'view/forbiddenPage.php';
+        exit;
+    }
+    
+    function isForbidden(){
+        global $global;
+        if(!empty($global['isForbidden'])){
+            return true;
+        }
+        return false;
+    }

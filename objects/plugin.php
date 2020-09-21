@@ -86,6 +86,9 @@ class Plugin extends ObjectYPT {
         }
         //pluginversion isn't an object property so we must explicity update it using this function
         $sql = "update " . static::getTableName() . " set pluginversion='$currentVersion' where uuid='$uuid'";
+        
+        $name = "plugin$uuid";
+        ObjectYPT::deleteCache($name);
         $res = sqlDal::writeSql($sql);
     }
 
@@ -125,8 +128,12 @@ class Plugin extends ObjectYPT {
 
     static function getPluginByUUID($uuid) {
         global $global, $getPluginByUUID;
+        $name = "plugin$uuid";
         if (empty($getPluginByUUID)) {
             $getPluginByUUID = array();
+        }
+        if(empty($getPluginByUUID[$uuid])){
+            $getPluginByUUID[$uuid] = object_to_array(ObjectYPT::getCache($name, 0));
         }
         if (empty($getPluginByUUID[$uuid])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = ? LIMIT 1";
@@ -141,6 +148,7 @@ class Plugin extends ObjectYPT {
                     $data['status'] = 'active';
                 }
                 $getPluginByUUID[$uuid] = $data;
+                ObjectYPT::setCache($name, $getPluginByUUID[$uuid]);
             } else {
                 $getPluginByUUID[$uuid] = false;
             }
@@ -270,7 +278,7 @@ class Plugin extends ObjectYPT {
 
     static function getAllEnabled() {
         global $global;
-        $getAllEnabledRows = ObjectYPT::getSessionCache("plugin::getAllEnabled", 3600);
+        $getAllEnabledRows = ObjectYPT::getCache("plugin::getAllEnabled", 3600);
         $getAllEnabledRows = object_to_array($getAllEnabledRows);
         if (empty($getAllEnabledRows)) {
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
@@ -282,7 +290,7 @@ class Plugin extends ObjectYPT {
                 $getAllEnabledRows[] = $row;
             }
             uasort($getAllEnabledRows, 'cmpPlugin');
-            ObjectYPT::setSessionCache("plugin::getAllEnabled", $getAllEnabledRows);
+            ObjectYPT::setCache("plugin::getAllEnabled", $getAllEnabledRows);
         }
         return $getAllEnabledRows;
     }
@@ -360,7 +368,9 @@ class Plugin extends ObjectYPT {
         if (empty($this->object_data)) {
             $this->object_data = 'null';
         }
-        ObjectYPT::deleteAllSessionCache("plugin::getAllEnabled");
+        $name = "plugin{$this->uuid}";
+        ObjectYPT::deleteCache($name);
+        ObjectYPT::deleteCache("plugin::getAllEnabled");
         return parent::save();
     }
 

@@ -5,7 +5,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-
+User::loginFromRequest();
 if (!empty($_GET['evideo'])) {
     $v = Video::decodeEvideo();
     $evideo = $v['evideo'];
@@ -32,7 +32,7 @@ Video::unsetAddView($video['id']);
 AVideoPlugin::getEmbed($video['id']);
 
 if (empty($video)) {
-    die("Video not found");
+    forbiddenPage("Video not found");
 }
 
 
@@ -43,7 +43,7 @@ $host = strtolower(parse_url(@$_SERVER['HTTP_REFERER'], PHP_URL_HOST));
 $allowedHost = strtolower(parse_url($global['webSiteRootURL'], PHP_URL_HOST));
 if ($allowedHost !== $host) {
     if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($video['id'])) {
-        die("Embed is forbidden");
+        forbiddenPage("Embed is forbidden");
     }
 
     $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
@@ -241,18 +241,16 @@ if (User::hasBlockedUser($video['users_id'])) {
             }
             #blockUserTop{
                 position: absolute;
-                right: 15px;
-                top: 10px;
+                right: 25px;
+                top: 25px;
             }
             #blockUserTop button{
                 background-color: rgba(255,255,255,0.3);
                 border-color:  rgba(255,255,255,0.2);
-                color: rgba(0,0,0,0.6);
             }
             #blockUserTop button:hover{
                 background-color: rgba(255,255,255,0.8);
                 border-color:  rgba(255,255,255,1);
-                color: rgba(0,0,0,1);
             }
         </style>
         <?php

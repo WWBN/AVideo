@@ -1,6 +1,6 @@
 <div class="row main-video" id="mvideo">
-    <div class="col-sm-2 col-md-2 firstC"></div>
-    <div class="col-sm-8 col-md-8 secC">
+    <div class="col-md-2 firstC"></div>
+    <div class="col-md-8 secC">
         <div id="videoContainer">
             <div class="panel panel-default">
                 <div class="panel-body ">

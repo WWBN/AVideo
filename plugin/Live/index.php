@@ -63,14 +63,12 @@ if (empty($channelName)) {
     $user->save();
 }
 
-$col1Class = "col-md-6 col-lg-6";
+$col1Class = "col-md-12 col-lg-12";
 $col2Class = "hidden";
-$col3Class = "col-md-6 col-lg-6";
 $chat2 = AVideoPlugin::getObjectDataIfEnabled("Chat2");
 if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
-    $col1Class = "col-md-8 col-lg-5";
-    $col2Class = "col-md-4 col-lg-3";
-    $col3Class = "col-md-12 col-lg-4";
+    $col1Class = "col-md-8 col-lg-8";
+    $col2Class = "col-md-4 col-lg-4";
 }
 ?>
 <!DOCTYPE html>
@@ -156,102 +154,23 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                     </ul>
                 </div>
                 <div class="panel-body">
-
-                    <div class="<?php echo $col1Class; ?>">
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
+                    <div class="col-lg-8" id="indexCol1">
+                        <div class="row">
+                            <div class="<?php echo $col1Class; ?>">
                                 <?php
-                                $streamName = $trasnmition['key'];
-                                include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
-                                ?>
-                                <?php
-                                if (Live::canStreamWithMeet()) {
-                                    include $global['systemRootPath'] . 'plugin/Live/meet.php';
-                                }
+                                include $global['systemRootPath'] . 'plugin/Live/indexCol1.php';
                                 ?>
                             </div>
-                            <div class="panel-body">          
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <?php
-                                    if (Live::canStreamWithMeet()) {
-                                        ?>
-                                        <div id="divMeetToIFrame"></div> 
-                                        <?php
-                                    }
-                                    ?>
-                                    <video poster="<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>" controls 
-                                           class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
-                                           id="mainVideo" >
-                                        <source src="<?php echo Live::getM3U8File($trasnmition['key']); ?>" type='application/x-mpegURL'>
-                                    </video>
-                                </div>
-                            </div>
-                            <div class="panel-footer" style="display: none;" id="liveControls">
+                            <div class="<?php echo $col2Class; ?>" id="yptRightBar">
                                 <?php
-                                echo Live::getAllControlls($trasnmition['id']);
+                                include $global['systemRootPath'] . 'plugin/Live/indexCol2.php';
                                 ?>
                             </div>
-                            <script>
-                            $(document).ready(function () {
-                                setInterval(function(){if(isOnlineLabel){$("#liveControls").slideDown();}else{$("#liveControls").slideUp();}},1000);
-                            });
-                            </script>
                         </div>
-                        <?php
-                        include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.php';
-                        ?>
-
                     </div>
-                    <div class="<?php echo $col2Class; ?>" id="yptRightBar"></div>
-                    <div class="<?php echo $col3Class; ?>">
-
+                    <div class="col-lg-4" id="indexCol2">
                         <?php
-                        if (!empty($obj->experimentalWebcam)) {
-                            include $global['systemRootPath'] . 'plugin/Live/tabs/experimentalWebCam.php';
-                        }
-                        ?>
-                        <div class="clear clearfix"></div>
-
-                        <div class="tabbable-line"  id="indexTabs">
-                            <ul class="nav nav-tabs">
-                                <li class="active" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use streaming software or hardware"); ?>"><a data-toggle="tab" href="#tabStreamKey"><i class="fas fa-key"></i> <?php echo __("Stream Key"); ?></a></li>
-                                <li class="" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Share information about your live"); ?>"><a data-toggle="tab" href="#tabShare"><i class="fa fa-share"></i> <?php echo __("Share"); ?></a></li>
-                                <?php
-                                if (empty($obj->disableRestream)) {
-                                    ?>
-                                    <li class="" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Live stream to other platforms simultaneously"); ?>"><a data-toggle="tab" href="#tabRestream"><i class="fas fa-sync"></i> <?php echo __("Restream"); ?></a> </li>
-                                    <?php
-                                }
-                                ?>
-                            </ul>
-                            <div class="tab-content">
-                                <div id="tabStreamKey" class="tab-pane fade in active">
-                                    <?php
-                                    include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamKey.php';
-                                    ?>
-                                </div>
-                                <div id="tabShare" class="tab-pane fade"> 
-                                    <?php
-                                    include $global['systemRootPath'] . 'plugin/Live/tabs/tabShare.php';
-                                    ?>
-                                </div>
-                                <?php
-                                if (empty($obj->disableRestream)) {
-                                    ?>
-                                    <div id="tabRestream" class="tab-pane fade"> 
-                                        <?php
-                                        include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/livePanel.php';
-                                        ?>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
-
-                            </div> 
-                        </div>  
-                        <?php
-                        AVideoPlugin::getLivePanel();
+                        include $global['systemRootPath'] . 'plugin/Live/indexCol3.php';
                         ?>
                     </div>
                 </div>
@@ -263,7 +182,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script>
+        <script>            
             var flashvars = {server: "<?php echo Live::getServer(); ?>?p=<?php echo User::getUserPass(); ?>", stream: "<?php echo $trasnmition['key']; ?>"};
                 var params = {};
                 var attributes = {};
@@ -359,7 +278,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                                         }
                                                     });
                                                 });
-                                                $('#btnSaveStream').click(function () {
+                                                $('.btnSaveStream').click(function () {
                                                     saveStream();
                                                 });
                                                 $('#enableWebCam').click(function () {

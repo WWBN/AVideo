@@ -19,7 +19,7 @@ $path = "{$global['systemRootPath']}videos/{$file}";
 
 if($file=="configuration.php"){
     _error_log("XSENDFILE Cant read this configuration ");
-    die("Cant read this");
+    forbiddenPage("Cant read this");
 }
 
 if (file_exists($path)) {

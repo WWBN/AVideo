@@ -40,7 +40,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
             $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('label-danger');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('label-success');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').text("<?php echo __("ONLINE"); ?>");
-            playerPlay(0);
+            playerPlayIfAutoPlay(0);
         }else if ($('#liveViewStatus<?php echo $live_servers_id; ?>').hasClass('isOnline') && isOfflineVideo()) {
             isOnlineLabel=true;
             player.bigPlayButton.show();
@@ -51,7 +51,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
             $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('label-warning');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').text("<?php echo __("Please Wait ..."); ?>");
             reloadVideoJS();
-            playerPlay(0);
+            playerPlayIfAutoPlay(0);
             player.on('error', function(){
                 console.log("PError 1 "+player.error());
             });

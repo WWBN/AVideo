@@ -2001,15 +2001,17 @@ if (typeof gtag !== \"function\") {
     }
     
     static function getBlockUserButton($users_id){
-        if (!self::userCanBlockUser($users_id)) {
-            return '';
+        $canBlock = self::userCanBlockUserWithReason($users_id);
+        if (!$canBlock->result) {
+            return "<!-- {$canBlock->msg} -->";
         }
         return ReportVideo::buttonBlockUser($users_id);
     }
     
     static function getActionBlockUserButton($users_id){
-        if (!self::userCanBlockUser($users_id)) {
-            return '';
+        $canBlock = self::userCanBlockUserWithReason($users_id);
+        if (!$canBlock->result) {
+            return "<!-- {$canBlock->msg} -->";
         }
         return ReportVideo::actionButtonBlockUser($users_id);
     }
@@ -2031,6 +2033,37 @@ if (typeof gtag !== \"function\") {
             }
         }
         return true;
+    }
+    
+    
+    static function userCanBlockUserWithReason($users_id, $ignoreIfIsAlreadyBLocked = false){
+        $obj = new stdClass();
+        $obj->result = false;
+        $obj->msg = "Unkonw";
+        
+        if (empty($users_id)) {
+            $obj->msg = "Empty User ID";
+            return $obj;
+        }
+        if (!User::isLogged()) {
+            $obj->msg = "You are not logged";
+            return $obj;
+        }
+        if ($users_id== User::getId()) {
+            $obj->msg = "You cannot block your own video";
+            return $obj;
+        }
+        if(empty($ignoreIfIsAlreadyBLocked)){
+            $report = AVideoPlugin::getDataObjectIfEnabled("ReportVideo");
+            if(empty($report)){
+                $obj->msg = "this user is already blocked";
+                return $obj;
+            }
+        }
+        
+        $obj->result = true;
+        $obj->msg = "You can block";
+        return $obj;
     }
     
     static function hasBlockedUser($reported_users_id, $users_id = 0){

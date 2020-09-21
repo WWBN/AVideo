@@ -121,6 +121,7 @@ class Live extends PluginAbstract {
         $obj->disableRestream = false;
         $obj->disableDVR = false;
         $obj->disableGifThumbs = false;
+        $obj->disableLiveThumbs = false;
         $obj->useAadaptiveMode = false;
         $obj->protectLive = false;
         $obj->experimentalWebcam = false;
@@ -885,6 +886,40 @@ class Live extends PluginAbstract {
         }
 
         return $file;
+    }
+
+    public function getLivePosterImage($users_id, $live_servers_id=0) {
+        global $global;
+
+        return $global['webSiteRootURL'].self::getLivePosterImageRelativePath($users_id, $live_servers_id);
+    }
+    
+    public function getLivePosterImageRelativePath($users_id, $live_servers_id=0) {
+        global $global;
+        if(empty($live_servers_id)){
+            $live_servers_id = self::getCurrentLiveServersId();
+        }
+        if(self::disabledLiveThumbs()){
+            $file = self::_getPosterImage($users_id, $live_servers_id);
+
+            if (!file_exists($global['systemRootPath'] . $file)) {
+                $file = "plugin/Live/view/OnAir.jpg";
+            }
+        }else{
+            $u = new User($users_id);
+            $username = $u->getUserName();
+            $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&u={$username}&format=jpg";
+        }
+
+        return $file;
+    }
+    
+    public static function disabledLiveThumbs(){
+        $obj = AVideoPlugin::getDataObject("Live");
+        if(!empty($obj->disableLiveThumbs)){
+            return true;
+        }
+        return false;
     }
 
     public function getPosterThumbsImage($users_id, $live_servers_id) {
