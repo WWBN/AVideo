@@ -168,7 +168,7 @@ $modeYouTubeTime = microtime(true);
             });
         });
 
-        if (typeof Cookies.get('autoplay') === 'undefined') {
+        if (isAutoplayEnabled()) {
 <?php if ($config->getAutoplay()) { ?>
                 $("#autoplay").prop('checked', true);
                 Cookies.set('autoplay', true, {

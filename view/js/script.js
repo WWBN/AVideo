@@ -602,6 +602,15 @@ function playerPlay(currentTime) {
     }
 }
 
+function playerPlayIfAutoPlay(currentTime){
+    if(isAutoplayEnabled()){
+        playerPlay(currentTime);
+        return true;
+    }
+    $.toast("Autoplay disabled");
+    return false;
+}
+
 function formatBytes(bytes, decimals) {
     if (bytes == 0)
         return '0 Bytes';
@@ -659,9 +668,7 @@ var initdone = false;
 function setCurrentTime(currentTime) {
     if (typeof player !== 'undefined') {
         player.currentTime(currentTime);
-        if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-            playerPlay(currentTime);
-        }
+        playerPlayIfAutoPlay(currentTime);
         initdone = false;
         // wait for video metadata to load, then set time 
         player.on("loadedmetadata", function () {
@@ -680,6 +687,21 @@ function setCurrentTime(currentTime) {
             setCurrentTime(currentTime);
         }, 1000);
     }
+}
+
+function isAutoplayEnabled(){
+    if (typeof Cookies.get('autoplay') !== 'undefined' && Cookies.get('autoplay')) {
+        if(Cookies.get('autoplay') !== 'false'){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        if(autoplay){
+            return autoplay;
+        }
+    }
+    return true;
 }
 
 function avideoAlert(title, msg, type){

@@ -95,15 +95,7 @@
         echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo'" . PlayerSkins::getDataSetup() . ");} playerPlay(0);}, 150);";
     } else {
         ?>
-                                    if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                                        setTimeout(function () {
-                                            if (typeof player === 'undefined') {
-                                                player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                                            }
-                                            playerPlay(0);
-
-                                        }, 150);
-                                    }
+                                    playerPlayIfAutoPlay(0);
     <?php } ?>
                                 num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
                                 loadPage(num);
@@ -117,7 +109,7 @@
                             player.on('ended', function () {
                                 console.log("Finish Video");
     <?php if (!empty($autoPlayVideo)) { ?>
-                                    if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                                    if (isAutoplayEnabled()) {
                                         document.location = '<?php echo $autoPlayVideo['url']; ?>';
                                     }
     <?php } ?>

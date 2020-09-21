@@ -56,7 +56,13 @@ class PlayerSkins extends PluginAbstract {
         global $global, $config;
         $obj = $this->getDataObject();
         $css = "";
+        $js = "";
         if (isVideo() || !empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
+            if(self::isAutoplayEnabled()){
+                $js .= "<script>var autoplay = true;</script>";
+            }else{
+                $js .= "<script>var autoplay = false;</script>";
+            }
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             if ($obj->showLoopButton && !isLive()) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
@@ -178,6 +184,18 @@ class PlayerSkins extends PluginAbstract {
         }
         $getStartPlayerJSWasRequested = true;
         return $js;
+    }
+    
+    static function isAutoplayEnabled(){
+        global $config;
+        if(!empty($_COOKIE['autoplay'])){
+            if(strtolower($_COOKIE['autoplay']) === 'false'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        return $config->getAutoplay();
     }
 
 }

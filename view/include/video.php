@@ -110,7 +110,7 @@ $onPlayerReady .= "player.on('ended', function () {console.log(\"Finish Video\")
     var time = Math.round(this.currentTime());
     addView({$video['id']}, time);";
 if (!empty($autoPlayVideo)) {
-    $onPlayerReady .= "if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {";
+    $onPlayerReady .= "if (isAutoplayEnabled()) {";
     if ($autoPlayVideo['type'] !== 'video' || empty($advancedCustom->autoPlayAjax)) {
         $onPlayerReady .= "document.location = autoPlayURL;";
     } else {

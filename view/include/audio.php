@@ -101,24 +101,7 @@ if ($config->getAutoplay()) {
     echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainAudio');}player.play();}, 150);";
 } else {
     ?>
-                    if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
-                        setTimeout(function () {
-                            if (typeof player === 'undefined') {
-                                player = videojs('mainAudio');
-                            }
-                            var promise = player.play();
-
-                            if (promise !== undefined) {
-                                promise.then(_ => {
-                                    // Autoplay started!
-                                }).catch(error => {
-                                    // Show something in the UI that the video is muted
-                                    player.muted(true);
-                                    player.play();
-                                });
-                            }
-                        }, 150);
-                    }
+                    playerPlayIfAutoPlay(0);
 <?php } ?>
                 this.on('ended', function () {
                     console.log("Finish Audio");
@@ -126,7 +109,7 @@ if ($config->getAutoplay()) {
 // if autoplay play next video
 if (!empty($autoPlayVideo)) {
     ?>
-                        if (Cookies.get('autoplay') && Cookies.get('autoplay') !== 'false') {
+                        if (isAutoplayEnabled()) {
                             document.location = '<?php echo $autoPlayVideo['url']; ?>';
                         }
 <?php } ?>
