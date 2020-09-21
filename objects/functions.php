@@ -1325,7 +1325,7 @@ function getimgsize($file_src) {
     return $size;
 }
 
-function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
+function im_resize($file_src, $file_dest, $wd, $hd, $q = 100) {
     if (empty($file_dest)) {
         return false;
     }
