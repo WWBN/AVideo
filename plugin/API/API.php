@@ -560,6 +560,7 @@ class API extends PluginAbstract {
             $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
             $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
             $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
+            $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
 
             return new ApiObject("", false, $obj);
         } else {
