@@ -112,7 +112,7 @@ $onPlayerReady .= "player.on('ended', function () {console.log(\"Finish Video\")
 if (!empty($autoPlayVideo)) {
     $onPlayerReady .= "if (isAutoplayEnabled()) {";
     if ($autoPlayVideo['type'] !== 'video' || empty($advancedCustom->autoPlayAjax)) {
-        $onPlayerReady .= "document.location = autoPlayURL;";
+        $onPlayerReady .= "playNext(autoPlayURL);";
     } else {
         $onPlayerReady .= "$('video, #mainVideo').attr('poster', autoPlayPoster);
             changeVideoSrc(player, autoPlaySources);

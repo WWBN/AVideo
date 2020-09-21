@@ -109,9 +109,7 @@ if ($config->getAutoplay()) {
 // if autoplay play next video
 if (!empty($autoPlayVideo)) {
     ?>
-                        if (isAutoplayEnabled()) {
-                            document.location = '<?php echo $autoPlayVideo['url']; ?>';
-                        }
+                    playNext('<?php echo $autoPlayVideo['url']; ?>');
 <?php } ?>
                 });
 

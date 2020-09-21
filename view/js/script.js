@@ -611,6 +611,12 @@ function playerPlayIfAutoPlay(currentTime){
     return false;
 }
 
+function playNext(url){
+    if (isPlayNextEnabled()) {
+        document.location = url;
+    }
+}
+
 function formatBytes(bytes, decimals) {
     if (bytes == 0)
         return '0 Bytes';
@@ -697,11 +703,20 @@ function isAutoplayEnabled(){
             return false;
         }
     }else{
-        if(autoplay){
+        if(typeof autoplay !== 'undefined'){
             return autoplay;
         }
     }
     return true;
+}
+
+function isPlayNextEnabled(){
+    if (isPlayerLoop()) {
+        return false;
+    }else if(isAutoplayEnabled()){
+        return true;
+    }
+    return false;
 }
 
 function avideoAlert(title, msg, type){
