@@ -806,11 +806,22 @@ if (typeof gtag !== \"function\") {
             if (empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))) {
                 if (empty($cookie)) {
                     $cookie = 86400; // 24 hours
+                } else {
+                    $cookie = time() + 3600;
                 }
+                $cookie_options = array(
+                    'expires' => $cookie, //time() + 60*60*24*30,
+                    'path' => '/',
+                    'domain' => $_SERVER['HTTP_HOST'], // leading dot for compatibility or use subdomain
+                    'secure' => true, // or false
+                    'httponly' => false, // or false
+                    'samesite' => 'None' // None || Lax || Strict
+                );
+
                 //_error_log("user::login: set cookies {$cookie}");
-                setcookie("rememberme", $rememberme, $cookie, "/", $_SERVER['HTTP_HOST']);
-                setcookie("user", $user['user'], $cookie, "/", $_SERVER['HTTP_HOST']);
-                setcookie("pass", $user['password'], $cookie, "/", $_SERVER['HTTP_HOST']);
+                setcookie("rememberme", $rememberme, $cookie_options);
+                setcookie("user", $user['user'], $cookie_options);
+                setcookie("pass", $user['password'], $cookie_options);
                 //_error_log("user::login: set cookies done");
             }
             //_error_log("user::login: onUserSignIn {$_SESSION['user']['id']}");
