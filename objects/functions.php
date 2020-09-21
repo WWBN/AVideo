@@ -1436,7 +1436,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 50) {
     return true;
 }
 
-function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
+function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 100) {
 
     $newImage = im_resize($file_src, $file_dest, $wd, $hd);
     if (!$newImage) {
