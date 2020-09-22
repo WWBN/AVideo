@@ -1325,7 +1325,7 @@ function getimgsize($file_src) {
     return $size;
 }
 
-function im_resize($file_src, $file_dest, $wd, $hd, $q = 100) {
+function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
     if (empty($file_dest)) {
         return false;
     }
@@ -1436,9 +1436,9 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 100) {
     return true;
 }
 
-function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 100) {
+function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
     _error_log("im_resizeV2: $file_src, $file_dest, $wd, $hd, $q");
-    $newImage = im_resize($file_src, $file_dest, $wd, $hd);
+    $newImage = im_resize($file_src, $file_dest, $wd, $hd, 100);
     if (!$newImage) {
         return false;
     }
