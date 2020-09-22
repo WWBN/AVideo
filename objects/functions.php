@@ -4103,6 +4103,9 @@ function ogSite() {
                 $end -= $rest;
             }
         }
+        if($start<=0){
+            $start = 1;
+        }
         if ($page > 1) {
             $pageLink = str_replace("{page}", 1, $link);
             $pageBackLink = str_replace("{page}", $page - 1, $link);
