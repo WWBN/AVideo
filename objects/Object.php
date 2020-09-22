@@ -344,8 +344,8 @@ abstract class ObjectYPT implements ObjectInterface {
     static function setSessionCache($name, $value) {
         $name = self::cleanCacheName($name);
         _session_start();
-        $_SESSION['sessionCache'][$name]['value'] = json_encode($value);
-        $_SESSION['sessionCache'][$name]['time'] = time();
+        $_SESSION['user']['sessionCache'][$name]['value'] = json_encode($value);
+        $_SESSION['user']['sessionCache'][$name]['time'] = time();
     }
 
     /**
@@ -359,13 +359,13 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
-        if (!empty($_SESSION['sessionCache'][$name])) {
-            if ((empty($lifetime) || time() - $lifetime <= $_SESSION['sessionCache'][$name]['time'])) {
-                $c = $_SESSION['sessionCache'][$name]['value'];
+        if (!empty($_SESSION['user']['sessionCache'][$name])) {
+            if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
+                $c = $_SESSION['user']['sessionCache'][$name]['value'];
                 return json_decode($c);
             } else {
                 _session_start();
-                unset($_SESSION['sessionCache'][$name]);
+                unset($_SESSION['user']['sessionCache'][$name]);
             }
         }
     }
@@ -373,13 +373,13 @@ abstract class ObjectYPT implements ObjectInterface {
     static function deleteSessionCache($name) {
         $name = self::cleanCacheName($name);
         _session_start();
-        $_SESSION['sessionCache'][$name] = null;
-        unset($_SESSION['sessionCache'][$name]);
+        $_SESSION['user']['sessionCache'][$name] = null;
+        unset($_SESSION['user']['sessionCache'][$name]);
     }
 
     static function deleteAllSessionCache() {
         _session_start();
-        unset($_SESSION['sessionCache']);
+        unset($_SESSION['user']['sessionCache']);
     }
 
     function tableExists() {
