@@ -4,6 +4,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Hotkeys extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
     public function getDescription() {
         global $global;
         return "Enable hotkeys for videos, like F for fullscreen, space for play/pause, etc..<br />Author: <a href='http://hersche.github.io' target='_blank' >Vinzenz Hersche</a>";
@@ -57,12 +63,7 @@ class Hotkeys extends PluginAbstract {
         $obj->PlayPauseKey = " ";
         $obj->AlwaysCaptureHotkeys = true;
         return $obj;
-    }
-    
-    public function getTags() {
-        return array('free', 'videos', 'hotkeys');
-    }
-    
+    }    
 
     public function getFooterCode() {
         global $global;

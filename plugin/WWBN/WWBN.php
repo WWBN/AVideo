@@ -4,6 +4,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class WWBN extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         global $global;
         $desc = "WWBN Network Index (this plugin is under development)<br>";

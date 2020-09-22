@@ -3,7 +3,13 @@
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class ADs extends PluginAbstract {
-
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$ADS,
+            PluginTags::$FREE
+        );
+    }
     public function getDescription() {
         $txt = "Handle the ads system, like Adsense or similar";
         //$help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
@@ -139,9 +145,5 @@ class ADs extends PluginAbstract {
             }
         }
         return "<script> window.abkw = 'home-page'; </script>";
-    }
-
-    public function getTags() {
-        return array('free');
     }
 }

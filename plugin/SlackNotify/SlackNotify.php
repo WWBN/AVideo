@@ -9,6 +9,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class SlackNotify extends PluginAbstract
 {
     
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription()
     {
         return "Send video upload notifications to Slack webhook";
@@ -22,14 +27,6 @@ class SlackNotify extends PluginAbstract
     public function getUUID()
     {
         return "cf145581-7d5e-4bb6-8c13-848a19j1564h";
-    }
-    public function getTags()
-    {
-        return array(
-            'free',
-            'notifications',
-            'webhook'
-        );
     }
     public function getPluginVersion()
     {

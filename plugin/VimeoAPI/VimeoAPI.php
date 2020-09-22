@@ -10,6 +10,10 @@ use Vimeo\Exceptions\VimeoUploadException;
 
 class VimeoAPI extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+        );
+    }
     public function getDescription() {
         $txt = "Upload your videos to Vimeo using the Vimeo API.<br>";
         $txt .= "<a href='https://developer.vimeo.com/apps/'>Create an APP and get your credentials here</a><br>";

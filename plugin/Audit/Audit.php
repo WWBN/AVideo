@@ -5,6 +5,13 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Audit/Objects/AuditTable.php';
 
 class Audit extends PluginAbstract {
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE,
+            PluginTags::$SECURITY
+        );
+    }
 
     public function getDescription() {
         return "Save all insert, update and delete queries for audit";

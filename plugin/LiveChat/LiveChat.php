@@ -3,6 +3,14 @@
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 class LiveChat extends PluginAbstract{
 
+    public function getTags() {
+        return array(
+            PluginTags::$LIVE,
+            PluginTags::$FREE,
+            PluginTags::$DEPRECATED
+        );
+    }
+    
     public function getDescription() {
         global $global;
         $desc = "<b>(Deprecated, will be removed next version)</b> This plugin is Discontinued. you should move to Chat2 plugin.<br>A live chat for multiple propouses<br>Initiate it on terminal with the command <code>nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &</code>";
@@ -61,11 +69,6 @@ class LiveChat extends PluginAbstract{
     public function getWebSocket() {
         $o = $this->getDataObject();
         return $o->websocket;
-    }
-
-    
-    public function getTags() {
-        return array('free', 'live', 'streaming', 'live stream', 'chat');
     }
     
     public function canSendMessage($isLogged=false){

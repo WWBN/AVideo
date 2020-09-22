@@ -5,6 +5,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class NextButton extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
     public function getDescription() {
         return "Add next button to the control bar";
     }
@@ -43,11 +49,6 @@ class NextButton extends PluginAbstract {
             return $js;
         }
     }
-        
-    public function getTags() {
-        return array('free', 'buttons', 'video player');
-    }
-
 
 
 }

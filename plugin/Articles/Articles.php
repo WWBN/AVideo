@@ -3,6 +3,11 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Articles extends PluginAbstract {
+    public function getTags() {
+        return array(
+            PluginTags::$FREE
+        );
+    }
 
     public function getDescription() {
         global $global;

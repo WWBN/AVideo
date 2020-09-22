@@ -25,6 +25,12 @@ use PayPal\Api\ShippingAddress;
 
 class PayPalYPT extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         return "Paypal module for several purposes<br>
             Go to Paypal developer Site here https://developer.paypal.com/developer/applications (you must have Paypal account, of course)

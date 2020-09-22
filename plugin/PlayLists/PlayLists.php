@@ -6,6 +6,12 @@ require_once $global['systemRootPath'] . 'objects/playlist.php';
 
 class PlayLists extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         return "Playlists or Program Playlists are identified by default as programs of content on the AVideo Platform.<br>"
                 . " You can use the Edit Parameters button to rename it to your choosing.<br>  We recommend to keep the Program name "

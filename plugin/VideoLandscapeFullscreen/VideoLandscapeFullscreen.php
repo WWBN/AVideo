@@ -4,6 +4,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class VideoLandscapeFullscreen extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getPluginVersion(){
         return "1.0";
     }

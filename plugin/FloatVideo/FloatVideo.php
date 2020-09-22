@@ -5,6 +5,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class FloatVideo extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
     public function getDescription() {
         return "Enable Or disable Float Video";
     }
@@ -45,9 +51,5 @@ class FloatVideo extends PluginAbstract {
             }
         }
         return $str;        
-    }
-    
-    public function getTags() {
-        return array('free');
     }
 }

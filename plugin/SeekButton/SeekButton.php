@@ -5,6 +5,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class SeekButton extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
     public function getDescription() {
         return "Add seek buttons to the control bar";
     }
@@ -57,9 +63,4 @@ class SeekButton extends PluginAbstract {
             return $js;
         }
     }
-
-    public function getTags() {
-        return array('free', 'buttons', 'video player');
-    }
-
 }

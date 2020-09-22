@@ -17,12 +17,12 @@ if (empty($objM)) {
 $meet_schedule_id = intval($_GET['meet_schedule_id']);
 
 if (empty($meet_schedule_id)) {
-    die("meet schedule id cannot be empty");
+    forbiddenPage("meet schedule id cannot be empty");
 }
 
 $meet = new Meet_schedule($meet_schedule_id);
 if(empty($meet->getName())){
-    die("meet not found");
+    forbiddenPage("meet not found");
 }
 
 $userCredentials = User::loginFromRequestToGet();

@@ -14,6 +14,13 @@ User::loginFromRequest();
 //require_once $global['systemRootPath'] . 'objects/php-jwt/src/JWT.php';
 //use \Firebase\JWT\JWT;
 class Meet extends PluginAbstract {
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE,
+            PluginTags::$LIVE,
+        );
+    }
 
     public function getDescription() {
         $txt = "AVideo Meet/Conference software";

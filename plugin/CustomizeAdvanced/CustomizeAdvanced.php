@@ -5,6 +5,13 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class CustomizeAdvanced extends PluginAbstract {
 
+
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE
+        );
+    }
     public function getDescription() {
         $txt = "Fine Tuning your AVideo";
         $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Advanced-Customization-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
@@ -111,10 +118,10 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->autoHideNavbarInSeconds = 0;
         $obj->videosCDN = "";
         $obj->useFFMPEGToGenerateThumbs = false;
-        $obj->thumbsWidthPortrait = 170;
-        $obj->thumbsHeightPortrait = 250;
-        $obj->thumbsWidthLandscape = 250;
-        $obj->thumbsHeightLandscape = 140;
+        $obj->thumbsWidthPortrait = 360;
+        $obj->thumbsHeightPortrait = 640;
+        $obj->thumbsWidthLandscape = 640;
+        $obj->thumbsHeightLandscape = 360;
         $obj->showImageDownloadOption = false;
         $obj->doNotDisplayViews = false;
         $obj->doNotDisplayLikes = false;
@@ -181,11 +188,7 @@ class CustomizeAdvanced extends PluginAbstract {
         }
         return "";
     }
-
-    public function getTags() {
-        return array('free', 'customization', 'buttons', 'resolutions');
-    }
-
+    
     public function getModeYouTube($videos_id) {
         global $global, $config;
         $obj = $this->getDataObject();

@@ -6,6 +6,12 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
 
 class CombineSites extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE
+        );
+    }
     public function getDescription() {
         $desc = "This plugin will share multiple streamers medias<br>";
         $desc .= $this->isReadyLabel(array('API'));

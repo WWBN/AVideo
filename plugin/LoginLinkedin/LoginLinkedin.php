@@ -4,6 +4,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class LoginLinkedin extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$LOGIN,
+        );
+    }
     public function getDescription() {
         global $global;
         $obj = $this->getLogin();
@@ -34,11 +40,6 @@ class LoginLinkedin extends PluginAbstract {
         $obj->key = "";
         return $obj;
     }
-    
-    public function getTags() {
-        return array('free', 'login', 'linkedin');
-    }
-    
     public function getLogin() {
         $obj = new stdClass();
         $obj->class = "btn btn-primary btn-block"; 

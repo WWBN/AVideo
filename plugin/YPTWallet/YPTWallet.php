@@ -11,6 +11,13 @@ class YPTWallet extends PluginAbstract {
     const MANUAL_WITHDRAW = "Manual Withdraw Funds";
     const MANUAL_ADD = "Manual Add Funds";
 
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$NETFLIX,
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         return "Wallet for AVideo";
     }
@@ -77,10 +84,6 @@ class YPTWallet extends PluginAbstract {
         }
 
         return $obj;
-    }
-
-    public function getTags() {
-        return array('free', 'monetization');
     }
 
     public function getBalance($users_id) {

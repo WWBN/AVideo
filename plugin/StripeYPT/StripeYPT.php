@@ -8,6 +8,12 @@ class StripeYPT extends PluginAbstract {
 
     private $Publishablekey, $Restrictedkey, $SigningSecret;
 
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         $str = "Stripe module for several purposes<br>
             Go to Stripe dashboard Site <a href='https://dashboard.stripe.com/apikeys'>here</a>  (you must have Stripe account, of course)<br>";

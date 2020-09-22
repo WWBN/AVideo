@@ -8,6 +8,12 @@ use Pecee\SimpleRouter\SimpleRouter; //required if we want to define routes on o
 
 class TopMenu extends PluginAbstract {
 
+    
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         $txt = "Responsive Customized Top Menu";
         $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/How-to-use-TopMenu-Plug-in' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
@@ -78,9 +84,5 @@ class TopMenu extends PluginAbstract {
         if(!isset($menuId['id']))
         return false;
         return $menuId['id'];
-    }
-    
-    public function getTags() {
-        return array('free');
     }
 }

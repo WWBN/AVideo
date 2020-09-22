@@ -6,6 +6,11 @@ require_once $global['systemRootPath'] . 'plugin/YouTubeAPI/Objects/YouTubeUploa
 
 class YouTubeAPI extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         $txt = "Upload your videos to YouTube using the YouTube API.<br>";
         //$txt .= "You can acquire an OAuth 2.0 <b>client ID</b> and <b>client secret</b> from the <a href='https://cloud.google.com/console'>Google Cloud Console</a>";

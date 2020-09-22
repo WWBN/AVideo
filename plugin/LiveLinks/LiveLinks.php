@@ -6,6 +6,14 @@ require_once $global['systemRootPath'] . 'plugin/LiveLinks/Objects/LiveLinksTabl
 
 class LiveLinks extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$LIVE,
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
+
     public function getDescription() {
         $desc = "Register Livestreams external Links from any HLS provider, Wowza and others";
         $desc .= $this->isReadyLabel(array('Live'));

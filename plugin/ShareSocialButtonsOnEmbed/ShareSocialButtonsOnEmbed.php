@@ -5,6 +5,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class ShareSocialButtonsOnEmbed extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
+    
     public function getDescription() {
         return "<b>(Deprecated, will be removed next version)</b> Enable Or disable Share Social Buttons on Embed videos";
     }
@@ -23,10 +29,5 @@ class ShareSocialButtonsOnEmbed extends PluginAbstract {
             return "";
         }
         include 'script.php';
-    }
-    
-    
-    public function getTags() {
-        return array('free');
     }
 }

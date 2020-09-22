@@ -5,6 +5,16 @@ require_once $global['systemRootPath'] . 'plugin/AD_Overlay/Objects/AD_Overlay_C
 
 class AD_Overlay extends PluginAbstract {
 
+
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$ADS,
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
+    
     public function getDescription() {
         $txt = "Display simple overlays - similar to YouTube's \"Annotations\" feature in appearance - during video playback.";
         $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
@@ -41,7 +51,7 @@ class AD_Overlay extends PluginAbstract {
 </script>
 ';
         $obj->adText = $o;
-        
+
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -82,10 +92,6 @@ class AD_Overlay extends PluginAbstract {
         return $obj;
     }
 
-    public function getTags() {
-        return array('free');
-    }
-
     public function getHeadCode() {
         if (empty($_GET['videoName']) && empty($_GET['u']) && empty($_GET['link'])) {
             return false;
@@ -120,12 +126,12 @@ class AD_Overlay extends PluginAbstract {
         }
         $obj = $this->getDataObject();
 
-        if(isMobile()){
+        if (isMobile()) {
             $adText = $obj->mobileAdText->value;
-        }else{
+        } else {
             $adText = $obj->adText->value;
         }
-        
+
 
         if ($obj->allowUserAds) {
             if (!empty($video['id'])) {
@@ -155,7 +161,7 @@ class AD_Overlay extends PluginAbstract {
                 . '</div>';
 
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.js" type="text/javascript"></script>';
-        
+
         $onPlayerReady = "setTimeout(function(){
                         \$('#cbb').click(function() {
                             \$('.vjs-overlay').fadeOut();
@@ -178,8 +184,8 @@ class AD_Overlay extends PluginAbstract {
           align: '{$obj->align}'
         }]
       });";
-        $js .= '<script>'.PlayerSkins::getStartPlayerJS($onPlayerReady).'</script>';
-        
+        $js .= '<script>' . PlayerSkins::getStartPlayerJS($onPlayerReady) . '</script>';
+
         return $js;
     }
 

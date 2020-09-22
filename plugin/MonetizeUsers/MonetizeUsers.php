@@ -4,6 +4,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class MonetizeUsers extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         $txt = "This plugin will reward your users based on their videos view, each view will affect the user's walled balance";
 
@@ -29,10 +35,6 @@ class MonetizeUsers extends PluginAbstract {
         $obj->rewardPerView = 0.1;
         $obj->rewardOnlyLoggedUsersView = true;
         return $obj;
-    }
-
-    public function getTags() {
-        return array('free', 'monetize', 'wallet');
     }
 
     public function addView($videos_id, $total) {

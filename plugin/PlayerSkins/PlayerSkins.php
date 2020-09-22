@@ -5,6 +5,12 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 class PlayerSkins extends PluginAbstract {
     
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
     public function getDescription() {
         global $global;
         $desc = "Customize your playes Skin<br>The Skis options are: ";
@@ -115,10 +121,6 @@ class PlayerSkins extends PluginAbstract {
             $js .= "<script src=\"{$global['webSiteRootURL']}view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
         }
         return $js;
-    }
-
-    public function getTags() {
-        return array('free');
     }
 
     static function getDataSetup($str = "") {

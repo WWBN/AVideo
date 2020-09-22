@@ -5,6 +5,11 @@ require_once $global['systemRootPath'] . 'plugin/User_Location/Objects/IP2Locati
 
 class User_Location extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         global $global, $mysqlDatabase;
         $ret = "Detects user location for various purposes";

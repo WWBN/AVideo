@@ -5,6 +5,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class TheaterButton extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
     public function getDescription() {
         return "Add next theater switch button to the control bar";
     }
@@ -81,11 +87,6 @@ class TheaterButton extends PluginAbstract {
         }
         return false;
     }
-        
-    public function getTags() {
-        return array('free', 'buttons', 'video player');
-    }
-
     static function isCompressed(){
         if(empty($_COOKIE['compress'])){
             $obj = AVideoPlugin::getDataObject('TheaterButton');

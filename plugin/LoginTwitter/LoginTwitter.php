@@ -4,6 +4,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class LoginTwitter extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$LOGIN,
+        );
+    }
     public function getDescription() {
         global $global;
         $obj = $this->getLogin();
@@ -34,11 +40,6 @@ class LoginTwitter extends PluginAbstract {
         $obj->key = "";
         return $obj;
     }
-    
-    public function getTags() {
-        return array('free', 'login', 'twitter');
-    }
-    
     public function getLogin() {
         $obj = new stdClass();
         $obj->class = "btn btn-info btn-block"; 

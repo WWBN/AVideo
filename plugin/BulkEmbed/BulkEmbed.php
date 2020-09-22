@@ -3,6 +3,12 @@
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class BulkEmbed extends PluginAbstract {
+    
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
 
     public function getDescription() {
         global $global;
@@ -32,12 +38,7 @@ class BulkEmbed extends PluginAbstract {
         $obj->API_KEY = "AIzaSyCIqxE86BawU33Um2HEGtX4PcrUWeCh_6o";
         $obj->onlyAdminCanBulkEmbed = true;
         return $obj;
-    }
-
-    public function getTags() {
-        return array('free', 'google');
-    }
-    
+    }    
     
     public function getPluginMenu() {
         global $global;

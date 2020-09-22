@@ -13,6 +13,15 @@ $_getStats = array();
 
 class Live extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$LIVE,
+            PluginTags::$FREE,
+            PluginTags::$RECOMMENDED,
+            PluginTags::$PLAYER,
+        );
+    }
+    
     public function getDescription() {
         $desc = "Broadcast a RTMP video from your computer<br> and receive HLS streaming from servers";
         $lu = AVideoPlugin::loadPlugin("LiveUsers");
@@ -530,10 +539,6 @@ class Live extends PluginAbstract {
             _error_log($exc->getTraceAsString());
         }
         return false;
-    }
-
-    public function getTags() {
-        return array('free', 'live', 'streaming', 'live stream');
     }
 
     public function getChartTabs() {

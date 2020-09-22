@@ -8,6 +8,11 @@ require_once $global['systemRootPath'] . 'plugin/VideoTags/Objects/TagsTypes.php
 
 class VideoTags extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         $txt = "User interface for managing tags";
         $help = "";

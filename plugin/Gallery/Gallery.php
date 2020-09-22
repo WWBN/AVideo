@@ -4,6 +4,14 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 class Gallery extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE,
+            PluginTags::$GALLERY,
+            PluginTags::$LAYOUT,
+        );
+    }
     public function getDescription() {
         return "Make the first page works as a gallery";
     }
@@ -98,10 +106,6 @@ class Gallery extends PluginAbstract {
             return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
         }
     }   
-    
-    public function getTags() {
-        return array('free', 'firstPage', 'gallery');
-    }
     
     public function getFooterCode() {
         $obj = $this->getDataObject();

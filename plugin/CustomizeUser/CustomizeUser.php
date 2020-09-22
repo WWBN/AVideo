@@ -8,6 +8,13 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class CustomizeUser extends PluginAbstract {
 
+
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE
+        );
+    }
     public function getDescription() {
         $txt = "Fine Tuning User Profile";
         return $txt;
@@ -214,10 +221,6 @@ class CustomizeUser extends PluginAbstract {
             self::getSwitchUserCanAllowFilesShare($users_id);
             echo '</div></div>';
         }
-    }
-
-    public function getTags() {
-        return array('free', 'customization', 'users');
     }
 
     public function getChannelButton() {

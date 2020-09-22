@@ -8,6 +8,12 @@ require_once ($global['systemRootPath'] . 'plugin/RazorPayYPT/razorpay-php/Razor
 use Razorpay\Api\Api;
 class RazorPayYPT extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         global $global;
         $obj = $this->getDataObject();

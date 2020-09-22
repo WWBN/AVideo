@@ -11,6 +11,14 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaigns.php';
 
 class AD_Server extends PluginAbstract {
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$ADS,
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
 
     public function getDescription() {
         return "VAST Ad Server<br><small><a href='https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";

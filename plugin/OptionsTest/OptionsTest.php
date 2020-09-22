@@ -6,6 +6,11 @@ use Pecee\SimpleRouter\SimpleRouter; //required if we want to define routes on o
 
 class OptionsTest extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         global $global;
         return "Salmple object for new features <br />Author: <a href='https://github.com/Criptos' target='_blank' > Criptos</a>";
@@ -44,10 +49,6 @@ class OptionsTest extends PluginAbstract {
     }
     
     public function getHeadCode() {
-    }
-        
-    public function getTags() {
-        return array('sample');
     }
     
     public function addRoutes()

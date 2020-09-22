@@ -5,6 +5,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Chromecast extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE
+        );
+    }
     public function getDescription() {
         return "A plugin that adds a button to the control bar which will cast videos to a Chromecast.";
     }

@@ -5,6 +5,13 @@ require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
 
 class CloneSite extends PluginAbstract {
    
+
+    public function getTags() {
+        return array(
+            PluginTags::$SECURITY,
+            PluginTags::$FREE
+        );
+    }
     public function getDescription() {
         global $global;
         $obj = $this->getDataObject();

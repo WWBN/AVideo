@@ -9,12 +9,11 @@ if (!isset($global['systemRootPath'])) {
 $obj = AVideoPlugin::getObjectDataIfEnabled("Meet");
 //_error_log(json_encode($_SERVER));
 if (empty($obj)) {
-    die("Plugin disabled");
+    forbiddenPage("Plugin disabled");
 }
 
 if (!User::isLogged()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
-    exit;
+    forbiddenPage("You can not do this");
 }
 $userCredentials = User::loginFromRequestToGet();
 if (User::isAdmin() && !empty($_GET['newServer'])) {

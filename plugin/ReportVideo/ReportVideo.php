@@ -6,6 +6,12 @@ require_once $global['systemRootPath'] . 'plugin/ReportVideo/Objects/videos_repo
 
 class ReportVideo extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         return "Create a button to report videos with inapropriate content";
     }
@@ -49,11 +55,6 @@ class ReportVideo extends PluginAbstract {
         }
         return true;
     }
-
-    public function getTags() {
-        return array('free', 'buttons', 'report');
-    }
-
     public function getWatchActionButton($videos_id) {
         global $global, $video;
         if (!isVideo()) {

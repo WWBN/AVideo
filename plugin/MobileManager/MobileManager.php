@@ -5,6 +5,12 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 class MobileManager extends PluginAbstract {
     
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$MOBILE
+        );
+    }
     public static function getVersion(){
         return 2;
     }
@@ -27,10 +33,6 @@ class MobileManager extends PluginAbstract {
         return "1.0";   
     }
 
-    public function getTags() {
-        return array('free', 'mobile', 'android', 'ios');
-    }  
-        
     public function getEmptyDataObject() {   
         global $global;   
         $obj = new stdClass();                

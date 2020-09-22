@@ -3,6 +3,13 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class AdsForJesus extends PluginAbstract {
+    public function getTags() {
+        return array(
+            PluginTags::$ADS,
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
 
     public function getDescription() {
         $txt = " We will provide a simple VMAP Ad link for free, these ads will be placed in your videos.<br>"

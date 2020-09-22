@@ -4,6 +4,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 class YouTube extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$DEPRECATED,
+        );
+    }
     public function getDescription() {
         return "<b>(Deprecated, will be removed in next version)</b> Make the first page works as a YouTube";
     }
@@ -85,10 +90,6 @@ class YouTube extends PluginAbstract {
         global $global;
         return $global['systemRootPath'].'plugin/YouTube/view/modeYouTube.php';
     }   
-    
-    public function getTags() {
-        return array('free', 'firstPage', 'YouTube');
-    }
     
     public function getFooterCode() {
         $obj = $this->getDataObject();

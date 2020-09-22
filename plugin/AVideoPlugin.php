@@ -240,28 +240,7 @@ class AVideoPlugin {
         return $str;
     }
 
-    private static function firstPage() {
-        $name = "ThemeSwitcherMenu";
-        if (Plugin::isEnabledByName($name)) {
-            $p = static::loadPlugin($name);
-            if (is_object($p)) {
-                $page = $p->getPage();
-                if (!empty($page)) {
-                    $p2 = static::loadPlugin($page);
-
-                    return $p2->getFirstPage();
-                }
-            }
-        }
-        return false;
-    }
-
     public static function getFirstPage() {
-        // if the menu set a different defaul page
-        $fp = static::firstPage();
-        if (!empty($fp)) {
-            return $fp;
-        }
         return static::getEnabledFirstPage();
     }
 

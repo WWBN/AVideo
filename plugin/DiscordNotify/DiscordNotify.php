@@ -8,6 +8,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class DiscordNotify extends PluginAbstract {
 
+
+    public function getTags() {
+        return array(
+            PluginTags::$FREE
+        );
+    }
     public function getDescription() {
         return "Send video upload notifications to discord webhook";
     }
@@ -18,14 +24,6 @@ class DiscordNotify extends PluginAbstract {
 
     public function getUUID() {
         return "cf145581-7d5e-4bb6-8c12-848a19j1564g";
-    }
-
-    public function getTags() {
-        return array(
-            'free',
-            'notifications',
-            'webhook'
-        );
     }
 
     public function getPluginVersion() {

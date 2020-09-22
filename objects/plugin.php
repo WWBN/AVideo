@@ -436,3 +436,21 @@ class Plugin extends ObjectYPT {
     }
 
 }
+
+class PluginTags {
+    static $RECOMMENDED = array('success', 'Recommended', '<i class="fas fa-heart"></i>', 'RECOMMENDED');
+    static $SECURITY = array('warning', 'Security', '<i class="fas fa-user-shield"></i>', 'SECURITY');
+    static $LIVE = array('primary', 'Live', '<i class="fas fa-broadcast-tower"></i>', 'LIVE');
+    static $MONETIZATION = array('primary', 'Monetization', '<i class="fas fa-dollar-sign"></i>', 'MONETIZATION');
+    static $ADS = array('primary', 'ADS', '<i class="fas fa-camera-retro"></i>', 'ADS');
+    static $STORAGE = array('primary', 'Storage', '<i class="fas fa-archive"></i>', 'STORAGE');
+    static $GALLERY = array('primary', 'Gallery', '<i class="fas fa-images"></i>', 'GALLERY');
+    static $NETFLIX = array('primary', 'Netflix', '<i class="fas fa-film"></i>', 'NETFLIX');
+    static $LAYOUT = array('primary', 'Layout', '<i class="fas fa-sitemap"></i>', 'LAYOUT');
+    static $LOGIN = array('primary', 'Login', '<i class="fas fa-lock"></i>', 'LOGIN');
+    static $MOBILE = array('primary', 'Mobile', '<i class="fas fa-mobile-alt"></i>', 'MOBILE');
+    static $PLAYER = array('primary', 'Player', '<i class="fas fa-play-circle"></i>', 'PLAYER');
+    static $FREE = array('info', 'Free', '<i class="fas fa-check"></i>', 'FREE');
+    static $PREMIUM = array('info', 'Premium', '<i class="fas fa-thumbs-up"></i>', 'PREMIUM');
+    static $DEPRECATED = array('danger', 'Deprecated', '<i class="fas fa-times-circle"></i>', 'DEPRECATED');
+}
