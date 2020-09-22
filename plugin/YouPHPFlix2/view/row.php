@@ -129,6 +129,7 @@ foreach ($videos as $value) {
                 <?php } ?>
                 <?php
                 foreach ($value['tags'] as $value2) {
+                    $value2 = (object) $value2;
                     if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayGroupsTags)) {
                         if ($value2->label === __("Group")) {
                             ?>
@@ -196,10 +197,10 @@ foreach ($videos as $value) {
                 <div class="infoText col-md-4 col-sm-6 col-xs-8">
                     <h4 class="mainInfoText" itemprop="description">
                         <?php
-                        if (strip_tags($video['description']) != $video['description']) {
-                            echo $video['description'];
+                        if (strip_tags($value['description']) != $value['description']) {
+                            echo $value['description'];
                         } else {
-                            echo nl2br(textToLink(htmlentities($video['description'])));
+                            echo nl2br(textToLink(htmlentities($value['description'])));
                         }
                         ?>
                     </h4>
