@@ -21,6 +21,10 @@ class Meet extends PluginAbstract {
             PluginTags::$LIVE,
         );
     }
+    
+    public function getPluginVersion() {
+        return "2.0";
+    }
 
     public function getDescription() {
         $txt = "AVideo Meet/Conference software";
