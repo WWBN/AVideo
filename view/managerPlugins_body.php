@@ -9,7 +9,6 @@ $uuidJSCondition = implode(" && ", $rowId);
 <style>
     td.wrapText{white-space: normal;}
     .PluginActive, .PluginTags{
-        margin: 2px;
         border: solid 2px;
     }
     .PluginActive.checked, .PluginTags.checked{

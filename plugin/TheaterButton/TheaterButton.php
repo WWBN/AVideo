@@ -9,6 +9,7 @@ class TheaterButton extends PluginAbstract {
         return array(
             PluginTags::$FREE,
             PluginTags::$PLAYER,
+            PluginTags::$LAYOUT,
         );
     }
     public function getDescription() {
