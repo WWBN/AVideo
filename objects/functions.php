@@ -1,5 +1,6 @@
 <?php
 $AVideoMobileAPP_UA = "AVideoMobileApp";
+
 function forbiddenWords($text) {
     global $global;
     if (empty($global['forbiddenWords'])) {
@@ -2191,7 +2192,7 @@ function isAVideoMobileApp() {
     if (empty($_SERVER["HTTP_USER_AGENT"])) {
         return false;
     }
-    
+
     return $AVideoMobileAPP_UA === $_SERVER["HTTP_USER_AGENT"];
 }
 
@@ -3299,23 +3300,72 @@ function ogSite() {
 
     function getDirSize($dir) {
         _error_log("getDirSize: start {$dir}");
-        $command = "du -sb {$dir}";
-        exec($command . " < /dev/null 2>&1", $output, $return_val);
-        if ($return_val !== 0) {
-            _error_log("getDirSize: ERROR ON Command {$command}");
-            return 0;
-        } else {
-            if (!empty($output[0])) {
-                preg_match("/^([0-9]+).*/", $output[0], $matches);
-            }
-            if (!empty($matches[1])) {
-                _error_log("getDirSize: found {$matches[1]} from - {$output[0]}");
-                return intval($matches[1]);
-            }
 
-            _error_log("getDirSize: ERROR on pregmatch {$output[0]}");
-            return 0;
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return foldersize($dir);
+        } else {
+
+            $command = "du -sb {$dir}";
+            exec($command . " < /dev/null 2>&1", $output, $return_val);
+            if ($return_val !== 0) {
+                _error_log("getDirSize: ERROR ON Command {$command}");
+                return 0;
+            } else {
+                if (!empty($output[0])) {
+                    preg_match("/^([0-9]+).*/", $output[0], $matches);
+                }
+                if (!empty($matches[1])) {
+                    _error_log("getDirSize: found {$matches[1]} from - {$output[0]}");
+                    return intval($matches[1]);
+                }
+
+                _error_log("getDirSize: ERROR on pregmatch {$output[0]}");
+                return 0;
+            }
         }
+    }
+
+    function foldersize($path) {
+        $total_size = 0;
+        $files = scandir($path);
+        $cleanPath = rtrim($path, '/') . '/';
+
+        foreach ($files as $t) {
+            if ($t <> "." && $t <> "..") {
+                $currentFile = $cleanPath . $t;
+                if (is_dir($currentFile)) {
+                    $size = foldersize($currentFile);
+                    $total_size += $size;
+                } else {
+                    $size = filesize($currentFile);
+                    $total_size += $size;
+                }
+            }
+        }
+
+        return $total_size;
+    }
+
+    function getDiskUsage() {
+        global $global;
+        $dir = "{$global['systemRootPath']}videos/";
+        $obj = new stdClass();
+        $obj->disk_free_space = disk_free_space($dir);
+        $obj->disk_total_space = disk_total_space($dir);
+        $obj->videos_dir = getDirSize($dir);
+        $obj->disk_used = $obj->disk_total_space - $obj->disk_free_space;
+        $obj->disk_used_by_other = $obj->disk_used - $obj->videos_dir;
+        $obj->disk_free_space_human = humanFileSize($obj->disk_free_space);
+        $obj->disk_total_space_human = humanFileSize($obj->disk_total_space);
+        $obj->videos_dir_human = humanFileSize($obj->videos_dir);
+        $obj->disk_used_human = humanFileSize($obj->disk_used);
+        $obj->disk_used_by_other_human = humanFileSize($obj->disk_used_by_other);
+        // percentage of disk used
+        $obj->disk_used_percentage = sprintf('%.2f', ($obj->disk_used / $obj->disk_total_space) * 100);
+        $obj->videos_dir_used_percentage = sprintf('%.2f', ($obj->videos_dir / $obj->disk_total_space) * 100);
+        $obj->disk_free_space_percentage = sprintf('%.2f', ($obj->disk_free_space / $obj->disk_total_space) * 100);
+
+        return $obj;
     }
 
     function unsetSearch() {
@@ -3600,8 +3650,8 @@ function ogSite() {
         } else if (isset($_GET['start']) && isset($_GET['length'])) { // for the bootgrid
             $start = intval($_GET['start']);
             $length = intval($_GET['length']);
-            if(!empty($start) && !empty($length)){
-                return floor($start/$length)+1;
+            if (!empty($start) && !empty($length)) {
+                return floor($start / $length) + 1;
             }
         }
         return 1;
@@ -4103,7 +4153,7 @@ function ogSite() {
                 $end -= $rest;
             }
         }
-        if($start<=0){
+        if ($start <= 0) {
             $start = 1;
         }
         if ($page > 1) {
@@ -4130,7 +4180,7 @@ function ogSite() {
         return $pag;
     }
 
-    function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $class="row bgWhite list-group-item menusDiv") {
+    function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $class = "row bgWhite list-group-item menusDiv") {
         global $global, $advancedCustom;
         $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
         ?>
@@ -4317,21 +4367,58 @@ function ogSite() {
         </div>   
         <?php
     }
-    
-    function forbiddenPage($message, $logMessage=false){
+
+    function forbiddenPage($message, $logMessage = false) {
         global $global;
         $_REQUEST['403ErrorMsg'] = $message;
-        if($logMessage){
+        if ($logMessage) {
             _error_log($message);
         }
         include $global['systemRootPath'] . 'view/forbiddenPage.php';
         exit;
     }
-    
-    function isForbidden(){
+
+    function isForbidden() {
         global $global;
-        if(!empty($global['isForbidden'])){
+        if (!empty($global['isForbidden'])) {
             return true;
         }
         return false;
     }
+
+    function diskUsageBars() {
+        ob_start();
+        $getDiskUsage = getDiskUsage();
+        ?>
+        <div class="clearfix" style="margin: 10px 12px;">
+            <div class="progress" style="margin: 2px;">
+                <div class="progress-bar progress-bar-success" role="progressbar" style="width:<?php echo $getDiskUsage->videos_dir_used_percentage; ?>%">
+                    <?php echo $getDiskUsage->videos_dir_used_percentage; ?>%
+                </div>
+                <div class="progress-bar progress-bar-warning" role="progressbar" style="width:<?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%">
+                    <?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%
+                </div>
+                <div class="progress-bar progress-bar-default" role="progressbar" style="width:<?php echo $getDiskUsage->disk_free_space_percentage; ?>%">
+                    <?php echo $getDiskUsage->disk_free_space_percentage; ?>%
+                </div>
+            </div>
+            <div class="label label-success">
+                <?php echo __("Videos Directory"); ?>: <?php echo $getDiskUsage->videos_dir_human; ?> (<?php echo $getDiskUsage->videos_dir_used_percentage; ?>%)
+            </div>
+            <div class="label label-warning">
+                <?php echo __("Other Files"); ?>: <?php echo $getDiskUsage->disk_used_human; ?> (<?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%)
+            </div>
+            <div class="label label-primary">
+                <?php echo __("Free Space"); ?>: <?php echo $getDiskUsage->disk_free_space_human; ?> (<?php echo $getDiskUsage->disk_free_space_percentage; ?>%)
+            </div>
+        </div>
+        <?php
+        if ($getDiskUsage->disk_free_space_percentage < 15) {
+            echo "<script>$(document).ready(function () {avideoAlertHTMLText('Danger','Your Disk is almost Full, you have only <strong>{$getDiskUsage->disk_free_space_percentage}%</strong> free <br> ({$getDiskUsage->disk_free_space_human})', 'error');});</script>";
+        }
+        
+        $contents = ob_get_contents();
+        ob_end_clean();
+        return $contents;
+    }
+    

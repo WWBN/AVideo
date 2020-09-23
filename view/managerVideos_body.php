@@ -127,6 +127,9 @@
             ?>
         </small>
         <?php
+        if (User::isAdmin()) {
+            echo diskUsageBars();
+        }
         if (!empty($global['videoStorageLimitMinutes'])) {
             $secondsLimit = $global['videoStorageLimitMinutes'] * 60;
             if ($secondsLimit > $secondsTotal) {
@@ -657,45 +660,45 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
     <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
     <script>
-                                            tinymce.init({
-                                                selector: '#inputDescription', // change this value according to your HTML
-                                                plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
-                                                //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
-                                                toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
-                                                height: 400,
-                                                convert_urls: false,
-                                                images_upload_handler: function (blobInfo, success, failure) {
-                                                    var xhr, formData;
-                                                    if (!videos_id) {
-                                                        $('#inputTitle').val("Article automatically booked");
-                                                        saveVideo(false);
-                                                    }
-                                                    xhr = new XMLHttpRequest();
-                                                    xhr.withCredentials = false;
-                                                    xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
-                                                    xhr.onload = function () {
-                                                        var json;
-                                                        if (xhr.status != 200) {
-                                                            failure('HTTP Error: ' + xhr.status);
-                                                            return;
-                                                        }
-
-                                                        json = xhr.responseText;
-                                                        json = JSON.parse(json);
-                                                        if (json.error === false && json.url) {
-                                                            success(json.url);
-                                                        } else if (json.msg) {
-                                                            avideoAlert("<?php echo __("Sorry!"); ?>",json.msg, "error");
-                                                        } else {
-                                                            avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
-                                                        }
-
-                                                    };
-                                                    formData = new FormData();
-                                                    formData.append('file_data', blobInfo.blob(), blobInfo.filename());
-                                                    xhr.send(formData);
+                                        tinymce.init({
+                                            selector: '#inputDescription', // change this value according to your HTML
+                                            plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
+                                            //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
+                                            toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
+                                            height: 400,
+                                            convert_urls: false,
+                                            images_upload_handler: function (blobInfo, success, failure) {
+                                                var xhr, formData;
+                                                if (!videos_id) {
+                                                    $('#inputTitle').val("Article automatically booked");
+                                                    saveVideo(false);
                                                 }
-                                            });
+                                                xhr = new XMLHttpRequest();
+                                                xhr.withCredentials = false;
+                                                xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
+                                                xhr.onload = function () {
+                                                    var json;
+                                                    if (xhr.status != 200) {
+                                                        failure('HTTP Error: ' + xhr.status);
+                                                        return;
+                                                    }
+
+                                                    json = xhr.responseText;
+                                                    json = JSON.parse(json);
+                                                    if (json.error === false && json.url) {
+                                                        success(json.url);
+                                                    } else if (json.msg) {
+                                                        avideoAlert("<?php echo __("Sorry!"); ?>", json.msg, "error");
+                                                    } else {
+                                                        avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
+                                                    }
+
+                                                };
+                                                formData = new FormData();
+                                                formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+                                                xhr.send(formData);
+                                            }
+                                        });
     </script>
     <?php
 }
@@ -744,7 +747,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             success: function (response) {
                 modal.hidePleaseWait();
                 if (!response.status) {
-                    avideoAlert("<?php echo __("Sorry!"); ?>",response.msg, "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                 } else {
                     $("#grid").bootgrid('reload');
                 }
@@ -761,7 +764,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             success: function (response) {
                 modal.hidePleaseWait();
                 if (!response.status) {
-                    avideoAlert("<?php echo __("Sorry!"); ?>",response.msg, "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                 } else {
                     $("#grid").bootgrid('reload');
                 }
@@ -782,7 +785,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                 success: function (response) {
                     modal.hidePleaseWait();
                     if (!response.status) {
-                        avideoAlert("<?php echo __("Sorry!"); ?>",response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
                         $("#grid").bootgrid('reload');
                     }
@@ -922,12 +925,12 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
-        $('#inputDescription').val(row.descriptionHTML);
-        tinymce.get('inputDescription').setContent(row.descriptionHTML);
+            $('#inputDescription').val(row.descriptionHTML);
+            tinymce.get('inputDescription').setContent(row.descriptionHTML);
     <?php
-}else{
+} else {
     ?>
-        $('#inputDescription').val(row.descriptionHTML);
+            $('#inputDescription').val(row.descriptionHTML);
     <?php
 }
 ?>
@@ -1190,11 +1193,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         $('#inputVideoId').val(response.videos_id);
                         videos_id = response.videos_id;
                 } else {
-                    if (response.error) {
-                        avideoAlert("<?php echo __("Sorry!"); ?>",response.error, "error");
-                    } else {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
-                    }
+                if (response.error) {
+                avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
+                } else {
+                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
+                }
                 }
                 modal.hidePleaseWait();
                         setTimeout(function () {
@@ -1458,7 +1461,7 @@ echo AVideoPlugin::getManagerVideosReset();
             },
             done: function (e, data) {
                 if (data.result.error && data.result.msg) {
-                    avideoAlert("<?php echo __("Sorry!"); ?>",data.result.msg, "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", data.result.msg, "error");
                     data.context.addClass('error');
                     data.context.find('p.action').text("Error");
                 } else if (data.result.status === "error") {
@@ -1467,8 +1470,8 @@ echo AVideoPlugin::getManagerVideosReset();
                     } else {
                         msg = data.result.msg[data.result.msg.length - 1];
                     }
-                    
-                    avideoAlert("<?php echo __("Sorry!"); ?>",msg, "error");
+
+                    avideoAlert("<?php echo __("Sorry!"); ?>", msg, "error");
                     data.context.addClass('error');
                     data.context.find('p.action').text("Error");
                 } else {
@@ -2000,7 +2003,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (response.error) {
-                            avideoAlert("<?php echo __("Sorry!"); ?>",response.error, "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
                             $("#grid").bootgrid("reload");
                         }
@@ -2018,9 +2021,9 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     success: function (response) {
                         modal.hidePleaseWait();
                         if (!response.success) {
-                            avideoAlert("<?php echo __("Sorry!"); ?>",response.error, "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
-                            avideoAlert("<?php echo __("Success!"); ?>",response.error, "success");
+                            avideoAlert("<?php echo __("Success!"); ?>", response.error, "success");
                             $("#grid").bootgrid("reload");
                         }
                     }

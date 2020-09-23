@@ -571,8 +571,19 @@ function playerPlay(currentTime) {
                                                 }
                                             });
                                 }
+                                $("#mainVideo .vjs-volume-panel").attr("data-toggle","tooltip");
+                                $("#mainVideo .vjs-volume-panel").attr("title","Click to activate the sound");
+                                $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
+                                player.userActive(true);
+                                setTimeout(function () {
+                                    player.userActive(true);
+                                }, 1000);
+                                setTimeout(function () {
+                                    player.userActive(true);
+                                }, 1500);
                                 setTimeout(function () {
                                     $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
+                                    player.userActive(true);
                                 }, 500);
                             }
                         }

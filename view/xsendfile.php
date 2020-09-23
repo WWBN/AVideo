@@ -51,6 +51,8 @@ if (file_exists($path)) {
     header("Content-type: " . mime_content_type($path));
     header('Content-Length: ' . filesize($path));
     if (!empty($advancedCustom->doNotUseXsendFile)) {
+        ini_set('memory_limit', filesize($path)*1.5);
+        _error_log("Your XSEND File is not enabled, it may slowdown your site, file = $path", AVideoLog::$WARNING);
         //echo url_get_contents($path);
         // stream the file
         $fp = fopen($path, 'rb');
