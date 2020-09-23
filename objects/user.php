@@ -804,19 +804,26 @@ if (typeof gtag !== \"function\") {
                 //_error_log("user::login: getSession_timeout {$cookie}");
             }
             if (empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))) {
-                if (empty($cookie)) {
-                    $cookie = 86400; // 24 hours
-                } else {
-                    $cookie = time() + 3600;
+                if (version_compare(PHP_VERSION, '7.3') >= 0) {
+                    if (empty($cookie)) {
+                        $cookie = 86400; // 24 hours
+                    } else {
+                        $cookie = time() + 3600;
+                    }
+                    $cookie_options = array(
+                        'expires' => $cookie, //time() + 60*60*24*30,
+                        'path' => '/',
+                        'domain' => $_SERVER['HTTP_HOST'], // leading dot for compatibility or use subdomain
+                        'secure' => true, // or false
+                        'httponly' => false, // or false
+                        'samesite' => 'None' // None || Lax || Strict
+                    );
+                }else{
+                    if (empty($cookie)) {
+                        $cookie = 86400; // 24 hours
+                    } 
+                    $cookie_options = intval(time() + $cookie);
                 }
-                $cookie_options = array(
-                    'expires' => $cookie, //time() + 60*60*24*30,
-                    'path' => '/',
-                    'domain' => $_SERVER['HTTP_HOST'], // leading dot for compatibility or use subdomain
-                    'secure' => true, // or false
-                    'httponly' => false, // or false
-                    'samesite' => 'None' // None || Lax || Strict
-                );
 
                 //_error_log("user::login: set cookies {$cookie}");
                 setcookie("rememberme", $rememberme, $cookie_options);
