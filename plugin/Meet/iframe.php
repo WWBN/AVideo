@@ -6,42 +6,11 @@ if (!isset($global['systemRootPath'])) {
     }
 }
 
-//$forceMeetDomain = "meet.wwbn.com";
+require_once $global['systemRootPath'].'plugin/Meet/validateMeet.php';
 
-$objM = AVideoPlugin::getObjectDataIfEnabled("Meet");
-//_error_log(json_encode($_SERVER));
-if (empty($objM)) {
-    die("Plugin disabled");
-}
-
-$meet_schedule_id = intval($_GET['meet_schedule_id']);
-
-if (empty($meet_schedule_id)) {
-    forbiddenPage("meet schedule id cannot be empty");
-}
-
-$meet = new Meet_schedule($meet_schedule_id);
-if(empty($meet->getName())){
-    forbiddenPage("meet not found");
-}
-
-$userCredentials = User::loginFromRequestToGet();
-
-$meetDomain = Meet::getDomain();
-if (empty($meetDomain)) {
-    header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=The Server is Not ready");
-    exit;
-}
-
-$canJoin = Meet::canJoinMeetWithReason($meet_schedule_id);
-if (!$canJoin->canJoin) {
-    header("Location: {$global['webSiteRootURL']}plugin/Meet/?error=" . urlencode($canJoin->reason));
-    exit;
-}
-
-if (empty($meet->getPublic()) && !User::isLogged()) {
-    header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($meet->getMeetLink()) . "&msg=" . urlencode(__("Please, login before join a meeting")));
-    exit;
+if (!Meet::validatePassword($meet_schedule_id, @$_POST['meet_password'])) {
+   header("Location: {$global['webSiteRootURL']}plugin/Meet/confirmMeetPassword.php?meet_schedule_id=$meet_schedule_id");
+   exit;
 }
 
 $objLive = AVideoPlugin::getObjectData("Live");
@@ -52,7 +21,7 @@ $readyToClose = User::getChannelLink($meet->getUsers_id())."?{$userCredentials}"
 if (Meet::isModerator($meet_schedule_id)) {
     $readyToClose = "{$global['webSiteRootURL']}plugin/Meet/?{$userCredentials}";
     if ($meet->getPassword()) {
-        $apiExecute[] = "api.executeCommand('password', '" . $meet->getPassword() . "');";
+        //$apiExecute[] = "api.executeCommand('password', '" . $meet->getPassword() . "');";
     }
     if ($meet->getLive_stream()) {
         $apiExecute[] = "api.executeCommand('startRecording', {

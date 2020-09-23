@@ -52,11 +52,11 @@ if (empty($manageMeetings)) {
             ?>
             <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success btn-xs" 
                     data-toggle="tooltip" title="<?php echo __("Join"); ?>">
-                <i class="fa fa-plus"></i>
+                <i class="fa fa-check"></i>
             </button>
             <?php
         }
-        if ($meet_scheduled == "today" || $meet_scheduled == "upcomig") {
+        if ($meet_scheduled == "today" || $meet_scheduled == "upcoming") {
             ?>
             <button href="" class="copyInvitation_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs" 
                     data-toggle="tooltip" title="<?php echo __("Copy Invitation"); ?>">
@@ -136,6 +136,9 @@ if (empty($manageMeetings)) {
                             }
                         ],
                         select: true,
+                        "initComplete": function (settings, json) {
+                            $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+                        }
                     });
 <?php
 if ($manageMeetings) {
@@ -157,20 +160,20 @@ if ($manageMeetings) {
                                             $.ajax({
                                                 type: "POST",
                                                 url: "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/delete.json.php?<?php echo $userCredentials; ?>",
-                                                data: data
+                                                                                data: data
 
-                                            }).done(function (resposta) {
-                                                if (resposta.error) {
-                                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
-                                                }
-                                                Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.ajax.reload();
-                                                modal.hidePleaseWait();
-                                            });
-                                        } else {
+                                                                            }).done(function (resposta) {
+                                                                                if (resposta.error) {
+                                                                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                                                                }
+                                                                                Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.ajax.reload();
+                                                                                modal.hidePleaseWait();
+                                                                            });
+                                                                        } else {
 
-                                        }
-                                    });
-                            });
+                                                                        }
+                                                                    });
+                                                        });
                                                         $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.log_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
                                                             e.preventDefault();
                                                             var tr = $(this).closest('tr')[0];

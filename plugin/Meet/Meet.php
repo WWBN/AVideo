@@ -505,5 +505,24 @@ Passcode: {password}
         $invitation = preg_replace("/{meetLink}/i", $ms->getMeetLink(), $invitation);
         return $invitation;
     }
+    
+    static function validatePassword($meet_schedule_id, $password){
+        if(User::isAdmin() || self::isModerator($meet_schedule_id)){
+            return true;
+        }
+        $meet = new Meet_schedule($meet_schedule_id);
+        if($meet->getPassword()){
+            if(empty($_SESSION['user']['meet_password'][$meet_schedule_id])){
+                if(!empty($password) && $meet->getPassword()==$password){
+                    _session_start();
+                    $_SESSION['user']['meet_password'][$meet_schedule_id] = 1;
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }
