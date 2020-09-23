@@ -155,15 +155,21 @@ a:visited {
 }
 
 .posterDetails {
+/*    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;*/
+    padding: 5px 20px;
+    color: #FFF;
+}
+.topicRow .posterDetails {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     top: 0;
-    padding: 5px 20px;
-    color: #FFF;
 }
-
 .posterDetails .row{
     margin-top: 15px;
 }
@@ -305,26 +311,27 @@ footer .btn-outline {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    min-height: 100vh;
     pointer-events: none;
 }
 #bg_container iframe{
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    min-height: 100vh;
     pointer-events: none;
     opacity: 1;
     filter: alpha(opacity=100); /* For IE8 and earlier */
     overflow: hidden;
+    z-index: -1;
 }
 #carouselRows h2{
     position: relative;
 }
 #carouselRows{
-    margin-top: -20%;
+/*    margin-top: -20%;*/
 }
 
 body.fullscreen{
@@ -334,24 +341,25 @@ body.fullscreen{
 }
 @media (max-width: 1400px) {
     #bigVideo{
-        margin-bottom: -150px !important;
+/*        margin-bottom: -150px !important;*/
     }
 }
 @media (max-width: 1200px) {
     #bigVideo{
-        margin-bottom: -100px !important;
+/*        margin-bottom: -100px !important;*/
     }
 }
 @media (max-width: 1120px) {
     #bigVideo{
-        margin-bottom: -70px !important;
+/*        margin-bottom: -70px !important;*/
     }
 }
 @media (max-width: 1060px) {
     #bigVideo{
-        margin-bottom: -10px !important;
+/*        margin-bottom: -10px !important;*/
         overflow: hidden;
-        height: 450px !important;
+/*        height: 450px !important;*/
+        min-height: 100vh;
     }
 }
 .paidOnlyLabel{

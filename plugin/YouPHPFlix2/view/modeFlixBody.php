@@ -1,5 +1,6 @@
 <?php
 include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
+
 ?>
 <div id="carouselRows" style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);">
     <?php

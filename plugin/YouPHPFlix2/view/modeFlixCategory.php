@@ -21,6 +21,14 @@ $uid = uniqid();
 ?>
 <div class="categoriesContainerItem" id="<?php echo $uid; ?>">
 <?php
+$ads2 = getAdsLeaderBoardTop2();
+if (!empty($ads2)) {
+    ?>
+    <div class="row text-center" style="padding: 10px;">
+        <?php echo $ads2; ?>
+    </div>
+    <?php
+}
 TimeLogStart($timeLog);
 if ($obj->Categories) {
     $dataFlickirty = new stdClass();
