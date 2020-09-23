@@ -119,7 +119,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->videosCDN = "";
         $obj->useFFMPEGToGenerateThumbs = false;
         $obj->thumbsWidthPortrait = 360;
-        $obj->thumbsHeightPortrait = 640;
+        $obj->thumbsHeightPortrait = 510;
         $obj->thumbsWidthLandscape = 640;
         $obj->thumbsHeightLandscape = 360;
         $obj->showImageDownloadOption = false;
