@@ -46,7 +46,7 @@ class TheaterButton extends PluginAbstract {
                 $tmp = "mainAudio";
             }
         }
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/style.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/style.css?'. filemtime($global['systemRootPath'] . 'plugin/TheaterButton/style.css').'" rel="stylesheet" type="text/css"/>';
         $css .= '<script>var videoJsId = "'.$tmp.'";</script>';
         return $css;
     }
