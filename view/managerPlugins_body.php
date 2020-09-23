@@ -479,6 +479,7 @@ $uuidJSCondition = implode(" && ", $rowId);
             url: "<?php echo $global['webSiteRootURL'] . "objects/pluginsAvailable.json.php"; ?>",
             responseHandler: function (data) {
                 setTimeout(function () {
+                    processShow();
                     totalVisible();
                 }, 1000);
                 return data;
