@@ -39,10 +39,6 @@ class Meet extends PluginAbstract {
         return "meet225-3807-4167-ba81-0509dd280e06";
     }
 
-    public function getPluginVersion() {
-        return "1.1";
-    }
-
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
