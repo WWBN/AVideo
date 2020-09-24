@@ -764,7 +764,7 @@ if (typeof gtag !== \"function\") {
         if (strtolower($encodedPass) === 'false') {
             $encodedPass = false;
         }
-        _error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user " . getRealIpAddr());
+        //_error_log("user::login: noPass = $noPass, encodedPass = $encodedPass, this->user, $this->user " . getRealIpAddr());
         if ($noPass) {
             $user = $this->find($this->user, false, true);
         } else {
