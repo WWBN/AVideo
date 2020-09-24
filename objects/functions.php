@@ -2162,12 +2162,12 @@ function encryptPassword($password, $noSalt = false) {
 function encryptPasswordVerify($password, $hash, $encodedPass = false) {
     global $advancedCustom, $global;
     if (!$encodedPass || $encodedPass === 'false') {
-        _error_log("encryptPasswordVerify: encrypt");
+        //_error_log("encryptPasswordVerify: encrypt");
         $passwordSalted = encryptPassword($password);
 // in case you enable the salt later
         $passwordUnSalted = encryptPassword($password, true);
     } else {
-        _error_log("encryptPasswordVerify: do not encrypt");
+        //_error_log("encryptPasswordVerify: do not encrypt");
         $passwordSalted = $password;
 // in case you enable the salt later
         $passwordUnSalted = $password;
