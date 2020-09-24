@@ -64,13 +64,19 @@ $files = getVideosURL($video->getFilename());
                         ?>
                         <MediaFiles>
                         <?php
+                        $adsCount = 0;
                         foreach ($types as $key => $value) {
                             if (!empty($files["mp4{$value}"])) {
+                                $adsCount++;
                                 echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($files["mp4{$value}"]['url']) . ']]></MediaFile>';
                             }
                             if (!empty($files["webm{$value}"])) {
+                                $adsCount++;
                                 echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($files["mp4{$value}"]['url']) . ']]></MediaFile>';
                             }
+                        }
+                        if(!$adsCount){
+                            echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . $global['webSiteRootURL'].'plugin/AD_Server/view/adswarning.mp4]]></MediaFile>';
                         }
                         ?>
                         </MediaFiles>
