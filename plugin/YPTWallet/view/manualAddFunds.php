@@ -70,8 +70,8 @@ $options = json_decode($obj->addFundsOptions);
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="informations"><?php echo __("Informations"); ?></label>
-                                <textarea class="form-control" id="informations" name="informations"></textarea>
+                                <label for="information"><?php echo __("Information"); ?></label>
+                                <textarea class="form-control" id="information" name="information"></textarea>
                             </div>
                             <button class="btn btn-primary" id="manualAddFundsPageButton">
                                 <?php echo $obj->manualAddFundsPageButton; ?>
@@ -97,7 +97,7 @@ $options = json_decode($obj->addFundsOptions);
                         type: "POST",
                         data: {
                             value: $('#value').val(),
-                            informations: $('#informations').val()
+                            information: $('#information').val()
                         },
                         success: function (response) {
                             modal.hidePleaseWait();
