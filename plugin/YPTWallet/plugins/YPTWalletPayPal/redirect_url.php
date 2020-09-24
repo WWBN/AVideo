@@ -54,16 +54,17 @@ if (!empty($payment)) {
     _error_log("Redirect URL try Payment Success");
     $amount = PayPalYPT::getAmountFromPayment($payment);
     $plugin->addBalance($users_id, $amount->total, "Paypal payment", json_encode($payment));
-
-    //if empty amount check if it is a trial
-    $trialDays = Subscription::isTrial($subscription['subscriptions_plans_id']);
-    _error_log("Redirect URL amount->total: $amount->total");
-    _error_log("Redirect URL trialDays: $trialDays");
-    if (empty($amount->total) && !empty($trialDays)) {
-        _error_log("Redirect URL trigger ontrial");
-        Subscription::onTrial($subscription['users_id'], $subscription['subscriptions_plans_id']);
-    }else{
-        _error_log("Redirect URL trigger ontrial FAIL ".intval(empty($amount->total))." && ".intval(!empty($trialDays)));
+    if (!empty($subscription)) {
+        //if empty amount check if it is a trial
+        $trialDays = Subscription::isTrial($subscription['subscriptions_plans_id']);
+        _error_log("Redirect URL amount->total: $amount->total");
+        _error_log("Redirect URL trialDays: $trialDays");
+        if (empty($amount->total) && !empty($trialDays)) {
+            _error_log("Redirect URL trigger ontrial");
+            Subscription::onTrial($subscription['users_id'], $subscription['subscriptions_plans_id']);
+        } else {
+            _error_log("Redirect URL trigger ontrial FAIL " . intval(empty($amount->total)) . " && " . intval(!empty($trialDays)));
+        }
     }
 
     $obj->error = false;
