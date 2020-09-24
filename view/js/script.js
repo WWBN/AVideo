@@ -624,6 +624,7 @@ function playerPlayIfAutoPlay(currentTime){
 
 function playNext(url){
     if (isPlayNextEnabled()) {
+        modal.showPleaseWait();
         document.location = url;
     }else if(isPlayerLoop()){
         $.toast("Looping video");
