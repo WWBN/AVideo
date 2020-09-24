@@ -627,6 +627,7 @@ function playNext(url){
         document.location = url;
     }else if(isPlayerLoop()){
         $.toast("Looping video");
+        userIsControling = false;
         playerPlay(0);
     }
 }
