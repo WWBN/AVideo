@@ -118,8 +118,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->autoHideNavbarInSeconds = 0;
         $obj->videosCDN = "";
         $obj->useFFMPEGToGenerateThumbs = false;
-        $obj->thumbsWidthPortrait = 360;
-        $obj->thumbsHeightPortrait = 510;
+        $obj->thumbsWidthPortrait = 170;
+        $obj->thumbsHeightPortrait = 250;
         $obj->thumbsWidthLandscape = 640;
         $obj->thumbsHeightLandscape = 360;
         $obj->showImageDownloadOption = false;
