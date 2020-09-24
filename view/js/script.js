@@ -625,6 +625,9 @@ function playerPlayIfAutoPlay(currentTime){
 function playNext(url){
     if (isPlayNextEnabled()) {
         document.location = url;
+    }else if(isPlayerLoop()){
+        $.toast("Looping video");
+        playerPlay(0);
     }
 }
 
@@ -665,7 +668,7 @@ function setPlayerLoop(loop) {
 
 function isPlayerLoop() {
     var loop = Cookies.get('playerLoop');
-    if (loop === "false") {
+    if (!loop || loop === "false") {
         return false;
     } else {
         return true;
