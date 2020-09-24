@@ -110,6 +110,8 @@ class PlayerSkins extends PluginAbstract {
         if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             if ($obj->showLoopButton && !isLive()) {
                 $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
+            }else if(empty($obj->showLoopButton) && empty ($playerSkinsObj->contextMenuLoop)){
+                $js .= "<script>setPlayerLoop(false);</script>";
             }
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $title = $config->getWebSiteTitle();

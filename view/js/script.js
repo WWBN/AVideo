@@ -650,6 +650,7 @@ function tooglePlayerLoop() {
 function setPlayerLoop(loop) {
     if (loop) {
         console.log("Loop ON");
+        $.toast("Loop ON");
         player.loop(1);
         $(".loop-button").removeClass('loop-disabled-button');
         $(".loop-button, .loopButton").addClass('fa-spin');
@@ -657,12 +658,30 @@ function setPlayerLoop(loop) {
         $(".loop-button").addClass('loop-disabled-button');
         $(".loop-button, .loopButton").removeClass('fa-spin');
         console.log("Loop OFF");
+        $.toast("Loop OFF");
         player.loop(0);
     }
     Cookies.set('playerLoop', loop, {
         path: '/',
         expires: 365
     });
+    if (typeof setImageLoop === 'function') {
+        setImageLoop();
+    }
+}
+
+function setImageLoop() {
+    if (isPlayerLoop()) {
+        $('.loopButton').removeClass('opacityBtn');
+        $('.loopButton').addClass('fa-spin');
+    } else {
+        $('.loopButton').addClass('opacityBtn');
+        $('.loopButton').removeClass('fa-spin');
+    }
+}
+
+function toogleImageLoop(t) {
+    tooglePlayerLoop();
     if (typeof setImageLoop === 'function') {
         setImageLoop();
     }

@@ -1,21 +1,3 @@
-
-function setImageLoop() {
-    if (isPlayerLoop()) {
-        $('.loopButton').removeClass('opacityBtn');
-        $('.loopButton').addClass('fa-spin');
-    } else {
-        $('.loopButton').addClass('opacityBtn');
-        $('.loopButton').removeClass('fa-spin');
-    }
-}
-
-function toogleImageLoop(t) {
-    tooglePlayerLoop();
-    if (typeof setImageLoop === 'function') {
-        setImageLoop();
-    }
-}
-
 $(document).ready(function () {
 
     var Button = videojs.getComponent('Button');
