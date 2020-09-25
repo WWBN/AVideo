@@ -37,7 +37,7 @@ if (file_exists($path)) {
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
     }
-    if(in_array('mod_xsendfile', apache_get_modules()) && preg_match("/(mp4|webm|m3u8|mp3|ogg)/i", $path_parts['extension'])){
+    if(modEnabled("mod_xsendfile") && preg_match("/(mp4|webm|m3u8|mp3|ogg)/i", $path_parts['extension'])){
         if(empty($_GET['ignoreXsendfilePreVideoPlay'])){
             AVideoPlugin::xsendfilePreVideoPlay();
         }
