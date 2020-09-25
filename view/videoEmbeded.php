@@ -158,6 +158,8 @@ if (User::hasBlockedUser($video['users_id'])) {
         echo AVideoPlugin::getHeadCode();
         ?>
         <script>
+            var isEmbed = true;
+            var autoplay = <?php echo $autoplay?"true":"false"; ?>;
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
         </script>
         <meta charset="utf-8">
