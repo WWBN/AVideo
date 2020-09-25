@@ -118,7 +118,8 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
 <script>
     var checkFooterTimout;
     $(function () {
-        checkFooter();
+        setTimeout(function(){ checkFooter(); },1000);
+        
         $(window).scroll(function () {
             clearTimeout(checkFooterTimout);
             checkFooterTimout = setTimeout(function () {
@@ -127,7 +128,7 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
         });
     });
     function checkFooter() {
-        $("#mainFooter, #pluginFooterCode").fadeIn();
+        $("#mainFooter").fadeIn();
         if ($(document).height() <= $(window).height()) {
             $("#mainFooter").css("position", "fixed");
         } else {
