@@ -326,7 +326,7 @@ abstract class ObjectYPT implements ObjectInterface {
         if(class_exists("User_Location")){
             $loc = User_Location::getThisUserLocation();
             if(!empty($loc)){
-                $tmpDir .= $loc . DIRECTORY_SEPARATOR;
+                $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
             }
         }
         
