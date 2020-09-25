@@ -22,6 +22,14 @@
         echo $custom;
     }
     ?>
+
+    <div id="pluginFooterCode" >
+        <?php
+        if (!isForbidden()) {
+            echo AVideoPlugin::getFooterCode();
+        }
+        ?>
+    </div>
 </footer>
 <script>
     $(function () {
@@ -91,16 +99,6 @@ $jsURL = combineFiles($jsFiles, "js");
 ?>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
 <?php
-require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-?>
-<div id="pluginFooterCode">
-    <?php
-    if (!isForbidden()) {
-        echo AVideoPlugin::getFooterCode();
-    }
-    ?>
-</div>
-<?php
 if (isset($_SESSION['savedQuerys'])) {
     echo "<!-- Saved querys: " . $_SESSION['savedQuerys'] . " -->";
 }
@@ -130,7 +128,7 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
         });
     });
     function checkFooter() {
-        $("#mainFooter").fadeIn();
+        $("#mainFooter, #pluginFooterCode").fadeIn();
         if ($(document).height() <= $(window).height()) {
             $("#mainFooter").css("position", "fixed");
         } else {
