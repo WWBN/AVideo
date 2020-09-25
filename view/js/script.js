@@ -737,7 +737,7 @@ function setCurrentTime(currentTime) {
 }
 
 function isAutoplayEnabled(){
-    if (!isEmbed && typeof Cookies.get('autoplay') !== 'undefined' && Cookies.get('autoplay')) {
+    if ((typeof isEmbed === 'undefined' || !isEmbed) && typeof Cookies.get('autoplay') !== 'undefined' && Cookies.get('autoplay')) {
         if(Cookies.get('autoplay') !== 'false'){
             return true;
         }else{
