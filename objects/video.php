@@ -325,6 +325,9 @@ if (!class_exists('Video')) {
 // update the user groups
                     UserGroups::updateVideoGroups($id, $this->videoGroups);
                 }
+                
+                $otherInfocachename = "otherInfo{$this->id}";
+                ObjectYPT::deleteCache($otherInfocachename);
                 Video::autosetCategoryType($id);
                 if (!empty($this->old_categories_id)) {
                     Video::autosetCategoryType($this->old_categories_id);

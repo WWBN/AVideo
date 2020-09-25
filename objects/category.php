@@ -187,6 +187,7 @@ class Category {
         $insert_row = sqlDAL::writeSql($sql, $format, $values);
         if ($insert_row) {
             $_SESSION['getAllCategoriesClearCache'] = 1;
+            ObjectYPT::deleteALLCache();
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
             } else {
