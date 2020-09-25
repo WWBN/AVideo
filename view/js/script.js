@@ -618,7 +618,7 @@ function playerPlayIfAutoPlay(currentTime){
         playerPlay(currentTime);
         return true;
     }
-    $.toast("Autoplay disabled");
+    //$.toast("Autoplay disabled");
     return false;
 }
 
