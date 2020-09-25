@@ -293,23 +293,23 @@ class API extends PluginAbstract {
                 }
             }
 
-            if (!empty($_REQUEST['complete'])) {
-                require_once $global['systemRootPath'] . 'objects/comment.php';
-                require_once $global['systemRootPath'] . 'objects/subscribe.php';
-                unset($_POST['sort']);
-                unset($_POST['current']);
-                unset($_POST['searchPhrase']);
-                $_REQUEST['rowCount'] = 10;
-                $_POST['sort']['created'] = "desc";
-                $rows[$key]['comments'] = Comment::getAllComments($rows[$key]['id']);
-                $rows[$key]['commentsTotal'] = Comment::getTotalComments($rows[$key]['id']);
-                foreach ($rows[$key]['comments'] as $key2 => $value2) {
-                    $user = new User($value2['users_id']);
-                    $rows[$key]['comments'][$key2]['userPhotoURL'] = User::getPhoto($rows[$key]['comments'][$key2]['users_id']);
-                    $rows[$key]['comments'][$key2]['userName'] = $user->getNameIdentificationBd();
-                }
-                $rows[$key]['subscribers'] = Subscribe::getTotalSubscribes($rows[$key]['users_id']);
+            
+            require_once $global['systemRootPath'] . 'objects/comment.php';
+            require_once $global['systemRootPath'] . 'objects/subscribe.php';
+            unset($_POST['sort']);
+            unset($_POST['current']);
+            unset($_POST['searchPhrase']);
+            $_REQUEST['rowCount'] = 10;
+            $_POST['sort']['created'] = "desc";
+            $rows[$key]['comments'] = Comment::getAllComments($rows[$key]['id']);
+            $rows[$key]['commentsTotal'] = Comment::getTotalComments($rows[$key]['id']);
+            foreach ($rows[$key]['comments'] as $key2 => $value2) {
+                $user = new User($value2['users_id']);
+                $rows[$key]['comments'][$key2]['userPhotoURL'] = User::getPhoto($rows[$key]['comments'][$key2]['users_id']);
+                $rows[$key]['comments'][$key2]['userName'] = $user->getNameIdentificationBd();
             }
+            $rows[$key]['subscribers'] = Subscribe::getTotalSubscribes($rows[$key]['users_id']);
+            
             //wwbn elements
             $rows[$key]['wwbnURL'] = $rows[$key]['pageUrl'];
             $rows[$key]['wwbnEmbedURL'] = $rows[$key]['embedUrl'];
