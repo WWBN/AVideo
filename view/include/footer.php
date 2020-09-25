@@ -22,14 +22,6 @@
         echo $custom;
     }
     ?>
-
-    <div id="pluginFooterCode" >
-        <?php
-        if (!isForbidden()) {
-            echo AVideoPlugin::getFooterCode();
-        }
-        ?>
-    </div>
 </footer>
 <script>
     $(function () {
@@ -98,6 +90,13 @@ $jsFiles = array_merge($jsFiles, AVideoPlugin::getJSFiles());
 $jsURL = combineFiles($jsFiles, "js");
 ?>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+<div id="pluginFooterCode" >
+    <?php
+    if (!isForbidden()) {
+        echo AVideoPlugin::getFooterCode();
+    }
+    ?>
+</div>
 <?php
 if (isset($_SESSION['savedQuerys'])) {
     echo "<!-- Saved querys: " . $_SESSION['savedQuerys'] . " -->";
