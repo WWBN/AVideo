@@ -118,7 +118,7 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
 <script>
     var checkFooterTimout;
     $(function () {
-        setTimeout(function(){ checkFooter(); },1000);
+        checkFooter();
         
         $(window).scroll(function () {
             clearTimeout(checkFooterTimout);
@@ -130,6 +130,8 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
     function checkFooter() {
         $("#mainFooter").fadeIn();
         if ($(document).height() <= $(window).height()) {
+            clearTimeout(checkFooterTimout);
+            checkFooterTimout = setTimeout(function(){ checkFooter(); },1000);
             $("#mainFooter").css("position", "fixed");
         } else {
             $("#mainFooter").css("position", "relative");
