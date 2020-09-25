@@ -221,7 +221,6 @@ class CustomizeAdvanced extends PluginAbstract {
                     .file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideNavbarInSeconds.js')
                     . '</script>';
         }
-        $content .= '<script>'. file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideFooter.js').'</script>';
         return $content;
     }
 

@@ -1,4 +1,4 @@
-<footer style="<?php echo $advancedCustom->footerStyle; ?>" id="mainFooter">
+<footer style="<?php echo $advancedCustom->footerStyle; ?> display: none;" id="mainFooter">
     <?php
     $custom = "";
     $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
@@ -95,7 +95,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 ?>
 <div id="pluginFooterCode">
     <?php
-    if(!isForbidden()){
+    if (!isForbidden()) {
         echo AVideoPlugin::getFooterCode();
     }
     ?>
@@ -118,3 +118,23 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
           top: 0;
           left: 0;
           pointer-events: none;"></textarea>
+<script>
+    var checkFooterTimout;
+    $(function () {
+        checkFooter();
+        $(window).scroll(function () {
+            clearTimeout(checkFooterTimout);
+            checkFooterTimout = setTimeout(function () {
+                checkFooter();
+            }, 100);
+        });
+    });
+    function checkFooter() {
+        $("#mainFooter").fadeIn();
+        if ($(document).height() <= $(window).height()) {
+            $("#mainFooter").css("position", "fixed");
+        } else {
+            $("#mainFooter").css("position", "relative");
+        }
+    }
+</script>
