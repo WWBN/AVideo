@@ -322,6 +322,14 @@ abstract class ObjectYPT implements ObjectInterface {
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
+        
+        if(class_exists("User_Location")){
+            $loc = User_Location::getThisUserLocation();
+            if(!empty($loc)){
+                $tmpDir .= $loc . DIRECTORY_SEPARATOR;
+            }
+        }
+        
         make_path($tmpDir);
         if (!file_exists($tmpDir . "index.html")) {// to avoid search into the directory
             file_put_contents($tmpDir . "index.html", time());
