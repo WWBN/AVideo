@@ -789,9 +789,7 @@ if (!class_exists('Video')) {
                     } else {
                         $video['externalOptions'] = new stdClass();
                     }
-                    if (empty($advancedCustom->disableHTMLDescription)) {
-                        $video['descriptionHTML'] = strip_tags($video['description']) === $video['description'] ? nl2br(textToLink(htmlentities($video['description']))) : $video['description'];
-                    }
+                    $video['descriptionHTML'] = strip_tags($video['description']) === $video['description'] ? nl2br(textToLink(htmlentities($video['description']))) : $video['description'];
                     if (!$ignoreTags && AVideoPlugin::isEnabledByName("VideoTags")) {
                         $video['videoTags'] = Tags::getAllFromVideosId($video['id']);
                         $video['videoTagsObject'] = Tags::getObjectFromVideosId($video['id']);
@@ -1126,9 +1124,7 @@ if (!class_exists('Video')) {
                         $otherInfo['tags'] = self::getTags($row['id']);
                         $otherInfo['title'] = UTF8encode($row['title']);
                         $otherInfo['description'] = UTF8encode($row['description']);
-                        if (empty($advancedCustom->disableHTMLDescription)) {
-                            $otherInfo['descriptionHTML'] = strip_tags($otherInfo['description']) === $otherInfo['description'] ? nl2br(textToLink(htmlentities($otherInfo['description']))) : $otherInfo['description'];
-                        }
+                        $otherInfo['descriptionHTML'] = strip_tags($otherInfo['description']) === $otherInfo['description'] ? nl2br(textToLink(htmlentities($otherInfo['description']))) : $otherInfo['description'];
                         if (empty($row['filesize'])) {
                             $otherInfo['filesize'] = Video::updateFilesize($row['id']);
                         }

@@ -930,7 +930,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     <?php
 } else {
     ?>
-            $('#inputDescription').val(row.descriptionHTML);
+            $('#inputDescription').val(row.description);
     <?php
 }
 ?>
