@@ -95,6 +95,15 @@ if (empty($meet_schedule_id)) {
 
         };
         api = new JitsiMeetExternalAPI(domain, options);
+        
+        const iframe = api.getIFrame();
+        
+        
+        var src = $(iframe).attr('src');
+        var srcParts = src.split("#");
+        var newSRC = srcParts[0]+"&getRTMPLink=<?php echo urlencode(Live::getRTMPLink(User::getId())); ?>#"+srcParts[1];
+        
+        $(iframe).attr('src',newSRC);
 
         api.addEventListeners({
             readyToClose: readyToClose,
