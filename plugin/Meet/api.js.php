@@ -5,7 +5,7 @@ if (empty($meetPlugin)) {
     return false;
 }
 
-
+$rtmpLink = "";
 $livePlugin = AVideoPlugin::getDataObjectIfEnabled("Live");
 if (!empty($livePlugin) && User::canStream()) {
     $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
@@ -101,7 +101,7 @@ if (empty($meet_schedule_id)) {
         
         var src = $(iframe).attr('src');
         var srcParts = src.split("#");
-        var newSRC = srcParts[0]+"&getRTMPLink=<?php echo urlencode(Live::getRTMPLink(User::getId())); ?>#"+srcParts[1];
+        var newSRC = srcParts[0]+"&getRTMPLink=<?php echo urlencode($rtmpLink); ?>#"+srcParts[1];
         
         $(iframe).attr('src',newSRC);
 
