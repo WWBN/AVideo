@@ -61,25 +61,25 @@ foreach (glob("../videos/*", GLOB_BRACE) as $filename) {
     }
 }
 echo "*** Total filenames " . count($files) . "\n";
-$max = 10;
+$max = 1000;
 $count = 0;
 $checkedFiles = array();
 foreach ($files as $key => $value) {
     if(!empty($checkedFiles[$value[0]])){
         continue;
     }
+    $count++;
+    if($count>$max){
+        exit;
+    }
     $checkedFiles[$value[0]] = array(true);
     $getUsageFromFilename = YPTStorage::getUsageFromFilename($value[0]);
     $checkedFiles[$value[0]][] = $getUsageFromFilename;
-    echo "Local file videos_id = {$value[0]}=>  $getUsageFromFilename ". humanFileSize($getUsageFromFilename)."\n";
+    echo "{$count}: Local file videos_id = {$value[0]}=>  $getUsageFromFilename ". humanFileSize($getUsageFromFilename)."\n";
         
     if($getUsageFromFilename<2000){
         echo "Local file is too small, probably transfered already or is a directory (HLS) \n";
         continue;
-    }
-    $count++;
-    if($count>$max){
-        exit;
     }
     $video = Video::getVideoFromFileName($value[0], true);
     if (!empty($video)) {
