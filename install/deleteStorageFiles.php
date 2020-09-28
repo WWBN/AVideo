@@ -61,16 +61,22 @@ foreach (glob("../videos/*", GLOB_BRACE) as $filename) {
     }
 }
 echo "*** Total filenames " . count($files) . "\n";
+$max = 10;
+$count = 0;
 foreach ($files as $key => $value) {
+    $count++;
+    if($count>$max){
+        exit;
+    }
     $video = Video::getVideoFromFileName($value[0], true);
     if (!empty($video)) {
         $sites_id = $video['sites_id'];
         if($sites_id>0){
-            if($sites_id>0 && YPTStorage::checkIfFileSizeIsTheSame($video['id'], 0, $sites_id)){
+            if($sites_id>0 && YPTStorage::checkIfFileSizeIsTheSame($video['id'], -1, $sites_id)){
                 //YPTStorage::createDummyHLS($video['id']);
                 echo "File size is the same videos_id = {$video['id']}\n";
             }else{
-                echo "ERROR File size is NOT the same videos_id = {$video['id']}\n";
+                echo "ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id}\n";
             }
         }
     }
