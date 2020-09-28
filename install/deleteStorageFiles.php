@@ -68,10 +68,6 @@ foreach ($files as $key => $value) {
     if (!empty($checkedFiles[$value[0]])) {
         continue;
     }
-    $count++;
-    if ($count > $max) {
-        exit;
-    }
     $checkedFiles[$value[0]] = array(true);
     $getUsageFromFilename = YPTStorage::getUsageFromFilename($value[0]);
     $checkedFiles[$value[0]][] = $getUsageFromFilename;
@@ -84,6 +80,10 @@ foreach ($files as $key => $value) {
     if (!empty($video)) {
         $sites_id = $video['sites_id'];
         if ($sites_id > 0) {
+            $count++;
+            if ($count > $max) {
+                exit;
+            }
             echo "{$count}: Local file videos_id = {$value[0]}=>  $getUsageFromFilename " . humanFileSize($getUsageFromFilename) . "\n";
             $source_size = YPTStorage::getFileSize($video['id'], -1);
             $destination_size = YPTStorage::getFileSize($video['id'], $sites_id);
@@ -91,7 +91,9 @@ foreach ($files as $key => $value) {
                 //YPTStorage::createDummyHLS($video['id']);
                 echo "******   File size is the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
             } else if($source_sizee > 5000000){
-                echo "----- ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
+                echo "----- ERROR File size is NOT the same videos_id and it suppose to be on the storage = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
+            } else if($source_sizee > 5000000){
+                echo "+++++ All seems fine with video {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
             }
         } else {
             //echo "The video_id {$video['id']} ({$video['title']}) is not hosted on the storage\n";
