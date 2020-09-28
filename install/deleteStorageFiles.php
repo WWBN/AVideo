@@ -90,7 +90,7 @@ foreach ($files as $key => $value) {
             if (!empty($destination_size) && $destination_size > 1000000 && $source_size <= $destination_size) {
                 //YPTStorage::createDummyHLS($video['id']);
                 echo "******   File size is the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
-            } else {
+            } else if($source_sizee > 1000000){
                 echo "----- ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
             }
         } else {
