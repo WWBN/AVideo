@@ -61,12 +61,14 @@ foreach (glob("../videos/*", GLOB_BRACE) as $filename) {
     }
 }
 echo "*** Total filenames " . count($files) . "\n";
-$max = 1;
+$max = 2;
 $count = 0;
 foreach ($files as $key => $value) {
-    $getUsageFromFilename = getUsageFromFilename($value[0]);
-    if(YPTStorage::getUsageFromFilename($value[0])<2000){
-        echo "Local file is too small, probably transfered already videos_id = {$video['id']}=>  $getUsageFromFilename\n";
+    $getUsageFromFilename = YPTStorage::getUsageFromFilename($value[0]);
+    echo "Local file videos_id = {$value[0]}=>  $getUsageFromFilename ". humanFileSize($getUsageFromFilename)."\n";
+        
+    if($getUsageFromFilename<2000){
+        echo "Local file is too small, probably transfered already \n";
         continue;
     }
     $count++;
