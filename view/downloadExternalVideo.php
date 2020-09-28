@@ -127,7 +127,7 @@ function isYoutubeDl() {
                                             buttons: true,
                                             dangerMode: true,
                                         })
-                                        .then((willDelete) => {
+                                        .then(function(willDelete) {
                                           if (willDelete) {
                                                  window.location.href = '<?php echo $global['webSiteRootURL']; ?>mvideos';
                                           } 

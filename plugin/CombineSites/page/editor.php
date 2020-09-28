@@ -506,7 +506,7 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
                     buttons: true,
                     dangerMode: true,
                 })
-                        .then((willDelete) => {
+                        .then(function(willDelete) {
                             if (willDelete) {
                                 modal.showPleaseWait();
                                 $.ajax({

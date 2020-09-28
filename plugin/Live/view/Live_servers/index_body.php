@@ -253,7 +253,7 @@ $obj = AVideoPlugin::getObjectData("Live");
                 buttons: true,
                 dangerMode: true,
             })
-                    .then((willDelete) => {
+                    .then(function(willDelete) {
                         if (willDelete) {
                             modal.showPleaseWait();
                             $.ajax({

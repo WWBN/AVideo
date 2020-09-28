@@ -34,7 +34,7 @@ if(!User::userCanBlockUser($users_id, true)){
                     buttons: true,
                     dangerMode: true,
                 })
-                        .then((willDelete) => {
+                        .then(function(willDelete) {
                             if (willDelete) {
 
                                 modal.showPleaseWait();
@@ -70,7 +70,7 @@ if(!User::userCanBlockUser($users_id, true)){
                     buttons: true,
                     dangerMode: true,
                 })
-                        .then((willDelete) => {
+                        .then(function(willDelete) {
                             if (willDelete) {
 
                                 modal.showPleaseWait();

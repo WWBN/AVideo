@@ -1596,7 +1596,7 @@ echo AVideoPlugin::getManagerVideosReset();
                 buttons: true,
                 dangerMode: true,
             })
-                    .then((willDelete) => {
+                    .then(function(willDelete) {
                         if (willDelete) {
                             avideoAlert("Deleted!", "", "success");
                             modal.showPleaseWait();
@@ -1916,7 +1916,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     buttons: true,
                     dangerMode: true,
                 })
-                        .then((willDelete) => {
+                        .then(function(willDelete) {
                             if (willDelete) {
                                 deleteVideo(row.id);
                             }

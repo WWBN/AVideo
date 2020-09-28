@@ -155,7 +155,7 @@ if (empty($_COOKIE) && get_browser_name()!=='Other (Unknown)') {
                         $(document).ready(function () {
                             $('#login<?php echo $uid; ?>').click(function () {
                                 modal.showPleaseWait();
-                                if (inIframe()) {
+                                if (typeof inIframe !== 'undefined' && inIframe()) {
                                     var popup = window.open('<?php echo $oauthURL; ?>', 'loginYPT');
                                     var popupTick = setInterval(function() {
                                       if (popup.closed) {
@@ -252,7 +252,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                 buttons: true,
                 dangerMode: true,
             })
-                    .then((willDelete) => {
+                    .then(function(willDelete) {
                         if (willDelete) {
 
                             modal.showPleaseWait();

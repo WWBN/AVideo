@@ -373,7 +373,7 @@ if (!User::isAdmin()) {
                     buttons: true,
                     dangerMode: true,
             })
-                    .then((willDelete) => {
+                    .then(function(willDelete) {
                     if (willDelete) {
                     modal.showPleaseWait();
                     $.ajax({
@@ -524,7 +524,7 @@ if (!empty($ad_server_location)) {
                 buttons: true,
                 dangerMode: true,
             })
-            .then((willDelete) => {
+            .then(function(willDelete) {
               if (willDelete) {
                 modal.showPleaseWait();
                         $.ajax({

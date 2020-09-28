@@ -434,7 +434,7 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                 buttons: true,
                 dangerMode: true,
             })
-            .then((willDelete) => {
+            .then(function(willDelete) {
               if (willDelete) {
 
                                     modal.showPleaseWait();
@@ -469,7 +469,7 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                 buttons: true,
                 dangerMode: true,
             })
-            .then((willDelete) => {
+            .then(function(willDelete) {
               if (willDelete) {
 
                                     modal.showPleaseWait();

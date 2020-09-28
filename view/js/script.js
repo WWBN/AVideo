@@ -556,8 +556,7 @@ function playerPlay(currentTime) {
                                                 className: "btn-danger",
                                             },
                                         }
-                                    })
-                                            .then((value) => {
+                                    }).then(function(value) {
                                                 switch (value) {
                                                     case "unmute":
                                                         player.muted(false);

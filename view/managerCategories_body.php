@@ -198,7 +198,7 @@
                     buttons: true,
                     dangerMode: true,
                 })
-                        .then((willDelete) => {
+                        .then(function(willDelete) {
                             if (willDelete) {
 
 
