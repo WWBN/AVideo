@@ -88,7 +88,7 @@ foreach ($files as $key => $value) {
             $source_size = YPTStorage::getFileSize($video['id'], -1);
             $destination_size = YPTStorage::getFileSize($video['id'], $sites_id);
             if (!empty($destination_size) && $destination_size > 5000000 && $source_size <= $destination_size) {
-                //YPTStorage::createDummyHLS($video['id']);
+                YPTStorage::createDummyHLS($video['id']);
                 echo "******   File size is the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
             } else if($source_sizee > 5000000){
                 echo "----- ERROR File size is NOT the same videos_id and it suppose to be on the storage = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
