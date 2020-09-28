@@ -84,7 +84,7 @@ foreach ($files as $key => $value) {
             if ($count > $max) {
                 exit;
             }
-            echo "{$count}: Local file videos_id = {$value[0]}=>  $getUsageFromFilename " . humanFileSize($getUsageFromFilename) . "\n";
+            echo "{$count}: Local file videos_id = {$video[0]}=>  $getUsageFromFilename " . humanFileSize($getUsageFromFilename) . "\n";
             $source_size = YPTStorage::getFileSize($video['id'], -1);
             $destination_size = YPTStorage::getFileSize($video['id'], $sites_id);
             if (!empty($destination_size) && $destination_size > 5000000 && $source_size <= $destination_size) {
