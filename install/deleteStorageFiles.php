@@ -75,10 +75,9 @@ foreach ($files as $key => $value) {
     $checkedFiles[$value[0]] = array(true);
     $getUsageFromFilename = YPTStorage::getUsageFromFilename($value[0]);
     $checkedFiles[$value[0]][] = $getUsageFromFilename;
-    echo "{$count}: Local file videos_id = {$value[0]}=>  $getUsageFromFilename " . humanFileSize($getUsageFromFilename) . "\n";
 
     if ($getUsageFromFilename < 2000) {
-        echo "Local file is too small, probably transfered already or is a directory (HLS) \n";
+        //echo "Local file is too small, probably transfered already or is a directory (HLS) \n";
         continue;
     }
     $video = Video::getVideoFromFileName($value[0], true);
@@ -86,6 +85,7 @@ foreach ($files as $key => $value) {
         $sites_id = $video['sites_id'];
         if ($sites_id > 0) {
             if ($sites_id > 0) {
+                echo "{$count}: Local file videos_id = {$value[0]}=>  $getUsageFromFilename " . humanFileSize($getUsageFromFilename) . "\n";
                 $source_size = YPTStorage::getFileSize($video['id'], -1);
                 $destination_size = YPTStorage::getFileSize($video['id'], $sites_id);
                 if (!empty($destination_size) && $destination_size > 1000000 && $source_size <= $destination_size) {
@@ -95,7 +95,7 @@ foreach ($files as $key => $value) {
                     echo "----- ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
                 }
             } else {
-                echo "The video_id {$video['id']} ({$video['title']}) is not hosted on the storage\n";
+                //echo "The video_id {$video['id']} ({$video['title']}) is not hosted on the storage\n";
             }
         } else {
             echo "----- ERROR could not find video from filename {$value[0]}\n";
