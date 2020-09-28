@@ -91,7 +91,7 @@ foreach ($files as $key => $value) {
             }else{
                 $source_size = YPTStorage::getFileSize($video['id'], -1);
                 $destination_size = YPTStorage::getFileSize($video['id'], $sites_id);
-                echo "----- ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size]\n";
+                echo "----- ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][".humanFileSize($source_size)."!==".humanFileSize($destination_size)."]\n";
             }
         }else{
             echo "The video_id {$video['id']} ({$video['title']}) is not hosted on the storage\n";
