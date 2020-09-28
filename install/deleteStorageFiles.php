@@ -92,7 +92,7 @@ foreach ($files as $key => $value) {
                 echo "ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id}\n";
             }
         }else{
-            echo "The video_id {$video['id']} is not hosted on the storage\n";
+            echo "The video_id {$video['id']} ({$video['title']}) is not hosted on the storage\n";
         }
     }else{
         echo "ERROR could not find video from filename {$value[0]}\n";
