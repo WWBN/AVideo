@@ -61,7 +61,7 @@ foreach (glob("../videos/*", GLOB_BRACE) as $filename) {
     }
 }
 echo "*** Total filenames " . count($files) . "\n";
-$max = 2;
+$max = 10;
 $count = 0;
 $checkedFiles = array();
 foreach ($files as $key => $value) {
