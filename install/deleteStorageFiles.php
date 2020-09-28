@@ -64,15 +64,14 @@ echo "*** Total filenames " . count($files) . "\n";
 $max = 10;
 $count = 0;
 foreach ($files as $key => $value) {
-    $count++;
-    if($count>$max){
-        exit;
-    }
-    
     $getUsageFromFilename = getUsageFromFilename($value[0]);
     if(getUsageFromFilename($value[0])<2000){
         echo "Local file is too small, probably transfered already videos_id = {$video['id']}=>  $getUsageFromFilename\n";
         continue;
+    }
+    $count++;
+    if($count>$max){
+        exit;
     }
     $video = Video::getVideoFromFileName($value[0], true);
     if (!empty($video)) {
