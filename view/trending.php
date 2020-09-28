@@ -23,25 +23,13 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 $total = Video::getTotalVideos();
 
-if (empty($_POST['rowCount'])) {
-    if (!empty($_GET['rowCount'])) {
-        $_REQUEST['rowCount'] = $_GET['rowCount'];
-    } else {
-        $_REQUEST['rowCount'] = 5;
-    }
-}
+$_REQUEST['rowCount'] = getRowCount();
+$_REQUEST['current'] = getCurrentPage();
 
-if (empty($_POST['current'])) {
-    if (!empty($_GET['current'])) {
-        $_POST['current'] = $_GET['current'];
-    } else {
-        $_POST['current'] = 1;
-    }
-}
 //$_POST['sort']['likes'] = "DESC";
 $_GET['sort']['trending'] = 1;
 
-$pages = ceil($total / $_POST['rowCount']);
+$pages = ceil($total / $_REQUEST['rowCount']);
 $videos = Video::getAllVideos();
 unset($_POST['sort']);
 $metaDescription = __("Trending");
@@ -165,29 +153,29 @@ $metaDescription = __("Trending");
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
                         <li class="page-item <?php
-                        if ($_POST['current'] == 1) {
+                        if ($_REQUEST['current'] == 1) {
                             echo "disabled";
                         }
                         ?>">
-                            <a class="page-link" href="<?php echo "{$global['webSiteRootURL']}trending?current=" . ($_POST['current'] - 1); ?>" tabindex="-1">Previous</a>
+                            <a class="page-link" href="<?php echo "{$global['webSiteRootURL']}trending?current=" . ($_REQUEST['current'] - 1); ?>" tabindex="-1">Previous</a>
                         </li>
                         <?php
                         $size = 5;
                         $i = 1;
                         $end = $pages;
 
-                        if ($_POST['current'] - $size > $i) {
-                            $i = $_POST['current'] - $size;
+                        if ($_REQUEST['current'] - $size > $i) {
+                            $i = $_REQUEST['current'] - $size;
                         }
 
-                        if ($_POST['current'] + $size < $end) {
-                            $end = $_POST['current'] + $size;
+                        if ($_REQUEST['current'] + $size < $end) {
+                            $end = $_REQUEST['current'] + $size;
                         }
 
                         for (; $i <= $end; $i++) {
                             ?>
                             <li class="page-item  <?php
-                            if ($_POST['current'] == $i) {
+                            if ($_REQUEST['current'] == $i) {
                                 echo "active";
                             }
                             ?>"><a class="page-link" href="<?php echo "{$global['webSiteRootURL']}trending?current={$i}"; ?>"><?php echo $i; ?></a></li>
@@ -195,11 +183,11 @@ $metaDescription = __("Trending");
                             }
                             ?>
                         <li class="page-item <?php
-                        if ($_POST['current'] == $pages) {
+                        if ($_REQUEST['current'] == $pages) {
                             echo "disabled";
                         }
                         ?>">
-                            <a class="page-link" href="<?php echo "{$global['webSiteRootURL']}trending?current=" . ($_POST['current'] + 1); ?>">Next</a>
+                            <a class="page-link" href="<?php echo "{$global['webSiteRootURL']}trending?current=" . ($_REQUEST['current'] + 1); ?>">Next</a>
                         </li>
                     </ul>
                 </nav>
@@ -216,11 +204,11 @@ $metaDescription = __("Trending");
             <p class="infinite-scroll-error text-center text-muted">No more pages to load</p>
         </div>
         <?php
-        if ($_POST['current'] + 1 <= $pages) {
+        if ($_REQUEST['current'] + 1 <= $pages) {
             ?>
             <!-- pagination has path -->
             <p class="pagination hidden">
-                <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>trending?current=<?php echo $_POST['current'] + 1; ?>">Next page</a>
+                <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>trending?current=<?php echo $_REQUEST['current'] + 1; ?>">Next page</a>
             </p>
             <?php
         }
