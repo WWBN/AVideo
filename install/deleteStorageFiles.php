@@ -87,7 +87,7 @@ foreach ($files as $key => $value) {
         if($sites_id>0){
             if($sites_id>0 && YPTStorage::checkIfFileSizeIsTheSame($video['id'], -1, $sites_id)){
                 //YPTStorage::createDummyHLS($video['id']);
-                echo "File size is the same videos_id = {$video['id']}\n";
+                echo "******   File size is the same videos_id = {$video['id']}\n";
             }else{
                 echo "ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id}\n";
             }
