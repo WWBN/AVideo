@@ -11,20 +11,40 @@
     ExpiresByType application/x-javascript "access plus 216000 seconds"
 </ifModule>
 <Files routes.php>
-Order Allow,Deny
-Deny from all
+    <IfModule !authz_core_module>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+    <IfModule authz_core_module>
+        Require all denied
+    </IfModule>
 </Files>
 <Files PayPal.log>
-Order Allow,Deny
-Deny from all
+    <IfModule !authz_core_module>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+    <IfModule authz_core_module>
+        Require all denied
+    </IfModule>
 </Files>
 <Files avideo.log>
-Order Allow,Deny
-Deny from all
+    <IfModule !authz_core_module>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+    <IfModule authz_core_module>
+        Require all denied
+    </IfModule>
 </Files>
 <Files avideo.js.log>
-Order Allow,Deny
-Deny from all
+    <IfModule !authz_core_module>
+        Order Allow,Deny
+        Deny from all
+    </IfModule>
+    <IfModule authz_core_module>
+        Require all denied
+    </IfModule>
 </Files>
 # Disable directory browsing
 Options All -Indexes
@@ -57,7 +77,7 @@ Options All -Indexes
     RewriteRule    ^videos/([^/]+)/(.*).key$ plugin/VideoHLS/downloadProtection.php?filename=$1&key=$2    [QSA]
 
     RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
-    
+
     RewriteRule    ^meet/([0-9]+)/(.+)$ plugin/Meet/iframe.php?meet_schedule_id=$1&roomName=$2 [NC,L,QSA]
     RewriteRule    ^meet/([0-9]+)$ plugin/Meet/iframe.php?meet_schedule_id=$1 [NC,L,QSA]
     RewriteRule    ^live/([0-9]+)/(.+)$ plugin/Live/?live_servers_id=$1&c=$2 [NC,L,QSA]
