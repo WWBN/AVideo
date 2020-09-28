@@ -354,7 +354,7 @@ Passcode: {password}
                 return $obj;
             }
         } else {
-            $obj->reason = "The meet does no start yet";
+            $obj->reason = "The meet does not start yet";
             return $obj;
         }
     }

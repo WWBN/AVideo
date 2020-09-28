@@ -813,7 +813,7 @@ if (typeof gtag !== \"function\") {
                     $cookie_options = array(
                         'expires' => $cookie, //time() + 60*60*24*30,
                         'path' => '/',
-                        'domain' => $_SERVER['HTTP_HOST'], // leading dot for compatibility or use subdomain
+                        'domain' => getDomain(), // leading dot for compatibility or use subdomain
                         'secure' => true, // or false
                         'httponly' => false, // or false
                         'samesite' => 'None' // None || Lax || Strict
@@ -822,7 +822,7 @@ if (typeof gtag !== \"function\") {
                     if (empty($cookie)) {
                         $cookie = 86400; // 24 hours
                     } 
-                    $cookie_options = intval(time() + $cookie);
+                    $cookie_options = (int) (time() + $cookie);
                 }
 
                 //_error_log("user::login: set cookies {$cookie}");
@@ -925,14 +925,14 @@ if (typeof gtag !== \"function\") {
         unset($_COOKIE['pass']);
         //  setcookie('user', null, -1,$url['path'],$url['host']);
         //  setcookie('pass', null, -1,$url['path'],$url['host']);
-        setcookie('rememberme', null, -1, "/", $_SERVER['HTTP_HOST']);
-        setcookie('user', null, -1, "/", $_SERVER['HTTP_HOST']);
-        setcookie('pass', null, -1, "/", $_SERVER['HTTP_HOST']);
-        setcookie('rememberme', null, -1, "/", "." . $_SERVER['HTTP_HOST']);
-        setcookie('user', null, -1, "/", "." . $_SERVER['HTTP_HOST']);
-        setcookie('pass', null, -1, "/", "." . $_SERVER['HTTP_HOST']);
-        setcookie('user', null, -1, "/", str_replace("www", "", $_SERVER['HTTP_HOST']));
-        setcookie('pass', null, -1, "/", str_replace("www", "", $_SERVER['HTTP_HOST']));
+        setcookie('rememberme', null, -1, "/", getDomain());
+        setcookie('user', null, -1, "/", getDomain());
+        setcookie('pass', null, -1, "/", getDomain());
+        setcookie('rememberme', null, -1, "/", "." . getDomain());
+        setcookie('user', null, -1, "/", "." . getDomain());
+        setcookie('pass', null, -1, "/", "." . getDomain());
+        setcookie('user', null, -1, "/", str_replace("www", "", getDomain()));
+        setcookie('pass', null, -1, "/", str_replace("www", "", getDomain()));
         setcookie('rememberme', null, -1, "/");
         setcookie('user', null, -1, "/");
         setcookie('pass', null, -1, "/");

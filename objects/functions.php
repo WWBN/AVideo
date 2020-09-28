@@ -4422,3 +4422,9 @@ function ogSite() {
         return $contents;
     }
     
+    function getDomain(){
+        $domain = $_SERVER['HTTP_HOST'];
+        $domain = str_replace("www.", "", $domain);
+        return preg_match("/^\..+/", $domain)?ltrim($domain, '.'):$domain;
+    }
+    

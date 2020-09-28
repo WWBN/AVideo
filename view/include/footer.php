@@ -1,3 +1,4 @@
+<div class="clearfix"></div>
 <footer style="<?php echo $advancedCustom->footerStyle; ?> display: none;" id="mainFooter">
     <?php
     $custom = "";
@@ -119,8 +120,14 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
     var checkFooterTimout;
     $(function () {
         checkFooter();
-        
+
         $(window).scroll(function () {
+            clearTimeout(checkFooterTimout);
+            checkFooterTimout = setTimeout(function () {
+                checkFooter();
+            }, 100);
+        });
+        $(window).resize(function () {
             clearTimeout(checkFooterTimout);
             checkFooterTimout = setTimeout(function () {
                 checkFooter();
@@ -129,12 +136,19 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
     });
     function checkFooter() {
         $("#mainFooter").fadeIn();
-        if ($(document).height() <= $(window).height()) {
+        if (getPageHeight() <= $(window).height()) {
             clearTimeout(checkFooterTimout);
-            checkFooterTimout = setTimeout(function(){ checkFooter(); },1000);
+            checkFooterTimout = setTimeout(function () {
+                checkFooter();
+            }, 1000);
             $("#mainFooter").css("position", "fixed");
         } else {
             $("#mainFooter").css("position", "relative");
         }
+    }
+
+
+    function getPageHeight() {
+        return $('#mainNavBar').height() + $('#mainFooter').height() + $('.container, .container-fluid').first().height();
     }
 </script>
