@@ -89,12 +89,14 @@ foreach ($files as $key => $value) {
                 //YPTStorage::createDummyHLS($video['id']);
                 echo "******   File size is the same videos_id = {$video['id']}\n";
             }else{
-                echo "ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id}\n";
+                $source_size = YPTStorage::getFileSize($videos_id, -1);
+                $destination_size = YPTStorage::getFileSize($videos_id, $sites_id);
+                echo "----- ERROR File size is NOT the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size]\n";
             }
         }else{
             echo "The video_id {$video['id']} ({$video['title']}) is not hosted on the storage\n";
         }
     }else{
-        echo "ERROR could not find video from filename {$value[0]}\n";
+        echo "----- ERROR could not find video from filename {$value[0]}\n";
     }
 }
