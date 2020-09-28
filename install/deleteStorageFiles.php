@@ -68,6 +68,12 @@ foreach ($files as $key => $value) {
     if($count>$max){
         exit;
     }
+    
+    $getUsageFromFilename = getUsageFromFilename($value[0]);
+    if(getUsageFromFilename($value[0])<2000){
+        echo "Local file is too small, probably transfered already videos_id = {$video['id']}=>  $getUsageFromFilename\n";
+        continue;
+    }
     $video = Video::getVideoFromFileName($value[0], true);
     if (!empty($video)) {
         $sites_id = $video['sites_id'];
