@@ -23,7 +23,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 $total = Video::getTotalVideos();
 
-$_REQUEST['rowCount'] = getRowCount();
+$_REQUEST['rowCount'] = 10;
 $_REQUEST['current'] = getCurrentPage();
 
 //$_POST['sort']['likes'] = "DESC";
