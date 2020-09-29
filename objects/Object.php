@@ -274,7 +274,7 @@ abstract class ObjectYPT implements ObjectInterface {
 
     static function cleanCacheName($name) {
         $name = str_replace(array('/','\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), $name);
-        $name = preg_replace('/[!#$&\'()*+,:;=?@[\\]% ]+/', '_', trim(strtolower(cleanString($name))));
+        $name = preg_replace('/[!#$&\'()*+,:;=?@[\\]% -]+/', '_', trim(strtolower(cleanString($name))));
         $name = preg_replace('/\/{2,}/', '/', trim(strtolower(cleanString($name))));
         return preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
     }
