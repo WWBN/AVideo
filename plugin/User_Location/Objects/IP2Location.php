@@ -15,6 +15,9 @@ class IP2Location extends ObjectYPT {
     }
 
     static function getLocation($ip) {
+        if(!self::isTableInstalled()){
+            return false;
+        }
         // samples
         // brazil 2.20.147.123
         // spain 2.22.54.123
