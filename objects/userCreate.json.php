@@ -82,6 +82,10 @@ $user->setCanUpload($config->getAuthCanUploadVideos());
 $users_id = $user->save();
 
 if (!empty($users_id)) {
+    $cu = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
+    if (!empty($cu)) {
+        CustomizeUser::setCanShareVideosFromUser($users_id, true);
+    }
     if (!empty($advancedCustomUser->userDefaultUserGroup->value)) { // for new users use the default usergroup
         UserGroups::updateUserGroups($users_id, array($advancedCustomUser->userDefaultUserGroup->value), true);
     }
