@@ -25,10 +25,21 @@ if (empty($manageMeetings)) {
     $manageMeetings = intval($_REQUEST['manageMeetings']);
 }
 ?>
+
 <table id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
     <thead>
         <tr>
-            <th></th>
+            <th>
+                <?php
+                if ($manageMeetings) {
+                    ?>
+                    <button class="btn btn-danger btn-xs deleteSelectedMeet<?php echo $meet_scheduled, $manageMeetings; ?> disabled" data-toggle="tooltip" title="<?php echo __("Delete All Selected"); ?>">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <?php
+                }
+                ?>
+            </th>
             <th><?php echo __("Topic"); ?></th>
             <th><?php echo __("Starts"); ?></th>
             <th><?php echo __("Owner"); ?></th>
@@ -37,7 +48,17 @@ if (empty($manageMeetings)) {
     </thead>
     <tfoot>
         <tr>
-            <th></th>
+            <th>
+                <?php
+                if ($manageMeetings) {
+                    ?>
+                    <button class="btn btn-danger btn-xs deleteSelectedMeet<?php echo $meet_scheduled, $manageMeetings; ?> disabled" data-toggle="tooltip" title="<?php echo __("Delete All Selected"); ?>">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <?php
+                }
+                ?>
+            </th>
             <th><?php echo __("Topic"); ?></th>
             <th><?php echo __("Starts"); ?></th>
             <th><?php echo __("Owner"); ?></th>
@@ -117,12 +138,13 @@ if (empty($manageMeetings)) {
                                 sortable: false,
                                 data: 'public',
                                 "render": function (data, type, row) {
+                                    var checkbox = "<input type=\"checkbox\" value=\"" + row.id + "\" class=\" Meet_checkbox<?php echo $meet_scheduled, $manageMeetings; ?>\"> ";
                                     if (data == 2) {
-                                        return '<i class="fas fa-lock-open" style="color:rgba(0,0,0,0.1);" data-toggle="tooltip" title="<?php echo __("Public"); ?>" ></i>';
+                                        return checkbox + '<i class="fas fa-lock-open" style="color:rgba(0,0,0,0.1);" data-toggle="tooltip" title="<?php echo __("Public"); ?>" ></i>';
                                     } else if (data == 1) {
-                                        return '<i class="fas fa-user-lock" style="color:rgba(0,0,0,0.3);" data-toggle="tooltip" title="<?php echo __("Logged Users Only"); ?>" ></i>'
+                                        return checkbox + '<i class="fas fa-user-lock" style="color:rgba(0,0,0,0.3);" data-toggle="tooltip" title="<?php echo __("Logged Users Only"); ?>" ></i>'
                                     } else {
-                                        return '<i class="fas fa-lock" style="color:rgba(0,0,0,1);" data-toggle="tooltip" title="<?php echo __("Specific User Groups"); ?>" ></i>'
+                                        return checkbox + '<i class="fas fa-lock" style="color:rgba(0,0,0,1);" data-toggle="tooltip" title="<?php echo __("Specific User Groups"); ?>" ></i>'
                                     }
                                 }
                             },
@@ -154,7 +176,7 @@ if ($manageMeetings) {
                                 buttons: true,
                                 dangerMode: true,
                             })
-                                    .then(function(willDelete) {
+                                    .then(function (willDelete) {
                                         if (willDelete) {
                                             modal.showPleaseWait();
                                             $.ajax({
@@ -238,6 +260,54 @@ if ($manageMeetings) {
                                                         var tr = $(this).closest('tr')[0];
                                                         var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
                                                         copyToClipboard(data.link);
+                                                    });
+
+                                                    $('.deleteSelectedMeet<?php echo $meet_scheduled, $manageMeetings; ?>').click(function (e) {
+                                                        if (!$("input.Meet_checkbox<?php echo $meet_scheduled, $manageMeetings; ?>:checked").length) {
+                                                            return false;
+                                                        }
+                                                        swal({
+                                                            title: "<?php echo __("Are you sure?"); ?>",
+                                                            text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                                                            icon: "warning",
+                                                            buttons: true,
+                                                            dangerMode: true,
+                                                        })
+                                                                .then(function (willDelete) {
+                                                                    if (willDelete) {
+                                                                        modal.showPleaseWait();
+                                                                        var array = []
+                                                                        $("input.Meet_checkbox<?php echo $meet_scheduled, $manageMeetings; ?>:checked").each(function () {
+                                                                            array.push($(this).val());
+                                                                        });
+                                                                        $.ajax({
+                                                                            type: "POST",
+                                                                            url: webSiteRootURL + "plugin/Meet/View/Meet_schedule/delete.json.php?<?php echo $userCredentials; ?>",
+                                                                            data: {id: array}
+
+                                                                        }).done(function (resposta) {
+                                                                            if (resposta.error) {
+                                                                                avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                                                            }
+                                                                            Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.ajax.reload();
+                                                                            modal.hidePleaseWait();
+                                                                        });
+                                                                    } else {
+
+                                                                    }
+                                                                });
+
+
+
+                                                    });
+                                                    $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'input.Meet_checkbox<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
+                                                        if ($("input.Meet_checkbox<?php echo $meet_scheduled, $manageMeetings; ?>:checked").length) {
+                                                            $('.deleteSelectedMeet<?php echo $meet_scheduled, $manageMeetings; ?>').removeClass('disabled');
+                                                        } else {
+                                                            $('.deleteSelectedMeet<?php echo $meet_scheduled, $manageMeetings; ?>').addClass('disabled');
+                                                        }
+
+
                                                     });
                                                     setTimeout(function () {
                                                         $('[data-toggle="tooltip"]').tooltip({container: 'body'});

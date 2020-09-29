@@ -75,7 +75,7 @@ $meet_schedule_id = $o->save();
 if ($meet_schedule_id) {
     Meet_schedule_has_users_groups::saveUsergroupsToMeet($meet_schedule_id, $_REQUEST['userGroups']);
 }
-
+$obj->meet_schedule_id = $meet_schedule_id;
 $obj->password = @$_REQUEST['RoomPasswordNew'];
 $obj->error = empty($meet_schedule_id);
 
