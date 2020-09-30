@@ -12,7 +12,7 @@ if (empty($p)) {
     return die('YPTStorage plugin disabled');
 }
 
-$fileExtensions = array('jpg', 'gif', 'mp4', 'webm');
+$fileExtensions = array('jpg', 'gif', 'mp4', 'webm', 'tgz');
 
 
 $files = array();
@@ -94,6 +94,10 @@ foreach ($files as $key => $value) {
                     exit;
                 }
                 YPTStorage::createDummy($video['id']);
+                $tgzFile = $global['systemRootPath'] . "videos/{$video['filename']}.tgz";
+                if(file_exists($tgzFile)){
+                    unlink($tgzFile);
+                }
                 echo "******   File size is the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
                 //exit;
             } else if($source_sizee > 5000000){
