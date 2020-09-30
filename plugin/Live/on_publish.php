@@ -39,7 +39,7 @@ if(empty($_POST['name']) && !empty($_GET['name'])){
 if(empty($_POST['name']) && !empty($_GET['key'])){
     $_POST['name'] = $_GET['key'];
 }
-if(empty($_POST['name'])){
+if(strpos($_GET['p'], '/') !== false){
     $parts = explode("/",$_GET['p']);
     if(!empty($parts[1])){
         $_GET['p'] = $parts[0];
