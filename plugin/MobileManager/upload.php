@@ -86,6 +86,9 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     if(!empty($_REQUEST['categories_id'])){
         $video->setCategories_id($_REQUEST['categories_id']);
     }
+    if(!empty($_REQUEST['can_share'])) {
+        $video->setCan_share($_REQUEST['can_share']);
+    }
     
     $video->setStatus('e');
 
