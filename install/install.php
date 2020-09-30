@@ -8,6 +8,13 @@ if (file_exists("../videos/configuration.php")) {
     die("Can not create configuration again: " . json_encode($_SERVER));
 }
 
+
+$databaseUser = "youphptube";
+$databasePass = "youphptube";
+if (version_compare(phpversion(), '7.2', '<')) {
+    $databaseUser = "root";
+}
+
 $webSiteRootURL = @$argv[1];
 $databaseUser = empty($argv[2])?"youphptube":$argv[2];
 $databasePass = empty($argv[3])?"youphptube":$argv[3];
