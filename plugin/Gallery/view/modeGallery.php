@@ -17,15 +17,15 @@ include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
             <div class="row text-center" style="padding: 10px;">
                 <?php echo getAdsLeaderBoardTop(); ?>
             </div>
-            <div class="col-sm-10 col-sm-offset-1 list-group-item">
+            <div class="col-lg-10 col-lg-offset-1 list-group-item">
                 <?php
-                    include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
+                include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
                 ?>
             </div>
         </div>
-                <?php
-                    include $global['systemRootPath'] . 'plugin/Gallery/view/footer.php';
-                ?>
+        <?php
+        include $global['systemRootPath'] . 'plugin/Gallery/view/footer.php';
+        ?>
     </body>
 </html>
 <?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>

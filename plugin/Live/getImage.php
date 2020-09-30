@@ -29,13 +29,16 @@ if (empty($_GET['format'])) {
     $_GET['format'] = "png";
     header('Content-Type: image/x-png');
 }
-$_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
-$uploadedPoster = $global['systemRootPath'] . Live::_getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id']);
-//var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
-if(file_exists($uploadedPoster)){
-    header('Content-Type: image/jpg');
-    echo file_get_contents($uploadedPoster);
-    exit;
+
+if(Live::isLiveThumbsDisabled()){
+    $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
+    $uploadedPoster = $global['systemRootPath'] . Live::_getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id']);
+    //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
+    if(file_exists($uploadedPoster)){
+        header('Content-Type: image/jpg');
+        echo file_get_contents($uploadedPoster);
+        exit;
+    }
 }
 
 $lt = new LiveTransmition($livet['id']);

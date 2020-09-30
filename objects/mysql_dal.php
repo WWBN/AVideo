@@ -134,8 +134,7 @@ class sqlDAL {
                     log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement} - format={$formats} values=" . json_encode($values));
                     log_error("[sqlDAL::readSql] trying close and reconnect");
                     $global['mysqli']->close();
-                    global $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-                    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+                    _mysql_connect();
                     if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                         log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed again return false");
                         return false;

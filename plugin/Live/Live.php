@@ -534,7 +534,8 @@ class Live extends PluginAbstract {
 
     function get_data($url, $timeout) {
         try {
-            return @url_get_contents($url, "", $timeout);
+            $content = @url_get_contents($url, "", $timeout);
+            return $content;
         } catch (Exception $exc) {
             _error_log($exc->getTraceAsString());
         }
@@ -904,7 +905,7 @@ class Live extends PluginAbstract {
         if(empty($live_servers_id)){
             $live_servers_id = self::getCurrentLiveServersId();
         }
-        if(self::disabledLiveThumbs()){
+        if(self::isLiveThumbsDisabled()){
             $file = self::_getPosterImage($users_id, $live_servers_id);
 
             if (!file_exists($global['systemRootPath'] . $file)) {
@@ -919,7 +920,7 @@ class Live extends PluginAbstract {
         return $file;
     }
     
-    public static function disabledLiveThumbs(){
+    public static function isLiveThumbsDisabled(){
         $obj = AVideoPlugin::getDataObject("Live");
         if(!empty($obj->disableLiveThumbs)){
             return true;

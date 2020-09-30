@@ -24,6 +24,17 @@ if (empty($_GET['format'])) {
     $_GET['format'] = "png";
     header('Content-Type: image/x-png');
 }
+
+if(LiveLinks::isLiveThumbsDisabled()){
+    $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
+    $uploadedPoster = $global['systemRootPath'] . Live::_getPosterThumbsImage($liveLink->getUsers_id(), $_REQUEST['live_servers_id']);
+    //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
+    if(file_exists($uploadedPoster)){
+        header('Content-Type: image/jpg');
+        echo file_get_contents($uploadedPoster);
+        exit;
+    }
+}
 $video = $liveLink->getLink();
 
 if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $video)) {

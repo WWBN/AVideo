@@ -1907,18 +1907,6 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     if ($debug) {
         _error_log("url_get_contents: Start $url, $ctx, $timeout");
     }
-    if (filter_var($url, FILTER_VALIDATE_URL)) {
-
-        $session = $_SESSION;
-        session_write_close();
-        if (!empty($timeout)) {
-            if ($debug) {
-                _error_log("url_get_contents: no timout {$url}");
-            }
-            ini_set('default_socket_timeout', $timeout);
-        }
-        @$global['mysqli']->close();
-    }
 
     if (empty($ctx)) {
         $opts = array(
@@ -1943,11 +1931,6 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
         try {
             $tmp = @file_get_contents($url, false, $context);
             if ($tmp != false) {
-                if (filter_var($url, FILTER_VALIDATE_URL)) {
-                    _session_start();
-                    $_SESSION = $session;
-                    _mysql_connect();
-                }
                 if ($debug) {
                     _error_log("url_get_contents: SUCCESS file_get_contents($url) ");
                 }
@@ -1977,11 +1960,6 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
         }
         $output = curl_exec($ch);
         curl_close($ch);
-        if (filter_var($url, FILTER_VALIDATE_URL)) {
-            _session_start();
-            $_SESSION = $session;
-            _mysql_connect();
-        }
         if ($debug) {
             _error_log("url_get_contents: CURL SUCCESS {$url}");
         }
@@ -2003,11 +1981,6 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
         $result = file_get_contents($filename);
         unlink($filename);
         if (!empty($result)) {
-            if (filter_var($url, FILTER_VALIDATE_URL)) {
-                _session_start();
-                $_SESSION = $session;
-                _mysql_connect();
-            }
             return remove_utf8_bom($result);
         }
     } else if ($debug) {
@@ -2015,11 +1988,6 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     }
 
     $result = @file_get_contents($url, false, $context);
-    if (filter_var($url, FILTER_VALIDATE_URL)) {
-        _session_start();
-        $_SESSION = $session;
-        _mysql_connect();
-    }
     if ($debug) {
         _error_log("url_get_contents: Last try  {$url}");
     }
@@ -3112,6 +3080,13 @@ function ogSite() {
         }
     }
 
+    function _mysql_close() {
+        global $global;
+        if (is_object($global['mysqli']) && !empty(@$global['mysqli']->ping())) {
+            @$global['mysqli']->close();
+        }
+    }
+
     function remove_utf8_bom($text) {
         if (strlen($text) > 1000000) {
             return $text;
@@ -4191,7 +4166,7 @@ function ogSite() {
                         <li class="nav-item">
                             <a class="nav-link " href="#tabShare" data-toggle="tab">
                                 <span class="fa fa-share"></span>
-                                <?php echo __("Share"); ?>
+    <?php echo __("Share"); ?>
                             </a>
                         </li>
 
@@ -4201,7 +4176,7 @@ function ogSite() {
                             <li class="nav-item">
                                 <a class="nav-link " href="#tabEmbed" data-toggle="tab">
                                     <span class="fa fa-code"></span>
-                                    <?php echo __("Embed"); ?>
+        <?php echo __("Embed"); ?>
                                 </a>
                             </li>
                             <?php
@@ -4212,7 +4187,7 @@ function ogSite() {
                             <li class="nav-item">
                                 <a class="nav-link" href="#tabEmail" data-toggle="tab">
                                     <span class="fa fa-envelope"></span>
-                                    <?php echo __("E-mail"); ?>
+        <?php echo __("E-mail"); ?>
                                 </a>
                             </li>
                             <?php
@@ -4222,7 +4197,7 @@ function ogSite() {
                             <li class="nav-item">
                                 <a class="nav-link" href="#tabPermaLink" data-toggle="tab">
                                     <span class="fa fa-link"></span>
-                                    <?php echo __("Permanent Link"); ?>
+        <?php echo __("Permanent Link"); ?>
                                 </a>
                             </li>
                             <?php
@@ -4255,11 +4230,11 @@ function ogSite() {
                         if (empty($advancedCustom->disableEmailSharing)) {
                             ?>
                             <div class="tab-pane" id="tabEmail">
-                                <?php if (!User::isLogged()) { ?>
+        <?php if (!User::isLogged()) { ?>
                                     <strong>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>user"><?php echo __("Sign in now!"); ?></a>
                                     </strong>
-                                <?php } else { ?>
+        <?php } else { ?>
                                     <form class="well form-horizontal" action="<?php echo $global['webSiteRootURL']; ?>sendEmail" method="post"  id="contact_form">
                                         <fieldset>
                                             <!-- Text input-->
@@ -4331,7 +4306,7 @@ function ogSite() {
                                             });
                                         });
                                     </script>
-                                <?php } ?>
+        <?php } ?>
                             </div>
 
                             <?php
@@ -4393,38 +4368,38 @@ function ogSite() {
         <div class="clearfix" style="margin: 10px 12px;">
             <div class="progress" style="margin: 2px;">
                 <div class="progress-bar progress-bar-success" role="progressbar" style="width:<?php echo $getDiskUsage->videos_dir_used_percentage; ?>%">
-                    <?php echo $getDiskUsage->videos_dir_used_percentage; ?>%
+    <?php echo $getDiskUsage->videos_dir_used_percentage; ?>%
                 </div>
                 <div class="progress-bar progress-bar-warning" role="progressbar" style="width:<?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%">
-                    <?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%
+    <?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%
                 </div>
                 <div class="progress-bar progress-bar-default" role="progressbar" style="width:<?php echo $getDiskUsage->disk_free_space_percentage; ?>%">
-                    <?php echo $getDiskUsage->disk_free_space_percentage; ?>%
+    <?php echo $getDiskUsage->disk_free_space_percentage; ?>%
                 </div>
             </div>
             <div class="label label-success">
-                <?php echo __("Videos Directory"); ?>: <?php echo $getDiskUsage->videos_dir_human; ?> (<?php echo $getDiskUsage->videos_dir_used_percentage; ?>%)
+    <?php echo __("Videos Directory"); ?>: <?php echo $getDiskUsage->videos_dir_human; ?> (<?php echo $getDiskUsage->videos_dir_used_percentage; ?>%)
             </div>
             <div class="label label-warning">
-                <?php echo __("Other Files"); ?>: <?php echo $getDiskUsage->disk_used_human; ?> (<?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%)
+    <?php echo __("Other Files"); ?>: <?php echo $getDiskUsage->disk_used_human; ?> (<?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%)
             </div>
             <div class="label label-primary">
-                <?php echo __("Free Space"); ?>: <?php echo $getDiskUsage->disk_free_space_human; ?> (<?php echo $getDiskUsage->disk_free_space_percentage; ?>%)
+    <?php echo __("Free Space"); ?>: <?php echo $getDiskUsage->disk_free_space_human; ?> (<?php echo $getDiskUsage->disk_free_space_percentage; ?>%)
             </div>
         </div>
         <?php
         if ($getDiskUsage->disk_free_space_percentage < 15) {
             echo "<script>$(document).ready(function () {avideoAlertHTMLText('Danger','Your Disk is almost Full, you have only <strong>{$getDiskUsage->disk_free_space_percentage}%</strong> free <br> ({$getDiskUsage->disk_free_space_human})', 'error');});</script>";
         }
-        
+
         $contents = ob_get_contents();
         ob_end_clean();
         return $contents;
     }
-    
-    function getDomain(){
+
+    function getDomain() {
         $domain = $_SERVER['HTTP_HOST'];
         $domain = str_replace("www.", "", $domain);
-        return preg_match("/^\..+/", $domain)?ltrim($domain, '.'):$domain;
+        return preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
     }
     

@@ -3,6 +3,8 @@
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/LiveLinks/Objects/LiveLinksTable.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Live.php';
+
 
 class LiveLinks extends PluginAbstract {
 
@@ -32,6 +34,7 @@ class LiveLinks extends PluginAbstract {
         $obj->onlyAdminCanAddLinks = true;
         $obj->buttonTitle = "Add a Live Link";
         $obj->disableGifThumbs = false;
+        $obj->disableLiveThumbs = false;
         $obj->doNotShowLiveLinksLabel = false;
         return $obj;
     }
@@ -68,7 +71,6 @@ class LiveLinks extends PluginAbstract {
     static function getAllActive() {
         global $global;
         $sql = "SELECT * FROM  LiveLinks WHERE status='a' AND start_date <= now() AND end_date >= now() ORDER BY start_date ";
-
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
@@ -186,6 +188,25 @@ class LiveLinks extends PluginAbstract {
     public function getPosterToLiveFromId($id){
         global $global;
         return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=jpg";
+    }
+    
+    public static function isLiveThumbsDisabled(){
+        $obj = AVideoPlugin::getDataObject("LiveLinks");
+        if(!empty($obj->disableLiveThumbs)){
+            return true;
+        }
+        return false;
+    }
+
+    public function getPosterThumbsImage($users_id, $live_servers_id) {
+        global $global;
+        $file = Live::_getPosterThumbsImage($users_id, $live_servers_id);
+
+        if (!file_exists($global['systemRootPath'] . $file)) {
+            $file = "plugin/Live/view/OnAir.jpg";
+        }
+
+        return $file;
     }
 
 }
