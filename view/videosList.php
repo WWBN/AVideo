@@ -175,12 +175,12 @@ foreach ($videos as $key => $value) {
                     <?php } ?>
 
                 </a>
-                <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" ></span>
-                <span itemprop="uploadDate" content="<?php echo $value['created']; ?>"></span>
+                <span content="<?php echo $img; ?>" ></span>
+                <span content="<?php echo $value['created']; ?>"></span>
                 <?php
                 if (isToShowDuration($value['type'])) {
                     ?>
-                    <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
+                    <time class="duration" datetime="<?php echo Video::getItemPropDuration($value['duration']); ?>"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                     <?php
                 }
                 if (User::isLogged() && !empty($program)) {
@@ -222,9 +222,9 @@ foreach ($videos as $key => $value) {
         <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails" style="font-size: 0.75em;">
 
             <a href="<?php echo $link; ?>" title="<?php echo $value['title']; ?>">
-                <div class="text-uppercase row"><strong itemprop="name" class="title"><?php echo $value['title']; ?></strong></div>
+                <div class="text-uppercase row"><strong class="title"><?php echo $value['title']; ?></strong></div>
             </a>
-            <div class="details row" itemprop="description">
+            <div class="details row">
                 <div class="col-sm-6 nopadding">
                     <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>">
                         <span class="<?php echo $value['iconClass']; ?>"></span>
