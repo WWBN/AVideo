@@ -4405,7 +4405,8 @@ function ogSite() {
     function getDomain() {
         $domain = $_SERVER['HTTP_HOST'];
         $domain = str_replace("www.", "", $domain);
-        return preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
+        $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
+        return $domain;
     }
 
     function getDeviceID() {
@@ -4413,26 +4414,29 @@ function ogSite() {
         if (empty($_COOKIE[$cookieName])) {
             _session_start();
             $uuid = uniqid();
-            $expires = (int)strtotime('+1 year');
-            if (version_compare(PHP_VERSION, '7.3') >= 0) {
-                $cookie_options = array(
-                    'expires' => $expires,
-                    'path' => '/',
-                    'domain' => getDomain(), // leading dot for compatibility or use subdomain
-                    'secure' => true, // or false
-                    'httponly' => false, // or false
-                    'samesite' => 'None' // None || Lax || Strict
-                );
-                setcookie($cookieName, $uuid, $cookie_options);
-            } else {
-                $cookie_options = $expires;
-                setcookie($cookieName, $uuid, time() + 60*60*24*365);
-                session_write_close();
-                //var_dump($_COOKIE[$cookieName]);
+            if(!setcookie ($cookieName, $uuid, (int) strtotime("+ 1 year"), "/" , getDomain())){
+                return "getDeviceIDError";
             }
-            _session_start();
             return $uuid;
         }
         return $_COOKIE[$cookieName];
     }
     
+    function _setcookie($cookieName, $value, $expires=0){
+        if(empty($expires)){
+            if (empty($config) || !is_object($config)) {
+                $config = new Configuration();
+            }
+            $expires = time()+$config->getSession_timeout();
+        }
+        return setcookie($cookieName, $value, (int) $expires, "/" , getDomain());
+    }
+    
+    function _unsetcookie($cookieName){
+        $domain = getDomain();
+        setcookie($cookieName, null, -1, "/", str_replace("www", "", $domain));
+        setcookie($cookieName, null, -1, "/", "." . $domain);
+        setcookie($cookieName, null, -1, "/", $domain);
+        setcookie($cookieName, null, -1, "/");
+        unset($_COOKIE[$cookieName]);
+    }

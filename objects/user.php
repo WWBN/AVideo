@@ -789,51 +789,16 @@ if (typeof gtag !== \"function\") {
             $this->setLastLogin($_SESSION['user']['id']);
             $rememberme = 0;
             if ((!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
-                //_error_log("user::login: Do login with cookie (log in for next 10 years)!");
-                //$url = parse_url($global['webSiteRootURL']);
-                //setcookie("user", $this->user, time()+3600*24*30*12*10,$url['path'],$url['host']);
-                //setcookie("pass", $encodedPass, time()+3600*24*30*12*10,$url['path'],$url['host']);
-                $cookie = 2147483647;
+                $expires = strtotime("+ 1 year");
                 $rememberme = 1;
             } else {
-                //_error_log("user::login: Do login without cookie");
-                if (empty($config) || !is_object($config)) {
-                    $config = new Configuration();
-                }
-                $cookie = $config->getSession_timeout();
-                //_error_log("user::login: getSession_timeout {$cookie}");
+                $expires = 0;
             }
-            if (empty($_COOKIE['user']) || empty(empty($_COOKIE['pass']))) {
-                if (version_compare(PHP_VERSION, '7.3') >= 0) {
-                    if (empty($cookie)) {
-                        $cookie = 86400; // 24 hours
-                    } else {
-                        $cookie = time() + 3600;
-                    }
-                    $cookie_options = array(
-                        'expires' => $cookie, //time() + 60*60*24*30,
-                        'path' => '/',
-                        'domain' => getDomain(), // leading dot for compatibility or use subdomain
-                        'secure' => true, // or false
-                        'httponly' => false, // or false
-                        'samesite' => 'None' // None || Lax || Strict
-                    );
-                }else{
-                    if (empty($cookie)) {
-                        $cookie = 86400; // 24 hours
-                    } 
-                    $cookie_options = (int) (time() + $cookie);
-                }
-
-                //_error_log("user::login: set cookies {$cookie}");
-                setcookie("rememberme", $rememberme, $cookie_options);
-                setcookie("user", $user['user'], $cookie_options);
-                setcookie("pass", $user['password'], $cookie_options);
-                //_error_log("user::login: set cookies done");
-            }
-            //_error_log("user::login: onUserSignIn {$_SESSION['user']['id']}");
+            _setcookie("rememberme", $rememberme, $expires);
+            _setcookie("user", $user['user'], $expires);
+            _setcookie("pass", $user['password'], $expires);
+            
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
-            //_error_log("user::login: onUserSignIn Done");
             $_SESSION['loginAttempts'] = 0;
             session_write_close();
             return self::USER_LOGGED;
@@ -919,23 +884,9 @@ if (typeof gtag !== \"function\") {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        //$url = parse_url($global['webSiteRootURL']);
-        unset($_COOKIE['rememberme']);
-        unset($_COOKIE['user']);
-        unset($_COOKIE['pass']);
-        //  setcookie('user', null, -1,$url['path'],$url['host']);
-        //  setcookie('pass', null, -1,$url['path'],$url['host']);
-        setcookie('rememberme', null, -1, "/", getDomain());
-        setcookie('user', null, -1, "/", getDomain());
-        setcookie('pass', null, -1, "/", getDomain());
-        setcookie('rememberme', null, -1, "/", "." . getDomain());
-        setcookie('user', null, -1, "/", "." . getDomain());
-        setcookie('pass', null, -1, "/", "." . getDomain());
-        setcookie('user', null, -1, "/", str_replace("www", "", getDomain()));
-        setcookie('pass', null, -1, "/", str_replace("www", "", getDomain()));
-        setcookie('rememberme', null, -1, "/");
-        setcookie('user', null, -1, "/");
-        setcookie('pass', null, -1, "/");
+        _unsetcookie('rememberme');
+        _unsetcookie('user');
+        _unsetcookie('pass');
         unset($_SESSION['user']);
     }
 

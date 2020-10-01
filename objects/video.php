@@ -2825,6 +2825,12 @@ if (!class_exists('Video')) {
             $obj->gifPortrait = $gifPortraitSource['url'];
             $obj->thumbsJpg = $thumbsSource['url'];
             $obj->thumbsJpgSmall = $thumbsSmallSource['url'];
+            
+            $obj->posterLandscape = $jpegSource['url'];
+            $obj->posterLandscapePath = $jpegSource['path'];
+            $obj->posterLandscapeThumbs = $thumbsSource['url'];
+            $obj->posterLandscapeThumbsSmall = $thumbsSmallSource['url'];
+            
             if (file_exists($gifSource['path'])) {
                 $obj->thumbsGif = $gifSource['url'];
             }
