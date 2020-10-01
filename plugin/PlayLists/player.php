@@ -298,6 +298,9 @@ if (!empty($video['id'])) {
                                                     setTimeout(function () {
                                                         player.currentTime(playerPlaylist[index].videoStartSeconds);
                                                     }, 500);
+                                                    if(typeof enableDownloadProtection === 'function'){
+                                                        enableDownloadProtection();    
+                                                    }   
                                                 });
                                                 setTimeout(function () {
                                                     var Button = videojs.getComponent('Button');
