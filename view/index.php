@@ -12,11 +12,13 @@ if(!isset($global['systemRootPath'])){
       require_once '../videos/configuration.php';
     }
 }
-if (empty($config)) {
+if (!empty($global['systemRootPath']) && empty($config)) {
     // update config file for version 2.8
     $txt = 'require_once $global[\'systemRootPath\'].\'objects/include_config.php\';';
     $myfile = file_put_contents($configFile, $txt . PHP_EOL, FILE_APPEND | LOCK_EX);
     require_once $global['systemRootPath'].'objects/include_config.php';
+}else if(empty ($global['systemRootPath'])){
+    die("Error to find systemRootPath = ({$global['systemRootPath']})");
 }
 
 require_once $global['systemRootPath'].'plugin/AVideoPlugin.php';
