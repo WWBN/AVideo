@@ -15,7 +15,7 @@ class IP2Location extends ObjectYPT {
     }
 
     static function getLocation($ip) {
-        if(!self::isTableInstalled()){
+        if(!self::isTableInstalled() || !AVideoPlugin::isEnabledByName('User_Location')){
             return false;
         }
         // samples
