@@ -3483,7 +3483,7 @@ function ogSite() {
         global $isModeYouTube;
         return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();
     }
-    
+
     function isPlayList() {
         global $isPlayList;
         return !empty($isPlayList);
@@ -4409,19 +4409,26 @@ function ogSite() {
         return $domain;
     }
 
+    /**
+     * It's separated by time, version, clock_seq_hi, clock_seq_lo, node, as indicated in the followoing rfc.
+     * 
+     * From the IETF RFC4122:
+     * 8-4-4-4-12
+     * @return string
+     */
     function getDeviceID() {
         $cookieName = "yptDeviceID";
         if (empty($_COOKIE[$cookieName])) {
-            if(empty($_GET[$cookieName])){
-                $_GET[$cookieName] = uniqid();
+            if (empty($_GET[$cookieName])) {
+                $_GET[$cookieName] = uniqidV4();
             }
-            if(empty($_SESSION[$cookieName])){
+            if (empty($_SESSION[$cookieName])) {
                 _session_start();
                 $_SESSION[$cookieName] = $_GET[$cookieName];
-            }else{
+            } else {
                 $_GET[$cookieName] = $_SESSION[$cookieName];
             }
-            if(!_setcookie($cookieName, $_GET[$cookieName], strtotime("+ 1 year"))){
+            if (!_setcookie($cookieName, $_GET[$cookieName], strtotime("+ 1 year"))) {
                 return "getDeviceIDError";
             }
             $_COOKIE[$cookieName] = $_GET[$cookieName];
@@ -4429,18 +4436,49 @@ function ogSite() {
         }
         return $_COOKIE[$cookieName];
     }
-    
-    function _setcookie($cookieName, $value, $expires=0){
-        if(empty($expires)){
+
+    function uniqidV4() {
+        $randomString = openssl_random_pseudo_bytes(16);
+        $time_low = bin2hex(substr($randomString, 0, 4));
+        $time_mid = bin2hex(substr($randomString, 4, 2));
+        $time_hi_and_version = bin2hex(substr($randomString, 6, 2));
+        $clock_seq_hi_and_reserved = bin2hex(substr($randomString, 8, 2));
+        $node = bin2hex(substr($randomString, 10, 6));
+
+        /**
+         * Set the four most significant bits (bits 12 through 15) of the
+         * time_hi_and_version field to the 4-bit version number from
+         * Section 4.1.3.
+         * @see http://tools.ietf.org/html/rfc4122#section-4.1.3
+         */
+        $time_hi_and_version = hexdec($time_hi_and_version);
+        $time_hi_and_version = $time_hi_and_version >> 4;
+        $time_hi_and_version = $time_hi_and_version | 0x4000;
+
+        /**
+         * Set the two most significant bits (bits 6 and 7) of the
+         * clock_seq_hi_and_reserved to zero and one, respectively.
+         */
+        $clock_seq_hi_and_reserved = hexdec($clock_seq_hi_and_reserved);
+        $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved >> 2;
+        $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved | 0x8000;
+
+        return sprintf('%08s-%04s-%04x-%04x-%012s', $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node);
+    }
+
+// guid
+
+    function _setcookie($cookieName, $value, $expires = 0) {
+        if (empty($expires)) {
             if (empty($config) || !is_object($config)) {
                 $config = new Configuration();
             }
-            $expires = time()+$config->getSession_timeout();
+            $expires = time() + $config->getSession_timeout();
         }
-        return setcookie($cookieName, $value, (int) $expires, "/" , getDomain());
+        return setcookie($cookieName, $value, (int) $expires, "/", getDomain());
     }
-    
-    function _unsetcookie($cookieName){
+
+    function _unsetcookie($cookieName) {
         $domain = getDomain();
         setcookie($cookieName, null, -1, "/", str_replace("www", "", $domain));
         setcookie($cookieName, null, -1, "/", "." . $domain);
@@ -4448,3 +4486,4 @@ function ogSite() {
         setcookie($cookieName, null, -1, "/");
         unset($_COOKIE[$cookieName]);
     }
+    
