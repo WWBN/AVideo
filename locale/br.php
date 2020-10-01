@@ -481,3 +481,11 @@ $t['Total Video Comments'] = "Total de comentários";
 $t['Total Videos Likes'] = "Total de Likes";
 $t['Total Videos Dislikes'] = "Total de Dislikes";
 $t['Total Duration Videos (Minutes)'] = "Duração total dos Vídeos em Minutos";
+
+
+$t['Date added (newest)'] = "Lançamentos";
+$t['Most popular'] = "Mais populares";
+$t['Most watched'] = "Mais visualizados";
+$t['Alphabetical'] = "Ordem Alfabética";
+$t['Suggested'] = "Sugeridos";
+$t['Trending'] = "Em alta";
