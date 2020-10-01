@@ -4412,18 +4412,20 @@ function ogSite() {
     function getDeviceID() {
         $cookieName = "yptDeviceID";
         if (empty($_COOKIE[$cookieName])) {
+            if(empty($_GET[$cookieName])){
+                $_GET[$cookieName] = uniqid();
+            }
             if(empty($_SESSION[$cookieName])){
                 _session_start();
-                $uuid = uniqid();
-                $_SESSION[$cookieName] = $uuid;
+                $_SESSION[$cookieName] = $_GET[$cookieName];
             }else{
-                $uuid = $_SESSION[$cookieName];
+                $_GET[$cookieName] = $_SESSION[$cookieName];
             }
-            if(!_setcookie($cookieName, $uuid, strtotime("+ 1 year"))){
+            if(!_setcookie($cookieName, $_GET[$cookieName], strtotime("+ 1 year"))){
                 return "getDeviceIDError";
             }
-            $_COOKIE[$cookieName] = $uuid;
-            return $uuid;
+            $_COOKIE[$cookieName] = $_GET[$cookieName];
+            return $_GET[$cookieName];
         }
         return $_COOKIE[$cookieName];
     }
