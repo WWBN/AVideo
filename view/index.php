@@ -19,6 +19,7 @@ if (!empty($global['systemRootPath']) && empty($config)) {
     require_once $global['systemRootPath'].'objects/include_config.php';
 }else if(empty ($global['systemRootPath'])){
     die("Error to find systemRootPath = ({$global['systemRootPath']})");
+    error_log(json_encode($global));
 }
 
 require_once $global['systemRootPath'].'plugin/AVideoPlugin.php';
