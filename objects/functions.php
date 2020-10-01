@@ -3481,7 +3481,12 @@ function ogSite() {
 
     function isVideo() {
         global $isModeYouTube;
-        return !empty($isModeYouTube) || isEmbed() || isLive();
+        return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();
+    }
+    
+    function isPlayList() {
+        global $isPlayList;
+        return !empty($isPlayList);
     }
 
     function isChannel() {
@@ -4166,7 +4171,7 @@ function ogSite() {
                         <li class="nav-item">
                             <a class="nav-link " href="#tabShare" data-toggle="tab">
                                 <span class="fa fa-share"></span>
-    <?php echo __("Share"); ?>
+                                <?php echo __("Share"); ?>
                             </a>
                         </li>
 
@@ -4176,7 +4181,7 @@ function ogSite() {
                             <li class="nav-item">
                                 <a class="nav-link " href="#tabEmbed" data-toggle="tab">
                                     <span class="fa fa-code"></span>
-        <?php echo __("Embed"); ?>
+                                    <?php echo __("Embed"); ?>
                                 </a>
                             </li>
                             <?php
@@ -4187,7 +4192,7 @@ function ogSite() {
                             <li class="nav-item">
                                 <a class="nav-link" href="#tabEmail" data-toggle="tab">
                                     <span class="fa fa-envelope"></span>
-        <?php echo __("E-mail"); ?>
+                                    <?php echo __("E-mail"); ?>
                                 </a>
                             </li>
                             <?php
@@ -4197,7 +4202,7 @@ function ogSite() {
                             <li class="nav-item">
                                 <a class="nav-link" href="#tabPermaLink" data-toggle="tab">
                                     <span class="fa fa-link"></span>
-        <?php echo __("Permanent Link"); ?>
+                                    <?php echo __("Permanent Link"); ?>
                                 </a>
                             </li>
                             <?php
@@ -4230,11 +4235,11 @@ function ogSite() {
                         if (empty($advancedCustom->disableEmailSharing)) {
                             ?>
                             <div class="tab-pane" id="tabEmail">
-        <?php if (!User::isLogged()) { ?>
+                                <?php if (!User::isLogged()) { ?>
                                     <strong>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>user"><?php echo __("Sign in now!"); ?></a>
                                     </strong>
-        <?php } else { ?>
+                                <?php } else { ?>
                                     <form class="well form-horizontal" action="<?php echo $global['webSiteRootURL']; ?>sendEmail" method="post"  id="contact_form">
                                         <fieldset>
                                             <!-- Text input-->
@@ -4306,7 +4311,7 @@ function ogSite() {
                                             });
                                         });
                                     </script>
-        <?php } ?>
+                                <?php } ?>
                             </div>
 
                             <?php
@@ -4368,23 +4373,23 @@ function ogSite() {
         <div class="clearfix" style="margin: 10px 12px;">
             <div class="progress" style="margin: 2px;">
                 <div class="progress-bar progress-bar-success" role="progressbar" style="width:<?php echo $getDiskUsage->videos_dir_used_percentage; ?>%">
-    <?php echo $getDiskUsage->videos_dir_used_percentage; ?>%
+                    <?php echo $getDiskUsage->videos_dir_used_percentage; ?>%
                 </div>
                 <div class="progress-bar progress-bar-warning" role="progressbar" style="width:<?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%">
-    <?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%
+                    <?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%
                 </div>
                 <div class="progress-bar progress-bar-default" role="progressbar" style="width:<?php echo $getDiskUsage->disk_free_space_percentage; ?>%">
-    <?php echo $getDiskUsage->disk_free_space_percentage; ?>%
+                    <?php echo $getDiskUsage->disk_free_space_percentage; ?>%
                 </div>
             </div>
             <div class="label label-success">
-    <?php echo __("Videos Directory"); ?>: <?php echo $getDiskUsage->videos_dir_human; ?> (<?php echo $getDiskUsage->videos_dir_used_percentage; ?>%)
+                <?php echo __("Videos Directory"); ?>: <?php echo $getDiskUsage->videos_dir_human; ?> (<?php echo $getDiskUsage->videos_dir_used_percentage; ?>%)
             </div>
             <div class="label label-warning">
-    <?php echo __("Other Files"); ?>: <?php echo $getDiskUsage->disk_used_human; ?> (<?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%)
+                <?php echo __("Other Files"); ?>: <?php echo $getDiskUsage->disk_used_human; ?> (<?php echo $getDiskUsage->disk_used_percentage - $getDiskUsage->videos_dir_used_percentage; ?>%)
             </div>
             <div class="label label-primary">
-    <?php echo __("Free Space"); ?>: <?php echo $getDiskUsage->disk_free_space_human; ?> (<?php echo $getDiskUsage->disk_free_space_percentage; ?>%)
+                <?php echo __("Free Space"); ?>: <?php echo $getDiskUsage->disk_free_space_human; ?> (<?php echo $getDiskUsage->disk_free_space_percentage; ?>%)
             </div>
         </div>
         <?php
@@ -4401,5 +4406,33 @@ function ogSite() {
         $domain = $_SERVER['HTTP_HOST'];
         $domain = str_replace("www.", "", $domain);
         return preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
+    }
+
+    function getDeviceID() {
+        $cookieName = "yptDeviceID";
+        if (empty($_COOKIE[$cookieName])) {
+            _session_start();
+            $uuid = uniqid();
+            $expires = (int)strtotime('+1 year');
+            if (version_compare(PHP_VERSION, '7.3') >= 0) {
+                $cookie_options = array(
+                    'expires' => $expires,
+                    'path' => '/',
+                    'domain' => getDomain(), // leading dot for compatibility or use subdomain
+                    'secure' => true, // or false
+                    'httponly' => false, // or false
+                    'samesite' => 'None' // None || Lax || Strict
+                );
+                setcookie($cookieName, $uuid, $cookie_options);
+            } else {
+                $cookie_options = $expires;
+                setcookie($cookieName, $uuid, time() + 60*60*24*365);
+                session_write_close();
+                //var_dump($_COOKIE[$cookieName]);
+            }
+            _session_start();
+            return $uuid;
+        }
+        return $_COOKIE[$cookieName];
     }
     
