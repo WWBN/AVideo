@@ -4483,6 +4483,17 @@ function ogSite() {
             }
             $expires = time() + $config->getSession_timeout();
         }
+
+        if (version_compare(phpversion(), '7.2', '>')) {
+            $cookie_options = array(
+                'expires' => $expires, 
+                'path' => '/', 
+                'domain' => $_SERVER['HTTP_HOST'], 
+                'secure' => true, 
+                'httponly' => false, 
+                'samesite' => 'None');
+        }
+
         return setcookie($cookieName, $value, (int) $expires, "/", getDomain()) && setcookie($cookieName, $value, (int) $expires, "/") && setcookie($cookieName, $value, (int) $expires);
     }
 
@@ -4495,26 +4506,26 @@ function ogSite() {
         setcookie($cookieName, null, -1);
         unset($_COOKIE[$cookieName]);
     }
-    
+
     /**
      * This function is not 100% but try to tell if the site is in an iFrame
      * @global type $global
      * @return boolean
      */
-    function isIframe(){
+    function isIframe() {
         global $global;
-        if( isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe' ) {
+        if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') {
             return true;
         }
-        if(empty($_SERVER['HTTP_REFERER'])){
+        if (empty($_SERVER['HTTP_REFERER'])) {
             return false;
         }
         $host1 = strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST));
         $host1 = str_replace("www.", "", $host1);
-        
+
         $host2 = strtolower(parse_url($global['webSiteRootURL'], PHP_URL_HOST));
         $host2 = str_replace("www.", "", $host2);
-        
-        return $host1!==$host2;
-        
+
+        return $host1 !== $host2;
     }
+    
