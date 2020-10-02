@@ -51,7 +51,7 @@ if (empty($_REQUEST['status'])) {
     $_REQUEST['status'] = 'a';
 }
 if (!isset($_REQUEST['public'])) {
-    $_REQUEST['public'] = 1;
+    $_REQUEST['public'] = 2;
 }
 if (!isset($_REQUEST['live_stream'])) {
     $_REQUEST['live_stream'] = 0;
