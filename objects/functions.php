@@ -3135,6 +3135,9 @@ function ogSite() {
         session_write_close();
         $filesProcessed = array();
         foreach ($files as $f) {
+            if (strpos($f, '.size.lock') !== false) {
+                continue;
+            }
             if (is_dir($f)) {
                 _error_log("getUsageFromFilename: {$f} is Dir");
                 $dirSize = getDirSize($f);
@@ -3150,7 +3153,7 @@ function ogSite() {
                 $filesize = filesize($f);
                 if ($filesize < 20) { // that means it is a dummy file
                     $lockFile = $f . ".size.lock";
-                    if (!file_exists($lockFile) || (time() - 600) > filemtime($cachefile)) {
+                    if (!file_exists($lockFile) || (time() - 600) > filemtime($lockFile)) {
                         file_put_contents($lockFile, time());
                         _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
                         $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');

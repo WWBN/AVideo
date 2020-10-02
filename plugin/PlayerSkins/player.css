@@ -2,7 +2,8 @@
     .vjs-picture-in-picture-control ,
     .loop-button,
     .ypt-compress,
-    .ypt-expand{
+    .ypt-expand,
+    .player-logo{
         display: none !important;
     }
     .vjs-seek-button{
