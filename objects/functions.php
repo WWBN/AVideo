@@ -4488,7 +4488,7 @@ function ogSite() {
             $cookie_options = array(
                 'expires' => $expires, 
                 'path' => '/', 
-                'domain' => $_SERVER['HTTP_HOST'], 
+                'domain' => getDomain(), 
                 'secure' => true, 
                 'httponly' => false, 
                 'samesite' => 'None');
