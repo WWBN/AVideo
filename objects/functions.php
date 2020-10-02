@@ -4406,6 +4406,11 @@ function ogSite() {
     }
 
     function getDomain() {
+        global $global;
+        if (empty($_SERVER['HTTP_HOST'])) {
+            $parse = parse_url($global['webSiteRootURL']);
+            return $parse['host'];
+        }
         $domain = $_SERVER['HTTP_HOST'];
         $domain = str_replace("www.", "", $domain);
         $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
