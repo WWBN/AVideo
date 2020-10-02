@@ -27,7 +27,7 @@ if (empty($_GET['format'])) {
 
 if(LiveLinks::isLiveThumbsDisabled()){
     $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
-    $uploadedPoster = $global['systemRootPath'] . Live::_getPosterThumbsImage($liveLink->getUsers_id(), $_REQUEST['live_servers_id']);
+    $uploadedPoster = $global['systemRootPath'] . Live::getPosterThumbsImage($liveLink->getUsers_id(), $_REQUEST['live_servers_id']);
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
     if(file_exists($uploadedPoster)){
         header('Content-Type: image/jpg');
