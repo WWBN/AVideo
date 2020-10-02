@@ -4484,7 +4484,7 @@ function ogSite() {
             $expires = time() + $config->getSession_timeout();
         }
 
-        if (version_compare(phpversion(), '7.2', '>')) {
+        if (version_compare(phpversion(), '7.3', '>=')) {
             $cookie_options = array(
                 'expires' => $expires, 
                 'path' => '/', 
@@ -4492,9 +4492,12 @@ function ogSite() {
                 'secure' => true, 
                 'httponly' => false, 
                 'samesite' => 'None');
+            return setcookie($cookieName, $value, $cookie_options);
+        }else{
+            return setcookie($cookieName, $value, (int) $expires, "/", getDomain()) && setcookie($cookieName, $value, (int) $expires, "/") && setcookie($cookieName, $value, (int) $expires);
         }
 
-        return setcookie($cookieName, $value, (int) $expires, "/", getDomain()) && setcookie($cookieName, $value, (int) $expires, "/") && setcookie($cookieName, $value, (int) $expires);
+        
     }
 
     function _unsetcookie($cookieName) {
