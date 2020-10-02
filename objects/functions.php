@@ -4478,7 +4478,7 @@ function ogSite() {
             }
             $expires = time() + $config->getSession_timeout();
         }
-        return setcookie($cookieName, $value, (int) $expires, "/", getDomain());
+        return setcookie($cookieName, $value, (int) $expires, "/", getDomain()) && setcookie($cookieName, $value, (int) $expires, "/") && setcookie($cookieName, $value, (int) $expires);
     }
 
     function _unsetcookie($cookieName) {
@@ -4487,6 +4487,7 @@ function ogSite() {
         setcookie($cookieName, null, -1, "/", "." . $domain);
         setcookie($cookieName, null, -1, "/", $domain);
         setcookie($cookieName, null, -1, "/");
+        setcookie($cookieName, null, -1);
         unset($_COOKIE[$cookieName]);
     }
     
