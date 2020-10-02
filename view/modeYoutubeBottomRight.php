@@ -121,7 +121,11 @@ if (!empty($playlist_id)) {
 $modeYouTubeTimeLog['After autoplay and playlist '] = microtime(true) - $modeYouTubeTime;
 $modeYouTubeTime = microtime(true);
 ?>
-<div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
+<div class="clearfix"></div>
+<div class="row" style="margin: 15px 0;">
+    <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
+</div>
+<div class="clearfix"></div>
 <!-- videos List -->
 <!--googleoff: all-->
 <div id="videosList">

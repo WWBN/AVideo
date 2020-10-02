@@ -194,7 +194,7 @@ TimeLogEnd($timeLog, __LINE__);
                                     unset($uploadedVideos[0]);
                                 }
                                 ?>
-                                <div class="row mainArea">
+                                <div class="row">
                                     <?php
                                     TimeLogEnd($timeLog, __LINE__);
                                     createGallerySection($uploadedVideos, "", $get);

@@ -25,9 +25,9 @@
             <?php echo getAdsLeaderBoardTop2(); ?>
         </center>
         <!-- For Live Videos -->
-        <div id="liveVideos" class="clear clearfix" style="display: none;">
+        <div id="liveVideos" class="row clear clearfix" style="display: none;">
             <h3 class="galleryTitle text-danger"> <i class="fas fa-play-circle"></i> <?php echo __("Live"); ?></h3>
-            <div class="row extraVideos"></div>
+            <div class="extraVideos"></div>
         </div>
         <script>
             function afterExtraVideos($liveLi) {

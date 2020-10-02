@@ -22,7 +22,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     $paggingId = uniqid();
     $uid = "gallery" . uniqid();
     ?>
-    <div class="clear clearfix galeryRowElement" id="<?php echo $uid; ?>">
+    <div class="row clear clearfix galeryRowElement" id="<?php echo $uid; ?>">
         <h3 class="galleryTitle">
             <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $getName; ?>">
                 <i class="<?php echo $icon; ?>"></i>
@@ -162,7 +162,24 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                     echo AVideoPlugin::thumbsOverlay($value['id']);
                     @$timesG[__LINE__] += microtime(true) - $startG;
                     $startG = microtime(true);
-                    if (User::isLogged() && !empty($program)) {
+                    if(!empty($program) && $value['type']=='serie' && !empty($value['serie_playlists_id'])){
+                        ?>
+                        <div class="gallerySerieOverlay">
+                            <div class="gallerySerieOverlayTotal">
+                                <?php
+                                    $plids = PlayList::getVideosIDFromPlaylistLight($value['serie_playlists_id']);
+                                    echo count($plids);
+                                ?>
+                                <br><i class="fas fa-list"></i>
+                            </div>
+                                <i class="fas fa-play"></i>
+                                <?php
+                                    echo __("Play All");
+                                ?>
+                        </div>
+                        <?php
+                    }else
+                    if (!empty($program) && User::isLogged()) {
                         ?>
                         <div class="galleryVideoButtons">
                             <?php
