@@ -361,6 +361,20 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         </div>
 
         <?php
+        if($countCols>1){
+            if($countCols%$obj->screenColsLarge===0){
+                echo "<div class='clearfix hidden-md hidden-sm hidden-xs'></div>";
+            }
+            if($countCols%$obj->screenColsMedium===0){
+                echo "<div class='clearfix hidden-lg hidden-sm hidden-xs'></div>";
+            }
+            if($countCols%$obj->screenColsSmall===0){
+                echo "<div class='clearfix hidden-lg hidden-md hidden-xs'></div>";
+            }
+            if($countCols%$obj->screenColsXSmall===0){
+                echo "<div class='clearfix hidden-lg hidden-md hidden-sm'></div>";
+            }
+        }
     }
     ?>
     <div class="col-xs-12  text-center clear clearfix" style="padding: 10px;">
