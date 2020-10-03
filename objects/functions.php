@@ -1577,7 +1577,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
     $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-
+    $destinationFile = "{$global['systemRootPath']}videos/{$filename}";
     _error_log("decideMoveUploadedToVideos: {$filename}");
     $path_info = pathinfo($filename);
     if ($type !== "zip" && $path_info['extension'] === 'zip') {
@@ -1604,7 +1604,6 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
             _error_log("decideMoveUploadedToVideos: FTP {$filename}");
             $ftp->move_uploaded_file($tmp_name, $filename);
         } else {
-            $destinationFile = "{$global['systemRootPath']}videos/{$filename}";
             _error_log("decideMoveUploadedToVideos: Local {$filename}");
             if (!move_uploaded_file($tmp_name, $destinationFile)) {
                 if (!rename($tmp_name, $destinationFile)) {
@@ -1617,6 +1616,10 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
             chmod($destinationFile, 0644);
         }
     }
+    
+    $fsize = filesize($destinationFile);
+    _error_log("decideMoveUploadedToVideos: destinationFile {$destinationFile} filesize=". ($fsize) . " (". humanFileSize($fsize) . ")");
+    
 }
 
 function unzipDirectory($filename, $destination) {
