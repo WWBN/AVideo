@@ -245,8 +245,8 @@ class API extends PluginAbstract {
             $rows = array(Video::getVideo($parameters['videos_id'], $status, $ignoreGroup));
             $totalRows = empty($rows) ? 0 : 1;
         } else if ($dataObj->APISecret === @$_GET['APISecret']) {
-            $rows = Video::getAllVideos("viewable", false, true);
-            $totalRows = Video::getTotalVideos("viewable", false, true);
+            $rows = Video::getAllVideos("viewable", false, true, array(), $false, true);
+            $totalRows = Video::getTotalVideos("viewable", false, true, true);
         } else if (!empty($parameters['clean_title'])) {
             $rows = Video::getVideoFromCleanTitle($parameters['clean_title']);
             $totalRows = empty($rows) ? 0 : 1;
