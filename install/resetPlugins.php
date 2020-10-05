@@ -17,13 +17,13 @@ $option = trim(readline(""));
 
 exec("rm -R {$global['systemRootPath']}videos/cache/*");
 if ($option == 1) {
-    $sql = "UPDATE FROM plugins ";
+    $sql = "UPDATE plugins ";
     $sql .= " SET object_data = '' WHERE id > 0";
     sqlDAL::writeSql($sql);
     echo "* Reset all plugins Parameters DONE\n";
     ob_flush();
 } else if ($option == 2) {
-    $sql = "UPDATE FROM plugins ";
+    $sql = "UPDATE plugins ";
     $sql .= " SET object_data = '' WHERE name = 'CustomizeUser'";
     sqlDAL::writeSql($sql);
     echo "* Reset CustomizeUser Plugin Parameters only DONE\n";
