@@ -1714,7 +1714,8 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                     var unlistedBtn = '<button style="color: #BBB" type="button" class="btn btn-default btn-xs command-unlisted"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unlisted")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
                     var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>"><span class="fa fa-undo" aria-hidden="true"></span></button>';
                     var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fas fa-redo " aria-hidden="true"></span></button>';
-                    var rotateBtn = "<br>" + rotateLeft + rotateRight;
+                    //var rotateBtn = "<br>" + rotateLeft + rotateRight;
+                    var rotateBtn = "<br>";
                     var suggestBtn = "";
 <?php
 if (User::isAdmin()) {
@@ -1732,7 +1733,7 @@ if (User::isAdmin()) {
                         rotateBtn = "";
                     }
                     var status;
-                    var pluginsButtons = '<br><?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
+                    var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                     var download = "";
                     for (var k in row.videosURL) {
                         if (typeof row.videosURL[k].url === 'undefined' || !row.videosURL[k].url) {
@@ -1744,7 +1745,7 @@ if (User::isAdmin()) {
                         } else {
                             url += "?download=1";
                         }
-                        download += '<a href="' + url + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a><br>';
+                        download += '<a href="' + url + '" class="btn btn-default btn-xs btn-block" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
                     }
 
                     if (row.status == "i") {
@@ -1773,7 +1774,7 @@ if (User::isAdmin()) {
                         }
                         nextIsSet = "<span class='label label-success' data-toggle='tooltip' title='" + row.next_video.title + "'>Next video: " + nextVideoTitle + "</span>";
                     }
-                    return embedBtn + editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + "<br>" + download + nextIsSet;
+                    return embedBtn + editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + download + nextIsSet;
                 },
                 "tags": function (column, row) {
                     var tags = "";

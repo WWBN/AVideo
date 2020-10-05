@@ -15,8 +15,8 @@ if (!is_array($_POST['id'])) {
 
 require_once 'video.php';
 $id = 0;
-foreach ($_POST['id'] as $value) {
-    $obj = new Video("", "", $value);
+foreach ($_POST['id'] as $videos_id) {
+    $obj = new Video("", "", $videos_id);
     if (empty($obj)) {
         die("Object not found");
     }
@@ -25,9 +25,9 @@ foreach ($_POST['id'] as $value) {
         die(json_encode($obj));
     }
     if(!empty($_POST['add'])){
-        UserGroups::addVideoGroups($value, $_POST['users_groups_id']);
+        UserGroups::addVideoGroups($videos_id, $_POST['users_groups_id']);
     }else{
-        UserGroups::deleteVideoGroups($value, $_POST['users_groups_id']);
+        UserGroups::deleteVideoGroups($videos_id, $_POST['users_groups_id']);
     }
     $resp = true;
 }

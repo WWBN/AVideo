@@ -3,9 +3,8 @@
     .loop-button,
     .ypt-compress,
     .ypt-expand,
-    .player-logo{
-        display: none !important;
-    }
+    .player-logo,
+    .vjs-playback-rate,
     .vjs-seek-button{
         display: none !important;
     }

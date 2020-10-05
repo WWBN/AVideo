@@ -789,3 +789,10 @@ function avideoAlertError(msg){
 function avideoAlertSuccess(msg){
     avideoAlert("Success", msg, 'success');
 }
+
+function avideoTooltip(selector, text){
+    $(selector).attr('title', text);
+    $(selector).attr('data-toggle', 'tooltip');
+    $(selector).attr('data-original-title', text);
+    $(selector).tooltip();
+}

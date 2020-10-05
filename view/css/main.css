@@ -375,6 +375,19 @@ footer ul.list-inline li {
     border-bottom-left-radius: 0.25em;
     ;
 }
+.videosDetails .label{
+    border-radius: 0;
+}
+
+.videosDetails  .label:first-child{
+    border-top-left-radius: 0.25em;
+    border-bottom-left-radius: 0.25em;
+}
+.videosDetails  .label:last-child{
+    border-top-right-radius: 0.25em;
+    border-bottom-right-radius: 0.25em;
+}
+
 .popover-content,
 .popover-title,
 .popover {

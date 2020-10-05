@@ -251,7 +251,7 @@ foreach ($videos as $key => $value) {
                 <?php
                 if (empty($advancedCustom->doNotDisplayViews)) {
                     ?>
-                    <div class="col-sm-6 nopadding">
+                    <div class="col-sm-6 nopadding text-muted">
                         <strong class="view-count<?php echo $value['id']; ?>"> <i class="fas fa-eye"></i> <?php echo number_format($value['views_count'], 0); ?></strong>
                     </div>
                 <?php } ?>

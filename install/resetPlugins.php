@@ -15,6 +15,7 @@ echo "Choose an option: ";
 ob_flush();
 $option = trim(readline(""));
 
+exec("rm -R {$global['systemRootPath']}videos/cache/*");
 if ($option == 1) {
     $sql = "UPDATE FROM plugins ";
     $sql .= " SET object_data = '' WHERE id > 0";
