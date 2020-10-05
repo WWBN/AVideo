@@ -1,4 +1,7 @@
 <?php
+if(!is_object("YPTWallet")){
+    return false;
+}
 if ($obj->allowDonationLink && !empty($video['users_id'])) {
     $u = new User($video['users_id']);
     $donationLink = $u->getDonationLink();
