@@ -297,9 +297,12 @@ class UserGroups {
 
         $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES (?,?)";
         $value = intval($value);
-        sqlDAL::writeSql($sql,"ii",array($videos_id,$users_groups_id));
-
-        return true;
+        $response = sqlDAL::writeSql($sql,"ii",array($videos_id,$users_groups_id));
+        
+        if($response){
+            Video::clearCache($videos_id);
+        }
+        return $response;
     }
     
     static function deleteVideoGroups($videos_id, $users_groups_id) {
@@ -308,7 +311,12 @@ class UserGroups {
         }
         
         $sql = "DELETE FROM videos_group_view WHERE videos_id = ? AND users_groups_id = ?";
-        return sqlDAL::writeSql($sql,"ii",array($videos_id, $users_groups_id));
+        $response = sqlDAL::writeSql($sql,"ii",array($videos_id, $users_groups_id));
+        
+        if($response){
+            Video::clearCache($videos_id);
+        }
+        return $response;
     }
     
     static function updateVideoGroups($videos_id, $array_groups_id) {
