@@ -1,4 +1,4 @@
-<img src="https://platform.avideo.com/website/assets/151/images/avideo_platform.png"/>
+<img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
 
 ## Audio Video Platform
 AVideo is a term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with audio video. AVideo Platform is an Audio and Video Platform or simply "A Video Platform".
@@ -8,14 +8,14 @@ AVideo is a term that means absolutely nothing, or anything video. Since it does
 * OAVP - Online Audio Video Platform
 * OVP - Online Video Platform
 
-AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://platform.avideo.com/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://platform.avideo.com/AVideo_OpenSource">Open-Source Project</a>.
+AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://avideo.tube/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://avideo.tube/AVideo_OpenSource">Open-Source Project</a>.
 
 ## AN AVideo Platform Instance
 
 When we say a clone or copy of AVideo we mean an instance of AVideo Platform Enterprise or Open-Source and every instance of the AVideo Platform can be indexed as a network in the World Wide Broadcast Network Platform System.
 
 ### AVideo trademark is FREE to use
-AVideo is a registered trademark owned by WWBN/PeachWiz (World Wide Broadcast Network) the media division of PeachWiz, Inc. and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://platform.avideo.com/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
+AVideo is a registered trademark owned by WWBN/PeachWiz (World Wide Broadcast Network) the media division of PeachWiz, Inc. and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://avideo.tube/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
 * Word Mark:	AVIDEO
 * Translations:	"AVideo" has no meaning in any foreign language.
 * Description:	"AVideo" constitutes Audio Video.
@@ -31,7 +31,7 @@ AVideo is a registered trademark owned by WWBN/PeachWiz (World Wide Broadcast Ne
 #
 # AVideo Platform Open-Source Project
 ## AVideo Platform Open-Source Consist of THREE main Areas:
-<img src="https://platform.avideo.com/website/assets/151/images/svg/balancing.svg"/>
+<img src="https://avideo.tube/website/assets/151/images/svg/balancing.svg"/>
 
 #### (Management/Encoding/Storage)
 1. Management Project(s): <a href="http://git.platform.avideo.com/" class="" target="_blank">AVideo Platform</a>
@@ -45,7 +45,7 @@ Some of the largest brands in the world use the AVideo Platform to manage and di
 
 The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
 
-<div align="center"><img src="https://platform.avideo.com/website/assets/151/images/open_source_banner.png"/></div>
+<div align="center"><img src="https://avideo.tube/website/assets/151/images/open_source_banner.png"/></div>
 
 # Create Your Own Broadcast Network With AVideo Platform
 
@@ -65,7 +65,7 @@ WWBN offers relevant and practical solutions, as well as valuable innovative tec
 ### WHERE WE DELIVER
 PROFITABLE STRATEGIES - We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
 
-### To learn more about AVideo Platform visit the <a href="https://platform.avideo.com/" target="_blank">AVideo Platform Official Site</a>.
+### To learn more about AVideo Platform visit the <a href="https://avideo.tube/" target="_blank">AVideo Platform Official Site</a>.
 ### To learn more about the history of the AVideo Paroject <a href="https://wwbn.com/AVideo_Platform" target="_blank">WWBN Project Page</a>
 
 ### To see a demo select one below.
@@ -116,7 +116,7 @@ There, you can find some hints for troubleshooting as well.
 AVideo! is an video-sharing website, It is an open source solution that is freely available to everyone. With AVideo you can create your own video sharing site, AVideo will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
 
 <div align="center">
-<img src="https://platform.avideo.com/website/assets/151/images/who-we-are.jpg">
+<img src="https://avideo.tube/website/assets/151/images/who-we-are.jpg">
 <a href="http://demo.avideo.com/" target="_blank">View Demo</a>
 </div>
 
@@ -124,7 +124,7 @@ AVideo! is an video-sharing website, It is an open source solution that is freel
 Go get it <a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">here</a>
 
 <div align="center">
-<img src="https://platform.avideo.com/website/assets/151/images/encoder_img.png">
+<img src="https://avideo.tube/website/assets/151/images/encoder_img.png">
 <a href="https://encoder2.avideo.com/" target="_blank">View Public Encoder</a>
 </div>
 
