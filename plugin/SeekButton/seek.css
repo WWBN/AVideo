@@ -1,0 +1,26 @@
+#forwardLayer, #backLayer{
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    -webkit-box-align:center;
+    -webkit-box-pack:center;
+    display:-webkit-box; 
+    z-index: 9999;
+}
+#forwardLayer i, #backLayer i{
+    transition: all 1s ease;
+}
+#forwardLayer i{
+    position: absolute; right: 100px;
+}
+#backLayer i{
+    position: absolute; left: 100px;
+}
+#forwardLayer i.active{
+    right: 20px;
+}
+#backLayer i.active{
+    left: 20px;
+}
