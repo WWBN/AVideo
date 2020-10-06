@@ -747,7 +747,7 @@ function isAutoplayEnabled(){
             return autoplay;
         }
     }
-    return true;
+    return false;
 }
 
 function isPlayNextEnabled(){
