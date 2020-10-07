@@ -42,7 +42,7 @@ class MenuItem extends ObjectYPT {
                 $row['target'] = "";
                 if (!empty($row['url']) && strpos($row['url'], 'iframe:') === false) {// it is not an iframe
                     $parse = parse_url($row['url']);
-                    if (strtolower($parse['host']) !== $webSiteRootURLParse['host']) {// it is to another domain
+                    if (!empty($parse['host']) && strtolower($parse['host']) !== $webSiteRootURLParse['host']) {// it is to another domain
                         $row['target'] = " target='_blank' rel='noopener noreferrer' ";
                     }
                 } else {
