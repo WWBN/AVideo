@@ -35,7 +35,7 @@ AVideo is a registered trademark owned by WWBN/PeachWiz (World Wide Broadcast Ne
 
 #### (Management/Encoding/Storage)
 1. Management Project(s): <a href="http://git.avideo.tube/" class="" target="_blank">AVideo Platform</a>
-1. Encoding Project(s): <a href="http://git-encoder.avideo.tube/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git.encoder-network.avideo.com/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
+1. Encoding Project(s): <a href="http://git-encoder.avideo.tube/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git-encoder-network.avideo.tube/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
 1. Storage Project(s): <a href="http://git-storage.avideo.tube/" class="" target="_blank">AVideo Storage</a>
 
 Management life cycle is as follows; media is managed at the platform at 1, media is then uploaded to a temporary storage to be encoded at 2, then stored for broadcast at 3, then distributed to devices at 1 to be consumed.
