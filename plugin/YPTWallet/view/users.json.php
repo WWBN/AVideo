@@ -15,8 +15,9 @@ if(empty($plugin)){
 
 header('Content-Type: application/json');
 
+$_POST['current'] = getCurrentPage();
+$_POST['rowCount'] = getRowCount();
 $users = $plugin->getAllUsers();
 
 $total = User::getTotalUsers(true);
-
 echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($users).'}';
