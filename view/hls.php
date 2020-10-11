@@ -37,6 +37,9 @@ if($tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($v
     }
 }else{
     $newContent = "Can not see video [{$video['id']}] ({$_GET['videoDirectory']}) ";
+    $newContent .= $tokenIsValid?"":" tokenInvalid";
+    $newContent .= User::canWatchVideo($video['id'])?"":" cannot watch";
+    $newContent .= " ".date("Y-m-d H:i:s");
 }
 header("Content-Type: text/plain");
 echo $newContent;
