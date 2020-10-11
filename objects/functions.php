@@ -1082,6 +1082,9 @@ function getVideosURLAudio($fileName) {
 }
 
 function getVideosURL($fileName, $cache = true) {
+
+    return getVideosURL_V2($fileName); // disable this function soon
+
     global $global;
     if (empty($fileName)) {
         return array();
@@ -1241,6 +1244,110 @@ function getVideosURL($fileName, $cache = true) {
     return $files;
 }
 
+function getVideosURLMP4Only($fileName) {
+    $allFiles = getVideosURL_V2($fileName); // disable this function soon
+    foreach ($allFiles as $key => $value) {
+        if ($value['format'] !== 'mp4') {
+            unset($allFiles[$key]);
+        }
+    }
+    return $allFiles;
+}
+
+function getVideosURLWEBMOnly($fileName) {
+    $allFiles = getVideosURL_V2($fileName); // disable this function soon
+    foreach ($allFiles as $key => $value) {
+        if ($value['format'] !== 'webm') {
+            unset($allFiles[$key]);
+        }
+    }
+    return $allFiles;
+}
+
+function getVideosURLMP4WEBMOnly($fileName) {
+    return array_merge(getVideosURLMP4Only($fileName), getVideosURLWEBMOnly($fileName));
+}
+
+function getVideosURLOnly($fileName) {
+    $allFiles = getVideosURL_V2($fileName); // disable this function soon
+    foreach ($allFiles as $key => $value) {
+        if ($value['type'] !== 'video') {
+            unset($allFiles[$key]);
+        }
+    }
+    return $allFiles;
+}
+
+$getVideosURL_V2Array = array();
+
+function getVideosURL_V2($fileName) {
+    global $global, $getVideosURL_V2Array;
+    if (empty($fileName)) {
+        return array();
+    }
+
+    $cleanfilename = Video::getCleanFilenameFromFile($fileName);
+
+    if (!empty($getVideosURL_V2Array[$cleanfilename])) {
+        return $getVideosURL_V2Array[$cleanfilename];
+    }
+
+    $pdf = "{$global['systemRootPath']}videos/{$cleanfilename}.pdf";
+    $mp3 = "{$global['systemRootPath']}videos/{$cleanfilename}.mp3";
+    if (file_exists($pdf)) {
+        return getVideosURLPDF($fileName);
+    } else if (file_exists($mp3)) {
+        return getVideosURLAudio($fileName);
+    }
+    $cacheName = "getVideosURL_V2$fileName";
+    $files = object_to_array(ObjectYPT::getCache($cacheName, 0));
+
+    if (empty($files)) {
+        $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
+        if (!empty($plugin)) {
+            $files = VideoHLS::getSourceFile($fileName);
+        }
+
+        $video = array('webm', 'mp4');
+        $audio = array('mp3', 'ogg');
+        $image = array('jpg', 'gif', 'webp');
+
+        $formats = array_merge($video, $audio, $image);
+
+        $globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
+
+        $filesInDir = glob($globQuery, GLOB_BRACE);
+
+        foreach ($filesInDir as $file) {
+            $parts = pathinfo($file);
+            $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
+            if (empty($source)) {
+                continue;
+            }
+            preg_match('/_([^_]{0,4}).' . $parts['extension'] . '$/', $file, $matches);
+            $resolution = @$matches[1];
+            $type = 'video';
+            if (in_array($parts['extension'], $video)) {
+                $type = 'video';
+            } else if (in_array($parts['extension'], $audio)) {
+                $type = 'audio';
+            } else if (in_array($parts['extension'], $image)) {
+                $type = 'image';
+            }
+            $files["{$parts['extension']}{$resolution}"] = array(
+                'filename' => "{$parts['filename']}.{$parts['extension']}",
+                'path' => $file,
+                'url' => $source['url'],
+                'type' => $type,
+                'format' => strtolower($parts['extension']),
+            );
+        }
+        ObjectYPT::setCache($cacheName, $files);
+    }
+    $getVideosURL_V2Array[$cleanfilename] = $files;
+    return $getVideosURL_V2Array[$cleanfilename];
+}
+
 function getSources($fileName, $returnArray = false) {
     $name = "getSources_{$fileName}_" . intval($returnArray);
     /*
@@ -1270,7 +1377,12 @@ function getSources($fileName, $returnArray = false) {
                 $obj = new stdClass();
                 $obj->type = mime_content_type_per_filename($value['path']);
                 if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8") {
-                    $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
+                    $getVars = "";
+                    if($path_parts['extension'] == "m3u8"){
+                        $getVars = "?". uniqid();
+                    }
+                    
+                    $sources .= "<source src=\"{$value['url']}{$getVars}\" type=\"{$obj->type}\">";
                 } else {
                     $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
                 }
@@ -1616,10 +1728,9 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
             chmod($destinationFile, 0644);
         }
     }
-    
-    $fsize = filesize($destinationFile);
-    _error_log("decideMoveUploadedToVideos: destinationFile {$destinationFile} filesize=". ($fsize) . " (". humanFileSize($fsize) . ")");
-    
+    sleep(1);
+    $fsize = @filesize($destinationFile);
+    _error_log("decideMoveUploadedToVideos: destinationFile {$destinationFile} filesize=" . ($fsize) . " (" . humanFileSize($fsize) . ")");
 }
 
 function unzipDirectory($filename, $destination) {
@@ -2879,6 +2990,46 @@ function ogSite() {
         echo $output;
     }
 
+    function getOS($user_agent = "") {
+        if (empty($user_agent)) {
+            $user_agent = @$_SERVER['HTTP_USER_AGENT'];
+        }
+
+        $os_platform = "Unknown OS Platform";
+
+        $os_array = array(
+            '/windows nt 10/i' => 'Windows 10',
+            '/windows nt 6.3/i' => 'Windows 8.1',
+            '/windows nt 6.2/i' => 'Windows 8',
+            '/windows nt 6.1/i' => 'Windows 7',
+            '/windows nt 6.0/i' => 'Windows Vista',
+            '/windows nt 5.2/i' => 'Windows Server 2003/XP x64',
+            '/windows nt 5.1/i' => 'Windows XP',
+            '/windows xp/i' => 'Windows XP',
+            '/windows nt 5.0/i' => 'Windows 2000',
+            '/windows me/i' => 'Windows ME',
+            '/win98/i' => 'Windows 98',
+            '/win95/i' => 'Windows 95',
+            '/win16/i' => 'Windows 3.11',
+            '/macintosh|mac os x/i' => 'Mac OS X',
+            '/mac_powerpc/i' => 'Mac OS 9',
+            '/linux/i' => 'Linux',
+            '/ubuntu/i' => 'Ubuntu',
+            '/iphone/i' => 'iPhone',
+            '/ipod/i' => 'iPod',
+            '/ipad/i' => 'iPad',
+            '/android/i' => 'Android',
+            '/blackberry/i' => 'BlackBerry',
+            '/webos/i' => 'Mobile'
+        );
+
+        foreach ($os_array as $regex => $value)
+            if (preg_match($regex, $user_agent))
+                $os_platform = $value;
+
+        return $os_platform;
+    }
+
     function get_browser_name($user_agent = "") {
         global $AVideoMobileAPP_UA;
         if (empty($user_agent)) {
@@ -3060,7 +3211,7 @@ function ogSite() {
     function _session_start(Array $options = array()) {
         try {
             if (session_status() == PHP_SESSION_NONE) {
-                return session_start($options);
+                return @session_start($options);
             }
         } catch (Exception $exc) {
             _error_log("_session_start: " . $exc->getTraceAsString());
@@ -3477,9 +3628,7 @@ function ogSite() {
     }
 
     function isAVideoPlayer() {
-        global $isEmbed;
-
-        if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
+        if (isVideo()) {
             return true;
         }
         return false;
@@ -4489,18 +4638,16 @@ function ogSite() {
 
         if (version_compare(phpversion(), '7.3', '>=')) {
             $cookie_options = array(
-                'expires' => $expires, 
-                'path' => '/', 
-                'domain' => getDomain(), 
-                'secure' => true, 
-                'httponly' => false, 
+                'expires' => $expires,
+                'path' => '/',
+                'domain' => getDomain(),
+                'secure' => true,
+                'httponly' => false,
                 'samesite' => 'None');
             return setcookie($cookieName, $value, $cookie_options);
-        }else{
+        } else {
             return setcookie($cookieName, $value, (int) $expires, "/", getDomain()) && setcookie($cookieName, $value, (int) $expires, "/") && setcookie($cookieName, $value, (int) $expires);
         }
-
-        
     }
 
     function _unsetcookie($cookieName) {
@@ -4533,5 +4680,41 @@ function ogSite() {
         $host2 = str_replace("www.", "", $host2);
 
         return $host1 !== $host2;
+    }
+
+    function getCredentialsURL() {
+        global $global;
+        return "webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&user=" . urlencode(User::getUserName()) . "&pass=" . urlencode(User::getUserPass()) . "&encodedPass=1";
+    }
+
+    function gotToLoginAndComeBackHere($msg) {
+        global $global;
+        header("Location: {$global['webSiteRootURL']}/user?redirectUri=" . urlencode(getSelfURI()) . "&msg=" . urlencode($msg));
+        exit;
+    }
+
+    function setAlertMessage($msg, $type = "msg") {
+        _session_start();
+        $_SESSION['YPTalertMessage'] = array($msg, $type);
+    }
+
+    function showAlertMessage() {
+        if (!empty($_SESSION['YPTalertMessage'])) {
+            $_GET[$_SESSION['YPTalertMessage'][1]] = $_SESSION['YPTalertMessage'][0];
+            _session_start();
+            unset($_SESSION['YPTalertMessage']);
+        }
+        if (!empty($_GET['error'])) {
+            echo 'avideoAlertError("' . $_GET['error'] . '");';
+            echo 'window.history.pushState({}, document.title, "' . getSelfURI() . '");';
+        }
+        if (!empty($_GET['msg'])) {
+            echo 'avideoAlertInfo("' . $_GET['msg'] . '");';
+            echo 'window.history.pushState({}, document.title, "' . getSelfURI() . '");';
+        }
+        if (!empty($_GET['success'])) {
+            echo 'avideoAlertSuccess("' . $_GET['success'] . '");';
+            echo 'window.history.pushState({}, document.title, "' . getSelfURI() . '");';
+        }
     }
     
