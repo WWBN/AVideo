@@ -1083,7 +1083,7 @@ function getVideosURLAudio($fileName) {
 
 function getVideosURL($fileName, $cache = true) {
 
-    return getVideosURL_V2($fileName); // disable this function soon
+    //return getVideosURL_V2($fileName); // disable this function soon
 
     global $global;
     if (empty($fileName)) {
