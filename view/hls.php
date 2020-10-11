@@ -26,6 +26,8 @@ if(!empty($_GET['token'])){
     if($secure){
         $tokenIsValid = $secure->isTokenValid($_GET['token'], $_GET['videoDirectory'], $_GET['videoDirectory']);
     }
+}else if(!empty($_GET['globalToken'])){
+    $tokenIsValid = verifyToken($_GET['globalToken']);
 }
 
 // if is using a CDN I can not check if the user is logged
