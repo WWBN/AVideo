@@ -36,6 +36,8 @@ if($tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($v
     $newContent = str_replace('{$pathToVideo}',  "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
     if(!empty($_GET['token'])){
         $newContent = str_replace('/index.m3u8',  "/index.m3u8?token={$_GET['token']}", $newContent);
+    }else if(!empty($_GET['globalToken'])){
+        $newContent = str_replace('/index.m3u8',  "/index.m3u8?globalToken={$_GET['globalToken']}", $newContent);
     }
 }else{
     $newContent = "Can not see video [{$video['id']}] ({$_GET['videoDirectory']}) ";
