@@ -16,6 +16,11 @@ class VideosReported extends ObjectYPT {
 
     static function getFromDbUserAndVideo($users_id, $videos_id) {
         global $global;
+        if(!self::isTableInstalled()){
+            _error_log("We cannot report/block users yet, you need to install the tables", AVideoLog::$ERROR);
+            return array();
+        }
+        
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND videos_id = ? LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql,"ii",array($users_id, $videos_id)); 
@@ -31,6 +36,11 @@ class VideosReported extends ObjectYPT {
     
     static function getFromDbUserAndReportedUser($users_id, $reported_users_id) {
         global $global;
+        if(!self::isTableInstalled()){
+            _error_log("We cannot report/block users yet, you need to install the tables", AVideoLog::$ERROR);
+            return array();
+        }
+        
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND reported_users_id = ? LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql,"ii",array($users_id, $reported_users_id)); 
@@ -46,6 +56,12 @@ class VideosReported extends ObjectYPT {
     
     static function getAllReportedUsersIdFromUser($users_id) {
         global $global;
+        
+        if(!self::isTableInstalled()){
+            _error_log("We cannot report/block users yet, you need to install the tables", AVideoLog::$ERROR);
+            return array();
+        }
+        
         $users_id = intval($users_id);
         if(empty($users_id)){
             return array();
