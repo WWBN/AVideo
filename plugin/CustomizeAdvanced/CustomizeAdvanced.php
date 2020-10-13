@@ -61,6 +61,12 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderResolutionLow = false;
         $obj->doNotShowEncoderResolutionSD = false;
         $obj->doNotShowEncoderResolutionHD = false;
+        $obj->openEncoderInIFrame = false;
+        $obj->showOnlyEncoderAutomaticResolutions = true;
+        $obj->doNotShowEncoderAutomaticHLS = false;
+        $obj->doNotShowEncoderAutomaticMP4 = false;
+        $obj->doNotShowEncoderAutomaticWebm = false;
+        $obj->doNotShowEncoderAutomaticAudio = false;
         $obj->doNotShowLeftMenuAudioAndVideoButtons = false;
         $obj->doNotShowWebsiteOnContactForm = false;
         $obj->doNotUseXsendFile = false;
