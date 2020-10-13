@@ -1088,7 +1088,7 @@ function getVideosURLAudio($fileName) {
 function getVideosURL($fileName, $cache = true) {
 
     return getVideosURL_V2($fileName); // disable this function soon
-
+/*
     global $global;
     if (empty($fileName)) {
         return array();
@@ -1246,6 +1246,8 @@ function getVideosURL($fileName, $cache = true) {
     $total_time = round(($finish - $start), 4);
     //_error_log("getVideosURL generated in {$total_time} seconds. fileName: $fileName ");
     return $files;
+ * 
+ */
 }
 
 function getVideosURLMP4Only($fileName) {
@@ -1399,6 +1401,10 @@ function getSources($fileName, $returnArray = false) {
 
     $obj = new stdClass();
     $obj->result = $return;
+    
+    if(empty($sources) && !empty($video['id'])){
+        Video::clearCache($video['id']);
+    }
 //ObjectYPT::setCache($name, $obj);
     return $return;
 }
