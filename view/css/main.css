@@ -795,9 +795,32 @@ img.blur{
 }
 
 .btn-group.justified {
-  display: flex;
+    display: flex;
 }
 
 .justified .btn {
-  flex: 1
+    flex: 1
+}
+
+
+.addWidthOnMenuOpen {
+    transition: width 0.3s;
+}
+
+
+@media (min-width: 1200px){
+    body.youtube .lessMarginLeftOnMenuOpen{
+        margin-left: -200px;
+    }
+    body.youtube .col-lg-4.addWidthOnMenuOpen {
+        margin-left: -150px;
+        width: calc(33.3333333333% + 300px);
+    }
+    body.youtube .col-lg-10.addWidthOnMenuOpen {
+        width: 100%;
+    }
+    body.youtube .col-lg-offset-1.addWidthOnMenuOpen {
+        margin-left: 0px;
+    }
+    
 }

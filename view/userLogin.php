@@ -46,7 +46,7 @@ if (empty($_COOKIE) && get_browser_name()!=='Other (Unknown)') {
 ?>
 <div class="row">
     <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
-    <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 list-group-item ">
+    <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 list-group-item addWidthOnMenuOpen">
         <fieldset>
             <legend class=" hidden-xs">
                 <?php

@@ -7,6 +7,7 @@ require_once $global['systemRootPath'] . 'objects/captcha.php';
 $config = new Configuration();
 $valid = Captcha::validation(@$_POST['captcha']);
 $obj = new stdClass();
+$obj->error = "";
 if ($valid) {
 
     $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><b>Website:</b> {$_POST['website']}<br><br>{$_POST['comment']}";

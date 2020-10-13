@@ -15,6 +15,7 @@ while ($data = fread($putdata, 1024 * 1024))
 
 fclose($fp);
 fclose($putdata);
+sleep(1);
 $obj->filesize = filesize($obj->file);
 
 $json = json_encode($obj);

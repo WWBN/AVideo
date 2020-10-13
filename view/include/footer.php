@@ -27,28 +27,7 @@
 <script>
     $(function () {
 <?php
-if (!empty($_GET['error'])) {
-    ?>
-            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo $_GET['error']; ?>", "error");
-            window.history.pushState({}, document.title, '<?php echo getSelfURI(); ?>');
-    <?php
-}
-?>
-<?php
-if (!empty($_GET['msg'])) {
-    ?>
-            avideoAlert("<?php echo __("Ops!"); ?>", "<?php echo $_GET['msg']; ?>", "info");
-            window.history.pushState({}, document.title, '<?php echo getSelfURI(); ?>');
-    <?php
-}
-?>
-<?php
-if (!empty($_GET['success']) && strlen($_GET['success']) > 4) {
-    ?>
-            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo $_GET['success']; ?>", "info");
-            window.history.pushState({}, document.title, '<?php echo getSelfURI(); ?>');
-    <?php
-}
+showAlertMessage();
 ?>
     });
 </script>

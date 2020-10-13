@@ -711,6 +711,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     var videoUploaded = false;
     var videos_id = <?php echo intval(@$_GET['video_id']); ?>;
     var isArticle = 0;
+    var checkProgressTimeout = [];
     function saveVideoOnPlaylist(videos_id, add, playlists_id) {
         modal.showPleaseWait();
         $.ajax({
@@ -795,9 +796,9 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
     <?php
 }
 ?>
-    function checkProgress() {
+    function checkProgress(encoderURL) {
         $.ajax({
-            url: '<?php echo $config->getEncoderURL(); ?>status',
+            url: encoderURL+'status',
             success: function (response) {
                 if (response.queue_list.length) {
                     for (i = 0; i < response.queue_list.length; i++) {
@@ -831,6 +832,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                     if (response.encoding_status.progress >= 100) {
                         $("#encodingProgress" + id).find('.progress-bar').css({'width': '100%'});
                         clearTimeout(timeOut);
+                        $.toast("Encode Complete");
                         timeOut = setTimeout(function () {
                             $("#grid").bootgrid('reload');
                         }, 5000);
@@ -839,20 +841,20 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                     }
 
                     setTimeout(function () {
-                        checkProgress();
-                    }, 3000);
+                        checkProgress(encoderURL);
+                    }, 10000);
                 } else if (encodingNowId !== "") {
                     $("#encodeProgress" + encodingNowId).slideUp("normal", function () {
                         $(this).remove();
                     });
                     encodingNowId = "";
                     setTimeout(function () {
-                        checkProgress();
-                    }, 10000);
+                        checkProgress(encoderURL);
+                    }, 20000);
                 } else {
                     setTimeout(function () {
-                        checkProgress();
-                    }, 10000);
+                        checkProgress(encoderURL);
+                    }, 20000);
                 }
 
             }
@@ -1340,10 +1342,10 @@ echo AVideoPlugin::getManagerVideosReset();
         if ($('#encodeProgress' + id).children().length) {
             return false;
         }
-        var item = '<div class="progress progress-striped active " id="encodingProgress' + queueItem.id + '" style="margin: 0;">';
-        item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"><span >0% Complete</span></div>';
+        var item = '<div class="progress progress-striped active " id="encodingProgress' + queueItem.id + '" style="margin: 0;border-bottom-right-radius: 0; border-bottom-left-radius: 0;">';
+        item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0; animation-duration: 15s;animation: 15s;transition-duration: 15s; "><span >0% Complete</span></div>';
         item += '<span class="progress-type"><span class="badge "><?php echo __("Queue Position"); ?> ' + position + '</span></span><span class="progress-completed">' + queueItem.name + '</span>';
-        item += '</div><div class="progress progress-striped active " id="downloadProgress' + queueItem.id + '" style="height: 10px;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
+        item += '</div><div class="progress progress-striped active " id="downloadProgress' + queueItem.id + '" style="height: 10px; border-top-right-radius: 0; border-top-left-radius: 0;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
         $('#encodeProgress' + id).html(item);
     }
 
@@ -1789,7 +1791,13 @@ if (User::isAdmin()) {
                     tags += "<span class='label label-primary fix-width'><?php echo __("Format") . ":"; ?> </span>" + row.typeLabels;
                     if (row.encoderURL) {
                         tags += "<br><span class='label label-primary fix-width'><?php echo __("Encoder") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.encoderURL + "</span><br>";
+                        clearTimeout(checkProgressTimeout[row.encoderURL]);
+                        checkProgressTimeout[row.encoderURL] = setTimeout(function(){
+                            checkProgress(row.encoderURL);
+                        },1000);
                     }
+                    
+                    
                     return tags;
                 },
                 "filesize": function (column, row) {
@@ -1824,7 +1832,7 @@ if (User::isAdmin()) {
 
 
                     } else if (row.status == 'd') {
-                        tags += '<div class="progress progress-striped active" style="margin:5px;"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px"></div></div>';
+                        tags += '<div class="progress progress-striped active" style="margin:5px;"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px;"></div></div>';
                     }
                     var type, img, is_portrait;
                     if (row.type === "audio") {
@@ -1864,7 +1872,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
 ?>
 
                     var pluginsButtons = '<br><?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
-                    return img + '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.id + '/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt + pluginsButtons + playList;
+                    return img + '<div class="clearfix hidden-md hidden-lg"></div><a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.id + '/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt + pluginsButtons + playList;
                 }
 
 
@@ -2051,9 +2059,6 @@ if (User::isAdmin()) {
     <?php
 }
 ?>
-            setTimeout(function () {
-                checkProgress()
-            }, 500);
         });
         $('#inputCleanTitle').keyup(function (evt) {
             $('#inputCleanTitle').val(clean_name($('#inputCleanTitle').val()));

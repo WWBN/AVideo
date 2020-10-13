@@ -36,6 +36,7 @@ class LiveLinks extends PluginAbstract {
         $obj->disableGifThumbs = false;
         $obj->disableLiveThumbs = false;
         $obj->doNotShowLiveLinksLabel = false;
+        $obj->hideTopButton = true;
         return $obj;
     }
 
@@ -61,6 +62,9 @@ class LiveLinks extends PluginAbstract {
     public function getHTMLMenuRight() {
         global $global;
         $obj = $this->getDataObject();
+        if(!empty($obj->hideTopButton )){
+            return '';
+        }
         if (!$this->canAddLinks()) {
             return '';
         }
@@ -208,5 +212,16 @@ class LiveLinks extends PluginAbstract {
 
         return $file;
     }
+    
+    public function getUploadMenuButton() {
+        global $global;
+        if (!$this->canAddLinks()) {
+            return '';
+        }
+        $obj = $this->getDataObject();
+        $buttonTitle = $obj->buttonTitle;
+        include $global['systemRootPath'] . 'plugin/LiveLinks/getUploadMenuButton.php';
+    }
+
 
 }

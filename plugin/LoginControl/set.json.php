@@ -18,7 +18,7 @@ if(!isset($_POST['value'])){
     die(json_encode($obj));
 }
 
-$cu = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
+$cu = AVideoPlugin::loadPluginIfEnabled('LoginControl');
 
 if(empty($cu)){
     $obj->msg = "Plugin not enabled";   
@@ -27,11 +27,8 @@ if(empty($cu)){
 
 $obj->error = false;
 switch ($_POST['type']) {
-    case 'userCanAllowFilesDownload':
-        CustomizeUser::setCanDownloadVideosFromUser(User::getId(), $_POST['value']=="true"?true:false);
-        break;
-    case 'userCanAllowFilesShare':
-        CustomizeUser::setCanShareVideosFromUser(User::getId(), $_POST['value']=="true"?true:false);
+    case 'set2FA':
+        LoginControl::setUser2FA(User::getId(), $_POST['value']=="true"?true:false);
         break;
 }
 

@@ -41,6 +41,9 @@ class Live extends PluginAbstract {
         global $global;
         $buttonTitle = $this->getButtonTitle();
         $obj = $this->getDataObject();
+        if(!empty($obj->hideTopButton )){
+            return '';
+        }
         include $global['systemRootPath'] . 'plugin/Live/view/menuRight.php';
     }
 
@@ -131,6 +134,7 @@ class Live extends PluginAbstract {
         $obj->disableDVR = false;
         $obj->disableGifThumbs = false;
         $obj->disableLiveThumbs = false;
+        $obj->hideTopButton = true;
         $obj->useAadaptiveMode = false;
         $obj->protectLive = false;
         $obj->experimentalWebcam = false;
@@ -1039,6 +1043,16 @@ class Live extends PluginAbstract {
         }
 
         return true;
+    }
+    
+    public function getUploadMenuButton() {
+        global $global;
+        $obj = $this->getDataObject();
+        if (!empty($obj->doNotShowGoLiveButton) || !User::canStream()) {
+            return '';
+        }
+        $buttonTitle = $this->getButtonTitle();
+        include $global['systemRootPath'] . 'plugin/Live/getUploadMenuButton.php';
     }
 
 }

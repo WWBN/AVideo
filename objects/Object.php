@@ -320,13 +320,13 @@ abstract class ObjectYPT implements ObjectInterface {
 
     static function getCacheDir() {
         $tmpDir = getTmpDir();
-        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
+        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . "/";
+        $tmpDir .= "YPTObjectCache" . "/";
         
         if(class_exists("User_Location")){
             $loc = User_Location::getThisUserLocation();
             if(!empty($loc)){
-                $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
+                $tmpDir .= $loc['country_code'] . "/";
             }
         }
         

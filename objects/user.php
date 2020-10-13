@@ -758,6 +758,7 @@ if (typeof gtag !== \"function\") {
     const USER_NOT_VERIFIED = 1;
     const USER_NOT_FOUND = 2;
     const CAPTCHA_ERROR = 3;
+    const REQUIRE2FA = 4;
 
     function login($noPass = false, $encodedPass = false) {
         global $global, $advancedCustom, $advancedCustomUser, $config;
@@ -807,7 +808,7 @@ if (typeof gtag !== \"function\") {
             return self::USER_NOT_FOUND;
         }
     }
-
+    
     static function isCaptchaNeed() {
         global $advancedCustomUser;
         // check for multiple logins attempts to prevent hacking
@@ -881,9 +882,8 @@ if (typeof gtag !== \"function\") {
 
     static function logoff() {
         global $global;
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        _session_start();
+        ObjectYPT::deleteAllSessionCache();
         _unsetcookie('rememberme');
         _unsetcookie('user');
         _unsetcookie('pass');
@@ -996,7 +996,7 @@ if (typeof gtag !== \"function\") {
         if (!empty($result)) {
             if ($pass !== false) {
                 if (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
-                    if ($advancedCustom->enableOldPassHashCheck) {
+                    if (!empty($advancedCustom) && $advancedCustom->enableOldPassHashCheck) {
                         _error_log("Password check new hash pass does not match, trying MD5");
                         return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
                     } else {

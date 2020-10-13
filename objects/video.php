@@ -852,6 +852,7 @@ if (!class_exists('Video')) {
             if (!empty($parts[0])) {
                 $fileName = $parts[0];
             }
+            $fileName = self::getCleanFilenameFromFile($fileName);
             $sql = "SELECT id FROM videos WHERE filename = ? LIMIT 1";
 
             $res = sqlDAL::readSql($sql, "s", array($fileName));
@@ -2574,7 +2575,14 @@ if (!class_exists('Video')) {
          * @return type .jpg .gif .webp _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
          */
         static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
-            global $global, $advancedCustom, $videosPaths;
+            global $global, $advancedCustom, $videosPaths, $VideoGetSourceFile;
+            
+            $cacheName = md5($filename.$type.$includeS3);
+            if(isset($VideoGetSourceFile[$cacheName])){
+                return $VideoGetSourceFile[$cacheName];
+            }
+            
+            
             // check if there is a webp image
             if ($type === '.gif' && (empty($_SERVER['HTTP_USER_AGENT']) || get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari')) {
 
@@ -2617,7 +2625,13 @@ if (!class_exists('Video')) {
                 if ($type == ".m3u8") {
                     $source['path'] = "{$global['systemRootPath']}videos/{$filename}/index{$type}";
                 }
-                $video = Video::getVideoFromFileNameLight(str_replace(array('_Low', '_SD', '_HD'), array('', '', ''), $filename));
+                $cleanFileName = self::getCleanFilenameFromFile($filename);
+                $video = Video::getVideoFromFileNameLight($cleanFileName);
+                if(empty($video)){
+                    _error_log("Video::getSourceFile($filename, $type, $includeS3) ERROR video not found ($cleanFileName)");
+                    $VideoGetSourceFile[$cacheName] = false;
+                    return false;
+                }
                 $canUseCDN = canUseCDN($video['id']);
 
                 if (!empty($video['sites_id']) && (preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || $type == ".m3u8" || $type == ".pdf" || $type == ".zip") && @filesize($source['path']) < 20) {
@@ -2653,7 +2667,8 @@ if (!class_exists('Video')) {
                 }
                 if (!file_exists($source['path']) || ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10 ))) {
                     if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg" && $type != "_portrait_thumbsV2.jpg" && $type != "_portrait_thumbsSmallV2.jpg") {
-                        return array('path' => false, 'url' => false);
+                        $VideoGetSourceFile[$cacheName] = array('path' => false, 'url' => false);
+                        return $VideoGetSourceFile[$cacheName];
                     }
                 }
 
@@ -2671,7 +2686,21 @@ if (!class_exists('Video')) {
                 $source['url'] .= "?{$x}";
             }
             //ObjectYPT::setCache($name, $source);
-            return $source;
+            $VideoGetSourceFile[$cacheName] = $source;
+            return $VideoGetSourceFile[$cacheName];
+        }
+        
+        static function getCleanFilenameFromFile($filename) {
+            $cleanName = str_replace(
+                        array('_Low', '_SD', '_HD', '_thumbsV2','_thumbsSmallV2',
+                            '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240'), 
+                        array('', '', '', '', '', '', '', '', '', '', '', ''), $filename);
+            $path_parts = pathinfo($cleanName);
+            if(strlen($path_parts['extension'])>4){
+                return $cleanName;
+            }else{
+                return $path_parts['filename'];
+            }
         }
 
         static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false) {
@@ -2723,7 +2752,7 @@ if (!class_exists('Video')) {
         }
 
         static function getVideosPaths($filename, $includeS3 = false) {
-            $types = array('', '_Low', '_SD', '_HD');
+            $types = array('', '_Low', '_SD', '_HD','_2160', '_1440', '_1080', '_720', '_480', '_360', '_240');
             $videos = array();
 
             $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
@@ -3226,6 +3255,7 @@ if (!class_exists('Video')) {
             
             ObjectYPT::deleteCache("otherInfo{$videos_id}");
             ObjectYPT::deleteCache($filename);
+            ObjectYPT::deleteCache("getVideosURL_V2$filename");
             ObjectYPT::deleteCache($filename . "article");
             ObjectYPT::deleteCache($filename . "pdf");
             ObjectYPT::deleteCache($filename . "video");
@@ -3295,7 +3325,7 @@ if (!class_exists('Video')) {
         static function getVideoType($filename) {
             $obj = new stdClass();
             $paths = self::getVideosPaths($filename);
-
+            
             $obj->mp4 = !empty($paths['mp4']) ? true : false;
             $obj->webm = !empty($paths['webm']) ? true : false;
             $obj->m3u8 = !empty($paths['m3u8']) ? true : false;

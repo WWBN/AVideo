@@ -179,6 +179,12 @@ if ($resp === User::CAPTCHA_ERROR) {
     die(json_encode($object));
 }
 
+if ($resp === User::REQUIRE2FA) {
+    _error_log("login.json.php 2fa login is required");
+    $object->error = __("2FA login is required");
+    die(json_encode($object));
+}
+
 //_error_log("login.json.php setup object");
 $object->siteLogo = $global['webSiteRootURL'] . $config->getLogo();
 $object->id = User::getId();
@@ -232,8 +238,10 @@ if ($object->isLogged) {
     if (!empty($p)) {
         require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
         $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
-        $object->streamServerURL = $p->getServer() . "?p=" . User::getUserPass();
-        $object->streamKey = $trasnmition['key'];
+        if(!empty($trasnmition)){
+            $object->streamServerURL = $p->getServer() . "?p=" . User::getUserPass();
+            $object->streamKey = $trasnmition['key'];
+        }
     }
     TimeLogEnd($timeLog2, __LINE__);
     //_error_log("login.json.php get MobileManager");
