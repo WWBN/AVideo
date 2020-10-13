@@ -164,6 +164,9 @@ abstract class PluginAbstract {
 
     public function setDataObject($object) {
         $pluginRow = Plugin::getPluginByUUID($this->getUUID());
+        if(empty($pluginRow)){
+            return false;
+        }
         $obj = new Plugin($pluginRow['id']);
         $obj->setObject_data(addcslashes(json_encode($object), '\\'));
         return $obj->save();

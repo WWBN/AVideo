@@ -53,7 +53,7 @@ class sqlDAL {
             if (substr(trim($line), -1, 1) == ';') {
                 // Perform the query
                 if (!$global['mysqli']->query($templine)) {
-                    _error_log('sqlDAL::executeFile '.$filename.' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />', AVideoLog::$ERROR);
+                    _error_log('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />', AVideoLog::$ERROR);
                 }
                 // Reset temp variable to empty
                 $templine = '';
@@ -81,7 +81,7 @@ class sqlDAL {
                     $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
                 } catch (Exception $exc) {
                     echo log_error($exc->getTraceAsString());
-                }  
+                }
             }
         }
 
@@ -144,7 +144,7 @@ class sqlDAL {
                     log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
                     return false;
                 }
-                $TimeLog = "[$preparedStatement], $formats, ". json_encode($values).", $refreshCache";
+                $TimeLog = "[$preparedStatement], $formats, " . json_encode($values) . ", $refreshCache";
                 TimeLogStart($TimeLog);
                 $stmt->execute();
                 $readSqlCached[$crc] = $stmt->get_result();
@@ -167,7 +167,7 @@ class sqlDAL {
                 //log_error("set dataseek to 0");
                 // increase a counter for the saved queries.
                 if (isset($_SESSION['savedQuerys'])) {
-                    $_SESSION['savedQuerys'] ++;
+                    $_SESSION['savedQuerys']++;
                 }
             } else {
                 $readSqlCached[$crc] = "false";
@@ -365,6 +365,9 @@ class sqlDAL {
         $metadata = mysqli_stmt_result_metadata($stmt);
         $ret = new iimysqli_result;
         $field_array = array();
+        if (!$metadata) {
+            die("Execute query error, because: {$stmt->error}");
+        }
         $tmpFields = $metadata->fetch_fields();
         $i = 0;
         foreach ($tmpFields as $f) {

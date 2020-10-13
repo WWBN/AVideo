@@ -535,6 +535,10 @@ function sendSiteEmail($to, $subject, $message) {
         $to = array($to);
     }
 
+    if(empty($advancedCustom)){
+        $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
+    }
+    
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
 
@@ -563,7 +567,7 @@ function sendSiteEmail($to, $subject, $message) {
                 _error_log("sendSiteEmail Success Info: $subject " . json_encode($to));
             }
         } else {
-            $size = intval($advancedCustom->splitBulkEmailSend);
+            $size = intval(@$advancedCustom->splitBulkEmailSend);
             if (empty($size)) {
                 $size = 90;
             }
@@ -1083,7 +1087,7 @@ function getVideosURLAudio($fileName) {
 
 function getVideosURL($fileName, $cache = true) {
 
-    //return getVideosURL_V2($fileName); // disable this function soon
+    return getVideosURL_V2($fileName); // disable this function soon
 
     global $global;
     if (empty($fileName)) {
@@ -1376,16 +1380,7 @@ function getSources($fileName, $returnArray = false) {
             if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8" || $path_parts['extension'] == "mp3" || $path_parts['extension'] == "ogg") {
                 $obj = new stdClass();
                 $obj->type = mime_content_type_per_filename($value['path']);
-                if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8") {
-                    $getVars = "";
-                    if($path_parts['extension'] == "m3u8"){
-                        $getVars = "?". uniqid();
-                    }
-                    
-                    $sources .= "<source src=\"{$value['url']}{$getVars}\" type=\"{$obj->type}\">";
-                } else {
-                    $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
-                }
+                $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
                 $obj->src = $value['url'];
                 $sourcesArray[] = $obj;
             }
@@ -4689,21 +4684,65 @@ function ogSite() {
 
     function gotToLoginAndComeBackHere($msg) {
         global $global;
-        header("Location: {$global['webSiteRootURL']}/user?redirectUri=" . urlencode(getSelfURI()) . "&msg=" . urlencode($msg));
+        header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode(getSelfURI()) . "&msg=" . urlencode($msg));
         exit;
     }
 
     function setAlertMessage($msg, $type = "msg") {
         _session_start();
-        $_SESSION['YPTalertMessage'] = array($msg, $type);
+        $_SESSION['YPTalertMessage'][] = array($msg, $type);
+    }
+
+    function setToastMessage($msg) {
+        setAlertMessage($msg, "toast");
     }
 
     function showAlertMessage() {
         if (!empty($_SESSION['YPTalertMessage'])) {
-            $_GET[$_SESSION['YPTalertMessage'][1]] = $_SESSION['YPTalertMessage'][0];
+            foreach ($_SESSION['YPTalertMessage'] as $value) {
+                if(!empty($value[0])){
+                    if(empty($_GET[$value[1]])){
+                        $_GET[$value[1]] = array();
+                    }
+                    $_GET[$value[1]][] = $value[0];
+                }
+            }
             _session_start();
             unset($_SESSION['YPTalertMessage']);
         }
+        
+        $joinString = array('error', 'msg', 'success');
+        foreach ($joinString as $value) {
+            if(!empty($_GET[$value]) && is_array($_GET[$value])){
+                $_GET[$value] = array_unique($_GET[$value]);
+                $newStr = array();
+                foreach ($_GET[$value] as $value2) {
+                    if(!empty($value2)){
+                        $newStr[] = $value2;
+                    }
+                }
+                $_GET[$value] = implode("<br>", $newStr);
+            }
+        }
+        
+        $check = array('error', 'msg', 'success', 'toast');
+        foreach ($check as $value) {
+            if(!empty($_GET[$value])){
+                if(is_array($_GET[$value])){
+                    $newStr = array();
+                    foreach ($_GET[$value] as $key => $value2) {
+                        $value2 = str_replace('"', "''", $value2);
+                        if(!empty($value2)){
+                            $newStr[] = $value2;
+                        }
+                    }
+                    $_GET[$value] = $newStr;
+                }else{
+                    $_GET[$value] = str_replace('"', "''", $_GET[$value]);
+                }
+            }
+        }
+        echo "/** showAlertMessage **/", PHP_EOL;
         if (!empty($_GET['error'])) {
             echo 'avideoAlertError("' . $_GET['error'] . '");';
             echo 'window.history.pushState({}, document.title, "' . getSelfURI() . '");';
@@ -4716,5 +4755,29 @@ function ogSite() {
             echo 'avideoAlertSuccess("' . $_GET['success'] . '");';
             echo 'window.history.pushState({}, document.title, "' . getSelfURI() . '");';
         }
+        if (!empty($_GET['toast'])) {
+            if(!is_array($_GET['toast'])){
+                $_GET['toast'] = array($_GET['toast']);
+            }else{
+                $_GET['toast'] = array_unique($_GET['toast']);
+            }
+            foreach ($_GET['toast'] as $key => $value) {
+                $hideAfter = strlen(strip_tags($value))*150;
+                
+                if($hideAfter<3000){
+                    $hideAfter = 3000;
+                }
+                if($hideAfter>15000){
+                    $hideAfter = 15000;
+                }
+                
+                echo '$.toast({
+                    text: "' . $value . '",
+                    hideAfter: '.$hideAfter.'   // in milli seconds
+                });console.log("Toast Hide after '.$hideAfter.'");';
+            }
+            echo 'window.history.pushState({}, document.title, "' . getSelfURI() . '");';
+        }
+        echo PHP_EOL, "/** showAlertMessage END **/";
     }
     

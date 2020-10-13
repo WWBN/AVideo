@@ -7,6 +7,7 @@ class LoginFacebook extends PluginAbstract {
     public function getTags() {
         return array(
             PluginTags::$FREE,
+            PluginTags::$LOGIN,
         );
     }
     public function getDescription() {
