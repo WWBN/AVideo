@@ -218,7 +218,7 @@ Best regards,
         }
         
         $confirmationLink = self::getConfirmationLink($confirmation);
-        $confirmationLinkATag = '< href="'.$confirmationLink.'">'.__("Here").'</a>';
+        $confirmationLinkATag = '<a href="'.$confirmationLink.'">'.__("Here").'</a>';
 
         $search = array('{user}', '{siteName}', '{userIP}', '{userAgent}', '{confirmationLink}');
         $replace = array($user, $siteName, $userIP, $userAgent, $confirmationLinkATag);
