@@ -25,12 +25,12 @@ AVideoPlugin::loadPlugin("LoginControl");
                 </div>
                 <div class="panel-body">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#Users_login_history"><?php echo __("Users Login History"); ?></a></li>
+                        <li class="active"><a data-toggle="tab" href="#logincontrol_history"><?php echo __("Users Login History"); ?></a></li>
                     </ul>
                     <div class="tab-content">
-                        <div id="Users_login_history" class="tab-pane fade in active" style="padding: 10px;">
+                        <div id="logincontrol_history" class="tab-pane fade in active" style="padding: 10px;">
                             <?php
-                            include $global['systemRootPath'] . 'plugin/LoginControl/View/Users_login_history/index_body.php';
+                            include $global['systemRootPath'] . 'plugin/LoginControl/View/logincontrol_history/index_body.php';
                             ?>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 <?php
 require_once '../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/Users_login_history.php';
+require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/logincontrol_history.php';
 header('Content-Type: application/json');
 if(!User::isAdmin() || empty($_REQUEST['users_id'])){
     $_REQUEST['users_id'] = User::getId();
@@ -11,6 +11,6 @@ if(!User::isAdmin() || empty($_REQUEST['users_id'])){
 if(empty($_REQUEST['users_id'])){
     die('{"data": []}');
 }
-$rows = Users_login_history::getLastLogins($_REQUEST['users_id'], 100);
+$rows = logincontrol_history::getLastLogins($_REQUEST['users_id'], 100);
 ?>
 {"data": <?php echo json_encode($rows); ?>}

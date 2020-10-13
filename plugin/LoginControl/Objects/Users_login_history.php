@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
-class Users_login_history extends ObjectYPT {
+class logincontrol_history extends ObjectYPT {
 
     protected $id,$users_id,$uniqidV4,$ip,$user_agent,$confirmation_code,$status;
     
@@ -11,7 +11,7 @@ class Users_login_history extends ObjectYPT {
     }
 
     static function getTableName() {
-        return 'users_login_history';
+        return 'logincontrol_history';
     }
     
     static function getAllUsers() {
@@ -107,7 +107,7 @@ class Users_login_history extends ObjectYPT {
                 $row['device'] = self::getDeviceName($row['user_agent']);
                 $row['ago'] = humanTimingAgo($row['created']);
                 $row['time_ago'] = "{$row['created']} ({$row['ago']})";
-                $row['type'] = ($row['status']!==Users_login_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
+                $row['type'] = ($row['status']!==logincontrol_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
                 $rows[] = $row;
             }
         } else {
@@ -135,7 +135,7 @@ class Users_login_history extends ObjectYPT {
             $row['device'] = self::getDeviceName($row['user_agent']);
             $row['ago'] = humanTimingAgo($row['created']);
             $row['time_ago'] = "{$row['created']} ({$row['ago']})";
-            $row['type'] = ($row['status']!==Users_login_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
+            $row['type'] = ($row['status']!==logincontrol_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
                 
         } else {
             $row = false;
@@ -157,7 +157,7 @@ class Users_login_history extends ObjectYPT {
                 $row['device'] = self::getDeviceName($row['user_agent']);
                 $row['ago'] = humanTimingAgo($row['created']);
                 $row['time_ago'] = "{$row['created']} ({$row['ago']})";
-                $row['type'] = ($row['status']!==Users_login_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
+                $row['type'] = ($row['status']!==logincontrol_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
             }
         } else {
             $row = false;
@@ -168,7 +168,7 @@ class Users_login_history extends ObjectYPT {
     static function getPreviewsConfirmedLogin($users_id){
         global $global;
         $users_id = intval($users_id);
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ?  AND status = '".Users_login_history_status::$CONFIRMED."' ORDER BY modified DESC LIMIT 1, 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ?  AND status = '".logincontrol_history_status::$CONFIRMED."' ORDER BY modified DESC LIMIT 1, 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql, "i", array($users_id), true);
         $data = sqlDAL::fetchAssoc($res);
@@ -179,7 +179,7 @@ class Users_login_history extends ObjectYPT {
                 $row['device'] = self::getDeviceName($row['user_agent']);
                 $row['ago'] = humanTimingAgo($row['created']);
                 $row['time_ago'] = "{$row['created']} ({$row['ago']})";
-                $row['type'] = ($row['status']!==Users_login_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
+                $row['type'] = ($row['status']!==logincontrol_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
             }
         } else {
             $row = false;
@@ -190,7 +190,7 @@ class Users_login_history extends ObjectYPT {
     static function getLastConfirmedLogin($users_id){
         global $global;
         $users_id = intval($users_id);
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND status = '".Users_login_history_status::$CONFIRMED."' ORDER BY modified DESC LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND status = '".logincontrol_history_status::$CONFIRMED."' ORDER BY modified DESC LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql, "i", array($users_id), true);
         $data = sqlDAL::fetchAssoc($res);
@@ -201,7 +201,7 @@ class Users_login_history extends ObjectYPT {
                 $row['device'] = self::getDeviceName($row['user_agent']);
                 $row['ago'] = humanTimingAgo($row['created']);
                 $row['time_ago'] = "{$row['created']} ({$row['ago']})";
-                $row['type'] = ($row['status']!==Users_login_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
+                $row['type'] = ($row['status']!==logincontrol_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
             }
         } else {
             $row = false;
@@ -212,7 +212,7 @@ class Users_login_history extends ObjectYPT {
     static function is2FAConfirmed($users_id, $uniqidV4){
         global $global;
         $users_id = intval($users_id);
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND uniqidV4 = ? AND status = '".Users_login_history_status::$CONFIRMED."' ORDER BY modified DESC LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND uniqidV4 = ? AND status = '".logincontrol_history_status::$CONFIRMED."' ORDER BY modified DESC LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql, "is", array($users_id, $uniqidV4), true);
         $data = sqlDAL::fetchAssoc($res);
@@ -242,7 +242,7 @@ class Users_login_history extends ObjectYPT {
     }
 }
 
-class Users_login_history_status{
+class logincontrol_history_status{
     static $WAITING_CONFIRMATION = 'w';
     static $CONFIRMED = 'c';
 }

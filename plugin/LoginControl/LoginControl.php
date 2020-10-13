@@ -3,7 +3,7 @@
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
-require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/Users_login_history.php';
+require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/logincontrol_history.php';
 
 class LoginControl extends PluginAbstract {
 
@@ -144,9 +144,9 @@ Best regards,
             return false;
         }
         if (empty($loginControlCreateLog)) {
-            $ulh = new Users_login_history(0);
+            $ulh = new logincontrol_history(0);
             $ulh->setIp(getRealIpAddr());
-            $ulh->setStatus(self::is2FAConfirmed($users_id) ? Users_login_history_status::$CONFIRMED : Users_login_history_status::$WAITING_CONFIRMATION);
+            $ulh->setStatus(self::is2FAConfirmed($users_id) ? logincontrol_history_status::$CONFIRMED : logincontrol_history_status::$WAITING_CONFIRMATION);
             $ulh->setUniqidV4(getDeviceID());
             $ulh->setUser_agent(@$_SERVER['HTTP_USER_AGENT']);
             $ulh->setUsers_id($users_id);
@@ -157,8 +157,8 @@ Best regards,
     }
 
     static function getConfirmationCode($users_id, $uniqidV4) {
-        $row = Users_login_history::getLastLoginAttempt($users_id, $uniqidV4);
-        if (!empty($row) && ($row['status'] === Users_login_history_status::$CONFIRMED || strtotime($row['modified']) > strtotime("-2 hours"))) {
+        $row = logincontrol_history::getLastLoginAttempt($users_id, $uniqidV4);
+        if (!empty($row) && ($row['status'] === logincontrol_history_status::$CONFIRMED || strtotime($row['modified']) > strtotime("-2 hours"))) {
             return $row['confirmation_code'];
         }else if(empty($row)){
             _error_log("LoginControl::getConfirmationCode first login attempt $users_id, $uniqidV4");
@@ -179,11 +179,11 @@ Best regards,
     }
 
     static function is2FAConfirmed($users_id) {
-        return !empty(Users_login_history::is2FAConfirmed($users_id, getDeviceID()));
+        return !empty(logincontrol_history::is2FAConfirmed($users_id, getDeviceID()));
     }
 
     static function getLastLoginOnDevice($users_id) {
-        $row = Users_login_history::getLastLoginAttempt($users_id, getDeviceID());
+        $row = logincontrol_history::getLastLoginAttempt($users_id, getDeviceID());
         if (empty($row)) {
             _error_log("LoginControl::getLastLoginOnDevice Not found $users_id, " . getDeviceID());
         }
@@ -299,19 +299,19 @@ Best regards,
     }
 
     static function getLastLogin($users_id) {
-        return Users_login_history::getLastLogin($users_id);
+        return logincontrol_history::getLastLogin($users_id);
     }
 
     static function getPreviewsLogin($users_id) {
         if(self::isUser2FAEnabled($users_id)){
-            return Users_login_history::getPreviewsConfirmedLogin($users_id);
+            return logincontrol_history::getPreviewsConfirmedLogin($users_id);
         }else{
-            return Users_login_history::getPreviewsLogin($users_id);
+            return logincontrol_history::getPreviewsLogin($users_id);
         }
     }
     
     static function getLastConfirmedLogin($users_id) {
-        return Users_login_history::getLastConfirmedLogin($users_id);
+        return logincontrol_history::getLastConfirmedLogin($users_id);
     }
 
     static function isLoggedFromSameDevice() {
@@ -343,8 +343,8 @@ Best regards,
         }
         $confirmationCode = $lastLogin['confirmation_code'];
         if ($confirmationCode === $code) {
-            $ulh = new Users_login_history($lastLogin['id']);
-            $ulh->setStatus(Users_login_history_status::$CONFIRMED);
+            $ulh = new logincontrol_history($lastLogin['id']);
+            $ulh->setStatus(logincontrol_history_status::$CONFIRMED);
             return $ulh->save();
         } else {
             _error_log("LoginControl::confirmCode the code does not match $users_id, sent: $code, expected: {$confirmationCode}");

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `users_login_history` (
+CREATE TABLE IF NOT EXISTS `logincontrol_history` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `users_id` INT NOT NULL,
   `uniqidV4` VARCHAR(45) NOT NULL,

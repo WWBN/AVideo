@@ -11,7 +11,7 @@ $ad->loadFromUser(User::getId());
             <?php echo __("Login History"); ?>
         </div>
         <div class="panel-body">
-            <table id="Users_login_historyTable" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
+            <table id="logincontrol_historyTable" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th><?php echo __("When"); ?></th>
@@ -35,7 +35,7 @@ $ad->loadFromUser(User::getId());
 <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
 <script>
     $(document).ready(function () {
-        var Users_login_historytableVar = $('#Users_login_historyTable').DataTable({
+        var logincontrol_historytableVar = $('#logincontrol_historyTable').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/listLastLogins.json.php",
             "columns": [
                 {"data": "time_ago"},

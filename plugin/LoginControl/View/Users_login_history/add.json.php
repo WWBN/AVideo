@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/Users_login_history.php';
+require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/logincontrol_history.php';
 
 $obj = new stdClass();
 $obj->error = true;
@@ -14,7 +14,7 @@ if(!User::isAdmin()){
     die(json_encode($obj));
 }
 
-$o = new Users_login_history(@$_POST['id']);
+$o = new logincontrol_history(@$_POST['id']);
 $o->setUsers_id($_POST['users_id']);
 $o->setUniqidV4($_POST['uniqidV4']);
 $o->setIp($_POST['ip']);

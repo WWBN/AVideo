@@ -1,6 +1,6 @@
 <?php
 require_once '../../../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/Users_login_history.php';
+require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/logincontrol_history.php';
 header('Content-Type: application/json');
 
 $obj = new stdClass();
@@ -14,7 +14,7 @@ if(!User::isAdmin()){
 }
 
 $id = intval($_POST['id']);
-$row = new Users_login_history($id);
+$row = new logincontrol_history($id);
 $obj->error = !$row->delete();
 die(json_encode($obj));
 ?>
