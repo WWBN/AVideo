@@ -61,20 +61,23 @@ $total = 0;
 $totalPages = 0;
 $url = '';
 $args = '';
-if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
-    $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?"), strlen($_SERVER['REQUEST_URI']));
-}
-if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
-    $url = $global['webSiteRootURL'] . "page/";
-} else {
-    $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
-}
-$contentSearchFound = false;
-// for SEO to not rise an error of duplicated title or description of same pages with and without last slash
-$siteTitle .= getSEOComplement();
-$metaDescription = " ".$video['id'];
-// make sure the www has a different title and description than non www
-if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
-    $siteTitle .= ": ".__("Home");
-    $metaDescription .= ": ".__("Home");
+$metaDescription = "";
+if(!empty($video)){
+    if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
+        $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?"), strlen($_SERVER['REQUEST_URI']));
+    }
+    if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
+        $url = $global['webSiteRootURL'] . "page/";
+    } else {
+        $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
+    }
+    $contentSearchFound = false;
+    // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
+    $siteTitle .= getSEOComplement();
+    $metaDescription = " ".$video['id'];
+    // make sure the www has a different title and description than non www
+    if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
+        $siteTitle .= ": ".__("Home");
+        $metaDescription .= ": ".__("Home");
+    }
 }

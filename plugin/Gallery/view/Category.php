@@ -1,5 +1,5 @@
 <?php
-if ((!empty($videos)) || ($obj->SubCategorys)) {
+if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
     ?>
     <?php if (($obj->CategoryDescription) && (!empty($_GET['catName']))) { ?>
         <h1 style="text-align: center;"><?php echo $video['category']; ?></h1>

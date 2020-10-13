@@ -17,7 +17,7 @@ include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
             <div class="row text-center" style="padding: 10px;">
                 <?php echo getAdsLeaderBoardTop(); ?>
             </div>
-            <div class="col-lg-10 col-lg-offset-1 list-group-item">
+            <div class="col-lg-10 col-lg-offset-1 list-group-item addWidthOnMenuOpen">
                 <?php
                 include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
                 ?>
