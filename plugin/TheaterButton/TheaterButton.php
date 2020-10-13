@@ -43,7 +43,7 @@ class TheaterButton extends PluginAbstract {
         $tmp = "mainVideo";
         if(!empty($_SESSION['type'])){
             if(($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio")){
-                $tmp = "mainAudio";
+                $tmp = "mainVideo";
             }
         }
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/style.css?'. filemtime($global['systemRootPath'] . 'plugin/TheaterButton/style.css').'" rel="stylesheet" type="text/css"/>';
