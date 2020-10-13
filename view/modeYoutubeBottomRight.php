@@ -1,5 +1,5 @@
 <?php
-if (User::hasBlockedUser($video['users_id'])) {
+if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
     return false;
 }
 ?>
