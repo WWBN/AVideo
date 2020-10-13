@@ -229,7 +229,6 @@ Best regards,
         $message = nl2br($message);
         
         _error_log("LoginControl::send2FAEmail $subject - $message");
-        return true;
         return sendSiteEmail($to, $subject, $message);
     }
     
