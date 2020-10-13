@@ -310,6 +310,9 @@ class PlayList extends ObjectYPT {
                     TimeLogEnd($timeLog2, __LINE__);
                     if ($SubtitleSwitcher) {
                         $row['subtitles'] = getVTTTracks($row['filename'], true);
+                        foreach ($row['subtitles'] as $value) {
+                            $row['subtitlesSRT'][] = convertSRTTrack($value);
+                        }
                     }
                     TimeLogEnd($timeLog2, __LINE__);
                     unset($row['password']);
