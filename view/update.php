@@ -44,7 +44,7 @@ $version = json_decode(url_get_contents("https://tutorials.avideo.com/version"))
                                     <?php
                                     $disabled = "";
                                     foreach ($updateFiles as $value) {
-                                        echo "<option value=\"{$value['filename']} {$disabled}\">Version {$value['version']}</option>";
+                                        echo "<option value=\"{$value['filename']}\" {$disabled}>Version {$value['version']}</option>";
                                         $disabled = "disabled";
                                     }
                                     ?>
