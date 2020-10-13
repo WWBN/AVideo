@@ -328,7 +328,7 @@ $titleTag = substr($titleTag, 0, 60);
 $titleTag .= " - " . getSEOComplement();
 $titleTag = substr($titleTag, 0, 70);
 
-if (User::hasBlockedUser($video['users_id'])) {
+if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
     $video['type'] = "blockedUser";
 }
 ?>
