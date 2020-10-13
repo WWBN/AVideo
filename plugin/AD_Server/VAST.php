@@ -6,7 +6,6 @@ allowOrigin();
 require_once $global['systemRootPath'] . 'objects/video.php';
 $ad_server = AVideoPlugin::loadPlugin('AD_Server');
 $obj = AVideoPlugin::getObjectData('AD_Server');
-$types = array('', '_Low', '_SD', '_HD');
 
 if(empty($_GET['campaign_has_videos_id'])){
     $video = VastCampaignsVideos::getRandomCampainVideo(intval(@$_GET['campaign_id']));
@@ -15,7 +14,6 @@ if(empty($_GET['campaign_has_videos_id'])){
 
 $vastCampaingVideos = new VastCampaignsVideos($_GET['campaign_has_videos_id']);
 $video = new Video("", "", $vastCampaingVideos->getVideos_id());
-$files = getVideosURL($video->getFilename());
 ?>
 <?xml version="1.0" encoding="UTF-8"?>
 <VAST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vast.xsd" version="3.0">
@@ -65,15 +63,9 @@ $files = getVideosURL($video->getFilename());
                         <MediaFiles>
                         <?php
                         $adsCount = 0;
-                        foreach ($types as $key => $value) {
-                            if (!empty($files["mp4{$value}"])) {
-                                $adsCount++;
-                                echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($files["mp4{$value}"]['url']) . ']]></MediaFile>';
-                            }
-                            if (!empty($files["webm{$value}"])) {
-                                $adsCount++;
-                                echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($files["mp4{$value}"]['url']) . ']]></MediaFile>';
-                            }
+                        $files = getVideosURLMP4WEBMOnly($video->getFilename());
+                        foreach ($files as $key => $value) {
+                            echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="' . mime_content_type($value['filename']) . '" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
                         }
                         if(!$adsCount){
                             echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . $global['webSiteRootURL'].'plugin/AD_Server/view/adswarning.mp4]]></MediaFile>';
