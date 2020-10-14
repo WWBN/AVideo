@@ -1,25 +1,29 @@
 <div class="container">
-    <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
-    <button type="button" class="btn btn-default" id="addCategoryBtn">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New Category"); ?>
-    </button>
+    <div class="panel panel-default">
+        <div class="panel-heading">
 
-    <table id="grid" class="table table-condensed table-hover table-striped">
-        <thead>
-            <tr>
-                <th data-column-id="id" data-type="numeric" data-identifier="true" data-width="5%"><?php echo __("ID"); ?></th>
-                <th data-column-id="iconHtml" data-sortable="false" data-width="5%"><?php echo __("Icon"); ?></th>
-                <th data-column-id="name" data-order="desc"  data-formatter="name"  data-width="40%"><?php echo __("Name"); ?></th>
-                <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
-                <th data-column-id="owner"><?php echo __("Owner"); ?></th>
-                <th data-column-id="fullTotal" data-sortable="false"><?php echo __("Videos"); ?></th>
-                <th data-column-id="allow_download" ><?php echo __("Download"); ?></th>
-                <th data-column-id="order" ><?php echo __("Order"); ?></th>
-                <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
-            </tr>
-        </thead>
-    </table>
-
+            <button type="button" class="btn btn-default" id="addCategoryBtn">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New Category"); ?>
+            </button>
+        </div>
+        <div class="panel-body">
+            <table id="grid" class="table table-condensed table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th data-column-id="id" data-type="numeric" data-identifier="true" data-width="5%"><?php echo __("ID"); ?></th>
+                        <th data-column-id="iconHtml" data-sortable="false" data-width="5%"><?php echo __("Icon"); ?></th>
+                        <th data-column-id="name" data-order="desc"  data-formatter="name"  data-width="40%"><?php echo __("Name"); ?></th>
+                        <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
+                        <th data-column-id="owner"><?php echo __("Owner"); ?></th>
+                        <th data-column-id="fullTotal" data-sortable="false"><?php echo __("Videos"); ?></th>
+                        <th data-column-id="allow_download" ><?php echo __("Download"); ?></th>
+                        <th data-column-id="order" ><?php echo __("Order"); ?></th>
+                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
     <div id="categoryFormModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -198,7 +202,7 @@
                     buttons: true,
                     dangerMode: true,
                 })
-                        .then(function(willDelete) {
+                        .then(function (willDelete) {
                             if (willDelete) {
 
 

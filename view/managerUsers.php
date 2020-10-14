@@ -21,7 +21,13 @@ if (!User::isAdmin()) {
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
-        include $global['systemRootPath'] . 'view/managerUsers_body.php';
+        ?>
+        <div class="container">
+            <?php
+            include $global['systemRootPath'] . 'view/managerUsers_body.php';
+            ?>
+        </div>
+        <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
     </body>

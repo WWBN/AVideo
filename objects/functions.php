@@ -2127,6 +2127,41 @@ function getUpdatesFilesArray() {
     return $updateFiles;
 }
 
+function thereIsAnyUpdate() {
+    if(!User::isAdmin()){
+        return false;
+    }
+    $name = 'thereIsAnyUpdate';
+    if(!isset($_SESSION['user'][$name])){
+        _session_start();
+        $_SESSION['user'][$name] = !empty(getUpdatesFilesArray());
+    }
+    return $_SESSION['user'][$name];
+    
+}
+
+
+function thereIsAnyRemoteUpdate() {
+    if(!User::isAdmin()){
+        return false;
+    }
+    global $config;
+    $version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
+    $name = 'thereIsAnyRemoteUpdate';
+    if(!isset($_SESSION['user'][$name])){
+        if (!empty($version)) {
+            _session_start();
+            if (version_compare($config->getVersion(), $version->version) === -1) {
+                $_SESSION['user'][$name] = $version;
+            }else{
+                $_SESSION['user'][$name] = false;
+            }
+        }
+    }
+    return $_SESSION['user'][$name];
+    
+}
+
 function UTF8encode($data) {
     global $advancedCustom, $global;
 
@@ -4786,4 +4821,3 @@ function ogSite() {
         }
         echo PHP_EOL, "/** showAlertMessage END **/";
     }
-    

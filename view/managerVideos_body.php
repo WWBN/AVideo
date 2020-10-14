@@ -36,7 +36,6 @@
     }
 </style>
 <div class="container-fluid">
-    <?php include $global['systemRootPath'] . 'view/include/updateCheck.php'; ?>
     <?php
     if (empty($_GET['iframe'])) {
         ?>

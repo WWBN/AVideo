@@ -31,9 +31,6 @@ $uuidJSCondition = implode(" && ", $rowId);
 <div class="container-fluid">
     <div class="panel">
         <div class="panel-heading tabbable-line">
-            <?php
-            include $global['systemRootPath'] . 'view/include/updateCheck.php';
-            ?>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#menu0"><i class="fa fa-plug"></i> <?php echo __('Installed Plugins'); ?></a></li>
                 <li><a data-toggle="tab" href="#menu1"><i class="fa fa-cart-plus"></i> <?php echo __('Plugins Store'); ?></a></li>
