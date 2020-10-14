@@ -128,6 +128,11 @@
         }
         // if there is no section display only the dateAdded row for the selected category
         if (empty($countSections) && !empty($currentCat) && empty($_GET['showOnly'])) {
+            if (empty($_GET['page'])) {
+                $_GET['page'] = 1;
+            }
+            $_REQUEST['current'] = $_GET['page'];
+
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
             $_POST['sort']['likes'] = "DESC";
@@ -147,17 +152,11 @@
                     ?>
                 </div>
                 <?php
-                if (empty($_GET['page'])) {
-                    $_GET['page'] = 1;
-                }
-                $_REQUEST['current'] = $_GET['page'];
-
                 $total = Video::getTotalVideos("viewable");
                 $totalPages = ceil($total / getRowCount());
                 $page = $_GET['page'];
                 if ($totalPages < $_GET['page']) {
                     $page = $totalPages;
-                    $_REQUEST['current'] = $totalPages;
                 }
                 ?>
                 <div class="col-sm-12" style="z-index: 1;">
