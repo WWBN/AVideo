@@ -155,7 +155,7 @@ a:visited {
 }
 
 .posterDetails {
-    padding: 5px 20px 56.25% 20px;
+    padding: 60px 20px 56.25% 20px;
     color: #FFF;
     position: absolute;
     bottom: 0;
@@ -370,4 +370,14 @@ body.fullscreen{
 }
 .topicRow{
     margin-top: 35px;
+}
+
+#mainNavBar{
+    transition: background-color 0.5s ease;
+}
+
+.bgTransparent{
+    background-color: transparent;
+    background: transparent;
+    border-color: transparent;
 }

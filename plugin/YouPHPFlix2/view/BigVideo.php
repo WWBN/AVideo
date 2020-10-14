@@ -34,7 +34,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
              background-size: cover; 
              z-index: 0;
              position: absolute;
-             top: 55px;
+             top: 0;
              width: 100%;" >
              <?php
              if (!isMobile() && !empty($video['trailer1'])) {
