@@ -2031,7 +2031,12 @@ if (typeof gtag !== \"function\") {
         if(!self::userCanBlockUser($reported_users_id, true)){
             return false;
         }
-        return ReportVideo::isBlocked($reported_users_id, $users_id);
+        $report = AVideoPlugin::getDataObjectIfEnabled("ReportVideo");
+        if(!empty($report)){
+            return ReportVideo::isBlocked($reported_users_id, $users_id);
+        }else{
+            return false;
+        }
     }
 
 }
