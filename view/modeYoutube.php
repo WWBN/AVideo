@@ -81,7 +81,7 @@ if (!empty($evideo)) {
         unset($_GET['playlist_id']);
         $isPlayListTrailer = false;
         
-        $playListObject = AVideoPlugin::getObjectData("PlayList");
+        $playListObject = AVideoPlugin::getObjectData("PlayLists");
         
         if (!empty($videoSerie)) {
             $videoSerie = Video::getVideo($videoSerie["id"], "", true);
