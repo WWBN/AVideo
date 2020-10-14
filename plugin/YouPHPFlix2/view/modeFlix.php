@@ -27,7 +27,7 @@ TimeLogStart($timeLog);
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
-        <div class="container-fluid" id="mainContainer" style="display: none;"> 
+        <div class="container-fluid nopadding" id="mainContainer" style="display: none;"> 
             <?php
             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixBody.php';
             ?>

@@ -1,8 +1,14 @@
 <?php
 include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
-
+ $percent = 90;
 ?>
-<div id="carouselRows" style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);">
+<div id="carouselRows" style="
+     background-color: rgb(<?php echo $obj->backgroundRGB; ?>); 
+     background: -webkit-linear-gradient(bottom, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+     background: -o-linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+     background: linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+     background: -moz-linear-gradient(to top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
+">
     <?php
     $_REQUEST['current'] = 1;
     $_REQUEST['rowCount'] = $obj->maxVideos;
@@ -15,8 +21,9 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
         $dataFlickirty->lazyLoad = 15;
         $dataFlickirty->setGallerySize = false;
         $dataFlickirty->cellAlign = 'left';
+        $dataFlickirty->groupCells = true;
         if ($obj->SuggestedAutoPlay) {
-            $dataFlickirty->autoPlay = true;
+            $dataFlickirty->autoPlay = 10000;
         }
 
         //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
@@ -46,8 +53,9 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
         $dataFlickirty->lazyLoad = 15;
         $dataFlickirty->setGallerySize = false;
         $dataFlickirty->cellAlign = 'left';
+        $dataFlickirty->groupCells = true;
         if ($obj->TrendingAutoPlay) {
-            $dataFlickirty->autoPlay = true;
+            $dataFlickirty->autoPlay = 10000;
         }
 
         $_POST['sort']['trending'] = "";
@@ -79,8 +87,9 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
         $dataFlickirty->lazyLoad = 15;
         $dataFlickirty->setGallerySize = false;
         $dataFlickirty->cellAlign = 'left';
+        $dataFlickirty->groupCells = true;
         if ($obj->DateAddedAutoPlay) {
-            $dataFlickirty->autoPlay = true;
+            $dataFlickirty->autoPlay = 10000;
         }
 
         unset($_POST['sort']);
@@ -113,8 +122,9 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
         $dataFlickirty->lazyLoad = 15;
         $dataFlickirty->setGallerySize = false;
         $dataFlickirty->cellAlign = 'left';
+        $dataFlickirty->groupCells = true;
         if ($obj->MostPopularAutoPlay) {
-            $dataFlickirty->autoPlay = true;
+            $dataFlickirty->autoPlay = 10000;
             $dataFlickirty->wrapAround = true;
         } else {
             $dataFlickirty->wrapAround = true;
@@ -147,8 +157,9 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
         $dataFlickirty->lazyLoad = 15;
         $dataFlickirty->setGallerySize = false;
         $dataFlickirty->cellAlign = 'left';
+        $dataFlickirty->groupCells = true;
         if ($obj->MostWatchedAutoPlay) {
-            $dataFlickirty->autoPlay = true;
+            $dataFlickirty->autoPlay = 10000;
             $dataFlickirty->wrapAround = true;
         } else {
             $dataFlickirty->wrapAround = true;
@@ -179,8 +190,9 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
         $dataFlickirty->lazyLoad = 15;
         $dataFlickirty->setGallerySize = false;
         $dataFlickirty->cellAlign = 'left';
+        $dataFlickirty->groupCells = true;
         if ($obj->SortByNameAutoPlay) {
-            $dataFlickirty->autoPlay = true;
+            $dataFlickirty->autoPlay = 10000;
             $dataFlickirty->wrapAround = true;
         } else {
             $dataFlickirty->wrapAround = true;
@@ -211,8 +223,9 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
         $dataFlickirty->fade = true;
         $dataFlickirty->setGallerySize = false;
         $dataFlickirty->cellAlign = 'left';
+        $dataFlickirty->groupCells = true;
         if ($obj->CategoriesAutoPlay) {
-            $dataFlickirty->autoPlay = true;
+            $dataFlickirty->autoPlay = 10000;
             $dataFlickirty->wrapAround = true;
         } else {
             $dataFlickirty->wrapAround = true;
