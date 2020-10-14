@@ -36,7 +36,7 @@ class LiveLinks extends PluginAbstract {
         $obj->disableGifThumbs = false;
         $obj->disableLiveThumbs = false;
         $obj->doNotShowLiveLinksLabel = false;
-        $obj->hideTopButton = true;
+        //$obj->hideTopButton = true;
         return $obj;
     }
 
@@ -220,7 +220,7 @@ class LiveLinks extends PluginAbstract {
         }
         $obj = $this->getDataObject();
         $buttonTitle = $obj->buttonTitle;
-        include $global['systemRootPath'] . 'plugin/LiveLinks/getUploadMenuButton.php';
+        //include $global['systemRootPath'] . 'plugin/LiveLinks/getUploadMenuButton.php';
     }
 
 

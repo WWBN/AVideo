@@ -254,6 +254,7 @@ class API extends PluginAbstract {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
         }
+        unsetSearch();
         $objMob = AVideoPlugin::getObjectData("MobileManager");
         $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
         foreach ($rows as $key => $value) {

@@ -65,7 +65,8 @@ $video = new Video("", "", $vastCampaingVideos->getVideos_id());
                         $adsCount = 0;
                         $files = getVideosURLMP4WEBMOnly($video->getFilename());
                         foreach ($files as $key => $value) {
-                            echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="' . mime_content_type($value['filename']) . '" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
+                            $adsCount++;
+                            echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="' . mime_content_type($value['path']) . '" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
                         }
                         if(!$adsCount){
                             echo "\n       " . '<MediaFile id="GDFP" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . $global['webSiteRootURL'].'plugin/AD_Server/view/adswarning.mp4]]></MediaFile>';

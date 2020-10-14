@@ -27,7 +27,8 @@ if ($video['type'] != "audio") {
 } else {
     $waveSurferEnabled = !empty($advancedCustom->EnableWavesurfer);
 }
-?>
+?> 
+<!-- audio -->
 <div class="row main-video" style="padding: 10px;" id="mvideo">
     <div class="col-md-2 firstC"></div>
     <div class="col-md-8 secC">
@@ -38,7 +39,7 @@ if ($video['type'] != "audio") {
                 $poster = $global['webSiteRootURL'] . "videos/" . $video['filename'] . ".jpg";
             }
             ?>
-            <audio controls class="center-block video-js vjs-default-skin " <?php if ($waveSurferEnabled == false) { ?> autoplay data-setup='{"controls": true}' <?php } ?> id="mainAudio" poster="<?php echo $poster; ?>" style="width: 100%;" >
+            <audio controls class="center-block video-js vjs-default-skin " <?php if ($waveSurferEnabled == false) { ?> autoplay data-setup='{"controls": true}' <?php } ?> id="mainVideo" poster="<?php echo $poster; ?>" style="width: 100%;" >
                 <?php
                 if ($waveSurferEnabled == false) {
                     echo getSources($video['filename']);
@@ -61,7 +62,7 @@ if ($video['type'] != "audio") {
 echo $timerDuration;
 if ($waveSurferEnabled) {
     ?>
-                player = videojs('mainAudio', {
+                player = videojs('mainVideo', {
                     controls: true,
                     autoplay: true,
                     fluid: false,
@@ -84,7 +85,7 @@ if ($waveSurferEnabled) {
                     videojs.log('Using video.js', videojs.VERSION, 'with videojs-wavesurfer', videojs.getPluginVersion('wavesurfer'));
                 });
 <?php } else { ?>
-                player = videojs('mainAudio');
+                player = videojs('mainVideo');
 <?php } ?>
             // error handling
             player.on('error', function (error) {
@@ -98,7 +99,7 @@ if ($waveSurferEnabled) {
             player.ready(function () {
 <?php
 if ($config->getAutoplay()) {
-    echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainAudio');}player.play();}, 150);";
+    echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');}player.play();}, 150);";
 } else {
     ?>
                     playerPlayIfAutoPlay(0);

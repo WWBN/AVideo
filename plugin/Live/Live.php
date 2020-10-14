@@ -134,7 +134,7 @@ class Live extends PluginAbstract {
         $obj->disableDVR = false;
         $obj->disableGifThumbs = false;
         $obj->disableLiveThumbs = false;
-        $obj->hideTopButton = true;
+        $obj->hideTopButton = false;
         $obj->useAadaptiveMode = false;
         $obj->protectLive = false;
         $obj->experimentalWebcam = false;
@@ -1052,7 +1052,7 @@ class Live extends PluginAbstract {
             return '';
         }
         $buttonTitle = $this->getButtonTitle();
-        include $global['systemRootPath'] . 'plugin/Live/getUploadMenuButton.php';
+        //include $global['systemRootPath'] . 'plugin/Live/getUploadMenuButton.php';
     }
 
 }

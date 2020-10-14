@@ -42,8 +42,10 @@ $version = json_decode(url_get_contents("https://tutorials.avideo.com/version"))
                                 <label for="updateFile" class="sr-only"><?php echo __("Select the update"); ?></label>
                                 <select class="selectpicker" data-width="fit" name="updateFile" id="updateFile" required autofocus>
                                     <?php
+                                    $disabled = "";
                                     foreach ($updateFiles as $value) {
-                                        echo "<option value=\"{$value['filename']}\">Version {$value['version']}</option>";
+                                        echo "<option value=\"{$value['filename']}\" {$disabled}>Version {$value['version']}</option>";
+                                        $disabled = "disabled";
                                     }
                                     ?>
                                 </select>

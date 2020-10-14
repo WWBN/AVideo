@@ -41,7 +41,7 @@ class NextButton extends PluginAbstract {
         if (!empty($autoPlayVideo['url'])) {
             $tmp = "mainVideo";
             if(isset($_SESSION['type']) && (($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio"))){
-                $tmp = "mainAudio";
+                $tmp = "mainVideo";
             }
             $js = '<script>var autoPlayVideoURL="'.$autoPlayVideo['url'].'"; var videoJsId = "'.$tmp.'";</script>';
             $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/NextButton/script.js" type="text/javascript"></script>';
