@@ -1354,7 +1354,7 @@ function getVideosURL_V2($fileName) {
     return $getVideosURL_V2Array[$cleanfilename];
 }
 
-function getSources($fileName, $returnArray = false) {
+function getSources($fileName, $returnArray = false, $try=0) {
     $name = "getSources_{$fileName}_" . intval($returnArray);
     /*
       $cached = ObjectYPT::getCache($name, 86400); //one day
@@ -1404,6 +1404,9 @@ function getSources($fileName, $returnArray = false) {
     
     if(empty($sources) && !empty($video['id'])){
         Video::clearCache($video['id']);
+        if(empty($try)){
+            return getSources($fileName, $returnArray, $try+1);
+        }
     }
 //ObjectYPT::setCache($name, $obj);
     return $return;
