@@ -2700,8 +2700,12 @@ if (!class_exists('Video')) {
                         array('', '', '', '', '', '', '', '', '', '', '', ''), $filename);
             $path_parts = pathinfo($cleanName);
             if(empty($path_parts['extension'])){
-                _error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
-                return $filename;
+                //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
+                if(!empty($path_parts['filename'])){
+                    return $path_parts['filename'];
+                }else{
+                    return $filename;
+                }
             }else if(strlen($path_parts['extension'])>4){
                 return $cleanName;
             }else{
