@@ -280,7 +280,7 @@ Options All -Indexes
     RewriteCond %{REQUEST_URI} \.(jpg|jpeg|gif|png|ico)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule .*$ img/image404.php [NC,L]
+    RewriteRule (.*)$ img/image404.php?image=$1 [NC,L]
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

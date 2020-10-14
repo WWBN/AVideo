@@ -9,7 +9,7 @@ $file = 'video-placeholder-gray.png';
 $type = 'image/png';
 
 // if the thumb is not ready yet, try to find the default image
-if(preg_match('/videos\/(.*)_thumbs.jpg$/', $_SERVER["REQUEST_URI"], $matches)){
+if(preg_match('/videos\/(.*)_thumbs(V2)?.jpg/', $_SERVER["REQUEST_URI"], $matches)){
     $jpg = "{$global['systemRootPath']}videos/{$matches[1]}.jpg";
     if(file_exists($jpg)){
         $file = $jpg;
