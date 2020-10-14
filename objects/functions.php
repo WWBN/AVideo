@@ -1368,7 +1368,7 @@ function getSources($fileName, $returnArray = false, $try=0) {
     } else {
         $videoSources = $audioTracks = $subtitleTracks = "";
     }
-
+    
     $video = Video::getVideoFromFileName($fileName);
 
     if ($video['type'] !== 'audio' && function_exists('getVRSSources')) {
@@ -1402,7 +1402,7 @@ function getSources($fileName, $returnArray = false, $try=0) {
     $obj = new stdClass();
     $obj->result = $return;
     
-    if(empty($sources) && !empty($video['id'])){
+    if(empty($videoSources) && empty($audioTracks) && !empty($video['id'])){
         _error_log("getSources($fileName) File not found");
         Video::clearCache($video['id']);
         if(empty($try)){
