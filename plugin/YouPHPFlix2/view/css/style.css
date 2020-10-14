@@ -285,7 +285,8 @@ footer .btn-outline {
     height: 210px;
 }
 #bigVideo .posterPortrait {
-    height: auto;
+    min-height: 250px;
+    min-width: 135px;
 }
 #bigVideo .mainInfoText{
     max-height: 29vh;

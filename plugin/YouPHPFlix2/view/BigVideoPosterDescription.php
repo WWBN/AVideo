@@ -5,7 +5,7 @@ $colClass = "col-md-4 col-sm-6";
 if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
     ?>
     <div class="<?php echo $colClass; ?>">
-        <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 135px;" />
+        <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="" />
     </div>
     <?php
 } else {
