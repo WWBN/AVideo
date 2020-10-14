@@ -45,6 +45,7 @@ class PlayLists extends PluginAbstract {
         $obj->showWatchLaterOnProfileMenu = true;
         $obj->showFavoriteOnProfileMenu = true;
         $obj->showPlayLiveButton = true;
+        $obj->showTrailerInThePlayList = true;
 
         return $obj;
     }
