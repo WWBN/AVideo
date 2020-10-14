@@ -5,9 +5,9 @@ if (User::isLogged() && $user_id == User::getId()) {
 }
 $user = new User($user_id);
 
-if($user->getBdId() != $user_id){
-   header("Location: {$global['webSiteRootURL']}channels");
-   exit;
+if ($user->getBdId() != $user_id) {
+    header("Location: {$global['webSiteRootURL']}channels");
+    exit;
 }
 
 $_GET['channelName'] = $user->getChannelName();
@@ -78,63 +78,63 @@ TimeLogEnd($timeLog, __LINE__);
 
 
     <?php
-    if(!User::hasBLockedUser($user_id)){
-    ?>
-    <div class="tabbable-panel">
-        <div class="tabbable-line">
-            <ul class="nav nav-tabs">
-                <?php
-                $active = "active";
-                if ($advancedCustomUser->showChannelHomeTab) {
-                    if(!empty($_GET['current'])){ // means you are paging the Videos tab
+    if (!User::hasBLockedUser($user_id)) {
+        ?>
+        <div class="tabbable-panel">
+            <div class="tabbable-line">
+                <ul class="nav nav-tabs">
+                    <?php
+                    $active = "active";
+                    if ($advancedCustomUser->showChannelHomeTab) {
+                        if (!empty($_GET['current'])) { // means you are paging the Videos tab
+                            $active = "";
+                        }
+                        ?>
+                        <li class="nav-item <?php echo $active; ?>">
+                            <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false">
+                                <?php echo strtoupper(__("Home")); ?>
+                            </a>
+                        </li>
+                        <?php
+                        $active = "";
+                    }
+                    if ($advancedCustomUser->showChannelVideosTab) {
+                        if (!empty($_GET['current'])) { // means you are paging the Videos tab
+                            $active = "active";
+                        }
+                        ?>
+                        <li class="nav-item <?php echo $active; ?>">
+                            <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
+                                <?php echo strtoupper(__("Videos")); ?> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
+                            </a>
+                        </li>
+                        <?php
+                        $active = "";
+                    }
+                    if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
+                        ?>
+                        <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
+                            <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
+                                <?php echo strtoupper(__("Playlists")); ?>
+                            </a>
+                        </li>
+                        <?php
                         $active = "";
                     }
                     ?>
-                    <li class="nav-item <?php echo $active; ?>">
-                        <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false">
-                            <?php echo strtoupper(__("Home")); ?>
-                        </a>
-                    </li>
+                </ul>
+                <div class="tab-content clearfix">
                     <?php
-                    $active = "";
-                }
-                if ($advancedCustomUser->showChannelVideosTab) {
-                    if(!empty($_GET['current'])){ // means you are paging the Videos tab
-                        $active = "active";
-                    }
-                    ?>
-                    <li class="nav-item <?php echo $active; ?>">
-                        <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
-                            <?php echo strtoupper(__("Videos")); ?> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
-                        </a>
-                    </li>
-                    <?php
-                    $active = "";
-                }
-                if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
-                    ?>
-                    <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
-                        <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
-                            <?php echo strtoupper(__("Playlists")); ?>
-                        </a>
-                    </li>
-                    <?php
-                    $active = "";
-                }
-                ?>
-            </ul>
-            <div class="tab-content clearfix">
-                <?php
-                $active = "active fade in";
-                if ($advancedCustomUser->showChannelHomeTab) {
-                    if(!empty($_GET['current'])){ // means you are paging the Videos tab
-                        $active = "";
-                    }
-                    ?>
-                    <div class="tab-pane  <?php echo $active; ?>" id="channelHome" style="min-height: 800px;">
-                        <div class="container-fluid modeFlixContainer" style="padding: 15px;"> 
+                    $active = "active fade in";
+                    if ($advancedCustomUser->showChannelHomeTab) {
+                        if (!empty($_GET['current'])) { // means you are paging the Videos tab
+                            $active = "";
+                        }
+                        $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
+                        ?>
+                        <style>#bigVideo{top: 0 !important;}</style>
+                        <div class="tab-pane  <?php echo $active; ?>" id="channelHome" style="min-height: 800px; background-color: rgb(<?php echo $obj->backgroundRGB; ?>);position: relative; overflow: hidden;">
                             <?php
-                            $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                             $obj->BigVideo = true;
                             $obj->Trending = true;
                             $obj->pageDots = false;
@@ -154,80 +154,79 @@ TimeLogEnd($timeLog, __LINE__);
                             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixBody.php';
                             ?>
                         </div>
-                    </div>
-                    <?php
-                    $active = "fade";
-                }
-                if ($advancedCustomUser->showChannelVideosTab) {
-                    if(!empty($_GET['current'])){ // means you are paging the Videos tab
-                        $active = "active fade in";
+                        <?php
+                        $active = "fade";
                     }
-                    ?>
+                    if ($advancedCustomUser->showChannelVideosTab) {
+                        if (!empty($_GET['current'])) { // means you are paging the Videos tab
+                            $active = "active fade in";
+                        }
+                        ?>
 
-                    <div class="tab-pane <?php echo $active; ?>" id="channelVideos">
+                        <div class="tab-pane <?php echo $active; ?>" id="channelVideos">
 
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <?php
-                                if ($isMyChannel) {
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <?php
+                                    if ($isMyChannel) {
+                                        ?>
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
+                                            <span class="glyphicon glyphicon-film"></span>
+                                            <span class="glyphicon glyphicon-headphones"></span>
+                                            <?php echo __("My videos"); ?>
+                                        </a>
+                                        <?php
+                                    } else {
+                                        echo __("My videos");
+                                    }
+                                    echo AVideoPlugin::getChannelButton();
                                     ?>
-                                    <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
-                                        <span class="glyphicon glyphicon-film"></span>
-                                        <span class="glyphicon glyphicon-headphones"></span>
-                                        <?php echo __("My videos"); ?>
-                                    </a>
+                                </div>
+                                <div class="panel-body">
                                     <?php
-                                } else {
-                                    echo __("My videos");
-                                }
-                                echo AVideoPlugin::getChannelButton();
-                                ?>
-                            </div>
-                            <div class="panel-body">
-                                <?php
-                                if ($advancedCustomUser->showBigVideoOnChannelVideosTab && !empty($uploadedVideos[0])) {
-                                    $video = $uploadedVideos[0];
-                                    $obj = new stdClass();
-                                    $obj->BigVideo = true;
-                                    $obj->Description = false;
-                                    include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
-                                    unset($uploadedVideos[0]);
-                                }
-                                ?>
-                                <div class="row">
+                                    if ($advancedCustomUser->showBigVideoOnChannelVideosTab && !empty($uploadedVideos[0])) {
+                                        $video = $uploadedVideos[0];
+                                        $obj = new stdClass();
+                                        $obj->BigVideo = true;
+                                        $obj->Description = false;
+                                        include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
+                                        unset($uploadedVideos[0]);
+                                    }
+                                    ?>
+                                    <div class="row">
+                                        <?php
+                                        TimeLogEnd($timeLog, __LINE__);
+                                        createGallerySection($uploadedVideos, "", $get);
+                                        TimeLogEnd($timeLog, __LINE__);
+                                        ?>
+                                    </div>
+                                </div>
+
+                                <div class="panel-footer">
                                     <?php
-                                    TimeLogEnd($timeLog, __LINE__);
-                                    createGallerySection($uploadedVideos, "", $get);
-                                    TimeLogEnd($timeLog, __LINE__);
+                                    echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current={page}");
                                     ?>
                                 </div>
                             </div>
-
-                            <div class="panel-footer">
-                                <?php 
-                                echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current={page}");
-                                ?>
-                            </div>
                         </div>
-                    </div>
-                    <?php
-                    $active = "fade";
-                }
-                if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
-                    ?>
-                    <div class="tab-pane <?php echo $active; ?>" id="channelPlayLists" style="min-height: 800px;">
                         <?php
-                        include $global['systemRootPath'] . 'view/channelPlaylist.php';
+                        $active = "fade";
+                    }
+                    if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
                         ?>
-                    </div>
-                    <?php
-                    $active = "fade";
-                }
-                ?>
+                        <div class="tab-pane <?php echo $active; ?>" id="channelPlayLists" style="min-height: 800px;">
+                            <?php
+                            include $global['systemRootPath'] . 'view/channelPlaylist.php';
+                            ?>
+                        </div>
+                        <?php
+                        $active = "fade";
+                    }
+                    ?>
+                </div>
             </div>
         </div>
-    </div>
-    <?php
+        <?php
     }
     ?>
 </div>
