@@ -1402,7 +1402,7 @@ function getSources($fileName, $returnArray = false, $try=0) {
     $obj = new stdClass();
     $obj->result = $return;
     
-    if(empty($videoSources) && empty($audioTracks) && !empty($video['id'])){
+    if(empty($videoSources) && empty($audioTracks) && !empty($video['id']) && $video['type']=='video'){
         _error_log("getSources($fileName) File not found");
         Video::clearCache($video['id']);
         if(empty($try)){
