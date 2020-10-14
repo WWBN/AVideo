@@ -273,7 +273,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function cleanCacheName($name) {
-        $name = str_replace(array('/','\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), $name);
+        $name = str_replace(array('/', '\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), $name);
         $name = preg_replace('/[!#$&\'()*+,:;=?@[\\]% -]+/', '_', trim(strtolower(cleanString($name))));
         $name = preg_replace('/\/{2,}/', '/', trim(strtolower(cleanString($name))));
         return preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
@@ -290,7 +290,7 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
-        if(!empty($lifetime)){// do not session cache if there is not timeout limit
+        if (!empty($lifetime)) {// do not session cache if there is not timeout limit
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
                 return $session;
@@ -316,20 +316,21 @@ abstract class ObjectYPT implements ObjectInterface {
         $tmpDir = self::getCacheDir();
         rrmdir($tmpDir);
         self::deleteAllSessionCache();
+        self::setLastDeleteALLCacheTime();
     }
 
     static function getCacheDir() {
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . "/";
         $tmpDir .= "YPTObjectCache" . "/";
-        
-        if(class_exists("User_Location")){
+
+        if (class_exists("User_Location")) {
             $loc = User_Location::getThisUserLocation();
-            if(!empty($loc)){
+            if (!empty($loc)) {
                 $tmpDir .= $loc['country_code'] . "/";
             }
         }
-        
+
         make_path($tmpDir);
         if (!file_exists($tmpDir . "index.html")) {// to avoid search into the directory
             file_put_contents($tmpDir . "index.html", time());
@@ -350,6 +351,7 @@ abstract class ObjectYPT implements ObjectInterface {
      * @param type $value
      */
     static function setSessionCache($name, $value) {
+
         $name = self::cleanCacheName($name);
         _session_start();
         $_SESSION['user']['sessionCache'][$name]['value'] = json_encode($value);
@@ -368,14 +370,37 @@ abstract class ObjectYPT implements ObjectInterface {
             $lifetime = intval($_GET['lifetime']);
         }
         if (!empty($_SESSION['user']['sessionCache'][$name])) {
-            if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
-                $c = $_SESSION['user']['sessionCache'][$name]['value'];
-                return json_decode($c);
-            } else {
-                _session_start();
-                unset($_SESSION['user']['sessionCache'][$name]);
+            if (self::canUseThisSessionCacheBasedOnLastDeleteALLCacheTime($_SESSION['user']['sessionCache'][$name])) {
+                if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
+                    $c = $_SESSION['user']['sessionCache'][$name]['value'];
+                    return json_decode($c);
+                }
             }
+            _session_start();
+            unset($_SESSION['user']['sessionCache'][$name]);
         }
+        return false;
+    }
+
+    static private function getLastDeleteALLCacheTimeFile() {
+        $tmpDir = getTmpDir();
+        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . "/";
+        $tmpDir .= "lastDeleteALLCacheTime.cache";
+    }
+
+    static private function setLastDeleteALLCacheTime() {
+        return file_put_contents(self::getLastDeleteALLCacheTimeFile(), time());
+    }
+
+    static private function getLastDeleteALLCacheTime() {
+        return @file_get_contents(self::getLastDeleteALLCacheTimeFile(), time());
+    }
+
+    static private function canUseThisSessionCacheBasedOnLastDeleteALLCacheTime($session_var) {
+        if (empty($session_var['time']) || $session_var['time'] < self::getLastDeleteALLCacheTime()) {
+            return false;
+        }
+        return true;
     }
 
     static function deleteSessionCache($name) {
