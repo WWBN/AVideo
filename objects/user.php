@@ -260,6 +260,9 @@ if (typeof gtag !== \"function\") {
     }
 
     static function _recommendChannelName($name = "", $try = 0, $unknown = "") {
+        if(empty(User::getId())){
+            return $name . "_" . uniqid();
+        }
         if ($try > 10) {
             _error_log("User:_recommendChannelName too many tries ({$name}) (" . User::getId() . ") ", AVideoLog::$ERROR);
             return uniqid();
