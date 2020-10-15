@@ -1327,12 +1327,14 @@ class AVideoPlugin {
                 'CustomizeUser',// CustomizeUser
                 'CustomizeAdvanced',// CustomizeAdvanced
                 'Layout',// Layout
+                'PlayerSkins',// Layout
             );
         }else{
             return array(
                 '55a4fa56-8a30-48d4-a0fb-8aa6b3fuser3',// CustomizeUser
                 '55a4fa56-8a30-48d4-a0fb-8aa6b3f69033',// CustomizeAdvanced
                 'layout83-8f5a-4d1b-b912-172c608bf9e3',// Layout
+                'e9a568e6-ef61-4dcc-aad0-0109e9be8e36',// PlayerSkins
             );
         }
     }

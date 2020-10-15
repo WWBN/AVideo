@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 class PlayerSkins extends PluginAbstract {
-    
+
     public function getTags() {
         return array(
             PluginTags::$FREE,
@@ -12,6 +12,7 @@ class PlayerSkins extends PluginAbstract {
             PluginTags::$LAYOUT,
         );
     }
+
     public function getDescription() {
         global $global;
         $desc = "Customize your playes Skin<br>The Skis options are: ";
@@ -65,9 +66,9 @@ class PlayerSkins extends PluginAbstract {
         $css = "";
         $js = "";
         if (isVideo() || !empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
-            if(self::isAutoplayEnabled()){
+            if (self::isAutoplayEnabled()) {
                 $js .= "<script>var autoplay = true;</script>";
-            }else{
+            } else {
                 $js .= "<script>var autoplay = false;</script>";
             }
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
@@ -110,7 +111,7 @@ class PlayerSkins extends PluginAbstract {
         if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             if ($obj->showLoopButton && !isLive()) {
                 $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
-            }else if(empty($obj->showLoopButton) && empty ($playerSkinsObj->contextMenuLoop)){
+            } else if (empty($obj->showLoopButton) && empty($playerSkinsObj->contextMenuLoop)) {
                 $js .= "<script>setPlayerLoop(false);</script>";
             }
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
@@ -120,8 +121,9 @@ class PlayerSkins extends PluginAbstract {
                 $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/logo.js\"></script>";
             }
         }
-        if(!empty($getStartPlayerJSWasRequested) || isVideo()){
+        if (!empty($getStartPlayerJSWasRequested) || isVideo()) {
             $js .= "<script src=\"{$global['webSiteRootURL']}view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
+            $js .= "<script>".self::getStartPlayerJSCode(true)."</script>";
         }
         return $js;
     }
@@ -158,16 +160,24 @@ class PlayerSkins extends PluginAbstract {
 
         return "";
     }
+    
+    // this function was modified, maybe removed in the future
+    static function getStartPlayerJS($onPlayerReady = "", $getDataSetup = "", $noReadyFunction = false) {
+        global $getStartPlayerJSWasRequested;
+        self::prepareStartPlayerJS($onPlayerReady, $getDataSetup);
+        $getStartPlayerJSWasRequested = true;
+        return '';
+    }
 
-    static function getStartPlayerJS($onPlayerReady = "", $getDataSetup="", $noReadyFunction = false) {
-        global $global, $config, $getStartPlayerJSWasRequested;
+    static function getStartPlayerJSCode($noReadyFunction = false) {
+        global $config, $global, $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup;
         $js = "";
-        if(empty($noReadyFunction)){
+        if (empty($noReadyFunction)) {
             $js .= "$(document).ready(function () {";
         }
         $js .= "
         if (typeof player === 'undefined') {
-            player = videojs('mainVideo'" . (self::getDataSetup($getDataSetup)) . ");
+            player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
         }
         player.ready(function () {
             var err = this.error();
@@ -175,7 +185,7 @@ class PlayerSkins extends PluginAbstract {
                 $('.vjs-error-display').hide();
                 $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
             }
-            {$onPlayerReady}
+            " . implode(PHP_EOL, $prepareStartPlayerJS_onPlayerReady) . "
         });
         player.persistvolume({
             namespace: 'AVideo'
@@ -183,20 +193,38 @@ class PlayerSkins extends PluginAbstract {
         if ($config->getAutoplay()) {
             $js .= "setTimeout(function(){playerPlay(0);},500);";
         }
-        
-        if(empty($noReadyFunction)){
+
+        if (empty($noReadyFunction)) {
             $js .= "});";
         }
         $getStartPlayerJSWasRequested = true;
         return $js;
     }
-    
-    static function isAutoplayEnabled(){
+
+    static private function prepareStartPlayerJS($onPlayerReady = "", $getDataSetup = "") {
+        global $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup;
+
+        if (empty($prepareStartPlayerJS_onPlayerReady)) {
+            $prepareStartPlayerJS_onPlayerReady = array();
+        }
+        if (empty($prepareStartPlayerJS_getDataSetup)) {
+            $prepareStartPlayerJS_getDataSetup = array();
+        }
+
+        if (!empty($onPlayerReady)) {
+            $prepareStartPlayerJS_onPlayerReady[] = $onPlayerReady;
+        }
+        if (!empty($getDataSetup)) {
+            $prepareStartPlayerJS_getDataSetup[] = $getDataSetup;
+        }
+    }
+
+    static function isAutoplayEnabled() {
         global $config;
-        if(!empty($_COOKIE['autoplay'])){
-            if(strtolower($_COOKIE['autoplay']) === 'false'){
+        if (!empty($_COOKIE['autoplay'])) {
+            if (strtolower($_COOKIE['autoplay']) === 'false') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
