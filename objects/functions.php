@@ -4686,7 +4686,9 @@ function ogSite() {
                 'samesite' => 'None');
             return setcookie($cookieName, $value, $cookie_options);
         } else {
-            return setcookie($cookieName, $value, (int) $expires, "/", getDomain()) && setcookie($cookieName, $value, (int) $expires, "/") && setcookie($cookieName, $value, (int) $expires);
+            return setcookie($cookieName, $value, (int) $expires, "/", getDomain()) 
+                    && setcookie($cookieName, $value, (int) $expires, "/") 
+                    && setcookie($cookieName, $value, (int) $expires);
         }
     }
 
