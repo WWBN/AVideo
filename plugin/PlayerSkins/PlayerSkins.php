@@ -166,7 +166,7 @@ class PlayerSkins extends PluginAbstract {
         global $getStartPlayerJSWasRequested;
         self::prepareStartPlayerJS($onPlayerReady, $getDataSetup);
         $getStartPlayerJSWasRequested = true;
-        return '';
+        return '/* getStartPlayerJS $onPlayerReady = "'.$onPlayerReady.'", $getDataSetup = "'.$getDataSetup.'" */';
     }
 
     static function getStartPlayerJSCode($noReadyFunction = false) {
