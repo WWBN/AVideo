@@ -891,7 +891,7 @@ if (typeof gtag !== \"function\") {
         _unsetcookie('user');
         _unsetcookie('pass');
         unset($_SESSION['user']);
-        _error_log("LoginControl 2 logoff " . session_id() . " " . json_encode($_COOKIE));
+        _error_log("LoginControl 2 logoff " . session_id() . " " . json_encode($_SERVER['HTTP_COOKIE']) . " " . json_encode($_COOKIE));
     }
 
     static private function recreateLoginFromCookie() {
