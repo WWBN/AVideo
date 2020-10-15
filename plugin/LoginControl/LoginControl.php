@@ -286,6 +286,7 @@ Best regards,
             //_error_log("LoginControl::getStart singleDeviceLogin is enabled");
             // check if the user is logged somewhere else and log him off
             if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
+                User::logoff();
                 //_error_log("LoginControl::getStart the user logged somewhere else");
                 if(self::isUser2FAEnabled(User::getId())){
                     $row = self::getLastConfirmedLogin(User::getId());
@@ -294,7 +295,6 @@ Best regards,
                     $row = self::getLastLogin(User::getId());
                     //_error_log("LoginControl::getStart isUser2FAEnabled=false ". json_encode($row));
                 }
-                User::logoff();
                 if (!empty($row)) {
                     AVideoPlugin::loadPlugin('User_Location');
                     $location = IP2Location::getLocation($row['ip']);
@@ -306,6 +306,7 @@ Best regards,
                         $msg = "You were disconected by ({$row['device']}) <br>IP: {$row['ip']} <br>{$loc} <br>{$row['ago']}";
                         setAlertMessage($msg);
                     }
+                    gotToLoginAndComeBackHere(__("Please Login Again"));
                 }
             }
         }
