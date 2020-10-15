@@ -883,14 +883,14 @@ if (typeof gtag !== \"function\") {
     static function logoff() {
         global $global, $justLogoff;
         $justLogoff = true;
-        _error_log("LoginControl 1 logoff ". json_encode($_COOKIE));
+        _error_log("LoginControl 1 logoff ". session_id()." ". json_encode($_COOKIE));
         _session_start();
         ObjectYPT::deleteAllSessionCache();
         _unsetcookie('rememberme');
         _unsetcookie('user');
         _unsetcookie('pass');
         unset($_SESSION['user']);
-        _error_log("LoginControl 2 logoff ". json_encode($_COOKIE));
+        _error_log("LoginControl 2 logoff ". session_id()." ". json_encode($_COOKIE));
     }
 
     static private function recreateLoginFromCookie() {
@@ -898,7 +898,7 @@ if (typeof gtag !== \"function\") {
         if (empty($justLogoff) && empty($_SESSION['user'])) {
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass'])) && (!empty($_COOKIE['rememberme']))) {
                 
-                _error_log("LoginControl 3 logoff ". json_encode($_COOKIE));
+                _error_log("LoginControl 3 logoff ". session_id()." ". json_encode($_COOKIE));
                 $user = new User(0, $_COOKIE['user'], false);
                 $user->setPassword($_COOKIE['pass'], true);
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
