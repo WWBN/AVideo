@@ -4707,11 +4707,11 @@ function ogSite() {
             setcookie($cookieName, null, (int) $expires, "/");
             setcookie($cookieName, null, (int) $expires);
         }
-        setcookie($cookieName, null, -1, "/", str_replace("www", "", $domain));
-        setcookie($cookieName, null, -1, "/", "." . $domain);
-        setcookie($cookieName, null, -1, "/", $domain);
-        setcookie($cookieName, null, -1, "/");
-        setcookie($cookieName, null, -1);
+        setcookie($cookieName, null, $expires, "/", str_replace("www", "", $domain));
+        setcookie($cookieName, null, $expires, "/", "." . $domain);
+        setcookie($cookieName, null, $expires, "/", $domain);
+        setcookie($cookieName, null, $expires, "/");
+        setcookie($cookieName, null, $expires);
         unset($_COOKIE[$cookieName]);
     }
 
