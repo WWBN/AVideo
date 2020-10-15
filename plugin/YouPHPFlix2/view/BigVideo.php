@@ -61,7 +61,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                  <?php
                  include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoInfoDetails.php';
                  ?>
-                <div class="row">                
+                <div class="row hidden-xs">                
                     <?php
                     include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoPosterDescription.php';
                     ?>
