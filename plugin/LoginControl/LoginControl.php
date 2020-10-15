@@ -276,7 +276,7 @@ Best regards,
     public function getStart() {
         $obj = $this->getDataObject();
         if ($obj->singleDeviceLogin) {
-            _error_log("LoginControl::getStart singleDeviceLogin is enabled");
+            //_error_log("LoginControl::getStart singleDeviceLogin is enabled");
             // check if the user is logged somewhere else and log him off
             if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
                 //_error_log("LoginControl::getStart the user logged somewhere else");
@@ -339,6 +339,8 @@ Best regards,
             _error_log("LoginControl::isSameDeviceAsLastLogin that is the user first login at all {$users_id} ");
             return true;
         }
+        _error_log("LoginControl::isSameDeviceAsLastLogin that is NOT the same device {$users_id} {$row['uniqidV4']} === $uniqidV4 ");
+            
         return false;
     }
 
