@@ -164,6 +164,14 @@ class Meet_join_log extends ObjectYPT {
         return $log->save();
     }
     
+    public function save() {
+        
+        if(empty($this->users_id)){
+            $this->users_id = 'NULL';
+        }
+        
+        return parent::save();
+    }
     
 
 }
