@@ -4686,9 +4686,7 @@ function ogSite() {
                 'samesite' => 'None');
             return setcookie($cookieName, $value, $cookie_options);
         } else {
-            return setcookie($cookieName, $value, (int) $expires, "/", getDomain()) 
-                    && setcookie($cookieName, $value, (int) $expires, "/") 
-                    && setcookie($cookieName, $value, (int) $expires);
+            return setcookie($cookieName, $value, (int) $expires, "/", getDomain());
         }
     }
 
@@ -4696,11 +4694,6 @@ function ogSite() {
         $domain = getDomain();
         $expires = strtotime("- 10 years");
         $value = "";
-        setcookie($cookieName, $value, $expires, "/", str_replace("www", "", $domain));
-        setcookie($cookieName, $value, $expires, "/", "." . $domain);
-        setcookie($cookieName, $value, $expires, "/", $domain);
-        setcookie($cookieName, $value, $expires, "/");
-        setcookie($cookieName, $value, $expires);
         _setcookie($cookieName, $value, $expires);
         unset($_COOKIE[$cookieName]);
     }
