@@ -276,10 +276,15 @@ Best regards,
     public function getStart() {
         $obj = $this->getDataObject();
         if ($obj->singleDeviceLogin) {
+            //_error_log("LoginControl::getStart singleDeviceLogin is enabled");
             // check if the user is logged somewhere else and log him off
             if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
                 _error_log("LoginControl::getStart the user logged somewhere else");
-                $row = self::getLastConfirmedLogin(User::getId());
+                if(self::isUser2FAEnabled($users_id)){
+                    $row = self::getLastConfirmedLogin(User::getId());
+                }else{
+                    $row = self::getLastLogin(User::getId());
+                }
                 User::logoff();
                 if (!empty($row)) {
                     AVideoPlugin::loadPlugin('User_Location');
