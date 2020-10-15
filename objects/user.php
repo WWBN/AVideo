@@ -899,7 +899,7 @@ if (typeof gtag !== \"function\") {
         if (empty($justLogoff) && empty($_SESSION['user'])) {
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass'])) && (!empty($_COOKIE['rememberme']))) {
 
-                _error_log("LoginControl 3 logoff " . json_encode($_COOKIE));
+                _error_log("LoginControl 3 recreate " . json_encode($_COOKIE));
                 $user = new User(0, $_COOKIE['user'], false);
                 $user->setPassword($_COOKIE['pass'], true);
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
