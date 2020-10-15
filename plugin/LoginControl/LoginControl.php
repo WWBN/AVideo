@@ -144,6 +144,7 @@ Best regards,
             return false;
         }
         if (empty($loginControlCreateLog)) {
+            _error_log("LoginControl::createLog {$_SERVER['SCRIPT_NAME']} ". json_encode($_SERVER));
             $ulh = new logincontrol_history(0);
             $ulh->setIp(getRealIpAddr());
             $ulh->setStatus(self::is2FAConfirmed($users_id) ? logincontrol_history_status::$CONFIRMED : logincontrol_history_status::$WAITING_CONFIRMATION);
