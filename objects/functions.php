@@ -4695,25 +4695,12 @@ function ogSite() {
     function _unsetcookie($cookieName) {
         $domain = getDomain();
         $expires = -1;
-        if (version_compare(phpversion(), '7.3', '>=')) {
-            $cookie_options = array(
-                'expires' => $expires,
-                'path' => '/',
-                'domain' => $domain,
-                'secure' => true,
-                'httponly' => false,
-                'samesite' => 'None');
-            setcookie($cookieName, null, $cookie_options);
-        } else {
-            setcookie($cookieName, null, (int) $expires, "/", getDomain());
-            setcookie($cookieName, null, (int) $expires, "/");
-            setcookie($cookieName, null, (int) $expires);
-        }
         setcookie($cookieName, null, $expires, "/", str_replace("www", "", $domain));
         setcookie($cookieName, null, $expires, "/", "." . $domain);
         setcookie($cookieName, null, $expires, "/", $domain);
         setcookie($cookieName, null, $expires, "/");
         setcookie($cookieName, null, $expires);
+        _setcookie($cookieName, null, $expires);
         unset($_COOKIE[$cookieName]);
     }
 
