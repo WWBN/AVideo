@@ -4703,17 +4703,17 @@ function ogSite() {
                 'secure' => true,
                 'httponly' => false,
                 'samesite' => 'None');
-            setcookie($cookieName, 0, $cookie_options);
+            setcookie($cookieName, null, $cookie_options);
         } else {
-            setcookie($cookieName, 0, (int) $expires, "/", getDomain());
-            setcookie($cookieName, 0, (int) $expires, "/");
-            setcookie($cookieName, 0, (int) $expires);
+            setcookie($cookieName, null, (int) $expires, "/", getDomain());
+            setcookie($cookieName, null, (int) $expires, "/");
+            setcookie($cookieName, null, (int) $expires);
         }
-        setcookie($cookieName, 0, $expires, "/", str_replace("www", "", $domain));
-        setcookie($cookieName, 0, $expires, "/", "." . $domain);
-        setcookie($cookieName, 0, $expires, "/", $domain);
-        setcookie($cookieName, 0, $expires, "/");
-        setcookie($cookieName, 0, $expires);
+        setcookie($cookieName, null, $expires, "/", str_replace("www", "", $domain));
+        setcookie($cookieName, null, $expires, "/", "." . $domain);
+        setcookie($cookieName, null, $expires, "/", $domain);
+        setcookie($cookieName, null, $expires, "/");
+        setcookie($cookieName, null, $expires);
         unset($_COOKIE[$cookieName]);
     }
 
