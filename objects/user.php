@@ -881,7 +881,8 @@ if (typeof gtag !== \"function\") {
     }
 
     static function logoff() {
-        global $global;
+        global $global, $justLogoff;
+        $justLogoff = true;
         _session_start();
         ObjectYPT::deleteAllSessionCache();
         _unsetcookie('rememberme');
@@ -891,7 +892,7 @@ if (typeof gtag !== \"function\") {
     }
 
     static private function recreateLoginFromCookie() {
-        if (empty($_SESSION['user'])) {
+        if (empty($justLogoff) && empty($_SESSION['user'])) {
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass']))) {
                 $user = new User(0, $_COOKIE['user'], false);
                 $user->setPassword($_COOKIE['pass'], true);
