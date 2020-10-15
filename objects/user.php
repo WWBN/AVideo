@@ -95,9 +95,10 @@ class User {
     }
 
     function setCanCreateMeet($canCreateMeet) {
-        $this->canCreateMeet = (empty($canCreateMeet) || strtolower($canCreateMeet) === 'false') ? 0 : 1;;
+        $this->canCreateMeet = (empty($canCreateMeet) || strtolower($canCreateMeet) === 'false') ? 0 : 1;
+        ;
     }
-        
+
     function getCanUpload() {
         return $this->canUpload;
     }
@@ -173,7 +174,7 @@ if (typeof gtag !== \"function\") {
 
     private function load($id) {
         $id = intval($id);
-        if(empty($id)){
+        if (empty($id)) {
             return false;
         }
         $user = self::getUserDb($id);
@@ -258,14 +259,14 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-    static function _recommendChannelName($name = "", $try = 0, $unknown="") {
+    static function _recommendChannelName($name = "", $try = 0, $unknown = "") {
         if ($try > 10) {
-            _error_log("User:_recommendChannelName too many tries ({$name}) (".User::getId().") ", AVideoLog::$ERROR);
+            _error_log("User:_recommendChannelName too many tries ({$name}) (" . User::getId() . ") ", AVideoLog::$ERROR);
             return uniqid();
         }
         if (empty($name)) {
             $name = self::getNameIdentification();
-            if($name == __("Unknown User") && !empty($unknown)){
+            if ($name == __("Unknown User") && !empty($unknown)) {
                 $name = $unknown;
             }
             $name = cleanString($name);
@@ -363,7 +364,7 @@ if (typeof gtag !== \"function\") {
     function _getName() {
         return $this->name;
     }
-    
+
     static function _getPhoto($id = "") {
         global $global;
         if (!empty($id)) {
@@ -412,34 +413,34 @@ if (typeof gtag !== \"function\") {
         }
         return $photo;
     }
-    
-    static function _getOGImage($users_id){
+
+    static function _getOGImage($users_id) {
         return "/videos/userPhoto/photo{$users_id}_og_200X200.jpg";
     }
-    
-    static function deleteOGImage($users_id){
+
+    static function deleteOGImage($users_id) {
         global $global;
-        $photo = $global['systemRootPath'].self::_getOGImage($users_id);
-        unlink($photo);        
-    }
-    
-    static function getOGImage($users_id = ""){
-        global $global;
-        $photo = self::_getPhoto($users_id);
-        if($photo == "view/img/userSilhouette.jpg"){
-            return "{$global['webSiteRootURL']}view/img/userSilhouette.jpg";
-        }
-        if(empty($photo)){
-            return false;
-        }
-        $source = $global['systemRootPath'].$photo;
-        $destination = $global['systemRootPath'].self::_getOGImage($users_id);
-        
-        convertImageToOG($source, $destination);
-        
-        return $global['webSiteRootURL'].self::_getOGImage($users_id);;
+        $photo = $global['systemRootPath'] . self::_getOGImage($users_id);
+        unlink($photo);
     }
 
+    static function getOGImage($users_id = "") {
+        global $global;
+        $photo = self::_getPhoto($users_id);
+        if ($photo == "view/img/userSilhouette.jpg") {
+            return "{$global['webSiteRootURL']}view/img/userSilhouette.jpg";
+        }
+        if (empty($photo)) {
+            return false;
+        }
+        $source = $global['systemRootPath'] . $photo;
+        $destination = $global['systemRootPath'] . self::_getOGImage($users_id);
+
+        convertImageToOG($source, $destination);
+
+        return $global['webSiteRootURL'] . self::_getOGImage($users_id);
+        ;
+    }
 
     static function getEmailVerifiedIcon($id = "") {
         global $advancedCustomUser;
@@ -599,7 +600,7 @@ if (typeof gtag !== \"function\") {
                     . " modified = now() WHERE id = ?";
         } else {
             $formats = "ssssiiiissssss";
-            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload,$this->canCreateMeet,
+            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
                 $this->status, $this->photoURL, $this->recoverPass, $this->channelName, $this->analyticsCode, $this->externalOptions);
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) "
                     . " VALUES (?,?,?,?,?,?,?,?, false, "
@@ -798,7 +799,7 @@ if (typeof gtag !== \"function\") {
             _setcookie("rememberme", $rememberme, $expires);
             _setcookie("user", $user['user'], $expires);
             _setcookie("pass", $user['password'], $expires);
-            
+
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
             session_write_close();
@@ -808,7 +809,7 @@ if (typeof gtag !== \"function\") {
             return self::USER_NOT_FOUND;
         }
     }
-    
+
     static function isCaptchaNeed() {
         global $advancedCustomUser;
         // check for multiple logins attempts to prevent hacking
@@ -883,25 +884,25 @@ if (typeof gtag !== \"function\") {
     static function logoff() {
         global $global, $justLogoff;
         $justLogoff = true;
-        _error_log("LoginControl 1 logoff ". session_id()." ". json_encode($_COOKIE));
+        if (headers_sent()) {
+            _error_log("LoginControl 0 logoff headers already sent ");
+        }
+        _error_log("LoginControl 1 logoff " . session_id() . " " . json_encode($_COOKIE));
         _session_start();
         ObjectYPT::deleteAllSessionCache();
         _unsetcookie('rememberme');
         _unsetcookie('user');
         _unsetcookie('pass');
         unset($_SESSION['user']);
-        session_regenerate_id();
-        _error_log("LoginControl 2 logoff ". session_id()." ". json_encode($_COOKIE));
-        session_write_close();
-        sleep(1);
+        _error_log("LoginControl 2 logoff " . session_id() . " " . json_encode($_COOKIE));
     }
 
     static private function recreateLoginFromCookie() {
         global $justLogoff;
         if (empty($justLogoff) && empty($_SESSION['user'])) {
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass'])) && (!empty($_COOKIE['rememberme']))) {
-                
-                _error_log("LoginControl 3 logoff ". session_id()." ". json_encode($_COOKIE));
+
+                _error_log("LoginControl 3 logoff " . session_id() . " " . json_encode($_COOKIE));
                 $user = new User(0, $_COOKIE['user'], false);
                 $user->setPassword($_COOKIE['pass'], true);
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
@@ -1150,7 +1151,7 @@ if (typeof gtag !== \"function\") {
 
     static function getUserFromID($users_id) {
         global $global;
-        if(empty($users_id)){
+        if (empty($users_id)) {
             return false;
         }
         $sql = "SELECT * FROM users WHERE id = ? LIMIT 1";
@@ -1331,7 +1332,7 @@ if (typeof gtag !== \"function\") {
 
         return $user;
     }
-    
+
     static function getAllUsersThatHasVideos($ignoreAdmin = false) {
         if (!self::isAdmin() && !$ignoreAdmin) {
             return false;
@@ -1649,10 +1650,10 @@ if (typeof gtag !== \"function\") {
         return intval($this->emailVerified);
     }
 
-    static function validateChannelName($channelName){
+    static function validateChannelName($channelName) {
         return trim(preg_replace("/[^0-9A-Z_]/i", "", ucwords($channelName)));
     }
-    
+
     /**
      *
      * @param type $channelName
@@ -1928,86 +1929,85 @@ if (typeof gtag !== \"function\") {
     function setDonationLink($donationLink) {
         $this->donationLink = $donationLink;
     }
-    
-    static function donationLink(){
+
+    static function donationLink() {
         if (self::isLogged()) {
             return $_SESSION['user']['donationLink'];
         } else {
             return false;
         }
     }
-    
-    static function loginFromRequest(){
+
+    static function loginFromRequest() {
         $inputJSON = url_get_contents('php://input');
         $input = json_decode($inputJSON, TRUE); //convert JSON into array
-        if(is_array($input)){
+        if (is_array($input)) {
             foreach ($input as $key => $value) {
-                if(empty($_REQUEST[$key])){
+                if (empty($_REQUEST[$key])) {
                     $_REQUEST[$key] = $value;
                 }
             }
         }
-        if(!empty($_REQUEST['do_not_login'])){
+        if (!empty($_REQUEST['do_not_login'])) {
             return false;
         }
-        if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
+        if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
             $user->login(false, !empty($_REQUEST['encodedPass']));
         }
     }
-    
-    static function loginFromRequestToGet(){
-        if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
+
+    static function loginFromRequestToGet() {
+        if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             $return = "user={$_REQUEST['user']}&pass={$_REQUEST['pass']}";
-            if(!empty($_REQUEST['encodedPass'])){
-                $return .= "&encodedPass=".intval($_REQUEST['encodedPass']);
+            if (!empty($_REQUEST['encodedPass'])) {
+                $return .= "&encodedPass=" . intval($_REQUEST['encodedPass']);
             }
             return $return;
         }
         return "";
     }
-    
-    static function getBlockUserButton($users_id){
+
+    static function getBlockUserButton($users_id) {
         $canBlock = self::userCanBlockUserWithReason($users_id);
         if (!$canBlock->result) {
             return "<!-- {$canBlock->msg} -->";
         }
         return ReportVideo::buttonBlockUser($users_id);
     }
-    
-    static function getActionBlockUserButton($users_id){
+
+    static function getActionBlockUserButton($users_id) {
         $canBlock = self::userCanBlockUserWithReason($users_id);
         if (!$canBlock->result) {
             return "<!-- {$canBlock->msg} -->";
         }
         return ReportVideo::actionButtonBlockUser($users_id);
     }
-    
-    static function userCanBlockUser($users_id, $ignoreIfIsAlreadyBLocked = false){
+
+    static function userCanBlockUser($users_id, $ignoreIfIsAlreadyBLocked = false) {
         if (empty($users_id)) {
             return false;
         }
         if (!User::isLogged()) {
             return false;
         }
-        if ($users_id== User::getId()) {
+        if ($users_id == User::getId()) {
             return false;
         }
-        if(empty($ignoreIfIsAlreadyBLocked)){
+        if (empty($ignoreIfIsAlreadyBLocked)) {
             $report = AVideoPlugin::getDataObjectIfEnabled("ReportVideo");
-            if(empty($report)){
+            if (empty($report)) {
                 return false;
             }
         }
         return true;
     }
-    
-    
-    static function userCanBlockUserWithReason($users_id, $ignoreIfIsAlreadyBLocked = false){
+
+    static function userCanBlockUserWithReason($users_id, $ignoreIfIsAlreadyBLocked = false) {
         $obj = new stdClass();
         $obj->result = false;
         $obj->msg = "Unkonw";
-        
+
         if (empty($users_id)) {
             $obj->msg = "Empty User ID";
             return $obj;
@@ -2016,34 +2016,34 @@ if (typeof gtag !== \"function\") {
             $obj->msg = "You are not logged";
             return $obj;
         }
-        if ($users_id== User::getId()) {
+        if ($users_id == User::getId()) {
             $obj->msg = "You cannot block your own video";
             return $obj;
         }
-        if(empty($ignoreIfIsAlreadyBLocked)){
+        if (empty($ignoreIfIsAlreadyBLocked)) {
             $report = AVideoPlugin::getDataObjectIfEnabled("ReportVideo");
-            if(empty($report)){
+            if (empty($report)) {
                 $obj->msg = "this user is already blocked";
                 return $obj;
             }
         }
-        
+
         $obj->result = true;
         $obj->msg = "You can block";
         return $obj;
     }
-    
-    static function hasBlockedUser($reported_users_id, $users_id = 0){
+
+    static function hasBlockedUser($reported_users_id, $users_id = 0) {
         if (empty($users_id)) {
             $users_id = User::getId();
         }
-        if(!self::userCanBlockUser($reported_users_id, true)){
+        if (!self::userCanBlockUser($reported_users_id, true)) {
             return false;
         }
         $report = AVideoPlugin::getDataObjectIfEnabled("ReportVideo");
-        if(!empty($report)){
+        if (!empty($report)) {
             return ReportVideo::isBlocked($reported_users_id, $users_id);
-        }else{
+        } else {
             return false;
         }
     }
