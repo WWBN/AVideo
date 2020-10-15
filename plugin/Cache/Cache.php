@@ -178,7 +178,9 @@ class Cache extends PluginAbstract {
         $obj = $this->getDataObject();
         $cachefile = $this->getCacheDir(false) . $this->getFileName();
         $c = ob_get_contents();
-        header_remove('Set-Cookie');
+        if(!headers_sent()){
+            header_remove('Set-Cookie');
+        }
         /*
         if (!file_exists($this->getCacheDir())) {
             mkdir($this->getCacheDir(), 0777, true);
