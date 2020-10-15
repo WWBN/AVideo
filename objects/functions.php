@@ -2211,7 +2211,7 @@ function isBot() {
  */
 function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
     if (!function_exists('mb_strlen')) {
-        $msg = "AVideoLog::ERROR you need to install the sudo mb_strlen function to make it work, please the command 'apt install php-mbstring'";
+        $msg = "AVideoLog::ERROR you need to install the mb_strlen function to make it work, please the command 'sudo apt install php-mbstring'";
         if ($returnArray) {
             return array(array($msg));
         } else {
