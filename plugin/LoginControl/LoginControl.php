@@ -339,7 +339,7 @@ Best regards,
             _error_log("LoginControl::isSameDeviceAsLastLogin that is the user first login at all {$users_id} ");
             return true;
         }
-        _error_log("LoginControl::isSameDeviceAsLastLogin that is NOT the same device {$users_id} {$row['uniqidV4']} === $uniqidV4 ");
+        _error_log("LoginControl::isSameDeviceAsLastLogin that is NOT the same device {$users_id} {$row['uniqidV4']} === $uniqidV4 ". json_encode($row));
             
         return false;
     }
