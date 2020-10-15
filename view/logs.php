@@ -50,13 +50,13 @@ function e($text) {
         $style = "background-color: #A00; color:#FFF;font-weight: bold;";
         $collapsible = false;
     } else
-    if (preg_match("/(AVideoLog::WARNING)/", $text, $matches) || preg_match("/(PHP Warning)/i", $text, $matches)) {
+    if (preg_match("/(PHP Warning)/i", $text, $matches)) {
         $class = "terminal-alert terminal-alert-primary";
         $outputTextWarnings[] = array($uniqid, $text, $matches[1]);
         $collapsible = false;
     } else if (preg_match("/PHP Notice/", $text)) {
         $class = "terminal-alert";
-    } else if (preg_match("/AVideoLog::DEBUG/", $text)) {
+    } else if (preg_match("/(AVideoLog::WARNING)/", $text, $matches) || preg_match("/AVideoLog::DEBUG/", $text)) {
         $class = "logDebug";
     }
 
