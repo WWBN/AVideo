@@ -276,6 +276,12 @@ Best regards,
     public function getStart() {
         $obj = $this->getDataObject();
         if ($obj->singleDeviceLogin) {
+            
+            $ignoreScriptList = array('/plugin/Live/stats.json.php');
+            if(in_array($_SERVER['SCRIPT_NAME'], $ignoreScriptList)){
+                return false;
+            }            
+            
             //_error_log("LoginControl::getStart singleDeviceLogin is enabled");
             // check if the user is logged somewhere else and log him off
             if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
