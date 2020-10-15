@@ -41,6 +41,8 @@ function cmpPlugin($a, $b) {
         return -1;
     } else if ($a['name'] == 'PayPerView') {
         return -1;
+    } else if ($a['name'] == 'PlayerSkins') {
+        return 1;
     }
 
     return 1;
