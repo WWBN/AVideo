@@ -4694,13 +4694,14 @@ function ogSite() {
 
     function _unsetcookie($cookieName) {
         $domain = getDomain();
-        $expires = -1;
-        setcookie($cookieName, null, $expires, "/", str_replace("www", "", $domain));
-        setcookie($cookieName, null, $expires, "/", "." . $domain);
-        setcookie($cookieName, null, $expires, "/", $domain);
-        setcookie($cookieName, null, $expires, "/");
-        setcookie($cookieName, null, $expires);
-        _setcookie($cookieName, null, $expires);
+        $expires = time()-3600;
+        $value = "x";
+        setcookie($cookieName, $value, $expires, "/", str_replace("www", "", $domain));
+        setcookie($cookieName, $value, $expires, "/", "." . $domain);
+        setcookie($cookieName, $value, $expires, "/", $domain);
+        setcookie($cookieName, $value, $expires, "/");
+        setcookie($cookieName, $value, $expires);
+        _setcookie($cookieName, $value, $expires);
         unset($_COOKIE[$cookieName]);
     }
 
