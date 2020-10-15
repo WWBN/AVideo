@@ -20,9 +20,7 @@ $collapsibleOpen = "<div class='collapsible-container terminal-alert'>
   <button class=\"lbl-toggle btn btn-default btn-ghost collapsibleClose collapsibleBtn\" style='display:none;'>-</button>
 <div class=\"collapsible-content-closed \">...</div>
 <div class=\"collapsible-content\" style=\"display:none;\">";
-;
 $collapsibleClose = "</div></div>";
-;
 
 $outputText = "";
 $outputTextErrors = array();
@@ -89,7 +87,7 @@ function e($text) {
             break;
         }
     }
-
+    $text = htmlentities($text);
     if ($collapsible && !$isCollapsed) {
         $outputText .= $collapsibleOpen;
         $isCollapsed = true;
