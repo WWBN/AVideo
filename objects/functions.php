@@ -2213,6 +2213,10 @@ function isBot() {
  * @return boolean
  */
 function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
+    if(!function_exists('mb_strlen')){
+        $msg = "AVideoLog::ERROR you need to install the sudo mb_strlen function to make it work, please the command 'apt install php-mbstring'";
+        return array($msg);
+    }
     // Open file
     $f = @fopen($filepath, "rb");
     if ($f === false) {
