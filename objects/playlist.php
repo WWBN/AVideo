@@ -207,17 +207,16 @@ class PlayList extends ObjectYPT {
     }
 
     static function getAllFromUserVideo($userId, $videos_id, $publicOnly = true, $status = false) {
-        if (empty($_SESSION['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)])) {
+        if (empty($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)])) {
             $rows = self::getAllFromUser($userId, $publicOnly, $status);
             foreach ($rows as $key => $value) {
                 $videos = self::getVideosIdFromPlaylist($value['id']);
                 $rows[$key]['isOnPlaylist'] = in_array($videos_id, $videos);
             }
-
             _session_start();
-            $_SESSION['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)] = $rows;
+            $_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)] = $rows;
         } else {
-            $rows = $_SESSION['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)];
+            $rows = $_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)];
         }
 
         return $rows;
@@ -226,7 +225,8 @@ class PlayList extends ObjectYPT {
     static private function removeCache($videos_id) {
         $close = false;
         _session_start();
-        unset($_SESSION['getAllFromUserVideo'][$videos_id]);
+        unset($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id]);
+        unset($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id]);
     }
 
     static function getVideosIDFromPlaylistLight($playlists_id) {

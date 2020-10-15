@@ -2,6 +2,7 @@
     var playListsAdding = false;
     var playList = [];
     function reloadPlayLists() {
+        console.log('reloadPlayLists');
         $.ajax({
             url: webSiteRootURL + 'objects/playlists.json.php',
             success: function (response) {
@@ -12,6 +13,7 @@
     }
 
     function reloadPlayListButtons() {
+        console.log('reloadPlayListButtons');
         $('.watchLaterBtnAdded').hide();
         $('.favoriteBtnAdded').hide();
         $('.watchLaterBtn').show();
@@ -36,6 +38,7 @@
 
     loadPlayListsResponseObject = {timestamp: 0, response: false};
     function loadPlayLists(videos_id, crc) {
+        console.log('loadPlayLists');
         if (loadPlayListsResponseObject.timestamp + 5000 < Date.now()) {
             loadPlayListsResponseObject.timestamp = Date.now();
             loadPlayListsResponseObject.response = [];
@@ -63,19 +66,21 @@
     }
 
     function loadPlayListsResponse(response, videos_id, crc) {
+        console.log('loadPlayListsResponse');
+        console.log(response, videos_id, crc);
 
         $('.searchlist' + videos_id + crc).html('');
         for (var i in response) {
             if (!response[i].id) {
                 continue;
             }
-            
+
             var icon = "fa fa-lock"
             if (response[i].status == "public") {
                 icon = "fa fa-globe"
-            }else if (response[i].status == "watch_later") {
+            } else if (response[i].status == "watch_later") {
                 icon = "fas fa-clock"
-            }else if (response[i].status == "favorite") {
+            } else if (response[i].status == "favorite") {
                 icon = "fas fa-heart"
             }
             var checked = "";
@@ -84,16 +89,16 @@
                     checked = "checked";
                 }
             }
-            var randId = (("_"+response[i].id) + videos_id)+ Math.random();
+            var randId = (("_" + response[i].id) + videos_id) + Math.random();
             $(".searchlist" + videos_id + crc).append('<a class="list-group-item"><i class="' + icon + '"></i> <span>'
                     + response[i].name + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                    + randId + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsIds' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
+                    + randId + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsVideosIds' + videos_id +' playListsIds_' + response[i].id + '_videos_id_' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
                     + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
                     + randId + '" class="label-success"></label></div></a>');
 
         }
         $('.searchlist' + videos_id + crc).btsListFilter('#searchinput' + videos_id + crc, {itemChild: 'span'});
-        $('.playListsIds' + videos_id).change(function () {
+        $('.playListsVideosIds' + videos_id).change(function () {
             if (playListsAdding) {
                 return false;
             }
@@ -105,6 +110,7 @@
     }
 
     function addVideoToPlayList(videos_id, isChecked, playlists_id) {
+        console.log('addVideoToPlayList');
         modal.showPleaseWait();
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
@@ -116,7 +122,8 @@
             },
             success: function (response) {
                 reloadPlayLists();
-                $(".playListsIds" + videos_id).prop("checked", isChecked);
+                console.log(".playListsIds_" + playlists_id + '_videos_id_' + videos_id);
+                $(".playListsIds_" + playlists_id + '_videos_id_' + videos_id).prop("checked", isChecked);
                 modal.hidePleaseWait();
                 setTimeout(function () {
                     playListsAdding = false

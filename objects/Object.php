@@ -308,8 +308,8 @@ abstract class ObjectYPT implements ObjectInterface {
     static function deleteCache($name) {
         $cachefile = self::getCacheFileName($name);
         @unlink($cachefile);
-
         self::deleteSessionCache($name);
+        ObjectYPT::deleteCacheFromPattern($name);
     }
 
     static function deleteALLCache() {
@@ -343,6 +343,16 @@ abstract class ObjectYPT implements ObjectInterface {
         $tmpDir = self::getCacheDir();
         $uniqueHash = md5(__FILE__);
         return $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash;
+    }
+
+    static function deleteCacheFromPattern($name) {
+        $name = self::cleanCacheName($name);
+        $tmpDir = self::getCacheDir();
+        $filePattern = $tmpDir . DIRECTORY_SEPARATOR . $name;
+        foreach (glob("{$filePattern}*") as $filename) {
+            unlink($filename);
+        }
+        self::deleteSessionCache($name);
     }
 
     /**
@@ -386,6 +396,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . "/";
         $tmpDir .= "lastDeleteALLCacheTime.cache";
+        return $tmpDir;
     }
 
     static private function setLastDeleteALLCacheTime() {
