@@ -884,7 +884,7 @@ if (typeof gtag !== \"function\") {
     static function logoff() {
         global $global, $justLogoff;
         $justLogoff = true;
-        _error_log("LoginControl 1 logoff " . session_id() . " " . json_encode($_COOKIE));
+        _error_log("LoginControl 1 logoff " . session_id() . " " . json_encode($_SERVER['HTTP_COOKIE']) . " " . json_encode($_COOKIE));
         _session_start();
         ObjectYPT::deleteAllSessionCache();
         _unsetcookie('rememberme');
