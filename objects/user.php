@@ -892,6 +892,8 @@ if (typeof gtag !== \"function\") {
         unset($_SESSION['user']);
         session_regenerate_id();
         _error_log("LoginControl 2 logoff ". session_id()." ". json_encode($_COOKIE));
+        session_write_close();
+        sleep(1);
     }
 
     static private function recreateLoginFromCookie() {
