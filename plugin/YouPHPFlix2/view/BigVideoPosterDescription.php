@@ -4,7 +4,7 @@ $bigVideoAd = getAdsLeaderBoardBigVideo();
 $colClass = "col-md-4 col-sm-6";
 if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
     ?>
-    <div class="<?php echo $colClass; ?>">
+    <div class="<?php echo $colClass; ?>  hidden-xs">
         <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="" />
     </div>
     <?php

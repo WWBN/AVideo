@@ -96,7 +96,15 @@ foreach ($videos as $value) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
     ?>
-    <div class="poster" id="poster<?php echo $value['id'] . $uid; ?>" poster="<?php echo $poster; ?>" style="display: none; background-image: url(<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/img/loading.gif);">
+    <div class="poster" id="poster<?php echo $value['id'] . $uid; ?>" poster="<?php echo $poster; ?>" 
+         style="
+         display: none; 
+         background-image: url(<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/img/loading.gif);
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover; 
+         ">
         <div class="posterDetails " style="
              background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
              background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
@@ -162,7 +170,7 @@ foreach ($videos as $value) {
                 <?php
                 if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
                     ?>
-                    <div class="col-md-2 col-sm-3 col-xs-4">
+                    <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                         <center>
                             <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 86px;" />
                         </center>
@@ -170,7 +178,7 @@ foreach ($videos as $value) {
                     <?php
                 } else if (!empty($images->poster) && basename($images->poster) !== 'notfound.jpg' && basename($images->poster) !== 'pdf.png' && basename($images->poster) !== 'article.png') {
                     ?>
-                    <div class="col-md-2 col-sm-3 col-xs-4">
+                    <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                         <center>
                             <img alt="<?php echo $value['title']; ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
                         </center>
@@ -178,7 +186,7 @@ foreach ($videos as $value) {
                     <?php
                 } else if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
                     ?>
-                    <div class="col-md-2 col-sm-3 col-xs-4">
+                    <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                         <center>
                             <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 86px;" />
                         </center>
@@ -186,7 +194,7 @@ foreach ($videos as $value) {
                     <?php
                 } else {
                     ?>
-                    <div class="col-md-2 col-sm-3 col-xs-4">
+                    <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                         <center>
                             <img alt="<?php echo $value['title']; ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
                         </center>
