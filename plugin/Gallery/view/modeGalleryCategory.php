@@ -33,7 +33,7 @@ foreach ($categories as $value) {
         continue;
     }
     ?>
-    <div class="clear clearfix">
+    <div class="row clear clearfix">
         <h3 class="galleryTitle">
             <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>">
                 <i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?>

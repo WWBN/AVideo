@@ -824,3 +824,7 @@ img.blur{
     }
     
 }
+
+.liveVideo .thumbsImage img{
+    width: 100%;
+}

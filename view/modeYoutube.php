@@ -80,9 +80,12 @@ if (!empty($evideo)) {
 
         unset($_GET['playlist_id']);
         $isPlayListTrailer = false;
+        
+        $playListObject = AVideoPlugin::getObjectData("PlayLists");
+        
         if (!empty($videoSerie)) {
             $videoSerie = Video::getVideo($videoSerie["id"], "", true);
-            if (!empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== FALSE) {
+            if (!empty($playListObject->showTrailerInThePlayList) && !empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== FALSE) {
                 $videoSerie["type"] = "embed";
                 $videoSerie["videoLink"] = $videoSerie["trailer1"];
                 array_unshift($videosPlayList, $videoSerie);

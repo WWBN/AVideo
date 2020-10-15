@@ -21,7 +21,13 @@ require_once $global['systemRootPath'] . 'admin/functions.php';
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
+        ?>
+        <div class="container-fluid">
+        <?php
         include $global['systemRootPath'] . 'view/configurations_body.php';
+        ?>
+        </div>
+        <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
 

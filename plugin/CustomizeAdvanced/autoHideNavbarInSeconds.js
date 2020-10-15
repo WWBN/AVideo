@@ -3,10 +3,14 @@ function autoHideNavbar() {
     //console.log("autoHidingNavbar");
     autoHidingNavbarTimeout = setTimeout(function () {
         $("#mainNavBar").on("show.autoHidingNavbar", function () {
-            $('body').removeClass('nopadding');
+            if ($(window).scrollTop() < 10) {
+                $('body').removeClass('nopadding');
+            }
         });
         $("#mainNavBar").on("hide.autoHidingNavbar", function () {
-            $('body').addClass('nopadding');
+            if ($(window).scrollTop() < 10) {
+                $('body').addClass('nopadding');
+             }
         });
         $("#mainNavBar").autoHidingNavbar("hide");
     }, autoHidingNavbarTimeoutMiliseconds);
@@ -22,16 +26,20 @@ $(function () {
             autoHideNavbar();
         });
         $(document).mousemove(function (event) {
-            if (event.pageY - $(document).scrollTop() <= 20) {
+            if (event.pageY - $(document).scrollTop() <= 10) {
                 $("#mainNavBar").autoHidingNavbar("show");
             }
         });
         $("#mainNavBar").on("show.autoHidingNavbar", function () {
-            $('body').removeClass('nopadding');
+            if ($(window).scrollTop() < 10) {
+                $('body').removeClass('nopadding');
+            }
         });
 
         $("#mainNavBar").on("hide.autoHidingNavbar", function () {
-            $('body').addClass('nopadding');
+            if ($(window).scrollTop() < 10) {
+                $('body').addClass('nopadding');
+             }
         });
     }
 });

@@ -1,9 +1,13 @@
 $(function () {
     $("#mainNavBar").on("show.autoHidingNavbar", function () {
-        $("body").removeClass("nopadding");
+        if ($(window).scrollTop() < 10) {
+            $("body").removeClass("nopadding");
+        }
     });
 
     $("#mainNavBar").on("hide.autoHidingNavbar", function () {
-        $("body").addClass("nopadding");
+        if ($(window).scrollTop() < 10) {
+            $("body").addClass("nopadding");
+        }
     });
 });

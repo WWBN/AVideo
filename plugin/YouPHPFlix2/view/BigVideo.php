@@ -24,20 +24,26 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         }
         $_GET = $get;
         ?>
-        <div class="row" id="bigVideo" style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);background: url(<?php echo $poster; ?>) no-repeat center center fixed; -webkit-background-size: cover;
+        <div style="padding-bottom: 40%;"></div>
+        <div class="embed-responsive-16by9" id="bigVideo" 
+             style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);
+             background: url(<?php echo $poster; ?>); 
+             -webkit-background-size: cover;
              -moz-background-size: cover;
              -o-background-size: cover;
              background-size: cover; 
-             /*padding-bottom: 56.25%; Aspect ratio */
-             /*margin-bottom: <?php echo $obj->BigVideoMarginBottom; ?>;*/
-             position: relative;
-             z-index: 0;" >
+             z-index: 0;
+             position: absolute;
+             top: 0;
+             width: 100%;" >
              <?php
              if (!isMobile() && !empty($video['trailer1'])) {
                  $percent = 2;
                  ?>
-                <div id="bg_container" >
-                    <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'); ?>" frameborder="0"  allowtransparency="true" allow="autoplay"></iframe>
+            <div id="bg_container" class="" style="height: 100%;" >
+                    <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'); ?>" 
+                            frameborder="0"  allowtransparency="true" 
+                            allow="autoplay"></iframe>
                 </div>
                 <div id="bg_container_overlay" ></div>
                 <?php
@@ -46,7 +52,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             }
             ?>
 
-            <div class="posterDetails " style=" padding: 30px; min-height: 100vh;
+            <div class="posterDetails" style="
                  background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
                  background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
                  background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);

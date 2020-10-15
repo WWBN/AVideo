@@ -2691,12 +2691,22 @@ if (!class_exists('Video')) {
         }
         
         static function getCleanFilenameFromFile($filename) {
+            if(empty($filename)){
+                return "";
+            }
             $cleanName = str_replace(
-                        array('_Low', '_SD', '_HD', '_thumbsV2','_thumbsSmallV2',
+                        array('_Low', '_SD', '_HD', '_thumbsV2','_thumbsSmallV2', '_thumbsSprit',
                             '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240'), 
-                        array('', '', '', '', '', '', '', '', '', '', '', ''), $filename);
+                        array('', '', '', '', '', '', '', '', '', '', '', '', ''), $filename);
             $path_parts = pathinfo($cleanName);
-            if(strlen($path_parts['extension'])>4){
+            if(empty($path_parts['extension'])){
+                //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
+                if(!empty($path_parts['filename'])){
+                    return $path_parts['filename'];
+                }else{
+                    return $filename;
+                }
+            }else if(strlen($path_parts['extension'])>4){
                 return $cleanName;
             }else{
                 return $path_parts['filename'];

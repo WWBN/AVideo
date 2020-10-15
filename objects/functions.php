@@ -1354,7 +1354,7 @@ function getVideosURL_V2($fileName) {
     return $getVideosURL_V2Array[$cleanfilename];
 }
 
-function getSources($fileName, $returnArray = false) {
+function getSources($fileName, $returnArray = false, $try=0) {
     $name = "getSources_{$fileName}_" . intval($returnArray);
     /*
       $cached = ObjectYPT::getCache($name, 86400); //one day
@@ -1368,7 +1368,7 @@ function getSources($fileName, $returnArray = false) {
     } else {
         $videoSources = $audioTracks = $subtitleTracks = "";
     }
-
+    
     $video = Video::getVideoFromFileName($fileName);
 
     if ($video['type'] !== 'audio' && function_exists('getVRSSources')) {
@@ -1402,8 +1402,12 @@ function getSources($fileName, $returnArray = false) {
     $obj = new stdClass();
     $obj->result = $return;
     
-    if(empty($sources) && !empty($video['id'])){
+    if(empty($videoSources) && empty($audioTracks) && !empty($video['id']) && $video['type']=='video'){
+        _error_log("getSources($fileName) File not found ". json_encode($video));
         Video::clearCache($video['id']);
+        if(empty($try)){
+            return getSources($fileName, $returnArray, $try+1);
+        }
     }
 //ObjectYPT::setCache($name, $obj);
     return $return;
@@ -2125,6 +2129,41 @@ function getUpdatesFilesArray() {
         }
     }
     return $updateFiles;
+}
+
+function thereIsAnyUpdate() {
+    if(!User::isAdmin()){
+        return false;
+    }
+    $name = 'thereIsAnyUpdate';
+    if(!isset($_SESSION['user'][$name])){
+        _session_start();
+        $_SESSION['user'][$name] = !empty(getUpdatesFilesArray());
+    }
+    return $_SESSION['user'][$name];
+    
+}
+
+
+function thereIsAnyRemoteUpdate() {
+    if(!User::isAdmin()){
+        return false;
+    }
+    global $config;
+    $version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
+    $name = 'thereIsAnyRemoteUpdate';
+    if(!isset($_SESSION['user'][$name])){
+        if (!empty($version)) {
+            _session_start();
+            if (version_compare($config->getVersion(), $version->version) === -1) {
+                $_SESSION['user'][$name] = $version;
+            }else{
+                $_SESSION['user'][$name] = false;
+            }
+        }
+    }
+    return $_SESSION['user'][$name];
+    
 }
 
 function UTF8encode($data) {
@@ -4786,4 +4825,3 @@ function ogSite() {
         }
         echo PHP_EOL, "/** showAlertMessage END **/";
     }
-    

@@ -38,8 +38,9 @@ if ($obj->Categories) {
     $dataFlickirty->fade = true;
     $dataFlickirty->setGallerySize = false;
     $dataFlickirty->cellAlign = 'left';
+    $dataFlickirty->groupCells = true;
     if ($obj->CategoriesAutoPlay) {
-        $dataFlickirty->autoPlay = true;
+        $dataFlickirty->autoPlay = 10000;
         $dataFlickirty->wrapAround = true;
     } else {
         $dataFlickirty->wrapAround = true;

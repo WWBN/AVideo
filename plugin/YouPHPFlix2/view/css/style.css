@@ -155,15 +155,8 @@ a:visited {
 }
 
 .posterDetails {
-/*    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;*/
-    padding: 5px 20px;
+    padding: 60px 20px 56.25% 20px;
     color: #FFF;
-}
-.topicRow .posterDetails {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -292,7 +285,8 @@ footer .btn-outline {
     height: 210px;
 }
 #bigVideo .posterPortrait {
-    height: auto;
+    min-height: 250px;
+    min-width: 135px;
 }
 #bigVideo .mainInfoText{
     max-height: 29vh;
@@ -312,7 +306,6 @@ footer .btn-outline {
     top: 0;
     left: 0;
     width: 100vw;
-    min-height: 100vh;
     pointer-events: none;
 }
 #bg_container iframe{
@@ -320,7 +313,7 @@ footer .btn-outline {
     top: 0;
     left: 0;
     width: 100vw;
-    min-height: 100vh;
+    min-height: 100%;
     pointer-events: none;
     opacity: 1;
     filter: alpha(opacity=100); /* For IE8 and earlier */
@@ -330,8 +323,10 @@ footer .btn-outline {
 #carouselRows h2{
     position: relative;
 }
+
 #carouselRows{
-/*    margin-top: -20%;*/
+    position: relative;
+    padding: 20px;
 }
 
 body.fullscreen{
@@ -341,25 +336,24 @@ body.fullscreen{
 }
 @media (max-width: 1400px) {
     #bigVideo{
-/*        margin-bottom: -150px !important;*/
+        /*        margin-bottom: -150px !important;*/
     }
 }
 @media (max-width: 1200px) {
     #bigVideo{
-/*        margin-bottom: -100px !important;*/
+        /*        margin-bottom: -100px !important;*/
     }
 }
 @media (max-width: 1120px) {
     #bigVideo{
-/*        margin-bottom: -70px !important;*/
+        /*        margin-bottom: -70px !important;*/
     }
 }
 @media (max-width: 1060px) {
     #bigVideo{
-/*        margin-bottom: -10px !important;*/
+        /*        margin-bottom: -10px !important;*/
         overflow: hidden;
-/*        height: 450px !important;*/
-        min-height: 100vh;
+        /*        height: 450px !important;*/
     }
 }
 .paidOnlyLabel{
@@ -376,4 +370,14 @@ body.fullscreen{
 }
 .topicRow{
     margin-top: 35px;
+}
+
+#mainNavBar{
+    transition: background-color 0.5s ease;
+}
+
+.bgTransparent{
+    background-color: transparent;
+    background: transparent;
+    border-color: transparent;
 }

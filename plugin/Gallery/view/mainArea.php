@@ -44,22 +44,29 @@
         ?>
         <!-- For Live Videos End -->
         <?php
+        $countSections = 0;
         if ($obj->Suggested) {
+            $countSections++;
             createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
         }
         if ($obj->Trending) {
+            $countSections++;
             createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line");
         }
         if ($obj->SortByName) {
+            $countSections++;
             createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
         }
         if ($obj->DateAdded) {
+            $countSections++;
             createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
         }
         if ($obj->MostWatched) {
+            $countSections++;
             createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-eye");
         }
         if ($obj->MostPopular) {
+            $countSections++;
             createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "fas fa-fire");
         }
         if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
@@ -119,6 +126,47 @@
             </script>
             <?php
         }
+        // if there is no section display only the dateAdded row for the selected category
+        if (empty($countSections) && !empty($currentCat) && empty($_GET['showOnly'])) {
+            if (empty($_GET['page'])) {
+                $_GET['page'] = 1;
+            }
+            $_REQUEST['current'] = $_GET['page'];
+
+            unset($_POST['sort']);
+            $_POST['sort']['v.created'] = "DESC";
+            $_POST['sort']['likes'] = "DESC";
+            $_GET['catName'] = $currentCat['clean_name'];
+            $_REQUEST['rowCount'] = $obj->CategoriesRowCount * 3;
+            $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+            if (!empty($videos)) {
+                ?>
+                <div class="row clear clearfix">
+                    <h3 class="galleryTitle">
+                        <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $currentCat['clean_name']; ?>">
+                            <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name']; ?>
+                        </a>
+                    </h3>
+                    <?php
+                    createGallerySection($videos, "", array(), true);
+                    ?>
+                </div>
+                <?php
+                $total = Video::getTotalVideos("viewable");
+                $totalPages = ceil($total / getRowCount());
+                $page = $_GET['page'];
+                if ($totalPages < $_GET['page']) {
+                    $page = $totalPages;
+                }
+                ?>
+                <div class="col-sm-12" style="z-index: 1;">
+                    <?php
+                    echo getPagination($totalPages, $page, "{$url}{page}{$args}");
+                    ?>
+                </div>
+                <?php
+            }
+        }
         ?>
 
         <?php
@@ -128,12 +176,11 @@
         echo AVideoPlugin::getGallerySection();
         $ob2 = ob_get_clean();
         echo $ob;
-        if(empty($ob2)){
+        if (empty($ob2)) {
             $contentSearchFound = false;
-        }else{
+        } else {
             $contentSearchFound = true;
         }
-        
     }
 
     if (!$contentSearchFound) {
@@ -147,8 +194,8 @@
             </h1>
             <?php echo __("We have not found any videos or audios to show"); ?>.
         </div>
-    <?php 
+        <?php
         include $global['systemRootPath'] . 'view/include/notfound.php';
-    
-    } ?>
+    }
+    ?>
 </div>
