@@ -177,6 +177,7 @@ class PlayerSkins extends PluginAbstract {
             $js .= "$(document).ready(function () {";
         }
         $js .= "
+        /* prepareStartPlayerJS_onPlayerReady = ".count($prepareStartPlayerJS_onPlayerReady).", prepareStartPlayerJS_getDataSetup = ".count($prepareStartPlayerJS_getDataSetup)." */
         if (typeof player === 'undefined') {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
         }
