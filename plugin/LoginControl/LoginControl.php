@@ -276,14 +276,16 @@ Best regards,
     public function getStart() {
         $obj = $this->getDataObject();
         if ($obj->singleDeviceLogin) {
-            //_error_log("LoginControl::getStart singleDeviceLogin is enabled");
+            _error_log("LoginControl::getStart singleDeviceLogin is enabled");
             // check if the user is logged somewhere else and log him off
             if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
                 _error_log("LoginControl::getStart the user logged somewhere else");
-                if(self::isUser2FAEnabled($users_id)){
+                if(self::isUser2FAEnabled(User::getId())){
                     $row = self::getLastConfirmedLogin(User::getId());
+                    _error_log("LoginControl::getStart isUser2FAEnabled=true ". json_encode($row));
                 }else{
                     $row = self::getLastLogin(User::getId());
+                    _error_log("LoginControl::getStart isUser2FAEnabled=false ". json_encode($row));
                 }
                 User::logoff();
                 if (!empty($row)) {
