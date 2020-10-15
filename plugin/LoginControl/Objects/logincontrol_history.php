@@ -132,11 +132,14 @@ class logincontrol_history extends ObjectYPT {
         sqlDAL::close($res);
         if ($res) {
             $row = $data;
-            $row['device'] = self::getDeviceName($row['user_agent']);
-            $row['ago'] = humanTimingAgo($row['created']);
-            $row['time_ago'] = "{$row['created']} ({$row['ago']})";
-            $row['type'] = ($row['status']!==logincontrol_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
-                
+            if(!empty($row['created'])){
+                $row['device'] = self::getDeviceName($row['user_agent']);
+                $row['ago'] = humanTimingAgo($row['created']);
+                $row['time_ago'] = "{$row['created']} ({$row['ago']})";
+                $row['type'] = ($row['status']!==logincontrol_history_status::$CONFIRMED)?__("Failed login attempt"):__("Successfully logged in");
+            }else{
+                $row = false;
+            }
         } else {
             $row = false;
         }
