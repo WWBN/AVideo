@@ -4695,13 +4695,15 @@ function ogSite() {
     function _unsetcookie($cookieName) {
         $domain = getDomain();
         $expires = time()-3600;
-        $value = "x";
-        setcookie($cookieName, $value, $expires, "/", str_replace("www", "", $domain));
-        setcookie($cookieName, $value, $expires, "/", "." . $domain);
-        setcookie($cookieName, $value, $expires, "/", $domain);
-        setcookie($cookieName, $value, $expires, "/");
-        setcookie($cookieName, $value, $expires);
-        _setcookie($cookieName, $value, $expires);
+        $value = "";
+        for($i=0;$i<5;$i++){
+            setcookie($cookieName, $value, $expires, "/", str_replace("www", "", $domain));
+            setcookie($cookieName, $value, $expires, "/", "." . $domain);
+            setcookie($cookieName, $value, $expires, "/", $domain);
+            setcookie($cookieName, $value, $expires, "/");
+            setcookie($cookieName, $value, $expires);
+            _setcookie($cookieName, $value, $expires);
+        }
         unset($_COOKIE[$cookieName]);
     }
 
