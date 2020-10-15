@@ -847,13 +847,6 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                         $(this).remove();
                     });
                     encodingNowId = "";
-                    setTimeout(function () {
-                        checkProgress(encoderURL);
-                    }, 20000);
-                } else {
-                    setTimeout(function () {
-                        checkProgress(encoderURL);
-                    }, 20000);
                 }
 
             }

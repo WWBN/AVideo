@@ -984,6 +984,11 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>i/log" class="">
+                                        <i class="fas fa-clipboard-list"></i> <?php echo __("Log file"); ?>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="#" class="generateSiteMapButton">
                                         <i class="fa fa-sitemap"></i> <?php echo __("Generate Sitemap"); ?>
                                     </a>
@@ -1071,7 +1076,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     if (empty($subcat['total'])) {
                                         continue;
                                     }
-                                    if (in_array($subcat['id'], $parsed_cats)) {
+                                    if (is_array($parsed_cats) && in_array($subcat['id'], $parsed_cats)) {
                                         continue;
                                     }
                                     //$parsed_cats[] = $subcat['id'];

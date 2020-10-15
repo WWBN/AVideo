@@ -45,6 +45,9 @@ switch ($_GET['type']){
             }
         }
         break;
+    case "log":
+        $iframeURL = $global['webSiteRootURL']."view/logs.php";
+        break;
     
 }
 if(empty($iframeURL)){
