@@ -4701,7 +4701,7 @@ function ogSite() {
                 'secure' => true,
                 'httponly' => false,
                 'samesite' => 'None');
-            return setcookie($cookieName, null, $cookie_options);
+            setcookie($cookieName, null, $cookie_options);
         } else {
             setcookie($cookieName, null, (int) $expires, "/", getDomain());
             setcookie($cookieName, null, (int) $expires, "/");
