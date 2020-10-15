@@ -894,7 +894,7 @@ if (typeof gtag !== \"function\") {
     static private function recreateLoginFromCookie() {
         global $justLogoff;
         if (empty($justLogoff) && empty($_SESSION['user'])) {
-            if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass']))) {
+            if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass'])) && (!empty($_COOKIE['rememberme']))) {
                 $user = new User(0, $_COOKIE['user'], false);
                 $user->setPassword($_COOKIE['pass'], true);
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
