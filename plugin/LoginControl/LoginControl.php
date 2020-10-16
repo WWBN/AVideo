@@ -110,10 +110,13 @@ Best regards,
                 setToastMessage(__("2FA email not sent"));
             }
         }else{
+            /* Cannot use it due the first page cache. it may work with AJAX
             $row = self::getPreviewsLogin(User::getId());
             if(!empty($row)){
                 setToastMessage(__("Last login was on ")." ".$row['ago']." (".$row['device'].")");
             }
+             * 
+             */
         }
     }
     
