@@ -903,8 +903,9 @@ if (typeof gtag !== \"function\") {
     }
 
     static private function recreateLoginFromCookie() {
-        global $justLogoff;
-        if (empty($justLogoff) && empty($_SESSION['user'])) {
+        global $justLogoff, $justTryToRecreateLoginFromCookie;
+        if (empty($justTryToRecreateLoginFromCookie) && empty($justLogoff) && empty($_SESSION['user'])) {
+            $justTryToRecreateLoginFromCookie = 1;
             if ((!empty($_COOKIE['user'])) && (!empty($_COOKIE['pass'])) && (!empty($_COOKIE['rememberme']))) {
 
                 $user = new User(0, $_COOKIE['user'], false);
