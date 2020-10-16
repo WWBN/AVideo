@@ -55,7 +55,7 @@ function e($text) {
         $outputTextWarnings[] = array($uniqid, $text, $matches[1]);
         $collapsible = false;
     } else if (preg_match("/PHP Notice/", $text)) {
-        $class = "terminal-alert";
+        $class = "logNotice";
     } else if (preg_match("/(AVideoLog::WARNING)/", $text, $matches) || preg_match("/AVideoLog::DEBUG/", $text)) {
         $class = "logDebug";
     }
@@ -162,6 +162,9 @@ $outputText .= $collapsibleClose;
             }
             .logDebug{
 
+            }
+            .logNotice{
+                color: #62c4ff;
             }
             .logIgnore{
 
