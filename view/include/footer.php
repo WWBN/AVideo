@@ -18,6 +18,9 @@ if ($version = thereIsAnyRemoteUpdate()) {
     hideAfter: 20000
 });";
 }
+if(empty($advancedCustom)){
+    $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+}
 ?>
 <div class="clearfix"></div>
 <footer style="<?php echo $advancedCustom->footerStyle; ?> display: none;" id="mainFooter">
