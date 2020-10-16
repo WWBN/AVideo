@@ -45,7 +45,7 @@ function cmpPlugin($a, $b) {
         return 1;
     }
 
-    return 1;
+    return 0;
 }
 
 // Returns a file size limit in bytes based on the PHP upload_max_filesize
