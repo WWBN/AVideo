@@ -43,6 +43,17 @@ function cmpPlugin($a, $b) {
         return -1;
     } else if ($a['name'] == 'PlayerSkins') {
         return 1;
+    }else 
+    if ($b['name'] == 'SecureVideosDirectory') {
+        return 1;
+    } else if ($b['name'] == 'GoogleAds_IMA') {
+        return 1;
+    } else if ($b['name'] == 'Subscription') {
+        return 1;
+    } else if ($b['name'] == 'PayPerView') {
+        return 1;
+    } else if ($b['name'] == 'PlayerSkins') {
+        return -1;
     }
 
     return 0;
