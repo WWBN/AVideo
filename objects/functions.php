@@ -4745,7 +4745,10 @@ function diskUsageBars() {
 
             function gotToLoginAndComeBackHere($msg) {
                 global $global;
-                header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode(getSelfURI()) . "&msg=" . urlencode($msg));
+                if(!empty($_GET['comebackhere'])){
+                    return false;
+                }
+                header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode(getSelfURI()) . "&msg=" . urlencode($msg)."&comebackhere=1");
                 exit;
             }
 
