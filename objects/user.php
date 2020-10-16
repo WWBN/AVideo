@@ -187,10 +187,13 @@ if (typeof gtag !== \"function\") {
     }
 
     private function loadFromUser($user) {
-        $user = self::getUserDbFromUser($user);
-        if (empty($user))
+        $userLoaded = self::getUserDbFromUser($user);
+        if (empty($userLoaded)){
             return false;
-        foreach ($user as $key => $value) {
+        }
+        _error_log("User::loadFromUser($user) ");
+        _error_log("User::loadFromUser json ". json_encode($userLoaded));
+        foreach ($userLoaded as $key => $value) {
             $this->$key = $value;
         }
         return true;
