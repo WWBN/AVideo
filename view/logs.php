@@ -78,7 +78,7 @@ function e($text) {
         }
     }
 
-    $text = preg_replace("/[^ ]@[^ ]/i", "myemail@mydomain.com", $text);
+    $text = preg_replace("/[^ ]+@[^ ]+/i", "myemail@mydomain.com", $text);
 
     $text = htmlentities($text);
     if ($collapsible && !$isCollapsed) {
