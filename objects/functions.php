@@ -4710,7 +4710,7 @@ function diskUsageBars() {
 
             function _unsetcookie($cookieName) {
                 $domain = getDomain();
-                $expires = strtotime("- 10 years");
+                $expires = strtotime("-10 years");
                 $value = "";
                 _setcookie($cookieName, $value, $expires);
                 setcookie($cookieName, $value, (int) $expires, "/") && setcookie($cookieName, $value, (int) $expires);
