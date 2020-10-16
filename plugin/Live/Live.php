@@ -761,6 +761,10 @@ class Live extends PluginAbstract {
                     }
                     return ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;
                 });
+                if(empty($liveServers[0])){
+                    _error_log("Live::getAvailableLiveServer we could not get server status, try to uncheck useLiveServers parameter from the Live plugin");
+                    return array();
+                }
                 $return = $liveServers[0];
                 ObjectYPT::setCache($name, $return);
             }

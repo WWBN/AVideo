@@ -765,6 +765,9 @@ if (typeof gtag !== \"function\") {
     const REQUIRE2FA = 4;
 
     function login($noPass = false, $encodedPass = false) {
+        if(User::isLogged()){
+            return false;
+        }
         global $global, $advancedCustom, $advancedCustomUser, $config;
         if (strtolower($encodedPass) === 'false') {
             $encodedPass = false;

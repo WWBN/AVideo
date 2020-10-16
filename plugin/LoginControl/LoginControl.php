@@ -110,10 +110,10 @@ Best regards,
                 setToastMessage(__("2FA email not sent"));
             }
         }else{
-            //$row = self::getPreviewsLogin(User::getId());
-            //if(!empty($row)){
-                //setToastMessage(__("Last login was on ")." ".$row['ago']." (".$row['device'].")");
-            //}
+            $row = self::getPreviewsLogin(User::getId());
+            if(!empty($row)){
+                setToastMessage(__("Last login was on ")." ".$row['ago']." (".$row['device'].")");
+            }
         }
     }
     
