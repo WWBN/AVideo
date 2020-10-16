@@ -80,13 +80,6 @@ function e($text) {
 
     $text = preg_replace("/[^ ]@[^ ]/i", "myemail@mydomain.com", $text);
 
-    $removeLinesWithWords = array($global['salt'], $mysqlPass);
-    foreach ($removeLinesWithWords as $value) {
-        if (!empty($value) && preg_match("/{$value}/i", $text)) {
-            $text = preg_replace("/[^ ]/", "*", $text) . " - [removed]";
-            break;
-        }
-    }
     $text = htmlentities($text);
     if ($collapsible && !$isCollapsed) {
         $outputText .= $collapsibleOpen;
@@ -280,7 +273,7 @@ $outputText .= $collapsibleClose;
             </div>
             <pre class="logCode">
                 <?php
-                $outputText = str_replace(array(parse_url($global['webSiteRootURL'], PHP_URL_HOST), $global['systemRootPath']), array("www.mysite.com", "path/to/my/streamer/site/"), $outputText);
+                $outputText = str_replace(array(parse_url($global['webSiteRootURL'], PHP_URL_HOST), $global['systemRootPath'], $global['salt'], $mysqlPass), array("www.mysite.com", "path/to/my/streamer/site/", "mySalt", "myMySQLPass"), $outputText);
 
                 echo $outputText;
                 ?>
