@@ -4713,6 +4713,12 @@ function diskUsageBars() {
                 $expires = strtotime("- 10 years");
                 $value = "";
                 _setcookie($cookieName, $value, $expires);
+                setcookie($cookieName, $value, (int) $expires, "/") && setcookie($cookieName, $value, (int) $expires);
+                setcookie($cookieName, $value, (int) $expires, "/", str_replace("www", "", $domain));
+                setcookie($cookieName, $value, (int) $expires, "/", "." . $domain);
+                setcookie($cookieName, $value, (int) $expires, "/", $domain);
+                setcookie($cookieName, $value, (int) $expires, "/");
+                setcookie($cookieName, $value, (int) $expires);
                 unset($_COOKIE[$cookieName]);
             }
 
