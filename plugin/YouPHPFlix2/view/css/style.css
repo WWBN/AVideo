@@ -140,12 +140,11 @@ a:visited {
 
 .poster{
     position: relative;
-    height: 370px;
     width: 100%;
     margin-top: 10px;
     background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-1.jpg);
     background-repeat: no-repeat;
-    background-size: auto 700px;
+    background-size: cover;
     background-position: right 0 center;    
     -webkit-transition: background 0.5s linear;
     -moz-transition: background 0.5s linear;
@@ -155,14 +154,19 @@ a:visited {
 }
 
 .posterDetails {
-    padding: 60px 20px 56.25% 20px;
+    padding: 10px;
     color: #FFF;
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 0;
     right: 0;
     top: 0;
 }
+
+@media (max-width: 767px){
+    
+}
+
 .posterDetails .row{
     margin-top: 15px;
 }
