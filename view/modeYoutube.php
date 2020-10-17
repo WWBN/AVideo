@@ -55,7 +55,7 @@ if (!empty($evideo)) {
     $modeYouTubeTimeLog['Code part 1'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
     if (!empty($_GET['playlist_id'])) {
-
+        $isSerie = 1;
         if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {
             $playlist_id = $_GET['playlist_id'];
         } else if (User::isLogged()) {

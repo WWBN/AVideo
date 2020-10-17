@@ -3721,9 +3721,13 @@ function isVideo() {
     return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();
 }
 
+function isSerie() {
+    return isPlayList();
+}
+
 function isPlayList() {
-    global $isPlayList;
-    return !empty($isPlayList);
+    global $isPlayList, $isSerie;
+    return !empty($isSerie) || !empty($isPlayList);
 }
 
 function isChannel() {
@@ -3776,7 +3780,7 @@ function isHLS() {
     global $video, $global;
     if (isLive()) {
         return true;
-    } else if ($video['type'] == 'video' && file_exists("{$global['systemRootPath']}videos/{$video['filename']}/index.m3u8")) {
+    } else if (!empty($video) && $video['type'] == 'video' && file_exists("{$global['systemRootPath']}videos/{$video['filename']}/index.m3u8")) {
         return true;
     }
     return false;
