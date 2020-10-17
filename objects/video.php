@@ -3286,6 +3286,7 @@ if (!class_exists('Video')) {
             Video::deleteTagsAsync($videos_id);
             clearVideosURL($filename);
             AVideoPlugin::deleteVideoTags($videos_id);
+            ObjectYPT::setLastDeleteALLCacheTime();
             return true;
         }
 
