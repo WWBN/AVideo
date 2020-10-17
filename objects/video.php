@@ -1992,9 +1992,19 @@ if (!class_exists('Video')) {
          * label Default Primary Success Info Warning Danger
          */
         static function getTags($video_id, $type = "") {
-            global $advancedCustom;
+            global $advancedCustom, $videos_getTags;
+            
+            if(empty($videos_getTags)){
+               $videos_getTags = array(); 
+            }
+            $name = "{$video_id}_{$type}";
+            if(!empty($videos_getTags[$name])){
+                return $videos_getTags[$name];
+            }
+            
             if (empty($advancedCustom->AsyncJobs)) {
-                return self::getTags_($video_id, $type);
+                $videos_getTags[$name] = self::getTags_($video_id, $type);
+                return $videos_getTags[$name] ;
             } else {
                 $tags = self::getTagsAsync($video_id, $type);
                 foreach ($tags as $key => $value) {
@@ -2002,6 +2012,7 @@ if (!class_exists('Video')) {
                         $tags[$key] = (object) $value;
                     }
                 }
+                $videos_getTags[$name] = $tags;
                 return $tags;
             }
         }

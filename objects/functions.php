@@ -1464,6 +1464,7 @@ function getimgsize($file_src) {
                 }
                 $size[$key] = $value;
             }
+            $_getimagesize[$name] = $size;
             return $size;
         }
 

@@ -286,25 +286,33 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     static function getCache($name, $lifetime = 60) {
-        global $getCachesProcessed;
+        global $getCachesProcessed, $_getCache;
+        
+        if(empty($_getCache)){
+            $_getCache = array();
+        }
         
         if(empty($getCachesProcessed)){
             $getCachesProcessed=array();
         }
-        
         $cachefile = self::getCacheFileName($name);
+        
+        if(!empty($_getCache[$name])){
+            return $_getCache[$name];
+        }
         
         if(empty($getCachesProcessed[$name])){
             $getCachesProcessed[$name] = 0;
         }
-        $getCachesProcessed[$name]++;                
-                
+        $getCachesProcessed[$name]++;         
+        
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
         if (!empty($lifetime)) {// do not session cache if there is not timeout limit
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
+                $_getCache[$name] = $session;
                 return $session;
             }
         }
@@ -313,6 +321,7 @@ abstract class ObjectYPT implements ObjectInterface {
             $c = @url_get_contents($cachefile);
             $json = json_decode($c);
             self::setSessionCache($name, $json);
+            $_getCache[$name] = $json;
             return $json;
         } else if (file_exists($cachefile)) {
             self::deleteCache($name);
