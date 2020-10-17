@@ -1344,20 +1344,19 @@ function getVideosURL_V2($fileName) {
                 continue;
             }
                         
-            if(preg_match("/{$cleanfilename}_(.+)[.]{$parts['extension']}$/", $file, $matches)){
-                $resolution = '';
-                $type = @$matches[1];
+            if(preg_match("/{$cleanfilename}(_.+)[.]{$parts['extension']}$/", $file, $matches)){
+                $resolution = $matches[1];
             }else{            
                 preg_match('/_([^_]{0,4}).' . $parts['extension'] . '$/', $file, $matches);
                 $resolution = @$matches[1];
+            }
+            $type = 'video';
+            if (in_array($parts['extension'], $video)) {
                 $type = 'video';
-                if (in_array($parts['extension'], $video)) {
-                    $type = 'video';
-                } else if (in_array($parts['extension'], $audio)) {
-                    $type = 'audio';
-                } else if (in_array($parts['extension'], $image)) {
-                    $type = 'image';
-                }
+            } else if (in_array($parts['extension'], $audio)) {
+                $type = 'audio';
+            } else if (in_array($parts['extension'], $image)) {
+                $type = 'image';
             }
             $files["{$parts['extension']}{$resolution}"] = array(
                 'filename' => "{$parts['filename']}.{$parts['extension']}",
