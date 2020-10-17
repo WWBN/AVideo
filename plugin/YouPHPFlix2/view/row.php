@@ -203,7 +203,7 @@ foreach ($videos as $value) {
                 }
                 ?>
                 <div class="infoText col-md-4 col-sm-6 col-xs-8">
-                    <h4 class="mainInfoText" itemprop="description">
+                    <h4 class="mainInfoText hidden-sm" itemprop="description">
                         <?php
                         if (strip_tags($value['description']) != $value['description']) {
                             echo $value['description'];
