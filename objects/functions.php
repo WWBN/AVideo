@@ -1419,7 +1419,11 @@ function getSources($fileName, $returnArray = false, $try = 0) {
         Video::clearCache($video['id']);
         if (empty($try)) {
             sleep(1);
-            return getSources($fileName, $returnArray, $try + 1);
+            $sources = getSources($fileName, $returnArray, $try + 1);
+            if(!empty($sources)){
+                Video::updateFilesize($video['id']);
+            }
+            return $sources;
         }else{
             _error_log("getSources($fileName) File not found " . json_encode($video));
         }
