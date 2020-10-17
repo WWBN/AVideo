@@ -873,7 +873,7 @@ if (!class_exists('Video')) {
             }
             $sql = "SELECT * FROM videos WHERE filename = ? LIMIT 1";
 
-            $res = sqlDAL::readSql($sql, "s", array($fileName));
+            $res = sqlDAL::readSql($sql, "s", array($fileName), true);
             if ($res != false) {
                 $video = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
