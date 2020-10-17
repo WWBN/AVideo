@@ -30,6 +30,13 @@ $live_servers_id = Live::getCurrentLiveServersId();
     var isOnlineLabel = false;
     var playCorrectSource<?php echo $live_servers_id; ?>Timout;
     function playCorrectSource<?php echo $live_servers_id; ?>() {
+        if(typeof player === 'undefined'){
+            clearTimeout(playCorrectSource<?php echo $live_servers_id; ?>Timout);
+            playCorrectSource<?php echo $live_servers_id; ?>Timout = setTimeout(function () {
+                playCorrectSource<?php echo $live_servers_id; ?>();
+            }, 1000);
+            return false;
+        }
         var bigPlayButtonModified = false;
         if($('#liveViewStatus<?php echo $live_servers_id; ?>').hasClass('isOnline') && !isOfflineVideo()){
             isOnlineLabel=true;
