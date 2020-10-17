@@ -11,6 +11,8 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php
 $getStatsObject = array();
 $_getStats = array();
 
+User::loginFromRequest();
+
 class Live extends PluginAbstract {
 
     public function getTags() {
