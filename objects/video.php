@@ -326,14 +326,10 @@ if (!class_exists('Video')) {
                     UserGroups::updateVideoGroups($id, $this->videoGroups);
                 }
                 
-                $otherInfocachename = "otherInfo{$this->id}";
-                ObjectYPT::deleteCache($otherInfocachename);
                 Video::autosetCategoryType($id);
                 if (!empty($this->old_categories_id)) {
                     Video::autosetCategoryType($this->old_categories_id);
                 }
-                clearVideosURL($this->filename);
-                self::deleteThumbs($this->filename, true);
                 self::clearCache($this->id);
                 return $id;
             } else {
@@ -2214,9 +2210,11 @@ if (!class_exists('Video')) {
             if (empty($video_id)) {
                 return false;
             }
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+            
+            $name = "getVideoTags{$video_id}";
+            ObjectYPT::deleteCache($name);
+            
+            _session_start();
             unset($_SESSION['getVideoTags'][$video_id]);
             $path = getCacheDir() . "getTagsAsync/";
             if (!is_dir($path)) {
@@ -3263,7 +3261,7 @@ if (!class_exists('Video')) {
                 _error_log("Video:clearCache filename not found");
                 return false;
             }
-            
+            self::deleteThumbs($this->filename, true);
             ObjectYPT::deleteCache("otherInfo{$videos_id}");
             ObjectYPT::deleteCache($filename);
             ObjectYPT::deleteCache("getVideosURL_V2$filename");
