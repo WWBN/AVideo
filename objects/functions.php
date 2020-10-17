@@ -1443,27 +1443,39 @@ function getSources($fileName, $returnArray = false, $try = 0) {
  * @return typeget image size with cache
  */
 function getimgsize($file_src) {
+    global $_getimagesize;
+    
+    if(empty($_getimagesize)){
+       $_getimagesize = array(); 
+    }
+    
     $name = "getimgsize_" . md5($file_src);
-    $cached = ObjectYPT::getCache($name, 86400); //one day
-    if (!empty($cached)) {
-        $c = (Array) $cached;
-        $size = array();
-        foreach ($c as $key => $value) {
-            if (preg_match("/^[0-9]+$/", $key)) {
-                $key = intval($key);
+    
+    if(!empty($_getimagesize[$name])){
+        $size = $_getimagesize[$name];
+    }else{
+        $cached = ObjectYPT::getCache($name, 86400); //one day
+        if (!empty($cached)) {
+            $c = (Array) $cached;
+            $size = array();
+            foreach ($c as $key => $value) {
+                if (preg_match("/^[0-9]+$/", $key)) {
+                    $key = intval($key);
+                }
+                $size[$key] = $value;
             }
-            $size[$key] = $value;
+            return $size;
         }
-        return $size;
+
+        $size = @getimagesize($file_src);
+
+        if (empty($size)) {
+            $size = array(1024, 768);
+        }
+
+        ObjectYPT::setCache($name, $size);
+        $_getimagesize[$name] = $size;
     }
-
-    $size = @getimagesize($file_src);
-
-    if (empty($size)) {
-        $size = array(1024, 768);
-    }
-
-    ObjectYPT::setCache($name, $size);
     return $size;
 }
 
