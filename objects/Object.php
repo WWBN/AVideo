@@ -411,8 +411,9 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function setLastDeleteALLCacheTime() {
-        _error_log("ObjectYPT::setLastDeleteALLCacheTime");
-        return file_put_contents(self::getLastDeleteALLCacheTimeFile(), time());
+        $file = self::getLastDeleteALLCacheTimeFile();
+        _error_log("ObjectYPT::setLastDeleteALLCacheTime {$file}");
+        return file_put_contents($file, time());
     }
 
     static private function getLastDeleteALLCacheTime() {
