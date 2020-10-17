@@ -172,6 +172,7 @@ a:visited {
 
 #carouselRows .posterDetails {
     padding: 10px;
+    position: relative;
 }
 
 
