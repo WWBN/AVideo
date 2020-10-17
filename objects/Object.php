@@ -387,6 +387,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $name = self::cleanCacheName($name);
         _session_start();
         $_SESSION['user']['sessionCache'][$name]['value'] = json_encode($value);
+        $_SESSION['user']['sessionCache'][$name]['time'] = time();
         if(empty($_SESSION['user']['sessionCache']['time'])){
             $_SESSION['user']['sessionCache']['time'] = time();
         }
