@@ -1344,7 +1344,9 @@ function getVideosURL_V2($fileName) {
                 continue;
             }
             
-            if(preg_match("/{$cleanfilename}_(.+)[.]/{$parts['extension']}$/", $file, $matches)){
+            $pathRegex = addcslashes($cleanfilename, "/");
+            
+            if(preg_match("/{$pathRegex}_(.+)[.]/{$parts['extension']}$/", $file, $matches)){
                 $resolution = '';
                 $type = @$matches[1];
             }else{            
