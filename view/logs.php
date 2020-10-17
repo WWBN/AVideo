@@ -276,7 +276,7 @@ $outputText .= $collapsibleClose;
             </div>
             <pre class="logCode">
                 <?php
-                $outputText = str_replace(array(parse_url($global['webSiteRootURL'], PHP_URL_HOST), $global['systemRootPath'], $global['salt'], $mysqlPass), array("www.mysite.com", "path/to/my/streamer/site/", "mySalt", "myMySQLPass"), $outputText);
+                $outputText = str_replace(array(parse_url($global['webSiteRootURL'], PHP_URL_HOST), $global['systemRootPath'], $global['salt'], $mysqlPass, $mysqlUser, $mysqlHost, $mysqlDatabase), array("www.mysite.com", "path/to/my/streamer/site/", "mySalt", "myMySQLPass", "myMySQLUser", "myMySQLHost", "myMySQLDatabase"), $outputText);
 
                 echo $outputText;
                 ?>

@@ -276,49 +276,51 @@ class Plugin extends ObjectYPT {
         return $filename;
     }
 
-    static function getAllEnabled($try=0) {
-        global $global;
-        $getAllEnabledRows = ObjectYPT::getCache("plugin::getAllEnabled", 3600);
-        $getAllEnabledRows = object_to_array($getAllEnabledRows);
+    static function getAllEnabled($try = 0) {
+        global $global, $getAllEnabledRows;
         if (empty($getAllEnabledRows)) {
+            $getAllEnabledRows = ObjectYPT::getCache("plugin::getAllEnabled", 3600);
+            $getAllEnabledRows = object_to_array($getAllEnabledRows);
+            if (empty($getAllEnabledRows)) {
 
-            $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
+                $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
 
-            $defaultEnabledUUIDs = AVideoPlugin::getPluginsOnByDefault(true);
-            $defaultEnabledNames = AVideoPlugin::getPluginsOnByDefault(false);
-            $sql .= " OR uuid IN ('" . implode("','", $defaultEnabledUUIDs) . "')";
+                $defaultEnabledUUIDs = AVideoPlugin::getPluginsOnByDefault(true);
+                $defaultEnabledNames = AVideoPlugin::getPluginsOnByDefault(false);
+                $sql .= " OR uuid IN ('" . implode("','", $defaultEnabledUUIDs) . "')";
 
-            $res = sqlDAL::readSql($sql);
-            $fullData = sqlDAL::fetchAllAssoc($res);
-            sqlDAL::close($res);
-            $getAllEnabledRows = array();
-            foreach ($fullData as $row) {
-                $getAllEnabledRows[] = $row;
-                if (($key = array_search($row['uuid'], $defaultEnabledUUIDs)) !== false) {
-                    unset($defaultEnabledUUIDs[$key]);
-                    unset($defaultEnabledNames[$key]);
+                $res = sqlDAL::readSql($sql);
+                $fullData = sqlDAL::fetchAllAssoc($res);
+                sqlDAL::close($res);
+                $getAllEnabledRows = array();
+                foreach ($fullData as $row) {
+                    $getAllEnabledRows[] = $row;
+                    if (($key = array_search($row['uuid'], $defaultEnabledUUIDs)) !== false) {
+                        unset($defaultEnabledUUIDs[$key]);
+                        unset($defaultEnabledNames[$key]);
+                    }
                 }
-            }
-            
-            $addedNewPlugin = false;
-            foreach ($defaultEnabledUUIDs as $key => $value) {
-                $obj = new Plugin(0);
-                $obj->loadFromUUID($defaultEnabledUUIDs[$key]);
-                $obj->setName($defaultEnabledNames[$key]);
-                $obj->setDirName($defaultEnabledNames[$key]);
-                $obj->setStatus("active");
-                if($obj->save()){
-                    $addedNewPlugin = true;
-                }
-            }
-            
-            if($addedNewPlugin && empty($try)){
-                ObjectYPT::deleteALLCache();
-                return self::getAllEnabled(1);
-            }
 
-            uasort($getAllEnabledRows, 'cmpPlugin');
-            ObjectYPT::setCache("plugin::getAllEnabled", $getAllEnabledRows);
+                $addedNewPlugin = false;
+                foreach ($defaultEnabledUUIDs as $key => $value) {
+                    $obj = new Plugin(0);
+                    $obj->loadFromUUID($defaultEnabledUUIDs[$key]);
+                    $obj->setName($defaultEnabledNames[$key]);
+                    $obj->setDirName($defaultEnabledNames[$key]);
+                    $obj->setStatus("active");
+                    if ($obj->save()) {
+                        $addedNewPlugin = true;
+                    }
+                }
+
+                if ($addedNewPlugin && empty($try)) {
+                    ObjectYPT::deleteALLCache();
+                    return self::getAllEnabled(1);
+                }
+
+                uasort($getAllEnabledRows, 'cmpPlugin');
+                ObjectYPT::setCache("plugin::getAllEnabled", $getAllEnabledRows);
+            }
         }
         return $getAllEnabledRows;
     }

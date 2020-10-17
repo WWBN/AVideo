@@ -286,7 +286,19 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     static function getCache($name, $lifetime = 60) {
+        global $getCachesProcessed;
+        
+        if(empty($getCachesProcessed)){
+            $getCachesProcessed=array();
+        }
+        
         $cachefile = self::getCacheFileName($name);
+        
+        if(empty($getCachesProcessed[$name])){
+            $getCachesProcessed[$name] = 0;
+        }
+        $getCachesProcessed[$name]++;                
+                
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
@@ -310,7 +322,6 @@ abstract class ObjectYPT implements ObjectInterface {
         @unlink($cachefile);
         self::deleteSessionCache($name);
         ObjectYPT::deleteCacheFromPattern($name);
-        ObjectYPT::setLastDeleteALLCacheTime();
     }
 
     static function deleteALLCache() {
@@ -362,7 +373,6 @@ abstract class ObjectYPT implements ObjectInterface {
      * @param type $value
      */
     static function setSessionCache($name, $value) {
-
         $name = self::cleanCacheName($name);
         _session_start();
         $_SESSION['user']['sessionCache'][$name]['value'] = json_encode($value);
@@ -409,7 +419,8 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static private function canUseThisSessionCacheBasedOnLastDeleteALLCacheTime($session_var) {
-        if (empty($session_var['time']) || $session_var['time'] < self::getLastDeleteALLCacheTime()) {
+        //var_dump($session_var['time'] , self::getLastDeleteALLCacheTime(), $session_var['time'] <= self::getLastDeleteALLCacheTime());echo "<hr>";
+        if (empty($session_var['time']) || $session_var['time'] <= self::getLastDeleteALLCacheTime()) {
             return false;
         }
         return true;
