@@ -890,7 +890,7 @@ if (typeof gtag !== \"function\") {
         return sqlDAL::writeSql($sql, "i", array($user_id));
     }
 
-    static function logoff($message="") {
+    static function logoff() {
         global $global, $justLogoff;
         $justLogoff = true;
         _session_start();
@@ -899,7 +899,6 @@ if (typeof gtag !== \"function\") {
         _unsetcookie('user');
         _unsetcookie('pass');
         unset($_SESSION['user']);
-        gotToLoginAndComeBackHere($message);
     }
 
     static private function recreateLoginFromCookie() {
