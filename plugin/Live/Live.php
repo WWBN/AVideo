@@ -874,7 +874,7 @@ class Live extends PluginAbstract {
                     "title" => $row['title'],
                     'channelName' => $channelName,
                     'poster' => $poster,
-                    'link' => $link . "&embed=1"
+                    'link' => $link . (strpos($link, '?') !== false?"&embed=1":"?embed=1")
                 );
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;
