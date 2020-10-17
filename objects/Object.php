@@ -435,7 +435,7 @@ abstract class ObjectYPT implements ObjectInterface {
         return $getLastDeleteALLCacheTime;
     }
 
-    static private function checkSessionCacheBasedOnLastDeleteALLCacheTime() {
+    static function checkSessionCacheBasedOnLastDeleteALLCacheTime() {
         /*
         var_dump(
                 $session_var['time'], 
