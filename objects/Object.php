@@ -311,7 +311,9 @@ abstract class ObjectYPT implements ObjectInterface {
 
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
             $c = @url_get_contents($cachefile);
-            return json_decode($c);
+            $json = json_decode($c);
+            self::setSessionCache($name, $json);
+            return $json;
         } else if (file_exists($cachefile)) {
             self::deleteCache($name);
         }
@@ -425,6 +427,15 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static private function canUseThisSessionCacheBasedOnLastDeleteALLCacheTime($session_var) {
+        /*
+        var_dump(
+                $session_var['time'], 
+                self::getLastDeleteALLCacheTime(), 
+                humanTiming($session_var['time']), 
+                humanTiming(self::getLastDeleteALLCacheTime()), 
+                $session_var['time'] <= self::getLastDeleteALLCacheTime());
+         * 
+         */
         if (empty($session_var['time']) || $session_var['time'] <= self::getLastDeleteALLCacheTime()) {
             return false;
         }
