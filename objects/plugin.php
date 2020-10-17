@@ -281,19 +281,17 @@ class Plugin extends ObjectYPT {
         $getAllEnabledRows = ObjectYPT::getCache("plugin::getAllEnabled", 3600);
         $getAllEnabledRows = object_to_array($getAllEnabledRows);
         if (empty($getAllEnabledRows)) {
+            
             $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
+            
+            $defaultEnabledUUIDs = AVideoPlugin::getPluginsOnByDefault(true);
+            $sql .= " OR uuid IN ('". implode("','", $defaultEnabledUUIDs)."')";
+            
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $getAllEnabledRows = array();
             foreach ($fullData as $row) {
-                $getAllEnabledRows[] = $row;
-            }
-            $defaultEnabledNames = AVideoPlugin::getPluginsOnByDefault(false);
-            $defaultEnabledUUIDs = AVideoPlugin::getPluginsOnByDefault(true);
-            
-            foreach ($defaultEnabledNames as $key => $value) {
-                $row = array('name'=>$defaultEnabledNames[$key], 'uuid'=>$defaultEnabledUUIDs[$key]);
                 $getAllEnabledRows[] = $row;
             }
             
