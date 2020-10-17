@@ -3261,7 +3261,7 @@ if (!class_exists('Video')) {
                 _error_log("Video:clearCache filename not found");
                 return false;
             }
-            self::deleteThumbs($this->filename, true);
+            self::deleteThumbs($filename, true);
             ObjectYPT::deleteCache("otherInfo{$videos_id}");
             ObjectYPT::deleteCache($filename);
             ObjectYPT::deleteCache("getVideosURL_V2$filename");
