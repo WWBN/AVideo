@@ -289,6 +289,14 @@ class Plugin extends ObjectYPT {
             foreach ($fullData as $row) {
                 $getAllEnabledRows[] = $row;
             }
+            $defaultEnabledNames = AVideoPlugin::getPluginsOnByDefault(false);
+            $defaultEnabledUUIDs = AVideoPlugin::getPluginsOnByDefault(true);
+            
+            foreach ($defaultEnabledNames as $key => $value) {
+                $row = array('name'=>$defaultEnabledNames[$key], 'uuid'=>$defaultEnabledUUIDs[$key]);
+                $getAllEnabledRows[] = $row;
+            }
+            
             uasort($getAllEnabledRows, 'cmpPlugin');
             ObjectYPT::setCache("plugin::getAllEnabled", $getAllEnabledRows);
         }
