@@ -387,7 +387,9 @@ abstract class ObjectYPT implements ObjectInterface {
         $name = self::cleanCacheName($name);
         _session_start();
         $_SESSION['user']['sessionCache'][$name]['value'] = json_encode($value);
-        $_SESSION['user']['sessionCache'][$name]['time'] = time();
+        if(empty($_SESSION['user']['sessionCache']['time'])){
+            $_SESSION['user']['sessionCache']['time'] = time();
+        }
     }
 
     /**
@@ -402,11 +404,9 @@ abstract class ObjectYPT implements ObjectInterface {
             $lifetime = intval($_GET['lifetime']);
         }
         if (!empty($_SESSION['user']['sessionCache'][$name])) {
-            if (self::canUseThisSessionCacheBasedOnLastDeleteALLCacheTime($_SESSION['user']['sessionCache'][$name])) {
-                if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
-                    $c = $_SESSION['user']['sessionCache'][$name]['value'];
-                    return json_decode($c);
-                }
+            if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
+                $c = $_SESSION['user']['sessionCache'][$name]['value'];
+                return json_decode($c);
             }
             _session_start();
             unset($_SESSION['user']['sessionCache'][$name]);
@@ -435,7 +435,7 @@ abstract class ObjectYPT implements ObjectInterface {
         return $getLastDeleteALLCacheTime;
     }
 
-    static private function canUseThisSessionCacheBasedOnLastDeleteALLCacheTime($session_var) {
+    static private function checkSessionCacheBasedOnLastDeleteALLCacheTime() {
         /*
         var_dump(
                 $session_var['time'], 
@@ -445,7 +445,8 @@ abstract class ObjectYPT implements ObjectInterface {
                 $session_var['time'] <= self::getLastDeleteALLCacheTime());
          * 
          */
-        if (empty($session_var['time']) || $session_var['time'] <= self::getLastDeleteALLCacheTime()) {
+        if (empty($_SESSION['user']['sessionCache']['time']) || $_SESSION['user']['sessionCache']['time'] <= self::getLastDeleteALLCacheTime()) {
+            self::deleteAllSessionCache();
             return false;
         }
         return true;
