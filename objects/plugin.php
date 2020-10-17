@@ -276,7 +276,7 @@ class Plugin extends ObjectYPT {
         return $filename;
     }
 
-    static function getAllEnabled() {
+    static function getAllEnabled($try=0) {
         global $global;
         $getAllEnabledRows = ObjectYPT::getCache("plugin::getAllEnabled", 3600);
         $getAllEnabledRows = object_to_array($getAllEnabledRows);
@@ -300,13 +300,21 @@ class Plugin extends ObjectYPT {
                 }
             }
             
+            $addedNewPlugin = false;
             foreach ($defaultEnabledUUIDs as $key => $value) {
                 $obj = new Plugin(0);
                 $obj->loadFromUUID($defaultEnabledUUIDs[$key]);
                 $obj->setName($defaultEnabledNames[$key]);
                 $obj->setDirName($defaultEnabledNames[$key]);
                 $obj->setStatus("active");
-                $obj->save();
+                if($obj->save()){
+                    $addedNewPlugin = true;
+                }
+            }
+            
+            if($addedNewPlugin && empty($try)){
+                ObjectYPT::deleteALLCache();
+                return self::getAllEnabled(1);
             }
 
             uasort($getAllEnabledRows, 'cmpPlugin');
