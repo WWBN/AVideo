@@ -289,7 +289,10 @@ Best regards,
             //_error_log("LoginControl::getStart singleDeviceLogin is enabled");
             // check if the user is logged somewhere else and log him off
             if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
-                User::logoff(__("Please Login Again"));
+                User::logoff();
+                $msg = "You were disconected by ({$row['device']}) <br>IP: {$row['ip']} <br>{$loc} <br>{$row['ago']}";
+                //setAlertMessage($msg);
+                gotToLoginAndComeBackHere($msg);
                 /*
                 //_error_log("LoginControl::getStart the user logged somewhere else");
                 if(self::isUser2FAEnabled(User::getId())){
