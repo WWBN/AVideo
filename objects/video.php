@@ -334,6 +334,7 @@ if (!class_exists('Video')) {
                 }
                 clearVideosURL($this->filename);
                 self::deleteThumbs($this->filename, true);
+                self::clearCache($this->id);
                 return $id;
             } else {
                 _error_log('Video::save ' . $sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
