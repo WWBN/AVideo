@@ -186,10 +186,13 @@ Best regards,
         return !empty(logincontrol_history::is2FAConfirmed($users_id, getDeviceID()));
     }
 
-    static function getLastLoginOnDevice($users_id) {
-        $row = logincontrol_history::getLastLoginAttempt($users_id, getDeviceID());
+    static function getLastLoginOnDevice($users_id, $uniqidV4="") {
+        if(empty($uniqidV4)){
+            $uniqidV4 = getDeviceID();
+        }
+        $row = logincontrol_history::getLastLoginAttempt($users_id, $uniqidV4);
         if (empty($row)) {
-            _error_log("LoginControl::getLastLoginOnDevice Not found $users_id, " . getDeviceID());
+            _error_log("LoginControl::getLastLoginOnDevice Not found $users_id, " . $uniqidV4);
         }
         return $row;
     }
@@ -254,7 +257,7 @@ Best regards,
             }
         }
         $confirmationCode = $lastLogin['confirmation_code'];
-        return encryptString(json_encode(array('confirmation_code' => $confirmationCode, 'users_id' => $users_id)));
+        return encryptString(json_encode(array('confirmation_code' => $confirmationCode, 'users_id' => $users_id, 'uniqidV4' => getDeviceID())));
     }
     
     static function validateConfirmationCodeHash($code){
@@ -273,7 +276,7 @@ Best regards,
             return false;
         }
         
-        return self::confirmCode($json->users_id, $json->confirmation_code);
+        return self::confirmCode($json->users_id, $json->confirmation_code, $json->uniqidV4);
         
     }
 
