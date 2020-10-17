@@ -1337,21 +1337,27 @@ function getVideosURL_V2($fileName) {
 
         $filesInDir = glob($globQuery, GLOB_BRACE);
 
-        foreach ($filesInDir as $file) {
+        foreach ($filesInDir as $file) {            
             $parts = pathinfo($file);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
             if (empty($source)) {
                 continue;
             }
-            preg_match('/_([^_]{0,4}).' . $parts['extension'] . '$/', $file, $matches);
-            $resolution = @$matches[1];
-            $type = 'video';
-            if (in_array($parts['extension'], $video)) {
+            
+            if(preg_match("/{$cleanfilename}_(.+)[.]/{$parts['extension']}$/", $file, $matches)){
+                $resolution = '';
+                $type = @$matches[1];
+            }else{            
+                preg_match('/_([^_]{0,4}).' . $parts['extension'] . '$/', $file, $matches);
+                $resolution = @$matches[1];
                 $type = 'video';
-            } else if (in_array($parts['extension'], $audio)) {
-                $type = 'audio';
-            } else if (in_array($parts['extension'], $image)) {
-                $type = 'image';
+                if (in_array($parts['extension'], $video)) {
+                    $type = 'video';
+                } else if (in_array($parts['extension'], $audio)) {
+                    $type = 'audio';
+                } else if (in_array($parts['extension'], $image)) {
+                    $type = 'image';
+                }
             }
             $files["{$parts['extension']}{$resolution}"] = array(
                 'filename' => "{$parts['filename']}.{$parts['extension']}",
