@@ -103,8 +103,12 @@ echo PlayerSkins::getStartPlayerJS();
         </script>
         <?php
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+        ?>
+        <!-- getFooterCode start -->
+        <?php
         echo AVideoPlugin::getFooterCode();
         ?>  
+        <!-- getFooterCode end -->
     </body>
 </html>
 
