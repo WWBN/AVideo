@@ -106,7 +106,7 @@ class PlayerSkins extends PluginAbstract {
 
     public function getFooterCode() {
         global $global, $config, $getStartPlayerJSWasRequested;
-        $js = "";
+        $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
         if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             if ($obj->showLoopButton && !isLive()) {
