@@ -310,6 +310,7 @@ abstract class ObjectYPT implements ObjectInterface {
         @unlink($cachefile);
         self::deleteSessionCache($name);
         ObjectYPT::deleteCacheFromPattern($name);
+        ObjectYPT::setLastDeleteALLCacheTime();
     }
 
     static function deleteALLCache() {
