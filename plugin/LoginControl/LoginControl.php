@@ -363,8 +363,8 @@ Best regards,
         return false;
     }
 
-    static function confirmCode($users_id, $code) {
-        $lastLogin = self::getLastLoginOnDevice($users_id);
+    static function confirmCode($users_id, $code, $uniqidV4="") {
+        $lastLogin = self::getLastLoginOnDevice($users_id, $uniqidV4);
         if (empty($lastLogin)) {
             return false;
         }
