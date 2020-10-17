@@ -415,11 +415,14 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static private function getLastDeleteALLCacheTime() {
-        return @file_get_contents(self::getLastDeleteALLCacheTimeFile(), time());
+        global $getLastDeleteALLCacheTime;
+        if(empty($getLastDeleteALLCacheTime)){
+            $getLastDeleteALLCacheTime = (int) @file_get_contents(self::getLastDeleteALLCacheTimeFile(), time());
+        }
+        return $getLastDeleteALLCacheTime;
     }
 
     static private function canUseThisSessionCacheBasedOnLastDeleteALLCacheTime($session_var) {
-        //var_dump($session_var['time'] , self::getLastDeleteALLCacheTime(), $session_var['time'] <= self::getLastDeleteALLCacheTime());echo "<hr>";
         if (empty($session_var['time']) || $session_var['time'] <= self::getLastDeleteALLCacheTime()) {
             return false;
         }
