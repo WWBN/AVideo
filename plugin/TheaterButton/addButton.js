@@ -24,8 +24,3 @@ if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
 }
 
 
-if (compress_is_default) {
-    compress(player);
-} else {
-    expand(player);
-}

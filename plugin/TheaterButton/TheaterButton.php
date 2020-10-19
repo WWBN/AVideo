@@ -58,6 +58,10 @@ class TheaterButton extends PluginAbstract {
             return "";
         }
         $obj = $this->getDataObject();
+        
+        if (!empty($obj->show_switch_button)) {
+            return array("plugin/TheaterButton/script.js", "plugin/TheaterButton/addButton.js");
+        }
         return array("plugin/TheaterButton/script.js");
     }
 
@@ -70,11 +74,11 @@ class TheaterButton extends PluginAbstract {
         $js = '';
         if (!empty($obj->show_switch_button)) {
             if ($obj->compress_is_default) {
-                $js .= '<script>compress_is_default=true</script>';
+                PlayerSkins::getStartPlayerJS(file_get_contents("compress(player);"));
             } else {
-                $js .= '<script>compress_is_default=false</script>';
+                PlayerSkins::getStartPlayerJS(file_get_contents("expand(player);"));
             }
-            PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/TheaterButton/addButton.js"));
+            
         }
         
         return $js;
