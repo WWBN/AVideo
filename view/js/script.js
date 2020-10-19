@@ -736,7 +736,19 @@ function setCurrentTime(currentTime) {
 }
 
 function isAutoplayEnabled(){
-    if (typeof Cookies !== 'undefined' && (typeof isEmbed === 'undefined' || !isEmbed) && typeof Cookies.get('autoplay') !== 'undefined' && Cookies.get('autoplay')) {
+    if($("#autoplay").length && $("#autoplay").is(':visible')){
+        autoplay = $("#autoplay").is(":checked");
+        Cookies.set('autoplay', autoplay, {
+            path: '/',
+            expires: 365
+        });
+        return autoplay;
+    }else if (
+            typeof Cookies !== 'undefined' && 
+            (typeof isEmbed === 'undefined' || !isEmbed) && 
+            typeof Cookies.get('autoplay') !== 'undefined' && 
+            Cookies.get('autoplay')
+            ) {
         if(Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true){
             return true;
         }else{
