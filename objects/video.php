@@ -865,6 +865,7 @@ if (!class_exists('Video')) {
 
         static function getVideoFromFileNameLight($fileName) {
             global $global;
+            $fileName = self::getCleanFilenameFromFile($fileName);
             if (empty($fileName)) {
                 return false;
             }
@@ -3303,7 +3304,7 @@ if (!class_exists('Video')) {
         
         static function clearCacheFromFilename($fileName) {
             _error_log("Video:clearCacheFromFilename($fileName)");
-            $video = self::getVideoFromFileName($fileName);
+            $video = self::getVideoFromFileNameLight($fileName);
             if(empty($video['id'])){
                 return false;
             }

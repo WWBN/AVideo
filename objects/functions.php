@@ -1299,7 +1299,7 @@ function getVideosURLOnly($fileName) {
 
 $getVideosURL_V2Array = array();
 
-function getVideosURL_V2($fileName) {
+function getVideosURL_V2($fileName, $recreateCache=false) {
     global $global, $getVideosURL_V2Array;
     if (empty($fileName)) {
         return array();
@@ -1319,8 +1319,9 @@ function getVideosURL_V2($fileName) {
         return getVideosURLAudio($fileName);
     }
     $cacheName = "getVideosURL_V2$fileName";
-    $files = object_to_array(ObjectYPT::getCache($cacheName, 0));
-
+    if(empty($recreateCache)){
+        $files = object_to_array(ObjectYPT::getCache($cacheName, 0));
+    }
     if (empty($files)) {
         $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
         if (!empty($plugin)) {
@@ -1387,17 +1388,24 @@ function getSources($fileName, $returnArray = false, $try = 0) {
         $videoSources = $audioTracks = $subtitleTracks = "";
     }
 
-    $video = Video::getVideoFromFileName($fileName);
+    $video = Video::getVideoFromFileNameLight($fileName);
 
     if ($video['type'] !== 'audio' && function_exists('getVRSSources')) {
         $videoSources = getVRSSources($fileName, $returnArray);
     } else {
-        $files = getVideosURL($fileName);
+        //$files = getVideosURL($fileName);
+        $files = getVideosURL_V2($fileName, !empty($try));
         $sources = "";
         $sourcesArray = array();
         foreach ($files as $key => $value) {
             $path_parts = pathinfo($value['path']);
             if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8" || $path_parts['extension'] == "mp3" || $path_parts['extension'] == "ogg") {
+                if(empty($try) && filesize($sources)<20){
+                    sleep(1);
+                    $sources = getSources($fileName, $returnArray, $try + 1);
+                    Video::clearCache($video['id']);
+                    return $sources;
+                }
                 $obj = new stdClass();
                 $obj->type = mime_content_type_per_filename($value['path']);
                 $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
