@@ -1332,6 +1332,9 @@ function getVideosURL_V2($fileName, $recreateCache=false) {
                     _error_log("getVideosURL_V2:: dummy file found, fix cache ". json_encode(array("/^{$preg_match_url}video/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']),filesize($value['path']),$value)));
                     unset($files);
                     break;
+                }else{
+                    _error_log("getVideosURL_V2:: NOT dummy file ". json_encode(array("/^{$preg_match_url}video/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']),filesize($value['path']),$value)));
+                    
                 }
             }
            _error_log("getVideosURL_V2:: cachestill good ". json_encode($files));
