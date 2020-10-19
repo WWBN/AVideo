@@ -1334,6 +1334,9 @@ function getVideosURL_V2($fileName, $recreateCache=false) {
                     break;
                 }
             }
+           _error_log("getVideosURL_V2:: cachestill good ". json_encode($files));
+        }else{
+           _error_log("getVideosURL_V2:: cache not found ". json_encode($files));
         }
     }
     if (empty($files)) {
