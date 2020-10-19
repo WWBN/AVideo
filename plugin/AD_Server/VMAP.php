@@ -32,8 +32,8 @@ unset($_SESSION['user']['vmap'][$_GET['vmap_id']]);
             continue;
         }
         ?>
-        <vmap:AdBreak timeOffset="<?php echo $value->timeOffset; ?>" breakType="linear" breakId="preroll">
-            <vmap:AdSource id="<?php echo $value->idTag; ?>" allowMultipleAds="false" followRedirects="true">
+        <vmap:AdBreak timeOffset="<?php echo $value->timeOffset; ?>" breakType="linear">
+            <vmap:AdSource id="<?php echo $value->idTag; ?>" allowMultipleAds="true" followRedirects="true" breakId="<?php echo $value->idTag; ?>-break">
                 <vmap:AdTagURI templateType="vast3"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_has_videos_id=<?php echo $value->VAST->campaing; ?>&vmap_id=<?php echo @$_GET['vmap_id']; ?>]]></vmap:AdTagURI>
             </vmap:AdSource>
         </vmap:AdBreak>    
