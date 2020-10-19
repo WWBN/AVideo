@@ -178,7 +178,10 @@ class AD_Server extends PluginAbstract {
         $js .= '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
         $js .= '<script src="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>';
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs-markers.js"></script>';
+        
+        if (!empty($obj->showMarkers)) {
+            $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs-markers.js"></script>';
+        }
         return $js;
     }
 
