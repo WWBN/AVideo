@@ -1321,15 +1321,17 @@ function getVideosURL_V2($fileName, $recreateCache=false) {
     $cacheName = "getVideosURL_V2$fileName";
     if(empty($recreateCache)){
         $files = object_to_array(ObjectYPT::getCache($cacheName, 0));
-        $preg_match_url = addcslashes($global['webSiteRootURL'], "/")."video";
-        foreach ($files as $value) {
-            // check if is a dummy file and the URL still wrong
-            if(
-                    $value['type'] === 'video' && // is a video
-                    preg_match("/^{$preg_match_url}video/", $value['url']) && // the URL is the same as the main domain
-                    filesize($value['path'])<20){ // file size is small
-                unset($files);
-                break;
+        if(is_array($files)){
+            $preg_match_url = addcslashes($global['webSiteRootURL'], "/")."video";
+            foreach ($files as $value) {
+                // check if is a dummy file and the URL still wrong
+                if(
+                        $value['type'] === 'video' && // is a video
+                        preg_match("/^{$preg_match_url}video/", $value['url']) && // the URL is the same as the main domain
+                        filesize($value['path'])<20){ // file size is small
+                    unset($files);
+                    break;
+                }
             }
         }
     }
