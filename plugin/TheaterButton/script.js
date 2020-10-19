@@ -2,7 +2,7 @@
 function compress(t) {
     console.log("compress");
     $("#modeYoutubeTop").prependTo("#modeYoutubeBottomContent");
-    if(t!=undefined){
+    if(typeof t !== 'undefined'){
         t.removeClass('ypt-compress');
         t.addClass('ypt-expand');
     }
@@ -10,13 +10,13 @@ function compress(t) {
 function expand(t) {
     console.log("expand");
     $("#modeYoutubeTop").prependTo("#modeYoutubePrincipal");
-    if(t!=undefined){
+    if(typeof t !== 'undefined'){
         t.removeClass('ypt-expand');
         t.addClass('ypt-compress');
     }
 }
 function toogleEC(t) {
-    if(t!=undefined){
+    if(typeof t !== 'undefined'){
         if (t.hasClass('ypt-expand')) {
             expand(t);
             Cookies.set('compress', false, {
