@@ -1773,6 +1773,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     sleep(1);
     $fsize = @filesize($destinationFile);
     _error_log("decideMoveUploadedToVideos: destinationFile {$destinationFile} filesize=" . ($fsize) . " (" . humanFileSize($fsize) . ")");
+    Video::clearCache($videos_id);
 }
 
 function unzipDirectory($filename, $destination) {
