@@ -71,6 +71,7 @@ class PlayerSkins extends PluginAbstract {
             } else {
                 $js .= "<script>var autoplay = false;</script>";
             }
+            $js .= "<script>var playNextURL = '';</script>";
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             if ($obj->showLoopButton && !isLive()) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
@@ -109,9 +110,7 @@ class PlayerSkins extends PluginAbstract {
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
         if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
-            if ($obj->showLoopButton && !isLive()) {
-                $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
-            } else if (empty($obj->showLoopButton) && empty($playerSkinsObj->contextMenuLoop)) {
+            if (empty($obj->showLoopButton) && empty($playerSkinsObj->contextMenuLoop)) {
                 $js .= "<script>setPlayerLoop(false);</script>";
             }
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
@@ -123,7 +122,7 @@ class PlayerSkins extends PluginAbstract {
         }
         if (!empty($getStartPlayerJSWasRequested) || isVideo()) {
             $js .= "<script src=\"{$global['webSiteRootURL']}view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
-            $js .= "<script>".self::getStartPlayerJSCode(true)."</script>";
+            $js .= "<script>" . self::getStartPlayerJSCode() . "</script>";
         }
         return $js;
     }
@@ -160,27 +159,68 @@ class PlayerSkins extends PluginAbstract {
 
         return "";
     }
-    
+
     // this function was modified, maybe removed in the future
     static function getStartPlayerJS($onPlayerReady = "", $getDataSetup = "", $noReadyFunction = false) {
         global $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup;
         global $getStartPlayerJSWasRequested;
         self::prepareStartPlayerJS($onPlayerReady, $getDataSetup);
         $getStartPlayerJSWasRequested = true;
-        return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "'.count($prepareStartPlayerJS_onPlayerReady).'", $prepareStartPlayerJS_getDataSetup = "'.count($prepareStartPlayerJS_getDataSetup).'", $onPlayerReady = "'.$onPlayerReady.'", $getDataSetup = "'.$getDataSetup.'" */';
+        //return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "' . count($prepareStartPlayerJS_onPlayerReady) . '", $prepareStartPlayerJS_getDataSetup = "' . count($prepareStartPlayerJS_getDataSetup) . '", $onPlayerReady = "' . $onPlayerReady . '", $getDataSetup = "' . $getDataSetup . '" */';
+        return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "' . count($prepareStartPlayerJS_onPlayerReady) . '", $prepareStartPlayerJS_getDataSetup = "' . count($prepareStartPlayerJS_getDataSetup) . '" */';
     }
 
-    static function getStartPlayerJSCode($noReadyFunction = false) {
-        global $config, $global, $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup;
+    static function getStartPlayerJSCode($noReadyFunction = false, $currentTime = 0) {
+        global $config, $global, $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup, $IMAADTag;
+        $obj = AVideoPlugin::getObjectData('PlayerSkins');
         $js = "";
         if (empty($noReadyFunction)) {
-            $js .= "$(document).ready(function () {";
+            $js .= "var originalVideo; "
+                    . "$(document).ready(function () {";
         }
         $js .= "
-        /* prepareStartPlayerJS_onPlayerReady = ".count($prepareStartPlayerJS_onPlayerReady).", prepareStartPlayerJS_getDataSetup = ".count($prepareStartPlayerJS_getDataSetup)." */
+        originalVideo = $('#mainVideo').clone();
+        /* prepareStartPlayerJS_onPlayerReady = " . count($prepareStartPlayerJS_onPlayerReady) . ", prepareStartPlayerJS_getDataSetup = " . count($prepareStartPlayerJS_getDataSetup) . " */
         if (typeof player === 'undefined') {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
+            ";
+        
+        if(!empty($IMAADTag)){
+            $js .= "var options = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(options);";
+            $js .= "setInterval(function(){ fixAdSize(); }, 300);"
+                . "// Remove controls from the player on iPad to stop native controls from stealing
+    // our click
+    var contentPlayer = document.getElementById('content_video_html5_api');
+    if ((navigator.userAgent.match(/iPad/i) ||
+            navigator.userAgent.match(/Android/i)) &&
+            contentPlayer.hasAttribute('controls')) {
+        contentPlayer.removeAttribute('controls');
+    }
+
+    // Initialize the ad container when the video player is clicked, but only the
+    // first time it's clicked.
+    var startEvent = 'click';
+    if (navigator.userAgent.match(/iPhone/i) ||
+            navigator.userAgent.match(/iPad/i) ||
+            navigator.userAgent.match(/Android/i)) {
+        startEvent = 'touchend';
+    }
+    if (typeof player !== 'undefined') {
+        player.one(startEvent, function () {
+            player.ima.initializeAdDisplayContainer();
+        });
+    }else{
+        setTimeout(function(){
+            if (typeof player !== 'undefined') {
+                player.one(startEvent, function () {
+                    player.ima.initializeAdDisplayContainer();
+                });
+            }
+        },2000);
+    }    ";
         }
+                
+        $js .= "}
         player.ready(function () {
             var err = this.error();
             if (err && err.code) {
@@ -188,12 +228,14 @@ class PlayerSkins extends PluginAbstract {
                 $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
             }
             " . implode(PHP_EOL, $prepareStartPlayerJS_onPlayerReady) . "
+            playerPlayIfAutoPlay({$currentTime});
         });
         player.persistvolume({
             namespace: 'AVideo'
         });";
-        if ($config->getAutoplay()) {
-            $js .= "setTimeout(function(){playerPlay(0);},500);";
+
+        if ($obj->showLoopButton && !isLive()) {
+            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/loopbutton.js');
         }
 
         if (empty($noReadyFunction)) {
@@ -201,6 +243,55 @@ class PlayerSkins extends PluginAbstract {
         }
         $getStartPlayerJSWasRequested = true;
         return $js;
+    }
+    
+    static function setIMAADTag($tag){
+        global $IMAADTag;
+        $IMAADTag = $tag;
+    }
+
+    static function playerJSCodeOnLoad($videos_id, $nextURL = "") {
+        $js = "";
+        $videos_id = intval($videos_id);
+        if (empty($videos_id)) {
+            return false;
+        }
+        $video = new Video("", "", $videos_id);
+        if (empty($nextURL)) {
+            $next_video = Video::getVideo($video->getNext_videos_id());
+            if (!empty($next_video['id'])) {
+                $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
+            }
+        }
+        $url = Video::getURLFriendly($videos_id);
+        $js .= "
+        player.on('play', function () {
+            addView({$videos_id}, this.currentTime());
+        });
+        player.on('timeupdate', function () {
+            var time = Math.round(this.currentTime());
+            var url = '{$url}';
+            if (url.indexOf('?') > -1) {
+            url += '&t=' + time;
+            } else {
+            url += '?t=' + time;
+            }
+            $('#linkCurrentTime, .linkCurrentTime').val(url);
+            if (time >= 5 && time % 5 === 0) {
+                addView({$videos_id}, time);
+            }
+        });
+        player.on('ended', function () {
+            var time = Math.round(this.currentTime());
+            addView({$videos_id}, time);
+        });";
+
+        if (!empty($nextURL)) {
+            $js .= "playNextURL = '{$nextURL}';";
+            $js .= "player.on('ended', function () {setTimeout(function(){playNext(playNextURL);},playerHasAds()?2000:500);});";
+        }
+        self::getStartPlayerJS($js);
+        return true;
     }
 
     static private function prepareStartPlayerJS($onPlayerReady = "", $getDataSetup = "") {

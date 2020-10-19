@@ -426,13 +426,6 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <script>
             var fading = false;
-            var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
-            var autoPlayURL = '<?php echo $autoPlayURL; ?>';
-            var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
-            var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
-
-            $(document).ready(function () {
-            });
         </script>
     </body>
 </html>

@@ -159,7 +159,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         ?>
         <script>
             var isEmbed = true;
-            var autoplay = <?php echo $autoplay?"true":"false"; ?>;
+            var autoplay = <?php echo $autoplay ? "true" : "false"; ?>;
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
         </script>
         <meta charset="utf-8">
@@ -408,10 +408,10 @@ if (User::hasBlockedUser($video['users_id'])) {
                class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
             <source src="<?php echo $video['videoLink']; ?>" type="<?php echo (strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
             <?php
-                if (function_exists('getVTTTracks')) {
-                    echo "<!-- getVTTTracks 2 -->";
-                    echo getVTTTracks($video['filename']);
-                }
+            if (function_exists('getVTTTracks')) {
+                echo "<!-- getVTTTracks 2 -->";
+                echo getVTTTracks($video['filename']);
+            }
             ?>
             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
         </video>
@@ -434,32 +434,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         ?>
         <script>
     <?php
-    $onPlayerReady = "player.on('play', function () {addView({$video['id']}, this.currentTime());});";
-    $onPlayerReady .= "player.on('timeupdate', function () {
-var time = Math.round(this.currentTime());
-var url = '" . Video::getURLFriendly($video['id']) . "';
-if (url.indexOf('?') > -1) {
-url += '&t=' + time;
-} else {
-url += '?t=' + time;
-}
-$('#linkCurrentTime').val(url);
-if (time >= 5 && time % 5 === 0) {
-addView({$video['id']}, time);
-}
-});";
-
-    if ($autoplay) {
-        $onPlayerReady .= "playerPlay({$currentTime});";
-    } else {
-        $onPlayerReady .= "setCurrentTime({$currentTime});";
-    }
-    $onPlayerReady .= "player.on('ended', function () {console.log(\"Finish Video\");
-var time = Math.round(this.currentTime());
-addView({$video['id']}, time);";
-    $onPlayerReady .= "});";
-
-    echo PlayerSkins::getStartPlayerJS($onPlayerReady);
+    PlayerSkins::playerJSCodeOnLoad($video['id']);
     ?>
         </script>
         <?php
@@ -491,33 +466,7 @@ addView({$video['id']}, time);";
         ?>
 
         <script><?php
-    $onPlayerReady = "";
-    $onPlayerReady = "player.on('play', function () {addView({$video['id']}, this.currentTime());});";
-    $onPlayerReady .= "player.on('timeupdate', function () {
-var time = Math.round(this.currentTime());
-var url = '" . Video::getURLFriendly($video['id']) . "';
-if (url.indexOf('?') > -1) {
-url += '&t=' + time;
-} else {
-url += '?t=' + time;
-}
-$('#linkCurrentTime').val(url);
-if (time >= 5 && time % 5 === 0) {
-addView({$video['id']}, time);
-}
-});";
-
-    if ($autoplay) {
-        $onPlayerReady .= "playerPlay({$currentTime});";
-    } else {
-        $onPlayerReady .= "setCurrentTime({$currentTime});";
-    }
-    $onPlayerReady .= "player.on('ended', function () {console.log(\"Finish Video\");
-var time = Math.round(this.currentTime());
-addView({$video['id']}, time);";
-    $onPlayerReady .= "});";
-
-    echo PlayerSkins::getStartPlayerJS($onPlayerReady);
+    PlayerSkins::playerJSCodeOnLoad($video['id']);
     ?>
         </script>
         <?php
@@ -544,7 +493,6 @@ addView({$video['id']}, time);";
     <?php
     echo AVideoPlugin::afterVideoJS();
     $jsFiles = array();
-    $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
     $jsFiles[] = "view/js/BootstrapMenu.min.js";
     $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
     $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
@@ -557,6 +505,7 @@ addView({$video['id']}, time);";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
     $jsFiles[] = "view/js/jquery-ui/jquery-ui.min.js";
     $jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
+    $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
     $jsURL = combineFiles($jsFiles, "js");
     ?>
     <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -579,12 +528,13 @@ addView({$video['id']}, time);";
             var topInfoTimeout;
             $(document).ready(function () {
                 setInterval(function () {
-                    if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                        $('#topInfo').fadeOut();
-                    } else {
-                        $('#topInfo').fadeIn();
+                    if(typeof player !== 'undefined'){
+                        if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                            $('#topInfo').fadeOut();
+                        } else {
+                            $('#topInfo').fadeIn();
+                        }
                     }
-
                 }, 200);
 
                 $("iframe, #topInfo").mouseover(function (e) {

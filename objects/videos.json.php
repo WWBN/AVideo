@@ -20,6 +20,10 @@ if(!empty($_REQUEST['showAll'])){
     }
 }
 
+if(empty($_REQUEST['current'])){
+    $_REQUEST['current'] = getCurrentPage();
+}
+
 $videos = Video::getAllVideos('', $showOnlyLoggedUserVideos, true, array(), false, $showUnlisted, $activeUsersOnly);
 $total = Video::getTotalVideos('', $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly);
 foreach ($videos as $key => $value) {

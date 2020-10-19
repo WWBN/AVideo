@@ -270,8 +270,14 @@ class CustomizeAdvanced extends PluginAbstract {
 
     public function getHeadCode() {
         global $global;
+        $obj = $this->getDataObject();
         $baseName = basename($_SERVER['REQUEST_URI']);
         $js = "";
+        if(empty($obj->autoPlayAjax)){
+            $js .= "<script>var autoPlayAjax=false;</script>";
+        }else{
+            $js .= "<script>var autoPlayAjax=true;</script>";
+        }
         if ($baseName === 'mvideos') {
             $js .= "<script>function updateDiskUsage(videos_id){
                                     modal.showPleaseWait();

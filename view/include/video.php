@@ -85,7 +85,7 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
                 <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
                     <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
                 </div>
-<?php } ?>
+            <?php } ?>
 
             <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs" style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
                 <i class="fas fa-times"></i>
@@ -100,51 +100,7 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
     var player;
 
 <?php
-$onPlayerReady = "player.on('play', function () {addView({$playNowVideo['id']}, this.currentTime());});";
-
-if ($config->getAutoplay()) {
-    $onPlayerReady .= "playerPlay({$currentTime});";
-} else {
-    $onPlayerReady .= "setCurrentTime({$currentTime});";
-}
-$onPlayerReady .= "player.on('ended', function () {console.log(\"Finish Video\");
-    var time = Math.round(this.currentTime());
-    addView({$video['id']}, time);";
-if (!empty($autoPlayVideo)) {
-    $onPlayerReady .= "if (isAutoplayEnabled()) {";
-    if ($autoPlayVideo['type'] !== 'video' || empty($advancedCustom->autoPlayAjax)) {
-        $onPlayerReady .= "playNext(autoPlayURL);";
-    } else {
-        $onPlayerReady .= "$('video, #mainVideo').attr('poster', autoPlayPoster);
-            changeVideoSrc(player, autoPlaySources);
-            history.pushState(null, null, autoPlayURL);
-            $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src', autoPlayThumbsSprit);
-            $.ajax({
-            url: autoPlayURL,
-                    success: function (response) {
-                    modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
-                    $('#modeYoutubeBottom').html(modeYoutubeBottom);
-                    }
-            });";
-    }
-    $onPlayerReady .= "}";
-}
-$onPlayerReady .= "});";
-$onPlayerReady .= "player.on('timeupdate', function () {
-                var time = Math.round(this.currentTime());
-                var url = '" . Video::getURLFriendly($video['id']) . "';
-                if (url.indexOf('?') > -1) {
-                    url += '&t=' + time;
-                } else {
-                    url += '?t=' + time;
-                }
-                $('#linkCurrentTime').val(url);
-                if (time >= 5 && time % 5 === 0) {
-                    addView({$video['id']}, time);
-                }
-            });";
-
-echo PlayerSkins::getStartPlayerJS($onPlayerReady);
+PlayerSkins::playerJSCodeOnLoad($playNowVideo['id'], @$autoPlayURL);
 ?>
 
     $(document).ready(function () {
