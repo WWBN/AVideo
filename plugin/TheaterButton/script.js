@@ -2,22 +2,22 @@
 function compress(t) {
     console.log("compress");
     $("#modeYoutubeTop").prependTo("#modeYoutubeBottomContent");
-    if(typeof t !== 'undefined'){
-        t.removeClass('ypt-compress');
-        t.addClass('ypt-expand');
+    if(typeof t !== 'undefined' && $(t).length){
+        $(t).removeClass('ypt-compress');
+        $(t).addClass('ypt-expand');
     }
 }
 function expand(t) {
     console.log("expand");
     $("#modeYoutubeTop").prependTo("#modeYoutubePrincipal");
-    if(typeof t !== 'undefined'){
-        t.removeClass('ypt-expand');
-        t.addClass('ypt-compress');
+    if(typeof t !== 'undefined' && $(t).length){
+        $(t).removeClass('ypt-expand');
+        $(t).addClass('ypt-compress');
     }
 }
 function toogleEC(t) {
-    if(typeof t !== 'undefined'){
-        if (t.hasClass('ypt-expand')) {
+    if(typeof t !== 'undefined' && $(t).length){
+        if ($(t).hasClass('ypt-expand')) {
             expand(t);
             Cookies.set('compress', false, {
                 path: '/',
