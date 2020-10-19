@@ -742,6 +742,7 @@ function isAutoplayEnabled(){
             path: '/',
             expires: 365
         });
+        console.log("isAutoplayEnabled #autoplay said "+(autoplay)?"Yes":"No");
         return autoplay;
     }else if (
             typeof Cookies !== 'undefined' && 
@@ -750,15 +751,19 @@ function isAutoplayEnabled(){
             Cookies.get('autoplay')
             ) {
         if(Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true){
+            console.log("isAutoplayEnabled Cookie said Yes ");
             return true;
         }else{
+            console.log("isAutoplayEnabled Cookie said No ");
             return false;
         }
     }else{
         if(typeof autoplay !== 'undefined'){
+            console.log("isAutoplayEnabled #autoplay said "+(autoplay)?"Yes":"No");
             return autoplay;
         }
     }
+    console.log("isAutoplayEnabled Default is No ");
     return false;
 }
 
