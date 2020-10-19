@@ -1321,6 +1321,17 @@ function getVideosURL_V2($fileName, $recreateCache=false) {
     $cacheName = "getVideosURL_V2$fileName";
     if(empty($recreateCache)){
         $files = object_to_array(ObjectYPT::getCache($cacheName, 0));
+        $preg_match_url = addcslashes($global['webSiteRootURL'], "/")."video";
+        foreach ($files as $value) {
+            // check if is a dummy file and the URL still wrong
+            if(
+                    $value['type'] === 'video' && // is a video
+                    preg_match("/^{$preg_match_url}video/", $value['url']) && // the URL is the same as the main domain
+                    filesize($value['path'])<20){ // file size is small
+                unset($files);
+                break;
+            }
+        }
     }
     if (empty($files)) {
         $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
@@ -1374,14 +1385,6 @@ function getVideosURL_V2($fileName, $recreateCache=false) {
 }
 
 function getSources($fileName, $returnArray = false, $try = 0) {
-    $name = "getSources_{$fileName}_" . intval($returnArray);
-    /*
-      $cached = ObjectYPT::getCache($name, 86400); //one day
-      if (!empty($cached)) {
-      return $cached->result;
-      }
-     *
-     */
     if ($returnArray) {
         $videoSources = $audioTracks = $subtitleTracks = array();
     } else {
@@ -1400,12 +1403,6 @@ function getSources($fileName, $returnArray = false, $try = 0) {
         foreach ($files as $key => $value) {
             $path_parts = pathinfo($value['path']);
             if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8" || $path_parts['extension'] == "mp3" || $path_parts['extension'] == "ogg") {
-                if(empty($try) && filesize($sources)<20){
-                    sleep(1);
-                    $sources = getSources($fileName, $returnArray, $try + 1);
-                    Video::clearCache($video['id']);
-                    return $sources;
-                }
                 $obj = new stdClass();
                 $obj->type = mime_content_type_per_filename($value['path']);
                 $sources .= "<source src=\"{$value['url']}\" type=\"{$obj->type}\">";
@@ -1441,7 +1438,6 @@ function getSources($fileName, $returnArray = false, $try = 0) {
             _error_log("getSources($fileName) File not found " . json_encode($video));
         }
     }
-//ObjectYPT::setCache($name, $obj);
     return $return;
 }
 
