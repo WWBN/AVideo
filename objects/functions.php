@@ -3211,7 +3211,7 @@ function TimeLogStart($name) {
     $global['start'][$name] = $time;
 }
 
-function TimeLogEnd($name, $line, $limit = 0.7) {
+function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
     global $global;
     if (!empty($global['noDebug'])) {
         return false;
@@ -3221,8 +3221,8 @@ function TimeLogEnd($name, $line, $limit = 0.7) {
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $global['start'][$name]), 4);
-    if ($total_time > $limit) {
-        _error_log("Warning: Slow process detected [{$name}] On  Line {$line} takes {$total_time} seconds to complete. {$_SERVER["SCRIPT_FILENAME"]}");
+    if ($total_time > $TimeLogLimit) {
+        _error_log("Warning: Slow process detected [{$name}] On  Line {$line} takes {$total_time} seconds to complete, Limit ({$TimeLogLimit}). {$_SERVER["SCRIPT_FILENAME"]}");
     }
     TimeLogStart($name);
 }
