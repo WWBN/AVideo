@@ -1329,17 +1329,17 @@ function getVideosURL_V2($fileName, $recreateCache=false) {
                         $value['type'] === 'video' && // is a video
                         preg_match("/^{$preg_match_url}/", $value['url']) && // the URL is the same as the main domain
                         filesize($value['path'])<20){ // file size is small
-                    _error_log("getVideosURL_V2:: dummy file found, fix cache ". json_encode(array("/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']),filesize($value['path']),$value)));
+                    //_error_log("getVideosURL_V2:: dummy file found, fix cache ". json_encode(array("/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']),filesize($value['path']),$value)));
                     unset($files);
                     break;
                 }else{
-                    _error_log("getVideosURL_V2:: NOT dummy file ". json_encode(array("/^{$preg_match_url}video/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']),filesize($value['path']),$value)));
+                    //_error_log("getVideosURL_V2:: NOT dummy file ". json_encode(array("/^{$preg_match_url}video/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']),filesize($value['path']),$value)));
                     
                 }
             }
-           _error_log("getVideosURL_V2:: cachestill good ". json_encode($files));
+           //_error_log("getVideosURL_V2:: cachestill good ". json_encode($files));
         }else{
-           _error_log("getVideosURL_V2:: cache not found ". json_encode($files));
+           //_error_log("getVideosURL_V2:: cache not found ". json_encode($files));
         }
     }
     if (empty($files)) {
