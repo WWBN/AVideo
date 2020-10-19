@@ -3300,6 +3300,15 @@ if (!class_exists('Video')) {
             ObjectYPT::setLastDeleteALLCacheTime();
             return true;
         }
+        
+        static function clearCacheFromFilename($fileName) {
+            _error_log("Video:clearCacheFromFilename($fileName)");
+            $video = self::getVideoFromFileName($fileName);
+            if(empty($video['id'])){
+                return false;
+            }
+            return self::clearCache($video['id']);
+        }
 
         static function getVideoPogress($videos_id, $users_id = 0) {
             if (empty($users_id)) {
