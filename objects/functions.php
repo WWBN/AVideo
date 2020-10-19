@@ -1329,6 +1329,7 @@ function getVideosURL_V2($fileName, $recreateCache=false) {
                         $value['type'] === 'video' && // is a video
                         preg_match("/^{$preg_match_url}video/", $value['url']) && // the URL is the same as the main domain
                         filesize($value['path'])<20){ // file size is small
+                    _error_log("getVideosURL_V2:: dummy file found, fix cache ". json_encode($value));
                     unset($files);
                     break;
                 }
