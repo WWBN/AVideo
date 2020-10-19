@@ -114,7 +114,6 @@ class AD_Server extends PluginAbstract {
         global $global;
         $_GET['vmap_id'] = session_id();
 
-        $js = '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
         $css = '<link href="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>'
                 . '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
 
@@ -123,7 +122,7 @@ class AD_Server extends PluginAbstract {
             
         }
         $css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
-        return $js . $css;
+        return $css;
     }
 
     public function afterVideoJS() {
@@ -176,8 +175,9 @@ class AD_Server extends PluginAbstract {
 
         PlayerSkins::getStartPlayerJS($onPlayerReady);
         $js = '';
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.js"></script>';
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.js"></script>';
+        $js .= '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
+        $js .= '<script src="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>';
+        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs-markers.js"></script>';
         return $js;
     }
