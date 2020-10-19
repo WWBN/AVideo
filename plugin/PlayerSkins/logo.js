@@ -15,9 +15,4 @@ $(document).ready(function () {
     });
 
     videojs.registerComponent('Logo', Logo);
-    if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
-        player.getChild('controlBar').addChild('Logo', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
-    } else {
-        player.getChild('controlBar').addChild('Logo', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
-    }
 });

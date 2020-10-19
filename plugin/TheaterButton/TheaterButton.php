@@ -74,13 +74,18 @@ class TheaterButton extends PluginAbstract {
         $js = '';
         if (!empty($obj->show_switch_button)) {
             if ($obj->compress_is_default) {
-                PlayerSkins::getStartPlayerJS(file_get_contents("compress(player);"));
+                PlayerSkins::getStartPlayerJS("compress(player);");
             } else {
-                PlayerSkins::getStartPlayerJS(file_get_contents("expand(player);"));
+                PlayerSkins::getStartPlayerJS("expand(player);");
             }
             
         }
         
+        PlayerSkins::getStartPlayerJS("if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
+    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
+} else {
+    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
+}");
         return $js;
     }
 
