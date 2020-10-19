@@ -17,10 +17,10 @@ var Theater = videojs.extend(Button, {
 
 // Register the new component and set the right location as FF is not having a PIP button.
 videojs.registerComponent('Theater', Theater);
-if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
-    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
+if (videojs.getChild('controlBar').getChild('PictureInPictureToggle')) {
+    videojs.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
 } else {
-    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
+    videojs.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
 }
 
 
