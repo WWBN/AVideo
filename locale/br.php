@@ -496,3 +496,4 @@ $t['Watch Later'] = "Assistir depois";
 $t['Favorite'] = "Favoritos";
 $t['Create your account'] = "Crie sua conta";
 $t['Remember me'] = "Mantenha-me conectado";
+$t['You already sign up for this plan'] = "Você já tem este";
