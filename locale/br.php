@@ -501,3 +501,5 @@ $t['Login History'] = "Histórico de Login";
 $t['Profile Photo'] = "Foto do perfil";
 $t['You must click save to confirm'] = "Você tem que clicar em salvar";
 $t['Make sure you click on the Save button after change the photo'] = "Não esqueça de clicar em salvar";
+$t['Verify e-mail'] = "Confirmar e-mail";
+$t['E-mail Not Verified'] = "Email não confirmado";
