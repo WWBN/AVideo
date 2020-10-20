@@ -495,3 +495,4 @@ $t['My Menu'] = "Meu Menu";
 $t['Watch Later'] = "Assistir depois";
 $t['Favorite'] = "Favoritos";
 $t['Create your account'] = "Crie sua conta";
+$t['Remember me'] = "Mantenha-me conectado";
