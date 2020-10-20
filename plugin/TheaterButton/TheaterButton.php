@@ -49,6 +49,7 @@ class TheaterButton extends PluginAbstract {
         }
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/style.css?' . filemtime($global['systemRootPath'] . 'plugin/TheaterButton/style.css') . '" rel="stylesheet" type="text/css"/>';
         $css .= '<script>var videoJsId = "' . $tmp . '";</script>';
+        $css .= '<script>var isCompressed = ' . (self::isCompressed()?"true":"false") . ';</script>';
         return $css;
     }
 
@@ -72,14 +73,6 @@ class TheaterButton extends PluginAbstract {
         }
         $obj = $this->getDataObject();
         $js = '';
-        if (!empty($obj->show_switch_button)) {
-            if ($obj->compress_is_default) {
-                PlayerSkins::getStartPlayerJS("compress(player);");
-            } else {
-                PlayerSkins::getStartPlayerJS("expand(player);");
-            }
-            
-        }
         
         PlayerSkins::getStartPlayerJS("if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
     player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
@@ -100,11 +93,11 @@ class TheaterButton extends PluginAbstract {
     }
 
     static function isCompressed() {
-        if (empty($_COOKIE['compress'])) {
+        if (!isset($_COOKIE['compress'])) {
             $obj = AVideoPlugin::getDataObject('TheaterButton');
             return $obj->compress_is_default ? true : false;
         }
-        return ($_COOKIE['compress'] === 'false') ? false : true;
+        return (!empty($_COOKIE['compress']) && $_COOKIE['compress'] !== 'false') ? true : false;
     }
 
 }
