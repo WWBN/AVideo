@@ -843,3 +843,9 @@ img.blur{
     font-size: 1.5em !important;
     line-height: 2 !important;
 }
+
+.vjs-resolution-button .vjs-menu-item, .vjs-resolution-button .vjs-menu-title {
+    margin: .3em 0;
+    padding: .2em 0;
+    border-radius: 0;
+}
