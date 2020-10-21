@@ -12,6 +12,9 @@ require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 session_write_close();
 $user_id = isChannel();
 $user = new User($user_id);
+if($user->getStatus()==='i'){
+    forbiddenPage(__("This user is inactive"));
+}
 $isMyChannel = $user_id == User::getId();
 AVideoPlugin::getChannel($user_id, $user);
 $channelFluidLayout = true;
