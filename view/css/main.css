@@ -844,8 +844,7 @@ img.blur{
     line-height: 2 !important;
 }
 
-.vjs-resolution-button .vjs-menu-button-popup .vjs-menu .vjs-menu-item, 
-.vjs-resolution-button .vjs-menu-button-popup .vjs-menu .vjs-menu-title {
+.vjs-menu-item, .vjs-menu-title{
     margin: .3em 0 !important;
     padding: .2em 0 !important;
     border-radius: 0 !important;
