@@ -130,6 +130,7 @@ class PlayerSkins extends PluginAbstract {
             $js .= "<script src=\"{$global['webSiteRootURL']}view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
             $js .= "<script>" . self::getStartPlayerJSCode() . "</script>";
         }
+        
         return $js;
     }
 
@@ -190,7 +191,6 @@ class PlayerSkins extends PluginAbstract {
         if (typeof player === 'undefined') {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
             ";
-
         if (!empty($IMAADTag) && !isLive()) {
             $js .= "var options = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(options);";
             $js .= "setInterval(function(){ fixAdSize(); }, 300);
@@ -218,8 +218,8 @@ class PlayerSkins extends PluginAbstract {
         }
 
         $js .= "}
-        player.ready(function () {
-            var err = this.error();
+        player.ready(function () {";
+        $js .= "var err = this.error();
             if (err && err.code) {
                 $('.vjs-error-display').hide();
                 $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
@@ -235,6 +235,10 @@ class PlayerSkins extends PluginAbstract {
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/loopbutton.js');
         }
 
+        
+        if (isHLS()) {
+            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/ifHLS.js');
+        }
         if (empty($noReadyFunction)) {
             $js .= "});";
         }
