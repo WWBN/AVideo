@@ -302,7 +302,7 @@ function changeVideoSrc(vid_obj, source) {
     for (i = 0; i < source.length; i++) {
         if (source[i].type) {
             console.log(source[i].type);
-            if(source[i].type==="application/x-mpegURL"){
+            if (source[i].type === "application/x-mpegURL") {
                 // it is HLS cancel it
                 return false;
             }
@@ -582,31 +582,7 @@ function playerPlay(currentTime) {
                                         }
                                     });
                                 }
-                                if ($("#mainVideo .vjs-volume-panel").length) {
-                                    $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
-                                    $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
-                                    $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
-                                    $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar'});
-                                    $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
-                                    $("#mainVideo .vjs-volume-panel").click(function(){
-                                        console.log("remove unmute tooltip");
-                                        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
-                                        $("#mainVideo .vjs-volume-panel").removeAttr("data-toggle");
-                                        $("#mainVideo .vjs-volume-panel").removeAttr("data-placement");
-                                        $("#mainVideo .vjs-volume-panel").removeAttr("title");
-                                        $("#mainVideo .vjs-volume-panel").removeData('tooltip').unbind().next('div.tooltip').remove();
-                                    });
-                                }
-                                player.userActive(true);
-                                setTimeout(function () {
-                                    player.userActive(true);
-                                }, 1000);
-                                setTimeout(function () {
-                                    player.userActive(true);
-                                }, 1500);
-                                setTimeout(function () {
-                                    $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
-                                }, 2000);
+                                showMuteTooltip();
                                 setTimeout(function () {
                                     $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
                                     player.userActive(true);
@@ -639,6 +615,40 @@ function playerPlay(currentTime) {
     }
 }
 
+function showMuteTooltip() {
+    if ($("#mainVideo .vjs-volume-panel").length) {
+        if (!$("#mainVideo .vjs-volume-panel").is(":visible")) {
+            setTimeout(function () {
+                showMuteTooltip();
+            }, 500);
+            return false;
+        }
+        $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
+        $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
+        $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar'});
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
+        $("#mainVideo .vjs-volume-panel").click(function () {
+            console.log("remove unmute tooltip");
+            $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
+            $("#mainVideo .vjs-volume-panel").removeAttr("data-toggle");
+            $("#mainVideo .vjs-volume-panel").removeAttr("data-placement");
+            $("#mainVideo .vjs-volume-panel").removeAttr("title");
+            $("#mainVideo .vjs-volume-panel").removeData('tooltip').unbind().next('div.tooltip').remove();
+        });
+    }
+    player.userActive(true);
+    setTimeout(function () {
+        player.userActive(true);
+    }, 1000);
+    setTimeout(function () {
+        player.userActive(true);
+    }, 1500);
+    setTimeout(function () {
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
+    }, 2000);
+}
+
 function playerPlayIfAutoPlay(currentTime) {
     if (isAutoplayEnabled()) {
         playerPlay(currentTime);
@@ -650,12 +660,14 @@ function playerPlayIfAutoPlay(currentTime) {
 }
 
 function playNext(url) {
-    if(isPlayingAds()){
-        setTimeout(function(){playNext(url);},1000);
-    }else if (isPlayNextEnabled()) {
+    if (isPlayingAds()) {
+        setTimeout(function () {
+            playNext(url);
+        }, 1000);
+    } else if (isPlayNextEnabled()) {
         modal.showPleaseWait();
         if (typeof autoPlayAjax == 'undefined' || !autoPlayAjax) {
-            console.log("playNext changing location "+url);
+            console.log("playNext changing location " + url);
             document.location = url;
         } else {
             console.log("playNext ajax");
@@ -669,9 +681,9 @@ function playNext(url) {
                     } else {
                         console.log("playNext ajax success");
                         $('topInfo').hide();
-                        playNextURL = isEmbed?response.nextURLEmbed:response.nextURL;
+                        playNextURL = isEmbed ? response.nextURLEmbed : response.nextURL;
                         console.log("New playNextURL", playNextURL);
-                        if(!changeVideoSrc(player, response.sources)){
+                        if (!changeVideoSrc(player, response.sources)) {
                             document.location = url;
                             return false;
                         }
@@ -762,7 +774,7 @@ function toogleImageLoop(t) {
 }
 
 function isPlayerLoop() {
-    if(typeof player === 'undefined'){
+    if (typeof player === 'undefined') {
         return false;
     }
     var loop = Cookies.get('playerLoop');
@@ -892,9 +904,9 @@ function avideoTooltip(selector, text) {
     $(selector).tooltip();
 }
 
-function fixAdSize(){
+function fixAdSize() {
     ad_container = $('#mainVideo_ima-ad-container');
-    if(ad_container.length){
+    if (ad_container.length) {
         height = ad_container.css('height');
         width = ad_container.css('width');
         $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'height': height});
@@ -902,10 +914,10 @@ function fixAdSize(){
     }
 }
 
-function isPlayingAds(){
+function isPlayingAds() {
     return ($("#mainVideo_ima-ad-container").length && $("#mainVideo_ima-ad-container").is(':visible'));
 }
 
-function playerHasAds(){
-    return ($("#mainVideo_ima-ad-container").length>0);
+function playerHasAds() {
+    return ($("#mainVideo_ima-ad-container").length > 0);
 }
