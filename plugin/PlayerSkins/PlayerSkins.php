@@ -34,7 +34,7 @@ class PlayerSkins extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "1.1";
     }
 
     public function getEmptyDataObject() {
@@ -197,7 +197,7 @@ class PlayerSkins extends PluginAbstract {
                 . "// Remove controls from the player on iPad to stop native controls from stealing
     // our click
     var contentPlayer = document.getElementById('content_video_html5_api');
-    if ((navigator.userAgent.match(/iPad/i) ||
+    if (contentPlayer && (navigator.userAgent.match(/iPad/i) ||
             navigator.userAgent.match(/Android/i)) &&
             contentPlayer.hasAttribute('controls')) {
         contentPlayer.removeAttribute('controls');

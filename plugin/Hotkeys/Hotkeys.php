@@ -47,7 +47,7 @@ class Hotkeys extends PluginAbstract {
         return $html."</tbody></table>";
     }
     public function getJSFiles(){
-        if(!empty($_GET['isMediaPlaySite'])){
+        if(isVideo()){
             return array("plugin/Hotkeys/videojs.hotkeys.min.js");
         }
         return array();

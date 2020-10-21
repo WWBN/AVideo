@@ -828,3 +828,8 @@ img.blur{
 .liveVideo .thumbsImage img{
     width: 100%;
 }
+
+#mainVideo_ima-ad-container{
+    font-size: 14px;
+    line-height: 1;
+}

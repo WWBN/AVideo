@@ -6,9 +6,11 @@ var Theater = videojs.extend(Button, {
     constructor: function () {
         Button.apply(this, arguments);
         if(isCompressed){
-            this.addClass('ypt-expand');  
+            this.addClass('ypt-expand'); 
+            this.controlText("Switch to Compressed Mode");
         }else{
-            this.addClass('ypt-compress');          
+            this.addClass('ypt-compress');  
+            this.controlText("Switch to Theater Mode");
         }
         this.addClass('vjs-button-fa-size');
         this.addClass('hidden-sm');
