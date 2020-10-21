@@ -830,6 +830,6 @@ img.blur{
 }
 
 #mainVideo_ima-ad-container{
-    font-size: 14px;
-    line-height: 1;
+    font-size: 14px !important;
+    line-height: 1 !important;
 }
