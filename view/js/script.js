@@ -646,7 +646,7 @@ function showMuteTooltip() {
     }, 1500);
     setTimeout(function () {
         $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
-    }, 2000);
+    }, 5000);
 }
 
 function playerPlayIfAutoPlay(currentTime) {
