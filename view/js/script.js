@@ -584,6 +584,7 @@ function playerPlay(currentTime) {
                                 }
                                 if ($("#mainVideo .vjs-volume-panel").length) {
                                     $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
+                                    $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
                                     $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
                                     $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
                                 }
