@@ -586,7 +586,7 @@ function playerPlay(currentTime) {
                                     $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
                                     $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
                                     $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
-                                    $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: 'body'});
+                                    $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar'});
                                     $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
                                     $("#mainVideo .vjs-volume-panel").click(function(){
                                         console.log("remove unmute tooltip");
