@@ -845,7 +845,7 @@ img.blur{
 }
 
 .vjs-resolution-button .vjs-menu-item, .vjs-resolution-button .vjs-menu-title {
-    margin: .3em 0;
-    padding: .2em 0;
-    border-radius: 0;
+    margin: .3em 0 !important;
+    padding: .2em 0 !important;
+    border-radius: 0 !important;
 }
