@@ -118,7 +118,7 @@ class PlayerSkins extends PluginAbstract {
                 $url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
                 $js .= "<script>var PlayerSkinLogoTitle = '{$title}';</script>";
                 $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/logo.js\"></script>";
-                
+
                 PlayerSkins::getStartPlayerJS("if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
     player.getChild('controlBar').addChild('Logo', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
 } else {
@@ -190,42 +190,33 @@ class PlayerSkins extends PluginAbstract {
         if (typeof player === 'undefined') {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
             ";
-        
-        if(!empty($IMAADTag)){
-            $js .= "var options = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(options);";
-            $js .= "setInterval(function(){ fixAdSize(); }, 300);"
-                . "// Remove controls from the player on iPad to stop native controls from stealing
-    // our click
-    var contentPlayer = document.getElementById('content_video_html5_api');
-    if (contentPlayer && (navigator.userAgent.match(/iPad/i) ||
-            navigator.userAgent.match(/Android/i)) &&
-            contentPlayer.hasAttribute('controls')) {
-        contentPlayer.removeAttribute('controls');
-    }
 
-    // Initialize the ad container when the video player is clicked, but only the
-    // first time it's clicked.
-    var startEvent = 'click';
-    if (navigator.userAgent.match(/iPhone/i) ||
-            navigator.userAgent.match(/iPad/i) ||
-            navigator.userAgent.match(/Android/i)) {
-        startEvent = 'touchend';
-    }
-    if (typeof player !== 'undefined') {
-        player.one(startEvent, function () {
-            player.ima.initializeAdDisplayContainer();
-        });
-    }else{
-        setTimeout(function(){
-            if (typeof player !== 'undefined') {
-                player.one(startEvent, function () {
-                    player.ima.initializeAdDisplayContainer();
-                });
+        if (!empty($IMAADTag) && !isLive()) {
+            $js .= "var options = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(options);";
+            $js .= "setInterval(function(){ fixAdSize(); }, 300);
+                // first time it's clicked.
+                var startEvent = 'click';";
+            if (isMobile()) {
+                $js .= "// Remove controls from the player on iPad to stop native controls from stealing
+                // our click
+                var contentPlayer = document.getElementById('content_video_html5_api');
+                if (contentPlayer && (navigator.userAgent.match(/iPad/i) ||
+                        navigator.userAgent.match(/Android/i)) &&
+                        contentPlayer.hasAttribute('controls')) {
+                    contentPlayer.removeAttribute('controls');
+                }
+
+                // Initialize the ad container when the video player is clicked, but only the
+                if (navigator.userAgent.match(/iPhone/i) ||
+                        navigator.userAgent.match(/iPad/i) ||
+                        navigator.userAgent.match(/Android/i)) {
+                    startEvent = 'touchend';
+                }";
             }
-        },2000);
-    }    ";
+
+            $js .= "player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
         }
-                
+
         $js .= "}
         player.ready(function () {
             var err = this.error();
@@ -241,7 +232,7 @@ class PlayerSkins extends PluginAbstract {
         });";
 
         if ($obj->showLoopButton && !isLive()) {
-            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/loopbutton.js');
+            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/loopbutton.js');
         }
 
         if (empty($noReadyFunction)) {
@@ -250,8 +241,8 @@ class PlayerSkins extends PluginAbstract {
         $getStartPlayerJSWasRequested = true;
         return $js;
     }
-    
-    static function setIMAADTag($tag){
+
+    static function setIMAADTag($tag) {
         global $IMAADTag;
         $IMAADTag = $tag;
     }

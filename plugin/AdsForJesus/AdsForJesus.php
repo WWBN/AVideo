@@ -79,7 +79,12 @@ class AdsForJesus extends PluginAbstract {
     }
 
     public function afterVideoJS() {
+        global $global;
         $js = '';
+        $js .= '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
+        $js .= '<script src="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>';
+        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
+
         //if (!empty($_GET['videoName']) || !empty($_GET['u'])) {
         if (!empty($_GET['videoName'])) {
             if (empty($_GET['u'])) {
@@ -92,16 +97,14 @@ class AdsForJesus extends PluginAbstract {
                 $video['duration'] = "01:00:00";
                 $_GET['videoName'] = "Live-" . uniqid();
             }
-            global $global;
 
             $video_length = parseDurationToSeconds($video['duration']);
             $obj = $this->getDataObject();
-
-            $js .= '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
-            $js .= '<script src="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>';
-            $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
+            PlayerSkins::setIMAADTag("https://forjesus.tv/vmap.xml?video_durarion={$video_length}&start={$obj->start}&mid25Percent={$obj->mid25Percent}&mid50Percent={$obj->mid50Percent}&mid75Percent={$obj->mid75Percent}&end={$obj->end}");
+        }else if(isLive()){
+            //PlayerSkins::setIMAADTag("https://forjesus.tv/vmap.xml?video_durarion=0&start=1&mid25Percent=0&mid50Percent=0&mid75Percent=0&end=1");
         }
-        PlayerSkins::setIMAADTag("https://forjesus.tv/vmap.xml?video_durarion={$video_length}&start={$obj->start}&mid25Percent={$obj->mid25Percent}&mid50Percent={$obj->mid50Percent}&mid75Percent={$obj->mid75Percent}&end={$obj->end}");
+        
         
         return $js;
     }

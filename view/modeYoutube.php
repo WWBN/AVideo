@@ -408,7 +408,6 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         }
         include $global['systemRootPath'] . 'view/include/footer.php';
         $videoJSArray = array(
-            "view/js/videojs-persistvolume/videojs.persistvolume.js",
             "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");
 

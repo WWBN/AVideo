@@ -14,6 +14,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
             ?>
             if (player.readyState()) {
                 var uri = player.tech_.hls.selectPlaylist().uri;
+                console.log("isOfflineVideo player.readyState", uri);
                 if (uri.includes("loopBGHLS/res")) {
                     return true;
                 }
@@ -21,6 +22,11 @@ $live_servers_id = Live::getCurrentLiveServersId();
                     return true;
                 }
                 return false;
+            }else if(player.readyState()===0 && player.paused()){
+                console.log("isOfflineVideo paused ");
+                return false;
+            }else{
+                console.log("isOfflineVideo player.readyState not ready", player.readyState());
             }
             <?php
         }

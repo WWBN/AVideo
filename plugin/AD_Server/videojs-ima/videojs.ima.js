@@ -375,6 +375,17 @@ PlayerWrapper.prototype.play = function () {
 };
 
 /**
+ * Toggles playback of the video.
+ */
+PlayerWrapper.prototype.togglePlayback = function () {
+  if (this.vjsPlayer.paused()) {
+    this.vjsPlayer.play();
+  } else {
+    this.vjsPlayer.pause();
+  }
+};
+
+/**
  * Get the player width.
  *
  * @return {number} The player's width.
@@ -712,6 +723,11 @@ var AdUi = function AdUi(controller) {
     this.showCountdown = false;
   }
 
+  /**
+   * Boolean flag if the current ad is nonlinear.
+   */
+  this.isAdNonlinear = false;
+
   this.createAdContainer();
 };
 
@@ -724,6 +740,7 @@ AdUi.prototype.createAdContainer = function () {
   this.adContainerDiv.style.zIndex = 1111;
   this.adContainerDiv.addEventListener('mouseenter', this.showAdControls.bind(this), false);
   this.adContainerDiv.addEventListener('mouseleave', this.hideAdControls.bind(this), false);
+  this.adContainerDiv.addEventListener('click', this.onAdContainerClick.bind(this), false);
   this.createControls();
   this.controller.injectAdContainerDiv(this.adContainerDiv);
 };
@@ -933,6 +950,15 @@ AdUi.prototype.hideAdContainer = function () {
 };
 
 /**
+ * Handles clicks on the ad container
+ */
+AdUi.prototype.onAdContainerClick = function () {
+  if (this.isAdNonlinear) {
+    this.controller.togglePlayback();
+  }
+};
+
+/**
  * Resets the state of the ad ui.
  */
 AdUi.prototype.reset = function () {
@@ -992,6 +1018,7 @@ AdUi.prototype.onAllAdsCompleted = function () {
 AdUi.prototype.onLinearAdStart = function () {
   // Don't bump container when controls are shown
   this.removeClass(this.adContainerDiv, 'bumpable-ima-ad-container');
+  this.isAdNonlinear = false;
 };
 
 /**
@@ -1003,6 +1030,7 @@ AdUi.prototype.onNonLinearAdLoad = function () {
   this.adContainerDiv.style.display = 'block';
   // Bump container when controls are shown
   this.addClass(this.adContainerDiv, 'bumpable-ima-ad-container');
+  this.isAdNonlinear = true;
 };
 
 AdUi.prototype.onPlayerEnterFullscreen = function () {
@@ -1127,7 +1155,7 @@ AdUi.prototype.setShowCountdown = function (showCountdownIn) {
 };
 
 var name = "videojs-ima";
-var version = "1.8.0";
+var version = "1.8.3";
 var license = "Apache-2.0";
 var main = "./dist/videojs.ima.js";
 var module$1 = "./dist/videojs.ima.es.js";
@@ -1136,8 +1164,9 @@ var engines = { "node": ">=0.8.0" };
 var scripts = { "contBuild": "watch 'npm run rollup:max' src", "predevServer": "echo \"Starting up server on localhost:8000.\"", "devServer": "npm-run-all -p testServer contBuild", "lint": "eslint \"src/*.js\"", "rollup": "npm-run-all rollup:*", "rollup:max": "rollup -c configs/rollup.config.js", "rollup:es": "rollup -c configs/rollup.config.es.js", "rollup:min": "rollup -c configs/rollup.config.min.js", "pretest": "npm run rollup", "start": "npm run devServer", "test": "npm-run-all test:*", "test:vjs5": "npm install video.js@5.19.2 --no-save && npm-run-all -p -r testServer webdriver", "test:vjs6": "npm install video.js@6 --no-save && npm-run-all -p -r testServer webdriver", "test:vjs7": "npm install video.js@7 --no-save && npm-run-all -p -r testServer webdriver", "testServer": "http-server --cors -p 8000 --silent", "preversion": "node scripts/preversion.js && npm run lint && npm test", "version": "node scripts/version.js", "postversion": "node scripts/postversion.js", "webdriver": "mocha test/webdriver/*.js --no-timeouts" };
 var repository = { "type": "git", "url": "https://github.com/googleads/videojs-ima" };
 var files = ["CHANGELOG.md", "LICENSE", "README.md", "dist/", "src/"];
-var dependencies = { "can-autoplay": "^3.0.0", "cryptiles": "^4.1.2", "extend": ">=3.0.2", "lodash": ">=4.17.13", "lodash.template": ">=4.5.0", "video.js": "^5.19.2 || ^6 || ^7", "videojs-contrib-ads": "^6" };
-var devDependencies = { "babel-core": "^6.26.3", "babel-preset-env": "^1.7.0", "child_process": "^1.0.2", "chromedriver": "^2.35.0", "conventional-changelog-cli": "^2.0.21", "conventional-changelog-videojs": "^3.0.0", "eslint": "^4.11.0", "eslint-config-google": "^0.9.1", "eslint-plugin-jsdoc": "^3.2.0", "geckodriver": "^1.16.2", "http-server": "^0.10.0", "mocha": "^5.0.3", "npm-run-all": "^4.1.2", "path": "^0.12.7", "rimraf": "^2.6.2", "rollup": "^0.51.8", "rollup-plugin-babel": "^3.0.3", "rollup-plugin-copy": "^0.2.3", "rollup-plugin-json": "^2.3.0", "rollup-plugin-uglify": "^2.0.1", "selenium-webdriver": "^3.6.0", "uglify-es": "^3.1.10", "watch": "^1.0.2" };
+var peerDependencies = { "video.js": "^5.19.2 || ^6 || ^7" };
+var dependencies = { "can-autoplay": "^3.0.0", "cryptiles": "^4.1.3", "extend": ">=3.0.2", "lodash": ">=4.17.19", "lodash.template": ">=4.5.0", "videojs-contrib-ads": "^6.6.5" };
+var devDependencies = { "babel-core": "^6.26.3", "babel-preset-env": "^1.7.0", "child_process": "^1.0.2", "chromedriver": "^86.0.0", "conventional-changelog-cli": "^2.0.31", "conventional-changelog-videojs": "^3.0.1", "eslint": "^4.19.1", "eslint-config-google": "^0.9.1", "eslint-plugin-jsdoc": "^3.15.1", "geckodriver": "^1.19.1", "http-server": "^0.12.3", "mocha": "^7.1.2", "npm-run-all": "^4.1.5", "path": "^0.12.7", "protractor": "^7.0.0", "rimraf": "^2.7.1", "rollup": "^0.51.8", "rollup-plugin-babel": "^3.0.7", "rollup-plugin-copy": "^0.2.3", "rollup-plugin-json": "^2.3.1", "rollup-plugin-uglify": "^2.0.1", "selenium-webdriver": "^3.6.0", "uglify-es": "^3.3.9", "video.js": "^5.19.2 || ^6 || ^7", "watch": "^1.0.2", "webdriver-manager": "^12.1.7" };
 var keywords = ["videojs", "videojs-plugin"];
 var pkg = {
 	name: name,
@@ -1150,6 +1179,7 @@ var pkg = {
 	scripts: scripts,
 	repository: repository,
 	files: files,
+	peerDependencies: peerDependencies,
 	dependencies: dependencies,
 	devDependencies: devDependencies,
 	keywords: keywords
@@ -1315,7 +1345,7 @@ SdkImpl.prototype.initAdObjects = function () {
   if (this.controller.getSettings().vpaidAllowed == false) {
     this.adsLoader.getSettings().setVpaidMode(google.ima.ImaSdkSettings.VpaidMode.DISABLED);
   }
-  if (this.controller.getSettings().vpaidMode) {
+  if (this.controller.getSettings().vpaidMode !== undefined) {
     this.adsLoader.getSettings().setVpaidMode(this.controller.getSettings().vpaidMode);
   }
 
@@ -1439,7 +1469,7 @@ SdkImpl.prototype.onAdsManagerLoaded = function (adsManagerLoadedEvent) {
  * Listener for errors fired by the AdsLoader.
  * @param {google.ima.AdErrorEvent} event The error event thrown by the
  *     AdsLoader. See
- *     https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdError.Type
+ *     https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.AdError#.Type
  */
 SdkImpl.prototype.onAdsLoaderError = function (event) {
   window.console.warn('AdsLoader error: ' + event.getError());
@@ -1835,7 +1865,7 @@ SdkImpl.prototype.playAdBreak = function () {
 /**
  * Ads an EventListener to the AdsManager. For a list of available events,
  * see
- * https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
+ * https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.AdEvent#.Type
  * @param {google.ima.AdEvent.Type} event The AdEvent.Type for which to
  *     listen.
  * @param {callback} callback The method to call when the event is fired.
@@ -2487,7 +2517,7 @@ Controller.prototype.playAdBreak = function () {
 /**
  * Ads an EventListener to the AdsManager. For a list of available events,
  * see
- * https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
+ * https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.AdEvent#.Type
  * @param {google.ima.AdEvent.Type} event The AdEvent.Type for which to
  *     listen.
  * @param {callback} callback The method to call when the event is fired.
@@ -2537,6 +2567,13 @@ Controller.prototype.pauseAd = function () {
 Controller.prototype.resumeAd = function () {
   this.adUi.onAdsPlaying();
   this.sdkImpl.resumeAds();
+};
+
+/**
+ * Toggles video/ad playback.
+ */
+Controller.prototype.togglePlayback = function () {
+  this.playerWrapper.togglePlayback();
 };
 
 /**
@@ -2673,7 +2710,7 @@ var ImaPlugin = function ImaPlugin(player, options) {
   /**
    * Ads an EventListener to the AdsManager. For a list of available events,
    * see
-   * https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
+   * https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.AdEvent#.Type
    * @param {google.ima.AdEvent.Type} event The AdEvent.Type for which to
    *     listen.
    * @param {callback} callback The method to call when the event is fired.
