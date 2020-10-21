@@ -587,6 +587,12 @@ function playerPlay(currentTime) {
                                     $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
                                     $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
                                     $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
+                                    $("#mainVideo .vjs-volume-panel").click(function(){
+                                        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
+                                        $("#mainVideo .vjs-volume-panel").removeAttr("data-toggle");
+                                        $("#mainVideo .vjs-volume-panel").removeAttr("data-placement");
+                                        $("#mainVideo .vjs-volume-panel").removeAttr("title");
+                                    });
                                 }
                                 player.userActive(true);
                                 setTimeout(function () {
