@@ -35,7 +35,7 @@ $metaDescription = " Channel - {$_GET['channelName']}";
         include $global['systemRootPath'] . 'view/channelHead.php';
         ?>
     </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
+    <body class="<?php echo $global['bodyClass']; ?> userChannel">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
