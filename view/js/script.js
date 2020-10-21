@@ -605,6 +605,9 @@ function playerPlay(currentTime) {
                                     player.userActive(true);
                                 }, 1500);
                                 setTimeout(function () {
+                                    $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
+                                }, 2000);
+                                setTimeout(function () {
                                     $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
                                     player.userActive(true);
                                 }, 500);
