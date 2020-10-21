@@ -835,3 +835,20 @@ img.blur{
     font-size: 14px !important;
     line-height: 1 !important;
 }
+
+#mainVideo_ima-ad-container .ima-play-pause-div, 
+#mainVideo_ima-ad-container .ima-mute-div, 
+#mainVideo_ima-ad-container .ima-slider-div, 
+#mainVideo_ima-ad-container .ima-fullscreen-div {
+    width: 2.33em !important;
+    height: 1.33em !important;
+    top: 0.733em !important;
+    left: 0em !important;
+    position: absolute !important;
+    color: #CCCCCC !important;
+    font-size: 1.5em !important;
+    line-height: 2 !important;
+    text-align: center !important;
+    font-family: VideoJS !important;
+    cursor: pointer !important;
+}
