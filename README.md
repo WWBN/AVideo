@@ -1,5 +1,8 @@
 <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
 
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg?style=flat-square)](https://php.net/)
+[![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
+
 ## Audio Video Platform
 AVideo is a term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with audio video. AVideo Platform is an Audio and Video Platform or simply "A Video Platform".
 

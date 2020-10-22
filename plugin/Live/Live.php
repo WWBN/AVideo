@@ -11,6 +11,8 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php
 $getStatsObject = array();
 $_getStats = array();
 
+User::loginFromRequest();
+
 class Live extends PluginAbstract {
 
     public function getTags() {
@@ -761,6 +763,10 @@ class Live extends PluginAbstract {
                     }
                     return ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;
                 });
+                if(empty($liveServers[0])){
+                    _error_log("Live::getAvailableLiveServer we could not get server status, try to uncheck useLiveServers parameter from the Live plugin");
+                    return array();
+                }
                 $return = $liveServers[0];
                 ObjectYPT::setCache($name, $return);
             }
@@ -870,7 +876,7 @@ class Live extends PluginAbstract {
                     "title" => $row['title'],
                     'channelName' => $channelName,
                     'poster' => $poster,
-                    'link' => $link . "&embed=1"
+                    'link' => $link . (strpos($link, '?') !== false?"&embed=1":"?embed=1")
                 );
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;

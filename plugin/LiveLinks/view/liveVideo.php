@@ -25,7 +25,7 @@ if (filter_var($t['link'], FILTER_VALIDATE_URL)) {
             <div id="main-video" class="embed-responsive embed-responsive-16by9">
                 <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls 
                        class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
-                       id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
+                       id="mainVideo">
                     <source src="<?php echo $liveLink; ?>" type='application/x-mpegURL'>
                 </video>
             </div>

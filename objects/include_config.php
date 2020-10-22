@@ -5,7 +5,7 @@ $global['systemRootPath'] .= (substr($global['systemRootPath'], -1) == '/' ? '' 
 $global['session_name'] = md5($global['systemRootPath']);
 session_name($global['session_name']);
 
-if(empty($global['logfile'])){
+if (empty($global['logfile'])) {
     $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
 }
 
@@ -14,17 +14,17 @@ global $global, $config, $advancedCustom, $advancedCustomUser;
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
-if($global['mysqli']===false || !empty($global['mysqli']->connect_errno)){
+if ($global['mysqli'] === false || !empty($global['mysqli']->connect_errno)) {
     include $global['systemRootPath'] . 'view/include/offlinePage.php';
     exit;
 }
 
 // if you set it on configuration file it will help you to encode
-if(!empty($global['mysqli_charset'])){
+if (!empty($global['mysqli_charset'])) {
     $global['mysqli']->set_charset($global['mysqli_charset']);
 }
 
-if(empty($global['disableTimeFix'])){
+if (empty($global['disableTimeFix'])) {
     $now = new DateTime();
     $mins = $now->getOffset() / 60;
     $sgn = ($mins < 0 ? -1 : 1);
@@ -58,37 +58,45 @@ session_set_cookie_params($config->getSession_timeout());
 //Fix “set SameSite cookie to none” warning
 if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
     setcookie('key', 'value', ['samesite' => 'None', 'secure' => true]);
-}else{
+} else {
     header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
-    setcookie('key', 'value', time()+$config->getSession_timeout(), "/; SameSite=None; Secure");
+    setcookie('key', 'value', time() + $config->getSession_timeout(), "/; SameSite=None; Secure");
 }
 
 session_start();
 
 // DDOS protection can be disabled in video/configuration.php
-if(!empty($global['enableDDOSprotection'])) ddosProtection();
+if (!empty($global['enableDDOSprotection']))
+    ddosProtection();
 
 // set the reffer for aVideo
 $url1['host'] = "";
 if (!empty($_SERVER["HTTP_REFERER"])) {
-    if((
-            strpos($_SERVER["HTTP_REFERER"], '/video/') !== false || strpos($_SERVER["HTTP_REFERER"], '/v/') !== false) && 
-            !empty($_SESSION["LAST_HTTP_REFERER"])){
-        if(strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/css/') !== false ||
-                strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/js/') !== false||
-                strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/img/') !== false){
+    if ((
+            strpos($_SERVER["HTTP_REFERER"], '/video/') !== false || strpos($_SERVER["HTTP_REFERER"], '/v/') !== false) &&
+            !empty($_SESSION["LAST_HTTP_REFERER"])) {
+        if (strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/css/') !== false ||
+                strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/js/') !== false ||
+                strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/img/') !== false) {
             $_SESSION["LAST_HTTP_REFERER"] = $global['webSiteRootURL'];
         }
         $global["HTTP_REFERER"] = $_SESSION["LAST_HTTP_REFERER"];
         $url1 = parse_url($global["HTTP_REFERER"]);
-    }else{
+    } else {
         $global["HTTP_REFERER"] = $_SERVER["HTTP_REFERER"];
         $url1 = parse_url($global["HTTP_REFERER"]);
     }
 }
 //var_dump($global["HTTP_REFERER"]);exit;
-if(!isset($_POST['redirectUri'])){
+if (!isset($_POST['redirectUri'])) {
     $_POST['redirectUri'] = "";
+}
+
+if (!empty($_POST['redirectUri']) && strpos($_POST['redirectUri'], 'logoff.php') !== false) {
+    $_POST['redirectUri'] = '';
+}
+if (!empty($_GET['redirectUri']) && strpos($_GET['redirectUri'], 'logoff.php') !== false) {
+    $_GET['redirectUri'] = '';
 }
 
 $url2 = parse_url($global['webSiteRootURL']);
@@ -109,27 +117,28 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime();
 getDeviceID();
 allowOrigin();
 
 $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
 if ($baseName !== 'xsendfile.php' && class_exists("Plugin")) {
     AVideoPlugin::getStart();
-} else if($baseName !== 'xsendfile.php') {
+} else if ($baseName !== 'xsendfile.php') {
     _error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");
 }
 if (empty($global['bodyClass'])) {
     $global['bodyClass'] = "";
 }
-$global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3','m4a', 'ogg', 'zip', 'm3u8');
+$global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3', 'm4a', 'ogg', 'zip', 'm3u8');
 $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
 $customizePlugin = AVideoPlugin::getObjectData("Customize");
 AVideoPlugin::loadPlugin("PlayerSkins");
 $sitemapFile = "{$global['systemRootPath']}sitemap.xml";
 
-if(!empty($_GET['type'])){
+if (!empty($_GET['type'])) {
     $metaDescription = " {$_GET['type']}";
-}else if(!empty($_GET['showOnly'])){
+} else if (!empty($_GET['showOnly'])) {
     $metaDescription = " {$_GET['showOnly']}";
 }

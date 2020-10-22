@@ -44,6 +44,9 @@
             </a>
         </div>
     </div>
+    
+    <div class="clearfix hidden-lg hidden-md"></div>
+    
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="panel panel-purple">
             <div class="panel-heading">
@@ -66,6 +69,8 @@
             </a>
         </div>
     </div>
+    
+    <div class="clearfix hidden-lg  hidden-sm"></div>
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="panel panel-wine">
             <div class="panel-heading">
@@ -88,8 +93,9 @@
             </a>
         </div>
     </div>
-
-
+    <div class="clearfix hidden-md"></div>
+    <div class="clearfix hidden-lg hidden-md"></div>
+    
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="panel panel-red">
             <div class="panel-heading">
@@ -134,6 +140,9 @@
             </a>
         </div>
     </div>
+    <div class="clearfix hidden-lg"></div>
+    <div class="clearfix hidden-lg hidden-md"></div>
+    
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
         <div class="panel panel-yellow">
             <div class="panel-heading">

@@ -1,22 +1,25 @@
 <?php
 $footerjs = "";
 if (thereIsAnyUpdate()) {
-    $footerjs.="$.toast({
+    $footerjs .= "$.toast({
     heading: 'Update required',
-    text: '<a href=\"".$global['webSiteRootURL']."update\">".__('You have a new version to install')."</a>',
+    text: '<a href=\"" . $global['webSiteRootURL'] . "update\">" . __('You have a new version to install') . "</a>',
     showHideTransition: 'plain',
     icon: 'error',
     hideAfter: 20000
 });";
 }
 if ($version = thereIsAnyRemoteUpdate()) {
-    $footerjs.="$.toast({
+    $footerjs .= "$.toast({
     heading: 'Update available',
-    text: '<a href=\"".$global['webSiteRootURL']."update\">".__('Our repository is now running at version')." ".$version->version."</a>',
+    text: '<a href=\"" . $global['webSiteRootURL'] . "update\">" . __('Our repository is now running at version') . " " . $version->version . "</a>',
     showHideTransition: 'plain',
     icon: 'warning',
     hideAfter: 20000
 });";
+}
+if (empty($advancedCustom)) {
+    $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
 ?>
 <div class="clearfix"></div>
@@ -133,16 +136,16 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
                 checkFooter();
             }, 100);
         });
-        
+
         $(window).mouseup(function () {
             clearTimeout(checkFooterTimout);
             checkFooterTimout = setTimeout(function () {
                 checkFooter();
             }, 100);
         });
-        
-        <?php echo $footerjs; ?>
-        
+
+<?php echo $footerjs; ?>
+
     });
     function checkFooter() {
         $("#mainFooter").fadeIn();
@@ -162,3 +165,14 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
         return $('#mainNavBar').height() + $('#mainFooter').height() + $('.container, .container-fluid').first().height();
     }
 </script>
+<!--
+<?php
+if (User::isAdmin()) {
+    arsort($getCachesProcessed);
+    echo "Total cached methods " . PHP_EOL;
+    foreach ($getCachesProcessed as $key => $value) {
+        echo "$key => $value" . PHP_EOL;
+    }
+}
+?>
+-->

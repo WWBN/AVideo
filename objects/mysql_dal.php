@@ -86,11 +86,11 @@ class sqlDAL {
         }
 
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
-            log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
+            log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement})");
             return false;
         }
         if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
-            log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
+            log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match ({$preparedStatement}) with formats ({$formats})");
             return false;
         }
         $stmt->execute();
@@ -131,7 +131,7 @@ class sqlDAL {
 
                 $readSqlCached[$crc] = "false";
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
-                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement} - format={$formats} values=" . json_encode($values));
+                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement}) - format=({$formats}) values=" . json_encode($values));
                     log_error("[sqlDAL::readSql] trying close and reconnect");
                     $global['mysqli']->close();
                     _mysql_connect();
@@ -141,7 +141,7 @@ class sqlDAL {
                     }
                 }
                 if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
-                    log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
+                    log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match {$preparedStatement} with formats {$formats}");
                     return false;
                 }
                 $TimeLog = "[$preparedStatement], $formats, " . json_encode($values) . ", $refreshCache";
@@ -182,7 +182,7 @@ class sqlDAL {
             //}
             if ($readSqlCached[$crc] != "false") {
                 if (is_null($readSqlCached[$crc]->lengths) && !$refreshCache && $readSqlCached[$crc]->num_rows == 0 && $readSqlCached[$crc]->field_count == 0) {
-                    log_error("[sqlDAL::readSql] (mysqlnd) Something was going wrong, re-get the query. <br>\r\n{$preparedStatement} {$readSqlCached[$crc]->num_rows}");
+                    log_error("[sqlDAL::readSql] (mysqlnd) Something was going wrong, re-get the query. {$preparedStatement} {$readSqlCached[$crc]->num_rows}");
                     return self::readSql($preparedStatement, $formats, $values, true);
                 }
             } else {
@@ -194,12 +194,12 @@ class sqlDAL {
             // Mysqlnd-fallback
 
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
-                log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . "<br>\n{$preparedStatement}");
+                log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement})");
                 return false;
             }
 
             if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
-                log_error("[sqlDAL::readSql] (no mysqlnd) eval_mysql_bind failed: values and params in stmt don't match <br>\r\n{$preparedStatement} with formats {$formats}");
+                log_error("[sqlDAL::readSql] (no mysqlnd) eval_mysql_bind failed: values and params in stmt don't match {$preparedStatement} with formats {$formats}");
                 return false;
             }
 
@@ -429,7 +429,7 @@ function log_error($err) {
     if (!empty($global['debug'])) {
         echo $err;
     }
-    _error_log(print_r(debug_backtrace(), true), AVideoLog::$ERROR);
+    _error_log("MySQL ERROR: ".json_encode(debug_backtrace()), AVideoLog::$ERROR);
     _error_log($err, AVideoLog::$ERROR);
 }
 

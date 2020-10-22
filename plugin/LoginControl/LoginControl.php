@@ -110,10 +110,13 @@ Best regards,
                 setToastMessage(__("2FA email not sent"));
             }
         }else{
+            /* Cannot use it due the first page cache. it may work with AJAX
             $row = self::getPreviewsLogin(User::getId());
             if(!empty($row)){
                 setToastMessage(__("Last login was on ")." ".$row['ago']." (".$row['device'].")");
             }
+             * 
+             */
         }
     }
     
@@ -144,6 +147,7 @@ Best regards,
             return false;
         }
         if (empty($loginControlCreateLog)) {
+            _error_log("LoginControl::createLog {$_SERVER['SCRIPT_NAME']} ". json_encode(debug_backtrace()));
             $ulh = new logincontrol_history(0);
             $ulh->setIp(getRealIpAddr());
             $ulh->setStatus(self::is2FAConfirmed($users_id) ? logincontrol_history_status::$CONFIRMED : logincontrol_history_status::$WAITING_CONFIRMATION);
@@ -182,10 +186,13 @@ Best regards,
         return !empty(logincontrol_history::is2FAConfirmed($users_id, getDeviceID()));
     }
 
-    static function getLastLoginOnDevice($users_id) {
-        $row = logincontrol_history::getLastLoginAttempt($users_id, getDeviceID());
+    static function getLastLoginOnDevice($users_id, $uniqidV4="") {
+        if(empty($uniqidV4)){
+            $uniqidV4 = getDeviceID();
+        }
+        $row = logincontrol_history::getLastLoginAttempt($users_id, $uniqidV4);
         if (empty($row)) {
-            _error_log("LoginControl::getLastLoginOnDevice Not found $users_id, " . getDeviceID());
+            _error_log("LoginControl::getLastLoginOnDevice Not found $users_id, " . $uniqidV4);
         }
         return $row;
     }
@@ -250,7 +257,7 @@ Best regards,
             }
         }
         $confirmationCode = $lastLogin['confirmation_code'];
-        return encryptString(json_encode(array('confirmation_code' => $confirmationCode, 'users_id' => $users_id)));
+        return encryptString(json_encode(array('confirmation_code' => $confirmationCode, 'users_id' => $users_id, 'uniqidV4' => getDeviceID())));
     }
     
     static function validateConfirmationCodeHash($code){
@@ -269,18 +276,35 @@ Best regards,
             return false;
         }
         
-        return self::confirmCode($json->users_id, $json->confirmation_code);
+        return self::confirmCode($json->users_id, $json->confirmation_code, $json->uniqidV4);
         
     }
 
     public function getStart() {
         $obj = $this->getDataObject();
         if ($obj->singleDeviceLogin) {
+            
+            $ignoreScriptList = array('/plugin/Live/stats.json.php');
+            if(in_array($_SERVER['SCRIPT_NAME'], $ignoreScriptList)){
+                return false;
+            }            
+            
+            //_error_log("LoginControl::getStart singleDeviceLogin is enabled");
             // check if the user is logged somewhere else and log him off
             if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
-                _error_log("LoginControl::getStart the user logged somewhere else");
-                $row = self::getLastConfirmedLogin(User::getId());
                 User::logoff();
+                $msg = "You were disconected by ({$row['device']}) <br>IP: {$row['ip']} <br>{$loc} <br>{$row['ago']}";
+                //setAlertMessage($msg);
+                gotToLoginAndComeBackHere($msg);
+                /*
+                //_error_log("LoginControl::getStart the user logged somewhere else");
+                if(self::isUser2FAEnabled(User::getId())){
+                    $row = self::getLastConfirmedLogin(User::getId());
+                    ///_error_log("LoginControl::getStart isUser2FAEnabled=true ". json_encode($row));
+                }else{
+                    $row = self::getLastLogin(User::getId());
+                    //_error_log("LoginControl::getStart isUser2FAEnabled=false ". json_encode($row));
+                }
                 if (!empty($row)) {
                     AVideoPlugin::loadPlugin('User_Location');
                     $location = IP2Location::getLocation($row['ip']);
@@ -293,6 +317,8 @@ Best regards,
                         setAlertMessage($msg);
                     }
                 }
+                 * 
+                 */
             }
         }
     }
@@ -332,11 +358,13 @@ Best regards,
             _error_log("LoginControl::isSameDeviceAsLastLogin that is the user first login at all {$users_id} ");
             return true;
         }
+        _error_log("LoginControl::isSameDeviceAsLastLogin that is NOT the same device {$users_id} {$row['uniqidV4']} === $uniqidV4 ". json_encode($row));
+            
         return false;
     }
 
-    static function confirmCode($users_id, $code) {
-        $lastLogin = self::getLastLoginOnDevice($users_id);
+    static function confirmCode($users_id, $code, $uniqidV4="") {
+        $lastLogin = self::getLastLoginOnDevice($users_id, $uniqidV4);
         if (empty($lastLogin)) {
             return false;
         }

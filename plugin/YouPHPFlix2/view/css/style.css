@@ -143,7 +143,6 @@ a:visited {
     height: 370px;
     width: 100%;
     margin-top: 10px;
-    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-1.jpg);
     background-repeat: no-repeat;
     background-size: auto 700px;
     background-position: right 0 center;    
@@ -163,6 +162,21 @@ a:visited {
     right: 0;
     top: 0;
 }
+
+
+#carouselRows .poster{
+    position: relative;
+    background-size: cover;
+
+}
+
+#carouselRows .posterDetails {
+    padding: 10px;
+    position: relative;
+    min-height: 500px;
+}
+
+
 .posterDetails .row{
     margin-top: 15px;
 }

@@ -1,37 +1,37 @@
 
-function compress(t) {
+function compress() {
     console.log("compress");
     $("#modeYoutubeTop").prependTo("#modeYoutubeBottomContent");
-    if(t!=undefined){
-        t.removeClass('ypt-compress');
-        t.addClass('ypt-expand');
-    }
+    $("#avideoTheaterButton").removeClass('ypt-compress');
+    $("#avideoTheaterButton").addClass('ypt-expand');
+    $("#avideoTheaterButton").attr("title","Switch to Theater Mode");
+    $("#avideoTheaterButton").find('.vjs-control-text').text("Switch to Theater Mode");
+    
+    Cookies.set('compress', true, {
+        path: '/',
+        expires: 365
+    });
+    isCompressed = true;
 }
-function expand(t) {
+function expand() {
     console.log("expand");
     $("#modeYoutubeTop").prependTo("#modeYoutubePrincipal");
-    if(t!=undefined){
-        t.removeClass('ypt-expand');
-        t.addClass('ypt-compress');
-    }
+    $("#avideoTheaterButton").removeClass('ypt-expand');
+    $("#avideoTheaterButton").addClass('ypt-compress');
+    $("#avideoTheaterButton").attr("title","Switch to Compressed Mode");
+    $("#avideoTheaterButton").find('.vjs-control-text').text("Switch to Compressed Mode");
+    
+    Cookies.set('compress', false, {
+        path: '/',
+        expires: 365
+    });
+    isCompressed = false;
 }
-function toogleEC(t) {
-    if(t!=undefined){
-        if (t.hasClass('ypt-expand')) {
-            expand(t);
-            Cookies.set('compress', false, {
-                path: '/',
-                expires: 365
-            });
-		t.controlText('Default view');
-        } else {
-            compress(t);
-            Cookies.set('compress', true, {
-                path: '/',
-                expires: 365
-            });
-		t.controlText('Theater mode');
-        }
+function toogleEC() {
+    if (isCompressed) {
+        expand();
+    } else {
+        compress();
     }
 }
 $(document).ready(function () {

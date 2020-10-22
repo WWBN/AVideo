@@ -828,3 +828,24 @@ img.blur{
 .liveVideo .thumbsImage img{
     width: 100%;
 }
+
+#mainVideo_ima-ad-container, 
+#mainVideo_ima-ad-container:after, 
+#mainVideo_ima-ad-container:before {
+    font-size: 14px !important;
+    line-height: 1 !important;
+}
+
+#mainVideo_ima-ad-container .ima-play-pause-div, 
+#mainVideo_ima-ad-container .ima-mute-div, 
+#mainVideo_ima-ad-container .ima-slider-div, 
+#mainVideo_ima-ad-container .ima-fullscreen-div {
+    font-size: 1.5em !important;
+    line-height: 2 !important;
+}
+
+.vjs-menu-item, .vjs-menu-title{
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+}

@@ -325,15 +325,12 @@ if (!class_exists('Video')) {
 // update the user groups
                     UserGroups::updateVideoGroups($id, $this->videoGroups);
                 }
-                
-                $otherInfocachename = "otherInfo{$this->id}";
-                ObjectYPT::deleteCache($otherInfocachename);
+
                 Video::autosetCategoryType($id);
                 if (!empty($this->old_categories_id)) {
                     Video::autosetCategoryType($this->old_categories_id);
                 }
-                clearVideosURL($this->filename);
-                self::deleteThumbs($this->filename, true);
+                self::clearCache($this->id);
                 return $id;
             } else {
                 _error_log('Video::save ' . $sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
@@ -868,12 +865,13 @@ if (!class_exists('Video')) {
 
         static function getVideoFromFileNameLight($fileName) {
             global $global;
+            $fileName = self::getCleanFilenameFromFile($fileName);
             if (empty($fileName)) {
                 return false;
             }
             $sql = "SELECT * FROM videos WHERE filename = ? LIMIT 1";
 
-            $res = sqlDAL::readSql($sql, "s", array($fileName));
+            $res = sqlDAL::readSql($sql, "s", array($fileName), true);
             if ($res != false) {
                 $video = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
@@ -936,12 +934,12 @@ if (!class_exists('Video')) {
                     . " LEFT JOIN categories c ON categories_id = c.id "
                     . " LEFT JOIN users u ON v.users_id = u.id "
                     . " WHERE 1=1 ";
-            
+
             $blockedUsers = self::getBlockedUsersIdsArray();
-            if(!empty($blockedUsers)){
-                $sql .= " AND v.users_id NOT IN ('". implode("','", $blockedUsers)."') ";
+            if (!empty($blockedUsers)) {
+                $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
             }
-            
+
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
                 $uid = intval(User::getId());
                 $sql .= " AND v.users_id = '{$uid}'";
@@ -1117,8 +1115,8 @@ if (!class_exists('Video')) {
                     }
                     TimeLogStart("video::getAllVideos otherInfo");
                     $otherInfocachename = "otherInfo{$row['id']}";
-                    $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename),600);
-                    if(empty($otherInfo)){
+                    $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename), 600);
+                    if (empty($otherInfo)) {
                         $otherInfo = array();
                         $otherInfo['category'] = xss_esc_back($row['category']);
                         $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
@@ -1132,7 +1130,7 @@ if (!class_exists('Video')) {
                         ObjectYPT::setCache($otherInfocachename, $otherInfo);
                     }
                     foreach ($otherInfo as $key => $value) {
-                        $row[$key]=$value;
+                        $row[$key] = $value;
                     }
                     $row['progress'] = self::getVideoPogressPercent($row['id']);
                     $row['isFavorite'] = self::isFavorite($row['id']);
@@ -1272,8 +1270,8 @@ if (!class_exists('Video')) {
                     . " FROM videos as v "
                     . " WHERE 1=1 ";
             $blockedUsers = self::getBlockedUsersIdsArray();
-            if(!empty($blockedUsers)){
-                $sql .= " AND v.users_id NOT IN ('". implode("','", $blockedUsers)."') ";
+            if (!empty($blockedUsers)) {
+                $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
             }
             if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
@@ -1369,8 +1367,8 @@ if (!class_exists('Video')) {
                     . " WHERE 1=1 ";
 
             $blockedUsers = self::getBlockedUsersIdsArray();
-            if(!empty($blockedUsers)){
-                $sql .= " AND v.users_id NOT IN ('". implode("','", $blockedUsers)."') ";
+            if (!empty($blockedUsers)) {
+                $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
             }
             if ($activeUsersOnly) {
                 $sql .= " AND u.status = 'a' ";
@@ -1995,9 +1993,19 @@ if (!class_exists('Video')) {
          * label Default Primary Success Info Warning Danger
          */
         static function getTags($video_id, $type = "") {
-            global $advancedCustom;
+            global $advancedCustom, $videos_getTags;
+            
+            if(empty($videos_getTags)){
+               $videos_getTags = array(); 
+            }
+            $name = "{$video_id}_{$type}";
+            if(!empty($videos_getTags[$name])){
+                return $videos_getTags[$name];
+            }
+            
             if (empty($advancedCustom->AsyncJobs)) {
-                return self::getTags_($video_id, $type);
+                $videos_getTags[$name] = self::getTags_($video_id, $type);
+                return $videos_getTags[$name] ;
             } else {
                 $tags = self::getTagsAsync($video_id, $type);
                 foreach ($tags as $key => $value) {
@@ -2005,6 +2013,7 @@ if (!class_exists('Video')) {
                         $tags[$key] = (object) $value;
                     }
                 }
+                $videos_getTags[$name] = $tags;
                 return $tags;
             }
         }
@@ -2213,9 +2222,11 @@ if (!class_exists('Video')) {
             if (empty($video_id)) {
                 return false;
             }
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+
+            $name = "getVideoTags{$video_id}";
+            ObjectYPT::deleteCache($name);
+
+            _session_start();
             unset($_SESSION['getVideoTags'][$video_id]);
             $path = getCacheDir() . "getTagsAsync/";
             if (!is_dir($path)) {
@@ -2576,13 +2587,13 @@ if (!class_exists('Video')) {
          */
         static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
             global $global, $advancedCustom, $videosPaths, $VideoGetSourceFile;
-            
-            $cacheName = md5($filename.$type.$includeS3);
-            if(isset($VideoGetSourceFile[$cacheName])){
+
+            $cacheName = md5($filename . $type . $includeS3);
+            if (isset($VideoGetSourceFile[$cacheName])) {
                 return $VideoGetSourceFile[$cacheName];
             }
-            
-            
+
+
             // check if there is a webp image
             if ($type === '.gif' && (empty($_SERVER['HTTP_USER_AGENT']) || get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari')) {
 
@@ -2627,7 +2638,7 @@ if (!class_exists('Video')) {
                 }
                 $cleanFileName = self::getCleanFilenameFromFile($filename);
                 $video = Video::getVideoFromFileNameLight($cleanFileName);
-                if(empty($video)){
+                if (empty($video)) {
                     _error_log("Video::getSourceFile($filename, $type, $includeS3) ERROR video not found ($cleanFileName)");
                     $VideoGetSourceFile[$cacheName] = false;
                     return false;
@@ -2689,26 +2700,26 @@ if (!class_exists('Video')) {
             $VideoGetSourceFile[$cacheName] = $source;
             return $VideoGetSourceFile[$cacheName];
         }
-        
+
         static function getCleanFilenameFromFile($filename) {
-            if(empty($filename)){
+            if (empty($filename)) {
                 return "";
             }
             $cleanName = str_replace(
-                        array('_Low', '_SD', '_HD', '_thumbsV2','_thumbsSmallV2', '_thumbsSprit',
-                            '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240'), 
-                        array('', '', '', '', '', '', '', '', '', '', '', '', ''), $filename);
+                    array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit',
+                        '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2'),
+                    array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), $filename);
             $path_parts = pathinfo($cleanName);
-            if(empty($path_parts['extension'])){
+            if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
-                if(!empty($path_parts['filename'])){
+                if (!empty($path_parts['filename'])) {
                     return $path_parts['filename'];
-                }else{
+                } else {
                     return $filename;
                 }
-            }else if(strlen($path_parts['extension'])>4){
+            } else if (strlen($path_parts['extension']) > 4) {
                 return $cleanName;
-            }else{
+            } else {
                 return $path_parts['filename'];
             }
         }
@@ -2762,7 +2773,7 @@ if (!class_exists('Video')) {
         }
 
         static function getVideosPaths($filename, $includeS3 = false) {
-            $types = array('', '_Low', '_SD', '_HD','_2160', '_1440', '_1080', '_720', '_480', '_360', '_240');
+            $types = array('', '_Low', '_SD', '_HD', '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240');
             $videos = array();
 
             $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
@@ -2832,156 +2843,167 @@ if (!class_exists('Video')) {
         }
 
         static function getImageFromFilename_($filename, $type = "video") {
+            global $_getImageFromFilename_;
+            if (empty($_getImageFromFilename_)) {
+                $_getImageFromFilename_ = array();
+            }
+
             $cacheFileName = "getImageFromFilename_" . $filename . $type . (get_browser_name() == 'Safari' ? "s" : "");
-            $cache = ObjectYPT::getCache($cacheFileName, 0);
-            if (!empty($cache)) {
-                return $cache;
-            }
-            global $global, $advancedCustom;
-            /*
-              $name = "getImageFromFilename_{$filename}{$type}_";
-              $cached = ObjectYPT::getCache($name, 86400);//one day
-              if(!empty($cached)){
-              return $cached;
-              }
-             *
-             */
-            $obj = new stdClass();
-            $gifSource = self::getSourceFile($filename, ".gif");
-            $gifPortraitSource = self::getSourceFile($filename, "_portrait.gif");
-            $jpegSource = self::getSourceFile($filename, ".jpg");
-            $jpegPortraitSource = self::getSourceFile($filename, "_portrait.jpg");
-            $jpegPortraitThumbs = self::getSourceFile($filename, "_portrait_thumbsV2.jpg");
-            $jpegPortraitThumbsSmall = self::getSourceFile($filename, "_portrait_thumbsSmallV2.jpg");
-            $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg");
-            $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
-            $obj->poster = $jpegSource['url'];
-            $obj->posterPortrait = $jpegPortraitSource['url'];
-            $obj->posterPortraitPath = $jpegPortraitSource['path'];
-            $obj->posterPortraitThumbs = $jpegPortraitThumbs['url'];
-            $obj->posterPortraitThumbsSmall = $jpegPortraitThumbsSmall['url'];
-            $obj->thumbsGif = $gifSource['url'];
-            $obj->gifPortrait = $gifPortraitSource['url'];
-            $obj->thumbsJpg = $thumbsSource['url'];
-            $obj->thumbsJpgSmall = $thumbsSmallSource['url'];
-            
-            $obj->posterLandscape = $jpegSource['url'];
-            $obj->posterLandscapePath = $jpegSource['path'];
-            $obj->posterLandscapeThumbs = $thumbsSource['url'];
-            $obj->posterLandscapeThumbsSmall = $thumbsSmallSource['url'];
-            
-            if (file_exists($gifSource['path'])) {
-                $obj->thumbsGif = $gifSource['url'];
-            }
-            if (file_exists($jpegPortraitSource['path'])) {
-// create thumbs
-                if (!file_exists($jpegPortraitThumbs['path']) && filesize($jpegPortraitSource['path']) > 1024) {
-                    _error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbs['path']}");
-                    if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
-                        im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait);
-                    } else {
-                        im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait);
-                    }
-                }
-// create thumbs
-                if (!file_exists($jpegPortraitThumbsSmall['path']) && filesize($jpegPortraitSource['path']) > 1024) {
-                    _error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbsSmall['path']}");
-                    if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
-                        im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait);
-                    } else {
-                        im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait, 5);
-                    }
-                }
+            if (!empty($_getImageFromFilename_[$cacheFileName])) {
+                $obj = $_getImageFromFilename_[$cacheFileName];
             } else {
-                if ($type == "article") {
-                    $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/article_portrait.png";
-                    $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/article_portrait.png";
-                    $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/article_portrait.png";
-                    $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/article_portrait.png";
-                } else if ($type == "pdf") {
-                    $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
-                    $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
-                    $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
-                    $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
-                } /* else if ($type == "image") {
-                  $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/image_portrait.png";
-                  $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/image_portrait.png";
-                  $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/image_portrait.png";
-                  $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/image_portrait.png";
-                  } */ else if ($type == "zip") {
-                    $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
-                    $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/zip_portrait.png";
-                    $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
-                    $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
-                } else {
-                    $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
-                    $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/notfound_portrait.png";
-                    $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
-                    $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
-                }
-            }
 
-            if (file_exists($jpegSource['path'])) {
+                $cache = ObjectYPT::getCache($cacheFileName, 0);
+                if (!empty($cache)) {
+                    return $cache;
+                }
+                global $global, $advancedCustom;
+                /*
+                  $name = "getImageFromFilename_{$filename}{$type}_";
+                  $cached = ObjectYPT::getCache($name, 86400);//one day
+                  if(!empty($cached)){
+                  return $cached;
+                  }
+                 *
+                 */
+                $obj = new stdClass();
+                $gifSource = self::getSourceFile($filename, ".gif");
+                $gifPortraitSource = self::getSourceFile($filename, "_portrait.gif");
+                $jpegSource = self::getSourceFile($filename, ".jpg");
+                $jpegPortraitSource = self::getSourceFile($filename, "_portrait.jpg");
+                $jpegPortraitThumbs = self::getSourceFile($filename, "_portrait_thumbsV2.jpg");
+                $jpegPortraitThumbsSmall = self::getSourceFile($filename, "_portrait_thumbsSmallV2.jpg");
+                $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg");
+                $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
                 $obj->poster = $jpegSource['url'];
+                $obj->posterPortrait = $jpegPortraitSource['url'];
+                $obj->posterPortraitPath = $jpegPortraitSource['path'];
+                $obj->posterPortraitThumbs = $jpegPortraitThumbs['url'];
+                $obj->posterPortraitThumbsSmall = $jpegPortraitThumbsSmall['url'];
+                $obj->thumbsGif = $gifSource['url'];
+                $obj->gifPortrait = $gifPortraitSource['url'];
                 $obj->thumbsJpg = $thumbsSource['url'];
-// create thumbs
-                if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
-                    _error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
-                    if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
-                        im_resizeV3($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
-                    } else {
-                        im_resizeV2($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
-                    }
+                $obj->thumbsJpgSmall = $thumbsSmallSource['url'];
+
+                $obj->posterLandscape = $jpegSource['url'];
+                $obj->posterLandscapePath = $jpegSource['path'];
+                $obj->posterLandscapeThumbs = $thumbsSource['url'];
+                $obj->posterLandscapeThumbsSmall = $thumbsSmallSource['url'];
+
+                if (file_exists($gifSource['path'])) {
+                    $obj->thumbsGif = $gifSource['url'];
                 }
+                if (file_exists($jpegPortraitSource['path'])) {
 // create thumbs
-                if (!file_exists($thumbsSmallSource['path']) && filesize($jpegSource['path']) > 1024) {
-                    _error_log("Resize Small JPG {$jpegSource['path']}, {$thumbsSmallSource['path']}");
-                    if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
-                        im_resizeV3($jpegSource['path'], $thumbsSmallSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
-                    } else {
-                        im_resizeV2($jpegSource['path'], $thumbsSmallSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape, 5);
+                    if (!file_exists($jpegPortraitThumbs['path']) && filesize($jpegPortraitSource['path']) > 1024) {
+                        _error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbs['path']}");
+                        if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
+                            im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait);
+                        } else {
+                            im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait);
+                        }
                     }
-                }
-            } else {
-                if ($type == "article") {
-                    $obj->poster = "{$global['webSiteRootURL']}view/img/article.png";
-                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/article.png";
-                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/article.png";
-                } else if ($type == "pdf") {
-                    $obj->poster = "{$global['webSiteRootURL']}view/img/pdf.png";
-                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/pdf.png";
-                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/pdf.png";
-                } else if ($type == "image") {
-                    $obj->poster = "{$global['webSiteRootURL']}view/img/image.png";
-                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/image.png";
-                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/image.png";
-                } else if ($type == "zip") {
-                    $obj->poster = "{$global['webSiteRootURL']}view/img/zip.png";
-                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/zip.png";
-                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/zip.png";
-                } else if (($type !== "audio") && ($type !== "linkAudio")) {
-                    $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
-                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
-                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
+// create thumbs
+                    if (!file_exists($jpegPortraitThumbsSmall['path']) && filesize($jpegPortraitSource['path']) > 1024) {
+                        _error_log("Resize JPG {$jpegPortraitSource['path']}, {$jpegPortraitThumbsSmall['path']}");
+                        if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
+                            im_resizeV3($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait);
+                        } else {
+                            im_resizeV2($jpegPortraitSource['path'], $jpegPortraitThumbsSmall['path'], $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait, 5);
+                        }
+                    }
                 } else {
-                    $obj->poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                    $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_waveThumbs.jpg";
-                    $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/audio_waveThumbsSmall.jpg";
+                    if ($type == "article") {
+                        $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/article_portrait.png";
+                        $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/article_portrait.png";
+                        $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/article_portrait.png";
+                        $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/article_portrait.png";
+                    } else if ($type == "pdf") {
+                        $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
+                        $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
+                        $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
+                        $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
+                    } /* else if ($type == "image") {
+                      $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/image_portrait.png";
+                      $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/image_portrait.png";
+                      $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/image_portrait.png";
+                      $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/image_portrait.png";
+                      } */ else if ($type == "zip") {
+                        $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
+                        $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/zip_portrait.png";
+                        $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
+                        $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
+                    } else {
+                        $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                        $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/notfound_portrait.png";
+                        $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                        $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                    }
                 }
-            }
 
-            if (empty($obj->thumbsJpg)) {
-                $obj->thumbsJpg = $obj->poster;
-            }
-            if (empty($obj->thumbsJpgSmall)) {
-                $obj->thumbsJpgSmall = $obj->poster;
-            }
+                if (file_exists($jpegSource['path'])) {
+                    $obj->poster = $jpegSource['url'];
+                    $obj->thumbsJpg = $thumbsSource['url'];
+// create thumbs
+                    if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
+                        _error_log("Resize JPG {$jpegSource['path']}, {$thumbsSource['path']}");
+                        if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
+                            im_resizeV3($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
+                        } else {
+                            im_resizeV2($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
+                        }
+                    }
+// create thumbs
+                    if (!file_exists($thumbsSmallSource['path']) && filesize($jpegSource['path']) > 1024) {
+                        _error_log("Resize Small JPG {$jpegSource['path']}, {$thumbsSmallSource['path']}");
+                        if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
+                            im_resizeV3($jpegSource['path'], $thumbsSmallSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
+                        } else {
+                            im_resizeV2($jpegSource['path'], $thumbsSmallSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape, 5);
+                        }
+                    }
+                } else {
+                    if ($type == "article") {
+                        $obj->poster = "{$global['webSiteRootURL']}view/img/article.png";
+                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/article.png";
+                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/article.png";
+                    } else if ($type == "pdf") {
+                        $obj->poster = "{$global['webSiteRootURL']}view/img/pdf.png";
+                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/pdf.png";
+                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/pdf.png";
+                    } else if ($type == "image") {
+                        $obj->poster = "{$global['webSiteRootURL']}view/img/image.png";
+                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/image.png";
+                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/image.png";
+                    } else if ($type == "zip") {
+                        $obj->poster = "{$global['webSiteRootURL']}view/img/zip.png";
+                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/zip.png";
+                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/zip.png";
+                    } else if (($type !== "audio") && ($type !== "linkAudio")) {
+                        $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
+                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
+                    } else {
+                        $obj->poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_waveThumbs.jpg";
+                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/audio_waveThumbsSmall.jpg";
+                    }
+                }
+
+                if (empty($obj->thumbsJpg)) {
+                    $obj->thumbsJpg = $obj->poster;
+                }
+                if (empty($obj->thumbsJpgSmall)) {
+                    $obj->thumbsJpgSmall = $obj->poster;
+                }
 //ObjectYPT::setCache($name, $obj);
-            if (!empty($advancedCustom->disableAnimatedGif)) {
-                $obj->thumbsGif = false;
-            }
+                if (!empty($advancedCustom->disableAnimatedGif)) {
+                    $obj->thumbsGif = false;
+                }
 
-            ObjectYPT::setCache($cacheFileName, $obj);
+                ObjectYPT::setCache($cacheFileName, $obj);
+                $_getImageFromFilename_[$cacheFileName] = $obj;
+            }
 
             return $obj;
         }
@@ -3262,7 +3284,7 @@ if (!class_exists('Video')) {
                 _error_log("Video:clearCache filename not found");
                 return false;
             }
-            
+            self::deleteThumbs($filename, true);
             ObjectYPT::deleteCache("otherInfo{$videos_id}");
             ObjectYPT::deleteCache($filename);
             ObjectYPT::deleteCache("getVideosURL_V2$filename");
@@ -3276,7 +3298,17 @@ if (!class_exists('Video')) {
             Video::deleteTagsAsync($videos_id);
             clearVideosURL($filename);
             AVideoPlugin::deleteVideoTags($videos_id);
+            ObjectYPT::setLastDeleteALLCacheTime();
             return true;
+        }
+        
+        static function clearCacheFromFilename($fileName) {
+            _error_log("Video:clearCacheFromFilename($fileName)");
+            $video = self::getVideoFromFileNameLight($fileName);
+            if(empty($video['id'])){
+                return false;
+            }
+            return self::clearCache($video['id']);
         }
 
         static function getVideoPogress($videos_id, $users_id = 0) {
@@ -3335,7 +3367,7 @@ if (!class_exists('Video')) {
         static function getVideoType($filename) {
             $obj = new stdClass();
             $paths = self::getVideosPaths($filename);
-            
+
             $obj->mp4 = !empty($paths['mp4']) ? true : false;
             $obj->webm = !empty($paths['webm']) ? true : false;
             $obj->m3u8 = !empty($paths['m3u8']) ? true : false;
@@ -3508,7 +3540,7 @@ if (!class_exists('Video')) {
             return array('evideo' => $evideo, 'video' => $video);
         }
 
-        private function getBlockedUsersIdsArray($users_id=0) {
+        private function getBlockedUsersIdsArray($users_id = 0) {
             if (empty($users_id)) {
                 $users_id = intval(User::getId());
             }

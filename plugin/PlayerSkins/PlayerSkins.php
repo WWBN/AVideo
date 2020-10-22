@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 class PlayerSkins extends PluginAbstract {
-    
+
     public function getTags() {
         return array(
             PluginTags::$FREE,
@@ -12,6 +12,7 @@ class PlayerSkins extends PluginAbstract {
             PluginTags::$LAYOUT,
         );
     }
+
     public function getDescription() {
         global $global;
         $desc = "Customize your playes Skin<br>The Skis options are: ";
@@ -33,7 +34,7 @@ class PlayerSkins extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "1.1";
     }
 
     public function getEmptyDataObject() {
@@ -65,11 +66,12 @@ class PlayerSkins extends PluginAbstract {
         $css = "";
         $js = "";
         if (isVideo() || !empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
-            if(self::isAutoplayEnabled()){
+            if (self::isAutoplayEnabled()) {
                 $js .= "<script>var autoplay = true;</script>";
-            }else{
+            } else {
                 $js .= "<script>var autoplay = false;</script>";
             }
+            $js .= "<script>var playNextURL = '';</script>";
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             if ($obj->showLoopButton && !isLive()) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
@@ -105,12 +107,10 @@ class PlayerSkins extends PluginAbstract {
 
     public function getFooterCode() {
         global $global, $config, $getStartPlayerJSWasRequested;
-        $js = "";
+        $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
         if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
-            if ($obj->showLoopButton && !isLive()) {
-                $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.js\"></script>";
-            }else if(empty($obj->showLoopButton) && empty ($playerSkinsObj->contextMenuLoop)){
+            if (empty($obj->showLoopButton) && empty($playerSkinsObj->contextMenuLoop)) {
                 $js .= "<script>setPlayerLoop(false);</script>";
             }
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
@@ -118,11 +118,19 @@ class PlayerSkins extends PluginAbstract {
                 $url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
                 $js .= "<script>var PlayerSkinLogoTitle = '{$title}';</script>";
                 $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/logo.js\"></script>";
+
+                PlayerSkins::getStartPlayerJS("if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
+    player.getChild('controlBar').addChild('Logo', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
+} else {
+    player.getChild('controlBar').addChild('Logo', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
+}");
             }
         }
-        if(!empty($getStartPlayerJSWasRequested) || isVideo()){
+        if (!empty($getStartPlayerJSWasRequested) || isVideo()) {
             $js .= "<script src=\"{$global['webSiteRootURL']}view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
+            $js .= "<script>" . self::getStartPlayerJSCode() . "</script>";
         }
+        
         return $js;
     }
 
@@ -159,44 +167,158 @@ class PlayerSkins extends PluginAbstract {
         return "";
     }
 
-    static function getStartPlayerJS($onPlayerReady = "", $getDataSetup="", $noReadyFunction = false) {
-        global $global, $config, $getStartPlayerJSWasRequested;
+    // this function was modified, maybe removed in the future
+    static function getStartPlayerJS($onPlayerReady = "", $getDataSetup = "", $noReadyFunction = false) {
+        global $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup;
+        global $getStartPlayerJSWasRequested;
+        self::prepareStartPlayerJS($onPlayerReady, $getDataSetup);
+        $getStartPlayerJSWasRequested = true;
+        //return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "' . count($prepareStartPlayerJS_onPlayerReady) . '", $prepareStartPlayerJS_getDataSetup = "' . count($prepareStartPlayerJS_getDataSetup) . '", $onPlayerReady = "' . $onPlayerReady . '", $getDataSetup = "' . $getDataSetup . '" */';
+        return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "' . count($prepareStartPlayerJS_onPlayerReady) . '", $prepareStartPlayerJS_getDataSetup = "' . count($prepareStartPlayerJS_getDataSetup) . '" */';
+    }
+
+    static function getStartPlayerJSCode($noReadyFunction = false, $currentTime = 0) {
+        global $config, $global, $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup, $IMAADTag;
+        $obj = AVideoPlugin::getObjectData('PlayerSkins');
         $js = "";
-        if(empty($noReadyFunction)){
-            $js .= "$(document).ready(function () {";
+        if (empty($noReadyFunction)) {
+            $js .= "var originalVideo; "
+                    . "$(document).ready(function () {";
         }
         $js .= "
+        originalVideo = $('#mainVideo').clone();
+        /* prepareStartPlayerJS_onPlayerReady = " . count($prepareStartPlayerJS_onPlayerReady) . ", prepareStartPlayerJS_getDataSetup = " . count($prepareStartPlayerJS_getDataSetup) . " */
         if (typeof player === 'undefined') {
-            player = videojs('mainVideo'" . (self::getDataSetup($getDataSetup)) . ");
+            player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
+            ";
+        if (!empty($IMAADTag) && !isLive()) {
+            $js .= "var options = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(options);";
+            $js .= "setInterval(function(){ fixAdSize(); }, 300);
+                // first time it's clicked.
+                var startEvent = 'click';";
+            if (isMobile()) {
+                $js .= "// Remove controls from the player on iPad to stop native controls from stealing
+                // our click
+                var contentPlayer = document.getElementById('content_video_html5_api');
+                if (contentPlayer && (navigator.userAgent.match(/iPad/i) ||
+                        navigator.userAgent.match(/Android/i)) &&
+                        contentPlayer.hasAttribute('controls')) {
+                    contentPlayer.removeAttribute('controls');
+                }
+
+                // Initialize the ad container when the video player is clicked, but only the
+                if (navigator.userAgent.match(/iPhone/i) ||
+                        navigator.userAgent.match(/iPad/i) ||
+                        navigator.userAgent.match(/Android/i)) {
+                    startEvent = 'touchend';
+                }";
+            }
+
+            $js .= "player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
         }
-        player.ready(function () {
-            var err = this.error();
+
+        $js .= "}
+        player.ready(function () {";
+        $js .= "var err = this.error();
             if (err && err.code) {
                 $('.vjs-error-display').hide();
                 $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
             }
-            {$onPlayerReady}
+            " . implode(PHP_EOL, $prepareStartPlayerJS_onPlayerReady) . "
+            playerPlayIfAutoPlay({$currentTime});
         });
         player.persistvolume({
             namespace: 'AVideo'
         });";
-        if ($config->getAutoplay()) {
-            $js .= "setTimeout(function(){playerPlay(0);},500);";
+
+        if ($obj->showLoopButton && !isLive()) {
+            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/loopbutton.js');
         }
+
         
-        if(empty($noReadyFunction)){
+        if (isHLS()) {
+            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/ifHLS.js');
+        }
+        if (empty($noReadyFunction)) {
             $js .= "});";
         }
         $getStartPlayerJSWasRequested = true;
         return $js;
     }
-    
-    static function isAutoplayEnabled(){
+
+    static function setIMAADTag($tag) {
+        global $IMAADTag;
+        $IMAADTag = $tag;
+    }
+
+    static function playerJSCodeOnLoad($videos_id, $nextURL = "") {
+        $js = "";
+        $videos_id = intval($videos_id);
+        if (empty($videos_id)) {
+            return false;
+        }
+        $video = new Video("", "", $videos_id);
+        if (empty($nextURL)) {
+            $next_video = Video::getVideo($video->getNext_videos_id());
+            if (!empty($next_video['id'])) {
+                $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
+            }
+        }
+        $url = Video::getURLFriendly($videos_id);
+        $js .= "
+        player.on('play', function () {
+            addView({$videos_id}, this.currentTime());
+        });
+        player.on('timeupdate', function () {
+            var time = Math.round(this.currentTime());
+            var url = '{$url}';
+            if (url.indexOf('?') > -1) {
+            url += '&t=' + time;
+            } else {
+            url += '?t=' + time;
+            }
+            $('#linkCurrentTime, .linkCurrentTime').val(url);
+            if (time >= 5 && time % 5 === 0) {
+                addView({$videos_id}, time);
+            }
+        });
+        player.on('ended', function () {
+            var time = Math.round(this.currentTime());
+            addView({$videos_id}, time);
+        });";
+
+        if (!empty($nextURL)) {
+            $js .= "playNextURL = '{$nextURL}';";
+            $js .= "player.on('ended', function () {setTimeout(function(){playNext(playNextURL);},playerHasAds()?2000:500);});";
+        }
+        self::getStartPlayerJS($js);
+        return true;
+    }
+
+    static private function prepareStartPlayerJS($onPlayerReady = "", $getDataSetup = "") {
+        global $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup;
+
+        if (empty($prepareStartPlayerJS_onPlayerReady)) {
+            $prepareStartPlayerJS_onPlayerReady = array();
+        }
+        if (empty($prepareStartPlayerJS_getDataSetup)) {
+            $prepareStartPlayerJS_getDataSetup = array();
+        }
+
+        if (!empty($onPlayerReady)) {
+            $prepareStartPlayerJS_onPlayerReady[] = $onPlayerReady;
+        }
+        if (!empty($getDataSetup)) {
+            $prepareStartPlayerJS_getDataSetup[] = $getDataSetup;
+        }
+    }
+
+    static function isAutoplayEnabled() {
         global $config;
-        if(!empty($_COOKIE['autoplay'])){
-            if(strtolower($_COOKIE['autoplay']) === 'false'){
+        if (!empty($_COOKIE['autoplay'])) {
+            if (strtolower($_COOKIE['autoplay']) === 'false') {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }

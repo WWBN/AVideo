@@ -286,20 +286,43 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     static function getCache($name, $lifetime = 60) {
+        global $getCachesProcessed, $_getCache;
+        
+        if(empty($_getCache)){
+            $_getCache = array();
+        }
+        
+        if(empty($getCachesProcessed)){
+            $getCachesProcessed=array();
+        }
         $cachefile = self::getCacheFileName($name);
+        
+        if(!empty($_getCache[$name])){
+            return $_getCache[$name];
+        }
+        
+        if(empty($getCachesProcessed[$name])){
+            $getCachesProcessed[$name] = 0;
+        }
+        $getCachesProcessed[$name]++;         
+        
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
         if (!empty($lifetime)) {// do not session cache if there is not timeout limit
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
+                $_getCache[$name] = $session;
                 return $session;
             }
         }
 
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
             $c = @url_get_contents($cachefile);
-            return json_decode($c);
+            $json = json_decode($c);
+            self::setSessionCache($name, $json);
+            $_getCache[$name] = $json;
+            return $json;
         } else if (file_exists($cachefile)) {
             self::deleteCache($name);
         }
@@ -308,8 +331,8 @@ abstract class ObjectYPT implements ObjectInterface {
     static function deleteCache($name) {
         $cachefile = self::getCacheFileName($name);
         @unlink($cachefile);
-
         self::deleteSessionCache($name);
+        ObjectYPT::deleteCacheFromPattern($name);
     }
 
     static function deleteALLCache() {
@@ -345,17 +368,29 @@ abstract class ObjectYPT implements ObjectInterface {
         return $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash;
     }
 
+    static function deleteCacheFromPattern($name) {
+        $name = self::cleanCacheName($name);
+        $tmpDir = self::getCacheDir();
+        $filePattern = $tmpDir . DIRECTORY_SEPARATOR . $name;
+        foreach (glob("{$filePattern}*") as $filename) {
+            unlink($filename);
+        }
+        self::deleteSessionCache($name);
+    }
+
     /**
      * Make sure you start the session before any output
      * @param type $name
      * @param type $value
      */
     static function setSessionCache($name, $value) {
-
         $name = self::cleanCacheName($name);
         _session_start();
         $_SESSION['user']['sessionCache'][$name]['value'] = json_encode($value);
         $_SESSION['user']['sessionCache'][$name]['time'] = time();
+        if(empty($_SESSION['user']['sessionCache']['time'])){
+            $_SESSION['user']['sessionCache']['time'] = time();
+        }
     }
 
     /**
@@ -370,11 +405,9 @@ abstract class ObjectYPT implements ObjectInterface {
             $lifetime = intval($_GET['lifetime']);
         }
         if (!empty($_SESSION['user']['sessionCache'][$name])) {
-            if (self::canUseThisSessionCacheBasedOnLastDeleteALLCacheTime($_SESSION['user']['sessionCache'][$name])) {
-                if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
-                    $c = $_SESSION['user']['sessionCache'][$name]['value'];
-                    return json_decode($c);
-                }
+            if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
+                $c = $_SESSION['user']['sessionCache'][$name]['value'];
+                return json_decode($c);
             }
             _session_start();
             unset($_SESSION['user']['sessionCache'][$name]);
@@ -386,18 +419,35 @@ abstract class ObjectYPT implements ObjectInterface {
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . "/";
         $tmpDir .= "lastDeleteALLCacheTime.cache";
+        return $tmpDir;
     }
 
-    static private function setLastDeleteALLCacheTime() {
-        return file_put_contents(self::getLastDeleteALLCacheTimeFile(), time());
+    static function setLastDeleteALLCacheTime() {
+        $file = self::getLastDeleteALLCacheTimeFile();
+        _error_log("ObjectYPT::setLastDeleteALLCacheTime {$file}");
+        return file_put_contents($file, time());
     }
 
-    static private function getLastDeleteALLCacheTime() {
-        return @file_get_contents(self::getLastDeleteALLCacheTimeFile(), time());
+    static function getLastDeleteALLCacheTime() {
+        global $getLastDeleteALLCacheTime;
+        if(empty($getLastDeleteALLCacheTime)){
+            $getLastDeleteALLCacheTime = (int) @file_get_contents(self::getLastDeleteALLCacheTimeFile(), time());
+        }
+        return $getLastDeleteALLCacheTime;
     }
 
-    static private function canUseThisSessionCacheBasedOnLastDeleteALLCacheTime($session_var) {
-        if (empty($session_var['time']) || $session_var['time'] < self::getLastDeleteALLCacheTime()) {
+    static function checkSessionCacheBasedOnLastDeleteALLCacheTime() {
+        /*
+        var_dump(
+                $session_var['time'], 
+                self::getLastDeleteALLCacheTime(), 
+                humanTiming($session_var['time']), 
+                humanTiming(self::getLastDeleteALLCacheTime()), 
+                $session_var['time'] <= self::getLastDeleteALLCacheTime());
+         * 
+         */
+        if (empty($_SESSION['user']['sessionCache']['time']) || $_SESSION['user']['sessionCache']['time'] <= self::getLastDeleteALLCacheTime()) {
+            self::deleteAllSessionCache();
             return false;
         }
         return true;

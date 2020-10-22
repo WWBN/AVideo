@@ -28,7 +28,7 @@ if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
 }
 if (empty($obj->RemoveBigVideoDescription)) {
     ?>
-    <div class="infoText col-md-4 col-sm-6  ">
+    <div class="infoText col-md-4 col-sm-6 hidden-xs  ">
         <h4 class="mainInfoText" itemprop="description">
             <?php
             echo $video['descriptionHTML'];

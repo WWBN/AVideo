@@ -205,7 +205,7 @@ $(document).ready(function () {
             }
         });
     }
-    
+
     $("a").each(function () {
         var location = window.location.toString()
         var res = location.split("?");
@@ -272,12 +272,14 @@ function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
             clearTimeout(promisePlayTimeout);
-            userIsControling = true;
+            console.log("setPlayerListners: pause");
+            //userIsControling = true;
         });
 
         player.on('play', function () {
             clearTimeout(promisePlayTimeout);
-            userIsControling = true;
+            console.log("setPlayerListners: play");
+            //userIsControling = true;
         });
     } else {
         setTimeout(function () {
@@ -299,6 +301,11 @@ function changeVideoSrc(vid_obj, source) {
     removeTracks();
     for (i = 0; i < source.length; i++) {
         if (source[i].type) {
+            console.log(source[i].type);
+            if (source[i].type === "application/x-mpegURL") {
+                // it is HLS cancel it
+                return false;
+            }
             srcs.push(source[i]);
         } else if (source[i].srclang) {
             player.addRemoteTextTrack(source[i]);
@@ -308,6 +315,7 @@ function changeVideoSrc(vid_obj, source) {
     setTimeout(function () {
         changeVideoSrcLoad();
     }, 1000);
+    return true;
 }
 
 function changeVideoSrcLoad() {
@@ -478,7 +486,7 @@ function getPlayerButtonIndex(name) {
 }
 
 function copyToClipboard(text) {
-    
+
     $('#elementToCopy').css({'top': mouseY, 'left': 0}).fadeIn('slow');
     $('#elementToCopy').val(text);
     $('#elementToCopy').focus();
@@ -508,9 +516,11 @@ var promisePlayTimeout;
 var promisePlay;
 function playerPlay(currentTime) {
     if (userIsControling) { // stops here if the user already clicked on play or pause
+        console.log("playerPlay: userIsControling");
         return true;
     }
     if (promisePlaytry <= 0) {
+        console.log("playerPlay: promisePlaytry <= 0");
         return false;
     }
     promisePlaytry--;
@@ -530,6 +540,7 @@ function playerPlay(currentTime) {
                 console.log("playerPlay: promise found");
                 promisePlay.then(function () {
                     console.log("playerPlay: Autoplay started");
+                    userIsControling = true;
                     clearTimeout(promisePlayTimeout);
                     setTimeout(function () {
                         if (player.paused()) {
@@ -537,6 +548,7 @@ function playerPlay(currentTime) {
                             player.muted(true);
                             playerPlay(currentTime);
                         } else {
+                            //player.muted(false);
                             if (player.muted() && !inIframe()) {
                                 var donotShowUnmuteAgain = Cookies.get('donotShowUnmuteAgain');
                                 if (!donotShowUnmuteAgain) {
@@ -556,30 +568,21 @@ function playerPlay(currentTime) {
                                                 className: "btn-danger",
                                             },
                                         }
-                                    }).then(function(value) {
-                                                switch (value) {
-                                                    case "unmute":
-                                                        player.muted(false);
-                                                        break;
-                                                    case "donotShowUnmuteAgain":
-                                                        Cookies.set('donotShowUnmuteAgain', true, {
-                                                            path: '/',
-                                                            expires: 365
-                                                        });
-                                                        break;
-                                                }
-                                            });
+                                    }).then(function (value) {
+                                        switch (value) {
+                                            case "unmute":
+                                                player.muted(false);
+                                                break;
+                                            case "donotShowUnmuteAgain":
+                                                Cookies.set('donotShowUnmuteAgain', true, {
+                                                    path: '/',
+                                                    expires: 365
+                                                });
+                                                break;
+                                        }
+                                    });
                                 }
-                                $("#mainVideo .vjs-volume-panel").attr("data-toggle","tooltip");
-                                $("#mainVideo .vjs-volume-panel").attr("title","Click to activate the sound");
-                                $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
-                                player.userActive(true);
-                                setTimeout(function () {
-                                    player.userActive(true);
-                                }, 1000);
-                                setTimeout(function () {
-                                    player.userActive(true);
-                                }, 1500);
+                                showMuteTooltip();
                                 setTimeout(function () {
                                     $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
                                     player.userActive(true);
@@ -612,20 +615,96 @@ function playerPlay(currentTime) {
     }
 }
 
-function playerPlayIfAutoPlay(currentTime){
-    if(isAutoplayEnabled()){
+function showMuteTooltip() {
+    if ($("#mainVideo .vjs-volume-panel").length) {
+        if (!$("#mainVideo .vjs-volume-panel").is(":visible")) {
+            setTimeout(function () {
+                showMuteTooltip();
+            }, 500);
+            return false;
+        }
+        $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
+        $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
+        $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar'});
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
+        $("#mainVideo .vjs-volume-panel").click(function () {
+            console.log("remove unmute tooltip");
+            $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
+            $("#mainVideo .vjs-volume-panel").removeAttr("data-toggle");
+            $("#mainVideo .vjs-volume-panel").removeAttr("data-placement");
+            $("#mainVideo .vjs-volume-panel").removeAttr("title");
+            $("#mainVideo .vjs-volume-panel").removeData('tooltip').unbind().next('div.tooltip').remove();
+        });
+    }
+    player.userActive(true);
+    setTimeout(function () {
+        player.userActive(true);
+    }, 1000);
+    setTimeout(function () {
+        player.userActive(true);
+    }, 1500);
+    setTimeout(function () {
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
+    }, 5000);
+}
+
+function playerPlayIfAutoPlay(currentTime) {
+    if (isAutoplayEnabled()) {
         playerPlay(currentTime);
         return true;
     }
+    setCurrentTime(currentTime);
     //$.toast("Autoplay disabled");
     return false;
 }
 
-function playNext(url){
-    if (isPlayNextEnabled()) {
+function playNext(url) {
+    if (isPlayingAds()) {
+        setTimeout(function () {
+            playNext(url);
+        }, 1000);
+    } else if (isPlayNextEnabled()) {
         modal.showPleaseWait();
-        document.location = url;
-    }else if(isPlayerLoop()){
+        if (typeof autoPlayAjax == 'undefined' || !autoPlayAjax) {
+            console.log("playNext changing location " + url);
+            document.location = url;
+        } else {
+            console.log("playNext ajax");
+            $.ajax({
+                url: webSiteRootURL + 'view/infoFromURL.php?url=' + encodeURI(url),
+                success: function (response) {
+                    console.log(response);
+                    if (!response || response.error) {
+                        console.log("playNext ajax fail");
+                        //document.location = url;
+                    } else {
+                        console.log("playNext ajax success");
+                        $('topInfo').hide();
+                        playNextURL = isEmbed ? response.nextURLEmbed : response.nextURL;
+                        console.log("New playNextURL", playNextURL);
+                        if (!changeVideoSrc(player, response.sources)) {
+                            document.location = url;
+                            return false;
+                        }
+                        $('video, #mainVideo').attr('poster', response.poster);
+                        history.pushState(null, null, url);
+                        $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src', response.sprits);
+                        modal.hidePleaseWait();
+                        if ($('#modeYoutubeBottom').length) {
+                            $.ajax({
+                                url: url,
+                                success: function (response) {
+                                    modeYoutubeBottom = $(response).find('#modeYoutubeBottom').html();
+                                    $('#modeYoutubeBottom').html(modeYoutubeBottom);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    } else if (isPlayerLoop()) {
         $.toast("Looping video");
         userIsControling = false;
         playerPlay(0);
@@ -649,13 +728,15 @@ function tooglePlayerLoop() {
 var setPlayerLoopSetTimeout;
 function setPlayerLoop(loop) {
     clearTimeout(setPlayerLoopSetTimeout);
-    if(typeof player === 'undefined'){
-        setPlayerLoopSetTimeout = setTimeout(function(){setPlayerLoop(loop)},1000);
+    if (typeof player === 'undefined') {
+        setPlayerLoopSetTimeout = setTimeout(function () {
+            setPlayerLoop(loop)
+        }, 1000);
         return false;
     }
     if (loop) {
         console.log("Loop ON");
-        $.toast("Loop ON");
+        //$.toast("Loop ON");
         player.loop(1);
         $(".loop-button").removeClass('loop-disabled-button');
         $(".loop-button, .loopButton").addClass('fa-spin');
@@ -663,7 +744,7 @@ function setPlayerLoop(loop) {
         $(".loop-button").addClass('loop-disabled-button');
         $(".loop-button, .loopButton").removeClass('fa-spin');
         console.log("Loop OFF");
-        $.toast("Loop OFF");
+        //$.toast("Loop OFF");
         player.loop(0);
     }
     Cookies.set('playerLoop', loop, {
@@ -693,6 +774,9 @@ function toogleImageLoop(t) {
 }
 
 function isPlayerLoop() {
+    if (typeof player === 'undefined') {
+        return false;
+    }
     var loop = Cookies.get('playerLoop');
     if (!loop || loop === "false") {
         return player.loop();
@@ -714,7 +798,6 @@ var initdone = false;
 function setCurrentTime(currentTime) {
     if (typeof player !== 'undefined') {
         player.currentTime(currentTime);
-        playerPlayIfAutoPlay(currentTime);
         initdone = false;
         // wait for video metadata to load, then set time 
         player.on("loadedmetadata", function () {
@@ -735,34 +818,58 @@ function setCurrentTime(currentTime) {
     }
 }
 
-function isAutoplayEnabled(){
-    if ((typeof isEmbed === 'undefined' || !isEmbed) && typeof Cookies.get('autoplay') !== 'undefined' && Cookies.get('autoplay')) {
-        if(Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true){
+function isAutoplayEnabled() {
+    console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
+    if ($("#autoplay").length && $("#autoplay").is(':visible')) {
+        autoplay = $("#autoplay").is(":checked");
+        console.log("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
+        setAutoplay(autoplay);
+        return autoplay;
+    } else if (
+            typeof Cookies !== 'undefined' &&
+            typeof Cookies.get('autoplay') !== 'undefined'
+            ) {
+        if (Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true) {
+            console.log("isAutoplayEnabled Cookie said Yes ");
+            setAutoplay(true);
             return true;
-        }else{
+        } else {
+            console.log("isAutoplayEnabled Cookie said No ");
+            setAutoplay(false);
             return false;
         }
-    }else{
-        if(typeof autoplay !== 'undefined'){
+    } else {
+        if (typeof autoplay !== 'undefined') {
+            console.log("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
+            setAutoplay(autoplay);
             return autoplay;
         }
     }
+    setAutoplay(false);
+    console.log("isAutoplayEnabled Default is No ");
     return false;
 }
 
-function isPlayNextEnabled(){
+function setAutoplay(value) {
+    Cookies.set('autoplay', value, {
+        path: '/',
+        expires: 365
+    });
+}
+
+function isPlayNextEnabled() {
     if (isPlayerLoop()) {
         return false;
-    }else if(isAutoplayEnabled()){
+    } else if (isAutoplayEnabled()) {
         return true;
     }
     return false;
 }
 
-function avideoAlert(title, msg, type){
-    if(msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")){//it has HTML
+function avideoAlert(title, msg, type) {
+    if (msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
         avideoAlertHTMLText(title, msg, type);
-    }else{
+    } else {
         swal(title, msg, type);
     }
 }
@@ -780,19 +887,37 @@ function avideoAlertHTMLText(title, msg, type) {
     });
 }
 
-function avideoAlertInfo(msg){
+function avideoAlertInfo(msg) {
     avideoAlert("Info", msg, 'info');
 }
-function avideoAlertError(msg){
+function avideoAlertError(msg) {
     avideoAlert("Error", msg, 'error');
 }
-function avideoAlertSuccess(msg){
+function avideoAlertSuccess(msg) {
     avideoAlert("Success", msg, 'success');
 }
 
-function avideoTooltip(selector, text){
+function avideoTooltip(selector, text) {
     $(selector).attr('title', text);
     $(selector).attr('data-toggle', 'tooltip');
     $(selector).attr('data-original-title', text);
     $(selector).tooltip();
+}
+
+function fixAdSize() {
+    ad_container = $('#mainVideo_ima-ad-container');
+    if (ad_container.length) {
+        height = ad_container.css('height');
+        width = ad_container.css('width');
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'height': height});
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
+    }
+}
+
+function isPlayingAds() {
+    return ($("#mainVideo_ima-ad-container").length && $("#mainVideo_ima-ad-container").is(':visible'));
+}
+
+function playerHasAds() {
+    return ($("#mainVideo_ima-ad-container").length > 0);
 }

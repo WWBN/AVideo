@@ -55,7 +55,7 @@ if (!empty($evideo)) {
     $modeYouTubeTimeLog['Code part 1'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
     if (!empty($_GET['playlist_id'])) {
-
+        $isSerie = 1;
         if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {
             $playlist_id = $_GET['playlist_id'];
         } else if (User::isLogged()) {
@@ -408,7 +408,6 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         }
         include $global['systemRootPath'] . 'view/include/footer.php';
         $videoJSArray = array(
-            "view/js/videojs-persistvolume/videojs.persistvolume.js",
             "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");
 
@@ -426,13 +425,6 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <script>
             var fading = false;
-            var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
-            var autoPlayURL = '<?php echo $autoPlayURL; ?>';
-            var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
-            var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
-
-            $(document).ready(function () {
-            });
         </script>
     </body>
 </html>

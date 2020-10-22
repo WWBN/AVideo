@@ -14,6 +14,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
             ?>
             if (player.readyState()) {
                 var uri = player.tech_.hls.selectPlaylist().uri;
+                console.log("isOfflineVideo player.readyState", uri);
                 if (uri.includes("loopBGHLS/res")) {
                     return true;
                 }
@@ -21,6 +22,11 @@ $live_servers_id = Live::getCurrentLiveServersId();
                     return true;
                 }
                 return false;
+            }else if(player.readyState()===0 && player.paused()){
+                console.log("isOfflineVideo paused ");
+                return false;
+            }else{
+                console.log("isOfflineVideo player.readyState not ready", player.readyState());
             }
             <?php
         }
@@ -30,6 +36,13 @@ $live_servers_id = Live::getCurrentLiveServersId();
     var isOnlineLabel = false;
     var playCorrectSource<?php echo $live_servers_id; ?>Timout;
     function playCorrectSource<?php echo $live_servers_id; ?>() {
+        if(typeof player === 'undefined'){
+            clearTimeout(playCorrectSource<?php echo $live_servers_id; ?>Timout);
+            playCorrectSource<?php echo $live_servers_id; ?>Timout = setTimeout(function () {
+                playCorrectSource<?php echo $live_servers_id; ?>();
+            }, 1000);
+            return false;
+        }
         var bigPlayButtonModified = false;
         if($('#liveViewStatus<?php echo $live_servers_id; ?>').hasClass('isOnline') && !isOfflineVideo()){
             isOnlineLabel=true;
@@ -40,7 +53,10 @@ $live_servers_id = Live::getCurrentLiveServersId();
             $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('label-danger');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('label-success');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').text("<?php echo __("ONLINE"); ?>");
-            playerPlayIfAutoPlay(0);
+            //playerPlayIfAutoPlay(0);
+            if (isAutoplayEnabled() && !player.paused()) {
+                player.play();
+            }
         }else if ($('#liveViewStatus<?php echo $live_servers_id; ?>').hasClass('isOnline') && isOfflineVideo()) {
             isOnlineLabel=true;
             player.bigPlayButton.show();
@@ -51,7 +67,10 @@ $live_servers_id = Live::getCurrentLiveServersId();
             $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('label-warning');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').text("<?php echo __("Please Wait ..."); ?>");
             reloadVideoJS();
-            playerPlayIfAutoPlay(0);
+            //playerPlayIfAutoPlay(0);            
+            if (isAutoplayEnabled() && !player.paused()) {
+                player.play();
+            }
             player.on('error', function(){
                 console.log("PError 1 "+player.error());
             });

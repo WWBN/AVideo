@@ -8,8 +8,12 @@ session_write_close();
 $file = 'video-placeholder-gray.png';
 $type = 'image/png';
 
+$imageURL = $_SERVER["REQUEST_URI"];
+if(!empty($_GET['image'])){
+    $imageURL = $_GET['image'];
+}
 // if the thumb is not ready yet, try to find the default image
-if(preg_match('/videos\/(.*)_thumbs(V2)?.jpg/', $_SERVER["REQUEST_URI"], $matches)){
+if(preg_match('/videos\/(.*)_thumbs(V2)?.jpg/',$imageURL, $matches)){
     $jpg = "{$global['systemRootPath']}videos/{$matches[1]}.jpg";
     if(file_exists($jpg)){
         $file = $jpg;
@@ -17,6 +21,7 @@ if(preg_match('/videos\/(.*)_thumbs(V2)?.jpg/', $_SERVER["REQUEST_URI"], $matche
         header("HTTP/1.0 404 Not Found");
         header('Content-Type:' . $type);
         header('Content-Length: ' . filesize($file));
+        _error_log("Image not found for {$imageURL} we are using {$jpg} instead ");
         readfile($file);
         exit;
     }

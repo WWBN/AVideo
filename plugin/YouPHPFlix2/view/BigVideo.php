@@ -53,6 +53,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             ?>
 
             <div class="posterDetails" style="
+                 padding: 60px 20px 56.25% 20px;
                  background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
                  background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
                  background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);

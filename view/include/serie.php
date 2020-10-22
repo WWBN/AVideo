@@ -1,3 +1,7 @@
+<?php
+global $isSerie;
+$isSerie = 1;
+?>
 <!-- serie -->
 <div class="row main-video" id="mvideo">
     <div class="col-md-2 firstC"></div>

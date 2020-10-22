@@ -2,6 +2,7 @@
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
+$isSerie = 1;
 $isPlayList = true;
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
@@ -210,7 +211,6 @@ if (!empty($video['id'])) {
         echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/footer.php';
         $videoJSArray = array(
-            "view/js/videojs-persistvolume/videojs.persistvolume.js",
             "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");
         ?>

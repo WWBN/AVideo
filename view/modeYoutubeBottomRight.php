@@ -12,10 +12,7 @@ if (!empty($playlist_id)) {
     ?>
     <script>
         $(document).ready(function () {
-            Cookies.set('autoplay', true, {
-                path: '/',
-                expires: 365
-            });
+            setAutoplay(true);
         });
     </script>
 <?php } else if (empty($autoPlayVideo)) {
@@ -169,15 +166,7 @@ $modeYouTubeTime = microtime(true);
         });
 
         if (isAutoplayEnabled()) {
-<?php if ($config->getAutoplay()) { ?>
-                $("#autoplay").prop('checked', true);
-                Cookies.set('autoplay', true, {
-                    path: '/',
-                    expires: 365
-                });
-    <?php
-}
-?>
+            $("#autoplay").prop('checked', true);
         }
 
         $("#autoplay").change(function () {

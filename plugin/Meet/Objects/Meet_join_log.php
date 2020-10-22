@@ -39,7 +39,8 @@ class Meet_join_log extends ObjectYPT {
     static function getAllFromUser($users_id) {
         global $global;
         if (!static::isTableInstalled()) {
-            return false;
+            _error_log("You need to install the meet plugin tables before use it", AVideoLog::$ERROR);
+            return array();
         }
         $users_id = intval($users_id);
                 
@@ -163,6 +164,14 @@ class Meet_join_log extends ObjectYPT {
         return $log->save();
     }
     
+    public function save() {
+        
+        if(empty($this->users_id)){
+            $this->users_id = 'NULL';
+        }
+        
+        return parent::save();
+    }
     
 
 }

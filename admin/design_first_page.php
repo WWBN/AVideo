@@ -51,9 +51,9 @@ if (empty($netflixSwitch) && empty($gallerySwitch) && empty($youtubeSwitch)) {
         </div>
     </div>
     <div class="col-xs-3">
-        <div class="panel panel-default">
+        <div class="panel panel-danger">
             <div class="panel-heading">
-                YouTube
+                YouTube <span class="label label-danger" data-toggle="tooltip" title="This layout will be removed in future releases, use the Gallery instead"> Deprecated </span>
                 <div class="material-switch pull-right">
                     <input class="" data-toggle="toggle" type="checkbox" id="youtubeSwitch" <?php echo $youtubeSwitch ? "checked" : ""; ?>>
                     <label for="youtubeSwitch" class="label-primary"></label>

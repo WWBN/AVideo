@@ -66,6 +66,7 @@
                     $_GET['isEmbedded'] = "v";
                 }
                 $_GET['isMediaPlaySite'] = $video['id'];
+                PlayerSkins::playerJSCodeOnLoad($video['id'], @$autoPlayVideo['url']);
                 ?>      
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
                     <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php
@@ -87,43 +88,7 @@
 
                             //$(".vjs-big-play-button").hide();
                             $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
-                            if (typeof player === 'undefined') {
-                            player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                            }
-                            player.ready(function () {
-    <?php
-    if ($config->getAutoplay()) {
-        echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo'" . PlayerSkins::getDataSetup() . ");} playerPlay(0);}, 150);";
-    } else {
-        ?>
-                                    playerPlayIfAutoPlay(0);
-    <?php } ?>
-                                num = $('#videosList').find('.pagination').find('li.active').attr('data-lp');
-                                loadPage(num);
-                            });
-                            player.persistvolume({
-                                namespace: "AVideo"
-                            });
-                            player.on('play', function () {
-                                addView(<?php echo $video['id']; ?>, this.currentTime());
-                            });
-                            player.on('ended', function () {
-                                console.log("Finish Video");
-    <?php if (!empty($autoPlayVideo)) { ?>
-                    playNext('<?php echo $autoPlayVideo['url']; ?>');
-    <?php } ?>
-
-                            });
-                            player.on('timeupdate', function () {
-                                var time = Math.round(this.currentTime());
-                                if (time >= 5 && time % 5 === 0) {
-                                    addView(<?php echo $video['id']; ?>, time);
-                                }
-                            });
-                            player.on('ended', function () {
-                                var time = Math.round(this.currentTime());
-                                addView(<?php echo $video['id']; ?>, time);
-                            });
+                            
                         });
                     </script>
 

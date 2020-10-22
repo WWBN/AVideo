@@ -34,7 +34,7 @@ if(!Video::canEdit($_POST['videos_id'])){
     _error_log($obj->msg);
     die(json_encode($obj));
 }
-
+Video::clearCache($_POST['videos_id']);
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", $_POST['videos_id']);
 $obj->video_id = $_POST['videos_id'];
