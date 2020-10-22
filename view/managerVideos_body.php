@@ -805,7 +805,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                             continue;
                         }
                         if(response.queue_list[i].return_vars && response.queue_list[i].return_vars.videos_id){
-                            createQueueItem(response.queue_list[i].return_vars.videos_id, i);
+                            createQueueItem(response.queue_list[i], i);
                         }
                     }
 
