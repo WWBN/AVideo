@@ -804,19 +804,14 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                         if ('<?php echo $global['webSiteRootURL']; ?>' !== response.queue_list[i].streamer_site) {
                             continue;
                         }
-                        createQueueItem(response.queue_list[i], i);
+                        if(response.queue_list[i].return_vars && response.queue_list[i].return_vars.videos_id){
+                            createQueueItem(response.queue_list[i].return_vars.videos_id, i);
+                        }
                     }
 
                 }
-                if (response.encoding && '<?php echo $global['webSiteRootURL']; ?>' === response.encoding.streamer_site) {
-                    var id = response.encoding.id;
-                    // if start encode next before get 100%
-                    if (id !== encodingNowId) {
-                        $("#encodeProgress" + encodingNowId).slideUp("normal", function () {
-                            $(this).remove();
-                        });
-                        encodingNowId = id;
-                    }
+                if (response.encoding && webSiteRootURL === response.encoding.streamer_site) {
+                    var id = response.encoding.return_vars.videos_id;
 
                     $("#downloadProgress" + id).slideDown();
                     if (response.download_status && !response.encoding_status.progress) {
@@ -838,15 +833,10 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                     } else {
 
                     }
-
-                    setTimeout(function () {
+                    clearTimeout(checkProgressTimeout[encoderURL]);
+                    checkProgressTimeout[encoderURL] = setTimeout(function () {
                         checkProgress(encoderURL);
                     }, 10000);
-                } else if (encodingNowId !== "") {
-                    $("#encodeProgress" + encodingNowId).slideUp("normal", function () {
-                        $(this).remove();
-                    });
-                    encodingNowId = "";
                 }
 
             }
