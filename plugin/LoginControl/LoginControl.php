@@ -96,7 +96,7 @@ Best regards,
         // check if the user confirmed this device before
         if (self::is2FAEnabled($users_id) && !self::is2FAConfirmed($users_id)) {
             header('Content-Type: application/json');
-            _error_log("Login_control::onUserSignIn 2FA is required for user {$users_id}");
+            _error_log("Login_control::onUserSignIn 2FA is required for user ({$users_id}) (". get_browser_name().") (". getDeviceID().") (".$_SERVER['HTTP_USER_AGENT'].")");
             if (self::send2FAEmail($users_id)) {
                 User::logoff();
                 $object = new stdClass();
