@@ -817,7 +817,14 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                     if (response.download_status && !response.encoding_status.progress) {
                         $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
                     } else {
-                        var encodingProgressCounter = parseInt($("#encodingProgressCounter"+id).text());
+                        var encodingProgressCounter = $("#encodingProgressCounter"+id).text();
+                        if(isNaN(encodingProgressCounter)){
+                            encodingProgressCounter = 0;
+                        }else{
+                            encodingProgressCounter = parseInt(encodingProgressCounter);
+                        }
+                        
+                        
                         $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id +"'>"+encodingProgressCounter+"</span>%");
                         $("#encodingProgress" + id).find('.progress-bar').css({'width': response.encoding_status.progress + '%'});
                         //$("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
