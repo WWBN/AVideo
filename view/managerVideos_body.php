@@ -1730,6 +1730,10 @@ if (User::isAdmin()) {
                     var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                     var download = "";
                     for (var k in row.videosURL) {
+                        var pattern = /^m3u8/i;
+                        if (pattern.test(k) === true) {
+                            continue;
+                        }
                         if (typeof row.videosURL[k].url === 'undefined' || !row.videosURL[k].url) {
                             continue;
                         }
