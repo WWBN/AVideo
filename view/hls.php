@@ -31,7 +31,7 @@ if(!empty($_GET['token'])){
 }
 
 // if is using a CDN I can not check if the user is logged
-if($tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id'])){
+if(isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id'])){
     $content = file_get_contents($filename);
     $newContent = str_replace('{$pathToVideo}',  "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
     if(!empty($_GET['token'])){

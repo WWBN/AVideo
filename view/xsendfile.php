@@ -38,7 +38,7 @@ if (file_exists($path)) {
         header('Pragma: public');
     }
     if(preg_match("/(mp4|webm|m3u8|mp3|ogg)/i", $path_parts['extension'])){
-        if(empty($_GET['ignoreXsendfilePreVideoPlay'])){
+        if(isAVideoEncoderOnSameDomain() || empty($_GET['ignoreXsendfilePreVideoPlay'])){
             AVideoPlugin::xsendfilePreVideoPlay();
         }
         if (empty($advancedCustom->doNotUseXsendFile)) {

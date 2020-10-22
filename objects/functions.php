@@ -2,6 +2,7 @@
 $AVideoMobileAPP_UA = "AVideoMobileApp";
 $AVideoEncoder_UA = "AVideoEncoder";
 $AVideoStreamer_UA = "AVideoStreamer";
+$AVideoStorage_UA = "AVideoStorage";
 
 function forbiddenWords($text) {
     global $global;
@@ -2074,14 +2075,23 @@ function local_get_contents($path) {
     }
 }
 
+function getSelfUserAgent(){
+    global $global, $AVideoStreamer_UA;
+    $agent = $AVideoStreamer_UA." ";
+    $agent .= parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+    return $agent;
+}
+
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if ($debug) {
         _error_log("url_get_contents: Start $url, $ctx, $timeout");
     }
+    $agent = getSelfUserAgent();
 
     if (empty($ctx)) {
         $opts = array(
+            'http' => array('header' => "User-Agent: {$agent}\r\n"),
             "ssl" => array(
                 "verify_peer" => false,
                 "verify_peer_name" => false,
@@ -2122,6 +2132,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
             _error_log("url_get_contents: CURL  {$url} ");
         }
         $ch = curl_init();
+        curl_setopt($ch, CURLOPT_USERAGENT, $agent);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -2375,8 +2386,14 @@ function isAVideoMobileApp($user_agent = "") {
         return false;
     }
     global $AVideoMobileAPP_UA;
-
-    return $AVideoMobileAPP_UA === $_SERVER["HTTP_USER_AGENT"];
+    if(preg_match("/{$AVideoMobileAPP_UA}(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)){
+        $url = trim($match[1]);
+        if(!empty($url)){
+            return $url;
+        }
+        return true;
+    }
+    return false;
 }
 function isAVideoEncoder($user_agent = "") {
     if (empty($user_agent)) {
@@ -2395,6 +2412,20 @@ function isAVideoEncoder($user_agent = "") {
     }
     return false;
 }
+
+function isAVideoEncoderOnSameDomain(){
+    global $global;
+    $url = isAVideoEncoder();
+    if(empty($url)){
+        return false;
+    }
+    $url = "http://{$url}";
+    if(get_domain($url)===get_domain($global['webSiteRootURL'])){
+        return true;
+    }
+    return false;
+}
+
 function isAVideoStreamer($user_agent = "") {
     if (empty($user_agent)) {
         $user_agent = @$_SERVER['HTTP_USER_AGENT'];
@@ -2411,6 +2442,32 @@ function isAVideoStreamer($user_agent = "") {
         return true;
     }
     return false;
+}
+function isAVideoStorage($user_agent = "") {
+    if (empty($user_agent)) {
+        $user_agent = @$_SERVER['HTTP_USER_AGENT'];
+    }
+    if (empty($user_agent)) {
+        return false;
+    }
+    global $AVideoStorage_UA;
+    if(preg_match("/{$AVideoStorage_UA}(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)){
+        $url = trim($match[1]);
+        if(!empty($url)){
+            return $url;
+        }
+        return true;
+    }
+    return false;
+}
+
+function get_domain($url){
+  $pieces = parse_url($url);
+  $domain = isset($pieces['host']) ? $pieces['host'] : '';
+  if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)) {
+    return $regs['domain'];
+  }
+  return false;
 }
 
 function siteMap() {
