@@ -236,9 +236,7 @@ class PlayerSkins extends PluginAbstract {
         }
 
         
-        if (isHLS()) {
-            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/ifHLS.js');
-        }
+        $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/fixCurrentSources.js');
         if (empty($noReadyFunction)) {
             $js .= "});";
         }
