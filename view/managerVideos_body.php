@@ -1326,7 +1326,7 @@ echo AVideoPlugin::getManagerVideosReset();
         if ($('#encodeProgress' + id).children().length) {
             return false;
         }
-        var item = '<div class="progress progress-striped active " id='" style="margin: 0;border-bottom-right-radius: 0; border-bottom-left-radius: 0;">';
+        var item = '<div class="progress progress-striped active " id="encodingProgress' + id + '" style="margin: 0;border-bottom-right-radius: 0; border-bottom-left-radius: 0;">';
         item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0; animation-duration: 15s;animation: 15s;transition-duration: 15s; "><span id="encodingProgressComplete' + id + '">0% </span>Complete</div>';
         item += '<span class="progress-type"><span class="badge "><?php echo __("Queue Position"); ?> ' + position + '</span></span><span class="progress-completed">' + queueItem.name + '</span>';
         item += '</div><div class="progress progress-striped active " id="downloadProgress' + id + '" style="height: 10px; border-top-right-radius: 0; border-top-left-radius: 0;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
