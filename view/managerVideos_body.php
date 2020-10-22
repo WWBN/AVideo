@@ -801,7 +801,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
             success: function (response) {
                 if (response.queue_list.length) {
                     for (i = 0; i < response.queue_list.length; i++) {
-                        if ('<?php echo $global['webSiteRootURL']; ?>' !== response.queue_list[i].streamer_site) {
+                        if (webSiteRootURL !== response.queue_list[i].streamer_site) {
                             continue;
                         }
                         if(response.queue_list[i].return_vars && response.queue_list[i].return_vars.videos_id){
@@ -1324,10 +1324,10 @@ echo AVideoPlugin::getManagerVideosReset();
         if ($('#encodeProgress' + id).children().length) {
             return false;
         }
-        var item = '<div class="progress progress-striped active " id="encodingProgress' + queueItem.id + '" style="margin: 0;border-bottom-right-radius: 0; border-bottom-left-radius: 0;">';
+        var item = '<div class="progress progress-striped active " id="encodingProgress' + id + '" style="margin: 0;border-bottom-right-radius: 0; border-bottom-left-radius: 0;">';
         item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0; animation-duration: 15s;animation: 15s;transition-duration: 15s; "><span >0% Complete</span></div>';
         item += '<span class="progress-type"><span class="badge "><?php echo __("Queue Position"); ?> ' + position + '</span></span><span class="progress-completed">' + queueItem.name + '</span>';
-        item += '</div><div class="progress progress-striped active " id="downloadProgress' + queueItem.id + '" style="height: 10px; border-top-right-radius: 0; border-top-left-radius: 0;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
+        item += '</div><div class="progress progress-striped active " id="downloadProgress' + id + '" style="height: 10px; border-top-right-radius: 0; border-top-left-radius: 0;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
         $('#encodeProgress' + id).html(item);
     }
 
