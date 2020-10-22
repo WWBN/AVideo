@@ -852,3 +852,7 @@ img.blur{
     padding: 0 !important;
     border-radius: 0 !important;
 }
+
+#navBarFlag li{
+    cursor: pointer;
+}
