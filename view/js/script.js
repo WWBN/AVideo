@@ -923,7 +923,12 @@ function playerHasAds() {
 }
 
 function countTo(selector, total) {
-    current = parseInt($(selector).text());
+    var text = $(selector).text();
+    if(isNaN(text)){
+        current = 0;
+    }else{
+        current = parseInt(text);
+    }
     total = parseInt(total);
     if (!total || current >= total) {
         $(selector).removeClass('loading');
