@@ -844,7 +844,7 @@ img.blur{
     line-height: 2 !important;
 }
 #mainVideo_ima-controls-div{
-    height: 1.4em !important;
+    height: 1.4em;
 }
 
 .vjs-menu-item, .vjs-menu-title{
