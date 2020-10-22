@@ -817,9 +817,11 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                     if (response.download_status && !response.encoding_status.progress) {
                         $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
                     } else {
-                        $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> " + response.encoding_status.progress + '%');
+                        $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id +">0</span>%");
                         $("#encodingProgress" + id).find('.progress-bar').css({'width': response.encoding_status.progress + '%'});
-                        $("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
+                        //$("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
+                        countTo("#encodingProgressComplete" + id, response.encoding_status.progress);
+                        countTo("#encodingProgressCounter" + id, response.encoding_status.progress);
                     }
                     if (response.download_status) {
                         $("#downloadProgress" + id).find('.progress-bar').css({'width': response.download_status.progress + '%'});
@@ -1327,7 +1329,7 @@ echo AVideoPlugin::getManagerVideosReset();
             return false;
         }
         var item = '<div class="progress progress-striped active " id="encodingProgress' + id + '" style="margin: 0;border-bottom-right-radius: 0; border-bottom-left-radius: 0;">';
-        item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0; animation-duration: 15s;animation: 15s;transition-duration: 15s; "><span id="encodingProgressComplete' + id + '">0% </span>Complete</div>';
+        item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0; animation-duration: 15s;animation: 15s;transition-duration: 15s; "><span id="encodingProgressComplete' + id + '">0</span>% Complete</div>';
         item += '<span class="progress-type"><span class="badge "><?php echo __("Queue Position"); ?> ' + position + '</span></span><span class="progress-completed">' + queueItem.name + '</span>';
         item += '</div><div class="progress progress-striped active " id="downloadProgress' + id + '" style="height: 10px; border-top-right-radius: 0; border-top-left-radius: 0;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
         $('#encodeProgress' + id).html(item);

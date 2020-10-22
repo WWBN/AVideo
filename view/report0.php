@@ -262,26 +262,6 @@
 </div>
 <script>
 
-    function countTo(selector, total) {
-        current = parseInt($(selector).text());
-        total = parseInt(total);
-        if (!total || current >= total) {
-            $(selector).removeClass('loading');
-            return;
-        }
-        var rest = (total - current);
-        var step = parseInt(rest / 100);
-        if (step < 1) {
-            step = 1;
-        }
-        current += step;
-        $(selector).text(current);
-        var timeout = (500 / rest);
-        setTimeout(function () {
-            countTo(selector, total);
-        }, timeout);
-    }
-
     var ctx = document.getElementById("myChart");
     var ctxPie = document.getElementById("myChartPie");
     var ctxLine = document.getElementById("myChartLine");
