@@ -4719,6 +4719,9 @@ function diskUsageBars() {
              * @return string
              */
             function getDeviceID() {
+                if(empty($_SERVER['HTTP_USER_AGENT'])){
+                    return "unknowDevice";
+                }
                 $cookieName = "yptDeviceID";
                 if (empty($_COOKIE[$cookieName])) {
                     if (empty($_GET[$cookieName])) {
