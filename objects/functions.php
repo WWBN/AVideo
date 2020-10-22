@@ -1,5 +1,7 @@
 <?php
 $AVideoMobileAPP_UA = "AVideoMobileApp";
+$AVideoEncoder_UA = "AVideoEncoder";
+$AVideoStreamer_UA = "AVideoStreamer";
 
 function forbiddenWords($text) {
     global $global;
@@ -2365,13 +2367,50 @@ function isMobile() {
     return $detect->isMobile();
 }
 
-function isAVideoMobileApp() {
-    global $AVideoMobileAPP_UA;
-    if (empty($_SERVER["HTTP_USER_AGENT"])) {
+function isAVideoMobileApp($user_agent = "") {
+    if (empty($user_agent)) {
+        $user_agent = @$_SERVER['HTTP_USER_AGENT'];
+    }
+    if (empty($user_agent)) {
         return false;
     }
+    global $AVideoMobileAPP_UA;
 
     return $AVideoMobileAPP_UA === $_SERVER["HTTP_USER_AGENT"];
+}
+function isAVideoEncoder($user_agent = "") {
+    if (empty($user_agent)) {
+        $user_agent = @$_SERVER['HTTP_USER_AGENT'];
+    }
+    if (empty($user_agent)) {
+        return false;
+    }
+    global $AVideoEncoder_UA;
+    if(preg_match("/{$AVideoEncoder_UA}(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)){
+        $url = trim($match[1]);
+        if(!empty($url)){
+            return $url;
+        }
+        return true;
+    }
+    return false;
+}
+function isAVideoStreamer($user_agent = "") {
+    if (empty($user_agent)) {
+        $user_agent = @$_SERVER['HTTP_USER_AGENT'];
+    }
+    if (empty($user_agent)) {
+        return false;
+    }
+    global $AVideoStreamer_UA;
+    if(preg_match("/{$AVideoStreamer_UA}(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)){
+        $url = trim($match[1]);
+        if(!empty($url)){
+            return $url;
+        }
+        return true;
+    }
+    return false;
 }
 
 function siteMap() {
@@ -3127,7 +3166,6 @@ function getOS($user_agent = "") {
 }
 
 function get_browser_name($user_agent = "") {
-    global $AVideoMobileAPP_UA;
     if (empty($user_agent)) {
         $user_agent = @$_SERVER['HTTP_USER_AGENT'];
     }
@@ -3143,8 +3181,12 @@ function get_browser_name($user_agent = "") {
     $t = " " . $t;
 
     // Humans / Regular Users  
-    if (strpos($t, strtolower($AVideoMobileAPP_UA))) {
+    if (isAVideoStreamer($t)) {
         return 'AVideo Mobile App';
+    } else if ($url = isAVideoEncoder($t)) {
+        return 'AVideo Encoder '.$url;
+    }  else if ($url = isAVideoStreamer($t)) {
+        return 'AVideo Streamer '.$url;
     } else if (strpos($t, 'crkey')) {
         return 'Chromecast';
     } else if (strpos($t, 'opera') || strpos($t, 'opr/'))
@@ -4677,6 +4719,9 @@ function diskUsageBars() {
              * @return string
              */
             function getDeviceID() {
+                if(empty($_SERVER['HTTP_USER_AGENT'])){
+                    return "unknowDevice";
+                }
                 $cookieName = "yptDeviceID";
                 if (empty($_COOKIE[$cookieName])) {
                     if (empty($_GET[$cookieName])) {

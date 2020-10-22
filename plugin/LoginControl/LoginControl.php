@@ -94,9 +94,9 @@ Best regards,
             self::createLog($users_id);
         }
         // check if the user confirmed this device before
-        if (self::is2FAEnabled($users_id) && !self::is2FAConfirmed($users_id)) {
+        if (!self::ignore2FA($users_id) && self::is2FAEnabled($users_id) && !self::is2FAConfirmed($users_id)) {
             header('Content-Type: application/json');
-            _error_log("Login_control::onUserSignIn 2FA is required for user {$users_id}");
+            _error_log("Login_control::onUserSignIn 2FA is required for user ({$users_id}) (". get_browser_name().") (". getDeviceID().") (".$_SERVER['HTTP_USER_AGENT'].")");
             if (self::send2FAEmail($users_id)) {
                 User::logoff();
                 $object = new stdClass();
@@ -118,6 +118,14 @@ Best regards,
              * 
              */
         }
+    }
+    
+    private static function ignore2FA($users_id=""){
+        if($url = isAVideoEncoder()){
+            _error_log("Login_control::ignore2FA is an Encoder ($url) login 2FA ignored");
+            return true;
+        }
+        return false;
     }
     
     private static function getHiddenEmail($email){
