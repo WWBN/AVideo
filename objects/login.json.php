@@ -160,6 +160,8 @@ if (empty($_POST['user']) || empty($_POST['pass'])) {
     _error_log("User or pass empty on login POST: " . json_encode($_POST));
     _error_log("User or pass empty on login GET: " . json_encode($_GET));
     _error_log("User or pass empty on login Request: " . json_encode($_REQUEST));
+    $inputJSON = file_get_contents('php://input');
+    _error_log("User or pass empty on login php://input: " . ($inputJSON));
     $object->error = __("User and Password can not be blank");
     die(json_encode($object));
 }

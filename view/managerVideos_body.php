@@ -801,35 +801,42 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
             success: function (response) {
                 if (response.queue_list.length) {
                     for (i = 0; i < response.queue_list.length; i++) {
-                        if ('<?php echo $global['webSiteRootURL']; ?>' !== response.queue_list[i].streamer_site) {
+                        if (webSiteRootURL !== response.queue_list[i].streamer_site) {
                             continue;
                         }
-                        createQueueItem(response.queue_list[i], i);
+                        if(response.queue_list[i].return_vars && response.queue_list[i].return_vars.videos_id){
+                            createQueueItem(response.queue_list[i], i);
+                        }
                     }
 
                 }
-                if (response.encoding && '<?php echo $global['webSiteRootURL']; ?>' === response.encoding.streamer_site) {
-                    var id = response.encoding.id;
-                    // if start encode next before get 100%
-                    if (id !== encodingNowId) {
-                        $("#encodeProgress" + encodingNowId).slideUp("normal", function () {
-                            $(this).remove();
-                        });
-                        encodingNowId = id;
-                    }
+                if (response.encoding && webSiteRootURL === response.encoding.streamer_site) {
+                    var id = response.encoding.return_vars.videos_id;
 
                     $("#downloadProgress" + id).slideDown();
                     if (response.download_status && !response.encoding_status.progress) {
                         $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
                     } else {
-                        $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> " + response.encoding_status.progress + '%');
+                        var encodingProgressCounter = $("#encodingProgressCounter"+id).text();
+                        if(isNaN(encodingProgressCounter)){
+                            encodingProgressCounter = 0;
+                        }else{
+                            encodingProgressCounter = parseInt(encodingProgressCounter);
+                        }
+                        
+                        
+                        $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id +"'>"+encodingProgressCounter+"</span>%");
                         $("#encodingProgress" + id).find('.progress-bar').css({'width': response.encoding_status.progress + '%'});
+                        //$("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
+                        countTo("#encodingProgressComplete" + id, response.encoding_status.progress);
+                        countTo("#encodingProgressCounter" + id, response.encoding_status.progress);
                     }
                     if (response.download_status) {
                         $("#downloadProgress" + id).find('.progress-bar').css({'width': response.download_status.progress + '%'});
                     }
                     if (response.encoding_status.progress >= 100) {
                         $("#encodingProgress" + id).find('.progress-bar').css({'width': '100%'});
+                        $("#encodingProgressComplete" + id).text('100%');
                         clearTimeout(timeOut);
                         $.toast("Encode Complete");
                         timeOut = setTimeout(function () {
@@ -838,15 +845,10 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                     } else {
 
                     }
-
-                    setTimeout(function () {
+                    clearTimeout(checkProgressTimeout[encoderURL]);
+                    checkProgressTimeout[encoderURL] = setTimeout(function () {
                         checkProgress(encoderURL);
                     }, 10000);
-                } else if (encodingNowId !== "") {
-                    $("#encodeProgress" + encodingNowId).slideUp("normal", function () {
-                        $(this).remove();
-                    });
-                    encodingNowId = "";
                 }
 
             }
@@ -1334,10 +1336,10 @@ echo AVideoPlugin::getManagerVideosReset();
         if ($('#encodeProgress' + id).children().length) {
             return false;
         }
-        var item = '<div class="progress progress-striped active " id="encodingProgress' + queueItem.id + '" style="margin: 0;border-bottom-right-radius: 0; border-bottom-left-radius: 0;">';
-        item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0; animation-duration: 15s;animation: 15s;transition-duration: 15s; "><span >0% Complete</span></div>';
+        var item = '<div class="progress progress-striped active " id="encodingProgress' + id + '" style="margin: 0;border-bottom-right-radius: 0; border-bottom-left-radius: 0;">';
+        item += '<div class="progress-bar  progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0; animation-duration: 15s;animation: 15s;transition-duration: 15s; "><span id="encodingProgressComplete' + id + '">0</span>% Complete</div>';
         item += '<span class="progress-type"><span class="badge "><?php echo __("Queue Position"); ?> ' + position + '</span></span><span class="progress-completed">' + queueItem.name + '</span>';
-        item += '</div><div class="progress progress-striped active " id="downloadProgress' + queueItem.id + '" style="height: 10px; border-top-right-radius: 0; border-top-left-radius: 0;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
+        item += '</div><div class="progress progress-striped active " id="downloadProgress' + id + '" style="height: 10px; border-top-right-radius: 0; border-top-left-radius: 0;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
         $('#encodeProgress' + id).html(item);
     }
 
@@ -1730,6 +1732,10 @@ if (User::isAdmin()) {
                     var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                     var download = "";
                     for (var k in row.videosURL) {
+                        var pattern = /^m3u8/i;
+                        if (pattern.test(k) === true) {
+                            continue;
+                        }
                         if (typeof row.videosURL[k].url === 'undefined' || !row.videosURL[k].url) {
                             continue;
                         }

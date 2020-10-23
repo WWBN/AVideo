@@ -843,9 +843,16 @@ img.blur{
     font-size: 1.5em !important;
     line-height: 2 !important;
 }
+#mainVideo_ima-controls-div{
+    max-height: 3.7em;
+}
 
 .vjs-menu-item, .vjs-menu-title{
     margin: 0 !important;
     padding: 0 !important;
     border-radius: 0 !important;
+}
+
+#navBarFlag li{
+    cursor: pointer;
 }
