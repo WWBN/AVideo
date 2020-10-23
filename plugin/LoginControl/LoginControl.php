@@ -89,6 +89,10 @@ Best regards,
     }
 
     public function onUserSignIn($users_id) {
+        if(isAVideoEncoder()){
+            _error_log("Login_control::onUserSignIn Login from encoder, do not do anything");
+            return false;
+        }
         if (empty($_REQUEST['confirmation'])) {
             // create the log
             self::createLog($users_id);
@@ -289,6 +293,10 @@ Best regards,
     }
 
     public function getStart() {
+        if(isAVideoEncoder()){
+            _error_log("Login_control::getStart Login from encoder, do not do anything");
+            return false;
+        }
         $obj = $this->getDataObject();
         if ($obj->singleDeviceLogin) {
             
