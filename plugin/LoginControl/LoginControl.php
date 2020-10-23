@@ -301,7 +301,8 @@ Best regards,
             // check if the user is logged somewhere else and log him off
             if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
                 User::logoff();
-                $msg = "You were disconected by ({$row['device']}) <br>IP: {$row['ip']} <br>{$loc} <br>{$row['ago']}";
+                //$msg = "You were disconected by ({$row['device']}) <br>IP: {$row['ip']} <br>{$loc} <br>{$row['ago']}";
+                $msg = "You were disconected";
                 //setAlertMessage($msg);
                 gotToLoginAndComeBackHere($msg);
                 /*
