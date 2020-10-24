@@ -2244,6 +2244,9 @@ function isBot() {
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         return true;
     }
+    if(isAVideoEncoder()){
+        return false;
+    }
 // User lowercase string for comparison.
     $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
 // A list of some common words used only for bots and crawlers.
