@@ -53,6 +53,16 @@ if (!empty($_FILES['image']['tmp_name']) && (!file_exists($obj->jpgDest) || file
     } else{
         $obj->jpgDestSize = humanFileSize(filesize($obj->jpgDest));
     }
+}else{
+    if(empty($_FILES['image']['tmp_name'])){
+        _error_log("ReceiveImage: empty \$_FILES['image']['tmp_name'] " . json_encode($_FILES));
+    }
+    if(file_exists($obj->jpgDest)){
+        _error_log("ReceiveImage: File already exists ".$obj->jpgDest);
+    }
+    if(filesize($obj->jpgDest)!==42342){
+        _error_log("ReceiveImage: file is not an error image ".filesize($obj->jpgDest));
+    }
 }
 
 $obj->gifDest = "{$destination_local}.gif";
@@ -64,6 +74,16 @@ if (!empty($_FILES['gifimage']['tmp_name']) && (!file_exists($obj->gifDest) || f
     } else{
         $obj->gifDestSize = humanFileSize(filesize($obj->gifDest));
     }
+}else{
+    if(empty($_FILES['gifimage']['tmp_name'])){
+        _error_log("ReceiveImage: empty \$_FILES['image']['tmp_name'] " . json_encode($_FILES));
+    }
+    if(file_exists($obj->gifDest)){
+        _error_log("ReceiveImage: File already exists ".$obj->gifDest);
+    }
+    if(filesize($obj->gifDest)!==42342){
+        _error_log("ReceiveImage: file is not an error image ".filesize($obj->gifDest));
+    }
 }
 $obj->webpDest = "{$destination_local}.webp";
 if (!empty($_FILES['webpimage']['tmp_name']) && (!file_exists($obj->webpDest) || filesize($obj->webpDest)===2095341)) {
@@ -73,6 +93,16 @@ if (!empty($_FILES['webpimage']['tmp_name']) && (!file_exists($obj->webpDest) ||
         die(json_encode($obj));
     } else{
         $obj->webpDestSize = humanFileSize(filesize($obj->webpDest));
+    }
+}else{
+    if(empty($_FILES['webpimage']['tmp_name'])){
+        _error_log("ReceiveImage: empty \$_FILES['image']['tmp_name'] " . json_encode($_FILES));
+    }
+    if(file_exists($obj->webpDest)){
+        _error_log("ReceiveImage: File already exists ".$obj->webpDest);
+    }
+    if(filesize($obj->webpDest)!==42342){
+        _error_log("ReceiveImage: file is not an error image ".filesize($obj->webpDest));
     }
 }
 $video_id = $video->save();
