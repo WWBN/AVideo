@@ -187,7 +187,7 @@ ENGINE = InnoDB;
 -- Table `comments`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comments` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `comment` TEXT NOT NULL,
   `videos_id` INT NOT NULL,
   `users_id` INT NOT NULL,
