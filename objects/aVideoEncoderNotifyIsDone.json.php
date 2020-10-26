@@ -69,6 +69,7 @@ if(file_exists($originalFilePath)){
     unlink($originalFilePath);
 }
 _error_log("Video is done notified {$video_id}: " . $video->getTitle());
+Video::clearCache($video_id);
 die(json_encode($obj));
 
 /*

@@ -76,7 +76,7 @@ if (!empty($_FILES['gifimage']['tmp_name']) && (!file_exists($obj->gifDest) || f
     }
 }else{
     if(empty($_FILES['gifimage']['tmp_name'])){
-        _error_log("ReceiveImage: empty \$_FILES['image']['tmp_name'] " . json_encode($_FILES));
+        _error_log("ReceiveImage: empty \$_FILES['gifimage']['tmp_name'] " . json_encode($_FILES));
     }
     if(file_exists($obj->gifDest)){
         _error_log("ReceiveImage: File already exists ".$obj->gifDest);
@@ -96,7 +96,7 @@ if (!empty($_FILES['webpimage']['tmp_name']) && (!file_exists($obj->webpDest) ||
     }
 }else{
     if(empty($_FILES['webpimage']['tmp_name'])){
-        _error_log("ReceiveImage: empty \$_FILES['image']['tmp_name'] " . json_encode($_FILES));
+        _error_log("ReceiveImage: empty \$_FILES['webpimage']['tmp_name'] " . json_encode($_FILES));
     }
     if(file_exists($obj->webpDest)){
         _error_log("ReceiveImage: File already exists ".$obj->webpDest);
