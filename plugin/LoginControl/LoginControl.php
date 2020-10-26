@@ -89,6 +89,10 @@ Best regards,
     }
 
     public function onUserSignIn($users_id) {
+        if(isAVideoEncoder()){
+            _error_log("Login_control::onUserSignIn Login from encoder, do not do anything");
+            return false;
+        }
         if (empty($_REQUEST['confirmation'])) {
             // create the log
             self::createLog($users_id);
@@ -289,6 +293,10 @@ Best regards,
     }
 
     public function getStart() {
+        if(isAVideoEncoder()){
+            _error_log("Login_control::getStart Login from encoder, do not do anything");
+            return false;
+        }
         $obj = $this->getDataObject();
         if ($obj->singleDeviceLogin) {
             
@@ -301,7 +309,8 @@ Best regards,
             // check if the user is logged somewhere else and log him off
             if (!User::isAdmin() && !self::isLoggedFromSameDevice()) {
                 User::logoff();
-                $msg = "You were disconected by ({$row['device']}) <br>IP: {$row['ip']} <br>{$loc} <br>{$row['ago']}";
+                //$msg = "You were disconected by ({$row['device']}) <br>IP: {$row['ip']} <br>{$loc} <br>{$row['ago']}";
+                $msg = "You were disconected";
                 //setAlertMessage($msg);
                 gotToLoginAndComeBackHere($msg);
                 /*

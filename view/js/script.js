@@ -138,135 +138,6 @@ try {
 } catch (e) {
 }
 var pleaseWaitIsINUse = false;
-$(document).ready(function () {
-    modal = modal || (function () {
-        var pleaseWaitDiv = $("#pleaseWaitDialog");
-        if (pleaseWaitDiv.length === 0) {
-            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"><h2>Processing...</h2><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div></div></div></div></div>').appendTo('body');
-        }
-
-        return {
-            showPleaseWait: function () {
-                if (pleaseWaitIsINUse) {
-                    return false;
-                }
-                pleaseWaitIsINUse = true;
-                pleaseWaitDiv.modal();
-            },
-            hidePleaseWait: function () {
-                pleaseWaitDiv.modal('hide');
-                pleaseWaitIsINUse = false;
-            },
-            setProgress: function (valeur) {
-                pleaseWaitDiv.find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
-            },
-            setText: function (text) {
-                pleaseWaitDiv.find('h2').html(text);
-            },
-        };
-    })();
-    try {
-        $('[data-toggle="popover"]').popover();
-        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-        $('[data-toggle="tooltip"]').on('click', function () {
-            var t = this;
-            setTimeout(function () {
-                $(t).tooltip('hide');
-            }, 2000);
-        });
-    } catch (e) {
-
-    }
-
-    $(".thumbsImage").on("mouseenter", function () {
-        gifId = $(this).find(".thumbsGIF").attr('id');
-        $(".thumbsGIF").fadeOut();
-        if (gifId != undefined) {
-            id = gifId.replace('thumbsGIF', '');
-            $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
-            $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
-            try {
-                $(this).find(".thumbsGIF").lazy({effect: 'fadeIn'});
-            } catch (e) {
-            }
-            $(this).find(".thumbsGIF").stop(true, true).fadeIn();
-        }
-    });
-    $(".thumbsImage").on("mouseleave", function () {
-        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
-    });
-    if ($(".thumbsJPG").length) {
-        $('.thumbsJPG').lazy({
-            effect: 'fadeIn',
-            visibleOnly: true,
-            // called after an element was successfully handled
-            afterLoad: function (element) {
-                element.removeClass('blur');
-            }
-        });
-    }
-
-    $("a").each(function () {
-        var location = window.location.toString()
-        var res = location.split("?");
-        pathWitoutGet = res[0];
-        if ($(this).attr("href") == window.location.pathname
-                || $(this).attr("href") == window.location
-                || $(this).attr("href") == pathWitoutGet) {
-            $(this).addClass("selected");
-        }
-    });
-    $('#clearCache, .clearCacheButton').on('click', function (ev) {
-        ev.preventDefault();
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/configurationClearCache.json.php',
-            success: function (response) {
-                if (!response.error) {
-                    avideoAlert("Congratulations!", "Your cache has been cleared!", "success");
-                } else {
-                    avideoAlert("Sorry!", "Your cache has NOT been cleared!", "error");
-                }
-                modal.hidePleaseWait();
-            }
-        });
-    });
-    $('.clearCacheFirstPageButton').on('click', function (ev) {
-        ev.preventDefault();
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=1',
-            success: function (response) {
-                if (!response.error) {
-                    avideoAlert("Congratulations!", "Your First Page cache has been cleared!", "success");
-                } else {
-                    avideoAlert("Sorry!", "Your First Page cache has NOT been cleared!", "error");
-                }
-                modal.hidePleaseWait();
-            }
-        });
-    });
-    $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
-        ev.preventDefault();
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/configurationGenerateSiteMap.json.php',
-            success: function (response) {
-                if (!response.error) {
-                    avideoAlert("Congratulations!", "File created!", "success");
-                } else {
-                    if (response.msg) {
-                        avideoAlert("Sorry!", response.msg, "error");
-                    } else {
-                        avideoAlert("Sorry!", "File NOT created!", "error");
-                    }
-                }
-                modal.hidePleaseWait();
-            }
-        });
-    });
-    setPlayerListners();
-});
 
 function setPlayerListners() {
     if (typeof player !== 'undefined') {
@@ -790,8 +661,10 @@ function isArray(what) {
 }
 
 function reloadVideoJS() {
-    var src = player.currentSources();
-    player.src(src);
+    if(typeof player.currentSources === 'function'){
+        var src = player.currentSources();
+        player.src(src);
+    }
 }
 
 var initdone = false;
@@ -946,3 +819,138 @@ function countTo(selector, total) {
         countTo(selector, total);
     }, timeout);
 }
+
+
+
+$(document).ready(function () {
+    modal = modal || (function () {
+        var pleaseWaitDiv = $("#pleaseWaitDialog");
+        if (pleaseWaitDiv.length === 0) {
+            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"><h2>Processing...</h2><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div></div></div></div></div>').appendTo('body');
+        }
+
+        return {
+            showPleaseWait: function () {
+                if (pleaseWaitIsINUse) {
+                    return false;
+                }
+                pleaseWaitIsINUse = true;
+                pleaseWaitDiv.modal();
+            },
+            hidePleaseWait: function () {
+                pleaseWaitDiv.modal('hide');
+                pleaseWaitIsINUse = false;
+            },
+            setProgress: function (valeur) {
+                pleaseWaitDiv.find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
+            },
+            setText: function (text) {
+                pleaseWaitDiv.find('h2').html(text);
+            },
+        };
+    })();
+    try {
+        $('[data-toggle="popover"]').popover();
+        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+        $('[data-toggle="tooltip"]').on('click', function () {
+            var t = this;
+            setTimeout(function () {
+                $(t).tooltip('hide');
+            }, 2000);
+        });
+    } catch (e) {
+
+    }
+
+    $(".thumbsImage").on("mouseenter", function () {
+        gifId = $(this).find(".thumbsGIF").attr('id');
+        $(".thumbsGIF").fadeOut();
+        if (gifId != undefined) {
+            id = gifId.replace('thumbsGIF', '');
+            $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
+            $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
+            try {
+                $(this).find(".thumbsGIF").lazy({effect: 'fadeIn'});
+            } catch (e) {
+            }
+            $(this).find(".thumbsGIF").stop(true, true).fadeIn();
+        }
+    });
+    $(".thumbsImage").on("mouseleave", function () {
+        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
+    });
+    if ($(".thumbsJPG").length) {
+        $('.thumbsJPG').lazy({
+            effect: 'fadeIn',
+            visibleOnly: true,
+            // called after an element was successfully handled
+            afterLoad: function (element) {
+                element.removeClass('blur');
+            }
+        });
+    }
+
+    $("a").each(function () {
+        var location = window.location.toString()
+        var res = location.split("?");
+        pathWitoutGet = res[0];
+        if ($(this).attr("href") == window.location.pathname
+                || $(this).attr("href") == window.location
+                || $(this).attr("href") == pathWitoutGet) {
+            $(this).addClass("selected");
+        }
+    });
+    $('#clearCache, .clearCacheButton').on('click', function (ev) {
+        ev.preventDefault();
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'objects/configurationClearCache.json.php',
+            success: function (response) {
+                if (!response.error) {
+                    avideoAlert("Congratulations!", "Your cache has been cleared!", "success");
+                } else {
+                    avideoAlert("Sorry!", "Your cache has NOT been cleared!", "error");
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    });
+    $('.clearCacheFirstPageButton').on('click', function (ev) {
+        ev.preventDefault();
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=1',
+            success: function (response) {
+                if (!response.error) {
+                    avideoAlert("Congratulations!", "Your First Page cache has been cleared!", "success");
+                } else {
+                    avideoAlert("Sorry!", "Your First Page cache has NOT been cleared!", "error");
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    });
+    $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
+        ev.preventDefault();
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'objects/configurationGenerateSiteMap.json.php',
+            success: function (response) {
+                if (!response.error) {
+                    avideoAlert("Congratulations!", "File created!", "success");
+                } else {
+                    if (response.msg) {
+                        avideoAlert("Sorry!", response.msg, "error");
+                    } else {
+                        avideoAlert("Sorry!", "File NOT created!", "error");
+                    }
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    });
+    setPlayerListners();
+    
+    $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
+    
+});
