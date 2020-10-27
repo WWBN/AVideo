@@ -6,8 +6,8 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     container_name: avideo_db
     #tty: true
-    #ports:
-    #  - 3306
+    ports:
+      - 3306
     environment:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
@@ -19,8 +19,7 @@ services:
     volumes:
       - ./storage/data:/var/lib/mysql
     networks:
-      app_net:
-        ipv4_address: 172.16.238.10
+      - app_net
 
   web:
     depends_on:
@@ -36,15 +35,10 @@ services:
     #volumes:
     #  - .:/var/www/avideo:rw
     networks:
-      app_net:
-        ipv4_address: 172.16.238.20
+      - app_net
 
 #Docker Networks
 networks:
   app_net:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: "172.16.238.0/24"
 

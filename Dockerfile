@@ -33,6 +33,9 @@ RUN apt-get -y -f install php7.4 php7.4-common php7.4-cli php7.4-json php7.4-mbs
 
 COPY  . /var/www/avideo
 WORKDIR /var/www/avideo
+
+# Set Permision
+RUN chown www-data:www-data /var/www/avideo/videos && chmod 755 /var/www/avideo/videos
 #VOLUME [ "/storage/data" ]
 
 # Manually set up the apache environment variables
