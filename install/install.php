@@ -31,10 +31,15 @@ while (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
 }
 
 $webSiteRootURL = rtrim($webSiteRootURL, '/') . '/';
-$_POST['systemRootPath'] = "/var/www/html/YouPHPTube/";
+
+$_POST['systemRootPath'] = str_replace("install", "", getcwd());
 if(!is_dir($_POST['systemRootPath'])){
-    $_POST['systemRootPath'] = "/var/www/html/AVideo/";
+    $_POST['systemRootPath'] = "/var/www/html/YouPHPTube/";
+    if(!is_dir($_POST['systemRootPath'])){
+        $_POST['systemRootPath'] = "/var/www/html/AVideo/";
+    }
 }
+
 
 $_POST['databaseHost'] = "localhost";
 $_POST['databaseUser'] = $databaseUser;
