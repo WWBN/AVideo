@@ -23,7 +23,7 @@ $systemAdminPass = empty($argv[4])?"123":$argv[4];
 $contactEmail = empty($argv[5])?"undefined@youremail.com":$argv[5];
 while (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
     if (!empty($webSiteRootURL)) {
-        echo "Invalid Site URL\n";
+        echo "Invalid Site URL ({$webSiteRootURL})\n";
     }
     echo "Enter Site URL\n";
     ob_flush();
