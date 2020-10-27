@@ -2703,7 +2703,8 @@ function ddosProtection() {
     $secondTimeout = empty($global['ddosSecondTimeout']) ? 5 : $global['ddosSecondTimeout'];
     $whitelistedFiles = array(
         'playlists.json.php',
-        'playlistsFromUserVideos.json.php'
+        'playlistsFromUserVideos.json.php',
+        'image404.php'
     );
 
     if (in_array(basename($_SERVER["SCRIPT_FILENAME"]), $whitelistedFiles)) {
