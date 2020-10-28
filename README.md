@@ -152,6 +152,12 @@ In order for you to be able to run AVideo Platform, there are certain tools that
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
+## Docker local development
+
+```bash
+docker-compose up --build -d
+```
+
 # Roadmap
 
 ## Version 8.9
