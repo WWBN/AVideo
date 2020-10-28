@@ -88,7 +88,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         return $liveLi
     }
 
-    function createLiveItem(href, title, name, photo, offline, online, views, key) {
+    function createLiveItem(href, title, name, photo, offline, online, views, key, isPrivate) {
         var $liveLi = $('.liveModel').clone();
         if (offline) {
             $liveLi.find('.fa-video').removeClass("fa-video").addClass("fa-ban");
@@ -99,6 +99,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             //$('#mainVideo.liveVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg)'});
         }
         $liveLi.removeClass("hidden").removeClass("liveModel");
+        if(isPrivate){
+           $liveLi.find('.fa-video').removeClass('fa-video').addClass('fa-lock');
+        }
         $liveLi.find('a').attr("href", href);
         $liveLi.find('.liveTitle').text(title);
         $liveLi.find('.liveUser').text(name);
@@ -205,7 +208,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
     function availableLiveStreamIsLoading() {
         if ($('#availableLiveStream').hasClass('notfound')) {
             $('#availableLiveStream').empty();
-            createLiveItem("#", "<?php echo __("Please Wait, we are checking the lives"); ?>", "", "", true);
+            createLiveItem("#", "<?php echo __("Please Wait, we are checking the lives"); ?>", "", "", true, false);
             $('#availableLiveStream').find('.fa-ban').removeClass("fa-ban").addClass("fa-sync fa-spin");
             $('#availableLiveStream').find('.liveLink div').attr('style', '');
         }
@@ -214,7 +217,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
     function availableLiveStreamNotFound() {
         $('#availableLiveStream').addClass('notfound');
         $('#availableLiveStream').empty();
-        createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true);
+        createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true, false);
         $('#availableLiveStream').find('.liveLink div').attr('style', '');
     }
 
@@ -251,7 +254,9 @@ if (isLive()) {
             views = application.users.views;
             key = application.key;
             live_servers_id = live_servers_id;
-            createLiveItem(href, title, name, photo, false, online, views, key);
+            isPrivate = application.isPrivate;
+            
+            createLiveItem(href, title, name, photo, false, online, views, key, isPrivate);
 <?php
 if (empty($obj->doNotShowLiveOnVideosList)) {
     ?>
