@@ -8,7 +8,7 @@ $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
             <div class="panel-heading">
                 Default
                 <div class="material-switch pull-right">
-                    <input class="playerSwitchDefault" data-toggle="toggle" type="checkbox" value="" id="themeSwitch" <?php echo (empty($obj)) ? "checked" : ""; ?>>
+                    <input class="playerSwitch" data-toggle="toggle" type="checkbox" value="" id="themeSwitch" <?php echo (empty($obj) || empty($obj->skin)) ? "checked" : ""; ?>>
                     <label for="themeSwitch" class="label-primary"></label>
                 </div>
             </div>
@@ -47,18 +47,6 @@ $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
 </div>
 <script>
     $(document).ready(function () {
-        $('.playerSwitchDefault').change(function (e) {
-            modal.showPleaseWait();
-            $('.playerSwitch').not(this).prop('checked', false);
-            $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
-                data: {"uuid": "e9a568e6-ef61-4dcc-aad0-0109e9be8e36", "name": "PlayerSkins", "dir": "PlayerSkins", "enable": false},
-                type: 'post',
-                success: function (response) {
-                    modal.hidePleaseWait();
-                }
-            });
-        });
         $('.playerSwitch').change(function (e) {
             modal.showPleaseWait();
             $('.playerSwitch').not(this).prop('checked', false);
