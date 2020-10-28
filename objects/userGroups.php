@@ -63,7 +63,16 @@ class UserGroups {
             $formats = "s";
             $values = array($this->group_name);
         }
-        return sqlDAL::writeSql($sql,$formats,$values);
+        if(sqlDAL::writeSql($sql,$formats,$values)){
+            if (empty($this->id)) {
+                $id = $global['mysqli']->insert_id;
+            } else {
+                $id = $this->id;
+            }
+            return $id;
+        } else {
+            return false;
+        }
     }
 
     function delete() {
@@ -191,7 +200,7 @@ class UserGroups {
     // for users
 
     static function updateUserGroups($users_id, $array_groups_id, $byPassAdmin=false){
-        if (!$byPassAdmin && !User::isAdmin()) {
+        if (!$byPassAdmin && !Permissions::canAdminUsers()) {
             return false;
         }
         if (!is_array($array_groups_id)) {

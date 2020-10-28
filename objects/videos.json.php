@@ -8,14 +8,14 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
 $showOnlyLoggedUserVideos = true;
-if (User::isAdmin()) {
+if (Permissions::canModerateVideos()) {
     $showOnlyLoggedUserVideos = false;
 }
 $showUnlisted = false;
 $activeUsersOnly = true;
 if(!empty($_REQUEST['showAll'])){
     $showUnlisted = true;
-    if(User::isAdmin()){
+    if(Permissions::canModerateVideos()){
         $activeUsersOnly = false;
     }
 }
@@ -37,6 +37,7 @@ foreach ($videos as $key => $value) {
     $videos[$key]['title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['title']);
     $videos[$key]['clean_title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['clean_title']);
     $videos[$key]['typeLabels'] = Video::getVideoTypeLabels($videos[$key]['filename']);
+    $videos[$key]['maxResolution'] = Video::getHigestResolution($videos[$key]['filename']);
     if(!empty($videos[$key]['next_videos_id'])){
         unset($_POST['searchPhrase']);
         $videos[$key]['next_video'] = Video::getVideo($videos[$key]['next_videos_id']);

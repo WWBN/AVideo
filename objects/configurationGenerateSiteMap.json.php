@@ -13,7 +13,7 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-if (!User::isAdmin()) {
+if (!Permissions::canGenerateSiteMap()) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }

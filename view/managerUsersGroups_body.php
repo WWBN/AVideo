@@ -36,9 +36,28 @@
             </div>
             <div class="modal-body">
                 <form class="form-compact"  id="updateUserGroupsForm" onsubmit="">
-                    <input type="hidden" id="inputUserGroupsId"  >
+                    <input type="hidden" id="inputUserGroupsId" name="id"  >
                     <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
-                    <input type="text" id="inputName" class="form-control first" placeholder="<?php echo __("Name"); ?>" required autofocus>
+                    <input type="text" id="inputName" name="group_name" class="form-control" placeholder="<?php echo __("Name"); ?>" required autofocus>
+
+                    <?php
+                    if(User::isAdmin()){
+                    ?>
+                    <hr>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <?php echo __("Group Permissions"); ?>
+                        </div>
+                        <div class="panel-body">
+                            <?php
+                            echo Permissions::getForm();
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                    }
+                    ?>
                 </form>
             </div>
             <div class="modal-footer">
@@ -49,7 +68,28 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 </div><!--/.container-->
+<div id="pluginsPermissionModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div id="pluginsPermissionModalContent">
+
+        </div>
+    </div>
+</div>
 <script>
+    
+    function pluginPermissionsBtn(plugins_id) {
+        modal.showPleaseWait();
+        $('#groupFormModal').modal('hide');
+        $("#pluginsPermissionModalContent").html('');
+        $.ajax({
+            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Permissions/getPermissionsFromPlugin.html.php?plugins_id=' + plugins_id,
+            success: function (response) {
+                modal.hidePleaseWait();
+                $("#pluginsPermissionModalContent").html(response);
+                $('#pluginsPermissionModal').modal();
+            }
+        });
+    }
     $(document).ready(function () {
         var grid = $("#grid").bootgrid({
             labels: {
@@ -66,7 +106,7 @@
                 "commands": function (column, row)
                 {
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="<?php echo __('Delete'); ?>""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
+                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="<?php echo __('Delete'); ?>""><i class="fa fa-trash"></i></button>';
                     return editBtn + deleteBtn;
                 }
             }
@@ -80,7 +120,32 @@
                 $('#inputUserGroupsId').val(row.id);
                 $('#inputName').val(row.group_name);
 
-                $('#groupFormModal').modal();
+
+                modal.showPleaseWait();
+                $.ajax({
+                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/Permissions/getPermissions.json.php?users_groups_id=' + row.id,
+                    success: function (response) {
+                        console.log(response);
+                        $(".permissions").prop("checked", false);
+                        for (var key in response) {
+                            if(typeof key !== 'string'){
+                                continue;
+                            }
+                            for (var subkey in response[key]) {
+                                if(typeof subkey !== 'string' || isNaN(subkey)){
+                                    continue;
+                                }
+                                var selector = "."+key+"[value=\""+response[key][subkey]+"\"]";
+                                console.log(selector, $(selector));
+                                $(selector).prop("checked", true);
+                            }
+                        }
+                        $('#groupFormModal').modal();
+                        modal.hidePleaseWait();
+                    }
+                });
+
+
             }).end().find(".command-delete").on("click", function (e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
@@ -119,8 +184,10 @@
             $('#inputUserGroupsId').val('');
             $('#inputName').val('');
             $('#inputCleanName').val('');
-
+            $("#updateUserGroupsForm").trigger("reset");
+            $(".permissions").prop("checked", false);
             $('#groupFormModal').modal();
+
         });
 
         $('#saveUserGroupsBtn').click(function (evt) {
@@ -132,10 +199,10 @@
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL'] . "objects/userGroupsAddNew.json.php"; ?>',
-                data: {"id": $('#inputUserGroupsId').val(), "group_name": $('#inputName').val()},
+                data: $(this).serialize(),
                 type: 'post',
                 success: function (response) {
-                    if (response.status === "1") {
+                    if (response.status) {
                         $('#groupFormModal').modal('hide');
                         $("#grid").bootgrid("reload");
                         avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your group has been saved!"); ?>", "success");
@@ -147,6 +214,7 @@
             });
             return false;
         });
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
 </script>

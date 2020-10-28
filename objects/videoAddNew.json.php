@@ -16,7 +16,7 @@ $info = $infoObj = "";
 require_once 'video.php';
 
 if (!empty($_POST['id'])) {
-    if (!Video::canEdit($_POST['id'])) {
+    if (!Video::canEdit($_POST['id']) && !Permissions::canModerateVideos()) {
         die('{"error":"2 ' . __("Permission denied") . '"}');
     }
 }
@@ -96,14 +96,14 @@ $obj->setNext_videos_id($_POST['next_videos_id']);
 if (!empty($_POST['description'])) {
     $obj->setDescription($_POST['description']);
 }
-if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
+if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canModerateVideos()) {
     $obj->setCategories_id($_POST['categories_id']);
 }
 
-if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
+if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canModerateVideos()) {
     $obj->setVideoGroups(empty($_POST['videoGroups']) ? array() : $_POST['videoGroups']);
 }
-if ($advancedCustomUser->userCanChangeVideoOwner || User::isAdmin()) {
+if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canModerateVideos()) {
     $obj->setUsers_id($_POST['users_id']);
 }
 

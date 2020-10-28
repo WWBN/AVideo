@@ -10,7 +10,7 @@ $obj = new stdClass();
 $obj->msg = "";
 $obj->error = true;
 
-if (($advancedCustom->disableVideoSwap) || ($advancedCustom->makeSwapVideosOnlyForAdmin && !User::isAdmin())) {
+if (($advancedCustom->disableVideoSwap) || ($advancedCustom->makeSwapVideosOnlyForAdmin && !Permissions::canModerateVideos())) {
     $obj->msg = __("Swap Disabled");
     die(json_encode($obj));
 }

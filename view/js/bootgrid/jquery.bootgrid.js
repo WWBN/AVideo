@@ -1229,8 +1229,8 @@
             dropDownMenu: "dropdown btn-group", // must be a unique class name or constellation of class names within the actionDropDown
             dropDownMenuItems: "dropdown-menu pull-right", // must be a unique class name or constellation of class names within the actionDropDown
             dropDownMenuText: "dropdown-text", // must be a unique class name or constellation of class names within the actionDropDown
-            footer: "bootgrid-footer container-fluid",
-            header: "bootgrid-header container-fluid",
+            footer: "bootgrid-footer",
+            header: "bootgrid-header",
             icon: "icon glyphicon",
             iconColumns: "glyphicon-th-list",
             iconDown: "glyphicon-chevron-down",

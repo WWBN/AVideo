@@ -40,10 +40,11 @@ if(isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->vid
         $newContent = str_replace('/index.m3u8',  "/index.m3u8?globalToken={$_GET['globalToken']}", $newContent);
     }
 }else{
-    $newContent = "Can not see video [{$video['id']}] ({$_GET['videoDirectory']}) ";
+    $newContent = "HLS.php Can not see video [{$video['id']}] ({$_GET['videoDirectory']}) ";
     $newContent .= $tokenIsValid?"":" tokenInvalid";
     $newContent .= User::canWatchVideo($video['id'])?"":" cannot watch";
     $newContent .= " ".date("Y-m-d H:i:s");
+    
 }
 header("Content-Type: text/plain");
 echo $newContent;

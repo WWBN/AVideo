@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-if (!User::isAdmin()) {
+if (!Permissions::canSeeLogs()) {
     forbiddenPage("You cannot see the logs");
 }
 

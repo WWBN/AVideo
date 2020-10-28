@@ -25,7 +25,7 @@ $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
 
 $current = $_POST['current'];
 $_REQUEST['rowCount'] = 10;
-$channels = Channel::getChannels(true, "u.id, '". implode(",", $users_id_array)."'");
+$channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
 
 $totalPages = ceil($totalChannels / $_REQUEST['rowCount']);
 $metaDescription = __("Channels");
@@ -33,7 +33,7 @@ $metaDescription = __("Channels");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channels").getSEOComplement(); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channels") . getSEOComplement(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -77,13 +77,16 @@ $metaDescription = __("Channels");
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
-        <div class="container">
-            <div class="panel" >
+        <div class="container-fluid">
+            <div class="panel panel-default" >
                 <div class="panel-heading">
                     <form id="search-form" name="search-form" action="<?php echo $global['webSiteRootURL']; ?>channels" method="get">
                         <div id="custom-search-input">
                             <div class="input-group col-md-12">
-                                <input type="search" name="searchPhrase" class="form-control input-lg" placeholder="<?php echo __("Search Channels"); ?>" value="<?php echo @$_GET['searchPhrase']; unsetSearch(); ?>" />
+                                <input type="search" name="searchPhrase" class="form-control input-lg" placeholder="<?php echo __("Search Channels"); ?>" value="<?php
+                                echo @$_GET['searchPhrase'];
+                                unsetSearch();
+                                ?>" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-info btn-lg" type="submit">
                                         <i class="glyphicon glyphicon-search"></i>
@@ -100,8 +103,8 @@ $metaDescription = __("Channels");
                     foreach ($channels as $value) {
                         $get = array('channelName' => $value['channelName']);
                         ?>
-                        <div class="  bgWhite clear clearfix" style="margin: 10px 0;">
-                            <div class="clear clearfix">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="position: relative;">
                                 <img src="<?php echo User::getPhoto($value['id']); ?>"
                                      class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />
                                 <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
@@ -110,47 +113,51 @@ $metaDescription = __("Channels");
                                     echo User::getNameIdentificationById($value['id']);
                                     ?>
                                 </a>
-                                <span class="pull-right">
-                                    <?php 
+                                <div style="position: absolute; right: 10px; top: 10px;">
+                                    <?php
                                     echo User::getBlockUserButton($value['id']);
                                     ?>
-                                    <?php echo Subscribe::getButton($value['id']); ?>
-                                </span>
-                                <div>
-                                    <?php echo stripslashes(str_replace('\\\\\\\n', '<br/>', $value['about'])); ?>
+    <?php echo Subscribe::getButton($value['id']); ?>
                                 </div>
                             </div>
-                            <div class="clear clearfix">
-                                <h2><?php echo __("Preview"); ?></h2>
-                                <?php
-                                $_POST['current'] = 1;
-                                $_REQUEST['rowCount'] = 6;
-                                $_POST['sort']['created'] = "DESC";
-                                $uploadedVideos = Video::getAllVideosAsync("viewable", $value['id']);
-                                foreach ($uploadedVideos as $value2) {
-                                    $imgs = Video::getImageFromFilename($value2['filename'], "video", true);
-                                    $poster = $imgs->thumbsJpg;
-                                    ?>
-                                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 ">
-                                        <a href="<?php echo Video::getLink($value2['id'], $value2['clean_title'], false, $get); ?>" title="<?php echo $value2['title']; ?>" >
-                                            <img src="<?php echo $poster; ?>" alt="<?php echo $value2['title']; ?>" class="img img-responsive img-thumbnail" />
-                                        </a>
-                                        <div class="text-muted" style="font-size: 0.8em;"><?php echo $value2['title']; ?></div>
-
-                                    </div>
+                            <div class="panel-body">
+                                <div>
+    <?php echo stripslashes(str_replace('\\\\\\\n', '<br/>', $value['about'])); ?>
+                                </div>
+                                
+                                <div class="clearfix" style="margin-bottom: 10px;"></div>
+                                <div class="row">
                                     <?php
-                                }
-                                ?>
+                                    $_POST['current'] = 1;
+                                    $_REQUEST['rowCount'] = 6;
+                                    $_POST['sort']['created'] = "DESC";
+                                    $uploadedVideos = Video::getAllVideosAsync("viewable", $value['id']);
+                                    foreach ($uploadedVideos as $value2) {
+                                        $imgs = Video::getImageFromFilename($value2['filename'], "video", true);
+                                        $poster = $imgs->thumbsJpg;
+                                        ?>
+                                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 ">
+                                            <a href="<?php echo Video::getLink($value2['id'], $value2['clean_title'], false, $get); ?>" title="<?php echo $value2['title']; ?>" >
+                                                <img src="<?php echo $poster; ?>" alt="<?php echo $value2['title']; ?>" class="img img-responsive img-thumbnail" />
+                                            </a>
+                                            <div class="text-muted" style="font-size: 0.8em;"><?php echo $value2['title']; ?></div>
+
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
                             </div>
-                            <div class="text-muted pull-right" style="font-size: 0.8em">
-                                <?php echo VideoStatistic::getChannelsTotalViews($value['id'])," ",__("Views in the last 30 days"); ?>
+                            <div class="panel-footer " style="font-size: 0.8em">
+                                <div class=" text-muted align-right">
+    <?php echo VideoStatistic::getChannelsTotalViews($value['id']), " ", __("Views in the last 30 days"); ?>
+                                </div>
                             </div>
                         </div>
                         <?php
                     }
-                    
+
                     echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channels?page={page}");
-                               
                     ?>
                 </div>
             </div>

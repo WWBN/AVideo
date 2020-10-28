@@ -29,7 +29,7 @@ $uuidJSCondition = implode(" && ", $rowId);
     }
 </style>
 <div class="container-fluid">
-    <div class="panel">
+    <div class="panel panel-default">
         <div class="panel-heading tabbable-line">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#menu0"><i class="fa fa-plug"></i> <?php echo __('Installed Plugins'); ?></a></li>
@@ -37,7 +37,6 @@ $uuidJSCondition = implode(" && ", $rowId);
             </ul>
         </div>
         <div class="panel-body">
-
             <div class="tab-content">
                 <div id="menu0" class="tab-pane fade in active">
                     <div class="list-group-item">
@@ -197,6 +196,13 @@ $uuidJSCondition = implode(" && ", $rowId);
     </div>
 </div><!--/.container-->
 
+<div id="pluginsPermissionModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div id="pluginsPermissionModalContent">
+
+        </div>
+    </div>
+</div>
 <script>
     function jsonToForm(json) {
         $('#jsonElements').empty();
@@ -339,7 +345,7 @@ $uuidJSCondition = implode(" && ", $rowId);
         return true;
     }
 
-    function processShowHideIfActive(tr){
+    function processShowHideIfActive(tr) {
         if ($(tr).find(".pluginSwitch").is(":checked")) {
             if ($("#PluginTagsInstalled").hasClass('checked')) {
                 $(tr).show();
@@ -460,7 +466,23 @@ $uuidJSCondition = implode(" && ", $rowId);
         }
     }
 
+
+    function pluginPermissionsBtn(plugins_id) {
+        modal.showPleaseWait();
+        $("#pluginsPermissionModalContent").html('');
+        $.ajax({
+            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Permissions/getPermissionsFromPlugin.html.php?plugins_id=' + plugins_id,
+            success: function (response) {
+                modal.hidePleaseWait();
+                $("#pluginsPermissionModalContent").html(response);
+                $('#pluginsPermissionModal').modal();
+            }
+        });
+    }
+
     $(document).ready(function () {
+
+
         var myTextarea = document.getElementById("inputData");
         var grid = $("#grid").bootgrid({
             labels: {
@@ -523,6 +545,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                         }
                         var switchBtn = '';
                     }
+
                     //var txt = '<span id="plugin' + row.uuid + '" style="margin-top: -60px; position: absolute;"></span><a href="#plugin' + row.uuid + '">' + row.name + "</a> (" + row.dir + ")<br><small class='text-muted'>UUID: " + row.uuid + "</small>";
                     var txt = '<span id="plugin' + row.uuid + '" style="margin-top: -60px; position: absolute;"></span><a href="#plugin' + row.uuid + '">' + row.name + "</a> <small class='text-muted'>(" + row.dir + ")</small>";
 
@@ -538,6 +561,12 @@ $uuidJSCondition = implode(" && ", $rowId);
                         } else {
                             txt += "<small class='text-success'>Version: @" + row.pluginversion + "</small>";
                         }
+                    }
+                    if (row.hasOwnProperty("permissions") && row.permissions.length) {
+                        for (var i = 0; i < row.permissions.length; i++) {
+                            console.log(row.permissions[i]);
+                        }
+                        txt += '<button type="button" class="btn btn-xs btn-default btn-block" onclick="pluginPermissionsBtn(' + row.id + ')" data-toggle="tooltip" title="<?php echo __('User Groups Permissions'); ?>"><span class="fa fa-users" aria-hidden="true"></span> <?php echo __('User Groups Permissions'); ?></button>';
                     }
 
                     return txt;

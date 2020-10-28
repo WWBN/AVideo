@@ -227,7 +227,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
             </a>
 
             <div class="text-muted galeryDetails" style="overflow: hidden;">
-                <div>
+                <div class="galleryTags">
                     <?php if (empty($_GET['catName'])) { ?>
                         <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>">
                             <?php

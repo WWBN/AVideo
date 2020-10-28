@@ -168,7 +168,7 @@ class Plugin extends ObjectYPT {
     static function isEnabledByName($name) {
         $row = static::getPluginByName($name);
         if ($row) {
-            return $row['status'] == 'active';
+            return $row['status'] == 'active' && AVideoPlugin::isPluginTablesInstalled($name, true);
         }
         return false;
     }
@@ -176,7 +176,7 @@ class Plugin extends ObjectYPT {
     static function isEnabledByUUID($uuid) {
         $row = static::getPluginByUUID($uuid);
         if ($row) {
-            return $row['status'] == 'active';
+            return $row['status'] == 'active' && AVideoPlugin::isPluginTablesInstalled($row['name'], true);
         }
         return false;
     }
@@ -220,6 +220,7 @@ class Plugin extends ObjectYPT {
                         $obj->pluginversion = $p->getPluginVersion();
                         $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace->plugins->{$obj->uuid}) ? $pluginsMarketplace->plugins->{$obj->uuid}->pluginversion : 0);
                         $obj->pluginversionCompare = (!empty($obj->pluginversionMarketPlace) ? version_compare($obj->pluginversion, $obj->pluginversionMarketPlace) : 0);
+                        $obj->permissions = $obj->enabled?Permissions::getPluginPermissions($obj->id):array();
                         if ($obj->pluginversionCompare < 0) {
                             $obj->tags[] = "update";
                         }

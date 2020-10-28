@@ -284,7 +284,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($this->id)) {
-                if (!$this->userCanManageVideo() && !$allowOfflineUser) {
+                if (!$this->userCanManageVideo() && !$allowOfflineUser && !Permissions::canModerateVideos()) {
                     header('Content-Type: application/json');
                     die('{"error":"3 ' . __("Permission denied") . '"}');
                 }
@@ -610,7 +610,7 @@ if (!class_exists('Video')) {
         static function getUserGroupsCanSeeSQL() {
             global $global;
 
-            if (User::isAdmin()) {
+            if (Permissions::canModerateVideos()) {
                 return "";
             }
             $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
@@ -940,7 +940,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
             }
 
-            if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
+            if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
                 $uid = intval(User::getId());
                 $sql .= " AND v.users_id = '{$uid}'";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
@@ -1273,7 +1273,7 @@ if (!class_exists('Video')) {
             if (!empty($blockedUsers)) {
                 $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
             }
-            if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
+            if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
                 $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
@@ -1388,7 +1388,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.status = '{$status}'";
             }
 
-            if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
+            if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
                 $sql .= " AND v.users_id = '" . User::getId() . "'";
             } elseif (is_int($showOnlyLoggedUserVideos)) {
                 $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
@@ -1515,7 +1515,7 @@ if (!class_exists('Video')) {
                 $viewable[] = "u";
             } else if (!empty($_GET['videoName'])) {
                 $post = $_POST;
-                if (self::isOwnerFromCleanTitle($_GET['videoName']) || User::isAdmin()) {
+                if (self::isOwnerFromCleanTitle($_GET['videoName']) || Permissions::canModerateVideos()) {
                     $viewable[] = "u";
                 }
                 $_POST = $post;
@@ -1854,6 +1854,18 @@ if (!class_exists('Video')) {
             return static::getCleanDuration(@$ThisFileInfo['playtime_string']);
         }
 
+        static function getResolution($file) {
+            global $global;
+            require_once($global['systemRootPath'] . 'objects/getid3/getid3.php');
+            if (!file_exists($file)) {
+                _error_log('{"status":"error", "msg":"getResolution ERROR, File (' . $file . ') Not Found"}');
+                return 0;
+            }
+            $getID3 = new getID3;
+            $ThisFileInfo = $getID3->analyze($file);
+            return intval(@$ThisFileInfo['video']['resolution_y']);
+        }
+
         static function getHLSDurationFromFile($file) {
             $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
             if (empty($plugin)) {
@@ -1956,7 +1968,7 @@ if (!class_exists('Video')) {
 
         function userCanManageVideo() {
             global $advancedCustomUser;
-            if (User::isAdmin()) {
+            if (Permissions::canAdminVideos()) {
                 return true;
             }
             if (empty($this->users_id) || !User::canUpload()) {
@@ -2376,6 +2388,10 @@ if (!class_exists('Video')) {
             if ($user->getIsAdmin()) {
                 return true;
             }
+            
+            if(Permissions::canAdminVideos()){
+                return true;
+            }
 
             return self::isOwner($videos_id, $users_id);
         }
@@ -2722,6 +2738,34 @@ if (!class_exists('Video')) {
             } else {
                 return $path_parts['filename'];
             }
+        }
+        
+        static function getHigestResolution($filename) {
+            $cacheName = "getHigestResolution($filename)";
+            $return = ObjectYPT::getCache($cacheName, 0);
+            if(!empty($return)){
+                return object_to_array($return);
+            }
+            $sources = getVideosURL_V2($filename);
+            $return = array();
+            foreach ($sources as $key => $value) { 
+                if($value['type']==='video'){
+                    $parts = explode("_", $key);
+                    $resolution = intval(@$parts[1]);
+                    if(empty($resolution)){
+                        $resolution = self::getResolution($value["path"]);
+                    }
+                    if(!isset($return['resolution']) || $resolution > $return['resolution']){
+                        $return = $value;
+                        $return['resolution'] = $resolution;
+                        $return['resolution_text'] = getResolutionText($return['resolution']);
+                        $return['resolution_label'] = getResolutionLabel($return['resolution']);
+                        $return['resolution_string'] = trim($resolution."p {$return['resolution_label']}");
+                    }
+                }
+            }
+            ObjectYPT::setCache($cacheName, $return);
+            return $return;
         }
 
         static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false) {

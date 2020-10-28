@@ -297,7 +297,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     } else {
                                         YPTSidebarOpen();
                                     }
-
+                                    
                                     $('#myNavbar').removeClass("in");
                                     $('#mysearch').removeClass("in");
                                 });
@@ -996,6 +996,77 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             </ul>
                         </li>
                         <?php
+                    } else {
+                        $menus = array();
+                        if (Permissions::canAdminUsers()) {
+                            $menus[] = '
+                                ?>
+                                <li>
+                                    <a href="<?php echo $global[\'webSiteRootURL\']; ?>users">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        <?php echo __("Users"); ?>
+                                    </a>
+                                </li>
+                                <?php
+                                ';
+                        }
+                        if (Permissions::canAdminUserGroups()) {
+                            $menus[] = '?>
+                                <li>
+                                    <a href="<?php echo $global[\'webSiteRootURL\']; ?>usersGroups">
+                                        <span class="fa fa-users"></span>
+                                        <?php echo __("Users Groups"); ?>
+                                    </a>
+                                </li>
+                                <?php
+                                ';
+                        }
+                        if (Permissions::canClearCache()) {
+                            $menus[] = '?>
+                                <li>
+                                    <a href="#" class="clearCacheFirstPageButton">
+                                        <i class="fa fa-trash"></i> <?php echo __("Clear First Page Cache"); ?>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearCacheButton">
+                                        <i class="fa fa-trash"></i> <?php echo __("Clear Cache Directory"); ?>
+                                    </a>
+                                </li>
+                                <?php
+                                ';
+                        }
+                        if (Permissions::canSeeLogs()) {
+                            $menus[] = ' ?>
+                                <li>
+                                    <a href="<?php echo $global[\'webSiteRootURL\']; ?>i/log" class="">
+                                        <i class="fas fa-clipboard-list"></i> <?php echo __("Log file"); ?>
+                                    </a>
+                                </li>
+                                <?php
+                                ';
+                        }
+                        if (Permissions::canGenerateSiteMap()) {
+                            $menus[] = '?>
+                                <li>
+                                    <a href="#" class="generateSiteMapButton">
+                                        <i class="fa fa-sitemap"></i> <?php echo __("Generate Sitemap"); ?>
+                                    </a>
+                                </li>
+                                <?php
+                                ';
+                        }
+                        if (count($menus)) {
+                            ?>
+                            <hr>
+                            <h2 class="text-danger"><?php echo __("Extra Permissions"); ?></h2>
+                            <ul  class="nav navbar" style="margin-bottom: 10px;">
+                                <?php
+                                eval(implode(" ", $menus));
+                                ?>
+                            </ul>
+                            <?php
+                        }
                     }
                     ?>
 
@@ -1181,7 +1252,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                 var navsub_toggle_selected = $('.nav li.navsub-toggle a.selected');
                 navsub_toggle_selected.next().show();
                 navsub_toggle_selected = navsub_toggle_selected.parent();
-
+                
                 var navsub_toggle_selected_stop = 24;
                 while (navsub_toggle_selected.length) {
                     if ($.inArray(navsub_toggle_selected.prop('localName'), ['li', 'ul']) == -1)
@@ -1190,25 +1261,25 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         navsub_toggle_selected.show().prev().addClass('selected');
                     }
                     navsub_toggle_selected = navsub_toggle_selected.parent();
-
+                    
                     navsub_toggle_selected_stop--;
                     if (navsub_toggle_selected_stop < 0)
                         break;
                 }
             }, 500);
-
-
+            
+            
             $('.nav').on('click', 'li.navsub-toggle a:not(.selected)', function (e) {
                 var a = $(this),
                         b = a.next();
                 if (b.length) {
                     e.preventDefault();
-
+                    
                     a.addClass('selected');
                     b.slideDown();
-
+                    
                     var c = a.closest('.nav').find('li.navsub-toggle a.selected').not(a).removeClass('selected').next();
-
+                    
                     if (c.length)
                         c.slideUp();
                 }

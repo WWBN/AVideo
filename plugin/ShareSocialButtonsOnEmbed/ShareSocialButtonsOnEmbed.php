@@ -8,6 +8,7 @@ class ShareSocialButtonsOnEmbed extends PluginAbstract {
     public function getTags() {
         return array(
             PluginTags::$FREE,
+            PluginTags::$DEPRECATED,
         );
     }
     

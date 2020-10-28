@@ -492,5 +492,38 @@ abstract class PluginAbstract {
     public function dataSetup() {
         return "";
     }
+    
+    function getPermissionsOptions(){
+        return array();
+    }
+}
+
+
+
+class PluginPermissionOption{
+    private $type, $name, $description, $className;
+    
+    function __construct($type, $name, $description, $className) {
+        $this->type = $type;
+        $this->name = $name;
+        $this->description = $description;
+        $this->className = $className;
+    }
+
+    function getType() {
+        return $this->type;
+    }
+
+    function getName() {
+        return $this->name;
+    }
+
+    function getDescription() {
+        return $this->description;
+    }
+
+    function getClassName() {
+        return $this->className;
+    }
 
 }
