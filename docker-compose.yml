@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: avideo_db
+    #tty: true
+    ports:
+      - 3306
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=avideo
+      - TZ=UTC
+    expose:
+      - 3306
+    volumes:
+      - ./storage/data:/var/lib/mysql
+    networks:
+      - app_net
+
+  web:
+    depends_on:
+       - db
+    hostname: avideo_web
+    build: .
+    environment:
+      - DEBIAN_FRONTEND=noninteractive
+      - TZ=UTC
+    expose:
+      - 80
+      - 443
+    #volumes:
+    #  - .:/var/www/avideo:rw
+    networks:
+      - app_net
+
+#Docker Networks
+networks:
+  app_net:
+    driver: bridge
+
