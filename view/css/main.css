@@ -829,6 +829,10 @@ img.blur{
     border-radius: 0 !important;
 }
 
+.vjs-menu li {
+    text-transform: none;
+}
+
 #navBarFlag li{
     cursor: pointer;
 }

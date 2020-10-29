@@ -498,8 +498,16 @@ class AVideoPlugin {
     }
 
     static function isEnabledByName($name) {
+        global $isPluginEnabledByName;
+        if(empty($isPluginEnabledByName)){
+            $isPluginEnabledByName = array();
+        }
+        if(isset($isPluginEnabledByName[$name])){
+            return $isPluginEnabledByName[$name];
+        }
         $p = static::loadPluginIfEnabled($name);
-        return !empty($p);
+        $isPluginEnabledByName[$name] = !empty($p);
+        return $isPluginEnabledByName[$name];
     }
 
     static function getLogin() {

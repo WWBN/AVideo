@@ -1,5 +1,5 @@
 <?php
-if (empty($advancedCustom->openEncoderInIFrame)) {
+if (empty($advancedCustom->openEncoderInIFrame) || !isSameDomainAsMyAVideo($config->getEncoderURL())) {
     if (!empty($advancedCustom->encoderNetwork) && empty($advancedCustom->doNotShowEncoderNetwork)) {
         ?>
         <li>

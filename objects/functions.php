@@ -2417,16 +2417,27 @@ function isAVideoEncoder($user_agent = "") {
 }
 
 function isAVideoEncoderOnSameDomain() {
-    global $global;
     $url = isAVideoEncoder();
     if (empty($url)) {
         return false;
     }
     $url = "http://{$url}";
-    if (get_domain($url) === get_domain($global['webSiteRootURL'])) {
-        return true;
+    return isSameDomainAsMyAVideo($url);
+}
+
+function isSameDomainAsMyAVideo($url){
+    global $global;
+    if (empty($url)) {
+        return false;
     }
-    return false;
+    return isSameDomain($url, $global['webSiteRootURL']);
+}
+
+function isSameDomain($url1, $url2){
+    if (empty($url1) || empty($url2)) {
+        return false;
+    }
+    return (get_domain($url1) === get_domain($url2));
 }
 
 function isAVideoStreamer($user_agent = "") {

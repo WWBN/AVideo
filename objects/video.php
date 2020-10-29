@@ -1855,15 +1855,19 @@ if (!class_exists('Video')) {
         }
 
         static function getResolution($file) {
-            global $global;
-            require_once($global['systemRootPath'] . 'objects/getid3/getid3.php');
             if (!file_exists($file)) {
                 _error_log('{"status":"error", "msg":"getResolution ERROR, File (' . $file . ') Not Found"}');
                 return 0;
             }
-            $getID3 = new getID3;
-            $ThisFileInfo = $getID3->analyze($file);
-            return intval(@$ThisFileInfo['video']['resolution_y']);
+            global $global;
+            if(preg_match("/.m3u8$/i", $file) && AVideoPlugin::isEnabledByName('VideoHLS') && method_exists(new VideoHLS(), 'getHLSHigestResolutionFromFile')){
+                return VideoHLS::getHLSHigestResolutionFromFile($file);
+            }else{
+                require_once($global['systemRootPath'] . 'objects/getid3/getid3.php');
+                $getID3 = new getID3;
+                $ThisFileInfo = $getID3->analyze($file);
+                return intval(@$ThisFileInfo['video']['resolution_y']);
+            }
         }
 
         static function getHLSDurationFromFile($file) {
