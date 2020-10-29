@@ -104,6 +104,9 @@ class Users_groups_permissions extends ObjectYPT {
     
     static function deleteAllFromGroup($groups_id){
         global $global;
+        if (!self::isTableInstalled()) {
+            return true;
+        }
         $groups_id = intval($groups_id);
         if (!empty($groups_id)) {
             $sql = "DELETE FROM " . static::getTableName() . " ";
@@ -117,6 +120,9 @@ class Users_groups_permissions extends ObjectYPT {
     }
     
     static function add($pluginName, $users_groups_id, $type){
+        if (!self::isTableInstalled()) {
+            return false;
+        }
         $row = Plugin::getPluginByName($pluginName);
         if(!empty($row['id'])){
             $o = new Users_groups_permissions(0);
@@ -130,6 +136,9 @@ class Users_groups_permissions extends ObjectYPT {
     
     
     static function getAllFromUserGorup($users_groups_id, $activeOnly = true) {
+        if (!self::isTableInstalled()) {
+            return array();
+        }
         global $global, $getAllPermissionsFromUserGorup;
         $users_groups_id = intval($users_groups_id);
         if(empty($users_groups_id)){
@@ -167,6 +176,9 @@ class Users_groups_permissions extends ObjectYPT {
     
     
     static function getAllFromPluginAndType($plugins_id, $type, $activeOnly = true) {
+        if (!self::isTableInstalled()) {
+            return array();
+        }
         global $global, $getAllPermissionsFromPlugin;
         $plugins_id = intval($plugins_id);
         if(empty($plugins_id)){
@@ -199,6 +211,9 @@ class Users_groups_permissions extends ObjectYPT {
     }
     
     static function getAllFromPlugin($plugins_id, $activeOnly = true) {
+        if (!self::isTableInstalled()) {
+            return array();
+        }
         global $global, $getAllPermissionsFromPlugin;
         $plugins_id = intval($plugins_id);
         if(empty($plugins_id)){
@@ -231,6 +246,9 @@ class Users_groups_permissions extends ObjectYPT {
     }
     
     static function getFromUserGroupAndPluginAndType($users_groups_id, $plugins_id, $type, $activeOnly = true) {
+        if (!self::isTableInstalled()) {
+            return array();
+        }
         global $global, $getFromUserGroupAndPluginAndType;
         $plugins_id = intval($plugins_id);
         if(empty($plugins_id)){
@@ -262,6 +280,9 @@ class Users_groups_permissions extends ObjectYPT {
     }
     
     public function save() {
+        if (!self::isTableInstalled()) {
+            return true;
+        }
         if(empty($this->status)){
             $this->status = 'a';
         }
