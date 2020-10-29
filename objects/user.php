@@ -2064,4 +2064,89 @@ if (typeof gtag !== \"function\") {
         }
     }
 
+    function updateUserImages($params = array()) {
+
+        $id = $this->id;
+        $obj = new stdClass();
+
+        // Update Background Image
+        if (isset($params['backgroundImg']) && $params['backgroundImg'] != '') {
+
+            $background = file_get_contents($params['backgroundImg']);
+            $ext = pathinfo(parse_url($params['backgroundImg'], PHP_URL_PATH), PATHINFO_EXTENSION);
+            $allowed = array('jpg', 'jpeg', 'gif', 'png');
+            if (!in_array(strtolower($ext), $allowed)) {
+                return "File extension error background Image, We allow only (" . implode(",", $allowed) . ")";
+            }
+
+            $backgroundPath = "videos/userPhoto/tmp_background{$id}.".$ext;
+            $oldfile = "videos/userPhoto/background{$id}.png";
+            $file = "videos/userPhoto/background{$id}.jpg";
+
+            if (!isset($global['systemRootPath'])) {
+                $global['systemRootPath'] = '../../';
+            }
+
+            $filePath = $global['systemRootPath'] . $backgroundPath;
+
+            $updateBackground = file_put_contents($filePath, $background);
+
+            convertImage($filePath, $global['systemRootPath'].$file, 70);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+            if (file_exists($oldfile)) {
+                unlink($oldfile);
+            }
+
+            if ($updateBackground) {
+                $obj->background = 'Background has been updated!';
+            } else {
+                $obj->background = 'Error updating background.';
+            }
+
+            $this->setBackgroundURL($file);
+        }
+
+        // Update Profile Image
+        if (isset($params['profileImg']) && $params['profileImg'] != '') {
+            
+            $photo = file_get_contents($params['profileImg']);
+            $photoPath = "videos/userPhoto/photo{$id}.png";
+
+            if (!isset($global['systemRootPath'])) {
+                $global['systemRootPath'] = '../../';
+            }
+
+            $filePath = $global['systemRootPath'] . $photoPath;
+
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            $updateProfile = file_put_contents($filePath, $photo);
+            if ($updateProfile) {
+                $obj->profile = 'Profile has been updated!';
+            } else {
+                $obj->profile = 'Error updating profile.';
+            }
+            
+            $this->setPhotoURL($photoPath);
+        }
+
+        $formats = "ssi";
+        $values[] = $this->photoURL;
+        $values[] = $this->backgroundURL;
+        $values[] = $this->id;
+
+        $sql .= "UPDATE users SET "
+                . "photoURL = ?, backgroundURL = ?, "
+                . " modified = now() WHERE id = ?";
+      
+        $insert_row = sqlDAL::writeSql($sql, $formats, $values);
+        $obj->save = $insert_row; // create/update data for photoURL / backgroundURL
+
+        return $obj;
+        
+    }
 }
