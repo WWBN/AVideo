@@ -697,15 +697,17 @@ img.blur{
 }
 
 .btn-circle {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     text-align: center;
     padding: 6px 0;
     font-size: 12px;
     line-height: 1.42;
     border-radius: 15px;
 }
-
+.btn-circle:hover, .btn-group.open .btn-circle {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px rgba(82, 168, 236, 0.6);
+}
 
 ::-webkit-scrollbar-track
 {
@@ -797,10 +799,6 @@ img.blur{
     body.youtube .col-lg-offset-1.addWidthOnMenuOpen {
         margin-left: 0;
     }
-    body.youtube>.container-fluid {
-        margin-left: 300px;
-    }
-
 }
 
 .liveVideo .thumbsImage img{

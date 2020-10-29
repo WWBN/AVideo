@@ -106,6 +106,8 @@ if (!$includeDefaultNavBar) {
         margin-left: 5px; 
         margin-right: 40px; 
         border: 0;
+        background: none;
+        background-color: transparent;
     }
 
     #rightLoginButton{
@@ -589,7 +591,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     <?php
                                     if (User::isLogged()) {
                                         ?>
-                                        <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown" id="rightProfileButton" style="min-height:34px;">
+                                        <button type="button" class="btn btn-default dropdown-toggle navbar-btn pull-left btn-circle"  data-toggle="dropdown" id="rightProfileButton" style="padding:0;">
                                             <img src="<?php echo User::getPhoto(); ?>" 
                                                  style="width: 32px; height: 32px; max-width: 32px;"  
                                                  class="img img-responsive img-circle" alt="User Photo"
