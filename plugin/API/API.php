@@ -1127,6 +1127,36 @@ class API extends PluginAbstract {
         return new ApiObject("", false, $t);
     }
 
+    /**
+     * @param type $parameters
+     * ['APISecret' mandatory for security reasons - required]
+     * ['user' usename of the user - required]
+     * ['backgroundImg' URL path of the image - optional]
+     * ['profileImg' URL path of the image - optional]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&user=admin
+     * @return \ApiObject
+     */
+    public function set_api_userImages($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/video.php';
+        // $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret === @$_GET['APISecret']) {
+
+            $user = new User("", $parameters['user'], false);
+            if (empty($user->getUser())) {
+                return new ApiObject("User Not defined");
+            }
+
+            // UPDATED USER
+            $updateUser = $user->updateUserImages($parameters);
+
+            return new ApiObject("", false, $updateUser);
+        } else {
+            return new ApiObject("API Secret is not valid");
+        }
+    }
+
 }
 
 class ApiObject {
