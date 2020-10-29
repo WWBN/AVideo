@@ -2060,7 +2060,7 @@ if (typeof gtag !== \"function\") {
         // Update Background Image
         if (isset($params['backgroundImg']) && $params['backgroundImg'] != '') {
 
-            $background = file_get_contents($params['backgroundImg']);
+            $background = url_get_contents($params['backgroundImg']);
             $ext = pathinfo(parse_url($params['backgroundImg'], PHP_URL_PATH), PATHINFO_EXTENSION);
             $allowed = array('jpg', 'jpeg', 'gif', 'png');
             if (!in_array(strtolower($ext), $allowed)) {
@@ -2099,7 +2099,7 @@ if (typeof gtag !== \"function\") {
         // Update Profile Image
         if (isset($params['profileImg']) && $params['profileImg'] != '') {
             
-            $photo = file_get_contents($params['profileImg']);
+            $photo = url_get_contents($params['profileImg']);
             $photoPath = "videos/userPhoto/photo{$id}.png";
 
             if (!isset($global['systemRootPath'])) {
