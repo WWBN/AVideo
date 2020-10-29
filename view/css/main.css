@@ -795,7 +795,10 @@ img.blur{
         width: 100%;
     }
     body.youtube .col-lg-offset-1.addWidthOnMenuOpen {
-        margin-left: 0px;
+        margin-left: 0;
+    }
+    body.youtube>.container-fluid {
+        margin-left: 300px;
     }
 
 }
