@@ -240,7 +240,7 @@ if (!$includeDefaultNavBar) {
         ?>
         @media screen and (min-width: 992px) {
 
-            body.youtube div.container-fluid{
+            body.youtube>div.container-fluid{
                 margin-left: 300px;
             }
             body.youtube div.container-fluid .col-sm-10.col-sm-offset-1.list-group-item{
