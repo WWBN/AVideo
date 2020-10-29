@@ -277,6 +277,13 @@
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="300px" data-header-css-class='hidden-xs' data-css-class='hidden-xs tagsInfo'><?php echo __("Tags"); ?></th>
                         <th data-column-id="duration" data-width="80px"  data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Duration"); ?></th>
                         <th data-column-id="views_count" data-width="80px"  data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Views"); ?></th>
+                        <?php
+                        if (Permissions::canAdminVideos()) {
+                            ?>
+                            <th data-column-id="isSuggested" data-formatter="isSuggested" data-width="80px"  data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Suggested"); ?></th>
+                            <?php
+                        }
+                        ?>
                         <th data-column-id="filesize" data-formatter="filesize" data-width="100px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
                         <th data-column-id="created" data-order="desc" data-width="100px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-css-class='controls' data-width="200px"></th>
@@ -1734,19 +1741,6 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                     var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fas fa-redo " aria-hidden="true"></span></button>';
                     //var rotateBtn = "<br>" + rotateLeft + rotateRight;
                     var rotateBtn = "<br>";
-                    var suggestBtn = "";
-<?php
-if (User::isAdmin()) {
-    ?>
-                        var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fas fa-star" aria-hidden="true"></i></button>';
-                        var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="far fa-star" aria-hidden="true"></i></button>';
-                        suggestBtn = unsuggest;
-                        if (row.isSuggested == "1") {
-                            suggestBtn = suggest;
-                        }
-    <?php
-}
-?>
                     if (row.type == "audio") {
                         rotateBtn = "";
                     }
@@ -1796,7 +1790,7 @@ if (User::isAdmin()) {
                         }
                         nextIsSet = "<span class='label label-success' data-toggle='tooltip' title='" + row.next_video.title + "'>Next video: " + nextVideoTitle + "</span>";
                     }
-                    return embedBtn + editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + download + nextIsSet;
+                    return embedBtn + editBtn + deleteBtn + status + rotateBtn + pluginsButtons + download + nextIsSet;
                 },
                 "tags": function (column, row) {
                     var tags = "";
@@ -1824,6 +1818,22 @@ if (User::isAdmin()) {
                 },
                 "filesize": function (column, row) {
                     return formatFileSize(row.filesize);
+                },
+                "isSuggested": function (column, row) {
+                    var suggestBtn = "";
+<?php
+if (Permissions::canAdminVideos()) {
+    ?>
+                        var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fas fa-star" aria-hidden="true"></i></button>';
+                        var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="far fa-star" aria-hidden="true"></i></button>';
+                        suggestBtn = unsuggest;
+                        if (row.isSuggested == "1") {
+                            suggestBtn = suggest;
+                        }
+    <?php
+}
+?>
+                    return suggestBtn;
                 },
                 "checkbox": function (column, row) {
                     var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";
@@ -2064,7 +2074,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                 });
             });
 <?php
-if (User::isAdmin()) {
+if (Permissions::canAdminVideos()) {
     ?>
                 grid.find(".command-suggest").on("click", function (e) {
                     var row_index = $(this).closest('tr').index();
