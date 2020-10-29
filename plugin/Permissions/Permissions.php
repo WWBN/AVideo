@@ -19,8 +19,9 @@ class Permissions extends PluginAbstract {
     public function getDescription() {
         $desc = "Permissions will allow you to add intermediate permisson to usergroups without need to make them Admin, "
                 . " each plugin will have his own permission rules";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Permissions-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
-        return $desc;
+        return $desc.$help;
     }
 
     public function getName() {
@@ -171,14 +172,14 @@ class Permissions extends PluginAbstract {
      */
     function getPermissionsOptions() {
         $permissions = array();
-        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_COMMENTS, __("Comments Admin"), __("Can edit and delete comments"), 'Permissions');
-        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_FULLACCESSVIDEOS, __("Videos Admin"), __("Can edit and delete videos"), 'Permissions');
-        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_INACTIVATEVIDEOS, __("Videos Moderator"), __("Can Change the video publicity"), 'Permissions');
-        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_USERS, __("Users Admin"), __("Can edit users, but cannot make them admins"), 'Permissions');
+        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_COMMENTS, __("Comments Admin"), __("Users with this option will be able to edit and delete comments in any video"), 'Permissions');
+        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_FULLACCESSVIDEOS, __("Videos Admin"), __("Just like admin, this user will have permission to edit and delete videos from any user, including videos from admin"), 'Permissions');
+        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_INACTIVATEVIDEOS, __("Videos Moderator"), __("This is a level below the (Videos Admin), this type of user can change the video publicity (Active, Inactive, Unlisted)"), 'Permissions');
+        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_USERS, __("Users Admin"), __("This type of user can edit users, can add or remove users into user groups, but cannot make them admins"), 'Permissions');
         $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_USERGROUPS, __("Users Groups Admin"), __("Can edit and delete user groups"), 'Permissions');
-        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_CACHE, __("Cache Manager"), __("Can clear cache"), 'Permissions');
-        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_SITEMAP, __("Sitemap"), __("Can generate SiteMap"), 'Permissions');
-        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_LOG, __("Log"), __("Can see the log file menu"), 'Permissions');
+        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_CACHE, __("Cache Manager"), __("This will give the option to can clear cache (Site and first page)"), 'Permissions');
+        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_SITEMAP, __("Sitemap"), __("This will give the option to generate SiteMap"), 'Permissions');
+        $permissions[] = new PluginPermissionOption(Permissions::PERMISSION_LOG, __("Log"), __("This will give the option to see the log file menu"), 'Permissions');
         return $permissions;
     }
     
