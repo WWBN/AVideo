@@ -17,3 +17,4 @@ $document = User::getDocumentImage($_GET['users_id']);
 if(empty($document)){
     $document = file_get_contents("{$global['systemRootPath']}view/img/id.png");
 }
+echo $document;
