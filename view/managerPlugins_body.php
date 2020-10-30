@@ -287,7 +287,7 @@ $uuidJSCondition = implode(" && ", $rowId);
             PluginTagsProcess();
         } else {
             var allItemsSeletors = getAllItemsSelector();
-            console.log(allItemsSeletors);
+            //console.log(allItemsSeletors);
             $("#grid tr").each(function (i, tr) {
 
                 if (allItemsSeletors) {
@@ -301,7 +301,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                 }
 
 
-                console.log($(tr).find(allItemsSeletors).length);
+                //console.log($(tr).find(allItemsSeletors).length);
                 if (!allItemsSeletors || $(tr).find(allItemsSeletors).length !== 0) {
                     if ($(tr).find(".pluginSwitch").is(":checked")) {
                         if ($("#PluginTagsInstalled").hasClass('checked')) {
@@ -486,9 +486,6 @@ $uuidJSCondition = implode(" && ", $rowId);
                         }
                     }
                     if (row.hasOwnProperty("permissions") && row.permissions.length) {
-                        for (var i = 0; i < row.permissions.length; i++) {
-                            console.log(row.permissions[i]);
-                        }
                         txt += '<button type="button" class="btn btn-xs btn-default btn-block" onclick="pluginPermissionsBtn(' + row.id + ')" data-toggle="tooltip" data-placement="right" title="<?php echo __('User Groups Permissions'); ?>"><span class="fa fa-users" aria-hidden="true"></span> <?php echo __('User Groups Permissions'); ?></button>';
                     }
 
