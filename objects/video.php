@@ -1859,6 +1859,14 @@ if (!class_exists('Video')) {
                 _error_log('{"status":"error", "msg":"getResolution ERROR, File (' . $file . ') Not Found"}');
                 return 0;
             }
+            
+            if(
+                    AVideoPlugin::isEnabledByName("Blackblaze_B2") ||
+                    AVideoPlugin::isEnabledByName("AWS_S3") ||
+                    AVideoPlugin::isEnabledByName("FTP_Storage") ||
+                    AVideoPlugin::isEnabledByName("YPTStorage")){
+                return 0;
+            }
             global $global;
             if(preg_match("/.m3u8$/i", $file) && AVideoPlugin::isEnabledByName('VideoHLS') && method_exists(new VideoHLS(), 'getHLSHigestResolutionFromFile')){
                 return VideoHLS::getHLSHigestResolutionFromFile($file);
