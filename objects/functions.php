@@ -4745,7 +4745,7 @@ function globVideosDir($filename, $filesOnly=false) {
 }
 
 function getValidFormats(){
-        $video = array('webm', 'mp4');
+        $video = array('webm', 'mp4','.m3u8');
         $audio = array('mp3', 'ogg');
         $image = array('jpg', 'gif', 'webp');
         return array_merge($video, $audio, $image);
