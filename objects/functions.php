@@ -3365,7 +3365,11 @@ function getUsageFromFilename($filename, $dir = "") {
     $files = glob("{$dir}{$filename}*");
     session_write_close();
     $filesProcessed = array();
-    foreach ($files as $f) {
+    if(empty($files)){
+        file_put_contents("{$dir}{$filename}.notfound", time());
+        $totalSize = 10;
+    }else{
+        foreach ($files as $f) {
         if (strpos($f, '.size.lock') !== false) {
             continue;
         }
@@ -3438,6 +3442,7 @@ function getUsageFromFilename($filename, $dir = "") {
             }
             $totalSize += $filesize;
         }
+    }
     }
     return $totalSize;
 }
