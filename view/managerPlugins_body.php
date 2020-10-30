@@ -445,16 +445,15 @@ $uuidJSCondition = implode(" && ", $rowId);
                 },
                 "name": function (column, row) {
                     var checked = "";
-
+                    var switchBtn = '';
                     if (<?php echo $uuidJSCondition; ?>) {
                         if(row.isPluginTablesInstalled || !row.databaseScript || (row.hasOwnProperty("installedPlugin") && row.installedPlugin.hasOwnProperty("pluginversion"))){
                             if (row.enabled) {
                                 checked = " checked='checked' ";
                             }
-                            var switchBtn = '<div class="material-small material-switch pull-left"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
-                        }else{
-                            var switchBtn = '<button type="button" class="btn btn-xs btn-danger command-sql  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="right" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> <?php echo __('Install tables'); ?></button>';
+                            switchBtn = '<div class="material-small material-switch pull-left"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
                         }
+                        
                     } else {
                         if (!row.enabled) {
                             $.ajax({
@@ -464,9 +463,11 @@ $uuidJSCondition = implode(" && ", $rowId);
                                 success: function (response) {}
                             });
                         }
-                        var switchBtn = '';
+                        switchBtn = '';
                     }
-
+                    if(!row.isPluginTablesInstalled){
+                        switchBtn += '<button type="button" class="btn btn-xs btn-danger command-sql  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="right" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> <?php echo __('Install tables'); ?></button>';
+                    }
                     //var txt = '<span id="plugin' + row.uuid + '" style="margin-top: -60px; position: absolute;"></span><a href="#plugin' + row.uuid + '">' + row.name + "</a> (" + row.dir + ")<br><small class='text-muted'>UUID: " + row.uuid + "</small>";
                     var txt = '<span id="plugin' + row.uuid + '" style="margin-top: -60px; position: absolute;"></span><a href="#plugin' + row.uuid + '">' + row.name + "</a> <small class='text-muted'>(" + row.dir + ")</small>";
 
