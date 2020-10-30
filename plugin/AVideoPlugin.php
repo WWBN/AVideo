@@ -267,20 +267,19 @@ class AVideoPlugin {
         if (empty($pluginIsLoaded)) {
             $pluginIsLoaded = array();
         }
-        $file = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
+        $loadPluginFile = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         if (!isset($pluginIsLoaded[$name])) {
             $pluginIsLoaded[$name] = false;
-            if (file_exists($file)) {
-                require_once $file;
+            if (file_exists($loadPluginFile)) {
+                require_once $loadPluginFile;
                 if (class_exists($name)) {
                     $code = "\$p = new {$name}();";
-                    $codeResult = @eval($code);
-                    if ($codeResult == false) {
-                        _error_log("[loadPlugin] eval failed for plugin ($name) code ($code)", AVideoLog::$ERROR);
-                    }
+                    eval($code);
                     if(is_object($p)){
                         $pluginIsLoaded[$name] = $p;
+                    }else{
+                        _error_log("[loadPlugin] eval failed for plugin ($name) code ($code) code result ($codeResult) included file $loadPluginFile", AVideoLog::$ERROR);
                     }
                 }
             }
