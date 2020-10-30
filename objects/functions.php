@@ -1463,8 +1463,8 @@ function getSources($fileName, $returnArray = false, $try = 0) {
 
             $obj = new stdClass();
             $obj->type = "video/mp4";
-            $obj->src = "";
-            $obj->label = "";
+            $obj->src = "Video not found";
+            $obj->label = "Video not found";
             $obj->res = 0;
             $sourcesArray["mp4"] = $obj;
             $sources["mp4"] = "<source src=\"\" type=\"{$obj->type}\" label=\"{$obj->label}\" res=\"{$obj->res}\">";
