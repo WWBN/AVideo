@@ -4731,7 +4731,7 @@ function _glob($dir, $pattern) {
     }
     $dir = rtrim($dir, '/') . '/';
     $array = array();
-    if ($handle = opendir("/var/www/html/YouPHPTube/videos/")) {
+    if ($handle = opendir($dir)) {
         $count = 0;
         while (false !== ($file_name = readdir($handle))) {
             if (preg_match($pattern, $file_name)) {
