@@ -1352,35 +1352,23 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     }
     if (empty($files)) {
 
-        $TimeLog2 = "getVideosURL_V2($fileName) empty files";
-        TimeLogStart($TimeLog2);
-        TimeLogStart($TimeLog2 . " HLS");
         $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
         if (!empty($plugin)) {
             $files = VideoHLS::getSourceFile($fileName);
         }
-        TimeLogEnd($TimeLog2 . " HLS", __LINE__);
         $video = array('webm', 'mp4');
         $audio = array('mp3', 'ogg');
         $image = array('jpg', 'gif', 'webp');
 
         $formats = array_merge($video, $audio, $image);
 
-        TimeLogStart("getVideosURL_V2::globVideosDir($cleanfilename)");
-
-        //$globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
-        //$filesInDir = glob($globQuery, GLOB_BRACE);
-        $filesInDir = globVideosDir($cleanfilename, true);
-
-        TimeLogEnd("getVideosURL_V2::globVideosDir($cleanfilename)", __LINE__);
+        $globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
+        $filesInDir = glob($globQuery, GLOB_BRACE);
+        //$filesInDir = globVideosDir($cleanfilename, true);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
 
-            $TimeLog3 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']},.{$parts['extension']})";
-            TimeLogStart($TimeLog3);
-            TimeLogStart($TimeLog3 . " 2");
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
-            TimeLogEnd($TimeLog3, __LINE__);
             if (empty($source)) {
                 continue;
             }
@@ -1406,11 +1394,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 'type' => $type,
                 'format' => strtolower($parts['extension']),
             );
-
-            TimeLogEnd($TimeLog3 . " 2", __LINE__);
         }
 
-        TimeLogEnd($TimeLog2, __LINE__);
         ObjectYPT::setCache($cacheName, $files);
     }
     $getVideosURL_V2Array[$cleanfilename] = $files;
@@ -3371,8 +3356,8 @@ function getUsageFromFilename($filename, $dir = "") {
     $dir .= (($pos === false) ? "/" : "");
     $totalSize = 0;
     _error_log("getUsageFromFilename: start {$dir}{$filename}");
-    //$files = glob("{$dir}{$filename}*");
-    $files = globVideosDir($filename);
+    $files = glob("{$dir}{$filename}*");
+    //$files = globVideosDir($filename);
     session_write_close();
     $filesProcessed = array();
     if (empty($files)) {
