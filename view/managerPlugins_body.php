@@ -433,28 +433,28 @@ $uuidJSCondition = implode(" && ", $rowId);
                         editBtn = '<button type="button" class="btn btn-xs btn-default command-edit  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?php echo __('Edit parameters'); ?></button>';
                     }
                     var sqlBtn = '';
-                    if (row.databaseScript) {
-                        sqlBtn = '<button type="button" class="btn btn-xs btn-default command-sql  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> <?php echo __('Install tables'); ?></button>';
+                    if (row.databaseScript && row.isPluginTablesInstalled) {
+                        //sqlBtn = '<button type="button" class="btn btn-xs btn-default command-sql  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> <?php echo __('Reinstall tables'); ?></button>';
                     }
                     menu = '';
                     if (row.installedPlugin && row.installedPlugin.status == 'active') {
                         menu = row.pluginMenu;
                     }
-                    updateBtn = '';
-                    if (row.hasOwnProperty("installedPlugin") && row.installedPlugin.hasOwnProperty("pluginversion") && row.installedPlugin.pluginversion != row.pluginversion) {
-                        updateBtn = '<button type="button" class="btn btn-xs btn-warning command-update  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Run Update Script'); ?>"><span class="fa fa-wrench" aria-hidden="true"></span> <?php echo __('Update'); ?> @' + row.pluginversion + '</button>';
-                    }
 
-                    return  editBtn + sqlBtn + updateBtn + menu;
+                    return  editBtn + sqlBtn + menu;
                 },
                 "name": function (column, row) {
                     var checked = "";
 
                     if (<?php echo $uuidJSCondition; ?>) {
-                        if (row.enabled) {
-                            checked = " checked='checked' ";
+                        if(row.isPluginTablesInstalled || !row.databaseScript || (row.hasOwnProperty("installedPlugin") && row.installedPlugin.hasOwnProperty("pluginversion"))){
+                            if (row.enabled) {
+                                checked = " checked='checked' ";
+                            }
+                            var switchBtn = '<div class="material-small material-switch pull-left"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
+                        }else{
+                            var switchBtn = '<button type="button" class="btn btn-xs btn-danger command-sql  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="right" title="Run Database Script"><span class="fa fa-database" aria-hidden="true"></span> <?php echo __('Install tables'); ?></button>';
                         }
-                        var switchBtn = '<div class="material-small material-switch pull-left"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
                     } else {
                         if (!row.enabled) {
                             $.ajax({
@@ -479,6 +479,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                         //console.log(row.installedPlugin.pluginversion != row.pluginversion);
                         if (row.installedPlugin.pluginversion != row.pluginversion) {
                             txt += "<small class='text-danger'>Installed (@" + row.installedPlugin.pluginversion + ")<br>Current Version (@" + row.pluginversion + "), please update</small>";
+                            txt += '<div class="clearfix"></div><button type="button" class="btn btn-xs btn-warning command-update btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="right" title="<?php echo __('Run Update Script'); ?>"><span class="fa fa-wrench" aria-hidden="true"></span> <?php echo __('Update'); ?> @' + row.pluginversion + '</button>';
                         } else {
                             txt += "<small class='text-success'>Version: @" + row.pluginversion + "</small>";
                         }
@@ -487,7 +488,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                         for (var i = 0; i < row.permissions.length; i++) {
                             console.log(row.permissions[i]);
                         }
-                        txt += '<button type="button" class="btn btn-xs btn-default btn-block" onclick="pluginPermissionsBtn(' + row.id + ')" data-toggle="tooltip" title="<?php echo __('User Groups Permissions'); ?>"><span class="fa fa-users" aria-hidden="true"></span> <?php echo __('User Groups Permissions'); ?></button>';
+                        txt += '<button type="button" class="btn btn-xs btn-default btn-block" onclick="pluginPermissionsBtn(' + row.id + ')" data-toggle="tooltip" data-placement="right" title="<?php echo __('User Groups Permissions'); ?>"><span class="fa fa-users" aria-hidden="true"></span> <?php echo __('User Groups Permissions'); ?></button>';
                     }
 
                     return txt;
@@ -522,6 +523,10 @@ $uuidJSCondition = implode(" && ", $rowId);
                 }
             }
         }).on("loaded.rs.jquery.bootgrid", function () {
+            $('[data-toggle="tooltip"], .tooltip').tooltip("hide");
+            setTimeout(function(){
+                $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+            },500);
             /* Executes after data is loaded and rendered */
             grid.find(".pluginSwitch").on("change", function (e) {
                 var row_index = $(this).closest('tr').index();
@@ -559,6 +564,11 @@ $uuidJSCondition = implode(" && ", $rowId);
                     data: {"name": row.name},
                     type: 'post',
                     success: function (response) {
+                        if(response.error){
+                            avideoAlertError(response.msg) ;                               
+                        }else{
+                            $("#grid").bootgrid('reload');
+                        }
                         modal.hidePleaseWait();
                     }
                 });

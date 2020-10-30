@@ -6,7 +6,8 @@ class FBTube extends PluginAbstract {
     
     public function getTags() {
         return array(
-            PluginTags::$FREE
+            PluginTags::$FREE,
+            PluginTags::$DEPRECATED
         );
     }
     public function getDescription() {
