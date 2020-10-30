@@ -1366,13 +1366,13 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         $formats = array_merge($video, $audio, $image);
 
-        TimeLogStart("getVideosURL_V2::globVideosDir($globQuery, GLOB_BRACE)");
+        TimeLogStart("getVideosURL_V2::globVideosDir($cleanfilename)");
 
         //$globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
         //$filesInDir = glob($globQuery, GLOB_BRACE);
         $filesInDir = globVideosDir($cleanfilename, true);
 
-        TimeLogEnd("getVideosURL_V2::globVideosDir($globQuery, GLOB_BRACE)", __LINE__);
+        TimeLogEnd("getVideosURL_V2::globVideosDir($cleanfilename)", __LINE__);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
 
@@ -4740,7 +4740,7 @@ function globVideosDir($filename, $filesOnly=false) {
     if (empty($filename)) {
         return array();
     }
-    $cleanfilename = Video::getCleanFilenameFromFile($fileName);
+    $cleanfilename = Video::getCleanFilenameFromFile($filename);
     $cleanfilename = "";
     $pattern = "/{$cleanfilename}.*";
     if(!empty($filesOnly)){
