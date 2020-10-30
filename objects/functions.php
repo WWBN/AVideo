@@ -1460,6 +1460,15 @@ function getSources($fileName, $returnArray = false, $try = 0) {
             return $sources;
         } else {
             _error_log("getSources($fileName) File not found " . json_encode($video));
+
+            $obj = new stdClass();
+            $obj->type = "video/mp4";
+            $obj->src = "";
+            $obj->label = "";
+            $obj->res = 0;
+            $sourcesArray["mp4"] = $obj;
+            $sources["mp4"] = "<source src=\"\" type=\"{$obj->type}\" label=\"{$obj->label}\" res=\"{$obj->res}\">";
+            $return = $returnArray ? $sourcesArray : implode(PHP_EOL, $sources);
         }
     }
     return $return;
