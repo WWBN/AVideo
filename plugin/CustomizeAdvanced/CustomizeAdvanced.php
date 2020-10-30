@@ -183,7 +183,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->twitter_player = true;
         $obj->twitter_summary_large_image = false;
         $obj->footerStyle = "position: fixed;bottom: 0;width: 100%;";
-        
+        $obj->disableVideoTags = false;
         
         return $obj;
     }
