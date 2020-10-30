@@ -1347,6 +1347,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 //_error_log("getVideosURL_V2:: cache not found ". json_encode($files));
         }
         TimeLogEnd($TimeLog1, __LINE__);
+    }else{
+        _error_log("getVideosURL_V2($fileName) Recreate cache requested ". json_encode(debug_backtrace()));
     }
     if (empty($files)) {
 
