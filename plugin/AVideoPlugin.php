@@ -277,7 +277,7 @@ class AVideoPlugin {
                     $code = "\$p = new {$name}();";
                     $codeResult = @eval($code);
                     if ($codeResult == false) {
-                        _error_log("[loadPlugin] eval failed for plugin " . $name, AVideoLog::$ERROR);
+                        _error_log("[loadPlugin] eval failed for plugin ($name) code ($code)", AVideoLog::$ERROR);
                     }
                     if(is_object($p)){
                         $pluginIsLoaded[$name] = $p;
