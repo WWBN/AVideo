@@ -1163,7 +1163,7 @@ class AVideoPlugin {
             $_getVideoTags = array();
         }
 
-        if (!empty($_getVideoTags[$videos_id])) {
+        if (isset($_getVideoTags[$videos_id])) {
             $array = $_getVideoTags[$videos_id];
         } else {
             $name = "getVideoTags{$videos_id}";
