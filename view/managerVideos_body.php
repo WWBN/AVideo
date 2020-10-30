@@ -1832,7 +1832,7 @@ if (Permissions::canAdminVideos()) {
                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Resolution") . ":"; ?> </span><span class=\"label label-default \">" + row.maxResolution.resolution_string + "</span>";
                     }
                     for (var i in row.tags) {
-                        if (typeof row.tags[i].type == "undefined") {
+                        if (typeof row.tags[i].type == "undefined" || row.tags[i].label.length===0) {
                             continue;
                         }
                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + row.tags[i].text + "</span>";
