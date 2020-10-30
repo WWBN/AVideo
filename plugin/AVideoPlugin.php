@@ -1181,7 +1181,7 @@ class AVideoPlugin {
                     if (is_object($p)) {
                         $array = array_merge($array, $p->getVideoTags($videos_id));
                     }
-                    TimeLogEnd($TimeLog, __LINE__, 0.3);
+                    TimeLogEnd($TimeLog, __LINE__);
                 }
                 TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__);
                 ObjectYPT::setCache($name, $array);
