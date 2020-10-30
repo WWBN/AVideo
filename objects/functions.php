@@ -1267,23 +1267,33 @@ function getVideosURL($fileName, $cache = true) {
 }
 
 function getVideosURLMP4Only($fileName) {
-    $allFiles = getVideosURL_V2($fileName); // disable this function soon
-    foreach ($allFiles as $key => $value) {
-        if ($value['format'] !== 'mp4') {
-            unset($allFiles[$key]);
+    $allFiles = getVideosURL_V2($fileName);
+    if(is_array($allFiles)){
+        foreach ($allFiles as $key => $value) {
+            if ($value['format'] !== 'mp4') {
+                unset($allFiles[$key]);
+            }
         }
+        return $allFiles;
+    }else{
+        _error_log("getVideosURLMP4Only does not return an ARRAY from getVideosURL_V2($fileName) ".json_encode($allFiles));
+        return array();
     }
-    return $allFiles;
 }
 
 function getVideosURLWEBMOnly($fileName) {
     $allFiles = getVideosURL_V2($fileName); // disable this function soon
-    foreach ($allFiles as $key => $value) {
-        if ($value['format'] !== 'webm') {
-            unset($allFiles[$key]);
+    if(is_array($allFiles)){
+        foreach ($allFiles as $key => $value) {
+            if ($value['format'] !== 'webm') {
+                unset($allFiles[$key]);
+            }
         }
+        return $allFiles;
+    }else{
+        _error_log("getVideosURLMP4Only does not return an ARRAY from getVideosURL_V2($fileName) ".json_encode($allFiles));
+        return array();
     }
-    return $allFiles;
 }
 
 function getVideosURLMP4WEBMOnly($fileName) {
