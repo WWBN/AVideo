@@ -286,6 +286,9 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     static function getCache($name, $lifetime = 60) {
+        if(isCommandLineInterface()){
+            return false;
+        }
         global $getCachesProcessed, $_getCache;
         
         if(empty($_getCache)){
