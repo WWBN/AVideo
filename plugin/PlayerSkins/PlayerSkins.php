@@ -130,7 +130,7 @@ class PlayerSkins extends PluginAbstract {
             $js .= "<script src=\"{$global['webSiteRootURL']}view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
             $js .= "<script>" . self::getStartPlayerJSCode() . "</script>";
         }
-        
+
         return $js;
     }
 
@@ -235,7 +235,7 @@ class PlayerSkins extends PluginAbstract {
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/loopbutton.js');
         }
 
-        
+
         $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/fixCurrentSources.js');
         if (empty($noReadyFunction)) {
             $js .= "});";
@@ -322,26 +322,29 @@ class PlayerSkins extends PluginAbstract {
         }
         return $config->getAutoplay();
     }
-    
+
     public static function getVideoTags($videos_id) {
         if (empty($videos_id)) {
             return array();
         }
         $name = "PlayeSkins_getVideoTags{$videos_id}";
-        $tags = ObjectYPT::getCache($name,0);
+        $tags = ObjectYPT::getCache($name, 0);
         if (empty($tags)) {
             $video = new Video("", "", $videos_id);
             $fileName = $video->getFilename();
             $resolution = Video::getHigestResolution($fileName);
-            if (empty($resolution) || empty($resolution['resolution_text'])) {
-                return array();
-            }
             $obj = new stdClass();
-            $obj->label = 'Plugin';
-            $obj->type = "danger";
-            $obj->text = $resolution['resolution_text']; // closed caption
+            if (empty($resolution) || empty($resolution['resolution_text'])) {
+                $obj->label = '';
+                $obj->type = "";
+                $obj->text = "";
+            } else {
+                $obj->label = 'Plugin';
+                $obj->type = "danger";
+                $obj->text = $resolution['resolution_text'];
+            }
             $tags = $obj;
-            ObjectYPT::setCache($name,$tags);
+            ObjectYPT::setCache($name, $tags);
         }
         return array($tags);
     }
