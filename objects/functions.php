@@ -1323,6 +1323,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     }
     $cacheName = "getVideosURL_V2$fileName";
     if (empty($recreateCache)) {
+
+        $TimeLog1 = "getVideosURL_V2($fileName) empty recreateCache";
+        TimeLogStart($TimeLog1);
         $files = object_to_array(ObjectYPT::getCache($cacheName, 0, true));
         if (is_array($files)) {
             $preg_match_url = addcslashes($global['webSiteRootURL'], "/") . "videos";
@@ -1343,8 +1346,12 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         } else {
 //_error_log("getVideosURL_V2:: cache not found ". json_encode($files));
         }
+        TimeLogEnd($TimeLog1, __LINE__);
     }
     if (empty($files)) {
+
+        $TimeLog2 = "getVideosURL_V2($fileName) empty files";
+        TimeLogStart($TimeLog2);
         $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
         if (!empty($plugin)) {
             $files = VideoHLS::getSourceFile($fileName);
@@ -1362,7 +1369,11 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
+
+            $TimeLog3 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']},.{$parts['extension']})";
+            TimeLogStart($TimeLog3);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
+            TimeLogEnd($TimeLog3, __LINE__);
             if (empty($source)) {
                 continue;
             }
@@ -1389,6 +1400,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 'format' => strtolower($parts['extension']),
             );
         }
+
+        TimeLogEnd($TimeLog2, __LINE__);
         ObjectYPT::setCache($cacheName, $files);
     }
     $getVideosURL_V2Array[$cleanfilename] = $files;
@@ -1508,7 +1521,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
         _error_log("im_resize: Could not get image size: {$file_src}");
         return false;
     }
-    
+
     if (empty($size['mime']) || $size['mime'] == 'image/pjpeg') {
         $size['mime'] = 'image/jpeg';
     }
