@@ -330,6 +330,7 @@ class PlayerSkins extends PluginAbstract {
         $name = "PlayeSkins_getVideoTags{$videos_id}";
         $tags = ObjectYPT::getCache($name, 0);
         if (empty($tags)) {
+            _error_log("Cache not found $name");
             $video = new Video("", "", $videos_id);
             $fileName = $video->getFilename();
             $resolution = Video::getHigestResolution($fileName);
