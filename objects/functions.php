@@ -1373,7 +1373,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             $TimeLog3 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']},.{$parts['extension']})";
             TimeLogStart($TimeLog3);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
-            TimeLogEnd($TimeLog3, __LINE__,0.3);
+            TimeLogEnd($TimeLog3, __LINE__,0.2);
             if (empty($source)) {
                 continue;
             }
