@@ -27,6 +27,13 @@ $log = new CloneLog();
 $log->add("Clone: Clone Start");
 
 $objClone = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
+
+if (empty($objClone->cloneSiteURL)) {
+    $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an AVideo URL";
+    $log->add("Clone: {$resp->msg}");
+    die(json_encode($resp));
+}
+
 $objClone->cloneSiteURL = rtrim($objClone->cloneSiteURL,"/").'/';
 $objCloneOriginal = $objClone;
 $argv[1] = preg_replace("/[^A-Za-z0-9 ]/", '', @$argv[1]);
@@ -38,14 +45,6 @@ if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
         echo "$objClone->myKey !== $argv[1]";
         die(json_encode($resp));
     }
-}
-
-
-
-if (empty($objClone->cloneSiteURL)) {
-    $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an AVideo URL";
-    $log->add("Clone: {$resp->msg}");
-    die(json_encode($resp));
 }
 
 $videosSite = "{$objClone->cloneSiteURL}videos/";
