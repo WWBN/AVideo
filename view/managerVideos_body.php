@@ -1828,7 +1828,7 @@ if (Permissions::canAdminVideos()) {
 }
 ?>
 
-                    if (row.maxResolution && row.maxResolution.resolution_string) {
+                    if (row.maxResolution && row.maxResolution.resolution_string && row.maxResolution.resolution_string !=='0p') {
                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Resolution") . ":"; ?> </span><span class=\"label label-default \">" + row.maxResolution.resolution_string + "</span>";
                     }
                     for (var i in row.tags) {
