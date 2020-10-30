@@ -1380,7 +1380,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             TimeLogStart($TimeLog3);
             TimeLogStart($TimeLog3 . " 2");
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
-            TimeLogEnd($TimeLog3, __LINE__, 0.02);
+            TimeLogEnd($TimeLog3, __LINE__);
             if (empty($source)) {
                 continue;
             }
@@ -1407,7 +1407,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 'format' => strtolower($parts['extension']),
             );
 
-            TimeLogEnd($TimeLog3 . " 2", __LINE__, 0.02);
+            TimeLogEnd($TimeLog3 . " 2", __LINE__);
         }
 
         TimeLogEnd($TimeLog2, __LINE__);
