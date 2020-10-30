@@ -2615,7 +2615,9 @@ if (!class_exists('Video')) {
          */
         static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
             global $global, $advancedCustom, $videosPaths, $VideoGetSourceFile;
-
+            if(!isValidFormats($type)){
+                return false;
+            }
             $cacheName = md5($filename . $type . $includeS3);
             if (isset($VideoGetSourceFile[$cacheName])) {
                 return $VideoGetSourceFile[$cacheName];
