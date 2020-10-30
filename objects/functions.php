@@ -4727,7 +4727,7 @@ function _glob($dir, $pattern) {
         $count = 0;
         while (false !== ($file_name = readdir($handle))) {
             if (preg_match($pattern, $file_name)) {
-                $array = "{$dir}{$file_name}";
+                $array[] = "{$dir}{$file_name}";
             }
         }
         closedir($handle);
