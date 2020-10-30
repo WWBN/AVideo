@@ -1347,38 +1347,40 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 //_error_log("getVideosURL_V2:: cache not found ". json_encode($files));
         }
         TimeLogEnd($TimeLog1, __LINE__);
-    }else{
-        _error_log("getVideosURL_V2($fileName) Recreate cache requested ". json_encode(debug_backtrace()));
+    } else {
+        _error_log("getVideosURL_V2($fileName) Recreate cache requested " . json_encode(debug_backtrace()));
     }
     if (empty($files)) {
 
         $TimeLog2 = "getVideosURL_V2($fileName) empty files";
         TimeLogStart($TimeLog2);
-        TimeLogStart($TimeLog2. " HLS");
+        TimeLogStart($TimeLog2 . " HLS");
         $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
         if (!empty($plugin)) {
             $files = VideoHLS::getSourceFile($fileName);
         }
-        TimeLogEnd($TimeLog2. " HLS", __LINE__);
+        TimeLogEnd($TimeLog2 . " HLS", __LINE__);
         $video = array('webm', 'mp4');
         $audio = array('mp3', 'ogg');
         $image = array('jpg', 'gif', 'webp');
 
         $formats = array_merge($video, $audio, $image);
 
-        $globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
+        TimeLogStart("getVideosURL_V2::globVideosDir($globQuery, GLOB_BRACE)");
 
-        TimeLogStart("getVideosURL_V2::glob($globQuery, GLOB_BRACE)");
-        $filesInDir = glob($globQuery, GLOB_BRACE);
-        TimeLogEnd("getVideosURL_V2::glob($globQuery, GLOB_BRACE)", __LINE__);
+        //$globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
+        //$filesInDir = glob($globQuery, GLOB_BRACE);
+        $filesInDir = globVideosDir($cleanfilename);
+
+        TimeLogEnd("getVideosURL_V2::globVideosDir($globQuery, GLOB_BRACE)", __LINE__);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
 
             $TimeLog3 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']},.{$parts['extension']})";
             TimeLogStart($TimeLog3);
-            TimeLogStart($TimeLog3." 2");
+            TimeLogStart($TimeLog3 . " 2");
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
-            TimeLogEnd($TimeLog3, __LINE__,0.02);
+            TimeLogEnd($TimeLog3, __LINE__, 0.02);
             if (empty($source)) {
                 continue;
             }
@@ -1404,8 +1406,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 'type' => $type,
                 'format' => strtolower($parts['extension']),
             );
-                
-            TimeLogEnd($TimeLog3." 2", __LINE__,0.02);
+
+            TimeLogEnd($TimeLog3 . " 2", __LINE__, 0.02);
         }
 
         TimeLogEnd($TimeLog2, __LINE__);
@@ -3372,85 +3374,85 @@ function getUsageFromFilename($filename, $dir = "") {
     $files = glob("{$dir}{$filename}*");
     session_write_close();
     $filesProcessed = array();
-    if(empty($files)){
+    if (empty($files)) {
         _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one");
         file_put_contents("{$dir}{$filename}.notfound", time());
         $totalSize = 10;
-    }else{
+    } else {
         foreach ($files as $f) {
-        if (strpos($f, '.size.lock') !== false) {
-            continue;
-        }
-        if (is_dir($f)) {
-            _error_log("getUsageFromFilename: {$f} is Dir");
-            $dirSize = getDirSize($f);
-            $totalSize += $dirSize;
-            if ($dirSize < 10000 && AVideoPlugin::isEnabledByName('YPTStorage')) {
-                // probably the HLS file is hosted on the YPTStorage
-                $info = YPTStorage::getFileInfo($filename);
-                if (!empty($info->size)) {
-                    $totalSize += $info->size;
-                }
+            if (strpos($f, '.size.lock') !== false) {
+                continue;
             }
-        } else if (is_file($f)) {
-            $filesize = filesize($f);
-            if ($filesize < 20) { // that means it is a dummy file
-                $lockFile = $f . ".size.lock";
-                if (!file_exists($lockFile) || (time() - 600) > filemtime($lockFile)) {
-                    file_put_contents($lockFile, time());
-                    _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
-                    $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
-                    //$bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
-                    if (!empty($aws_s3)) {
-                        _error_log("getUsageFromFilename: Get from S3");
-                        $filesize += $aws_s3->getFilesize($filename);
-                    } else if (!empty($bb_b2)) {
-                        // TODO
-                    } else {
-                        $urls = Video::getVideosPaths($filename, true);
-                        _error_log("getUsageFromFilename: Paths " . json_encode($urls));
-                        if (!empty($urls["m3u8"]['url'])) {
-                            $filesize += getUsageFromURL($urls["m3u8"]['url']);
-                        }
-                        if (!empty($urls['mp4'])) {
-                            foreach ($urls['mp4'] as $mp4) {
-                                if (in_array($mp4, $filesProcessed)) {
-                                    continue;
-                                }
-                                $filesProcessed[] = $mp4;
-                                $filesize += getUsageFromURL($mp4);
-                            }
-                        }
-                        if (!empty($urls['webm'])) {
-                            foreach ($urls['webm'] as $mp4) {
-                                if (in_array($mp4, $filesProcessed)) {
-                                    continue;
-                                }
-                                $filesProcessed[] = $mp4;
-                                $filesize += getUsageFromURL($mp4);
-                            }
-                        }
-                        if (!empty($urls["pdf"]['url'])) {
-                            $filesize += getUsageFromURL($urls["pdf"]['url']);
-                        }
-                        if (!empty($urls["image"]['url'])) {
-                            $filesize += getUsageFromURL($urls["image"]['url']);
-                        }
-                        if (!empty($urls["zip"]['url'])) {
-                            $filesize += getUsageFromURL($urls["zip"]['url']);
-                        }
-                        if (!empty($urls["mp3"]['url'])) {
-                            $filesize += getUsageFromURL($urls["mp3"]['url']);
-                        }
+            if (is_dir($f)) {
+                _error_log("getUsageFromFilename: {$f} is Dir");
+                $dirSize = getDirSize($f);
+                $totalSize += $dirSize;
+                if ($dirSize < 10000 && AVideoPlugin::isEnabledByName('YPTStorage')) {
+                    // probably the HLS file is hosted on the YPTStorage
+                    $info = YPTStorage::getFileInfo($filename);
+                    if (!empty($info->size)) {
+                        $totalSize += $info->size;
                     }
-                    unlink($lockFile);
                 }
-            } else {
-                _error_log("getUsageFromFilename: {$f} is File ({$filesize})");
+            } else if (is_file($f)) {
+                $filesize = filesize($f);
+                if ($filesize < 20) { // that means it is a dummy file
+                    $lockFile = $f . ".size.lock";
+                    if (!file_exists($lockFile) || (time() - 600) > filemtime($lockFile)) {
+                        file_put_contents($lockFile, time());
+                        _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
+                        $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
+                        //$bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
+                        if (!empty($aws_s3)) {
+                            _error_log("getUsageFromFilename: Get from S3");
+                            $filesize += $aws_s3->getFilesize($filename);
+                        } else if (!empty($bb_b2)) {
+                            // TODO
+                        } else {
+                            $urls = Video::getVideosPaths($filename, true);
+                            _error_log("getUsageFromFilename: Paths " . json_encode($urls));
+                            if (!empty($urls["m3u8"]['url'])) {
+                                $filesize += getUsageFromURL($urls["m3u8"]['url']);
+                            }
+                            if (!empty($urls['mp4'])) {
+                                foreach ($urls['mp4'] as $mp4) {
+                                    if (in_array($mp4, $filesProcessed)) {
+                                        continue;
+                                    }
+                                    $filesProcessed[] = $mp4;
+                                    $filesize += getUsageFromURL($mp4);
+                                }
+                            }
+                            if (!empty($urls['webm'])) {
+                                foreach ($urls['webm'] as $mp4) {
+                                    if (in_array($mp4, $filesProcessed)) {
+                                        continue;
+                                    }
+                                    $filesProcessed[] = $mp4;
+                                    $filesize += getUsageFromURL($mp4);
+                                }
+                            }
+                            if (!empty($urls["pdf"]['url'])) {
+                                $filesize += getUsageFromURL($urls["pdf"]['url']);
+                            }
+                            if (!empty($urls["image"]['url'])) {
+                                $filesize += getUsageFromURL($urls["image"]['url']);
+                            }
+                            if (!empty($urls["zip"]['url'])) {
+                                $filesize += getUsageFromURL($urls["zip"]['url']);
+                            }
+                            if (!empty($urls["mp3"]['url'])) {
+                                $filesize += getUsageFromURL($urls["mp3"]['url']);
+                            }
+                        }
+                        unlink($lockFile);
+                    }
+                } else {
+                    _error_log("getUsageFromFilename: {$f} is File ({$filesize})");
+                }
+                $totalSize += $filesize;
             }
-            $totalSize += $filesize;
         }
-    }
     }
     return $totalSize;
 }
@@ -4711,4 +4713,39 @@ function getResolutionText($res) {
     } else {
         return '';
     }
+}
+
+// just realize the readdir is a lot faster then glob
+function _glob($dir, $pattern) {
+    if (empty($dir)) {
+        return array();
+    }
+    $dir = rtrim($dir, '/') . '/';
+    $array = array();
+    if ($handle = opendir("/var/www/html/YouPHPTube/videos/")) {
+        $count = 0;
+        while (false !== ($file_name = readdir($handle))) {
+            if (preg_match($pattern, $file_name)) {
+                $array = "{$dir}{$file_name}";
+            }
+        }
+        closedir($handle);
+    }
+    return $array;
+}
+
+function globVideosDir($filename) {
+    global $global;
+    if (empty($filename)) {
+        return array();
+    }
+    $cleanfilename = Video::getCleanFilenameFromFile($fileName);
+    $cleanfilename = "";
+    $video = array('webm', 'mp4');
+    $audio = array('mp3', 'ogg');
+    $image = array('jpg', 'gif', 'webp');
+
+    $formats = array_merge($video, $audio, $image);
+
+    return _glob("{$global['systemRootPath']}videos/", "/{$cleanfilename}.*.(" . implode("|", $formats) . ")/");
 }
