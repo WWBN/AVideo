@@ -4753,12 +4753,20 @@ function globVideosDir($filename, $filesOnly=false) {
     $cleanfilename = "";
     $pattern = "/{$cleanfilename}.*";
     if(!empty($filesOnly)){
-        $video = array('webm', 'mp4');
-        $audio = array('mp3', 'ogg');
-        $image = array('jpg', 'gif', 'webp');
-        $formats = array_merge($video, $audio, $image);
+        $formats = getValidFormats();
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
     return _glob("{$global['systemRootPath']}videos/", $pattern);
+}
+
+function getValidFormats(){
+        $video = array('webm', 'mp4');
+        $audio = array('mp3', 'ogg');
+        $image = array('jpg', 'gif', 'webp');
+        return array_merge($video, $audio, $image);
+}
+function isValidFormats($format){
+    $format = str_replace(".", "", $format);
+    return in_array($format, getValidFormats());
 }
