@@ -276,9 +276,9 @@ class AVideoPlugin {
                 if (class_exists($name)) {
                     $code = "\$p = new {$name}();";
                     eval($code);
-                    if(is_object($p)){
+                    if (is_object($p)) {
                         $pluginIsLoaded[$name] = $p;
-                    }else{
+                    } else {
                         _error_log("[loadPlugin] eval failed for plugin ($name) code ($code) code result ($codeResult) included file $loadPluginFile", AVideoLog::$ERROR);
                     }
                 }
@@ -298,13 +298,13 @@ class AVideoPlugin {
         return false;
     }
 
-    static function isPluginTablesInstalled($name, $installIt=false) {
+    static function isPluginTablesInstalled($name, $installIt = false) {
         global $global, $isPluginTablesInstalled;
         $installSQLFile = "{$global['systemRootPath']}plugin/{$name}/install/install.sql";
-        if(isset($isPluginTablesInstalled[$installSQLFile])){
+        if (isset($isPluginTablesInstalled[$installSQLFile])) {
             return $isPluginTablesInstalled[$installSQLFile];
-        }        
-        if(!file_exists($installSQLFile)){
+        }
+        if (!file_exists($installSQLFile)) {
             $isPluginTablesInstalled[$installSQLFile] = true;
             return $isPluginTablesInstalled[$installSQLFile];
         }
@@ -312,24 +312,24 @@ class AVideoPlugin {
         foreach ($lines as $line) {
             $pattern1 = "/CREATE TABLE IF NOT EXISTS `?([a-z0-9_]+)[` (]?/i";
             $pattern2 = "/CREATE TABLE[^`]+`?([a-z0-9_]+)[` (]?/i";
-            if(preg_match($pattern1, $line, $matches)){
-                if(!empty($matches[1])){
-                    if(!ObjectYPT::isTableInstalled($matches[1])){
-                        if($installIt){
+            if (preg_match($pattern1, $line, $matches)) {
+                if (!empty($matches[1])) {
+                    if (!ObjectYPT::isTableInstalled($matches[1])) {
+                        if ($installIt) {
                             sqlDAL::executeFile($installSQLFile);
                             return self::isPluginTablesInstalled($name);
-                        }else{
+                        } else {
                             _error_log("You need to install table {$matches[1]} for the plugin ({$name})", AVideoLog::$ERROR);
                             $isPluginTablesInstalled[$installSQLFile] = false;
                             return $isPluginTablesInstalled[$installSQLFile];
                         }
                     }
                 }
-            }else if(preg_match($pattern2, $line, $matches)){
-                if(!empty($matches[1])){
-                    if(!ObjectYPT::isTableInstalled($matches[1])){
+            } else if (preg_match($pattern2, $line, $matches)) {
+                if (!empty($matches[1])) {
+                    if (!ObjectYPT::isTableInstalled($matches[1])) {
                         _error_log("You need to install table {$matches[1]} for the plugin ({$name})", AVideoLog::$ERROR);
-                        
+
                         $isPluginTablesInstalled[$installSQLFile] = false;
                         return $isPluginTablesInstalled[$installSQLFile];
                     }
@@ -492,10 +492,10 @@ class AVideoPlugin {
 
     static function isEnabledByName($name) {
         global $isPluginEnabledByName;
-        if(empty($isPluginEnabledByName)){
+        if (empty($isPluginEnabledByName)) {
             $isPluginEnabledByName = array();
         }
-        if(isset($isPluginEnabledByName[$name])){
+        if (isset($isPluginEnabledByName[$name])) {
             return $isPluginEnabledByName[$name];
         }
         $p = static::loadPluginIfEnabled($name);
@@ -1167,22 +1167,20 @@ class AVideoPlugin {
             $array = $_getVideoTags[$videos_id];
         } else {
             $name = "getVideoTags{$videos_id}";
-            $array = ObjectYPT::getCache($name, 0);
+            $array = ObjectYPT::getCache($name, 86400);
             //_error_log("getVideoTags $name ".(empty($array)?"new":"old"));
             if (empty($array)) {
                 TimeLogStart("AVideoPlugin::getVideoTags($videos_id)");
-                if (empty($_SESSION['getVideoTags'][$videos_id])) {
-                    $plugins = Plugin::getAllEnabled();
-                    $array = array();
-                    foreach ($plugins as $value) {
-                        $TimeLog = "AVideoPlugin::getVideoTags($videos_id) {$value['dirName']} ";
-                        TimeLogStart($TimeLog);
-                        $p = static::loadPlugin($value['dirName']);
-                        if (is_object($p)) {
-                            $array = array_merge($array, $p->getVideoTags($videos_id));
-                        }
-                        TimeLogEnd($TimeLog, __LINE__, 0.3);
+                $plugins = Plugin::getAllEnabled();
+                $array = array();
+                foreach ($plugins as $value) {
+                    $TimeLog = "AVideoPlugin::getVideoTags($videos_id) {$value['dirName']} ";
+                    TimeLogStart($TimeLog);
+                    $p = static::loadPlugin($value['dirName']);
+                    if (is_object($p)) {
+                        $array = array_merge($array, $p->getVideoTags($videos_id));
                     }
+                    TimeLogEnd($TimeLog, __LINE__, 0.3);
                 }
                 TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__);
                 ObjectYPT::setCache($name, $array);
