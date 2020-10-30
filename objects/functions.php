@@ -1317,7 +1317,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     if (empty($fileName)) {
         return array();
     }
-
+    $recreateCache = true;
     $cleanfilename = Video::getCleanFilenameFromFile($fileName);
 
     if (!empty($getVideosURL_V2Array[$cleanfilename])) {
@@ -1377,7 +1377,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         $filesInDir = globVideosDir($cleanfilename, true);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
-
+            
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
             if (empty($source)) {
                 continue;
