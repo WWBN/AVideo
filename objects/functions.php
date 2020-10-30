@@ -4718,8 +4718,16 @@ function getResolutionText($res) {
 
 // just realize the readdir is a lot faster then glob
 function _glob($dir, $pattern) {
+    global $_glob;
     if (empty($dir)) {
         return array();
+    }
+    if(empty($_glob)){
+        $_glob = array();
+    }
+    $name = md5($dir.$pattern);
+    if(isset($_glob[$name])){
+        return $_glob[$name];
     }
     $dir = rtrim($dir, '/') . '/';
     $array = array();
@@ -4732,6 +4740,7 @@ function _glob($dir, $pattern) {
         }
         closedir($handle);
     }
+    $_glob[$name] = $array;
     return $array;
 }
 
