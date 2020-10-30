@@ -1368,8 +1368,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         $globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
 
+        TimeLogStart("getVideosURL_V2::glob($globQuery, GLOB_BRACE)");
         $filesInDir = glob($globQuery, GLOB_BRACE);
-
+        TimeLogEnd("getVideosURL_V2::glob($globQuery, GLOB_BRACE)", __LINE__);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
 
