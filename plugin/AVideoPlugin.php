@@ -269,29 +269,23 @@ class AVideoPlugin {
         }
         $file = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
-        $crc = dechex(crc32($name));
-        if (!isset($pluginIsLoaded[$crc])) {
-
+        if (!isset($pluginIsLoaded[$name])) {
+            $pluginIsLoaded[$name] = false;
             if (file_exists($file)) {
                 require_once $file;
-                if (!class_exists($name)) {
-                    return false;
+                if (class_exists($name)) {
+                    $code = "\$p = new {$name}();";
+                    $codeResult = @eval($code);
+                    if ($codeResult == false) {
+                        _error_log("[loadPlugin] eval failed for plugin " . $name, AVideoLog::$ERROR);
+                    }
+                    if(is_object($p)){
+                        $pluginIsLoaded[$name] = $p;
+                    }
                 }
-                $code = "\$p = new {$name}();";
-                $codeResult = @eval($code . " return \$p;");
-                if ($codeResult == false) {
-                    _error_log("[loadPlugin] eval failed for plugin " . $name, AVideoLog::$ERROR);
-                }
-                $pluginIsLoaded[$crc] = $codeResult;
-                return $codeResult;
-            } else {
-                $pluginIsLoaded[$crc] = "false"; // only for pass empty-function
             }
         }
-        if ($pluginIsLoaded[$crc] == "false") {
-            return false;
-        }
-        return $pluginIsLoaded[$crc];
+        return $pluginIsLoaded[$name];
     }
 
     static function loadPluginIfEnabled($name) {
