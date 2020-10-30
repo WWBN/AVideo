@@ -65,6 +65,7 @@ $url = $objClone->cloneSiteURL . "plugin/CloneSite/cloneServer.json.php?url=" . 
 // check if it respond
 $log->add("Clone (1 of {$totalSteps}): Asking the Server the database and the files");
 $content = url_get_contents($url, "", 3600);
+_error_log("Clone: url_get_contents($url) respond: ($content)");
 //var_dump($url, $content);exit;
 $json = json_decode($content);
 
