@@ -36,6 +36,7 @@ if (empty($objClone)) {
 
 if (empty($objClone->cloneSiteURL)) {
     $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an AVideo URL";
+    _error_log("{$resp->msg} (".json_encode($objClone).")");
     $log->add("Clone: {$resp->msg}");
     die(json_encode($resp));
 }
