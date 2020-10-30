@@ -214,6 +214,7 @@ class Plugin extends ObjectYPT {
                         $obj->enabled = (!empty($obj->installedPlugin['status']) && $obj->installedPlugin['status'] === "active") ? true : false;
                         $obj->id = (!empty($obj->installedPlugin['id'])) ? $obj->installedPlugin['id'] : 0;
                         $obj->data_object = $p->getDataObject();
+                        $obj->data_object_helper = $p->getDataObjectHelper();
                         $obj->databaseScript = !empty(static::getDatabaseFile($value));
                         $obj->pluginMenu = $p->getPluginMenu();
                         $obj->tags = $p->getTags();

@@ -109,7 +109,7 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString) {
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false) {
+function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0) {
     global $global, $config, $obj, $advancedCustom, $advancedCustomUser;
     $countCols = 0;
     $obj = AVideoPlugin::getObjectData("Gallery");
@@ -134,8 +134,23 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         }
 
         $countCols++;
+        
+        if(!empty($screenColsLarge)){
+            $obj->screenColsLarge = $screenColsLarge;
+        }
+        if(!empty($screenColsMedium)){
+            $obj->screenColsMedium = $screenColsMedium;
+        }
+        if(!empty($screenColsSmall)){
+            $obj->screenColsSmall = $screenColsSmall;
+        }
+        if(!empty($screenColsXSmall)){
+            $obj->screenColsXSmall = $screenColsXSmall;
+        }
+        
+        $colsClass = "col-lg-".(12 / $obj->screenColsLarge)." col-md-".(12 / $obj->screenColsMedium)." col-sm-".(12 / $obj->screenColsSmall)." col-xs-".(12 / $obj->screenColsXSmall);
         ?>
-        <div class="col-lg-<?php echo 12 / $obj->screenColsLarge; ?> col-md-<?php echo 12 / $obj->screenColsMedium; ?> col-sm-<?php echo 12 / $obj->screenColsSmall; ?> col-xs-<?php echo 12 / $obj->screenColsXSmall; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
+        <div class=" <?php echo $colsClass; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
             <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <?php
                 @$timesG[__LINE__] += microtime(true) - $startG;
@@ -460,5 +475,21 @@ function reloadSearch() {
     global $search, $searchPhrase;
     $_GET['search'] = $search;
     $_POST['searchPhrase'] = $searchPhrase;
+}
+
+
+function getTrendingVideos($rowCount = 12, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0) {
+    global $global;
+    $countCols = 0;
+    unset($_POST['sort']);
+    $_GET['sort']['trending'] = 1;
+    $_REQUEST['current'] = getCurrentPage();
+    $_REQUEST['rowCount'] = $rowCount;
+    $videos = Video::getAllVideos("viewableNotUnlisted");
+    // need to add dechex because some times it return an negative value and make it fails on javascript playlists
+    echo "<link href=\"{$global['webSiteRootURL']}plugin/Gallery/style.css\" rel=\"stylesheet\" type=\"text/css\"/><div class='row gallery '>";
+    $countCols = createGallerySection($videos, "", array(), false, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
+    echo "</div>";
+    return $countCols;
 }
 ?>

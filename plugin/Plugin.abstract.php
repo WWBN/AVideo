@@ -3,7 +3,7 @@
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 abstract class PluginAbstract {
-
+    private $dataObjectHelper = array();
     static $dataObject = array();
 
     /**
@@ -105,6 +105,7 @@ abstract class PluginAbstract {
                 $o = json_decode(stripslashes($obj['object_data']));
                 $json_last_error = json_last_error();
                 if ($json_last_error !== JSON_ERROR_NONE) {
+                    //var_dump($this->getName(), $json_last_error, $o, $obj['object_data']);
                     //_error_log('getDataObject - JSON error (' . $json_last_error . ') ' . $this->getName()." ".$this->getUUID());
                     $o = json_decode($obj['object_data']);
                     $json_last_error = json_last_error();
@@ -496,6 +497,14 @@ abstract class PluginAbstract {
     function getPermissionsOptions(){
         return array();
     }
+
+    protected function addDataObjectHelper($property, $name, $description=""){
+        $this->dataObjectHelper[$property] = array("name"=>$name, "description"=>$description);
+    }
+    
+    function getDataObjectHelper(){
+        return $this->dataObjectHelper;
+    }
 }
 
 
@@ -525,5 +534,4 @@ class PluginPermissionOption{
     function getClassName() {
         return $this->className;
     }
-
 }

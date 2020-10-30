@@ -1508,7 +1508,8 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
         _error_log("im_resize: Could not get image size: {$file_src}");
         return false;
     }
-    if ($size['mime'] == 'image/pjpeg') {
+    
+    if (empty($size['mime']) || $size['mime'] == 'image/pjpeg') {
         $size['mime'] = 'image/jpeg';
     }
 
@@ -2425,7 +2426,7 @@ function isAVideoEncoderOnSameDomain() {
     return isSameDomainAsMyAVideo($url);
 }
 
-function isSameDomainAsMyAVideo($url){
+function isSameDomainAsMyAVideo($url) {
     global $global;
     if (empty($url)) {
         return false;
@@ -2433,7 +2434,7 @@ function isSameDomainAsMyAVideo($url){
     return isSameDomain($url, $global['webSiteRootURL']);
 }
 
-function isSameDomain($url1, $url2){
+function isSameDomain($url1, $url2) {
     if (empty($url1) || empty($url2)) {
         return false;
     }
@@ -4647,15 +4648,15 @@ function showAlertMessage() {
 
 function getResolutionLabel($res) {
     if ($res == 720) {
-        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>".getResolutionText($res)."</span>";
+        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>" . getResolutionText($res) . "</span>";
     } else if ($res == 1080) {
-        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>".getResolutionText($res)."</span>";
+        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>" . getResolutionText($res) . "</span>";
     } else if ($res == 1440) {
-        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>".getResolutionText($res)."</span>";
+        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>" . getResolutionText($res) . "</span>";
     } else if ($res == 2160) {
-        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>".getResolutionText($res)."</span>";
+        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>" . getResolutionText($res) . "</span>";
     } else if ($res == 4320) {
-        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>".getResolutionText($res)."</span>";
+        return "<span class='label label-danger' style='padding: 0 2px; font-size: .8em; display: inline;'>" . getResolutionText($res) . "</span>";
     } else {
         return '';
     }

@@ -203,87 +203,8 @@ $uuidJSCondition = implode(" && ", $rowId);
         </div>
     </div>
 </div>
+<script src="<?php echo $global['webSiteRootURL']; ?>js/form2JSON.js" type="text/javascript"></script>
 <script>
-    function jsonToForm(json) {
-        $('#jsonElements').empty();
-        $.each(json, function (i, val) {
-            var div;
-            var label;
-            var input;
-            if (typeof (val) === "object") {// checkbox
-                div = $('<div />', {"class": 'form-group'});
-                label = $('<label />', {"text": i + ": "});
-                if (val.type === 'textarea') {
-                    input = $('<textarea />', {"class": 'form-control jsonElement', "name": i, "pluginType": "object"});
-
-                    input.text(val.value);
-                } else if (typeof val.type === 'object') {
-                    input = $('<select />', {"class": 'form-control jsonElement', "name": i, "pluginType": "select"});
-
-                    $.each(val.type, function (index, value) {
-                        var select = "";
-                        if (val.value == index) {
-                            select = "selected";
-                        }
-                        $(input).append('<option value="' + index + '" ' + select + '>' + value + '</option>');
-                    });
-
-                } else {
-                    input = $('<input />', {"class": 'form-control jsonElement', "type": val.type, "name": i, "value": val.value, "pluginType": "object"});
-                }
-                div.append(label);
-                div.append(input);
-            } else if (typeof (val) === "boolean") {// checkbox
-                div = $('<div />', {"class": 'form-group'});
-                label = $('<label />', {"class": "checkbox-inline"});
-                input = $('<input />', {"class": 'jsonElement', "type": 'checkbox', "name": i, "value": 1, "checked": val});
-                label.append(input);
-                label.append(" " + i);
-                div.append(label);
-            } else {
-                div = $('<div />', {"class": 'form-group'});
-                label = $('<label />', {"text": i + ": "});
-                input = $('<input />', {"class": 'form-control jsonElement', "name": i, "type": 'text', "value": val});
-                div.append(label);
-                div.append(input);
-            }
-            $('#jsonElements').append(div);
-            $('.jsonElement').change(function () {
-                var json = formToJson();
-                json = JSON.stringify(json);
-                $('#inputData').val(json);
-            });
-        })
-    }
-
-    function formToJson() {
-        var json = {};
-        $(".jsonElement").each(function (index) {
-            var name = $(this).attr("name");
-            var type = $(this).attr("type");
-            var pluginType = $(this).attr("pluginType");
-            if (pluginType === 'object') {
-                if (typeof type === 'undefined') {
-                    type = 'textarea';
-                }
-                json [name] = {type: type, value: $(this).val()};
-            } else if (pluginType === 'select') {
-                console.log(type);
-                type = {};
-                $(this).find("option").each(function (i) {
-                    type[$(this).val()] = $(this).text();
-                });
-                console.log(type);
-                json [name] = {type: type, value: $(this).val()};
-            } else if (type === 'checkbox') {
-                json [name] = $(this).is(":checked");
-            } else {
-                json [name] = $(this).val();
-            }
-        });
-        //console.log(json);
-        return json;
-    }
 
     function createPluginStoreList(src, name, price, description) {
         var intPrice = Math.floor(price);
@@ -623,7 +544,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                 var json = JSON.stringify(row.data_object);
                 //console.log(json);
                 //console.log(row.data_object);
-                jsonToForm(row.data_object);
+                jsonToForm(row.data_object, row.data_object_helper);
                 $('#inputData').val(json);
                 $('#pluginsFormModal').modal();
             });
