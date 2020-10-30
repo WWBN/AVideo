@@ -2618,6 +2618,7 @@ if (!class_exists('Video')) {
             if(!isValidFormats($type)){
                 return false;
             }
+            $filename = self::getCleanFilenameFromFile($filename);
             $cacheName = md5($filename . $type . $includeS3);
             if (isset($VideoGetSourceFile[$cacheName])) {
                 return $VideoGetSourceFile[$cacheName];
