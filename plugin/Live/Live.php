@@ -137,7 +137,7 @@ class Live extends PluginAbstract {
         $obj->restreamerURL = "{$global['webSiteRootURL']}plugin/Live/standAloneFiles/restreamer.json.php";
         self::addDataObjectHelper('restreamerURL', 'Restreamer URL', 'https://github.com/WWBN/AVideo/wiki/Restream');
         $obj->controlURL = "{$global['webSiteRootURL']}plugin/Live/standAloneFiles/control.json.php";
-        self::addDataObjectHelper('controlURL', 'Controll URL', 'Still under development');
+        self::addDataObjectHelper('controlURL', 'Control URL', 'Still under development');
         $obj->disableRestream = false;
         self::addDataObjectHelper('disableRestream', 'Disable Restream', 'If you check this, we will not send requests to your Restreamer URL');
         $obj->disableDVR = false;
@@ -175,7 +175,7 @@ class Live extends PluginAbstract {
         $obj->requestStatsInterval = 15; // how many seconds untill request the stats again
         self::addDataObjectHelper('requestStatsInterval', 'Stats Request Interval', 'how many seconds until request the stats again');
         $obj->streamDeniedMsg = "You can not stream live videos";
-        self::addDataObjectHelper('streamDeniedMsg', 'Controll URL', 'Still under development');
+        self::addDataObjectHelper('streamDeniedMsg', 'Denied Message', 'We will show this message when a user is not allowed so watch a livestream');
         return $obj;
     }
 
