@@ -2766,6 +2766,10 @@ if (!class_exists('Video')) {
             $name1 = "Video:::getHigestResolution::getVideosURL_V2($filename)";
             TimeLogStart($name1);
             $sources = getVideosURL_V2($filename);
+            if(!is_array($sources)){
+                _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) does not return an array ". json_encode($sources));
+                return array();
+            }
             TimeLogEnd($name1, __LINE__);
             $return = array();
             foreach ($sources as $key => $value) {
