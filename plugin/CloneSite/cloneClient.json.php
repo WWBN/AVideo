@@ -64,7 +64,7 @@ if (!file_exists($photosDir)) {
 $url = $objClone->cloneSiteURL . "plugin/CloneSite/cloneServer.json.php?url=" . urlencode($global['webSiteRootURL']) . "&key={$objClone->myKey}&useRsync=" . intval($objClone->useRsync);
 // check if it respond
 $log->add("Clone (1 of {$totalSteps}): Asking the Server the database and the files");
-$content = url_get_contents($url);
+$content = url_get_contents($url, "", 3600);
 //var_dump($url, $content);exit;
 $json = json_decode($content);
 
