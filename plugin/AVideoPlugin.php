@@ -1154,7 +1154,8 @@ class AVideoPlugin {
     }
 
     public static function getVideoTags($videos_id) {
-        if (empty($videos_id)) {
+        global $global;
+        if (empty($videos_id) || !empty($global['disableVideoTags'])) {
             return array();
         }
 
