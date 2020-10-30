@@ -1317,7 +1317,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     if (empty($fileName)) {
         return array();
     }
-    $recreateCache = true;
+    //$recreateCache = true;
     $cleanfilename = Video::getCleanFilenameFromFile($fileName);
 
     if (!empty($getVideosURL_V2Array[$cleanfilename])) {
@@ -1361,7 +1361,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         _error_log("getVideosURL_V2($fileName) Recreate cache requested " . json_encode(debug_backtrace()));
     }
     if (empty($files)) {
-
+        $files = array();
         $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
         if (!empty($plugin)) {
             $files = VideoHLS::getSourceFile($fileName);
