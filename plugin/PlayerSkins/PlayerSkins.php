@@ -328,7 +328,7 @@ class PlayerSkins extends PluginAbstract {
             return array();
         }
         $name = "PlayeSkins_getVideoTags{$videos_id}";
-        $tags = ObjectYPT::getCache($name, 86400);
+        $tags = ObjectYPT::getCache($name,0);
         if (empty($tags)) {
             $video = new Video("", "", $videos_id);
             $fileName = $video->getFilename();

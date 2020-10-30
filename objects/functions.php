@@ -1323,7 +1323,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     }
     $cacheName = "getVideosURL_V2$fileName";
     if (empty($recreateCache)) {
-        $files = object_to_array(ObjectYPT::getCache($cacheName, 0));
+        $files = object_to_array(ObjectYPT::getCache($cacheName, 0, true));
         if (is_array($files)) {
             $preg_match_url = addcslashes($global['webSiteRootURL'], "/") . "videos";
             foreach ($files as $value) {
