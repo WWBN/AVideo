@@ -1362,9 +1362,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         $formats = array_merge($video, $audio, $image);
 
-        $globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
-        $filesInDir = glob($globQuery, GLOB_BRACE);
-        //$filesInDir = globVideosDir($cleanfilename, true);
+        //$globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
+        //$filesInDir = glob($globQuery, GLOB_BRACE);
+        $filesInDir = globVideosDir($cleanfilename, true);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
 
@@ -3356,8 +3356,8 @@ function getUsageFromFilename($filename, $dir = "") {
     $dir .= (($pos === false) ? "/" : "");
     $totalSize = 0;
     _error_log("getUsageFromFilename: start {$dir}{$filename}");
-    $files = glob("{$dir}{$filename}*");
-    //$files = globVideosDir($filename);
+    //$files = glob("{$dir}{$filename}*");
+    $files = globVideosDir($filename);
     session_write_close();
     $filesProcessed = array();
     if (empty($files)) {
@@ -4735,7 +4735,6 @@ function globVideosDir($filename, $filesOnly=false) {
         return array();
     }
     $cleanfilename = Video::getCleanFilenameFromFile($filename);
-    $cleanfilename = "";
     $pattern = "/{$cleanfilename}.*";
     if(!empty($filesOnly)){
         $formats = getValidFormats();
