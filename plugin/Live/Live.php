@@ -554,6 +554,7 @@ class Live extends PluginAbstract {
             if (!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
                 _error_log("Live::getStatsObject RTMP Server ($url) is respond again => live_servers_id = ($live_servers_id) ");
                 // the server respont again, wait the default time
+                _session_start();
                 $_SESSION['getStatsObjectRequestStatsTimout'][$url] = 0;
                 unset($_SESSION['getStatsObjectRequestStatsTimout'][$url]);
             }
