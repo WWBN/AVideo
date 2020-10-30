@@ -1370,7 +1370,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         //$globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
         //$filesInDir = glob($globQuery, GLOB_BRACE);
-        $filesInDir = globVideosDir($cleanfilename);
+        $filesInDir = globVideosDir($cleanfilename, true);
 
         TimeLogEnd("getVideosURL_V2::globVideosDir($globQuery, GLOB_BRACE)", __LINE__);
         foreach ($filesInDir as $file) {
@@ -3371,7 +3371,8 @@ function getUsageFromFilename($filename, $dir = "") {
     $dir .= (($pos === false) ? "/" : "");
     $totalSize = 0;
     _error_log("getUsageFromFilename: start {$dir}{$filename}");
-    $files = glob("{$dir}{$filename}*");
+    //$files = glob("{$dir}{$filename}*");
+    $files = globVideosDir($filename);
     session_write_close();
     $filesProcessed = array();
     if (empty($files)) {
@@ -4734,18 +4735,21 @@ function _glob($dir, $pattern) {
     return $array;
 }
 
-function globVideosDir($filename) {
+function globVideosDir($filename, $filesOnly=false) {
     global $global;
     if (empty($filename)) {
         return array();
     }
     $cleanfilename = Video::getCleanFilenameFromFile($fileName);
     $cleanfilename = "";
-    $video = array('webm', 'mp4');
-    $audio = array('mp3', 'ogg');
-    $image = array('jpg', 'gif', 'webp');
-
-    $formats = array_merge($video, $audio, $image);
-
-    return _glob("{$global['systemRootPath']}videos/", "/{$cleanfilename}.*.(" . implode("|", $formats) . ")/");
+    $pattern = "/{$cleanfilename}.*";
+    if(!empty($filesOnly)){
+        $video = array('webm', 'mp4');
+        $audio = array('mp3', 'ogg');
+        $image = array('jpg', 'gif', 'webp');
+        $formats = array_merge($video, $audio, $image);
+        $pattern .= ".(" . implode("|", $formats) . ")/";
+    }
+    $pattern .= "/";
+    return _glob("{$global['systemRootPath']}videos/", $pattern);
 }
