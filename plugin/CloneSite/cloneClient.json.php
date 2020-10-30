@@ -28,6 +28,12 @@ $log->add("Clone: Clone Start");
 
 $objClone = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
 
+if (empty($objClone)) {
+    $resp->msg = "Your Clone Site Plugin is not enabled";
+    $log->add("Clone: {$resp->msg}");
+    die(json_encode($resp));
+}
+
 if (empty($objClone->cloneSiteURL)) {
     $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an AVideo URL";
     $log->add("Clone: {$resp->msg}");
