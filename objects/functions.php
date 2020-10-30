@@ -4748,7 +4748,7 @@ function globVideosDir($filename, $filesOnly=false) {
         $audio = array('mp3', 'ogg');
         $image = array('jpg', 'gif', 'webp');
         $formats = array_merge($video, $audio, $image);
-        $pattern .= ".(" . implode("|", $formats) . ")/";
+        $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
     return _glob("{$global['systemRootPath']}videos/", $pattern);
