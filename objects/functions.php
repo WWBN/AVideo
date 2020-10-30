@@ -1354,11 +1354,12 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         $TimeLog2 = "getVideosURL_V2($fileName) empty files";
         TimeLogStart($TimeLog2);
+        TimeLogStart($TimeLog2. " HLS");
         $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
         if (!empty($plugin)) {
             $files = VideoHLS::getSourceFile($fileName);
         }
-
+        TimeLogEnd($TimeLog2. " HLS", __LINE__);
         $video = array('webm', 'mp4');
         $audio = array('mp3', 'ogg');
         $image = array('jpg', 'gif', 'webp');
