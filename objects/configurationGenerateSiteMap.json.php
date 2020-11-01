@@ -20,7 +20,7 @@ if (!Permissions::canGenerateSiteMap()) {
 $sitemap = siteMap();
 
 if(empty($sitemap)){
-    $obj->msg = "Sitemao content is empty";
+    $obj->msg = "Sitemap content is empty";
     die(json_encode($obj));
 }
 
