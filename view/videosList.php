@@ -71,7 +71,7 @@ if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannel
     $user = User::getChannelOwner($_GET['channelName']);
     //var_dump($user);exit;
     ?>
-    <div class="col-md-12" >
+<div class="col-md-12" style="padding: 15px; margin: 5px 0; background-image: url(<?php echo $global['webSiteRootURL'], User::getBackgroundURLFromUserID($user['id']); ?>); background-size: cover;"  >
         <img src="<?php echo User::getPhoto($user['id']); ?>" class="img img-responsive img-circle" style="max-width: 60px;" alt="User Photo"/>
         <div style="position: absolute; right: 5px; top: 5px;">
             <button class="btn btn-default btn-xs btn-sm" onclick="loadPage(<?php echo $_GET['page']; ?>, true);"><?php echo User::getNameIdentificationById($user['id']); ?> <i class="fa fa-times"></i></button>
@@ -127,9 +127,9 @@ foreach ($videos as $key => $value) {
     $name = User::getNameIdentificationById($value['users_id']) . ' ' . User::getEmailVerifiedIcon($value['users_id']);
     $value['creator'] = '<div class="pull-left">'
             . '<a href="' . User::getChannelLink($value['users_id']) . '"><img src="' . User::getPhoto($value['users_id']) . '" alt="User Photo" class="img img-responsive img-circle zoom" style="max-width: 20px;"/></div><div class="commentDetails" style="margin-left:25px;"><div class="commenterName text-muted"><strong>' . $name . '</strong> <small>'
-            . '</a>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
+            . '</a>' . humanTimingAgo(strtotime($value['videoCreation'])) . '</small></div></div>';
     ?>
-    <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border" id="divVideo-<?php echo $value['id']; ?>" >
+    <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border videoListItem" id="divVideo-<?php echo $value['id']; ?>" >
         <?php
         $link = Video::getLink($value['id'], $value['clean_title'], "", $get);
         $connection = "?";
@@ -225,7 +225,7 @@ foreach ($videos as $key => $value) {
                 <div class="text-uppercase row"><strong class="title"><?php echo $value['title']; ?></strong></div>
             </a>
             <div class="details row">
-                <div class="col-sm-6 nopadding">
+                <div class="pull-left" style="display: inline-table;">
                     <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>">
                         <span class="<?php echo $value['iconClass']; ?>"></span>
                         <span class="hidden-sm"><?php echo $value['category']; ?></span>
@@ -251,11 +251,12 @@ foreach ($videos as $key => $value) {
                 <?php
                 if (empty($advancedCustom->doNotDisplayViews)) {
                     ?>
-                    <div class="col-sm-6 nopadding text-muted">
+                    <div class="text-muted pull-right">
                         <strong class="view-count<?php echo $value['id']; ?>"> <i class="fas fa-eye"></i> <?php echo number_format($value['views_count'], 0); ?></strong>
                     </div>
                 <?php } ?>
-                <div class="col-sm-12 nopadding"  style="margin-top: 5px !important;"><?php echo $value['creator']; ?></div>
+                <div class="clearfix"></div>
+                <div class="nopadding"  style="margin-top: 5px !important;"><?php echo $value['creator']; ?></div>
 
 
             </div>

@@ -285,7 +285,10 @@ abstract class ObjectYPT implements ObjectInterface {
      * @param type $lifetime, if is = 0 it is unlimited
      * @return type
      */
-    static function getCache($name, $lifetime = 60) {
+    static function getCache($name, $lifetime = 60, $ignoreSessionCache=false) {
+        if(isCommandLineInterface()){
+            return false;
+        }
         global $getCachesProcessed, $_getCache;
         
         if(empty($_getCache)){
@@ -309,7 +312,7 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
-        if (!empty($lifetime)) {// do not session cache if there is not timeout limit
+        if (!empty($ignoreSessionCache)) {
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
                 $_getCache[$name] = $session;
@@ -349,7 +352,7 @@ abstract class ObjectYPT implements ObjectInterface {
 
         if (class_exists("User_Location")) {
             $loc = User_Location::getThisUserLocation();
-            if (!empty($loc)) {
+            if (!empty($loc) && !empty($loc['country_code'])) {
                 $tmpDir .= $loc['country_code'] . "/";
             }
         }

@@ -132,19 +132,19 @@ if (!empty($evideo)) {
             $video = AVideoPlugin::getVideo();
         }
 
-        if (!empty($_GET['v']) && $video['id'] != $_GET['v']) {
+        if (!empty($_GET['v']) && (empty($video) || $video['id'] != $_GET['v'])) {
             $video = false;
         }
+        if(!empty($video['id'])){
+            // allow users to count a view again in case it is refreshed
+            Video::unsetAddView($video['id']);
 
-// allow users to count a view again in case it is refreshed
-        Video::unsetAddView($video['id']);
+            // add this because if you change the video category the video was not loading anymore
+            $_GET['catName'] = $catName;
 
-// add this because if you change the video category the video was not loading anymore
-        $_GET['catName'] = $catName;
-
-        $_GET['isMediaPlaySite'] = $video['id'];
-        $obj = new Video("", "", $video['id']);
-
+            $_GET['isMediaPlaySite'] = $video['id'];
+            $obj = new Video("", "", $video['id']);
+        }
         /*
           if (empty($_SESSION['type'])) {
           $_SESSION['type'] = $video['type'];
@@ -194,7 +194,9 @@ if (!empty($evideo)) {
              */
             $modeYouTubeTimeLog['Code part 1.5'] = microtime(true) - $modeYouTubeTime;
             $modeYouTubeTime = microtime(true);
-            $autoPlayVideo = Video::getRandom($video['id']);
+            if(!empty($video['id'])){
+                $autoPlayVideo = Video::getRandom($video['id']);
+            }
             //}
         }
 
@@ -222,7 +224,7 @@ if (!empty($evideo)) {
 // $resp = $obj->addView();
     }
 
-    if ($video['type'] == "video") {
+    if (!empty($video) && $video['type'] == "video") {
         $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
     } else {
         $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
@@ -262,7 +264,7 @@ if (!empty($evideo)) {
     $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
     $modeYouTubeTimeLog['Code part 3'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
-    if (!empty($autoPlayVideo)) {
+    if (!empty($autoPlayVideo) && !empty($autoPlayVideo['filename'])) {
         $autoPlaySources = getSources($autoPlayVideo['filename'], true);
         $autoPlayURL = $autoPlayVideo['url'];
         $autoPlayPoster = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";

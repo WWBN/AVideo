@@ -282,7 +282,7 @@ if (typeof gtag !== \"function\") {
         $name = $parts[0];
         // do not exceed 36 chars to leave some room for the unique id;
         $name = substr($name, 0, 36);
-        if (!User::isAdmin()) {
+        if (!Permissions::canAdminUsers()) {
             $user = self::getUserFromChannelName($name);
             if ($user && $user['id'] !== User::getId()) {
                 return self::_recommendChannelName($name . "_" . uniqid(), $try + 1);
@@ -695,7 +695,11 @@ if (typeof gtag !== \"function\") {
         if (empty($rows)) {
             // check if any plugin restrict access to this video
             if (!AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
-                _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [" . User::getId() . "] can not see ({$videos_id})");
+                if(User::isLogged()){
+                    _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [" . User::getId() . "] can not see ({$videos_id})");
+                }else{
+                    _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [not logged] can not see ({$videos_id})");
+                }
                 return false;
             } else {
                 return true; // the video is public
@@ -1185,7 +1189,7 @@ if (typeof gtag !== \"function\") {
             }
             unset($user['password']);
             unset($user['recoverPass']);
-            if (!User::isAdmin() && $user['id'] !== User::getId()) {
+            if (!Permissions::canAdminUsers() && $user['id'] !== User::getId()) {
                 unset($user['first_name']);
                 unset($user['last_name']);
                 unset($user['address']);
@@ -1273,7 +1277,7 @@ if (typeof gtag !== \"function\") {
     }
 
     static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about'), $status = "") {
-        if (!self::isAdmin() && !$ignoreAdmin) {
+        if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
         }
         //will receive
@@ -1318,7 +1322,7 @@ if (typeof gtag !== \"function\") {
                 }
                 unset($row['password']);
                 unset($row['recoverPass']);
-                if (!User::isAdmin() && $row['id'] !== User::getId()) {
+                if (!Permissions::canAdminUsers() && $row['id'] !== User::getId()) {
                     unset($row['first_name']);
                     unset($row['last_name']);
                     unset($row['address']);
@@ -1362,7 +1366,7 @@ if (typeof gtag !== \"function\") {
     }
 
     static function getTotalUsers($ignoreAdmin = false, $status = "") {
-        if (!self::isAdmin() && !$ignoreAdmin) {
+        if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
         }
         //will receive
@@ -1465,8 +1469,11 @@ if (typeof gtag !== \"function\") {
 
     static function canUpload($doNotCheckPlugins = false) {
         global $global, $config, $advancedCustomUser;
+        if(Permissions::canModerateVideos()){
+            return true;
+        }
         if (User::isAdmin()) {
-            //return true;
+            return true;
         }
         if (empty($doNotCheckPlugins) && !AVideoPlugin::userCanUpload(User::getId())) {
             return false;
@@ -1506,6 +1513,11 @@ if (typeof gtag !== \"function\") {
         if (self::isAdmin()) {
             return true;
         }
+        
+        if(Permissions::canAdminComment()){
+            return true;
+        }
+        
         if ($config->getAuthCanComment()) {
             if (empty($advancedCustomUser->unverifiedEmailsCanNOTComment)) {
                 return self::isLogged();
@@ -2052,4 +2064,89 @@ if (typeof gtag !== \"function\") {
         }
     }
 
+    function updateUserImages($params = array()) {
+
+        $id = $this->id;
+        $obj = new stdClass();
+
+        // Update Background Image
+        if (isset($params['backgroundImg']) && $params['backgroundImg'] != '') {
+
+            $background = url_get_contents($params['backgroundImg']);
+            $ext = pathinfo(parse_url($params['backgroundImg'], PHP_URL_PATH), PATHINFO_EXTENSION);
+            $allowed = array('jpg', 'jpeg', 'gif', 'png');
+            if (!in_array(strtolower($ext), $allowed)) {
+                return "File extension error background Image, We allow only (" . implode(",", $allowed) . ")";
+            }
+
+            $backgroundPath = "videos/userPhoto/tmp_background{$id}.".$ext;
+            $oldfile = "videos/userPhoto/background{$id}.png";
+            $file = "videos/userPhoto/background{$id}.jpg";
+
+            if (!isset($global['systemRootPath'])) {
+                $global['systemRootPath'] = '../../';
+            }
+
+            $filePath = $global['systemRootPath'] . $backgroundPath;
+
+            $updateBackground = file_put_contents($filePath, $background);
+
+            convertImage($filePath, $global['systemRootPath'].$file, 70);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+            if (file_exists($oldfile)) {
+                unlink($oldfile);
+            }
+
+            if ($updateBackground) {
+                $obj->background = 'Background has been updated!';
+            } else {
+                $obj->background = 'Error updating background.';
+            }
+
+            $this->setBackgroundURL($file);
+        }
+
+        // Update Profile Image
+        if (isset($params['profileImg']) && $params['profileImg'] != '') {
+            
+            $photo = url_get_contents($params['profileImg']);
+            $photoPath = "videos/userPhoto/photo{$id}.png";
+
+            if (!isset($global['systemRootPath'])) {
+                $global['systemRootPath'] = '../../';
+            }
+
+            $filePath = $global['systemRootPath'] . $photoPath;
+
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            $updateProfile = file_put_contents($filePath, $photo);
+            if ($updateProfile) {
+                $obj->profile = 'Profile has been updated!';
+            } else {
+                $obj->profile = 'Error updating profile.';
+            }
+            
+            $this->setPhotoURL($photoPath);
+        }
+
+        $formats = "ssi";
+        $values[] = $this->photoURL;
+        $values[] = $this->backgroundURL;
+        $values[] = $this->id;
+
+        $sql .= "UPDATE users SET "
+                . "photoURL = ?, backgroundURL = ?, "
+                . " modified = now() WHERE id = ?";
+      
+        $insert_row = sqlDAL::writeSql($sql, $formats, $values);
+        $obj->save = $insert_row; // create/update data for photoURL / backgroundURL
+
+        return $obj;
+        
+    }
 }

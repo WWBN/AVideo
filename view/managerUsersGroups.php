@@ -4,9 +4,8 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
-if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage categories"));
-    exit;
+if (!Permissions::canAdminUserGroups()) {
+    forbiddenPage( __("You can not manage do this"));
 }
 ?>
 <!DOCTYPE html>
@@ -24,7 +23,7 @@ if (!User::isAdmin()) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container">
+        <div class="container-fluid">
             <?php
             include $global['systemRootPath'] . 'view/managerUsersGroups_body.php';
             ?>

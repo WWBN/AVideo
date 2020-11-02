@@ -836,7 +836,8 @@ class API extends PluginAbstract {
      * ['user' usename of the user]
      * ['pass' password  of the user]
      * ['encodedPass' tell the script id the password submited is raw or encrypted]
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2
+     * @example for XML response: {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2
+     * @example for JSON response: {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2&json=1
      * @return type
      */
     public function get_api_vmap($parameters) {
@@ -1125,6 +1126,36 @@ class API extends PluginAbstract {
         }
 
         return new ApiObject("", false, $t);
+    }
+
+    /**
+     * @param type $parameters
+     * ['APISecret' mandatory for security reasons - required]
+     * ['user' usename of the user - required]
+     * ['backgroundImg' URL path of the image - optional]
+     * ['profileImg' URL path of the image - optional]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&user=admin
+     * @return \ApiObject
+     */
+    public function set_api_userImages($parameters) {
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/video.php';
+        // $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret === @$_GET['APISecret']) {
+
+            $user = new User("", $parameters['user'], false);
+            if (empty($user->getUser())) {
+                return new ApiObject("User Not defined");
+            }
+
+            // UPDATED USER
+            $updateUser = $user->updateUserImages($parameters);
+
+            return new ApiObject("", false, $updateUser);
+        } else {
+            return new ApiObject("API Secret is not valid");
+        }
     }
 
 }

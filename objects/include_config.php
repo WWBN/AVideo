@@ -134,6 +134,7 @@ $global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3', 'm4a', '
 $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
 $customizePlugin = AVideoPlugin::getObjectData("Customize");
+$permissionsPlugin = AVideoPlugin::getObjectData("Permissions");
 AVideoPlugin::loadPlugin("PlayerSkins");
 $sitemapFile = "{$global['systemRootPath']}sitemap.xml";
 

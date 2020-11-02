@@ -32,10 +32,6 @@ time.duration{
     color: rgba(255, 255, 255, 0.3)!important;
     font-size: 50px;
 }
-.videoLink div {
-    transition: all 0.3s ease-in-out;
-    font-size: 1em;
-}
 .videoLink div.details,
 .videoLink div.details div {
     font-size: 0.9em;
@@ -115,7 +111,7 @@ footer ul.list-inline li {
     background-color: #000;
     margin-bottom: 10px;    
 }
-.rightBar, .main-video{
+.main-video{
     -webkit-transition: ease 1s; /* Safari */
     transition: ease 1s;    
 }
@@ -180,7 +176,6 @@ footer ul.list-inline li {
 }
 .commentDetails {
     margin: 0 0 0 60px;
-    min-height: 50px;
 }
 /* End Comments */
 
@@ -358,23 +353,6 @@ footer ul.list-inline li {
 
 /* fancy checkbox  end */
 
-.label.fix-width {
-    min-width: 130px !important;
-    display: inline-block !important;
-    text-align: left;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-.label.fix-width.label-primary {
-    min-width: 70px !important;
-    text-align: right;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: 0.25em;
-    ;
-    border-bottom-left-radius: 0.25em;
-    ;
-}
 .videosDetails .label{
     border-radius: 0;
 }
@@ -674,10 +652,7 @@ nav ul.items-container li ul.right-menus li li {
 .navbar-collapse.in {
     overflow-y: visible; /* Bootstrap default is "auto" */
 }
-#videosList{    
-    -webkit-transition: ease 1s; /* Safari */
-    transition: ease 1s;    
-}
+
 .transparent{
     opacity: 0.3;
     filter: alpha(opacity=30); /* For IE8 and earlier */
@@ -722,15 +697,17 @@ img.blur{
 }
 
 .btn-circle {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     text-align: center;
     padding: 6px 0;
     font-size: 12px;
     line-height: 1.42;
     border-radius: 15px;
 }
-
+.btn-circle:hover, .btn-group.open .btn-circle {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05) inset, 0px 0px 8px rgba(82, 168, 236, 0.6);
+}
 
 ::-webkit-scrollbar-track
 {
@@ -820,9 +797,8 @@ img.blur{
         width: 100%;
     }
     body.youtube .col-lg-offset-1.addWidthOnMenuOpen {
-        margin-left: 0px;
+        margin-left: 0;
     }
-    
 }
 
 .liveVideo .thumbsImage img{
@@ -853,6 +829,17 @@ img.blur{
     border-radius: 0 !important;
 }
 
+.vjs-menu li {
+    text-transform: none;
+}
+
 #navBarFlag li{
     cursor: pointer;
+}
+
+.videoListItem{
+    overflow: hidden;
+}
+.extraVideos:empty{
+    display: none;
 }

@@ -161,7 +161,7 @@ class Comment {
             $sql .= " AND videos_id = ? ";
             $format .= "i";
             $values[] = $videoId;
-        }else if(!User::isAdmin() && empty ($comments_id_pai)){
+        }else if(!Permissions::canAdminComment() && empty ($comments_id_pai)){
             if(!User::isLogged()){
                 die("can not see comments");
             }
@@ -217,7 +217,7 @@ class Comment {
             $sql .= " AND videos_id = ? ";
             $format .= "i";
             $values[] = $videoId;
-        }else if(!User::isAdmin() && empty ($comments_id_pai)){
+        }else if(!Permissions::canAdminComment() && empty ($comments_id_pai)){
             if(!User::isLogged()){
                 die("can not see comments");
             }
@@ -262,7 +262,7 @@ class Comment {
         if(!User::isLogged()){
             return false;
         }
-        if(User::isAdmin()){
+        if(Permissions::canAdminComment()){
             return true;
         }
         $obj = new Comment("", 0, $comments_id);
@@ -280,7 +280,7 @@ class Comment {
         if(!User::isLogged()){
             return false;
         }
-        if(User::isAdmin()){
+        if(Permissions::canAdminComment()){
             return true;
         }
         $obj = new Comment("", 0, $comments_id);

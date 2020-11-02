@@ -1,6 +1,6 @@
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <div class="btn-group" >
+    <div class="panel-heading tabbable-line">
+        <div class="btn-group pull-right" >
             <button type="button" class="btn btn-default" id="addUserBtn">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User"); ?>
             </button>
@@ -14,12 +14,13 @@
                 <i class="fas fa-file-csv"></i> <?php echo __("CSV File"); ?>
             </a>
         </div>
-    </div>
-    <div class="panel-body">
+        
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#usersTab"><?php echo __('Users'); ?></a></li>
             <li><a data-toggle="tab" href="#inactiveUsersTab"><?php echo __('Inactive Users'); ?></a></li>
         </ul>
+    </div>
+    <div class="panel-body">
         <div class="tab-content">
             <div id="usersTab" class="tab-pane fade in active">
                 <table id="grid" class="table table-condensed table-hover table-striped">
@@ -81,7 +82,7 @@
                     <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" >
                     <small>Do not paste the full javascript code, paste only the gtag id</small>
                     <ul class="list-group">
-                        <li class="list-group-item">
+                        <li class="list-group-item <?php echo User::isAdmin()?"":"hidden"; ?>">
                             <?php echo __("is Admin"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="isAdmin" id="isAdmin"/>

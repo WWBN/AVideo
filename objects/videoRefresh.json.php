@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if(!empty($_GET['id'])){
     $_POST['id'] = $_GET['id'];
 }
-if (!User::isAdmin() || empty($_POST['id'])) {
+if (!Permissions::canModerateVideos() || empty($_POST['id'])) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 

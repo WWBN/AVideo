@@ -36,7 +36,6 @@ class LiveLinks extends PluginAbstract {
         $obj->disableGifThumbs = false;
         $obj->disableLiveThumbs = false;
         $obj->doNotShowLiveLinksLabel = false;
-        //$obj->hideTopButton = true;
         return $obj;
     }
 
@@ -62,9 +61,6 @@ class LiveLinks extends PluginAbstract {
     public function getHTMLMenuRight() {
         global $global;
         $obj = $this->getDataObject();
-        if(!empty($obj->hideTopButton )){
-            return '';
-        }
         if (!$this->canAddLinks()) {
             return '';
         }

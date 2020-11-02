@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
-if (!User::isAdmin()) {
+if (!Permissions::canAdminUsers()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage users"));
     exit;
 }
@@ -22,7 +22,7 @@ if (!User::isAdmin()) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container">
+        <div class="container-fluid">
             <?php
             include $global['systemRootPath'] . 'view/managerUsers_body.php';
             ?>

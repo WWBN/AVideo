@@ -17,36 +17,36 @@ if (!empty($playlist_id)) {
     </script>
 <?php } else if (empty($autoPlayVideo)) {
     ?>
-    <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" >
+    <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="margin: 10px 0;" >
         <strong><?php echo __("Autoplay ended"); ?></strong>
         <span class="pull-right">
             <span><?php echo __("Autoplay"); ?></span>
             <span>
                 <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
             </span>
-            <div class="material-switch pull-right">
-                <input type="checkbox" class="saveCookie" name="autoplay" id="autoplay">
+            <div class="material-switch pull-right" style="margin-left: 10px;">
+                <input type="checkbox" class="saveCookie" name="autoplay" id="autoplay" <?php echo PlayerSkins::isAutoplayEnabled() ? "checked" : ""; ?>>
                 <label for="autoplay" class="label-primary"></label>
             </div>
         </span>
     </div>
 <?php } else if (!empty($autoPlayVideo)) { ?>
     <div class="row">
-        <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted">
+        <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="margin: 10px 0;" >
             <strong><?php echo __("Up Next"); ?></strong>
             <span class="pull-right">
                 <span><?php echo __("Autoplay"); ?></span>
                 <span>
-                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
+                    <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top"  title="<?php echo __("When autoplay is enabled, a suggested video will automatically play next."); ?>"></i>
                 </span>
-                <div class="material-switch pull-right">
-                    <input type="checkbox" class="saveCookie" name="autoplay" id="autoplay">
+                <div class="material-switch pull-right" style="margin-left: 10px;">
+                    <input type="checkbox" class="saveCookie" name="autoplay" id="autoplay" <?php echo PlayerSkins::isAutoplayEnabled() ? "checked" : ""; ?>>
                     <label for="autoplay" class="label-primary"></label>
                 </div>
             </span>
         </div>
     </div>
-    <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" id="autoPlayVideoDiv" >
+    <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" id="autoPlayVideoDiv"  style="margin: 10px 0; padding: 15px 5px; <?php echo PlayerSkins::isAutoplayEnabled() ? "" : "display: none;"; ?>" >
         <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], "", $get); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                 <?php
@@ -119,9 +119,7 @@ $modeYouTubeTimeLog['After autoplay and playlist '] = microtime(true) - $modeYou
 $modeYouTubeTime = microtime(true);
 ?>
 <div class="clearfix"></div>
-<div class="row" style="margin: 15px 0;">
-    <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
-</div>
+    <div class="extraVideos nopadding"  style="margin: 15px 0;"></div>
 <div class="clearfix"></div>
 <!-- videos List -->
 <!--googleoff: all-->

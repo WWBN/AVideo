@@ -314,7 +314,7 @@ class VideoStatistic extends ObjectYPT {
                 . " LEFT JOIN videos v ON v.id = videos_id "
                 . " WHERE DATE(s.created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
 
-        if ($showOnlyLoggedUserVideos === true && !User::isAdmin()) {
+        if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
         } elseif (!empty($showOnlyLoggedUserVideos)) {
             $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";

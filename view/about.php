@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 $metaDescription = "About Page";
@@ -8,7 +8,7 @@ $metaDescription = "About Page";
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("About").getSEOComplement(); ?></title>
+        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("About") . getSEOComplement(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -19,45 +19,46 @@ $metaDescription = "About Page";
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
-        <div class="container">
-            <div class="bgWhite">
-                <?php
-                $custom = "";
-                if (AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
-                    require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
-                    $ec = new ExtraConfig();
-                    $custom = $ec->getAbout();
-                }
-                if(empty($custom)){
-                ?>
-                <h1><?php echo __("I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible."); ?></h1>
-                <blockquote class="blockquote">
-                    <h1><?php echo __("For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen."); ?></h1>
-                    <footer class="blockquote-footer">Apostle Paul in <cite title="Source Title">Romans 11:36</cite></footer>
-                </blockquote>
-                <div class="btn-group btn-group-justified">
-                    <a href="https://www.avideo.com/" class="btn btn-success">Main Site</a>
-                    <a href="https://demo.avideo.com/" class="btn btn-danger">Demo Site</a>
-                    <a href="https://tutorials.avideo.com/" class="btn btn-primary">Tutorials Site</a>
-                    <a href="https://github.com/WWBN/AVideo/issues" class="btn btn-warning">Issues and requests Site</a>
+        <div class="container-fluid">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <?php
+                    $custom = "";
+                    if (AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+                        require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+                        $ec = new ExtraConfig();
+                        $custom = $ec->getAbout();
+                    }
+                    if (empty($custom)) {
+                        ?>
+                        <h1><?php echo __("I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible."); ?></h1>
+                        <blockquote class="blockquote">
+                            <h1><?php echo __("For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen."); ?></h1>
+                            <footer class="blockquote-footer">Apostle Paul in <cite title="Source Title">Romans 11:36</cite></footer>
+                        </blockquote>
+                        <div class="btn-group btn-group-justified">
+                            <a href="https://www.avideo.com/" class="btn btn-success">Main Site</a>
+                            <a href="https://demo.avideo.com/" class="btn btn-danger">Demo Site</a>
+                            <a href="https://tutorials.avideo.com/" class="btn btn-primary">Tutorials Site</a>
+                            <a href="https://github.com/WWBN/AVideo/issues" class="btn btn-warning">Issues and requests Site</a>
+                        </div>
+                        <span class="label label-success"><?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?></span>
+
+                        <span class="label label-success">
+                            <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>
+                        </span>
+                        <span class="label label-success">
+                            <?php printf(__("You can storage %s minutes of videos!"), (empty($global['videoStorageLimitMinutes']) ? "unlimited" : $global['videoStorageLimitMinutes'])); ?>
+                        </span>
+                        <span class="label label-success">
+                            <?php printf(__("You have %s minutes of videos!"), number_format(getSecondsTotalVideosLength() / 6, 2)); ?>
+                        </span>
+                        <?php
+                    } else {
+                        echo $custom;
+                    }
+                    ?>
                 </div>
-                <span class="label label-success"><?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?></span>
-
-                <span class="label label-success">
-                    <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>
-                </span>
-                <span class="label label-success">
-                    <?php printf(__("You can storage %s minutes of videos!"), (empty($global['videoStorageLimitMinutes']) ? "unlimited" : $global['videoStorageLimitMinutes'])); ?>
-                </span>
-                <span class="label label-success">
-                    <?php printf(__("You have %s minutes of videos!"), number_format(getSecondsTotalVideosLength() / 6, 2)); ?>
-                </span>
-                <?php
-                }else{
-                    echo $custom;
-                }
-                ?>
-
             </div>
 
         </div><!--/.container-->

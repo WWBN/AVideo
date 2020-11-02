@@ -130,7 +130,7 @@ class PlayerSkins extends PluginAbstract {
             $js .= "<script src=\"{$global['webSiteRootURL']}view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
             $js .= "<script>" . self::getStartPlayerJSCode() . "</script>";
         }
-        
+
         return $js;
     }
 
@@ -235,7 +235,7 @@ class PlayerSkins extends PluginAbstract {
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/loopbutton.js');
         }
 
-        
+
         $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/fixCurrentSources.js');
         if (empty($noReadyFunction)) {
             $js .= "});";
@@ -321,6 +321,33 @@ class PlayerSkins extends PluginAbstract {
             }
         }
         return $config->getAutoplay();
+    }
+
+    public static function getVideoTags($videos_id) {
+        if (empty($videos_id)) {
+            return array();
+        }
+        $name = "PlayeSkins_getVideoTags{$videos_id}";
+        $tags = ObjectYPT::getCache($name, 0);
+        if (empty($tags)) {
+            //_error_log("Cache not found $name");
+            $video = new Video("", "", $videos_id);
+            $fileName = $video->getFilename();
+            $resolution = Video::getHigestResolution($fileName);
+            $obj = new stdClass();
+            if (empty($resolution) || empty($resolution['resolution_text'])) {
+                $obj->label = '';
+                $obj->type = "";
+                $obj->text = "";
+            } else {
+                $obj->label = 'Plugin';
+                $obj->type = "danger";
+                $obj->text = $resolution['resolution_text'];
+            }
+            $tags = $obj;
+            ObjectYPT::setCache($name, $tags);
+        }
+        return array($tags);
     }
 
 }

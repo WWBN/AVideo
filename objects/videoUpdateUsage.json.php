@@ -12,7 +12,7 @@ $obj->msg = "";
 $obj->error = true;
 
 
-if (!User::isAdmin()) {
+if (!Permissions::canModerateVideos()) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }

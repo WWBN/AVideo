@@ -27,6 +27,20 @@ $log = new CloneLog();
 $log->add("Clone: Clone Start");
 
 $objClone = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
+
+if (empty($objClone)) {
+    $resp->msg = "Your Clone Site Plugin is not enabled";
+    $log->add("Clone: {$resp->msg}");
+    die(json_encode($resp));
+}
+
+if (empty($objClone->cloneSiteURL)) {
+    $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an AVideo URL";
+    _error_log("{$resp->msg} (".json_encode($objClone).")");
+    $log->add("Clone: {$resp->msg}");
+    die(json_encode($resp));
+}
+
 $objClone->cloneSiteURL = rtrim($objClone->cloneSiteURL,"/").'/';
 $objCloneOriginal = $objClone;
 $argv[1] = preg_replace("/[^A-Za-z0-9 ]/", '', @$argv[1]);
@@ -38,14 +52,6 @@ if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
         echo "$objClone->myKey !== $argv[1]";
         die(json_encode($resp));
     }
-}
-
-
-
-if (empty($objClone->cloneSiteURL)) {
-    $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an AVideo URL";
-    $log->add("Clone: {$resp->msg}");
-    die(json_encode($resp));
 }
 
 $videosSite = "{$objClone->cloneSiteURL}videos/";
@@ -64,7 +70,8 @@ if (!file_exists($photosDir)) {
 $url = $objClone->cloneSiteURL . "plugin/CloneSite/cloneServer.json.php?url=" . urlencode($global['webSiteRootURL']) . "&key={$objClone->myKey}&useRsync=" . intval($objClone->useRsync);
 // check if it respond
 $log->add("Clone (1 of {$totalSteps}): Asking the Server the database and the files");
-$content = url_get_contents($url);
+$content = url_get_contents($url, "", 3600);
+_error_log("Clone: url_get_contents($url) respond: ($content)");
 //var_dump($url, $content);exit;
 $json = json_decode($content);
 

@@ -15,6 +15,7 @@ class CloneLog{
     }
     
     function add($message){
+        _error_log($message);
         file_put_contents($this->file, $message.PHP_EOL , FILE_APPEND | LOCK_EX);
     }
 }

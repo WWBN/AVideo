@@ -119,7 +119,7 @@ class Cache extends PluginAbstract {
         if (isCommandLineInterface()) {
             return true;
         }
-
+        
         $whitelistedFiles = array('user.php', 'status.php', 'canWatchVideo.json.php', '/login', '/status');
         $blacklistedFiles = array('videosAndroid.json.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
@@ -159,6 +159,7 @@ class Cache extends PluginAbstract {
                 strpos($_SERVER['REQUEST_URI'], 'plugin/YPTStorage') === false && 
                 strpos($_SERVER['REQUEST_URI'], '/login') === false && 
                 strpos($_SERVER['REQUEST_URI'], 'restreamer.json.php') === false && 
+                strpos($_SERVER['REQUEST_URI'], 'plugin/API') === false && 
                 $_SERVER['REMOTE_ADDR'] !='127.0.0.1') {
             if (empty($_SERVER['HTTP_USER_AGENT'])) {
                 $_SERVER['HTTP_USER_AGENT'] = "";

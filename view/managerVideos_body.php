@@ -34,6 +34,34 @@
     #actionButtonsVideoManager button{
         font-size: 12px;
     }
+    .controls .btn{
+        margin: 5px 0;
+    }
+    #grid .tagsInfo span.label:not(.tagTitle){
+        display: inline-block;    
+        width: 70%;
+        text-align: left;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    #grid .tagsInfo span.label.tagTitle{
+        display: inline-block;    
+        width: 30%;
+        overflow: hidden;
+        text-align: right;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 0.25em;
+        border-bottom-left-radius: 0.25em;
+    }
+    .titleBtn {
+        white-space: break-spaces;
+        display: flex;
+        display: flow-root;
+    }
 </style>
 <div class="container-fluid">
     <?php
@@ -253,11 +281,25 @@
                     <tr>
                         <th data-formatter="checkbox" data-width="25px" ></th>
                         <th data-column-id="title" data-formatter="titleTag" ><?php echo __("Title"); ?></th>
-                        <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="210px" data-header-css-class='hidden-xs' data-css-class='hidden-xs'><?php echo __("Tags"); ?></th>
-                        <th data-column-id="duration" data-width="80px"  data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Duration"); ?></th>
-                        <th data-column-id="filesize" data-formatter="filesize" data-width="100px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
+                        <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="300px" data-header-css-class='hidden-xs' data-css-class='hidden-xs tagsInfo'><?php echo __("Tags"); ?></th>
+                        <th  style="display: none;"  data-column-id="duration" data-width="80px"  data-header-css-class='hidden-md hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-md hidden-sm hidden-xs'>
+                            <?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Video Duration") . '"></i>'); ?>
+                        </th>
+                        <th  style="display: none;"  data-column-id="views_count" data-width="50px"  data-header-css-class='hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-sm hidden-xs'>
+                            <?php echo htmlentities('<i class="fas fa-eye" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Video Views") . '"></i>'); ?>
+                        </th>
+                        <?php
+                        if (Permissions::canAdminVideos()) {
+                            ?>
+                            <th  style="display: none;"  data-column-id="isSuggested" data-formatter="isSuggested" data-width="42px"  data-header-css-class='hidden-xs showOnGridDone' data-css-class='hidden-xs'>
+                                <?php echo htmlentities('<i class="fas fa-star" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Suggested Video") . '"></i>'); ?>
+                            </th>
+                            <?php
+                        }
+                        ?>
+                        <th data-column-id="filesize" data-formatter="filesize" data-width="100px"  data-header-css-class='hidden-md hidden-sm hidden-xs'  data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
                         <th data-column-id="created" data-order="desc" data-width="100px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
-                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-width="200px"></th>
+                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-css-class='controls' data-width="200px"></th>
                     </tr>
                 </thead>
             </table>
@@ -659,45 +701,45 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
     <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
     <script>
-                                        tinymce.init({
-                                            selector: '#inputDescription', // change this value according to your HTML
-                                            plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
-                                            //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
-                                            toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
-                                            height: 400,
-                                            convert_urls: false,
-                                            images_upload_handler: function (blobInfo, success, failure) {
-                                                var xhr, formData;
-                                                if (!videos_id) {
-                                                    $('#inputTitle').val("Article automatically booked");
-                                                    saveVideo(false);
+                                            tinymce.init({
+                                                selector: '#inputDescription', // change this value according to your HTML
+                                                plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
+                                                //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
+                                                toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
+                                                height: 400,
+                                                convert_urls: false,
+                                                images_upload_handler: function (blobInfo, success, failure) {
+                                                    var xhr, formData;
+                                                    if (!videos_id) {
+                                                        $('#inputTitle').val("Article automatically booked");
+                                                        saveVideo(false);
+                                                    }
+                                                    xhr = new XMLHttpRequest();
+                                                    xhr.withCredentials = false;
+                                                    xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
+                                                    xhr.onload = function () {
+                                                        var json;
+                                                        if (xhr.status != 200) {
+                                                            failure('HTTP Error: ' + xhr.status);
+                                                            return;
+                                                        }
+
+                                                        json = xhr.responseText;
+                                                        json = JSON.parse(json);
+                                                        if (json.error === false && json.url) {
+                                                            success(json.url);
+                                                        } else if (json.msg) {
+                                                            avideoAlert("<?php echo __("Sorry!"); ?>", json.msg, "error");
+                                                        } else {
+                                                            avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
+                                                        }
+
+                                                    };
+                                                    formData = new FormData();
+                                                    formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+                                                    xhr.send(formData);
                                                 }
-                                                xhr = new XMLHttpRequest();
-                                                xhr.withCredentials = false;
-                                                xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
-                                                xhr.onload = function () {
-                                                    var json;
-                                                    if (xhr.status != 200) {
-                                                        failure('HTTP Error: ' + xhr.status);
-                                                        return;
-                                                    }
-
-                                                    json = xhr.responseText;
-                                                    json = JSON.parse(json);
-                                                    if (json.error === false && json.url) {
-                                                        success(json.url);
-                                                    } else if (json.msg) {
-                                                        avideoAlert("<?php echo __("Sorry!"); ?>", json.msg, "error");
-                                                    } else {
-                                                        avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
-                                                    }
-
-                                                };
-                                                formData = new FormData();
-                                                formData.append('file_data', blobInfo.blob(), blobInfo.filename());
-                                                xhr.send(formData);
-                                            }
-                                        });
+                                            });
     </script>
     <?php
 }
@@ -797,14 +839,14 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
 ?>
     function checkProgress(encoderURL) {
         $.ajax({
-            url: encoderURL+'status',
+            url: encoderURL + 'status',
             success: function (response) {
                 if (response.queue_list.length) {
                     for (i = 0; i < response.queue_list.length; i++) {
                         if (webSiteRootURL !== response.queue_list[i].streamer_site) {
                             continue;
                         }
-                        if(response.queue_list[i].return_vars && response.queue_list[i].return_vars.videos_id){
+                        if (response.queue_list[i].return_vars && response.queue_list[i].return_vars.videos_id) {
                             createQueueItem(response.queue_list[i], i);
                         }
                     }
@@ -817,15 +859,15 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                     if (response.download_status && !response.encoding_status.progress) {
                         $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
                     } else {
-                        var encodingProgressCounter = $("#encodingProgressCounter"+id).text();
-                        if(isNaN(encodingProgressCounter)){
+                        var encodingProgressCounter = $("#encodingProgressCounter" + id).text();
+                        if (isNaN(encodingProgressCounter)) {
                             encodingProgressCounter = 0;
-                        }else{
+                        } else {
                             encodingProgressCounter = parseInt(encodingProgressCounter);
                         }
-                        
-                        
-                        $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id +"'>"+encodingProgressCounter+"</span>%");
+
+
+                        $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id + "'>" + encodingProgressCounter + "</span>%");
                         $("#encodingProgress" + id).find('.progress-bar').css({'width': response.encoding_status.progress + '%'});
                         //$("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
                         countTo("#encodingProgressComplete" + id, response.encoding_status.progress);
@@ -834,7 +876,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                     if (response.download_status) {
                         $("#downloadProgress" + id).find('.progress-bar').css({'width': response.download_status.progress + '%'});
                     }
-                    if (response.encoding_status.progress >= 100) {
+                    if (response.encoding_status.progress >= 100 && $("#encodingProgress" + id).length) {
                         $("#encodingProgress" + id).find('.progress-bar').css({'width': '100%'});
                         $("#encodingProgressComplete" + id).text('100%');
                         clearTimeout(timeOut);
@@ -1592,7 +1634,7 @@ echo AVideoPlugin::getManagerVideosReset();
                 buttons: true,
                 dangerMode: true,
             })
-                    .then(function(willDelete) {
+                    .then(function (willDelete) {
                         if (willDelete) {
                             avideoAlert("Deleted!", "", "success");
                             modal.showPleaseWait();
@@ -1697,42 +1739,26 @@ if (User::isAdmin()) {
 <?php
 if (empty($advancedCustom->disableCopyEmbed)) {
     ?>
-                        embedBtn += '<button type="button" class="btn btn-xs btn-default command-embed" id="embedBtn' + row.id + '"  onclick="getEmbedCode(' + row.id + ')" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Copy embed code")); ?>"><span class="fa fa-copy" aria-hidden="true"></span> <span id="copied' + row.id + '" style="display:none;"><?php echo str_replace("'", "\\'", __("Copied")); ?></span></button>'
+                        embedBtn += '<button type="button" class="btn btn-xs btn-default command-embed" id="embedBtn' + row.id + '"  onclick="getEmbedCode(' + row.id + ')" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Copy embed code")); ?>"><span class="fa fa-copy" aria-hidden="true"></span> <span id="copied' + row.id + '" style="display:none;"><?php echo str_replace("'", "\\'", __("Copied")); ?></span></button>'
                         embedBtn += '<input type="hidden" id="embedInput' + row.id + '" value=\'<?php echo str_replace("{embedURL}", "{$global['webSiteRootURL']}vEmbed/' + row.id + '", str_replace("'", "\"", $advancedCustom->embedCodeTemplate)); ?>\'/>';
     <?php
 }
 ?>
 
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>';
-                    var activeBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Inactivate")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
-                    var inactiveBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Activate")); ?>"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
-                    var unlistedBtn = '<button style="color: #BBB" type="button" class="btn btn-default btn-xs command-unlisted"  data-row-id="' + row.id + '"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unlisted")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
-                    var rotateLeft = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="left"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate LEFT")); ?>"><span class="fa fa-undo" aria-hidden="true"></span></button>';
-                    var rotateRight = '<button type="button" class="btn btn-default btn-xs command-rotate"  data-row-id="right"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Rotate RIGHT")); ?>"><span class="fas fa-redo " aria-hidden="true"></span></button>';
-                    //var rotateBtn = "<br>" + rotateLeft + rotateRight;
-                    var rotateBtn = "<br>";
-                    var suggestBtn = "";
-<?php
-if (User::isAdmin()) {
-    ?>
-                        var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fas fa-star" aria-hidden="true"></i></button>';
-                        var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="far fa-star" aria-hidden="true"></i></button>';
-                        suggestBtn = unsuggest;
-                        if (row.isSuggested == "1") {
-                            suggestBtn = suggest;
-                        }
-    <?php
-}
-?>
-                    if (row.type == "audio") {
-                        rotateBtn = "";
-                    }
+                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>"><i class="fa fa-trash"></i></button>';
+                    var activeBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is Active and Listed, click here to unlist it")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
+                    var inactiveBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is inactive, click here to activate it")); ?>"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
+                    var unlistedBtn = '<button style="color: #BBB" type="button" class="btn btn-default btn-xs command-unlisted"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is unlisted, click here to inactivate it")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
                     var status;
                     var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                     var download = "";
                     for (var k in row.videosURL) {
                         var pattern = /^m3u8/i;
+                        if (pattern.test(k) === true) {
+                            continue;
+                        }
+                        var pattern = /_thumbs/i;
                         if (pattern.test(k) === true) {
                             continue;
                         }
@@ -1745,7 +1771,7 @@ if (User::isAdmin()) {
                         } else {
                             url += "?download=1";
                         }
-                        download += '<a href="' + url + '" class="btn btn-default btn-xs btn-block" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
+                        download += '<a href="' + url + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
                     }
 
                     if (row.status == "i") {
@@ -1774,32 +1800,74 @@ if (User::isAdmin()) {
                         }
                         nextIsSet = "<span class='label label-success' data-toggle='tooltip' title='" + row.next_video.title + "'>Next video: " + nextVideoTitle + "</span>";
                     }
-                    return embedBtn + editBtn + deleteBtn + status + suggestBtn + rotateBtn + pluginsButtons + download + nextIsSet;
+
+                    var suggestBtn = "";
+<?php
+if (Permissions::canAdminVideos()) {
+    ?>
+                        var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fas fa-star" aria-hidden="true"></i></button>';
+                        var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="far fa-star" aria-hidden="true"></i></button>';
+                        suggestBtn = unsuggest;
+                        if (row.isSuggested == "1") {
+                            suggestBtn = suggest;
+                        }
+    <?php
+}
+?>
+                    return embedBtn + editBtn + deleteBtn + status + suggestBtn + pluginsButtons + download + nextIsSet;
                 },
                 "tags": function (column, row) {
                     var tags = "";
+
+
+<?php
+if (Permissions::canAdminVideos()) {
+    ?>
+                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Owner") . ":"; ?> </span><span class=\"label label-default \">" + row.user + "</span>";
+    <?php
+}
+?>
+
+                    if (row.maxResolution && row.maxResolution.resolution_string && row.maxResolution.resolution_string !=='0p') {
+                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Resolution") . ":"; ?> </span><span class=\"label label-default \">" + row.maxResolution.resolution_string + "</span>";
+                    }
                     for (var i in row.tags) {
-                        if (typeof row.tags[i].type == "undefined") {
+                        if (typeof row.tags[i].type == "undefined" || row.tags[i].label.length===0) {
                             continue;
                         }
-                        tags += "<span class='label label-primary fix-width'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
+                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + row.tags[i].text + "</span>";
                     }
-                    tags += "<span class='label label-primary fix-width'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.type + "</span><br>";
-                    tags += "<span class='label label-primary fix-width'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span><br>";
-                    tags += "<span class='label label-primary fix-width'><?php echo __("Format") . ":"; ?> </span>" + row.typeLabels;
+                    tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default \">" + row.type + "</span>";
+                    tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default \">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span>";
+                    tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Format") . ":"; ?> </span>" + row.typeLabels + "";
                     if (row.encoderURL) {
-                        tags += "<br><span class='label label-primary fix-width'><?php echo __("Encoder") . ":"; ?> </span><span class=\"label label-default fix-width\">" + row.encoderURL + "</span><br>";
+                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Encoder") . ":"; ?> </span><span class=\"label label-default \">" + row.encoderURL + "</span>";
                         clearTimeout(checkProgressTimeout[row.encoderURL]);
-                        checkProgressTimeout[row.encoderURL] = setTimeout(function(){
+                        checkProgressTimeout[row.encoderURL] = setTimeout(function () {
                             checkProgress(row.encoderURL);
-                        },1000);
+                        }, 1000);
                     }
-                    
-                    
+
                     return tags;
                 },
                 "filesize": function (column, row) {
                     return formatFileSize(row.filesize);
+                },
+                "isSuggested": function (column, row) {
+                    var suggestBtn = "";
+<?php
+if (Permissions::canAdminVideos()) {
+    ?>
+                        var suggest = '<button style="color: #C60" type="button" class="btn btn-default btn-xs command-suggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Unsuggest")); ?>"><i class="fas fa-star" aria-hidden="true"></i></button>';
+                        var unsuggest = '<button style="" type="button" class="btn btn-default btn-xs command-suggest unsuggest"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Suggest")); ?>"><i class="far fa-star" aria-hidden="true"></i></button>';
+                        suggestBtn = unsuggest;
+                        if (row.isSuggested == "1") {
+                            suggestBtn = suggest;
+                        }
+    <?php
+}
+?>
+                    return suggestBtn;
                 },
                 "checkbox": function (column, row) {
                     var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";
@@ -1809,11 +1877,11 @@ if (User::isAdmin()) {
                     var tags = "";
                     var youTubeLink = "", youTubeUpload = "";
 <?php if (!$config->getDisable_youtubeupload()) { ?>
-                        youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
+                        youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
                         if (row.youtubeId) {
-                            //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" data-placement="left" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fas fa-external-link-alt " aria-hidden="true"></span></a>';
+                            //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fas fa-external-link-alt " aria-hidden="true"></span></a>';
                         }
-                        var yt = '<br><div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fas fa-play-circle" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
+                        var yt = '<div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fas fa-play-circle" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
                         if (row.status == "d" || row.status == "e") {
                             yt = "";
                         }
@@ -1869,8 +1937,11 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
 }
 ?>
 
-                    var pluginsButtons = '<br><?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
-                    return img + '<div class="clearfix hidden-md hidden-lg"></div><a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.id + '/' + row.clean_title + '" class="btn btn-default btn-xs">' + type + row.title + "</a>" + tags + "" + yt + pluginsButtons + playList;
+                    var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
+
+                    var buttonTitleLink = '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.id + '/' + row.clean_title + '" class="btn btn-default btn-xs titleBtn">' + type + row.title + '</a>';
+
+                    return img + '<div class="clearfix hidden-md hidden-lg"></div>' + buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList;
                 }
 
 
@@ -1881,6 +1952,9 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     page = 1;
                 }
                 var ret = {current: page};
+                setTimeout(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                }, 1000);
                 return ret;
             },
         }).on("loaded.rs.jquery.bootgrid", function () {
@@ -1923,7 +1997,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     buttons: true,
                     dangerMode: true,
                 })
-                        .then(function(willDelete) {
+                        .then(function (willDelete) {
                             if (willDelete) {
                                 deleteVideo(row.id);
                             }
@@ -2037,7 +2111,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                 });
             });
 <?php
-if (User::isAdmin()) {
+if (Permissions::canAdminVideos()) {
     ?>
                 grid.find(".command-suggest").on("click", function (e) {
                     var row_index = $(this).closest('tr').index();
@@ -2095,7 +2169,9 @@ if (!empty($_GET['link'])) {
     <?php
 }
 ?>
-
+        setTimeout(function () {
+            $('.showOnGridDone').fadeIn();
+        }, 500);
     });
 
 </script>

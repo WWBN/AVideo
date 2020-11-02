@@ -12,7 +12,7 @@ if (empty($pobj)) {
 }
 $live_servers_id = Live::getCurrentLiveServersId();
 $cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']. json_encode($_REQUEST));
-$json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout);
+$json = ObjectYPT::getSessionCache($cacheName, $pobj->cacheStatsTimout);
 if(empty($json)){
     $json = Live::getStats();
     if(!is_array($json) && is_object($json)){
@@ -44,6 +44,6 @@ if(empty($json)){
         $count++;
     }    
     
-    ObjectYPT::setCache($cacheName, $json);
+    ObjectYPT::setSessionCache($cacheName, $json);
 }
 echo json_encode($json);

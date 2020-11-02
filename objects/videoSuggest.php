@@ -5,7 +5,7 @@ if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
-if (!User::isAdmin()) {
+if (!Permissions::canModerateVideos()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 require_once $global['systemRootPath'] . 'objects/video.php';

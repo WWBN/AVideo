@@ -205,7 +205,11 @@ class LiveTransmition extends ObjectYPT {
         $sql = "INSERT INTO live_transmitions_has_users_groups (live_transmitions_id, users_groups_id) VALUES (?,?)";
         return sqlDAL::writeSql($sql, "ii", array($this->id, $users_groups_id));
     }
-
+    
+    function isAPrivateLive(){
+        return !empty($this->getGroups());
+    }
+    
     function getGroups() {
         $rows = array();
         if (empty($this->id)) {

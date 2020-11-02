@@ -7,8 +7,9 @@ use Pecee\SimpleRouter\SimpleRouter; //required if we want to define routes on o
 
 
 class TopMenu extends PluginAbstract {
+    const PERMISSION_CAN_EDIT = 0;
 
-    
+
     public function getTags() {
         return array(
             PluginTags::$FREE,
@@ -84,5 +85,15 @@ class TopMenu extends PluginAbstract {
         if(!isset($menuId['id']))
         return false;
         return $menuId['id'];
+    }
+    
+    function getPermissionsOptions(){
+        $permissions = array();
+        $permissions[] = new PluginPermissionOption(TopMenu::PERMISSION_CAN_EDIT, __("TopMenu"), __("Can edit TopMenu plugin"), 'TopMenu');
+        return $permissions;
+    }
+    
+    static function canAdminTopMenu(){
+        return Permissions::hasPermission(TopMenu::PERMISSION_CAN_EDIT,'TopMenu');
     }
 }
