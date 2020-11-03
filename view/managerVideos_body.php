@@ -1756,7 +1756,7 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                     for (var k in row.videosURL) {
                         var pattern = /^m3u8/i;
                         if (pattern.test(k) === true) {
-                            continue;
+                            //continue;
                         }
                         var pattern = /_thumbs/i;
                         if (pattern.test(k) === true) {
