@@ -1,6 +1,6 @@
 <div id="programsContainer"></div>
 <p class="pagination infiniteScrollPagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>view/channelPlaylistItems.php?current=1&channelName=<?php echo $_GET['channelName']; ?>"></a>
+    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>view/channelPlaylistItems.php?channelName=<?php echo $_GET['channelName']; ?>&current=1"></a>
 </p>
 <div class="scroller-status">
     <div class="infinite-scroll-request loader-ellips text-center">
