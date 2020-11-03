@@ -102,7 +102,13 @@ class PlayerSkins extends PluginAbstract {
                         . "</style>";
             }
         }
-        return $css;
+        
+        $url = urlencode(getSelfURI());
+        $oembed = '<link href="'.$global['webSiteRootURL'].'oembed/?format=json&url='.$url.'" rel="alternate" type="application/json+oembed" />';
+        $oembed .= '<link href="'.$global['webSiteRootURL'].'oembed/?format=xml&url='.$url.'" rel="alternate" type="application/xml+oembed" />';
+        
+        
+        return $css.$oembed;
     }
 
     public function getFooterCode() {
