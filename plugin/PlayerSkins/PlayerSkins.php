@@ -40,7 +40,7 @@ class PlayerSkins extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->skin = "youtube";
+        $obj->skin = "avideo";
         $obj->playbackRates = "[0.5, 1, 1.5, 2]";
         $obj->playerCustomDataSetup = "";
         $obj->showSocialShareOnEmbed = true;
@@ -72,7 +72,9 @@ class PlayerSkins extends PluginAbstract {
                 $js .= "<script>var autoplay = false;</script>";
             }
             $js .= "<script>var playNextURL = '';</script>";
-            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+            if(!empty($obj->skin)){
+                $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+            }
             if ($obj->showLoopButton && !isLive()) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }

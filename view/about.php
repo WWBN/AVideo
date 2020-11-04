@@ -42,17 +42,24 @@ $metaDescription = "About Page";
                             <a href="https://tutorials.avideo.com/" class="btn btn-primary">Tutorials Site</a>
                             <a href="https://github.com/WWBN/AVideo/issues" class="btn btn-warning">Issues and requests Site</a>
                         </div>
+                        <div class="clearfix"></div>
                         <span class="label label-success"><?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?></span>
 
                         <span class="label label-success">
                             <?php printf(__("You can upload max of %s!"), get_max_file_size()); ?>
                         </span>
                         <span class="label label-success">
-                            <?php printf(__("You can storage %s minutes of videos!"), (empty($global['videoStorageLimitMinutes']) ? "unlimited" : $global['videoStorageLimitMinutes'])); ?>
-                        </span>
-                        <span class="label label-success">
                             <?php printf(__("You have %s minutes of videos!"), number_format(getSecondsTotalVideosLength() / 6, 2)); ?>
                         </span>
+                        <div class="clearfix"></div>
+                        <span class="label label-info">
+                            <?php echo __("You are using"); ?>: <?php echo get_browser_name() . " on " . getOS(); ?> (<?php echo isMobile() ? "Mobile" : "PC"; ?>)
+                        </span>
+                        <span class="label label-default">
+                            <?php echo $_SERVER['HTTP_USER_AGENT']; ?>
+                        </span>
+                        
+
                         <?php
                     } else {
                         echo $custom;
