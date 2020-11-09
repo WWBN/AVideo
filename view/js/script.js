@@ -513,12 +513,9 @@ function muteIfNotAudio(){
 function playMuted(currentTime){
     var mute = Cookies.get('muted');
     if(typeof mute === 'undefined' || mute){
-        if(muteIfNotAudio()){
-            playerPlay(currentTime);
-            return true;
-        }
+        muteIfNotAudio();
     }
-    return false;
+    return playerPlay(currentTime);;
 }
 
 function showMuteTooltip() {
