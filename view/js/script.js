@@ -160,13 +160,13 @@ function setPlayerListners() {
             console.log("setPlayerListners: play");
             //userIsControling = true;
         });
-        
-        $("#mainVideo .vjs-mute-control").click(function(){
+
+        $("#mainVideo .vjs-mute-control").click(function () {
             Cookies.set('muted', player.muted(), {
                 path: '/',
                 expires: 365
             });
-        }); 
+        });
     } else {
         setTimeout(function () {
             setPlayerListners();
@@ -477,7 +477,7 @@ function playerPlay(currentTime) {
                     playMuted(currentTime);
                 });
             } else {
-                tryToPlay(currentTime);                
+                tryToPlay(currentTime);
             }
         } catch (e) {
             console.log("playerPlay: We could not autoplay, trying again in 1 second");
@@ -488,11 +488,14 @@ function playerPlay(currentTime) {
     }
 }
 
-function tryToPlay(currentTime){
+function tryToPlay(currentTime) {
     clearTimeout(promisePlayTimeout);
     promisePlayTimeoutTime += 200;
-    if(promisePlayTimeoutTime>1000){
-        $.toast("Your browser prevent autoplay");
+    if (promisePlayTimeoutTime > 1000) {
+        if (promisePlayTimeoutTime = 1000) {
+            $.toast("Your browser prevent autoplay");
+            return false;
+        }
         return false;
     }
     promisePlayTimeout = setTimeout(function () {
@@ -502,20 +505,21 @@ function tryToPlay(currentTime){
     }, promisePlayTimeoutTime);
 }
 
-function muteIfNotAudio(){
-    if(!player.isAudio()){
+function muteIfNotAudio() {
+    if (!player.isAudio()) {
         player.muted(true);
         return true;
     }
     return false;
 }
 
-function playMuted(currentTime){
+function playMuted(currentTime) {
     var mute = Cookies.get('muted');
-    if(typeof mute === 'undefined' || mute){
+    if (typeof mute === 'undefined' || mute) {
         muteIfNotAudio();
     }
-    return playerPlay(currentTime);;
+    return playerPlay(currentTime);
+    ;
 }
 
 function showMuteTooltip() {
@@ -992,7 +996,7 @@ function validURL(str) {
 function startTimer(duration, selector) {
     var timer = duration;
     var startTimerInterval = setInterval(function () {
-        
+
         // Time calculations for days, hours, minutes and seconds
         var days = Math.floor(duration / (60 * 60 * 24));
         var hours = Math.floor((duration % (60 * 60 * 24)) / (60 * 60));
@@ -1001,14 +1005,14 @@ function startTimer(duration, selector) {
 
         // Display the result in the element with id="demo"
         var text = days + "d " + hours + "h "
-        + minutes + "m " + seconds + "s ";
+                + minutes + "m " + seconds + "s ";
         $(selector).text(text);
         duration--;
         // If the count down is finished, write some text
         if (duration < 0) {
-          clearInterval(startTimerInterval);
-          $(selector).text("EXPIRED");
+            clearInterval(startTimerInterval);
+            $(selector).text("EXPIRED");
         }
-        
+
     }, 1000);
 }
