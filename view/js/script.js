@@ -123,20 +123,28 @@ function clean_name(str) {
     return str.replace(/[!#$&'()*+,/:;=?@[\] ]+/g, "-");
 }
 
-
-try {
-    if ($(".thumbsJPG").length) {
-        $('.thumbsJPG').lazy({
-            effect: 'fadeIn',
-            visibleOnly: true,
-            // called after an element was successfully handled
-            afterLoad: function (element) {
-                element.removeClass('blur');
-            }
-        });
+function lazyImage() {
+    try {
+        if ($(".thumbsJPG").length) {
+            $('.thumbsJPG').lazy({
+                effect: 'fadeIn',
+                visibleOnly: true,
+                // called after an element was successfully handled
+                afterLoad: function (element) {
+                    element.removeClass('blur');
+                    element.parent().find('.thumbsGIF').lazy({
+                        effect: 'fadeIn'
+                    });
+                }
+            });
+            mouseEffect();
+        }
+    } catch (e) {
     }
-} catch (e) {
 }
+
+lazyImage();
+
 var pleaseWaitIsINUse = false;
 
 function setPlayerListners() {
@@ -152,6 +160,13 @@ function setPlayerListners() {
             console.log("setPlayerListners: play");
             //userIsControling = true;
         });
+        
+        $("#mainVideo .vjs-mute-control").click(function(){
+            Cookies.set('muted', player.muted(), {
+                path: '/',
+                expires: 365
+            });
+        }); 
     } else {
         setTimeout(function () {
             setPlayerListners();
@@ -396,7 +411,6 @@ function playerPlay(currentTime) {
     }
     promisePlaytry--;
     if (typeof player !== 'undefined') {
-        promisePlayTimeoutTime += 1000;
         if (currentTime) {
             player.currentTime(currentTime);
         }
@@ -404,10 +418,7 @@ function playerPlay(currentTime) {
             console.log("playerPlay: Trying to play");
             promisePlay = player.play();
             if (promisePlay !== undefined) {
-                promisePlayTimeout = setTimeout(function () {
-                    console.log("playerPlay: Promise is Pending, try again");
-                    playerPlay(currentTime);
-                }, promisePlayTimeoutTime);
+                tryToPlay(currentTime);
                 console.log("playerPlay: promise found");
                 promisePlay.then(function () {
                     console.log("playerPlay: Autoplay started");
@@ -416,8 +427,7 @@ function playerPlay(currentTime) {
                     setTimeout(function () {
                         if (player.paused()) {
                             console.log("The video still paused, trying to mute and play");
-                            player.muted(true);
-                            playerPlay(currentTime);
+                            playMuted(currentTime);
                         } else {
                             //player.muted(false);
                             if (player.muted() && !inIframe()) {
@@ -464,26 +474,51 @@ function playerPlay(currentTime) {
                     }, 1000);
                 }).catch(function (error) {
                     console.log("playerPlay: Autoplay was prevented, trying to mute and play ***");
-                    player.muted(true);
-                    playerPlay(currentTime);
+                    playMuted(currentTime);
                 });
             } else {
-                promisePlayTimeout = setTimeout(function () {
-                    if (player.paused()) {
-                        console.log("playerPlay: promise Undefined");
-                        playerPlay(currentTime);
-                    }
-                }, promisePlayTimeoutTime);
+                tryToPlay(currentTime);                
             }
         } catch (e) {
             console.log("playerPlay: We could not autoplay, trying again in 1 second");
-            promisePlayTimeout = setTimeout(function () {
-                playerPlay(currentTime);
-            }, promisePlayTimeoutTime);
+            tryToPlay(currentTime);
         }
     } else {
         console.log("playerPlay: Player is Undefined");
     }
+}
+
+function tryToPlay(currentTime){
+    clearTimeout(promisePlayTimeout);
+    promisePlayTimeoutTime += 200;
+    if(promisePlayTimeoutTime>1000){
+        $.toast("Your browser prevent autoplay");
+        return false;
+    }
+    promisePlayTimeout = setTimeout(function () {
+        if (player.paused()) {
+            playerPlay(currentTime);
+        }
+    }, promisePlayTimeoutTime);
+}
+
+function muteIfNotAudio(){
+    if(!player.isAudio()){
+        player.muted(true);
+        return true;
+    }
+    return false;
+}
+
+function playMuted(currentTime){
+    var mute = Cookies.get('muted');
+    if(typeof mute === 'undefined' || mute){
+        if(muteIfNotAudio()){
+            playerPlay(currentTime);
+            return true;
+        }
+    }
+    return false;
 }
 
 function showMuteTooltip() {
@@ -661,7 +696,7 @@ function isArray(what) {
 }
 
 function reloadVideoJS() {
-    if(typeof player.currentSources === 'function'){
+    if (typeof player.currentSources === 'function') {
         var src = player.currentSources();
         player.src(src);
     }
@@ -797,9 +832,9 @@ function playerHasAds() {
 
 function countTo(selector, total) {
     var text = $(selector).text();
-    if(isNaN(text)){
+    if (isNaN(text)) {
         current = 0;
-    }else{
+    } else {
         current = parseInt(text);
     }
     total = parseInt(total);
@@ -879,16 +914,8 @@ $(document).ready(function () {
     $(".thumbsImage").on("mouseleave", function () {
         $(this).find(".thumbsGIF").stop(true, true).fadeOut();
     });
-    if ($(".thumbsJPG").length) {
-        $('.thumbsJPG').lazy({
-            effect: 'fadeIn',
-            visibleOnly: true,
-            // called after an element was successfully handled
-            afterLoad: function (element) {
-                element.removeClass('blur');
-            }
-        });
-    }
+
+    lazyImage();
 
     $("a").each(function () {
         var location = window.location.toString()
@@ -950,17 +977,41 @@ $(document).ready(function () {
         });
     });
     setPlayerListners();
-    
+
     $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
-    
+
 });
 
 function validURL(str) {
-  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+:]*)*'+ // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-  return !!pattern.test(str);
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+:]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    return !!pattern.test(str);
+}
+
+function startTimer(duration, selector) {
+    var timer = duration;
+    var startTimerInterval = setInterval(function () {
+        
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(duration / (60 * 60 * 24));
+        var hours = Math.floor((duration % (60 * 60 * 24)) / (60 * 60));
+        var minutes = Math.floor((duration % (60 * 60)) / (60));
+        var seconds = Math.floor((duration % (60)));
+
+        // Display the result in the element with id="demo"
+        var text = days + "d " + hours + "h "
+        + minutes + "m " + seconds + "s ";
+        $(selector).text(text);
+        duration--;
+        // If the count down is finished, write some text
+        if (duration < 0) {
+          clearInterval(startTimerInterval);
+          $(selector).text("EXPIRED");
+        }
+        
+    }, 1000);
 }
