@@ -476,6 +476,14 @@ function parseDurationToSeconds($str) {
     return intval($durationParts[2]) + ($minutes * 60);
 }
 
+function durationToSeconds($str){
+    return parseDurationToSeconds($str);
+}
+
+function secondsToDuration($seconds){
+    return parseSecondsToDuration($seconds);
+}
+
 /**
  *
  * @global type $global
@@ -2506,8 +2514,16 @@ function isAVideoStorage($user_agent = "") {
 function get_domain($url) {
     $pieces = parse_url($url);
     $domain = isset($pieces['host']) ? $pieces['host'] : '';
+    if(empty($domain)){
+        return false;
+    }
     if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)) {
         return $regs['domain'];
+    }else{
+        $isIp = (bool)ip2long($pieces['host']);
+        if($isIp){
+            return $pieces['host'];
+        }
     }
     return false;
 }
@@ -3727,6 +3743,11 @@ function isVideo() {
     return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();
 }
 
+function isAudio() {
+    global $isAudio;
+    return !empty($isAudio);
+}
+
 function isSerie() {
     return isPlayList();
 }
@@ -3901,7 +3922,7 @@ function getRowCount($default = 1000) {
     } else if (!empty($global['rowCount'])) {
         $defaultN = intval($global['rowCount']);
     }
-    return !empty($defaultN) ? $defaultN : $default;
+    return (!empty($defaultN) && $defaultN>0) ? $defaultN : $default;
 }
 
 function getSearchVar() {
@@ -4349,10 +4370,12 @@ function _substr($string, $start, $length = NULL) {
     }
 }
 
-function getPagination($total, $page = 0, $link = "", $maxVisible = 10) {
+function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="") {
+    global $global, $advancedCustom;
     if ($total < 2) {
         return "";
     }
+    $uid = uniqid();
     if ($total < $maxVisible) {
         $maxVisible = $total;
     }
@@ -4367,7 +4390,13 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10) {
     if (empty($page)) {
         $page = getCurrentPage();
     }
-    $pag = '<nav aria-label="Page navigation" class="text-center"><ul class="pagination">';
+    
+    $class = "";
+    if(!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)){
+        $class = "hidden";
+    }
+    
+    $pag = '<nav aria-label="Page navigation" class="text-center infiniteScrollPagination '.$class.'"><ul class="pagination">';
     $start = 1;
     $end = $maxVisible;
 
@@ -4386,7 +4415,9 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10) {
     if ($page > 1) {
         $pageLink = str_replace("{page}", 1, $link);
         $pageBackLink = str_replace("{page}", $page - 1, $link);
-        $pag .= '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
+        if($start>($page - 1)){
+            $pag .= '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
+        }
         $pag .= '<li class="page-item"><a class="page-link" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
     }
     for ($i = $start; $i <= $end; $i++) {
@@ -4400,10 +4431,22 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10) {
     if ($page < $total) {
         $pageLink = str_replace("{page}", $total, $link);
         $pageForwardLink = str_replace("{page}", $page + 1, $link);
-        $pag .= '<li class="page-item"><a class="page-link" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
-        $pag .= '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
+        $pag .= '<li class="page-item"><a class="page-link pagination__next'.$uid.'" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
+        if($total>($end + 1)){
+            $pag .= '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
+        }
     }
     $pag .= '</ul></nav> ';
+    
+    if(!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)){
+        $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
+        $pag .= str_replace(
+                array('$uid','$webSiteRootURL', '$infinityScrollGetFromSelector','$infinityScrollAppendIntoSelector'), 
+                array($uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector,$infinityScrollAppendIntoSelector), 
+                $content);
+    }
+    
+    
     return $pag;
 }
 
@@ -4763,4 +4806,18 @@ function getValidFormats(){
 function isValidFormats($format){
     $format = str_replace(".", "", $format);
     return in_array($format, getValidFormats());
+}
+function getTimerFromDates($startTime, $endTime=0){
+    if(!is_int($startTime)){
+        $startTime = strtotime($startTime);
+    }
+    if(!is_int($endTime)){
+        $endTime = strtotime($endTime);
+    }
+    if(empty($endTime)){
+        $endTime = time();
+    }
+    $timer = abs($endTime-$startTime);
+    $uid = uniqid();
+    return "<span id='{$uid}'></span><script>$(document).ready(function () {startTimer({$timer}, '#{$uid}');})</script>";
 }
