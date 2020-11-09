@@ -233,17 +233,6 @@ $metaDescription = __("Trending");
                 mouseEffect();
                 lazyImage();
             });
-            function lazyImage() {
-                $('.thumbsJPG').lazy({
-                    effect: 'fadeIn',
-                    visibleOnly: true,
-                    // called after an element was successfully handled
-                    afterLoad: function (element) {
-                        element.removeClass('blur');
-                    }
-                });
-                mouseEffect();
-            }
         </script>
     </body>
 </html>

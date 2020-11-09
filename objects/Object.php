@@ -30,6 +30,30 @@ abstract class ObjectYPT implements ObjectInterface {
         return true;
     }
 
+    static function getNowFromDB() {
+        global $global;
+        $sql = "SELECT NOW() as my_date_field";
+        $res = sqlDAL::readSql($sql);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
+    }
+
+    static function setTimeZone() {
+        global $advancedCustom;
+        $row = self::getNowFromDB();
+        $dt = new DateTime($row['my_date_field']);
+        $timeZOnesOptions = object_to_array($advancedCustom->timeZone->type);
+        $dt->setTimezone(new DateTimeZone($timeZOnesOptions[$advancedCustom->timeZone->value]));
+        date_default_timezone_set($timeZOnesOptions[$advancedCustom->timeZone->value]);
+        return $dt;
+    }
+
     static protected function getFromDb($id) {
         global $global;
         $id = intval($id);

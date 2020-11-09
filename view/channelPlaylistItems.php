@@ -111,6 +111,14 @@
                     <a href="<?php echo $link; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
                     <?php
                 }
+                if ($isMyChannel && PlayLists::showPlayLiveButton()) {
+                    $liveLink = PlayLists::getLiveLink($playlist['id']);
+                    if (!empty($liveLink)) {
+                        ?>
+                        <a href="<?php echo $liveLink; ?>" class="btn btn-xs btn-default playAll hrefLink" ><i class="fas fa-broadcast-tower"></i> <?php echo __("Play Live"); ?></a>
+                        <?php
+                    }
+                }
                 ?>
                 <div class="pull-right btn-group">
                     <?php
@@ -120,8 +128,8 @@
                                 ?>
                                 <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val()); setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
                                 <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<?php
-                                $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
-                                echo ($code);
+                $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
+                echo ($code);
                                 ?>'/>
                                        <?php
                                    }
@@ -159,20 +167,20 @@
                             <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-edit"></i> <?php echo __("Rename"); ?></button>
                             <button class="btn btn-xs btn-default statusPlaylist statusPlaylist<?php echo $playlist['id']; ?>" playlist_id="<?php echo $playlist['id']; ?>" style="" >
                                 <span class="fa fa-lock" id="statusPrivate<?php echo $playlist['id']; ?>" style="color: red; <?php
-                                if ($playlist['status'] !== 'private') {
-                                    echo ' display: none;';
-                                }
-                                ?> " ></span> 
+                       if ($playlist['status'] !== 'private') {
+                           echo ' display: none;';
+                       }
+                                   ?> " ></span> 
                                 <span class="fa fa-globe" id="statusPublic<?php echo $playlist['id']; ?>" style="color: green; <?php
-                                if ($playlist['status'] !== 'public') {
-                                    echo ' display: none;';
-                                }
-                                ?>"></span> 
+                          if ($playlist['status'] !== 'public') {
+                              echo ' display: none;';
+                          }
+                                   ?>"></span> 
                                 <span class="fa fa-eye-slash" id="statusUnlisted<?php echo $playlist['id']; ?>" style="color: gray;   <?php
-                                if ($playlist['status'] !== 'unlisted') {
-                                    echo ' display: none;';
-                                }
-                                ?>"></span>
+                          if ($playlist['status'] !== 'unlisted') {
+                              echo ' display: none;';
+                          }
+                                   ?>"></span>
                             </button>
                             <?php
                         }
@@ -236,17 +244,17 @@
                                         if (!empty($serie['trailer1'])) {
                                             ?>
                                             <a href="#" class="btn btn-xs btn-warning" onclick="$(this).removeAttr('href'); $('#serie<?php echo $serie['id']; ?> img').fadeOut(); $('<iframe>', {
-                                                        src: '<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>',
-                                                        id: 'myFrame<?php echo $serie['id']; ?>',
-                                                        allow: 'autoplay',
-                                                        frameborder: 0,
-                                                        height: 200,
-                                                        width: '100%',
-                                                        scrolling: 'no'
-                                                    }).appendTo('#serie<?php echo $serie['id']; ?>');
-                                                    $(this).removeAttr('onclick');
-                                                    $(this).fadeOut();
-                                                    return false;">
+                                                                        src: '<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>',
+                                                                        id: 'myFrame<?php echo $serie['id']; ?>',
+                                                                        allow: 'autoplay',
+                                                                        frameborder: 0,
+                                                                        height: 200,
+                                                                        width: '100%',
+                                                                        scrolling: 'no'
+                                                                    }).appendTo('#serie<?php echo $serie['id']; ?>');
+                                                                    $(this).removeAttr('onclick');
+                                                                    $(this).fadeOut();
+                                                                    return false;">
                                                 <span class="fa fa-film"></span> 
                                                 <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
                                             </a>
@@ -316,14 +324,14 @@
                                         ?>
 
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['watchLaterId']; ?>);
-                                                return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
+                                                                return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['watchLaterId']; ?>);
-                                                return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
+                                                                return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
                                         <br>
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['favoriteId']; ?>);
-                                                return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
+                                                                return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);
-                                                return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
+                                                                return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
 
                                     </div>
                                     <?php
@@ -352,7 +360,7 @@
                                     <div>
                                         <i class="fa fa-eye"></i>
                                         <span itemprop="interactionCount">
-                <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
                                         </span>
                                     </div>
                                     <?php

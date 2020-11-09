@@ -2,7 +2,7 @@
     var playListsAdding = false;
     var playList = [];
     function reloadPlayLists() {
-        console.log('reloadPlayLists');
+        //console.log('reloadPlayLists');
         $.ajax({
             url: webSiteRootURL + 'objects/playlists.json.php',
             success: function (response) {
@@ -13,7 +13,7 @@
     }
 
     function reloadPlayListButtons() {
-        console.log('reloadPlayListButtons');
+        //console.log('reloadPlayListButtons');
         $('.watchLaterBtnAdded').hide();
         $('.favoriteBtnAdded').hide();
         $('.watchLaterBtn').show();
@@ -38,7 +38,7 @@
 
     loadPlayListsResponseObject = {timestamp: 0, response: false};
     function loadPlayLists(videos_id, crc) {
-        console.log('loadPlayLists');
+        //console.log('loadPlayLists');
         if (loadPlayListsResponseObject.timestamp + 5000 < Date.now()) {
             loadPlayListsResponseObject.timestamp = Date.now();
             loadPlayListsResponseObject.response = [];
@@ -66,8 +66,8 @@
     }
 
     function loadPlayListsResponse(response, videos_id, crc) {
-        console.log('loadPlayListsResponse');
-        console.log(response, videos_id, crc);
+        //console.log('loadPlayListsResponse');
+        //console.log(response, videos_id, crc);
 
         $('.searchlist' + videos_id + crc).html('');
         for (var i in response) {
@@ -110,7 +110,7 @@
     }
 
     function addVideoToPlayList(videos_id, isChecked, playlists_id) {
-        console.log('addVideoToPlayList');
+        //console.log('addVideoToPlayList');
         modal.showPleaseWait();
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
@@ -122,7 +122,7 @@
             },
             success: function (response) {
                 reloadPlayLists();
-                console.log(".playListsIds_" + playlists_id + '_videos_id_' + videos_id);
+                //console.log(".playListsIds_" + playlists_id + '_videos_id_' + videos_id);
                 $(".playListsIds_" + playlists_id + '_videos_id_' + videos_id).prop("checked", isChecked);
                 modal.hidePleaseWait();
                 setTimeout(function () {

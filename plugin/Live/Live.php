@@ -475,6 +475,9 @@ class Live extends PluginAbstract {
             $o->protectLive = $liveServer->getProtectLive();
             $o->useAadaptiveMode = $liveServer->getUseAadaptiveMode();
         }
+        
+        $uuid = LiveTransmition::keyNameFix($uuid);
+        
         if ($o->protectLive && empty($doNotProtect)) {
             return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$live_servers_id}&uuid=" . encryptString($uuid);
         } else if ($o->useAadaptiveMode) {
@@ -690,8 +693,12 @@ class Live extends PluginAbstract {
         if (empty($channelName)) {
             return false;
         }
+        $playlists_id_live = "";
+        if(!empty($_REQUEST['playlists_id_live'])){
+            $playlists_id_live = "?playlists_id_live=".$_REQUEST['playlists_id_live'];
+        }
         //return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
-        return "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName);
+        return "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName).$playlists_id_live;
     }
 
     static function getAvailableLiveServersId() {
@@ -945,11 +952,22 @@ class Live extends PluginAbstract {
                 $channelName = $u->getChannelName();
                 $photo = $u->getPhotoDB();
                 $poster = $global['webSiteRootURL'] . $p->getPosterImage($row['users_id'], $live_servers_id);
+                
+                $playlists_id_live = 0;
+                if(preg_match("/.*_([0-9]+)/", $value->name, $matches)){
+                    if(!empty($matches[1])){
+                        $_REQUEST['playlists_id_live'] = intval($matches[1]);
+                        $playlists_id_live = $_REQUEST['playlists_id_live'];
+                        $pl = new PlayList($_REQUEST['playlists_id_live']);
+                        $title = $pl->getName();
+                    }
+                }
+                
                 $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id);
                 // this variable is to keep it compatible for Mobile app
                 $UserPhoto = $photo;
                 $obj->applications[] = array(
-                    "key" => $value->name,
+                    "key" => LiveTransmition::keyNameFix($value->name),
                     "isPrivate" => self::isAPrivateLiveFromLiveKey($value->name),
                     "users" => $users,
                     "name" => $userName,
@@ -959,7 +977,9 @@ class Live extends PluginAbstract {
                     "title" => $title,
                     'channelName' => $channelName,
                     'poster' => $poster,
-                    'link' => $link . (strpos($link, '?') !== false ? "&embed=1" : "?embed=1")
+                    'link' => $link . (strpos($link, '?') !== false ? "&embed=1" : "?embed=1"),
+                    'href' => $link,
+                    'playlists_id_live' => $playlists_id_live
                 );
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;

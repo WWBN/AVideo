@@ -170,6 +170,8 @@ class LiveTransmition extends ObjectYPT {
         if (!is_string($key)) {
             return false;
         }
+        $parts = explode("_", $key);
+        $key = $parts[0];
         $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
@@ -275,6 +277,13 @@ class LiveTransmition extends ObjectYPT {
             $user = false;
         }
         return $user;
+    }
+    
+    static function keyNameFix($key){
+        if(!empty($_REQUEST['playlists_id_live']) && !preg_match("/.*_([0-9]+)/", $key)){
+            $key .= "_{$_REQUEST['playlists_id_live']}";
+        }
+        return $key;
     }
 
 }

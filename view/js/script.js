@@ -397,14 +397,16 @@ function inIframe() {
         return true;
     }
 }
-var promisePlaytry = 10;
-var promisePlayTimeoutTime = 0;
+var promisePlaytry = 40;
+var promisePlayTimeoutTime = 500;
 var promisePlayTimeout;
 var promisePlay;
 var browserPreventShowed = false;
 function playerPlay(currentTime) {
-    if(typeof player === 'undefined' || !player.isReady_){
-        setTimeout(function(){playerPlay(currentTime);},200);
+    if (typeof player === 'undefined' || !player.isReady_) {
+        setTimeout(function () {
+            playerPlay(currentTime);
+        }, 200);
         return false;
     }
     if (userIsControling) { // stops here if the user already clicked on play or pause
@@ -413,7 +415,7 @@ function playerPlay(currentTime) {
     }
     if (promisePlaytry <= 0) {
         console.log("playerPlay: promisePlaytry <= 0");
-        if(!browserPreventShowed){
+        if (!browserPreventShowed) {
             browserPreventShowed = true;
             $.toast("Your browser prevent autoplay");
         }
@@ -433,58 +435,29 @@ function playerPlay(currentTime) {
                 promisePlay.then(function () {
                     console.log("playerPlay: Autoplay started");
                     userIsControling = true;
-                    clearTimeout(promisePlayTimeout);
-                    setTimeout(function () {
-                        if (player.paused()) {
-                            console.log("The video still paused, trying to mute and play");
-                            playMuted(currentTime);
+                    if (player.paused()) {
+                        console.log("The video still paused, trying to mute and play");
+                        if (promisePlaytry <= 2) {
+                            console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to mute and play");
+                            tryToPlayMuted(currentTime);
                         } else {
-                            //player.muted(false);
-                            if (player.muted() && !inIframe()) {
-                                var donotShowUnmuteAgain = Cookies.get('donotShowUnmuteAgain');
-                                if (!donotShowUnmuteAgain) {
-                                    var span = document.createElement("span");
-                                    span.innerHTML = "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>";
-                                    swal({
-                                        title: "Your Media is Muted",
-                                        icon: "warning",
-                                        content: span,
-                                        dangerMode: true,
-                                        buttons: {
-                                            cancel: "Cancel",
-                                            unmute: true,
-                                            donotShowUnmuteAgain: {
-                                                text: "Don't show again",
-                                                value: "donotShowUnmuteAgain",
-                                                className: "btn-danger",
-                                            },
-                                        }
-                                    }).then(function (value) {
-                                        switch (value) {
-                                            case "unmute":
-                                                player.muted(false);
-                                                break;
-                                            case "donotShowUnmuteAgain":
-                                                Cookies.set('donotShowUnmuteAgain', true, {
-                                                    path: '/',
-                                                    expires: 365
-                                                });
-                                                break;
-                                        }
-                                    });
-                                }
-                                showMuteTooltip();
-                                setTimeout(function () {
-                                    $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
-                                    player.userActive(true);
-                                }, 500);
-                            }
+                            console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to play again");
+                            tryToPlay(currentTime);
                         }
-
-                    }, 1000);
+                    } else {
+                        //player.muted(false);
+                        if (player.muted() && !inIframe()) {
+                            showUnmutePopup();
+                        }
+                    }
                 }).catch(function (error) {
-                    console.log("playerPlay: Autoplay was prevented, trying to mute and play ***");
-                    playMuted(currentTime);
+                    if (promisePlaytry <= 2) {
+                        console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
+                        tryToPlayMuted(currentTime);
+                    } else {
+                        console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to play again");
+                        tryToPlay(currentTime);
+                    }
                 });
             } else {
                 tryToPlay(currentTime);
@@ -498,9 +471,49 @@ function playerPlay(currentTime) {
     }
 }
 
+function showUnmutePopup() {
+
+    var donotShowUnmuteAgain = Cookies.get('donotShowUnmuteAgain');
+    if (!donotShowUnmuteAgain) {
+        var span = document.createElement("span");
+        span.innerHTML = "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>";
+        swal({
+            title: "Your Media is Muted",
+            icon: "warning",
+            content: span,
+            dangerMode: true,
+            buttons: {
+                cancel: "Cancel",
+                unmute: true,
+                donotShowUnmuteAgain: {
+                    text: "Don't show again",
+                    value: "donotShowUnmuteAgain",
+                    className: "btn-danger",
+                },
+            }
+        }).then(function (value) {
+            switch (value) {
+                case "unmute":
+                    player.muted(false);
+                    break;
+                case "donotShowUnmuteAgain":
+                    Cookies.set('donotShowUnmuteAgain', true, {
+                        path: '/',
+                        expires: 365
+                    });
+                    break;
+            }
+        });
+    }
+    showMuteTooltip();
+    setTimeout(function () {
+        $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
+        player.userActive(true);
+    }, 500);
+}
+
 function tryToPlay(currentTime) {
     clearTimeout(promisePlayTimeout);
-    promisePlayTimeoutTime += 200;
     promisePlayTimeout = setTimeout(function () {
         if (player.paused()) {
             playerPlay(currentTime);
@@ -508,21 +521,32 @@ function tryToPlay(currentTime) {
     }, promisePlayTimeoutTime);
 }
 
+function tryToPlayMuted(currentTime) {
+    muteInCookieAllow();
+    return tryToPlay(currentTime);
+}
+
 function muteIfNotAudio() {
     if (!player.isAudio()) {
+        console.log("muteIfNotAudio: We will mute this video");
         player.muted(true);
         return true;
+    }
+    console.log("muteIfNotAudio: We will not mute an audio");
+    return false;
+}
+
+function muteInCookieAllow() {
+    var mute = Cookies.get('muted');
+    if (typeof mute === 'undefined' || (mute && mute !== "false")) {
+        return muteIfNotAudio();
     }
     return false;
 }
 
 function playMuted(currentTime) {
-    var mute = Cookies.get('muted');
-    if (typeof mute === 'undefined' || (mute && mute !== "false")) {
-        muteIfNotAudio();
-    }
+    muteInCookieAllow();
     return playerPlay(currentTime);
-    ;
 }
 
 function showMuteTooltip() {

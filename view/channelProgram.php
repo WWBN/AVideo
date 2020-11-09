@@ -30,7 +30,7 @@ if (User::isLogged() && $user_id == User::getId()) {
 $programs = PlayList::getAllFromUser($user_id, $publicOnly, false, @$_GET['program_id']);
 if (empty($programs)) {
     $programs = PlayList::getAllFromUser($user_id, $publicOnly);
-}else{
+} else {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['program_id']);
     $videos_id = $videosArrayId[0];
 }
@@ -52,8 +52,8 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                 padding: 5px;
             }
         </style>
-        <?php 
-        if(!empty($videos_id)){
+        <?php
+        if (!empty($videos_id)) {
             getOpenGraph($videos_id);
         }
         ?>
@@ -109,11 +109,13 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             ?>
                             <a href="<?php echo $link; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
                             <?php
-                            $liveLink = PlayLists::getLiveLink($program['id']);
-                            if(!empty($liveLink)){
-                                ?>
-                                <a href="<?php echo $liveLink; ?>" class="btn btn-xs btn-default playAll hrefLink" ><i class="fas fa-broadcast-tower"></i> <?php echo __("Play Live"); ?></a>
-                                <?php
+                            if ($isMyChannel && PlayLists::showPlayLiveButton()) {
+                                $liveLink = PlayLists::getLiveLink($program['id']);
+                                if (!empty($liveLink)) {
+                                    ?>
+                                    <a href="<?php echo $liveLink; ?>" class="btn btn-xs btn-default playAll hrefLink" ><i class="fas fa-broadcast-tower"></i> <?php echo __("Play Live"); ?></a>
+                                    <?php
+                                }
                             }
                         }
                         if ($isMyChannel) {
@@ -216,7 +218,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                 <?php
                                 $count = 0;
                                 foreach ($videosP as $value) {
-                                    if(empty($value['created'])){
+                                    if (empty($value['created'])) {
                                         $count++;
                                         continue;
                                     }
@@ -259,8 +261,8 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                                         <?php
                                                         $value['tags'] = Video::getTags($value['id']);
                                                         foreach ($value['tags'] as $value2) {
-                                                            if(is_array($value2)){
-                                                                $value2 = (object)$value2;
+                                                            if (is_array($value2)) {
+                                                                $value2 = (object) $value2;
                                                             }
                                                             if ($value2->label === __("Group")) {
                                                                 ?>
@@ -339,9 +341,9 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             if (count($programs) > 1) {
                                 ?>
                                 <button class="btn btn-default btn-xs btn-sm showMoreLessBtn showMoreLessBtn<?php echo $program['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $program['id']; ?>').toggle();
-                                                $('.<?php echo $class; ?>').slideDown();"><i class="fas fa-angle-down"></i> <?php echo __('Show More'); ?></button>
+                                                    $('.<?php echo $class; ?>').slideDown();"><i class="fas fa-angle-down"></i> <?php echo __('Show More'); ?></button>
                                 <button class="btn btn-default btn-xs btn-sm  showMoreLessBtn showMoreLessBtn<?php echo $program['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $program['id']; ?>').toggle();
-                                                $('.<?php echo $class; ?>').slideUp();" style="display: none;"><i class="fas fa-angle-up"></i> <?php echo __('Show Less'); ?></button>
+                                                    $('.<?php echo $class; ?>').slideUp();" style="display: none;"><i class="fas fa-angle-up"></i> <?php echo __('Show Less'); ?></button>
                                         <?php
                                     }
                                     if ($isMyChannel && !empty($videosArrayId)) {
@@ -426,68 +428,68 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
 ?>
                     $('.removeVideo').click(function () {
                         currentObject = this;
-                                
-                               swal({
-                title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then(function(willDelete) {
-              if (willDelete) {
 
-                                    modal.showPleaseWait();
-                                    var playlist_id = $(currentObject).attr('playlist_id');
-                                    var video_id = $(currentObject).attr('video_id');
-                                    $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
-                                        data: {
-                                            "playlist_id": playlist_id,
-                                            "video_id": video_id
-                                        },
-                                        type: 'post',
-                                        success: function (response) {
-                                            reloadPlayLists();
-                                            $(".playListsIds" + video_id).prop("checked", false);
-                                            $(currentObject).closest('.galleryVideo').fadeOut();
-                                            modal.hidePleaseWait();
-                                        }
-                                    });
-              } 
-            }); 
-                                
+                        swal({
+                            title: "<?php echo __("Are you sure?"); ?>",
+                            text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                                .then(function (willDelete) {
+                                    if (willDelete) {
+
+                                        modal.showPleaseWait();
+                                        var playlist_id = $(currentObject).attr('playlist_id');
+                                        var video_id = $(currentObject).attr('video_id');
+                                        $.ajax({
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
+                                            data: {
+                                                "playlist_id": playlist_id,
+                                                "video_id": video_id
+                                            },
+                                            type: 'post',
+                                            success: function (response) {
+                                                reloadPlayLists();
+                                                $(".playListsIds" + video_id).prop("checked", false);
+                                                $(currentObject).closest('.galleryVideo').fadeOut();
+                                                modal.hidePleaseWait();
+                                            }
+                                        });
+                                    }
+                                });
+
                     });
 
                     $('.deletePlaylist').click(function () {
                         currentObject = this;
-                                
-                                swal({
-                title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then(function(willDelete) {
-              if (willDelete) {
 
-                                    modal.showPleaseWait();
-                                    var playlist_id = $(currentObject).attr('playlist_id');
-                                    console.log(playlist_id);
-                                    $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
-                                        data: {
-                                            "playlist_id": playlist_id
-                                        },
-                                        type: 'post',
-                                        success: function (response) {
-                                            $(currentObject).closest('.panel').slideUp();
-                                            modal.hidePleaseWait();
-                                        }
-                                    });
-              } 
-            });
+                        swal({
+                            title: "<?php echo __("Are you sure?"); ?>",
+                            text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                                .then(function (willDelete) {
+                                    if (willDelete) {
+
+                                        modal.showPleaseWait();
+                                        var playlist_id = $(currentObject).attr('playlist_id');
+                                        console.log(playlist_id);
+                                        $.ajax({
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
+                                            data: {
+                                                "playlist_id": playlist_id
+                                            },
+                                            type: 'post',
+                                            success: function (response) {
+                                                $(currentObject).closest('.panel').slideUp();
+                                                modal.hidePleaseWait();
+                                            }
+                                        });
+                                    }
+                                });
 
                     });
 
