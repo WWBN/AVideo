@@ -518,7 +518,7 @@ function muteIfNotAudio() {
 
 function playMuted(currentTime) {
     var mute = Cookies.get('muted');
-    if (typeof mute === 'undefined' || mute) {
+    if (typeof mute === 'undefined' || (mute && mute !== "false")) {
         muteIfNotAudio();
     }
     return playerPlay(currentTime);
