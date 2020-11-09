@@ -491,7 +491,7 @@ function playerPlay(currentTime) {
 function tryToPlay(currentTime) {
     clearTimeout(promisePlayTimeout);
     promisePlayTimeoutTime += 200;
-    if (promisePlayTimeoutTime > 1000) {
+    if (promisePlayTimeoutTime >= 1000) {
         if (promisePlayTimeoutTime == 1000) {
             $.toast("Your browser prevent autoplay");
             return false;
