@@ -219,6 +219,7 @@ function changeVideoSrcLoad() {
             console.log("changeVideoSrcLoad: Load player Success, Play");
             setTimeout(function () {
                 player.load();
+                console.log("changeVideoSrcLoad: Trying to play");
                 player.play();
             }, 1000);
         }
@@ -400,13 +401,19 @@ var promisePlaytry = 10;
 var promisePlayTimeoutTime = 0;
 var promisePlayTimeout;
 var promisePlay;
+
 function playerPlay(currentTime) {
+    if(typeof player === 'undefined' || !player.isReady_){
+        setTimeout(function(){playerPlay(currentTime);},200);
+        return false;
+    }
     if (userIsControling) { // stops here if the user already clicked on play or pause
         console.log("playerPlay: userIsControling");
         return true;
     }
     if (promisePlaytry <= 0) {
         console.log("playerPlay: promisePlaytry <= 0");
+        $.toast("Your browser prevent autoplay");
         return false;
     }
     promisePlaytry--;
@@ -415,7 +422,7 @@ function playerPlay(currentTime) {
             player.currentTime(currentTime);
         }
         try {
-            console.log("playerPlay: Trying to play");
+            console.log("playerPlay: Trying to play", player);
             promisePlay = player.play();
             if (promisePlay !== undefined) {
                 tryToPlay(currentTime);
@@ -491,13 +498,6 @@ function playerPlay(currentTime) {
 function tryToPlay(currentTime) {
     clearTimeout(promisePlayTimeout);
     promisePlayTimeoutTime += 200;
-    if (promisePlayTimeoutTime >= 1000) {
-        if (promisePlayTimeoutTime == 1000) {
-            $.toast("Your browser prevent autoplay");
-            return false;
-        }
-        return false;
-    }
     promisePlayTimeout = setTimeout(function () {
         if (player.paused()) {
             playerPlay(currentTime);
