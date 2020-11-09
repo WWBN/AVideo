@@ -262,8 +262,13 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-    static function _recommendChannelName($name = "", $try = 0, $unknown = "") {
-        if(empty(User::getId())){
+    static function _recommendChannelName($name = "", $try = 0, $unknown = "", $users_id=0) {
+        if(empty($users_id)){
+            if(!empty(User::getId())){
+                $users_id = User::getId();
+            }
+        }
+        if(empty($users_id)){
             return $name . "_" . uniqid();
         }
         if ($try > 10) {
@@ -284,7 +289,7 @@ if (typeof gtag !== \"function\") {
         $name = substr($name, 0, 36);
         if (!Permissions::canAdminUsers()) {
             $user = self::getUserFromChannelName($name);
-            if ($user && $user['id'] !== User::getId()) {
+            if ($user && $user['id'] !== $users_id) {
                 return self::_recommendChannelName($name . "_" . uniqid(), $try + 1);
             }
         }
@@ -427,7 +432,7 @@ if (typeof gtag !== \"function\") {
     static function deleteOGImage($users_id) {
         global $global;
         $photo = $global['systemRootPath'] . self::_getOGImage($users_id);
-        unlink($photo);
+        @unlink($photo);
     }
 
     static function getOGImage($users_id = "") {
@@ -562,7 +567,7 @@ if (typeof gtag !== \"function\") {
         $this->status = $global['mysqli']->real_escape_string($this->status);
         $this->about = $global['mysqli']->real_escape_string($this->about);
         $this->about = preg_replace("/(\\\)+n/", "\n", $this->about);
-        $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user);
+        $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);
         $this->channelName = $global['mysqli']->real_escape_string($this->channelName);
         if (filter_var($this->donationLink, FILTER_VALIDATE_URL) === FALSE) {
             $this->donationLink = "";
