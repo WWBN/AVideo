@@ -401,7 +401,7 @@ var promisePlaytry = 10;
 var promisePlayTimeoutTime = 0;
 var promisePlayTimeout;
 var promisePlay;
-
+var browserPreventShowed = false;
 function playerPlay(currentTime) {
     if(typeof player === 'undefined' || !player.isReady_){
         setTimeout(function(){playerPlay(currentTime);},200);
@@ -413,7 +413,10 @@ function playerPlay(currentTime) {
     }
     if (promisePlaytry <= 0) {
         console.log("playerPlay: promisePlaytry <= 0");
-        $.toast("Your browser prevent autoplay");
+        if(!browserPreventShowed){
+            browserPreventShowed = true;
+            $.toast("Your browser prevent autoplay");
+        }
         return false;
     }
     promisePlaytry--;
