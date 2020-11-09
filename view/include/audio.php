@@ -1,6 +1,6 @@
 <?php
 $_GET['isMediaPlaySite'] = $video['id'];
-
+$isAudio = 1;
 $timerDuration = "";
 if ($video['type'] == "linkAudio") {
     $timerDuration = '$("time.duration").hide();';
@@ -39,7 +39,7 @@ if ($video['type'] != "audio") {
                 $poster = $global['webSiteRootURL'] . "videos/" . $video['filename'] . ".jpg";
             }
             ?>
-            <audio controls class="center-block video-js vjs-default-skin " <?php if ($waveSurferEnabled == false) { ?> autoplay data-setup='{"controls": true}' <?php } ?> id="mainVideo" poster="<?php echo $poster; ?>" style="width: 100%;" >
+            <audio controls class="center-block video-js vjs-default-skin " id="mainVideo" poster="<?php echo $poster; ?>" style="width: 100%;" >
                 <?php
                 if ($waveSurferEnabled == false) {
                     echo getSources($video['filename']);
@@ -54,15 +54,12 @@ if ($video['type'] != "audio") {
     </div>
     <script>
         var mediaId = <?php echo $video['id']; ?>;
-        $(document).ready(function () {
-
-            $(".vjs-big-play-button").hide();
-            $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
 <?php
 echo $timerDuration;
+$getDataSetup = "";
 if ($waveSurferEnabled) {
-    ?>
-                player = videojs('mainVideo', {
+
+    $getDataSetup = "{
                     controls: true,
                     autoplay: true,
                     fluid: false,
@@ -71,7 +68,7 @@ if ($waveSurferEnabled) {
                     height: 300,
                     plugins: {
                         wavesurfer: {
-                            src: '<?php echo $sourceLink; ?>',
+                            src: '{$sourceLink}',
                             msDisplayMax: 10,
                             debug: false,
                             waveColor: 'green',
@@ -83,67 +80,14 @@ if ($waveSurferEnabled) {
                 }, function () {
                     // print version information at startup
                     videojs.log('Using video.js', videojs.VERSION, 'with videojs-wavesurfer', videojs.getPluginVersion('wavesurfer'));
-                });
-<?php } else { ?>
-                player = videojs('mainVideo');
-<?php } ?>
-            // error handling
-            player.on('error', function (error) {
-                console.warn('VideoJS-ERROR:', error);
-            });
-            /* was rising an error
-             player.on('loadedmetadata', function () {
-             fullDuration = player.duration();
-             });
-             */
-            player.ready(function () {
-<?php
-if ($config->getAutoplay()) {
-    echo "setTimeout(function () { if(typeof player === 'undefined'){ player = videojs('mainVideo');}player.play();}, 150);";
-} else {
-    ?>
-                    playerPlayIfAutoPlay(0);
-<?php } ?>
-                this.on('ended', function () {
-                    console.log("Finish Audio");
-<?php
-// if autoplay play next video
-if (!empty($autoPlayVideo)) {
-    ?>
-                    playNext('<?php echo $autoPlayVideo['url']; ?>');
-<?php } ?>
-                });
+                }";
+}
 
-                this.on('timeupdate', function () {
-                    var time = Math.round(this.currentTime());
-                    var url = '<?php echo Video::getURLFriendly($video['id']); ?>';
-                    if (url.indexOf('?') > -1) {
-                        url += '&t=' + time;
-                    } else {
-                        url += '?t=' + time;
-                    }
-                    $('#linkCurrentTime').val(url);
-                    if (time >= 5 && time % 5 === 0) {
-                        addView(<?php echo $video['id']; ?>, time);
-                    }
-                });
-                this.on('play', function () {
-                    addView(<?php echo $video['id']; ?>, this.currentTime());
-                });
 
-                player.on('timeupdate', function () {
-                    var time = Math.round(this.currentTime());
-                    if (time >= 5 && time % 5 === 0) {
-                        addView(<?php echo $video['id']; ?>, time);
-                    }
-                });
+echo PlayerSkins::getStartPlayerJS("", $getDataSetup);
+?>
 
-                player.on('ended', function () {
-                    var time = Math.round(this.currentTime());
-                    addView(<?php echo $video['id']; ?>, time);
-                });
-            });
-        });
+
     </script>
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
 </div><!--/row-->
