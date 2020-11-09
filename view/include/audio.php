@@ -85,8 +85,8 @@ if ($waveSurferEnabled) {
 
 
 echo PlayerSkins::getStartPlayerJS("", $getDataSetup);
+PlayerSkins::playerJSCodeOnLoad($video['id'], @$autoPlayURL);
 ?>
-
 
     </script>
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>
