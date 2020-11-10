@@ -756,7 +756,7 @@ function setCurrentTime(currentTime) {
 
 function isAutoplayEnabled() {
     console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
-    if(isLive){
+    if(typeof isLive !== 'undefined' && isLive){
         console.log("isAutoplayEnabled always autoplay live contents");
         return true;
     }else
