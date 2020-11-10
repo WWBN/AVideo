@@ -24,22 +24,34 @@
         <center style="margin:5px;">
             <?php echo getAdsLeaderBoardTop2(); ?>
         </center>
-        <!-- For Live Videos -->
-        <div id="liveVideos" class="row clear clearfix" style="display: none;">
-            <h3 class="galleryTitle text-danger"> <i class="fas fa-play-circle"></i> <?php echo __("Live"); ?></h3>
-            <div class="extraVideos"></div>
-        </div>
-        <script>
-            function afterExtraVideos($liveLi) {
-                $liveLi.removeClass('col-lg-12 col-sm-12 col-xs-12 bottom-border');
-                $liveLi.find('.thumbsImage').removeClass('col-lg-5 col-sm-5 col-xs-5');
-                $liveLi.find('.videosDetails').removeClass('col-lg-7 col-sm-7 col-xs-7');
-                $liveLi.addClass('col-lg-2 col-md-4 col-sm-4 col-xs-6 fixPadding');
-                $('#liveVideos').slideDown();
-                return $liveLi;
-            }
-        </script>
         <?php
+        if (empty($_GET['catName'])) {
+            ?>
+            <!-- For Live Videos -->
+            <div id="liveVideos" class="row clear clearfix" style="display: none;">
+                <h3 class="galleryTitle text-danger"> <i class="fas fa-play-circle"></i> <?php echo __("Live"); ?></h3>
+                <div class="extraVideos"></div>
+            </div>
+            <script>
+                function afterExtraVideos($liveLi) {
+                    $liveLi.removeClass('col-lg-12 col-sm-12 col-xs-12 bottom-border');
+                    $liveLi.find('.thumbsImage').removeClass('col-lg-5 col-sm-5 col-xs-5');
+                    $liveLi.find('.videosDetails').removeClass('col-lg-7 col-sm-7 col-xs-7');
+                    $liveLi.addClass('col-lg-2 col-md-4 col-sm-4 col-xs-6 fixPadding');
+                    $('#liveVideos').slideDown();
+                    return $liveLi;
+                }
+            </script>
+            <?php
+        }else{
+            ?>
+            <script>
+                function afterExtraVideos($liveLi) {
+                    return false;
+                }
+            </script>
+            <?php
+        }
         echo AVideoPlugin::getGallerySection();
         ?>
         <!-- For Live Videos End -->
@@ -57,7 +69,7 @@
             $countSections++;
             createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
         }
-        if ($obj->DateAdded) {
+        if ($obj->DateAdded && empty($_GET['catName'])) {
             $countSections++;
             createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
         }
@@ -87,6 +99,7 @@
                     <i class="fas fa-spinner fa-pulse text-muted"></i>
                 </div>
             </div>
+            <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
             <script>
                 $(document).ready(function () {
                     $container = $('#categoriesContainer').infiniteScroll({
@@ -108,26 +121,11 @@
                         lazyImage();
                     }, 500);
                 });
-
-                function lazyImage() {
-                    $('.thumbsJPG').lazy({
-                        effect: 'fadeIn',
-                        visibleOnly: true,
-                        // called after an element was successfully handled
-                        afterLoad: function (element) {
-                            element.removeClass('blur');
-                            element.parent().find('.thumbsGIF').lazy({
-                                effect: 'fadeIn'
-                            });
-                        }
-                    });
-                    mouseEffect();
-                }
             </script>
             <?php
         }
         // if there is no section display only the dateAdded row for the selected category
-        if (empty($countSections) && !empty($currentCat) && empty($_GET['showOnly'])) {
+        if (!empty($currentCat) && empty($_GET['showOnly'])) {
             if (empty($_GET['page'])) {
                 $_GET['page'] = 1;
             }
@@ -141,15 +139,17 @@
             $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
             if (!empty($videos)) {
                 ?>
-                <div class="row clear clearfix">
+                <div class="row clear clearfix" id="Div<?php echo $currentCat['clean_name']; ?>">
                     <h3 class="galleryTitle">
                         <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $currentCat['clean_name']; ?>">
-                            <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name']; ?>
+                            <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name'] ; ?>
                         </a>
                     </h3>
+                    <div class="Div<?php echo $currentCat['clean_name']; ?>Section">
                     <?php
                     createGallerySection($videos, "", array(), true);
                     ?>
+                    </div>
                 </div>
                 <?php
                 $total = Video::getTotalVideos("viewable");
@@ -161,7 +161,8 @@
                 ?>
                 <div class="col-sm-12" style="z-index: 1;">
                     <?php
-                    echo getPagination($totalPages, $page, "{$url}{page}{$args}");
+                    //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
+                    echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, ".Div{$currentCat['clean_name']}Section","#Div{$currentCat['clean_name']}");
                     ?>
                 </div>
                 <?php

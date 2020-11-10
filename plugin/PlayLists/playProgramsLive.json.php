@@ -71,12 +71,13 @@ if(empty($status->version) || version_compare($status->version, "3.2") < 0){
 
 Live::stopLive($users_id);
 $webSiteRootURL = urlencode($global['webSiteRootURL']);
-$videosListToLive = "{$encoder}videosListToLive?playlists_id={$playlists_id}&APISecret={$api->APISecret}&webSiteRootURL={$webSiteRootURL}&user=".User::getUserName()."&pass=".User::getUserPass()."&liveKey={$key}&rtmp=". urlencode($live->server);
-
+$live_servers_id = Live::getCurrentLiveServersId();
+$videosListToLive = "{$encoder}videosListToLive?playlists_id={$playlists_id}&APISecret={$api->APISecret}&webSiteRootURL={$webSiteRootURL}&user=".User::getUserName()."&pass=".User::getUserPass()."&liveKey={$key}&rtmp=". urlencode(Live::getServer())."&live_servers_id={$live_servers_id}";
+echo $videosListToLive;
 $cmd = "wget -O/dev/null -q \"{$videosListToLive}\" > /dev/null 2>/dev/null &";
 _error_log("playProgramsLive:: {$cmd}");
 //echo "** executing command {$cmd}\n";
-exec($cmd);
+//exec($cmd);
 
 $obj->videosListToLive = $videosListToLive;
 $obj->error = false;

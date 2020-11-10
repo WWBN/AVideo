@@ -33,7 +33,7 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->logoMenuBarURL = $global['webSiteRootURL'];
+        $obj->logoMenuBarURL = "";
         $obj->encoderNetwork = "https://network.avideo.com/";
         $obj->useEncoderNetworkRecomendation = false;
         $obj->doNotShowEncoderNetwork = true;
@@ -184,6 +184,12 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->twitter_summary_large_image = false;
         $obj->footerStyle = "position: fixed;bottom: 0;width: 100%;";
         $obj->disableVideoTags = false;
+        
+        
+        $o = new stdClass();
+        $o->type = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+        $o->value = 0;
+        $obj->timeZone = $o;
         
         return $obj;
     }

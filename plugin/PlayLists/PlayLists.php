@@ -297,6 +297,13 @@ class PlayLists extends PluginAbstract {
         return "{$global['webSiteRootURL']}plugin/PlayLists/playProgramsLive.json.php?playlists_id=" . $playlists_id;
     }
     
+    static function showPlayLiveButton(){ 
+        if(!$obj = AVideoPlugin::getDataObjectIfEnabled("PlayLists")){
+            return false;
+        }
+        return !empty($obj->showPlayLiveButton);
+    }
+    
     static function canPlayProgramsLive(){
         // can the user live?
         if(!User::canStream()){
@@ -315,13 +322,14 @@ class PlayLists extends PluginAbstract {
                 . " LEFT JOIN videos v ON videos_id = v.id "
                 . " WHERE playlists_id = ? AND v.status IN ('" . implode("','", Video::getViewableStatus(true)) . "')"
                 . " AND (`type` = 'video' OR `type` = 'audio' ) ORDER BY p.`order` ";
-
+        cleanSearchVar();
         $sort = @$_POST['sort'];
         $_POST['sort'] = array();
         $_POST['sort']['p.`order`'] = 'ASC';
         $_POST['sort'] = $sort;
         $res = sqlDAL::readSql($sql, "i", array($playlists_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
+        reloadSearchVar();
         sqlDAL::close($res);
         $rows = array();
         if ($res != false) {

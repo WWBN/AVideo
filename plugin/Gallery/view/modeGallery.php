@@ -8,7 +8,6 @@ include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
             echo $siteTitle;
             ?></title>
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">

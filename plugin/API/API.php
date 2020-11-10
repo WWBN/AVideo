@@ -194,9 +194,40 @@ class API extends PluginAbstract {
         if (empty($videos[$parameters['nextIndex']])) {
             $parameters['nextIndex'] = 0;
         }
+        
+        $playlist = new PlayList($parameters['playlists_id']);
+        $user = new User($playlist->getUsers_id());
+        
         $videoPath = Video::getHigherVideoPathFromID($video['id']);
+        $parameters['videos'] = $videos;
+        $parameters['playlist_name'] = $playlist->getName();
+        $parameters['modified'] = $playlist->getModified();
+        $parameters['modified_timestamp'] = strtotime($parameters['modified']);
+        $parameters['users_id'] = $playlist->getUsers_id();
+        $parameters['channel_name'] = $user->getChannelName();
+        $parameters['channel_photo'] = $user->getPhotoDB();
+        $parameters['channel_bg'] = $user->getBackground();
+        $parameters['channel_link'] = $user->getChannelLink();
+        $parameters['totalPlaylistDuration'] = 0;
+        $parameters['currentPlaylistTime'] = 0;
+        foreach ($parameters['videos'] as $key => $value) {
+            
+            $parameters['videos'][$key]['path'] = Video::getHigherVideoPathFromID($value['id']);;
+            if($key && $key<=$parameters['index']){
+                $parameters['currentPlaylistTime'] += durationToSeconds($parameters['videos'][$key-1]['duration']);
+            }
+            $parameters['totalPlaylistDuration'] += durationToSeconds($parameters['videos'][$key]['duration']);
+        }
+        if(empty($parameters['totalPlaylistDuration'])){
+            $parameters['percentage_progress'] = 0;
+        }else{
+            $parameters['percentage_progress'] = ($parameters['currentPlaylistTime']/$parameters['totalPlaylistDuration'])*100;
+        }
+        $parameters['title'] = $video['title'];
         $parameters['videos_id'] = $video['id'];
         $parameters['path'] = $videoPath;
+        $parameters['duration'] = $video['duration'];
+        $parameters['duration_seconds'] = durationToSeconds($parameters['duration']);
 
         return new ApiObject("", false, $parameters);
     }

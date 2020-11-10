@@ -26,7 +26,7 @@ if(!$lt->userCanSeeTransmition()){
     forbiddenPage("You are not allowed see this streaming");
 }
 
-$uuid = $livet['key'];
+$uuid = LiveTransmition::keyNameFix($livet['key']);
 
 $u = new User(0, $_GET['u'], false);
 $user_id = $u->getBdId();

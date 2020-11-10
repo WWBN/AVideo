@@ -35,20 +35,13 @@ if (empty($video)) {
     forbiddenPage("Video not found");
 }
 
+if (empty($customizedAdvanced)) {
+    $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
+}
 
-$customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
-
-// allow embrd from in same site
-$host = strtolower(parse_url(@$_SERVER['HTTP_REFERER'], PHP_URL_HOST));
-$allowedHost = strtolower(parse_url($global['webSiteRootURL'], PHP_URL_HOST));
-if ($allowedHost !== $host) {
+if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {
     if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($video['id'])) {
         forbiddenPage("Embed is forbidden");
-    }
-
-    $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-    if (!empty($objSecure)) {
-        $objSecure->verifyEmbedSecurity();
     }
 }
 
@@ -376,6 +369,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         </script>
         <?php
     } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+        $isAudio = 1;
         ?>
         <audio style="width: 100%; height: 100%;"  id="mainVideo" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainVideo"  data-setup='{ "fluid": true }'
                poster="<?php echo $global['webSiteRootURL']; ?>view/img/recorder.gif">
@@ -525,30 +519,30 @@ if (User::hasBlockedUser($video['users_id'])) {
               left: 0;
               pointer-events: none;"></textarea>
     <script>
-            var topInfoTimeout;
-            $(document).ready(function () {
-                setInterval(function () {
-                    if(typeof player !== 'undefined'){
-                        if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                            $('#topInfo').fadeOut();
-                        } else {
-                            $('#topInfo').fadeIn();
-                        }
+        var topInfoTimeout;
+        $(document).ready(function () {
+            setInterval(function () {
+                if (typeof player !== 'undefined') {
+                    if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                        $('#topInfo').fadeOut();
+                    } else {
+                        $('#topInfo').fadeIn();
                     }
-                }, 200);
+                }
+            }, 200);
 
-                $("iframe, #topInfo").mouseover(function (e) {
-                    clearTimeout(topInfoTimeout);
-                    $('#mainVideo').addClass("vjs-user-active");
-                });
-
-                $("iframe").mouseout(function (e) {
-                    topInfoTimeout = setTimeout(function () {
-                        $('#mainVideo').removeClass("vjs-user-active");
-                    }, 500);
-                });
-
+            $("iframe, #topInfo").mouseover(function (e) {
+                clearTimeout(topInfoTimeout);
+                $('#mainVideo').addClass("vjs-user-active");
             });
+
+            $("iframe").mouseout(function (e) {
+                topInfoTimeout = setTimeout(function () {
+                    $('#mainVideo').removeClass("vjs-user-active");
+                }, 500);
+            });
+
+        });
     </script>
 </body>
 </html>

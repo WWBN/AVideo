@@ -2616,7 +2616,7 @@ if (!class_exists('Video')) {
         static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
             global $global, $advancedCustom, $videosPaths, $VideoGetSourceFile;
             //if(!isValidFormats($type)){
-                //return array();
+            //return array();
             //}
             $cacheName = md5($filename . $type . $includeS3);
             if (isset($VideoGetSourceFile[$cacheName])) {
@@ -2765,8 +2765,8 @@ if (!class_exists('Video')) {
             $name1 = "Video:::getHigestResolution::getVideosURL_V2($filename)";
             TimeLogStart($name1);
             $sources = getVideosURL_V2($filename);
-            if(!is_array($sources)){
-                _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) does not return an array ". json_encode($sources));
+            if (!is_array($sources)) {
+                _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) does not return an array " . json_encode($sources));
                 return array();
             }
             TimeLogEnd($name1, __LINE__);
@@ -2811,26 +2811,43 @@ if (!class_exists('Video')) {
                 return false;
             }
             $paths = self::getVideosPathsFromID($videos_id);
-            $types = array(0, 'HD', 'SD', 'Low');
+            $types = array(0, 2160, 1330, 1080, 720, 'HD', 'SD', 'Low', 480, 360, 240);
 
             if (!empty($paths['mp4'])) {
                 foreach ($types as $value) {
                     if (!empty($paths['mp4'][$value])) {
-                        return $paths['mp4'][$value]["url"];
+                        if (is_string($paths['mp4'][$value])) {
+                            return $paths['mp4'][$value];
+                        } else {
+                            return $paths['mp4'][$value]["url"];
+                        }
                     }
                 }
             }
             if (!empty($paths['webm'])) {
                 foreach ($types as $value) {
                     if (!empty($paths['webm'][$value])) {
-                        return $paths['webm'][$value]["url"];
+                        if (is_string($paths['webm'][$value])) {
+                            return $paths['webm'][$value];
+                        } else {
+                            return $paths['webm'][$value]["url"];
+                        }
                     }
                 }
             }
             if (!empty($paths['m3u8'])) {
                 if (!empty($paths['m3u8'])) {
-                    return $paths['m3u8']["url"];
+                    if (is_string($paths['m3u8']["url"])) {
+                        return $paths['m3u8']["url"];
+                    }else if (is_string($paths['m3u8'][$value])) {
+                        return $paths['m3u8'][$value];
+                    } else {
+                        return $paths['m3u8'][$value]["url"];
+                    }
                 }
+            }
+            if (!empty($paths['mp3'])) {
+                return $paths['mp3'];
             }
             return false;
         }

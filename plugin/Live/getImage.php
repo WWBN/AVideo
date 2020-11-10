@@ -44,17 +44,21 @@ if(Live::isLiveThumbsDisabled()){
 $lt = new LiveTransmition($livet['id']);
 _error_log("Live:getImage  start");
 if($lt->userCanSeeTransmition()){
-    $uuid = $livet['key'];
+    $uuid = LiveTransmition::keyNameFix($livet['key']);
     $p = AVideoPlugin::loadPlugin("Live");
     $video = Live::getM3U8File($uuid);
     $url = $config->getEncoderURL()."getImage/". base64_encode($video)."/{$_GET['format']}";
     _error_log("Live:getImage $url");
         
+    if(!empty($_SESSION[$url]['content']) && strlen($_SESSION[$url]['content']) === 70808){
+        _error_log("Live:getImage  It is the default image, unset it ");
+        _session_start();
+        unset($_SESSION[$url]);
+    }
+    
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
         $content = url_get_contents($url);
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        _session_start();
         _error_log("Live:getImage  Image Expired in ".  date("d/m/Y H:i:s", @$_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
         $_SESSION[$url] = array('content' => $content, 'expire' => strtotime("+2 min"));
         _error_log("Live:getImage  New Image will Expired in ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
@@ -62,7 +66,7 @@ if($lt->userCanSeeTransmition()){
     if(!empty($_SESSION[$url]['content'])){
         ob_end_clean();
         echo $_SESSION[$url]['content'];
-        _error_log("Live:getImage  Cached Good until ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
+        _error_log("Live:getImage  Cached Good until ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s")." strlen: ". strlen($_SESSION[$url]['content']));
     }else{
         ob_end_clean();
         echo file_get_contents($filename);

@@ -231,15 +231,14 @@ class PlayList extends ObjectYPT {
 
     static function getVideosIDFromPlaylistLight($playlists_id) {
         global $global;
-        $sql = "SELECT * FROM  playlists_has_videos p "
-                . " WHERE playlists_id = ? ";
-
+        $sql = "SELECT * FROM playlists_has_videos p WHERE playlists_id = ? ";
+        cleanSearchVar();
         $sort = @$_POST['sort'];
         $_POST['sort'] = array();
-        $_POST['sort']['p.`order`'] = 'ASC';
         $sql .= self::getSqlFromPost();
         $_POST['sort'] = $sort;
         $res = sqlDAL::readSql($sql, "i", array($playlists_id));
+        reloadSearchVar();
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
@@ -264,11 +263,12 @@ class PlayList extends ObjectYPT {
                 . " LEFT JOIN videos as v ON videos_id = v.id "
                 . " LEFT JOIN users u ON u.id = v.users_id "
                 . " WHERE playlists_id = ? AND v.status != 'i' ";
-
+        cleanSearchVar();
         $sort = @$_POST['sort'];
         $_POST['sort'] = array();
         $_POST['sort']['p.`order`'] = 'ASC';
         $sql .= self::getSqlFromPost();
+        reloadSearchVar();
         $_POST['sort'] = $sort;
         $cacheName = "getVideosFromPlaylist{$playlists_id}".md5($sql);
         $rows = self::getCache($cacheName, 0);
@@ -502,6 +502,10 @@ class PlayList extends ObjectYPT {
 
     function getName() {
         return $this->name;
+    }
+
+    function getModified() {
+        return $this->modified;
     }
 
     function getUsers_id() {

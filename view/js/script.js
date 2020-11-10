@@ -123,20 +123,28 @@ function clean_name(str) {
     return str.replace(/[!#$&'()*+,/:;=?@[\] ]+/g, "-");
 }
 
-
-try {
-    if ($(".thumbsJPG").length) {
-        $('.thumbsJPG').lazy({
-            effect: 'fadeIn',
-            visibleOnly: true,
-            // called after an element was successfully handled
-            afterLoad: function (element) {
-                element.removeClass('blur');
-            }
-        });
+function lazyImage() {
+    try {
+        if ($(".thumbsJPG").length) {
+            $('.thumbsJPG').lazy({
+                effect: 'fadeIn',
+                visibleOnly: true,
+                // called after an element was successfully handled
+                afterLoad: function (element) {
+                    element.removeClass('blur');
+                    element.parent().find('.thumbsGIF').lazy({
+                        effect: 'fadeIn'
+                    });
+                }
+            });
+            mouseEffect();
+        }
+    } catch (e) {
     }
-} catch (e) {
 }
+
+lazyImage();
+
 var pleaseWaitIsINUse = false;
 
 function setPlayerListners() {
@@ -151,6 +159,13 @@ function setPlayerListners() {
             clearTimeout(promisePlayTimeout);
             console.log("setPlayerListners: play");
             //userIsControling = true;
+        });
+
+        $("#mainVideo .vjs-mute-control").click(function () {
+            Cookies.set('muted', player.muted(), {
+                path: '/',
+                expires: 365
+            });
         });
     } else {
         setTimeout(function () {
@@ -204,6 +219,7 @@ function changeVideoSrcLoad() {
             console.log("changeVideoSrcLoad: Load player Success, Play");
             setTimeout(function () {
                 player.load();
+                console.log("changeVideoSrcLoad: Trying to play");
                 player.play();
             }, 1000);
         }
@@ -381,109 +397,156 @@ function inIframe() {
         return true;
     }
 }
-var promisePlaytry = 10;
-var promisePlayTimeoutTime = 0;
+var promisePlaytry = 40;
+var promisePlayTimeoutTime = 500;
 var promisePlayTimeout;
 var promisePlay;
+var browserPreventShowed = false;
 function playerPlay(currentTime) {
+    if (typeof player === 'undefined' || !player.isReady_) {
+        setTimeout(function () {
+            playerPlay(currentTime);
+        }, 200);
+        return false;
+    }
     if (userIsControling) { // stops here if the user already clicked on play or pause
         console.log("playerPlay: userIsControling");
         return true;
     }
     if (promisePlaytry <= 0) {
         console.log("playerPlay: promisePlaytry <= 0");
+        if (!browserPreventShowed) {
+            browserPreventShowed = true;
+            $.toast("Your browser prevent autoplay");
+        }
         return false;
     }
     promisePlaytry--;
     if (typeof player !== 'undefined') {
-        promisePlayTimeoutTime += 1000;
         if (currentTime) {
             player.currentTime(currentTime);
         }
         try {
-            console.log("playerPlay: Trying to play");
+            console.log("playerPlay: Trying to play", player);
             promisePlay = player.play();
             if (promisePlay !== undefined) {
-                promisePlayTimeout = setTimeout(function () {
-                    console.log("playerPlay: Promise is Pending, try again");
-                    playerPlay(currentTime);
-                }, promisePlayTimeoutTime);
+                tryToPlay(currentTime);
                 console.log("playerPlay: promise found");
                 promisePlay.then(function () {
                     console.log("playerPlay: Autoplay started");
                     userIsControling = true;
-                    clearTimeout(promisePlayTimeout);
-                    setTimeout(function () {
-                        if (player.paused()) {
-                            console.log("The video still paused, trying to mute and play");
-                            player.muted(true);
-                            playerPlay(currentTime);
+                    if (player.paused()) {
+                        console.log("The video still paused, trying to mute and play");
+                        if (promisePlaytry <= 2) {
+                            console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to mute and play");
+                            tryToPlayMuted(currentTime);
                         } else {
-                            //player.muted(false);
-                            if (player.muted() && !inIframe()) {
-                                var donotShowUnmuteAgain = Cookies.get('donotShowUnmuteAgain');
-                                if (!donotShowUnmuteAgain) {
-                                    var span = document.createElement("span");
-                                    span.innerHTML = "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>";
-                                    swal({
-                                        title: "Your Media is Muted",
-                                        icon: "warning",
-                                        content: span,
-                                        dangerMode: true,
-                                        buttons: {
-                                            cancel: "Cancel",
-                                            unmute: true,
-                                            donotShowUnmuteAgain: {
-                                                text: "Don't show again",
-                                                value: "donotShowUnmuteAgain",
-                                                className: "btn-danger",
-                                            },
-                                        }
-                                    }).then(function (value) {
-                                        switch (value) {
-                                            case "unmute":
-                                                player.muted(false);
-                                                break;
-                                            case "donotShowUnmuteAgain":
-                                                Cookies.set('donotShowUnmuteAgain', true, {
-                                                    path: '/',
-                                                    expires: 365
-                                                });
-                                                break;
-                                        }
-                                    });
-                                }
-                                showMuteTooltip();
-                                setTimeout(function () {
-                                    $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
-                                    player.userActive(true);
-                                }, 500);
-                            }
+                            console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to play again");
+                            tryToPlay(currentTime);
                         }
-
-                    }, 1000);
+                    } else {
+                        //player.muted(false);
+                        if (player.muted() && !inIframe()) {
+                            showUnmutePopup();
+                        }
+                    }
                 }).catch(function (error) {
-                    console.log("playerPlay: Autoplay was prevented, trying to mute and play ***");
-                    player.muted(true);
-                    playerPlay(currentTime);
+                    if (promisePlaytry <= 2) {
+                        console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
+                        tryToPlayMuted(currentTime);
+                    } else {
+                        console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to play again");
+                        tryToPlay(currentTime);
+                    }
                 });
             } else {
-                promisePlayTimeout = setTimeout(function () {
-                    if (player.paused()) {
-                        console.log("playerPlay: promise Undefined");
-                        playerPlay(currentTime);
-                    }
-                }, promisePlayTimeoutTime);
+                tryToPlay(currentTime);
             }
         } catch (e) {
             console.log("playerPlay: We could not autoplay, trying again in 1 second");
-            promisePlayTimeout = setTimeout(function () {
-                playerPlay(currentTime);
-            }, promisePlayTimeoutTime);
+            tryToPlay(currentTime);
         }
     } else {
         console.log("playerPlay: Player is Undefined");
     }
+}
+
+function showUnmutePopup() {
+
+    var donotShowUnmuteAgain = Cookies.get('donotShowUnmuteAgain');
+    if (!donotShowUnmuteAgain) {
+        var span = document.createElement("span");
+        span.innerHTML = "<b>Would</b> you like to unmute it?<div id='allowAutoplay' style='max-height: 100px; overflow-y: scroll;'></div>";
+        swal({
+            title: "Your Media is Muted",
+            icon: "warning",
+            content: span,
+            dangerMode: true,
+            buttons: {
+                cancel: "Cancel",
+                unmute: true,
+                donotShowUnmuteAgain: {
+                    text: "Don't show again",
+                    value: "donotShowUnmuteAgain",
+                    className: "btn-danger",
+                },
+            }
+        }).then(function (value) {
+            switch (value) {
+                case "unmute":
+                    player.muted(false);
+                    break;
+                case "donotShowUnmuteAgain":
+                    Cookies.set('donotShowUnmuteAgain', true, {
+                        path: '/',
+                        expires: 365
+                    });
+                    break;
+            }
+        });
+    }
+    showMuteTooltip();
+    setTimeout(function () {
+        $("#allowAutoplay").load(webSiteRootURL + "plugin/PlayerSkins/allowAutoplay/");
+        player.userActive(true);
+    }, 500);
+}
+
+function tryToPlay(currentTime) {
+    clearTimeout(promisePlayTimeout);
+    promisePlayTimeout = setTimeout(function () {
+        if (player.paused()) {
+            playerPlay(currentTime);
+        }
+    }, promisePlayTimeoutTime);
+}
+
+function tryToPlayMuted(currentTime) {
+    muteInCookieAllow();
+    return tryToPlay(currentTime);
+}
+
+function muteIfNotAudio() {
+    if (!player.isAudio()) {
+        console.log("muteIfNotAudio: We will mute this video");
+        player.muted(true);
+        return true;
+    }
+    console.log("muteIfNotAudio: We will not mute an audio");
+    return false;
+}
+
+function muteInCookieAllow() {
+    var mute = Cookies.get('muted');
+    if (typeof mute === 'undefined' || (mute && mute !== "false")) {
+        return muteIfNotAudio();
+    }
+    return false;
+}
+
+function playMuted(currentTime) {
+    muteInCookieAllow();
+    return playerPlay(currentTime);
 }
 
 function showMuteTooltip() {
@@ -661,7 +724,7 @@ function isArray(what) {
 }
 
 function reloadVideoJS() {
-    if(typeof player.currentSources === 'function'){
+    if (typeof player.currentSources === 'function') {
         var src = player.currentSources();
         player.src(src);
     }
@@ -797,9 +860,9 @@ function playerHasAds() {
 
 function countTo(selector, total) {
     var text = $(selector).text();
-    if(isNaN(text)){
+    if (isNaN(text)) {
         current = 0;
-    }else{
+    } else {
         current = parseInt(text);
     }
     total = parseInt(total);
@@ -879,16 +942,8 @@ $(document).ready(function () {
     $(".thumbsImage").on("mouseleave", function () {
         $(this).find(".thumbsGIF").stop(true, true).fadeOut();
     });
-    if ($(".thumbsJPG").length) {
-        $('.thumbsJPG').lazy({
-            effect: 'fadeIn',
-            visibleOnly: true,
-            // called after an element was successfully handled
-            afterLoad: function (element) {
-                element.removeClass('blur');
-            }
-        });
-    }
+
+    lazyImage();
 
     $("a").each(function () {
         var location = window.location.toString()
@@ -950,17 +1005,41 @@ $(document).ready(function () {
         });
     });
     setPlayerListners();
-    
+
     $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
-    
+
 });
 
 function validURL(str) {
-  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-    '(\\:\\d+)?(\\/[-a-z\\d%_.~+:]*)*'+ // port and path
-    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-  return !!pattern.test(str);
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+:]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+    return !!pattern.test(str);
+}
+
+function startTimer(duration, selector) {
+    var timer = duration;
+    var startTimerInterval = setInterval(function () {
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(duration / (60 * 60 * 24));
+        var hours = Math.floor((duration % (60 * 60 * 24)) / (60 * 60));
+        var minutes = Math.floor((duration % (60 * 60)) / (60));
+        var seconds = Math.floor((duration % (60)));
+
+        // Display the result in the element with id="demo"
+        var text = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+        $(selector).text(text);
+        duration--;
+        // If the count down is finished, write some text
+        if (duration < 0) {
+            clearInterval(startTimerInterval);
+            $(selector).text("EXPIRED");
+        }
+
+    }, 1000);
 }
