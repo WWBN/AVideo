@@ -65,6 +65,9 @@ class PlayerSkins extends PluginAbstract {
         $obj = $this->getDataObject();
         $css = "";
         $js = "";
+        if(isLive()){
+            $js .= "<script>var isLive = true;</script>";
+        }
         if (isVideo() || !empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
             if (self::isAutoplayEnabled()) {
                 $js .= "<script>var autoplay = true;</script>";
