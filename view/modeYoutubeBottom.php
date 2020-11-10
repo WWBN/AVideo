@@ -149,6 +149,8 @@ if(User::hasBlockedUser($video['users_id'])){
                                 $name = strtoupper($parts[0]);
                                 if(is_numeric($parts[1])){
                                     $name .= " <div class='label label-primary'>{$parts[1]}p</div> ".getResolutionLabel($parts[1]);
+                                }else{
+                                    $name .= " <div class='label label-primary'>".strtoupper($parts[1])."</div> ";
                                 }
                             }
                             
