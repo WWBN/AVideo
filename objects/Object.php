@@ -49,6 +49,9 @@ abstract class ObjectYPT implements ObjectInterface {
         $row = self::getNowFromDB();
         $dt = new DateTime($row['my_date_field']);
         $timeZOnesOptions = object_to_array($advancedCustom->timeZone->type);
+        if(empty($timeZOnesOptions[$advancedCustom->timeZone->value])){
+            return false;
+        }
         $dt->setTimezone(new DateTimeZone($timeZOnesOptions[$advancedCustom->timeZone->value]));
         date_default_timezone_set($timeZOnesOptions[$advancedCustom->timeZone->value]);
         return $dt;
