@@ -321,6 +321,9 @@ class PlayerSkins extends PluginAbstract {
 
     static function isAutoplayEnabled() {
         global $config;
+        if(isLive()){
+            return true;
+        }
         if (!empty($_COOKIE['autoplay'])) {
             if (strtolower($_COOKIE['autoplay']) === 'false') {
                 return false;
