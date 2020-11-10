@@ -113,7 +113,7 @@ class PlayerSkins extends PluginAbstract {
         $oembed .= '<link href="'.$global['webSiteRootURL'].'oembed/?format=xml&url='.$url.'" rel="alternate" type="application/xml+oembed" />';
         
         
-        return $css.$oembed;
+        return $js.$css.$oembed;
     }
 
     public function getFooterCode() {
