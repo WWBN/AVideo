@@ -93,6 +93,7 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
         echo AVideoPlugin::afterVideoJS();
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
         <?php
         echo AVideoPlugin::getHeadCode();
         ?>
