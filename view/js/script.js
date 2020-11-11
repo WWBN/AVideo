@@ -397,7 +397,7 @@ function inIframe() {
         return true;
     }
 }
-var promisePlaytry = 40;
+var promisePlaytry = 10;
 var promisePlayTimeoutTime = 500;
 var promisePlayTimeout;
 var promisePlay;
