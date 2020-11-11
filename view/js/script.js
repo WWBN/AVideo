@@ -397,7 +397,7 @@ function inIframe() {
         return true;
     }
 }
-var promisePlaytry = 10;
+var promisePlaytry = 20;
 var promisePlayTimeoutTime = 500;
 var promisePlayTimeout;
 var promisePlay;
@@ -437,7 +437,7 @@ function playerPlay(currentTime) {
                     userIsControling = true;
                     if (player.paused()) {
                         console.log("The video still paused, trying to mute and play");
-                        if (promisePlaytry <= 2) {
+                        if (promisePlaytry <= 10) {
                             console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to mute and play");
                             tryToPlayMuted(currentTime);
                         } else {
@@ -451,7 +451,7 @@ function playerPlay(currentTime) {
                         }
                     }
                 }).catch(function (error) {
-                    if (promisePlaytry <= 2) {
+                    if (promisePlaytry <= 10) {
                         console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
                         tryToPlayMuted(currentTime);
                     } else {
