@@ -539,8 +539,10 @@ function muteIfNotAudio() {
 function muteInCookieAllow() {
     var mute = Cookies.get('muted');
     if (typeof mute === 'undefined' || (mute && mute !== "false")) {
+        console.log("muteInCookieAllow: said yes");
         return muteIfNotAudio();
     }
+    console.log("muteInCookieAllow: said no");
     return false;
 }
 
