@@ -538,7 +538,7 @@ function muteIfNotAudio() {
 
 function muteInCookieAllow() {
     var mute = Cookies.get('muted');
-    if (typeof mute === 'undefined' || (mute && mute !== "false")) {
+    if (isALiveContent() || typeof mute === 'undefined' || (mute && mute !== "false")) {
         console.log("muteInCookieAllow: said yes");
         return muteIfNotAudio();
     }
@@ -756,9 +756,16 @@ function setCurrentTime(currentTime) {
     }
 }
 
+function isALiveContent(){
+    if(typeof isLive !== 'undefined' && isLive){
+        return true;
+    }
+    return false;
+}
+
 function isAutoplayEnabled() {
     console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
-    if(typeof isLive !== 'undefined' && isLive){
+    if(isALiveContent()){
         console.log("isAutoplayEnabled always autoplay live contents");
         return true;
     }else
