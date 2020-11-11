@@ -756,6 +756,10 @@ function setCurrentTime(currentTime) {
 
 function isAutoplayEnabled() {
     console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
+    if(typeof isLive !== 'undefined' && isLive){
+        console.log("isAutoplayEnabled always autoplay live contents");
+        return true;
+    }else
     if ($("#autoplay").length && $("#autoplay").is(':visible')) {
         autoplay = $("#autoplay").is(":checked");
         console.log("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));

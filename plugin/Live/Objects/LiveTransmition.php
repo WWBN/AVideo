@@ -171,6 +171,12 @@ class LiveTransmition extends ObjectYPT {
             return false;
         }
         $parts = explode("_", $key);
+        if(!empty($parts[1])){
+            $adaptive = array('hi', 'low', 'mid');
+            if(in_array($parts[1], $adaptive)){
+                return false;
+            }
+        }
         $key = $parts[0];
         $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "

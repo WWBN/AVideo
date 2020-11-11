@@ -126,15 +126,35 @@ if(User::hasBlockedUser($video['users_id'])){
                             $files = getVideosURL($video['filename']);
                         }
                         foreach ($files as $key => $theLink) {
+                            $notAllowedKeys = array('m3u8');
                             if (empty($advancedCustom->showImageDownloadOption)) {
-                                if ($key == "jpg" || $key == "gif" || $key == "webp" || $key == "pjpg" || $key == "m3u8") {
-                                    continue;
+                                $notAllowedKeys = array_merge($notAllowedKeys, array('jpg', 'gif', 'webp', 'pjpg'));
+                            }
+                            $keyFound = false;
+                            foreach ($notAllowedKeys as $notAllowedKey) {
+                                if(preg_match("/{$notAllowedKey}/", $key)){
+                                    $keyFound = true;
+                                    break;
                                 }
+                            }
+                            if($keyFound){
+                                continue;
                             }
                             if (strpos($theLink['url'], '?') === false) {
                                 $theLink['url'] .= "?download=1&title=" . urlencode($video['title'] . "_{$key}_.mp4");
                             }
-                            $filesToDownload[] = array('name' => $key, 'url' => $theLink['url']);
+                            $parts = explode("_", $key);
+                            $name = $key;
+                            if(count($parts)>1){
+                                $name = strtoupper($parts[0]);
+                                if(is_numeric($parts[1])){
+                                    $name .= " <div class='label label-primary'>{$parts[1]}p</div> ".getResolutionLabel($parts[1]);
+                                }else{
+                                    $name .= " <div class='label label-primary'>".strtoupper($parts[1])."</div> ";
+                                }
+                            }
+                            
+                            $filesToDownload[] = array('name' => $name, 'url' => $theLink['url']);
                         }
                         if (!empty($filesToDownload)) {
                             ?>
@@ -199,7 +219,7 @@ if(User::hasBlockedUser($video['users_id'])){
 <?php if (!empty($filesToDownload) && CustomizeUser::canDownloadVideosFromVideo($video['id'])) { ?>
     <div class="row bgWhite list-group-item menusDiv" id="downloadDiv">
         <div class="tabbable-panel">
-            <div class="list-group">
+            <div class="list-group list-group-horizontal">
                 <?php
                 foreach ($filesToDownload as $theLink) {
                     ?>
