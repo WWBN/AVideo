@@ -81,6 +81,7 @@ class Gallery extends PluginAbstract {
         $obj->sortReverseable = false;
         $obj->SubCategorys = false;
         $obj->showTags = true;
+        $obj->showCategoryTag = true;
         $obj->searchOnChannels = true;
         $obj->searchOnChannelsRowCount = 12;
         $obj->playVideoOnFullscreen = false;
