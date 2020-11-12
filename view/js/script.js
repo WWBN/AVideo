@@ -397,7 +397,7 @@ function inIframe() {
         return true;
     }
 }
-var promisePlaytry = 40;
+var promisePlaytry = 20;
 var promisePlayTimeoutTime = 500;
 var promisePlayTimeout;
 var promisePlay;
@@ -437,7 +437,7 @@ function playerPlay(currentTime) {
                     userIsControling = true;
                     if (player.paused()) {
                         console.log("The video still paused, trying to mute and play");
-                        if (promisePlaytry <= 2) {
+                        if (promisePlaytry <= 10) {
                             console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to mute and play");
                             tryToPlayMuted(currentTime);
                         } else {
@@ -451,7 +451,7 @@ function playerPlay(currentTime) {
                         }
                     }
                 }).catch(function (error) {
-                    if (promisePlaytry <= 2) {
+                    if (promisePlaytry <= 10) {
                         console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
                         tryToPlayMuted(currentTime);
                     } else {
@@ -538,9 +538,11 @@ function muteIfNotAudio() {
 
 function muteInCookieAllow() {
     var mute = Cookies.get('muted');
-    if (typeof mute === 'undefined' || (mute && mute !== "false")) {
+    if (isALiveContent() || typeof mute === 'undefined' || (mute && mute !== "false")) {
+        console.log("muteInCookieAllow: said yes");
         return muteIfNotAudio();
     }
+    console.log("muteInCookieAllow: said no");
     return false;
 }
 
@@ -754,9 +756,16 @@ function setCurrentTime(currentTime) {
     }
 }
 
+function isALiveContent(){
+    if(typeof isLive !== 'undefined' && isLive){
+        return true;
+    }
+    return false;
+}
+
 function isAutoplayEnabled() {
     console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
-    if(typeof isLive !== 'undefined' && isLive){
+    if(isALiveContent()){
         console.log("isAutoplayEnabled always autoplay live contents");
         return true;
     }else
