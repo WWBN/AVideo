@@ -565,7 +565,7 @@ function sendSiteEmail($to, $subject, $message) {
 
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
-
+    $message = createEmailMessageFromTemplate($message);
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
     require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
@@ -626,6 +626,24 @@ function sendSiteEmail($to, $subject, $message) {
     } catch (Exception $e) {
         _error_log($e->getMessage()); //Boring error messages from anything else!
     }
+}
+
+function createEmailMessageFromTemplate($message) {
+    
+    //check if the message already have a HTML body
+    if(preg_match("/html>/i", $message)){
+        return $message;
+    }
+    
+    global $global, $config;
+    $text = file_get_contents("{$global['systemRootPath']}view/include/emailTemplate.html");
+    $siteTitle = $config->getWebSiteTitle();
+    $logo = "<img src=\"{$global['webSiteRootURL']}" . $config->getLogo(true) . "\" alt=\"{$siteTitle}\">";
+
+    $words = array($logo, $message, $siteTitle);
+    $replace = array('{logo}', '{message}', '{siteTitle}');
+
+    return str_replace($replace, $words, $text);
 }
 
 function sendEmailToSiteOwner($subject, $message) {
