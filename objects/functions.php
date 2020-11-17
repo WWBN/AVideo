@@ -25,6 +25,7 @@ function xss_esc($text) {
     if (empty($result)) {
         $result = str_replace(array('"', "'", "\\"), array("", "", ""), strip_tags($text));
     }
+    $result = str_replace(array('&amp;amp;'), array('&amp;'), $result);
     return $result;
 }
 
