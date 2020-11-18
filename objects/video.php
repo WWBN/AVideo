@@ -1123,7 +1123,7 @@ if (!class_exists('Video')) {
                         $otherInfo['tags'] = self::getTags($row['id']);
                         $otherInfo['title'] = UTF8encode($row['title']);
                         $otherInfo['description'] = UTF8encode($row['description']);
-                        $otherInfo['descriptionHTML'] = strip_tags($otherInfo['description']) === $otherInfo['description'] ? nl2br(textToLink(htmlentities($otherInfo['description']))) : $otherInfo['description'];
+                        $otherInfo['descriptionHTML'] = self::htmlDescription($otherInfo['description']);
                         if (empty($row['filesize'])) {
                             $otherInfo['filesize'] = Video::updateFilesize($row['id']);
                         }
@@ -1151,6 +1151,14 @@ if (!class_exists('Video')) {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return $videos;
+        }
+
+        static function htmlDescription($description) {
+            if (strip_tags($description) != $description) {
+                return $description;
+            } else {
+                return nl2br(textToLink(htmlentities($description)));
+            }
         }
 
         static function isFavorite($videos_id) {
@@ -2839,7 +2847,7 @@ if (!class_exists('Video')) {
                 if (!empty($paths['m3u8'])) {
                     if (is_string($paths['m3u8']["url"])) {
                         return $paths['m3u8']["url"];
-                    }else if (is_string($paths['m3u8'][$value])) {
+                    } else if (is_string($paths['m3u8'][$value])) {
                         return $paths['m3u8'][$value];
                     } else {
                         return $paths['m3u8'][$value]["url"];
@@ -2931,6 +2939,9 @@ if (!class_exists('Video')) {
         }
 
         static function getImageFromFilename_($filename, $type = "video") {
+            if (empty($filename)) {
+                return array();
+            }
             global $_getImageFromFilename_;
             if (empty($_getImageFromFilename_)) {
                 $_getImageFromFilename_ = array();
@@ -2963,6 +2974,9 @@ if (!class_exists('Video')) {
                 $jpegPortraitThumbsSmall = self::getSourceFile($filename, "_portrait_thumbsSmallV2.jpg");
                 $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg");
                 $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
+                if (empty($jpegSource)) {
+                    return array();
+                }
                 $obj->poster = $jpegSource['url'];
                 $obj->posterPortrait = $jpegPortraitSource['url'];
                 $obj->posterPortraitPath = $jpegPortraitSource['path'];
