@@ -25,6 +25,7 @@ function xss_esc($text) {
     if (empty($result)) {
         $result = str_replace(array('"', "'", "\\"), array("", "", ""), strip_tags($text));
     }
+    $result = str_replace(array('&amp;amp;'), array('&amp;'), $result);
     return $result;
 }
 
@@ -476,11 +477,11 @@ function parseDurationToSeconds($str) {
     return intval($durationParts[2]) + ($minutes * 60);
 }
 
-function durationToSeconds($str){
+function durationToSeconds($str) {
     return parseDurationToSeconds($str);
 }
 
-function secondsToDuration($seconds){
+function secondsToDuration($seconds) {
     return parseSecondsToDuration($seconds);
 }
 
@@ -565,7 +566,7 @@ function sendSiteEmail($to, $subject, $message) {
 
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
-
+    $message = createEmailMessageFromTemplate($message);
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
     require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
@@ -626,6 +627,24 @@ function sendSiteEmail($to, $subject, $message) {
     } catch (Exception $e) {
         _error_log($e->getMessage()); //Boring error messages from anything else!
     }
+}
+
+function createEmailMessageFromTemplate($message) {
+    
+    //check if the message already have a HTML body
+    if(preg_match("/html>/i", $message)){
+        return $message;
+    }
+    
+    global $global, $config;
+    $text = file_get_contents("{$global['systemRootPath']}view/include/emailTemplate.html");
+    $siteTitle = $config->getWebSiteTitle();
+    $logo = "<img src=\"{$global['webSiteRootURL']}" . $config->getLogo(true) . "\" alt=\"{$siteTitle}\">";
+
+    $words = array($logo, $message, $siteTitle);
+    $replace = array('{logo}', '{message}', '{siteTitle}');
+
+    return str_replace($replace, $words, $text);
 }
 
 function sendEmailToSiteOwner($subject, $message) {
@@ -1276,30 +1295,30 @@ function getVideosURL($fileName, $cache = true) {
 
 function getVideosURLMP4Only($fileName) {
     $allFiles = getVideosURL_V2($fileName);
-    if(is_array($allFiles)){
+    if (is_array($allFiles)) {
         foreach ($allFiles as $key => $value) {
             if ($value['format'] !== 'mp4') {
                 unset($allFiles[$key]);
             }
         }
         return $allFiles;
-    }else{
-        _error_log("getVideosURLMP4Only does not return an ARRAY from getVideosURL_V2($fileName) ".json_encode($allFiles));
+    } else {
+        _error_log("getVideosURLMP4Only does not return an ARRAY from getVideosURL_V2($fileName) " . json_encode($allFiles));
         return array();
     }
 }
 
 function getVideosURLWEBMOnly($fileName) {
     $allFiles = getVideosURL_V2($fileName); // disable this function soon
-    if(is_array($allFiles)){
+    if (is_array($allFiles)) {
         foreach ($allFiles as $key => $value) {
             if ($value['format'] !== 'webm') {
                 unset($allFiles[$key]);
             }
         }
         return $allFiles;
-    }else{
-        _error_log("getVideosURLMP4Only does not return an ARRAY from getVideosURL_V2($fileName) ".json_encode($allFiles));
+    } else {
+        _error_log("getVideosURLMP4Only does not return an ARRAY from getVideosURL_V2($fileName) " . json_encode($allFiles));
         return array();
     }
 }
@@ -1385,7 +1404,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         $filesInDir = globVideosDir($cleanfilename, true);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
-            
+
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
             if (empty($source)) {
                 continue;
@@ -2511,17 +2530,17 @@ function isAVideoStorage($user_agent = "") {
     return false;
 }
 
-function get_domain($url, $ifEmptyReturnSameString=false) {
+function get_domain($url, $ifEmptyReturnSameString = false) {
     $pieces = parse_url($url);
     $domain = isset($pieces['host']) ? $pieces['host'] : '';
-    if(empty($domain)){
-        return $ifEmptyReturnSameString?$url:false;
+    if (empty($domain)) {
+        return $ifEmptyReturnSameString ? $url : false;
     }
     if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)) {
         return $regs['domain'];
-    }else{
-        $isIp = (bool)ip2long($pieces['host']);
-        if($isIp){
+    } else {
+        $isIp = (bool) ip2long($pieces['host']);
+        if ($isIp) {
             return $pieces['host'];
         }
     }
@@ -3922,7 +3941,7 @@ function getRowCount($default = 1000) {
     } else if (!empty($global['rowCount'])) {
         $defaultN = intval($global['rowCount']);
     }
-    return (!empty($defaultN) && $defaultN>0) ? $defaultN : $default;
+    return (!empty($defaultN) && $defaultN > 0) ? $defaultN : $default;
 }
 
 function getSearchVar() {
@@ -4370,7 +4389,7 @@ function _substr($string, $start, $length = NULL) {
     }
 }
 
-function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="") {
+function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "") {
     global $global, $advancedCustom;
     if ($total < 2) {
         return "";
@@ -4390,13 +4409,13 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if (empty($page)) {
         $page = getCurrentPage();
     }
-    
+
     $class = "";
-    if(!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)){
-        $class = "hidden";
+    if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
+        $class = "infiniteScrollPagination hidden";
     }
-    
-    $pag = '<nav aria-label="Page navigation" class="text-center infiniteScrollPagination '.$class.'"><ul class="pagination">';
+
+    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination">';
     $start = 1;
     $end = $maxVisible;
 
@@ -4415,7 +4434,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if ($page > 1) {
         $pageLink = str_replace("{page}", 1, $link);
         $pageBackLink = str_replace("{page}", $page - 1, $link);
-        if($start>($page - 1)){
+        if ($start > ($page - 1)) {
             $pag .= '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
         }
         $pag .= '<li class="page-item"><a class="page-link" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
@@ -4431,22 +4450,22 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if ($page < $total) {
         $pageLink = str_replace("{page}", $total, $link);
         $pageForwardLink = str_replace("{page}", $page + 1, $link);
-        $pag .= '<li class="page-item"><a class="page-link pagination__next'.$uid.'" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
-        if($total>($end + 1)){
+        $pag .= '<li class="page-item"><a class="page-link pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
+        if ($total > ($end + 1)) {
             $pag .= '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
         }
     }
     $pag .= '</ul></nav> ';
-    
-    if(!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)){
+
+    if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
         $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
         $pag .= str_replace(
-                array('$uid','$webSiteRootURL', '$infinityScrollGetFromSelector','$infinityScrollAppendIntoSelector'), 
-                array($uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector,$infinityScrollAppendIntoSelector), 
+                array('$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector'),
+                array($uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector),
                 $content);
     }
-    
-    
+
+
     return $pag;
 }
 
@@ -4760,11 +4779,11 @@ function _glob($dir, $pattern) {
     if (empty($dir)) {
         return array();
     }
-    if(empty($_glob)){
+    if (empty($_glob)) {
         $_glob = array();
     }
-    $name = md5($dir.$pattern);
-    if(isset($_glob[$name])){
+    $name = md5($dir . $pattern);
+    if (isset($_glob[$name])) {
         return $_glob[$name];
     }
     $dir = rtrim($dir, '/') . '/';
@@ -4782,14 +4801,14 @@ function _glob($dir, $pattern) {
     return $array;
 }
 
-function globVideosDir($filename, $filesOnly=false) {
+function globVideosDir($filename, $filesOnly = false) {
     global $global;
     if (empty($filename)) {
         return array();
     }
     $cleanfilename = Video::getCleanFilenameFromFile($filename);
     $pattern = "/{$cleanfilename}.*";
-    if(!empty($filesOnly)){
+    if (!empty($filesOnly)) {
         $formats = getValidFormats();
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
@@ -4797,27 +4816,45 @@ function globVideosDir($filename, $filesOnly=false) {
     return _glob("{$global['systemRootPath']}videos/", $pattern);
 }
 
-function getValidFormats(){
-        $video = array('webm', 'mp4','m3u8');
-        $audio = array('mp3', 'ogg');
-        $image = array('jpg', 'gif', 'webp');
-        return array_merge($video, $audio, $image);
+function getValidFormats() {
+    $video = array('webm', 'mp4', 'm3u8');
+    $audio = array('mp3', 'ogg');
+    $image = array('jpg', 'gif', 'webp');
+    return array_merge($video, $audio, $image);
 }
-function isValidFormats($format){
+
+function isValidFormats($format) {
     $format = str_replace(".", "", $format);
     return in_array($format, getValidFormats());
 }
-function getTimerFromDates($startTime, $endTime=0){
-    if(!is_int($startTime)){
+
+function getTimerFromDates($startTime, $endTime = 0) {
+    if (!is_int($startTime)) {
         $startTime = strtotime($startTime);
     }
-    if(!is_int($endTime)){
+    if (!is_int($endTime)) {
         $endTime = strtotime($endTime);
     }
-    if(empty($endTime)){
+    if (empty($endTime)) {
         $endTime = time();
     }
-    $timer = abs($endTime-$startTime);
+    $timer = abs($endTime - $startTime);
     $uid = uniqid();
     return "<span id='{$uid}'></span><script>$(document).ready(function () {startTimer({$timer}, '#{$uid}');})</script>";
+}
+
+function getServerClock() {
+    $id = uniqid();
+    $today = getdate();
+    $html = '<span id="' . $id . '">00:00:00</span>';
+    $html .= "<script type=\"text/javascript\">
+    $(document).ready(function () {
+        var d = new Date({$today['year']},{$today['mon']},{$today['mday']},{$today['hours']},{$today['minutes']},{$today['seconds']});
+        setInterval(function() {
+            d.setSeconds(d.getSeconds() + 1);
+            $('#{$id}').text((d.getHours() +':' + d.getMinutes() + ':' + d.getSeconds() ));
+        }, 1000);
+    });
+</script>";
+    return $html;
 }
