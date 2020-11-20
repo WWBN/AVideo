@@ -7,10 +7,10 @@
 <script>
     $(function () {
         $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
-            path: '.pagination__next$uid',
+            path: '.pagination__next',
             append: '$infinityScrollGetFromSelector',
             status: '.scroller-status$uid',
-            hideNav: '.infiniteScrollPagination$uid',
+            hideNav: '.infiniteScrollPagination',
             prefill: false,
             history: false
         });

@@ -4453,7 +4453,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if ($page < $total) {
         $pageLink = str_replace("{page}", $total, $link);
         $pageForwardLink = str_replace("{page}", $page + 1, $link);
-        $pag .= '<li class="page-item"><a class="page-link pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
+        $pag .= '<li class="page-item"><a class="page-link pagination__next" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
         if ($total > ($end + 1)) {
             $pag .= '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
         }
