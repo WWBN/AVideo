@@ -298,7 +298,7 @@
                         }
                         ?>
                         <th data-column-id="filesize" data-formatter="filesize" data-width="100px"  data-header-css-class='hidden-md hidden-sm hidden-xs'  data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
-                        <th data-column-id="created" data-order="desc" data-width="100px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
+                        <th data-column-id="created" data-order="desc" data-width="150px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-css-class='controls' data-width="200px"></th>
                     </tr>
                 </thead>
