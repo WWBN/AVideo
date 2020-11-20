@@ -349,19 +349,19 @@
 
                                 <div class="tab-content">
                                     <div id="jpg" class="tab-pane fade in active">
-                                        <input id="input-jpg" type="file" class="file-loading" accept="image/jpg">
+                                        <input id="input-jpg" type="file" class="file-loading" accept="image/jpg, .jpeg, .jpg">
                                     </div>
                                     <div id="pjpg" class="tab-pane fade">
-                                        <input id="input-pjpg" type="file" class="file-loading" accept="image/jpg">
+                                        <input id="input-pjpg" type="file" class="file-loading" accept="image/jpg, .jpeg, .jpg">
                                     </div>
                                     <div id="webp" class="tab-pane fade">
-                                        <input id="input-webp" type="file" class="file-loading" accept="image/webp">
+                                        <input id="input-webp" type="file" class="file-loading" accept="image/webp, .webp">
                                     </div>
                                     <div id="gif" class="tab-pane fade">
-                                        <input id="input-gif" type="file" class="file-loading" accept="image/gif">
+                                        <input id="input-gif" type="file" class="file-loading" accept="image/gif, .gif">
                                     </div>
                                     <div id="pgif" class="tab-pane fade">
-                                        <input id="input-pgif" type="file" class="file-loading" accept="image/gif">
+                                        <input id="input-pgif" type="file" class="file-loading" accept="image/gif, .gif">
                                     </div>
                                 </div>
                             </div>
