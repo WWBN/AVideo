@@ -260,6 +260,7 @@ class PlayerSkins extends PluginAbstract {
 
     static private function getCurrentTime() {
         global $video;
+        $currentTime = 0;
         if (isset($_GET['t'])) {
             $currentTime = intval($_GET['t']);
         } else if (!empty ($video['progress']) && !empty($video['progress']['lastVideoTime'])) {

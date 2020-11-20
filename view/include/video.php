@@ -9,7 +9,6 @@ if ($video['rotation'] === "90" || $video['rotation'] === "270") {
     $vjsClass = "vjs-16-9";
     $embedResponsiveClass = "embed-responsive-16by9";
 }
-$currentTime = 0;
 if (!empty($video['externalOptions']->videoStartSeconds)) {
     $video['externalOptions']->videoStartSeconds = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
 } else {
