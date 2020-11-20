@@ -2084,6 +2084,9 @@ function combineFiles($filesArray, $extension = "js") {
     } else {
         $minifyEnabled = false;
     }
+    // temporary disable minify
+    $minifyEnabled = false;    
+    
     $md5FileName = md5($fileName) . ".{$extension}";
     if (!file_exists($cacheDir . $md5FileName)) {
         foreach ($filesArray as $value) {

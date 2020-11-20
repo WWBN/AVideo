@@ -23,7 +23,7 @@ $sources = getVideosURLPDF($video['filename']);
                     ?>
                 </h1>
                 <?php
-                echo $video['description'];
+                echo Video::htmlDescription($video['description']);
                 ?>     
                 <script>
                     $(document).ready(function () {
