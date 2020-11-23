@@ -65,7 +65,7 @@ class PlayerSkins extends PluginAbstract {
         $obj = $this->getDataObject();
         $css = "";
         $js = "";
-        if(isLive()){
+        if (isLive()) {
             $js .= "<script>var isLive = true;</script>";
         }
         if (isVideo() || !empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
@@ -75,7 +75,7 @@ class PlayerSkins extends PluginAbstract {
                 $js .= "<script>var autoplay = false;</script>";
             }
             $js .= "<script>var playNextURL = '';</script>";
-            if(!empty($obj->skin)){
+            if (!empty($obj->skin)) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
             if ($obj->showLoopButton && !isLive()) {
@@ -107,13 +107,13 @@ class PlayerSkins extends PluginAbstract {
                         . "</style>";
             }
         }
-        
+
         $url = urlencode(getSelfURI());
-        $oembed = '<link href="'.$global['webSiteRootURL'].'oembed/?format=json&url='.$url.'" rel="alternate" type="application/json+oembed" />';
-        $oembed .= '<link href="'.$global['webSiteRootURL'].'oembed/?format=xml&url='.$url.'" rel="alternate" type="application/xml+oembed" />';
-        
-        
-        return $js.$css.$oembed;
+        $oembed = '<link href="' . $global['webSiteRootURL'] . 'oembed/?format=json&url=' . $url . '" rel="alternate" type="application/json+oembed" />';
+        $oembed .= '<link href="' . $global['webSiteRootURL'] . 'oembed/?format=xml&url=' . $url . '" rel="alternate" type="application/xml+oembed" />';
+
+
+        return $js . $css . $oembed;
     }
 
     public function getFooterCode() {
@@ -192,6 +192,9 @@ class PlayerSkins extends PluginAbstract {
         global $config, $global, $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup, $IMAADTag;
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         $js = "";
+        if (empty($currentTime) && !isLive()) {
+            $currentTime = self::getCurrentTime();
+        }
         if (empty($noReadyFunction)) {
             $js .= "var originalVideo; "
                     . "$(document).ready(function () {";
@@ -253,6 +256,27 @@ class PlayerSkins extends PluginAbstract {
         }
         $getStartPlayerJSWasRequested = true;
         return $js;
+    }
+
+    static private function getCurrentTime() {
+        global $video;
+        $currentTime = 0;
+        if (isset($_GET['t'])) {
+            $currentTime = intval($_GET['t']);
+        } else if (!empty ($video['progress']) && !empty($video['progress']['lastVideoTime'])) {
+            $currentTime = intval($video['progress']['lastVideoTime']);
+            $maxCurrentTime = parseDurationToSeconds($video['duration']);
+            if ($maxCurrentTime <= $currentTime + 5) {
+                if (!empty($video['externalOptions']) && !empty($video['externalOptions']->videoStartSeconds)) {
+                    $currentTime = intval($video['externalOptions']->videoStartSeconds);
+                } else {
+                    $currentTime = 0;
+                }
+            }
+        } else if (!empty($video['externalOptions']) && !empty($video['externalOptions']->videoStartSeconds)) {
+            $currentTime = intval($video['externalOptions']->videoStartSeconds);
+        }
+        return $currentTime;
     }
 
     static function setIMAADTag($tag) {
@@ -324,7 +348,7 @@ class PlayerSkins extends PluginAbstract {
 
     static function isAutoplayEnabled() {
         global $config;
-        if(isLive()){
+        if (isLive()) {
             return true;
         }
         if (!empty($_COOKIE['autoplay'])) {

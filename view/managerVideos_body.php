@@ -298,7 +298,7 @@
                         }
                         ?>
                         <th data-column-id="filesize" data-formatter="filesize" data-width="100px"  data-header-css-class='hidden-md hidden-sm hidden-xs'  data-css-class='hidden-md hidden-sm hidden-xs'><?php echo __("Size"); ?></th>
-                        <th data-column-id="created" data-order="desc" data-width="100px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
+                        <th data-column-id="created" data-order="desc" data-width="150px"  data-header-css-class='hidden-sm hidden-xs'  data-css-class='hidden-sm hidden-xs'><?php echo __("Created"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false"  data-css-class='controls' data-width="200px"></th>
                     </tr>
                 </thead>
@@ -349,19 +349,19 @@
 
                                 <div class="tab-content">
                                     <div id="jpg" class="tab-pane fade in active">
-                                        <input id="input-jpg" type="file" class="file-loading" accept="image/jpg">
+                                        <input id="input-jpg" type="file" class="file-loading" accept="image/jpg, .jpeg, .jpg">
                                     </div>
                                     <div id="pjpg" class="tab-pane fade">
-                                        <input id="input-pjpg" type="file" class="file-loading" accept="image/jpg">
+                                        <input id="input-pjpg" type="file" class="file-loading" accept="image/jpg, .jpeg, .jpg">
                                     </div>
                                     <div id="webp" class="tab-pane fade">
-                                        <input id="input-webp" type="file" class="file-loading" accept="image/webp">
+                                        <input id="input-webp" type="file" class="file-loading" accept="image/webp, .webp">
                                     </div>
                                     <div id="gif" class="tab-pane fade">
-                                        <input id="input-gif" type="file" class="file-loading" accept="image/gif">
+                                        <input id="input-gif" type="file" class="file-loading" accept="image/gif, .gif">
                                     </div>
                                     <div id="pgif" class="tab-pane fade">
-                                        <input id="input-pgif" type="file" class="file-loading" accept="image/gif">
+                                        <input id="input-pgif" type="file" class="file-loading" accept="image/gif, .gif">
                                     </div>
                                 </div>
                             </div>
