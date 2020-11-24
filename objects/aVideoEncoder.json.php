@@ -96,6 +96,9 @@ if (!empty($_FILES)) {
     _error_log("aVideoEncoder.json: Files " . json_encode($_FILES));
 } else {
     _error_log("aVideoEncoder.json: Files EMPTY");
+    if (!empty($_REQUEST['downloadFileLink'])) {
+        $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_REQUEST['downloadFileLink']);
+    }
 }
 
 if (!empty($_FILES['video']['error'])) {
@@ -110,21 +113,12 @@ if (!empty($_FILES['video']['error'])) {
         8 => 'A PHP extension stopped the file upload.',
     );
     _error_log("aVideoEncoder.json: ********  Files ERROR " . $phpFileUploadErrors[$_FILES['video']['error']]);
-    if(!empty($_POST['downloadURL']) && !empty($_FILES['video']['name'])){
-        _error_log("aVideoEncoder.json: Try to download ".$_POST['downloadURL']);
-        $file = url_get_contents($_POST['downloadURL']);
-        _error_log("aVideoEncoder.json: Got the download ".$_POST['downloadURL']);
-        if($file){
-            $temp = "{$global['systemRootPath']}videos/cache/tmpFile/{$_FILES['video']['name']}";
-            _error_log("aVideoEncoder.json: save ".$temp);
-            make_path($temp);
-            file_put_contents($temp, $file);
-            $_FILES['video']['tmp_name'] = $temp;
-        }
+    if (!empty($_POST['downloadURL']) && !empty($_FILES['video']['name'])) {
+        $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_POST['downloadURL']);
     }
 }
 
-if(empty($_FILES['video']['tmp_name']) && !empty($_POST['chunkFile'])){
+if (empty($_FILES['video']['tmp_name']) && !empty($_POST['chunkFile'])) {
     $_FILES['video']['tmp_name'] = $_POST['chunkFile'];
 }
 
@@ -135,10 +129,10 @@ if (!empty($_FILES['video']['tmp_name'])) {
         $resolution = "_{$_POST['resolution']}";
     }
     $filename = "{$videoFileName}{$resolution}.{$_POST['format']}";
-    
+
     $fsize = filesize($_FILES['video']['tmp_name']);
-    
-    _error_log("aVideoEncoder.json: receiving video upload to {$filename} filesize=". ($fsize) . " (". humanFileSize($fsize) . ")" . json_encode($_FILES));
+
+    _error_log("aVideoEncoder.json: receiving video upload to {$filename} filesize=" . ($fsize) . " (" . humanFileSize($fsize) . ")" . json_encode($_FILES));
     decideMoveUploadedToVideos($_FILES['video']['tmp_name'], $filename);
 } else {
     // set encoding
@@ -172,7 +166,7 @@ $video->updateDurationIfNeed();
 $video->updateHLSDurationIfNeed();
 
 if (!empty($_POST['usergroups_id'])) {
-    if(!is_array($_POST['usergroups_id'])){
+    if (!is_array($_POST['usergroups_id'])) {
         $_POST['usergroups_id'] = array($_POST['usergroups_id']);
     }
     UserGroups::updateVideoGroups($video_id, $_POST['usergroups_id']);
@@ -184,7 +178,22 @@ _error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video
 die(json_encode($obj));
 
 /*
-_error_log(print_r($_POST, true));
-_error_log(print_r($_FILES, true));
-var_dump($_POST, $_FILES);
-*/
+  _error_log(print_r($_POST, true));
+  _error_log(print_r($_FILES, true));
+  var_dump($_POST, $_FILES);
+ */
+
+function downloadVideoFromDownloadURL($downloadURL) {
+    global $global;
+    _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
+    $file = url_get_contents($_POST['downloadURL']);
+    _error_log("aVideoEncoder.json: Got the download " . $downloadURL);
+    if ($file) {
+        $temp = "{$global['systemRootPath']}videos/cache/tmpFile/" . uniqid();
+        _error_log("aVideoEncoder.json: save " . $temp);
+        make_path($temp);
+        file_put_contents($temp, $file);
+        return $temp;
+    }
+    return false;
+}
