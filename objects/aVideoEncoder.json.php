@@ -116,7 +116,7 @@ if (!empty($_FILES['video']['error'])) {
         8 => 'A PHP extension stopped the file upload.',
     );
     _error_log("aVideoEncoder.json: ********  Files ERROR " . $phpFileUploadErrors[$_FILES['video']['error']]);
-    if (!empty($_POST['downloadURL']) && !empty($_FILES['video']['name'])) {
+    if (!empty($_POST['downloadURL'])) {
         $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_POST['downloadURL']);
     }
 }
@@ -192,7 +192,10 @@ function downloadVideoFromDownloadURL($downloadURL) {
     $file = url_get_contents($_POST['downloadURL']);
     _error_log("aVideoEncoder.json: Got the download " . $downloadURL);
     if ($file) {
-        $temp = "{$global['systemRootPath']}videos/cache/tmpFile/" . uniqid();
+        
+        $_FILES['video']['name'] = basename($downloadURL);
+        
+        $temp = "{$global['systemRootPath']}videos/cache/tmpFile/" . $_FILES['video']['name'];
         _error_log("aVideoEncoder.json: save " . $temp);
         make_path($temp);
         file_put_contents($temp, $file);
