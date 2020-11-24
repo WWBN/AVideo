@@ -96,8 +96,11 @@ if (!empty($_FILES)) {
     _error_log("aVideoEncoder.json: Files " . json_encode($_FILES));
 } else {
     _error_log("aVideoEncoder.json: Files EMPTY");
-    if (!empty($_REQUEST['downloadFileLink'])) {
-        $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_REQUEST['downloadFileLink']);
+    if (!empty($_REQUEST['downloadURL'])) {
+        $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_REQUEST['downloadURL']);
+        if(empty($_FILES['video']['tmp_name'])){
+            _error_log("aVideoEncoder.json: ********  Download ERROR " . $_REQUEST['downloadURL']);
+        }
     }
 }
 
