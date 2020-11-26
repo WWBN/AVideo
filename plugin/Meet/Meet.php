@@ -393,7 +393,7 @@ Passcode: {password}
                     'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'livestreaming', 'etherpad', 'settings', 'raisehand',
-                    'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+                    'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone'
                 ];
             } else {
@@ -401,7 +401,7 @@ Passcode: {password}
                     'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'etherpad', 'settings', 'raisehand',
-                    'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+                    'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                     'tileview', 'download', 'help', 'mute-everyone'
                 ];
             }

@@ -79,12 +79,14 @@ if (empty($meet_schedule_id)) {
             },
             ConfigOverwrite: {
                 disableDeepLinking: true,
+                disableInviteFunctions: true
             },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,
                 DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
                 MOBILE_APP_PROMO: false,
-                disableAudioLevels: true,
+                HIDE_INVITE_MORE_HEADER: true,
+                //disableAudioLevels: true,
                 requireDisplayName: true,
                 enableLayerSuspension: true,
                 channelLastN: 4,
