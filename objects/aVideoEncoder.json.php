@@ -190,6 +190,10 @@ function downloadVideoFromDownloadURL($downloadURL) {
     global $global;
     _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($_POST['downloadURL']);
+    if(strlen($file)<20000){
+        //it is not a video
+        return false;
+    }
     _error_log("aVideoEncoder.json: Got the download " . $downloadURL);
     if ($file) {
         
