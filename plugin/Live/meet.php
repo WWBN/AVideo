@@ -112,7 +112,8 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
         $('#meetLink').val('');
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php',
-            data: {RoomPasswordNew: Math.random().toString(36).substring(6), RoomTopic: $('#title').val(), public: 2},
+            //data: {RoomPasswordNew: Math.random().toString(36).substring(6), RoomTopic: $('#title').val(), public: 2},
+            data: {RoomTopic: $('#title').val(), public: 2},
             type: 'post',
             success: function (response) {
                 if (response.error) {
