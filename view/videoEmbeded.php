@@ -247,6 +247,17 @@ if (User::hasBlockedUser($video['users_id'])) {
                 background-color: rgba(255,255,255,0.8);
                 border-color:  rgba(255,255,255,1);
             }
+            
+            
+            <?php
+            if (empty($controls)) {
+                ?>
+                    .vjs-big-play-button, .vjs-control-bar{
+                        display: none;
+                    }
+                <?php
+            }
+            ?>
         </style>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
