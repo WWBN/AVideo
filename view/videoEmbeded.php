@@ -252,7 +252,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             <?php
             if (empty($controls)) {
                 ?>
-                    .vjs-big-play-button, .vjs-control-bar{
+                    #topInfo, .vjs-big-play-button, .vjs-control-bar{
                         display: none;
                     }
                 <?php
