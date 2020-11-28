@@ -1903,7 +1903,7 @@ function mime_content_type_per_filename($filename) {
     if($ext==='mp4' || $ext==='webm'){
         $securePlugin = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
         if(!empty($securePlugin)){
-            if($securePlugin->useEncoderWatrermarkFromFileName($filename)){
+            if(method_exists($securePlugin, "useEncoderWatrermarkFromFileName") && $securePlugin->useEncoderWatrermarkFromFileName($filename)){
                 return "application/x-mpegURL";
             }
         }
@@ -4098,6 +4098,7 @@ function getButtontCopyToClipboard($elemToCopyId, $attributes = 'class="btn btn-
         });
     </script>
     <?php
+    return $id;
 }
 
 function fakeBrowser($url) {
