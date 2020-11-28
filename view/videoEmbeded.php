@@ -465,7 +465,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         </script>
         <?php
     }
-    if (empty($playerSkinsObj->disableEmbedTopInfo)) {
+    if (empty($playerSkinsObj->disableEmbedTopInfo) || !empty($controls)) {
         ?>
         <div id="topInfo" style="display: none;">
             <a href="<?php echo $url; ?>" target="_blank">
@@ -523,7 +523,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         $(document).ready(function () {
             setInterval(function () {
                 if (typeof player !== 'undefined') {
-                    if (!player.paused() && (!$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                    if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
                         $('#topInfo').fadeOut();
                     } else {
                         $('#topInfo').fadeIn();
@@ -534,6 +534,9 @@ if (User::hasBlockedUser($video['users_id'])) {
             $("iframe, #topInfo").mouseover(function (e) {
                 clearTimeout(topInfoTimeout);
                 $('#mainVideo').addClass("vjs-user-active");
+                topInfoTimeout = setTimeout(function () {
+                    $('#mainVideo').removeClass("vjs-user-active");
+                }, 5000);
             });
 
             $("iframe").mouseout(function (e) {
