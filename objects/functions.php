@@ -1249,7 +1249,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             if (empty($source)) {
                 continue;
             }
-            if (filesize($file)<20000) {
+            if (filesize($file)<20000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
                 continue;
             }
 
