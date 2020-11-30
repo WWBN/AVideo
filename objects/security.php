@@ -25,7 +25,7 @@ if (!empty($_POST['base64Url'])) {
 foreach ($filterURL as $key => $value) {
     if (!empty($_GET[$value])) {
         if (!filter_var($_GET[$value], FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $_GET[$value])) {
-            _error_log($value.' attack ' . json_encode($_SERVER), AVideoLog::$SECURITY);
+            //_error_log($value.' attack ' . json_encode($_SERVER), AVideoLog::$SECURITY);
             unset($_GET[$value]);
         }else{
             $_GET[$value] = str_replace(array("'",'"',"<",">"), array("","","",""), $_GET[$value]);
