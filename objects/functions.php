@@ -2343,6 +2343,16 @@ function isSameDomainAsMyAVideo($url) {
     return isSameDomain($url, $global['webSiteRootURL']);
 }
 
+function requestComesFromSameDomainAsMyAVideo() {
+    global $global;
+    if (!empty($_SERVER['HTTP_REFERER'])) {
+        $url=$_SERVER['HTTP_REFERER'];
+    }elseif (!empty($_SERVER['HTTP_ORIGIN'])) {
+        $url=$_SERVER['HTTP_ORIGIN'];
+    }
+    return isSameDomain($url, $global['webSiteRootURL']);
+}
+
 function isSameDomain($url1, $url2) {
     if (empty($url1) || empty($url2)) {
         return false;
