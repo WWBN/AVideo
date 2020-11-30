@@ -298,7 +298,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <?php
     } else if ($video['type'] == "article") {
         ?>
-        <div id="main-video" class="bgWhite list-group-item" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
+        <div id="main-video" class="bgWhite list-group-item ypt-article" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
             <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
                 <?php
                 echo $video['title'];

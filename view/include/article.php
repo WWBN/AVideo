@@ -16,7 +16,7 @@ $sources = getVideosURLPDF($video['filename']);
                 </button>
             </div>
             <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
-            <div id="main-video" class="bgWhite list-group-item" style="max-height: 80vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
+            <div id="main-video" class="bgWhite list-group-item ypt-article" style="max-height: 80vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
                 <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
                     <?php
                     echo $video['title'];
