@@ -6,7 +6,7 @@ $sources = getVideosURLPDF($video['filename']);
     <div class="col-xs-12 col-sm-12 col-lg-2 firstC"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8 secC">
 
-        <div id="videoContainer">
+        <div id="videoContainer ypt-article-container">
             <div id="floatButtons" style="display: none;">
                 <p class="btn btn-outline btn-xs move">
                     <i class="fas fa-expand-arrows-alt"></i>
