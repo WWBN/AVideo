@@ -19,6 +19,7 @@ $reddit = "http://www.reddit.com/submit?url=$url&title=$title";
 $linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$url&title=$title&summary=&source=$url";
 $wordpress = "http://wordpress.com/press-this.php?u=$url&quote=$title&s=";
 $pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=";
+$parler = "https://https://parler.com/new-post?message={$title}&url={$url}";
 ?>     
 <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
 <ul class="social-network social-circle">
@@ -30,4 +31,5 @@ $pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=
     <li><a href="<?php echo $linkedin; ?>" target="_blank"  class="icoLinkedin" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a></li>
     <li><a href="<?php echo $wordpress; ?>" target="_blank"  class="icoWordpress" title="Wordpress"><i class="fab fa-wordpress-simple"></i></a></li>
     <li><a href="<?php echo $pinboard; ?>" target="_blank"  class="icoPinboard" title="Pinboard"><i class="fas fa-thumbtack"></i></a></li>
+    <li><a href="<?php echo $parler; ?>" target="_blank"  class="icoParler" title="Parler">Parler</a></li>
 </ul>
