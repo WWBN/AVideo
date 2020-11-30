@@ -415,21 +415,22 @@ ENGINE = InnoDB;
 -- Table `playlists`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `playlists` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `created` DATETIME NULL,
-  `modified` DATETIME NULL,
-  `users_id` INT NOT NULL,
+  `created` DATETIME NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL,
+  `users_id` INT(11) NOT NULL,
   `status` ENUM('public', 'private', 'unlisted', 'favorite', 'watch_later') NOT NULL DEFAULT 'public',
+  `showOnTV` TINYINT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_playlists_users1_idx` (`users_id` ASC),
+  INDEX `showOnTVindex3` (`showOnTV` ASC),
   CONSTRAINT `fk_playlists_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `playlists_has_videos`

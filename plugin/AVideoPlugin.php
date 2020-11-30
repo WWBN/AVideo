@@ -300,6 +300,7 @@ class AVideoPlugin {
 
     static function isPluginTablesInstalled($name, $installIt = false) {
         global $global, $isPluginTablesInstalled;
+        $name = self::fixName($name);
         $installSQLFile = "{$global['systemRootPath']}plugin/{$name}/install/install.sql";
         if (isset($isPluginTablesInstalled[$installSQLFile])) {
             return $isPluginTablesInstalled[$installSQLFile];
@@ -486,6 +487,7 @@ class AVideoPlugin {
 
     public static function exists($name) {
         global $global;
+        $name = self::fixName($name);
         $filename = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
         return file_exists($filename);
     }
@@ -1407,6 +1409,13 @@ class AVideoPlugin {
     public static function isPluginOnByDefault($UUID) {
         $UUIDs = self::getPluginsOnByDefault();
         return in_array($UUID, $UUIDs);
+    }
+    
+    static function fixName($name){
+        if($name==='Programs'){
+            return 'PlayLists';
+        }
+        return $name;
     }
 
 }

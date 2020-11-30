@@ -418,7 +418,7 @@ if (typeof gtag !== \"function\") {
         }
         if (!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)) {
             if (file_exists($global['systemRootPath'] . $photo)) {
-                $photo = $global['webSiteRootURL'] . $photo . "?" . filectime($global['systemRootPath'] . $photo);
+                $photo = $global['webSiteRootURL'] . $photo . "?" . filemtime($global['systemRootPath'] . $photo);
             } else {
                 $photo = "";
             }

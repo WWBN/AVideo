@@ -109,14 +109,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             ?>
                             <a href="<?php echo $link; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
                             <?php
-                            if ($isMyChannel && PlayLists::showPlayLiveButton()) {
-                                $liveLink = PlayLists::getLiveLink($program['id']);
-                                if (!empty($liveLink)) {
-                                    ?>
-                                    <a href="<?php echo $liveLink; ?>" class="btn btn-xs btn-default playAll hrefLink" ><i class="fas fa-broadcast-tower"></i> <?php echo __("Play Live"); ?></a>
-                                    <?php
-                                }
-                            }
+                            echo PlayLists::getPlayLiveButton($program['id']);
                         }
                         if ($isMyChannel) {
                             ?>
@@ -213,7 +206,11 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                         ?>
 
                         <div class="panel-body">
-
+                            <?php 
+                            $_REQUEST['user_id'] = $program['users_id'];
+                            $_REQUEST['playlists_id'] = $program['id'];
+                            include $global['systemRootPath'] . 'plugin/PlayLists/epg.html.php';
+                            ?>
                             <div id="sortable<?php echo $program['id']; ?>" style="list-style: none;">
                                 <?php
                                 $count = 0;

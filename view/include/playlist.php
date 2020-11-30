@@ -26,6 +26,11 @@ if (!empty($videoSerie)) {
         <ul class="nav navbar-nav">
             <li class="navbar-header">
                 <a>
+                <div class="pull-right">
+                    <?php
+                    echo PlayLists::getPlayLiveButton($playlist_id);
+                    ?>
+                </div>
                     <h3 class="nopadding">
                         <?php
                         echo $playlist->getName();

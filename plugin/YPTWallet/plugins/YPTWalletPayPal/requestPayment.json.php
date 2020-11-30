@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
-$pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+$pluginS = AVideoPlugin::loadPlugin("YPTWallet");
 $objS = $pluginS->getDataObject();
 
 $obj= new stdClass();

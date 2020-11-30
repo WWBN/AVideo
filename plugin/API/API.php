@@ -212,11 +212,14 @@ class API extends PluginAbstract {
         $parameters['currentPlaylistTime'] = 0;
         foreach ($parameters['videos'] as $key => $value) {
             
-            $parameters['videos'][$key]['path'] = Video::getHigherVideoPathFromID($value['id']);;
+            $parameters['videos'][$key]['path'] = Video::getHigherVideoPathFromID($value['id']);
             if($key && $key<=$parameters['index']){
                 $parameters['currentPlaylistTime'] += durationToSeconds($parameters['videos'][$key-1]['duration']);
             }
             $parameters['totalPlaylistDuration'] += durationToSeconds($parameters['videos'][$key]['duration']);
+            
+            $parameters['videos'][$key]['info'] = Video::getTags($value['id']);
+            $parameters['videos'][$key]['category'] = Category::getCategory($value['categories_id']);
         }
         if(empty($parameters['totalPlaylistDuration'])){
             $parameters['percentage_progress'] = 0;

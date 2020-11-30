@@ -1,0 +1,29 @@
+{playListname}
+{showClock}
+{linkToLive}
+<div class='label label-primary'>Total {totalDuration}</div>
+<div class='label label-primary'>Started {created}</div>
+<div class="progress" style="margin:5px 0 0 0; border-radius: 4px 4px 0 0; height: 10px; display: flex;">
+    <div class="progress-bar progress-bar-danger" role="progressbar" id="percentageEPGProgress{uid}" style="width:{percentage_progress}%"></div>
+</div>
+<div class="progress" style="border-radius: 0 0 4px 4px; overflow:visible;" id="EPGProgress{uid}">
+    {epgBars}
+</div>
+<script>
+    var epgStep{uid} = {epgStep};
+    var epgPercent{uid} = {percentage_progress};
+    var currentTime{uid} = {generated};
+    $(document).ready(function () {
+        setInterval(function () {
+            epgPercent{uid} += epgStep{uid};
+            if (epgPercent{uid} > 100) {
+                epgPercent{uid} = 100;
+            }
+            $("#percentageEPGProgress{uid}").css({"width": epgPercent{uid} + "%"});
+            $(".epgPercentage").text(epgPercent{uid} + "%");
+            currentTime{uid}++;
+            {implode}
+        }, 1000);
+        $('div[data-toggle="tooltip"]').tooltip({container: '#EPGProgress{uid}'});
+    });
+</script>

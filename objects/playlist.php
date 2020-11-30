@@ -10,7 +10,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 class PlayList extends ObjectYPT {
 
-    protected $id, $name, $users_id, $status;
+    protected $id, $name, $users_id, $status, $showOnTV;
     static $validStatus = array('public', 'private', 'unlisted', 'favorite', 'watch_later');
 
     static function getSearchFieldsNames() {
@@ -409,11 +409,20 @@ class PlayList extends ObjectYPT {
     }
 
     static function getVideosIdFromPlaylist($playlists_id) {
+        global $getVideosIdFromPlaylist;
+        if(empty($getVideosIdFromPlaylist)){
+            $getVideosIdFromPlaylist = array();
+        }
+        if(isset($getVideosIdFromPlaylist[$playlists_id])){
+            return $getVideosIdFromPlaylist[$playlists_id];
+        }
         $videosId = array();
         $rows = static::getVideosIDFromPlaylistLight($playlists_id);
         foreach ($rows as $value) {
             $videosId[] = $value['videos_id'];
         }
+        
+        $getVideosIdFromPlaylist[$playlists_id] = $videosId;
         return $videosId;
     }
 
@@ -545,6 +554,55 @@ class PlayList extends ObjectYPT {
             return false;
         }
         return true;
+    }
+    
+    static function getEPG(){
+        global $config, $global;
+        $encoder = $config->_getEncoderURL();
+        $url = "{$encoder}view/videosListEPG.php?date_default_timezone=". urlencode(date_default_timezone_get());
+
+        $content = url_get_contents($url);
+        return json_decode($content);
+    }
+    
+    function getShowOnTV() {
+        return intval($this->showOnTV);
+    }
+
+    function setShowOnTV($showOnTV) {
+        if(strtolower($showOnTV)==="false"){
+            $showOnTV = 0;
+        }else if(strtolower($showOnTV)==="true"){
+            $showOnTV = 1;
+        }
+        $this->showOnTV = intval($showOnTV);
+    }
+    
+    
+
+    static function getAllToShowOnTV() {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT u.*, pl.* FROM  playlists pl "
+                . " LEFT JOIN users u ON users_id = u.id "
+                . " WHERE showOnTV=1 ";
+
+        $sql .= self::getSqlFromPost();
+        //echo $sql;exit;
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $rows[] = $row;
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
     }
 
 }

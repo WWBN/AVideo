@@ -238,7 +238,7 @@ class Configuration {
     function getFavicon($getPNG = false, $getTime = true) {
         $return = self::_getFavicon($getPNG);
         if ($getTime) {
-            return $return['url'] . "?" . filectime($return['file']);
+            return $return['url'] . "?" . filemtime($return['file']);
         } else {
             return $return['url'];
         }

@@ -2728,7 +2728,7 @@ if (!class_exists('Video')) {
             if (substr($type, -4) === ".jpg" || substr($type, -4) === ".png" || substr($type, -4) === ".gif" || substr($type, -4) === ".webp") {
                 $x = uniqid();
                 if (file_exists($source['path'])) {
-                    $x = filectime($source['path']);
+                    $x = filemtime($source['path']);
                 } else if (!empty($video)) {
                     $x = strtotime($video['modified']);
                 }
@@ -2770,6 +2770,7 @@ if (!class_exists('Video')) {
         }
 
         static function getHigestResolution($filename) {
+            $filename = self::getCleanFilenameFromFile($filename);
             $cacheName = "getHigestResolution($filename)";
             $return = ObjectYPT::getCache($cacheName, 0);
             if (!empty($return)) {
@@ -2808,6 +2809,21 @@ if (!class_exists('Video')) {
             TimeLogEnd($name0, __LINE__);
             ObjectYPT::setCache($cacheName, $return);
             return $return;
+        }
+        
+        static function getResolutionFromFilename($filename) {
+            $resolution = false;
+            if(preg_match("/_([0-9]+).(mp4|webm)/i", $filename, $matches)){
+                if(!empty($matches[1])){
+                    $resolution = intval($matches[1]);
+                }
+            }else if(preg_match('/res([0-9]+)\/index.m3u8/i', $filename, $matches)){
+                if(!empty($matches[1])){
+                    $resolution = intval($matches[1]);
+                }
+            }
+            //var_dump($filename, $resolution);exit;
+            return $resolution;
         }
 
         static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false) {

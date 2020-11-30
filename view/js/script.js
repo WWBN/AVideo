@@ -397,13 +397,21 @@ function inIframe() {
         return true;
     }
 }
+
+function playerIsReady(){
+    return (typeof player !== 'undefined' && player.isReady_);
+}
+
 var promisePlaytry = 20;
 var promisePlayTimeoutTime = 500;
 var promisePlayTimeout;
 var promisePlay;
 var browserPreventShowed = false;
 function playerPlay(currentTime) {
-    if (typeof player === 'undefined' || !player.isReady_) {
+    if(currentTime){
+        console.log("playerPlay time:", currentTime);
+    }
+    if (!playerIsReady()) {
         setTimeout(function () {
             playerPlay(currentTime);
         }, 200);
@@ -451,12 +459,20 @@ function playerPlay(currentTime) {
                         }
                     }
                 }).catch(function (error) {
-                    if (promisePlaytry <= 10) {
-                        console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
-                        tryToPlayMuted(currentTime);
-                    } else {
-                        console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to play again");
+                    if(player.networkState()===3){
+                        promisePlaytry = 20;
+                        console.log("playerPlay: Network error detected, trying again");
+                        player.src(player.currentSources());
+                        userIsControling = false;
                         tryToPlay(currentTime);
+                    }else{
+                        if (promisePlaytry <= 10) {
+                            console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
+                            tryToPlayMuted(currentTime);
+                        } else {
+                            console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to play again");
+                            tryToPlay(currentTime);
+                        }
                     }
                 });
             } else {
@@ -821,6 +837,10 @@ function avideoAlert(title, msg, type) {
     } else {
         swal(title, msg, type);
     }
+}
+
+function avideoToast(msg){
+    $.toast(msg);
 }
 
 function avideoAlertHTMLText(title, msg, type) {

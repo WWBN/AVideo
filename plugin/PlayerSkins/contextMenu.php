@@ -88,7 +88,7 @@ if ($canDownloadVideosFromVideo) {
                             }";
     }
 }
-if ($playerSkinsObj->showSocialShareOnEmbed && $playerSkinsObj->contextMenuShare) {
+if ($playerSkinsObj->showSocialShareOnEmbed && $playerSkinsObj->contextMenuShare && CustomizeUser::canShareVideosFromVideo($video['id'])) {
     $contextMenu[] = "{name: '" . __("Share") . "',
                         onClick: function () {
                         showSharing();

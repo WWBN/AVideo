@@ -120,6 +120,23 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         return $row;
     }
+    
+    
+    static function getLatestFromUser($users_id) {
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `users_id` = ? ORDER BY created DESC LIMIT 1";
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
+
+        $res = sqlDAL::readSql($sql, "i", array($users_id));
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
+    }
 
     public function save() {
         if (empty($this->live_servers_id)) {

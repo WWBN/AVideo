@@ -1,4 +1,3 @@
-<link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
 <style>
     .liveVideo{
         position: relative;

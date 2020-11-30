@@ -12,3 +12,8 @@
 .vjs-playlist .vjs-up-next-text {
     font-size: .8em;
 }
+.playListIsLive .fas{
+    -webkit-animation: flash 2s ease infinite;
+    animation: flash 2s ease infinite;
+    color: red;
+}
