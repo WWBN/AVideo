@@ -526,12 +526,12 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                     $('.renamePlaylist').click(function () {
                         currentObject = this;
                         swal({
-                            title: "<?php echo __("Change Playlist Name"); ?>!",
-                            text: "<?php echo __("What is the new name?"); ?>",
-                            type: "input",
-                            showCancelButton: true,
-                            closeOnConfirm: true,
-                            inputPlaceholder: "<?php echo __("Playlist name?"); ?>"
+                            text: "<?php echo __("Change Playlist Name"); ?>!",
+                            content: "input",
+                            button: {
+                                text: "<?php echo __("Confirm Playlist name"); ?>",
+                                closeModal: false,
+                            },
                         }).then(function (name) {
                             if (!name)
                                 throw null;
