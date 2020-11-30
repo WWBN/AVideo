@@ -679,12 +679,31 @@ class PlayLists extends PluginAbstract {
     
     static function getPlaylistLiveServersID($playlists_id, $users_id = 0){
         $json = self::getPlayListEPG($playlists_id, $users_id);
-        return intval($json['live_servers_id']);
+        
+        if(!empty($json)){
+            return intval($json['live_servers_id']);
+        }
+        
+        if (empty($users_id)) {
+            $pl = new PlayList($playlists_id);
+            $users_id = ($pl->getUsers_id());
+        }
+        $last = LiveTransmitionHistory::getLatestFromUser($users_id);
+        return $last['live_servers_id'];
     }
     
     static function getPlaylistLiveKey($playlists_id, $users_id = 0){
         $json = self::getPlayListEPG($playlists_id, $users_id);
-        return $json['key'];
+        if(!empty($json['key'])){
+            return $json['key'];
+        }
+        
+        if (empty($users_id)) {
+            $pl = new PlayList($playlists_id);
+            $users_id = ($pl->getUsers_id());
+        }
+        $last = LiveTransmitionHistory::getLatestFromUser($users_id);
+        return $last['key'];
     }
     
     public function getLivePosterImage($playlists_id) {
