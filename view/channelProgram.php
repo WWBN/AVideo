@@ -526,16 +526,17 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                     $('.renamePlaylist').click(function () {
                         currentObject = this;
                         swal({
-                            text: "<?php echo __("Change Playlist Name"); ?>!",
-                            content: "input",
-                            button: {
-                                text: "<?php echo __("Confirm Playlist name"); ?>",
-                                closeModal: false,
-                            },
+                            title: "<?php echo __("Change Playlist Name"); ?>!",
+                            text: "<?php echo __("What is the new name?"); ?>",
+                            type: "input",
+                            showCancelButton: true,
+                            closeOnConfirm: true,
+                            inputPlaceholder: "<?php echo __("Playlist name?"); ?>"
                         }).then(function (name) {
                             if (!name)
                                 throw null;
                             modal.showPleaseWait();
+                            var playlist_id = $(currentObject).attr('playlist_id');
                             console.log(playlist_id);
                             return fetch('<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php?playlist_id=' + playlist_id + '&name=' + encodeURI(name));
                         }).then(function (results) {
@@ -559,6 +560,8 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                             }
                             modal.hidePleaseWait();
                         });
+                        ;
+
                     });
 
                     $('.sortNow').click(function () {
