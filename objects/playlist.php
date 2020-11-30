@@ -455,6 +455,7 @@ class PlayList extends ObjectYPT {
         $this->clearEmptyLists();
         $users_id = User::getId();
         $this->setUsers_id($users_id);
+        $this->showOnTV = intval($this->showOnTV);
         $playlists_id = parent::save();
         if (!empty($playlists_id)) {
             self::deleteCache("getVideosFromPlaylist{$playlists_id}");
