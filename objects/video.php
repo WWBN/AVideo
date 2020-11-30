@@ -2748,6 +2748,13 @@ if (!class_exists('Video')) {
                         '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2'),
                     array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), $filename);
             $path_parts = pathinfo($cleanName);
+            
+            if (!empty($path_parts["extension"]) && $path_parts["extension"] === "m3u8") {
+                preg_match('/videos\/([^\/]+)/', $path_parts["dirname"], $matches);
+                if(!empty($matches[1])){
+                    $path_parts['filename'] = $matches[1];
+                }
+            }
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
                 if (!empty($path_parts['filename'])) {
@@ -3244,18 +3251,25 @@ if (!class_exists('Video')) {
                 if (empty($clean_title)) {
                     $clean_title = $video->getClean_title();
                 }
-
+                
+                $subDir = "video";
+                $subEmbedDir = "videoEmbed";
+                if($video->getType()=='article'){
+                    $subDir = "article";
+                    $subEmbedDir = "articleEmbed";
+                }
+                
                 if ($embed) {
                     if (empty($advancedCustom->useVideoIDOnSEOLinks)) {
-                        return "{$global['webSiteRootURL']}videoEmbed/{$clean_title}{$get_http}";
+                        return "{$global['webSiteRootURL']}{$subEmbedDir}/{$clean_title}{$get_http}";
                     } else {
-                        return "{$global['webSiteRootURL']}videoEmbed/{$videos_id}/{$clean_title}{$get_http}";
+                        return "{$global['webSiteRootURL']}{$subEmbedDir}/{$videos_id}/{$clean_title}{$get_http}";
                     }
                 } else {
                     if (empty($advancedCustom->useVideoIDOnSEOLinks)) {
-                        return "{$global['webSiteRootURL']}{$cat}video/{$clean_title}{$get_http}";
+                        return "{$global['webSiteRootURL']}{$cat}{$subDir}/{$clean_title}{$get_http}";
                     } else {
-                        return "{$global['webSiteRootURL']}video/{$videos_id}/{$clean_title}{$get_http}";
+                        return "{$global['webSiteRootURL']}{$subDir}/{$videos_id}/{$clean_title}{$get_http}";
                     }
                 }
             } else {

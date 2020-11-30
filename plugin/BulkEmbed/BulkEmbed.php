@@ -28,7 +28,7 @@ class BulkEmbed extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "1.1";
     }
 
     public function getEmptyDataObject() {
@@ -49,7 +49,7 @@ class BulkEmbed extends PluginAbstract {
     public function getUploadMenuButton(){
         global $global;
         $obj = $this->getDataObject();
-        if($obj->onlyAdminCanBulkEmbed && !User::isAdmin()){
+        if(($obj->onlyAdminCanBulkEmbed && !User::isAdmin()) || !User::canUpload()){
             return '';
         }
         

@@ -1131,166 +1131,6 @@ function getVideosURLAudio($fileName) {
 function getVideosURL($fileName, $cache = true) {
 
     return getVideosURL_V2($fileName); // disable this function soon
-    /*
-      global $global;
-      if (empty($fileName)) {
-      return array();
-      }
-      $time = microtime();
-      $time = explode(' ', $time);
-      $time = $time[1] + $time[0];
-      $start = $time;
-
-      $path = getCacheDir() . "getVideosURL/";
-      make_path($path);
-      $cacheFilename = "{$path}{$fileName}.cache";
-      //var_dump($cacheFilename, recreateCache($cacheFilename), minimumExpirationTime());$pdf = "{$global['systemRootPath']}videos/{$fileName}.pdf";
-      $pdf = "{$global['systemRootPath']}videos/{$fileName}.pdf";
-      $mp3 = "{$global['systemRootPath']}videos/{$fileName}.mp3";
-      if (file_exists($pdf)) {
-      return getVideosURLPDF($fileName);
-      } else if (file_exists($mp3)) {
-      return getVideosURLAudio($fileName);
-      } else
-      if (file_exists($cacheFilename) && $cache && !recreateCache($cacheFilename)) {
-      $json = file_get_contents($cacheFilename);
-      $time = microtime();
-      $time = explode(' ', $time);
-      $time = $time[1] + $time[0];
-      $finish = $time;
-      $total_time = round(($finish - $start), 4);
-      //_error_log("getVideosURL Cache in {$total_time} seconds. fileName: $fileName ");
-      //_error_log("getVideosURL age: " . (time() - filemtime($cacheFilename)) . " minimumExpirationTime: " . minimumExpirationTime());
-      return object_to_array(json_decode($json));
-      }
-      global $global;
-      $types = array('', '_Low', '_SD', '_HD');
-      $files = array();
-      // old
-      require_once $global['systemRootPath'] . 'objects/video.php';
-
-      $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
-      if (!empty($plugin)) {
-      $files = VideoHLS::getSourceFile($fileName);
-      }
-
-      foreach ($types as $key => $value) {
-      $filename = "{$fileName}{$value}";
-      $source = Video::getSourceFile($filename, ".webm");
-      $file = $source['path'];
-      if (file_exists($file)) {
-      $files["webm{$value}"] = array(
-      'filename' => "{$fileName}{$value}.webm",
-      'path' => $file,
-      'url' => $source['url'],
-      'type' => 'video',
-      );
-      }
-      $source = Video::getSourceFile($filename, ".mp4");
-      $file = $source['path'];
-      if (file_exists($file)) {
-      $files["mp4{$value}"] = array(
-      'filename' => "{$fileName}{$value}.mp4",
-      'path' => $file,
-      'url' => $source['url'],
-      'type' => 'video',
-      );
-      }
-      $source = Video::getSourceFile($filename, ".mp3");
-      $file = $source['path'];
-      if (file_exists($file)) {
-      $files["mp3{$value}"] = array(
-      'filename' => "{$fileName}{$value}.ogg",
-      'path' => $file,
-      'url' => $source['url'],
-      'type' => 'audio',
-      );
-      }
-      $source = Video::getSourceFile($filename, ".ogg");
-      $file = $source['path'];
-      if (file_exists($file)) {
-      $files["ogg{$value}"] = array(
-      'filename' => "{$fileName}{$value}.ogg",
-      'path' => $file,
-      'url' => $source['url'],
-      'type' => 'audio',
-      );
-      }
-      if (empty($value)) {
-      $source = Video::getSourceFile($filename, ".jpg");
-      $file = $source['path'];
-      if (file_exists($file)) {
-      $files["jpg"] = array(
-      'filename' => "{$fileName}.jpg",
-      'path' => $file,
-      'url' => $source['url'],
-      'type' => 'image',
-      );
-      } else {
-      $files["jpg"] = array(
-      'filename' => "notfound.jpg",
-      'path' => "{$global['systemRootPath']}view/img/notfound.jpg",
-      'url' => "{$global['webSiteRootURL']}view/img/notfound.jpg",
-      'type' => 'image',
-      );
-      }
-      $source = Video::getSourceFile($filename, ".gif");
-      $file = $source['path'];
-      if (file_exists($file)) {
-      $files["gif"] = array(
-      'filename' => "{$fileName}.gif",
-      'path' => $file,
-      'url' => $source['url'],
-      'type' => 'image',
-      );
-      } else {
-      $files["gif"] = array(
-      'filename' => "static2.jpg",
-      'path' => "{$global['systemRootPath']}view/img/static2.jpg",
-      'url' => "{$global['webSiteRootURL']}view/img/static2.jpg",
-      'type' => 'image',
-      );
-      }
-      $source = Video::getSourceFile($filename, ".webp");
-      $file = $source['path'];
-      if (file_exists($file)) {
-      $files["gif"] = array(
-      'filename' => "{$fileName}.webp",
-      'path' => $file,
-      'url' => $source['url'],
-      'type' => 'image',
-      );
-      }
-      $source = Video::getSourceFile($filename, "_portrait.jpg");
-      $file = $source['path'];
-      if (file_exists($file)) {
-      $files["pjpg"] = array(
-      'filename' => "{$fileName}_portrait.jpg",
-      'path' => $file,
-      'url' => $source['url'],
-      'type' => 'image',
-      );
-      } else {
-      $files["pjpg"] = array(
-      'filename' => "notfound_portrait.jpg",
-      'path' => "{$global['systemRootPath']}view/img/notfound_portrait.jpg",
-      'url' => "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg",
-      'type' => 'image',
-      );
-      }
-      }
-      make_path($cacheFilename);
-      file_put_contents($cacheFilename, json_encode($files));
-      }
-      $time = microtime();
-      $time = explode(' ', $time);
-      $time = $time[1] + $time[0];
-      $finish = $time;
-      $total_time = round(($finish - $start), 4);
-      //_error_log("getVideosURL generated in {$total_time} seconds. fileName: $fileName ");
-      return $files;
-     * 
-     */
 }
 
 function getVideosURLMP4Only($fileName) {
@@ -1407,6 +1247,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
             if (empty($source)) {
+                continue;
+            }
+            if (filesize($file)<20000) {
                 continue;
             }
 
@@ -2056,6 +1899,16 @@ function mime_content_type_per_filename($filename) {
     } else {
         $ext = pathinfo(parse_url($filename, PHP_URL_PATH), PATHINFO_EXTENSION);
     }
+    
+    if($ext==='mp4' || $ext==='webm'){
+        $securePlugin = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
+        if(!empty($securePlugin)){
+            if(method_exists($securePlugin, "useEncoderWatrermarkFromFileName") && $securePlugin->useEncoderWatrermarkFromFileName($filename)){
+                return "application/x-mpegURL";
+            }
+        }
+    }
+    
     if (array_key_exists($ext, $mime_types)) {
         return $mime_types[$ext];
     } elseif (function_exists('finfo_open')) {
@@ -4245,6 +4098,7 @@ function getButtontCopyToClipboard($elemToCopyId, $attributes = 'class="btn btn-
         });
     </script>
     <?php
+    return $id;
 }
 
 function fakeBrowser($url) {

@@ -269,7 +269,11 @@ if (typeof gtag !== \"function\") {
             }
         }
         if(empty($users_id)){
-            return $name . "_" . uniqid();
+            $newChannelName = $name . "_" . uniqid();
+            if(strlen($newChannelName)>40){
+                $newChannelName = uniqid();
+            }
+            return $newChannelName;
         }
         if ($try > 10) {
             _error_log("User:_recommendChannelName too many tries ({$name}) (" . User::getId() . ") ", AVideoLog::$ERROR);

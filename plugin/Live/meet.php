@@ -55,6 +55,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
     <input type="hidden" value="" id="meetPassword"/>
     <?php
     getButtontCopyToClipboard('meetLink', 'class="btn btn-default btn-sm btn-xs showOnMeetReady hideOnMeetNotReady meetLink"', __("Copy Meet Link"));
+    getButtontCopyToClipboard('meetPassword', 'class="btn btn-default btn-sm btn-xs showOnMeetReady hideOnMeetNotReady meetLink"', __("Copy Meet Password"));
     getButtontCopyToClipboard('avideoURL', 'class="btn btn-default btn-sm btn-xs  hideOnMeetNotReady showOnLive hideOnNoLive meetLink"', __("Copy Live Link"));
     if (Meet::isCustomJitsi() && User::isAdmin()) {
         ?>
@@ -113,6 +114,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php',
             data: {RoomPasswordNew: Math.random().toString(36).substring(6), RoomTopic: $('#title').val(), public: 2},
+            //data: {RoomTopic: $('#title').val(), public: 2},
             type: 'post',
             success: function (response) {
                 if (response.error) {
@@ -123,6 +125,8 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
                     aVideoMeetStart('<?php echo $domain; ?>', response.roomName, response.jwt, '<?php echo User::getEmail_(); ?>', '<?php echo User::getNameIdentification(); ?>', <?php echo json_encode(Meet::getButtons(0)); ?>);
                     
                     meetPassword = response.password;
+                    $('#meetPassword').val(meetPassword);
+                    
                     meetLink = response.link;
                     $('#meetLink').val(meetLink);
 <?php echo (Meet::isCustomJitsi() ? 'event_on_meetReady();$("#startRecording").hide();$("#stopRecording").hide();' : "") ?>

@@ -137,6 +137,7 @@ class CustomizeUser extends PluginAbstract {
 
     public function getUserOptions() {
         $obj = $this->getDataObject();
+        $userOptions = array();
         if ($obj->Checkmark1Enabled) {
             $userOptions["Checkmark 1"] = "checkmark1";
         }
