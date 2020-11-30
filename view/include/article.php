@@ -2,7 +2,7 @@
 $sources = getVideosURLPDF($video['filename']);
 //var_dump($sources);exit;
 ?>
-<div class="row main-video" style="padding: 10px;" id="mvideo">
+<div class="row main-video ypt-main-article" style="padding: 10px;" id="mvideo">
     <div class="col-xs-12 col-sm-12 col-lg-2 firstC"></div>
     <div class="col-xs-12 col-sm-12 col-lg-8 secC">
 
