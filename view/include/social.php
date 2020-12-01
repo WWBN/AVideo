@@ -19,7 +19,7 @@ $reddit = "http://www.reddit.com/submit?url=$url&title=$title";
 $linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$url&title=$title&summary=&source=$url";
 $wordpress = "http://wordpress.com/press-this.php?u=$url&quote=$title&s=";
 $pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=";
-$parler = "https://https://parler.com/new-post?message={$title}&url={$url}";
+$parler = "https://parler.com/new-post?message={$title}&url={$url}";
 ?>     
 <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
 <ul class="social-network social-circle">
