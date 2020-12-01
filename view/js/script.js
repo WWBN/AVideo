@@ -407,12 +407,14 @@ var promisePlayTimeoutTime = 500;
 var promisePlayTimeout;
 var promisePlay;
 var browserPreventShowed = false;
+var playerPlayTimeout;
 function playerPlay(currentTime) {
+    clearTimeout(playerPlayTimeout);
     if(currentTime){
         console.log("playerPlay time:", currentTime);
     }
     if (!playerIsReady()) {
-        setTimeout(function () {
+        playerPlayTimeout = setTimeout(function () {
             playerPlay(currentTime);
         }, 200);
         return false;
@@ -532,7 +534,9 @@ function tryToPlay(currentTime) {
     clearTimeout(promisePlayTimeout);
     promisePlayTimeout = setTimeout(function () {
         if (player.paused()) {
-            playerPlay(currentTime);
+            playerPlayTimeout = setTimeout(function () {
+                playerPlay(currentTime);
+            }, 200);
         }
     }, promisePlayTimeoutTime);
 }
@@ -564,7 +568,9 @@ function muteInCookieAllow() {
 
 function playMuted(currentTime) {
     muteInCookieAllow();
-    return playerPlay(currentTime);
+    playerPlayTimeout = setTimeout(function () {
+        playerPlay(currentTime);
+    }, 200);
 }
 
 function showMuteTooltip() {
@@ -603,7 +609,9 @@ function showMuteTooltip() {
 
 function playerPlayIfAutoPlay(currentTime) {
     if (isAutoplayEnabled()) {
-        playerPlay(currentTime);
+        playerPlayTimeout = setTimeout(function () {
+            playerPlay(currentTime);
+        }, 200);
         return true;
     }
     setCurrentTime(currentTime);
@@ -659,7 +667,9 @@ function playNext(url) {
     } else if (isPlayerLoop()) {
         $.toast("Looping video");
         userIsControling = false;
-        playerPlay(0);
+        playerPlayTimeout = setTimeout(function () {
+            playerPlay(currentTime);
+        }, 200);
     }
 }
 
