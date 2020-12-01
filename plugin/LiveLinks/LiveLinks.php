@@ -190,9 +190,9 @@ class LiveLinks extends PluginAbstract {
         //return "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$id}".($embed?"&embed=1":"");
         $ll = new LiveLinksTable($id);
         if(!$embed){
-            return "{$global['webSiteRootURL']}liveLink/{$id}/". urlencode(str_replace("/", "", $ll->getTitle()));
+            return "{$global['webSiteRootURL']}liveLink/{$id}/". urlencode(cleanURLName($ll->getTitle()));
         }else{
-            return "{$global['webSiteRootURL']}liveLinkEmbed/{$id}/". urlencode(str_replace("/", "", $ll->getTitle()));
+            return "{$global['webSiteRootURL']}liveLinkEmbed/{$id}/". urlencode(cleanURLName($ll->getTitle()));
         }
     }
 
