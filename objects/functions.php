@@ -371,7 +371,7 @@ function cleanString($text) {
 
 function cleanURLName($name) {
     $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]% ]+/', '-', trim(strtolower(cleanString($name))));
-    return preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
+    return trim(preg_replace('/[\x00-\x1F\x7F]/u', '', $name),"-");
 }
 
 /**
