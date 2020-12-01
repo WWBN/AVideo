@@ -9,7 +9,7 @@ if((empty($url) || empty($title)) && !empty($video['id'])){
         $title = $video['title'];
     }
 }
-
+$url = urlencode($url);
 //set the $url and the $title before include this
 $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
 $twitterURL = "http://twitter.com/intent/tweet?text={$title}+{$url}";
