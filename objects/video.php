@@ -2768,6 +2768,48 @@ if (!class_exists('Video')) {
                 return $path_parts['filename'];
             }
         }
+        
+        static function getSpecificResolution($filename, $desired_resolution) {
+            $filename = self::getCleanFilenameFromFile($filename);
+            $cacheName = "getSpecificResolution($filename)";
+            $return = ObjectYPT::getCache($cacheName, 0);
+            if (!empty($return)) {
+                return object_to_array($return);
+            }
+            $name0 = "Video:::getSpecificResolution($filename)";
+            TimeLogStart($name0);
+            $name1 = "Video:::getSpecificResolution::getVideosURL_V2($filename)";
+            TimeLogStart($name1);
+            $sources = getVideosURL_V2($filename);
+            if (!is_array($sources)) {
+                _error_log("Video:::getSpecificResolution::getVideosURL_V2($filename) does not return an array " . json_encode($sources));
+                return array();
+            }
+            TimeLogEnd($name1, __LINE__);
+            $return = array();
+            foreach ($sources as $key => $value) {
+                if ($value['type'] === 'video') {
+                    $parts = explode("_", $key);
+                    $resolution = intval(@$parts[1]);
+                    if (empty($resolution)) {
+                        $name2 = "Video:::getSpecificResolution::getResolution({$value["path"]})";
+                        TimeLogStart($name2);
+                        $resolution = self::getResolution($value["path"]);
+                        TimeLogEnd($name2, __LINE__);
+                    }
+                    if (!isset($return['resolution']) || $resolution == $desired_resolution) {
+                        $return = $value;
+                        $return['resolution'] = $resolution;
+                        $return['resolution_text'] = getResolutionText($return['resolution']);
+                        $return['resolution_label'] = getResolutionLabel($return['resolution']);
+                        $return['resolution_string'] = trim($resolution . "p {$return['resolution_label']}");
+                    }
+                }
+            }
+            TimeLogEnd($name0, __LINE__);
+            ObjectYPT::setCache($cacheName, $return);
+            return $return;
+        }
 
         static function getHigestResolution($filename) {
             $filename = self::getCleanFilenameFromFile($filename);
