@@ -2628,7 +2628,9 @@ if (!class_exists('Video')) {
             //}
             $cacheName = md5($filename . $type . $includeS3);
             if (isset($VideoGetSourceFile[$cacheName])) {
-                return $VideoGetSourceFile[$cacheName];
+                if(!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])){
+                    return $VideoGetSourceFile[$cacheName];
+                }
             }
 
 
