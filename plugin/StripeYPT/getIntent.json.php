@@ -41,8 +41,16 @@ if (empty($value)) {
 }
 
 $currency = $walletObject->currency;
+$metadata = array(
+    "users_id" => User::getId(),
+    "plans_id" => @$_REQUEST['plans_id'],
+    "plugin" => @$_REQUEST['plugin'],
+    "json" => @$_REQUEST['json'],
+    "recurrent" => @$_REQUEST['recurrent'],
+    "singlePayment" => @$_REQUEST['singlePayment'],
+);
 
-$intent = $stripe->getIntent($value, $currency, @$_REQUEST['description']);
+$intent = $stripe->getIntent($value, $currency, @$_REQUEST['description'], $metadata);
 
 $obj->client_secret = $intent->client_secret;
 $obj->error = empty($obj->client_secret);

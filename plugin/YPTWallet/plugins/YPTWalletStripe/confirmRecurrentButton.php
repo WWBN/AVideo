@@ -108,25 +108,7 @@ $uid = uniqid();
     var form<?php echo $uid; ?> = document.getElementById('payment-form<?php echo $uid; ?>');
     form<?php echo $uid; ?>.addEventListener('submit', function (event) {
         event.preventDefault();
-        /*
-         stripe<?php echo $uid; ?>.createToken(card<?php echo $uid; ?>).then(function (result) {
-         console.log(result);
-         if (result.error) {
-         // Inform the user if there was an error.
-         var errorElement = document.getElementById('card-errors<?php echo $uid; ?>');
-         errorElement.textContent = result.error.message;
-         } else {
-         // Send the token to your server.
-         stripeTokenHandler<?php echo $uid; ?>(result.token);
-         }
-         });
-         */
-        stripe<?php echo $uid; ?>.confirmCardPayment(
-                INTENT_SECRET_FROM_STEP_1,
-                {
-                    payment_method: {card: card<?php echo $uid; ?>}
-                }
-        ).then(function (result) {
+        stripe<?php echo $uid; ?>.createToken(card<?php echo $uid; ?>).then(function (result) {
             console.log(result);
             if (result.error) {
                 // Inform the user if there was an error.

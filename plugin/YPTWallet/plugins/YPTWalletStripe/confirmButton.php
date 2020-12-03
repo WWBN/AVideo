@@ -111,7 +111,10 @@ $uid = uniqid();
             url: '<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/getIntent.json.php',
             data: {
                 "value": $('#value<?php echo @$_GET['plans_id']; ?>').val(),
-                "description": $('#description<?php echo @$_GET['plans_id']; ?>').val()
+                "description": $('#description<?php echo @$_GET['plans_id']; ?>').val(),
+                "plans_id": "<?php echo @$_GET['plans_id']; ?>",
+                "plugin": "<?php echo @$_REQUEST['plugin']; ?>",
+                "singlePayment": 1
             },
             type: 'post',
             success: function (response) {

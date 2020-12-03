@@ -95,16 +95,21 @@ class StripeYPT extends PluginAbstract {
         ]);
     }
 
-    public function getIntent($total = '1.00', $currency = "USD", $description = "") {
+    public function getIntent($total = '1.00', $currency = "USD", $description = "", $metadata=array()) {
         global $global;
         $this->start();
         $total = number_format(floatval($total), 2, "", "");
+        $users_id = User::getId();
+        if(empty($description)){
+            $description = $config->getWebSiteTitle() . " Payment";
+        }
         _error_log("StripeYPT::getIntent $total , $currency, $description");
         try {
             $intent = \Stripe\PaymentIntent::create([
                         'amount' => $total,
                         'currency' => $currency,
                         'description' => $description,
+                        'metadata' => $metadata,
             ]);
 
             _error_log("StripeYPT::getIntent success " . json_encode($intent));
@@ -263,6 +268,7 @@ class StripeYPT extends PluginAbstract {
                     ],
                     'nickname' => $name,
                     'amount' => self::removeDot($total),
+                    'metadata'=>array('users_id'=> User::getId(), 'recurrent'=> 1)
         ]);
     }
 
@@ -401,6 +407,22 @@ class StripeYPT extends PluginAbstract {
             if (!empty($plans_id)) {
                 Subscription::renew($users_id, $plans_id);
             }
+        }
+    }
+    
+    static function isSinglePayment($payload){
+        return !empty($payload->data->object->metadata->singlePayment);
+    }
+    
+    function processSinglePaymentIPN($payload) {
+        if (!is_object($payload)) {
+            return false;
+        }
+        $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+        $payment_amount = StripeYPT::addDot($payload->data->object->amount);
+        $users_id = $payload->data->object->metadata->users_id;
+        if (!empty($users_id)) {
+            $pluginS->addBalance($users_id, $payment_amount, "Stripe single payment: " . $payload->data->object->description, json_encode($payload));
         }
     }
 
