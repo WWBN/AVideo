@@ -44,11 +44,11 @@ try {
     );
     _error_log("Stripe IPN Valid payload and signature");
     _error_log("Stripe processSubscriptionIPN: " . json_encode($payloadObj));
-    if ($payloadObj->type !== "invoice.payment_succeeded") {
+    if (StripeYPT::isSubscriptionPayment($payloadObj)) {
         _error_log("StripeIPN: Subscription" );
         // subscription
         $stripe->processSubscriptionIPN($payloadObj);
-    } else if ($payloadObj->type !== "charge.succeeded" && StripeYPT::isSinglePayment($payload)) {
+    } else if (StripeYPT::isSinglePayment($payloadObj)) {
         _error_log("StripeIPN: SinglePayment" );
         $stripe->processSinglePaymentIPN($payloadObj);
     }else{

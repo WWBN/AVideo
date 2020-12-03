@@ -411,7 +411,11 @@ class StripeYPT extends PluginAbstract {
     }
     
     static function isSinglePayment($payload){
-        return !empty($payload->data->object->metadata->singlePayment);
+        return $payload->type !== "invoice.payment_succeeded" && !empty($payload->data->object->metadata->singlePayment);
+    }
+    
+    static function isSubscriptionPayment($payload){
+        return $payload->type !== "charge.succeeded" && !empty($payload->data->object->customer);
     }
     
     function processSinglePaymentIPN($payload) {
