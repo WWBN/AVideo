@@ -14,6 +14,7 @@ class StripeYPT extends PluginAbstract {
             PluginTags::$FREE,
         );
     }
+
     public function getDescription() {
         $str = "Stripe module for several purposes<br>
             Go to Stripe dashboard Site <a href='https://dashboard.stripe.com/apikeys'>here</a>  (you must have Stripe account, of course)<br>";
@@ -94,6 +95,27 @@ class StripeYPT extends PluginAbstract {
         ]);
     }
 
+    public function getIntent($total = '1.00', $currency = "USD", $description = "") {
+        global $global;
+        $this->start();
+        $total = number_format(floatval($total), 2, "", "");
+        _error_log("StripeYPT::getIntent $total , $currency, $description");
+        try {
+            $intent = \Stripe\PaymentIntent::create([
+                        'amount' => $total,
+                        'currency' => $currency,
+                        'description' => $description,
+            ]);
+
+            _error_log("StripeYPT::getIntent success " . json_encode($intent));
+            return $intent;
+        } catch (Exception $exc) {
+            _error_log("StripeYPT::getIntent error " . $exc->getMessage());
+            _error_log($exc->getTraceAsString());
+        }
+        return false;
+    }
+
     public function setUpPayment($total = '1.00', $currency = "USD", $description = "") {
         global $global;
         $this->start();
@@ -108,13 +130,14 @@ class StripeYPT extends PluginAbstract {
                             'description' => $description,
                             'source' => $token,
                 ]);
-                _error_log("StripeYPT::setUpPayment charge ".  json_encode($charge));
+
+                _error_log("StripeYPT::setUpPayment charge " . json_encode($charge));
                 return $charge;
             } catch (Exception $exc) {
-                _error_log("StripeYPT::setUpPayment error ".$exc->getMessage());
+                _error_log("StripeYPT::setUpPayment error " . $exc->getMessage());
                 _error_log($exc->getTraceAsString());
             }
-        }else{
+        } else {
             _error_log("StripeYPT::setUpPayment stipeToken empty");
         }
         return false;
@@ -149,7 +172,7 @@ class StripeYPT extends PluginAbstract {
     }
 
     static function isPaymentOk($payment, $value, $currency) {
-        _error_log("isPaymentOk: ".  json_encode($payment));
+        _error_log("isPaymentOk: " . json_encode($payment));
         _error_log("isPaymentOk: $value, $currency");
         if (!is_object($payment)) {
             _error_log("isPaymentOk: NOT object");

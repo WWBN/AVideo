@@ -582,5 +582,25 @@ class YPTWallet extends PluginAbstract {
         }
         return true;
     }
+    
+    static function getUserBalance($users_id=0){
+        if(empty($users_id)){
+            $users_id = User::getId();
+        }
+        if(empty($users_id)){
+            return 0;
+        }
+        $wallet = self::getWallet($users_id_to);
+        return $wallet->getBalance();
+    }
+    
+    public function getFooterCode() {
+        global $global;
+        $obj = $this->getDataObject();
+        $js = "";
+        $js .= "<script src=\"{$global['webSiteRootURL']}plugin/YPTWallet/script.js\"></script>";
+
+        return $js;
+    }
 
 }
