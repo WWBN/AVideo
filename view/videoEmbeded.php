@@ -39,7 +39,7 @@ if (empty($customizedAdvanced)) {
     $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 }
 
-if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {
+if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && !isAVideoMobileApp()) {
     if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($video['id'])) {
         if(!empty($advancedCustomUser->blockEmbedFromSharedVideos)){
             error_log("Embed is forbidden: \$advancedCustomUser->blockEmbedFromSharedVideos");
