@@ -133,7 +133,7 @@ class Meet_schedule extends ObjectYPT {
     }  
     
     function getCleanName(){
-        return cleanString($this->name);
+        return cleanURLName($this->name);
     }
  
     function getMeet_code() {
