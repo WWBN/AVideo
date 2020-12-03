@@ -12,10 +12,6 @@ if (empty($obj)) {
     die("Plugin disabled");
 }
 
-if (!User::canCreateMeet()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
-    exit;
-}
 $userCredentials = User::loginFromRequestToGet();
 if (empty($meet_scheduled)) {
     $meet_scheduled = cleanString($_REQUEST['meet_scheduled']);
@@ -23,6 +19,9 @@ if (empty($meet_scheduled)) {
 
 if (empty($manageMeetings)) {
     $manageMeetings = intval($_REQUEST['manageMeetings']);
+}
+if (!User::canCreateMeet()) {
+    $manageMeetings = false;
 }
 ?>
 
