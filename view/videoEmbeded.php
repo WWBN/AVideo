@@ -41,6 +41,12 @@ if (empty($customizedAdvanced)) {
 
 if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {
     if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($video['id'])) {
+        if(!empty($advancedCustomUser->blockEmbedFromSharedVideos)){
+            error_log("Embed is forbidden: \$advancedCustomUser->blockEmbedFromSharedVideos");
+        }
+        if(!CustomizeUser::canShareVideosFromVideo($video['id'])){
+            error_log("Embed is forbidden: !CustomizeUser::canShareVideosFromVideo(\$video['id'])");
+        }
         forbiddenPage("Embed is forbidden");
     }
 }
