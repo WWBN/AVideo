@@ -3,7 +3,7 @@
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 
-if(!requestComesFromSameDomainAsMyAVideo()){
+if(!requestComesFromSafePlace()){
     _error_log("Why are you requesting this ".getSelfURI()." ".json_encode($_SERVER));
     die();
 }

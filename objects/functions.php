@@ -2326,6 +2326,24 @@ function isAVideoEncoder($user_agent = "") {
     return false;
 }
 
+function isAVideo($user_agent = "") {
+    if (empty($user_agent)) {
+        $user_agent = @$_SERVER['HTTP_USER_AGENT'];
+    }
+    if (empty($user_agent)) {
+        return false;
+    }
+    global $AVideoEncoder_UA;
+    if (preg_match("/AVideo(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)) {
+        $url = trim($match[1]);
+        if (!empty($url)) {
+            return $url;
+        }
+        return true;
+    }
+    return false;
+}
+
 function isAVideoEncoderOnSameDomain() {
     $url = isAVideoEncoder();
     if (empty($url)) {
@@ -2352,6 +2370,10 @@ function requestComesFromSameDomainAsMyAVideo() {
         $url=$_SERVER['HTTP_ORIGIN'];
     }
     return isSameDomain($url, $global['webSiteRootURL']);
+}
+
+function requestComesFromSafePlace() {
+    return (requestComesFromSameDomainAsMyAVideo() || isAVideo());
 }
 
 function addGlobalTokenIfSameDomain($url){
