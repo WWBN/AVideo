@@ -67,7 +67,7 @@ Passcode: {password}
         return $obj;
     }
 
-    static function getTokenArray($meet_schedule_id, $users_id = 0, $expirationInMinutes = 2) {
+    static function getTokenArray($meet_schedule_id, $users_id = 0) {
         global $config;
         $obj = AVideoPlugin::getDataObject("Meet");
         if (empty($users_id)) {
@@ -97,15 +97,15 @@ Passcode: {password}
             "iss" => ($obj->server->value == 'custom') ? $obj->JWT_APP_ID : "*",
             "sub" => "meet.jitsi",
             "room" => $room,
-            "exp" => strtotime("+{$expirationInMinutes} min"),
+            "exp" => strtotime("30 hours"),
             "moderator" => self::isModerator($meet_schedule_id)
         ];
         return $jitsiPayload; // HS256
     }
 
-    static function getToken($meet_schedule_id, $users_id = 0, $expirationInMinutes = 60) {
+    static function getToken($meet_schedule_id, $users_id = 0) {
         $m = new Meet_schedule($meet_schedule_id);
-        $jitsiPayload = self::getTokenArray($meet_schedule_id, $users_id, $expirationInMinutes);
+        $jitsiPayload = self::getTokenArray($meet_schedule_id, $users_id);
         $key = self::getSecret();
         //var_dump($jitsiPayload, $key);
 
