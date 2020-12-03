@@ -118,6 +118,7 @@ $uid = uniqid();
             },
             type: 'post',
             success: function (response) {
+                modal.hidePleaseWait();
                 if (!response.error) {
                     console.log(response);
                     stripe<?php echo $uid; ?>.confirmCardPayment(
@@ -133,17 +134,16 @@ $uid = uniqid();
                             errorElement.textContent = result.error.message;
                             avideoAlertError(result.error.message);
                         } else {
+                            modal.showPleaseWait();
                             // Send the token to your server.
                             avideoToast("<?php echo __("Payment Success"); ?>");
                             updateYPTWallet();
+                            setTimeout(function(){location.reload();}, 3000);
                         }
                     });
                 } else {
                     avideoAlertError(response.msg);
                 }
-                setTimeout(function () {
-                    modal.hidePleaseWait();
-                }, 500);
 
             }
         });
