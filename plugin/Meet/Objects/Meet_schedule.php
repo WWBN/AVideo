@@ -131,6 +131,10 @@ class Meet_schedule extends ObjectYPT {
     function getName() {
         return $this->name;
     }  
+    
+    function getCleanName(){
+        return cleanString($this->name);
+    }
  
     function getMeet_code() {
         return $this->meet_code;

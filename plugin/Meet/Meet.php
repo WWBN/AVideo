@@ -74,7 +74,7 @@ Passcode: {password}
             $users_id = User::getId();
         }
         $m = new Meet_schedule($meet_schedule_id);
-        $room = $m->getName();
+        $room = $m->getCleanName();
         if (empty($users_id)) {
             $user = [];
         } else {
@@ -221,7 +221,7 @@ Passcode: {password}
             return $roomName;
         }
         if (!empty($meet_schedule_id)) {
-            $roomName .= $m->getName();
+            $roomName .= $m->getCleanName();
         }
 
         $token = self::getToken($meet_schedule_id);
