@@ -36,7 +36,7 @@ if(!in_array($payloadObj->type, $whitelist)){
 }
 
 
-_error_log("StripeIPN: payload type: " . $payloadObj->type);
+_error_log("StripeIPN: ({$sig_header}) ({$endpoint_secret}} payload type: " . $payloadObj->type );
 
 try {
     $event = \Stripe\Webhook::constructEvent(
