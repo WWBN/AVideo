@@ -96,7 +96,7 @@ class StripeYPT extends PluginAbstract {
     }
 
     public function getIntent($total = '1.00', $currency = "USD", $description = "", $metadata=array()) {
-        global $global;
+        global $global, $config;
         $this->start();
         $total = number_format(floatval($total), 2, "", "");
         $users_id = User::getId();
