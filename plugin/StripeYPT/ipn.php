@@ -8,7 +8,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-_error_log("StripeIPN Start");
+//_error_log("StripeIPN Start");
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = AVideoPlugin::getObjectData("YPTWallet");
 $stripe = AVideoPlugin::loadPluginIfEnabled("StripeYPT");
@@ -35,7 +35,7 @@ if(!in_array($payloadObj->type, $whitelist)){
     //_error_log("StripeIPN: type ignored " . $payloadObj->type );
     return '';
 }
-
+_error_log("StripeIPN Start");
 //_error_log("StripeIPN: ({$sig_header}) ({$endpoint_secret}} payload type: " . $payloadObj->type );
 
 try {

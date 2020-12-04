@@ -239,18 +239,18 @@ class StripeYPT extends PluginAbstract {
         if ($id == 'canceled') {
             return false;
         }
-        _error_log("StripeYPT::isCostumerValid $id");
+        //_error_log("StripeYPT::isCostumerValid $id");
         try {
             $c = \Stripe\Customer::retrieve($id);
             if ($c) {
                 //_error_log("StripeYPT::isCostumerValid IS VALID: " . json_encode($c));
                 return true;
             } else {
-                _error_log("StripeYPT::isCostumerValid NOT FOUND");
+                _error_log("StripeYPT::isCostumerValid NOT FOUND {$id}");
                 return false;
             }
         } catch (Exception $exc) {
-            _error_log("StripeYPT::isCostumerValid ERROR");
+            _error_log("StripeYPT::isCostumerValid ERROR {$id}");
             return false;
         }
     }
@@ -395,18 +395,30 @@ class StripeYPT extends PluginAbstract {
 
     function processSubscriptionIPN($payload) {
         if (!is_object($payload) || empty($payload->data->object->customer)) {
+            _error_log("processSubscriptionIPN: ERROR", AVideoLog::$ERROR);
             return false;
         }
         $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
         $plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
-        $payment_amount = StripeYPT::addDot($payload->data->object->amount_paid);
-        $users_id = @$plan['users_id'];
-        $plans_id = @$plan['subscriptions_plans_id'];
-        if (!empty($users_id)) {
-            $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent: " . $payload->data->object->description, json_encode($payload));
-            if (!empty($plans_id)) {
-                Subscription::renew($users_id, $plans_id);
+        if(!empty($plan)){
+            $payment_amount = StripeYPT::addDot($payload->data->object->amount_paid);
+            $users_id = @$plan['users_id'];
+            $plans_id = @$plan['subscriptions_plans_id'];
+            if (!empty($users_id)) {
+                $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent: " . $payload->data->object->description, json_encode($payload));
+                if (!empty($plans_id)) {
+                    $obj = Subscription::renew($users_id, $plans_id);
+                    if(!empty($obj->error)){
+                        _error_log("processSubscriptionIPN: ERROR Subscription::renew ". json_encode($obj), AVideoLog::$ERROR);
+                    }
+                }else{
+                    _error_log("processSubscriptionIPN: ERROR plans_id not found", AVideoLog::$ERROR);
+                }
+            }else{
+                _error_log("processSubscriptionIPN: ERROR User not found", AVideoLog::$ERROR);
             }
+        }else{
+            _error_log("processSubscriptionIPN: ERROR Plan not found", AVideoLog::$ERROR);
         }
     }
     
