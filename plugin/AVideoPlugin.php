@@ -977,12 +977,16 @@ class AVideoPlugin {
     }
 
     public static function userCanWatchVideo($users_id, $videos_id) {
+        global $userCanWatchVideoFunction;
+        if(isset($userCanWatchVideoFunction)){
+            return $userCanWatchVideoFunction;
+        }
         $plugins = Plugin::getAllEnabled();
         $resp = Video::userGroupAndVideoGroupMatch($users_id, $videos_id);
-        ;
         $video = new Video("", "", $videos_id);
         if (empty($video)) {
             _error_log("userCanWatchVideo: the usergroup and the video group does not match, User = $users_id, video = $videos_id)");
+            $userCanWatchVideoFunction = false;
             return false;
         }
         // check if the video is for paid plans only
@@ -998,10 +1002,12 @@ class AVideoPlugin {
                 if (!empty($can)) {
                     if ($can < 0) {
                         _error_log("userCanWatchVideo: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT watch the video ({$videos_id})");
+                        $userCanWatchVideoFunction = false;
                         $resp = false;
                     }
                     if ($can > 0) {
                         _error_log("userCanWatchVideo: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can watch the video ({$videos_id})");
+                        $userCanWatchVideoFunction = true;
                         return true;
                     }
                 }
@@ -1011,6 +1017,7 @@ class AVideoPlugin {
         if (!empty($users_id)) {
             _error_log("userCanWatchVideo: No plugins approve user ({$users_id}) watch the video ({$videos_id}) ");
         }
+        $userCanWatchVideoFunction = $resp;
         return $resp;
     }
 
