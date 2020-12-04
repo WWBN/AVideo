@@ -978,8 +978,15 @@ class AVideoPlugin {
 
     public static function userCanWatchVideo($users_id, $videos_id) {
         global $userCanWatchVideoFunction;
-        if(isset($userCanWatchVideoFunction)){
-            return $userCanWatchVideoFunction;
+        
+        if(!isset($userCanWatchVideoFunction)){
+            $userCanWatchVideoFunction = array();
+        }
+        if(!isset($userCanWatchVideoFunction[$users_id])){
+            $userCanWatchVideoFunction[$users_id] = array();
+        }
+        if(isset($userCanWatchVideoFunction[$users_id][$videos_id])){
+            return $userCanWatchVideoFunction[$users_id][$videos_id];
         }
         
         $cacheName = "userCanWatchVideo($users_id, $videos_id)";
@@ -993,7 +1000,7 @@ class AVideoPlugin {
         $video = new Video("", "", $videos_id);
         if (empty($video)) {
             _error_log("userCanWatchVideo: the usergroup and the video group does not match, User = $users_id, video = $videos_id)");
-            $userCanWatchVideoFunction = false;
+            $userCanWatchVideoFunction[$users_id][$videos_id] = false;
             ObjectYPT::setSessionCache($cacheName, false);
             return false;
         }
@@ -1014,7 +1021,7 @@ class AVideoPlugin {
                     }
                     if ($can > 0) {
                         _error_log("userCanWatchVideo: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can watch the video ({$videos_id})");
-                        $userCanWatchVideoFunction = true;
+                        $userCanWatchVideoFunction[$users_id][$videos_id] = true;
                         ObjectYPT::setSessionCache($cacheName, true);
                         return true;
                     }
@@ -1025,12 +1032,23 @@ class AVideoPlugin {
         if (!empty($users_id)) {
             _error_log("userCanWatchVideo: No plugins approve user ({$users_id}) watch the video ({$videos_id}) ");
         }
-        $userCanWatchVideoFunction = $resp;
+        $userCanWatchVideoFunction[$users_id][$videos_id] = $resp;
         ObjectYPT::setSessionCache($cacheName, $resp);
         return $resp;
     }
 
     public static function userCanWatchVideoWithAds($users_id, $videos_id) {
+        global $userCanWatchVideoWithAdsFunction;
+        
+        if(!isset($userCanWatchVideoWithAdsFunction)){
+            $userCanWatchVideoWithAdsFunction = array();
+        }
+        if(!isset($userCanWatchVideoWithAdsFunction[$users_id])){
+            $userCanWatchVideoWithAdsFunction[$users_id] = array();
+        }
+        if(isset($userCanWatchVideoWithAdsFunction[$users_id][$videos_id])){
+            return $userCanWatchVideoWithAdsFunction[$users_id][$videos_id];
+        }
         $plugins = Plugin::getAllEnabled();
         $resp = Video::userGroupAndVideoGroupMatch($users_id, $videos_id);
         foreach ($plugins as $value) {
@@ -1042,6 +1060,7 @@ class AVideoPlugin {
                     $resp = $can > 0 ? true : false;
                     if ($resp) {
                         _error_log("userCanWatchVideoWithAds the plugin ({$value['dirName']}) said user ({$users_id}) can watch");
+                        $userCanWatchVideoWithAdsFunction[$users_id][$videos_id] = true;
                         return true;
                     } else {
                         //_error_log("userCanWatchVideoWithAds: users_id = $users_id, videos_id = $videos_id {$value['dirName']} said no");
@@ -1050,6 +1069,7 @@ class AVideoPlugin {
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
+        $userCanWatchVideoWithAdsFunction[$users_id][$videos_id] = $resp;
         return $resp;
     }
 
