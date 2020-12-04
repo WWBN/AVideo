@@ -32,9 +32,9 @@ $payloadObj = json_decode($payload);
 
 $whitelist = array('invoice.payment_succeeded', 'charge.succeeded');
 if(!in_array($payloadObj->type, $whitelist)){
+    _error_log("StripeIPN: type ignored " . $payloadObj->type );
     return '';
 }
-
 
 _error_log("StripeIPN: ({$sig_header}) ({$endpoint_secret}} payload type: " . $payloadObj->type );
 

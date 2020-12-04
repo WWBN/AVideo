@@ -399,7 +399,7 @@ class StripeYPT extends PluginAbstract {
         }
         $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
         $plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
-        $payment_amount = StripeYPT::addDot($payload->data->object->amount);
+        $payment_amount = StripeYPT::addDot($payload->data->object->amount_paid);
         $users_id = @$plan['users_id'];
         $plans_id = @$plan['subscriptions_plans_id'];
         if (!empty($users_id)) {
