@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveTransmition extends ObjectYPT {
 
-    protected $id, $title, $public, $saveTransmition, $users_id, $categories_id, $key, $description;
+    protected $id, $title, $public, $saveTransmition, $users_id, $categories_id, $key, $description, $showOnTV;
 
     static function getSearchFieldsNames() {
         return array('title');
@@ -195,6 +195,7 @@ class LiveTransmition extends ObjectYPT {
     function save() {
         $this->public = intval($this->public);
         $this->saveTransmition = intval($this->saveTransmition);
+        $this->showOnTV = intval($this->showOnTV);
         $id = parent::save();
         return $id;
     }
@@ -291,5 +292,15 @@ class LiveTransmition extends ObjectYPT {
         }
         return $key;
     }
+    
+    function getShowOnTV() {
+        return $this->showOnTV;
+    }
+
+    function setShowOnTV($showOnTV) {
+        $this->showOnTV = $showOnTV;
+    }
+
+
 
 }
