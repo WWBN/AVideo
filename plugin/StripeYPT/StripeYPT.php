@@ -399,7 +399,15 @@ class StripeYPT extends PluginAbstract {
             return false;
         }
         $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
-        $plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
+        //$plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
+        $metadata = self::getMetadata($payload);
+        if(empty($metadata)){
+            _error_log("processSubscriptionIPN: ERROR Metadata not found", AVideoLog::$ERROR);
+            return false;
+        }
+        
+        $plan = Subscription::getOrCreateStripeSubscription($metadata['users_id'],$metadata['plans_id'], $payload->data->object->customer);
+        
         if(!empty($plan)){
             $payment_amount = StripeYPT::addDot($payload->data->object->amount_paid);
             $users_id = @$plan['users_id'];
@@ -420,6 +428,23 @@ class StripeYPT extends PluginAbstract {
         }else{
             _error_log("processSubscriptionIPN: ERROR Plan not found", AVideoLog::$ERROR);
         }
+    }
+    
+    /**
+     * Return plans an users id
+     * @param type $payload
+     */
+    static function getMetadata($payload){
+        foreach ($payload as $value) {
+            if(empty($value->users_id) && empty($value->plans_id)){
+                if(is_object($value) || is_array($value)){
+                    return self::getMetadata($value);
+                }
+            }else{
+                return array("users_id"=>$value->users_id, "plans_id"=>$value->plans_id);
+            }
+        }
+        return false;
     }
     
     static function isSinglePayment($payload){
