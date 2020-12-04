@@ -437,8 +437,11 @@ class StripeYPT extends PluginAbstract {
     static function getMetadata($payload){
         foreach ($payload as $value) {
             if(empty($value->users_id) && empty($value->plans_id)){
-                if(is_object($value) || is_array($value)){
-                    return self::getMetadata($value);
+                if(is_object($value) || is_array($value)){                    
+                    $obj = self::getMetadata($value);
+                    if(!empty($obj)){
+                        return $obj;
+                    }
                 }
             }else{
                 return array("users_id"=>$value->users_id, "plans_id"=>$value->plans_id);
