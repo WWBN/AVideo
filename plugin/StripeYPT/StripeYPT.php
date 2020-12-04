@@ -243,7 +243,7 @@ class StripeYPT extends PluginAbstract {
         try {
             $c = \Stripe\Customer::retrieve($id);
             if ($c) {
-                _error_log("StripeYPT::isCostumerValid IS VALID: " . json_encode($c));
+                //_error_log("StripeYPT::isCostumerValid IS VALID: " . json_encode($c));
                 return true;
             } else {
                 _error_log("StripeYPT::isCostumerValid NOT FOUND");
@@ -389,7 +389,7 @@ class StripeYPT extends PluginAbstract {
         }
 
         $Subscription = \Stripe\Subscription::create($parameters);
-        _error_log("setUpSubscription: result " . json_encode($Subscription));
+        //_error_log("setUpSubscription: result " . json_encode($Subscription));
         return $Subscription;
     }
 
