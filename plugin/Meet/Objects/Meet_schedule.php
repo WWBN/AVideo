@@ -310,6 +310,8 @@ class Meet_schedule extends ObjectYPT {
                 }else{
                     $row['userGroups'] = array();
                 }
+                
+                $row['isModerator'] = Meet::isModerator($row['id']);
                 $row['invitation'] = Meet::getInvitation($row['id']);
                 $row['joinURL'] = "";
                 if(Meet::canJoinMeet($row['id'])){
