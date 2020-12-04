@@ -133,7 +133,7 @@ if (!empty($_GET['t'])) {
     $t = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
 }
 
-$playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
+$playerSkinsO = AVideoPlugin::getObjectData("PlayerSkins");
 
 $url = Video::getLink($video['id'], $video['clean_title'], false);
 $title = str_replace('"', '', $video['title']) . ' - ' . $config->getWebSiteTitle();
@@ -144,7 +144,7 @@ if (empty($currentTime)) {
 }
 
 if (User::hasBlockedUser($video['users_id'])) {
-    $playerSkinsObj->disableEmbedTopInfo = true;
+    $playerSkinsO->disableEmbedTopInfo = true;
     $video['type'] = "blockedUser";
 }
 ?>
@@ -482,7 +482,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         </script>
         <?php
     }
-    if (empty($playerSkinsObj->disableEmbedTopInfo)) {
+    if (empty($playerSkinsO->disableEmbedTopInfo)) {
         ?>
         <div id="topInfo" style="display: none;">
             <a href="<?php echo $url; ?>" target="_blank">
