@@ -14,6 +14,13 @@ if(empty($_GET['current'])){
     $_REQUEST['current'] = intval($_GET['current']);
 }
 
+$cacheName = "modeFlixCategory".md5(json_encode($_GET)).User::getId();
+$cache = ObjectYPT::getCache($cacheName, 600);
+if(!empty($cache)){
+    echo $cache;
+    exit;
+}
+ob_start();
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 $timeLog = __FILE__ . " - modeFlixCategory";
 
@@ -126,3 +133,10 @@ TimeLogEnd($timeLog, __LINE__);
 <p class="pagination">
     <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=<?php echo count($categories)?$_REQUEST['current'] + 1:$_REQUEST['current']; ?>&rrating=<?php echo @$_GET['rrating']; ?>"></a>
 </p>
+<?php
+$cache = ob_get_clean();
+
+ObjectYPT::setCache($cacheName, $cache);
+
+echo $cache;
+?>
