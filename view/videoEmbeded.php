@@ -482,7 +482,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         </script>
         <?php
     }
-    if (empty($playerSkinsObj->disableEmbedTopInfo) || !empty($controls)) {
+    if (empty($playerSkinsObj->disableEmbedTopInfo)) {
         ?>
         <div id="topInfo" style="display: none;">
             <a href="<?php echo $url; ?>" target="_blank">
