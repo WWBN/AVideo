@@ -134,6 +134,7 @@ if (!empty($_GET['t'])) {
 }
 
 $playerSkinsO = AVideoPlugin::getObjectData("PlayerSkins");
+$disableEmbedTopInfo = $playerSkinsO->disableEmbedTopInfo;
 
 $url = Video::getLink($video['id'], $video['clean_title'], false);
 $title = str_replace('"', '', $video['title']) . ' - ' . $config->getWebSiteTitle();
@@ -144,7 +145,7 @@ if (empty($currentTime)) {
 }
 
 if (User::hasBlockedUser($video['users_id'])) {
-    $playerSkinsO->disableEmbedTopInfo = true;
+    $disableEmbedTopInfo = true;
     $video['type'] = "blockedUser";
 }
 ?>
@@ -482,7 +483,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         </script>
         <?php
     }
-    if (empty($playerSkinsO->disableEmbedTopInfo)) {
+    if (empty($disableEmbedTopInfo)) {
         ?>
         <div id="topInfo" style="display: none;">
             <a href="<?php echo $url; ?>" target="_blank">
