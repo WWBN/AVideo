@@ -402,7 +402,7 @@ class StripeYPT extends PluginAbstract {
         //$plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
         $metadata = self::getMetadata($payload);
         if(empty($metadata)){
-            _error_log("processSubscriptionIPN: ERROR Metadata not found", AVideoLog::$ERROR);
+            _error_log("processSubscriptionIPN: ERROR Metadata not found ". json_encode($payload), AVideoLog::$ERROR);
             return false;
         }
         
