@@ -67,7 +67,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
             $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('label-danger');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('label-warning');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').text("<?php echo __("Please Wait ..."); ?>");
-            reloadVideoJSTimeout<?php echo $live_servers_id; ?>(5000);
+            reloadVideoJSTimeout<?php echo $live_servers_id; ?>(10000);
             //reloadVideoJS();
             //playerPlayIfAutoPlay(0);            
             if (isAutoplayEnabled() && !player.paused()) {
