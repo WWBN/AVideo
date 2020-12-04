@@ -161,6 +161,7 @@ class Cache extends PluginAbstract {
                 strpos($_SERVER['REQUEST_URI'], 'restreamer.json.php') === false && 
                 strpos($_SERVER['REQUEST_URI'], 'plugin/API') === false && 
                 strpos($_SERVER['REQUEST_URI'], '/info?version=') === false && 
+                strpos($_SERVER['REQUEST_URI'], 'Meet') === false && 
                 $_SERVER['REMOTE_ADDR'] !='127.0.0.1') {
             if (empty($_SERVER['HTTP_USER_AGENT'])) {
                 $_SERVER['HTTP_USER_AGENT'] = "";
