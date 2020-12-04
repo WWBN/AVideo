@@ -32,11 +32,11 @@ $payloadObj = json_decode($payload);
 
 $whitelist = array('invoice.payment_succeeded', 'charge.succeeded');
 if(!in_array($payloadObj->type, $whitelist)){
-    _error_log("StripeIPN: type ignored " . $payloadObj->type );
+    //_error_log("StripeIPN: type ignored " . $payloadObj->type );
     return '';
 }
 
-_error_log("StripeIPN: ({$sig_header}) ({$endpoint_secret}} payload type: " . $payloadObj->type );
+//_error_log("StripeIPN: ({$sig_header}) ({$endpoint_secret}} payload type: " . $payloadObj->type );
 
 try {
     $event = \Stripe\Webhook::constructEvent(
@@ -44,14 +44,14 @@ try {
     );
     _error_log("Stripe IPN Valid payload and signature ". json_encode($payloadObj));
     if (StripeYPT::isSubscriptionPayment($payloadObj)) {
-        _error_log("StripeIPN: Subscription" );
+        _error_log("StripeIPN: ** Subscription **" );
         // subscription
         $stripe->processSubscriptionIPN($payloadObj);
     } else if (StripeYPT::isSinglePayment($payloadObj)) {
-        _error_log("StripeIPN: SinglePayment" );
+        _error_log("StripeIPN: ** SinglePayment **" );
         $stripe->processSinglePaymentIPN($payloadObj);
     }else{
-        _error_log("StripeIPN: something went wrong: {$payload}" , AVideoLog::$ERROR );
+        //_error_log("StripeIPN: something went wrong: {$payload}" , AVideoLog::$ERROR );
     }
 
     
