@@ -295,7 +295,7 @@ class StripeYPT extends PluginAbstract {
             return false;
         }
         if (empty($stripe_costumer_id)) {
-            _error_log("costumer ID is empty");
+            _error_log("getSubscription: costumer ID is empty");
             return false;
         }
         global $global;
@@ -306,7 +306,7 @@ class StripeYPT extends PluginAbstract {
         foreach ($costumer->subscriptions->data as $value) {
             $subscription = \Stripe\Subscription::retrieve($value->id);
             if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
-                _error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
+                //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
                 return $subscription;
             }
         }

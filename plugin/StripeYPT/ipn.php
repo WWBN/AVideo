@@ -42,7 +42,7 @@ try {
     $event = \Stripe\Webhook::constructEvent(
                     $payload, $sig_header, $endpoint_secret
     );
-    _error_log("Stripe IPN Valid payload and signature ". json_encode($payloadObj));
+    //_error_log("Stripe IPN Valid payload and signature ". json_encode($payloadObj));
     if (StripeYPT::isSubscriptionPayment($payloadObj)) {
         _error_log("StripeIPN: ** Subscription **" );
         // subscription
