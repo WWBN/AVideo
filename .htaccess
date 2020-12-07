@@ -224,6 +224,8 @@ Options All -Indexes
     RewriteRule    ^renamePlaylist/?$ objects/playlistRename.php    [NC,L]
     RewriteRule    ^sortPlaylist/?$ objects/playlistSort.php    [NC,L]
     RewriteRule    ^channel/([^/]+)/feed/?$ feed/index.php?channelName=$1    [QSA]
+    RewriteRule    ^channel/([^/]+)/rss/?$ feed/index.php?channelName=$1    [QSA]
+    RewriteRule    ^channel/([^/]+)/mrss/?$ feed/index.php?channelName=$1&mrss=1    [QSA]
     RewriteRule    ^channel/([^/]+) view/channel.php?channelName=$1    [QSA]
     RewriteRule    ^channel/?$ view/channel.php    [QSA]
     RewriteRule    ^channels/?$ view/channels.php    [NC,L]
