@@ -1,48 +1,50 @@
+<?php
+global $global, $config, $isChannel;
+$isChannel = 1; // still workaround, for gallery-functions, please let it there.
+if (!isset($global['systemRootPath'])) {
+    require_once '../videos/configuration.php';
+}
+require_once $global['systemRootPath'] . 'objects/user.php';
+require_once $global['systemRootPath'] . 'objects/video.php';
+require_once $global['systemRootPath'] . 'objects/playlist.php';
+
+if (empty($_GET['channelName'])) {
+    if (User::isLogged()) {
+        $_GET['user_id'] = User::getId();
+    } else {
+        return false;
+    }
+} else {
+    $user = User::getChannelOwner($_GET['channelName']);
+    if (!empty($user)) {
+        $_GET['user_id'] = $user['id'];
+    } else {
+        $_GET['user_id'] = $_GET['channelName'];
+    }
+}
+$user_id = $_GET['user_id'];
+
+$timeLog2 = __FILE__ . " - channelPlayList: {$_GET['channelName']}";
+TimeLogStart($timeLog2);
+
+$publicOnly = true;
+$isMyChannel = false;
+if (User::isLogged() && $user_id == User::getId()) {
+    $publicOnly = false;
+    $isMyChannel = true;
+}
+if (empty($_GET['current'])) {
+    $_POST['current'] = 1;
+} else {
+    $_POST['current'] = intval($_GET['current']);
+}
+$_REQUEST['rowCount'] = 4;
+$playlists = PlayList::getAllFromUser($user_id, $publicOnly);
+$current = $_POST['current'];
+unset($_POST['current']);
+?>
 <div class="programsContainerItem">
     <?php
-    global $global, $config, $isChannel;
-    $isChannel = 1; // still workaround, for gallery-functions, please let it there.
-    if (!isset($global['systemRootPath'])) {
-        require_once '../videos/configuration.php';
-    }
-    require_once $global['systemRootPath'] . 'objects/user.php';
-    require_once $global['systemRootPath'] . 'objects/video.php';
-    require_once $global['systemRootPath'] . 'objects/playlist.php';
-
-    if (empty($_GET['channelName'])) {
-        if (User::isLogged()) {
-            $_GET['user_id'] = User::getId();
-        } else {
-            return false;
-        }
-    } else {
-        $user = User::getChannelOwner($_GET['channelName']);
-        if (!empty($user)) {
-            $_GET['user_id'] = $user['id'];
-        } else {
-            $_GET['user_id'] = $_GET['channelName'];
-        }
-    }
-    $user_id = $_GET['user_id'];
-
-    $timeLog2 = __FILE__ . " - channelPlayList: {$_GET['channelName']}";
-    TimeLogStart($timeLog2);
-
-    $publicOnly = true;
-    $isMyChannel = false;
-    if (User::isLogged() && $user_id == User::getId()) {
-        $publicOnly = false;
-        $isMyChannel = true;
-    }
-    if (empty($_GET['current'])) {
-        $_POST['current'] = 1;
-    } else {
-        $_POST['current'] = intval($_GET['current']);
-    }
-    $_REQUEST['rowCount'] = 4;
-    $playlists = PlayList::getAllFromUser($user_id, $publicOnly);
-    $current = $_POST['current'];
-    unset($_POST['current']);
     if (empty($playlists)) {
         die("</div>");
     }
@@ -52,6 +54,7 @@
     unset($_GET['channelName']);
     $startC = microtime(true);
     TimeLogEnd($timeLog2, __LINE__);
+
     $countSuccess = 0;
     $get = array();
     if (!empty($_GET['channelName'])) {
@@ -82,6 +85,12 @@
         } else {
             $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
         }//var_dump($videosArrayId, $videosP); exit;
+
+        $totalDuration = 0;
+        foreach ($videosP as $value) {
+            $totalDuration += durationToSeconds($value['duration']);
+        }
+
         $_REQUEST['rowCount'] = $rowCount;
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
@@ -101,7 +110,7 @@
             <div class="panel-heading">
 
                 <strong style="font-size: 1.1em;" class="playlistName">
-                    <?php echo $playlist['name']; ?> 
+                    <?php echo __($playlist['name']); ?> (<?php echo secondsToDuration($totalDuration); ?>)
                 </strong>
 
                 <?php
@@ -111,25 +120,19 @@
                     <a href="<?php echo $link; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
                     <?php
                 }
-                if ($isMyChannel && PlayLists::showPlayLiveButton()) {
-                    $liveLink = PlayLists::getLiveLink($playlist['id']);
-                    if (!empty($liveLink)) {
-                        ?>
-                        <a href="<?php echo $liveLink; ?>" class="btn btn-xs btn-default playAll hrefLink" ><i class="fas fa-broadcast-tower"></i> <?php echo __("Play Live"); ?></a>
-                        <?php
-                    }
-                }
+                echo PlayLists::getPlayLiveButton($playlist['id']);
                 ?>
-                <div class="pull-right btn-group">
+                <div class="pull-right btn-group" style="display: inline-flex;">
                     <?php
                     if ($isMyChannel) {
+                        echo PlayLists::getShowOnTVSwitch($playlist['id']);
                         if ($playlist['status'] != "favorite" && $playlist['status'] != "watch_later") {
                             if (AVideoPlugin::isEnabledByName("PlayLists")) {
                                 ?>
                                 <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val()); setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
                                 <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<?php
-                $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
-                echo ($code);
+                                $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
+                                echo ($code);
                                 ?>'/>
                                        <?php
                                    }
@@ -167,20 +170,20 @@
                             <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-edit"></i> <?php echo __("Rename"); ?></button>
                             <button class="btn btn-xs btn-default statusPlaylist statusPlaylist<?php echo $playlist['id']; ?>" playlist_id="<?php echo $playlist['id']; ?>" style="" >
                                 <span class="fa fa-lock" id="statusPrivate<?php echo $playlist['id']; ?>" style="color: red; <?php
-                       if ($playlist['status'] !== 'private') {
-                           echo ' display: none;';
-                       }
-                                   ?> " ></span> 
+                                if ($playlist['status'] !== 'private') {
+                                    echo ' display: none;';
+                                }
+                                ?> " ></span> 
                                 <span class="fa fa-globe" id="statusPublic<?php echo $playlist['id']; ?>" style="color: green; <?php
-                          if ($playlist['status'] !== 'public') {
-                              echo ' display: none;';
-                          }
-                                   ?>"></span> 
+                                if ($playlist['status'] !== 'public') {
+                                    echo ' display: none;';
+                                }
+                                ?>"></span> 
                                 <span class="fa fa-eye-slash" id="statusUnlisted<?php echo $playlist['id']; ?>" style="color: gray;   <?php
-                          if ($playlist['status'] !== 'unlisted') {
-                              echo ' display: none;';
-                          }
-                                   ?>"></span>
+                                if ($playlist['status'] !== 'unlisted') {
+                                    echo ' display: none;';
+                                }
+                                ?>"></span>
                             </button>
                             <?php
                         }
@@ -274,6 +277,7 @@
                     <div class="clearfix"></div>
                     <?php
                     $count = 0;
+                    $_REQUEST['site'] = get_domain($global['webSiteRootURL']);
                     foreach ($videosP as $value) {
                         // make sure the video exists
                         if (empty($value['created'])) {
@@ -410,18 +414,28 @@
 
                 <?php
             }
+            if(PlayLists::showTVFeatures()){
             ?>
-
+            <div class="panel-footer">
+                <?php 
+                $_REQUEST['user_id'] = $user_id;
+                $_REQUEST['playlists_id'] = $playlist['id'];
+                include $global['systemRootPath'] . 'plugin/PlayLists/epg.html.php';
+                ?>
+            </div>
+            <?php
+            }
+            ?>
         </div>
-        <?php
-    }
-    if (!empty($videosP) && empty($countSuccess)) {
-        header("Location: {$global['webSiteRootURL']}view/channelPlaylistItems.php?current=" . (count($playlists) ? $_POST['current'] + 1 : $_POST['current']) . "&channelName={$_GET['channelName']}");
-        exit;
-    }
-    TimeLogEnd($timeLog2, __LINE__);
-    $_GET['channelName'] = $channelName;
-    ?>
+    <?php
+}
+if (!empty($videosP) && empty($countSuccess)) {
+    header("Location: {$global['webSiteRootURL']}view/channelPlaylistItems.php?current=" . (count($playlists) ? $_POST['current'] + 1 : $_POST['current']) . "&channelName={$_GET['channelName']}");
+    exit;
+}
+TimeLogEnd($timeLog2, __LINE__);
+$_GET['channelName'] = $channelName;
+?>
     <script>
 
         $(function () {
@@ -568,14 +582,14 @@
     </script>
     <!--
     channelPlaylist
-    <?php
-    $timesC[__LINE__] = microtime(true) - $startC;
-    $startC = microtime(true);
-    foreach ($timesC as $key => $value) {
-        echo "Line: {$key} -> {$value}\n";
-    }
-    $_POST['current'] = $current;
-    ?>
+<?php
+$timesC[__LINE__] = microtime(true) - $startC;
+$startC = microtime(true);
+foreach ($timesC as $key => $value) {
+    echo "Line: {$key} -> {$value}\n";
+}
+$_POST['current'] = $current;
+?>
     -->
 </div>
 <p class="pagination">

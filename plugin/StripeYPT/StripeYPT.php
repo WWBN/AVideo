@@ -14,6 +14,7 @@ class StripeYPT extends PluginAbstract {
             PluginTags::$FREE,
         );
     }
+
     public function getDescription() {
         $str = "Stripe module for several purposes<br>
             Go to Stripe dashboard Site <a href='https://dashboard.stripe.com/apikeys'>here</a>  (you must have Stripe account, of course)<br>";
@@ -33,7 +34,7 @@ class StripeYPT extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "2.0";
     }
 
     public function getEmptyDataObject() {
@@ -94,6 +95,32 @@ class StripeYPT extends PluginAbstract {
         ]);
     }
 
+    public function getIntent($total = '1.00', $currency = "USD", $description = "", $metadata=array()) {
+        global $global, $config;
+        $this->start();
+        $total = number_format(floatval($total), 2, "", "");
+        $users_id = User::getId();
+        if(empty($description)){
+            $description = $config->getWebSiteTitle() . " Payment";
+        }
+        _error_log("StripeYPT::getIntent $total , $currency, $description");
+        try {
+            $intent = \Stripe\PaymentIntent::create([
+                        'amount' => $total,
+                        'currency' => $currency,
+                        'description' => $description,
+                        'metadata' => $metadata,
+            ]);
+
+            _error_log("StripeYPT::getIntent success " . json_encode($intent));
+            return $intent;
+        } catch (Exception $exc) {
+            _error_log("StripeYPT::getIntent error " . $exc->getMessage());
+            _error_log($exc->getTraceAsString());
+        }
+        return false;
+    }
+
     public function setUpPayment($total = '1.00', $currency = "USD", $description = "") {
         global $global;
         $this->start();
@@ -108,13 +135,14 @@ class StripeYPT extends PluginAbstract {
                             'description' => $description,
                             'source' => $token,
                 ]);
-                _error_log("StripeYPT::setUpPayment charge ".  json_encode($charge));
+
+                _error_log("StripeYPT::setUpPayment charge " . json_encode($charge));
                 return $charge;
             } catch (Exception $exc) {
-                _error_log("StripeYPT::setUpPayment error ".$exc->getMessage());
+                _error_log("StripeYPT::setUpPayment error " . $exc->getMessage());
                 _error_log($exc->getTraceAsString());
             }
-        }else{
+        } else {
             _error_log("StripeYPT::setUpPayment stipeToken empty");
         }
         return false;
@@ -149,7 +177,7 @@ class StripeYPT extends PluginAbstract {
     }
 
     static function isPaymentOk($payment, $value, $currency) {
-        _error_log("isPaymentOk: ".  json_encode($payment));
+        _error_log("isPaymentOk: " . json_encode($payment));
         _error_log("isPaymentOk: $value, $currency");
         if (!is_object($payment)) {
             _error_log("isPaymentOk: NOT object");
@@ -211,18 +239,18 @@ class StripeYPT extends PluginAbstract {
         if ($id == 'canceled') {
             return false;
         }
-        _error_log("StripeYPT::isCostumerValid $id");
+        //_error_log("StripeYPT::isCostumerValid $id");
         try {
             $c = \Stripe\Customer::retrieve($id);
             if ($c) {
-                _error_log("StripeYPT::isCostumerValid IS VALID: " . json_encode($c));
+                //_error_log("StripeYPT::isCostumerValid IS VALID: " . json_encode($c));
                 return true;
             } else {
-                _error_log("StripeYPT::isCostumerValid NOT FOUND");
+                _error_log("StripeYPT::isCostumerValid NOT FOUND {$id}");
                 return false;
             }
         } catch (Exception $exc) {
-            _error_log("StripeYPT::isCostumerValid ERROR");
+            _error_log("StripeYPT::isCostumerValid ERROR {$id}");
             return false;
         }
     }
@@ -240,6 +268,7 @@ class StripeYPT extends PluginAbstract {
                     ],
                     'nickname' => $name,
                     'amount' => self::removeDot($total),
+                    'metadata'=>array('users_id'=> User::getId(), 'recurrent'=> 1)
         ]);
     }
 
@@ -266,7 +295,7 @@ class StripeYPT extends PluginAbstract {
             return false;
         }
         if (empty($stripe_costumer_id)) {
-            _error_log("costumer ID is empty");
+            _error_log("getSubscription: costumer ID is empty");
             return false;
         }
         global $global;
@@ -277,7 +306,7 @@ class StripeYPT extends PluginAbstract {
         foreach ($costumer->subscriptions->data as $value) {
             $subscription = \Stripe\Subscription::retrieve($value->id);
             if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
-                _error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
+                //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
                 return $subscription;
             }
         }
@@ -360,24 +389,84 @@ class StripeYPT extends PluginAbstract {
         }
 
         $Subscription = \Stripe\Subscription::create($parameters);
-        _error_log("setUpSubscription: result " . json_encode($Subscription));
+        //_error_log("setUpSubscription: result " . json_encode($Subscription));
         return $Subscription;
     }
 
     function processSubscriptionIPN($payload) {
         if (!is_object($payload) || empty($payload->data->object->customer)) {
+            _error_log("processSubscriptionIPN: ERROR", AVideoLog::$ERROR);
             return false;
         }
         $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
-        $plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
-        $payment_amount = StripeYPT::addDot($payload->data->object->amount);
-        $users_id = @$plan['users_id'];
-        $plans_id = @$plan['subscriptions_plans_id'];
-        if (!empty($users_id)) {
-            $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent: " . $payload->data->object->description, json_encode($payload));
-            if (!empty($plans_id)) {
-                Subscription::renew($users_id, $plans_id);
+        //$plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
+        $metadata = self::getMetadata($payload);
+        if(empty($metadata)){
+            _error_log("processSubscriptionIPN: ERROR Metadata not found ". json_encode($payload), AVideoLog::$ERROR);
+            return false;
+        }
+        
+        $plan = Subscription::getOrCreateStripeSubscription($metadata['users_id'],$metadata['plans_id'], $payload->data->object->customer);
+        
+        if(!empty($plan)){
+            $payment_amount = StripeYPT::addDot($payload->data->object->amount_paid);
+            $users_id = @$plan['users_id'];
+            $plans_id = @$plan['subscriptions_plans_id'];
+            if (!empty($users_id)) {
+                $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent: " . $payload->data->object->description, json_encode($payload));
+                if (!empty($plans_id)) {
+                    $obj = Subscription::renew($users_id, $plans_id);
+                    if(!empty($obj->error)){
+                        _error_log("processSubscriptionIPN: ERROR Subscription::renew ". json_encode($obj), AVideoLog::$ERROR);
+                    }
+                }else{
+                    _error_log("processSubscriptionIPN: ERROR plans_id not found", AVideoLog::$ERROR);
+                }
+            }else{
+                _error_log("processSubscriptionIPN: ERROR User not found", AVideoLog::$ERROR);
             }
+        }else{
+            _error_log("processSubscriptionIPN: ERROR Plan not found", AVideoLog::$ERROR);
+        }
+    }
+    
+    /**
+     * Return plans an users id
+     * @param type $payload
+     */
+    static function getMetadata($payload){
+        foreach ($payload as $value) {
+            if(empty($value->users_id) && empty($value->plans_id)){
+                if(is_object($value) || is_array($value)){                    
+                    $obj = self::getMetadata($value);
+                    if(!empty($obj)){
+                        return $obj;
+                    }
+                }
+            }else{
+                return array("users_id"=>$value->users_id, "plans_id"=>$value->plans_id);
+            }
+        }
+        return false;
+    }
+    
+    static function isSinglePayment($payload){
+        return $payload->type == "charge.succeeded" && !empty($payload->data->object->metadata->singlePayment);
+    }
+    
+    static function isSubscriptionPayment($payload){
+        return $payload->type == "invoice.payment_succeeded" && !empty($payload->data->object->customer);
+    }
+    
+    function processSinglePaymentIPN($payload) {
+        if (!is_object($payload)) {
+            return false;
+        }
+        $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+        $payment_amount = StripeYPT::addDot($payload->data->object->amount);
+        $users_id = $payload->data->object->metadata->users_id;
+        if (!empty($users_id)) {
+            $pluginS->addBalance($users_id, $payment_amount, "Stripe single payment: " . $payload->data->object->description, json_encode($payload));
         }
     }
 

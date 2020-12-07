@@ -28,6 +28,8 @@ $options = array(
 );
 $context = stream_context_create($options);
 
+$_GET['livelink'] = addGlobalTokenIfSameDomain($_GET['livelink']);
+
 $headers = get_headers($_GET['livelink'], 1, $context);
 if (!empty($headers["Location"])) {
     $_GET['livelink'] = $headers["Location"];
@@ -38,15 +40,19 @@ if (!empty($headers["Location"])) {
     $content = fakeBrowser($_GET['livelink']);
     $pathinfo = pathinfo($_GET['livelink']);
 }
-foreach (preg_split("/((\r?\n)|(\r\n?))/", $content) as $line) {
-    $line = trim($line);
-    if (!empty($line) && $line[0] !== "#") {
-        if (!filter_var($line, FILTER_VALIDATE_URL)) {
-            if (!empty($pathinfo["extension"])) {
-                $_GET['livelink'] = str_replace($pathinfo["basename"], "", $_GET['livelink']);
+if($content === "Empty Token"){
+    die("Empty Token on URL {$_GET['livelink']}");
+}else{
+    foreach (preg_split("/((\r?\n)|(\r\n?))/", $content) as $line) {
+        $line = trim($line);
+        if (!empty($line) && $line[0] !== "#") {
+            if (!filter_var($line, FILTER_VALIDATE_URL)) {
+                if (!empty($pathinfo["extension"])) {
+                    $_GET['livelink'] = str_replace($pathinfo["basename"], "", $_GET['livelink']);
+                }
+                $line = $_GET['livelink'] . $line;
             }
-            $line = $_GET['livelink'] . $line;
         }
-    }
-    echo $line . PHP_EOL;
-} 
+        echo $line . PHP_EOL;
+    } 
+}

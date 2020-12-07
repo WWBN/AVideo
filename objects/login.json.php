@@ -205,6 +205,7 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->canStream = User::canStream();
 $object->redirectUri = @$_POST['redirectUri'];
 //_error_log("login.json.php setup object done");
 

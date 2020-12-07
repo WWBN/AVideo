@@ -108,7 +108,6 @@ $uid = uniqid();
     var form<?php echo $uid; ?> = document.getElementById('payment-form<?php echo $uid; ?>');
     form<?php echo $uid; ?>.addEventListener('submit', function (event) {
         event.preventDefault();
-
         stripe<?php echo $uid; ?>.createToken(card<?php echo $uid; ?>).then(function (result) {
             console.log(result);
             if (result.error) {
@@ -142,7 +141,7 @@ $uid = uniqid();
                         avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
                     }, 2000);
                     setTimeout(function () {
-                        location.reload(); 
+                        location.reload();
                     }, 5000);
                 } else {
                     avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");

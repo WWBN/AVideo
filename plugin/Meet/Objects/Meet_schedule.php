@@ -131,6 +131,10 @@ class Meet_schedule extends ObjectYPT {
     function getName() {
         return $this->name;
     }  
+    
+    function getCleanName(){
+        return cleanURLName($this->name);
+    }
  
     function getMeet_code() {
         return $this->meet_code;
@@ -306,6 +310,8 @@ class Meet_schedule extends ObjectYPT {
                 }else{
                     $row['userGroups'] = array();
                 }
+                
+                $row['isModerator'] = Meet::isModerator($row['id']);
                 $row['invitation'] = Meet::getInvitation($row['id']);
                 $row['joinURL'] = "";
                 if(Meet::canJoinMeet($row['id'])){

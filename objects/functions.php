@@ -371,7 +371,7 @@ function cleanString($text) {
 
 function cleanURLName($name) {
     $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]% ]+/', '-', trim(strtolower(cleanString($name))));
-    return preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
+    return trim(preg_replace('/[\x00-\x1F\x7F]/u', '', $name),"-");
 }
 
 /**
@@ -1249,7 +1249,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             if (empty($source)) {
                 continue;
             }
-            if (filesize($file)<20000) {
+            if (filesize($file)<20000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
                 continue;
             }
 
@@ -2326,6 +2326,24 @@ function isAVideoEncoder($user_agent = "") {
     return false;
 }
 
+function isAVideo($user_agent = "") {
+    if (empty($user_agent)) {
+        $user_agent = @$_SERVER['HTTP_USER_AGENT'];
+    }
+    if (empty($user_agent)) {
+        return false;
+    }
+    global $AVideoEncoder_UA;
+    if (preg_match("/AVideo(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)) {
+        $url = trim($match[1]);
+        if (!empty($url)) {
+            return $url;
+        }
+        return true;
+    }
+    return false;
+}
+
 function isAVideoEncoderOnSameDomain() {
     $url = isAVideoEncoder();
     if (empty($url)) {
@@ -2341,6 +2359,76 @@ function isSameDomainAsMyAVideo($url) {
         return false;
     }
     return isSameDomain($url, $global['webSiteRootURL']);
+}
+
+function requestComesFromSameDomainAsMyAVideo() {
+    global $global;
+    $url = "";
+    if (!empty($_SERVER['HTTP_REFERER'])) {
+        $url=$_SERVER['HTTP_REFERER'];
+    }elseif (!empty($_SERVER['HTTP_ORIGIN'])) {
+        $url=$_SERVER['HTTP_ORIGIN'];
+    }
+    return isSameDomain($url, $global['webSiteRootURL']);
+}
+
+function requestComesFromSafePlace() {
+    return (requestComesFromSameDomainAsMyAVideo() || isAVideo());
+}
+
+function addGlobalTokenIfSameDomain($url){
+    if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $_GET['livelink'])) {
+        return $url;
+    }
+    if(!isSameDomainAsMyAVideo($url)){
+        return $url;
+    }
+    return addQueryStringParameter($url, 'globalToken', getToken(60));
+}
+
+/**
+ * Remove a query string parameter from an URL.
+ *
+ * @param string $url
+ * @param string $varname
+ *
+ * @return string
+ */
+function removeQueryStringParameter($url, $varname){
+    $parsedUrl = parse_url($url);
+    $query = array();
+
+    if (isset($parsedUrl['query'])) {
+        parse_str($parsedUrl['query'], $query);
+        unset($query[$varname]);
+    }
+
+    $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
+    $query = !empty($query) ? '?'. http_build_query($query) : '';
+
+    return $parsedUrl['scheme']. '://'. $parsedUrl['host']. $path. $query;
+}
+
+/**
+ * Add a query string parameter from an URL.
+ *
+ * @param string $url
+ * @param string $varname
+ *
+ * @return string
+ */
+function addQueryStringParameter($url, $varname, $value){
+    $parsedUrl = parse_url($url);
+    $query = array();
+
+    if (isset($parsedUrl['query'])) {
+        parse_str($parsedUrl['query'], $query);
+    }
+    $query[$varname] = $value;
+    $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
+    $query = !empty($query) ? '?'. http_build_query($query) : '';
+
+    return $parsedUrl['scheme']. '://'. $parsedUrl['host']. $path. $query;
 }
 
 function isSameDomain($url1, $url2) {

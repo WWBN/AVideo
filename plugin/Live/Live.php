@@ -111,6 +111,14 @@ class Live extends PluginAbstract {
                 sqlDal::writeSql(trim($value));
             }
         }
+        //update version 5.2
+        if (AVideoPlugin::compareVersion($this->getName(), "6.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV6.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
         return true;
     }
 
@@ -419,13 +427,15 @@ class Live extends PluginAbstract {
 
     static function getPlayerServer() {
         $obj = AVideoPlugin::getObjectData("Live");
+        $url = $obj->playerServer;
         if (!empty($obj->useLiveServers)) {
             $ls = new Live_servers(self::getCurrentLiveServersId());
             if (!empty($ls->getPlayerServer())) {
-                return $ls->getPlayerServer();
+                $url = $ls->getPlayerServer();
             }
         }
-        return $obj->playerServer;
+        $url = str_replace("encoder.gdrive.local","192.168.1.18", $url);
+        return $url;
     }
 
     static function getUseAadaptiveMode() {
@@ -709,7 +719,21 @@ class Live extends PluginAbstract {
             return intval($ls->live_servers_id);
         }
     }
-
+    
+    static function getLastServersIdFromUser($users_id) {
+        $last = LiveTransmitionHistory::getLatestFromUser($users_id);
+        if (empty($last)) {
+            return 0;
+        } else {
+            return intval($last['live_servers_id']);
+        }
+    }
+    
+    static function getLinkToLiveFromUsers_idWithLastServersId($users_id){
+        $live_servers_id = self::getLastServersIdFromUser($users_id);
+        return self::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id);
+    }
+    
     static function getCurrentLiveServersId() {
         $live_servers_id = self::getLiveServersIdRequest();
         if ($live_servers_id) {
@@ -958,8 +982,8 @@ class Live extends PluginAbstract {
                     if(!empty($matches[1])){
                         $_REQUEST['playlists_id_live'] = intval($matches[1]);
                         $playlists_id_live = $_REQUEST['playlists_id_live'];
-                        $pl = new PlayList($_REQUEST['playlists_id_live']);
-                        $title = $pl->getName();
+                        $photo = PlayLists::getImage($_REQUEST['playlists_id_live']);
+                        $title = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
                     }
                 }
                 

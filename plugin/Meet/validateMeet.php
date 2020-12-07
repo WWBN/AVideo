@@ -13,7 +13,7 @@ if (empty($meet_schedule_id)) {
 }
 
 $meet = new Meet_schedule($meet_schedule_id);
-if(empty($meet->getName())){
+if(empty($meet->getCleanName())){
     forbiddenPage("meet not found");
 }
 

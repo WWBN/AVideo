@@ -442,7 +442,7 @@ abstract class ObjectYPT implements ObjectInterface {
             _session_start();
             unset($_SESSION['user']['sessionCache'][$name]);
         }
-        return false;
+        return null;
     }
 
     static private function getLastDeleteALLCacheTimeFile() {

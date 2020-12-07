@@ -124,7 +124,7 @@ if(User::hasBlockedUser($video['users_id'])){
                             $files = getVideosURLZIP($video['filename']);
                         }else{
                             $files = getVideosURL($video['filename']);
-                        }
+                        }//var_dump($files);exit;
                         foreach ($files as $key => $theLink) {
                             $notAllowedKeys = array('m3u8');
                             if (empty($advancedCustom->showImageDownloadOption)) {

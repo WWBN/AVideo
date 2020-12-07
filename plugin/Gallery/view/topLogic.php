@@ -37,6 +37,10 @@ if ((empty($_GET['type'])) && (!empty($currentCatType))) {
         unset($_SESSION['type']);
     }
 }
+if ((empty($_GET['type'])) && (empty($currentCatType))) {
+    unset($_SESSION['type']);
+}
+
 require_once $global['systemRootPath'] . 'objects/video.php';
 $orderString = "";
 if ($obj->sortReverseable) {

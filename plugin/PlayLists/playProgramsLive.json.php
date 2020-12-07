@@ -18,6 +18,13 @@ if (!$users_id) {
     _error_log("playProgramsLive:: {$obj->msg}");
     die(json_encode($obj));
 }
+
+if (!User::canStream()) {
+    $obj->msg = __("User cannot stream");
+    _error_log("playProgramsLive:: {$obj->msg}");
+    die(json_encode($obj));
+}
+
 $playlistPlugin = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 
 if (empty($playlistPlugin)) {
@@ -62,23 +69,22 @@ $key = $lt->getKey();
 // get the encoder
 $encoder = $config->_getEncoderURL();
 
+$obj->encoder = $encoder;
+
+
 $status = json_decode(url_get_contents($encoder."status"));
 if(empty($status->version) || version_compare($status->version, "3.2") < 0){
     $obj->msg = __("Your Encoder MUST be version 3.2 or greater");
     _error_log("playProgramsLive:: {$obj->msg}");
     die(json_encode($obj));
 }
-
+ini_set('max_execution_time', 0);
 Live::stopLive($users_id);
 $webSiteRootURL = urlencode($global['webSiteRootURL']);
 $live_servers_id = Live::getCurrentLiveServersId();
-$videosListToLive = "{$encoder}videosListToLive?playlists_id={$playlists_id}&APISecret={$api->APISecret}&webSiteRootURL={$webSiteRootURL}&user=".User::getUserName()."&pass=".User::getUserPass()."&liveKey={$key}&rtmp=". urlencode(Live::getServer())."&live_servers_id={$live_servers_id}";
-echo $videosListToLive;
-$cmd = "wget -O/dev/null -q \"{$videosListToLive}\" > /dev/null 2>/dev/null &";
-_error_log("playProgramsLive:: {$cmd}");
-//echo "** executing command {$cmd}\n";
-//exec($cmd);
-
-$obj->videosListToLive = $videosListToLive;
+$videosListToLive = "{$encoder}videosListToLive?playlists_id={$playlists_id}&APISecret={$api->APISecret}&webSiteRootURL={$webSiteRootURL}&user=".User::getUserName()."&pass=".User::getUserPass();
+//$obj->url = $videosListToLive;
+$obj->videosListToLive = url_get_contents($videosListToLive);
 $obj->error = false;
+$obj->msg = __("Your stream will start soon");
 die(json_encode($obj));

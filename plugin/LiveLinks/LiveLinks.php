@@ -36,6 +36,7 @@ class LiveLinks extends PluginAbstract {
         $obj->disableGifThumbs = false;
         $obj->disableLiveThumbs = false;
         $obj->doNotShowLiveLinksLabel = false;
+        $obj->disableProxy = false;
         return $obj;
     }
 
@@ -134,7 +135,7 @@ class LiveLinks extends PluginAbstract {
                 $value['title'],
                 $name,
                 str_replace('"', "", $value['description']),
-                "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$value['id']}",
+                self::getLink($value['id']),
                 '<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg".'" class="thumbsJPG img-responsive" height="130">',
                 empty($obj->disableGifThumbs)?('<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif".'" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">'):"",
                 ($requestComesFromVideoPage)?"col-xs-6":"col-lg-2 col-md-4 col-sm-4 col-xs-6"
@@ -181,8 +182,18 @@ class LiveLinks extends PluginAbstract {
     }
     
     public function getLinkToLiveFromId($id, $embed=false){
+        return self::getLink($id, $embed);
+    }
+    
+    public static function getLink($id, $embed=false){
         global $global;
-        return "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$id}".($embed?"&embed=1":"");
+        //return "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$id}".($embed?"&embed=1":"");
+        $ll = new LiveLinksTable($id);
+        if(!$embed){
+            return "{$global['webSiteRootURL']}liveLink/{$id}/". urlencode(cleanURLName($ll->getTitle()));
+        }else{
+            return "{$global['webSiteRootURL']}liveLinkEmbed/{$id}/". urlencode(cleanURLName($ll->getTitle()));
+        }
     }
 
     public function getPosterToLiveFromId($id){

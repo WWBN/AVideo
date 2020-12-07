@@ -1,0 +1,37 @@
+<button class="btn btn-xs btn-default playAll hrefLink" id="{btnId}" data-toggle="tooltip" title="{tooltip}" style="display: none;"  ><i class="fas fa-broadcast-tower"></i> {label}</button>
+<button class="btn btn-xs btn-default playAll hrefLink playListIsLive" id="{btnId}Live" data-toggle="tooltip" title="{tooltipLive}" style="display: none;"  ><i class="fas fa-broadcast-tower"></i> {labelLive}</button>
+<script>
+    var {btnId}isLive = {isLive};
+    $(document).ready(function () {
+        toogle{btnId}isLive();
+        $('#{btnId},#{btnId}Live').click(function (e) {
+            e.preventDefault();
+            modal.showPleaseWait();
+            $.ajax({
+                url: '{liveLink}',
+                success: function (response) {
+                    if (response.error) {
+                        {btnId}isLive = false;
+                        avideoAlertError(response.msg);
+                    }else{
+                        {btnId}isLive = true;
+                        avideoToast(response.msg);
+                    }
+                    toogle{btnId}isLive();
+                    modal.hidePleaseWait();
+                }
+            });
+            return false;
+        });
+        $('#{btnId},#{btnId}Live').tooltip(); 
+    });
+    function toogle{btnId}isLive(){
+        if({btnId}isLive){
+            $('#{btnId}Live').show();
+            $('#{btnId}').hide();
+        }else{
+            $('#{btnId}').show();
+            $('#{btnId}Live').hide();
+        }
+    }
+</script>

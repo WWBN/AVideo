@@ -54,6 +54,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
             $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('label-success');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').text("<?php echo __("ONLINE"); ?>");
             //playerPlayIfAutoPlay(0);
+            clearTimeout(_reloadVideoJSTimeout<?php echo $live_servers_id; ?>);
             if (isAutoplayEnabled() && !player.paused()) {
                 player.play();
             }
@@ -66,7 +67,8 @@ $live_servers_id = Live::getCurrentLiveServersId();
             $('#liveViewStatus<?php echo $live_servers_id; ?>').removeClass('label-danger');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').addClass('label-warning');
             $('#liveViewStatus<?php echo $live_servers_id; ?>').text("<?php echo __("Please Wait ..."); ?>");
-            reloadVideoJS();
+            reloadVideoJSTimeout<?php echo $live_servers_id; ?>(10000);
+            //reloadVideoJS();
             //playerPlayIfAutoPlay(0);            
             if (isAutoplayEnabled() && !player.paused()) {
                 player.play();
@@ -101,6 +103,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
                 player.on('play', function(){
                     $('#mainVideo.liveVideo').find('.vjs-poster').fadeOut();
                 });
+                //reloadVideoJSTimeout<?php echo $live_servers_id; ?>(10000);
                 //reloadVideoJS();
                 //playerPlay(0);
             } else {
@@ -118,6 +121,15 @@ $live_servers_id = Live::getCurrentLiveServersId();
         if(!bigPlayButtonModified){
             player.bigPlayButton.hide();
         }
+    }
+
+    var _reloadVideoJSTimeout<?php echo $live_servers_id; ?>;
+    function reloadVideoJSTimeout<?php echo $live_servers_id; ?>(timeout){
+        if(_reloadVideoJSTimeout<?php echo $live_servers_id; ?>){
+            return false;
+        }
+        
+        _reloadVideoJSTimeout<?php echo $live_servers_id; ?> = setTimeout(function(){reloadVideoJS();},timeout);
     }
 
     function getStats<?php echo $live_servers_id; ?>() {

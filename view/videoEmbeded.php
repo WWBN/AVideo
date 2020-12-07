@@ -39,8 +39,14 @@ if (empty($customizedAdvanced)) {
     $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 }
 
-if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {
+if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && !isAVideoMobileApp()) {
     if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($video['id'])) {
+        if(!empty($advancedCustomUser->blockEmbedFromSharedVideos)){
+            error_log("Embed is forbidden: \$advancedCustomUser->blockEmbedFromSharedVideos");
+        }
+        if(!CustomizeUser::canShareVideosFromVideo($video['id'])){
+            error_log("Embed is forbidden: !CustomizeUser::canShareVideosFromVideo(\$video['id'])");
+        }
         forbiddenPage("Embed is forbidden");
     }
 }
@@ -127,7 +133,8 @@ if (!empty($_GET['t'])) {
     $t = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
 }
 
-$playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
+$playerSkinsO = AVideoPlugin::getObjectData("PlayerSkins");
+$disableEmbedTopInfo = $playerSkinsO->disableEmbedTopInfo;
 
 $url = Video::getLink($video['id'], $video['clean_title'], false);
 $title = str_replace('"', '', $video['title']) . ' - ' . $config->getWebSiteTitle();
@@ -138,7 +145,7 @@ if (empty($currentTime)) {
 }
 
 if (User::hasBlockedUser($video['users_id'])) {
-    $playerSkinsObj->disableEmbedTopInfo = true;
+    $disableEmbedTopInfo = true;
     $video['type'] = "blockedUser";
 }
 ?>
@@ -298,7 +305,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <?php
     } else if ($video['type'] == "article") {
         ?>
-        <div id="main-video" class="bgWhite list-group-item" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
+        <div id="main-video" class="bgWhite list-group-item ypt-article" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
             <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
                 <?php
                 echo $video['title'];
@@ -476,7 +483,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         </script>
         <?php
     }
-    if (empty($playerSkinsObj->disableEmbedTopInfo) || !empty($controls)) {
+    if (empty($disableEmbedTopInfo)) {
         ?>
         <div id="topInfo" style="display: none;">
             <a href="<?php echo $url; ?>" target="_blank">

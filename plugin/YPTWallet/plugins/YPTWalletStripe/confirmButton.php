@@ -106,55 +106,48 @@ $uid = uniqid();
     var form<?php echo $uid; ?> = document.getElementById('payment-form<?php echo $uid; ?>');
     form<?php echo $uid; ?>.addEventListener('submit', function (event) {
         event.preventDefault();
-
-        stripe<?php echo $uid; ?>.createToken(card<?php echo $uid; ?>).then(function (result) {
-            console.log(result);
-            if (result.error) {
-                // Inform the user if there was an error.
-                var errorElement = document.getElementById('card-errors<?php echo $uid; ?>');
-                errorElement.textContent = result.error.message;
-            } else {
-                // Send the token to your server.
-                stripeTokenHandler<?php echo $uid; ?>(result.token);
-            }
-        });
-    });
-
-    // Submit the form with the token ID.
-    function stripeTokenHandler<?php echo $uid; ?>(token) {
-
         modal.showPleaseWait();
-
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestPayment.json.php',
+            url: '<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/getIntent.json.php',
             data: {
                 "value": $('#value<?php echo @$_GET['plans_id']; ?>').val(),
-                "stripeToken": token.id
+                "description": $('#description<?php echo @$_GET['plans_id']; ?>').val(),
+                "plans_id": "<?php echo @$_GET['plans_id']; ?>",
+                "plugin": "<?php echo @$_REQUEST['plugin']; ?>",
+                "singlePayment": 1
             },
             type: 'post',
             success: function (response) {
+                modal.hidePleaseWait();
                 if (!response.error) {
-<?php
-if (empty($_REQUEST['redirectUri'])) {
-    ?>
-                        $(".walletBalance").text(response.walletBalance);
-                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
-    <?php
-} else {
-    ?>
-                        document.location = "<?php echo $_REQUEST['redirectUri']; ?>";
-    <?php
-}
-?>
+                    console.log(response);
+                    stripe<?php echo $uid; ?>.confirmCardPayment(
+                            response.client_secret,
+                            {
+                                payment_method: {card: card<?php echo $uid; ?>}
+                            }
+                    ).then(function (result) {
+                        console.log(result);
+                        if (result.error) {
+                            // Inform the user if there was an error.
+                            var errorElement = document.getElementById('card-errors<?php echo $uid; ?>');
+                            errorElement.textContent = result.error.message;
+                            avideoAlertError(result.error.message);
+                        } else {
+                            modal.showPleaseWait();
+                            // Send the token to your server.
+                            avideoToast("<?php echo __("Payment Success"); ?>");
+                            updateYPTWallet();
+                            setTimeout(function(){location.reload();}, 3000);
+                        }
+                    });
                 } else {
-                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");
+                    avideoAlertError(response.msg);
                 }
-                setTimeout(function () {
-                    modal.hidePleaseWait();
-                }, 500);
 
             }
         });
 
-    }
+    });
+
 </script>

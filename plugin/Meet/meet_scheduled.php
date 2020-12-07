@@ -12,10 +12,6 @@ if (empty($obj)) {
     die("Plugin disabled");
 }
 
-if (!User::canCreateMeet()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
-    exit;
-}
 $userCredentials = User::loginFromRequestToGet();
 if (empty($meet_scheduled)) {
     $meet_scheduled = cleanString($_REQUEST['meet_scheduled']);
@@ -23,6 +19,9 @@ if (empty($meet_scheduled)) {
 
 if (empty($manageMeetings)) {
     $manageMeetings = intval($_REQUEST['manageMeetings']);
+}
+if (!User::canCreateMeet()) {
+    $manageMeetings = false;
 }
 ?>
 
@@ -66,6 +65,22 @@ if (empty($manageMeetings)) {
         </tr>
     </tfoot>
 </table>
+<div id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinksJoinOnly" style="display: none;">
+    <div class="btn-group pull-right">
+        <?php
+        if ($meet_scheduled == "today") {
+            ?>
+            <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success btn-xs" 
+                    data-toggle="tooltip" title="<?php echo __("Join"); ?>">
+                <i class="fa fa-check"></i>
+            </button>
+            <?php
+        }else{
+            echo __("Comming Soon");
+        }
+        ?>
+    </div>
+</div>
 <div id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinks" style="display: none;">
     <div class="btn-group pull-right">
         <?php
@@ -154,7 +169,15 @@ if (empty($manageMeetings)) {
                             {
                                 sortable: false,
                                 data: null,
-                                defaultContent: $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinks').html()
+                                "render": function (data, type, row) {
+                                    
+                                    if(row.isModerator){
+                                        return $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinks').html()
+                                    }else{
+                                        return $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinksJoinOnly').html()
+                                        
+                                    }
+                                }
                             }
                         ],
                         select: true,

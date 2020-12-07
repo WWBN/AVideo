@@ -271,6 +271,8 @@ class Plugin extends ObjectYPT {
 
     static function getDatabaseFileName($pluginName) {
         global $global;
+        
+        $pluginName = AVideoPlugin::fixName($pluginName);
         $dir = $global['systemRootPath'] . "plugin";
         $filename = $dir . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "install" . DIRECTORY_SEPARATOR . "install.sql";
         if (!file_exists($filename)) {

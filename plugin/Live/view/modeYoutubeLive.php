@@ -34,7 +34,18 @@ $video['users_id'] = $user_id;
 $subscribe = Subscribe::getButton($user_id);
 $name = $u->getNameIdentificationBd();
 $name = "<a href='" . User::getChannelLink($user_id) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($user_id) . "</a>";
-$video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_id) . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
+
+$liveTitle = $livet['title'];
+$liveDescription = $livet['description'];
+$liveImg = User::getPhoto($user_id);
+if(!empty($_REQUEST['playlists_id_live'])){
+    $liveTitle = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
+    $liveDescription = PlayLists::getDescriptionIfIsSerie($_REQUEST['playlists_id_live']);
+    $liveImg = PlayLists::getImage($_REQUEST['playlists_id_live']);
+}
+
+
+$video['creator'] = '<div class="pull-left"><img src="' . $liveImg . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
 
 $img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
 $imgw = 640;
@@ -58,7 +69,7 @@ if(empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")){
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $livet['title']; ?> - <?php echo __("Live Video"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $liveTitle; ?> - <?php echo __("Live Video"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
@@ -69,13 +80,13 @@ if(empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")){
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo Live::getLinkToLiveFromUsers_id($user_id); ?>" />
         <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo str_replace('"', '', $livet['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
-        <meta property="og:description"        content="<?php echo str_replace('"', '', $livet['title']); ?>" />
+        <meta property="og:title"              content="<?php echo str_replace('"', '', $liveTitle); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:description"        content="<?php echo str_replace('"', '', $liveTitle); ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
         <?php
-        echo AVideoPlugin::getHeadCode();
+        //echo AVideoPlugin::getHeadCode();
         ?>
     </head>
 
@@ -147,11 +158,11 @@ if(empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")){
                                     <?php
                                     }
                                     ?>
-                                   <?php echo $livet['title']; ?>
+                                   <?php echo $liveTitle; ?>
                                     
                                 </h1>
                                 <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                                <p><?php echo nl2br(textToLink($livet['description'])); ?></p>
+                                <p><?php echo nl2br(textToLink($liveDescription)); ?></p>
                                 <div class="row">
                                     <div class="col-md-12 watch8-action-buttons text-muted">
                                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
@@ -172,7 +183,7 @@ if(empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")){
                                 </div>
                                 <?php
                                 $link = Live::getLinkToLiveFromUsers_id($user_id);
-                                getShareMenu($livet['title'], $link, $link, $link .= "?embed=1");
+                                getShareMenu($liveTitle, $link, $link, $link .= "?embed=1");
                                 ?>
                                 <div class="row">
 

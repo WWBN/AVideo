@@ -2,6 +2,12 @@
 
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
+
+if(!requestComesFromSafePlace()){
+    _error_log("Why are you requesting this ".getSelfURI()." ".json_encode($_SERVER));
+    die();
+}
+
 ini_set('max_execution_time', 10);
 set_time_limit(10);
 session_write_close();

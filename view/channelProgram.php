@@ -109,14 +109,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             ?>
                             <a href="<?php echo $link; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
                             <?php
-                            if ($isMyChannel && PlayLists::showPlayLiveButton()) {
-                                $liveLink = PlayLists::getLiveLink($program['id']);
-                                if (!empty($liveLink)) {
-                                    ?>
-                                    <a href="<?php echo $liveLink; ?>" class="btn btn-xs btn-default playAll hrefLink" ><i class="fas fa-broadcast-tower"></i> <?php echo __("Play Live"); ?></a>
-                                    <?php
-                                }
-                            }
+                            echo PlayLists::getPlayLiveButton($program['id']);
                         }
                         if ($isMyChannel) {
                             ?>
@@ -213,7 +206,11 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                         ?>
 
                         <div class="panel-body">
-
+                            <?php
+                            $_REQUEST['user_id'] = $program['users_id'];
+                            $_REQUEST['playlists_id'] = $program['id'];
+                            include $global['systemRootPath'] . 'plugin/PlayLists/epg.html.php';
+                            ?>
                             <div id="sortable<?php echo $program['id']; ?>" style="list-style: none;">
                                 <?php
                                 $count = 0;
@@ -529,39 +526,41 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                     $('.renamePlaylist').click(function () {
                         currentObject = this;
                         swal({
-                            title: "<?php echo __("Change Playlist Name"); ?>!",
-                            text: "<?php echo __("What is the new name?"); ?>",
-                            type: "input",
-                            showCancelButton: true,
-                            closeOnConfirm: true,
-                            inputPlaceholder: "<?php echo __("Playlist name?"); ?>"
-                        },
-                                function (inputValue) {
-                                    if (inputValue === false)
-                                        return false;
-
-                                    if (inputValue === "") {
-                                        swal.showInputError("<?php echo __("You need to tell us the new name?"); ?>");
-                                        return false
-                                    }
-
-                                    modal.showPleaseWait();
-                                    var playlist_id = $(currentObject).attr('playlist_id');
-                                    console.log(playlist_id);
-                                    $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php',
-                                        data: {
-                                            "playlist_id": playlist_id,
-                                            "name": inputValue
-                                        },
-                                        type: 'post',
-                                        success: function (response) {
-                                            $(currentObject).closest('.panel').find('.playlistName').text(inputValue);
-                                            modal.hidePleaseWait();
-                                        }
-                                    });
-                                    return false;
-                                });
+                            text: "<?php echo __("Change Playlist Name"); ?>!",
+                            content: "input",
+                            button: {
+                                text: "<?php echo __("Confirm Playlist name"); ?>",
+                                closeModal: false,
+                            },
+                        }).then(function (name) {
+                            if (!name)
+                                throw null;
+                            modal.showPleaseWait();
+                            var playlist_id = $(currentObject).attr('playlist_id');
+                            console.log(playlist_id);
+                            return fetch('<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php?playlist_id=' + playlist_id + '&name=' + encodeURI(name));
+                        }).then(function (results) {
+                            return results.json();
+                        }).then(function (response) {
+                            if (response.error) {
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                modal.hidePleaseWait();
+                            } else {
+                                $(currentObject).closest('.panel').find('.playlistName').text(response.name);
+                                swal.stopLoading();
+                                swal.close();
+                                modal.hidePleaseWait();
+                            }
+                        }).catch(function (err) {
+                            if (err) {
+                                swal("Oh noes!", "The AJAX request failed!", "error");
+                            } else {
+                                swal.stopLoading();
+                                swal.close();
+                            }
+                            modal.hidePleaseWait();
+                        });
+                        ;
 
                     });
 

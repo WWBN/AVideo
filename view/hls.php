@@ -16,9 +16,9 @@ $filename =  "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}/index.
 $_GET['file'] = "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}/index.m3u8";
 //var_dump($_GET['file']);exit;
 $cachedPath = explode("/", $_GET['videoDirectory']);
-if(empty($_SESSION['hls'][$cachedPath[0]])){
+if(empty($_SESSION['user']['sessionCache']['hls'][$cachedPath[0]])){
     AVideoPlugin::xsendfilePreVideoPlay();
-    $_SESSION['hls'][$cachedPath[0]] = 1;
+    $_SESSION['user']['sessionCache']['hls'][$cachedPath[0]] = 1;
 }
 
 $tokenIsValid = false;

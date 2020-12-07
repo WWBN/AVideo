@@ -82,6 +82,9 @@ Options All -Indexes
     RewriteRule    ^meet/([0-9]+)$ plugin/Meet/iframe.php?meet_schedule_id=$1 [NC,L,QSA]
     RewriteRule    ^live/([0-9]+)/(.+)$ plugin/Live/?live_servers_id=$1&c=$2 [NC,L,QSA]
 
+    RewriteRule    ^liveLink/([0-9]+).*$ plugin/LiveLinks/view/Live.php?link=$1 [NC,L,QSA]
+    RewriteRule    ^liveLinkEmbed/([0-9]+).*$ plugin/LiveLinks/view/Live.php?link=$1&embed=1 [NC,L,QSA]
+
     #main Files
     RewriteRule    ^index.php$ view/index.php    [NC,L]
     #RewriteRule    ^index.php$ /view/index.php    [NC,L]
@@ -150,6 +153,20 @@ Options All -Indexes
     RewriteRule    ^fileUpload$ view/mini-upload-form/upload.php    [NC,L]
     RewriteRule    ^uploadPoster/([0-9]+)/(jpg|gif)$ objects/uploadPoster.php?video_id=$1&type=$2    [NC,L]
 
+    #for the Article name
+    RewriteRule    ^article/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?videoName=$1    [QSA]
+    RewriteRule    ^article/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?videoName=$1&page=$2    [QSA]
+    RewriteRule    ^article/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?v=$1    [QSA]
+    RewriteRule    ^article/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?v=$1&page=$3     [QSA]
+
+    #for the embeded article name
+    RewriteRule    ^articleEmbed/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^articleEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
+    RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/articleEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?catName=$1&videoName=$2    [QSA]
+    RewriteRule    ^articleEmbed/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^articleEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
+    RewriteRule    ^articleEmbed/([0-9]+)/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
+
     #edit your own user
     RewriteRule    ^user$ view/user.php    [NC,L]
 
@@ -188,6 +205,13 @@ Options All -Indexes
     RewriteRule    ^runDBScriptPlugin.json$ objects/pluginRunDatabaseScript.json.php    [NC,L]
 
     #manager playList
+    RewriteRule    ^epg.xml$ plugin/PlayLists/epg.xml.php    [NC,L,QSA]
+    RewriteRule    ^epg.json$ plugin/PlayLists/epg.json.php    [NC,L,QSA]
+    RewriteRule    ^epg.html$ plugin/PlayLists/epg.html.php    [NC,L,QSA]
+    RewriteRule    ^epg$ plugin/PlayLists/epg.php    [NC,L,QSA]
+    RewriteRule    ^tv$ plugin/PlayLists/tv.php    [NC,L,QSA]
+    RewriteRule    ^iptv$ plugin/PlayLists/iptv.php    [NC,L,QSA]
+    RewriteRule    ^iptv/([^/]+)/?$ plugin/PlayLists/iptv.php?channelName=$1    [NC,L,QSA]
     RewriteRule    ^playLists.json$ objects/playlists.json.php    [NC,L]
     RewriteRule    ^playListsVideos.json$ objects/playlistsVideos.json.php    [NC,L]
     RewriteRule    ^playListsFromUser.json/([0-9]+)/?$ objects/playlistsFromUser.json.php?users_id=$1    [NC,L]
