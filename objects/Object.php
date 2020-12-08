@@ -61,6 +61,7 @@ abstract class ObjectYPT implements ObjectInterface {
             }
             return false;
         } catch (Exception $exc) {
+            _error_log("setTimeZone: ".$exc->getMessage(), AVideoLog::$ERROR);
             return false;
         }
     }
