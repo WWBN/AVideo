@@ -52,9 +52,17 @@ abstract class ObjectYPT implements ObjectInterface {
         if(empty($timeZOnesOptions[$advancedCustom->timeZone->value])){
             return false;
         }
-        $dt->setTimezone(new DateTimeZone($timeZOnesOptions[$advancedCustom->timeZone->value]));
-        date_default_timezone_set($timeZOnesOptions[$advancedCustom->timeZone->value]);
-        return $dt;
+        try {
+            $objDate = new DateTimeZone($timeZOnesOptions[$advancedCustom->timeZone->value]);
+            if(is_object($objDate)){
+                $dt->setTimezone($objDate);
+                date_default_timezone_set($timeZOnesOptions[$advancedCustom->timeZone->value]);
+                return $dt;
+            }
+            return false;
+        } catch (Exception $exc) {
+            return false;
+        }
     }
 
     static protected function getFromDb($id) {
