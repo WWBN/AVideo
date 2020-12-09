@@ -1,6 +1,6 @@
 player.seekButtons({forward: playerSeekForward, back: playerSeekBack});
 var trackDisplayTimeout;
-
+var showingSeekButton = true;
 function startTrackDisplay() {
     if ($(".vjs-text-track-display").length === 0) {
         setTimeout(function () {
@@ -8,7 +8,7 @@ function startTrackDisplay() {
         }, 500);
     }
     console.log("startTrackDisplay started");
-    $(".vjs-text-track-display").css('pointerEvents',"auto");
+    $(".vjs-text-track-display").css('pointerEvents', "auto");
     $(".vjs-text-track-display").dblclick(function (e) {
         e.preventDefault();
         console.log("dbl click happen " + trackDisplayTimeout);
@@ -57,5 +57,7 @@ function startTrackDisplay() {
         console.log("single click register " + trackDisplayTimeout);
 
     });
+    $( "<div id='seekBG'></div>" ).insertBefore( ".vjs-text-track-display" );
+
 }
 startTrackDisplay();

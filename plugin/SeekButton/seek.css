@@ -24,3 +24,17 @@
 #backLayer i.active{
     left: 20px;
 }
+#seekBG{
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(seekBG.png);
+    position: absolute;
+    top: 0;
+    display: none;
+}
+
+.vjs-paused #seekBG{
+    display: block;
+}
