@@ -42,6 +42,9 @@ class SeekButton extends PluginAbstract {
             $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css" rel="stylesheet" type="text/css"/>';
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/seek.css" rel="stylesheet" type="text/css"/>';
             $css .= '<style>.video-js .vjs-seek-button {font-size: 25px;width: 2em !important;}</style>';
+            if(isMobile()){
+                $css .= '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">';
+            }
         }
         return $css;
     }

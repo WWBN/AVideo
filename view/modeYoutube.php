@@ -351,7 +351,38 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         $modeYouTubeTimeLog['After head'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
         ?>
-
+        <style>
+            #descriptionArea #descriptionAreaPreContent{
+                max-height: 200px;
+                overflow: hidden;
+                transition: max-height 0.25s ease-out;
+                overflow: hidden;
+            }
+            #descriptionAreaPreContent{
+                margin-bottom: 30px;
+            }
+            #descriptionArea.expanded #descriptionAreaPreContent{
+                max-height: 1500px;
+                overflow: auto;
+                transition: max-height 0.25s ease-in;
+            }
+            #descriptionAreaShowMoreBtn{
+                 position: absolute;
+                 bottom: 0;
+            }
+            #descriptionArea .showMore{
+                 display: block;
+            }
+            #descriptionArea .showLess{
+                 display: none;
+            }
+            #descriptionArea.expanded .showMore{
+                 display: none;
+            }
+            #descriptionArea.expanded .showLess{
+                 display: block;
+            }
+        </style>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">

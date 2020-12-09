@@ -1780,7 +1780,7 @@ if (!class_exists('Video')) {
                 }
                 $this->description = $parts[0];
             } else {
-                $this->description = strip_tags($description);
+                $this->description = strip_tags(br2nl($description));
             }
             //var_dump($this->description, $description, $parts);exit;
         }

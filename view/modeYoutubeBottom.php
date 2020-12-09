@@ -126,7 +126,8 @@ if(User::hasBlockedUser($video['users_id'])){
                             $files = getVideosURL($video['filename']);
                         }//var_dump($files);exit;
                         foreach ($files as $key => $theLink) {
-                            $notAllowedKeys = array('m3u8');
+                            //$notAllowedKeys = array('m3u8');
+                            $notAllowedKeys = array();
                             if (empty($advancedCustom->showImageDownloadOption)) {
                                 $notAllowedKeys = array_merge($notAllowedKeys, array('jpg', 'gif', 'webp', 'pjpg'));
                             }
@@ -140,9 +141,10 @@ if(User::hasBlockedUser($video['users_id'])){
                             if($keyFound){
                                 continue;
                             }
-                            if (strpos($theLink['url'], '?') === false) {
-                                $theLink['url'] .= "?download=1&title=" . urlencode($video['title'] . "_{$key}_.mp4");
-                            }
+                            
+                            $theLink['url'] = addQueryStringParameter($theLink['url'] , "download", 1);
+                            $theLink['url'] = addQueryStringParameter($theLink['url'] , "title", $video['title'] . "_{$key}_.mp4");
+                            
                             $parts = explode("_", $key);
                             $name = $key;
                             if(count($parts)>1){
@@ -267,10 +269,18 @@ if ($video['type']!=='notfound' && CustomizeUser::canShareVideosFromVideo($video
             if ($video['type']!=='notfound' && $video['type'] !== 'article') {
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
-                <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description">
+                <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description" id="descriptionArea">
+                    <div id="descriptionAreaPreContent">
+                        <div id="descriptionAreaContent">
                     <?php 
                     echo Video::htmlDescription($video['description']);
                     ?>
+                    </div>
+                    </div>
+                    <button onclick="$('#descriptionArea').toggleClass('expanded'); " class="btn btn-xs btn-default" id="descriptionAreaShowMoreBtn" style="display: none; ">
+                        <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
+                        <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
+                    </button>
                 </div>
                 <?php
             }
@@ -281,6 +291,9 @@ if ($video['type']!=='notfound' && CustomizeUser::canShareVideosFromVideo($video
 </div>
 <script>
     $(document).ready(function () {
+        if($('#descriptionArea').height() <  $('#descriptionAreaContent').height()){
+            $('#descriptionAreaShowMoreBtn').show();
+        }
 <?php
 if (empty($advancedCustom->showShareMenuOpenByDefault)) {
     ?>
