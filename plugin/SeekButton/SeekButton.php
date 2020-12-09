@@ -39,7 +39,7 @@ class SeekButton extends PluginAbstract {
         global $global;
         $css = "";
         if (isVideoPlayerHasProgressBar()) {
-            $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css?'. filectime($global['systemRootPath'] . 'videojs-seek-buttons/videojs-seek-buttons.css').'" rel="stylesheet" type="text/css"/>';
+            $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css?'. filectime($global['systemRootPath'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css').'" rel="stylesheet" type="text/css"/>';
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/seek.css?'. filectime($global['systemRootPath'] . 'plugin/SeekButton/seek.css').'" rel="stylesheet" type="text/css"/>';
             $css .= '<style>.video-js .vjs-seek-button {font-size: 25px;width: 2em !important;}</style>';
             if(isMobile()){
