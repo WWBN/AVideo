@@ -1754,10 +1754,6 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                     var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                     var download = "";
                     for (var k in row.videosURL) {
-                        var pattern = /^m3u8/i;
-                        if (pattern.test(k) === true) {
-                            //continue;
-                        }
                         var pattern = /_thumbs/i;
                         if (pattern.test(k) === true) {
                             continue;
@@ -1766,12 +1762,23 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                             continue;
                         }
                         var url = row.videosURL[k].url;
+                        
                         if (url.indexOf('?') > -1) {
                             //url += "&download=1";
                         } else {
                             url += "?download=1";
                         }
                         download += '<a href="' + url + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
+                        var pattern = /^m3u8/i;
+                        if (pattern.test(k) === true) {
+                            if (url.indexOf('?') > -1) {
+                                url += "&download=1";
+                            } else {
+                                url += "?download=1";
+                            }
+                            download += '<a href="' + url + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Convert and Download MP4")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> HLS => MP4</a>';
+                        }
+                        
                     }
 
                     if (row.status == "i") {
