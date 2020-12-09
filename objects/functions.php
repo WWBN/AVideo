@@ -3174,6 +3174,18 @@ function get_browser_name($user_agent = "") {
     return 'Other (Unknown)';
 }
 
+/**
+ * Due some error on old chrome browsers (version < 70) on decrypt HLS keys with the videojs versions greater then 7.9.7
+ * we need to detect the chrome browser and load an older version
+ * 
+ */
+function isOldChromeVersion(){
+    if(preg_match('/Chrome\/([0-9.]+)/i',$_SERVER['HTTP_USER_AGENT'], $matches)){
+        return version_compare($matches[1], '70', '<=');
+    }
+    return false;
+}
+
 function TimeLogStart($name) {
     global $global;
     if (!empty($global['noDebug'])) {

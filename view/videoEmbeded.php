@@ -501,7 +501,9 @@ if (User::hasBlockedUser($video['users_id'])) {
         <?php
     }
     ?>
-    <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
+    <?php
+    include $global['systemRootPath'] . 'view/include/video.min.js.php';
+    ?>
     <?php
     echo AVideoPlugin::afterVideoJS();
     $jsFiles = array();

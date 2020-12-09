@@ -21,9 +21,9 @@
         background-color: #FFF;
         box-shadow: 2px 2px 4px #000000;
     }
-    
+
     #volumeBar .volume10{
-       background-color: #2a9fd6;
+        background-color: #2a9fd6;
     }
     <?php
     for ($i = 9; $i > 0; $i--) {
@@ -38,7 +38,9 @@
         opacity: 0.05;
     }
 </style>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.min.js" type="text/javascript"></script>
+<?php
+include $global['systemRootPath'] . 'view/include/video.min.js.php';
+?>
 
 <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" playsinline webkit-playsinline="webkit-playsinline" 
        class="video-js vjs-default-skin vjs-big-play-centered" 
