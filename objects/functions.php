@@ -371,7 +371,7 @@ function cleanString($text) {
 
 function cleanURLName($name) {
     $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]% ]+/', '-', trim(strtolower(cleanString($name))));
-    return trim(preg_replace('/[\x00-\x1F\x7F]/u', '', $name),"-");
+    return trim(preg_replace('/[\x00-\x1F\x7F]/u', '', $name), "-");
 }
 
 /**
@@ -630,12 +630,12 @@ function sendSiteEmail($to, $subject, $message) {
 }
 
 function createEmailMessageFromTemplate($message) {
-    
+
     //check if the message already have a HTML body
-    if(preg_match("/html>/i", $message)){
+    if (preg_match("/html>/i", $message)) {
         return $message;
     }
-    
+
     global $global, $config;
     $text = file_get_contents("{$global['systemRootPath']}view/include/emailTemplate.html");
     $siteTitle = $config->getWebSiteTitle();
@@ -1249,7 +1249,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             if (empty($source)) {
                 continue;
             }
-            if (filesize($file)<20000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
+            if (filesize($file) < 20000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
                 continue;
             }
 
@@ -1899,16 +1899,16 @@ function mime_content_type_per_filename($filename) {
     } else {
         $ext = pathinfo(parse_url($filename, PHP_URL_PATH), PATHINFO_EXTENSION);
     }
-    
-    if($ext==='mp4' || $ext==='webm'){
+
+    if ($ext === 'mp4' || $ext === 'webm') {
         $securePlugin = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-        if(!empty($securePlugin)){
-            if(method_exists($securePlugin, "useEncoderWatrermarkFromFileName") && $securePlugin->useEncoderWatrermarkFromFileName($filename)){
+        if (!empty($securePlugin)) {
+            if (method_exists($securePlugin, "useEncoderWatrermarkFromFileName") && $securePlugin->useEncoderWatrermarkFromFileName($filename)) {
                 return "application/x-mpegURL";
             }
         }
     }
-    
+
     if (array_key_exists($ext, $mime_types)) {
         return $mime_types[$ext];
     } elseif (function_exists('finfo_open')) {
@@ -1938,8 +1938,8 @@ function combineFiles($filesArray, $extension = "js") {
         $minifyEnabled = false;
     }
     // temporary disable minify
-    $minifyEnabled = false;    
-    
+    $minifyEnabled = false;
+
     $md5FileName = md5($fileName) . ".{$extension}";
     if (!file_exists($cacheDir . $md5FileName)) {
         foreach ($filesArray as $value) {
@@ -2365,9 +2365,9 @@ function requestComesFromSameDomainAsMyAVideo() {
     global $global;
     $url = "";
     if (!empty($_SERVER['HTTP_REFERER'])) {
-        $url=$_SERVER['HTTP_REFERER'];
-    }elseif (!empty($_SERVER['HTTP_ORIGIN'])) {
-        $url=$_SERVER['HTTP_ORIGIN'];
+        $url = $_SERVER['HTTP_REFERER'];
+    } elseif (!empty($_SERVER['HTTP_ORIGIN'])) {
+        $url = $_SERVER['HTTP_ORIGIN'];
     }
     return isSameDomain($url, $global['webSiteRootURL']);
 }
@@ -2376,11 +2376,11 @@ function requestComesFromSafePlace() {
     return (requestComesFromSameDomainAsMyAVideo() || isAVideo());
 }
 
-function addGlobalTokenIfSameDomain($url){
+function addGlobalTokenIfSameDomain($url) {
     if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $_GET['livelink'])) {
         return $url;
     }
-    if(!isSameDomainAsMyAVideo($url)){
+    if (!isSameDomainAsMyAVideo($url)) {
         return $url;
     }
     return addQueryStringParameter($url, 'globalToken', getToken(60));
@@ -2394,7 +2394,7 @@ function addGlobalTokenIfSameDomain($url){
  *
  * @return string
  */
-function removeQueryStringParameter($url, $varname){
+function removeQueryStringParameter($url, $varname) {
     $parsedUrl = parse_url($url);
     $query = array();
 
@@ -2404,9 +2404,9 @@ function removeQueryStringParameter($url, $varname){
     }
 
     $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
-    $query = !empty($query) ? '?'. http_build_query($query) : '';
+    $query = !empty($query) ? '?' . http_build_query($query) : '';
 
-    return $parsedUrl['scheme']. '://'. $parsedUrl['host']. $path. $query;
+    return $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $path . $query;
 }
 
 /**
@@ -2417,7 +2417,7 @@ function removeQueryStringParameter($url, $varname){
  *
  * @return string
  */
-function addQueryStringParameter($url, $varname, $value){
+function addQueryStringParameter($url, $varname, $value) {
     $parsedUrl = parse_url($url);
     $query = array();
 
@@ -2426,9 +2426,9 @@ function addQueryStringParameter($url, $varname, $value){
     }
     $query[$varname] = $value;
     $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
-    $query = !empty($query) ? '?'. http_build_query($query) : '';
+    $query = !empty($query) ? '?' . http_build_query($query) : '';
 
-    return $parsedUrl['scheme']. '://'. $parsedUrl['host']. $path. $query;
+    return $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $path . $query;
 }
 
 function isSameDomain($url1, $url2) {
@@ -3172,6 +3172,18 @@ function get_browser_name($user_agent = "") {
         return '[Bot] Other';
     //_error_log("Unknow user agent ($t) IP=" . getRealIpAddr() . " URI=" . getRequestURI());
     return 'Other (Unknown)';
+}
+
+/**
+ * Due some error on old chrome browsers (version < 70) on decrypt HLS keys with the videojs versions greater then 7.9.7
+ * we need to detect the chrome browser and load an older version
+ * 
+ */
+function isOldChromeVersion(){
+    if(preg_match('/Chrome\/([0-9.]+)/i',$_SERVER['HTTP_USER_AGENT'], $matches)){
+        return version_compare($matches[1], '70', '<=');
+    }
+    return false;
 }
 
 function TimeLogStart($name) {
@@ -4802,4 +4814,60 @@ function getServerClock() {
     });
 </script>";
     return $html;
+}
+
+/**
+ * Xsendfile and FFMPEG are required for this feature
+ * @global type $global
+ * @param type $filepath
+ * @return boolean
+ */
+function downloadHLS($filepath) {
+    global $global;
+    if(!file_exists($filepath)){
+        return false;
+    }
+    
+    $videosDir = "{$global['systemRootPath']}videos/";
+    
+    $outputfilename = str_replace($videosDir, "", $filepath);
+    $parts = explode("/", $outputfilename);
+    $resolution = Video::getResolutionFromFilename($filepath);
+    $outputfilename = $parts[0]."_{$resolution}_.mp4";
+    $outputpath = "{$videosDir}cache/downloads/{$outputfilename}";
+    make_path($outputpath);
+    if(empty($outputfilename)){
+        return false;
+    }
+    
+    if (!empty($_REQUEST['title'])) {
+        $quoted = sprintf('"%s"', addcslashes(basename($_REQUEST['title']), '"\\'));
+    } else if (!empty($_REQUEST['file'])) {
+        $quoted = sprintf('"%s"', addcslashes(basename($_REQUEST['file']), '"\\')).".mp4";
+    } else {
+        $quoted = $outputfilename;
+    }
+    
+    $filepath = escapeshellcmd($filepath);
+    $outputpath = escapeshellcmd($outputpath);
+    if(true || !file_exists($outputpath)){
+        $command = "ffmpeg -allowed_extensions ALL -y -i {$filepath} -c copy {$outputpath}";
+        //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
+        exec($command . " 2>&1", $output, $return);
+        if(!empty($return)){
+            _error_log("downloadHLS: ". implode(PHP_EOL, $output));
+            return false;
+        }
+    }
+    //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
+    //var_dump($command, $outputpath);exit;
+    header('Content-Description: File Transfer');
+    header('Content-Disposition: attachment; filename=' . $quoted);
+    header('Content-Transfer-Encoding: binary');
+    header('Connection: Keep-Alive');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Pragma: public');
+    header("X-Sendfile: {$outputpath}");
+    exit;
 }

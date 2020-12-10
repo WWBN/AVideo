@@ -325,10 +325,11 @@ if (!class_exists('Video')) {
 // update the user groups
                     UserGroups::updateVideoGroups($id, $this->videoGroups);
                 }
-
-                Video::autosetCategoryType($id);
+                
+                // I am not sure what is it for
+                //Video::autosetCategoryType($id);
                 if (!empty($this->old_categories_id)) {
-                    Video::autosetCategoryType($this->old_categories_id);
+                    //Video::autosetCategoryType($this->old_categories_id);
                 }
                 self::clearCache($this->id);
                 return $id;
