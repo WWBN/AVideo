@@ -1086,3 +1086,19 @@ function startTimer(duration, selector) {
 
     }, 1000);
 }
+
+function addGetParam(_url,_key,_value){
+      var param = _key+'='+escape(_value);
+
+      var sep = '&';
+      if (_url.indexOf('?') < 0) {
+        sep = '?';
+      } else {
+        var lastChar=_url.slice(-1);
+        if (lastChar == '&') sep='';
+        if (lastChar == '?') sep='';
+      }
+      _url += sep + param;
+
+      return _url;
+  }
