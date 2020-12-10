@@ -25,6 +25,9 @@ if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
 } else if (!empty($_GET['u'])) {
     include $global['systemRootPath'] . 'plugin/Live/view/modeYoutubeLive.php';
     exit;
+} else if (!User::isLogged()) {
+    gotToLoginAndComeBackHere("");
+    exit;
 } else if (!User::canStream()) {
     header('HTTP/1.0 403 Forbidden');
     header("Location: {$global['webSiteRootURL']}?error=" . __($obj->streamDeniedMsg));
