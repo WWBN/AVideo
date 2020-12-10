@@ -370,7 +370,7 @@ function cleanString($text) {
 }
 
 function cleanURLName($name) {
-    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]% ]+/', '-', trim(strtolower(cleanString($name))));
+    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]%" ]+/', '-', trim(strtolower(cleanString($name))));
     return trim(preg_replace('/[\x00-\x1F\x7F]/u', '', $name), "-");
 }
 
@@ -1615,19 +1615,25 @@ function convertImage($originalImage, $outputImage, $quality) {
 // jpg, png, gif or bmp?
     $exploded = explode('.', $originalImage);
     $ext = $exploded[count($exploded) - 1];
-
-    if ($imagetype == IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext))
-        $imageTmp = imagecreatefromjpeg($originalImage);
-    else if ($imagetype == IMAGETYPE_PNG || preg_match('/png/i', $ext))
-        $imageTmp = imagecreatefrompng($originalImage);
-    else if ($imagetype == IMAGETYPE_GIF || preg_match('/gif/i', $ext))
-        $imageTmp = imagecreatefromgif($originalImage);
-    else if ($imagetype == IMAGETYPE_BMP || preg_match('/bmp/i', $ext))
-        $imageTmp = imagecreatefrombmp($originalImage);
-    else if ($imagetype == IMAGETYPE_WEBP || preg_match('/webp/i', $ext))
-        $imageTmp = imagecreatefromwebp($originalImage);
-    else {
-        _error_log("convertImage: File Extension not found ($originalImage, $outputImage, $quality) " . exif_imagetype($originalImage));
+    try {
+        if ($imagetype == IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext))
+            $imageTmp = @imagecreatefromjpeg($originalImage);
+        else if ($imagetype == IMAGETYPE_PNG || preg_match('/png/i', $ext))
+            $imageTmp = imagecreatefrompng($originalImage);
+        else if ($imagetype == IMAGETYPE_GIF || preg_match('/gif/i', $ext))
+            $imageTmp = imagecreatefromgif($originalImage);
+        else if ($imagetype == IMAGETYPE_BMP || preg_match('/bmp/i', $ext))
+            $imageTmp = imagecreatefrombmp($originalImage);
+        else if ($imagetype == IMAGETYPE_WEBP || preg_match('/webp/i', $ext))
+            $imageTmp = imagecreatefromwebp($originalImage);
+        else {
+            _error_log("convertImage: File Extension not found ($originalImage, $outputImage, $quality) " . exif_imagetype($originalImage));
+            return 0;
+        }
+    } catch (Exception $exc) {
+        return 0;
+    }
+    if(!is_resource($imageTmp)){
         return 0;
     }
 // quality is a value from 0 (worst) to 100 (best)
@@ -2872,6 +2878,27 @@ function convertImageToOG($source, $destination) {
     return $destination;
 }
 
+function convertImageToRoku($source, $destination) {
+    if (!file_exists($destination)) {
+        try {
+            $w = 800;
+            $h = 480;
+
+            $sizes = getimagesize($source);
+            if ($sizes[0] < $w || $sizes[1] < $h) {
+                $tmpDir = getTmpDir();
+                $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
+                convertImage($source, $fileConverted, 100);
+                im_resizeV2($fileConverted, $destination, $w, $h, 100);
+                @unlink($fileConverted);
+            }
+        } catch (Exception $exc) {
+            return false;
+        }
+    }
+    return $destination;
+}
+
 function ogSite() {
     global $global, $config;
     include $global['systemRootPath'] . 'objects/functionogSite.php';
@@ -3179,8 +3206,8 @@ function get_browser_name($user_agent = "") {
  * we need to detect the chrome browser and load an older version
  * 
  */
-function isOldChromeVersion(){
-    if(preg_match('/Chrome\/([0-9.]+)/i',$_SERVER['HTTP_USER_AGENT'], $matches)){
+function isOldChromeVersion() {
+    if (preg_match('/Chrome\/([0-9.]+)/i', $_SERVER['HTTP_USER_AGENT'], $matches)) {
         return version_compare($matches[1], '70', '<=');
     }
     return false;
@@ -4824,38 +4851,38 @@ function getServerClock() {
  */
 function downloadHLS($filepath) {
     global $global;
-    if(!file_exists($filepath)){
+    if (!file_exists($filepath)) {
         return false;
     }
-    
+
     $videosDir = "{$global['systemRootPath']}videos/";
-    
+
     $outputfilename = str_replace($videosDir, "", $filepath);
     $parts = explode("/", $outputfilename);
     $resolution = Video::getResolutionFromFilename($filepath);
-    $outputfilename = $parts[0]."_{$resolution}_.mp4";
+    $outputfilename = $parts[0] . "_{$resolution}_.mp4";
     $outputpath = "{$videosDir}cache/downloads/{$outputfilename}";
     make_path($outputpath);
-    if(empty($outputfilename)){
+    if (empty($outputfilename)) {
         return false;
     }
-    
+
     if (!empty($_REQUEST['title'])) {
         $quoted = sprintf('"%s"', addcslashes(basename($_REQUEST['title']), '"\\'));
     } else if (!empty($_REQUEST['file'])) {
-        $quoted = sprintf('"%s"', addcslashes(basename($_REQUEST['file']), '"\\')).".mp4";
+        $quoted = sprintf('"%s"', addcslashes(basename($_REQUEST['file']), '"\\')) . ".mp4";
     } else {
         $quoted = $outputfilename;
     }
-    
+
     $filepath = escapeshellcmd($filepath);
     $outputpath = escapeshellcmd($outputpath);
-    if(true || !file_exists($outputpath)){
+    if (true || !file_exists($outputpath)) {
         $command = "ffmpeg -allowed_extensions ALL -y -i {$filepath} -c copy {$outputpath}";
         //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
         exec($command . " 2>&1", $output, $return);
-        if(!empty($return)){
-            _error_log("downloadHLS: ". implode(PHP_EOL, $output));
+        if (!empty($return)) {
+            _error_log("downloadHLS: " . implode(PHP_EOL, $output));
             return false;
         }
     }

@@ -3000,6 +3000,16 @@ if (!class_exists('Video')) {
             }
             return false;
         }
+        
+        static function getRokuImage($videos_id) {
+            global $global;
+            $images = self::getImageFromID($videos_id);
+            $rokuImage = str_replace(".jpg", "_roku.jpg", $images->posterLandscapePath);
+            if(convertImageToRoku($images->posterLandscapePath, $rokuImage)){
+                return str_replace($global['systemRootPath'], $global['webSiteRootURL'], $rokuImage);
+            }
+            return "{$global['webSiteRootURL']}view/img/notfound.jpg";
+        } 
 
         static function clearImageCache($filename, $type = "video") {
             $cacheFileName = "getImageFromFilename_" . $filename . $type . (get_browser_name() == 'Safari' ? "s" : "");
@@ -3312,7 +3322,7 @@ if (!class_exists('Video')) {
                 if (empty($clean_title)) {
                     $clean_title = $video->getClean_title();
                 }
-                
+                $clean_title = urlencode($clean_title);
                 $subDir = "video";
                 $subEmbedDir = "videoEmbed";
                 if($video->getType()=='article'){
