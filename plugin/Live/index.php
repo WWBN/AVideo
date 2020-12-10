@@ -29,9 +29,7 @@ if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
     gotToLoginAndComeBackHere("");
     exit;
 } else if (!User::canStream()) {
-    header('HTTP/1.0 403 Forbidden');
-    header("Location: {$global['webSiteRootURL']}?error=" . __($obj->streamDeniedMsg));
-    exit;
+    forbiddenPage(__($obj->streamDeniedMsg));
 }
 
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
