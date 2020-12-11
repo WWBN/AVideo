@@ -35,8 +35,8 @@ foreach ($rows as $row) {
 
 $output = json_encode($obj, JSON_UNESCAPED_UNICODE );
 if(json_last_error()){
-    $output = json_last_error_msg();
+    $output = json_encode(json_last_error_msg());
 }
 
-die(json_encode($output));
+die($output);
 ?>
