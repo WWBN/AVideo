@@ -1,21 +1,9 @@
 <?php
 
-$cacheBotWhitelist = array(
-    'aVideoEncoder',
-    'plugin/Live/on_',
-    'plugin/YPTStorage',
-    '/login',
-    'restreamer.json.php',
-    'plugin/API',
-    '/info?version=',
-    'Meet',
-    '/roku.json',
-    'mrss');
-
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Cache extends PluginAbstract {
-    
+
     public function getTags() {
         return array(
             PluginTags::$RECOMMENDED,
@@ -53,7 +41,7 @@ class Cache extends PluginAbstract {
         return $obj;
     }
 
-    public function getCacheDir($ignoreFirstPage=true) {
+    public function getCacheDir($ignoreFirstPage = true) {
         global $global;
         $obj = $this->getDataObject();
         $firstPage = "";
@@ -131,7 +119,7 @@ class Cache extends PluginAbstract {
         if (isCommandLineInterface()) {
             return true;
         }
-        
+
         $whitelistedFiles = array('user.php', 'status.php', 'canWatchVideo.json.php', '/login', '/status');
         $blacklistedFiles = array('videosAndroid.json.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
@@ -165,7 +153,7 @@ class Cache extends PluginAbstract {
             }
         }
 
-        if ($isBot && !self::isREQUEST_URIWhitelisted() && $_SERVER['REMOTE_ADDR'] !='127.0.0.1') {
+        if ($isBot && !self::isREQUEST_URIWhitelisted() && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
             if (empty($_SERVER['HTTP_USER_AGENT'])) {
                 $_SERVER['HTTP_USER_AGENT'] = "";
             }
@@ -178,11 +166,21 @@ class Cache extends PluginAbstract {
         //ob_start('sanitize_output');
         ob_start();
     }
-    
-    private function isREQUEST_URIWhitelisted(){
-        global $cacheBotWhitelist;
+
+    private function isREQUEST_URIWhitelisted() {
+        $cacheBotWhitelist = array(
+            'aVideoEncoder',
+            'plugin/Live/on_',
+            'plugin/YPTStorage',
+            '/login',
+            'restreamer.json.php',
+            'plugin/API',
+            '/info?version=',
+            'Meet',
+            '/roku.json',
+            'mrss');
         foreach ($cacheBotWhitelist as $value) {
-            if(strpos($_SERVER['REQUEST_URI'], $value) !== false){
+            if (strpos($_SERVER['REQUEST_URI'], $value) !== false) {
                 return true;
             }
         }
@@ -200,16 +198,16 @@ class Cache extends PluginAbstract {
         $obj = $this->getDataObject();
         $cachefile = $this->getCacheDir(false) . $this->getFileName();
         $c = ob_get_contents();
-        if(!headers_sent()){
+        if (!headers_sent()) {
             header_remove('Set-Cookie');
         }
         /*
-        if (!file_exists($this->getCacheDir())) {
-            mkdir($this->getCacheDir(), 0777, true);
-        }
+          if (!file_exists($this->getCacheDir())) {
+          mkdir($this->getCacheDir(), 0777, true);
+          }
          * 
          */
-        
+
         make_path($cachefile);
 
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
