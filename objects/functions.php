@@ -3220,7 +3220,7 @@ function get_browser_name($user_agent = "") {
  */
 function isOldChromeVersion() {
     if (preg_match('/Chrome\/([0-9.]+)/i', $_SERVER['HTTP_USER_AGENT'], $matches)) {
-        return version_compare($matches[1], '70', '<=');
+        return version_compare($matches[1], '85', '<=');
     }
     return false;
 }
