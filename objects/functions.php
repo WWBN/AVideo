@@ -2890,14 +2890,11 @@ function convertImageToRoku($source, $destination) {
             $w = 800;
             $h = 480;
 
-            $sizes = getimagesize($source);
-            if ($sizes[0] < $w || $sizes[1] < $h) {
-                $tmpDir = getTmpDir();
-                $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
-                convertImage($source, $fileConverted, 100);
-                im_resizeV2($fileConverted, $destination, $w, $h, 100);
-                @unlink($fileConverted);
-            }
+            $tmpDir = getTmpDir();
+            $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
+            convertImage($source, $fileConverted, 100);
+            im_resizeV2($fileConverted, $destination, $w, $h, 100);
+            @unlink($fileConverted);
         } catch (Exception $exc) {
             _error_log("convertImageToRoku: ".$exc->getMessage());
             return false;

@@ -7,6 +7,9 @@ $obj->lastUpdated = date('c');
 $obj->movies = array();
 foreach ($rows as $row) {
     $videoSource = Video::getHigestResolution($row['filename']);
+    if(empty($videoSource)){
+        continue;
+    }
     $movie = new stdClass();
     $movie->id = Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink");
     $movie->title = UTF8encode($row['title']);
