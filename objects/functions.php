@@ -2889,7 +2889,7 @@ function convertImageToRoku($source, $destination) {
     $w = 1280;
     $h = 720;
     if (file_exists($destination)) {
-        $sizes = getimagesize($source);
+        $sizes = getimagesize($destination);
         if ($sizes[0] < $w || $sizes[1] < $h) {
             _error_log("convertImageToRoku: file is smaller ". json_encode($sizes));
             unlink($destination);
