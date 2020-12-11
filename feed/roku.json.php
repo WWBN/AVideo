@@ -17,7 +17,7 @@ foreach ($rows as $row) {
 
     $content = new stdClass();
     $content->dateAdded = date('c', strtotime($row['created']));
-    $content->captions = new stdClass();
+    $content->captions = array();
     $content->duration = durationToSeconds($row['duration']);
     $content->language = "en";
     $content->adBreaks = array("00:00:00");
