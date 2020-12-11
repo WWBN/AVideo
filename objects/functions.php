@@ -2887,8 +2887,8 @@ function convertImageToRoku($source, $destination) {
     }
     if (!file_exists($destination)) {
         try {
-            $w = 800;
-            $h = 480;
+            $w = 896;
+            $h = 504;
 
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
