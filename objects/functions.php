@@ -1631,9 +1631,11 @@ function convertImage($originalImage, $outputImage, $quality) {
             return 0;
         }
     } catch (Exception $exc) {
+        _error_log("convertImage: " . $exc->getMessage());
         return 0;
     }
     if(!is_resource($imageTmp)){
+        _error_log("convertImage: could not create a resource $originalImage, $outputImage, $quality");
         return 0;
     }
 // quality is a value from 0 (worst) to 100 (best)
