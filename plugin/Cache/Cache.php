@@ -1,5 +1,17 @@
 <?php
 
+$cacheBotWhitelist = array(
+    'aVideoEncoder',
+    'plugin/Live/on_',
+    'plugin/YPTStorage',
+    '/login',
+    'restreamer.json.php',
+    'plugin/API',
+    '/info?version=',
+    'Meet',
+    '/roku.json',
+    'mrss');
+
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Cache extends PluginAbstract {
@@ -153,16 +165,7 @@ class Cache extends PluginAbstract {
             }
         }
 
-        if ($isBot && 
-                strpos($_SERVER['REQUEST_URI'], 'aVideoEncoder') === false && 
-                strpos($_SERVER['REQUEST_URI'], 'plugin/Live/on_')  === false && 
-                strpos($_SERVER['REQUEST_URI'], 'plugin/YPTStorage') === false && 
-                strpos($_SERVER['REQUEST_URI'], '/login') === false && 
-                strpos($_SERVER['REQUEST_URI'], 'restreamer.json.php') === false && 
-                strpos($_SERVER['REQUEST_URI'], 'plugin/API') === false && 
-                strpos($_SERVER['REQUEST_URI'], '/info?version=') === false && 
-                strpos($_SERVER['REQUEST_URI'], 'Meet') === false && 
-                $_SERVER['REMOTE_ADDR'] !='127.0.0.1') {
+        if ($isBot && !self::isREQUEST_URIWhitelisted() && $_SERVER['REMOTE_ADDR'] !='127.0.0.1') {
             if (empty($_SERVER['HTTP_USER_AGENT'])) {
                 $_SERVER['HTTP_USER_AGENT'] = "";
             }
@@ -174,6 +177,16 @@ class Cache extends PluginAbstract {
         }
         //ob_start('sanitize_output');
         ob_start();
+    }
+    
+    private function isREQUEST_URIWhitelisted(){
+        global $cacheBotWhitelist;
+        foreach ($cacheBotWhitelist as $value) {
+            if(strpos($_SERVER['REQUEST_URI'], $value) !== false){
+                return true;
+            }
+        }
+        return false;
     }
 
     private function isBlacklisted() {
