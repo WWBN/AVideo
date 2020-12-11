@@ -3,7 +3,7 @@
 $obj = new stdClass();
 $obj->providerName = $title;
 $obj->language = "en-us";
-$obj->lastUpdated = date('r');
+$obj->lastUpdated = date('c');
 $obj->movies = array();
 foreach ($rows as $row) {
     $movie = new stdClass();
