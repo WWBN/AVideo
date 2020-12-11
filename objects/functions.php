@@ -2886,8 +2886,8 @@ function convertImageToRoku($source, $destination) {
         return false;
     }
     
-    $w = 896;
-    $h = 504;
+    $w = 1280;
+    $h = 720;
     if (file_exists($destination)) {
         $sizes = getimagesize($source);
         if ($sizes[0] < $w || $sizes[1] < $h) {
