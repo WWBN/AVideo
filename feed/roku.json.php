@@ -6,6 +6,7 @@ $obj->language = "en";
 $obj->lastUpdated = date('c');
 $obj->movies = array();
 foreach ($rows as $row) {
+    $videoSource = Video::getHigestResolution($row['filename']);
     $movie = new stdClass();
     $movie->id = Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink");
     $movie->title = UTF8encode($row['title']);
@@ -23,7 +24,7 @@ foreach ($rows as $row) {
     $content->adBreaks = array("00:00:00");
 
     $video = new stdClass();
-    $video->url = Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink");
+    $video->url = $videoSource["url"];
     $video->quality = "HD";
     $video->videoType = Video::getVideoTypeText($row['filename']);
     $content->videos = array($video);
