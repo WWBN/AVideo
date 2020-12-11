@@ -158,6 +158,9 @@ footer ul.list-inline li {
     #modeYoutubeBottomContent, .principalContainer{
         padding: 0;
     }
+    .nopaddingOnSmall{
+        padding: 0;
+    }
 }
 @media (max-width: 450px) {
     #captchaText, .captcha .input-group{
