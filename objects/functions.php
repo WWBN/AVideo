@@ -2885,10 +2885,17 @@ function convertImageToRoku($source, $destination) {
         _error_log("convertImageToRoku: source image is empty");
         return false;
     }
+    
+    $w = 896;
+    $h = 504;
+    if (file_exists($destination)) {
+        $sizes = getimagesize($source);
+        if ($sizes[0] < $w || $sizes[1] < $h) {
+            unlink($destination);
+        }
+    }
     if (!file_exists($destination)) {
         try {
-            $w = 896;
-            $h = 504;
 
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
