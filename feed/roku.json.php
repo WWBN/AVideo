@@ -28,7 +28,7 @@ foreach ($rows as $row) {
     $video->videoType = Video::getVideoTypeText($row['filename']);
     $content->videos = array($video);
     
-    $movie->content = array($content);
+    $movie->content = $content;
             
     $obj->movies[] = $movie;
 }
