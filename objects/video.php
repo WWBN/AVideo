@@ -3004,6 +3004,13 @@ if (!class_exists('Video')) {
         static function getRokuImage($videos_id) {
             global $global;
             $images = self::getImageFromID($videos_id);
+            $imagePath = $images->posterLandscapePath;
+            if(empty($imagePath) || !file_exists($imagePath)){
+                $imagePath = $images->posterLandscapeThumbs;
+            }
+            if(empty($imagePath) || !file_exists($imagePath)){
+                $imagePath = $images->poster;
+            }
             $rokuImage = str_replace(".jpg", "_roku.jpg", $images->posterLandscapePath);
             if(convertImageToRoku($images->posterLandscapePath, $rokuImage)){
                 return str_replace($global['systemRootPath'], $global['webSiteRootURL'], $rokuImage);
