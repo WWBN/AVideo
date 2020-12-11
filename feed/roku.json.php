@@ -9,8 +9,8 @@ foreach ($rows as $row) {
     $movie = new stdClass();
     $movie->id = Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink");
     $movie->title = UTF8encode($row['title']);
-    $movie->longDescription = "=> " . substr(strip_tags(br2nl(UTF8encode($row['description']))), 0, 490);
-    $movie->shortDescription = substr($movie->longDescription, 0, 200);
+    $movie->longDescription = "=> " . _substr(strip_tags(br2nl(UTF8encode($row['description']))), 0, 490);
+    $movie->shortDescription = _substr($movie->longDescription, 0, 200);
     $movie->thumbnail = Video::getRokuImage($row['id']);
     $movie->genres = array("special");
     $movie->releaseDate = date('r', strtotime($row['created']));
