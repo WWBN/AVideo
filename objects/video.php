@@ -3011,7 +3011,7 @@ if (!class_exists('Video')) {
             if(empty($imagePath) || !file_exists($imagePath)){
                 $imagePath = $images->poster;
             }
-            $rokuImage = str_replace(".jpg", "_roku.jpg", $images->posterLandscapePath);
+            $rokuImage = str_replace(".jpg", "_roku.jpg", $imagePath);
             if(convertImageToRoku($images->posterLandscapePath, $rokuImage)){
                 return str_replace($global['systemRootPath'], $global['webSiteRootURL'], $rokuImage);
             }
