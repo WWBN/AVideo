@@ -2879,6 +2879,9 @@ function convertImageToOG($source, $destination) {
 }
 
 function convertImageToRoku($source, $destination) {
+    if(empty($source)){
+        return false;
+    }
     if (!file_exists($destination)) {
         try {
             $w = 800;

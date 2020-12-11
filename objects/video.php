@@ -3552,6 +3552,15 @@ if (!class_exists('Video')) {
         }
 
         static function getVideoType($filename) {
+            global $_getVideoType;
+            
+            if(!isset($_getVideoType)){
+                $_getVideoType = array();
+            }
+            if(isset($_getVideoType[$filename])){
+                return $_getVideoType[$filename];
+            }
+            
             $obj = new stdClass();
             $paths = self::getVideosPaths($filename);
 
@@ -3561,6 +3570,7 @@ if (!class_exists('Video')) {
             $obj->pdf = !empty($paths['pdf']) ? true : false;
             $obj->mp3 = !empty($paths['mp3']) ? true : false;
 
+            $_getVideoType[$filename] = $obj;
             return $obj;
         }
 
@@ -3584,6 +3594,35 @@ if (!class_exists('Video')) {
             }
             if ($obj->mp3) {
                 $labels .= '<span class="label label-info">MP3</span>';
+            }
+            return $labels;
+        }
+        
+        /**
+         * Based on Roku Type
+         * @param type $filename
+         * @return string
+         */
+        static function getVideoTypeText($filename) {
+            $obj = self::getVideoType($filename);
+            $labels = "";
+            if (empty($obj->mp4) && empty($obj->webm) && empty($obj->m3u8) && empty($obj->pdf) && empty($obj->mp3)) {
+                return __('Other');
+            }
+            if ($obj->mp4) {
+                return 'MP4';
+            }
+            if ($obj->webm) {
+                return 'WEBM';
+            }
+            if ($obj->m3u8) {
+                return 'HLS';
+            }
+            if ($obj->pdf) {
+                return 'PDF';
+            }
+            if ($obj->mp3) {
+                return 'MP3';
             }
             return $labels;
         }

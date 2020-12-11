@@ -1,6 +1,5 @@
 <?php 
 //header("Content-Type: application/rss+xml; charset=UTF8");
-header('Content-Type: text/xml; charset=UTF8');
 
 
 require_once '../videos/configuration.php';
@@ -34,9 +33,14 @@ if(!empty($_GET['channelName'])){
 // send $_GET['catName'] to be able to filter by category
 $rows = Video::getAllVideos("viewable", $showOnlyLoggedUserVideos);
 
-if(empty($_REQUEST['mrss'])){
+if(!empty($_REQUEST['roku'])){
+    header('Content-Type: application/json');
+    include $global['systemRootPath'] . 'feed/roku.json.php';
+}else if(empty($_REQUEST['mrss'])){
+    header('Content-Type: text/xml; charset=UTF8');
     include $global['systemRootPath'] . 'feed/rss.php';
 }else{
+    header('Content-Type: text/xml; charset=UTF8');
     include $global['systemRootPath'] . 'feed/mrss.php';
 }
 ?>
