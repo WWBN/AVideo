@@ -33,5 +33,5 @@ foreach ($rows as $row) {
     $obj->movies[] = $movie;
 }
 
-die(json_encode($obj));
+die(json_encode($obj, JSON_UNESCAPED_UNICODE ));
 ?>
