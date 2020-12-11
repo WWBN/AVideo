@@ -2880,6 +2880,7 @@ function convertImageToOG($source, $destination) {
 
 function convertImageToRoku($source, $destination) {
     if(empty($source)){
+        _error_log("convertImageToRoku: source image is empty");
         return false;
     }
     if (!file_exists($destination)) {
@@ -2896,6 +2897,7 @@ function convertImageToRoku($source, $destination) {
                 @unlink($fileConverted);
             }
         } catch (Exception $exc) {
+            _error_log("convertImageToRoku: ".$exc->getMessage());
             return false;
         }
     }
