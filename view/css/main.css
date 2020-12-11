@@ -158,7 +158,7 @@ footer ul.list-inline li {
     #modeYoutubeBottomContent, .principalContainer{
         padding: 0;
     }
-    .panel-body {
+    .panel-body, .tabbable-panel {
         padding: 5px;
     }
     .nopaddingOnSmall{
