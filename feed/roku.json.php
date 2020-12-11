@@ -2,7 +2,7 @@
 
 $obj = new stdClass();
 $obj->providerName = $title;
-$obj->language = "en-us";
+$obj->language = "en";
 $obj->lastUpdated = date('c');
 $obj->movies = array();
 foreach ($rows as $row) {
@@ -13,10 +13,10 @@ foreach ($rows as $row) {
     $movie->shortDescription = _substr($movie->longDescription, 0, 200);
     $movie->thumbnail = Video::getRokuImage($row['id']);
     $movie->genres = array("special");
-    $movie->releaseDate = date('r', strtotime($row['created']));
+    $movie->releaseDate = date('c', strtotime($row['created']));
 
     $content = new stdClass();
-    $content->dateAdded = date('r', strtotime($row['created']));
+    $content->dateAdded = date('c', strtotime($row['created']));
     $content->captions = new stdClass();
     $content->duration = durationToSeconds($row['duration']);
     $content->language = "en";
