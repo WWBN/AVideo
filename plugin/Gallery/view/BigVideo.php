@@ -67,7 +67,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             <div class="clear clearfix">
                                 <div class="row thumbsImage">
                                     <div class="<?php echo $colClass1; ?> galleryVideo">
-                                        <a class="galleryLink" videos_id="<?php echo $videoRow['id']; ?>" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" title="<?php echo $videoRow['title']; ?>" style="">
+                                        <a class="galleryLink" videos_id="<?php echo $videoRow['id']; ?>" 
+                                           href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
+                                           embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
+                                           title="<?php echo $videoRow['title']; ?>" style="">
                                             <?php
                                             $images = Video::getImageFromFilename($videoRow['filename'], $videoRow['type']);
                                             $imgGif = $images->thumbsGif;

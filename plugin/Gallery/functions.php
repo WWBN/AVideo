@@ -151,7 +151,9 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         $colsClass = "col-lg-".(12 / $obj->screenColsLarge)." col-md-".(12 / $obj->screenColsMedium)." col-sm-".(12 / $obj->screenColsSmall)." col-xs-".(12 / $obj->screenColsXSmall);
         ?>
         <div class=" <?php echo $colsClass; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
-            <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
+            <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" 
+               href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>"  
+               embed="<?php echo Video::getLink($value['id'], $value['clean_title'], true, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <?php
                 @$timesG[__LINE__] += microtime(true) - $startG;
                 $startG = microtime(true);
@@ -237,7 +239,9 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 }
                 ?>
             </a>
-            <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>" title="<?php echo $value['title']; ?>">
+            <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" 
+               href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>"  
+               embed="<?php echo Video::getLink($value['id'], $value['clean_title'], true, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <h2><?php echo $value['title']; ?></h2>
             </a>
 

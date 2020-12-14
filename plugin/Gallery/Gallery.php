@@ -34,7 +34,15 @@ class Gallery extends PluginAbstract {
         // preload image
         $js = "<script>var img1 = new Image();img1.src=\"{$global['webSiteRootURL']}view/img/video-placeholder-gray.png\";</script>";
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css?'.(filemtime($global['systemRootPath'].'plugin/Gallery/style.css')).'" rel="stylesheet" type="text/css"/>';
-        if(!empty($obj->playVideoOnFullscreen) && (!empty($_GET['videoName']) || !empty($_GET['evideo']))){
+        
+        if(!empty($obj->playVideoOnFullscreenOnIframe)){
+            if((isVideo() && !isSerie()) || isEmbed()){
+                $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
+                $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
+                $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
+            }
+            $js .= '<script>var playVideoOnFullscreen = true</script>';
+        }else if(!empty($obj->playVideoOnFullscreen) && (!empty($_GET['videoName']) || !empty($_GET['evideo']))){
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.css" rel="stylesheet" type="text/css"/>';
         }
         if(!empty($obj->playVideoOnFullscreen)){
@@ -85,6 +93,7 @@ class Gallery extends PluginAbstract {
         $obj->searchOnChannels = true;
         $obj->searchOnChannelsRowCount = 12;
         $obj->playVideoOnFullscreen = false;
+        $obj->playVideoOnFullscreenOnIframe = false;
         $obj->playVideoOnBrowserFullscreen = false;
         $obj->filterUserChannel = false;
         $obj->screenColsLarge = 6;
@@ -113,6 +122,11 @@ class Gallery extends PluginAbstract {
         global $global;
         
         $js = '';
+        if(!empty($obj->playVideoOnFullscreenOnIframe)){
+            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'a.galleryLink\'); } });</script>';
+            
+        }else
         if(!empty($obj->playVideoOnFullscreen)){
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.js"></script>';
         }

@@ -116,9 +116,11 @@
                     $container.on('append.infiniteScroll', function (event, response, path, items) {
                         //console.log('Append page: ' + path);
                         lazyImage();
+                        if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}
                     });
                     setTimeout(function () {
                         lazyImage();
+                        if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}
                     }, 500);
                 });
             </script>

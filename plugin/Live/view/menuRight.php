@@ -143,9 +143,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             $liveLi.find('.liveUsersViews').text(views);
             $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_" + key);
             $liveLi.find('.liveUsersViews').addClass("liveUsersViews_" + key);
-            $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=jpg" + playlists_id_live+'&'+Math.random());
+            $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=jpg" + playlists_id_live + '&' + Math.random());
             if (!disableGif) {
-                $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=gif" + playlists_id_live+'&'+Math.random());
+                $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=gif" + playlists_id_live + '&' + Math.random());
             } else {
                 $liveLi.find('.thumbsGIF').remove();
             }
@@ -179,6 +179,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
                         $('#availableLiveStream').removeClass('notfound');
                     }
                     $('.onlineApplications').text(response.total);
+                    if(typeof linksToFullscreen === 'function'){
+                        linksToFullscreen('a.liveLink');
+                    }
                 }
                 if (recurrentCall) {
                     setTimeout(function () {
@@ -260,7 +263,7 @@ if (isLive()) {
             key = application.key;
             live_servers_id = live_servers_id;
             isPrivate = application.isPrivate;
-
+            
             createLiveItem(href, title, name, photo, false, online, views, key, isPrivate);
 <?php
 if (empty($obj->doNotShowLiveOnVideosList)) {
@@ -269,6 +272,10 @@ if (empty($obj->doNotShowLiveOnVideosList)) {
     <?php
 }
 ?>
+            
+            if(typeof linksToFullscreen === 'function'){
+                linksToFullscreen('a.videoLink');
+            }
         }
     }
 

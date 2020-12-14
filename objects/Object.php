@@ -453,6 +453,11 @@ abstract class ObjectYPT implements ObjectInterface {
         }
         return null;
     }
+    
+    
+    static function clearSessionCache() {
+        unset($_SESSION['user']['sessionCache']);
+    }
 
     static private function getLastDeleteALLCacheTimeFile() {
         $tmpDir = getTmpDir();

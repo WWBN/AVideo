@@ -351,7 +351,8 @@ class YPTWallet extends PluginAbstract {
         $description = "Transfer Balance {$value} from user <a href='{$global['webSiteRootURL']}channel/{$users_id_from}'>{$identificationFrom}</a> to <strong>YOU</strong>";
         if (!empty($forceDescription)) {
             $description = $forceDescription;
-        }
+        } 
+        ObjectYPT::clearSessionCache();
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
         return true;
     }
