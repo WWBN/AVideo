@@ -258,16 +258,6 @@ $percent = 90;
                         $(this).addClass('flickity-lazyloaded');
                     });
 
-
-                    $(container + '.carousel').each(function (index) {
-                        var dataFlickirty = $(this).attr('data-flickity');
-                        if (typeof dataFlickirty != 'undefined') {
-                            var json = JSON.parse($(this).attr('data-flickity'));
-                            $carousel.push($(this).flickity(json));
-                        }
-                    });
-
-                    $(container + ".thumbsImage").attr('startModeFlix', 1);
                     lazyImage();
                     if (typeof linksToFullscreen === 'function') {
                         linksToFullscreen('a.galleryLink');
