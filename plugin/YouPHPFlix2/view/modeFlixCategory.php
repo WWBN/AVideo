@@ -62,15 +62,6 @@ $divUUID = $uid;
             echo "</div>";
             return false;
         }
-
-        $ads2 = getAdsLeaderBoardTop2();
-        if (!empty($ads2)) {
-            ?>
-            <div class="row text-center" style="padding: 10px;">
-                <?php echo $ads2; ?>
-            </div>
-            <?php
-        }
         $_REQUEST['rowCount'] = $obj->maxVideos;
         $_POST['searchPhrase'] = $searchPhrase;
         foreach ($categories as $value) {
@@ -95,6 +86,15 @@ $divUUID = $uid;
             if (empty($videos)) {
                 $_GET['catName'] = $oldCatName;
                 continue;
+            }
+
+            $ads2 = getAdsLeaderBoardTop2();
+            if (!empty($ads2)) {
+                ?>
+                <div class="row text-center" style="padding: 10px;">
+                    <?php echo $ads2; ?>
+                </div>
+                <?php
             }
             ?>
             <div class="row topicRow">
