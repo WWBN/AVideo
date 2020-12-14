@@ -231,7 +231,8 @@ class PlayList extends ObjectYPT {
 
     static function getVideosIDFromPlaylistLight($playlists_id) {
         global $global;
-        $sql = "SELECT * FROM playlists_has_videos p WHERE playlists_id = ? ";
+        $sql = "SELECT * FROM playlists_has_videos p WHERE playlists_id = ?  ORDER BY `order` ";
+            /*
         cleanSearchVar();
         $sort = @$_POST['sort'];
         $_POST['sort'] = array();
@@ -239,6 +240,8 @@ class PlayList extends ObjectYPT {
         $_POST['sort'] = $sort;
         $res = sqlDAL::readSql($sql, "i", array($playlists_id));
         reloadSearchVar();
+             * 
+             */
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
