@@ -247,7 +247,7 @@ if(User::hasBlockedUser($video['users_id'])){
 <?php } 
 
 if ($video['type']!=='notfound' && CustomizeUser::canShareVideosFromVideo($video['id'])) {
-    getShareMenu($video['title'], Video::getPermaLink($video['id']), Video::getURLFriendly($video['id']), Video::getLink($video['id'], $video['clean_title'], true));
+    getShareMenu($video['title'], Video::getPermaLink($video['id']), Video::getURLFriendly($video['id']), Video::getLink($video['id'], $video['clean_title'], true), $img);
 } 
 ?>
     <div class="row bgWhite list-group-item" id="modeYoutubeBottomContentDetails">

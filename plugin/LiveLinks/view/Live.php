@@ -145,7 +145,7 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                             <?php
                             $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
                             $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
-                            getShareMenu($t['title'], $link, $link, $linkEmbed, "row");
+                            getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
                             ?>
                             <div class="col-md-12 watch8-action-buttons text-muted">
 
