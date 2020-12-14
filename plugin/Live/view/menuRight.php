@@ -273,7 +273,7 @@ if (empty($obj->doNotShowLiveOnVideosList)) {
 }
 ?>
             
-            if(typeof playLiveInFullScreen === 'function'){
+            if(typeof linksToFullscreen === 'function'){
                 linksToFullscreen('a.videoLink');
             }
         }
