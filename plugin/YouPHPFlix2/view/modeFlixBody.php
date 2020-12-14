@@ -271,6 +271,7 @@ $percent = 90;
                     lazyImage();
                     if (typeof linksToFullscreen === 'function') {
                         linksToFullscreen('a.galleryLink');
+                        linksToFullscreen('a.canWatchPlayButton');
                     }
                 });
                 setTimeout(function () {
