@@ -1169,6 +1169,11 @@ if (!class_exists('Video')) {
             return false;
         }
 
+        static function isSerie($videos_id) {
+            $v = new Video("", "", $videos_id);
+            return !empty($v->getSerie_playlists_id());
+        }
+
         static function isWatchLater($videos_id) {
             if (AVideoPlugin::isEnabledByName("PlayLists")) {
                 return PlayList::isVideoOnWatchLater($videos_id, User::getId());
