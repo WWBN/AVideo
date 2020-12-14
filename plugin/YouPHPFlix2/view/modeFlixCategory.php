@@ -59,13 +59,16 @@ if ($obj->Categories) {
         unset($_POST['searchPhrase']);
     }
     unset($_POST['sort']);
-    $_REQUEST['rowCount'] = 2;    
-    $categories = Category::getAllCategories(false, true);
+    $_REQUEST['rowCount'] = 2; 
+    if(!empty($_REQUEST['catName'])){
+        $categories = array(Category::getCategoryByName($_REQUEST['catName']));
+    }else{
+        $categories = Category::getAllCategories(false, true);
+    }
     if(empty($categories)){
         echo "</div>";
         return false;
     }
-    $_REQUEST['current']=1;
     $_REQUEST['rowCount'] = $obj->maxVideos;
     $_POST['searchPhrase'] = $searchPhrase;
     foreach ($categories as $value) {

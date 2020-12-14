@@ -216,10 +216,20 @@ $percent = 90;
     }
     TimeLogEnd($timeLog, __LINE__);
     if ($obj->Categories) {
+        $url = "{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/modeFlixCategory.php";
+        if(!empty($_GET['catName'])){
+            $url = addQueryStringParameter($url, 'catName', $_GET['catName']);
+        }
+        $search = getSearchVar();
+        if(!empty($search)){
+            $url = addQueryStringParameter($url, 'search', $search);
+        }
+        $url = addQueryStringParameter($url, 'tags_id', intval(@$_GET['tags_id']));
+        $url = addQueryStringParameter($url, 'current', 1);
         ?>
         <div id="categoriesContainer"></div>
         <p class="pagination infiniteScrollPagination">
-            <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?tags_id=<?php echo intval(@$_GET['tags_id']); ?>&search=<?php echo getSearchVar(); ?>&current=1"></a>
+            <a class="pagination__next" href="<?php echo $url; ?>"></a>
         </p>
         <div class="scroller-status">
             <div class="infinite-scroll-request loader-ellips text-center">
@@ -247,7 +257,17 @@ $percent = 90;
                         $(this).attr('src', $(this).attr('data-flickity-lazyload'));
                         $(this).addClass('flickity-lazyloaded');
                     });
-                    
+
+
+                    $(container + '.carousel').each(function (index) {
+                        var dataFlickirty = $(this).attr('data-flickity');
+                        if (typeof dataFlickirty != 'undefined') {
+                            var json = JSON.parse($(this).attr('data-flickity'));
+                            $carousel.push($(this).flickity(json));
+                        }
+                    });
+
+                    $(container + ".thumbsImage").attr('startModeFlix', 1);
                     lazyImage();
                     if (typeof linksToFullscreen === 'function') {
                         linksToFullscreen('a.galleryLink');
