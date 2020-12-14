@@ -26,6 +26,9 @@ $timeLog = __FILE__ . " - modeFlixCategory";
 
 $uid = uniqid();
 $divUUID = $uid;
+
+$ads2 = getAdsLeaderBoardTop2();
+$videosCounter = 0;
 ?>
 <div class="categoriesContainerItem" id="<?php echo $divUUID; ?>">
     <?php
@@ -87,8 +90,6 @@ $divUUID = $uid;
                 $_GET['catName'] = $oldCatName;
                 continue;
             }
-
-            $ads2 = getAdsLeaderBoardTop2();
             if (!empty($ads2)) {
                 ?>
                 <div class="row text-center" style="padding: 10px;">
@@ -121,6 +122,9 @@ $divUUID = $uid;
         }
     }
     TimeLogEnd($timeLog, __LINE__);
+    if(empty($videosCounter)){
+        die("</div>");
+    }
     ?>
     <script>
         startModeFlix('#<?php echo $divUUID; ?> .topicRow div');
