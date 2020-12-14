@@ -179,10 +179,8 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
                         $('#availableLiveStream').removeClass('notfound');
                     }
                     $('.onlineApplications').text(response.total);
-                    if(playLiveInFullScreen){
-                        if(typeof linksToFullscreen === 'function'){
-                            linksToFullscreen('a.liveLink');
-                        }
+                    if(typeof linksToFullscreen === 'function'){
+                        linksToFullscreen('a.liveLink');
                     }
                 }
                 if (recurrentCall) {
