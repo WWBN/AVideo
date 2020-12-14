@@ -60,6 +60,7 @@ $videosCounter = 0;
             $categories = array(Category::getCategoryByName($_REQUEST['catName']));
         } else {
             $categories = Category::getAllCategories(false, true);
+            $_REQUEST['current'] = 1;
         }
         if (empty($categories)) {
             echo "</div>";
@@ -81,7 +82,6 @@ $videosCounter = 0;
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
             $_POST['sort']['likes'] = "DESC";
-            $_REQUEST['current'] = 1;
 
             TimeLogStart("modeFlixCategory.php getAllVideos");
             $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
