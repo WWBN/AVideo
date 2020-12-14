@@ -207,6 +207,19 @@ class Live extends PluginAbstract {
         }
         return $js.$css;
     }
+    
+    public function getFooterCode() {
+        $obj = $this->getDataObject();
+        global $global;
+        
+        $js = '';
+        if(!empty($obj->playLiveInFullScreen)){
+            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'a.galleryLink\'); } });</script>';
+            
+        }
+        return $js;
+    }
 
     public function getButtonTitle() {
         $o = $this->getDataObject();
