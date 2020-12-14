@@ -61,6 +61,7 @@ if ($obj->Categories) {
     unset($_POST['sort']);
     $_REQUEST['rowCount'] = 2; 
     if(!empty($_REQUEST['catName'])){
+        $hideTitle = 1;
         $categories = array(Category::getCategoryByName($_REQUEST['catName']));
     }else{
         $categories = Category::getAllCategories(false, true);
@@ -97,9 +98,15 @@ if ($obj->Categories) {
         ?>
         <div class="row topicRow">
             <span class="md-col-12">&nbsp;</span>
-            <h2>
-                <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?></a>
-            </h2>
+            <?php
+            if(empty($hideTitle)){
+                ?>
+                <h2>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?></a>
+                </h2>    
+                <?php
+            }
+            ?>
             <!-- Categories -->
             <?php
             
