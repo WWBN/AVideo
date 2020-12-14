@@ -238,10 +238,10 @@ class PlayList extends ObjectYPT {
         $_POST['sort'] = array();
         $sql .= self::getSqlFromPost();
         $_POST['sort'] = $sort;
-        $res = sqlDAL::readSql($sql, "i", array($playlists_id));
         reloadSearchVar();
              * 
              */
+        $res = sqlDAL::readSql($sql, "i", array($playlists_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();
