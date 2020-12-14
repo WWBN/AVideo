@@ -50,7 +50,7 @@ function linksToFullscreen(selector) {
         if(!$(this).hasClass('linksToFullscreen')){
             $(this).addClass('linksToFullscreen');
             $(this).click(function (event) {
-                console.log("");
+                console.log("linksToFullscreen ");
                 event.preventDefault();
                 var link = $(this).attr('embed');
                 if (!link) {
