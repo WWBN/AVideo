@@ -46,7 +46,7 @@ function closeFlixFullScreen() {
 }
 
 function linksToFullscreen(selector) {
-    if (playVideoOnFullscreen && typeof flixFullScreen == 'function') {
+    if (typeof flixFullScreen == 'function') {
         $(selector).each(function (index) {
             if(!$(this).hasClass('linksToFullscreen')){
                 $(this).addClass('linksToFullscreen');

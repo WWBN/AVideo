@@ -174,6 +174,8 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('useLiveServers', 'Use Live Servers', 'Check this if you will use External Live Servers https://github.com/WWBN/AVideo/wiki/Live-Plugin#livestream-server-balance ');
         $obj->disableMeetCamera = false;
         self::addDataObjectHelper('disableMeetCamera', 'Disable Meet camera', 'This requires out Meet Server, with the Meet camera you can use your PC webcam directly in the webpage or mobile to make livestreams');
+        $obj->playLiveInFullScreen = false;
+        self::addDataObjectHelper('playLiveInFullScreen', 'Play Livestream in Full Screen');
         $obj->hls_path = "/HLS/live";
         self::addDataObjectHelper('hls_path', 'HLS Path URL', 'Used only when we stop a Live, we use this path to delete the files');
         $obj->requestStatsTimout = 4; // if the server does not respond we stop wait
@@ -185,6 +187,26 @@ class Live extends PluginAbstract {
         $obj->streamDeniedMsg = "You can not stream live videos";
         self::addDataObjectHelper('streamDeniedMsg', 'Denied Message', 'We will show this message when a user is not allowed so watch a livestream');
         return $obj;
+    }
+    
+    
+    public function getHeadCode() {
+        global $global;
+        $obj = $this->getDataObject();
+        // preload image
+        $js = "";
+        $css = '';
+        
+        if(!empty($obj->playLiveInFullScreen)){
+            if(isLive() || isEmbed()){
+                $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
+                $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
+                $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
+            }
+            $js .= '<script>var playLiveInFullScreen = true</script>';
+            $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
+        }
+        return $js.$css;
     }
 
     public function getButtonTitle() {
