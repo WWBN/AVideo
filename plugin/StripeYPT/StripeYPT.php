@@ -110,6 +110,7 @@ class StripeYPT extends PluginAbstract {
                         'currency' => $currency,
                         'description' => $description,
                         'metadata' => $metadata,
+                        'receipt_email'=> User::getEmail_()
             ]);
 
             _error_log("StripeYPT::getIntent success " . json_encode($intent));
