@@ -68,6 +68,7 @@ $videosCounter = 0;
         $_REQUEST['rowCount'] = $obj->maxVideos;
         $_POST['searchPhrase'] = $searchPhrase;
         foreach ($categories as $value) {
+            echo "<!-- {$value['clean_name']} --> ";
             $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
             $timeLog2 = __FILE__ . " - Category {$value['clean_name']}";
             TimeLogStart($timeLog2);
@@ -123,7 +124,8 @@ $videosCounter = 0;
     }
     TimeLogEnd($timeLog, __LINE__);
     if(empty($videosCounter)){
-        die("</div>");
+        echo "</div>";
+        return false;
     }
     ?>
     <script>
