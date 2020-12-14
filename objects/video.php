@@ -1869,8 +1869,16 @@ if (!class_exists('Video')) {
         }
 
         static function getResolution($file) {
+            global $videogetResolution;
+            if(!isset($videogetResolution)){
+                $videogetResolution = array();
+            }
+            if(isset($videogetResolution[$file])){
+                return $videogetResolution[$file];
+            }
             if (!file_exists($file)) {
                 _error_log('{"status":"error", "msg":"getResolution ERROR, File (' . $file . ') Not Found"}');
+                $videogetResolution[$file] = 0;
                 return 0;
             }
 
@@ -1879,17 +1887,20 @@ if (!class_exists('Video')) {
                     AVideoPlugin::isEnabledByName("AWS_S3") ||
                     AVideoPlugin::isEnabledByName("FTP_Storage") ||
                     AVideoPlugin::isEnabledByName("YPTStorage")) {
+                $videogetResolution[$file] = 0;
                 return 0;
             }
             global $global;
             if (preg_match("/.m3u8$/i", $file) && AVideoPlugin::isEnabledByName('VideoHLS') && method_exists(new VideoHLS(), 'getHLSHigestResolutionFromFile')) {
-                return VideoHLS::getHLSHigestResolutionFromFile($file);
+                
+                $videogetResolution[$file] = VideoHLS::getHLSHigestResolutionFromFile($file);
             } else {
                 require_once($global['systemRootPath'] . 'objects/getid3/getid3.php');
                 $getID3 = new getID3;
                 $ThisFileInfo = $getID3->analyze($file);
-                return intval(@$ThisFileInfo['video']['resolution_y']);
+                $videogetResolution[$file] = intval(@$ThisFileInfo['video']['resolution_y']);
             }
+            return $videogetResolution[$file];
         }
 
         static function getHLSDurationFromFile($file) {

@@ -237,6 +237,7 @@ foreach ($videos as $value) {
                 ?>
                 <?php
                 echo AVideoPlugin::getNetflixActionButton($value['id']);
+                getSharePopupButton($value['id']);
                 ?>
             </div>
         </div>

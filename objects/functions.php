@@ -4478,6 +4478,12 @@ function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class 
     include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
 }
 
+function getSharePopupButton($videos_id, $url="", $title="") {
+    global $global, $advancedCustom;
+    $video['id'] = $videos_id;
+    include $global['systemRootPath'].'view/include/socialModal.php';
+}
+
 function forbiddenPage($message, $logMessage = false) {
     global $global;
     $_REQUEST['403ErrorMsg'] = $message;

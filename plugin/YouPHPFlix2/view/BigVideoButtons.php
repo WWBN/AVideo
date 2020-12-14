@@ -15,5 +15,6 @@
     ?>
     <?php
     echo AVideoPlugin::getNetflixActionButton($video['id']);
+    getSharePopupButton($video['id']);
     ?>
 </div>
