@@ -16,7 +16,7 @@ if(empty($_GET['current'])){
 
 $cacheName = "modeFlixCategory".md5(json_encode($_GET)).User::getId();
 $cache = ObjectYPT::getCache($cacheName, 600);
-if(false && !empty($cache)){
+if(!empty($cache)){
     echo $cache;
     return false;
 }
