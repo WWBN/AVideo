@@ -46,20 +46,19 @@ function closeFlixFullScreen() {
 }
 
 function linksToFullscreen(selector) {
-    if (typeof flixFullScreen == 'function') {
-        $(selector).each(function (index) {
-            if(!$(this).hasClass('linksToFullscreen')){
-                $(this).addClass('linksToFullscreen');
-                $(this).click(function (event) {
-                    event.preventDefault();
-                    var link = $(this).attr('embed');
-                    if (!link) {
-                        link = $(this).attr('href');
-                        link = addGetParam(link, 'embed', 1);
-                    }
-                    flixFullScreen(link);
-                });
-            }
-        });
-    }
+    $(selector).each(function (index) {
+        if(!$(this).hasClass('linksToFullscreen')){
+            $(this).addClass('linksToFullscreen');
+            $(this).click(function (event) {
+                console.log("");
+                event.preventDefault();
+                var link = $(this).attr('embed');
+                if (!link) {
+                    link = $(this).attr('href');
+                    link = addGetParam(link, 'embed', 1);
+                }
+                flixFullScreen(link);
+            });
+        }
+    });
 }
