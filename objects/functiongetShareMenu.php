@@ -63,7 +63,7 @@ $replace = array($permaLink,$img,$title, $embedURL);
                     echo htmlentities($code);
                     ?>
                     </textarea>
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Embedo"); ?> (Object): <?php getButtontCopyToClipboard('textAreaEmbedObject'); ?></h4>
+                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Embed"); ?> (Object): <?php getButtontCopyToClipboard('textAreaEmbedObject'); ?></h4>
                     <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbedObject" readonly="readonly"><?php
                         $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplateObject);
                         echo htmlentities($code);
