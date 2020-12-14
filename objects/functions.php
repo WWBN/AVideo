@@ -3220,6 +3220,9 @@ function get_browser_name($user_agent = "") {
  */
 function isOldChromeVersion() {
     $global;
+    if(empty($_SERVER['HTTP_USER_AGENT'])){
+        return false;
+    }
     if(!empty($global['forceOldChrome'])){
         return true;
     }

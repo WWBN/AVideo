@@ -49,7 +49,8 @@ $(function () {
 });
 
 function startModeFlix(container) {
-
+    console.log(container + '.carousel', $(container + '.carousel').length);
+    
     if ($(container + ".thumbsImage").attr('startModeFlix') == 1) {
         return false;
     }

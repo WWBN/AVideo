@@ -16,17 +16,18 @@ if(empty($_GET['current'])){
 
 $cacheName = "modeFlixCategory".md5(json_encode($_GET)).User::getId();
 $cache = ObjectYPT::getCache($cacheName, 600);
-if(!empty($cache)){
+if(false && !empty($cache)){
     echo $cache;
-    exit;
+    return false;
 }
 ob_start();
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 $timeLog = __FILE__ . " - modeFlixCategory";
 
 $uid = uniqid();
+$divUUID = $uid;
 ?>
-<div class="categoriesContainerItem" id="<?php echo $uid; ?>">
+<div class="categoriesContainerItem" id="<?php echo $divUUID; ?>">
 <?php
 $ads2 = getAdsLeaderBoardTop2();
 if (!empty($ads2)) {
@@ -67,10 +68,6 @@ if ($obj->Categories) {
     $_REQUEST['current']=1;
     $_REQUEST['rowCount'] = $obj->maxVideos;
     $_POST['searchPhrase'] = $searchPhrase;
-    $showAllVideos = false;
-    if (!empty($_GET['catName'])) {
-        $showAllVideos = true;
-    }
     foreach ($categories as $value) {
         $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
         $timeLog2 = __FILE__ . " - Category {$value['clean_name']}";
@@ -106,19 +103,6 @@ if ($obj->Categories) {
             TimeLogStart("modeFlixCategory.php include row");
             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';     
             TimeLogEnd("modeFlixCategory.php include row", __LINE__, 0.2);
-
-            if ($showAllVideos) {
-                TimeLogStart("modeFlixCategory.php showAllVideos");
-                while (1) {
-                    $_REQUEST['current'] ++;
-                    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
-                    if (empty($videos)) {
-                        break;
-                    }
-                    include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
-                } 
-                TimeLogEnd("modeFlixCategory.php showAllVideos", __LINE__, 0.2);
-            }
             ?>
         </div>
         <?php
@@ -129,6 +113,9 @@ if ($obj->Categories) {
 TimeLogEnd($timeLog, __LINE__);
 
 ?>
+    <script>
+        startModeFlix('#<?php echo $divUUID; ?> .topicRow div');   
+    </script>
 </div>
 <p class="pagination">
     <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=<?php echo count($categories)?$_REQUEST['current'] + 1:$_REQUEST['current']; ?>&rrating=<?php echo @$_GET['rrating']; ?>"></a>
