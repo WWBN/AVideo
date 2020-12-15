@@ -89,6 +89,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
 
     function createLiveItem(href, title, name, photo, offline, online, views, key, isPrivate) {
         var $liveLi = $('.liveModel').clone();
+        $($liveLi).find('a').removeClass('linksToFullscreen');
         if (offline) {
             $liveLi.find('.fa-video').removeClass("fa-video").addClass("fa-ban");
             $liveLi.find('.liveUser').removeClass("label-success").addClass("label-danger");
@@ -132,6 +133,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         id = id.replace(/\W/g, '');
         if ($(".extraVideos").length && $("#" + id).length == 0) {
             var $liveLi = $('.extraVideosModel').clone();
+            $($liveLi).find('a').removeClass('linksToFullscreen');
             $liveLi.removeClass("hidden").removeClass("extraVideosModel");
             $liveLi.css({'display': 'none'})
             $liveLi.attr('id', id);

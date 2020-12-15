@@ -3220,6 +3220,9 @@ function get_browser_name($user_agent = "") {
  */
 function isOldChromeVersion() {
     $global;
+    if(empty($_SERVER['HTTP_USER_AGENT'])){
+        return false;
+    }
     if(!empty($global['forceOldChrome'])){
         return true;
     }
@@ -4469,7 +4472,8 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     return $pag;
 }
 
-function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $class = "row bgWhite list-group-item menusDiv") {
+function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = "row bgWhite list-group-item menusDiv") {
+    
     global $global, $advancedCustom;
     include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
 }

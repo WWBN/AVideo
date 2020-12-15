@@ -183,7 +183,7 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                             </div>
                             <?php
                             $link = Live::getLinkToLiveFromUsers_id($user_id);
-                            getShareMenu($liveTitle, $link, $link, $link .= "?embed=1");
+                            getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img,"row bgWhite list-group-item menusDiv");
                             ?>
                             <div class="row">
 

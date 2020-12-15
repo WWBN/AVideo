@@ -1,5 +1,7 @@
 <?php
 $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
+$search = array('{permaLink}','{imgSRC}','{title}', '{embedURL}');
+$replace = array($permaLink,$img,$title, $embedURL);
 ?>
 <div class="<?php echo $class; ?>" id="shareDiv">
     <div class="tabbable-panel">
@@ -18,7 +20,7 @@ $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
                     <li class="nav-item">
                         <a class="nav-link " href="#tabEmbed" data-toggle="tab">
                             <span class="fa fa-code"></span>
-                            <?php echo __("Embed"); ?>
+                            <?php echo __("Share Code"); ?>
                         </a>
                     </li>
                     <?php
@@ -50,21 +52,33 @@ $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
                 <div class="tab-pane active" id="tabShare">
                     <?php
                     $url = $permaLink;
-                    $title = urlencode($title);
+                    //$title = urlencode($title);
                     include $global['systemRootPath'] . 'view/include/social.php';
                     ?>
                 </div>
                 <div class="tab-pane" id="tabEmbed">
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?> (Iframe): <?php echo getButtontCopyToClipboard('textAreaEmbed'); ?></h4> 
+                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Embed"); ?> (Iframe): <?php getButtontCopyToClipboard('textAreaEmbed'); ?></h4> 
                     <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbed" readonly="readonly"><?php
-                    $code = str_replace("{embedURL}", $embedURL, $advancedCustom->embedCodeTemplate);
+                    $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
                     echo htmlentities($code);
                     ?>
                     </textarea>
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Share Video"); ?> (Object): <?php echo getButtontCopyToClipboard('textAreaEmbedObject'); ?></h4>
+                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Embed"); ?> (Object): <?php getButtontCopyToClipboard('textAreaEmbedObject'); ?></h4>
                     <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbedObject" readonly="readonly"><?php
-                        $code = str_replace("{embedURL}", $embedURL, $advancedCustom->embedCodeTemplateObject);
+                        $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplateObject);
                         echo htmlentities($code);
+                    ?>
+                    </textarea>
+                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Link"); ?> (HTML): <?php getButtontCopyToClipboard('textAreaHTML'); ?></h4> 
+                    <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaHTML" readonly="readonly"><?php
+                    $code = str_replace($search, $replace, $advancedCustom->htmlCodeTemplate);
+                    echo htmlentities($code);
+                    ?>
+                    </textarea>
+                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Link"); ?> (BBCode): <?php getButtontCopyToClipboard('textAreaBBCode'); ?></h4> 
+                    <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaBBCode" readonly="readonly"><?php
+                    $code = str_replace($search, $replace, $advancedCustom->BBCodeTemplate);
+                    echo htmlentities($code);
                     ?>
                     </textarea>
                 </div>

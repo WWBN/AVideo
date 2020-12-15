@@ -49,7 +49,7 @@ $(function () {
 });
 
 function startModeFlix(container) {
-
+    
     if ($(container + ".thumbsImage").attr('startModeFlix') == 1) {
         return false;
     }
@@ -101,4 +101,5 @@ function startModeFlix(container) {
     });
 
     $(container + ".thumbsImage").attr('startModeFlix', 1);
+    linksToFullscreen(container + ' a.canWatchPlayButton');
 }

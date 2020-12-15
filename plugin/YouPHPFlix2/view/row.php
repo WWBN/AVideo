@@ -18,6 +18,7 @@ TimeLogStart($timeLog3);
     <?php
     TimeLogEnd($timeLog3, __LINE__);
     foreach ($videos as $value) {
+        $videosCounter++;
         TimeLogStart($timeLog3 . " Video {$value['clean_title']}");
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
         TimeLogEnd($timeLog3 . " Video {$value['clean_title']}", __LINE__);
