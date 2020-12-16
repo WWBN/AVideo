@@ -81,6 +81,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->EnableWavesurfer = false;
         $obj->EnableMinifyJS = false;
         $obj->disableShareAndPlaylist = false;
+        $obj->disableShareOnly = false;
         $obj->disableEmailSharing = false;
         $obj->splitBulkEmailSend = 50;
         $obj->disableComments = false;

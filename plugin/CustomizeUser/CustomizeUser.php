@@ -172,6 +172,11 @@ class CustomizeUser extends PluginAbstract {
     static function canShareVideosFromUser($users_id) {
         global $advancedCustom;
 
+        if (!empty($advancedCustom->disableShareOnly)) {
+            _error_log("CustomizeUser::canShareVideosFromUser disableShareOnly");
+            return false;
+        }
+        
         if (!empty($advancedCustom->disableShareAndPlaylist)) {
             _error_log("CustomizeUser::canShareVideosFromUser disableShareAndPlaylist");
             return false;
