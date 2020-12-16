@@ -1229,7 +1229,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     }
     if (empty($files)) {
         $files = array();
-        $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
+        $plugin = AVideoPlugin::loadPlugin("VideoHLS");
         if (!empty($plugin)) {
             $files = VideoHLS::getSourceFile($fileName);
         }
@@ -1634,7 +1634,7 @@ function convertImage($originalImage, $outputImage, $quality) {
         _error_log("convertImage: " . $exc->getMessage());
         return 0;
     }
-    if(!is_resource($imageTmp)){
+    if (!is_resource($imageTmp)) {
         _error_log("convertImage: could not create a resource $originalImage, $outputImage, $quality");
         return 0;
     }
@@ -2881,17 +2881,17 @@ function convertImageToOG($source, $destination) {
 }
 
 function convertImageToRoku($source, $destination) {
-    if(empty($source)){
+    if (empty($source)) {
         _error_log("convertImageToRoku: source image is empty");
         return false;
     }
-    
+
     $w = 1280;
     $h = 720;
     if (file_exists($destination)) {
         $sizes = getimagesize($destination);
         if ($sizes[0] < $w || $sizes[1] < $h) {
-            _error_log("convertImageToRoku: file is smaller ". json_encode($sizes));
+            _error_log("convertImageToRoku: file is smaller " . json_encode($sizes));
             unlink($destination);
         }
     }
@@ -2904,7 +2904,7 @@ function convertImageToRoku($source, $destination) {
             im_resizeV2($fileConverted, $destination, $w, $h, 100);
             @unlink($fileConverted);
         } catch (Exception $exc) {
-            _error_log("convertImageToRoku: ".$exc->getMessage());
+            _error_log("convertImageToRoku: " . $exc->getMessage());
             return false;
         }
     }
@@ -3220,10 +3220,10 @@ function get_browser_name($user_agent = "") {
  */
 function isOldChromeVersion() {
     $global;
-    if(empty($_SERVER['HTTP_USER_AGENT'])){
+    if (empty($_SERVER['HTTP_USER_AGENT'])) {
         return false;
     }
-    if(!empty($global['forceOldChrome'])){
+    if (!empty($global['forceOldChrome'])) {
         return true;
     }
     if (preg_match('/Chrome\/([0-9.]+)/i', $_SERVER['HTTP_USER_AGENT'], $matches)) {
@@ -4473,15 +4473,15 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
 }
 
 function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = "row bgWhite list-group-item menusDiv") {
-    
+
     global $global, $advancedCustom;
     include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
 }
 
-function getSharePopupButton($videos_id, $url="", $title="") {
+function getSharePopupButton($videos_id, $url = "", $title = "") {
     global $global, $advancedCustom;
     $video['id'] = $videos_id;
-    include $global['systemRootPath'].'view/include/socialModal.php';
+    include $global['systemRootPath'] . 'view/include/socialModal.php';
 }
 
 function forbiddenPage($message, $logMessage = false) {
@@ -4923,4 +4923,41 @@ function downloadHLS($filepath) {
     header('Pragma: public');
     header("X-Sendfile: {$outputpath}");
     exit;
+}
+
+function getSocialModal($videos_id, $url="", $title="") {
+    global $global;
+    $video['id'] = $videos_id;
+    $sharingUid = uniqid();
+    ob_start();
+    ?>
+    <div id="SharingModal<?php echo $sharingUid ?>" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <center>
+                        <?php
+                        include $global['systemRootPath'] . 'view/include/social.php';
+                        ?>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showSharing<?php echo $sharingUid ?>() {
+            $('#SharingModal<?php echo $sharingUid ?>').appendTo("body");
+            $('#SharingModal<?php echo $sharingUid ?>').modal("show");
+            return false;
+        }
+
+        $(document).ready(function () {
+            $('#SharingModal<?php echo $sharingUid ?>').modal({show: false});
+        });
+    </script>
+    <?php
+    $contents = ob_get_contents();
+    ob_end_clean();
+    return array('html'=>$contents, 'id'=>$sharingUid);
 }
