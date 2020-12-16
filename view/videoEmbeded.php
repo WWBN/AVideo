@@ -155,7 +155,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
 
         <?php
-        echo AVideoPlugin::getHeadCode();
+        //echo AVideoPlugin::getHeadCode();
         ?>
         <script>
             var isEmbed = true;
@@ -176,16 +176,6 @@ if (User::hasBlockedUser($video['users_id'])) {
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
 
         <link rel="image_src" href="<?php echo $img; ?>" />
-        <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo $url; ?>" />
-        <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo $title; ?>" />
-        <meta property="og:description"        content="<?php echo!empty($custom) ? $custom : str_replace('"', '', $video['title']); ?>" />
-        <meta property="og:image"              content="<?php echo $img; ?>" />
-        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
-        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
-        <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
-        <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
         <style>
             body {
                 padding: 0 !important;
@@ -268,6 +258,8 @@ if (User::hasBlockedUser($video['users_id'])) {
         </style>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
+        getOpenGraph($video['id']);
+        getLdJson($video['id']);
         ?>
     </head>
 
