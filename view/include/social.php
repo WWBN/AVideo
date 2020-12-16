@@ -1,5 +1,5 @@
 <?php
-
+global $socialAdded;
 if((empty($url) || empty($title)) && !empty($video['id'])){
     $url = Video::getLinkToVideo($video['id']);
     if(!empty($video['title'])){
@@ -20,8 +20,13 @@ $linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$url&title=$titl
 $wordpress = "http://wordpress.com/press-this.php?u=$url&quote=$title&s=";
 $pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=";
 $parler = "https://parler.com/new-post?message={$title}&url={$url}";
+if(empty($socialAdded)){ // do not add the CSS more then once
 ?>     
 <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
+<?php 
+}
+$socialAdded = 1;
+?>
 <ul class="social-network social-circle">
     <li><a href="<?php echo $facebookURL; ?>" target="_blank" class="icoFacebook" title="Facebook" data-toggle="tooltip" ><i class="fab fa-facebook-square"></i></a></li>
     <li><a href="<?php echo $twitterURL; ?>" target="_blank"  class="icoTwitter" title="Twitter" data-toggle="tooltip" ><i class="fab fa-twitter"></i></a></li>

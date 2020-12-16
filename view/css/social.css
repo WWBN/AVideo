@@ -105,7 +105,7 @@ a.socialIcon:hover,
     -ms-transition: all 0.8s;
     transition: all 0.8s;
 }.social-circle a {
-    background-color: #D3D3D3;
+    background-color: #999;
 }
 #shareDiv,
 #shareDiv .tabbable-panel {

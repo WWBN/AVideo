@@ -46,6 +46,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->showSocialShareOnEmbed = true;
         $obj->showLoopButton = true;
         $obj->showLogo = false;
+        $obj->showShareSocial = true;
         $obj->showLogoOnEmbed = false;
         $obj->showLogoAdjustScale = "0.4";
         $obj->showLogoAdjustLeft = "-74px";
@@ -106,6 +107,10 @@ class PlayerSkins extends PluginAbstract {
 }"
                         . "</style>";
             }
+            
+            if ($obj->showShareSocial) {
+                $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/shareButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+            }
         }
 
         $url = urlencode(getSelfURI());
@@ -117,7 +122,7 @@ class PlayerSkins extends PluginAbstract {
     }
 
     public function getFooterCode() {
-        global $global, $config, $getStartPlayerJSWasRequested;
+        global $global, $config, $getStartPlayerJSWasRequested, $video, $url, $title;
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
         if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
@@ -128,13 +133,22 @@ class PlayerSkins extends PluginAbstract {
                 $title = $config->getWebSiteTitle();
                 $url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
                 $js .= "<script>var PlayerSkinLogoTitle = '{$title}';</script>";
-                $js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/logo.js\"></script>";
+                PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/logo.js"));
+                //$js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/logo.js\"></script>";
 
                 PlayerSkins::getStartPlayerJS("if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
     player.getChild('controlBar').addChild('Logo', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
 } else {
     player.getChild('controlBar').addChild('Logo', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
 }");
+            }
+            
+            if ($obj->showShareSocial) {
+                $social = getSocialModal($video['id'], @$url, @$title);
+                PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
+                //$js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/shareButton.js\"></script>";
+                $js .= $social['html'];
+                $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
             }
         }
         if (!empty($getStartPlayerJSWasRequested) || isVideo()) {
