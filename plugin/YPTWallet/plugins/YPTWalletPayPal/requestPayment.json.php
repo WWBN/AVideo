@@ -22,7 +22,9 @@ if(empty($_POST['value'])){
 
 $invoiceNumber = uniqid();
 
-$payment = $plugin->setUpPayment($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $_POST['value'], $objS->currency, $config->getWebSiteTitle()." Payment");
+$description = $config->getWebSiteTitle()." Payment";
+
+$payment = $plugin->setUpPayment($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $_POST['value'], $objS->currency, $description);
 
 if (!empty($payment)) {
     $obj->error = false;

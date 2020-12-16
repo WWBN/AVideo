@@ -6,7 +6,7 @@ if((empty($url) || empty($title)) && !empty($video['id'])){
         $title = $video['title'];
     }else{
         $video = new Video("", "", $video['id']);
-        $title = $video['title'];
+        $title = $video->getTitle();
     }
 }
 $url = urlencode($url);
