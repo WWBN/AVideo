@@ -249,8 +249,15 @@ class Category {
             return false;
         }
         self::clearCacheCount();
+        self::deleteAssets($this->id);
         return sqlDAL::writeSql($sql, "i", array($this->id));
     }
+    
+    static function deleteAssets($categories_id){
+        $dirPaths = self::getCategoryDirPath($categories_id);
+        return rrmdir($dirPaths['path']);
+    }
+    
     /*
     static function getCategoryType($categoryId) {
         global $global;
