@@ -157,7 +157,8 @@ echo $croppie2['getCroppieFunction'];
     }
     function setImage2(resp) {
         image2 = resp;
-        saveCategory(image1, image2);
+        $('.nav-tabs a[href="#images"]').tab('show');
+        setTimeout(function(){saveCategory(image1, image2);},500);
     }
 
 
@@ -248,7 +249,9 @@ echo $croppie2['getCroppieFunction'];
                 {
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Edit"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                     var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Delete"); ?>"><i class="fa fa-trash" aria-hidden="true"></i></button>';
-                    var rssBtn = '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("RSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>feed/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
+                    var rssBtn = '<br><a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("RSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>feed/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
+                    rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("MRSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>mrss/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
+                    rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("Roku Json"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>roku.json?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
 
                     if (!row.canEdit) {
                         editBtn = "";

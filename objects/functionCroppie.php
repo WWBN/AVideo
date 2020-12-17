@@ -48,7 +48,7 @@ $croppieFilesAdded = 1;
             $('#upload<?php echo $uid; ?>').trigger("click");
         });
         
-        $('#croppie<?php echo $uid; ?>').croppie('bind',{url: imageURL}).then(function () {
+        $('#croppie<?php echo $uid; ?>').croppie('bind',{url: imageURL+'?'+Math.random()}).then(function () {
             $('#croppie<?php echo $uid; ?>').croppie('setZoom', <?php echo $zoom; ?>)
         });
     }
