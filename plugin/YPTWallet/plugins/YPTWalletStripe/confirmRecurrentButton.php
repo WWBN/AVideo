@@ -159,7 +159,10 @@ $uid = uniqid();
                         },
                         type: 'post',
                         success: function (response) {
-                            modal.hidePleaseWait();
+                            
+                            setTimeout(function () {
+                                modal.hidePleaseWait();
+                            }, 3000);
                             if (!response.error) {
                                 console.log(response);
                                 stripe<?php echo $uid; ?>.confirmCardPayment(

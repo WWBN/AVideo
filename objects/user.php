@@ -672,13 +672,22 @@ if (typeof gtag !== \"function\") {
         }
         return $user;
     }
+    
+    private static function setCacheWatchVideo($cacheName, $value){
+        if(!User::isLogged()){
+            ObjectYPT::setCache($cacheName, $value);;
+        }else{
+            ObjectYPT::setSessionCache($cacheName, $value);
+        }
+    }
 
     static function canWatchVideo($videos_id) {
-        
-        
         $cacheName = "canWatchVideo$videos_id";
-        $cache = ObjectYPT::getSessionCache($cacheName, 600);
-        
+        if(!User::isLogged()){
+            $cache = ObjectYPT::getCache($cacheName, 3600);
+        }else{
+            $cache = ObjectYPT::getSessionCache($cacheName, 600);
+        }
         if(isset($cache)){
             return $cache;
         }        
@@ -695,18 +704,18 @@ if (typeof gtag !== \"function\") {
         $video = new Video("", "", $videos_id);
         if ($video->getStatus() === 'i') {
             _error_log("User::canWatchVideo Video is inactive ({$videos_id})");
-            ObjectYPT::setSessionCache($cacheName, false);
+            self::setCacheWatchVideo($cacheName, false);
             return false;
         }
         $user = new User($video->getUsers_id());
         if ($user->getStatus() === 'i') {
             _error_log("User::canWatchVideo User is inactive ({$videos_id})");
-            ObjectYPT::setSessionCache($cacheName, false);
+            self::setCacheWatchVideo($cacheName, false);
             return false;
         }
 
         if (AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
-            ObjectYPT::setSessionCache($cacheName, true);
+            self::setCacheWatchVideo($cacheName, true);
             return true;
         }
 
@@ -721,10 +730,10 @@ if (typeof gtag !== \"function\") {
                 }else{
                     _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [not logged] can not see ({$videos_id})");
                 }
-                ObjectYPT::setSessionCache($cacheName, false);
+                self::setCacheWatchVideo($cacheName, false);
                 return false;
             } else {
-                ObjectYPT::setSessionCache($cacheName, true);
+                self::setCacheWatchVideo($cacheName, true);
                 return true; // the video is public
             }
         }
@@ -732,7 +741,7 @@ if (typeof gtag !== \"function\") {
         if (!User::isLogged()) {
             _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=" . session_id() . " SCRIPT_NAME=" . $_SERVER["SCRIPT_NAME"] . " IP = " . getRealIpAddr());
             
-            ObjectYPT::setSessionCache($cacheName, false);
+            self::setCacheWatchVideo($cacheName, false);
             return false;
         }
         // if is not public check if the user is on one of its groups
@@ -741,14 +750,14 @@ if (typeof gtag !== \"function\") {
         foreach ($rows as $value) {
             foreach ($rowsUser as $value2) {
                 if ($value['id'] === $value2['id']) {
-                    ObjectYPT::setSessionCache($cacheName, true);
+                    self::setCacheWatchVideo($cacheName, true);
                     return true;
                 }
             }
         }
 
         _error_log("User::canWatchVideo The user " . User::getId() . " is not on any of the user groups ({$videos_id}) " . json_encode($rows));
-        ObjectYPT::setSessionCache($cacheName, false);
+        self::setCacheWatchVideo($cacheName, false);;
         return false;
     }
 

@@ -109,7 +109,7 @@ class StripeYPT extends PluginAbstract {
                         'description' => $description,
                         'metadata' => $metadata,
                         'receipt_email'=> User::getEmail_(),
-                        'confirm'=> true
+                        //'confirm'=> true
             ];
         if(!empty($customer)){
             $parameters['customer'] = $customer;
