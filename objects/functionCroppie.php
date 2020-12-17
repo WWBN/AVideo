@@ -43,7 +43,7 @@ $croppieFilesAdded = 1;
             readFileCroppie(this, uploadCrop<?php echo $uid; ?>);
         });
 
-        $('#upload<?php echo $uid; ?>').off('click');
+        $('#upload-btn<?php echo $uid; ?>').off('click');
         $('#upload-btn<?php echo $uid; ?>').on('click', function (ev) {
             $('#upload<?php echo $uid; ?>').trigger("click");
         });
