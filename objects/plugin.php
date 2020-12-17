@@ -158,6 +158,7 @@ class Plugin extends ObjectYPT {
                     $pluginJustInstalled[$uuid] = 1;
                     _error_log("plugin::getPluginByUUID {$name} {$uuid} this plugin is On By Default we will install it ($sql)");
                     self::deleteByUUID($uuid);
+                    unset($getPluginByUUID[$uuid]);
                     $getPluginByUUID[$uuid] = self::getOrCreatePluginByName($name, 'active');
                 } else {
                     $getPluginByUUID[$uuid] = false;
