@@ -249,6 +249,7 @@ class YPTWallet extends PluginAbstract {
         }
         $wallet = $this->getOrCreateWallet($users_id);
         $balance = $wallet->getBalance();
+        _error_log("YPTWallet::addBalance BEFORE (user_id={$user_id}) (balance={$balance})");
         $balance += $value;
         $wallet->setBalance($balance);
         $wallet_id = $wallet->save();
@@ -264,7 +265,11 @@ class YPTWallet extends PluginAbstract {
             $user = new User($users_id);
             WalletLog::addLog($wallet_id, ($value * -1), " From user ($users_id) " . $user->getUser() . " - " . $description, $json_data, "success", "addBalance to main wallet");
         }
-        _error_log("YPTWallet::addBalance $wallet_id, $value, $description, $json_data");
+        
+        $wallet = $this->getOrCreateWallet($users_id);
+        $balance = $wallet->getBalance();
+        _error_log("YPTWallet::addBalance AFTER (user_id={$user_id}) (balance={$balance})");
+        //_error_log("YPTWallet::addBalance $wallet_id, $value, $description, $json_data");
     }
 
     public function saveBalance($users_id, $value) {
