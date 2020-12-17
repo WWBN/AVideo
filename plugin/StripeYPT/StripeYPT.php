@@ -409,6 +409,11 @@ class StripeYPT extends PluginAbstract {
         }else if(!empty($payload->data->object->amount_captured)){
             $amount = $payload->data->object->amount_captured;
         }
+        if(empty($amount)){
+            _error_log("Stripe:getAmountPaidFromPayload is empty ". json_encode($payload), AVideoLog::$ERROR);
+        }else{
+            _error_log("Stripe:getAmountPaidFromPayload {$amount} ");
+        }
         return self::addDot($amount);
     }
     
