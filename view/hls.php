@@ -31,7 +31,7 @@ if (!empty($_GET['token'])) {
 } else if (!empty($_GET['globalToken'])) {
     $tokenIsValid = verifyToken($_GET['globalToken']);
 }
-
+$newContent = "";
 // if is using a CDN I can not check if the user is logged
 if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id'])) {
 

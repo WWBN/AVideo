@@ -2385,7 +2385,7 @@ function requestComesFromSafePlace() {
 }
 
 function addGlobalTokenIfSameDomain($url) {
-    if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $_GET['livelink'])) {
+    if (!filter_var($url, FILTER_VALIDATE_URL) || (empty($_GET['livelink']) || !preg_match("/^http.*/i", $_GET['livelink']))) {
         return $url;
     }
     if (!isSameDomainAsMyAVideo($url)) {
@@ -4878,6 +4878,7 @@ function getServerClock() {
 function downloadHLS($filepath) {
     global $global;
     if (!file_exists($filepath)) {
+        _error_log("downloadHLS: file NOT found: {$filepath}");
         return false;
     }
 
@@ -4890,6 +4891,7 @@ function downloadHLS($filepath) {
     $outputpath = "{$videosDir}cache/downloads/{$outputfilename}";
     make_path($outputpath);
     if (empty($outputfilename)) {
+        _error_log("downloadHLS: empty outputfilename {$outputfilename}");
         return false;
     }
 
@@ -4904,7 +4906,7 @@ function downloadHLS($filepath) {
     $filepath = escapeshellcmd($filepath);
     $outputpath = escapeshellcmd($outputpath);
     if (true || !file_exists($outputpath)) {
-        $command = "ffmpeg -allowed_extensions ALL -y -i {$filepath} -c copy {$outputpath}";
+        $command = get_ffmpeg()." -allowed_extensions ALL -y -i {$filepath} -c copy {$outputpath}";
         //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
         exec($command . " 2>&1", $output, $return);
         if (!empty($return)) {
@@ -5007,4 +5009,18 @@ function saveCroppieImage($destination, $postIndex="imgBase64") {
     }
     $fileData = base64DataToImage($_POST[$postIndex]);
     return file_put_contents($destination, $fileData);
+}
+
+function get_ffmpeg($ignoreGPU=false) {
+    global $global;
+    //return 'ffmpeg -user_agent "'.getSelfUserAgent("FFMPEG").'" ';
+    //return 'ffmpeg -headers "User-Agent: '.getSelfUserAgent("FFMPEG").'" ';
+    $ffmpeg = 'ffmpeg  ';
+    if (empty($ignoreGPU) && !empty($global['ffmpegGPU'])) {
+        $ffmpeg .= ' --enable-nvenc ';
+    }
+    if (!empty($global['ffmpeg'])) {
+        $ffmpeg = "{$global['ffmpeg']}{$ffmpeg}";
+    }
+    return $ffmpeg;
 }
