@@ -154,11 +154,12 @@ class Plugin extends ObjectYPT {
                 ObjectYPT::setCache($name, $getPluginByUUID[$uuid]);
             } else {
                 $name = AVideoPlugin::getPluginsNameOnByDefaultFromUUID($uuid);
-                if($name!==false && empty($pluginJustInstalled[$uuid])){
+                if ($name !== false && empty($pluginJustInstalled[$uuid])) {
                     $pluginJustInstalled[$uuid] = 1;
                     _error_log("plugin::getPluginByUUID {$name} {$uuid} this plugin is On By Default we will install it ($sql)");
+                    self::deleteByUUID($uuid);
                     $getPluginByUUID[$uuid] = self::getOrCreatePluginByName($name, 'active');
-                }else{
+                } else {
                     $getPluginByUUID[$uuid] = false;
                 }
             }
@@ -231,7 +232,7 @@ class Plugin extends ObjectYPT {
                         $obj->pluginversion = $p->getPluginVersion();
                         $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace->plugins->{$obj->uuid}) ? $pluginsMarketplace->plugins->{$obj->uuid}->pluginversion : 0);
                         $obj->pluginversionCompare = (!empty($obj->pluginversionMarketPlace) ? version_compare($obj->pluginversion, $obj->pluginversionMarketPlace) : 0);
-                        $obj->permissions = $obj->enabled?Permissions::getPluginPermissions($obj->id):array();
+                        $obj->permissions = $obj->enabled ? Permissions::getPluginPermissions($obj->id) : array();
                         $obj->isPluginTablesInstalled = AVideoPlugin::isPluginTablesInstalled($obj->name, false);
                         if ($obj->pluginversionCompare < 0) {
                             $obj->tags[] = "update";
@@ -281,7 +282,7 @@ class Plugin extends ObjectYPT {
 
     static function getDatabaseFileName($pluginName) {
         global $global;
-        
+
         $pluginName = AVideoPlugin::fixName($pluginName);
         $dir = $global['systemRootPath'] . "plugin";
         $filename = $dir . DIRECTORY_SEPARATOR . $pluginName . DIRECTORY_SEPARATOR . "install" . DIRECTORY_SEPARATOR . "install.sql";
@@ -381,6 +382,18 @@ class Plugin extends ObjectYPT {
         }
 
         return $getEnabled[$uuid];
+    }
+
+    static function deleteByUUID($uuid) {
+        global $global;
+        if (!empty($uuid)) {
+            $sql = "DELETE FROM " . static::getTableName() . " ";
+            $sql .= " WHERE uuid = ?";
+            $global['lastQuery'] = $sql;
+            //_error_log("Delete Query: ".$sql);
+            return sqlDAL::writeSql($sql, "s", array($uuid));
+        }
+        return false;
     }
 
     static function getOrCreatePluginByName($name, $statusIfCreate = 'inactive') {
