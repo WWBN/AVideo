@@ -20,7 +20,7 @@ class Layout extends PluginAbstract {
     }
     
     public function getPluginVersion() {
-        return "1.0";
+        return "1.1";
     }
 
     public function getUUID() {
