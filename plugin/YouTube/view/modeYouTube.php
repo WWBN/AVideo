@@ -21,19 +21,8 @@ if (!empty($_GET['type'])) {
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
-$currentCatType;
 if (!empty($_GET['catName'])) {
     $currentCat = Category::getCategoryByName($_GET['catName']);
-    $currentCatType = Category::getCategoryType($currentCat['id']);
-}
-if ((empty($_GET['type'])) && (!empty($currentCatType))) {
-    if ($currentCatType['type'] == "1") {
-        $_SESSION['type'] = "audio";
-    } else if ($currentCatType['type'] == "2") {
-        $_SESSION['type'] = "video";
-    } else {
-        unset($_SESSION['type']);
-    }
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 $orderString = "";

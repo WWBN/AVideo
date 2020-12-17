@@ -18,7 +18,7 @@
                         <th data-column-id="fullTotal" data-sortable="false"><?php echo __("Videos"); ?></th>
                         <th data-column-id="allow_download" ><?php echo __("Download"); ?></th>
                         <th data-column-id="order" ><?php echo __("Order"); ?></th>
-                        <th data-column-id="commands" data-formatter="commands" data-sortable="false"></th>
+                        <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="130px"></th>
                     </tr>
                 </thead>
             </table>
@@ -250,8 +250,8 @@ echo $croppie2['getCroppieFunction'];
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Edit"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                     var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Delete"); ?>"><i class="fa fa-trash" aria-hidden="true"></i></button>';
                     var rssBtn = '<br><a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("RSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>feed/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
-                    rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("MRSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>mrss/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
-                    rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("Roku Json"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>roku.json?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
+                    rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("MRSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>mrss/?catName=' + row.clean_name + '" >MRSS</a>';
+                    rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("Roku Json"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>roku.json?catName=' + row.clean_name + '" >ROKU</a>';
 
                     if (!row.canEdit) {
                         editBtn = "";
