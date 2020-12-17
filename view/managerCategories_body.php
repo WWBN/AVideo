@@ -340,6 +340,12 @@ echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(row.id));";
             $('#inputDescription').val('');
             $('#inputParentId').val('0');
             //$('#inputType').val('3');
+
+<?php
+echo $croppie1['restartCroppie'] . "(getCategoryPhotoPath(0));";
+echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(0));";
+?>
+
             $('#categoryFormModal').modal();
         });
 
