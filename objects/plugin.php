@@ -158,6 +158,7 @@ class Plugin extends ObjectYPT {
                     $pluginJustInstalled[$uuid] = 1;
                     _error_log("plugin::getPluginByUUID {$name} {$uuid} this plugin is On By Default we will install it ($sql)");
                     self::deleteByUUID($uuid);
+                    self::deleteByName($name);
                     unset($getPluginByUUID[$uuid]);
                     $getPluginByUUID[$uuid] = self::getOrCreatePluginByName($name, 'active');
                 } else {
@@ -387,6 +388,7 @@ class Plugin extends ObjectYPT {
 
     static function deleteByUUID($uuid) {
         global $global;
+        $uuid = $global['mysqli']->real_escape_string($uuid);
         if (!empty($uuid)) {
             _error_log("Plugin:deleteByUUID {$uuid}");
             $sql = "DELETE FROM " . static::getTableName() . " ";
@@ -394,6 +396,20 @@ class Plugin extends ObjectYPT {
             $global['lastQuery'] = $sql;
             //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql, "s", array($uuid));
+        }
+        return false;
+    }
+
+    static function deleteByName($name) {
+        global $global;
+        $name = $global['mysqli']->real_escape_string($name);
+        if (!empty($name)) {
+            _error_log("Plugin:deleteByName {$name}");
+            $sql = "DELETE FROM " . static::getTableName() . " ";
+            $sql .= " WHERE name = ?";
+            $global['lastQuery'] = $sql;
+            //_error_log("Delete Query: ".$sql);
+            return sqlDAL::writeSql($sql, "s", array($name));
         }
         return false;
     }
@@ -428,10 +444,14 @@ class Plugin extends ObjectYPT {
         if (empty($this->object_data)) {
             $this->object_data = 'null';
         }
-        $name = "plugin{$this->uuid}";
+        self::deletePluginCache($this->uuid);
+        return parent::save();
+    }
+    
+    static function deletePluginCache($uuid){
+        $name = "plugin{$uuid}";
         ObjectYPT::deleteCache($name);
         ObjectYPT::deleteCache("plugin::getAllEnabled");
-        return parent::save();
     }
 
     static function encryptIfNeed($object_data) {
