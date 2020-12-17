@@ -138,10 +138,11 @@ if (empty($global['disableTimeFix'])) {
     ObjectYPT::setTimeZone();
 }
 
-$advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
-$customizePlugin = AVideoPlugin::getObjectData("Customize");
-$permissionsPlugin = AVideoPlugin::getObjectData("Permissions");
-AVideoPlugin::loadPlugin("PlayerSkins");
+$avideoLayout = AVideoPlugin::getObjectData("Layout");
+$avideoCustomizeUser = $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+$avideoCustomize = $customizePlugin = AVideoPlugin::getObjectData("Customize");
+$avideoPermissions = $permissionsPlugin = AVideoPlugin::getObjectData("Permissions");
+$avideoPlayerSkins = AVideoPlugin::getObjectData("PlayerSkins");
 $sitemapFile = "{$global['systemRootPath']}sitemap.xml";
 
 if (!empty($_GET['type'])) {

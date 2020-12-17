@@ -22,6 +22,12 @@
                                 <input type="text" class="form-control" id="title" value="<?php echo $trasnmition['title'] ?>">
                             </div>  
                             <div class="form-group">
+                                <label for="title"><?php echo __("Category"); ?>:</label>
+                                <?php
+                                echo Layout::getCategorySelect('categories_id', $trasnmition['categories_id']);
+                                ?>
+                            </div>  
+                            <div class="form-group">
                                 <span class="fa fa-globe"></span> <?php echo __("Make Stream Publicly Listed"); ?> 
                                 <div class="material-switch pull-right">
                                     <input id="listed" type="checkbox" value="1" <?php echo!empty($trasnmition['public']) ? "checked" : ""; ?> onchange="saveStream();"/>

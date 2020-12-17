@@ -29,52 +29,111 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><?php echo __("Category Form"); ?></h4>
+                    <h4 class="modal-title"><i class="fas fa-list"></i> <?php echo __("Category Form"); ?></h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-compact"  id="updateCategoryForm" onsubmit="">
-                        <input type="hidden" id="inputCategoryId"  >
-                        <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
-                        <input type="text" id="inputName" class="form-control first" placeholder="<?php echo __("Name"); ?>" required autofocus>
-                        <label for="inputCleanName" class="sr-only"><?php echo __("Clean Name"); ?></label>
-                        <input type="text" id="inputCleanName" class="form-control last" placeholder="<?php echo __("Clean Name"); ?>" required>
-                        <label class="sr-only" for="inputDescription"><?php echo __("Description"); ?></label>
-                        <textarea class="form-control" rows="5" id="inputDescription" placeholder="<?php echo __("Description"); ?>"></textarea>
-                        <label><?php echo __("Order"); ?></label>                        
-                        <input type="number" id="order" class="form-control" placeholder="<?php echo __("Order"); ?>">
-                        <label><?php echo __("Privacy"); ?></label>                        
-                        <select class="form-control" id="inputPrivate">
-                            <option value="0"><?php echo __("Public"); ?></option>
-                            <option value="1"><?php echo __("Private"); ?></option>
-                        </select>
-                        <label><?php echo __("Allow Download"); ?></label>                        
-                        <select class="form-control" id="allow_download">
-                            <option value="1"><?php echo __("Yes"); ?></option>
-                            <option value="0"><?php echo __("No"); ?></option>
-                        </select>
-                        <label><?php echo __("Autoplay next-video-order"); ?></label>                        
-                        <select class="form-control" id="inputNextVideoOrder">
-                            <option value="0"><?php echo __("Random"); ?></option>
-                            <option value="1"><?php echo __("By name"); ?></option>
-                        </select>
-                        <div><label><?php echo __("Parent-Category"); ?></label>
-                            <select class="form-control" id="inputParentId">
-                            </select>
-                        </div>
-                        <div><label for="inputType"><?php echo __("Type"); ?></label>
-                            <select class="form-control" id="inputType">
-                                <option value="3"><?php echo __("Auto"); ?></option>
-                                <option value="0"><?php echo __("Both"); ?></option>
-                                <option value="1"><?php echo __("Audio"); ?></option>
-                                <option value="2"><?php echo __("Video"); ?></option>
-                            </select>
-                        </div>
-                        <div class="btn-group">
-                            <button data-selected="graduation-cap" type="button" class="icp iconCat btn btn-default dropdown-toggle iconpicker-component" data-toggle="dropdown">
-                                <?php echo __("Select an icon for the category"); ?>  <i class="fa fa-fw"></i>
-                                <span class="caret"></span>
-                            </button>
-                            <div class="dropdown-menu"></div>
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#images"><?php echo __("Images"); ?></a></li>
+                            <li><a data-toggle="tab" href="#metaData"><?php echo __("Meta Data"); ?></a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="images" class="tab-pane fade in active" style="padding: 5px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label><?php echo __("Image"); ?></label>                        
+                                            <?php
+                                            $croppie1 = getCroppie(__("Upload Image"), "setImage1", 144, 192);
+                                            echo $croppie1['html'];
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label><?php echo __("Background"); ?></label>                        
+                                            <?php
+                                            $croppie2 = getCroppie(__("Upload Image"), "setImage2", 1280, 180, 500);
+                                            echo $croppie2['html'];
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="metaData" class="tab-pane fade" style="padding: 5px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="hidden" id="inputCategoryId"  >
+                                            <label for="inputName"><?php echo __("Name"); ?></label>
+                                            <input type="text" id="inputName" class="form-control" placeholder="<?php echo __("Name"); ?>" required autofocus>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="inputCleanName"><?php echo __("Clean Name"); ?></label>
+                                            <input type="text" id="inputCleanName" class="form-control" placeholder="<?php echo __("Clean Name"); ?>" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label  for="inputDescription"><?php echo __("Description"); ?></label>
+                                            <textarea class="form-control" rows="5" id="inputDescription" placeholder="<?php echo __("Description"); ?>"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><?php echo __("Order"); ?></label>                        
+                                            <input type="number" id="order" class="form-control" placeholder="<?php echo __("Order"); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><?php echo __("Privacy"); ?></label>                        
+                                            <select class="form-control" id="inputPrivate">
+                                                <option value="0"><?php echo __("Public"); ?></option>
+                                                <option value="1"><?php echo __("Private"); ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><?php echo __("Allow Download"); ?></label>                        
+                                            <select class="form-control" id="allow_download">
+                                                <option value="1"><?php echo __("Yes"); ?></option>
+                                                <option value="0"><?php echo __("No"); ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><?php echo __("Autoplay next-video-order"); ?></label>                        
+                                            <select class="form-control" id="inputNextVideoOrder">
+                                                <option value="0"><?php echo __("Random"); ?></option>
+                                                <option value="1"><?php echo __("By name"); ?></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><?php echo __("Parent-Category"); ?></label>
+                                            <select class="form-control" id="inputParentId">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><?php echo __("Category Icon"); ?></label>                        
+                                            <?php
+                                            echo Layout::getIconsSelect("iconCat");
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -88,12 +147,38 @@
 </div><!--/.container-->
 <script>
     var fullCatList;
+    var image1;
+    var image2;
+    function setImage1(resp) {
+        image1 = resp;
+<?php
+echo $croppie2['getCroppieFunction'];
+?>
+    }
+    function setImage2(resp) {
+        image2 = resp;
+        saveCategory(image1, image2);
+    }
+
+
+    function getCategoryPhotoPath($categories_id) {
+        return getCategoryAssetPath("photo.png", $categories_id);
+    }
+
+    function getCategoryBackgroundPath($categories_id) {
+        return getCategoryAssetPath("background.png", $categories_id);
+    }
+
+    function getCategoryAssetPath($name, $categories_id) {
+
+        $dir = "videos/categories/assets/";
+        $dir += $categories_id + "/" + $name;
+
+        return webSiteRootURL + $dir;
+    }
+
+
     $(document).ready(function () {
-        $('.iconCat').iconpicker({
-            //searchInFooter: true, // If true, the search will be added to the footer instead of the title
-            //inputSearch:true,
-            //showFooter:true
-        });
 
         function refreshSubCategoryList() {
             $.ajax({
@@ -169,7 +254,7 @@
                         editBtn = "";
                         deleteBtn = "";
                     }
-                    
+
                     return editBtn + deleteBtn + rssBtn;
                 }
             }
@@ -177,6 +262,7 @@
             grid.find(".command-edit").on("click", function (e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+
                 // console.log(row);
                 $("#subcat" + row.id).hide(); // hide own entry
                 $('#inputCategoryId').val(row.id);
@@ -188,10 +274,18 @@
                 $('#allow_download').val(row.allow_download);
                 $('#order').val(row.order);
                 $('#inputParentId').val(row.parentId);
-                $('#inputType').val(row.type);
-                $(".iconCat i").attr("class", row.iconClass);
+                //$('#inputType').val(row.type);
+                $("select[name='iconCat']").val(row.iconClass);
+                $("select[name='iconCat']").trigger('change');
 
                 $('#categoryFormModal').modal();
+                console.log("restartCroppie");
+<?php
+echo $croppie1['restartCroppie'] . "(getCategoryPhotoPath(row.id));";
+echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(row.id));";
+?>
+
+                console.log("restartCroppie done");
             }).end().find(".command-delete").on("click", function (e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
@@ -214,7 +308,7 @@
                                     success: function (response) {
                                         if (response.status === "1") {
                                             $("#grid").bootgrid("reload");
-                                            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been deleted!"); ?>", "success");
+                                            avideoToast("<?php echo __("Your category has been deleted!"); ?>");
                                         } else {
                                             avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been deleted!"); ?>", "error");
                                         }
@@ -224,7 +318,9 @@
                             }
                         });
             });
-            setTimeout(function(){$('[data-toggle="tooltip"]').tooltip();},1000);
+            setTimeout(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            }, 1000);
         });
 
 
@@ -243,7 +339,7 @@
             $('#inputCleanName').val('');
             $('#inputDescription').val('');
             $('#inputParentId').val('0');
-            $('#inputType').val('3');
+            //$('#inputType').val('3');
             $('#categoryFormModal').modal();
         });
 
@@ -253,26 +349,43 @@
 
         $('#updateCategoryForm').submit(function (evt) {
             evt.preventDefault();
-            modal.showPleaseWait();
-            $.ajax({
-                url: '<?php echo $global['webSiteRootURL'] . "objects/categoryAddNew.json.php"; ?>',
-                data: {
-                    "id": $('#inputCategoryId').val(), "name": $('#inputName').val(), "clean_name": $('#inputCleanName').val(), "description": $('#inputDescription').val(), "nextVideoOrder": $('#inputNextVideoOrder').val(), "private": $('#inputPrivate').val(),
-                    "allow_download": $('#allow_download').val(), "order": $('#order').val(), "parentId": $('#inputParentId').val(), "type": $('#inputType').val(), "iconClass": $(".iconCat i").attr("class")},
-                type: 'post',
-                success: function (response) {
-                    if (response.status) {
-                        $('#categoryFormModal').modal('hide');
-                        $("#grid").bootgrid("reload");
-                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your category has been saved!"); ?>", "success");
-                    } else {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been saved!"); ?>", "error");
-                    }
-                    modal.hidePleaseWait();
-                }
-            });
+<?php
+echo $croppie1['getCroppieFunction'];
+?>
             return false;
         });
     });
+
+    function saveCategory(image1, image2) {
+        modal.showPleaseWait();
+        $.ajax({
+            url: '<?php echo $global['webSiteRootURL'] . "objects/categoryAddNew.json.php"; ?>',
+            data: {
+                "id": $('#inputCategoryId').val(),
+                "name": $('#inputName').val(),
+                "clean_name": $('#inputCleanName').val(),
+                "description": $('#inputDescription').val(),
+                "nextVideoOrder": $('#inputNextVideoOrder').val(),
+                "private": $('#inputPrivate').val(),
+                "allow_download": $('#allow_download').val(),
+                "order": $('#order').val(),
+                "parentId": $('#inputParentId').val(),
+                "iconClass": $("select[name='iconCat']").val(),
+                "image1": image1,
+                "image2": image2
+            },
+            type: 'post',
+            success: function (response) {
+                if (!response.error) {
+                    $('#categoryFormModal').modal('hide');
+                    $("#grid").bootgrid("reload");
+                    avideoToast("<?php echo __("Your category has been saved!"); ?>");
+                } else {
+                    avideoAlertError(response.msg);
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    }
 
 </script>

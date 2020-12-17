@@ -338,7 +338,7 @@ if (!class_exists('Video')) {
                 return false;
             }
         }
-
+        /*
         static function autosetCategoryType($catId) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5.01')) {
@@ -471,7 +471,7 @@ if (!class_exists('Video')) {
                 sqlDAL::writeSql($sql, "ii", $values);
             }
         }
-
+        */
 // i would like to simplify the big part of the method above in this method, but won't work as i want.
         static function internalAutoset($catId, $videoFound, $audioFound) {
             global $config;
@@ -2763,7 +2763,7 @@ if (!class_exists('Video')) {
                 return "";
             }
             $cleanName = str_replace(
-                    array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit',
+                    array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku',
                         '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2'),
                     array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), $filename);
             $path_parts = pathinfo($cleanName);

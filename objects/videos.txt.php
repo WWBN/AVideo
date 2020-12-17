@@ -18,5 +18,5 @@ foreach ($videos as $key => $value) {
     }else{
         echo Video::getURLFriendlyFromCleanTitle($videos[$key]['clean_title']);
     }
-    echo "\r\n";
+    echo PHP_EOL;
 }

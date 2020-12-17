@@ -114,7 +114,7 @@ class Plugin extends ObjectYPT {
         }
         if (empty($getPluginByName[$name])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = ? LIMIT 1";
-            $res = sqlDAL::readSql($sql, "s", array($name));
+            $res = sqlDAL::readSql($sql, "s", array($name), true);
             $data = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if (!empty($data)) {
@@ -127,10 +127,13 @@ class Plugin extends ObjectYPT {
     }
 
     static function getPluginByUUID($uuid) {
-        global $global, $getPluginByUUID;
+        global $global, $getPluginByUUID, $pluginJustInstalled;
         $name = "plugin$uuid";
-        if (empty($getPluginByUUID)) {
+        if (!isset($getPluginByUUID)) {
             $getPluginByUUID = array();
+        }
+        if (!isset($pluginJustInstalled)) {
+            $pluginJustInstalled = array();
         }
         if (empty($getPluginByUUID[$uuid])) {
             $getPluginByUUID[$uuid] = object_to_array(ObjectYPT::getCache($name, 0));
@@ -150,7 +153,14 @@ class Plugin extends ObjectYPT {
                 $getPluginByUUID[$uuid] = $data;
                 ObjectYPT::setCache($name, $getPluginByUUID[$uuid]);
             } else {
-                $getPluginByUUID[$uuid] = false;
+                $name = AVideoPlugin::getPluginsNameOnByDefaultFromUUID($uuid);
+                if($name!==false && empty($pluginJustInstalled[$uuid])){
+                    $pluginJustInstalled[$uuid] = 1;
+                    _error_log("plugin::getPluginByUUID {$name} {$uuid} this plugin is On By Default we will install it ($sql)");
+                    $getPluginByUUID[$uuid] = self::getOrCreatePluginByName($name, 'active');
+                }else{
+                    $getPluginByUUID[$uuid] = false;
+                }
             }
         }
         return $getPluginByUUID[$uuid];

@@ -9,6 +9,7 @@ var socialButton = videojs.extend(Button, {
         setTimeout(function(){avideoTooltip(".social-button","Share");},1000);
     },
     handleClick: function () {
+        console.log('socialButton clicked');
         tooglePlayersocial();
     }
 });

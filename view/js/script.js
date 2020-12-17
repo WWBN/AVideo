@@ -398,7 +398,7 @@ function inIframe() {
     }
 }
 
-function playerIsReady(){
+function playerIsReady() {
     return (typeof player !== 'undefined' && player.isReady_);
 }
 
@@ -410,7 +410,7 @@ var browserPreventShowed = false;
 var playerPlayTimeout;
 function playerPlay(currentTime) {
     clearTimeout(playerPlayTimeout);
-    if(currentTime){
+    if (currentTime) {
         console.log("playerPlay time:", currentTime);
     }
     if (!playerIsReady()) {
@@ -461,13 +461,13 @@ function playerPlay(currentTime) {
                         }
                     }
                 }).catch(function (error) {
-                    if(player.networkState()===3){
+                    if (player.networkState() === 3) {
                         promisePlaytry = 20;
                         console.log("playerPlay: Network error detected, trying again");
                         player.src(player.currentSources());
                         userIsControling = false;
                         tryToPlay(currentTime);
-                    }else{
+                    } else {
                         if (promisePlaytry <= 10) {
                             console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
                             tryToPlayMuted(currentTime);
@@ -782,8 +782,8 @@ function setCurrentTime(currentTime) {
     }
 }
 
-function isALiveContent(){
-    if(typeof isLive !== 'undefined' && isLive){
+function isALiveContent() {
+    if (typeof isLive !== 'undefined' && isLive) {
         return true;
     }
     return false;
@@ -791,10 +791,10 @@ function isALiveContent(){
 
 function isAutoplayEnabled() {
     console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
-    if(isALiveContent()){
+    if (isALiveContent()) {
         console.log("isAutoplayEnabled always autoplay live contents");
         return true;
-    }else
+    } else
     if ($("#autoplay").length && $("#autoplay").is(':visible')) {
         autoplay = $("#autoplay").is(":checked");
         console.log("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
@@ -849,7 +849,7 @@ function avideoAlert(title, msg, type) {
     }
 }
 
-function avideoToast(msg){
+function avideoToast(msg) {
     $.toast(msg);
 }
 
@@ -1087,18 +1087,45 @@ function startTimer(duration, selector) {
     }, 1000);
 }
 
-function addGetParam(_url,_key,_value){
-      var param = _key+'='+escape(_value);
+function addGetParam(_url, _key, _value) {
+    var param = _key + '=' + escape(_value);
 
-      var sep = '&';
-      if (_url.indexOf('?') < 0) {
+    var sep = '&';
+    if (_url.indexOf('?') < 0) {
         sep = '?';
-      } else {
-        var lastChar=_url.slice(-1);
-        if (lastChar == '&') sep='';
-        if (lastChar == '?') sep='';
-      }
-      _url += sep + param;
+    } else {
+        var lastChar = _url.slice(-1);
+        if (lastChar == '&')
+            sep = '';
+        if (lastChar == '?')
+            sep = '';
+    }
+    _url += sep + param;
 
-      return _url;
-  }
+    return _url;
+}
+
+function readFileCroppie(input, crop) {
+    if ($(input)[0].files && $(input)[0].files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            crop.croppie('bind', {
+                url: e.target.result
+            }).then(function () {
+                console.log('jQuery bind complete');
+            });
+
+        }
+
+        reader.readAsDataURL($(input)[0].files[0]);
+    } else {
+        avideoAlert("Sorry - you're browser doesn't support the FileReader API");
+    }
+}
+
+function getCroppie(uploadCropObject, callback, width, height) {
+    uploadCropObject.croppie('result', { type: 'base64', size: { width: width, height: height }, format: 'png' }).then(function (resp) {
+        eval(callback + "(resp);");
+    });
+}

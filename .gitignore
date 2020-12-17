@@ -64,5 +64,8 @@
 /plugin/IPTV/
 /.scannerwork/
 /vendor/
-/plugin/Layout/
 /git.php
+/plugin/Layout/hamburguerMenu.php
+/plugin/Layout/timer.php
+/plugin/Layout/navBarLateral.php
+/plugin/Layout/navbar.php

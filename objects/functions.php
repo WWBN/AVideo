@@ -4925,7 +4925,7 @@ function downloadHLS($filepath) {
     exit;
 }
 
-function getSocialModal($videos_id, $url="", $title="") {
+function getSocialModal($videos_id, $url = "", $title = "") {
     global $global;
     $video['id'] = $videos_id;
     $sharingUid = uniqid();
@@ -4947,8 +4947,14 @@ function getSocialModal($videos_id, $url="", $title="") {
     </div>
     <script>
         function showSharing<?php echo $sharingUid ?>() {
-            $('#SharingModal<?php echo $sharingUid ?>').appendTo("body");
+            if ($('#mainVideo').length) {
+                $('#SharingModal<?php echo $sharingUid ?>').appendTo("#mainVideo");
+            } else {
+                $('#SharingModal<?php echo $sharingUid ?>').appendTo("body");
+            }
             $('#SharingModal<?php echo $sharingUid ?>').modal("show");
+            $('.modal-backdrop').hide();
+
             return false;
         }
 
@@ -4959,5 +4965,46 @@ function getSocialModal($videos_id, $url="", $title="") {
     <?php
     $contents = ob_get_contents();
     ob_end_clean();
-    return array('html'=>$contents, 'id'=>$sharingUid);
+    return array('html' => $contents, 'id' => $sharingUid);
+}
+
+function getCroppie($buttonTitle, $callBackJSFunction,
+        $resultWidth,
+        $resultHeight,
+        $viewportWidth = 0,
+        $boundary = 25,
+        $viewportHeight = 0) {
+    global $global;
+    if (empty($viewportWidth)) {
+        $viewportWidth = $resultWidth;
+    }
+    $zoom = 0;
+    if (empty($viewportHeight)) {
+        $zoom = ($viewportWidth/$resultWidth);
+        $viewportHeight = $zoom*$resultHeight;
+    }
+    $boundaryWidth = $viewportWidth+$boundary;
+    $boundaryHeight = $viewportHeight+$boundary;
+    $uid = uniqid();
+    ob_start();
+    include $global['systemRootPath'] . 'objects/functionCroppie.php';
+    $contents = ob_get_contents();
+    ob_end_clean();
+    $callBackJSFunction = addcslashes($callBackJSFunction, "'");
+    return array(
+        "html" => $contents,
+        "id" => "croppie{$uid}",
+        "uploadCropObject" => "uploadCrop{$uid}",
+        "getCroppieFunction" => "getCroppie(uploadCrop{$uid}, '{$callBackJSFunction}', {$resultWidth}, {$resultHeight});",
+        "createCroppie" => "createCroppie{$uid}",
+        "restartCroppie" => "restartCroppie{$uid}"
+    );
+}
+
+function saveCroppieImage($destination, $postIndex="imgBase64") {
+    if(empty($_POST[$postIndex])){
+        return false;
+    }
+    $fileData = base64DataToImage($_POST[$postIndex]);
+    return file_put_contents($destination, $fileData);
 }

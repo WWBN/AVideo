@@ -15,6 +15,7 @@ $breaks = array("<br />","<br>","<br/>");
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";     
     $categories[$key]['description'] = str_ireplace($breaks, "\r\n", $value['description']);
+    /*
     $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
     $res = sqlDAL::readSql($sql,"i",array($value['id'])); 
     $catTypeCache = sqlDAL::fetchAssoc($res);
@@ -28,6 +29,8 @@ foreach ($categories as $key => $value) {
     } else {
         $categories[$key]['type'] = "3";
     } 
+     * 
+     */
 }
 if(empty($_POST['sort']) && empty($_GET['sort'])){
     array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);

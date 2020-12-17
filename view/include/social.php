@@ -1,15 +1,16 @@
 <?php
 global $socialAdded;
-if((empty($url) || empty($title)) && !empty($video['id'])){
+if ((empty($url) || empty($title)) && !empty($video['id'])) {
     $url = Video::getLinkToVideo($video['id']);
-    if(!empty($video['title'])){
+    if (!empty($video['title'])) {
         $title = $video['title'];
-    }else{
+    } else {
         $video = new Video("", "", $video['id']);
         $title = $video->getTitle();
     }
 }
-$url = urlencode($url);
+//$originalURL = $url;
+//$url = urlencode($url);
 //set the $url and the $title before include this
 $facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
 $twitterURL = "http://twitter.com/intent/tweet?text={$title}+{$url}";
@@ -20,10 +21,10 @@ $linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$url&title=$titl
 $wordpress = "http://wordpress.com/press-this.php?u=$url&quote=$title&s=";
 $pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=";
 $parler = "https://parler.com/new-post?message={$title}&url={$url}";
-if(empty($socialAdded)){ // do not add the CSS more then once
-?>     
-<link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
-<?php 
+if (empty($socialAdded)) { // do not add the CSS more then once
+    ?>     
+    <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
+    <?php
 }
 $socialAdded = 1;
 ?>
@@ -36,7 +37,14 @@ $socialAdded = 1;
     <li><a href="<?php echo $linkedin; ?>" target="_blank"  class="icoLinkedin" title="LinkedIn" data-toggle="tooltip" ><i class="fab fa-linkedin-in"></i></a></li>
     <li><a href="<?php echo $wordpress; ?>" target="_blank"  class="icoWordpress" title="Wordpress" data-toggle="tooltip" ><i class="fab fa-wordpress-simple"></i></a></li>
     <li><a href="<?php echo $pinboard; ?>" target="_blank"  class="icoPinboard" title="Pinboard" data-toggle="tooltip" ><i class="fas fa-thumbtack"></i></a></li>
-    <li><a href="<?php echo $parler; ?>" target="_blank"  class="icoParler" title="Parler" data-toggle="tooltip" >
+    <li>
+        <a href="<?php echo $parler; ?>" target="_blank"  class="icoParler" title="Parler" data-toggle="tooltip" >
             <i class="fas"><img src="<?php echo $global['webSiteRootURL']; ?>view/img/social/parler.png" style="max-width: 16px; max-height: 16px"></i>
-        </a></li>
+        </a>
+    </li>
+    <li>
+        <a href="#" class="icoCopy" title="<?php echo __('Copy to Clipboard'); ?>" data-toggle="tooltip" onclick="copyToClipboard('<?php echo urldecode($url); ?>');$(this).closest('.modal').modal('hide');" >
+            <i class="far fa-copy"></i>
+        </a>
+    </li>
 </ul>

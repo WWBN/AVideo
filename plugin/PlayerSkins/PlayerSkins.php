@@ -62,7 +62,7 @@ class PlayerSkins extends PluginAbstract {
     }
 
     public function getHeadCode() {
-        global $global, $config;
+        global $global, $config, $video;
         $obj = $this->getDataObject();
         $css = "";
         $js = "";
@@ -108,7 +108,7 @@ class PlayerSkins extends PluginAbstract {
                         . "</style>";
             }
             
-            if ($obj->showShareSocial) {
+            if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/shareButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
         }
@@ -143,7 +143,7 @@ class PlayerSkins extends PluginAbstract {
 }");
             }
             
-            if ($obj->showShareSocial) {
+            if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $social = getSocialModal($video['id'], @$url, @$title);
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
                 //$js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/shareButton.js\"></script>";

@@ -224,10 +224,11 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                     });
 
                     $.ajax({
-                        url: 'saveLive.php',
+                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/saveLive.php',
                         data: {
                             "title": $('#title').val(),
                             "description": $('#description').val(),
+                            "categories_id": $('select[name="categories_id"]').val(),
                             "key": "<?php echo $trasnmition['key']; ?>",
                             "listed": $('#listed').is(":checked"),
                             "userGroups": selectedUserGroups

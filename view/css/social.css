@@ -51,6 +51,9 @@ ul.social-network li {
 .social-network a.icoParler:hover {
     background-color: #be1e2d;
 }
+.social-network a.icoCopy:hover {
+    background-color: #333;
+}
 .social-network a.icoRss:hover i,
 .social-network a.icoFacebook:hover i,
 .social-network a.icoTwitter:hover i,

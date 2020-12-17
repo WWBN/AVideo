@@ -72,7 +72,7 @@ class Category {
     function setParentId($parentId) {
         $this->parentId = $parentId;
     }
-
+    /*
     function setType($type, $overwriteUserId = 0) {
         global $global;
         $internalId = $overwriteUserId;
@@ -103,6 +103,8 @@ class Category {
             }
         }
     }
+     * 
+     */
 
     function setDescription($description) {
         $this->description = xss_esc($description);
@@ -249,7 +251,7 @@ class Category {
         self::clearCacheCount();
         return sqlDAL::writeSql($sql, "i", array($this->id));
     }
-
+    /*
     static function getCategoryType($categoryId) {
         global $global;
         $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?;";
@@ -266,6 +268,8 @@ class Category {
             return array("categoryId" => "-1", "type" => "0", "manualSet" => "0");
         }
     }
+     * 
+     */
 
     static function getCategory($id) {
         global $global;
@@ -614,6 +618,53 @@ class Category {
         $this->allow_download = intval($allow_download);
     }
 
+    static function getCategoryDirPath($categories_id=""){
+        global $global;
+        
+        $dir = "videos/categories/assets/";
+        if(!empty($categories_id)){
+            $dir .= $categories_id."/";
+        }
+        
+        $path = array();
+        $path['dir'] = "{$global['systemRootPath']}{$dir}";
+        make_path($path['dir']);
+        $path['path'] = "{$global['systemRootPath']}{$dir}";
+        $path['url'] = "{$global['webSiteRootURL']}{$dir}";
+        return $path;
+    }
+    
+    static function getCategoryPhotoPath($categories_id){
+        return self::getCategoryAssetPath("photo.png", $categories_id);
+    }
+    
+    static function getCategoryBackgroundPath($categories_id){
+        return self::getCategoryAssetPath("background.png", $categories_id);
+    }
+    
+    private static function getCategoryAssetPath($name, $categories_id){
+        if(empty($categories_id)){
+            return false;
+        }
+        if(empty($name)){
+            return false;
+        }
+        
+        $dirPaths = self::getCategoryDirPath($categories_id);
+        
+        global $global;
+        
+        $path = array();
+        $path['dir'] = $dirPaths['url'];
+        $path['path'] = "{$dirPaths['path']}{$name}";
+        $path['url'] = "{$dirPaths['url']}{$name}";
+        if(file_exists($path['path'])){
+            $path['url+timestamp'] = "{$path['url']}?". filectime($path['path']);
+        }else{
+            $path['url+timestamp'] = $path['url'];
+        }
+        return $path;
+    }
 
 
 }
