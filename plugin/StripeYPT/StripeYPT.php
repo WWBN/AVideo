@@ -402,6 +402,16 @@ class StripeYPT extends PluginAbstract {
         return $Subscription;
     }
 
+    static function getAmountPaidFromPayload($payload){
+        $amount = "000";
+        if(!empty($payload->data->object->amount_paid)){
+            $amount = $payload->data->object->amount_paid;
+        }else if(!empty($payload->data->object->amount_captured)){
+            $amount = $payload->data->object->amount_captured;
+        }
+        return self::addDot($amount);
+    }
+    
     function processSubscriptionIPN($payload) {
         if (!is_object($payload) || empty($payload->data->object->customer)) {
             _error_log("processSubscriptionIPN: ERROR", AVideoLog::$ERROR);
@@ -418,7 +428,7 @@ class StripeYPT extends PluginAbstract {
         $plan = Subscription::getOrCreateStripeSubscription($metadata['users_id'],$metadata['plans_id'], $payload->data->object->customer);
         
         if(!empty($plan)){
-            $payment_amount = StripeYPT::addDot($payload->data->object->amount_paid);
+            $payment_amount = self::getAmountPaidFromPayload($payload);
             $users_id = @$plan['users_id'];
             $plans_id = @$plan['subscriptions_plans_id'];
             if (!empty($users_id)) {
