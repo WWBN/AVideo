@@ -38,10 +38,12 @@ $croppieFilesAdded = 1;
                 height: <?php echo $boundaryHeight; ?>
             }
         });
+        $('#upload<?php echo $uid; ?>').off('change');
         $('#upload<?php echo $uid; ?>').on('change', function () {
             readFileCroppie(this, uploadCrop<?php echo $uid; ?>);
         });
 
+        $('#upload<?php echo $uid; ?>').off('click');
         $('#upload-btn<?php echo $uid; ?>').on('click', function (ev) {
             $('#upload<?php echo $uid; ?>').trigger("click");
         });
