@@ -95,7 +95,7 @@ class StripeYPT extends PluginAbstract {
         ]);
     }
 
-    public function getIntent($total = '1.00', $currency = "USD", $description = "", $metadata=array()) {
+    public function getIntent($total = '1.00', $currency = "USD", $description = "", $metadata=array(), $customer="", $future_usage="") {
         global $global, $config;
         $this->start();
         $total = number_format(floatval($total), 2, "", "");
@@ -103,15 +103,23 @@ class StripeYPT extends PluginAbstract {
         if(empty($description)){
             $description = $config->getWebSiteTitle() . " Payment";
         }
-        _error_log("StripeYPT::getIntent $total , $currency, $description");
-        try {
-            $intent = \Stripe\PaymentIntent::create([
+        $parameters = [
                         'amount' => $total,
                         'currency' => $currency,
                         'description' => $description,
                         'metadata' => $metadata,
-                        'receipt_email'=> User::getEmail_()
-            ]);
+                        'receipt_email'=> User::getEmail_(),
+                        'confirm'=> true
+            ];
+        if(!empty($customer)){
+            $parameters['customer'] = $customer;
+        }
+        if(!empty($customer)){
+            $parameters['setup_future_usage'] = $future_usage;
+        }
+        _error_log("StripeYPT::getIntent $total , $currency, $description");
+        try {
+            $intent = \Stripe\PaymentIntent::create($parameters);
 
             _error_log("StripeYPT::getIntent success " . json_encode($intent));
             return $intent;

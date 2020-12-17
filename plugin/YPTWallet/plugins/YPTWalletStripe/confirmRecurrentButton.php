@@ -1,4 +1,5 @@
 <?php
+global $planTitle;
 $obj = AVideoPlugin::getObjectData('StripeYPT');
 $uid = uniqid();
 ?>
@@ -143,6 +144,52 @@ $uid = uniqid();
                     setTimeout(function () {
                         location.reload();
                     }, 5000);
+                } else if (response.confirmCardPayment) {
+                    avideoToast(response.msg);
+                    $.ajax({
+                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/getIntent.json.php',
+                        data: {
+                            "value": $('#value<?php echo @$_GET['plans_id']; ?>').val(),
+                            "description": "Subscription (<?php echo addcslashes(@$planTitle, '"'); ?>) plan_id=<?php echo @$_GET['plans_id']; ?> ",
+                            "plans_id": "<?php echo @$_GET['plans_id']; ?>",
+                            "plugin": "<?php echo @$_REQUEST['plugin']; ?>",
+                            "singlePayment": 0,
+                            "customer": response.customer,
+                            "future_usage": "off_session"
+                        },
+                        type: 'post',
+                        success: function (response) {
+                            modal.hidePleaseWait();
+                            if (!response.error) {
+                                console.log(response);
+                                stripe<?php echo $uid; ?>.confirmCardPayment(
+                                        response.client_secret,
+                                        {
+                                            payment_method: {card: card<?php echo $uid; ?>}
+                                        }
+                                ).then(function (result) {
+                                    console.log(result);
+                                    if (result.error) {
+                                        // Inform the user if there was an error.
+                                        var errorElement = document.getElementById('card-errors<?php echo $uid; ?>');
+                                        errorElement.textContent = result.error.message;
+                                        avideoAlertError(result.error.message);
+                                    } else {
+                                        modal.showPleaseWait();
+                                        // Send the token to your server.
+                                        avideoToast("<?php echo __("Payment Success"); ?>");
+                                        updateYPTWallet();
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 3000);
+                                    }
+                                });
+                            } else {
+                                avideoAlertError(response.msg);
+                            }
+
+                        }
+                    });
                 } else {
                     avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");
                     setTimeout(function () {

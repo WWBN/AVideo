@@ -15,6 +15,9 @@ $objS = $pluginS->getDataObject();
 
 $obj= new stdClass();
 $obj->error = true;
+$obj->confirmCardPayment = false;
+$obj->msg = "";
+$obj->customer = false;
 
 $invoiceNumber = uniqid();
 if (session_status() == PHP_SESSION_NONE) {
@@ -50,7 +53,10 @@ if (!empty($payment) && !empty($payment->status) && ($payment->status=="active" 
     }
     $obj->error = false;
     $obj->subscription = $payment;
-}else{
-    _error_log("Request subscription Stripe error: ".  json_encode($payment));
+}else if (!empty($payment) && !empty($payment->status) && ($payment->status=="incomplete" && $payment->customer)) {
+    _error_log("Request subscription Stripe is incomplete ");
+    $obj->confirmCardPayment = true;
+    $obj->msg = "Please Confirm your Payment";
+    $obj->customer = $payment->customer;
 }
 die(json_encode($obj));

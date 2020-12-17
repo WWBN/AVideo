@@ -50,7 +50,7 @@ $metadata = array(
     "singlePayment" => @$_REQUEST['singlePayment'],
 );
 
-$intent = $stripe->getIntent($value, $currency, @$_REQUEST['description'], $metadata);
+$intent = $stripe->getIntent($value, $currency, @$_REQUEST['description'], $metadata, @$_REQUEST['customer'], @$_REQUEST['future_usage']);
 
 $obj->client_secret = $intent->client_secret;
 $obj->error = empty($obj->client_secret);
