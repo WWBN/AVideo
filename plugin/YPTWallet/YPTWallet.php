@@ -591,7 +591,7 @@ class YPTWallet extends PluginAbstract {
         if(empty($users_id)){
             return 0;
         }
-        $wallet = self::getWallet($users_id_to);
+        $wallet = self::getWallet($users_id);
         return $wallet->getBalance();
     }
     
