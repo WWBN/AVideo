@@ -387,6 +387,7 @@ class Plugin extends ObjectYPT {
     static function deleteByUUID($uuid) {
         global $global;
         if (!empty($uuid)) {
+            _error_log("Plugin:deleteByUUID {$uuid}");
             $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE uuid = ?";
             $global['lastQuery'] = $sql;
