@@ -5,12 +5,22 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Layout extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE
+        );
+    }
     public function getDescription() {
         return "Finetune the layout and helpers";
     }
 
     public function getName() {
         return "Layout";
+    }
+    
+    public function getPluginVersion() {
+        return "1.0";
     }
 
     public function getUUID() {
