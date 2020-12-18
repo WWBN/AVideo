@@ -1,6 +1,6 @@
 <?php
 global $socialAdded;
-if ((empty($url) || empty($title)) && !empty($video['id'])) {
+if (!empty($video['id'])) {
     $url = Video::getLinkToVideo($video['id']);
     if (!empty($video['title'])) {
         $title = $video['title'];
