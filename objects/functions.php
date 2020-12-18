@@ -4933,7 +4933,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
     $sharingUid = uniqid();
     ob_start();
     ?>
-    <div id="SharingModal<?php echo $sharingUid ?>" class="modal fade" role="dialog">
+    <div id="SharingModal<?php echo $sharingUid ?>" class="modal fade" role="dialog" style="top: 60px;">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
