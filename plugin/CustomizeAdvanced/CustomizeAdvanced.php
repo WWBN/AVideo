@@ -194,6 +194,9 @@ class CustomizeAdvanced extends PluginAbstract {
         $o->value = 0;
         $obj->timeZone = $o;
         
+        
+        $obj->keywords = "AVideo, videos, live, movies";
+        
         return $obj;
     }
 
