@@ -10,6 +10,6 @@ if(file_exists($lockFile)){
     return false;
 }
 file_put_contents($lockFile, 1);
-$total = Video::getTotalToday($video_id);
+$total = VideoStatistic::getTotalToday($video_id);
 file_put_contents($cacheFileName, json_encode($total));
 unlink($lockFile);
