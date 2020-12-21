@@ -273,6 +273,9 @@ class CustomizeUser extends PluginAbstract {
     }
 
     static function canDownloadVideosFromVideo($videos_id) {
+        if(CustomizeUser::canDownloadVideos()){
+            return false;
+        }
         $video = new Video("", "", $videos_id);
         if (empty($video)) {
             return false;
