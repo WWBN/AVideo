@@ -3901,9 +3901,27 @@ function getBackURL() {
         $backURL = getRequestURI();
     }
     if (isSameVideoAsSelfURI($backURL)) {
-        $backURL = $global['webSiteRootURL'];
+        $backURL = getHomeURL();
     }
     return $backURL;
+}
+
+function getHomeURL(){
+    global $global;
+    if(isValidURL($advancedCustomUser->afterLoginGoToURL)){
+        return $advancedCustomUser->afterLoginGoToURL;
+    }
+    return $global['webSiteRootURL'];
+}
+
+function isValidURL($url){
+    if(empty($url) || !is_string($url)){
+        return false;
+    }
+    if (preg_match("/^http.*/", $url) && filter_var($url, FILTER_VALIDATE_URL)) {
+        return true;
+    } 
+    return false;
 }
 
 function hasLastSlash($word) {
