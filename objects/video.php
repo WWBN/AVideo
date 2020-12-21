@@ -3811,12 +3811,8 @@ if (!class_exists('Video')) {
         static function getIncludeType($video) {
             $vType = $video['type'];
             if ($vType == "linkVideo") {
-                if(isValidURL($video['videoLink']) && $type = get_headers($video['videoLink'], 1)["Content-Type"]){
-                    if(preg_match('/text\/html/i', $type)){
-                        $vType = "embed";
-                    }else{
-                        $vType = "video";
-                    }
+                if(isHTMLPage($video['videoLink'])){
+                    $vType = "embed";
                 }else{
                     $vType = "video";
                 }

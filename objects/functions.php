@@ -3906,23 +3906,23 @@ function getBackURL() {
     return $backURL;
 }
 
-function getHomeURL(){
+function getHomeURL() {
     global $global, $advancedCustomUser, $advancedCustom;
-    if(isValidURL($advancedCustomUser->afterLoginGoToURL)){
+    if (isValidURL($advancedCustomUser->afterLoginGoToURL)) {
         return $advancedCustomUser->afterLoginGoToURL;
-    }else if(isValidURL($advancedCustom->logoMenuBarURL) && isSameDomainAsMyAVideo($advancedCustom->logoMenuBarURL)){
+    } else if (isValidURL($advancedCustom->logoMenuBarURL) && isSameDomainAsMyAVideo($advancedCustom->logoMenuBarURL)) {
         return $advancedCustom->logoMenuBarURL;
     }
     return $global['webSiteRootURL'];
 }
 
-function isValidURL($url){
-    if(empty($url) || !is_string($url)){
+function isValidURL($url) {
+    if (empty($url) || !is_string($url)) {
         return false;
     }
     if (preg_match("/^http.*/", $url) && filter_var($url, FILTER_VALIDATE_URL)) {
         return true;
-    } 
+    }
     return false;
 }
 
@@ -4544,7 +4544,7 @@ function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class 
 
 function getSharePopupButton($videos_id, $url = "", $title = "") {
     global $global, $advancedCustom;
-    if($advancedCustom->disableShareOnly || $advancedCustom->disableShareAndPlaylist){
+    if ($advancedCustom->disableShareOnly || $advancedCustom->disableShareAndPlaylist) {
         return false;
     }
     $video['id'] = $videos_id;
@@ -4694,6 +4694,15 @@ function _unsetcookie($cookieName) {
  * @global type $global
  * @return boolean
  */
+function isIframeInDifferentDomain() {
+    global $global;
+    if(!isIframe()){
+        return false;
+    }
+    return isSameDomainAsMyAVideo($_SERVER['HTTP_REFERER']);
+}
+
+
 function isIframe() {
     global $global;
     if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') {
@@ -4702,13 +4711,7 @@ function isIframe() {
     if (empty($_SERVER['HTTP_REFERER'])) {
         return false;
     }
-    $host1 = strtolower(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST));
-    $host1 = str_replace("www.", "", $host1);
-
-    $host2 = strtolower(parse_url($global['webSiteRootURL'], PHP_URL_HOST));
-    $host2 = str_replace("www.", "", $host2);
-
-    return $host1 !== $host2;
+    return true;
 }
 
 function getCredentialsURL() {
@@ -4944,12 +4947,12 @@ function getServerClock() {
  */
 function downloadHLS($filepath) {
     global $global;
-    
-    if(!CustomizeUser::canDownloadVideos()){
+
+    if (!CustomizeUser::canDownloadVideos()) {
         _error_log("downloadHLS: CustomizeUser::canDownloadVideos said NO");
         return false;
     }
-    
+
     if (!file_exists($filepath)) {
         _error_log("downloadHLS: file NOT found: {$filepath}");
         return false;
@@ -5096,4 +5099,20 @@ function get_ffmpeg($ignoreGPU = false) {
         $ffmpeg = "{$global['ffmpeg']}{$ffmpeg}";
     }
     return $ffmpeg;
+}
+
+function isHTMLPage($url) {
+    if ($type = getHeaderContentTypeFromURL($url)) {
+        if (preg_match('/text\/html/i', $type)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function getHeaderContentTypeFromURL($url) {
+    if (isValidURL($url) && $type = get_headers($url, 1)["Content-Type"]) {
+        return $type;
+    }
+    return false;
 }
