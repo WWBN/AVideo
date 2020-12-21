@@ -3839,7 +3839,7 @@ function getRedirectUri() {
         return $_GET['redirectUri'];
     }
     if (!empty($_SERVER["HTTP_REFERER"])) {
-        return $_GET['redirectUri'];
+        return $_SERVER["HTTP_REFERER"];
     }
     return getRequestURI();
 }
@@ -3860,6 +3860,49 @@ function getSelfURI() {
     $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryStringWithoutError";
     $url = rtrim($url, '?');
     return $url;
+}
+
+function isSameVideoAsSelfURI($url) {
+    return URLsAreSameVideo($url, getSelfURI());
+}
+
+function URLsAreSameVideo($url1, $url2) {
+    return getVideoIDFromURL($url1) == getVideoIDFromURL($url2);
+}
+
+function getVideoIDFromURL($url) {
+    if (preg_match("/v=([0-9]+)/", $url, $matches)) {
+        return intval($matches[1]);
+    }
+    if (preg_match('/\/video\/([0-9]+)/', $url, $matches)) {
+        return intval($matches[1]);
+    }
+    if (preg_match('/\/videoEmbed\/([0-9]+)/', $url, $matches)) {
+        return intval($matches[1]);
+    }
+    if (preg_match('/\/v\/([0-9]+)/', $url, $matches)) {
+        return intval($matches[1]);
+    }
+    if (preg_match('/\/vEmbed\/([0-9]+)/', $url, $matches)) {
+        return intval($matches[1]);
+    }
+    if (preg_match('/\/article\/([0-9]+)/', $url, $matches)) {
+        return intval($matches[1]);
+    }
+    if (preg_match('/\/articleEmbed\/([0-9]+)/', $url, $matches)) {
+        return intval($matches[1]);
+    }
+}
+
+function getBackURL() {
+    $backURL = getRedirectUri();
+    if (empty($backURL)) {
+        $backURL = getRequestURI();
+    }
+    if (isSameVideoAsSelfURI($backURL)) {
+        $backURL = $global['webSiteRootURL'];
+    }
+    return $backURL;
 }
 
 function hasLastSlash($word) {
@@ -4906,7 +4949,7 @@ function downloadHLS($filepath) {
     $filepath = escapeshellcmd($filepath);
     $outputpath = escapeshellcmd($outputpath);
     if (true || !file_exists($outputpath)) {
-        $command = get_ffmpeg()." -allowed_extensions ALL -y -i {$filepath} -c copy {$outputpath}";
+        $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$filepath} -c copy {$outputpath}";
         //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
         exec($command . " 2>&1", $output, $return);
         if (!empty($return)) {
@@ -4982,11 +5025,11 @@ function getCroppie($buttonTitle, $callBackJSFunction,
     }
     $zoom = 0;
     if (empty($viewportHeight)) {
-        $zoom = ($viewportWidth/$resultWidth);
-        $viewportHeight = $zoom*$resultHeight;
+        $zoom = ($viewportWidth / $resultWidth);
+        $viewportHeight = $zoom * $resultHeight;
     }
-    $boundaryWidth = $viewportWidth+$boundary;
-    $boundaryHeight = $viewportHeight+$boundary;
+    $boundaryWidth = $viewportWidth + $boundary;
+    $boundaryHeight = $viewportHeight + $boundary;
     $uid = uniqid();
     ob_start();
     include $global['systemRootPath'] . 'objects/functionCroppie.php';
@@ -5003,15 +5046,15 @@ function getCroppie($buttonTitle, $callBackJSFunction,
     );
 }
 
-function saveCroppieImage($destination, $postIndex="imgBase64") {
-    if(empty($_POST[$postIndex])){
+function saveCroppieImage($destination, $postIndex = "imgBase64") {
+    if (empty($_POST[$postIndex])) {
         return false;
     }
     $fileData = base64DataToImage($_POST[$postIndex]);
     return file_put_contents($destination, $fileData);
 }
 
-function get_ffmpeg($ignoreGPU=false) {
+function get_ffmpeg($ignoreGPU = false) {
     global $global;
     //return 'ffmpeg -user_agent "'.getSelfUserAgent("FFMPEG").'" ';
     //return 'ffmpeg -headers "User-Agent: '.getSelfUserAgent("FFMPEG").'" ';

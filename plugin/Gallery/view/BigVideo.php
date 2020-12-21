@@ -144,7 +144,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     </div>
                                     <div class="<?php echo $colClass2; ?>">
                                         <div class="<?php echo $colClass3; ?>">
-                                            <a class="h6 galleryLink" videos_id="<?php echo $videoRow['id']; ?>" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" title="<?php echo $videoRow['title']; ?>">
+                                            <a class="h6 galleryLink" videos_id="<?php echo $videoRow['id']; ?>" 
+                                               href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
+                                               embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
+                                               title="<?php echo $videoRow['title']; ?>">
                                                 <h1><?php echo $videoRow['title']; ?></h1>
                                             </a>
                                             <div class="mainAreaDescriptionContainer">

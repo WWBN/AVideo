@@ -233,7 +233,7 @@ if (User::canSeeCommentTextarea()) {
                                 data: {'comment': comment, 'video': video, 'comments_id': comments_id, 'id': id},
                                 success: function (response) {
                                     if (response.status === "1") {
-                                        avideoAlert("<?php echo __("Congratulations"); ?>!", "<?php echo __("Your comment has been saved!"); ?>", "success");
+                                        avideoToast("<?php echo __("Your comment has been saved!"); ?>");
                                         if (comments_id) {
                                             if ($('.grid' + comments_id).hasClass('bootgrid-table')) {
                                                 $('.grid' + comments_id).bootgrid('reload');

@@ -31,7 +31,7 @@ class Category {
     function setOrder($order) {
         $this->order = intval($order);
     }
-        
+
     function getUsers_id() {
         if (empty($this->users_id)) {
             $this->users_id = User::getId();
@@ -72,37 +72,38 @@ class Category {
     function setParentId($parentId) {
         $this->parentId = $parentId;
     }
-    /*
-    function setType($type, $overwriteUserId = 0) {
-        global $global;
-        $internalId = $overwriteUserId;
-        if (empty($internalId)) {
-            $internalId = $this->id;
-        }
-        $exist = false;
-        // require this cause of Video::autosetCategoryType - but should be moveable easy here..
-        require_once dirname(__FILE__) . '/../objects/video.php';
-        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-        $res = sqlDAL::readSql($sql, "i", array($internalId));
-        $catTypeCache = sqlDAL::fetchAssoc($res);
-        sqlDAL::close($res);
-        if ($catTypeCache != false) {
-            $exist = true;
-        }
 
-        if ($type == "3") {
-            // auto-cat-type
-            Video::autosetCategoryType($internalId);
-        } else {
-            if ($exist) {
-                $sql = "UPDATE `category_type_cache` SET `type` = ?, `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = ?;";
-                sqlDAL::writeSql($sql, "si", array($type, $internalId));
-            } else {
-                $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?,?,'1')";
-                sqlDAL::writeSql($sql, "is", array($internalId, $type));
-            }
-        }
-    }
+    /*
+      function setType($type, $overwriteUserId = 0) {
+      global $global;
+      $internalId = $overwriteUserId;
+      if (empty($internalId)) {
+      $internalId = $this->id;
+      }
+      $exist = false;
+      // require this cause of Video::autosetCategoryType - but should be moveable easy here..
+      require_once dirname(__FILE__) . '/../objects/video.php';
+      $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
+      $res = sqlDAL::readSql($sql, "i", array($internalId));
+      $catTypeCache = sqlDAL::fetchAssoc($res);
+      sqlDAL::close($res);
+      if ($catTypeCache != false) {
+      $exist = true;
+      }
+
+      if ($type == "3") {
+      // auto-cat-type
+      Video::autosetCategoryType($internalId);
+      } else {
+      if ($exist) {
+      $sql = "UPDATE `category_type_cache` SET `type` = ?, `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = ?;";
+      sqlDAL::writeSql($sql, "si", array($type, $internalId));
+      } else {
+      $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?,?,'1')";
+      sqlDAL::writeSql($sql, "is", array($internalId, $type));
+      }
+      }
+      }
      * 
      */
 
@@ -151,7 +152,7 @@ class Category {
         }
 
         $this->clean_name = self::fixCleanTitle($this->clean_name, 1, $this->id);
-        
+
         // check if clean name exists
         $exists = $this->getCategoryByName($this->clean_name);
         if (!empty($exists) && $exists['id'] != $this->id) {
@@ -200,27 +201,27 @@ class Category {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
     }
-    
+
     static function fixCleanTitle($clean_title, $count, $id, $original_title = "") {
-            global $global;
+        global $global;
 
-            if (empty($original_title)) {
-                $original_title = $clean_title;
-            }
-
-            $sql = "SELECT * FROM categories WHERE clean_name = '{$clean_title}' ";
-            if (!empty($id)) {
-                $sql .= " AND id != {$id} ";
-            }
-            $sql .= " LIMIT 1";
-            $res = sqlDAL::readSql($sql, "", array(), true);
-            $cleanTitleExists = sqlDAL::fetchAssoc($res);
-            sqlDAL::close($res);
-            if ($cleanTitleExists != false) {
-                return self::fixCleanTitle($original_title . "-" . $count, $count + 1, $id, $original_title);
-            }
-            return $clean_title;
+        if (empty($original_title)) {
+            $original_title = $clean_title;
         }
+
+        $sql = "SELECT * FROM categories WHERE clean_name = '{$clean_title}' ";
+        if (!empty($id)) {
+            $sql .= " AND id != {$id} ";
+        }
+        $sql .= " LIMIT 1";
+        $res = sqlDAL::readSql($sql, "", array(), true);
+        $cleanTitleExists = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($cleanTitleExists != false) {
+            return self::fixCleanTitle($original_title . "-" . $count, $count + 1, $id, $original_title);
+        }
+        return $clean_title;
+    }
 
     function delete() {
         if (!self::canCreateCategory()) {
@@ -240,7 +241,7 @@ class Category {
         if (!empty($this->id)) {
             $_SESSION['getAllCategoriesClearCache'] = 1;
             $categories_id = self::getSiteCategoryDefaultID();
-            if($categories_id){
+            if ($categories_id) {
                 $sql = "UPDATE videos SET categories_id = ? WHERE categories_id = ?";
                 sqlDAL::writeSql($sql, "ii", array($categories_id, $this->id));
             }
@@ -252,29 +253,29 @@ class Category {
         self::deleteAssets($this->id);
         return sqlDAL::writeSql($sql, "i", array($this->id));
     }
-    
-    static function deleteAssets($categories_id){
+
+    static function deleteAssets($categories_id) {
         $dirPaths = self::getCategoryDirPath($categories_id);
         return rrmdir($dirPaths['path']);
     }
-    
+
     /*
-    static function getCategoryType($categoryId) {
-        global $global;
-        $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?;";
-        $res = sqlDAL::readSql($sql, "i", array($categoryId));
-        $data = sqlDAL::fetchAssoc($res);
-        sqlDAL::close($res);
-        if ($res) {
-            if (!empty($data)) {
-                return $data;
-            } else {
-                return array("categoryId" => "-1", "type" => "0", "manualSet" => "0");
-            }
-        } else {
-            return array("categoryId" => "-1", "type" => "0", "manualSet" => "0");
-        }
-    }
+      static function getCategoryType($categoryId) {
+      global $global;
+      $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?;";
+      $res = sqlDAL::readSql($sql, "i", array($categoryId));
+      $data = sqlDAL::fetchAssoc($res);
+      sqlDAL::close($res);
+      if ($res) {
+      if (!empty($data)) {
+      return $data;
+      } else {
+      return array("categoryId" => "-1", "type" => "0", "manualSet" => "0");
+      }
+      } else {
+      return array("categoryId" => "-1", "type" => "0", "manualSet" => "0");
+      }
+      }
      * 
      */
 
@@ -331,15 +332,15 @@ class Category {
         }
         return ($res) ? $result : false;
     }
-    
+
     static function getSiteCategoryDefaultID() {
         $obj = AVideoPlugin::getObjectDataIfEnabled("PredefinedCategory");
         $id = false;
-        if($obj){
+        if ($obj) {
             $id = $obj->defaultCategory;
-        }else{
+        } else {
             $row = self::getCategoryDefault();
-            if($row){
+            if ($row) {
                 $id = $row['id'];
             }
         }
@@ -373,15 +374,15 @@ class Category {
             unset($_POST['sort']['title']);
         }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY `order`, name ASC ");
-        
+
         $cacheName = md5($sql);
-        if(empty($_SESSION['getAllCategoriesClearCache'])){
+        if (empty($_SESSION['getAllCategoriesClearCache'])) {
             $category = object_to_array(ObjectYPT::getCache($cacheName, 36000));
-        }else{
+        } else {
             _session_start();
             unset($_SESSION['getAllCategoriesClearCache']);
         }
-        if(empty($category)){
+        if (empty($category)) {
             $res = sqlDAL::readSql($sql);
             $fullResult = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
@@ -395,7 +396,7 @@ class Category {
                     $row['canEdit'] = self::userCanEditCategory($row['id']);
                     $row['canAddVideo'] = self::userCanAddInCategory($row['id']);
                     $row['hierarchy'] = self::getHierarchyString($row['parentId']);
-                    $row['hierarchyAndName'] = $row['hierarchy'].$row['name'];
+                    $row['hierarchyAndName'] = $row['hierarchy'] . $row['name'];
                     $category[] = $row;
                 }
                 //$category = $res->fetch_all(MYSQLI_ASSOC);
@@ -407,9 +408,9 @@ class Category {
         }
         return $category;
     }
-    
-    static function getHierarchyArray($categories_id, $hierarchyArray = array()){
-        if(empty($categories_id)){
+
+    static function getHierarchyArray($categories_id, $hierarchyArray = array()) {
+        if (empty($categories_id)) {
             return $hierarchyArray;
         }
         $sql = "SELECT * FROM categories WHERE id=? ";
@@ -422,20 +423,20 @@ class Category {
         }
         return $hierarchyArray;
     }
-    
-    static function getHierarchyString($categories_id){
-        if(empty($categories_id)){
+
+    static function getHierarchyString($categories_id) {
+        if (empty($categories_id)) {
             return "/";
         }
         $array = array_reverse(self::getHierarchyArray($categories_id));
         //$array = (self::getHierarchyArray($categories_id));
         //var_dump($array);exit;
-        if(empty($array)){
+        if (empty($array)) {
             return "/";
         }
         $str = "/";
         foreach ($array as $value) {
-            $str .= xss_esc_back($value['name'])."/";
+            $str .= xss_esc_back($value['name']) . "/";
         }
         return $str;
     }
@@ -530,7 +531,7 @@ class Category {
         return self::getChildCategories($row['id']);
     }
 
-    static function getTotalVideosFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew=false) {
+    static function getTotalVideosFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false) {
         global $global, $config;
         if ($renew || empty($_SESSION['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)])) {
             $sql = "SELECT count(id) as total FROM videos v WHERE 1=1 AND categories_id = ? ";
@@ -616,7 +617,7 @@ class Category {
     function getDescription() {
         return $this->description;
     }
-    
+
     function getAllow_download() {
         return $this->allow_download;
     }
@@ -625,14 +626,14 @@ class Category {
         $this->allow_download = intval($allow_download);
     }
 
-    static function getCategoryDirPath($categories_id=""){
+    static function getCategoryDirPath($categories_id = "") {
         global $global;
-        
+
         $dir = "videos/categories/assets/";
-        if(!empty($categories_id)){
-            $dir .= $categories_id."/";
+        if (!empty($categories_id)) {
+            $dir .= $categories_id . "/";
         }
-        
+
         $path = array();
         $path['dir'] = "{$global['systemRootPath']}{$dir}";
         make_path($path['dir']);
@@ -640,38 +641,46 @@ class Category {
         $path['url'] = "{$global['webSiteRootURL']}{$dir}";
         return $path;
     }
-    
-    static function getCategoryPhotoPath($categories_id){
+
+    static function isAssetsValids($categories_id) {
+        $photo = Category::getCategoryPhotoPath($categories_id);
+        $background = Category::getCategoryBackgroundPath($categories_id);
+        if(!file_exists($photo['path']) || !file_exists($background['path'])){
+            return false;
+        }
+        return true;
+    }
+
+    static function getCategoryPhotoPath($categories_id) {
         return self::getCategoryAssetPath("photo.png", $categories_id);
     }
-    
-    static function getCategoryBackgroundPath($categories_id){
+
+    static function getCategoryBackgroundPath($categories_id) {
         return self::getCategoryAssetPath("background.png", $categories_id);
     }
-    
-    private static function getCategoryAssetPath($name, $categories_id){
-        if(empty($categories_id)){
+
+    private static function getCategoryAssetPath($name, $categories_id) {
+        if (empty($categories_id)) {
             return false;
         }
-        if(empty($name)){
+        if (empty($name)) {
             return false;
         }
-        
+
         $dirPaths = self::getCategoryDirPath($categories_id);
-        
+
         global $global;
-        
+
         $path = array();
         $path['dir'] = $dirPaths['url'];
         $path['path'] = "{$dirPaths['path']}{$name}";
         $path['url'] = "{$dirPaths['url']}{$name}";
-        if(file_exists($path['path'])){
-            $path['url+timestamp'] = "{$path['url']}?". filectime($path['path']);
-        }else{
+        if (file_exists($path['path'])) {
+            $path['url+timestamp'] = "{$path['url']}?" . filectime($path['path']);
+        } else {
             $path['url+timestamp'] = $path['url'];
         }
         return $path;
     }
-
 
 }

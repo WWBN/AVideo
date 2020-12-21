@@ -24,7 +24,6 @@ $groups = UserGroups::getAllUsersGroups();
         <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>css/fontawesome-iconpicker/dist/css/fontawesome-iconpicker.min.css" rel="stylesheet" type="text/css"/>
         <style>
             #sortable li{
                 list-style: none;
@@ -107,13 +106,9 @@ $groups = UserGroups::getAllUsersGroups();
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Icon:</label><br>
-                                                        <div class="btn-group">
-                                                            <button data-selected="graduation-cap" type="button" class="icp iconMenu btn  btn-default btn-light  dropdown-toggle iconpicker-component" data-toggle="dropdown">
-                                                                <?php echo __("Select an icon for the menu"); ?>  <i class="fa fa-fw"></i>
-                                                                <span class="caret"></span>
-                                                            </button>
-                                                            <div class="dropdown-menu"></div>
-                                                        </div>
+                                                        <?php
+                                                        echo Layout::getIconsSelect(__("Select an icon for the menu"), "", "menuIcon");
+                                                        ?>
                                                     </div>
                                                 </div>
 
@@ -148,107 +143,105 @@ $groups = UserGroups::getAllUsersGroups();
 
                         <div id="menuItems" class="tab-pane fade" >
                             <div class="row">
-                            <div class="col-md-8  showWhenHaveId" style="display: none;">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Menu Item Form</div>
-                                    <div class="panel-body">
-                                        <div>
-                                            <button class="btn btn-primary" id="btnNewMenuItem"><i class="fa fa-plus"></i> New Menu Item</button>
-                                            <button class="btn btn-success" id="btnSaveMenuItem"><i class="fa fa-save"></i> Save Menu Item</button>
-                                        </div>
-                                        <hr>
+                                <div class="col-md-8  showWhenHaveId" style="display: none;">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Menu Item Form</div>
+                                        <div class="panel-body">
+                                            <div>
+                                                <button class="btn btn-primary" id="btnNewMenuItem"><i class="fa fa-plus"></i> New Menu Item</button>
+                                                <button class="btn btn-success" id="btnSaveMenuItem"><i class="fa fa-save"></i> Save Menu Item</button>
+                                            </div>
+                                            <hr>
 
-                                        <input type="hidden" class="form-control" id="menuItemId">
-                                        <div class="form-group">
-                                            <label for="title" >Title:</label>
-                                            <input type="text" class="form-control" id="title">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="menuSeoUrlItem">SEO friedly url:</label>
-                                            <?php echo $global['webSiteRootURL']; ?>menu/<input type="text" class="form-control" id="menuSeoUrlItem">
-                                        </div>
-                                        <div class="col-md-6">
+                                            <input type="hidden" class="form-control" id="menuItemId">
                                             <div class="form-group">
-                                                <label for="item_order">Order:</label>
-                                                <select class="form-control" id="item_order">
-                                                    <?php
-                                                    for ($i = 0; $i < 30; $i++) {
-                                                        ?>
-
-                                                        <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                                <label for="title" >Title:</label>
+                                                <input type="text" class="form-control" id="title">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="menuSeoUrlItem">SEO friedly url:</label>
+                                                <?php echo $global['webSiteRootURL']; ?>menu/<input type="text" class="form-control" id="menuSeoUrlItem">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="item_order">Order:</label>
+                                                    <select class="form-control" id="item_order">
                                                         <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="item_status">Status:</label>
-                                                <select class="form-control" id="item_status">
-                                                    <option value="active"><?php echo __('Active'); ?></option>
-                                                    <option value="inactive"><?php echo __('Inactive'); ?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="pageType">Type:</label>
-                                                <select class="form-control" id="pageType">
-                                                    <option value="url"><?php echo __('URL'); ?></option>
-                                                    <option value="urlIframe"><?php echo __('URL Iframe'); ?></option>
-                                                    <option value="page"><?php echo __('Page'); ?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Icon:</label><br>
-                                                <div class="btn-group">
-                                                    <button data-selected="graduation-cap" type="button" class="icp iconMenuItem btn  btn-default btn-light dropdown-toggle iconpicker-component" data-toggle="dropdown">
-                                                        <?php echo __("Select an icon for the menu"); ?>  <i class="fa fa-fw"></i>
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <div class="dropdown-menu"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="col-md-12">
-                                            <div id="divURL" class="divType" style="display: none;">
-                                                <div class="form-group">
-                                                    <label for="url">URL:</label>
-                                                    <input type="text" class="form-control" id="url">
-                                                </div>
-                                            </div>
-                                            <div id="divURLIframe" class="divType" style="display: none;">
-                                                <div class="form-group">
-                                                    <label for="urlIframe">URL:</label>
-                                                    <input type="text" class="form-control" id="urlIframe">
-                                                </div>
-                                            </div>
-                                            <div id="divText" class="divType"  style="display: none;">
-                                                <div class="form-group">
-                                                    <label for="text">text:</label>
-                                                    <textarea type="text" class="form-control" id="text"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                                        for ($i = 0; $i < 30; $i++) {
+                                                            ?>
 
-                            <div class="col-md-4  showWhenHaveId" style="display: none;">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Menu Items Order</div>
-                                    <div class="panel-body">
-                                        <div class="alert alert-warning">Drag and Drop Items to Sort</div>
-                                        <ul id="sortable">
-                                        </ul>
+                                                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="item_status">Status:</label>
+                                                    <select class="form-control" id="item_status">
+                                                        <option value="active"><?php echo __('Active'); ?></option>
+                                                        <option value="inactive"><?php echo __('Inactive'); ?></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="pageType">Type:</label>
+                                                    <select class="form-control" id="pageType">
+                                                        <option value="url"><?php echo __('URL'); ?></option>
+                                                        <option value="urlIframe"><?php echo __('URL Iframe'); ?></option>
+                                                        <option value="page"><?php echo __('Page'); ?></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Icon:</label><br>
+                                                    <div>
+                                                        <?php
+                                                        echo Layout::getIconsSelect(__("Select an icon for the menu"), "", "menuItemIcon");
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="col-md-12">
+                                                <div id="divURL" class="divType" style="display: none;">
+                                                    <div class="form-group">
+                                                        <label for="url">URL:</label>
+                                                        <input type="text" class="form-control" id="url">
+                                                    </div>
+                                                </div>
+                                                <div id="divURLIframe" class="divType" style="display: none;">
+                                                    <div class="form-group">
+                                                        <label for="urlIframe">URL:</label>
+                                                        <input type="text" class="form-control" id="urlIframe">
+                                                    </div>
+                                                </div>
+                                                <div id="divText" class="divType"  style="display: none;">
+                                                    <div class="form-group">
+                                                        <label for="text">text:</label>
+                                                        <textarea type="text" class="form-control" id="text"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4  showWhenHaveId" style="display: none;">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Menu Items Order</div>
+                                        <div class="panel-body">
+                                            <div class="alert alert-warning">Drag and Drop Items to Sort</div>
+                                            <ul id="sortable">
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-</div>
                         </div>
                     </div>
                 </div>
@@ -270,7 +263,6 @@ $groups = UserGroups::getAllUsersGroups();
     <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
     <script src="<?php echo $global['webSiteRootURL']; ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
     <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.js" type="text/javascript"></script>  
-    <script src="<?php echo $global['webSiteRootURL']; ?>css/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js" type="text/javascript"></script>
     <script>
             var currentItem = [];
 
@@ -294,6 +286,8 @@ $groups = UserGroups::getAllUsersGroups();
                 $('#status').val("");
                 $('#type').val("");
                 $('#users_groups_id').val("");
+                $("#menuIcon").val("");
+                $("#menuIcon").trigger('change');
                 clearMenuItemForm();
                 checkIfHasId();
             }
@@ -309,6 +303,8 @@ $groups = UserGroups::getAllUsersGroups();
                 $('#item_status').val("");
                 $('#menuSeoUrlItem').val("");
                 $('iframe').contents().find('.wysihtml5-editor').html('');
+                $("#menuItemIcon").val("");
+                $("#menuItemIcon").trigger('change');
             }
 
             function startSortable() {
@@ -414,8 +410,9 @@ $groups = UserGroups::getAllUsersGroups();
                     $('#item_order').val(item.item_order);
                     $('#item_status').val(item.status);
                     $('#text').val(item.text);
-                    $('#menuSeoUrlItem').val(item.menuSeoUrlItem);
-                    $(".iconMenuItem i").attr("class", item.icon);
+                    $('#menuSeoUrlItem').val(item.menuSeoUrlItem);                    
+                    $("#menuItemIcon").val(item.icon);
+                    $("#menuItemIcon").trigger('change');
                     $('iframe').contents().find('.wysihtml5-editor').html(item.text);
                     if (item.url.length > 0) {
                         $('#pageType').val('url');
@@ -454,8 +451,6 @@ $groups = UserGroups::getAllUsersGroups();
 
                 $('#pageType').trigger('change');
 
-                $('.iconMenu, .iconMenuItem').iconpicker({});
-
                 var table = $('#example').DataTable({
                     "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/TopMenu/menus.json.php",
                     "columns": [
@@ -490,7 +485,8 @@ $groups = UserGroups::getAllUsersGroups();
                     $('#status').val(data.status);
                     $('#type').val(data.type);
                     $('#users_groups_id').val(data.users_groups_id);
-                    $(".iconMenu i").attr("class", data.icon)
+                    $("#menuIcon").val(data.icon);
+                    $("#menuIcon").trigger('change');
                     checkIfHasId();
                     loadItems(data.id);
                 });
@@ -510,7 +506,7 @@ $groups = UserGroups::getAllUsersGroups();
                             "status": $('#status').val(),
                             "type": $('#type').val(),
                             "users_groups_id": $('#users_groups_id').val(),
-                            "icon": $(".iconMenu i").hasClass("iconpicker-component") ? "" : $(".iconMenu i").attr("class")
+                            "icon": $("#menuIcon").val()
                         },
                         type: 'post',
                         success: function (response) {
@@ -537,7 +533,7 @@ $groups = UserGroups::getAllUsersGroups();
                             "item_order": $('#item_order').val(),
                             "item_status": $('#item_status').val(),
                             "text": $('#pageType').val() == 'page' ? $('#text').val() : '',
-                            "icon": $(".iconMenuItem i").hasClass("iconpicker-component") ? "" : $(".iconMenuItem i").attr("class")
+                            "icon": $("#menuItemIcon").val()
                         },
                         type: 'post',
                         success: function (response) {

@@ -145,9 +145,9 @@ class Layout extends PluginAbstract {
                                       ' - ' + state.text + '</span>'
                                     );
                                     return \$state;
-                                  };";
+                                  };</script>";
         self::addFooterCode($code);
-        $code = '$(document).ready(function() {$(\'#'.$id.'\').select2({templateSelection: getIconsSelectformatStateResult, templateResult: getIconsSelectformatStateResult,width: \'100%\'});});</script>';
+        $code = '<script>$(document).ready(function() {$(\'#'.$id.'\').select2({templateSelection: getIconsSelectformatStateResult, templateResult: getIconsSelectformatStateResult,width: \'100%\'});});</script>';
         self::addFooterCode($code);
         return self::getSelectSearchable($icons, $name, $selected, $id, $class." iconSelect", true);
     }

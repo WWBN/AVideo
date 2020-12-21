@@ -18,6 +18,7 @@ include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
             </div>
             <div class="col-lg-10 col-lg-offset-1 list-group-item addWidthOnMenuOpen">
                 <?php
+                include $global['systemRootPath'] . 'view/include/categoryTop.php';
                 include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
                 ?>
             </div>

@@ -103,6 +103,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->signInOnRight = true;
         $obj->signInOnLeft = true;
         $obj->forceCategory = false;
+        $obj->showCategoryTopImages = true;
         $obj->autoPlayAjax = false;
 
         $plugins = Plugin::getAllEnabled();

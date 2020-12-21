@@ -1,4 +1,4 @@
- <!-- embed -->
+<!-- embed -->
 <div class="row main-video" id="mvideo">
     <div class="col-md-2 firstC"></div>
     <div class="col-md-8 secC">
@@ -36,13 +36,13 @@
             if (((strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
                 $_GET['isEmbedded'] = "e";
                 ?>
-            <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" >
-                <?php
-                if (function_exists('getVTTTracks')) {
-                    echo getVTTTracks($video['filename']);
-                }
-                ?>
-            </video>
+                <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" >
+                    <?php
+                    if (function_exists('getVTTTracks')) {
+                        echo getVTTTracks($video['filename']);
+                    }
+                    ?>
+                </video>
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php
                     echo parseVideos($video['videoLink']);
@@ -88,7 +88,7 @@
 
                             //$(".vjs-big-play-button").hide();
                             $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
-                            
+
                         });
                     </script>
 
@@ -112,9 +112,9 @@
             }
             ?>
 
-            <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs" style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
-                <i class="fas fa-times"></i>
-            </a>
+            <?php
+            include $global['systemRootPath'] . 'view/include/youtubeModeOnFullscreenCloseButton.php';
+            ?>
         </div>
     </div>
 
