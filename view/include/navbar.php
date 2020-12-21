@@ -1155,6 +1155,8 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         <h3 class="text-danger"><?php echo __($advancedCustom->CategoryLabel); ?></h3>
                     </li>
                     <?php
+                    $_rowCount = getRowCount();                    
+                    $_REQUEST['rowCount'] = 1000;
                     $parsed_cats = array();
                     if (!function_exists('mkSub')) {
 
@@ -1224,6 +1226,8 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         $_POST = $post;
                         $_GET = $get;
                     }
+                                   
+                    $_REQUEST['rowCount'] = $_rowCount;
                     ?>
 
                     <!-- categories END -->
