@@ -4544,6 +4544,9 @@ function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class 
 
 function getSharePopupButton($videos_id, $url = "", $title = "") {
     global $global, $advancedCustom;
+    if($advancedCustom->disableShareOnly || $advancedCustom->disableShareAndPlaylist){
+        return false;
+    }
     $video['id'] = $videos_id;
     include $global['systemRootPath'] . 'view/include/socialModal.php';
 }

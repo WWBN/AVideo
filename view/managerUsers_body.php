@@ -372,6 +372,9 @@ print AVideoPlugin::updateUserFormJS();
         );
     });
     function startUserGrid(selector, queryString) {
+        if($(selector).hasClass('.bootgrid-table')){
+            return false;
+        }
         var grid = $(selector).bootgrid({
             labels: {
                 noResults: "<?php echo __("No results found!"); ?>",

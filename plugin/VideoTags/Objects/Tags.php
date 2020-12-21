@@ -54,7 +54,7 @@ class Tags extends ObjectYPT {
     }
 
     function setName($name) {
-        $name = trim(preg_replace("/[^[:alnum:][:space:]_]/u", '', $name));
+        $name = trim(preg_replace("/[^[:alnum:][:space:]_-]/u", '', $name));
         $this->name = $name;
     }  
     
