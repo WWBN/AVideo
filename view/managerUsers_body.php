@@ -14,10 +14,15 @@
                 <i class="fas fa-file-csv"></i> <?php echo __("CSV File"); ?>
             </a>
         </div>
-        
+
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#usersTab"><?php echo __('Users'); ?></a></li>
-            <li><a data-toggle="tab" href="#inactiveUsersTab"><?php echo __('Inactive Users'); ?></a></li>
+            <li class="active"><a data-toggle="tab" href="#usersTab"><?php echo __('Active Users'); ?></a></li>
+            <li><a data-toggle="tab" href="#inactiveUsersTab" onclick="startUserGrid('#gridInactive', '?status=i');"><?php echo __('Inactive Users'); ?></a></li>
+            <?php
+            foreach ($userGroups as $value) {
+                echo '<li><a data-toggle="tab" href="#userGroupTab' . $value['id'] . '" onclick="startUserGrid(\'#userGroupGrid'.$value['id'].'\', \'?status=a&user_groups_id='.$value['id'].'\');">' . $value['group_name'] . '</a></li>';
+            }
+            ?>
         </ul>
     </div>
     <div class="panel-body">
@@ -52,6 +57,27 @@
                     </thead>
                 </table>
             </div>
+            <?php
+            foreach ($userGroups as $value) {
+                ?>
+                <div id="userGroupTab<?php echo $value['id']; ?>" class="tab-pane fade">
+                    <table id="userGroupGrid<?php echo $value['id']; ?>" class="table table-condensed table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
+                                <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
+                                <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
+                                <th data-column-id="created" ><?php echo __("Created"); ?></th>
+                                <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
+                                <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
+                                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="100px"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <?php
+            }
+            ?>
         </div>
     </div>
 </div>
@@ -82,7 +108,7 @@
                     <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" >
                     <small>Do not paste the full javascript code, paste only the gtag id</small>
                     <ul class="list-group">
-                        <li class="list-group-item <?php echo User::isAdmin()?"":"hidden"; ?>">
+                        <li class="list-group-item <?php echo User::isAdmin() ? "" : "hidden"; ?>">
                             <?php echo __("is Admin"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="isAdmin" id="isAdmin"/>
@@ -265,186 +291,8 @@
         //return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
     }
     $(document).ready(function () {
-        var grid = $("#grid").bootgrid({
-            labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
-                search: "<?php echo __("Search"); ?>",
-            },
-            ajax: true,
-            url: "<?php echo $global['webSiteRootURL']; ?>objects/users.json.php?status=a",
-            formatters: {
-                "commands": function (column, row) {
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                    var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Info'); ?>"><i class="fas fa-info-circle"></i></button>'
-                    //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
-                    var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
-                    return editBtn + infoBtn + pluginsButtons;
-                },
-                "tags": function (column, row) {
-                    var tags = "";
-                    for (var i in row.tags) {
-                        if (typeof row.tags[i].type == "undefined") {
-                            continue;
-                        }
-                        tags += "<span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
-                    }
-                    return tags;
-                },
-                "user": function (column, row) {
-                    var photo = "";
-                    if (row.photoURL) {
-                        photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:50px;'/>";
-                    }
-                    return row.user + photo;
-                }
-            }
-        }).on("loaded.rs.jquery.bootgrid", function ()
-        {
-            /* Executes after data is loaded and rendered */
-            grid.find(".command-edit").on("click", function (e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                console.log(row);
 
-                $('#inputUserId').val(row.id);
-                $('#inputUser').val(row.user);
-                $('#inputPassword').val('');
-                $('#inputEmail').val(row.email);
-                $('#inputName').val(row.name);
-                $('#inputChannelName').val(row.channelName);
-                $('#inputAnalyticsCode').val(row.analyticsCode);
-
-                $('.userGroups').prop('checked', false);
-                for (var index in row.groups) {
-                    $('#userGroup' + row.groups[index].id).prop('checked', true);
-                }
-                $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
-                $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
-                $('#canUpload').prop('checked', (row.canUpload == "1" ? true : false));
-                $('#canViewChart').prop('checked', (row.canViewChart == "1" ? true : false));
-                $('#canCreateMeet').prop('checked', (row.canCreateMeet == "1" ? true : false));
-                $('#status').prop('checked', (row.status === "a" ? true : false));
-                $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
-<?php
-print AVideoPlugin::loadUsersFormJS();
-?>
-
-                $('#userFormModal').modal();
-            }).end().find(".command-info").on("click", function (e) {
-
-                var row_index = $(this).closest('tr').index();
-                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                console.log(row);
-                modal.showPleaseWait();
-                $('#first_name').val(row.first_name);
-                $('#last_name').val(row.last_name);
-                $('#address').val(row.address);
-                $('#zip_code').val(row.zip_code);
-                $('#country').val(row.country);
-                $('#region').val(row.region);
-                $('#city').val(row.city);
-                $('#documentImage').attr('src', '<?php echo $global['webSiteRootURL']; ?>objects/userDocument.png.php?users_id=' + row.id);
-                $('#userInfoModal').modal();
-                modal.hidePleaseWait();
-
-            });
-        });
-
-
-        var gridInactive = $("#gridInactive").bootgrid({
-            labels: {
-                noResults: "<?php echo __("No results found!"); ?>",
-                all: "<?php echo __("All"); ?>",
-                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
-                loading: "<?php echo __("Loading..."); ?>",
-                refresh: "<?php echo __("Refresh"); ?>",
-                search: "<?php echo __("Search"); ?>",
-            },
-            ajax: true,
-            url: "<?php echo $global['webSiteRootURL']; ?>objects/users.json.php?status=i",
-            formatters: {
-                "commands": function (column, row) {
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-editInactive" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                    var infoBtn = '<button type="button" class="btn btn-xs btn-default command-infoInactive" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Info"><i class="fas fa-info-circle"></i></button>'
-                    //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
-                    var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
-                    return editBtn + infoBtn + pluginsButtons;
-                },
-                "tags": function (column, row) {
-                    var tags = "";
-                    for (var i in row.tags) {
-                        if (typeof row.tags[i].type == "undefined") {
-                            continue;
-                        }
-                        tags += "<span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
-                    }
-                    return tags;
-                },
-                "user": function (column, row) {
-                    var photo = "";
-                    if (row.photoURL) {
-                        photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:50px;'/>";
-                    }
-                    return row.user + photo;
-                }
-            }
-        }).on("loaded.rs.jquery.bootgrid", function ()
-        {
-            /* Executes after data is loaded and rendered */
-            gridInactive.find(".command-editInactive").on("click", function (e) {
-                var row_index = $(this).closest('tr').index();
-                var row = $("#gridInactive").bootgrid("getCurrentRows")[row_index];
-                console.log(row);
-
-                $('#inputUserId').val(row.id);
-                $('#inputUser').val(row.user);
-                $('#inputPassword').val('');
-                $('#inputEmail').val(row.email);
-                $('#inputName').val(row.name);
-                $('#inputChannelName').val(row.channelName);
-                $('#inputAnalyticsCode').val(row.analyticsCode);
-
-                $('.userGroups').prop('checked', false);
-                for (var index in row.groups) {
-                    $('#userGroup' + row.groups[index].id).prop('checked', true);
-                }
-                $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
-                $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
-                $('#canUpload').prop('checked', (row.canUpload == "1" ? true : false));
-                $('#canViewChart').prop('checked', (row.canViewChart == "1" ? true : false));
-                $('#canCreateMeet').prop('checked', (row.canCreateMeet == "1" ? true : false));
-                $('#status').prop('checked', (row.status === "a" ? true : false));
-                $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
-<?php
-print AVideoPlugin::loadUsersFormJS();
-?>
-
-                $('#userFormModal').modal();
-            }).end().find(".command-infoInactive").on("click", function (e) {
-
-                var row_index = $(this).closest('tr').index();
-                var row = $("#gridInactive").bootgrid("getCurrentRows")[row_index];
-                console.log(row);
-                modal.showPleaseWait();
-                $('#first_name').val(row.first_name);
-                $('#last_name').val(row.last_name);
-                $('#address').val(row.address);
-                $('#zip_code').val(row.zip_code);
-                $('#country').val(row.country);
-                $('#region').val(row.region);
-                $('#city').val(row.city);
-                $('#documentImage').attr('src', '<?php echo $global['webSiteRootURL']; ?>objects/userDocument.png.php?users_id=' + row.id);
-                $('#userInfoModal').modal();
-                modal.hidePleaseWait();
-
-            });
-        });
-
-
+        startUserGrid("#grid", "?status=a");
         $('#addUserBtn').click(function (evt) {
             $('#inputUserId').val('');
             $('#inputUser').val('');
@@ -466,11 +314,9 @@ print AVideoPlugin::addUserBtnJS();
 ?>
             $('#userFormModal').modal();
         });
-
         $('#saveUserBtn').click(function (evt) {
             $('#updateUserForm').submit();
         });
-
         $('#updateUserForm').submit(function (evt) {
         evt.preventDefault();
                 if (!isAnalytics()){
@@ -511,9 +357,8 @@ print AVideoPlugin::updateUserFormJS();
                         success: function (response) {
                         if (response.status > "0") {
                         $('#userFormModal').modal('hide');
-                                $("#grid").bootgrid("reload");
-                                $("#gridInactive").bootgrid("reload");
-                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your user has been saved!"); ?>", "success");
+                                $('.bootgrid-table').bootgrid("reload");
+                                avideoToast("<?php echo __("Your user has been saved!"); ?>");
                         } else if (response.error){
                         avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
@@ -526,5 +371,92 @@ print AVideoPlugin::updateUserFormJS();
         }
         );
     });
+    function startUserGrid(selector, queryString) {
+        var grid = $(selector).bootgrid({
+            labels: {
+                noResults: "<?php echo __("No results found!"); ?>",
+                all: "<?php echo __("All"); ?>",
+                infos: "<?php echo __("Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"); ?>",
+                loading: "<?php echo __("Loading..."); ?>",
+                refresh: "<?php echo __("Refresh"); ?>",
+                search: "<?php echo __("Search"); ?>",
+            },
+            ajax: true,
+            url: "<?php echo $global['webSiteRootURL']; ?>objects/users.json.php" + queryString,
+            formatters: {
+                "commands": function (column, row) {
+                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                    var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Info'); ?>"><i class="fas fa-info-circle"></i></button>'
+                    //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
+                    var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
+                    return editBtn + infoBtn + pluginsButtons;
+                },
+                "tags": function (column, row) {
+                    var tags = "";
+                    for (var i in row.tags) {
+                        if (typeof row.tags[i].type == "undefined") {
+                            continue;
+                        }
+                        tags += "<span class=\"label label-" + row.tags[i].type + " fix-width\">" + row.tags[i].text + "</span><br>";
+                    }
+                    return tags;
+                },
+                "user": function (column, row) {
+                    var photo = "";
+                    if (row.photoURL) {
+                        photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:50px;'/>";
+                    }
+                    return row.user + photo;
+                }
+            }
+        }).on("loaded.rs.jquery.bootgrid", function ()
+        {
+            /* Executes after data is loaded and rendered */
+            grid.find(".command-edit").on("click", function (e) {
+                var row_index = $(this).closest('tr').index();
+                var row = $(selector).bootgrid("getCurrentRows")[row_index];
+                console.log(row);
+                $('#inputUserId').val(row.id);
+                $('#inputUser').val(row.user);
+                $('#inputPassword').val('');
+                $('#inputEmail').val(row.email);
+                $('#inputName').val(row.name);
+                $('#inputChannelName').val(row.channelName);
+                $('#inputAnalyticsCode').val(row.analyticsCode);
+                $('.userGroups').prop('checked', false);
+                for (var index in row.groups) {
+                    $('#userGroup' + row.groups[index].id).prop('checked', true);
+                }
+                $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
+                $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
+                $('#canUpload').prop('checked', (row.canUpload == "1" ? true : false));
+                $('#canViewChart').prop('checked', (row.canViewChart == "1" ? true : false));
+                $('#canCreateMeet').prop('checked', (row.canCreateMeet == "1" ? true : false));
+                $('#status').prop('checked', (row.status === "a" ? true : false));
+                $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
+<?php
+print AVideoPlugin::loadUsersFormJS();
+?>
+
+                $('#userFormModal').modal();
+            }).end().find(".command-info").on("click", function (e) {
+
+                var row_index = $(this).closest('tr').index();
+                var row = $(selector).bootgrid("getCurrentRows")[row_index];
+                console.log(row);
+                modal.showPleaseWait();
+                $('#first_name').val(row.first_name);
+                $('#last_name').val(row.last_name);
+                $('#address').val(row.address);
+                $('#zip_code').val(row.zip_code);
+                $('#country').val(row.country);
+                $('#region').val(row.region);
+                $('#city').val(row.city);
+                $('#documentImage').attr('src', '<?php echo $global['webSiteRootURL']; ?>objects/userDocument.png.php?users_id=' + row.id);
+                $('#userInfoModal').modal();
+                modal.hidePleaseWait();
+            });
+        });
+    }
 
 </script>

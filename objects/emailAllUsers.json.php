@@ -13,7 +13,11 @@ if (!User::isAdmin()) {
 
 header('Content-Type: application/json');
 if (empty($_POST['email'])) {
-    $users = User::getAllUsers();
+    if(!empty($_REQUEST['users_groups_id'])){
+        $users = User::getAllUsersFromUsergroup($_REQUEST['users_groups_id'],false, array('name', 'email', 'user', 'channelName', 'about'), "a");
+    }else{
+        $users = User::getAllUsers(false, array('name', 'email', 'user', 'channelName', 'about'), "a");
+    }
 } else {
     $users[0]["email"] = $_POST['email'];
 }
