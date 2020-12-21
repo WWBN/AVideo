@@ -325,7 +325,7 @@ if (!class_exists('Video')) {
 // update the user groups
                     UserGroups::updateVideoGroups($id, $this->videoGroups);
                 }
-                
+
                 // I am not sure what is it for
                 //Video::autosetCategoryType($id);
                 if (!empty($this->old_categories_id)) {
@@ -338,140 +338,142 @@ if (!class_exists('Video')) {
                 return false;
             }
         }
+
         /*
-        static function autosetCategoryType($catId) {
-            global $global, $config;
-            if ($config->currentVersionLowerThen('5.01')) {
-                return false;
-            }
-            $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
+          static function autosetCategoryType($catId) {
+          global $global, $config;
+          if ($config->currentVersionLowerThen('5.01')) {
+          return false;
+          }
+          $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
 
-            $res = sqlDAL::readSql($sql, "i", array($catId));
-            $catTypeCache = sqlDAL::fetchAssoc($res);
-            sqlDAL::close($res);
+          $res = sqlDAL::readSql($sql, "i", array($catId));
+          $catTypeCache = sqlDAL::fetchAssoc($res);
+          sqlDAL::close($res);
 
-            $videoFound = false;
-            $audioFound = false;
-            if ($catTypeCache) {
-// 3 means auto
-                if ($catTypeCache['manualSet'] == "0") {
-// start incremental search and save
-                    $sql = "SELECT * FROM `videos` WHERE categories_id = ?";
-                    $res = sqlDAL::readSql($sql, "i", array($catId));
-                    $fullResult = sqlDAL::fetchAllAssoc($res);
-                    sqlDAL::close($res);
-                    if ($res != false) {
-                        foreach ($fullResult as $row) {
+          $videoFound = false;
+          $audioFound = false;
+          if ($catTypeCache) {
+          // 3 means auto
+          if ($catTypeCache['manualSet'] == "0") {
+          // start incremental search and save
+          $sql = "SELECT * FROM `videos` WHERE categories_id = ?";
+          $res = sqlDAL::readSql($sql, "i", array($catId));
+          $fullResult = sqlDAL::fetchAllAssoc($res);
+          sqlDAL::close($res);
+          if ($res != false) {
+          foreach ($fullResult as $row) {
 
-                            if ($row['type'] == "audio") {
-// echo "found audio";
-                                $audioFound = true;
-                            } else if ($row['type'] == "video") {
-//echo "found video";
-                                $videoFound = true;
-                            }
-                        }
-                    }
+          if ($row['type'] == "audio") {
+          // echo "found audio";
+          $audioFound = true;
+          } else if ($row['type'] == "video") {
+          //echo "found video";
+          $videoFound = true;
+          }
+          }
+          }
 
-                    if (($videoFound == false) || ($audioFound == false)) {
-                        $sql = "SELECT * FROM `categories` WHERE parentId = ?";
-                        $res = sqlDAL::readSql($sql, "i", array($catId));
-                        $fullResult = sqlDAL::fetchAllAssoc($res);
-                        sqlDAL::close($res);
-                        if ($res != false) {
-//$tmpVid = $res->fetch_assoc();
-                            foreach ($fullResult as $row) {
-                                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
-                                $res = sqlDAL::readSql($sql, "i", array($row['parentId']));
-                                $fullResult2 = sqlDAL::fetchAllAssoc($res);
-                                sqlDAL::close($res);
-                                foreach ($fullResult2 as $row) {
-                                    if ($row['type'] == "audio") {
-//  echo "found audio";
-                                        $audioFound = true;
-                                    } else if ($row['type'] == "video") {
-//echo "found video";
-                                        $videoFound = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    $sql = "UPDATE `category_type_cache` SET `type` = '";
-                    if (($videoFound) && ($audioFound)) {
-                        $sql .= "0";
-                    } else if ($audioFound) {
-                        $sql .= "1";
-                    } else if ($videoFound) {
-                        $sql .= "2";
-                    } else {
-                        $sql .= "0";
-                    }
-                    $sql .= "' WHERE `category_type_cache`.`categoryId` = ?;";
-                    sqlDAL::writeSql($sql, "i", array($catId));
-                }
-            } else {
-// start incremental search and save - and a lot of this redundant stuff in a method..
-                $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
-                $res = sqlDAL::readSql($sql, "i", array($catId));
-                $fullResult2 = sqlDAL::fetchAllAssoc($res);
-                sqlDAL::close($res);
-                if ($res != false) {
-                    foreach ($fullResult2 as $row) {
-                        if ($row['type'] == "audio") {
-                            $audioFound = true;
-                        } else if ($row['type'] == "video") {
-                            $videoFound = true;
-                        }
-                    }
-                }
-                if (($videoFound == false) || ($audioFound == false)) {
-                    $sql = "SELECT parentId FROM `categories` WHERE parentId = ?;";
-                    $res = sqlDAL::readSql($sql, "i", array($catId));
-                    $fullResult2 = sqlDAL::fetchAllAssoc($res);
-                    sqlDAL::close($res);
-                    if ($res != false) {
-                        foreach ($fullResult2 as $cat) {
-                            $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
-                            $res = sqlDAL::readSql($sql, "i", array($cat['parentId']));
-                            $fullResult2 = sqlDAL::fetchAllAssoc($res);
-                            sqlDAL::close($res);
-                            if ($res != false) {
-                                foreach ($fullResult2 as $row) {
-                                    if ($row['type'] == "audio") {
-                                        $audioFound = true;
-                                    } else if ($row['type'] == "video") {
-                                        $videoFound = true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-                $res = sqlDAL::readSql($sql, "i", array($catId));
-                $exist = sqlDAL::fetchAssoc($res);
-                sqlDAL::close($res);
-                $sqlType = 99;
-                if (($videoFound) && ($audioFound)) {
-                    $sqlType = 0;
-                } else if ($audioFound) {
-                    $sqlType = 1;
-                } else if ($videoFound) {
-                    $sqlType = 2;
-                }
-                $values = array();
-                if (empty($exist)) {
-                    $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, ?);";
-                    $values = array($catId, $sqlType);
-                } else {
-                    $sql = "UPDATE `category_type_cache` SET `type` = ? WHERE `category_type_cache`.`categoryId` = ?;";
-                    $values = array($sqlType, $catId);
-                }
-                sqlDAL::writeSql($sql, "ii", $values);
-            }
-        }
-        */
+          if (($videoFound == false) || ($audioFound == false)) {
+          $sql = "SELECT * FROM `categories` WHERE parentId = ?";
+          $res = sqlDAL::readSql($sql, "i", array($catId));
+          $fullResult = sqlDAL::fetchAllAssoc($res);
+          sqlDAL::close($res);
+          if ($res != false) {
+          //$tmpVid = $res->fetch_assoc();
+          foreach ($fullResult as $row) {
+          $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+          $res = sqlDAL::readSql($sql, "i", array($row['parentId']));
+          $fullResult2 = sqlDAL::fetchAllAssoc($res);
+          sqlDAL::close($res);
+          foreach ($fullResult2 as $row) {
+          if ($row['type'] == "audio") {
+          //  echo "found audio";
+          $audioFound = true;
+          } else if ($row['type'] == "video") {
+          //echo "found video";
+          $videoFound = true;
+          }
+          }
+          }
+          }
+          }
+          $sql = "UPDATE `category_type_cache` SET `type` = '";
+          if (($videoFound) && ($audioFound)) {
+          $sql .= "0";
+          } else if ($audioFound) {
+          $sql .= "1";
+          } else if ($videoFound) {
+          $sql .= "2";
+          } else {
+          $sql .= "0";
+          }
+          $sql .= "' WHERE `category_type_cache`.`categoryId` = ?;";
+          sqlDAL::writeSql($sql, "i", array($catId));
+          }
+          } else {
+          // start incremental search and save - and a lot of this redundant stuff in a method..
+          $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+          $res = sqlDAL::readSql($sql, "i", array($catId));
+          $fullResult2 = sqlDAL::fetchAllAssoc($res);
+          sqlDAL::close($res);
+          if ($res != false) {
+          foreach ($fullResult2 as $row) {
+          if ($row['type'] == "audio") {
+          $audioFound = true;
+          } else if ($row['type'] == "video") {
+          $videoFound = true;
+          }
+          }
+          }
+          if (($videoFound == false) || ($audioFound == false)) {
+          $sql = "SELECT parentId FROM `categories` WHERE parentId = ?;";
+          $res = sqlDAL::readSql($sql, "i", array($catId));
+          $fullResult2 = sqlDAL::fetchAllAssoc($res);
+          sqlDAL::close($res);
+          if ($res != false) {
+          foreach ($fullResult2 as $cat) {
+          $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
+          $res = sqlDAL::readSql($sql, "i", array($cat['parentId']));
+          $fullResult2 = sqlDAL::fetchAllAssoc($res);
+          sqlDAL::close($res);
+          if ($res != false) {
+          foreach ($fullResult2 as $row) {
+          if ($row['type'] == "audio") {
+          $audioFound = true;
+          } else if ($row['type'] == "video") {
+          $videoFound = true;
+          }
+          }
+          }
+          }
+          }
+          }
+          $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
+          $res = sqlDAL::readSql($sql, "i", array($catId));
+          $exist = sqlDAL::fetchAssoc($res);
+          sqlDAL::close($res);
+          $sqlType = 99;
+          if (($videoFound) && ($audioFound)) {
+          $sqlType = 0;
+          } else if ($audioFound) {
+          $sqlType = 1;
+          } else if ($videoFound) {
+          $sqlType = 2;
+          }
+          $values = array();
+          if (empty($exist)) {
+          $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, ?);";
+          $values = array($catId, $sqlType);
+          } else {
+          $sql = "UPDATE `category_type_cache` SET `type` = ? WHERE `category_type_cache`.`categoryId` = ?;";
+          $values = array($sqlType, $catId);
+          }
+          sqlDAL::writeSql($sql, "ii", $values);
+          }
+          }
+         */
+
 // i would like to simplify the big part of the method above in this method, but won't work as i want.
         static function internalAutoset($catId, $videoFound, $audioFound) {
             global $config;
@@ -1870,10 +1872,10 @@ if (!class_exists('Video')) {
 
         static function getResolution($file) {
             global $videogetResolution;
-            if(!isset($videogetResolution)){
+            if (!isset($videogetResolution)) {
                 $videogetResolution = array();
             }
-            if(isset($videogetResolution[$file])){
+            if (isset($videogetResolution[$file])) {
                 return $videogetResolution[$file];
             }
             if (!file_exists($file)) {
@@ -1892,7 +1894,7 @@ if (!class_exists('Video')) {
             }
             global $global;
             if (preg_match("/.m3u8$/i", $file) && AVideoPlugin::isEnabledByName('VideoHLS') && method_exists(new VideoHLS(), 'getHLSHigestResolutionFromFile')) {
-                
+
                 $videogetResolution[$file] = VideoHLS::getHLSHigestResolutionFromFile($file);
             } else {
                 require_once($global['systemRootPath'] . 'objects/getid3/getid3.php');
@@ -2645,7 +2647,7 @@ if (!class_exists('Video')) {
             //}
             $cacheName = md5($filename . $type . $includeS3);
             if (isset($VideoGetSourceFile[$cacheName])) {
-                if(!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])){
+                if (!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])) {
                     return $VideoGetSourceFile[$cacheName];
                 }
             }
@@ -2767,10 +2769,10 @@ if (!class_exists('Video')) {
                         '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2'),
                     array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), $filename);
             $path_parts = pathinfo($cleanName);
-            
+
             if (!empty($path_parts["extension"]) && $path_parts["extension"] === "m3u8") {
                 preg_match('/videos\/([^\/]+)/', $path_parts["dirname"], $matches);
-                if(!empty($matches[1])){
+                if (!empty($matches[1])) {
                     $path_parts['filename'] = $matches[1];
                 }
             }
@@ -2787,7 +2789,7 @@ if (!class_exists('Video')) {
                 return $path_parts['filename'];
             }
         }
-        
+
         static function getSpecificResolution($filename, $desired_resolution) {
             $filename = self::getCleanFilenameFromFile($filename);
             $cacheName = "getSpecificResolution($filename)";
@@ -2871,15 +2873,15 @@ if (!class_exists('Video')) {
             ObjectYPT::setCache($cacheName, $return);
             return $return;
         }
-        
+
         static function getResolutionFromFilename($filename) {
             $resolution = false;
-            if(preg_match("/_([0-9]+).(mp4|webm)/i", $filename, $matches)){
-                if(!empty($matches[1])){
+            if (preg_match("/_([0-9]+).(mp4|webm)/i", $filename, $matches)) {
+                if (!empty($matches[1])) {
                     $resolution = intval($matches[1]);
                 }
-            }else if(preg_match('/res([0-9]+)\/index.m3u8/i', $filename, $matches)){
-                if(!empty($matches[1])){
+            } else if (preg_match('/res([0-9]+)\/index.m3u8/i', $filename, $matches)) {
+                if (!empty($matches[1])) {
                     $resolution = intval($matches[1]);
                 }
             }
@@ -3016,23 +3018,23 @@ if (!class_exists('Video')) {
             }
             return false;
         }
-        
+
         static function getRokuImage($videos_id) {
             global $global;
             $images = self::getImageFromID($videos_id);
             $imagePath = $images->posterLandscapePath;
-            if(empty($imagePath) || !file_exists($imagePath)){
+            if (empty($imagePath) || !file_exists($imagePath)) {
                 $imagePath = $images->posterLandscapeThumbs;
             }
-            if(empty($imagePath) || !file_exists($imagePath)){
+            if (empty($imagePath) || !file_exists($imagePath)) {
                 $imagePath = $images->poster;
             }
             $rokuImage = str_replace(".jpg", "_roku.jpg", $imagePath);
-            if(convertImageToRoku($images->posterLandscapePath, $rokuImage)){
+            if (convertImageToRoku($images->posterLandscapePath, $rokuImage)) {
                 return str_replace($global['systemRootPath'], $global['webSiteRootURL'], $rokuImage);
             }
             return "{$global['webSiteRootURL']}view/img/notfound.jpg";
-        } 
+        }
 
         static function clearImageCache($filename, $type = "video") {
             $cacheFileName = "getImageFromFilename_" . $filename . $type . (get_browser_name() == 'Safari' ? "s" : "");
@@ -3348,11 +3350,11 @@ if (!class_exists('Video')) {
                 $clean_title = urlencode($clean_title);
                 $subDir = "video";
                 $subEmbedDir = "videoEmbed";
-                if($video->getType()=='article'){
+                if ($video->getType() == 'article') {
                     $subDir = "article";
                     $subEmbedDir = "articleEmbed";
                 }
-                
+
                 if ($embed) {
                     if (empty($advancedCustom->useVideoIDOnSEOLinks)) {
                         return "{$global['webSiteRootURL']}{$subEmbedDir}/{$clean_title}{$get_http}";
@@ -3576,14 +3578,14 @@ if (!class_exists('Video')) {
 
         static function getVideoType($filename) {
             global $_getVideoType;
-            
-            if(!isset($_getVideoType)){
+
+            if (!isset($_getVideoType)) {
                 $_getVideoType = array();
             }
-            if(isset($_getVideoType[$filename])){
+            if (isset($_getVideoType[$filename])) {
                 return $_getVideoType[$filename];
             }
-            
+
             $obj = new stdClass();
             $paths = self::getVideosPaths($filename);
 
@@ -3620,7 +3622,7 @@ if (!class_exists('Video')) {
             }
             return $labels;
         }
-        
+
         /**
          * Based on Roku Type
          * @param type $filename
@@ -3804,6 +3806,29 @@ if (!class_exists('Video')) {
                 return array();
             }
             return ReportVideo::getAllReportedUsersIdFromUser($users_id);
+        }
+
+        static function getIncludeType($video) {
+            $vType = $video['type'];
+            if ($vType == "linkVideo") {
+                if(isValidURL($video['videoLink']) && $type = get_headers($video['videoLink'], 1)["Content-Type"]){
+                    if(preg_match('/text\/html/i', $type)){
+                        $vType = "embed";
+                    }else{
+                        $vType = "video";
+                    }
+                }else{
+                    $vType = "video";
+                }
+            } else if ($vType == "live") {
+                $vType = "../../plugin/Live/view/liveVideo";
+            } else if ($vType == "linkAudio") {
+                $vType = "audio";
+            }
+            if (!in_array($vType, Video::$typeOptions)) {
+                $vType = 'video';
+            }
+            return $vType;
         }
 
     }

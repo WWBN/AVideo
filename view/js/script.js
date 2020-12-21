@@ -132,9 +132,15 @@ function lazyImage() {
                 // called after an element was successfully handled
                 afterLoad: function (element) {
                     element.removeClass('blur');
-                    element.parent().find('.thumbsGIF').lazy({
+                    var gif = element.parent().find('.thumbsGIF');
+                    gif.lazy({
                         effect: 'fadeIn'
                     });
+                    setTimeout(function(){
+                        gif.hide();
+                        gif.height(element.height());
+                        gif.width(element.width());
+                    },100);
                 }
             });
             mouseEffect();
@@ -319,13 +325,19 @@ function subscribeNotify(email, user_id) {
 function mouseEffect() {
 
     $(".thumbsImage").on("mouseenter", function () {
+        var gif = $(this).find(".thumbsGIF");
+        var jpg = $(this).find(".thumbsJPG");
         try {
-            $(this).find(".thumbsGIF").lazy({effect: 'fadeIn'});
+            gif.lazy({effect: 'fadeIn'});
+            setTimeout(function(){
+                gif.height(element.height());
+                gif.width(element.width());
+            },100);
         } catch (e) {
         }
-        $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
-        $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
-        $(this).find(".thumbsGIF").stop(true, true).fadeIn();
+        gif.height(jpg.height());
+        gif.width(jpg.width());
+        gif.stop(true, true).fadeIn();
     });
     $(".thumbsImage").on("mouseleave", function () {
         $(this).find(".thumbsGIF").stop(true, true).fadeOut();
@@ -973,13 +985,15 @@ $(document).ready(function () {
         $(".thumbsGIF").fadeOut();
         if (gifId != undefined) {
             id = gifId.replace('thumbsGIF', '');
-            $(this).find(".thumbsGIF").height($(this).find(".thumbsJPG").height());
-            $(this).find(".thumbsGIF").width($(this).find(".thumbsJPG").width());
+            var gif = $(this).find(".thumbsGIF");
+            var jpg = $(this).find(".thumbsGIF");
+            gif.height(jpg.height());
+            gif.width(jpg.width());
             try {
-                $(this).find(".thumbsGIF").lazy({effect: 'fadeIn'});
+                gif.lazy({effect: 'fadeIn'});
             } catch (e) {
             }
-            $(this).find(".thumbsGIF").stop(true, true).fadeIn();
+            gif.stop(true, true).fadeIn();
         }
     });
     $(".thumbsImage").on("mouseleave", function () {

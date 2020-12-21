@@ -18,17 +18,8 @@
     </div>
 </div>
 <?php
-$vType = $video['type'];
-if ($vType == "linkVideo") {
-    $vType = "video";
-} else if ($vType == "live") {
-    $vType = "../../plugin/Live/view/liveVideo";
-} else if ($vType == "linkAudio") {
-    $vType = "audio";
-}
-if (!in_array($vType, Video::$typeOptions)) {
-    $vType = 'video';
-}
+$vType = Video::getIncludeType($video);
+
 require "{$global['systemRootPath']}view/include/{$vType}.php";
 $modeYouTubeTimeLog['After include video ' . $vType] = microtime(true) - $modeYouTubeTime;
 $modeYouTubeTime = microtime(true);
