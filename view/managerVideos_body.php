@@ -1753,6 +1753,9 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                     var status;
                     var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                     var download = "";
+                    <?php
+                    if(CustomizeUser::canDownloadVideos()){
+                    ?>
                     for (var k in row.videosURL) {
                         var pattern = /_thumbs/i;
                         if (pattern.test(k) === true) {
@@ -1775,6 +1778,9 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                         }
                         
                     }
+                    <?php
+                    }
+                    ?>
 
                     if (row.status == "i") {
                         status = inactiveBtn;

@@ -35,6 +35,7 @@ class CustomizeUser extends PluginAbstract {
     public function getEmptyDataObject() {
         global $advancedCustom;
         $obj = new stdClass();
+        $obj->nonAdminCannotDownload = false;
         $obj->userCanAllowFilesDownload = false;
         $obj->userCanAllowFilesShare = false;
         $obj->userCanAllowFilesDownloadSelectPerVideo = false;
@@ -153,11 +154,23 @@ class CustomizeUser extends PluginAbstract {
     static function canDownloadVideosFromUser($users_id) {
         global $config;
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if(!empty($obj->nonAdminCannotDownload) && !User::isAdmin()){
+            return false;
+        }
         if (empty($obj) || empty($obj->userCanAllowFilesDownload)) {
-            return $config->getAllow_download();
+            return self::canDownloadVideos();
         }
         $user = new User($users_id);
         return !empty($user->getExternalOption('userCanAllowFilesDownload'));
+    }
+    
+    static function canDownloadVideos() {
+        global $config;
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if(!empty($obj->nonAdminCannotDownload) && !User::isAdmin()){
+            return false;
+        }
+        return $config->getAllow_download();
     }
 
     static function setCanDownloadVideosFromUser($users_id, $value = true) {

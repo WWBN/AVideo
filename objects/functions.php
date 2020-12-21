@@ -3907,9 +3907,11 @@ function getBackURL() {
 }
 
 function getHomeURL(){
-    global $global;
+    global $global, $advancedCustomUser, $advancedCustom;
     if(isValidURL($advancedCustomUser->afterLoginGoToURL)){
         return $advancedCustomUser->afterLoginGoToURL;
+    }else if(isValidURL($advancedCustom->logoMenuBarURL) && isSameDomainAsMyAVideo($advancedCustom->logoMenuBarURL)){
+        return $advancedCustom->logoMenuBarURL;
     }
     return $global['webSiteRootURL'];
 }
@@ -4939,6 +4941,12 @@ function getServerClock() {
  */
 function downloadHLS($filepath) {
     global $global;
+    
+    if(!CustomizeUser::canDownloadVideos()){
+        _error_log("downloadHLS: CustomizeUser::canDownloadVideos said NO");
+        return false;
+    }
+    
     if (!file_exists($filepath)) {
         _error_log("downloadHLS: file NOT found: {$filepath}");
         return false;

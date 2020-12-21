@@ -38,6 +38,10 @@ if ($file == "configuration.php") {
 
 if (file_exists($path)) {
     if (!empty($_GET['download'])) {
+        if(!CustomizeUser::canDownloadVideos()){
+            _error_log("downloadHLS: CustomizeUser::canDownloadVideos said NO");
+            forbiddenPage("Cant download this");
+        }
         if (!empty($_GET['title'])) {
             $quoted = sprintf('"%s"', addcslashes(basename($_GET['title']), '"\\'));
         } else {
