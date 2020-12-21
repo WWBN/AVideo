@@ -3895,6 +3895,7 @@ function getVideoIDFromURL($url) {
 }
 
 function getBackURL() {
+    global $global;
     $backURL = getRedirectUri();
     if (empty($backURL)) {
         $backURL = getRequestURI();
