@@ -69,6 +69,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderAutomaticMP4 = false;
         $obj->doNotShowEncoderAutomaticWebm = false;
         $obj->doNotShowEncoderAutomaticAudio = false;
+        $obj->doNotShowExtractAudio = false;
+        $obj->doNotShowCreateVideoSpectrum = false;
         $obj->doNotShowLeftMenuAudioAndVideoButtons = false;
         $obj->doNotShowWebsiteOnContactForm = false;
         $obj->doNotUseXsendFile = false;
