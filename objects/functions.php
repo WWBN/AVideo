@@ -890,26 +890,24 @@ function clearVideosURL($fileName = "") {
     }
 }
 
-$minimumExpirationTime = false;
-
-function minimumExpirationTime() {
-    global $minimumExpirationTime;
-    if (empty($minimumExpirationTime)) {
+function maxLifetime() {
+    global $maxLifetime;
+    if (!isset($maxLifetime)) {
         $aws_s3 = AVideoPlugin::getObjectDataIfEnabled('AWS_S3');
         $bb_b2 = AVideoPlugin::getObjectDataIfEnabled('Blackblaze_B2');
         $secure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-        $minimumExpirationTime = 60 * 60 * 24 * 365; //1 year
-        if (!empty($aws_s3) && $aws_s3->presignedRequestSecondsTimeout < $minimumExpirationTime) {
-            $minimumExpirationTime = $aws_s3->presignedRequestSecondsTimeout;
+        $maxLifetime = 0; 
+        if (!empty($aws_s3) && $aws_s3->presignedRequestSecondsTimeout < $maxLifetime) {
+            $maxLifetime = $aws_s3->presignedRequestSecondsTimeout;
         }
-        if (!empty($bb_b2) && $bb_b2->presignedRequestSecondsTimeout < $minimumExpirationTime) {
-            $minimumExpirationTime = $bb_b2->presignedRequestSecondsTimeout;
+        if (!empty($bb_b2) && $bb_b2->presignedRequestSecondsTimeout < $maxLifetime) {
+            $maxLifetime = $bb_b2->presignedRequestSecondsTimeout;
         }
-        if (!empty($secure) && $secure->tokenTimeOut < $minimumExpirationTime) {
-            $minimumExpirationTime = $secure->tokenTimeOut;
+        if (!empty($secure) && $secure->tokenTimeOut < $maxLifetime) {
+            $maxLifetime = $secure->tokenTimeOut;
         }
     }
-    return $minimumExpirationTime;
+    return $maxLifetime;
 }
 
 $cacheExpirationTime = false;

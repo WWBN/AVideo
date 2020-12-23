@@ -348,6 +348,12 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
         }
+        
+        $maxLifetime = maxLifetime();
+        if(empty($lifetime) || $lifetime>$maxLifetime ){
+            $lifetime = $maxLifetime;
+        }
+        
         if (!empty($ignoreSessionCache)) {
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
@@ -444,6 +450,10 @@ abstract class ObjectYPT implements ObjectInterface {
             $lifetime = intval($_GET['lifetime']);
         }
         if (!empty($_SESSION['user']['sessionCache'][$name])) {
+            $maxLifetime = maxLifetime();
+            if(empty($lifetime) || $lifetime>$maxLifetime ){
+                $lifetime = $maxLifetime;
+            }
             if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
                 $c = $_SESSION['user']['sessionCache'][$name]['value'];
                 return json_decode($c);
