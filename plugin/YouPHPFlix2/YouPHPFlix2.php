@@ -81,7 +81,7 @@ class YouPHPFlix2 extends PluginAbstract {
     }   
         
     public function getHeadCode() {
-        global $global;
+        global $global, $isEmbed;
         $obj = $this->getDataObject();
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         if($baseName == 'channel.php'){
@@ -91,6 +91,7 @@ class YouPHPFlix2 extends PluginAbstract {
         //$css .= "<link href=\"{$global['webSiteRootURL']}view/css/custom/".$obj->theme.".css\" rel=\"stylesheet\" type=\"text/css\"/>";
         $css .= "<link href=\"{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/css/style.css?".  filectime("{$global['systemRootPath']}plugin/YouPHPFlix2/view/css/style.css")."\" rel=\"stylesheet\" type=\"text/css\"/>";
         if(!empty($obj->youtubeModeOnFullscreen) && isVideo() && !isSerie()){
+            $isEmbed = 1;
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
             $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';

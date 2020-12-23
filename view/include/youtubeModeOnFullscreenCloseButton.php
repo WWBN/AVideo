@@ -1,5 +1,10 @@
 <?php
-if (!isIframe() && !isEmbed()) {
+if (!isIframe()) {
+    echo "<!-- divTopBar !isIframe -->";
+    return false;
+}
+if (!isEmbed()) {
+    echo "<!-- divTopBar !isEmbed -->";
     return false;
 }
 $backURL = getBackURL();
