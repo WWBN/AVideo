@@ -1200,9 +1200,11 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     $cacheName = "getVideosURL_V2$fileName";
     if (empty($recreateCache)) {
 
+        $lifetime = maxLifetime();
+        
         $TimeLog1 = "getVideosURL_V2($fileName) empty recreateCache";
         TimeLogStart($TimeLog1);
-        $files = object_to_array(ObjectYPT::getCache($cacheName, 0, true));
+        $files = object_to_array(ObjectYPT::getCache($cacheName, $lifetime, true));
         if (is_array($files)) {
             $preg_match_url = addcslashes($global['webSiteRootURL'], "/") . "videos";
             foreach ($files as $value) {
