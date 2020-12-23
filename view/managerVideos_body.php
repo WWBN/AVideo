@@ -525,6 +525,19 @@
                                             <label for="videoStartSecond" ><?php echo __("Start video at:"); ?></label>
                                             <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
                                         </div>
+
+                                        <?php
+                                        if (User::isAdmin()) {
+                                            ?>
+                                            <div>
+                                                <label for="videoStartSecond" ><?php echo __("Video Views"); ?></label>
+                                                <input type="number" step="1" id="views_count" class="form-control externalOptions" >
+                                            </div>
+                                            <?php
+                                        }else{
+                                            ?><input type="hidden" id="views_count" value="-1"><?php
+                                        }
+                                        ?>
                                     </div>
                                     <script>
                                         $(function () {
@@ -701,45 +714,45 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
     <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
     <script>
-                                            tinymce.init({
-                                                selector: '#inputDescription', // change this value according to your HTML
-                                                plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
-                                                //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
-                                                toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
-                                                height: 400,
-                                                convert_urls: false,
-                                                images_upload_handler: function (blobInfo, success, failure) {
-                                                    var xhr, formData;
-                                                    if (!videos_id) {
-                                                        $('#inputTitle').val("Article automatically booked");
-                                                        saveVideo(false);
-                                                    }
-                                                    xhr = new XMLHttpRequest();
-                                                    xhr.withCredentials = false;
-                                                    xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
-                                                    xhr.onload = function () {
-                                                        var json;
-                                                        if (xhr.status != 200) {
-                                                            failure('HTTP Error: ' + xhr.status);
-                                                            return;
-                                                        }
-
-                                                        json = xhr.responseText;
-                                                        json = JSON.parse(json);
-                                                        if (json.error === false && json.url) {
-                                                            success(json.url);
-                                                        } else if (json.msg) {
-                                                            avideoAlert("<?php echo __("Sorry!"); ?>", json.msg, "error");
-                                                        } else {
-                                                            avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
-                                                        }
-
-                                                    };
-                                                    formData = new FormData();
-                                                    formData.append('file_data', blobInfo.blob(), blobInfo.filename());
-                                                    xhr.send(formData);
+                                        tinymce.init({
+                                            selector: '#inputDescription', // change this value according to your HTML
+                                            plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
+                                            //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
+                                            toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
+                                            height: 400,
+                                            convert_urls: false,
+                                            images_upload_handler: function (blobInfo, success, failure) {
+                                                var xhr, formData;
+                                                if (!videos_id) {
+                                                    $('#inputTitle').val("Article automatically booked");
+                                                    saveVideo(false);
                                                 }
-                                            });
+                                                xhr = new XMLHttpRequest();
+                                                xhr.withCredentials = false;
+                                                xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
+                                                xhr.onload = function () {
+                                                    var json;
+                                                    if (xhr.status != 200) {
+                                                        failure('HTTP Error: ' + xhr.status);
+                                                        return;
+                                                    }
+
+                                                    json = xhr.responseText;
+                                                    json = JSON.parse(json);
+                                                    if (json.error === false && json.url) {
+                                                        success(json.url);
+                                                    } else if (json.msg) {
+                                                        avideoAlert("<?php echo __("Sorry!"); ?>", json.msg, "error");
+                                                    } else {
+                                                        avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
+                                                    }
+
+                                                };
+                                                formData = new FormData();
+                                                formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+                                                xhr.send(formData);
+                                            }
+                                        });
     </script>
     <?php
 }
@@ -1004,6 +1017,7 @@ echo AVideoPlugin::getManagerVideosEdit();
         $("#inputUserOwner-img").attr("src", photoURL);
         $('#inputUserOwner').val(row.user);
         $('#inputUserOwner_id').val(row.users_id);
+        $('#views_count').val(row.views_count);
         $('.videoGroups').prop('checked', false);
         if (row.groups.length === 0) {
             $('#public').prop('checked', true);
@@ -1212,7 +1226,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         "can_download": $('#can_download').is(':checked'),
                         "can_share": $('#can_share').is(':checked'),
                         "isArticle": isArticle,
-                        "only_for_paid": $('#only_for_paid').is(':checked')
+                        "only_for_paid": $('#only_for_paid').is(':checked'),
+                        "views_count": $('#views_count').val()
                 },
                 type: 'post',
                 success: function (response) {
@@ -1276,6 +1291,7 @@ echo AVideoPlugin::getManagerVideosReset();
         $("#inputUserOwner-img").attr("src", photoURL);
         $('#inputUserOwner').val('<?php echo User::getUserName(); ?>');
         $('#inputUserOwner_id').val(<?php echo User::getId(); ?>);
+        $('#views_count').val(0);
         $('.videoGroups').prop('checked', false);
         $('#can_download').prop('checked', false);
         $('#can_share').prop('checked', false);
@@ -1753,34 +1769,34 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                     var status;
                     var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                     var download = "";
-                    <?php
-                    if(CustomizeUser::canDownloadVideos()){
-                    ?>
-                    for (var k in row.videosURL) {
-                        var pattern = /_thumbs/i;
-                        if (pattern.test(k) === true) {
-                            continue;
+<?php
+if (CustomizeUser::canDownloadVideos()) {
+    ?>
+                        for (var k in row.videosURL) {
+                            var pattern = /_thumbs/i;
+                            if (pattern.test(k) === true) {
+                                continue;
+                            }
+                            if (typeof row.videosURL[k].url === 'undefined' || !row.videosURL[k].url) {
+                                continue;
+                            }
+                            var url = row.videosURL[k].url;
+
+                            var downloadURL = addGetParam(url, 'download', 1);
+                            var pattern = /^m3u8/i;
+                            if (pattern.test(k) === true) {
+                                download += '<div class="btn-group  btn-group-justified">';
+                                download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
+                                download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
+                                download += '</div>';
+                            } else {
+                                download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
+                            }
+
                         }
-                        if (typeof row.videosURL[k].url === 'undefined' || !row.videosURL[k].url) {
-                            continue;
-                        }
-                        var url = row.videosURL[k].url;
-                        
-                        var downloadURL = addGetParam(url, 'download', 1);
-                        var pattern = /^m3u8/i;
-                        if (pattern.test(k) === true) {
-                            download += '<div class="btn-group  btn-group-justified">';
-                            download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
-                            download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
-                            download += '</div>';
-                        }else{
-                            download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
-                        }
-                        
-                    }
-                    <?php
-                    }
-                    ?>
+    <?php
+}
+?>
 
                     if (row.status == "i") {
                         status = inactiveBtn;
@@ -1836,11 +1852,11 @@ if (Permissions::canAdminVideos()) {
 }
 ?>
 
-                    if (row.maxResolution && row.maxResolution.resolution_string && row.maxResolution.resolution_string !=='0p') {
+                    if (row.maxResolution && row.maxResolution.resolution_string && row.maxResolution.resolution_string !== '0p') {
                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Resolution") . ":"; ?> </span><span class=\"label label-default \">" + row.maxResolution.resolution_string + "</span>";
                     }
                     for (var i in row.tags) {
-                        if (typeof row.tags[i].type == "undefined" || row.tags[i].label.length===0) {
+                        if (typeof row.tags[i].type == "undefined" || row.tags[i].label.length === 0) {
                             continue;
                         }
                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + row.tags[i].text + "</span>";

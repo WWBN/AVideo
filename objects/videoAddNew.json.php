@@ -123,6 +123,10 @@ if (empty($_POST['id']) && $obj->getType() == 'embed') {
     AVideoPlugin::afterNewVideo($resp);
 }
 
+if(User::isAdmin()){
+    $obj->updateViewsCount($_REQUEST['views_count']);
+}
+
 AVideoPlugin::saveVideosAddNew($_POST, $resp);
 TimeLogEnd(__FILE__, __LINE__);
 $obj = new stdClass();
@@ -132,5 +136,7 @@ $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
 $obj->video = Video::getVideo($obj->videos_id, false, true);
+
+
 TimeLogEnd(__FILE__, __LINE__);
 echo json_encode($obj);

@@ -104,6 +104,26 @@ if (!class_exists('Video')) {
                 die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
         }
+        
+        function updateViewsCount($total) {
+            global $global;
+            if (empty($this->id)) {
+                return false;
+            }
+            $total = intval($total);
+            if($total<0){
+                return false;
+            }
+            $sql = "UPDATE videos SET views_count = {$total}, modified = now() WHERE id = ?";
+
+            $insert_row = sqlDAL::writeSql($sql, "i", array($this->id));
+
+            if ($insert_row) {
+                return $insert_row;
+            } else {
+                die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+        }
 
         function addViewPercent($percent = 25) {
             global $global;
@@ -2609,7 +2629,7 @@ if (!class_exists('Video')) {
         function setVideoLink($videoLink) {
             $this->videoLink = $videoLink;
         }
-
+        
         function getCan_download() {
             return $this->can_download;
         }
