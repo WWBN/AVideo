@@ -1,5 +1,5 @@
 <?php
-if (isIframe()) {
+if (!isIframe() && !isEmbed()) {
     return false;
 }
 $backURL = getBackURL();
