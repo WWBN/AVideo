@@ -351,7 +351,9 @@ abstract class ObjectYPT implements ObjectInterface {
         
         $maxLifetime = maxLifetime();
         if(empty($lifetime) || $lifetime>$maxLifetime ){
-            $lifetime = $maxLifetime;
+            if($maxLifetime){
+                $lifetime = $maxLifetime;
+            }
         }
         
         if (!empty($ignoreSessionCache)) {
@@ -452,7 +454,9 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_SESSION['user']['sessionCache'][$name])) {
             $maxLifetime = maxLifetime();
             if(empty($lifetime) || $lifetime>$maxLifetime ){
-                $lifetime = $maxLifetime;
+                if($maxLifetime){
+                    $lifetime = $maxLifetime;
+                }
             }
             if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
                 $c = $_SESSION['user']['sessionCache'][$name]['value'];
