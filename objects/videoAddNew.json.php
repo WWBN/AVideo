@@ -78,7 +78,7 @@ if (!empty($_POST['videoLink'])) {
     if (empty($_POST['id'])) {
         $obj->setStatus('a');
     }
-}else if(!empty($obj->getType()) && ($obj->getType() == 'video' || $obj->getType() == 'serie' || $obj->getType() == 'audio' || !empty ($obj->getEncoderURL()))){
+}else if(!empty($obj->getType()) && ($obj->getType() == 'video' || $obj->getType() == 'serie' || $obj->getType() == 'audio')){
     $obj->setVideoLink("");
 }
     
