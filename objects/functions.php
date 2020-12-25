@@ -891,20 +891,20 @@ function clearVideosURL($fileName = "") {
 }
 
 function maxLifetime() {
-    return 3600;//1 hour
+    return 0;//1 hour
     global $maxLifetime;
     if (!isset($maxLifetime)) {
         $aws_s3 = AVideoPlugin::getObjectDataIfEnabled('AWS_S3');
         $bb_b2 = AVideoPlugin::getObjectDataIfEnabled('Blackblaze_B2');
         $secure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
         $maxLifetime = 0; 
-        if (!empty($aws_s3) && $aws_s3->presignedRequestSecondsTimeout < $maxLifetime) {
+        if (!empty($aws_s3) && !empty($aws_s3->presignedRequestSecondsTimeout) && $aws_s3->presignedRequestSecondsTimeout < $maxLifetime) {
             $maxLifetime = $aws_s3->presignedRequestSecondsTimeout;
         }
-        if (!empty($bb_b2) && $bb_b2->presignedRequestSecondsTimeout < $maxLifetime) {
+        if (!empty($bb_b2) && !empty($aws_s3->presignedRequestSecondsTimeout)  && $bb_b2->presignedRequestSecondsTimeout < $maxLifetime) {
             $maxLifetime = $bb_b2->presignedRequestSecondsTimeout;
         }
-        if (!empty($secure) && $secure->tokenTimeOut < $maxLifetime) {
+        if (!empty($secure) && !empty($aws_s3->tokenTimeOut)  && $secure->tokenTimeOut < $maxLifetime) {
             $maxLifetime = $secure->tokenTimeOut;
         }
     }
