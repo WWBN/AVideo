@@ -891,7 +891,7 @@ function clearVideosURL($fileName = "") {
 }
 
 function maxLifetime() {
-    return 0;
+    return 3600;//1 hour
     global $maxLifetime;
     if (!isset($maxLifetime)) {
         $aws_s3 = AVideoPlugin::getObjectDataIfEnabled('AWS_S3');
