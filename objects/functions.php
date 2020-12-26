@@ -1503,8 +1503,8 @@ function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
 
 function im_resizeV3($file_src, $file_dest, $wd, $hd) {
     _error_log("im_resizeV3: $file_src, $file_dest, $wd, $hd");
-    // this trys to preserve the aspect ratio of the thumb while letterboxing it in
-    // the same way that the encoder now does.
+    // This tries to preserve the aspect ratio of the thumb while letterboxing it in
+    // The same way that the encoder now does.
     eval('$ffmpeg ="ffmpeg -i {$file_src} -filter_complex \"scale=(iw*sar)*min({$wd}/(iw*sar)\,{$hd}/ih):ih*min({$wd}/(iw*sar)\,{$hd}/ih), pad={$wd}:{$hd}:({$wd}-iw*min({$wd}/iw\,{$hd}/ih))/2:({$hd}-ih*min({$wd}/iw\,{$hd}/ih))/2\" -sws_flags lanczos -qscale:v 2 {$file_dest}";');
     exec($ffmpeg . " < /dev/null 2>&1", $output, $return_val);
 }
@@ -1661,7 +1661,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
 
 function unzipDirectory($filename, $destination) {
     global $global;
-    // wait a couple of seconds to make sure the file is completed transfer
+    // Wait a couple of seconds to make sure the file has completed transfer
     sleep(2);
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 7200); // 2 hours
