@@ -176,8 +176,8 @@ $t['For faster encode, download your own encoder'] = "Pour un encodage plus rapi
 
 // About page
 $t['For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.'] = "Car tout est de lui, et par lui, et pour lui. À lui la gloire pour l’éternité ! Amen.";
-$t['Apostle Paul in'] = 'Apôtre Saint-Paul';
-$t['Romans 11:36'] = 'Romains (11:36)';
+$t['Apostle Paul in'] = 'Apôtre Saint-Paul dans';
+$t['Romans 11:36'] = 'l\'Épître aux Romains (11:36)';
 $t['Main Site'] = 'Site officiel d\'AVideo';
 $t['Demo Site'] = 'Démonstration';
 $t['Tutorials Site'] = 'Tutoriaux';
