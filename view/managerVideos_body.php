@@ -317,8 +317,8 @@
                     <div id="postersImage">
                         <ul class="nav nav-tabs">
                             <li class="active uploadFile"><a data-toggle="tab" href="#pmedia"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : $advancedCustom->uploadMP4ButtonLabel; ?></a></li>
-                            <li><a data-toggle="tab" href="#pimages">Images</a></li>
-                            <li><a data-toggle="tab" href="#pmetadata">Meta Data</a></li>
+                            <li><a data-toggle="tab" href="#pimages"><?php echo __("Images"); ?></a></li>
+                            <li><a data-toggle="tab" href="#pmetadata"><?php echo __("Meta Data"); ?></a></li>
                             <?php
                             echo AVideoPlugin::getManagerVideosTab();
                             ?>
@@ -522,7 +522,7 @@
                                         <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required>
 
                                         <div>
-                                            <label for="videoStartSecond" ><?php echo __("Start video at:"); ?></label>
+                                            <label for="videoStartSecond" ><?php echo __("Start video at"); ?></label>
                                             <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
                                         </div>
 
@@ -715,6 +715,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
     <script>
                                         tinymce.init({
+											language: "<?php echo $_SESSION['language']; ?>",
                                             selector: '#inputDescription', // change this value according to your HTML
                                             plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
                                             //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
