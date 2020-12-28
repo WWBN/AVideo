@@ -2745,7 +2745,7 @@ if (!class_exists('Video')) {
                 }
                 /* need it because getDurationFromFile */
                 if ($includeS3 && ($type == ".mp4" || $type == ".webm" || $type == ".mp3" || $type == ".ogg" || $type == ".pdf" || $type == ".zip")) {
-                    if (!file_exists($source['path']) || filesize($source['path']) < 1024) {
+                    if (file_exists($source['path']) && filesize($source['path']) < 1024) {
                         if (!empty($aws_s3)) {
                             $source = $aws_s3->getAddress("{$filename}{$type}");
                         } else if (!empty($bb_b2)) {
