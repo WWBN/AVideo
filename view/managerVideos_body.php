@@ -715,6 +715,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
     <script>
                                         tinymce.init({
+											language: "<?php echo $_SESSION['language']; ?>",
                                             selector: '#inputDescription', // change this value according to your HTML
                                             plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
                                             //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
