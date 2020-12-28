@@ -720,6 +720,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                             plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
                                             //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
                                             toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
+											menubar: 'edit insert view format table tools help', // remove 'file' menu as it's useless in our context
                                             height: 400,
                                             convert_urls: false,
                                             images_upload_handler: function (blobInfo, success, failure) {
