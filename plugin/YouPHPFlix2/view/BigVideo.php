@@ -19,7 +19,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         $poster = $images->poster;
         $canWatchPlayButton = "";
         $get = $_GET;
-        if (User::canWatchVideoWithAds($video['id'])) {
+        if (User::canWatchVideoWithAds($video['id']) && !Video::isSerie($video['id'])) {
             $canWatchPlayButton = "canWatchPlayButton";
         }
         $_GET = $get;

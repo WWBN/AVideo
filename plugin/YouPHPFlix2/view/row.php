@@ -93,7 +93,7 @@ foreach ($videos as $value) {
     $img = $images->thumbsJpg;
     $poster = $images->poster;
     $canWatchPlayButton = "";
-    if (User::canWatchVideoWithAds($value['id'])) {
+    if (User::canWatchVideoWithAds($value['id']) && !Video::isSerie($video['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
     }
     ?>
