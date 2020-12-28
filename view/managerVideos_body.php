@@ -1791,7 +1791,7 @@ if (CustomizeUser::canDownloadVideos()) {
                             var downloadURL = addGetParam(url, 'download', 1);
                             var pattern = /^m3u8/i;
                             if (pattern.test(k) === true) {
-                                downloadURL = addGetParam(url, 'title', row.clean_title+'_'+k+'.mp4');
+                                downloadURL = addGetParam(downloadURL, 'title', row.clean_title+'_'+k+'.mp4');
                                 download += '<div class="btn-group  btn-group-justified">';
                                 download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
                                 download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
