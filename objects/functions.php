@@ -1203,11 +1203,11 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     if (empty($recreateCache)) {
         $lifetime = maxLifetime();
         
-        $TimeLog1 = "getVideosURL_V2($fileName) empty recreateCache";
+        $TimeLog1 = "getVideosURL_V2 ($fileName) empty recreateCache";
         TimeLogStart($TimeLog1);
         $files = object_to_array(ObjectYPT::getCache($cacheName, $lifetime, true));
         if (is_array($files)) {
-            _error_log("getVideosURL_V2: do NOT recreate lifetime = {$lifetime}");
+            _error_log("getVideosURL_V2: ($fileName) do NOT recreate lifetime = {$lifetime}");
             $preg_match_url = addcslashes($global['webSiteRootURL'], "/") . "videos";
             foreach ($files as $value) {
 // check if is a dummy file and the URL still wrong
@@ -1215,7 +1215,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                         $value['type'] === 'video' && // is a video
                         preg_match("/^{$preg_match_url}/", $value['url']) && // the URL is the same as the main domain
                         filesize($value['path']) < 20) { // file size is small
-                    _error_log("getVideosURL_V2:: dummy file found, fix cache " . json_encode(array("/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']), filesize($value['path']), $value)));
+                    _error_log("getVideosURL_V2:: ($fileName) dummy file found, fix cache " . json_encode(array("/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']), filesize($value['path']), $value)));
                     unset($files);
                     break;
                 } else {
@@ -1228,9 +1228,11 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         }
         TimeLogEnd($TimeLog1, __LINE__);
     } else {
-        _error_log("getVideosURL_V2($fileName) Recreate cache requested " . json_encode(debug_backtrace()));
+        _error_log("getVideosURL_V2 ($fileName) Recreate cache requested " . json_encode(debug_backtrace()));
     }
     if (empty($files)) {
+        _error_log("getVideosURL_V2 ($fileName) files were empty ");
+        unset($getVideosURL_V2Array[$cleanfilename]);
         $files = array();
         $plugin = AVideoPlugin::loadPlugin("VideoHLS");
         if (!empty($plugin)) {
