@@ -1,5 +1,6 @@
 <?php
 global $t;
+global $t_isRTL; $t_isRTL = true;
 
 $t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<p> يوفبتوب! هو موقع مشاركة الفيديو، تم إنشاء الخدمة من قبل دانيال نيتو في مارس 2017. </p><p> البرنامج يسمح لك لتحميل وعرض ومشاركة والتعليق على أشرطة الفيديو، ويستفيد من ويب و H.264 / مبيغ-4 أفك لعرض مجموعة واسعة من أشرطة الفيديو وسائل الإعلام التي أنشأها المستخدم والشركات. </p><p> أفضل للجميع، يوفبتوب! هو حل مفتوح المصدر متاح مجانا للجميع. </p>";
 $t['About AVideo!'] = "حول يوفبتوب!";

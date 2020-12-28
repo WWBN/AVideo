@@ -1,5 +1,7 @@
 <?php
 global $t;
+global $t_isRTL; $t_isRTL = true;
+
 // $t[''] = '';
 $t['Meet'] = "ועידות";
 $t['Favorite'] = 'מועדפים';
