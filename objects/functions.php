@@ -1939,7 +1939,8 @@ function combineFiles($filesArray, $extension = "js") {
                 $str .= "\n/*{$value} created via web with own url ({$allowed}) */\n" . $content;
             }
         }
-        if ((($extension == "js" || $extension == "css") && ($minifyEnabled))) {
+        //if ((($extension == "js" || $extension == "css") && ($minifyEnabled))) {
+        if ($extension == "css" && ($minifyEnabled)) {
             require_once $global['systemRootPath'] . 'objects/jshrink.php';
             $str = \JShrink\Minifier::minify($str, array('flaggedComments' => false));
         }

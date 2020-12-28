@@ -317,8 +317,8 @@
                     <div id="postersImage">
                         <ul class="nav nav-tabs">
                             <li class="active uploadFile"><a data-toggle="tab" href="#pmedia"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : $advancedCustom->uploadMP4ButtonLabel; ?></a></li>
-                            <li><a data-toggle="tab" href="#pimages">Images</a></li>
-                            <li><a data-toggle="tab" href="#pmetadata">Meta Data</a></li>
+                            <li><a data-toggle="tab" href="#pimages"><?php echo __("Images"); ?></a></li>
+                            <li><a data-toggle="tab" href="#pmetadata"><?php echo __("Meta Data"); ?></a></li>
                             <?php
                             echo AVideoPlugin::getManagerVideosTab();
                             ?>
@@ -340,11 +340,11 @@
                             </div>
                             <div id="pimages" class="tab-pane fade">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#jpg">Poster (JPG)</a></li>
-                                    <li><a data-toggle="tab" href="#pjpg">Portrait Poster (JPG)</a></li>
-                                    <li><a data-toggle="tab" href="#webp">Mouse Over Poster (WebP)</a></li>
-                                    <li><a data-toggle="tab" href="#gif">Mouse Over Poster (GIF)</a></li>
-                                    <li><a data-toggle="tab" href="#pgif">Mouse Over Portrait Poster (GIF)</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#jpg"><?php echo __("Poster (JPG)"); ?></a></li>
+                                    <li><a data-toggle="tab" href="#pjpg"><?php echo __("Portrait Poster (JPG)"); ?></a></li>
+                                    <li><a data-toggle="tab" href="#webp"><?php echo __("Mouse Over Poster (WebP)"); ?></a></li>
+                                    <li><a data-toggle="tab" href="#gif"><?php echo __("Mouse Over Poster (GIF)"); ?></a></li>
+                                    <li><a data-toggle="tab" href="#pgif"><?php echo __("Mouse Over Portrait Poster (GIF)"); ?></a></li>
                                 </ul>
 
                                 <div class="tab-content">
@@ -401,11 +401,11 @@
                                         <?php
                                         foreach (Video::$rratingOptions as $value) {
                                             if (empty($value)) {
-                                                $label = "Not Rated";
+                                                $label = __("Not Rated");
                                             } else {
                                                 $label = strtoupper($value);
                                             }
-                                            echo "<option value='{$value}'>{$label}</option>";
+                                            echo "<option value='{$value}'>" . __($label) . "</option>";
                                         }
                                         ?>
                                     </select>
@@ -522,7 +522,7 @@
                                         <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required>
 
                                         <div>
-                                            <label for="videoStartSecond" ><?php echo __("Start video at:"); ?></label>
+                                            <label for="videoStartSecond" ><?php echo __("Start video at"); ?></label>
                                             <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
                                         </div>
 
@@ -664,10 +664,10 @@
         ?>
         <div class="btn-group pull-right" role="group">
             <a href="<?php echo $global['webSiteRootURL']; ?>objects/videos.txt.php?type=seo" target="_blank" class="btn btn-default btn-sm">
-                <i class="fas fa-download"></i> <?php echo __("Download your videos list"); ?> (SEO .txt file)
+                <i class="fas fa-download"></i> <?php echo __("Download your videos list"); ?> <?php echo __("(SEO .txt file)"); ?>
             </a>
             <a href="<?php echo $global['webSiteRootURL']; ?>objects/videos.txt.php" target="_blank" class="btn btn-default btn-sm">
-                <i class="fas fa-download"></i> <?php echo __("Download your videos list"); ?> (Permalink .txt file)
+                <i class="fas fa-download"></i> <?php echo __("Download your videos list"); ?> <?php echo __("(Permalink .txt file)"); ?>
             </a>
         </div>
         <?php
@@ -675,21 +675,25 @@
     if ((User::isAdmin()) && (!$config->getDisable_youtubeupload())) {
         ?>
         <div class="alert alert-info">
-            <h1><span class="fab fa-youtube-square"></span> Let us upload your video to YouTube</h1>
-            <h2>Before you start</h2>
+            <h1><span class="fab fa-youtube-square"></span> <?php echo __("Let us upload your video to YouTube"); ?></h1>
+            <h2><?php echo __("How to setup the Youtube-Upload feature"); ?>:</h2>
             <ol>
                 <li>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-info btn-xs">Enable Google Login</a> and get your google ID and Key
+					<?php echo __("You need to enable"); ?>
+                    <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-info btn-xs"><?php echo __("Google Login"); ?></a> <?php echo __("and get the following information") . ": <strong>" . __("Google ID and Key") . "</strong>"; ?>
                 </li>
                 <li>
-                    Go to https://console.developers.google.com
-                    on <a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank" rel="noopener noreferrer">dashboard</a> Enable <strong>YouTube Data API v3</strong>
+                    <?php echo __("Go to your"); ?> 
+					<a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("Google Console API Dashboard"); ?></a> 
+					<?php echo __("and enable the following API") . ": <strong>" . __("YouTube Data API") . " v3</strong>"; ?>
                 </li>
                 <li>
-                    In credentials authorized this redirect URIs <code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>
+                    <?php echo __("In authorized credentials allow the following URIs redirection"); ?>:
+					<code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>
                 </li>
                 <li>
-                    You can find more help on <a href="https://developers.google.com/youtube/v3/getting-started" class="btn btn-info btn-xs"  target="_blank" rel="noopener noreferrer">https://developers.google.com/youtube/v3/getting-started </a>
+                    <?php echo __("You can find more help on the following documentation"); ?>: 
+					<a href="https://developers.google.com/youtube/v3/getting-started" class="btn btn-info btn-xs"  target="_blank" rel="noopener noreferrer"><?php echo __("YouTube Data API Overview"); ?></a>
                 </li>
             </ol>
 
@@ -715,10 +719,12 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
     <script>
                                         tinymce.init({
+											language: "<?php echo $_SESSION['language']; ?>",
                                             selector: '#inputDescription', // change this value according to your HTML
                                             plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
                                             //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
                                             toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
+											menubar: 'edit insert view format table tools help', // remove 'file' menu as it's useless in our context
                                             height: 400,
                                             convert_urls: false,
                                             images_upload_handler: function (blobInfo, success, failure) {
@@ -1785,6 +1791,7 @@ if (CustomizeUser::canDownloadVideos()) {
                             var downloadURL = addGetParam(url, 'download', 1);
                             var pattern = /^m3u8/i;
                             if (pattern.test(k) === true) {
+                                downloadURL = addGetParam(downloadURL, 'title', row.clean_title+'_'+k+'.mp4');
                                 download += '<div class="btn-group  btn-group-justified">';
                                 download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
                                 download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
