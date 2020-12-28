@@ -277,8 +277,8 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getVideosManagerListButton() {
         $btn = "";
         if (User::isAdmin()) {
-            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="updateDiskUsage(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="Update Disk usage"><i class="fas fa-chart-line"></i> Update Disk Usage</button>';
-            $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="removeThumbs(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="RemoveThumbs"><i class="fas fa-images"></i> Remove Thumbs</button>';
+            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="updateDiskUsage(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="'. __("Update disk usage for this media") .'"><i class="fas fa-chart-line"></i> '. __("Update Disk Usage") .'</button>';
+            $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="removeThumbs(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="'. __("Remove thumbs for this media") .'"><i class="fas fa-images"></i> '. __("Remove Thumbs") .'</button>';
         }
         return $btn;
     }
