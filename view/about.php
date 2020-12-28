@@ -34,13 +34,13 @@ $metaDescription = "About Page";
                         <h1><?php echo __("I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible."); ?></h1>
                         <blockquote class="blockquote">
                             <h1><?php echo __("For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen."); ?></h1>
-                            <footer class="blockquote-footer">Apostle Paul in <cite title="Source Title">Romans 11:36</cite></footer>
+                            <footer class="blockquote-footer"><?php echo __("Apostle Paul in"); ?> <cite title="Source Title"><?php echo __("Romans 11:36"); ?></cite></footer>
                         </blockquote>
                         <div class="btn-group btn-group-justified">
-                            <a href="https://www.avideo.com/" class="btn btn-success">Main Site</a>
-                            <a href="https://demo.avideo.com/" class="btn btn-danger">Demo Site</a>
-                            <a href="https://tutorials.avideo.com/" class="btn btn-primary">Tutorials Site</a>
-                            <a href="https://github.com/WWBN/AVideo/issues" class="btn btn-warning">Issues and requests Site</a>
+                            <a href="https://www.avideo.com/" class="btn btn-success"><?php echo __("Main Site"); ?></a>
+                            <a href="https://demo.avideo.com/" class="btn btn-danger"><?php echo __("Demo Site"); ?></a>
+                            <a href="https://tutorials.avideo.com/" class="btn btn-primary"><?php echo __("Tutorials Site"); ?></a>
+                            <a href="https://github.com/WWBN/AVideo/issues" class="btn btn-warning"><?php echo __("Issues and requests Site"); ?></a>
                         </div>
                         <div class="clearfix"></div>
                         <span class="label label-success"><?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?></span>
@@ -53,7 +53,7 @@ $metaDescription = "About Page";
                         </span>
                         <div class="clearfix"></div>
                         <span class="label label-info">
-                            <?php echo __("You are using"); ?>: <?php echo get_browser_name() . " on " . getOS(); ?> (<?php echo isMobile() ? "Mobile" : "PC"; ?>)
+                            <?php echo __("You are using"); ?>: <?php echo get_browser_name() . " " . __("on") . " " . getOS(); ?> (<?php echo isMobile() ? __("Mobile") : __("PC"); ?>)
                         </span>
                         <span class="label label-default">
                             <?php echo $_SERVER['HTTP_USER_AGENT']; ?>
