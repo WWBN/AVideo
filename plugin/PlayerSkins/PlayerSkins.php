@@ -135,12 +135,6 @@ class PlayerSkins extends PluginAbstract {
                 $js .= "<script>var PlayerSkinLogoTitle = '{$title}';</script>";
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/logo.js"));
                 //$js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/logo.js\"></script>";
-
-                PlayerSkins::getStartPlayerJS("if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
-    player.getChild('controlBar').addChild('Logo', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
-} else {
-    player.getChild('controlBar').addChild('Logo', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
-}");
             }
             
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
