@@ -72,6 +72,6 @@ if(!empty($video)){
     }
 	
 } else {
-	$siteTitle .= " :: " . __("Video Not Available");
+	$siteTitle .= (!empty($siteTitle) ? " :: " : "") . __("Video Not Available");
 }
 $siteTitle .= " :: " . $config->getWebSiteTitle();
