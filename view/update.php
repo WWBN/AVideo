@@ -22,7 +22,7 @@ if (!empty($_POST['updateFile'])) {
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Update"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

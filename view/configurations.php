@@ -11,7 +11,7 @@ require_once $global['systemRootPath'] . 'admin/functions.php';
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Configuration"); ?></title>
+        <title><?php echo __("Configuration"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         include $global['systemRootPath'] . 'view/configurations_head.php';

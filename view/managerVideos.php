@@ -24,7 +24,7 @@ if(!empty($_GET['iframe'])){
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Videos"); ?></title>
+        <title><?php echo __("Videos"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         include $global['systemRootPath'] . 'view/managerVideos_head.php';

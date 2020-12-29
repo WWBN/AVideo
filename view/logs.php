@@ -129,7 +129,7 @@ $outputText .= $collapsibleClose;
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Logs <?php echo date("Y-M-d H:i:s"); ?></title>
+        <title><?php echo __("Logs") . " " . date("Y-M-d H:i:s"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <link rel="stylesheet" href="<?php echo $global['webSiteRootURL']; ?>view/css/terminal.min.css" />
         <style>
             html {

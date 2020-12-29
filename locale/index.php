@@ -50,7 +50,7 @@ sort($vars);
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle();?></title>
+        <title><?php __("Translate AVideo"); ?> :: <?php echo $config->getWebSiteTitle();?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
 
