@@ -610,11 +610,13 @@ if (User::isAdmin()) {
                             <div class="col-md-10">
                                 <link rel="stylesheet" href="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.css">
                                 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
                                 <script>
                                     (function() {								
-                                        var head = document.getElementById("head"),
-                                            editor = CodeMirror.fromTextArea(head, {
-                                            lineNumbers: true
+                                        var head = document.getElementById("head");
+                                        var editor = CodeMirror.fromTextArea(head, {
+                                            lineNumbers: true,
+											mode: "htmlmixed"
                                         });
                                     })();
                                 </script>
