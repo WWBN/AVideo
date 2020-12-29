@@ -2592,9 +2592,9 @@ function siteMap() {
                 <loc>' . Video::getLink($video['id'], $video['clean_title']) . '</loc>
                 <video:video>
                     <video:thumbnail_loc>' . $img . '</video:thumbnail_loc>
-                    <video:title>' . str_replace('"', '', $video['title']) . '</video:title>
-                    <video:description><![CDATA[' . substr(strip_tags($description), 0, 2048) . ']]></video:description>
-                    <video:player_loc>' . htmlentities(parseVideos(Video::getLinkToVideo($videos_id))) . '</video:player_loc>
+                    <video:title><![CDATA[' . strip_tags($video['title']) . ']]></video:title>
+                    <video:description><![CDATA[' . (_substr(strip_tags(br2nl($description)), 0, 2048)) . ']]></video:description>
+                    <video:player_loc><![CDATA[' . (parseVideos(Video::getLinkToVideo($videos_id))) . ']]></video:player_loc>
                     <video:duration>' . $duration . '</video:duration>
                     <video:view_count>' . $video['views_count'] . '</video:view_count>
                     <video:publication_date>' . date("Y-m-d\TH:i:s", strtotime($video['created'])) . '+00:00</video:publication_date>
@@ -2613,27 +2613,30 @@ function siteMap() {
         _error_log("siteMap: pregreplace1 fail ");
         $newXML1 = $xml;
     }
-    $newXML2 = preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', $newXML1);
-    if (empty($newXML2)) {
-        _error_log("siteMap: pregreplace2 fail ");
-        $newXML2 = $newXML1;
+    if(!empty($advancedCustom->siteMapUTF8Fix)){
+        $newXML2 = preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', $newXML1);
+        if (empty($newXML2)) {
+            _error_log("siteMap: pregreplace2 fail ");
+            $newXML2 = $newXML1;
+        }
+        $newXML3 = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $newXML2);
+        if (empty($newXML3)) {
+            _error_log("siteMap: pregreplace3 fail ");
+            $newXML3 = $newXML2;
+        }
+        $newXML4 = preg_replace('/[\x00-\x1F\x7F]/', '', $newXML3);
+        if (empty($newXML4)) {
+            _error_log("siteMap: pregreplace4 fail ");
+            $newXML4 = $newXML3;
+        }
+        $newXML5 = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $newXML4);
+        if (empty($newXML5)) {
+            _error_log("siteMap: pregreplace5 fail ");
+            $newXML5 = $newXML4;
+        }
+    }else{
+        $newXML5 = $newXML1;
     }
-    $newXML3 = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $newXML2);
-    if (empty($newXML3)) {
-        _error_log("siteMap: pregreplace3 fail ");
-        $newXML3 = $newXML2;
-    }
-    $newXML4 = preg_replace('/[\x00-\x1F\x7F]/', '', $newXML3);
-    if (empty($newXML4)) {
-        _error_log("siteMap: pregreplace4 fail ");
-        $newXML4 = $newXML3;
-    }
-    $newXML5 = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $newXML4);
-    if (empty($newXML5)) {
-        _error_log("siteMap: pregreplace5 fail ");
-        $newXML5 = $newXML4;
-    }
-
     return $newXML5;
 }
 

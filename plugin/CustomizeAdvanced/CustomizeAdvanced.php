@@ -173,6 +173,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $o->value = "";
         $obj->videoNotFoundText = $o;
         $obj->siteMapRowsLimit = 100;
+        $obj->siteMapUTF8Fix = false;
         $obj->showPrivateVideosOnSitemap = false;
         $obj->enableOldPassHashCheck = true;
         $obj->disableHTMLDescription = false;
