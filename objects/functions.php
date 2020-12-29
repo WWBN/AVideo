@@ -3937,14 +3937,7 @@ function getSEOComplement($addAutoPrefix = true) {
     if (!empty($_GET['catName'])) {
         array_push($parts, $_GET['catName']);
     }
-		
-    if (!empty($_GET['page'])) {
-        $page = intval($_GET['page']);
-        if ($page > 1) {
-            array_push($parts, sprintf(__("Page %d"), $page));
-        }
-    }
-	
+			
     if (!empty($_GET['channelName'])) {
 		array_push($parts, $_GET['channelName']);
     }
@@ -3955,6 +3948,13 @@ function getSEOComplement($addAutoPrefix = true) {
 	
     if (!empty($_GET['showOnly'])) {
         array_push($parts, $_GET['showOnly']);
+    }
+	
+	if (!empty($_GET['page'])) {
+        $page = intval($_GET['page']);
+        if ($page > 1) {
+            array_push($parts, sprintf(__("Page %d"), $page));
+        }
     }
 			
 	$txt = implode($config->getPageTitleSeparator(), $parts);
