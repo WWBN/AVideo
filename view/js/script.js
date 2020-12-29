@@ -865,22 +865,37 @@ function avideoToast(msg) {
     $.toast(msg);
 }
 
+function avideoAlertAJAXHTML(url) {
+    modal.showPleaseWait();
+    $.ajax({
+        url: url,
+        success: function (response) {
+            avideoAlertText(response);
+            modal.hidePleaseWait();
+        }
+    });
+}
+
 function avideoAlertHTMLText(title, msg, type) {
     var span = document.createElement("span");
     span.innerHTML = msg;
     swal({
         title: title,
         content: span,
-        type: type,
         icon: type,
-        html: true,
-        closeModal: true
+        closeModal: true,
+        buttons: type?true:false,
     });
+}
+
+function avideoAlertText(msg) {
+    avideoAlert("", msg, '');
 }
 
 function avideoAlertInfo(msg) {
     avideoAlert("Info", msg, 'info');
 }
+
 function avideoAlertError(msg) {
     avideoAlert("Error", msg, 'error');
 }

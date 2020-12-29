@@ -534,7 +534,7 @@
                                                 <input type="number" step="1" id="views_count" class="form-control externalOptions" >
                                             </div>
                                             <?php
-                                        }else{
+                                        } else {
                                             ?><input type="hidden" id="views_count" value="-1"><?php
                                         }
                                         ?>
@@ -679,21 +679,21 @@
             <h2><?php echo __("How to setup the Youtube-Upload feature"); ?>:</h2>
             <ol>
                 <li>
-					<?php echo __("You need to enable"); ?>
+                    <?php echo __("You need to enable"); ?>
                     <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-info btn-xs"><?php echo __("Google Login"); ?></a> <?php echo __("and get the following information") . ": <strong>" . __("Google ID and Key") . "</strong>"; ?>
                 </li>
                 <li>
                     <?php echo __("Go to your"); ?> 
-					<a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("Google Console API Dashboard"); ?></a> 
-					<?php echo __("and enable the following API") . ": <strong>" . __("YouTube Data API") . " v3</strong>"; ?>
+                    <a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("Google Console API Dashboard"); ?></a> 
+                    <?php echo __("and enable the following API") . ": <strong>" . __("YouTube Data API") . " v3</strong>"; ?>
                 </li>
                 <li>
                     <?php echo __("In authorized credentials allow the following URIs redirection"); ?>:
-					<code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>
+                    <code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>
                 </li>
                 <li>
                     <?php echo __("You can find more help on the following documentation"); ?>: 
-					<a href="https://developers.google.com/youtube/v3/getting-started" class="btn btn-info btn-xs"  target="_blank" rel="noopener noreferrer"><?php echo __("YouTube Data API Overview"); ?></a>
+                    <a href="https://developers.google.com/youtube/v3/getting-started" class="btn btn-info btn-xs"  target="_blank" rel="noopener noreferrer"><?php echo __("YouTube Data API Overview"); ?></a>
                 </li>
             </ol>
 
@@ -718,47 +718,47 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
     <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
     <script>
-                                        tinymce.init({
-											language: "<?php echo $_SESSION['language']; ?>",
-                                            selector: '#inputDescription', // change this value according to your HTML
-                                            plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
-                                            //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
-                                            toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
-											menubar: 'edit insert view format table tools help', // remove 'file' menu as it's useless in our context
-                                            height: 400,
-                                            convert_urls: false,
-                                            images_upload_handler: function (blobInfo, success, failure) {
-                                                var xhr, formData;
-                                                if (!videos_id) {
-                                                    $('#inputTitle').val("Article automatically booked");
-                                                    saveVideo(false);
+                                            tinymce.init({
+                                                language: "<?php echo $_SESSION['language']; ?>",
+                                                selector: '#inputDescription', // change this value according to your HTML
+                                                plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
+                                                //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
+                                                toolbar: 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment',
+                                                menubar: 'edit insert view format table tools help', // remove 'file' menu as it's useless in our context
+                                                height: 400,
+                                                convert_urls: false,
+                                                images_upload_handler: function (blobInfo, success, failure) {
+                                                    var xhr, formData;
+                                                    if (!videos_id) {
+                                                        $('#inputTitle').val("Article automatically booked");
+                                                        saveVideo(false);
+                                                    }
+                                                    xhr = new XMLHttpRequest();
+                                                    xhr.withCredentials = false;
+                                                    xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
+                                                    xhr.onload = function () {
+                                                        var json;
+                                                        if (xhr.status != 200) {
+                                                            failure('HTTP Error: ' + xhr.status);
+                                                            return;
+                                                        }
+
+                                                        json = xhr.responseText;
+                                                        json = JSON.parse(json);
+                                                        if (json.error === false && json.url) {
+                                                            success(json.url);
+                                                        } else if (json.msg) {
+                                                            avideoAlert("<?php echo __("Sorry!"); ?>", json.msg, "error");
+                                                        } else {
+                                                            avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
+                                                        }
+
+                                                    };
+                                                    formData = new FormData();
+                                                    formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+                                                    xhr.send(formData);
                                                 }
-                                                xhr = new XMLHttpRequest();
-                                                xhr.withCredentials = false;
-                                                xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
-                                                xhr.onload = function () {
-                                                    var json;
-                                                    if (xhr.status != 200) {
-                                                        failure('HTTP Error: ' + xhr.status);
-                                                        return;
-                                                    }
-
-                                                    json = xhr.responseText;
-                                                    json = JSON.parse(json);
-                                                    if (json.error === false && json.url) {
-                                                        success(json.url);
-                                                    } else if (json.msg) {
-                                                        avideoAlert("<?php echo __("Sorry!"); ?>", json.msg, "error");
-                                                    } else {
-                                                        avideoAlert("<?php echo __("Error!"); ?>", "<?php echo __("Unknown Error!"); ?>", "error");
-                                                    }
-
-                                                };
-                                                formData = new FormData();
-                                                formData.append('file_data', blobInfo.blob(), blobInfo.filename());
-                                                xhr.send(formData);
-                                            }
-                                        });
+                                            });
     </script>
     <?php
 }
@@ -1791,7 +1791,7 @@ if (CustomizeUser::canDownloadVideos()) {
                             var downloadURL = addGetParam(url, 'download', 1);
                             var pattern = /^m3u8/i;
                             if (pattern.test(k) === true) {
-                                downloadURL = addGetParam(downloadURL, 'title', row.clean_title+'_'+k+'.mp4');
+                                downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '_' + k + '.mp4');
                                 download += '<div class="btn-group  btn-group-justified">';
                                 download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
                                 download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
@@ -1801,6 +1801,10 @@ if (CustomizeUser::canDownloadVideos()) {
                             }
 
                         }
+    <?php
+} else if(!empty ($config->getAllow_download()) || User::isAdmin()){
+    ?>
+                        download = '<button type="button" class="btn btn-default btn-xs btn-block" onclick="whyICannotDownload(' + row.id + ');"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Why I cannot download?")); ?>"><span class="fa-stack" style="font-size: 0.8em;"><i class="fa fa-download fa-stack-1x"></i><i class="fas fa-ban fa-stack-2x" style="color:Tomato"></i></span></button>';
     <?php
 }
 ?>
@@ -2205,4 +2209,7 @@ if (!empty($_GET['link'])) {
         }, 500);
     });
 
+    function whyICannotDownload(videos_id) {
+        avideoAlertAJAXHTML(webSiteRootURL + "view/downloadChecker.php?videos_id=" + videos_id);
+    }
 </script>
