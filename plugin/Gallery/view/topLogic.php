@@ -70,5 +70,8 @@ if(!empty($video)){
         $siteTitle .= " :: ".__("Home");
         $metaDescription .= " :: ".__("Home");
     }
-	$siteTitle .= " :: " . $config->getWebSiteTitle();
+	
+} else {
+	$siteTitle .= " :: " . __("Video Not Available");
 }
+$siteTitle .= " :: " . $config->getWebSiteTitle();
