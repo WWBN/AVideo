@@ -3959,7 +3959,7 @@ function getSEOComplement($addAutoPrefix = true) {
     }
 			
 	$txt = implode($config->getPageTitleSeparator(), $parts);
-	$txt = ($addAutoPrefix ? $config->getPageTitleSeparator() : "") . $txt;
+	$txt = (!empty($txt) && $addAutoPrefix ? $config->getPageTitleSeparator() : "") . $txt;
     return htmlentities(strip_tags($txt));
 }
 
