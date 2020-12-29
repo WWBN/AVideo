@@ -610,14 +610,18 @@ if (User::isAdmin()) {
                             <div class="col-md-10">
                                 <link rel="stylesheet" href="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.css">
                                 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/xml/xml.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/css/css.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/javascript/javascript.js"></script>
                                 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
                                 <script>
-                                    (function() {								
-                                        var head = document.getElementById("head");
-                                        var editor = CodeMirror.fromTextArea(head, {
-                                            lineNumbers: true,
-											mode: "htmlmixed"
-                                        });
+                                    (function($) {
+										$(document).ready(function() {
+                                            var editor = CodeMirror.fromTextArea(document.getElementById("head"), {
+                                                lineNumbers: true,
+											    mode: "htmlmixed"
+                                            });
+										});
                                     })();
                                 </script>
                                 <textarea id="head" class="form-control" type="text" rows="20" ><?php echo $config->getHead(); ?></textarea>
