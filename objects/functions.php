@@ -3925,6 +3925,14 @@ function ucname($str) {
 	return $str;
 }
 
+function sanitize_input($input) {
+	return htmlentities(strip_tags($input));
+}
+
+function sanitize_array_item(&$item, $key) {
+    $item = sanitize_input($item);
+}
+
 function getSEOComplement($addAutoPrefix = true, $allowedTypes = null) {
 	global $config;
 	
@@ -3959,10 +3967,13 @@ function getSEOComplement($addAutoPrefix = true, $allowedTypes = null) {
             array_push($parts, sprintf(__("Page %d"), $page));
         }
     }
-			
+
+	array_walk($parts, 'sanitize_array_item');
+		
 	$txt = implode($config->getPageTitleSeparator(), $parts);
 	$txt = (!empty($txt) && $addAutoPrefix ? $config->getPageTitleSeparator() : "") . $txt;
-    return htmlentities(strip_tags($txt));
+	
+	return $txt;
 }
 
 function getCurrentPage() {
