@@ -3925,7 +3925,7 @@ function ucname($str) {
 	return $str;
 }
 
-function getSEOComplement($addAutoPrefix = true) {
+function getSEOComplement($addAutoPrefix = true, $allowedTypes = null) {
 	global $config;
 	
     $parts = array();
@@ -3941,10 +3941,12 @@ function getSEOComplement($addAutoPrefix = true) {
     if (!empty($_GET['channelName'])) {
 		array_push($parts, $_GET['channelName']);
     }
-	
-	// We don't want $_GET['type'] to exclude the 'all' value...
-    if (!empty($_SESSION['type'])) {
-        array_push($parts, __(ucname($_SESSION['type'])));
+		
+    if (!empty($_GET['type'])) {
+		$type = $_GET['type'];			
+		if (empty($allowedTypes) || in_array(strtolower($type), $allowedTypes)) {
+			array_push($parts, __(ucname($type)));
+		}
     }
 	
     if (!empty($_GET['showOnly'])) {
