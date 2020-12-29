@@ -617,10 +617,19 @@ if (User::isAdmin()) {
                                 <script>
                                     (function($) {
 										$(document).ready(function() {
-                                            var editor = CodeMirror.fromTextArea(document.getElementById("head"), {
-                                                lineNumbers: true,
-											    mode: "htmlmixed"
-                                            });
+
+											var editor,
+											    head = document.getElementById("head");
+
+											$("li a[href='#tabHead']").on("click", function() {
+												if (!editor && head) {
+													editor = CodeMirror.fromTextArea(head, {
+														lineNumbers: true,
+														mode: "htmlmixed"
+													});
+												}
+											});
+
 										});
                                     })(jQuery);
                                 </script>
