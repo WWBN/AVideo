@@ -67,8 +67,8 @@ if(!empty($video)){
     $metaDescription = " ".$video['id'];
     // make sure the www has a different title and description than non www
     if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
-        $siteTitle .= ": ".__("Home");
-        $metaDescription .= ": ".__("Home");
+        $siteTitle .= " :: ".__("Home");
+        $metaDescription .= " :: ".__("Home");
     }
 	$siteTitle .= " :: " . $config->getWebSiteTitle();
 }
