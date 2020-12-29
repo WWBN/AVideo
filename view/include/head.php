@@ -3,6 +3,9 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 $head = AVideoPlugin::getHeadCode();
 $custom = "The Best YouTube Clone Ever - AVideo";
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+if(empty($advancedCustom)){
+    $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+}
 
 $custom = array();
 
