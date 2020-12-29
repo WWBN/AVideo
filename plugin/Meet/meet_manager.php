@@ -47,11 +47,11 @@ $userCredentials = User::loginFromRequestToGet();
                         </select>
                     </div>
                     <div class="form-group col-sm-6">
-                        <label for="publicNew"><?php echo __("Public"); ?>:</label>
+                        <label for="publicNew"><?php echo __("Public"); ?>/<?php echo __("Private"); ?>:</label>
                         <select class="form-control input-sm" name="public" id="publicNew">
                             <option value="2"><?php echo __("Public"); ?></option>
-                            <option value="1"><?php echo __("Logged Users Only"); ?></option>
-                            <option value="0"><?php echo __("Specific User Groups"); ?></option>
+                            <option value="1">(<?php echo __("Private"); ?>) <?php echo __("Logged Users Only"); ?></option>
+                            <option value="0">(<?php echo __("Private"); ?>) <?php echo __("Specific User Groups"); ?></option>
                         </select>
 
                         <div class="publicNewOption" style="display: none; overflow: hidden;">
