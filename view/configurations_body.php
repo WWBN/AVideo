@@ -623,10 +623,12 @@ if (User::isAdmin()) {
 
 											$("li a[href='#tabHead']").on("click", function() {
 												if (!editor && head) {
-													editor = CodeMirror.fromTextArea(head, {
-														lineNumbers: true,
-														mode: "htmlmixed"
-													});
+													setTimeout(function() {
+														editor = CodeMirror.fromTextArea(head, {
+															lineNumbers: true,
+															mode: "htmlmixed"
+														})
+													}, 200);
 												}
 											});
 
