@@ -501,7 +501,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 	
 	function getPageTitleSeparator() {
-		define("PAGE_TITLE_SEPARATOR", "::"); // This is ready to be configurable, if needed
+		define("PAGE_TITLE_SEPARATOR", "&middot;"); // This is ready to be configurable, if needed
 		return " " . PAGE_TITLE_SEPARATOR . " ";
 	}
 
