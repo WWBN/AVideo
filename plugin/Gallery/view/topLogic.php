@@ -62,19 +62,18 @@ if(!empty($video)){
         $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
     }
     $contentSearchFound = false;
-    
-	// for SEO to not rise an error of duplicated title or description of same pages with and without last slash	
+	
+	array_push($siteTitle, __("Home"));
 	array_push($siteTitle, getSEOComplement(false));
-	
-    $metaDescription = $video['id'];
-    // make sure the www has a different title and description than non www
-    if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
-        array_push($siteTitle, __("Home"));
-        $metaDescription .= $config->getPageTitleSeparator() . __("Home");
-    }
-	
+
+	$metaDescription = $video['id'];
 } else {
 	array_push($siteTitle, __("Video Not Available"));
+	array_push($siteTitle, __("Home"));
+	
+	$metaDescription = __("Video Not Available");
 }
 array_push($siteTitle, $config->getWebSiteTitle());
+$metaDescription .= $config->getPageTitleSeparator() . __("Home");
+
 $siteTitle = implode($config->getPageTitleSeparator(), $siteTitle);
