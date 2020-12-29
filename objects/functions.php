@@ -3937,14 +3937,13 @@ function getSEOComplement($addAutoPrefix = true) {
     if (!empty($_GET['catName'])) {
         array_push($parts, $_GET['catName']);
     }
-	
-	// This seems to be unused now
-    /*if (!empty($_GET['page'])) {
+		
+    if (!empty($_GET['page'])) {
         $page = intval($_GET['page']);
         if ($page > 1) {
-            array_push($parts, " / {$page}");
+            array_push($parts, sprintf(__("Page %d"), $page));
         }
-    }*/
+    }
 	
     if (!empty($_GET['channelName'])) {
 		array_push($parts, $_GET['channelName']);
