@@ -19,7 +19,7 @@ foreach ($tags as $value) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("User"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("My Account"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -78,7 +78,9 @@ foreach ($tags as $value) {
                                         <hr>
                                         <div class="col-md-12">
                                             <center>
-                                                <button type="submit" class="btn btn-primary btn-block btn-lg" ><?php echo __("Save"); ?> <span class="fa fa-save"></span></button>
+                                                <button type="submit" class="btn btn-primary btn-block btn-lg">
+													<span class="fa fa-save"></span> <?php echo __("Save"); ?>
+												</button>
                                             </center>
                                         </div>
                                     </div>
