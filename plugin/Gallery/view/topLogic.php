@@ -65,7 +65,11 @@ if(!empty($video)){
 	
 	array_push($siteTitle, __("Home"));
 	
-	$seoComplement = getSEOComplement(false); // false = don't add a prefix, it's already handled here below by the implode() func
+	// don't add a prefix for SEO, it's already handled here below by the implode() func	
+	$seoComplement = getSEOComplement(array(
+		"addAutoPrefix" => false,
+		"addCategory" => false
+	));
 	if (!empty($seoComplement)) {
 		array_push($siteTitle, $seoComplement);
 	}

@@ -3933,8 +3933,12 @@ function sanitize_array_item(&$item, $key) {
     $item = sanitize_input($item);
 }
 
-function getSEOComplement($addAutoPrefix = true, $allowedTypes = null) {
+function getSEOComplement($parameters = array()) {
     global $config;
+	
+	$allowedTypes = !empty($parameters["allowedTypes"]) ? $parameters["allowedTypes"] : null;
+	$addAutoPrefix = !empty($parameters["addAutoPrefix"]) ? $parameters["addAutoPrefix"] : true;
+	$addCategory = !empty($parameters["addCategory"]) ? $parameters["addCategory"] : true;
 
     $parts = array();
 
@@ -3942,7 +3946,7 @@ function getSEOComplement($addAutoPrefix = true, $allowedTypes = null) {
         array_push($parts, __("Error"));
     }
 
-    if (!empty($_GET['catName'])) {
+    if ($addCategory && !empty($_GET['catName'])) {
         array_push($parts, $_GET['catName']);
     }
 

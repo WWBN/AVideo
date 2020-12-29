@@ -325,7 +325,7 @@ $metaDescription = " {$video['id']}";
 // make sure the title tag does not have more then 70 chars
 $titleTag = $video['title'];
 $titleTag = (strlen($titleTag) > 50) ? (substr($titleTag, 0, 48) . " &hellip;") : $titleTag;
-$titleTag .= getSEOComplement(true, array("audio", "video", "pdf")) . $config->getPageTitleSeparator() . $config->getWebSiteTitle();
+$titleTag .= getSEOComplement(array("allowedTypes" => array("audio", "video", "pdf"))) . $config->getPageTitleSeparator() . $config->getWebSiteTitle();
 $titleTag = (strlen($titleTag) > 70) ? (substr($titleTag, 0, 68) . " &hellip;") : $titleTag;
 
 if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
