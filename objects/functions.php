@@ -3926,12 +3926,10 @@ function ucname($str) {
 }
 
 function getSEOComplement($addAutoPrefix = true) {
+	global $config;
+	
     $parts = array();
-	
-	if ($addAutoPrefix) {
-		array_push($parts, $config->getPageTitleSeparator());
-	}
-	
+		
 	if (!empty($_GET['error'])) {
         array_push($parts, __("Error"));
     }
@@ -3960,7 +3958,8 @@ function getSEOComplement($addAutoPrefix = true) {
         array_push($parts, $_GET['showOnly']);
     }
 			
-	$txt = implode($config->getPageTitleSeparator(), $parts);	
+	$txt = implode($config->getPageTitleSeparator(), $parts);
+	$txt = ($addAutoPrefix ? $config->getPageTitleSeparator() : "") . $txt;
     return htmlentities(strip_tags($txt));
 }
 
