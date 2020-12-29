@@ -3935,10 +3935,10 @@ function sanitize_array_item(&$item, $key) {
 
 function getSEOComplement($parameters = array()) {
     global $config;
-	
-	$allowedTypes = !empty($parameters["allowedTypes"]) ? $parameters["allowedTypes"] : null;
-	$addAutoPrefix = !empty($parameters["addAutoPrefix"]) ? $parameters["addAutoPrefix"] : true;
-	$addCategory = !empty($parameters["addCategory"]) ? $parameters["addCategory"] : true;
+
+    $allowedTypes = isset($parameters["allowedTypes"]) ? $parameters["allowedTypes"] : null;
+    $addAutoPrefix = isset($parameters["addAutoPrefix"]) ? $parameters["addAutoPrefix"] : true;
+    $addCategory = isset($parameters["addCategory"]) ? $parameters["addCategory"] : true;
 
     $parts = array();
 
