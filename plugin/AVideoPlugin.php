@@ -1076,6 +1076,13 @@ class AVideoPlugin {
     }
 
     public static function showAds($videos_id) {
+        global $_showAds;
+        if(!isset($_showAds)){
+            $_showAds = array();
+        }
+        if(isset($_showAds[$videos_id])){
+            return $_showAds[$videos_id];
+        }
         $plugins = Plugin::getAllEnabled();
         $resp = true;
         foreach ($plugins as $value) {
@@ -1085,11 +1092,13 @@ class AVideoPlugin {
                 $showAds = $p->showAds($videos_id);
                 if (!$showAds) {
                     _error_log("showAds: {$value['dirName']} said NOT to show ads on {$videos_id}");
+                    $_showAds[$videos_id] = false;
                     return false;
                 }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
+        $_showAds[$videos_id] = $resp;
         return $resp;
     }
 
