@@ -64,7 +64,11 @@ if(!empty($video)){
     $contentSearchFound = false;
 	
 	array_push($siteTitle, __("Home"));
-	array_push($siteTitle, getSEOComplement(false));
+	
+	$seoComplement = getSEOComplement(false); // false = don't add a prefix, it's already handled here below by the implode() func
+	if (!empty($seoComplement)) {
+		array_push($siteTitle, $seoComplement);
+	}
 
 	$metaDescription = $video['id'];
 } else {
