@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
-$siteTitle = "";
+$siteTitle = array();
 
 $obj = AVideoPlugin::getObjectData("Gallery");
 if (!empty($_GET['type'])) {
@@ -24,7 +24,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
 if (!empty($_GET['catName'])) {
     $currentCat = Category::getCategoryByName($_GET['catName']);
-    $siteTitle = $currentCat['name'];
+    array_push($siteTitle, $currentCat['name']);
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -62,16 +62,19 @@ if(!empty($video)){
         $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
     }
     $contentSearchFound = false;
-    // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
-    $siteTitle .= getSEOComplement();
-    $metaDescription = " ".$video['id'];
+    
+	// for SEO to not rise an error of duplicated title or description of same pages with and without last slash	
+	array_push($siteTitle, getSEOComplement(false));
+	
+    $metaDescription = $video['id'];
     // make sure the www has a different title and description than non www
     if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
-        $siteTitle .= $config->getPageTitleSeparator() . __("Home");
+        array_push($siteTitle, __("Home"));
         $metaDescription .= $config->getPageTitleSeparator() . __("Home");
     }
 	
 } else {
-	$siteTitle .= (!empty($siteTitle) ? $config->getPageTitleSeparator() : "") . __("Video Not Available");
+	array_push($siteTitle, __("Video Not Available"));
 }
-$siteTitle .= $config->getPageTitleSeparator() . $config->getWebSiteTitle();
+array_push($siteTitle, $config->getWebSiteTitle());
+$siteTitle = implode($config->getPageTitleSeparator(), $siteTitle);

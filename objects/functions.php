@@ -3914,38 +3914,53 @@ function URLHasLastSlash() {
     return hasLastSlash($_SERVER["REQUEST_URI"]);
 }
 
-function getSEOComplement() {
-    $txt = "";
-    if (!empty($_GET['catName'])) {
-        $txt .= " {$_GET['catName']}";
+function ucname($str) {
+	$str = ucwords(strtolower($str));
+
+	foreach(array('\'', '-') as $delim) {
+	if (strpos($str, $delim) !== false) {
+			$str = implode($delim, array_map('ucfirst', explode($delim, $str)));
+		}
+	}
+	return $str;
+}
+
+function getSEOComplement($addAutoPrefix = true) {
+    $parts = array();
+	
+	if ($addAutoPrefix) {
+		array_push($parts, $config->getPageTitleSeparator());
+	}
+	
+	if (!empty($_GET['error'])) {
+        array_push($parts, __("Error"));
     }
-    if (!empty($_GET['page'])) {
+	
+    if (!empty($_GET['catName'])) {
+        array_push($parts, $_GET['catName']);
+    }
+	
+	// This seems to be unused now
+    /*if (!empty($_GET['page'])) {
         $page = intval($_GET['page']);
         if ($page > 1) {
-            $txt .= " / {$page}";
+            array_push($parts, " / {$page}");
         }
-    }
+    }*/
+	
     if (!empty($_GET['channelName'])) {
-        $txt .= " {$_GET['channelName']}";
+		array_push($parts, $_GET['channelName']);
     }
+	
     if (!empty($_GET['type'])) {
-        $txt .= " {$_GET['type']}";
+        array_push($parts, __(ucname($_GET['type'])));
     }
+	
     if (!empty($_GET['showOnly'])) {
-        $txt .= " {$_GET['showOnly']}";
+        array_push($parts, $_GET['showOnly']);
     }
-    if (!empty($_GET['error'])) {
-        $txt .= " " . __("Error");
-    }
-    if (URLHasLastSlash()) {
-        $txt .= "‧";
-    }
-    if (strrpos($_SERVER['HTTP_HOST'], 'www.') === false) {
-        $txt = "‧{$txt}";
-    }
-    if (!empty($_GET['error'])) {
-        $txt .= "‧‧";
-    }
+			
+	$txt = implode($config->getPageTitleSeparator(), $parts);	
     return htmlentities(strip_tags($txt));
 }
 
