@@ -3942,8 +3942,9 @@ function getSEOComplement($addAutoPrefix = true) {
 		array_push($parts, $_GET['channelName']);
     }
 	
-    if (!empty($_GET['type'])) {
-        array_push($parts, __(ucname($_GET['type'])));
+	// We don't want $_GET['type'] to exclude the 'all' value...
+    if (!empty($_SESSION['type'])) {
+        array_push($parts, __(ucname($_SESSION['type'])));
     }
 	
     if (!empty($_GET['showOnly'])) {
