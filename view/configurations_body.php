@@ -622,7 +622,7 @@ if (User::isAdmin()) {
 											    mode: "htmlmixed"
                                             });
 										});
-                                    })();
+                                    })(jQuery);
                                 </script>
                                 <textarea id="head" class="form-control" type="text" rows="20" ><?php echo $config->getHead(); ?></textarea>
                                 <small><?php echo __('For Google Analytics code'); ?>: <a href='https://analytics.google.com'  target="_blank" rel="noopener noreferrer">https://analytics.google.com</a></small><br>
