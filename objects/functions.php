@@ -3926,7 +3926,7 @@ function ucname($str) {
 }
 
 function sanitize_input($input) {
-	return htmlentities(strip_tags($input));
+    return htmlentities(strip_tags($input));
 }
 
 function sanitize_array_item(&$item, $key) {
@@ -3934,46 +3934,47 @@ function sanitize_array_item(&$item, $key) {
 }
 
 function getSEOComplement($addAutoPrefix = true, $allowedTypes = null) {
-	global $config;
-	
+    global $config;
+
     $parts = array();
-		
-	if (!empty($_GET['error'])) {
+
+    if (!empty($_GET['error'])) {
         array_push($parts, __("Error"));
     }
-	
+
     if (!empty($_GET['catName'])) {
         array_push($parts, $_GET['catName']);
     }
-			
+
     if (!empty($_GET['channelName'])) {
-		array_push($parts, $_GET['channelName']);
+        array_push($parts, $_GET['channelName']);
     }
-		
+
     if (!empty($_GET['type'])) {
-		$type = $_GET['type'];			
-		if (empty($allowedTypes) || in_array(strtolower($type), $allowedTypes)) {
-			array_push($parts, __(ucname($type)));
-		}
+        $type = $_GET['type'];
+        if (empty($allowedTypes) || in_array(strtolower($type), $allowedTypes)) {
+            array_push($parts, __(ucname($type)));
+        }
     }
-	
+
     if (!empty($_GET['showOnly'])) {
         array_push($parts, $_GET['showOnly']);
     }
-	
-	if (!empty($_GET['page'])) {
+
+    if (!empty($_GET['page'])) {
         $page = intval($_GET['page']);
         if ($page > 1) {
             array_push($parts, sprintf(__("Page %d"), $page));
         }
     }
 
-	array_walk($parts, 'sanitize_array_item');
-		
-	$txt = implode($config->getPageTitleSeparator(), $parts);
-	$txt = (!empty($txt) && $addAutoPrefix ? $config->getPageTitleSeparator() : "") . $txt;
-	
-	return $txt;
+    // Cleaning all entries in the $parts array
+    array_walk($parts, 'sanitize_array_item');
+
+    $txt = implode($config->getPageTitleSeparator(), $parts);
+    $txt = (!empty($txt) && $addAutoPrefix ? $config->getPageTitleSeparator() : "") . $txt;
+
+    return $txt;
 }
 
 function getCurrentPage() {
