@@ -11,7 +11,7 @@ if (empty($plugin) || !$plugin->canAddLinks()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Live Links"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Live Links") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

@@ -13,7 +13,7 @@ require_once $global['systemRootPath'] . 'objects/comment.php';
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Comments"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Comments") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
 
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';

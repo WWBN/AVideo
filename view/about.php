@@ -8,7 +8,7 @@ $metaDescription = "About Page";
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo __("About") . getSEOComplement(); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("About") . getSEOComplement() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

@@ -12,7 +12,7 @@ if (!Permissions::canAdminUsers()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Users"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Users") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         include $global['systemRootPath'] . 'view/managerUsers_head.php';

@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo __("Help"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Help") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

@@ -67,11 +67,11 @@ if(!empty($video)){
     $metaDescription = " ".$video['id'];
     // make sure the www has a different title and description than non www
     if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
-        $siteTitle .= " :: ".__("Home");
-        $metaDescription .= " :: ".__("Home");
+        $siteTitle .= $config->getPageTitleSeparator() . __("Home");
+        $metaDescription .= $config->getPageTitleSeparator() . __("Home");
     }
 	
 } else {
-	$siteTitle .= (!empty($siteTitle) ? " :: " : "") . __("Video Not Available");
+	$siteTitle .= (!empty($siteTitle) ? $config->getPageTitleSeparator() : "") . __("Video Not Available");
 }
-$siteTitle .= " :: " . $config->getWebSiteTitle();
+$siteTitle .= $config->getPageTitleSeparator() . $config->getWebSiteTitle();

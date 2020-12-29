@@ -37,7 +37,7 @@ $metaDescription = __("Trending");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Trending") . getSEOComplement(); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Trending") . getSEOComplement() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
     </head>

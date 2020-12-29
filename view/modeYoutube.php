@@ -326,8 +326,8 @@ $metaDescription = " {$video['id']}";
 $titleTag = $video['title'];
 $titleTag = (strlen($titleTag) > 50) ? (substr($titleTag, 0, 48) . " &hellip;") : $titleTag;
 $seoComplement = getSEOComplement();
-$titleTag .= !empty($seoComplement) ? " :: " . $seoComplement : "";
-$titleTag .= " :: " . $config->getWebSiteTitle();
+$titleTag .= !empty($seoComplement) ? $config->getPageTitleSeparator() . $seoComplement : "";
+$titleTag .= $config->getPageTitleSeparator() . $config->getWebSiteTitle();
 $titleTag = (strlen($titleTag) > 70) ? (substr($titleTag, 0, 68) . " &hellip;") : $titleTag;
 
 if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {

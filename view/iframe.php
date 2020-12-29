@@ -63,7 +63,7 @@ if(empty($iframeURL)){
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $titleTag . " :: " . $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $titleTag . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

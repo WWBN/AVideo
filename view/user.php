@@ -19,7 +19,7 @@ foreach ($tags as $value) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("My Account"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("My Account") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
