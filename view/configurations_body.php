@@ -627,8 +627,11 @@ if (User::isAdmin()) {
 														editor = CodeMirror.fromTextArea(head, {
 															lineNumbers: true,
 															mode: "htmlmixed"
-														})
-													}, 200);
+														});																											
+														editor.on('change', function() {
+															editor.save();
+														});
+													}, 10);
 												}
 											});
 
