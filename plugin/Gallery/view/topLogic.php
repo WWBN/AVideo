@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
-$siteTitle = $config->getWebSiteTitle();
+$siteTitle = "";
 
 $obj = AVideoPlugin::getObjectData("Gallery");
 if (!empty($_GET['type'])) {
@@ -24,7 +24,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
 if (!empty($_GET['catName'])) {
     $currentCat = Category::getCategoryByName($_GET['catName']);
-    $siteTitle = "{$currentCat['name']}";
+    $siteTitle = $currentCat['name'];
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -70,4 +70,5 @@ if(!empty($video)){
         $siteTitle .= ": ".__("Home");
         $metaDescription .= ": ".__("Home");
     }
+	$siteTitle .= " :: " . $config->getWebSiteTitle();
 }
