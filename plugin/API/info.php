@@ -20,7 +20,7 @@ $reflector = new ReflectionClass('API');
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: API</title>
+        <title><?php echo __("API"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

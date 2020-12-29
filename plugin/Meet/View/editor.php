@@ -5,7 +5,7 @@ AVideoPlugin::loadPlugin("Meet");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Meet</title>
+        <title><?php echo __("Meet"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

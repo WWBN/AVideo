@@ -17,7 +17,7 @@ $groups = UserGroups::getAllUsersGroups();
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Top Menu</title>
+        <title><?php echo __("Top Menu"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

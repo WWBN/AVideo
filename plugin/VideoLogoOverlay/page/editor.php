@@ -10,7 +10,7 @@ $o = AVideoPlugin::getObjectData("VideoLogoOverlay");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Customize</title>
+        <title><?php echo __("Customize"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

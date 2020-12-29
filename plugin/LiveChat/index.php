@@ -5,7 +5,7 @@ require_once '../../videos/configuration.php';
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Live - <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Live Chat"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

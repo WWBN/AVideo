@@ -16,7 +16,7 @@ $wallet->setUsers_id(User::getId());
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Add Funds</title>
+        <title><?php echo __("Configuration"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

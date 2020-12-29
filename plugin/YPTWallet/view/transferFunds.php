@@ -12,7 +12,7 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Transfer Funds</title>
+        <title><?php echo __("Transfer Funds"); ?> :: <?php echo $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
