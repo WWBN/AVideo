@@ -22,7 +22,7 @@ if (!empty($input)) {
 TimeLogEnd($timeLog, __LINE__);
 
 require_once $global['systemRootPath'] . 'videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
+require_once $global['systemRootPath'] . 'objects/hybridauth/hybridauth/src/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
@@ -139,7 +139,7 @@ if (!empty($_GET['type'])) {
     }else{
         document.location = "<?php echo $location; ?>";
     }
-</script>    
+</script>
     <?php
     return;
 }
@@ -235,7 +235,7 @@ $object->streamKey = "";
 if ($object->isLogged) {
     $timeLog2 = __FILE__."::Is Logged ";
     TimeLogStart($timeLog2);
-    
+
     //_error_log("login.json.php get Live");
     $p = AVideoPlugin::loadPluginIfEnabled("Live");
     if (!empty($p)) {
