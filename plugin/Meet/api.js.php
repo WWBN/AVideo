@@ -92,7 +92,17 @@ if (empty($meet_schedule_id)) {
                 channelLastN: 4,
                 startVideoMuted: 10,
                 startAudioMuted: 10,
-                disableInviteFunctions: true
+                disableInviteFunctions: true,
+                DEFAULT_LOGO_URL: webSiteRootURL+"videos/userPhoto/logo.png",
+                JITSI_WATERMARK_LINK: webSiteRootURL,
+                DEFAULT_LOGO_URL: webSiteRootURL+"videos/userPhoto/logo.png",
+                DEFAULT_REMOTE_DISPLAY_NAME:webSiteRootURL,
+                JITSI_WATERMARK_LINK:webSiteRootURL,
+                LIVE_STREAMING_HELP_LINK:webSiteRootURL,
+                PROVIDER_NAME:webSiteRootURL,
+                SUPPORT_URL:webSiteRootURL,
+                BRAND_WATERMARK_LINK:webSiteRootURL,
+
             }
 
         };
