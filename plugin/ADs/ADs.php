@@ -146,4 +146,8 @@ class ADs extends PluginAbstract {
         }
         return "<script> window.abkw = 'home-page'; </script>";
     }
+    
+    static function giveGoogleATimeout($adCode){
+        return str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "clearTimeout(adsbygoogleTimeout); adsbygoogleTimeout = setTimeout(function () {(adsbygoogle = window.adsbygoogle || []).push({});},3000);", trim($adCode));
+    }
 }

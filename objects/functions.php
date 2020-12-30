@@ -2745,9 +2745,9 @@ function getAdsLeaderBoardBigVideo() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {
         if (isMobile()) {
-            return trim($ad->leaderBoardBigVideoMobile->value);
+            return ADs::giveGoogleATimeout($ad->leaderBoardBigVideoMobile->value);
         } else {
-            return trim($ad->leaderBoardBigVideo->value);
+            return ADs::giveGoogleATimeout($ad->leaderBoardBigVideo->value);
         }
     }
 }
@@ -2756,9 +2756,9 @@ function getAdsLeaderBoardTop() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {
         if (isMobile()) {
-            return $ad->leaderBoardTopMobile->value;
+            return ADs::giveGoogleATimeout($ad->leaderBoardTopMobile->value);
         } else {
-            return $ad->leaderBoardTop->value;
+            return ADs::giveGoogleATimeout($ad->leaderBoardTop->value);
         }
     }
 }
@@ -2767,9 +2767,9 @@ function getAdsChannelLeaderBoardTop() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {
         if (isMobile()) {
-            return $ad->channelLeaderBoardTopMobile->value;
+            return ADs::giveGoogleATimeout($ad->channelLeaderBoardTopMobile->value);
         } else {
-            return $ad->channelLeaderBoardTop->value;
+            return ADs::giveGoogleATimeout($ad->channelLeaderBoardTop->value);
         }
     }
 }
@@ -2778,9 +2778,9 @@ function getAdsLeaderBoardTop2() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {
         if (isMobile()) {
-            return $ad->leaderBoardTopMobile2->value;
+            return ADs::giveGoogleATimeout($ad->leaderBoardTopMobile2->value);
         } else {
-            return $ad->leaderBoardTop2->value;
+            return ADs::giveGoogleATimeout($ad->leaderBoardTop2->value);
         }
     }
 }
@@ -2789,9 +2789,9 @@ function getAdsLeaderBoardMiddle() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {
         if (isMobile()) {
-            return $ad->leaderBoardMiddleMobile->value;
+            return ADs::giveGoogleATimeout($ad->leaderBoardMiddleMobile->value);
         } else {
-            return $ad->leaderBoardMiddle->value;
+            return ADs::giveGoogleATimeout($ad->leaderBoardMiddle->value);
         }
     }
 }
@@ -2800,9 +2800,9 @@ function getAdsLeaderBoardFooter() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {
         if (isMobile()) {
-            return $ad->leaderBoardFooterMobile->value;
+            return ADs::giveGoogleATimeout($ad->leaderBoardFooterMobile->value);
         } else {
-            return $ad->leaderBoardFooter->value;
+            return ADs::giveGoogleATimeout($ad->leaderBoardFooter->value);
         }
     }
 }
@@ -2811,9 +2811,9 @@ function getAdsSideRectangle() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     if (!empty($ad)) {
         if (isMobile()) {
-            return $ad->sideRectangle->value;
+            return ADs::giveGoogleATimeout($ad->sideRectangle->value);
         } else {
-            return $ad->sideRectangle->value;
+            return ADs::giveGoogleATimeout($ad->sideRectangle->value);
         }
     }
 }
