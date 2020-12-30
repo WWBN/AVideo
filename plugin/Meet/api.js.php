@@ -21,6 +21,7 @@ if (empty($meet_schedule_id)) {
 ?>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
 <script>
+    var webSiteRootURL = "<?php echo $global['webSiteRootURL']; ?>";
     var lastLiveStatus;
     var eventMethod = window.addEventListener
             ? "addEventListener"
