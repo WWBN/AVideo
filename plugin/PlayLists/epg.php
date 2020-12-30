@@ -6,7 +6,7 @@ if (!isset($global['systemRootPath'])) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>EPG :: <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("EPG") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
     </head>
 

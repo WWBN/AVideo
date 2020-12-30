@@ -9,7 +9,7 @@ $url = $menuItem->getUrl();
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: <?php echo $menuItem->getTitle(); ?></title>
+        <title><?php echo $menuItem->getTitle() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

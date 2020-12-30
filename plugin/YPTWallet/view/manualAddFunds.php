@@ -14,7 +14,7 @@ $options = json_decode($obj->addFundsOptions);
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Add Funds</title>
+        <title><?php echo __("Add Funds") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

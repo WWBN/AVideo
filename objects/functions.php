@@ -3917,39 +3917,71 @@ function URLHasLastSlash() {
     return hasLastSlash($_SERVER["REQUEST_URI"]);
 }
 
-function getSEOComplement() {
-    $txt = "";
-    if (!empty($_GET['catName'])) {
-        $txt .= " {$_GET['catName']}";
+function ucname($str) {
+	$str = ucwords(strtolower($str));
+
+	foreach(array('\'', '-') as $delim) {
+	if (strpos($str, $delim) !== false) {
+			$str = implode($delim, array_map('ucfirst', explode($delim, $str)));
+		}
+	}
+	return $str;
+}
+
+function sanitize_input($input) {
+    return htmlentities(strip_tags($input));
+}
+
+function sanitize_array_item(&$item, $key) {
+    $item = sanitize_input($item);
+}
+
+function getSEOComplement($parameters = array()) {
+    global $config;
+
+    $allowedTypes = isset($parameters["allowedTypes"]) ? $parameters["allowedTypes"] : null;
+    $addAutoPrefix = isset($parameters["addAutoPrefix"]) ? $parameters["addAutoPrefix"] : true;
+    $addCategory = isset($parameters["addCategory"]) ? $parameters["addCategory"] : true;
+
+    $parts = array();
+
+    if (!empty($_GET['error'])) {
+        array_push($parts, __("Error"));
     }
+
+    if ($addCategory && !empty($_GET['catName'])) {
+        array_push($parts, $_GET['catName']);
+    }
+
+    if (!empty($_GET['channelName'])) {
+        array_push($parts, $_GET['channelName']);
+    }
+
+    if (!empty($_GET['type'])) {
+        $type = $_GET['type'];
+        if (empty($allowedTypes) || in_array(strtolower($type), $allowedTypes)) {
+            array_push($parts, __(ucname($type)));
+        }
+    }
+
+    if (!empty($_GET['showOnly'])) {
+        array_push($parts, $_GET['showOnly']);
+    }
+
     if (!empty($_GET['page'])) {
         $page = intval($_GET['page']);
         if ($page > 1) {
-            $txt .= " / {$page}";
+            array_push($parts, sprintf(__("Page %d"), $page));
         }
     }
-    if (!empty($_GET['channelName'])) {
-        $txt .= " {$_GET['channelName']}";
-    }
-    if (!empty($_GET['type'])) {
-        $txt .= " {$_GET['type']}";
-    }
-    if (!empty($_GET['showOnly'])) {
-        $txt .= " {$_GET['showOnly']}";
-    }
-    if (!empty($_GET['error'])) {
-        $txt .= " " . __("Error");
-    }
-    if (URLHasLastSlash()) {
-        $txt .= "‧";
-    }
-    if (strrpos($_SERVER['HTTP_HOST'], 'www.') === false) {
-        $txt = "‧{$txt}";
-    }
-    if (!empty($_GET['error'])) {
-        $txt .= "‧‧";
-    }
-    return htmlentities(strip_tags($txt));
+
+    // Cleaning all entries in the $parts array
+    array_walk($parts, 'sanitize_array_item');
+
+    $txt = implode($config->getPageTitleSeparator(), $parts);
+    $txt = (!empty($txt) && $addAutoPrefix ? $config->getPageTitleSeparator() : "") . $txt;
+
+    return $txt;
 }
 
 function getCurrentPage() {

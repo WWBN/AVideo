@@ -29,7 +29,7 @@ $metaDescription = " Channel - {$_GET['channelName']}";
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo @$_GET['channelName'].getSEOComplement(); ?> :: <?php echo __("Channel"); ?> :: <?php echo $config->getWebSiteTitle(); ?> </title>
+        <title><?php echo @$_GET['channelName'] . $config->getPageTitleSeparator() . __("Channel") . getSEOComplement() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         include $global['systemRootPath'] . 'view/channelHead.php';

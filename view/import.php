@@ -10,7 +10,7 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("About"); ?></title>
+        <title><?php echo __("Import") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

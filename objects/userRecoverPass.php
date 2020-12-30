@@ -57,7 +57,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     <!DOCTYPE html>
     <html lang="<?php echo $_SESSION['language']; ?>">
         <head>
-            <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Recover Password"); ?></title>
+            <title><?php echo __("Recover Password") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
             <?php
             include $global['systemRootPath'] . 'view/include/head.php';
             ?>

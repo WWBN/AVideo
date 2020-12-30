@@ -5,7 +5,7 @@ AVideoPlugin::loadPlugin("PlayLists");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: PlayLists</title>
+        <title><?php echo __("PlayLists") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

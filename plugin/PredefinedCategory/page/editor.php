@@ -15,7 +15,7 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Predefined Category</title>
+        <title><?php echo __("Predefined Category") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

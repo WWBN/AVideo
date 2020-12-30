@@ -499,5 +499,10 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     function setEncoderURL($encoderURL) {
         $this->encoderURL = $encoderURL;
     }
+	
+	function getPageTitleSeparator() {
+		define("PAGE_TITLE_SEPARATOR", "&middot;"); // This is ready to be configurable, if needed
+		return " " . PAGE_TITLE_SEPARATOR . " ";
+	}
 
 }
