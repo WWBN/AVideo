@@ -92,6 +92,9 @@ if ($option == 4) {
         if(preg_match("/User_Location/", $value)){
             continue;
         }
+        if(preg_match("/Customize/", $value)){
+            continue;
+        }
         
         echo "Checking tables from {$value}".PHP_EOL;
         $lines = file($value);
@@ -102,7 +105,7 @@ if ($option == 4) {
             if (substr(trim($line), -1, 1) == ';') {
                 if (!$global['mysqli']->query($templine)) {
                     echo ($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
-                    die(json_encode($obj));
+                    //die(json_encode($obj));
                 } else {
                     echo "Success performing query from $value\n";
                 }
