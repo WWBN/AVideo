@@ -5123,3 +5123,11 @@ function getHeaderContentTypeFromURL($url) {
     }
     return false;
 }
+
+function canFullScreen(){
+    global $doNotFullScreen;
+    if(!empty($doNotFullScreen) || isSerie() || !isVideo()){
+        return false;
+    }
+    return true;
+}

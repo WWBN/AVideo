@@ -2,6 +2,7 @@
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 $isLive = 1;
+$doNotFullScreen = 1;
 $p = AVideoPlugin::loadPlugin("Live");
 $obj = $p->getDataObject();
 if (!empty($_GET['c'])) {
