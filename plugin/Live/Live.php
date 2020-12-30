@@ -198,7 +198,7 @@ class Live extends PluginAbstract {
         $css = '';
         
         if(!empty($obj->playLiveInFullScreen)){
-            if(isLive() || isEmbed()){
+            if((isLive() || isEmbed()) && canFullScreen()){
                 $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
                 $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
             }
