@@ -330,8 +330,8 @@ function mouseEffect() {
         try {
             gif.lazy({effect: 'fadeIn'});
             setTimeout(function(){
-                gif.height(element.height());
-                gif.width(element.width());
+                gif.height(jpg.height());
+                gif.width(jpg.width());
             },100);
         } catch (e) {
         }
