@@ -66,6 +66,8 @@ function startYPTScripts() {
 
         window.parent.postMessage({"YPTisReady": true}, "*");
         isConferenceReady();
+        
+        $('a[href="https://jitsi.org"]').attr("href", webSiteRootURL);
     } else {
         setTimeout(function () {
             startYPTScripts();
