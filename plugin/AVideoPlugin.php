@@ -873,6 +873,9 @@ class AVideoPlugin {
      */
     public static function updatePlugin($name) {
         $p = static::loadPlugin($name);
+        if(empty($p)){
+            return false;
+        }
         $currentVersion = $p->getPluginVersion();
         $uuid = $p->getUUID();
         _error_log("AVideoPlugin::updatePlugin name=($name) uuid=($uuid) ");
