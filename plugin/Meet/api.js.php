@@ -22,6 +22,7 @@ if (empty($meet_schedule_id)) {
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
 <script>
     var webSiteRootURL = "<?php echo $global['webSiteRootURL']; ?>";
+    var webSiteTitle = "<?php echo $config->getWebSiteTitle(); ?>";
     var lastLiveStatus;
     var eventMethod = window.addEventListener
             ? "addEventListener"
@@ -95,12 +96,13 @@ if (empty($meet_schedule_id)) {
                 startAudioMuted: 10,
                 disableInviteFunctions: true,
                 DEFAULT_LOGO_URL: webSiteRootURL+"videos/userPhoto/logo.png",
-                DEFAULT_REMOTE_DISPLAY_NAME:webSiteRootURL,
+                DEFAULT_REMOTE_DISPLAY_NAME:webSiteTitle,
                 JITSI_WATERMARK_LINK:webSiteRootURL,
                 LIVE_STREAMING_HELP_LINK:webSiteRootURL,
-                PROVIDER_NAME:webSiteRootURL,
+                PROVIDER_NAME:webSiteTitle,
                 SUPPORT_URL:webSiteRootURL,
                 BRAND_WATERMARK_LINK:webSiteRootURL,
+                NATIVE_APP_NAME: webSiteTitle
 
             }
 
