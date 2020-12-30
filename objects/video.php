@@ -1985,7 +1985,7 @@ if (!class_exists('Video')) {
             if (preg_match("/.m3u8$/i", $file) && AVideoPlugin::isEnabledByName('VideoHLS') && method_exists(new VideoHLS(), 'getHLSHigestResolutionFromFile')) {
                 $videogetResolution[$file] = VideoHLS::getHLSHigestResolutionFromFile($file);
             } else {
-                require_once $global['systemRootPath'] . 'objects/james-heinrich/getid3/getid3.php';
+                require_once $global['systemRootPath'] . 'objects/james-heinrich/getid3/getid3/getid3.php';
                 $getID3 = new getID3;
                 $ThisFileInfo = $getID3->analyze($file);
                 $videogetResolution[$file] = intval(@$ThisFileInfo['video']['resolution_y']);
