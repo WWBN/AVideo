@@ -13,7 +13,7 @@ class Articles extends PluginAbstract {
         global $global;
         $str = "Create rich text articles";
         $alert = "";
-        $dir = $global['systemRootPath']."objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer";
+        $dir = $global['systemRootPath'] . 'objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer';
         if (!is_writable($dir)) {
             $alert = "<div class='alert alert-danger'>Your directory must be writable<br><code>sudo chmod 777 {$dir}</code></div>";
         }
@@ -35,7 +35,7 @@ class Articles extends PluginAbstract {
         $obj->allowCSS = false;
         return $obj;
     }
-    
+
     public function getPluginMenu() {
         global $global;
         $btn = '<a href="' . $global['webSiteRootURL'] . 'plugin/Articles/updateDescriptions.php" class="btn btn-default btn-xs btn-block" target="_blank">'.__('Update Old Descriptions').'</a>';

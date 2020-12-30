@@ -18,12 +18,12 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
             require_once 'captcha.php';
             $valid = Captcha::validation($_POST['captcha']);
             if ($valid) {
-                require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+                require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
 
                 //Create a new PHPMailer instance
-                $mail = new PHPMailer\PHPMailer\PHPMailer;
+                $mail = new \PHPMailer\PHPMailer\PHPMailer;
                 setSiteSendMessage($mail);
                 //Set who the message is to be sent from
                 $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());

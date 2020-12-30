@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 $obj = new stdClass();
 $obj->success = false;
 require_once $global['systemRootPath'] . 'objects/functions.php';
-require_once $global['systemRootPath'] . 'google/autoload.php';
+require_once $global['systemRootPath'] . 'objects/autoload.php';
 header('Content-Type: application/json');
 
 $obj = AVideoPlugin::getObjectData("LoginGoogle");

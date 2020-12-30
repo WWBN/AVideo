@@ -3,7 +3,7 @@
 use \Firebase\JWT\JWT;
 
 $JIBRI_INSTANCE = 0;
-require_once $global['systemRootPath'] . 'objects/php-jwt/src/JWT.php';
+require_once $global['systemRootPath'] . 'objects/firebase/php-jwt/src/JWT.php';
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule.php';
@@ -11,7 +11,7 @@ require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule_has_
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_join_log.php';
 User::loginFromRequest();
 
-//require_once $global['systemRootPath'] . 'objects/php-jwt/src/JWT.php';
+//require_once $global['systemRootPath'] . 'objects/firebase/php-jwt/src/JWT.php';
 //use \Firebase\JWT\JWT;
 class Meet extends PluginAbstract {
     public function getTags() {
@@ -21,7 +21,7 @@ class Meet extends PluginAbstract {
             PluginTags::$LIVE,
         );
     }
-    
+
     public function getPluginVersion() {
         return "2.0";
     }
@@ -255,7 +255,7 @@ Passcode: {password}
         $url = "https://" . $domain . "/";
         return $url;
     }
-    
+
     static function getRoomID($meet_schedule_id) {
         $roomName = "";
         $m = new Meet_schedule($meet_schedule_id);
@@ -427,7 +427,7 @@ Passcode: {password}
           'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
           'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone', 'security'
           ];
-         * 
+         *
          */
         if (self::isModerator($meet_schedule_id)) {
             if (self::hasJibris()) {
@@ -547,7 +547,7 @@ Passcode: {password}
         $invitation = preg_replace("/{meetLink}/i", $ms->getMeetLink(), $invitation);
         return $invitation;
     }
-    
+
     static function validatePassword($meet_schedule_id, $password){
         if(User::isAdmin() || self::isModerator($meet_schedule_id)){
             return true;

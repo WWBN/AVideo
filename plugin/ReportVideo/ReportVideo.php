@@ -81,12 +81,12 @@ class ReportVideo extends PluginAbstract {
 
         global $global, $config;
 
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+        require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
+        require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
+        require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
 
         //Create a new PHPMailer instance
-        $mail = new PHPMailer\PHPMailer\PHPMailer;
+        $mail = new \PHPMailer\PHPMailer\PHPMailer;
         setSiteSendMessage($mail);
         //Set who the message is to be sent from
         $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
@@ -192,7 +192,7 @@ class ReportVideo extends PluginAbstract {
         global $global, $config;
         // check if this user already report this video
         $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
-        $resp = new stdClass(); 
+        $resp = new stdClass();
         $resp->error = true;
         $resp->msg = "Block not made";
 
