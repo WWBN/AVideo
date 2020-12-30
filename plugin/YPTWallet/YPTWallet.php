@@ -65,7 +65,7 @@ class YPTWallet extends PluginAbstract {
         $obj->manualAddFundsPageButton = "Notify Deposit Made";
         $obj->manualAddFundsNotifyEmail = "yourEmail@yourDomain.com";
         $obj->manualAddFundsTransferFromUserId = 1;
-        // sell funds        
+        // sell funds
         $obj->enableManualWithdrawFundsPage = true;
         $obj->withdrawFundsOptions = "[5,10,20,50,100,1000]";
         $obj->manualWithdrawFundsMenuTitle = "Withdraw Funds";
@@ -121,7 +121,7 @@ class YPTWallet extends PluginAbstract {
             return "{$currency_symbol} {$value} {$currency}";
         }
     }
-    
+
     static function getStep($doNotUseVirtualCurrency = false) {
         $obj = AVideoPlugin::getObjectData('YPTWallet');
         $decimalPrecision = $obj->decimalPrecision;
@@ -217,7 +217,7 @@ class YPTWallet extends PluginAbstract {
         $rows = $log->getAllFromWallet($wallet->getId());
         return $rows;
     }
-    
+
     static function exchange($value){
         $obj = AVideoPlugin::getObjectData('YPTWallet');
         $value = floatval($value);
@@ -229,7 +229,7 @@ class YPTWallet extends PluginAbstract {
     }
 
     /**
-     * 
+     *
      * @param type $users_id
      * @param type $value
      * @param type $description
@@ -242,7 +242,7 @@ class YPTWallet extends PluginAbstract {
         if(empty($noNotExchangeValue) && !empty($obj->virtual_currency_enable)){
             $originalValue = $value;
             $value = self::exchange($value);
-            
+
             $originalValueFormated = self::formatCurrency($originalValue, false, true);
             $valueFormated = self::formatCurrency($value);
             $description .= " Rate Exchanged {$originalValueFormated} => {$valueFormated} ";
@@ -265,7 +265,7 @@ class YPTWallet extends PluginAbstract {
             $user = new User($users_id);
             WalletLog::addLog($wallet_id, ($value * -1), " From user ($users_id) " . $user->getUser() . " - " . $description, $json_data, "success", "addBalance to main wallet");
         }
-        
+
         $wallet = $this->getOrCreateWallet($users_id);
         $balance = $wallet->getBalance();
         _error_log("YPTWallet::addBalance AFTER (user_id={$users_id}) (balance={$balance})");
@@ -356,7 +356,7 @@ class YPTWallet extends PluginAbstract {
         $description = "Transfer Balance {$value} from user <a href='{$global['webSiteRootURL']}channel/{$users_id_from}'>{$identificationFrom}</a> to <strong>YOU</strong>";
         if (!empty($forceDescription)) {
             $description = $forceDescription;
-        } 
+        }
         ObjectYPT::clearSessionCache();
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
         return true;
@@ -507,12 +507,12 @@ class YPTWallet extends PluginAbstract {
 
         global $global, $config;
 
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+        require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
+        require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
+        require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
 
         //Create a new PHPMailer instance
-        $mail = new PHPMailer\PHPMailer\PHPMailer;
+        $mail = new \PHPMailer\PHPMailer\PHPMailer;
         setSiteSendMessage($mail);
         //Set who the message is to be sent from
         $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
@@ -538,7 +538,7 @@ class YPTWallet extends PluginAbstract {
     }
 
     /**
-     * 
+     *
      * @param type $wallet_log_id
      * @param type $new_status
      * return true if balance is enought
@@ -588,7 +588,7 @@ class YPTWallet extends PluginAbstract {
         }
         return true;
     }
-    
+
     static function getUserBalance($users_id=0){
         if(empty($users_id)){
             $users_id = User::getId();
@@ -599,7 +599,7 @@ class YPTWallet extends PluginAbstract {
         $wallet = self::getWallet($users_id);
         return $wallet->getBalance();
     }
-    
+
     public function getFooterCode() {
         global $global;
         $obj = $this->getDataObject();

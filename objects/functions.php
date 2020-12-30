@@ -529,14 +529,14 @@ function sendSiteEmail($to, $subject, $message) {
     $message = createEmailMessageFromTemplate($message);
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
         if (!is_array($to)) {
-            $mail = new PHPMailer\PHPMailer\PHPMailer;
+            $mail = new \PHPMailer\PHPMailer\PHPMailer;
             setSiteSendMessage($mail);
             $mail->setFrom($contactEmail, $webSiteTitle);
             $mail->Subject = $subject . " - " . $webSiteTitle;
@@ -559,7 +559,7 @@ function sendSiteEmail($to, $subject, $message) {
             $to = array_iunique($to);
             $pieces = partition($to, $size);
             foreach ($pieces as $piece) {
-                $mail = new PHPMailer\PHPMailer\PHPMailer;
+                $mail = new \PHPMailer\PHPMailer\PHPMailer;
                 setSiteSendMessage($mail);
                 $mail->setFrom($contactEmail, $webSiteTitle);
                 $mail->Subject = $subject . " - " . $webSiteTitle;
@@ -612,13 +612,13 @@ function sendEmailToSiteOwner($subject, $message) {
     $message = UTF8encode($message);
     _error_log("sendEmailToSiteOwner {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
-        $mail = new PHPMailer\PHPMailer\PHPMailer;
+        $mail = new \PHPMailer\PHPMailer\PHPMailer;
         setSiteSendMessage($mail);
         $mail->setFrom($contactEmail, $webSiteTitle);
         $mail->Subject = $subject . " - " . $webSiteTitle;
@@ -868,7 +868,7 @@ function maxLifetime() {
         $aws_s3 = AVideoPlugin::getObjectDataIfEnabled('AWS_S3');
         $bb_b2 = AVideoPlugin::getObjectDataIfEnabled('Blackblaze_B2');
         $secure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-        $maxLifetime = 0; 
+        $maxLifetime = 0;
         if (!empty($aws_s3) && !empty($aws_s3->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $aws_s3->presignedRequestSecondsTimeout < $maxLifetime) ){
             $maxLifetime = $aws_s3->presignedRequestSecondsTimeout;
             _error_log("maxLifetime: AWS_S3 = {$maxLifetime}");
