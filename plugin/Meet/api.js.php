@@ -94,8 +94,6 @@ if (empty($meet_schedule_id)) {
                 startAudioMuted: 10,
                 disableInviteFunctions: true,
                 DEFAULT_LOGO_URL: webSiteRootURL+"videos/userPhoto/logo.png",
-                JITSI_WATERMARK_LINK: webSiteRootURL,
-                DEFAULT_LOGO_URL: webSiteRootURL+"videos/userPhoto/logo.png",
                 DEFAULT_REMOTE_DISPLAY_NAME:webSiteRootURL,
                 JITSI_WATERMARK_LINK:webSiteRootURL,
                 LIVE_STREAMING_HELP_LINK:webSiteRootURL,
