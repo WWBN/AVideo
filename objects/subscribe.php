@@ -343,7 +343,6 @@ class Subscribe {
                             email = $('#subscribeEmail{$user_id}').val();
                             subscribe(email, '{$user_id}');
                         });
-                        $('[data-toggle=\"tooltip\"]').tooltip(); 
                     });
                 </script>";
         }

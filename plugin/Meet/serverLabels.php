@@ -65,7 +65,6 @@ if (!empty($serverStatus->nextUpdate)) {
     ?>
     <script>
         $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
             setTimeout(function () {
                 serverLabels()
             }, <?php echo $serverStatus->nextUpdate * 1000; ?> + serverLabelsStartTime);
@@ -90,7 +89,6 @@ if (!empty($serverStatus->nextUpdate)) {
     ?>
     <script>
         $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
     <?php

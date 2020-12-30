@@ -66,6 +66,9 @@ function startYPTScripts() {
 
         window.parent.postMessage({"YPTisReady": true}, "*");
         isConferenceReady();
+        
+        fixHREF();
+        
     } else {
         setTimeout(function () {
             startYPTScripts();
@@ -79,6 +82,16 @@ function aVideoMeetStartRecording(RTMPLink, dropURL) {
 
 function aVideoMeetStopRecording(dropURL) {
     window.parent.postMessage({"aVideoMeetStopRecording": {dropURL:dropURL}}, "*");
+}
+
+function fixHREF(){
+    if($('a[href="https://jitsi.org"]').length){
+        $('a[href="https://jitsi.org"]').attr("href", webSiteRootURL);
+    }else{
+        setTimeout(function () {
+            fixHREF();
+        }, 500);
+    }
 }
 
 startYPTScripts();

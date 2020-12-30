@@ -3,6 +3,9 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 $head = AVideoPlugin::getHeadCode();
 $custom = "The Best YouTube Clone Ever - AVideo";
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+if(empty($advancedCustom)){
+    $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+}
 
 $custom = array();
 
@@ -39,7 +42,7 @@ if(!empty($metaDescription)){
     $metaDescription = implode(" - ", $custom);
 }
 // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
-$metaDescription .= getSEOComplement();
+$metaDescription .= getSEOComplement(array("addAutoPrefix" => false));
 $theme = $config->getTheme();
 ?>
 <meta charset="utf-8">

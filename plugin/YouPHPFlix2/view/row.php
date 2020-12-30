@@ -17,6 +17,9 @@ TimeLogStart($timeLog3);
 <div class="carousel <?php echo $landscape; ?>" data-flickity='<?php echo json_encode($dataFlickirty) ?>' style="<?php echo $css; ?>">
     <?php
     TimeLogEnd($timeLog3, __LINE__);
+    if(!isset($videosCounter)){
+        $videosCounter = 0;
+    }
     foreach ($videos as $value) {
         $videosCounter++;
         TimeLogStart($timeLog3 . " Video {$value['clean_title']}");

@@ -13,9 +13,11 @@ if(!User::isLogged()){
 }
 
 $iframeURL = "";
+$titleTag = "";
 
 switch ($_GET['type']){
     case "upload":
+		$titleTag = __("Upload");
         if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
             if (!empty($config->getEncoderURL())) {
                 $iframeURL = $config->getEncoderURL()."?noNavbar=1&".getCredentialsURL();
@@ -31,6 +33,7 @@ switch ($_GET['type']){
         }
         break;
     case "network":
+		$titleTag = __("Network");
         if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
             if (!empty($advancedCustom->encoderNetwork) && empty($advancedCustom->doNotShowEncoderNetwork)) {
                 $iframeURL = $advancedCustom->encoderNetwork."?".getCredentialsURL();
@@ -46,6 +49,7 @@ switch ($_GET['type']){
         }
         break;
     case "log":
+		$titleTag = __("Log");
         $iframeURL = $global['webSiteRootURL']."view/logs.php";
         break;
     
@@ -59,7 +63,7 @@ if(empty($iframeURL)){
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $titleTag . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

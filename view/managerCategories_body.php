@@ -321,9 +321,6 @@ echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(row.id));";
                             }
                         });
             });
-            setTimeout(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            }, 1000);
         });
 
 

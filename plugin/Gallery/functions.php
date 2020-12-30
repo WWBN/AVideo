@@ -179,7 +179,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                     echo AVideoPlugin::thumbsOverlay($value['id']);
                     @$timesG[__LINE__] += microtime(true) - $startG;
                     $startG = microtime(true);
-                    if(!empty($program) && $value['type']=='serie' && !empty($value['serie_playlists_id'])){
+                    if(!empty($program) && Video::isSerie($value['id'])){
                         ?>
                         <div class="gallerySerieOverlay">
                             <div class="gallerySerieOverlayTotal">

@@ -11,12 +11,12 @@ $obj->error = "";
 if ($valid) {
 
     $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><b>Website:</b> {$_POST['website']}<br><br>{$_POST['comment']}";
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
 
     //Create a new PHPMailer instance
-    $mail = new PHPMailer\PHPMailer\PHPMailer;
+    $mail = new \PHPMailer\PHPMailer\PHPMailer;
     setSiteSendMessage($mail);
     //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
     //var_dump($mail->SMTPAuth, $mail);

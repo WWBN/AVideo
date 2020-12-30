@@ -6,7 +6,7 @@ $global['isForbidden'] = true;
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Forbidden"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Forbidden") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

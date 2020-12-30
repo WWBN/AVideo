@@ -500,4 +500,11 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         $this->encoderURL = $encoderURL;
     }
 
+    function getPageTitleSeparator() {
+        if(!defined('PAGE_TITLE_SEPARATOR')){
+            define("PAGE_TITLE_SEPARATOR", "&middot;"); // This is ready to be configurable, if needed
+        }
+        return " " . PAGE_TITLE_SEPARATOR . " ";
+    }
+
 }

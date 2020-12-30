@@ -529,14 +529,14 @@ function sendSiteEmail($to, $subject, $message) {
     $message = createEmailMessageFromTemplate($message);
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
         if (!is_array($to)) {
-            $mail = new PHPMailer\PHPMailer\PHPMailer;
+            $mail = new \PHPMailer\PHPMailer\PHPMailer;
             setSiteSendMessage($mail);
             $mail->setFrom($contactEmail, $webSiteTitle);
             $mail->Subject = $subject . " - " . $webSiteTitle;
@@ -559,7 +559,7 @@ function sendSiteEmail($to, $subject, $message) {
             $to = array_iunique($to);
             $pieces = partition($to, $size);
             foreach ($pieces as $piece) {
-                $mail = new PHPMailer\PHPMailer\PHPMailer;
+                $mail = new \PHPMailer\PHPMailer\PHPMailer;
                 setSiteSendMessage($mail);
                 $mail->setFrom($contactEmail, $webSiteTitle);
                 $mail->Subject = $subject . " - " . $webSiteTitle;
@@ -612,13 +612,13 @@ function sendEmailToSiteOwner($subject, $message) {
     $message = UTF8encode($message);
     _error_log("sendEmailToSiteOwner {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
+    require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
-        $mail = new PHPMailer\PHPMailer\PHPMailer;
+        $mail = new \PHPMailer\PHPMailer\PHPMailer;
         setSiteSendMessage($mail);
         $mail->setFrom($contactEmail, $webSiteTitle);
         $mail->Subject = $subject . " - " . $webSiteTitle;
@@ -868,7 +868,7 @@ function maxLifetime() {
         $aws_s3 = AVideoPlugin::getObjectDataIfEnabled('AWS_S3');
         $bb_b2 = AVideoPlugin::getObjectDataIfEnabled('Blackblaze_B2');
         $secure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-        $maxLifetime = 0; 
+        $maxLifetime = 0;
         if (!empty($aws_s3) && !empty($aws_s3->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $aws_s3->presignedRequestSecondsTimeout < $maxLifetime) ){
             $maxLifetime = $aws_s3->presignedRequestSecondsTimeout;
             _error_log("maxLifetime: AWS_S3 = {$maxLifetime}");
@@ -1172,7 +1172,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         TimeLogStart($TimeLog1);
         $files = object_to_array(ObjectYPT::getCache($cacheName, $lifetime, true));
         if (is_array($files)) {
-            _error_log("getVideosURL_V2: do NOT recreate lifetime = {$lifetime}");
+            //_error_log("getVideosURL_V2: do NOT recreate lifetime = {$lifetime}");
             $preg_match_url = addcslashes($global['webSiteRootURL'], "/") . "videos";
             foreach ($files as $value) {
                 // check if is a dummy file and the URL still wrong
@@ -2592,9 +2592,9 @@ function siteMap() {
                 <loc>' . Video::getLink($video['id'], $video['clean_title']) . '</loc>
                 <video:video>
                     <video:thumbnail_loc>' . $img . '</video:thumbnail_loc>
-                    <video:title>' . str_replace('"', '', $video['title']) . '</video:title>
-                    <video:description><![CDATA[' . substr(strip_tags($description), 0, 2048) . ']]></video:description>
-                    <video:player_loc>' . htmlentities(parseVideos(Video::getLinkToVideo($videos_id))) . '</video:player_loc>
+                    <video:title><![CDATA[' . strip_tags($video['title']) . ']]></video:title>
+                    <video:description><![CDATA[' . (_substr(strip_tags(br2nl($description)), 0, 2048)) . ']]></video:description>
+                    <video:player_loc><![CDATA[' . (parseVideos(Video::getLinkToVideo($videos_id))) . ']]></video:player_loc>
                     <video:duration>' . $duration . '</video:duration>
                     <video:view_count>' . $video['views_count'] . '</video:view_count>
                     <video:publication_date>' . date("Y-m-d\TH:i:s", strtotime($video['created'])) . '+00:00</video:publication_date>
@@ -2613,27 +2613,30 @@ function siteMap() {
         _error_log("siteMap: pregreplace1 fail ");
         $newXML1 = $xml;
     }
-    $newXML2 = preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', $newXML1);
-    if (empty($newXML2)) {
-        _error_log("siteMap: pregreplace2 fail ");
-        $newXML2 = $newXML1;
+    if(!empty($advancedCustom->siteMapUTF8Fix)){
+        $newXML2 = preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', $newXML1);
+        if (empty($newXML2)) {
+            _error_log("siteMap: pregreplace2 fail ");
+            $newXML2 = $newXML1;
+        }
+        $newXML3 = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $newXML2);
+        if (empty($newXML3)) {
+            _error_log("siteMap: pregreplace3 fail ");
+            $newXML3 = $newXML2;
+        }
+        $newXML4 = preg_replace('/[\x00-\x1F\x7F]/', '', $newXML3);
+        if (empty($newXML4)) {
+            _error_log("siteMap: pregreplace4 fail ");
+            $newXML4 = $newXML3;
+        }
+        $newXML5 = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $newXML4);
+        if (empty($newXML5)) {
+            _error_log("siteMap: pregreplace5 fail ");
+            $newXML5 = $newXML4;
+        }
+    }else{
+        $newXML5 = $newXML1;
     }
-    $newXML3 = preg_replace('/[\x00-\x1F\x7F-\xFF]/', '', $newXML2);
-    if (empty($newXML3)) {
-        _error_log("siteMap: pregreplace3 fail ");
-        $newXML3 = $newXML2;
-    }
-    $newXML4 = preg_replace('/[\x00-\x1F\x7F]/', '', $newXML3);
-    if (empty($newXML4)) {
-        _error_log("siteMap: pregreplace4 fail ");
-        $newXML4 = $newXML3;
-    }
-    $newXML5 = preg_replace('/[\x00-\x1F\x7F\xA0]/u', '', $newXML4);
-    if (empty($newXML5)) {
-        _error_log("siteMap: pregreplace5 fail ");
-        $newXML5 = $newXML4;
-    }
-
     return $newXML5;
 }
 
@@ -3914,39 +3917,71 @@ function URLHasLastSlash() {
     return hasLastSlash($_SERVER["REQUEST_URI"]);
 }
 
-function getSEOComplement() {
-    $txt = "";
-    if (!empty($_GET['catName'])) {
-        $txt .= " {$_GET['catName']}";
+function ucname($str) {
+	$str = ucwords(strtolower($str));
+
+	foreach(array('\'', '-') as $delim) {
+	if (strpos($str, $delim) !== false) {
+			$str = implode($delim, array_map('ucfirst', explode($delim, $str)));
+		}
+	}
+	return $str;
+}
+
+function sanitize_input($input) {
+    return htmlentities(strip_tags($input));
+}
+
+function sanitize_array_item(&$item, $key) {
+    $item = sanitize_input($item);
+}
+
+function getSEOComplement($parameters = array()) {
+    global $config;
+
+    $allowedTypes = isset($parameters["allowedTypes"]) ? $parameters["allowedTypes"] : null;
+    $addAutoPrefix = isset($parameters["addAutoPrefix"]) ? $parameters["addAutoPrefix"] : true;
+    $addCategory = isset($parameters["addCategory"]) ? $parameters["addCategory"] : true;
+
+    $parts = array();
+
+    if (!empty($_GET['error'])) {
+        array_push($parts, __("Error"));
     }
+
+    if ($addCategory && !empty($_GET['catName'])) {
+        array_push($parts, $_GET['catName']);
+    }
+
+    if (!empty($_GET['channelName'])) {
+        array_push($parts, $_GET['channelName']);
+    }
+
+    if (!empty($_GET['type'])) {
+        $type = $_GET['type'];
+        if (empty($allowedTypes) || in_array(strtolower($type), $allowedTypes)) {
+            array_push($parts, __(ucname($type)));
+        }
+    }
+
+    if (!empty($_GET['showOnly'])) {
+        array_push($parts, $_GET['showOnly']);
+    }
+
     if (!empty($_GET['page'])) {
         $page = intval($_GET['page']);
         if ($page > 1) {
-            $txt .= " / {$page}";
+            array_push($parts, sprintf(__("Page %d"), $page));
         }
     }
-    if (!empty($_GET['channelName'])) {
-        $txt .= " {$_GET['channelName']}";
-    }
-    if (!empty($_GET['type'])) {
-        $txt .= " {$_GET['type']}";
-    }
-    if (!empty($_GET['showOnly'])) {
-        $txt .= " {$_GET['showOnly']}";
-    }
-    if (!empty($_GET['error'])) {
-        $txt .= " " . __("Error");
-    }
-    if (URLHasLastSlash()) {
-        $txt .= "‧";
-    }
-    if (strrpos($_SERVER['HTTP_HOST'], 'www.') === false) {
-        $txt = "‧{$txt}";
-    }
-    if (!empty($_GET['error'])) {
-        $txt .= "‧‧";
-    }
-    return htmlentities(strip_tags($txt));
+
+    // Cleaning all entries in the $parts array
+    array_walk($parts, 'sanitize_array_item');
+
+    $txt = implode($config->getPageTitleSeparator(), $parts);
+    $txt = (!empty($txt) && $addAutoPrefix ? $config->getPageTitleSeparator() : "") . $txt;
+
+    return $txt;
 }
 
 function getCurrentPage() {
@@ -5087,4 +5122,12 @@ function getHeaderContentTypeFromURL($url) {
         return $type;
     }
     return false;
+}
+
+function canFullScreen(){
+    global $doNotFullScreen;
+    if(!empty($doNotFullScreen) || isSerie() || !isVideo()){
+        return false;
+    }
+    return true;
 }

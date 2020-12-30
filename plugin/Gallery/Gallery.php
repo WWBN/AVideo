@@ -36,13 +36,13 @@ class Gallery extends PluginAbstract {
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css?'.(filemtime($global['systemRootPath'].'plugin/Gallery/style.css')).'" rel="stylesheet" type="text/css"/>';
         
         if(!empty($obj->playVideoOnFullscreenOnIframe)){
-            if((isVideo() && !isSerie()) || isEmbed()){
+            if(canFullScreen()){
                 $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
                 $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
                 $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
             }
             $js .= '<script>var playVideoOnFullscreen = true</script>';
-        }else if(!empty($obj->playVideoOnFullscreen) && (!empty($_GET['videoName']) || !empty($_GET['evideo']))){
+        }else if(!empty($obj->playVideoOnFullscreen) &&  canFullScreen() ){
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.css" rel="stylesheet" type="text/css"/>';
         }
         if(!empty($obj->playVideoOnFullscreen)){

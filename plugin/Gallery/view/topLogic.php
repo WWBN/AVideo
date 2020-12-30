@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
-$siteTitle = $config->getWebSiteTitle();
+$siteTitle = array();
 
 $obj = AVideoPlugin::getObjectData("Gallery");
 if (!empty($_GET['type'])) {
@@ -24,7 +24,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
 if (!empty($_GET['catName'])) {
     $currentCat = Category::getCategoryByName($_GET['catName']);
-    $siteTitle = "{$currentCat['name']}";
+    array_push($siteTitle, $currentCat['name']);
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -62,12 +62,26 @@ if(!empty($video)){
         $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
     }
     $contentSearchFound = false;
-    // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
-    $siteTitle .= getSEOComplement();
-    $metaDescription = " ".$video['id'];
-    // make sure the www has a different title and description than non www
-    if(strrpos($_SERVER['HTTP_HOST'], 'www.')=== false){
-        $siteTitle .= ": ".__("Home");
-        $metaDescription .= ": ".__("Home");
-    }
+	
+	array_push($siteTitle, __("Home"));
+	
+	// don't add a prefix for SEO, it's already handled here below by the implode() func	
+	$seoComplement = getSEOComplement(array(
+		"addAutoPrefix" => false,
+		"addCategory" => false
+	));
+	if (!empty($seoComplement)) {
+		array_push($siteTitle, $seoComplement);
+	}
+
+	$metaDescription = $video['id'];
+} else {
+	array_push($siteTitle, __("Video Not Available"));
+	array_push($siteTitle, __("Home"));
+	
+	$metaDescription = __("Video Not Available");
 }
+array_push($siteTitle, $config->getWebSiteTitle());
+$metaDescription .= $config->getPageTitleSeparator() . __("Home");
+
+$siteTitle = implode($config->getPageTitleSeparator(), $siteTitle);
