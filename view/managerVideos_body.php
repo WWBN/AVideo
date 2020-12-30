@@ -1735,7 +1735,6 @@ if (User::isAdmin()) {
                 $('.videoIsAdContent').slideDown();
             }
         });
-        $('[data-toggle="tooltip"]').tooltip();
         $('#removeAutoplay').click(function () {
             $('#inputNextVideo-poster').attr('src', "view/img/notfound.jpg");
             $('#inputNextVideo').val("");
@@ -1987,9 +1986,6 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     page = 1;
                 }
                 var ret = {current: page};
-                setTimeout(function () {
-                    $('[data-toggle="tooltip"]').tooltip();
-                }, 1000);
                 return ret;
             },
         }).on("loaded.rs.jquery.bootgrid", function () {

@@ -136,11 +136,11 @@ function lazyImage() {
                     gif.lazy({
                         effect: 'fadeIn'
                     });
-                    setTimeout(function(){
+                    setTimeout(function () {
                         gif.hide();
                         gif.height(element.height());
                         gif.width(element.width());
-                    },100);
+                    }, 100);
                 }
             });
             mouseEffect();
@@ -329,10 +329,10 @@ function mouseEffect() {
         var jpg = $(this).find(".thumbsJPG");
         try {
             gif.lazy({effect: 'fadeIn'});
-            setTimeout(function(){
+            setTimeout(function () {
                 gif.height(jpg.height());
                 gif.width(jpg.width());
-            },100);
+            }, 100);
         } catch (e) {
         }
         gif.height(jpg.height());
@@ -884,7 +884,7 @@ function avideoAlertHTMLText(title, msg, type) {
         content: span,
         icon: type,
         closeModal: true,
-        buttons: type?true:false,
+        buttons: type ? true : false,
     });
 }
 
@@ -984,16 +984,11 @@ $(document).ready(function () {
     })();
     try {
         $('[data-toggle="popover"]').popover();
-        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-        $('[data-toggle="tooltip"]').on('click', function () {
-            var t = this;
-            setTimeout(function () {
-                $(t).tooltip('hide');
-            }, 2000);
-        });
     } catch (e) {
 
     }
+    
+    setInterval(function(){setToolTips();},1000);
 
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');
@@ -1154,7 +1149,21 @@ function readFileCroppie(input, crop) {
 }
 
 function getCroppie(uploadCropObject, callback, width, height) {
-    uploadCropObject.croppie('result', { type: 'base64', size: { width: width, height: height }, format: 'png' }).then(function (resp) {
+    uploadCropObject.croppie('result', {type: 'base64', size: {width: width, height: height}, format: 'png'}).then(function (resp) {
         eval(callback + "(resp);");
     });
+}
+
+function setToolTips() {
+    if(!$('[data-toggle="tooltip"]').not('.alreadyTooltip').length){
+        return false;
+    }
+    $('[data-toggle="tooltip"]').not('.alreadyTooltip').tooltip({container: 'body'});
+    $('[data-toggle="tooltip"]').not('.alreadyTooltip').on('click', function () {
+        var t = this;
+        setTimeout(function () {
+            $(t).tooltip('hide');
+        }, 2000);
+    });
+    $('[data-toggle="tooltip"]').addClass('alreadyTooltip');
 }
