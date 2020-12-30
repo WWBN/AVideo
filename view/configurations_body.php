@@ -608,6 +608,36 @@ if (User::isAdmin()) {
                         <div class="form-group">
                             <label class="col-md-2 control-label"><?php echo __("Head Code"); ?></label>
                             <div class="col-md-10">
+                                <link rel="stylesheet" href="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.css">
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/xml/xml.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/css/css.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/javascript/javascript.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+                                <script>
+                                    (function($) {
+										$(document).ready(function() {
+
+											var editor,
+											    head = document.getElementById("head");
+
+											$("li a[href='#tabHead']").on("click", function() {
+												if (!editor && head) {
+													setTimeout(function() {
+														editor = CodeMirror.fromTextArea(head, {
+															lineNumbers: true,
+															mode: "htmlmixed"
+														});																											
+														editor.on('change', function() {
+															editor.save();
+														});
+													}, 10);
+												}
+											});
+
+										});
+                                    })(jQuery);
+                                </script>
                                 <textarea id="head" class="form-control" type="text" rows="20" ><?php echo $config->getHead(); ?></textarea>
                                 <small><?php echo __('For Google Analytics code'); ?>: <a href='https://analytics.google.com'  target="_blank" rel="noopener noreferrer">https://analytics.google.com</a></small><br>
                                 <small><?php echo __('Leave blank for native code'); ?></small>
