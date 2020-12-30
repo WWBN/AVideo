@@ -102,7 +102,8 @@ if (empty($meet_schedule_id)) {
                 PROVIDER_NAME:webSiteTitle,
                 SUPPORT_URL:webSiteRootURL,
                 BRAND_WATERMARK_LINK:webSiteRootURL,
-                NATIVE_APP_NAME: webSiteTitle
+                NATIVE_APP_NAME: webSiteTitle,
+                APP_NAME: webSiteTitle
 
             }
 
