@@ -21,14 +21,17 @@ function _rsearch($folder, $pattern) {
     return $fileList;
 }
 
-echo "1 - Install tables and enable plugins\n";
-echo "2 - Install tables only\n";
-echo "3 - Enable plugins only\n";
-echo "4 - Update plugins only\n";
-echo "Choose an option: ";
-ob_flush();
-$option = trim(readline(""));
+$option = intval(@$argv[1]);
 
+if(empty($option)){
+    echo "1 - Install tables and enable plugins\n";
+    echo "2 - Install tables only\n";
+    echo "3 - Enable plugins only\n";
+    echo "4 - Update plugins only\n";
+    echo "Choose an option: ";
+    ob_flush();
+    $option = trim(readline(""));
+}
 if ($option == 1 || $option == 2) {
     $files = _rsearch("{$global['systemRootPath']}plugin/", "/install\/install.sql$/i");
     $templine = '';
