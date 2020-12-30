@@ -92,12 +92,11 @@ Passcode: {password}
                 "user" => $user,
                 "group" => $config->getWebSiteTitle()
             ],
-            "aud" => ($obj->server->value == 'custom') ? $obj->JWT_APP_ID : "avideo",
-            //"iss" => "avideo",
-            "iss" => ($obj->server->value == 'custom') ? $obj->JWT_APP_ID : "*",
+            "aud" => self::getAUD(),
+            "iss" => self::getISS(),
             "sub" => "meet.jitsi",
             "room" => $room,
-            "exp" => strtotime("30 hours"),
+            "exp" => strtotime("+30 hours"),
             "moderator" => self::isModerator($meet_schedule_id)
         ];
         return $jitsiPayload; // HS256
@@ -115,9 +114,52 @@ Passcode: {password}
     static function getSecret() {
         $obj = AVideoPlugin::getDataObject("Meet");
         if ($obj->server->value == 'custom') {
-            return $obj->JWT_APP_SECRET;
+            if($obj->JWT_APP_SECRET == 'my_jitsi_app_secret'){
+                return $obj->secret;
+            }else{
+                return $obj->JWT_APP_SECRET;
+            }
         } else {
             return $obj->secret;
+        }
+    }
+    
+    static function getAPPID() {
+        $obj = AVideoPlugin::getDataObject("Meet");
+        if ($obj->server->value == 'custom') {
+            if($obj->JWT_APP_ID == 'my_jitsi_app_id'){
+                return "avideo";
+            }else{
+                return $obj->JWT_APP_ID;
+            }
+        } else {
+            return "avideo";
+        }
+    }
+    
+    static function getISS() {
+        $obj = AVideoPlugin::getDataObject("Meet");
+        if ($obj->server->value == 'custom') {
+            if($obj->JWT_APP_ID == 'my_jitsi_app_id'){
+                return "*";
+            }else{
+                return $obj->JWT_APP_ID;
+            }
+        } else {
+            return "*";
+        }
+    }
+    
+    static function getAUD() {
+        $obj = AVideoPlugin::getDataObject("Meet");
+        if ($obj->server->value == 'custom') {
+            if($obj->JWT_APP_ID == 'my_jitsi_app_id'){
+                return "avideo";
+            }else{
+                return $obj->JWT_APP_ID;
+            }
+        } else {
+            return "avideo";
         }
     }
 
