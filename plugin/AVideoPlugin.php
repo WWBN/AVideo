@@ -264,14 +264,14 @@ class AVideoPlugin {
         return $firstPage;
     }
 
-    static function loadPlugin($name) {
+    static function loadPlugin($name, $forceReload=false) {
         global $global, $pluginIsLoaded;
         if (empty($pluginIsLoaded)) {
             $pluginIsLoaded = array();
         }
         $loadPluginFile = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
-        if (!isset($pluginIsLoaded[$name])) {
+        if (!isset($pluginIsLoaded[$name]) && empty($forceReload)) {
             $pluginIsLoaded[$name] = false;
             if (file_exists($loadPluginFile)) {
                 require_once $loadPluginFile;

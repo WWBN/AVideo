@@ -115,8 +115,16 @@ if ($option == 4) {
     }
     $plugins = Plugin::getAvailablePlugins();
     foreach ($plugins as $value) {
-        echo "Update {$value->dir}".PHP_EOL;
-        AVideoPlugin::updatePlugin($value->dir); 
+        $p = AVideoPlugin::loadPlugin($value->dir);
+        if(empty($p)){
+            continue;
+        }
+        $currentVersion = $p->getPluginVersion();
+        if(AVideoPlugin::updatePlugin($value->dir)){
+            $p = AVideoPlugin::loadPlugin($value->dir, true);
+            $newVersion = $p->getPluginVersion();
+            echo "{$value->dir} updated FROM {$currentVersion} TO {$newVersion}".PHP_EOL;
+        } 
     }
 }
 echo "Option {$option} finished \n";
