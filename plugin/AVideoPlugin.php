@@ -1044,7 +1044,7 @@ class AVideoPlugin {
 
     public static function userCanWatchVideoWithAds($users_id, $videos_id) {
         global $userCanWatchVideoWithAdsFunction;
-        
+        $users_id = intval($users_id);
         if(!isset($userCanWatchVideoWithAdsFunction)){
             $userCanWatchVideoWithAdsFunction = array();
         }
