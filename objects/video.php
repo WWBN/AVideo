@@ -106,7 +106,7 @@ if (!class_exists('Video')) {
                 die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
         }
-        
+
         public function updateViewsCount($total)
         {
             global $global;
@@ -1852,7 +1852,7 @@ if (!class_exists('Video')) {
             global $global, $advancedCustom;
             if (empty($advancedCustom->disableHTMLDescription)) {
                 $articleObj = AVideoPlugin::getObjectData('Articles');
-                require_once $global['systemRootPath'] . 'objects/htmlpurifier/HTMLPurifier.auto.php';
+                require_once $global['systemRootPath'] . 'objects/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
                 $configPuri = HTMLPurifier_Config::createDefault();
                 $purifier = new HTMLPurifier($configPuri);
                 if (empty($articleObj->allowAttributes)) {
@@ -2744,7 +2744,7 @@ if (!class_exists('Video')) {
         {
             $this->videoLink = $videoLink;
         }
-        
+
         public function getCan_download()
         {
             return $this->can_download;
