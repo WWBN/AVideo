@@ -74,7 +74,7 @@ $options = json_decode($obj->withdrawFundsOptions);
                                 <textarea class="form-control" id="information" name="information"></textarea>
                             </div>
                             <button class="btn btn-primary" id="manualWithdrawFundsPageButton"><?php echo $obj->manualWithdrawFundsPageButton; ?></button>
-                        </div>  
+                        </div>
                     </div>
                 </div>
 

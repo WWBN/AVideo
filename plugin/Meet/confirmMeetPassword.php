@@ -25,7 +25,7 @@ $photo = User::getPhoto($meet->getUsers_id());
                 padding-top: 0;
             }
             footer{
-                display: none;   
+                display: none;
             }
             #bg{
                 position: fixed;
@@ -68,7 +68,7 @@ $photo = User::getPhoto($meet->getUsers_id());
                                         <?php
                                         if (!empty($_POST['meet_password'])) {
                                             ?>
-                                            <div class="alert alert-danger"><?php echo __("Your password does not match!"); ?></div>    
+                                            <div class="alert alert-danger"><?php echo __("Your password does not match!"); ?></div>
                                             <?php
                                         }
                                         ?>
@@ -76,7 +76,7 @@ $photo = User::getPhoto($meet->getUsers_id());
                                             <label for="meet_password"><?php echo __("This Meet Requires a Password"); ?></label>
                                             <input type="text" class="form-control" id="meet_password" name="meet_password" placeholder="<?php echo __("Password"); ?>" required>
                                         </div>
-                                        <div class="row"> 
+                                        <div class="row">
                                             <div class="col-md-6">
                                                 <button type="submit" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></button>
                                             </div>

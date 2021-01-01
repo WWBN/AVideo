@@ -11,10 +11,10 @@ if (!User::isAdmin()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 if(empty($_POST['name'])){
-    die('{"error":"'.__("Name can't be blank").'"}');    
+    die('{"error":"'.__("Name can't be blank").'"}');
 }
 if(empty($_POST['uuid'])){
-    die('{"error":"'.__("UUID can't be blank").'"}');    
+    die('{"error":"'.__("UUID can't be blank").'"}');
 }
 $obj = new Plugin(0);
 $obj->loadFromUUID($_POST['uuid']);
@@ -32,11 +32,11 @@ $obj->setStatus($_POST['status']);
 
 if(empty($obj->pluginversion)||is_null($obj->pluginversion)){
     require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-    $p=AVideoPlugin::loadPlugin($_POST['dir']); 
+    $p=AVideoPlugin::loadPlugin($_POST['dir']);
     $currentVersion=$p->getPluginVersion();
     $obj->setPluginversion($currentVersion);
     Plugin::setCurrentVersionByUuid($_POST['uuid'], $currentVersion);
-    
+
 }
 
 

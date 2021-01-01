@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
@@ -8,7 +7,7 @@ if (!isset($global['systemRootPath'])) {
 if (empty($_POST['id'])) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
-if(empty($_COOKIE[$global['session_name']])){
+if (empty($_COOKIE[$global['session_name']])) {
     die('{"error":"Cookie is disabled"}');
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -36,12 +35,12 @@ if (!empty($seconds)) {
             }
         }
     }
-} 
+}
 if (empty($_SESSION['addViewCount'][$_POST['id']]['time'])) {
     $resp = $obj->addView();
     _session_start();
     $_SESSION['addViewCount'][$_POST['id']]['time'] = strtotime("+{$seconds} seconds");
-} else if (!empty($_POST['currentTime'])) {
+} elseif (!empty($_POST['currentTime'])) {
     $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), intval($_POST['currentTime']));
 } else {
     $resp = 0;

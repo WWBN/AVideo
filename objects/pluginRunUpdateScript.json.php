@@ -1,8 +1,7 @@
 <?php
-
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -16,8 +15,6 @@ if (empty($_POST['name'])) {
 ini_set('max_execution_time', 300);
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
-$res=AVideoPlugin::updatePlugin($_POST['name']); 
-
-
+$res = AVideoPlugin::updatePlugin($_POST['name']);
 
 die(json_encode($res));

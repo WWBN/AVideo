@@ -104,7 +104,7 @@ class Category {
       }
       }
       }
-     * 
+     *
      */
 
     function setDescription($description) {
@@ -276,7 +276,7 @@ class Category {
       return array("categoryId" => "-1", "type" => "0", "manualSet" => "0");
       }
       }
-     * 
+     *
      */
 
     static function getCategory($id) {

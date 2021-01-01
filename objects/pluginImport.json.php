@@ -34,7 +34,7 @@ if (strcasecmp($extension, 'zip') == 0) {
     //$id =  File::encodeAndsaveZipFile($_FILES['input-b1']['tmp_name'], $_FILES['input-b1']['name'], $key);
     $destination = "{$global['systemRootPath']}plugin/";
     $obj->destination = $destination;
-    $path = $_FILES['input-b1']['tmp_name'];    
+    $path = $_FILES['input-b1']['tmp_name'];
     $dir = "{$destination}/{$path_parts['filename']}";
     if(is_dir($dir)){
         exec("rm -R {$dir}");

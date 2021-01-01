@@ -76,7 +76,7 @@ $options = json_decode($obj->addFundsOptions);
                             <button class="btn btn-primary" id="manualAddFundsPageButton">
                                 <?php echo $obj->manualAddFundsPageButton; ?>
                             </button>
-                        </div>  
+                        </div>
                     </div>
                 </div>
 

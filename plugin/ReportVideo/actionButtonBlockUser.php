@@ -3,12 +3,12 @@ if(!User::userCanBlockUser($users_id, true)){
     return '';
 }
 ?>
-<span class="btn btn-default no-outline pull-right" style="display: none;" id="reportUserBtn"  data-toggle="tooltip" title="<?php if (!User::isLogged()) { echo __("You need to sign in to block this user"); }else{ echo __("Block and hide this user content"); } ?>" >
+<span class="btn btn-default no-outline pull-right" style="display:none;" id="reportUserBtn"  data-toggle="tooltip" title="<?php if (!User::isLogged()) { echo __("You need to sign in to block this user"); }else{ echo __("Block and hide this user content"); } ?>" >
     <i class="fas fa-ban"></i> <small class="hidden-md hidden-sm hidden-xs"><?php echo __('Block User'); ?></small>
 </span>
 
 <?php if (User::isLogged()) { ?>
-<span class="btn btn-danger no-outline pull-right" style="display: none;" id="unreportUserBtn">
+<span class="btn btn-danger no-outline pull-right" style="display:none;" id="unreportUserBtn">
     <i class="fas fa-ban"></i> <small class="hidden-md hidden-sm hidden-xs"><?php echo __('Unblock User'); ?></small>
 </span>
 
@@ -53,7 +53,7 @@ if(!User::userCanBlockUser($users_id, true)){
                                                 document.location = "<?php echo getSelfURI(); ?>";
                                             }
                                         }, 500);
-                                        //                                  
+                                        //
                                     }
                                 });
 
@@ -61,7 +61,7 @@ if(!User::userCanBlockUser($users_id, true)){
                         });
                 return false;
             });
-            
+
             $("#reportUserBtn").click(function () {
                 swal({
                     title: "<?php echo __("Are you sure?"); ?>",
@@ -89,7 +89,7 @@ if(!User::userCanBlockUser($users_id, true)){
                                                 document.location = "<?php echo getSelfURI(); ?>";
                                             }
                                         }, 500);
-                                        //                                  
+                                        //
                                     }
                                 });
 

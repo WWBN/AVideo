@@ -57,20 +57,20 @@ foreach ($videos as $key => $value) {
         $videos[$key]['comments'][$key2]['userName'] = $user->getNameIdentificationBd();
     }
     $videos[$key]['subscribers'] = Subscribe::getTotalSubscribes($videos[$key]['users_id']);
-    
+
     $videos[$key]['firstVideo'] = "";
     foreach ($videos[$key]['VideoUrl'] as $value2) {
         if($value2["type"] === 'video'){
             $videos[$key]['firstVideo'] = $value2["url"];
             break;
-        }        
+        }
     }
     if(preg_match("/^videos/", $videos[$key]['photoURL'])){
         $videos[$key]['UserPhoto'] = "{$global['webSiteRootURL']}".$videos[$key]['photoURL'];
     }else{
         $videos[$key]['UserPhoto'] = $videos[$key]['photoURL'];
     }
-    
+
 }
 
 echo json_encode($videos);

@@ -4,8 +4,8 @@ if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
 class Sites extends ObjectYPT {
-    protected $name, $url, $status, $secret;    
-    
+    protected $name, $url, $status, $secret;
+
     public static function getSearchFieldsNames() {
         return array('name', 'url');
     }
@@ -13,7 +13,7 @@ class Sites extends ObjectYPT {
     public static function getTableName() {
         return 'sites';
     }
-    
+
     function getName() {
         return $this->name;
     }
@@ -45,12 +45,12 @@ class Sites extends ObjectYPT {
     function setSecret($secret) {
         $this->secret = $secret;
     }
-    
+
     function save() {
         if(empty($this->getSecret())){
             $this->setSecret(md5(uniqid()));
         }
-        
+
         $siteURL = $this->getUrl();
         if (substr($siteURL, -1) !== '/') {
             $siteURL .= "/";

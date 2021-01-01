@@ -107,7 +107,7 @@ $videosCounter = 0;
                     ?>
                     <h2>
                         <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?></a>
-                    </h2>    
+                    </h2>
                     <?php
                 }
                 ?>

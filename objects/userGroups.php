@@ -128,7 +128,7 @@ class UserGroups {
         }
         return $arr;
     }
-    
+
     static function getAllUsersGroupsArray() {
         global $global;
         $sql = "SELECT * FROM users_groups as ug WHERE 1=1 ";
@@ -167,7 +167,7 @@ class UserGroups {
     function setGroup_name($group_name) {
         $this->group_name = $group_name;
     }
-    
+
     static function getUserGroupByName($group_name, $refreshCache = false) {
         global $global;
         $sql = "SELECT * FROM users_groups WHERE  group_name = ? LIMIT 1";
@@ -232,7 +232,7 @@ class UserGroups {
         }
         $sql = "SELECT uug.*, ug.* FROM users_groups ug"
                 . " LEFT JOIN users_has_users_groups uug ON users_groups_id = ug.id WHERE users_id = ? ";
-        
+
         $ids = AVideoPlugin::getDynamicUserGroupsId($users_id);
         if(!empty($ids) && is_array($ids)){
             $ids = array_unique($ids);
@@ -291,7 +291,7 @@ class UserGroups {
         } else {
             return 0;
         }
-        
+
     }
 
     static function addVideoGroups($videos_id, $users_groups_id) {
@@ -299,7 +299,7 @@ class UserGroups {
             return false;
         }
         global $global;
-        
+
         if(self::getVideoGroupsViewId($videos_id, $users_groups_id)){
             return false;
         }
@@ -307,27 +307,27 @@ class UserGroups {
         $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES (?,?)";
         $value = intval($value);
         $response = sqlDAL::writeSql($sql,"ii",array($videos_id,$users_groups_id));
-        
+
         if($response){
             Video::clearCache($videos_id);
         }
         return $response;
     }
-    
+
     static function deleteVideoGroups($videos_id, $users_groups_id) {
         if (!User::canUpload()) {
             return false;
         }
-        
+
         $sql = "DELETE FROM videos_group_view WHERE videos_id = ? AND users_groups_id = ?";
         $response = sqlDAL::writeSql($sql,"ii",array($videos_id, $users_groups_id));
-        
+
         if($response){
             Video::clearCache($videos_id);
         }
         return $response;
     }
-    
+
     static function updateVideoGroups($videos_id, $array_groups_id) {
         if (!User::canUpload()) {
             return false;

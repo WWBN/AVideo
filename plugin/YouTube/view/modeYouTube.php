@@ -102,7 +102,7 @@ $contentSearchFound = false;
                             <?php echo getAdsLeaderBoardTop2(); ?>
                         </center>
                         <!-- For Live Videos -->
-                        <div id="liveVideos" class="clear clearfix" style="display: none;">
+                        <div id="liveVideos" class="clear clearfix" style="display:none;">
                             <h3 class="YouTubeTitle text-danger"> <i class="fas fa-play-circle"></i> <?php echo __("Live"); ?></h3>
                             <div class="row extraVideos"></div>
                         </div>

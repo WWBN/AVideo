@@ -153,7 +153,7 @@ $json = json_encode($data);
                         document.location = "<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/addFunds.php";
                         console.log("This code runs when the popup is closed");
                     },
-                    // Boolean indicating whether pressing escape key 
+                    // Boolean indicating whether pressing escape key
                     // should close the checkout form. (default: true)
                     escape: true,
                     // Boolean indicating whether clicking translucent blank

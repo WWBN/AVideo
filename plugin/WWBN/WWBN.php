@@ -17,7 +17,7 @@ class WWBN extends PluginAbstract {
                 . "<input style='width:100%' type='text' value='". self::getToken()."' readonly>";
         return $desc;
     }
-    
+
     static function getToken(){
         global $global;
         $obj = new stdClass();
@@ -44,7 +44,7 @@ class WWBN extends PluginAbstract {
         $obj = new stdClass();
         return $obj;
     }
-    
+
     public function getPluginMenu() {
         global $global;
         return '

@@ -1,9 +1,10 @@
 <?php
-
 global $global, $config, $videosPaths;
+
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -1376,7 +1377,6 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.status = '{$status}'";
             }
 
-
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = '{$user['id']}' ";
@@ -1505,7 +1505,6 @@ if (!class_exists('Video')) {
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
-
 
             if (!empty($_POST['searchPhrase'])) {
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
@@ -1945,7 +1944,7 @@ if (!class_exists('Video')) {
         public static function getDurationFromFile($file)
         {
             global $global;
-            require_once $global['systemRootPath'] . 'objects/james-heinrich/getid3/getid3.php';
+            require_once $global['systemRootPath'] . 'objects/james-heinrich/getid3/getid3/getid3.php';
             // get movie duration HOURS:MM:SS.MICROSECONDS
             if (!file_exists($file)) {
                 _error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
@@ -2793,7 +2792,6 @@ if (!class_exists('Video')) {
                     return $VideoGetSourceFile[$cacheName];
                 }
             }
-
 
             // check if there is a webp image
             if ($type === '.gif' && (empty($_SERVER['HTTP_USER_AGENT']) || get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari')) {

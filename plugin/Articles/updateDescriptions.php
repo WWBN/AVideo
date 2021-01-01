@@ -19,7 +19,7 @@ foreach ($videos as $value) {
         $video->save();
         echo "{$value['title']}<br>";
     }
-    
+
 }
 
 

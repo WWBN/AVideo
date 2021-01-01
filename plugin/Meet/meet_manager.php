@@ -76,7 +76,7 @@ $userCredentials = User::loginFromRequestToGet();
                             <option value="1"><?php echo __("Now"); ?></option>
                             <option value="0"><?php echo __("Schedule"); ?></option>
                         </select>
-                        <div class="whenNewOption" style="display: none;">
+                        <div class="whenNewOption" style="display:none;">
                             <label for="Meet_schedule2starts"><?php echo __("Starts"); ?>:</label>
                             <input type="text" id="Meet_schedule2starts" name="starts" class="form-control input-sm" placeholder="<?php echo __("Starts"); ?>" autocomplete="off">
                         </div>
@@ -166,10 +166,10 @@ $userCredentials = User::loginFromRequestToGet();
                             document.location = response.link;
                         } else {
                             avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
-                            try {Meet_schedule2today1tableVar.ajax.reload();} catch (e) {}                            
-                            try {Meet_schedule2upcoming1tableVar.ajax.reload();} catch (e) {}                         
-                            try {Meet_schedule2past1tableVar.ajax.reload();} catch (e) {}                            
-                            
+                            try {Meet_schedule2today1tableVar.ajax.reload();} catch (e) {}
+                            try {Meet_schedule2upcoming1tableVar.ajax.reload();} catch (e) {}
+                            try {Meet_schedule2past1tableVar.ajax.reload();} catch (e) {}
+
                             clearMeetForm(true);
                             modal.hidePleaseWait();
                         }

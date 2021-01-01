@@ -57,7 +57,7 @@ $replace = array($permaLink,$img,$title, $embedURL);
                     ?>
                 </div>
                 <div class="tab-pane" id="tabEmbed">
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Embed"); ?> (Iframe): <?php getButtontCopyToClipboard('textAreaEmbed'); ?></h4> 
+                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Embed"); ?> (Iframe): <?php getButtontCopyToClipboard('textAreaEmbed'); ?></h4>
                     <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbed" readonly="readonly"><?php
                     $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
                     echo htmlentities($code);
@@ -69,13 +69,13 @@ $replace = array($permaLink,$img,$title, $embedURL);
                         echo htmlentities($code);
                     ?>
                     </textarea>
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Link"); ?> (HTML): <?php getButtontCopyToClipboard('textAreaHTML'); ?></h4> 
+                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Link"); ?> (HTML): <?php getButtontCopyToClipboard('textAreaHTML'); ?></h4>
                     <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaHTML" readonly="readonly"><?php
                     $code = str_replace($search, $replace, $advancedCustom->htmlCodeTemplate);
                     echo htmlentities($code);
                     ?>
                     </textarea>
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Link"); ?> (BBCode): <?php getButtontCopyToClipboard('textAreaBBCode'); ?></h4> 
+                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Link"); ?> (BBCode): <?php getButtontCopyToClipboard('textAreaBBCode'); ?></h4>
                     <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaBBCode" readonly="readonly"><?php
                     $code = str_replace($search, $replace, $advancedCustom->BBCodeTemplate);
                     echo htmlentities($code);
@@ -195,4 +195,4 @@ $replace = array($permaLink,$img,$title, $embedURL);
             </div>
         </div>
     </div>
-</div>   
+</div>

@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 unset($_SESSION['recurrentSubscription']['plans_id']);
 if(!empty($_POST['plans_id'])){
-    $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];    
+    $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];
 }
 
 $subs = new SubscriptionPlansTable($_POST['plans_id']);

@@ -33,7 +33,7 @@ if (showThis($sectionName)) {
                 }
             }
             ?>
-        </div>    
+        </div>
         <?php
     }
     ?>
@@ -41,7 +41,7 @@ if (showThis($sectionName)) {
         <h3 class="galleryTitle">
             <a class="btn-light" href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $sectionName; ?>">
                 <i class="fab fa-youtube"></i>
-                <?php echo $obj->gallerySectionTitle; ?> 
+                <?php echo $obj->gallerySectionTitle; ?>
             </a>
         </h3>
         <?php
@@ -72,7 +72,7 @@ if (showThis($sectionName)) {
         if(!empty($object->nextPageToken)){
         ?>
         <a href="<?php echo "{$global['webSiteRootURL']}page/".($_GET['page']+1)."?pageToken={$object->nextPageToken}&search=".(@$_GET['search']); ?>" class="btn btn-primary btn-sm pull-right">
-            <?php echo __("Next"); ?> <i class="fas fa-angle-double-right"></i> 
+            <?php echo __("Next"); ?> <i class="fas fa-angle-double-right"></i>
         </a>
         <?php
         }
