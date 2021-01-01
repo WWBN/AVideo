@@ -11,9 +11,7 @@ $obj->error = "";
 if ($valid) {
 
     $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><b>Website:</b> {$_POST['website']}<br><br>{$_POST['comment']}";
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/Exception.php';
+    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
 
     //Create a new PHPMailer instance
     $mail = new \PHPMailer\PHPMailer\PHPMailer;

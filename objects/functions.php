@@ -529,9 +529,7 @@ function sendSiteEmail($to, $subject, $message) {
     $message = createEmailMessageFromTemplate($message);
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/Exception.php';
+    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';;
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
@@ -612,9 +610,7 @@ function sendEmailToSiteOwner($subject, $message) {
     $message = UTF8encode($message);
     _error_log("sendEmailToSiteOwner {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/Exception.php';
+    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {

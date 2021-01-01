@@ -18,9 +18,7 @@ if(User::isAdmin()){
 require_once 'subscribe.php';
 header('Content-Type: application/json');
 $Subscribes = Subscribe::getAllSubscribes($user_id);
-require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/Exception.php';
+require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
 
 $obj = new stdClass();
 //Create a new PHPMailer instance
