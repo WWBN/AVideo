@@ -39,6 +39,13 @@ class Minifier
     protected $input;
 
     /**
+     * Length of input javascript.
+     *
+     * @var int
+     */
+    protected $len = 0;
+
+    /**
      * The location of the character (in the input string) that is next to be
      * processed.
      *
@@ -77,7 +84,7 @@ class Minifier
     /**
      * These characters are used to define strings.
      */
-    protected $stringDelimiters = ['\'', '"', '`'];
+    protected $stringDelimiters = ['\'' => true, '"' => true, '`' => true];
 
     /**
      * Contains the default options for minification. This array is merged with
@@ -86,7 +93,7 @@ class Minifier
      *
      * @var array
      */
-    protected static $defaultOptions = array('flaggedComments' => true);
+    protected static $defaultOptions = ['flaggedComments' => true];
 
     /**
      * Contains lock ids which are used to replace certain code patterns and
@@ -94,7 +101,7 @@ class Minifier
      *
      * @var array
      */
-    protected $locks = array();
+    protected $locks = [];
 
     /**
      * Takes a string containing javascript and removes unneeded characters in
@@ -105,7 +112,7 @@ class Minifier
      * @throws \Exception
      * @return bool|string
      */
-    public static function minify($js, $options = array())
+    public static function minify($js, $options = [])
     {
         try {
             ob_start();
@@ -157,20 +164,33 @@ class Minifier
     protected function initialize($js, $options)
     {
         $this->options = array_merge(static::$defaultOptions, $options);
-        $js = str_replace("\r\n", "\n", $js);
-        $js = str_replace('/**/', '', $js);
-        $this->input = str_replace("\r", "\n", $js);
+        $this->input = str_replace(["\r\n", '/**/', "\r"], ["\n", "", "\n"], $js);
 
         // We add a newline to the end of the script to make it easier to deal
         // with comments at the bottom of the script- this prevents the unclosed
         // comment error that can otherwise occur.
         $this->input .= PHP_EOL;
 
+        // save input length to skip calculation every time
+        $this->len = strlen($this->input);
+
         // Populate "a" with a new line, "b" with the first character, before
         // entering the loop
         $this->a = "\n";
         $this->b = $this->getReal();
     }
+
+    /**
+     * Characters that can't stand alone preserve the newline.
+     *
+     * @var array
+     */
+    protected $noNewLineCharacters = [
+        '(' => true,
+        '-' => true,
+        '+' => true,
+        '[' => true,
+        '@' => true];
 
     /**
      * The primary action occurs here. This function loops through the input string,
@@ -183,7 +203,7 @@ class Minifier
                 // new lines
                 case "\n":
                     // if the next line is something that can't stand alone preserve the newline
-                    if (strpos('(-+[@', $this->b) !== false) {
+                    if ($this->b !== false && isset($this->noNewLineCharacters[$this->b])) {
                         echo $this->a;
                         $this->saveString();
                         break;
@@ -226,12 +246,12 @@ class Minifier
                                 break;
                             }
 
-                                // no break
+                        // no break
                         default:
                             // check for some regex that breaks stuff
                             if ($this->a === '/' && ($this->b === '\'' || $this->b === '"')) {
                                 $this->saveRegex();
-                                continue;
+                                continue 3;
                             }
 
                             echo $this->a;
@@ -257,6 +277,7 @@ class Minifier
     protected function clean()
     {
         unset($this->input);
+        $this->len = 0;
         $this->index = 0;
         $this->a = $this->b = '';
         unset($this->c);
@@ -274,10 +295,9 @@ class Minifier
         if (isset($this->c)) {
             $char = $this->c;
             unset($this->c);
-
-            // Otherwise we start pulling from the input.
         } else {
-            $char = substr($this->input, $this->index, 1);
+            // Otherwise we start pulling from the input.
+            $char = $this->index < $this->len ? $this->input[$this->index] : false;
 
             // If the next character doesn't exist return false.
             if (isset($char) && $char === false) {
@@ -290,7 +310,7 @@ class Minifier
 
         // Normalize all whitespace except for the newline character into a
         // standard space.
-        if ($char !== "\n" && ord($char) < 32) {
+        if ($char !== "\n" && $char < "\x20") {
             return ' ';
         }
 
@@ -341,7 +361,7 @@ class Minifier
      */
     protected function processOneLineComments($startIndex)
     {
-        $thirdCommentString = substr($this->input, $this->index, 1);
+        $thirdCommentString = $this->index < $this->len ? $this->input[$this->index] : false;
 
         // kill rest of line
         $this->getNext("\n");
@@ -430,7 +450,7 @@ class Minifier
         $this->index = $pos;
 
         // Return the first character of that string.
-        return substr($this->input, $this->index, 1);
+        return $this->index < $this->len ? $this->input[$this->index] : false;
     }
 
     /**
@@ -448,7 +468,7 @@ class Minifier
         $this->a = $this->b;
 
         // If this isn't a string we don't need to do anything.
-        if (!in_array($this->a, $this->stringDelimiters)) {
+        if (!isset($this->stringDelimiters[$this->a])) {
             return;
         }
 
@@ -459,11 +479,8 @@ class Minifier
         echo $this->a;
 
         // Loop until the string is done
-        while (true) {
-
-            // Grab the very next character and load it into a
-            $this->a = $this->getChar();
-
+        // Grab the very next character and load it into a
+        while (($this->a = $this->getChar()) !== false) {
             switch ($this->a) {
 
                 // If the string opener (single or double quote) is used
@@ -561,7 +578,7 @@ class Minifier
         /* lock things like <code>"asd" + ++x;</code> */
         $lock = '"LOCK---' . crc32(time()) . '"';
 
-        $matches = array();
+        $matches = [];
         preg_match('/([+-])(\s+)([+-])/S', $js, $matches);
         if (empty($matches)) {
             return $js;
