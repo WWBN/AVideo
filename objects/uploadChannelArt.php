@@ -25,11 +25,11 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         $obj->msg = "File extension error [{$_FILES['file_data']['name']}], we allow only (" . implode(",", $allowed) . ")";
         die(json_encode($obj));
     }
-    
+
     $tmpDestination = "{$global['systemRootPath']}videos/userPhoto/tmp_background".User::getId().".". $extension;
     $obj->file = "videos/userPhoto/background".User::getId().".jpg";
     $oldfile = "{$global['systemRootPath']}videos/userPhoto/background".User::getId().".png";
-    
+
     if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $tmpDestination)) {
         $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename . $ext;
         die(json_encode($obj));
@@ -39,7 +39,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     if(file_exists($oldfile)){
         unlink($oldfile);
     }
-    
+
     echo "{}";
     exit;
 }

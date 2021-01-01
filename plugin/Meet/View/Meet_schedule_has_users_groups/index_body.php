@@ -9,7 +9,6 @@ if (!User::isAdmin()) {
 }
 ?>
 
-
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fas fa-cog"></i> <?php echo __("Configurations"); ?>
@@ -80,7 +79,7 @@ if (!User::isAdmin()) {
         </div>
     </div>
 </div>
-<div id="Meet_schedule_has_users_groupsbtnModelLinks" style="display: none;">
+<div id="Meet_schedule_has_users_groupsbtnModelLinks" style="display:none;">
     <div class="btn-group pull-right">
         <button href="" class="edit_Meet_schedule_has_users_groups btn btn-default btn-xs">
             <i class="fa fa-edit"></i>

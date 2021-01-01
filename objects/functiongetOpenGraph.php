@@ -84,16 +84,16 @@ if (!empty($advancedCustom->twitter_player)) {
     <meta name="twitter:card" content="player" />
     <meta name="twitter:player" content="<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
     <meta name="twitter:player:width" content="480" />
-    <meta name="twitter:player:height" content="480" />    
+    <meta name="twitter:player:height" content="480" />
     <?php
 } else {
     if (!empty($advancedCustom->twitter_summary_large_image)) {
         ?>
-        <meta name="twitter:card" content="summary_large_image" />   
+        <meta name="twitter:card" content="summary_large_image" />
         <?php
     } else {
         ?>
-        <meta name="twitter:card" content="summary" />   
+        <meta name="twitter:card" content="summary" />
         <?php
     }
 }

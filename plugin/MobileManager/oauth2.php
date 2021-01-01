@@ -1,7 +1,6 @@
 <?php
-header("Access-Control-Allow-Headers: Content-Type");
+header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
-
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/hybridauth/hybridauth/src/autoload.php';
@@ -27,7 +26,6 @@ if (!empty($_GET['type'])) {
     if (empty($key)) {
         die(sprintf(__("%s ERROR: You must set a KEY on config"), $_GET['type']));
     }
-
 
     $scope = 'email';
     if($_GET['type']==='LinkedIn'){

@@ -10,21 +10,21 @@ if (!User::isLogged()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 
-if(empty($_POST['playlist_id']) && !empty($_GET['playlist_id'])){
+if (empty($_POST['playlist_id']) && !empty($_GET['playlist_id'])) {
     $_POST['playlist_id'] = intval($_GET['playlist_id']);
 }
 
 $obj = new PlayList($_POST['playlist_id']);
-if(User::getId() != $obj->getUsers_id()){
+if (User::getId() != $obj->getUsers_id()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 
 $count = 1;
 
-if(empty($_POST['list'])){
+if (empty($_POST['list'])) {
     // get all videos from playlist
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_POST['playlist_id']);
-    $videos = array();    
+    $videos = array();
     foreach ($videosArrayId as $value) {
         $videos[] = Video::getVideoLight($value);
     }
@@ -46,20 +46,18 @@ if(empty($_POST['list'])){
     //var_dump($sortFunc);exit;
     // sort video
     uasort($videos, $sortFunc);
-    
+
     // transfer the id to the list
     foreach ($videos as $key => $value) {
         $_POST['list'][] = $value['id'];
     }
-    
 }
-
 
 foreach ($_POST['list'] as $key => $value) {
     $result = $obj->addVideo($value, true, $count++);
 }
 
-if(!empty($_GET['sort'])){
+if (!empty($_GET['sort'])) {
     header("Location: ". $_SERVER['HTTP_REFERER']);
     //header("Location: ". User::getChannelLink($obj->getUsers_id()));
     exit;
@@ -69,9 +67,9 @@ $o->status = $result;
 //$o->channelName = $obj->get;
 echo json_encode($o);exit;
 
-
 // Comparison function
-function dateCmp($videoA, $videoB) {
+function dateCmp($videoA, $videoB)
+{
     $a = strtotime($videoA['created']);
     $b = strtotime($videoB['created']);
     if ($a == $b) {
@@ -79,7 +77,8 @@ function dateCmp($videoA, $videoB) {
     }
     return ($a > $b) ? -1 : 1;
 }
-function dateCmpDesc($videoA, $videoB) {
+function dateCmpDesc($videoA, $videoB)
+{
     $a = strtotime($videoA['created']);
     $b = strtotime($videoB['created']);
     if ($a == $b) {
@@ -87,9 +86,11 @@ function dateCmpDesc($videoA, $videoB) {
     }
     return ($a < $b) ? -1 : 1;
 }
-function titleASC($videoA, $videoB) {
+function titleASC($videoA, $videoB)
+{
     return strcasecmp($videoA['title'], $videoB['title']);
 }
-function titleDESC($videoA, $videoB) {
+function titleDESC($videoA, $videoB)
+{
     return strcasecmp($videoB['title'], $videoA['title']);
 }

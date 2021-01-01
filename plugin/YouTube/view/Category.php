@@ -18,7 +18,7 @@ if ((!empty($videos)) || ($objYTube->SubCategorys)) {
                     <div>
                         <a class="btn btn-default btn-sm pull-right"  href="<?php echo $global['webSiteRootURL']; ?>">
                             <i class="fa fa-backward"></i>
-                            <?php echo __("Back to startpage"); ?> 
+                            <?php echo __("Back to startpage"); ?>
                         </a>
                         <hr>
                     </div>
@@ -29,7 +29,7 @@ if ((!empty($videos)) || ($objYTube->SubCategorys)) {
                 <div>
                     <a class="btn btn-default btn-sm pull-right" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>">
                         <i class="fa fa-backward"></i>
-                        <?php echo __("Back to") . " " . $parentCat['name']; ?> 
+                        <?php echo __("Back to") . " " . $parentCat['name']; ?>
                     </a>
                     <hr>
                 </div>
@@ -43,7 +43,7 @@ if ((!empty($videos)) || ($objYTube->SubCategorys)) {
             <?php
         }
         if ((!empty($childCategories)) && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) {
-            ?>         
+            ?>
             <div class="clear clearfix">
                 <h3 class="YouTubeTitle"><i class="glyphicon glyphicon-download"></i>
                     <?php echo __("Sub-Category-YouTube"); ?>
@@ -115,10 +115,10 @@ if ((!empty($videos)) || ($objYTube->SubCategorys)) {
                                     <?php echo $cat['name']; ?>
                                 </div>
                             </a>
-                        </div>          
+                        </div>
 
                         <?php
-                    } // end of foreach-cat       
+                    } // end of foreach-cat
                     unset($_POST['sort']);
                     if (!empty($originalCat)) {
                         $_GET['catName'] = $originalCat;
