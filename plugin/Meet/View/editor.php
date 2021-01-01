@@ -18,7 +18,7 @@ AVideoPlugin::loadPlugin("Meet");
         ?>
         <div class="container-fluid">
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __('Meet') ?> 
+                <div class="panel-heading"><?php echo __('Meet') ?>
                     <div class="pull-right">
                         <?php echo AVideoPlugin::getSwitchButton("Meet"); ?>
                     </div>

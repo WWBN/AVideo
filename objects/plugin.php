@@ -448,7 +448,7 @@ class Plugin extends ObjectYPT {
         ObjectYPT::deleteALLCache();
         return parent::save();
     }
-    
+
     static function deletePluginCache($uuid){
         $name = "plugin{$uuid}";
         ObjectYPT::deleteCache($name);

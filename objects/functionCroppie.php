@@ -16,7 +16,7 @@ $croppieFilesAdded = 1;
         </center>
     </div>
     <div class="col-md-12 ">
-        <input type="file" id="upload<?php echo $uid; ?>" value="Choose a file" accept="image/*" style="display: none;" />
+        <input type="file" id="upload<?php echo $uid; ?>" value="Choose a file" accept="image/*" style="display:none;" />
     </div>
 </div>
 <script>
@@ -47,7 +47,7 @@ $croppieFilesAdded = 1;
         $('#upload-btn<?php echo $uid; ?>').on('click', function (ev) {
             $('#upload<?php echo $uid; ?>').trigger("click");
         });
-        
+
         $('#croppie<?php echo $uid; ?>').croppie('bind',{url: imageURL+'?'+Math.random()}).then(function () {
             $('#croppie<?php echo $uid; ?>').croppie('setZoom', <?php echo $zoom; ?>)
         });

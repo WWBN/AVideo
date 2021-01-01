@@ -40,11 +40,11 @@ if ($users_id = isChannel()) {
 <?php
 if (!empty($advancedCustom->twitter_summary_large_image)) {
     ?>
-    <meta name="twitter:card" content="summary_large_image" />   
+    <meta name="twitter:card" content="summary_large_image" />
     <?php
 } else {
     ?>
-    <meta name="twitter:card" content="summary" />   
+    <meta name="twitter:card" content="summary" />
     <?php
 }
 ?>

@@ -42,7 +42,6 @@ if (empty($obj->meet_schedule_id) && !empty($_REQUEST['starts'])) {
 }
 $obj->roomName = Meet::createRoomName(@$_REQUEST['RoomTopic']);
 
-
 if (empty($_REQUEST['starts'])) {
     $_REQUEST['starts'] = date("Y-m-d H:i:s");
 }
@@ -94,6 +93,6 @@ $obj->joinURL = Meet::getJoinURL();
 $obj->roomID = Meet::getRoomID($meet_schedule_id);
 $obj->invitation = Meet::getInvitation($meet_schedule_id);
 //var_dump($obj->domain);
-        
+
 die(json_encode($obj));
 ?>

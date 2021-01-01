@@ -8,7 +8,7 @@ $obj->error = true;
 $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('Meet');
-                                                
+
 if(!User::isAdmin()){
     $obj->msg = "You cant do this";
     die(json_encode($obj));

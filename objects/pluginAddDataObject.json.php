@@ -11,7 +11,7 @@ if (!User::isAdmin()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 if(empty($_POST['id'])){
-    die('{"error":"'.__("ID can't be blank").'"}');    
+    die('{"error":"'.__("ID can't be blank").'"}');
 }
 $obj = new Plugin($_POST['id']);
 

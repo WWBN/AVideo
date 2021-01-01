@@ -1,8 +1,8 @@
 <?php
-
 $global['webSiteRootURL'] .= (substr($global['webSiteRootURL'], -1) == '/' ? '' : '/');
 $global['systemRootPath'] .= (substr($global['systemRootPath'], -1) == '/' ? '' : '/');
 $global['session_name'] = md5($global['systemRootPath']);
+
 session_name($global['session_name']);
 
 if (empty($global['logfile'])) {
@@ -55,15 +55,17 @@ if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
 session_start();
 
 // DDOS protection can be disabled in video/configuration.php
-if (!empty($global['enableDDOSprotection']))
+if (!empty($global['enableDDOSprotection'])) {
     ddosProtection();
+}
 
 // set the reffer for aVideo
 $url1['host'] = "";
 $global["HTTP_REFERER"] = "";
 if (!empty($_SERVER["HTTP_REFERER"])) {
     if ((
-            strpos($_SERVER["HTTP_REFERER"], '/video/') !== false || strpos($_SERVER["HTTP_REFERER"], '/v/') !== false) &&
+        strpos($_SERVER["HTTP_REFERER"], '/video/') !== false || strpos($_SERVER["HTTP_REFERER"], '/v/') !== false
+    ) &&
             !empty($_SESSION["LAST_HTTP_REFERER"])) {
         if (strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/css/') !== false ||
                 strpos($_SESSION["LAST_HTTP_REFERER"], 'cache/js/') !== false ||
@@ -114,7 +116,7 @@ allowOrigin();
 $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
 if ($baseName !== 'xsendfile.php' && class_exists("Plugin")) {
     AVideoPlugin::getStart();
-} else if ($baseName !== 'xsendfile.php') {
+} elseif ($baseName !== 'xsendfile.php') {
     _error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");
 }
 if (empty($global['bodyClass'])) {
@@ -133,7 +135,7 @@ if (empty($global['disableTimeFix'])) {
     $mins -= $hrs * 60;
     $offset = sprintf('%+d:%02d', $hrs * $sgn, $mins);
     $global['mysqli']->query("SET time_zone='$offset';");
-     * 
+     *
      */
     ObjectYPT::setTimeZone();
 }
@@ -147,6 +149,6 @@ $sitemapFile = "{$global['systemRootPath']}sitemap.xml";
 
 if (!empty($_GET['type'])) {
     $metaDescription = " {$_GET['type']}";
-} else if (!empty($_GET['showOnly'])) {
+} elseif (!empty($_GET['showOnly'])) {
     $metaDescription = " {$_GET['showOnly']}";
 }

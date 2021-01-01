@@ -2,7 +2,7 @@
 $obj = AVideoPlugin::getObjectData('StripeYPT');
 $uid = uniqid();
 ?>
-<form method="post" action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletRazorPay/requestSubscription.json.php" style="display: none;" id="RazorPayForm<?php echo $uid; ?>">
+<form method="post" action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletRazorPay/requestSubscription.json.php" style="display:none;" id="RazorPayForm<?php echo $uid; ?>">
     <input type="text" name="value" value="" id="valueRazorPay<?php echo $uid; ?>" autocomplete="off"/>
     <input type="text" name="plans_id" value="<?php echo @$_GET['plans_id']; ?>" autocomplete="off"/>
 </form>
@@ -16,5 +16,4 @@ $uid = uniqid();
             $('#RazorPayForm<?php echo $uid; ?>').submit();
         });
     });
-
 </script>

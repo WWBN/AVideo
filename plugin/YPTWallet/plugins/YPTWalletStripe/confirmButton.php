@@ -38,7 +38,7 @@ $uid = uniqid();
 <button type="submit" class="btn btn-primary" id="YPTWalletStripeButton<?php echo $uid; ?>"><i class="fas fa-credit-card"></i> <?php echo __($obj->paymentButtonLabel); ?></button>
 <script src="https://js.stripe.com/v3/"></script>
 
-<form action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestPayment.json.php" method="post" id="payment-form<?php echo $uid; ?>" style="display: none;">
+<form action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestPayment.json.php" method="post" id="payment-form<?php echo $uid; ?>" style="display:none;">
     <hr>
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Credit or debit card</strong></div>

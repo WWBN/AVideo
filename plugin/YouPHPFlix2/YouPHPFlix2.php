@@ -23,9 +23,9 @@ class YouPHPFlix2 extends PluginAbstract {
     public function getUUID() {
         return "e3a568e6-ef61-4dcc-aad0-0109e9be8e36";
     }
-    
+
     public function getPluginVersion() {
-        return "1.0";   
+        return "1.0";
     }
 
     public function getEmptyDataObject() {
@@ -64,22 +64,22 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->titleLabelCSS = "";
         return $obj;
     }
-    
+
     public function getHelp(){
         if(User::isAdmin()){
-            return "<h2 id='YouPHPFlix help'>YouPHPFlix options (admin)</h2><table class='table'><thead><th>Option-name</th><th>Default</th><th>Description</th></thead><tbody><tr><td>DefaultDesign</td><td>checked</td><td>The original style, for each category, one row with the newest videos</td></tr><tr><td>DateAdded,MostPopular,MostWatched,SortByName</td><td>checked,checked,checked,unchecked</td><td>Metacategories</td></tr><tr><td>LiteDesign</td><td>unchecked</td> <td>All categories in one row</td></tr><tr><td>separateAudio</td><td>unchecked</td><td>Create a own row for audio</td></tr></tbody></table>";   
+            return "<h2 id='YouPHPFlix help'>YouPHPFlix options (admin)</h2><table class='table'><thead><th>Option-name</th><th>Default</th><th>Description</th></thead><tbody><tr><td>DefaultDesign</td><td>checked</td><td>The original style, for each category, one row with the newest videos</td></tr><tr><td>DateAdded,MostPopular,MostWatched,SortByName</td><td>checked,checked,checked,unchecked</td><td>Metacategories</td></tr><tr><td>LiteDesign</td><td>unchecked</td> <td>All categories in one row</td></tr><tr><td>separateAudio</td><td>unchecked</td><td>Create a own row for audio</td></tr></tbody></table>";
         }
         return "";
     }
-    
+
     public function getFirstPage(){
-        global $global; 
-        
+        global $global;
+
         if(!AVideoPlugin::isEnabledByName("CombineSites")){
             return $global['systemRootPath'].'plugin/YouPHPFlix2/view/modeFlix.php';
         }
-    }   
-        
+    }
+
     public function getHeadCode() {
         global $global, $isEmbed;
         $obj = $this->getDataObject();
@@ -98,22 +98,22 @@ class YouPHPFlix2 extends PluginAbstract {
         }
         return $css;
     }
-    
+
     static function getLinkToVideo($videos_id){
         $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
         $link = Video::getLinkToVideo($videos_id);
         if(!empty($obj->playVideoOnFullscreen)){
             if(!Video::isSerie($videos_id)){
                 $link = parseVideos($link, 1, 0, 0, 0, 1);
-            }            
+            }
         }
         return $link;
     }
-    
+
     public function getFooterCode() {
         $obj = $this->getDataObject();
         global $global;
-        
+
         $js = '';
         if(!empty($obj->playVideoOnFullscreen) && !isSerie()){
             $js = '<script>var playVideoOnFullscreen = true</script>';
@@ -123,5 +123,5 @@ class YouPHPFlix2 extends PluginAbstract {
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
         return $js;
     }
-    
+
 }

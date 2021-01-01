@@ -40,7 +40,7 @@ ob_start();
 
 if ($_REQUEST['meet_scheduled'] !== "past") {
     $invitation = Meet::getInvitation($obj->meet_schedule_id);
-    
+
     ?>
     <div class="row">
         <div class="form-group col-sm-9">

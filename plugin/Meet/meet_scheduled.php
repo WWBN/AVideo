@@ -65,12 +65,12 @@ if (!User::canCreateMeet()) {
         </tr>
     </tfoot>
 </table>
-<div id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinksJoinOnly" style="display: none;">
+<div id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinksJoinOnly" style="display:none;">
     <div class="btn-group pull-right">
         <?php
         if ($meet_scheduled == "today") {
             ?>
-            <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success btn-xs" 
+            <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success btn-xs"
                     data-toggle="tooltip" title="<?php echo __("Join"); ?>">
                 <i class="fa fa-check"></i>
             </button>
@@ -81,12 +81,12 @@ if (!User::canCreateMeet()) {
         ?>
     </div>
 </div>
-<div id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinks" style="display: none;">
+<div id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinks" style="display:none;">
     <div class="btn-group pull-right">
         <?php
         if ($meet_scheduled == "today") {
             ?>
-            <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success btn-xs" 
+            <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success btn-xs"
                     data-toggle="tooltip" title="<?php echo __("Join"); ?>">
                 <i class="fa fa-check"></i>
             </button>
@@ -94,11 +94,11 @@ if (!User::canCreateMeet()) {
         }
         if ($meet_scheduled == "today" || $meet_scheduled == "upcoming") {
             ?>
-            <button href="" class="copyInvitation_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs" 
+            <button href="" class="copyInvitation_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs"
                     data-toggle="tooltip" title="<?php echo __("Copy Invitation"); ?>">
                 <i class="fa fa-copy"></i>
             </button>
-            <button href="" class="copyLink_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs" 
+            <button href="" class="copyLink_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs"
                     data-toggle="tooltip" title="<?php echo __("Copy Link"); ?>">
                 <i class="fa fa-link"></i>
             </button>
@@ -170,12 +170,12 @@ if (!User::canCreateMeet()) {
                                 sortable: false,
                                 data: null,
                                 "render": function (data, type, row) {
-                                    
+
                                     if(row.isModerator){
                                         return $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinks').html()
                                     }else{
                                         return $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinksJoinOnly').html()
-                                        
+
                                     }
                                 }
                             }

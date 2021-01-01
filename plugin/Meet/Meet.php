@@ -123,7 +123,7 @@ Passcode: {password}
             return $obj->secret;
         }
     }
-    
+
     static function getAPPID() {
         $obj = AVideoPlugin::getDataObject("Meet");
         if ($obj->server->value == 'custom') {
@@ -136,7 +136,7 @@ Passcode: {password}
             return "avideo";
         }
     }
-    
+
     static function getISS() {
         $obj = AVideoPlugin::getDataObject("Meet");
         if ($obj->server->value == 'custom') {
@@ -149,7 +149,7 @@ Passcode: {password}
             return "*";
         }
     }
-    
+
     static function getAUD() {
         $obj = AVideoPlugin::getDataObject("Meet");
         if ($obj->server->value == 'custom') {

@@ -1,4 +1,4 @@
-<form method="post" action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletRazorPay/requestPayment.json.php" style="display: none;" id="RazorPayForm">
+<form method="post" action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletRazorPay/requestPayment.json.php" style="display:none;" id="RazorPayForm">
     <input type="text" name="value" value="" id="valueRazorPay" autocomplete="off"/>
 </form>
 <button class="btn btn-primary" id="YPTWalletRazorPayButton"><i class="far fa-credit-card"></i> RazorPay</button>

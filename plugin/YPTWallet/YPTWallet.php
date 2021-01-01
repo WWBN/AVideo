@@ -507,9 +507,9 @@ class YPTWallet extends PluginAbstract {
 
         global $global, $config;
 
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/phpmailer/src/PHPMailer.php';
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/phpmailer/src/SMTP.php';
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/phpmailer/src/Exception.php';
+        require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/PHPMailer.php';
+        require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/SMTP.php';
+        require_once $global['systemRootPath'] . 'objects/phpmailer/phpmailer/src/Exception.php';
 
         //Create a new PHPMailer instance
         $mail = new \PHPMailer\PHPMailer\PHPMailer;

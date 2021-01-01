@@ -3,7 +3,7 @@ include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideo.php';
 $percent = 90;
 ?>
 <div id="carouselRows" style="
-     background-color: rgb(<?php echo $obj->backgroundRGB; ?>); 
+     background-color: rgb(<?php echo $obj->backgroundRGB; ?>);
      background: -webkit-linear-gradient(bottom, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
      background: -o-linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
      background: linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
