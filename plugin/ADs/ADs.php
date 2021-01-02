@@ -152,7 +152,7 @@ class ADs extends PluginAbstract {
     static function giveGoogleATimeout($adCode){
         if(preg_match("/adsbygoogle/i", $adCode)){
             $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "clearTimeout(adsbygoogleTimeout); adsbygoogleTimeout = setTimeout(function () {(adsbygoogle = window.adsbygoogle || []).push({});},5000);", trim($adCode));
-            $adCode = "<div style='min-width:300px;min-height:90px;'>{$adCode}</div>";
+            $adCode = "<div style='min-width:250px;min-height:90px;'>{$adCode}</div>";
         }
         return $adCode;
     }
