@@ -15,7 +15,7 @@ if (!Permissions::canClearCache()) {
     die(json_encode($obj));
 }
 _session_start();
-$_SESSION['getAllCategoriesClearCache'] = 1;
+$_SESSION['user']['sessionCache']['getAllCategoriesClearCache'] = 1;
 clearCache();
 ObjectYPT::deleteALLCache();
 $obj->error = false;

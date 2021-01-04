@@ -197,6 +197,7 @@ class LiveTransmition extends ObjectYPT {
         $this->saveTransmition = intval($this->saveTransmition);
         $this->showOnTV = intval($this->showOnTV);
         $id = parent::save();
+        Category::clearCacheCount();
         return $id;
     }
 
