@@ -246,7 +246,7 @@ class Configuration {
 
     static function getOGImage() {
         global $global;
-        $destination = "{$global['systemRootPath']}videos/cache/og_200X200.jpg";
+        $destination = Video::getStoragePath()."cache/og_200X200.jpg";
         $return = self::_getFavicon(true);
         convertImageToOG($return['file'], $destination);
         return $global['webSiteRootURL'] . "videos/cache/og_200X200.jpg";

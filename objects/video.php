@@ -1623,7 +1623,7 @@ if (!class_exists('Video')) {
             $object = new stdClass();
 
             foreach (self::$types as $value) {
-                $progressFilename = "{$global['systemRootPath']}videos/{$filename}_progress_{$value}.txt";
+                $progressFilename = self::getStoragePathFromFileName($filename). "progress_{$value}.txt";
                 $content = @url_get_contents($progressFilename);
                 $object->$value = new stdClass();
                 if (!empty($content)) {
@@ -1804,10 +1804,10 @@ if (!class_exists('Video')) {
                 return false;
             }
             global $global;
-            $file = "{$global['systemRootPath']}videos/original_{$filename}";
+            $file = self::getStoragePath()."original_{$filename}";
             $this->removeFilePath($file);
 
-            $files = "{$global['systemRootPath']}videos/{$filename}";
+            $files = self::getStoragePath()."{$filename}";
             $this->removeFilePath($files);
         }
 
@@ -2790,7 +2790,7 @@ if (!class_exists('Video')) {
 
             // check if there is a webp image
             if ($type === '.gif' && (empty($_SERVER['HTTP_USER_AGENT']) || get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari')) {
-                $path = "{$global['systemRootPath']}videos/{$filename}.webp";
+                $path = self::getStoragePath()."{$filename}.webp";
                 if (file_exists($path)) {
                     $type = ".webp";
                 }
@@ -2824,10 +2824,10 @@ if (!class_exists('Video')) {
                     }
                 }
                 $source = array();
-                $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
+                $source['path'] = self::getStoragePath()."{$filename}{$type}";
 
                 if ($type == ".m3u8") {
-                    $source['path'] = "{$global['systemRootPath']}videos/{$filename}/index{$type}";
+                    $source['path'] = self::getStoragePath()."{$filename}/index{$type}";
                 }
                 $cleanFileName = self::getCleanFilenameFromFile($filename);
                 $video = Video::getVideoFromFileNameLight($cleanFileName);
@@ -3135,11 +3135,22 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        public static function getStoragePath()
-        {
+        public static function getStoragePath(){
             global $global;
             $path = "{$global['systemRootPath']}videos/";
             return $path;
+        }
+
+        public static function getStoragePathFromFileName($filename){
+            $cleanFileName = self::getCleanFilenameFromFile($filename);
+            $path = self::getStoragePath()."{$cleanFileName}/";
+            make_path($path);
+            return $path;
+        }
+
+        public static function getStoragePathFromVideosId($videos_id){
+            $v = new Video("", "", $videos_id);
+            return self::getStoragePathFromFileName($v->getFilename());
         }
 
         public static function getImageFromFilename($filename, $type = "video", $async = false)
@@ -3628,7 +3639,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             global $global;
-            $filePath = "{$global['systemRootPath']}videos/{$filename}";
+            $filePath = Video::getStoragePath()."{$filename}";
             // Streamlined for less coding space.
             $files = glob("{$filePath}*_thumbs*.jpg");
             foreach ($files as $file) {

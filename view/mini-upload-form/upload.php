@@ -151,7 +151,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         
         if($extension !== "jpg" && $video->getType() == "image"){
             sleep(1);// to make sure the file will be available
-            $file = "{$global['systemRootPath']}videos/". $video->getFilename();
+            $file = Video::getStoragePath()."". $video->getFilename();
             try {
                 convertImage("{$file}.{$extension}", "{$file}.jpg", 70); 
             } catch (Exception $exc) {

@@ -42,7 +42,7 @@ _error_log("ReceiveImage: "."Encoder receiving post ". json_encode($_FILES));
 
 $videoFileName = $video->getFilename();
 
-$destination_local = "{$global['systemRootPath']}videos/{$videoFileName}";
+$destination_local = Video::getStoragePath()."{$videoFileName}";
 
 $obj->jpgDest = "{$destination_local}.jpg";
 if (!empty($_FILES['image']['tmp_name']) && (!file_exists($obj->jpgDest) || filesize($obj->jpgDest)===42342)) {

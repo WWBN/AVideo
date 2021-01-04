@@ -53,7 +53,7 @@ class Layout extends PluginAbstract {
     public function getStart() {
         global $global;
         return "";
-        $filename = "{$global['systemRootPath']}videos/cache/custom.css";
+        $filename = Video::getStoragePath()."cache/custom.css";
         if (!file_exists($filename)) {
             include $global['systemRootPath'] . 'plugin/Customize/sass/compile.php';
         }

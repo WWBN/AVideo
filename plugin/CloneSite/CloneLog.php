@@ -5,7 +5,7 @@ class CloneLog{
     
     function __construct() {
         global $global;
-        $clonesDir = "{$global['systemRootPath']}videos/cache/clones/";
+        $clonesDir = Video::getStoragePath()."cache/clones/";
         $this->file = "{$clonesDir}client.log";
         if (!file_exists($clonesDir)) {
             mkdir($clonesDir, 0777, true);

@@ -55,7 +55,7 @@ if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
 }
 
 $videosSite = "{$objClone->cloneSiteURL}videos/";
-$videosDir = "{$global['systemRootPath']}videos/";
+$videosDir = Video::getStoragePath()."";
 $clonesDir = "{$videosDir}cache/clones/";
 $photosDir = "{$videosDir}userPhoto/";
 $photosSite = "{$videosSite}userPhoto/";
@@ -163,7 +163,7 @@ if (empty($objClone->useRsync)) {
     if(empty($port)){
         $port = 22;
     }
-    $rsync = "sshpass -p '{password}' rsync -av -e 'ssh  -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} {$global['systemRootPath']}videos/ --log-file='{$log->file}' ";
+    $rsync = "sshpass -p '{password}' rsync -av -e 'ssh  -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} Video::getStoragePath()." --log-file='{$log->file}' ";
     $cmd = str_replace("{password}", $objClone->cloneSiteSSHPassword->value, $rsync);
     $log->add("Clone (4 of {$totalSteps}): execute rsync ({$rsync})");
     

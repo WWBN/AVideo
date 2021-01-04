@@ -51,7 +51,7 @@ if (!empty($playlist_id)) {
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                 <?php
                 $imgGif = "";
-                if (file_exists("{$global['systemRootPath']}videos/{$autoPlayVideo['filename']}.gif")) {
+                if (file_exists(Video::getStoragePath()."{$autoPlayVideo['filename']}.gif")) {
                     $imgGif = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.gif";
                 }
                 if ($autoPlayVideo['type'] === "pdf") {

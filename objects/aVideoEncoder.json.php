@@ -88,7 +88,7 @@ if (empty($videoFileName)) {
     $video->setFilename($videoFileName);
 }
 
-$destination_local = "{$global['systemRootPath']}videos/{$videoFileName}";
+$destination_local = Video::getStoragePath()."{$videoFileName}";
 
 if (!empty($_FILES)) {
     _error_log("aVideoEncoder.json: Files " . json_encode($_FILES));
@@ -197,7 +197,7 @@ function downloadVideoFromDownloadURL($downloadURL)
     if ($file) {
         $_FILES['video']['name'] = basename($downloadURL);
 
-        $temp = "{$global['systemRootPath']}videos/cache/tmpFile/" . $_FILES['video']['name'];
+        $temp = Video::getStoragePath()."cache/tmpFile/" . $_FILES['video']['name'];
         _error_log("aVideoEncoder.json: save " . $temp);
         make_path($temp);
         file_put_contents($temp, $file);

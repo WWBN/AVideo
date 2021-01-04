@@ -1154,8 +1154,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         return $getVideosURL_V2Array[$cleanfilename];
     }
 
-    $pdf = "{$global['systemRootPath']}videos/{$cleanfilename}.pdf";
-    $mp3 = "{$global['systemRootPath']}videos/{$cleanfilename}.mp3";
+    $pdf = Video::getStoragePath()."{$cleanfilename}.pdf";
+    $mp3 = Video::getStoragePath()."{$cleanfilename}.mp3";
     if (file_exists($pdf)) {
         return getVideosURLPDF($fileName);
     } elseif (file_exists($mp3)) {
@@ -1204,7 +1204,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         $formats = array_merge($video, $audio, $image);
 
-        //$globQuery = "{$global['systemRootPath']}videos/{$cleanfilename}*.{" . implode(",", $formats) . "}";
+        //$globQuery = Video::getStoragePath()."{$cleanfilename}*.{" . implode(",", $formats) . "}";
         //$filesInDir = glob($globQuery, GLOB_BRACE);
         $filesInDir = globVideosDir($cleanfilename, true);
         foreach ($filesInDir as $file) {
@@ -1613,12 +1613,12 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
     $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-    $destinationFile = "{$global['systemRootPath']}videos/{$filename}";
+    $destinationFile = Video::getStoragePath()."{$filename}";
     _error_log("decideMoveUploadedToVideos: {$filename}");
     $path_info = pathinfo($filename);
     if ($type !== "zip" && $path_info['extension'] === 'zip') {
         _error_log("decideMoveUploadedToVideos: ZIp file {$filename}");
-        $dir = "{$global['systemRootPath']}videos/{$path_info['filename']}";
+        $dir = Video::getStoragePath()."{$path_info['filename']}";
         unzipDirectory($tmp_name, $dir); // unzip it
         cleanDirectory($dir);
         if (!empty($aws_s3)) {
@@ -1748,8 +1748,8 @@ function decideFile_put_contentsToVideos($tmp_name, $filename) {
     } elseif (!empty($ftp)) {
         $ftp->move_uploaded_file($tmp_name, $filename);
     } else {
-        if (!move_uploaded_file($tmp_name, "{$global['systemRootPath']}videos/{$filename}")) {
-            $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$global['systemRootPath']}videos/{$filename})";
+        if (!move_uploaded_file($tmp_name, Video::getStoragePath()."{$filename}")) {
+            $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$filename})";
             die(json_encode($obj));
         }
     }
@@ -2669,7 +2669,7 @@ function allowOrigin() {
 
 function rrmdir($dir) {
     global $global;
-    if ($dir == "{$global['systemRootPath']}videos/" || $dir == "{$global['systemRootPath']}videos") {
+    if ($dir == Video::getStoragePath()."" || $dir == "{$global['systemRootPath']}videos") {
         return false;
     }
     if (is_dir($dir)) {
@@ -3350,7 +3350,7 @@ function getCacheDir() {
 
 function clearCache() {
     global $global;
-    $dir = "{$global['systemRootPath']}videos/cache/";
+    $dir = Video::getStoragePath()."cache/";
     if (!empty($_GET['FirstPage'])) {
         $dir .= "firstPage/";
     }
@@ -3371,7 +3371,7 @@ function getUsageFromFilename($filename, $dir = "") {
     }
 
     if (empty($dir)) {
-        $dir = "{$global['systemRootPath']}videos/";
+        $dir = Video::getStoragePath()."";
     }
     $pos = strrpos($dir, '/');
     $dir .= (($pos === false) ? "/" : "");
@@ -3578,7 +3578,7 @@ function foldersize($path) {
 
 function getDiskUsage() {
     global $global;
-    $dir = "{$global['systemRootPath']}videos/";
+    $dir = Video::getStoragePath()."";
     $obj = new stdClass();
     $obj->disk_free_space = disk_free_space($dir);
     $obj->disk_total_space = disk_total_space($dir);
@@ -3806,7 +3806,7 @@ function isHLS() {
     global $video, $global;
     if (isLive()) {
         return true;
-    } elseif (!empty($video) && $video['type'] == 'video' && file_exists("{$global['systemRootPath']}videos/{$video['filename']}/index.m3u8")) {
+    } elseif (!empty($video) && $video['type'] == 'video' && file_exists(Video::getStoragePath()."{$video['filename']}/index.m3u8")) {
         return true;
     }
     return false;
@@ -4191,7 +4191,7 @@ function getTmpDir($subdir = "") {
     if (empty($_SESSION['getTmpDir'][$subdir . "_"])) {
         $tmpDir = sys_get_temp_dir();
         if (empty($tmpDir) || !_isWritable($tmpDir)) {
-            $tmpDir = "{$global['systemRootPath']}videos/cache/";
+            $tmpDir = Video::getStoragePath()."cache/";
         }
         $tmpDir = rtrim($tmpDir, '/') . '/';
         $tmpDir = "{$tmpDir}{$subdir}";
@@ -4901,7 +4901,7 @@ function globVideosDir($filename, $filesOnly = false) {
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
-    return _glob("{$global['systemRootPath']}videos/", $pattern);
+    return _glob(Video::getStoragePath()."", $pattern);
 }
 
 function getValidFormats() {
@@ -4966,7 +4966,7 @@ function downloadHLS($filepath) {
         return false;
     }
 
-    $videosDir = "{$global['systemRootPath']}videos/";
+    $videosDir = Video::getStoragePath()."";
 
     $outputfilename = str_replace($videosDir, "", $filepath);
     $parts = explode("/", $outputfilename);
@@ -5181,7 +5181,7 @@ function pathToRemoteURL($filename) {
 
 function getFilenameFromPath($path) {
     global $global;
-    $fileName = str_replace("{$global['systemRootPath']}videos/", "", $path);
+    $fileName = str_replace(Video::getStoragePath()."", "", $path);
     $fileName = Video::getCleanFilenameFromFile($fileName);
 
     return $fileName;
