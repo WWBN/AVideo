@@ -1,8 +1,10 @@
 <?php
-$AVideoMobileAPP_UA = "AVideoMobileApp";
-$AVideoEncoder_UA = "AVideoEncoder";
-$AVideoStreamer_UA = "AVideoStreamer";
-$AVideoStorage_UA = "AVideoStorage";
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
+$AVideoMobileAPP_UA = 'AVideoMobileApp';
+$AVideoEncoder_UA = 'AVideoEncoder';
+$AVideoStreamer_UA = 'AVideoStreamer';
+$AVideoStorage_UA = 'AVideoStorage';
 
 function forbiddenWords($text) {
     global $global;
@@ -84,9 +86,8 @@ function parse_size($size) {
     if ($unit) {
         // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
         return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-    } else {
-        return round($size);
     }
+    return round($size);
 }
 
 function humanFileSize($size, $unit = "") {
@@ -145,7 +146,7 @@ function secondsToHumanTiming($time, $precision = 0) {
     );
 
     /**
-     * For detection propouse only
+     * For detection purposes only
      */
     __('year');
     __('month');
@@ -529,7 +530,6 @@ function sendSiteEmail($to, $subject, $message) {
     $message = createEmailMessageFromTemplate($message);
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';;
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
@@ -605,12 +605,10 @@ function createEmailMessageFromTemplate($message) {
 }
 
 function sendEmailToSiteOwner($subject, $message) {
-    global $advancedCustom;
+    global $advancedCustom, $config, $global;
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     _error_log("sendEmailToSiteOwner {$subject}");
-    global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
@@ -865,7 +863,7 @@ function maxLifetime() {
         $bb_b2 = AVideoPlugin::getObjectDataIfEnabled('Blackblaze_B2');
         $secure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
         $maxLifetime = 0;
-        if (!empty($aws_s3) && !empty($aws_s3->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $aws_s3->presignedRequestSecondsTimeout < $maxLifetime) ){
+        if (!empty($aws_s3) && !empty($aws_s3->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $aws_s3->presignedRequestSecondsTimeout < $maxLifetime)) {
             $maxLifetime = $aws_s3->presignedRequestSecondsTimeout;
             _error_log("maxLifetime: AWS_S3 = {$maxLifetime}");
         }
@@ -2609,7 +2607,7 @@ function siteMap() {
         _error_log("siteMap: pregreplace1 fail ");
         $newXML1 = $xml;
     }
-    if(!empty($advancedCustom->siteMapUTF8Fix)){
+    if (!empty($advancedCustom->siteMapUTF8Fix)) {
         $newXML2 = preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', $newXML1);
         if (empty($newXML2)) {
             _error_log("siteMap: pregreplace2 fail ");
@@ -2630,7 +2628,7 @@ function siteMap() {
             _error_log("siteMap: pregreplace5 fail ");
             $newXML5 = $newXML4;
         }
-    }else{
+    } else {
         $newXML5 = $newXML1;
     }
     return $newXML5;
@@ -3714,11 +3712,7 @@ class YPTvideoObject
 
 function isToShowDuration($type) {
     $notShowTo = array('pdf', 'article', 'serie', 'zip', 'image');
-    if (in_array($type, $notShowTo)) {
-        return false;
-    } else {
-        return true;
-    }
+    return !in_array($type, $notShowTo);
 }
 
 function _dieAndLogObject($obj, $prefix = "") {
@@ -3916,8 +3910,8 @@ function URLHasLastSlash() {
 function ucname($str) {
     $str = ucwords(strtolower($str));
 
-    foreach(array('\'', '-') as $delim) {
-    if (strpos($str, $delim) !== false) {
+    foreach (array('\'', '-') as $delim) {
+        if (strpos($str, $delim) !== false) {
             $str = implode($delim, array_map('ucfirst', explode($delim, $str)));
         }
     }
@@ -4481,7 +4475,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         $page = getCurrentPage();
     }
 
-    $class = "";
+    $class = '';
     if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
         $class = "infiniteScrollPagination{$uid} hidden";
     }
@@ -4540,7 +4534,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     return $pag;
 }
 
-function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = "row bgWhite list-group-item menusDiv") {
+function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = 'row bgWhite list-group-item menusDiv') {
     global $global, $advancedCustom;
     include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
 }
@@ -5120,9 +5114,9 @@ function getHeaderContentTypeFromURL($url) {
     return false;
 }
 
-function canFullScreen(){
+function canFullScreen() {
     global $doNotFullScreen;
-    if(!empty($doNotFullScreen) || isSerie() || !isVideo()){
+    if (!empty($doNotFullScreen) || isSerie() || !isVideo()) {
         return false;
     }
     return true;

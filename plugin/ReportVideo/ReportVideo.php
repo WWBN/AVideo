@@ -3,39 +3,47 @@
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/ReportVideo/Objects/videos_reported.php';
+require_once $global['systemRootPath'] . 'objects/autoload.php';
 
-class ReportVideo extends PluginAbstract {
-
-    public function getTags() {
+class ReportVideo extends PluginAbstract
+{
+    public function getTags()
+    {
         return array(
             PluginTags::$RECOMMENDED,
             PluginTags::$FREE,
         );
     }
-    public function getDescription() {
+    public function getDescription()
+    {
         return "Create a button to report videos with inapropriate content";
     }
 
-    public function getName() {
+    public function getName()
+    {
         return "ReportVideo";
     }
 
-    public function getUUID() {
+    public function getUUID()
+    {
         return "b5e223db-785b-4436-8f7b-f297860c9be0";
     }
 
-    public function getEmptyDataObject() {
+    public function getEmptyDataObject()
+    {
         $obj = new stdClass();
         $obj->emailLogo = "";
 
         return $obj;
     }
 
-    public function getPluginVersion() {
+    public function getPluginVersion()
+    {
         return "2.2";
     }
 
-    public function updateScript() {
+    public function updateScript()
+    {
         global $global;
         //update version 2.0
         if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
@@ -55,7 +63,8 @@ class ReportVideo extends PluginAbstract {
         }
         return true;
     }
-    public function getWatchActionButton($videos_id) {
+    public function getWatchActionButton($videos_id)
+    {
         global $global, $video;
         if (!isVideo()) {
             return '';
@@ -74,14 +83,13 @@ class ReportVideo extends PluginAbstract {
         }
     }
 
-    function send($email, $subject, $body) {
+    public function send($email, $subject, $body)
+    {
         if (empty($email)) {
             return false;
         }
 
         global $global, $config;
-
-        require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
 
         //Create a new PHPMailer instance
         $mail = new \PHPMailer\PHPMailer\PHPMailer;
@@ -105,8 +113,8 @@ class ReportVideo extends PluginAbstract {
         }
     }
 
-    private function replaceText($users_id, $videos_id, $text) {
-
+    private function replaceText($users_id, $videos_id, $text)
+    {
         $user = new User($users_id);
         $userName = $user->getNameIdentification();
 
@@ -120,7 +128,8 @@ class ReportVideo extends PluginAbstract {
         return str_replace($replace, $words, $text);
     }
 
-    private function getTemplateText($videos_id, $message) {
+    private function getTemplateText($videos_id, $message)
+    {
         global $global, $config;
         $obj = $this->getDataObject();
         $text = file_get_contents("{$global['systemRootPath']}plugin/ReportVideo/template.html");
@@ -139,7 +148,8 @@ class ReportVideo extends PluginAbstract {
         return str_replace($replace, $words, $text);
     }
 
-    function report($users_id, $videos_id) {
+    public function report($users_id, $videos_id)
+    {
         global $global, $config;
         // check if this user already report this video
         $report = VideosReported::getFromDbUserAndVideo($users_id, $videos_id);
@@ -166,9 +176,9 @@ class ReportVideo extends PluginAbstract {
 
                 if (!$videoOwnerSent && !$siteOwnerSent) {
                     $resp->msg = __("We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as a inapropriated");
-                } else if (!$videoOwnerSent) {
+                } elseif (!$videoOwnerSent) {
                     $resp->msg = __("We could not notify the video owner {$email}, but we marked it as a inapropriated");
-                } else if (!$siteOwnerSent) {
+                } elseif (!$siteOwnerSent) {
                     $resp->msg = __("We could not notify the video owner {$siteOwnerEmail}, but we marked it as a inapropriated");
                 } else {
                     $resp->error = false;
@@ -186,7 +196,8 @@ class ReportVideo extends PluginAbstract {
         return $resp;
     }
 
-    function block($users_id, $reported_users_id) {
+    public function block($users_id, $reported_users_id)
+    {
         global $global, $config;
         // check if this user already report this video
         $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
@@ -214,7 +225,8 @@ class ReportVideo extends PluginAbstract {
         return $resp;
     }
 
-    function unBlock($users_id, $reported_users_id) {
+    public function unBlock($users_id, $reported_users_id)
+    {
         global $global, $config;
         // check if this user already report this video
         $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
@@ -240,7 +252,8 @@ class ReportVideo extends PluginAbstract {
         return $resp;
     }
 
-    static function isBlocked($reported_users_id, $users_id = 0) {
+    public static function isBlocked($reported_users_id, $users_id = 0)
+    {
         global $global, $config;
         if (empty($users_id)) {
             $users_id = User::getId();
@@ -251,7 +264,8 @@ class ReportVideo extends PluginAbstract {
         return in_array($reported_users_id, $reportedUsersId);
     }
 
-    static function getAllReportedUsersIdFromUser($users_id=0) {
+    public static function getAllReportedUsersIdFromUser($users_id=0)
+    {
         if (empty($users_id)) {
             $users_id = User::getId();
         }
@@ -259,7 +273,8 @@ class ReportVideo extends PluginAbstract {
         return VideosReported::getAllReportedUsersIdFromUser($users_id);
     }
 
-    static function buttonBlockUser($users_id) {
+    public static function buttonBlockUser($users_id)
+    {
         if ($users_id == User::getId()) {
             return '';
         }
@@ -273,7 +288,8 @@ class ReportVideo extends PluginAbstract {
         return $button;
     }
 
-    static function actionButtonBlockUser($users_id) {
+    public static function actionButtonBlockUser($users_id)
+    {
         if ($users_id == User::getId()) {
             return '';
         }
@@ -286,5 +302,4 @@ class ReportVideo extends PluginAbstract {
         echo $variable;
         return $button;
     }
-
 }
