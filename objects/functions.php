@@ -1,8 +1,10 @@
 <?php
-$AVideoMobileAPP_UA = "AVideoMobileApp";
-$AVideoEncoder_UA = "AVideoEncoder";
-$AVideoStreamer_UA = "AVideoStreamer";
-$AVideoStorage_UA = "AVideoStorage";
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
+$AVideoMobileAPP_UA = 'AVideoMobileApp';
+$AVideoEncoder_UA = 'AVideoEncoder';
+$AVideoStreamer_UA = 'AVideoStreamer';
+$AVideoStorage_UA = 'AVideoStorage';
 
 function forbiddenWords($text) {
     global $global;
@@ -84,9 +86,8 @@ function parse_size($size) {
     if ($unit) {
         // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
         return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
-    } else {
-        return round($size);
     }
+    return round($size);
 }
 
 function humanFileSize($size, $unit = "") {
@@ -145,7 +146,7 @@ function secondsToHumanTiming($time, $precision = 0) {
     );
 
     /**
-     * For detection propouse only
+     * For detection purposes only
      */
     __('year');
     __('month');
@@ -530,7 +531,6 @@ function sendSiteEmail($to, $subject, $message) {
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
     require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
-    ;
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
@@ -606,12 +606,10 @@ function createEmailMessageFromTemplate($message) {
 }
 
 function sendEmailToSiteOwner($subject, $message) {
-    global $advancedCustom;
+    global $advancedCustom, $config, $global;
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     _error_log("sendEmailToSiteOwner {$subject}");
-    global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
@@ -3717,11 +3715,7 @@ class YPTvideoObject {
 
 function isToShowDuration($type) {
     $notShowTo = array('pdf', 'article', 'serie', 'zip', 'image');
-    if (in_array($type, $notShowTo)) {
-        return false;
-    } else {
-        return true;
-    }
+    return !in_array($type, $notShowTo);
 }
 
 function _dieAndLogObject($obj, $prefix = "") {
@@ -4487,7 +4481,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         $page = getCurrentPage();
     }
 
-    $class = "";
+    $class = '';
     if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
         $class = "infiniteScrollPagination{$uid} hidden";
     }
@@ -4546,7 +4540,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     return $pag;
 }
 
-function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = "row bgWhite list-group-item menusDiv") {
+function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = 'row bgWhite list-group-item menusDiv') {
     global $global, $advancedCustom;
     include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
 }

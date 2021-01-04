@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
@@ -13,7 +14,7 @@ if (!User::isAdmin()) {
 
 header('Content-Type: application/json');
 if (empty($_POST['email'])) {
-    if (!empty($_REQUEST['users_groups_id'])){
+    if (!empty($_REQUEST['users_groups_id'])) {
         $users = User::getAllUsersFromUsergroup(
             $_REQUEST['users_groups_id'],
             false,
@@ -30,7 +31,6 @@ if (empty($_POST['email'])) {
 } else {
     $users[0]["email"] = $_POST['email'];
 }
-require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
 // send 100 emails at a time
 $mailsLimit = 100;
 
