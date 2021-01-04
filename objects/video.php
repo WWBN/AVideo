@@ -1966,17 +1966,12 @@ if (!class_exists('Video')) {
             if (isset($videogetResolution[$file])) {
                 return $videogetResolution[$file];
             }
-            if (!file_exists($file)) {
-                _error_log('{"status":"error", "msg":"getResolution ERROR, File (' . $file . ') Not Found"}');
-                $videogetResolution[$file] = 0;
-                return 0;
-            }
-
             if (
                     AVideoPlugin::isEnabledByName("Blackblaze_B2") ||
                     AVideoPlugin::isEnabledByName("AWS_S3") ||
                     AVideoPlugin::isEnabledByName("FTP_Storage") ||
-                    AVideoPlugin::isEnabledByName("YPTStorage")) {
+                    AVideoPlugin::isEnabledByName("YPTStorage")
+                    || !file_exists($file)) {
                 $videogetResolution[$file] = 0;
                 return 0;
             }
