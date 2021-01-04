@@ -118,7 +118,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                         </a>
                         <?php
                     }
-                    $filesToDownload = array();
+                    $filesToDownload = array(); 
                     if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                         if ($video['type'] == "zip") {
                             $files = getVideosURLZIP($video['filename']);
