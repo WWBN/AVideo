@@ -873,7 +873,7 @@ function maxLifetime() {
             $maxLifetime = $bb_b2->presignedRequestSecondsTimeout;
             _error_log("maxLifetime: B2 = {$maxLifetime}");
         }
-        if (!empty($secure) && !empty($aws_s3->tokenTimeOut)  && (empty($maxLifetime) || $secure->tokenTimeOut < $maxLifetime)) {
+        if (!empty($secure) && !empty($secure->tokenTimeOut)  && (empty($maxLifetime) || $secure->tokenTimeOut < $maxLifetime)) {
             $maxLifetime = $secure->tokenTimeOut;
             _error_log("maxLifetime: Secure = {$maxLifetime}");
         }
