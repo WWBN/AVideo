@@ -67,7 +67,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
     }
     ?>
 </span>
-
+<div class="clearfix"></div>
 <script>
     var meetPassword;
     var meetLink;
