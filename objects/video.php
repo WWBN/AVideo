@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
 global $global, $config, $videosPaths;
 
 if (!isset($global['systemRootPath'])) {
@@ -103,9 +105,8 @@ if (!class_exists('Video')) {
                 $this->views_count++;
                 AVideoPlugin::addView($this->id, $this->views_count);
                 return $obj;
-            } else {
-                die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
 
         public function updateViewsCount($total)
@@ -124,9 +125,8 @@ if (!class_exists('Video')) {
 
             if ($insert_row) {
                 return $insert_row;
-            } else {
-                die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
 
         public function addViewPercent($percent = 25)
@@ -141,9 +141,8 @@ if (!class_exists('Video')) {
 
             if ($insert_row) {
                 return true;
-            } else {
-                die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
 
         // allow users to count a view again in case it is refreshed
@@ -373,10 +372,9 @@ if (!class_exists('Video')) {
                 }
                 self::clearCache($this->id);
                 return $id;
-            } else {
-                _error_log('Video::save ' . $sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
-                return false;
             }
+            _error_log('Video::save ' . $sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
+            return false;
         }
 
         /*
@@ -547,9 +545,9 @@ if (!class_exists('Video')) {
                         sqlDAL::close($res);
                         if ($res != false) {
                             foreach ($fullResult as $row) {
-                                if ($row['type'] == "audio") {
+                                if ($row['type'] == 'audio') {
                                     $audioFound = true;
-                                } elseif ($row['type'] == "video") {
+                                } elseif ($row['type'] == 'video') {
                                     $videoFound = true;
                                 }
                             }
@@ -1851,7 +1849,6 @@ if (!class_exists('Video')) {
             global $global, $advancedCustom;
             if (empty($advancedCustom->disableHTMLDescription)) {
                 $articleObj = AVideoPlugin::getObjectData('Articles');
-                require_once $global['systemRootPath'] . 'objects/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
                 $configPuri = HTMLPurifier_Config::createDefault();
                 $purifier = new HTMLPurifier($configPuri);
                 if (empty($articleObj->allowAttributes)) {
@@ -1944,7 +1941,6 @@ if (!class_exists('Video')) {
         public static function getDurationFromFile($file)
         {
             global $global;
-            require_once $global['systemRootPath'] . 'objects/james-heinrich/getid3/getid3/getid3.php';
             // get movie duration HOURS:MM:SS.MICROSECONDS
             if (!file_exists($file)) {
                 _error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
@@ -1979,7 +1975,6 @@ if (!class_exists('Video')) {
             if (preg_match("/.m3u8$/i", $file) && AVideoPlugin::isEnabledByName('VideoHLS') && method_exists(new VideoHLS(), 'getHLSHigestResolutionFromFile')) {
                 $videogetResolution[$file] = VideoHLS::getHLSHigestResolutionFromFile($file);
             } else {
-                require_once $global['systemRootPath'] . 'objects/james-heinrich/getid3/getid3/getid3.php';
                 $getID3 = new getID3;
                 $ThisFileInfo = $getID3->analyze($file);
                 $videogetResolution[$file] = intval(@$ThisFileInfo['video']['resolution_y']);
@@ -4005,16 +4000,12 @@ if (!class_exists('Video')) {
         public static function getIncludeType($video)
         {
             $vType = $video['type'];
-            if ($vType == "linkVideo") {
-                if (isHTMLPage($video['videoLink'])) {
-                    $vType = "embed";
-                } else {
-                    $vType = "video";
-                }
-            } elseif ($vType == "live") {
-                $vType = "../../plugin/Live/view/liveVideo";
-            } elseif ($vType == "linkAudio") {
-                $vType = "audio";
+            if ($vType == 'linkVideo') {
+                $vType = isHTMLPage($video['videoLink']) ? 'embed' : 'video';
+            } elseif ($vType == 'live') {
+                $vType = '../../plugin/Live/view/liveVideo';
+            } elseif ($vType == 'linkAudio') {
+                $vType = 'audio';
             }
             if (!in_array($vType, Video::$typeOptions)) {
                 $vType = 'video';

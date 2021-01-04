@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 header('Content-Type: application/json');
 global $global, $config;
@@ -88,7 +89,6 @@ if (!empty($_POST['faviconBase64'])) {
             "status" => 'success',
             "url" => $global['systemRootPath'] . $photoURL
         );
-        require $global['systemRootPath'] . 'objects/chrisjean/php-ico/class-php-ico.php';
 
         $sizes = array(
             array(16, 16),

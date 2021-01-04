@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 global $global, $config;
@@ -12,7 +14,7 @@ TimeLogStart($timeLog);
 
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
-$input = json_decode($inputJSON, TRUE); //convert JSON into array
+$input = json_decode($inputJSON, true); //convert JSON into array
 if (!empty($input)) {
     foreach ($input as $key => $value) {
         $_POST[$key] = $value;
@@ -22,7 +24,6 @@ if (!empty($input)) {
 TimeLogEnd($timeLog, __LINE__);
 
 require_once $global['systemRootPath'] . 'videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/hybridauth/hybridauth/src/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
@@ -32,13 +33,15 @@ _error_log("Start Login Request");
 
 _error_log("redirectUri: " . $_POST['redirectUri']);
 
-if (!preg_match("|^" . $global['webSiteRootURL'] . "|", $_POST['redirectUri']))
+if (!preg_match("|^" . $global['webSiteRootURL'] . "|", $_POST['redirectUri'])) {
     $_POST['redirectUri'] = $global['webSiteRootURL'];
+}
 
 _error_log("same redirectUri: " . $_POST['redirectUri']);
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
+
 TimeLogEnd($timeLog, __LINE__);
 if (!empty($_GET['type'])) {
     if (!empty($_GET['redirectUri'])) {
@@ -130,8 +133,7 @@ if (!empty($_GET['type'])) {
         //header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
         //echo $e->getMessage();
     }
-    header('Content-Type: text/html');
-    ?>
+    header('Content-Type: text/html'); ?>
 <script>
     window.opener = self;
     if(window.name == 'loginYPT'){
@@ -212,7 +214,7 @@ $object->redirectUri = @$_POST['redirectUri'];
 if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRootURL'])) {
     if (!empty($advancedCustomUser->afterLoginGoToMyChannel)) {
         $object->redirectUri = User::getChannelLink();
-    } else if (!empty($advancedCustomUser->afterLoginGoToURL)) {
+    } elseif (!empty($advancedCustomUser->afterLoginGoToURL)) {
         $object->redirectUri = $advancedCustomUser->afterLoginGoToURL;
     }
 }
@@ -220,7 +222,7 @@ if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRoo
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     //_error_log("login.json.php get categories");
     $object->categories = Category::getAllCategories(true);
-    if(is_array($object->categories)){
+    if (is_array($object->categories)) {
         array_multisort(array_column($object->categories, 'hierarchyAndName'), SORT_ASC, $object->categories);
     }
 } else {
@@ -241,7 +243,7 @@ if ($object->isLogged) {
     if (!empty($p)) {
         require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
         $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
-        if(!empty($trasnmition)){
+        if (!empty($trasnmition)) {
             $object->streamServerURL = $p->getServer() . "?p=" . User::getUserPass();
             $object->streamKey = $trasnmition['key'];
         }
