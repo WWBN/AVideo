@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -9,10 +11,7 @@ $valid = Captcha::validation(@$_POST['captcha']);
 $obj = new stdClass();
 $obj->error = "";
 if ($valid) {
-
     $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><b>Website:</b> {$_POST['website']}<br><br>{$_POST['comment']}";
-    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
-
     //Create a new PHPMailer instance
     $mail = new \PHPMailer\PHPMailer\PHPMailer;
     setSiteSendMessage($mail);
