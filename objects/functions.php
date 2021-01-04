@@ -5127,3 +5127,12 @@ function canFullScreen(){
     }
     return true;
 }
+
+function getTinyMCE($id) {
+    global $global;
+    ob_start();
+    include $global['systemRootPath'] . 'objects/functionsGetTinyMCE.php';
+    $contents = ob_get_contents();
+    ob_end_clean();
+    return $contents;
+}
