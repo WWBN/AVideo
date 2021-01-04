@@ -1758,9 +1758,10 @@ if (CustomizeUser::canDownloadVideos()) {
 
                                                             }
     <?php
-} else if (!empty($config->getAllow_download()) || User::isAdmin()) {
+}
+if (User::isAdmin()) {
     ?>
-                                                            download = '<button type="button" class="btn btn-default btn-xs btn-block" onclick="whyICannotDownload(' + row.id + ');"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Why I cannot download?")); ?>"><span class="fa-stack" style="font-size: 0.8em;"><i class="fa fa-download fa-stack-1x"></i><i class="fas fa-ban fa-stack-2x" style="color:Tomato"></i></span></button>';
+                                                            download += '<button type="button" class="btn btn-default btn-xs btn-block" onclick="whyICannotDownload(' + row.id + ');"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Why I cannot download?")); ?>"><span class="fa-stack" style="font-size: 0.8em;"><i class="fa fa-download fa-stack-1x"></i><i class="fas fa-ban fa-stack-2x" style="color:Tomato"></i></span></button>';
     <?php
 }
 ?>
