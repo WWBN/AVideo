@@ -38,6 +38,7 @@ if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->vi
     if (!empty($_GET['download'])) {
         downloadHLS($_GET['file']);
     } else {
+        $filename = pathToRemoteURL($filename);
         $content = file_get_contents($filename);
         $newContent = str_replace('{$pathToVideo}', "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
         if (!empty($_GET['token'])) {
