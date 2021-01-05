@@ -142,7 +142,7 @@ error_log("Installation: ".__LINE__);
 
 $encoder = 'https://encoder1.avideo.com/';
 if(is_dir("{$_POST['systemRootPath']}Encoder")){
-    $encoder = "{$_POST['webSiteTitle']}Encoder/";
+    $encoder = "{$_POST['webSiteRootURL']}Encoder/";
 }
 
 $sql = "INSERT INTO configurations (id, video_resolution, users_id, version, webSiteTitle, language, contactEmail, encoderURL,  created, modified) "
