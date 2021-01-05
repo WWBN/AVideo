@@ -1,3 +1,6 @@
+<?php 
+$bgURL = User::getBackgroundURLFromUserID(User::getId());
+?>
 <style>
     .file-caption{
         padding: 6px 12px !important;
@@ -282,7 +285,7 @@ AVideoPlugin::getMyAccount(User::getId());
             showPreview: true,
             maxFileCount: 1,
             initialPreview: [
-                "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL'], User::getBackgroundURLFromUserID(User::getId()); ?>'>",
+                "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL'], $bgURL; ?>?<?php echo filectime($global['systemRootPath'].$bgURL); ?>'>",
             ],
             initialCaption: 'channelArt.jpg',
             initialPreviewShowDelete: false,
