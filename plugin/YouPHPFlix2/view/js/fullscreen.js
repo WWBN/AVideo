@@ -51,15 +51,18 @@ function linksToFullscreen(selector) {
     $(selector).each(function (index) {
         if(!$(this).hasClass('linksToFullscreen')){
             $(this).addClass('linksToFullscreen');
+            var href = $(this).attr('href');
+            $(this).attr('href', '#');
+            $(this).attr('fullhref', href);
             $(this).click(function (event) {
                 console.log("linksToFullscreen ");
                 event.preventDefault();
                 var link = $(this).attr('embed');
-                var href = $(this).attr('href');
+                var fullhref = $(this).attr('fullhref');
                 if (!link) {
-                    link = addGetParam(href, 'embed', 1);
+                    link = addGetParam(fullhref, 'embed', 1);
                 }
-                flixFullScreen(link, href);
+                flixFullScreen(link, fullhref);
             });
         }
     });
