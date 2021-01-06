@@ -311,7 +311,7 @@ class PlayLists extends PluginAbstract {
     static function getLiveLink($playlists_id) {
         global $global;
         if (!self::canPlayProgramsLive()) {
-            _error_log("PlayLists:getLiveLink anPlayProgramsLive() said no");
+            _error_log("PlayLists:getLiveLink canPlayProgramsLive() said no");
             return false;
         }
         // does it has videos?

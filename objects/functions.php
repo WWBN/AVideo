@@ -3716,7 +3716,7 @@ class YPTvideoObject {
 }
 
 function isToShowDuration($type) {
-    $notShowTo = array('pdf', 'article', 'serie', 'zip', 'image');
+    $notShowTo = array('pdf', 'article', 'serie', 'zip', 'image', 'live','livelinks');
     if (in_array($type, $notShowTo)) {
         return false;
     } else {

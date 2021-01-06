@@ -45,7 +45,7 @@ class LiveLinks extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";   
+        return "3.0";   
     }
 
     public function canAddLinks() {
@@ -82,6 +82,17 @@ class LiveLinks extends PluginAbstract {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+    
+    
+    static function getImage($id) {
+        global $global;
+        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=jpg";
+    }
+    
+    static function getImageGif($id) {
+        global $global;
+        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=gif";
     }
 
     /**
@@ -162,8 +173,22 @@ class LiveLinks extends PluginAbstract {
     
     
     public function updateScript() {
-        global $global;
-        sqlDal::writeSql(file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV2.0.sql'));
+        global $global;        
+        if (AVideoPlugin::compareVersion($this->getName(), "2") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV2.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "3") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV3.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        
         return true;
     }
     
@@ -228,6 +253,120 @@ class LiveLinks extends PluginAbstract {
         $obj = $this->getDataObject();
         $buttonTitle = $obj->buttonTitle;
         //include $global['systemRootPath'] . 'plugin/LiveLinks/getUploadMenuButton.php';
+    }
+    
+    
+
+    public static function getAllVideos($status = "", $showOnlyLoggedUserVideos = false, $activeUsersOnly = true) {
+        global $global, $config, $advancedCustom;
+        if (AVideoPlugin::isEnabledByName("VideoTags")) {
+            if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
+                TimeLogStart("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})");
+                $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
+                TimeLogEnd("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})", __LINE__);
+            }
+        }
+        $status = str_replace("'", "", $status);
+
+        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
+                . " FROM livelinks as v "
+                . " LEFT JOIN categories c ON categories_id = c.id "
+                . " LEFT JOIN users u ON v.users_id = u.id "
+                . " WHERE 1=1 ";
+
+        if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
+            $uid = intval(User::getId());
+            $sql .= " AND v.users_id = '{$uid}'";
+        } elseif (!empty($showOnlyLoggedUserVideos)) {
+            $uid = intval($showOnlyLoggedUserVideos);
+            $sql .= " AND v.users_id = '{$uid}'";
+        } elseif (!empty($_GET['channelName'])) {
+            $user = User::getChannelOwner($_GET['channelName']);
+            $uid = intval($user['id']);
+            $sql .= " AND v.users_id = '{$uid}' ";
+        }
+
+        if ($activeUsersOnly) {
+            $sql .= " AND u.status = 'a' ";
+        }
+
+        if ($status == "publicOnly") {
+            $sql .= " AND v.`type` = 1 ";
+        } elseif (!empty($status)) {
+            $sql .= " AND v.`type` = '{$status}'";
+        }
+
+        if (!empty($_GET['catName'])) {
+            $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name =  '{$_GET['catName']}' ))";
+        }
+
+        if (!empty($_GET['modified'])) {
+            $_GET['modified'] = str_replace("'", "", $_GET['modified']);
+            $sql .= " AND v.modified >= '{$_GET['modified']}'";
+        }
+
+        $sql .= AVideoPlugin::getVideoWhereClause();
+
+        if (strpos(strtolower($sql), 'limit') === false) {
+            if (!empty($_GET['limitOnceToOne'])) {
+                $sql .= " LIMIT 1";
+                unset($_GET['limitOnceToOne']);
+            }
+            $_REQUEST['rowCount'] = getRowCount();
+            if (!empty($_REQUEST['rowCount'])) {
+                $sql .= " LIMIT {$_REQUEST['rowCount']}";
+            } else {
+                _error_log("getAllVideos without limit " . json_encode(debug_backtrace()));
+                if (empty($global['limitForUnlimitedVideos'])) {
+                    $global['limitForUnlimitedVideos'] = 100;
+                }
+                if ($global['limitForUnlimitedVideos'] > 0) {
+                    $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                }
+            }
+        }
+
+        //echo $sql;exit;
+        //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+
+        sqlDAL::close($res);
+        $videos = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                unset($row['password']);
+                unset($row['recoverPass']);
+                if (empty($otherInfo)) {
+                    $otherInfo = array();
+                    $otherInfo['category'] = xss_esc_back($row['category']);
+                    $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
+                    //$otherInfo['title'] = UTF8encode($row['title']);
+                    $otherInfo['description'] = UTF8encode($row['description']);
+                    $otherInfo['descriptionHTML'] = Video::htmlDescription($otherInfo['description']);
+                    $otherInfo['filesize'] = 0;
+                }
+                
+                foreach ($otherInfo as $key => $value) {
+                    $row[$key] = $value;
+                }
+                
+                $row['rotation'] = 0;
+                $row['filename'] = '';
+                $row['type'] = 'livelinks';
+                $row['duration'] = '';
+                $row['isWatchLater'] = 0;
+                $row['isFavorite'] = 0;
+                $row['views_count'] = 0;
+
+                $videos[] = $row;
+            }
+            //$videos = $res->fetch_all(MYSQLI_ASSOC);
+        } else {
+            $videos = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $videos;
     }
 
 

@@ -16,6 +16,18 @@ if(!empty($_GET['c'])){
 }
 
 $livet =  LiveTransmition::getFromDbByUserName($_GET['u']);
+if(empty($livet) || !Live::isLive($livet['users_id'])){
+    $uploadedPoster = $global['systemRootPath'] . Live::getOfflineImage(false);
+    //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
+    if(file_exists($uploadedPoster)){
+        header('Content-Type: image/jpg');
+        echo file_get_contents($uploadedPoster);
+        exit;
+    }
+}
+
+$filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id']);
+
 if (empty($_GET['format'])) {
     $_GET['format'] = "png";
     header('Content-Type: image/x-png');
@@ -32,7 +44,7 @@ if (empty($_GET['format'])) {
 
 if(Live::isLiveThumbsDisabled()){
     $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
-    $uploadedPoster = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id']);
+    $uploadedPoster = $filename;
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
     if(file_exists($uploadedPoster)){
         header('Content-Type: image/jpg');
@@ -65,7 +77,12 @@ if($lt->userCanSeeTransmition()){
     }
     if(!empty($_SESSION[$url]['content'])){
         ob_end_clean();
-        echo $_SESSION[$url]['content'];
+        if(strlen($_SESSION[$url]['content']) === 70808){
+            _error_log("Live:getImage  It is the default image, try to show the poster ");
+            echo file_get_contents($filename);
+        }else{
+            echo $_SESSION[$url]['content'];
+        }
         _error_log("Live:getImage  Cached Good until ".  date("d/m/Y H:i:s", $_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s")." strlen: ". strlen($_SESSION[$url]['content']));
     }else{
         ob_end_clean();

@@ -31,6 +31,12 @@
                             <label for="inputLinkEnd"><?php echo __("End on"); ?>:</label>
                             <input type="text" id="inputLinkEnd" name="end_date" class="form-control datepickerLink input-sm" placeholder="<?php echo __("End on"); ?>" required>
                         </div>
+                        <div class="form-group col-sm-12">
+                            <label for="title"><?php echo __("Category"); ?>:</label>
+                            <?php
+                            echo Layout::getCategorySelect('categories_id');
+                            ?>
+                        </div>  
                         <div class="form-group col-sm-6">
                             <label for="linkType"><?php echo __("Type"); ?>:</label>
                             <select class="form-control input-sm" name="type" id="linkType">
@@ -103,19 +109,19 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var d = new Date(<?php echo $today['year'].",".$today['mon'].",".$today['mday'].",".$today['hours'].",".$today['minutes'].",".$today['seconds']; ?>);
-        setInterval(function() {
+        var d = new Date(<?php echo $today['year'] . "," . $today['mon'] . "," . $today['mday'] . "," . $today['hours'] . "," . $today['minutes'] . "," . $today['seconds']; ?>);
+        setInterval(function () {
             d.setSeconds(d.getSeconds() + 1);
-            $('#serverTime').text((d.getHours() +':' + d.getMinutes() + ':' + d.getSeconds() ));
+            $('#serverTime').text((d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));
         }, 1000);
-        
+
         var tableLinks = $('#exampleLinks').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/liveLinks.json.php",
             "columns": [
                 {"data": "title"},
                 {"data": "start_date"},
                 {"data": "end_date"},
-                {"data": "status", width:10},
+                {"data": "status", width: 10},
                 {"data": "type"},
                 {
                     sortable: false,
@@ -134,6 +140,8 @@
             e.preventDefault();
             $('#liveLinksForm').trigger("reset");
             $('#linkId').val('');
+            $('select[name="categories_id"]').val('');
+            $('select[name="categories_id"]').trigger('change');
         });
 
         $('#liveLinksForm').on('submit', function (e) {
@@ -160,33 +168,33 @@
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = tableLinks.row(tr).data();
-            
-                    swal({
+
+            swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                text: "<?php echo __("You will not be able to recover this action!"); ?>",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
             })
-            .then(function(willDelete) {
-              if (willDelete) {
+                    .then(function (willDelete) {
+                        if (willDelete) {
 
-                        modal.showPleaseWait();
-                        $.ajax({
-                            type: "POST",
-                            url: "<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/delete_liveLink.json.php",
-                            data: data
+                            modal.showPleaseWait();
+                            $.ajax({
+                                type: "POST",
+                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/delete_liveLink.json.php",
+                                data: data
 
-                        }).done(function (resposta) {
-                            if (resposta.error) {
-                                avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
-                            }
-                            tableLinks.ajax.reload();
-                            modal.hidePleaseWait();
-                        });
-              } 
-            });
-                    
+                            }).done(function (resposta) {
+                                if (resposta.error) {
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                }
+                                tableLinks.ajax.reload();
+                                modal.hidePleaseWait();
+                            });
+                        }
+                    });
+
         });
 
         $('#exampleLinks').on('click', 'button.editor_edit_link', function (e) {
@@ -200,6 +208,8 @@
             $('#inputLinkStarts').val(data.start_date);
             $('#inputLinkEnd').val(data.end_date);
             $('#linkType').val(data.type);
+            $('select[name="categories_id"]').val(data.categories_id);
+            $('select[name="categories_id"]').trigger('change');
             $('#linkStatus').val(data.status);
         });
     });

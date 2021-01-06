@@ -159,6 +159,9 @@ class LiveTransmition extends ObjectYPT {
         sqlDAL::close($res);
         if ($res != false) {
             $user = $data;
+            if(empty($user)){
+                return false;
+            }
             return static::getFromDbByUser($user['id']);
         } else {
             return false;

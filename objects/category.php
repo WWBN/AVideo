@@ -377,6 +377,13 @@ class Category {
                         //. " AND lt.id = (select id FROM live_transmitions lt2 WHERE lt.users_id = lt2.users_id ORDER BY CREATED DESC LIMIT 1 )"
                         . " ) > 0  ";
             }
+            if(AVideoPlugin::isEnabledByName("LiveLinks")){
+                $sql .= " OR "
+                        . " ("
+                        . " SELECT count(*) FROM livelinks ll where "
+                        . " (ll.categories_id = c.id OR ll.categories_id IN (SELECT id from categories where parentId = c.id))"
+                        . " ) > 0  ";
+            }
             $sql .= ")";
         }
         if (isset($_POST['sort']['title'])) {
@@ -404,10 +411,10 @@ class Category {
                     
                     $row['name'] = xss_esc_back($row['name']);
                     $row['total'] = $totals['total'];
-                    $row['total_array'] = $totals;
                     $row['fullTotal'] = $fullTotals['total'];
                     $row['fullTotal_videos'] = $fullTotals['videos'];
                     $row['fullTotal_lives'] = $fullTotals['lives'];
+                    $row['fullTotal_livelinks'] = $fullTotals['livelinks'];
                     $row['owner'] = User::getNameIdentificationById(@$row['users_id']);
                     $row['canEdit'] = self::userCanEditCategory($row['id']);
                     $row['canAddVideo'] = self::userCanAddInCategory($row['id']);
@@ -553,8 +560,9 @@ class Category {
     static function getTotalFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false) {
         $videos = self::getTotalVideosFromCategory($categories_id, $showUnlisted, $getAllVideos, $renew);
         $lives = self::getTotalLivesFromCategory($categories_id, $showUnlisted, $renew);
-        $total = $videos+$lives;
-        return array('videos'=>$videos, 'lives'=>$lives, 'total'=>$total);
+        $livelinkss = self::getTotalLiveLinksFromCategory($categories_id, $showUnlisted, $renew);
+        $total = $videos+$lives+$livelinkss;
+        return array('videos'=>$videos, 'lives'=>$lives, 'livelinks'=>$livelinkss, 'total'=>$total);
     }
     
     static function getTotalVideosFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false) {
@@ -583,6 +591,30 @@ class Category {
             $_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)]['videos'] = $total;
         }
         return $_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)]['videos'];
+    }
+    
+    static function getTotalLiveLinksFromCategory($categories_id, $showUnlisted = false, $renew = false) {
+        global $global;
+        if ($renew || empty($_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][0]['livelinks'])) {
+            $sql = "SELECT count(id) as total FROM livelinks v WHERE 1=1 AND categories_id = ? ";
+
+            if (empty($showUnlisted)) {
+                $sql .= " AND `type` = 'public' ";
+            } 
+            
+            //echo $categories_id, $sql;exit;
+            $res = sqlDAL::readSql($sql, "i", array($categories_id));
+            $fullResult = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            $total = empty($fullResult[0]['total']) ? 0 : intval($fullResult[0]['total']);
+            $rows = self::getChildCategories($categories_id);
+            foreach ($rows as $value) {
+                $total += self::getTotalLivesFromCategory($value['id'], $showUnlisted, $renew);
+            }
+            _session_start();
+            $_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][0]['livelinks'] = $total;
+        }
+        return $_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][0]['livelinks'];
     }
     
     static function getTotalLivesFromCategory($categories_id, $showUnlisted = false, $renew = false) {

@@ -62,7 +62,7 @@ function linksToFullscreen(selector) {
             $(this).addClass('linksToFullscreen');
             var href = $(this).attr('href');
             //console.log("linksToFullscreen href="+href);
-            $(this).attr('href', '#');
+            //$(this).attr('href', '#');
             $(this).attr('fullhref', href);
             $(this).off("click").click(function (event) {
                 event.preventDefault();
@@ -83,3 +83,20 @@ function linksToFullscreen(selector) {
     });
 }
 
+function linksToEmbed(selector) {
+    //console.log("linksToFullscreen "+selector);
+    $(selector).each(function (index) {
+        if(!$(this).hasClass('linksToEmbed')){
+            $(this).addClass('linksToEmbed');
+            var embed = $(this).attr('embed');
+            var href = $(this).attr('href');
+            if(embed){
+                href = embed;
+            }else{
+                href = addGetParam(href, 'embed', 1);
+            }
+            
+            $(this).attr('href', addGetParam(href, 'showCloseButton', 1));
+        }
+    });
+}
