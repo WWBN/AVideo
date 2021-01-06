@@ -90,6 +90,7 @@ class Gallery extends PluginAbstract {
         $obj->SubCategorys = false;
         $obj->showTags = true;
         $obj->showCategoryTag = true;
+        $obj->showCategoryLiveRow = false;
         $obj->searchOnChannels = true;
         $obj->searchOnChannelsRowCount = 12;
         $obj->playVideoOnFullscreen = false;

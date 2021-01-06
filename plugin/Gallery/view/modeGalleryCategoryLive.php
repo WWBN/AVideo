@@ -2,6 +2,12 @@
 if(empty($currentCat)){
     return false;
 }
+
+$galleryObj = AVideoPlugin::getObjectData("Gallery");
+if(empty($galleryObj->showCategoryLiveRow)){
+    return false;
+}
+
 $videosL = $videosLL = $videos = array();
 if (AVideoPlugin::isEnabledByName("Live")) {
     $videosL = Live::getAllVideos();
