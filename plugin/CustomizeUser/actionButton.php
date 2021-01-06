@@ -10,7 +10,7 @@ if ($obj->allowDonationLink && !empty($video['users_id'])) {
         <?php
     }
 }
-if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && is_object("YPTWallet")) {
+if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && class_exists("YPTWallet")) {
     if (!User::isLogged()) {
         ?>
         <a class="btn btn-warning no-outline" href="<?php echo $global['webSiteRootURL']; ?>user">
