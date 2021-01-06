@@ -48,14 +48,15 @@ function closeFlixFullScreen(url) {
 }
 
 function linksToFullscreen(selector) {
+    console.log("linksToFullscreen "+selector);
     $(selector).each(function (index) {
         if(!$(this).hasClass('linksToFullscreen')){
             $(this).addClass('linksToFullscreen');
             var href = $(this).attr('href');
+            console.log("linksToFullscreen href="+href);
             $(this).attr('href', '#');
             $(this).attr('fullhref', href);
             $(this).off("click").click(function (event) {
-                console.log("linksToFullscreen "+selector);
                 event.preventDefault();
                 var link = $(this).attr('embed');
                 var fullhref = $(this).attr('fullhref');
