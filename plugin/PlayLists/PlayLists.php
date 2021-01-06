@@ -316,6 +316,7 @@ class PlayLists extends PluginAbstract {
         // does it has videos?
         $videosArrayId = PlayLists::getOnlyVideosAndAudioIDFromPlaylistLight($playlists_id);
         if (empty($videosArrayId)) {
+            _error_log("PlayLists:getLiveLink getOnlyVideosAndAudioIDFromPlaylistLight($playlists_id)");
             return false;
         }
 
