@@ -311,12 +311,13 @@ class PlayLists extends PluginAbstract {
     static function getLiveLink($playlists_id) {
         global $global;
         if (!self::canPlayProgramsLive()) {
+            _error_log("PlayLists:getLiveLink anPlayProgramsLive() said no");
             return false;
         }
         // does it has videos?
         $videosArrayId = PlayLists::getOnlyVideosAndAudioIDFromPlaylistLight($playlists_id);
         if (empty($videosArrayId)) {
-            _error_log("PlayLists:getLiveLink getOnlyVideosAndAudioIDFromPlaylistLight($playlists_id)");
+            _error_log("PlayLists:getLiveLink getOnlyVideosAndAudioIDFromPlaylistLight($playlists_id) said no");
             return false;
         }
 
@@ -333,10 +334,12 @@ class PlayLists extends PluginAbstract {
     static function canPlayProgramsLive() {
         // can the user live?
         if (!User::canStream()) {
+            _error_log("Playlists:canPlayProgramsLive this user cannon stream");
             return false;
         }
         // Is API enabled
         if (!AVideoPlugin::isEnabledByName("API")) {
+            _error_log("Playlists:canPlayProgramsLive you need to enable the API plugin to be able to play live programs", AVideoLog::$WARNING);
             return false;
         }
         return true;
