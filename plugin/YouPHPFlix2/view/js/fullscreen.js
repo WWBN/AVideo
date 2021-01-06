@@ -48,12 +48,12 @@ function closeFlixFullScreen(url) {
 }
 
 function linksToFullscreen(selector) {
-    console.log("linksToFullscreen "+selector);
+    //console.log("linksToFullscreen "+selector);
     $(selector).each(function (index) {
         if(!$(this).hasClass('linksToFullscreen')){
             $(this).addClass('linksToFullscreen');
             var href = $(this).attr('href');
-            console.log("linksToFullscreen href="+href);
+            //console.log("linksToFullscreen href="+href);
             $(this).attr('href', '#');
             $(this).attr('fullhref', href);
             $(this).off("click").click(function (event) {
@@ -61,7 +61,7 @@ function linksToFullscreen(selector) {
                 var link = $(this).attr('embed');
                 var fullhref = $(this).attr('fullhref');
                 if (!link) {
-                    console.log("linksToFullscreen embed not found");
+                    //console.log("linksToFullscreen embed not found");
                     link = addGetParam(fullhref, 'embed', 1);
                 }
                 flixFullScreen(link, fullhref);
