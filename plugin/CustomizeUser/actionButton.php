@@ -17,7 +17,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
             <i class="fas fa-donate"></i> <small><?php echo __("Please login to donate"); ?></small>
         </a>    
         <?php
-    } else if(is_object("YPTWallet")){
+    } else if(class_exists("YPTWallet")){
         $u = new User($video['users_id']);
         $uid = uniqid();
         $captcha = User::getCaptchaForm($uid);
