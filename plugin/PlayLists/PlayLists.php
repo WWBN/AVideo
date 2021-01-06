@@ -541,6 +541,9 @@ class PlayLists extends PluginAbstract {
         //}
 
         $json = json_decode($content);
+        if(!is_object($json)){
+            return array();
+        }
         $getSiteEPGs = object_to_array($json->sites);
         $getSiteEPGs['generated'] = $json->generated;
         //ObjectYPT::setCache($name, $getSiteEPGs);
@@ -638,9 +641,11 @@ class PlayLists extends PluginAbstract {
 
     static function getPlayLiveButton($playlists_id) {
         if (!self::showPlayLiveButton()) {
+            _error_log("getPlayLiveButton: showPlayLiveButton said no");
             return "";
         }
         if (!self::canManagePlaylist($playlists_id)) {
+            _error_log("getPlayLiveButton: canManagePlaylist($playlists_id) said no");
             return "";
         }
         global $global;
@@ -657,6 +662,8 @@ class PlayLists extends PluginAbstract {
         if (!empty($liveLink)) {
             $template = file_get_contents("{$global['systemRootPath']}plugin/PlayLists/playLiveButton.html");
             return str_replace(array('{isLive}','{liveLink}', '{btnId}', '{label}','{labelLive}', '{tooltip}', '{tooltipLive}'), array($isLive, $liveLink, $btnId, $label, $labelLive, $tooltip, $tooltipLive), $template);
+        }else{
+            _error_log("getPlayLiveButton: liveLink is empty");
         }
         return '';
     }
