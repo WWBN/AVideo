@@ -61,6 +61,7 @@ function linksToFullscreen(selector) {
                 var link = $(this).attr('embed');
                 var fullhref = $(this).attr('fullhref');
                 if (!link) {
+                    console.log("linksToFullscreen embed not found");
                     link = addGetParam(fullhref, 'embed', 1);
                 }
                 flixFullScreen(link, fullhref);
