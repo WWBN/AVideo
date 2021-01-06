@@ -55,7 +55,7 @@ function linksToFullscreen(selector) {
             $(this).attr('href', '#');
             $(this).attr('fullhref', href);
             $(this).click(function (event) {
-                console.log("linksToFullscreen ");
+                console.log("linksToFullscreen "+selector);
                 event.preventDefault();
                 var link = $(this).attr('embed');
                 var fullhref = $(this).attr('fullhref');
