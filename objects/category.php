@@ -595,6 +595,11 @@ class Category {
     
     static function getTotalLiveLinksFromCategory($categories_id, $showUnlisted = false, $renew = false) {
         global $global;
+        
+        if(!AVideoPlugin::isEnabledByName("LiveLinks")){
+            return 0;
+        }
+        
         if ($renew || empty($_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][0]['livelinks'])) {
             $sql = "SELECT count(id) as total FROM livelinks v WHERE 1=1 AND categories_id = ? ";
 
@@ -618,6 +623,12 @@ class Category {
     }
     
     static function getTotalLivesFromCategory($categories_id, $showUnlisted = false, $renew = false) {
+        
+        
+        if(!AVideoPlugin::isEnabledByName("Live")){
+            return 0;
+        }
+        
         global $global;
         if ($renew || empty($_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][0]['live'])) {
             $sql = "SELECT count(id) as total FROM live_transmitions v WHERE 1=1 AND categories_id = ? ";
