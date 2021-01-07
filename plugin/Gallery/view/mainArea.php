@@ -118,6 +118,8 @@
                         <?php
                         if($obj->playVideoOnFullscreenOnIframe){
                             echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
+                        }else if(!empty($obj->playVideoOnFullscreen)){
+                            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
                         }
                         ?>
                     });
@@ -126,6 +128,8 @@
                         <?php
                         if($obj->playVideoOnFullscreenOnIframe){
                             echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
+                        }else if(!empty($obj->playVideoOnFullscreen)){
+                            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
                         }
                         ?>
                     }, 500);
