@@ -181,7 +181,7 @@ class Live extends PluginAbstract {
         $obj->playLiveInFullScreen = false;
         self::addDataObjectHelper('playLiveInFullScreen', 'Play Livestream in Full Screen');
         $obj->playLiveInFullScreenOnIframe = false;
-        self::addDataObjectHelper('playLiveInFullScreen', 'Play Livestream in Full Screen on IFrame');
+        self::addDataObjectHelper('playLiveInFullScreenOnIframe', 'Play Livestream in Full Screen on IFrame');
         $obj->hls_path = "/HLS/live";
         self::addDataObjectHelper('hls_path', 'HLS Path URL', 'Used only when we stop a Live, we use this path to delete the files');
         $obj->requestStatsTimout = 4; // if the server does not respond we stop wait
