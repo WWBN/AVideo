@@ -415,7 +415,7 @@ abstract class ObjectYPT implements ObjectInterface
         }
 
         make_path($tmpDir);
-        if (!file_exists($tmpDir . "index.html")) {// to avoid search into the directory
+        if (!file_exists($tmpDir . "index.html") && is_writable($tmpDir)) {// to avoid search into the directory
             file_put_contents($tmpDir . "index.html", time());
         }
         return $tmpDir;
