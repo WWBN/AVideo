@@ -3845,7 +3845,12 @@ function isSameVideoAsSelfURI($url) {
 }
 
 function URLsAreSameVideo($url1, $url2) {
-    return getVideoIDFromURL($url1) == getVideoIDFromURL($url2);
+    $videos_id1 = getVideoIDFromURL($url1);
+    $videos_id2 = getVideoIDFromURL($url2);
+    if(empty($videos_id1) || empty($videos_id2)){
+        return false;
+    }
+    return $videos_id1 === $videos_id2;
 }
 
 function getVideoIDFromURL($url) {
