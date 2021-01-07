@@ -64,6 +64,7 @@ $sourceMP4 = Video::getSourceFile($video['filename'], ".mp4");
 if(preg_match("/.m3u8/i", $sourceMP4['url'])){
     if(CustomizeUser::canDownloadVideos()){
         $sourceMP4['url'] = addQueryStringParameter($sourceMP4['url'], "download", 1);
+        $sourceMP4['url'] = addQueryStringParameter($sourceMP4['url'], "mp4", 1);
     }else{
         $sourceMP4['url'] = '';
     }
