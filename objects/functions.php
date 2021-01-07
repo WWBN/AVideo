@@ -4999,8 +4999,15 @@ function downloadHLS($filepath) {
         //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
         exec($command . " 2>&1", $output, $return);
         if (!empty($return)) {
-            _error_log("downloadHLS: " . implode(PHP_EOL, $output));
-            return false;
+            _error_log("downloadHLS: ERROR 1 " . implode(PHP_EOL, $output));
+            
+            $command = get_ffmpeg() . " -y -i {$filepath} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
+            //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
+            exec($command . " 2>&1", $output, $return);
+            if (!empty($return)) {
+                _error_log("downloadHLS: ERROR 2 " . implode(PHP_EOL, $output));
+                return false;
+            }
         }
     }
     //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
