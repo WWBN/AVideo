@@ -5197,10 +5197,6 @@ function showCloseButton(){
         return false;
     }
     
-    if (isIframe()) {
-        return false;
-    }
-    
     if(!isLive() && $obj = AVideoPlugin::getDataObjectIfEnabled("Gallery")){
         if(!empty($obj->playVideoOnFullscreen)){
             $_REQUEST['showCloseButton'] = 1;
