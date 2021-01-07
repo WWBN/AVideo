@@ -66,6 +66,13 @@ if(empty($source['url']) && CustomizeUser::canDownloadVideos()){
     if(!empty($source['url'])){
         $source['url'] .= ".mp4";
     }
+}else{
+    if(CustomizeUser::canDownloadVideos()){
+        echo "<!-- you cannot download videos we will not share the video source file -->";
+    }
+    if(empty($source['url'])){
+        echo "<!-- we could not get the MP4 source file -->";
+    }
 }
 if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['url'])) {
     ?>
@@ -76,6 +83,13 @@ if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['u
     <meta property="og:video:height" content="<?php echo $imgh; ?>" />
     <?php
 } else {
+    if(AVideoPlugin::isEnabledByName("SecureVideosDirectory")){
+        echo "<!-- SecureVideosDirectory plugin is enabled we will not share the video source file -->";
+    }
+    if(empty($source['url'])){
+        echo "<!-- we could not get the source file -->";
+    }
+    
     ?>
     <meta property="og:video" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
     <meta property="og:video:secure_url" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
