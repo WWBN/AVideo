@@ -63,7 +63,7 @@ if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($sourceMP4
     ?>
     <meta property="og:video" content="<?php echo $sourceMP4['url']; ?>" />
     <meta property="og:video:secure_url" content="<?php echo $sourceMP4['url']; ?>" />
-    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:type" content="<?php echo mime_content_type_per_filename($sourceMP4['url']); ?>" />
     <meta property="og:video:width" content="<?php echo $imgw; ?>" />
     <meta property="og:video:height" content="<?php echo $imgh; ?>" />
     <?php
@@ -80,12 +80,23 @@ if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($sourceMP4
 <!-- Twitter cards -->
 <?php
 if (!empty($advancedCustom->twitter_player)) {
+    if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($sourceMP4['url'])) {
+    ?>
+    <meta name="twitter:card" content="player" />
+    <meta name="twitter:player" content=<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
+    <meta name="twitter:player:width" content="<?php echo $imgw; ?>" />
+    <meta name="twitter:player:height" content="<?php echo $imgh; ?>" />
+    <meta name="twitter:player:stream" content="<?php echo $sourceMP4['url']; ?>" />
+    <meta name="twitter:player:stream:content_type" content="<?php echo mime_content_type_per_filename($sourceMP4['url']); ?>" />
+    <?php
+} else {
     ?>
     <meta name="twitter:card" content="player" />
     <meta name="twitter:player" content="<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
     <meta name="twitter:player:width" content="480" />
     <meta name="twitter:player:height" content="480" />
     <?php
+}
 } else {
     if (!empty($advancedCustom->twitter_summary_large_image)) {
         ?>
