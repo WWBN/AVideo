@@ -2866,6 +2866,7 @@ if (!class_exists('Video')) {
                 }
                 if (!file_exists($source['path']) || ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10))) {
                     if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg" && $type != "_portrait_thumbsV2.jpg" && $type != "_portrait_thumbsSmallV2.jpg") {
+                        $VideoGetSourceFile[$cacheName] = array('path' => false, 'url' => false);
                         $video = Video::getHigestResolution($filename);
                         
                         if(file_exists(@$video['path'])){
