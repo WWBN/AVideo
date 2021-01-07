@@ -4970,19 +4970,14 @@ function downloadHLS($filepath) {
         _error_log("downloadHLS: file NOT found: {$filepath}");
         return false;
     }
-
-    $videosDir = Video::getStoragePath()."";
-
-    $outputfilename = str_replace($videosDir, "", $filepath);
-    $parts = explode("/", $outputfilename);
-    $resolution = Video::getResolutionFromFilename($filepath);
-    $outputfilename = $parts[0] . "_{$resolution}_.mp4";
-    $outputpath = "{$videosDir}cache/downloads/{$outputfilename}";
-    make_path($outputpath);
-    if (empty($outputfilename)) {
-        _error_log("downloadHLS: empty outputfilename {$outputfilename}");
-        return false;
+    $output = m3u8ToMP4($filepath);
+    
+    if(empty($output)){
+        die("downloadHLS was not possible");
     }
+    
+    $outputpath = $output['path'];
+    $outputfilename = $output['filename'];
 
     if (!empty($_REQUEST['title'])) {
         $quoted = sprintf('"%s"', addcslashes(basename($_REQUEST['title']), '"\\'));
@@ -4991,8 +4986,32 @@ function downloadHLS($filepath) {
     } else {
         $quoted = $outputfilename;
     }
+    
+    header('Content-Description: File Transfer');
+    header('Content-Disposition: attachment; filename=' . $quoted);
+    header('Content-Transfer-Encoding: binary');
+    header('Connection: Keep-Alive');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Pragma: public');
+    header("X-Sendfile: {$outputpath}");
+    exit;
+}
 
-    $filepath = escapeshellcmd($filepath);
+function m3u8ToMP4($input){
+    $videosDir = Video::getStoragePath();
+    $outputfilename = str_replace($videosDir, "", $input);
+    $parts = explode("/", $outputfilename);
+    $resolution = Video::getResolutionFromFilename($input);
+    $outputfilename = $parts[0] . "_{$resolution}_.mp4";
+    $outputpath = "{$videosDir}cache/downloads/{$outputfilename}";
+    make_path($outputpath);
+    if (empty($outputfilename)) {
+        _error_log("downloadHLS: empty outputfilename {$outputfilename}");
+        return false;
+    }
+
+    $filepath = escapeshellcmd($input);
     $outputpath = escapeshellcmd($outputpath);
     if (!file_exists($outputpath)) {
         $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$filepath} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
@@ -5010,17 +5029,7 @@ function downloadHLS($filepath) {
             }
         }
     }
-    //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
-    //var_dump($command, $outputpath);exit;
-    header('Content-Description: File Transfer');
-    header('Content-Disposition: attachment; filename=' . $quoted);
-    header('Content-Transfer-Encoding: binary');
-    header('Connection: Keep-Alive');
-    header('Expires: 0');
-    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    header('Pragma: public');
-    header("X-Sendfile: {$outputpath}");
-    exit;
+    return array('path'=>$outputpath, 'filename'=>$outputfilename);
 }
 
 function getSocialModal($videos_id, $url = "", $title = "") {

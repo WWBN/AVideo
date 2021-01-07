@@ -6,6 +6,7 @@ if (empty($backURL)) {
     // if back URL is another video send it to the main page
     $videos_id = getVideoIDFromURL($backURL);
     if(!empty($videos_id)){
+        echo "<!-- backURL videos_id detected {$videos_id} -->";
         $backURL = $global['webSiteRootURL'];
     }
 }
