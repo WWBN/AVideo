@@ -25,12 +25,12 @@ CREATE TABLE IF NOT EXISTS `LiveLinks` (
   `categories_id` INT NULL ,
   PRIMARY KEY (`id`),
   INDEX `fk_LiveLinks_users_idx` (`users_id` ASC),
-    ADD CONSTRAINT `fk_LiveLinks_users2`
+  CONSTRAINT `fk_LiveLinks_users2`
       FOREIGN KEY (`users_id`)
       REFERENCES `users` (`id`)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
-    ADD CONSTRAINT `fk_livelinks_categories1`
+  CONSTRAINT `fk_livelinks_categories1`
       FOREIGN KEY (`categories_id`)
       REFERENCES `categories` (`id`)
       ON DELETE CASCADE
