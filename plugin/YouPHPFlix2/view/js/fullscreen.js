@@ -86,6 +86,7 @@ function linksToFullscreen(selector) {
 }
 
 function linksToEmbed(selector) {
+    //console.log('linksToEmbed("'+selector+'")');
     $(selector).each(function (index) {
         if(!$(this).hasClass('linksToEmbed')){
             $(this).addClass('linksToEmbed');
