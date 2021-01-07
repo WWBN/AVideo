@@ -1,3 +1,6 @@
+<?php
+$obj = AVideoPlugin::getDataObject("Live");
+?>
 <style>
     .liveVideo{
         position: relative;
@@ -181,10 +184,17 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
                         $('#availableLiveStream').removeClass('notfound');
                     }
                     $('.onlineApplications').text(response.total);
-                    if(typeof linksToFullscreen === 'function'){
-                        linksToFullscreen('a.liveLink');
-                    }
                 }
+
+                setTimeout(function () {
+<?php
+if (!empty($obj->playLiveInFullScreenOnIframe)) {
+    echo 'if (typeof linksToFullscreen === \'function\') {linksToFullscreen(\'.liveVideo a, #availableLiveStream a\');}';
+} else if (!empty($obj->playLiveInFullScreen)) {
+    echo 'if (typeof linksToEmbed === \'function\') {linksToEmbed(\'.liveVideo a, #availableLiveStream a\');}';
+}
+?>
+                }, 200);
                 if (recurrentCall) {
                     setTimeout(function () {
                         getStatsMenu(true);
@@ -265,7 +275,7 @@ if (isLive()) {
             key = application.key;
             live_servers_id = live_servers_id;
             isPrivate = application.isPrivate;
-            
+
             createLiveItem(href, title, name, photo, false, online, views, key, isPrivate);
 <?php
 if (empty($obj->doNotShowLiveOnVideosList)) {
@@ -274,10 +284,16 @@ if (empty($obj->doNotShowLiveOnVideosList)) {
     <?php
 }
 ?>
-            
-            if(typeof linksToFullscreen === 'function'){
-                linksToFullscreen('a.videoLink');
-            }
+            setTimeout(function () {
+<?php
+if (!empty($obj->playLiveInFullScreenOnIframe)) {
+    echo 'if (typeof linksToFullscreen === \'function\') {linksToFullscreen(\'.liveVideo a, #availableLiveStream a\');}';
+} else if (!empty($obj->playLiveInFullScreen)) {
+    echo 'if (typeof linksToEmbed === \'function\') {linksToEmbed(\'.liveVideo a, #availableLiveStream a\');}';
+}
+?>
+            }, 200);
+
         }
     }
 

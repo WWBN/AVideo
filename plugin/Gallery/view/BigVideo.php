@@ -62,12 +62,18 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             $colClass2 = "col-sm-8";
                             $colClass3 = "col-sm-6";
                         }
+                        $isserie = Video::isSerie($videoRow['id']);
+        
+                        $isserieClass = "";
+                        if($isserie){
+                            $isserieClass = "isserie";
+                        }
                         ?>
                         <div class="item <?php echo $count === 1 ? "active" : ""; ?>">
                             <div class="clear clearfix">
                                 <div class="row thumbsImage">
                                     <div class="<?php echo $colClass1; ?> galleryVideo">
-                                        <a class="galleryLink" videos_id="<?php echo $videoRow['id']; ?>" 
+                                        <a class="galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $videoRow['id']; ?>" 
                                            href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
                                            embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
                                            title="<?php echo $videoRow['title']; ?>" style="">
@@ -144,7 +150,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     </div>
                                     <div class="<?php echo $colClass2; ?>">
                                         <div class="<?php echo $colClass3; ?>">
-                                            <a class="h6 galleryLink" videos_id="<?php echo $videoRow['id']; ?>" 
+                                            <a class="h6 galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $videoRow['id']; ?>" 
                                                href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
                                                embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
                                                title="<?php echo $videoRow['title']; ?>">

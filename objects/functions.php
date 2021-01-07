@@ -5186,3 +5186,35 @@ function getFilenameFromPath($path) {
 
     return $fileName;
 }
+
+
+function showCloseButton(){
+    global $global, $showCloseButtonIncluded;
+    if(!empty($showCloseButtonIncluded)){
+        return false;
+    }
+    if(isSerie()){
+        return false;
+    }
+    
+    if (isIframe()) {
+        return false;
+    }
+    
+    if(!isLive() && $obj = AVideoPlugin::getDataObjectIfEnabled("Gallery")){
+        if(!empty($obj->playVideoOnFullscreen)){
+            $_REQUEST['showCloseButton'] = 1;
+        }
+    }
+    if(isLive() && $obj = AVideoPlugin::getDataObjectIfEnabled("Live")){
+        if(!empty($obj->playLiveInFullScreen)){
+            $_REQUEST['showCloseButton'] = 1;
+        }
+    }
+    if(!empty($_REQUEST['showCloseButton'])){
+        $showCloseButtonIncluded = 1;
+        include $global['systemRootPath'] . 'view/include/youtubeModeOnFullscreenCloseButton.php';
+        return true;
+    }
+    return false;
+}

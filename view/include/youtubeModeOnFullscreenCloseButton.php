@@ -1,15 +1,13 @@
 <?php
-if (!isIframe()) {
-    echo "<!-- divTopBar !isIframe -->";
-    return false;
-}
-if (!isEmbed()) {
-    echo "<!-- divTopBar !isEmbed -->";
-    return false;
-}
 $backURL = getBackURL();
 if (empty($backURL)) {
-    return false;
+    $backURL = $global['webSiteRootURL'];
+}else{
+    // if back URL is another video send it to the main page
+    $videos_id = getVideoIDFromURL($backURL);
+    if(!empty($videos_id)){
+        $backURL = $global['webSiteRootURL'];
+    }
 }
 
 ?>

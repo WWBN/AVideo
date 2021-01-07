@@ -153,9 +153,16 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         }
 
         $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
+        $isserie = Video::isSerie($value['id']);
+        
+        $isserieClass = "";
+        if($isserie){
+            $isserieClass = "isserie";
+        }
+        
         ?>
         <div class=" <?php echo $colsClass; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
-            <a class="galleryLink" videos_id="<?php echo $value['id']; ?>" 
+            <a class="galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $value['id']; ?>" 
                href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>"  
                embed="<?php echo Video::getLink($value['id'], $value['clean_title'], true, $getCN); ?>" title="<?php echo $value['title']; ?>">
                    <?php
@@ -183,7 +190,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                     echo AVideoPlugin::thumbsOverlay($value['id']);
                     @$timesG[__LINE__] += microtime(true) - $startG;
                     $startG = microtime(true);
-                    if (!empty($program) && Video::isSerie($value['id'])) {
+                    if (!empty($program) && $isserie) {
                         ?>
                         <div class="gallerySerieOverlay">
                             <div class="gallerySerieOverlayTotal">
@@ -243,7 +250,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 }
                 ?>
             </a>
-            <a class="h6 galleryLink" videos_id="<?php echo $value['id']; ?>" 
+            <a class="h6 galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $value['id']; ?>" 
                href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>"  
                embed="<?php echo Video::getLink($value['id'], $value['clean_title'], true, $getCN); ?>" title="<?php echo $value['title']; ?>">
                 <h2><?php echo $value['title']; ?></h2>

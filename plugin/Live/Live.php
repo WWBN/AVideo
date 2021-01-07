@@ -180,6 +180,8 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('disableMeetCamera', 'Disable Meet camera', 'This requires out Meet Server, with the Meet camera you can use your PC webcam directly in the webpage or mobile to make livestreams');
         $obj->playLiveInFullScreen = false;
         self::addDataObjectHelper('playLiveInFullScreen', 'Play Livestream in Full Screen');
+        $obj->playLiveInFullScreenOnIframe = false;
+        self::addDataObjectHelper('playLiveInFullScreen', 'Play Livestream in Full Screen on IFrame');
         $obj->hls_path = "/HLS/live";
         self::addDataObjectHelper('hls_path', 'HLS Path URL', 'Used only when we stop a Live, we use this path to delete the files');
         $obj->requestStatsTimout = 4; // if the server does not respond we stop wait
@@ -219,8 +221,13 @@ class Live extends PluginAbstract {
         $js = '';
         if (!empty($obj->playLiveInFullScreen)) {
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
-            $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'a.galleryLink\'); } });</script>';
+            $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'.liveVideo a.galleryLink\'); } });</script>';
+        }else
+        if (!empty($obj->playLiveInFullScreenOnIframe)) {
+            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'.liveVideo a.galleryLink\'); } });</script>';
         }
+        
         return $js;
     }
 

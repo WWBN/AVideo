@@ -560,9 +560,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
     </script>
     <?php
-    if(!empty($_REQUEST['showCloseButton'])){
-        include $global['systemRootPath'] . 'view/include/youtubeModeOnFullscreenCloseButton.php';
-    }
+    showCloseButton();
     ?>
 </body>
 </html>

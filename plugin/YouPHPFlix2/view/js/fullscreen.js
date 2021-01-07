@@ -56,7 +56,6 @@ function closeFlixFullScreen(url) {
 var linksToFullscreenActive = false;
 
 function linksToFullscreen(selector) {
-    //console.log("linksToFullscreen "+selector);
     $(selector).each(function (index) {
         if(!$(this).hasClass('linksToFullscreen')){
             $(this).addClass('linksToFullscreen');
@@ -65,38 +64,42 @@ function linksToFullscreen(selector) {
             //$(this).attr('href', '#');
             $(this).attr('fullhref', href);
             $(this).off("click").click(function (event) {
-                event.preventDefault();
                 if(linksToFullscreenActive){
                     return false;
                 }
                 linksToFullscreenActive = true;
                 setTimeout(function(){linksToFullscreenActive=false;}, 500);
-                var link = $(this).attr('embed');
-                var fullhref = $(this).attr('fullhref');
-                if (!link) {
-                    //console.log("linksToFullscreen embed not found");
-                    link = addGetParam(fullhref, 'embed', 1);
+                
+                if(!$(this).hasClass('isserie')){
+                    event.preventDefault();
+                    var link = $(this).attr('embed');
+                    var fullhref = $(this).attr('fullhref');
+                    if (!link) {
+                        //console.log("linksToFullscreen embed not found");
+                        link = addGetParam(fullhref, 'embed', 1);
+                    }
+                    flixFullScreen(link, fullhref);
                 }
-                flixFullScreen(link, fullhref);
             });
         }
     });
 }
 
 function linksToEmbed(selector) {
-    //console.log("linksToFullscreen "+selector);
     $(selector).each(function (index) {
         if(!$(this).hasClass('linksToEmbed')){
             $(this).addClass('linksToEmbed');
-            var embed = $(this).attr('embed');
-            var href = $(this).attr('href');
-            if(embed){
-                href = embed;
-            }else{
-                href = addGetParam(href, 'embed', 1);
+            if(!$(this).hasClass('isserie')){
+                var embed = $(this).attr('embed');
+                var href = $(this).attr('href');
+                if(embed){
+                    href = embed;
+                }else{
+                    href = addGetParam(href, 'embed', 1);
+                }
+
+                $(this).attr('href', addGetParam(href, 'showCloseButton', 1));
             }
-            
-            $(this).attr('href', addGetParam(href, 'showCloseButton', 1));
         }
     });
 }

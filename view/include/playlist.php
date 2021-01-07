@@ -1,5 +1,7 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+global $isSerie;
+$isSerie = 1;
 $playlist = new PlayList($playlist_id);
 
 $rowCount = getRowCount();

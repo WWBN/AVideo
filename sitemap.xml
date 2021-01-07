@@ -9,26 +9,26 @@
         <!-- Main Page -->
         <url>
             <loc>http://192.168.1.4/YouPHPTube/</loc>
-            <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+            <lastmod>2021-01-06T15:46:00+00:00</lastmod>
             <changefreq>always</changefreq>
             <priority>1.00</priority>
         </url>
 
         <url>
             <loc>http://192.168.1.4/YouPHPTube/help</loc>
-            <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+            <lastmod>2021-01-06T15:46:00+00:00</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.50</priority>
         </url>
         <url>
             <loc>http://192.168.1.4/YouPHPTube/about</loc>
-            <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+            <lastmod>2021-01-06T15:46:00+00:00</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.50</priority>
         </url>
         <url>
             <loc>http://192.168.1.4/YouPHPTube/contact</loc>
-            <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+            <lastmod>2021-01-06T15:46:00+00:00</lastmod>
             <changefreq>monthly</changefreq>
             <priority>0.50</priority>
         </url>
@@ -36,21 +36,21 @@
         <!-- Channels -->
         <url>
             <loc>http://192.168.1.4/YouPHPTube/channels</loc>
-            <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+            <lastmod>2021-01-06T15:46:00+00:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>0.80</priority>
         </url>
         
             <url>
                 <loc>http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom</loc>
-                <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
                 <changefreq>daily</changefreq>
                 <priority>0.90</priority>
             </url>
             
             <url>
                 <loc>http://192.168.1.4/YouPHPTube/channel/Danielnetocom</loc>
-                <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
                 <changefreq>daily</changefreq>
                 <priority>0.90</priority>
             </url>
@@ -58,50 +58,71 @@
         <!-- Categories -->
         
             <url>
+                <loc>http://192.168.1.4/YouPHPTube/cat/live-link</loc>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>0.80</priority>
+            </url>
+            
+            <url>
+                <loc>http://192.168.1.4/YouPHPTube/cat/categoria-para-live</loc>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>0.80</priority>
+            </url>
+            
+            <url>
+                <loc>http://192.168.1.4/YouPHPTube/cat/test</loc>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>0.80</priority>
+            </url>
+            
+            <url>
                 <loc>http://192.168.1.4/YouPHPTube/cat/scary-pockets</loc>
-                <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.80</priority>
             </url>
             
             <url>
                 <loc>http://192.168.1.4/YouPHPTube/cat/sub-category-2-1</loc>
-                <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.80</priority>
             </url>
             
             <url>
                 <loc>http://192.168.1.4/YouPHPTube/cat/new-category</loc>
-                <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.80</priority>
             </url>
             
             <url>
                 <loc>http://192.168.1.4/YouPHPTube/cat/default</loc>
-                <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.80</priority>
             </url>
             
             <url>
                 <loc>http://192.168.1.4/YouPHPTube/cat/sub-category-2-2</loc>
-                <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.80</priority>
             </url>
             
             <url>
                 <loc>http://192.168.1.4/YouPHPTube/cat/category-2</loc>
-                <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.80</priority>
             </url>
             
             <url>
                 <loc>http://192.168.1.4/YouPHPTube/cat/cats-dogs</loc>
-                <lastmod>2020-12-29T10:01:06+00:00</lastmod>
+                <lastmod>2021-01-06T15:46:00+00:00</lastmod>
                 <changefreq>weekly</changefreq>
                 <priority>0.80</priority>
             </url>
@@ -114,8 +135,93 @@
                     <video:description><![CDATA[Memoji - AVENGERS INFINITY WAR]]></video:description>
                     <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/153?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
                     <video:duration>13</video:duration>
-                    <video:view_count>152</video:view_count>
+                    <video:view_count>156</video:view_count>
                     <video:publication_date>2020-10-09T04:47:07+00:00</video:publication_date>
+                    <video:family_friendly>yes</video:family_friendly>
+                    <video:requires_subscription>no</video:requires_subscription>
+                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
+                    <video:live>no</video:live>
+                </video:video>
+            </url>
+            
+            <url>
+                <loc>http://192.168.1.4/YouPHPTube/video/152/memoji---avengers-infinity-war-1?channelName=AdminDanielnetocom</loc>
+                <video:video>
+                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5f7fcf08488605.72646111.jpg?1602211599</video:thumbnail_loc>
+                    <video:title><![CDATA[Memoji - AVENGERS INFINITY WAR]]></video:title>
+                    <video:description><![CDATA[Memoji - AVENGERS INFINITY WAR]]></video:description>
+                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/152?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
+                    <video:duration>13</video:duration>
+                    <video:view_count>7</video:view_count>
+                    <video:publication_date>2020-10-09T04:46:32+00:00</video:publication_date>
+                    <video:family_friendly>yes</video:family_friendly>
+                    <video:requires_subscription>no</video:requires_subscription>
+                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
+                    <video:live>no</video:live>
+                </video:video>
+            </url>
+            
+            <url>
+                <loc>http://192.168.1.4/YouPHPTube/video/187/avengers-endgame-but-only-best-scenes-4k-60fps-?channelName=AdminDanielnetocom</loc>
+                <video:video>
+                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5f8f923b7b5a16.46341524.jpg?1603244615</video:thumbnail_loc>
+                    <video:title><![CDATA[Avengers: Endgame but only Best Scenes [4K 60FPS]]]></video:title>
+                    <video:description><![CDATA[Avengers eg but only best moments 4k 60fps    Get DC Marvel Apparel here: http://bit.ly/FilmHD60FPSMarvelMerch  Use code game for an Extra 5% discount ($49+)!  Use code games for an Extra 10% discount ($99+)!          Ultra HD 4k 2160p  FULL HD 60FPS  Marvel  Film HD 60FPS]]></video:description>
+                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/187?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
+                    <video:duration>599</video:duration>
+                    <video:view_count>10</video:view_count>
+                    <video:publication_date>2020-10-21T03:43:23+00:00</video:publication_date>
+                    <video:family_friendly>yes</video:family_friendly>
+                    <video:requires_subscription>no</video:requires_subscription>
+                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
+                    <video:live>no</video:live>
+                </video:video>
+            </url>
+            
+            <url>
+                <loc>http://192.168.1.4/YouPHPTube/video/230/video-automatically-booked?channelName=AdminDanielnetocom</loc>
+                <video:video>
+                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/YouPHPTubeIntro_5fb7e47407c9f3.91989656.jpg?1605887093</video:thumbnail_loc>
+                    <video:title><![CDATA[YouPHPTubeIntro]]></video:title>
+                    <video:description><![CDATA[YouPHPTubeIntro]]></video:description>
+                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/230?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
+                    <video:duration>12</video:duration>
+                    <video:view_count>3</video:view_count>
+                    <video:publication_date>2020-11-20T12:44:47+00:00</video:publication_date>
+                    <video:family_friendly>yes</video:family_friendly>
+                    <video:requires_subscription>no</video:requires_subscription>
+                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
+                    <video:live>no</video:live>
+                </video:video>
+            </url>
+            
+            <url>
+                <loc>http://192.168.1.4/YouPHPTube/video/229/upload-12-34-dia-20-nov?channelName=AdminDanielnetocom</loc>
+                <video:video>
+                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5fb7e21abbde06.56681243.jpg?1605886493</video:thumbnail_loc>
+                    <video:title><![CDATA[Upload 12:34 dia 20 Nov]]></video:title>
+                    <video:description><![CDATA[Upload 12:34 dia 20 Nov]]></video:description>
+                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/229?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
+                    <video:duration>12</video:duration>
+                    <video:view_count>6</video:view_count>
+                    <video:publication_date>2020-11-20T12:34:50+00:00</video:publication_date>
+                    <video:family_friendly>yes</video:family_friendly>
+                    <video:requires_subscription>no</video:requires_subscription>
+                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
+                    <video:live>no</video:live>
+                </video:video>
+            </url>
+            
+            <url>
+                <loc>http://192.168.1.4/YouPHPTube/article/228/article-automatically-booked-1?channelName=AdminDanielnetocom</loc>
+                <video:video>
+                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/view/img/article.png</video:thumbnail_loc>
+                    <video:title><![CDATA[Article automatically booked]]></video:title>
+                    <video:description><![CDATA[teste 1  https://mail.google.com/mail/u/0/?pli=1#inbox/FMfcgxwKjTVSfvFxsVTMSxtLDcvcWPsw  https://mail.google.com/mail/u/0/?pli=1#inbox/FMfcgxwKjTVSfvFxsVTMSxtLDcvcWPsw  teste 2]]></video:description>
+                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/article/228/article-automatically-booked-1?channelName=AdminDanielnetocom&modestbranding=1&showinfo=0&autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
+                    <video:duration>0</video:duration>
+                    <video:view_count>9</video:view_count>
+                    <video:publication_date>2020-11-18T13:15:16+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
                     <video:requires_subscription>no</video:requires_subscription>
                     <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
@@ -137,8 +243,45 @@
 äääääÄÄÄÄÄ öööööÖÖÖÖÖÖ  ]]></video:description>
                     <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/265?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
                     <video:duration>12</video:duration>
-                    <video:view_count>1000</video:view_count>
+                    <video:view_count>1003</video:view_count>
                     <video:publication_date>2020-12-17T14:05:48+00:00</video:publication_date>
+                    <video:family_friendly>yes</video:family_friendly>
+                    <video:requires_subscription>no</video:requires_subscription>
+                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
+                    <video:live>no</video:live>
+                </video:video>
+            </url>
+            
+            <url>
+                <loc>http://192.168.1.4/YouPHPTube/video/231/youphptubeintro?channelName=AdminDanielnetocom</loc>
+                <video:video>
+                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/YouPHPTubeIntro_5fb7e4b9902ac1.03053842.jpg?1605887162</video:thumbnail_loc>
+                    <video:title><![CDATA[YouPHPTubeIntro]]></video:title>
+                    <video:description><![CDATA[YouPHPTubeIntro]]></video:description>
+                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/231?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
+                    <video:duration>12</video:duration>
+                    <video:view_count>27</video:view_count>
+                    <video:publication_date>2020-11-20T12:45:57+00:00</video:publication_date>
+                    <video:family_friendly>yes</video:family_friendly>
+                    <video:requires_subscription>no</video:requires_subscription>
+                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
+                    <video:live>no</video:live>
+                </video:video>
+            </url>
+            
+            <url>
+                <loc>http://192.168.1.4/YouPHPTube/video/175/video-for-subcategory-2-1?channelName=AdminDanielnetocom</loc>
+                <video:video>
+                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5f80cfdd946ee9.41483513.jpg?1602277365</video:thumbnail_loc>
+                    <video:title><![CDATA[Video for subcategory 2-1]]></video:title>
+                    <video:description><![CDATA[  
+
+
+  ]]></video:description>
+                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/175?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
+                    <video:duration>11</video:duration>
+                    <video:view_count>8</video:view_count>
+                    <video:publication_date>2020-10-09T23:02:21+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
                     <video:requires_subscription>no</video:requires_subscription>
                     <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
@@ -229,23 +372,6 @@ a:visited {
                     <video:duration>282</video:duration>
                     <video:view_count>11</video:view_count>
                     <video:publication_date>2020-11-09T16:22:12+00:00</video:publication_date>
-                    <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>no</video:requires_subscription>
-                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
-                    <video:live>no</video:live>
-                </video:video>
-            </url>
-            
-            <url>
-                <loc>http://192.168.1.4/YouPHPTube/video/231/youphptubeintro?channelName=AdminDanielnetocom</loc>
-                <video:video>
-                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/YouPHPTubeIntro_5fb7e4b9902ac1.03053842.jpg?1605887162</video:thumbnail_loc>
-                    <video:title><![CDATA[YouPHPTubeIntro]]></video:title>
-                    <video:description><![CDATA[YouPHPTubeIntro]]></video:description>
-                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/231?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
-                    <video:duration>12</video:duration>
-                    <video:view_count>27</video:view_count>
-                    <video:publication_date>2020-11-20T12:45:57+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
                     <video:requires_subscription>no</video:requires_subscription>
                     <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
@@ -364,40 +490,6 @@ This timer silently counts down to 0:00, then alerts you that time is up with a 
             </url>
             
             <url>
-                <loc>http://192.168.1.4/YouPHPTube/video/230/video-automatically-booked?channelName=AdminDanielnetocom</loc>
-                <video:video>
-                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/YouPHPTubeIntro_5fb7e47407c9f3.91989656.jpg?1605887093</video:thumbnail_loc>
-                    <video:title><![CDATA[YouPHPTubeIntro]]></video:title>
-                    <video:description><![CDATA[YouPHPTubeIntro]]></video:description>
-                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/230?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
-                    <video:duration>12</video:duration>
-                    <video:view_count>3</video:view_count>
-                    <video:publication_date>2020-11-20T12:44:47+00:00</video:publication_date>
-                    <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>no</video:requires_subscription>
-                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
-                    <video:live>no</video:live>
-                </video:video>
-            </url>
-            
-            <url>
-                <loc>http://192.168.1.4/YouPHPTube/video/229/upload-12-34-dia-20-nov?channelName=AdminDanielnetocom</loc>
-                <video:video>
-                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5fb7e21abbde06.56681243.jpg?1605886493</video:thumbnail_loc>
-                    <video:title><![CDATA[Upload 12:34 dia 20 Nov]]></video:title>
-                    <video:description><![CDATA[Upload 12:34 dia 20 Nov]]></video:description>
-                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/229?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
-                    <video:duration>12</video:duration>
-                    <video:view_count>6</video:view_count>
-                    <video:publication_date>2020-11-20T12:34:50+00:00</video:publication_date>
-                    <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>no</video:requires_subscription>
-                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
-                    <video:live>no</video:live>
-                </video:video>
-            </url>
-            
-            <url>
                 <loc>http://192.168.1.4/YouPHPTube/video/188/kyanu---over-the-rainbow-official-video-hd-3?channelName=AdminDanielnetocom</loc>
                 <video:video>
                     <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5f8f924f08e5c7.93170971.jpg?1603245203</video:thumbnail_loc>
@@ -442,23 +534,6 @@ Kontor.TV: http://youtube.com/kontor
                     <video:duration>3610</video:duration>
                     <video:view_count>183</video:view_count>
                     <video:publication_date>2020-11-05T14:57:19+00:00</video:publication_date>
-                    <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>no</video:requires_subscription>
-                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
-                    <video:live>no</video:live>
-                </video:video>
-            </url>
-            
-            <url>
-                <loc>http://192.168.1.4/YouPHPTube/video/187/avengers-endgame-but-only-best-scenes-4k-60fps-?channelName=AdminDanielnetocom</loc>
-                <video:video>
-                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5f8f923b7b5a16.46341524.jpg?1603244615</video:thumbnail_loc>
-                    <video:title><![CDATA[Avengers: Endgame but only Best Scenes [4K 60FPS]]]></video:title>
-                    <video:description><![CDATA[Avengers eg but only best moments 4k 60fps    Get DC Marvel Apparel here: http://bit.ly/FilmHD60FPSMarvelMerch  Use code game for an Extra 5% discount ($49+)!  Use code games for an Extra 10% discount ($99+)!          Ultra HD 4k 2160p  FULL HD 60FPS  Marvel  Film HD 60FPS]]></video:description>
-                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/187?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
-                    <video:duration>599</video:duration>
-                    <video:view_count>9</video:view_count>
-                    <video:publication_date>2020-10-21T03:43:23+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
                     <video:requires_subscription>no</video:requires_subscription>
                     <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
@@ -690,23 +765,6 @@ Kontor.TV: http://youtube.com/kontor
             </url>
             
             <url>
-                <loc>http://192.168.1.4/YouPHPTube/video/152/memoji---avengers-infinity-war-1?channelName=AdminDanielnetocom</loc>
-                <video:video>
-                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5f7fcf08488605.72646111.jpg?1602211599</video:thumbnail_loc>
-                    <video:title><![CDATA[Memoji - AVENGERS INFINITY WAR]]></video:title>
-                    <video:description><![CDATA[Memoji - AVENGERS INFINITY WAR]]></video:description>
-                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/152?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
-                    <video:duration>13</video:duration>
-                    <video:view_count>5</video:view_count>
-                    <video:publication_date>2020-10-09T04:46:32+00:00</video:publication_date>
-                    <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>no</video:requires_subscription>
-                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
-                    <video:live>no</video:live>
-                </video:video>
-            </url>
-            
-            <url>
                 <loc>http://192.168.1.4/YouPHPTube/video/160/ice_video_20171031-205707?channelName=AdminDanielnetocom</loc>
                 <video:video>
                     <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5f7fcfaaab3eb3.97293470.jpg?1602211911</video:thumbnail_loc>
@@ -795,23 +853,6 @@ Kontor.TV: http://youtube.com/kontor
                     <video:duration>12</video:duration>
                     <video:view_count>95</video:view_count>
                     <video:publication_date>2020-10-09T15:07:24+00:00</video:publication_date>
-                    <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>no</video:requires_subscription>
-                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
-                    <video:live>no</video:live>
-                </video:video>
-            </url>
-            
-            <url>
-                <loc>http://192.168.1.4/YouPHPTube/article/228/article-automatically-booked-1?channelName=AdminDanielnetocom</loc>
-                <video:video>
-                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/view/img/article.png</video:thumbnail_loc>
-                    <video:title><![CDATA[Article automatically booked]]></video:title>
-                    <video:description><![CDATA[teste 1  https://mail.google.com/mail/u/0/?pli=1#inbox/FMfcgxwKjTVSfvFxsVTMSxtLDcvcWPsw  https://mail.google.com/mail/u/0/?pli=1#inbox/FMfcgxwKjTVSfvFxsVTMSxtLDcvcWPsw  teste 2]]></video:description>
-                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/article/228/article-automatically-booked-1?channelName=AdminDanielnetocom&modestbranding=1&showinfo=0&autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
-                    <video:duration>0</video:duration>
-                    <video:view_count>9</video:view_count>
-                    <video:publication_date>2020-11-18T13:15:16+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
                     <video:requires_subscription>no</video:requires_subscription>
                     <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
@@ -1032,26 +1073,6 @@ a:visited {
                     <video:duration>134</video:duration>
                     <video:view_count>7</video:view_count>
                     <video:publication_date>2020-10-09T04:49:12+00:00</video:publication_date>
-                    <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>no</video:requires_subscription>
-                    <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
-                    <video:live>no</video:live>
-                </video:video>
-            </url>
-            
-            <url>
-                <loc>http://192.168.1.4/YouPHPTube/video/175/video-for-subcategory-2-1?channelName=AdminDanielnetocom</loc>
-                <video:video>
-                    <video:thumbnail_loc>http://192.168.1.4/YouPHPTube/videos/_YPTuniqid_5f80cfdd946ee9.41483513.jpg?1602277365</video:thumbnail_loc>
-                    <video:title><![CDATA[Video for subcategory 2-1]]></video:title>
-                    <video:description><![CDATA[  
-
-
-  ]]></video:description>
-                    <video:player_loc><![CDATA[http://192.168.1.4/YouPHPTube/videoEmbeded/175?autoplay=0&controls=1&loop=0&mute=0&t=0]]></video:player_loc>
-                    <video:duration>11</video:duration>
-                    <video:view_count>7</video:view_count>
-                    <video:publication_date>2020-10-09T23:02:21+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
                     <video:requires_subscription>no</video:requires_subscription>
                     <video:uploader info="http://192.168.1.4/YouPHPTube/channel/AdminDanielnetocom">Daniel</video:uploader>
