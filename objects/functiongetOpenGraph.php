@@ -64,8 +64,7 @@ $source = Video::getSourceFile($video['filename'], ".mp4");
 if(empty($source['url']) && CustomizeUser::canDownloadVideos()){
     $source = Video::getSourceFile($video['filename'], ".m3u8");
     if(!empty($source['url'])){
-        $source['url'] = addQueryStringParameter($source['url'], "download", 1);
-        $source['url'] = addQueryStringParameter($source['url'], "mp4", 1);
+        $source['url'] .= ".mp4";
     }
 }
 if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['url'])) {
