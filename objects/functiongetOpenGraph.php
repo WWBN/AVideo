@@ -43,6 +43,8 @@ if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'no
     $img = $images->poster;
 }
 $twitter_site = $advancedCustom->twitter_site;
+$title = _substr(html2plainText($video['title']), 0,55);
+$description = _substr(html2plainText($video['description']), 0,155);
 ?>
 <link rel="image_src" href="<?php echo $img; ?>" />
 <meta property="og:image" content="<?php echo $img; ?>" />
@@ -52,8 +54,8 @@ $twitter_site = $advancedCustom->twitter_site;
 <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
 
 <meta property="fb:app_id"             content="774958212660408" />
-<meta property="og:title"              content="<?php echo html2plainText($video['title']); ?>" />
-<meta property="og:description"        content="<?php echo html2plainText($video['description']); ?>" />
+<meta property="og:title"              content="<?php echo $title; ?>" />
+<meta property="og:description"        content="<?php echo $description; ?>" />
 <meta property="og:url"                content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
 <meta property="og:type"               content="video.other" />
 
@@ -111,7 +113,7 @@ if (!empty($advancedCustom->twitter_player)) {
 ?>
 <meta name="twitter:site" content="<?php echo $twitter_site; ?>" />
 <meta name="twitter:url" content="<?php echo Video::getLinkToVideo($videos_id); ?>"/>
-<meta name="twitter:title" content="<?php echo html2plainText($video['title']); ?>"/>
-<meta name="twitter:description" content="<?php echo html2plainText($video['description']); ?>"/>
+<meta name="twitter:title" content="<?php echo $title; ?>"/>
+<meta name="twitter:description" content="<?php echo $description; ?>"/>
 <meta name="twitter:image" content="<?php echo $img; ?>"/>
 <?php
