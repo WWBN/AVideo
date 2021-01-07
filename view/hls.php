@@ -34,9 +34,11 @@ if (!empty($_GET['token'])) {
 $newContent = "";
 // if is using a CDN I can not check if the user is logged
 if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id'])) {
-
+    
     if (!empty($_GET['download'])) {
         downloadHLS($_GET['file']);
+    }else if (!empty($_GET['playHLSasMP4'])) {
+        playHLSasMP4($_GET['file']);
     } else {
         $filename = pathToRemoteURL($filename);
         $content = file_get_contents($filename);

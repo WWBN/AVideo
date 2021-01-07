@@ -4998,6 +4998,35 @@ function downloadHLS($filepath) {
     exit;
 }
 
+function playHLSasMP4($filepath) {
+    global $global;
+
+    if (!CustomizeUser::canDownloadVideos()) {
+        _error_log("playHLSasMP4: CustomizeUser::canDownloadVideos said NO");
+        return false;
+    }
+
+    if (!file_exists($filepath)) {
+        _error_log("playHLSasMP4: file NOT found: {$filepath}");
+        return false;
+    }
+    $output = m3u8ToMP4($filepath);
+    
+    if(empty($output)){
+        die("playHLSasMP4 was not possible");
+    }
+    
+    $outputpath = $output['path'];
+    
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Cache-Control: post-check=0, pre-check=0', false);
+    header('Pragma: no-cache');
+    header('Content-type: video/mp4');
+    header('Content-Length: ' . filesize($outputpath));
+    header("X-Sendfile: {$outputpath}");
+    exit;
+}
+
 function m3u8ToMP4($input){
     $videosDir = Video::getStoragePath();
     $outputfilename = str_replace($videosDir, "", $input);
