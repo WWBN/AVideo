@@ -61,11 +61,18 @@ $description = _substr(html2plainText($video['description']), 0,155);
 
 <?php
 $sourceMP4 = Video::getSourceFile($video['filename'], ".mp4");
+if(preg_match("/.m3u8/i", $sourceMP4['url'])){
+    if(CustomizeUser::canDownloadVideos()){
+        
+    }else{
+        $sourceMP4['url'] = '';
+    }
+}
 if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($sourceMP4['url'])) {
     ?>
     <meta property="og:video" content="<?php echo $sourceMP4['url']; ?>" />
     <meta property="og:video:secure_url" content="<?php echo $sourceMP4['url']; ?>" />
-    <meta property="og:video:type" content="<?php echo mime_content_type_per_filename($sourceMP4['url']); ?>" />
+    <meta property="og:video:type" content="video/mp4" />
     <meta property="og:video:width" content="<?php echo $imgw; ?>" />
     <meta property="og:video:height" content="<?php echo $imgh; ?>" />
     <?php
@@ -89,7 +96,7 @@ if (!empty($advancedCustom->twitter_player)) {
     <meta name="twitter:player:width" content="<?php echo $imgw; ?>" />
     <meta name="twitter:player:height" content="<?php echo $imgh; ?>" />
     <meta name="twitter:player:stream" content="<?php echo $sourceMP4['url']; ?>" />
-    <meta name="twitter:player:stream:content_type" content="<?php echo mime_content_type_per_filename($sourceMP4['url']); ?>" />
+    <meta name="twitter:player:stream:content_type" content="video/mp4" />
     <?php
 } else {
     ?>
