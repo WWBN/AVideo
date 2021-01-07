@@ -29,4 +29,4 @@ foreach ($comments as $key => $value) {
     $comments[$key]['userCanEditComment'] = Comment::userCanEditComment($comments[$key]['id']);
 }
 
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($comments).'}';
+echo '{  "current": '. getCurrentPage().',"rowCount": '. getRowCount().', "total": '.$total.', "rows":'. json_encode($comments).'}';
