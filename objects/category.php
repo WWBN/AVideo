@@ -601,7 +601,7 @@ class Category {
         }
         
         if ($renew || empty($_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][0]['livelinks'])) {
-            $sql = "SELECT count(id) as total FROM livelinks v WHERE 1=1 AND categories_id = ? ";
+            $sql = "SELECT count(id) as total FROM LiveLinks v WHERE 1=1 AND categories_id = ? ";
 
             if (empty($showUnlisted)) {
                 $sql .= " AND `type` = 'public' ";
