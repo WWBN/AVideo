@@ -60,13 +60,8 @@ $description = _substr(html2plainText($video['description']), 0,155);
 <meta property="og:type"               content="video.other" />
 
 <?php
-$source = Video::getSourceFile($video['filename'], ".mp4");
-if(empty($source['url']) && CustomizeUser::canDownloadVideos()){
-    $source = Video::getSourceFile($video['filename'], ".m3u8");
-    if(!empty($source['url'])){
-        $source['url'] .= ".mp4";
-    }
-}else{
+$source = Video::getHigestResolution($video['filename']);
+if(empty($source['url'])){
     if(CustomizeUser::canDownloadVideos()){
         echo "<!-- you cannot download videos we will not share the video source file -->";
     }
