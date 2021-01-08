@@ -529,8 +529,7 @@ function sendSiteEmail($to, $subject, $message) {
     $message = createEmailMessageFromTemplate($message);
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
-    ;
+    //require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
@@ -1154,8 +1153,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         return $getVideosURL_V2Array[$cleanfilename];
     }
 
-    $pdf = Video::getStoragePath()."{$cleanfilename}.pdf";
-    $mp3 = Video::getStoragePath()."{$cleanfilename}.mp3";
+    $pdf = Video::getStoragePath() . "{$cleanfilename}.pdf";
+    $mp3 = Video::getStoragePath() . "{$cleanfilename}.mp3";
     if (file_exists($pdf)) {
         return getVideosURLPDF($fileName);
     } elseif (file_exists($mp3)) {
@@ -1613,12 +1612,12 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
     $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-    $destinationFile = Video::getStoragePath()."{$filename}";
+    $destinationFile = Video::getStoragePath() . "{$filename}";
     _error_log("decideMoveUploadedToVideos: {$filename}");
     $path_info = pathinfo($filename);
     if ($type !== "zip" && $path_info['extension'] === 'zip') {
         _error_log("decideMoveUploadedToVideos: ZIp file {$filename}");
-        $dir = Video::getStoragePath()."{$path_info['filename']}";
+        $dir = Video::getStoragePath() . "{$path_info['filename']}";
         unzipDirectory($tmp_name, $dir); // unzip it
         cleanDirectory($dir);
         if (!empty($aws_s3)) {
@@ -1748,7 +1747,7 @@ function decideFile_put_contentsToVideos($tmp_name, $filename) {
     } elseif (!empty($ftp)) {
         $ftp->move_uploaded_file($tmp_name, $filename);
     } else {
-        if (!move_uploaded_file($tmp_name, Video::getStoragePath()."{$filename}")) {
+        if (!move_uploaded_file($tmp_name, Video::getStoragePath() . "{$filename}")) {
             $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$filename})";
             die(json_encode($obj));
         }
@@ -2669,7 +2668,7 @@ function allowOrigin() {
 
 function rrmdir($dir) {
     global $global;
-    if ($dir == Video::getStoragePath()."" || $dir == "{$global['systemRootPath']}videos") {
+    if ($dir == Video::getStoragePath() . "" || $dir == "{$global['systemRootPath']}videos") {
         return false;
     }
     if (is_dir($dir)) {
@@ -3350,7 +3349,7 @@ function getCacheDir() {
 
 function clearCache() {
     global $global;
-    $dir = Video::getStoragePath()."cache/";
+    $dir = Video::getStoragePath() . "cache/";
     if (!empty($_GET['FirstPage'])) {
         $dir .= "firstPage/";
     }
@@ -3371,7 +3370,7 @@ function getUsageFromFilename($filename, $dir = "") {
     }
 
     if (empty($dir)) {
-        $dir = Video::getStoragePath()."";
+        $dir = Video::getStoragePath() . "";
     }
     $pos = strrpos($dir, '/');
     $dir .= (($pos === false) ? "/" : "");
@@ -3578,7 +3577,7 @@ function foldersize($path) {
 
 function getDiskUsage() {
     global $global;
-    $dir = Video::getStoragePath()."";
+    $dir = Video::getStoragePath() . "";
     $obj = new stdClass();
     $obj->disk_free_space = disk_free_space($dir);
     $obj->disk_total_space = disk_total_space($dir);
@@ -3716,7 +3715,7 @@ class YPTvideoObject {
 }
 
 function isToShowDuration($type) {
-    $notShowTo = array('pdf', 'article', 'serie', 'zip', 'image', 'live','livelinks');
+    $notShowTo = array('pdf', 'article', 'serie', 'zip', 'image', 'live', 'livelinks');
     if (in_array($type, $notShowTo)) {
         return false;
     } else {
@@ -3806,7 +3805,7 @@ function isHLS() {
     global $video, $global;
     if (isLive()) {
         return true;
-    } elseif (!empty($video) && $video['type'] == 'video' && file_exists(Video::getStoragePath()."{$video['filename']}/index.m3u8")) {
+    } elseif (!empty($video) && $video['type'] == 'video' && file_exists(Video::getStoragePath() . "{$video['filename']}/index.m3u8")) {
         return true;
     }
     return false;
@@ -3847,7 +3846,7 @@ function isSameVideoAsSelfURI($url) {
 function URLsAreSameVideo($url1, $url2) {
     $videos_id1 = getVideoIDFromURL($url1);
     $videos_id2 = getVideoIDFromURL($url2);
-    if(empty($videos_id1) || empty($videos_id2)){
+    if (empty($videos_id1) || empty($videos_id2)) {
         return false;
     }
     return $videos_id1 === $videos_id2;
@@ -4196,7 +4195,7 @@ function getTmpDir($subdir = "") {
     if (empty($_SESSION['getTmpDir'][$subdir . "_"])) {
         $tmpDir = sys_get_temp_dir();
         if (empty($tmpDir) || !_isWritable($tmpDir)) {
-            $tmpDir = Video::getStoragePath()."cache/";
+            $tmpDir = Video::getStoragePath() . "cache/";
         }
         $tmpDir = rtrim($tmpDir, '/') . '/';
         $tmpDir = "{$tmpDir}{$subdir}";
@@ -4906,7 +4905,7 @@ function globVideosDir($filename, $filesOnly = false) {
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
-    return _glob(Video::getStoragePath()."", $pattern);
+    return _glob(Video::getStoragePath() . "", $pattern);
 }
 
 function getValidFormats() {
@@ -4971,11 +4970,11 @@ function downloadHLS($filepath) {
         return false;
     }
     $output = m3u8ToMP4($filepath);
-    
-    if(empty($output)){
+
+    if (empty($output)) {
         die("downloadHLS was not possible");
     }
-    
+
     $outputpath = $output['path'];
     $outputfilename = $output['filename'];
 
@@ -4986,7 +4985,7 @@ function downloadHLS($filepath) {
     } else {
         $quoted = $outputfilename;
     }
-    
+
     header('Content-Description: File Transfer');
     header('Content-Disposition: attachment; filename=' . $quoted);
     header('Content-Transfer-Encoding: binary');
@@ -5011,13 +5010,13 @@ function playHLSasMP4($filepath) {
         return false;
     }
     $output = m3u8ToMP4($filepath);
-    
-    if(empty($output)){
+
+    if (empty($output)) {
         die("playHLSasMP4 was not possible");
     }
-    
+
     $outputpath = $output['path'];
-    
+
     header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
     header('Cache-Control: post-check=0, pre-check=0', false);
     header('Pragma: no-cache');
@@ -5027,7 +5026,7 @@ function playHLSasMP4($filepath) {
     exit;
 }
 
-function m3u8ToMP4($input){
+function m3u8ToMP4($input) {
     $videosDir = Video::getStoragePath();
     $outputfilename = str_replace($videosDir, "", $input);
     $parts = explode("/", $outputfilename);
@@ -5048,7 +5047,7 @@ function m3u8ToMP4($input){
         exec($command . " 2>&1", $output, $return);
         if (!empty($return)) {
             _error_log("downloadHLS: ERROR 1 " . implode(PHP_EOL, $output));
-            
+
             $command = get_ffmpeg() . " -y -i {$filepath} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
             //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
             exec($command . " 2>&1", $output, $return);
@@ -5058,7 +5057,7 @@ function m3u8ToMP4($input){
             }
         }
     }
-    return array('path'=>$outputpath, 'filename'=>$outputfilename);
+    return array('path' => $outputpath, 'filename' => $outputfilename);
 }
 
 function getSocialModal($videos_id, $url = "", $title = "") {
@@ -5195,11 +5194,11 @@ function getTinyMCE($id) {
 
 function pathToRemoteURL($filename) {
     global $pathToRemoteURL, $global;
-    if(!isset($pathToRemoteURL)){
+    if (!isset($pathToRemoteURL)) {
         $pathToRemoteURL = array();
     }
-    
-    if(isset($pathToRemoteURL[$filename])){
+
+    if (isset($pathToRemoteURL[$filename])) {
         return $pathToRemoteURL[$filename];
     }
     $url = $filename;
@@ -5222,7 +5221,7 @@ function pathToRemoteURL($filename) {
             $url = $source['url'];
         }
     }
-    if(empty($url)){
+    if (empty($url)) {
         $url = $filename;
     }
     $pathToRemoteURL[$filename] = $url;
@@ -5231,36 +5230,57 @@ function pathToRemoteURL($filename) {
 
 function getFilenameFromPath($path) {
     global $global;
-    $fileName = str_replace(Video::getStoragePath()."", "", $path);
+    $fileName = str_replace(Video::getStoragePath() . "", "", $path);
     $fileName = Video::getCleanFilenameFromFile($fileName);
 
     return $fileName;
 }
 
-
-function showCloseButton(){
+function showCloseButton() {
     global $global, $showCloseButtonIncluded;
-    if(!empty($showCloseButtonIncluded)){
+    if (!empty($showCloseButtonIncluded)) {
         return false;
     }
-    if(isSerie()){
+    if (isSerie()) {
         return false;
     }
-    
-    if(!isLive() && $obj = AVideoPlugin::getDataObjectIfEnabled("Gallery")){
-        if(!empty($obj->playVideoOnFullscreen)){
+
+    if (!isLive() && $obj = AVideoPlugin::getDataObjectIfEnabled("Gallery")) {
+        if (!empty($obj->playVideoOnFullscreen)) {
             $_REQUEST['showCloseButton'] = 1;
         }
     }
-    if(isLive() && $obj = AVideoPlugin::getDataObjectIfEnabled("Live")){
-        if(!empty($obj->playLiveInFullScreen)){
+    if (isLive() && $obj = AVideoPlugin::getDataObjectIfEnabled("Live")) {
+        if (!empty($obj->playLiveInFullScreen)) {
             $_REQUEST['showCloseButton'] = 1;
         }
     }
-    if(!empty($_REQUEST['showCloseButton'])){
+    if (!empty($_REQUEST['showCloseButton'])) {
         $showCloseButtonIncluded = 1;
         include $global['systemRootPath'] . 'view/include/youtubeModeOnFullscreenCloseButton.php';
         return true;
     }
     return false;
 }
+
+function getThemes() {
+    global $_getThemes, $global;
+    if(isset($_getThemes)){
+        return $_getThemes;
+    }
+    $_getThemes = array();
+    foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
+        $fileEx = basename($filename, ".css");
+        $_getThemes[] = $fileEx;
+    }
+    return $_getThemes;
+}
+
+function getCurrentTheme() {
+    global $config;
+    if(!empty($_COOKIE['customCSS'])){
+        return $_COOKIE['customCSS'];
+    }
+    return $config->getTheme();
+}
+
