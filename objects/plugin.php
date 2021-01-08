@@ -235,7 +235,9 @@ class Plugin extends ObjectYPT {
                         $obj->pluginversionMarketPlace = (!empty($pluginsMarketplace->plugins->{$obj->uuid}) ? $pluginsMarketplace->plugins->{$obj->uuid}->pluginversion : 0);
                         $obj->pluginversionCompare = (!empty($obj->pluginversionMarketPlace) ? version_compare($obj->pluginversion, $obj->pluginversionMarketPlace) : 0);
                         $obj->permissions = $obj->enabled ? Permissions::getPluginPermissions($obj->id) : array();
-                        $obj->isPluginTablesInstalled = AVideoPlugin::isPluginTablesInstalled($obj->name, false);
+                        if(User::isAdmin()){
+                            $obj->isPluginTablesInstalled = AVideoPlugin::isPluginTablesInstalled($obj->name, false);
+                        }
                         if ($obj->pluginversionCompare < 0) {
                             $obj->tags[] = "update";
                         }
