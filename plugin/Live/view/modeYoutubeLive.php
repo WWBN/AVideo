@@ -169,6 +169,9 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                                     <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                         <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                     </a>
+                                    <?php
+                                    }
+                                    ?>
                                     <script>
                                         $(document).ready(function () {
                                             $("#shareDiv").slideUp();
@@ -180,13 +183,14 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                                         });
                                     </script>
                                     <?php 
-                                    }
                                     echo AVideoPlugin::getWatchActionButton(0); ?>
                                 </div>
                             </div>
                             <?php
                             $link = Live::getLinkToLiveFromUsers_id($user_id);
-                            getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img,"row bgWhite list-group-item menusDiv");
+                            if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) {
+                                getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img,"row bgWhite list-group-item menusDiv");
+                            }
                             ?>
                             <div class="row">
 
