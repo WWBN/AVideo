@@ -68,6 +68,8 @@ if(empty($source['url'])){
     if(empty($source['url'])){
         echo "<!-- we could not get the MP4 source file -->";
     }
+}else{
+    $source['url'] = str_replace(".m3u8", ".m3u8.mp4", $source['url']);
 }
 if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['url'])) {
     ?>
