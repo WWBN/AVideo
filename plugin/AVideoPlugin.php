@@ -318,19 +318,19 @@ class AVideoPlugin {
             $pattern2 = "/CREATE TABLE[^`]+`?([a-z0-9_]+)[` (]?/i";
             if (preg_match($pattern1, $line, $matches)) {
                 if (!empty($matches[1])) {
-                    _error_log("isPluginTablesInstalled: Found ({$matches[1]})");
+                    //_error_log("isPluginTablesInstalled: Found ({$matches[1]})");
                     if (!ObjectYPT::isTableInstalled($matches[1])) {
-                        _error_log("isPluginTablesInstalled: ({$matches[1]}) is NOT installed");
+                        //_error_log("isPluginTablesInstalled: ({$matches[1]}) is NOT installed");
                         if ($installIt) {
                             sqlDAL::executeFile($installSQLFile);
                             return self::isPluginTablesInstalled($name);
                         } else {
-                            _error_log("isPluginTablesInstalled: You need to install table {$matches[1]} for the plugin ({$name})", AVideoLog::$ERROR);
+                            //_error_log("isPluginTablesInstalled: You need to install table {$matches[1]} for the plugin ({$name})", AVideoLog::$ERROR);
                             $isPluginTablesInstalled[$installSQLFile] = false;
                             return $isPluginTablesInstalled[$installSQLFile];
                         }
                     }else{
-                        _error_log("isPluginTablesInstalled: ({$matches[1]}) is installed");
+                        //_error_log("isPluginTablesInstalled: ({$matches[1]}) is installed");
                     }
                 }
             } else if (preg_match($pattern2, $line, $matches)) {
