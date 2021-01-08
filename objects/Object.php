@@ -556,7 +556,7 @@ abstract class ObjectYPT implements ObjectInterface
         }
         if (!isset($tableExists[$tableName])) {
             $sql = "SHOW TABLES LIKE '" . $tableName . "'";
-            _error_log("isTableInstalled: ({$sql})");
+            //_error_log("isTableInstalled: ({$sql})");
             $res = sqlDAL::readSql($sql);
             $result = sqlDal::num_rows($res);
             sqlDAL::close($res);
