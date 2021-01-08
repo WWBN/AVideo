@@ -45,7 +45,7 @@ class LiveLinks extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "3.0";   
+        return "3.1";   
     }
 
     public function canAddLinks() {
@@ -181,7 +181,7 @@ class LiveLinks extends PluginAbstract {
                 sqlDal::writeSql(trim($value));
             }
         }
-        if (AVideoPlugin::compareVersion($this->getName(), "3") < 0) {
+        if (AVideoPlugin::compareVersion($this->getName(), "3.1") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV3.0.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
