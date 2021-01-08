@@ -1,8 +1,8 @@
-ALTER TABLE `livelinks` 
+ALTER TABLE `LiveLinks` 
 ADD COLUMN `categories_id` INT(11) NULL,
 ADD INDEX `fk_livelinks_categories1_idx` (`categories_id` ASC);
 
-ALTER TABLE `livelinks` 
+ALTER TABLE `LiveLinks` 
 ADD CONSTRAINT `fk_LiveLinks_users2`
   FOREIGN KEY (`users_id`)
   REFERENCES `users` (`id`)
