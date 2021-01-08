@@ -380,7 +380,7 @@ class Category {
             if(AVideoPlugin::isEnabledByName("LiveLinks")){
                 $sql .= " OR "
                         . " ("
-                        . " SELECT count(*) FROM livelinks ll where "
+                        . " SELECT count(*) FROM LiveLinks ll where "
                         . " (ll.categories_id = c.id OR ll.categories_id IN (SELECT id from categories where parentId = c.id))"
                         . " ) > 0  ";
             }
