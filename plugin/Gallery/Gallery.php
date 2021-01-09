@@ -2,6 +2,7 @@
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+
 class Gallery extends PluginAbstract {
 
     public function getTags() {
@@ -12,6 +13,7 @@ class Gallery extends PluginAbstract {
             PluginTags::$LAYOUT,
         );
     }
+
     public function getDescription() {
         return "Make the first page works as a gallery";
     }
@@ -25,7 +27,7 @@ class Gallery extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";   
+        return "1.0";
     }
 
     public function getHeadCode() {
@@ -33,24 +35,25 @@ class Gallery extends PluginAbstract {
         $obj = $this->getDataObject();
         // preload image
         $js = "<script>var img1 = new Image();img1.src=\"{$global['webSiteRootURL']}view/img/video-placeholder-gray.png\";</script>";
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css?'.(filemtime($global['systemRootPath'].'plugin/Gallery/style.css')).'" rel="stylesheet" type="text/css"/>';
-        
-        if(!empty($obj->playVideoOnFullscreenOnIframe)){
-            if(canFullScreen()){
+        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css?' . (filemtime($global['systemRootPath'] . 'plugin/Gallery/style.css')) . '" rel="stylesheet" type="text/css"/>';
+
+        if (!empty($obj->playVideoOnFullscreenOnIframe)) {
+            if (canFullScreen()) {
                 $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
                 $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
                 $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
             }
             $js .= '<script>var playVideoOnFullscreen = true</script>';
-        }else if(!empty($obj->playVideoOnFullscreen) &&  canFullScreen() ){
+        } else if (!empty($obj->playVideoOnFullscreen) && canFullScreen()) {
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.css" rel="stylesheet" type="text/css"/>';
         }
-        if(!empty($obj->playVideoOnFullscreen)){
+        if (!empty($obj->playVideoOnFullscreen)) {
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
         }
-        
-        return $js.$css;
+
+        return $js . $css;
     }
+
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
@@ -60,15 +63,15 @@ class Gallery extends PluginAbstract {
         $obj->GifOnBigVideo = true;
         $obj->Description = false;
         $obj->CategoryDescription = false;
-        
+
         $obj->Suggested = true;
         $obj->SuggestedCustomTitle = "";
         $obj->SuggestedRowCount = 12;
-        
+
         $obj->Trending = true;
         $obj->TrendingCustomTitle = "";
         $obj->TrendingRowCount = 12;
-        
+
         $obj->DateAdded = true;
         $obj->DateAddedCustomTitle = "";
         $obj->DateAddedRowCount = 12;
@@ -101,38 +104,50 @@ class Gallery extends PluginAbstract {
         $obj->screenColsMedium = 3;
         $obj->screenColsSmall = 2;
         $obj->screenColsXSmall = 1;
-        
+        $obj->allowSwitchTheme = true;
+
         return $obj;
     }
-  
-    public function getHelp(){
-        if(User::isAdmin()){
-            return "<h2 id='Gallery help'>".__('Gallery options (admin)')."</h2><table class='table'><thead><th>".__('Option-name')."</th><th>".__('Default')."</th><th>".__('Description')."</th></thead><tbody><tr><td>BigVideo</td><td>".__('checked')."</td><td>".__('Create a big preview with a direct description on top')."</td></tr><tr><td>DateAdded,MostPopular,MostWatched,SortByName</td><td>".__('checked').",".__('checked').",".__('checked').",".__('unchecked')."</td><td>".__('Metacategories')."</td></tr><tr><td>SubCategorys</td><td>".__('unchecked')."</td> <td>".__('Enable a view for subcategories on top')."</td></tr><tr><td>Description</td><td>".__('unchecked')."</td><td>".__('Enable a small button for show the description')."</td></tr></tbody></table>";   
+
+    public function navBarProfileButtons() {
+        global $global;
+        $obj = AVideoPlugin::getObjectData("Gallery");
+        $str = "";
+
+        if ($obj->allowSwitchTheme) {
+            include $global['systemRootPath'] . 'plugin/Gallery/view/themeSwitcher.php';
+        }
+        return $str;
+    }
+
+    public function getHelp() {
+        if (User::isAdmin()) {
+            return "<h2 id='Gallery help'>" . __('Gallery options (admin)') . "</h2><table class='table'><thead><th>" . __('Option-name') . "</th><th>" . __('Default') . "</th><th>" . __('Description') . "</th></thead><tbody><tr><td>BigVideo</td><td>" . __('checked') . "</td><td>" . __('Create a big preview with a direct description on top') . "</td></tr><tr><td>DateAdded,MostPopular,MostWatched,SortByName</td><td>" . __('checked') . "," . __('checked') . "," . __('checked') . "," . __('unchecked') . "</td><td>" . __('Metacategories') . "</td></tr><tr><td>SubCategorys</td><td>" . __('unchecked') . "</td> <td>" . __('Enable a view for subcategories on top') . "</td></tr><tr><td>Description</td><td>" . __('unchecked') . "</td><td>" . __('Enable a small button for show the description') . "</td></tr></tbody></table>";
         }
         return "";
     }
-    public function getFirstPage(){
+
+    public function getFirstPage() {
         global $global;
-        if(!AVideoPlugin::isEnabledByName("YouPHPFlix2") && !AVideoPlugin::isEnabledByName("CombineSites")){
-            return $global['systemRootPath'].'plugin/Gallery/view/modeGallery.php';
+        if (!AVideoPlugin::isEnabledByName("YouPHPFlix2") && !AVideoPlugin::isEnabledByName("CombineSites")) {
+            return $global['systemRootPath'] . 'plugin/Gallery/view/modeGallery.php';
         }
-    }   
-    
+    }
+
     public function getFooterCode() {
         $obj = $this->getDataObject();
         global $global;
-        
+
         $js = '';
-        if(!empty($obj->playVideoOnFullscreenOnIframe)){
+        if (!empty($obj->playVideoOnFullscreenOnIframe)) {
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'a.galleryLink\'); } });</script>';
-            
-        }else
-        if(!empty($obj->playVideoOnFullscreen)){
+        } else
+        if (!empty($obj->playVideoOnFullscreen)) {
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
-        }else
-        if(!empty($obj->playVideoOnBrowserFullscreen)){
+        } else
+        if (!empty($obj->playVideoOnBrowserFullscreen)) {
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
             $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.js"></script>';
@@ -140,5 +155,5 @@ class Gallery extends PluginAbstract {
         }
         return $js;
     }
-    
+
 }

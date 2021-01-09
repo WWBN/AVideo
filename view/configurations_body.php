@@ -76,11 +76,9 @@ if (User::isAdmin()) {
 
                                     </div>
                                     <?php
-                                    foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
-                                        //echo "$filename size " . filesize($filename) . "\n";
-                                        $file = basename($filename);         // $file is set to "index.php"
-                                        $fileEx = basename($filename, ".css"); // $file is set to "index"
-                                        $savedTheme = $config->getTheme();
+                                    $themes = getThemes();
+                                    $savedTheme = $config->getTheme();
+                                    foreach ($themes as $fileEx) {
                                         if ($fileEx == $savedTheme) {
                                             ?>
                                             <script>

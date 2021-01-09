@@ -12,3 +12,9 @@
  body {
     padding-top: 65px !important;
 }
+#mainNavBar ul.left-side, #mainNavBar .navbar-header {
+    margin: 7px auto;
+}
+#sidebar {
+    margin-top: 65px !important;
+}

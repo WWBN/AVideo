@@ -12,3 +12,9 @@
  body {
     padding-top: 65px !important;
 }
+#mainNavBar .left-side{
+    padding-top: 16px; 
+}
+#sidebar {
+    margin-top: 65px  !important;
+}
