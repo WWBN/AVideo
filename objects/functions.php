@@ -1,8 +1,8 @@
 <?php
-$AVideoMobileAPP_UA = "AVideoMobileApp";
-$AVideoEncoder_UA = "AVideoEncoder";
-$AVideoStreamer_UA = "AVideoStreamer";
-$AVideoStorage_UA = "AVideoStorage";
+$AVideoMobileAPP_UA = 'AVideoMobileApp';
+$AVideoEncoder_UA = 'AVideoEncoder';
+$AVideoStreamer_UA = 'AVideoStreamer';
+$AVideoStorage_UA = 'AVideoStorage';
 
 function forbiddenWords($text) {
     global $global;
@@ -361,8 +361,8 @@ function status($statusarray) {
         }
     } else {
         echo json_encode(array_map(function ($text) {
-                    return nl2br($text);
-                }, $statusarray));
+            return nl2br($text);
+        }, $statusarray));
     }
 }
 
@@ -484,7 +484,6 @@ function setSiteSendMessage(&$mail) {
         $mail->Port = $config->getSmtpPort();
         $mail->Username = $config->getSmtpUsername();
         $mail->Password = $config->getSmtpPassword();
-        //_error_log(print_r($config, true));
     } else {
         _error_log("Sending SendMail Email");
         $mail->isSendmail();
@@ -529,7 +528,6 @@ function sendSiteEmail($to, $subject, $message) {
     $message = createEmailMessageFromTemplate($message);
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
-    //require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
@@ -610,7 +608,6 @@ function sendEmailToSiteOwner($subject, $message) {
     $message = UTF8encode($message);
     _error_log("sendEmailToSiteOwner {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
@@ -657,9 +654,9 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
                 . $showinfo . "&autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time&objectFit=$objectFit";
     } elseif (strpos($link, 'youtube.com') !== false) {
         preg_match(
-                '/[\\?\\&]v=([^\\?\\&]+)/',
-                $link,
-                $matches
+            '/[\\?\\&]v=([^\\?\\&]+)/',
+            $link,
+            $matches
         );
         //the ID of the YouTube URL: x6qe_kVaBpg
         if (empty($matches[1])) {
@@ -671,9 +668,9 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     } elseif (strpos($link, 'youtu.be') !== false) {
         //https://youtu.be/9XXOBSsPoMU
         preg_match(
-                '/youtu.be\/([a-zA-Z0-9_]+)($|\/)/',
-                $link,
-                $matches
+            '/youtu.be\/([a-zA-Z0-9_]+)($|\/)/',
+            $link,
+            $matches
         );
         //the ID of the YouTube URL: x6qe_kVaBpg
         $id = $matches[1];
@@ -689,9 +686,9 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     } elseif (strpos($link, 'vimeo.com/channels') !== false) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?vimeo.com\/channels\/[a-z0-9-]+\/(\d+)($|\/)/i',
-                $link,
-                $matches
+            '/\/\/(www\.)?vimeo.com\/channels\/[a-z0-9-]+\/(\d+)($|\/)/i',
+            $link,
+            $matches
         );
 
         //the ID of the Vimeo URL: 71673549
@@ -700,9 +697,9 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     } elseif (strpos($link, 'vimeo.com') !== false) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?vimeo.com\/(\d+)($|\/)/',
-                $link,
-                $matches
+            '/\/\/(www\.)?vimeo.com\/(\d+)($|\/)/',
+            $link,
+            $matches
         );
 
         //the ID of the Vimeo URL: 71673549
@@ -711,9 +708,9 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     } elseif (strpos($link, 'dailymotion.com') !== false) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?dailymotion.com\/video\/([a-zA-Z0-9_]+)($|\/)/',
-                $link,
-                $matches
+            '/\/\/(www\.)?dailymotion.com\/video\/([a-zA-Z0-9_]+)($|\/)/',
+            $link,
+            $matches
         );
 
         //the ID of the Vimeo URL: 71673549
@@ -722,18 +719,18 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     } elseif (strpos($link, 'metacafe.com') !== false) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?metacafe.com\/watch\/([a-zA-Z0-9_\/-]+)$/',
-                $link,
-                $matches
+            '/\/\/(www\.)?metacafe.com\/watch\/([a-zA-Z0-9_\/-]+)$/',
+            $link,
+            $matches
         );
         $id = $matches[2];
         return '//www.metacafe.com/embed/' . $id;
     } elseif (strpos($link, 'vid.me') !== false) {
         //extract the ID
         preg_match(
-                '/\/\/(www\.)?vid.me\/([a-zA-Z0-9_-]+)$/',
-                $link,
-                $matches
+            '/\/\/(www\.)?vid.me\/([a-zA-Z0-9_-]+)$/',
+            $link,
+            $matches
         );
 
         $id = $matches[2];
@@ -1755,18 +1752,16 @@ function decideFile_put_contentsToVideos($tmp_name, $filename) {
 }
 
 if (!function_exists('mime_content_type')) {
-
     function mime_content_type($filename) {
         return mime_content_type_per_filename($filename);
     }
-
 }
 
 function fontAwesomeClassName($filename) {
     $mime_type = mime_content_type_per_filename($filename);
     // List of official MIME Types: http://www.iana.org/assignments/media-types/media-types.xhtml
     $icon_classes = array(
-// Media
+        // Media
         'image' => 'fas fa-file-image',
         'audio' => 'fas fa-file-audio',
         'video' => 'fas fa-file-video',
@@ -3235,13 +3230,12 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
     TimeLogStart($name);
 }
 
-class AVideoLog {
-
+class AVideoLog
+{
     public static $DEBUG = 0;
     public static $WARNING = 1;
     public static $ERROR = 2;
     public static $SECURITY = 3;
-
 }
 
 function _error_log($message, $type = 0, $doNotRepeat = false) {
@@ -3694,8 +3688,8 @@ function verifyToken($token, $salt = "") {
     return true;
 }
 
-class YPTvideoObject {
-
+class YPTvideoObject
+{
     public $id;
     public $title;
     public $description;
@@ -3703,7 +3697,8 @@ class YPTvideoObject {
     public $channelTitle;
     public $videoLink;
 
-    public function __construct($id, $title, $description, $thumbnails, $channelTitle, $videoLink) {
+    public function __construct($id, $title, $description, $thumbnails, $channelTitle, $videoLink)
+    {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
@@ -3711,7 +3706,6 @@ class YPTvideoObject {
         $this->channelTitle = $channelTitle;
         $this->videoLink = $videoLink;
     }
-
 }
 
 function isToShowDuration($type) {
@@ -4244,8 +4238,7 @@ function html2plainText($html) {
 function getInputPassword($id, $attributes = 'class="form-control"', $paceholder = '') {
     if (empty($paceholder)) {
         $paceholder = __("Password");
-    }
-    ?>
+    } ?>
     <div class="input-group">
         <span class="input-group-addon"><i class="fas fa-lock"></i></span>
         <input id="<?php echo $id; ?>" name="<?php echo $id; ?>" type="password"  placeholder="<?php echo $paceholder; ?>" <?php echo $attributes; ?> >
@@ -4271,8 +4264,7 @@ function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control
         $valueAttr = "value='{$value}'";
     } else {
         $valueAttr = 'value="' . $value . '"';
-    }
-    ?>
+    } ?>
     <div class="input-group">
         <input id="<?php echo $id; ?>" type="text"  placeholder="<?php echo $paceholder; ?>" <?php echo $attributes; ?> <?php echo $valueAttr; ?> >
             <span class="input-group-addon" style="cursor: pointer;" id="copyToClipboard_<?php echo $id; ?>"  data-toggle="tooltip" data-placement="left" title="<?php echo __('Copy to Clipboard'); ?>"><i class="fas fa-clipboard"></i></span>
@@ -4300,8 +4292,7 @@ function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control
 }
 
 function getButtontCopyToClipboard($elemToCopyId, $attributes = 'class="btn btn-default btn-sm btn-xs pull-right"', $label = "Copy to Clipboard") {
-    $id = "getButtontCopyToClipboard" . uniqid();
-    ?>
+    $id = "getButtontCopyToClipboard" . uniqid(); ?>
     <button id="<?php echo $id; ?>" <?php echo $attributes; ?> data-toggle="tooltip" data-placement="left" title="<?php echo __($label); ?>"><i class="fas fa-clipboard"></i> <?php echo __($label); ?></button>
     <script>
         var timeOutCopyToClipboard_<?php echo $id; ?>;
@@ -4541,9 +4532,9 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
         $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
         $pag .= str_replace(
-                array('$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector'),
-                array($uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector),
-                $content
+            array('$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector'),
+            array($uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector),
+            $content
         );
     }
 
@@ -5064,8 +5055,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
     global $global;
     $video['id'] = $videos_id;
     $sharingUid = uniqid();
-    ob_start();
-    ?>
+    ob_start(); ?>
     <div id="SharingModal<?php echo $sharingUid ?>" class="modal fade" role="dialog" style="top: 60px;">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -5102,13 +5092,13 @@ function getSocialModal($videos_id, $url = "", $title = "") {
 }
 
 function getCroppie(
-        $buttonTitle,
-        $callBackJSFunction,
-        $resultWidth,
-        $resultHeight,
-        $viewportWidth = 0,
-        $boundary = 25,
-        $viewportHeight = 0
+    $buttonTitle,
+    $callBackJSFunction,
+    $resultWidth,
+    $resultHeight,
+    $viewportWidth = 0,
+    $boundary = 25,
+    $viewportHeight = 0
 ) {
     global $global;
     if (empty($viewportWidth)) {
@@ -5207,16 +5197,13 @@ function pathToRemoteURL($filename) {
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
             $source = $yptStorage->getAddress("{$filename}");
             $url = $source['url'];
-        } else
-        if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
+        } elseif ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
             $source = $aws_s3->getAddress("{$filename}");
             $url = $source['url'];
-        } else
-        if ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
+        } elseif ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
             $source = $bb_b2->getAddress("{$filename}");
             $url = $source['url'];
-        } else
-        if ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
+        } elseif ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
             $source = $ftp->getAddress("{$filename}");
             $url = $source['url'];
         }
@@ -5265,7 +5252,7 @@ function showCloseButton() {
 
 function getThemes() {
     global $_getThemes, $global;
-    if(isset($_getThemes)){
+    if (isset($_getThemes)) {
         return $_getThemes;
     }
     $_getThemes = array();
@@ -5278,9 +5265,8 @@ function getThemes() {
 
 function getCurrentTheme() {
     global $config;
-    if(!empty($_COOKIE['customCSS'])){
+    if (!empty($_COOKIE['customCSS'])) {
         return $_COOKIE['customCSS'];
     }
     return $config->getTheme();
 }
-
