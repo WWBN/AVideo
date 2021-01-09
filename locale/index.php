@@ -1,6 +1,5 @@
 <?php
 if (isset($_GET['getLanguage'])) {
-
     $lngFile = './'.strtolower(str_replace(['.', '/', '\\'], '', $_GET['getLanguage'])).'.php';
     if (!file_exists($lngFile)) {
         header('HTTP/1.0 404 Not Found');
@@ -19,19 +18,18 @@ ini_set('max_execution_time', 300);
 function listAll($dir) {
     global $vars;
     if ($handle = opendir($dir)) {
-
         while (false !== ($entry = readdir($handle))) {
-
             if ($entry != "." && $entry != "..") {
-
                 $filename = $dir . "/" . $entry;
                 if (is_dir($filename)) {
                     listAll($filename);
-                } else if (preg_match("/\.php$/", $entry)) {
+                } elseif (preg_match("/\.php$/", $entry)) {
                     $data = file_get_contents($filename);
                     $regex = '/__\(["\']{1}(.*)["\']{1}\)/U';
                     preg_match_all(
-                            $regex, $data, $matches
+                        $regex,
+                        $data,
+                        $matches
                     );
 
                     foreach ($matches[0] as $key => $value) {

@@ -20,12 +20,12 @@ if (!empty($_GET['lang'])) {
 function __($str, $allowHTML = false) {
     global $t;
     if (empty($t[$str])) {
-        if($allowHTML){
+        if ($allowHTML) {
             return $str;
         }
         return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $str);
     } else {
-        if($allowHTML){
+        if ($allowHTML) {
             return $t[$str];
         }
         return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $t[$str]);
@@ -33,8 +33,8 @@ function __($str, $allowHTML = false) {
 }
 
 function isRTL() {
-	global $t_isRTL;
-	return !empty($t_isRTL) && $t_isRTL;
+    global $t_isRTL;
+    return !empty($t_isRTL) && $t_isRTL;
 }
 
 function getAllFlags() {
@@ -62,8 +62,8 @@ function getEnabledLangs() {
     }
     if ($handle = opendir($dir)) {
         while (false !== ($entry = readdir($handle))) {
-            if ($entry != "." && $entry != ".." && $entry != "index.php" && $entry != "function.php" && $entry != "save.php") {
-                $flags[] = str_replace(".php", "", $entry);
+            if ($entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'function.php' && $entry != 'save.php') {
+                $flags[] = str_replace('.php', '', $entry);
             }
         }
         closedir($handle);
@@ -74,16 +74,18 @@ function getEnabledLangs() {
 
 function textToLink($string, $targetBlank = false) {
     $target = "";
-    if($targetBlank){
+    if ($targetBlank) {
         $target = "target=\"_blank\"";
     }
     
     return preg_replace(
-            "~[[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~", "<a href=\"\\0\" {$target} >\\0</a>", $string
+        "~[[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~",
+        "<a href=\"\\0\" {$target} >\\0</a>",
+        $string
     );
 }
 
 function br2nl($html) {
-    $nl = preg_replace(array('#<br\s*/?>#i','#<p\s*/?>#i','#</p\s*>#i'), array("\n","\n",""), $html);
+    $nl = preg_replace(array('#<br\s*/?>#i', '#<p\s*/?>#i', '#</p\s*>#i'), array("\n", "\n", ''), $html);
     return $nl;
 }
