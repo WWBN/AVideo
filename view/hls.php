@@ -13,8 +13,8 @@ if (empty($_GET['videoDirectory'])) {
 }
 
 $video = Video::getVideoFromFileName($_GET['videoDirectory'], true);
-$filename = "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}/index.m3u8";
-$_GET['file'] = "{$global['systemRootPath']}videos/{$_GET['videoDirectory']}/index.m3u8";
+$filename = Video::getStoragePath()."{$_GET['videoDirectory']}/index.m3u8";
+$_GET['file'] = Video::getStoragePath()."{$_GET['videoDirectory']}/index.m3u8";
 //var_dump($_GET['file']);exit;
 $cachedPath = explode("/", $_GET['videoDirectory']);
 if (empty($_SESSION['user']['sessionCache']['hls'][$cachedPath[0]]) && empty($_GET['download'])) {
@@ -34,10 +34,13 @@ if (!empty($_GET['token'])) {
 $newContent = "";
 // if is using a CDN I can not check if the user is logged
 if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id'])) {
-
+    
     if (!empty($_GET['download'])) {
         downloadHLS($_GET['file']);
+    }else if (!empty($_GET['playHLSasMP4'])) {
+        playHLSasMP4($_GET['file']);
     } else {
+        $filename = pathToRemoteURL($filename);
         $content = file_get_contents($filename);
         $newContent = str_replace('{$pathToVideo}', "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
         if (!empty($_GET['token'])) {

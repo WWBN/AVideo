@@ -35,7 +35,7 @@ if (empty($video['id'])) {
                                                 avideoAlert("<?php echo __("Thanks"); ?>", response.msg, "success");
                                             }
                                         }, 500);
-                                        //                                  
+                                        //
                                     }
                                 });
 

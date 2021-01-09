@@ -25,13 +25,13 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         $obj->msg = "File extension error [{$_FILES['file_data']['name']}], we allow only (" . implode(",", $allowed) . ")";
         die(json_encode($obj));
     }
-    
-    $tmpDestination = "{$global['systemRootPath']}videos/userPhoto/tmp_background".User::getId().".". $extension;
+
+    $tmpDestination = Video::getStoragePath()."userPhoto/tmp_background".User::getId().".". $extension;
     $obj->file = "videos/userPhoto/background".User::getId().".jpg";
-    $oldfile = "{$global['systemRootPath']}videos/userPhoto/background".User::getId().".png";
-    
+    $oldfile = Video::getStoragePath()."userPhoto/background".User::getId().".png";
+
     if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $tmpDestination)) {
-        $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename . $ext;
+        $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . Video::getStoragePath()."" . $filename . $ext;
         die(json_encode($obj));
     }
     convertImage($tmpDestination, $global['systemRootPath'].$obj->file, 70);
@@ -39,7 +39,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     if(file_exists($oldfile)){
         unlink($oldfile);
     }
-    
+
     echo "{}";
     exit;
 }

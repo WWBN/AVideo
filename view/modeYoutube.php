@@ -456,6 +456,10 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         <script>
             var fading = false;
         </script>
+        
+        <?php
+            showCloseButton();
+        ?>
     </body>
 </html>
 <?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>

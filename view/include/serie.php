@@ -34,7 +34,7 @@ $isSerie = 1;
 
 
             <?php
-            include $global['systemRootPath'] . 'view/include/youtubeModeOnFullscreenCloseButton.php';
+            showCloseButton();
             ?>
         </div>
     </div>

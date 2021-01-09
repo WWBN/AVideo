@@ -246,7 +246,7 @@ class Configuration {
 
     static function getOGImage() {
         global $global;
-        $destination = "{$global['systemRootPath']}videos/cache/og_200X200.jpg";
+        $destination = Video::getStoragePath()."cache/og_200X200.jpg";
         $return = self::_getFavicon(true);
         convertImageToOG($return['file'], $destination);
         return $global['webSiteRootURL'] . "videos/cache/og_200X200.jpg";
@@ -350,7 +350,7 @@ class Configuration {
 \$global['videoStorageLimitMinutes'] = {$global['videoStorageLimitMinutes']};
 \$global['disableTimeFix'] = {$global['disableTimeFix']};
 \$global['logfile'] = '{$global['logfile']}';
-if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) { 
+if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) {
     // get the subdirectory, if exists
     \$file = str_replace(\"\\\\\", \"/\", __FILE__);
     \$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), \$file);

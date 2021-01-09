@@ -101,5 +101,7 @@ function startModeFlix(container) {
     });
 
     $(container + ".thumbsImage").attr('startModeFlix', 1);
-    linksToFullscreen(container + ' a.canWatchPlayButton');
+    if(typeof linksToFullscreen == 'function'){
+        linksToFullscreen(container + ' a.canWatchPlayButton');
+    }
 }

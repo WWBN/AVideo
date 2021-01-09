@@ -1,6 +1,6 @@
 <?php
-
-function createTable($pluginName, $filter = array()) {
+function createTable($pluginName, $filter = array())
+{
     $plugin = AVideoPlugin::getObjectData($pluginName);
     if (empty($filter)) {
         foreach ($plugin as $keyJson => $valueJson) {
@@ -27,7 +27,8 @@ function createTable($pluginName, $filter = array()) {
     echo '</table></form>';
 }
 
-function jsonToFormElements($json, $filter = array()) {
+function jsonToFormElements($json, $filter = array())
+{
     //var_dump($json, $filter);exit;
     $elements = array();
     foreach ($json as $keyJson => $valueJson) {
@@ -43,11 +44,11 @@ function jsonToFormElements($json, $filter = array()) {
         if (is_object($valueJson)) {
             if ($valueJson->type === 'textarea') {
                 $input = "<textarea class='form-control jsonElement' name='{$keyJson}' pluginType='object'>{$valueJson->value}</textarea>";
-            } else if (is_array($valueJson->type)) {
+            } elseif (is_array($valueJson->type)) {
                 $input = "<select class='form-control jsonElement' name='{$keyJson}'  pluginType='object'>";
                 foreach ($valueJson->type as $key => $value) {
                     $select = "";
-                    if($valueJson->value == $key){
+                    if ($valueJson->value == $key) {
                         $select = "selected";
                     }
                     $input .= "<option value='{$key}' {$select}>{$value}</option>";
@@ -58,7 +59,7 @@ function jsonToFormElements($json, $filter = array()) {
                 $input = "<input class='form-control jsonElement' name='{$keyJson}' pluginType='object' type='{$valueJson->type}' value='{$valueJson->value}'/>";
             }
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
-        } else if (is_bool($valueJson)) {
+        } elseif (is_bool($valueJson)) {
             $id = uniqid();
             $input = '<div class="material-switch">
                                 <input data-toggle="toggle" type="checkbox" id="' . $keyJson . $id . '" name="' . $keyJson . '" value="1" ' . ($valueJson ? "checked" : "") . ' >
@@ -73,7 +74,8 @@ function jsonToFormElements($json, $filter = array()) {
     return $elements;
 }
 
-function getPluginSwitch($pluginName) {
+function getPluginSwitch($pluginName)
+{
     if (!AVideoPlugin::exists($pluginName)) {
         $input = '<a href="https://youphp.tube/plugins/" class="btn btn-danger btn-sm btn-xs">'.__('Buy this plugin now').'</a>';
     } else {

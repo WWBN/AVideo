@@ -15,7 +15,9 @@
                         <th data-column-id="name" data-order="desc"  data-formatter="name"  data-width="40%"><?php echo __("Name"); ?></th>
                         <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
                         <th data-column-id="owner"><?php echo __("Owner"); ?></th>
-                        <th data-column-id="fullTotal" data-sortable="false"><?php echo __("Videos"); ?></th>
+                        <th data-column-id="fullTotal_videos" data-sortable="false"><?php echo __("Videos"); ?></th>
+                        <th data-column-id="fullTotal_lives" data-sortable="false"><?php echo __("Lives"); ?></th>
+                        <th data-column-id="fullTotal_livelinks" data-sortable="false"><?php echo __("Live Links"); ?></th>
                         <th data-column-id="allow_download" ><?php echo __("Download"); ?></th>
                         <th data-column-id="order" ><?php echo __("Order"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="130px"></th>

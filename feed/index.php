@@ -7,7 +7,7 @@ require_once '../objects/video.php';
 
 $_POST['sort']["created"] = "DESC";
 $_POST['current'] = 1;
-$_REQUEST['rowCount'] = 50;
+$_REQUEST['rowCount'] = getRowCount();
 
 $showOnlyLoggedUserVideos = false;
 $title = $config->getWebSiteTitle();

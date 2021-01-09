@@ -17,7 +17,7 @@ class YouTubeUploads extends ObjectYPT {
     static function getTableName() {
         return 'youTube_uploads';
     }
-    
+
     function getVideos_id() {
         return $this->videos_id;
     }

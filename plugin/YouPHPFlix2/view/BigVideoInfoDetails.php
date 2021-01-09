@@ -27,12 +27,12 @@ if (!empty($ads1)) {
     <?php
     if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayLikes)) {
         ?>
-        <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $video['likes']; ?></span>                        
+        <span class="label label-success"><i class="fa fa-thumbs-up"></i> <?php echo $video['likes']; ?></span>
     <?php } ?>
     <?php
     if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayCategory)) {
         ?>
-        <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>                       
+        <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $video['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $video['clean_category']; ?>"><i class="<?php echo $video['iconClass']; ?>"></i> <?php echo $video['category']; ?></a></span>
     <?php } ?>
     <?php
     foreach ($video['tags'] as $value2) {
@@ -58,7 +58,7 @@ if (!empty($ads1)) {
             }
         }
     }
-    ?>   
+    ?>
     <?php
     if (!empty($video['rrating'])) {
         include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php';

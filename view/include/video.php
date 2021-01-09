@@ -72,7 +72,7 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
             <?php } ?>
 
             <?php
-            include $global['systemRootPath'] . 'view/include/youtubeModeOnFullscreenCloseButton.php';
+            showCloseButton();
             ?>
         </div>
     </div>

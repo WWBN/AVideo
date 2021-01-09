@@ -39,9 +39,9 @@ $uid = uniqid();
 <button type="submit" class="btn btn-primary" id="YPTWalletStripeButton<?php echo $uid; ?>"><i class="fas fa-credit-card"></i> <?php echo __($obj->subscriptionButtonLabel); ?></button>
 <script src="https://js.stripe.com/v3/"></script>
 
-<form 
-    action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestSubscription.json.php" 
-    method="post" id="payment-form<?php echo $uid; ?>" style="display: none;">
+<form
+    action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestSubscription.json.php"
+    method="post" id="payment-form<?php echo $uid; ?>" style="display:none;">
     <hr>
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Credit or debit card</strong></div>
@@ -159,7 +159,7 @@ $uid = uniqid();
                         },
                         type: 'post',
                         success: function (response) {
-                            
+
                             setTimeout(function () {
                                 modal.hidePleaseWait();
                             }, 3000);

@@ -4,12 +4,12 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/YPTWallet/YPTWalletPlugin.php';
 
 class YPTWalletStripe extends YPTWalletPlugin{
-    
+
     public function getAprovalButton() {
         global $global;
         include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletStripe/confirmButton.php';
     }
-    
+
 
     public function getRecurrentAprovalButton() {
         global $global;

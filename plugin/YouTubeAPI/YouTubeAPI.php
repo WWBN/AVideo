@@ -107,9 +107,9 @@ class YouTubeAPI extends PluginAbstract {
                 $object->msg = "The {$developer_key}{$try} is empty and we could not use";
                 return $object;
             }
-            
+
             _error_log("YouTubeAPI::listVideos try={$try} developer_key={$DEVELOPER_KEY}");
-            
+
             try {
 
                 $client = new Google_Client();
@@ -135,7 +135,7 @@ class YouTubeAPI extends PluginAbstract {
 
                 if (!empty($youTubeObj->keyword)) {
                     $options['q'] = $youTubeObj->keyword;
-                } 
+                }
                 if (!empty($_GET['search'])) {
                     $options['q'] = $_GET['search'];
                 }
@@ -395,6 +395,6 @@ class YouTubeAPI extends PluginAbstract {
       $link = "<button class='btn btn-primary btn-xs btn-block' title='Upload All Videos to YouTube' onclick='youTubeUploadAll()'><i class='fab fa-youTube-v'></i> Upload All Videos</button>";
       return $link;
       }
-     * 
+     *
      */
 }

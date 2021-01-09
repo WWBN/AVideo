@@ -9,7 +9,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($video)) {
         ?>
         <center>
-            <img src="<?php echo $global['webSiteRootURL']; ?>view/img/this-video-is-not-available.jpg">    
+            <img src="<?php echo $global['webSiteRootURL']; ?>view/img/this-video-is-not-available.jpg">
         </center>
         <?php
     } else {
@@ -25,13 +25,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         $_GET = $get;
         ?>
         <div style="padding-bottom: 40%;"></div>
-        <div class="embed-responsive-16by9" id="bigVideo" 
+        <div class="embed-responsive-16by9" id="bigVideo"
              style="background-color: rgb(<?php echo $obj->backgroundRGB; ?>);
-             background: url(<?php echo $poster; ?>); 
+             background: url(<?php echo $poster; ?>);
              -webkit-background-size: cover;
              -moz-background-size: cover;
              -o-background-size: cover;
-             background-size: cover; 
+             background-size: cover;
              z-index: 0;
              position: absolute;
              top: 0;
@@ -41,8 +41,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                  $percent = 2;
                  ?>
             <div id="bg_container" class="" style="height: 100%;" >
-                    <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'); ?>" 
-                            frameborder="0"  allowtransparency="true" 
+                    <iframe src="<?php echo parseVideos($video['trailer1'], 1, 1, 1, 0, 0, 0, 'cover'); ?>"
+                            frameborder="0"  allowtransparency="true"
                             allow="autoplay"></iframe>
                 </div>
                 <div id="bg_container_overlay" ></div>
@@ -62,16 +62,16 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                  <?php
                  include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoInfoDetails.php';
                  ?>
-                <div class="row hidden-xs">                
+                <div class="row hidden-xs">
                     <?php
                     include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoPosterDescription.php';
                     ?>
                 </div>
-                <div class="row">                
+                <div class="row">
                     <?php
                     include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoButtons.php';
                     ?>
-                </div>    
+                </div>
             </div>
         </div>
         <?php

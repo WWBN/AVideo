@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
@@ -13,17 +14,23 @@ if (!User::isAdmin()) {
 
 header('Content-Type: application/json');
 if (empty($_POST['email'])) {
-    if(!empty($_REQUEST['users_groups_id'])){
-        $users = User::getAllUsersFromUsergroup($_REQUEST['users_groups_id'],false, array('name', 'email', 'user', 'channelName', 'about'), "a");
-    }else{
-        $users = User::getAllUsers(false, array('name', 'email', 'user', 'channelName', 'about'), "a");
+    if (!empty($_REQUEST['users_groups_id'])) {
+        $users = User::getAllUsersFromUsergroup(
+            $_REQUEST['users_groups_id'],
+            false,
+            array('name', 'email', 'user', 'channelName', 'about'),
+            'a'
+        );
+    } else {
+        $users = User::getAllUsers(
+            false,
+            array('name', 'email', 'user', 'channelName', 'about'),
+            'a'
+        );
     }
 } else {
     $users[0]["email"] = $_POST['email'];
 }
-require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
-require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
-require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
 // send 100 emails at a time
 $mailsLimit = 100;
 

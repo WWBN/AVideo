@@ -170,7 +170,7 @@ class CustomizeUser extends PluginAbstract {
         if(!empty($obj->nonAdminCannotDownload) && !User::isAdmin()){
             return false;
         }
-        return $config->getAllow_download();
+        return !empty($config->getAllow_download());
     }
 
     static function setCanDownloadVideosFromUser($users_id, $value = true) {
@@ -273,7 +273,7 @@ class CustomizeUser extends PluginAbstract {
     }
 
     static function canDownloadVideosFromVideo($videos_id) {
-        if(CustomizeUser::canDownloadVideos()){
+        if(!CustomizeUser::canDownloadVideos()){
             return false;
         }
         $video = new Video("", "", $videos_id);
@@ -327,8 +327,11 @@ class CustomizeUser extends PluginAbstract {
         }
     }
 
-    public function getWatchActionButton($videos_id) {
+    public function getWatchActionButton($videos_id) {        
         global $global, $video;
+        if(!empty($videos_id) && empty($video)){
+            $video = Video::getVideo($videos_id);
+        }
         $obj = $this->getDataObject();
         include $global['systemRootPath'] . 'plugin/CustomizeUser/actionButton.php';
     }

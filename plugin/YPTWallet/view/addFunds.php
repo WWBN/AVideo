@@ -75,7 +75,7 @@ unset($_SESSION['addFunds_Fail']);
                             <?php
                             $plugin->getAvailablePayments();
                             ?>
-                        </div>  
+                        </div>
                     </div>
                 </div>
 

@@ -16,8 +16,8 @@ if(empty($_REQUEST['url'])){
 if(!isSameDomain($global['webSiteRootURL'], $_REQUEST['url'])){
     forbiddenPage("It is not from the same domain");
 }
-$url = parse_url($_REQUEST['url']);
-parse_str($url["query"], $vars);
+
+$vars["v"] = getVideoIDFromURL($_REQUEST['url']);
 
 if(empty($vars["v"])){
     forbiddenPage("Video variable not found");

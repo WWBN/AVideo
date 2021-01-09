@@ -159,6 +159,9 @@ class LiveTransmition extends ObjectYPT {
         sqlDAL::close($res);
         if ($res != false) {
             $user = $data;
+            if(empty($user)){
+                return false;
+            }
             return static::getFromDbByUser($user['id']);
         } else {
             return false;
@@ -197,6 +200,7 @@ class LiveTransmition extends ObjectYPT {
         $this->saveTransmition = intval($this->saveTransmition);
         $this->showOnTV = intval($this->showOnTV);
         $id = parent::save();
+        Category::clearCacheCount();
         return $id;
     }
 

@@ -76,7 +76,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
     $filename = uniqid($mainName . "_YPTuniqid_", true);
-    $originalFilePath =  "{$global['systemRootPath']}videos/original_" . $filename;
+    $originalFilePath =  Video::getStoragePath()."original_" . $filename;
 
     $video = new Video(preg_replace("/_+/", " ", $path_parts['filename']), $filename, @$_FILES['upl']['videoId']);
     $video->setDuration($duration);
@@ -157,7 +157,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
     $queue[] = $video->queue($postFields);
 
-    //exec("/usr/bin/php -f videoEncoder.php {$_FILES['upl']['tmp_name']} {$filename}  1> {$global['systemRootPath']}videos/{$filename}_progress.txt  2>&1", $output, $return_val);
+    //exec("/usr/bin/php -f videoEncoder.php {$_FILES['upl']['tmp_name']} {$filename}  1> Video::getStoragePath()."{$filename}_progress.txt  2>&1", $output, $return_val);
     //var_dump($output, $return_val);
     //echo '{"status":"success", "msg":"Your video (' . $filename . ') is encoding <br> ' . $cmd . '", "filename":"' . $filename . '", "duration":"' . $duration . '"}';
     status(["status" => "success"

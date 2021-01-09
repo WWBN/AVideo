@@ -91,8 +91,8 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
                                         <?php
                                     }
                                     ?>
-                            </div> 
-                        </div>   
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

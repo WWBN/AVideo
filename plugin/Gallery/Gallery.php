@@ -90,6 +90,7 @@ class Gallery extends PluginAbstract {
         $obj->SubCategorys = false;
         $obj->showTags = true;
         $obj->showCategoryTag = true;
+        $obj->showCategoryLiveRow = false;
         $obj->searchOnChannels = true;
         $obj->searchOnChannelsRowCount = 12;
         $obj->playVideoOnFullscreen = false;
@@ -128,10 +129,14 @@ class Gallery extends PluginAbstract {
             
         }else
         if(!empty($obj->playVideoOnFullscreen)){
-            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.js"></script>';
-        }
+            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
+        }else
         if(!empty($obj->playVideoOnBrowserFullscreen)){
-            $js = '<script>var playVideoOnBrowserFullscreen = 1;</script>';
+            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
+            $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.js"></script>';
+            $js .= '<script>var playVideoOnBrowserFullscreen = 1;</script>';
         }
         return $js;
     }

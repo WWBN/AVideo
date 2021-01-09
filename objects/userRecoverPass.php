@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -18,10 +20,6 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
             require_once 'captcha.php';
             $valid = Captcha::validation($_POST['captcha']);
             if ($valid) {
-                require_once $global['systemRootPath'] . 'objects/phpmailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/phpmailer/src/Exception.php';
-
                 //Create a new PHPMailer instance
                 $mail = new \PHPMailer\PHPMailer\PHPMailer;
                 setSiteSendMessage($mail);
@@ -59,14 +57,12 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
         <head>
             <title><?php echo __("Recover Password") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
             <?php
-            include $global['systemRootPath'] . 'view/include/head.php';
-            ?>
+            include $global['systemRootPath'] . 'view/include/head.php'; ?>
         </head>
 
         <body class="<?php echo $global['bodyClass']; ?>">
             <?php
-            include $global['systemRootPath'] . 'view/include/navbar.php';
-            ?>
+            include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
             <div class="container">
                 <?php
@@ -105,8 +101,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                                 <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
                                     <?php
-                                    getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password"));
-                                    ?>
+                                    getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password")); ?>
                                 </div>
                             </div>
 
@@ -114,8 +109,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                                 <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
                                     <?php
-                                    getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password"));
-                                    ?>
+                                    getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password")); ?>
                                 </div>
                             </div>
 
@@ -131,15 +125,13 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                         </fieldset>
                     </form>
                     <?php
-                }
-                ?>
+                } ?>
             </div>
 
         </div><!--/.container-->
 
         <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
+        include $global['systemRootPath'] . 'view/include/footer.php'; ?>
 
         <script>
             $(document).ready(function () {

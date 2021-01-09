@@ -165,9 +165,13 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                             <p><?php echo nl2br(textToLink($liveDescription)); ?></p>
                             <div class="row">
                                 <div class="col-md-12 watch8-action-buttons text-muted">
+                                    <?php if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) { ?>
                                     <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                         <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                     </a>
+                                    <?php
+                                    }
+                                    ?>
                                     <script>
                                         $(document).ready(function () {
                                             $("#shareDiv").slideUp();
@@ -178,12 +182,15 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                                             });
                                         });
                                     </script>
-                                    <?php echo AVideoPlugin::getWatchActionButton(0); ?>
+                                    <?php 
+                                    echo AVideoPlugin::getWatchActionButton(0); ?>
                                 </div>
                             </div>
                             <?php
                             $link = Live::getLinkToLiveFromUsers_id($user_id);
-                            getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img,"row bgWhite list-group-item menusDiv");
+                            if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) {
+                                getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img,"row bgWhite list-group-item menusDiv");
+                            }
                             ?>
                             <div class="row">
 

@@ -13,7 +13,7 @@ foreach ($videos as $value) {
         continue;
     }
     $newDescription = strip_tags($value['description'], "<br><p>");
-    
+
     if($newDescription==$value['description']){
         continue;
     }
@@ -24,12 +24,12 @@ foreach ($videos as $value) {
     if(empty($newDescription)){
         continue;
     }
-    
+
     $video = new Video("", "", $value['id']);
     $video->setDescription($newDescription);
     $video->save();
     echo "{$value['title']}<br>";
-    
+
 }
 
 

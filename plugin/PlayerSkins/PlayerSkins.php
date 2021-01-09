@@ -138,7 +138,7 @@ class PlayerSkins extends PluginAbstract {
             }
             
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
-                $social = getSocialModal($video['id'], @$url, @$title);
+                $social = getSocialModal(@$video['id'], @$url, @$title);
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
                 //$js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/shareButton.js\"></script>";
                 $js .= $social['html'];

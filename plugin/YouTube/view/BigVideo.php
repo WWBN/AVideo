@@ -72,7 +72,7 @@ if ($objYTube->BigVideo && empty($_GET['showOnly'])) {
 
                     <?php
                     if (empty($advancedCustom->doNotDisplayViews)) {
-                        ?> 
+                        ?>
                         <div>
                             <i class="fa fa-eye"></i>
                             <span itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>

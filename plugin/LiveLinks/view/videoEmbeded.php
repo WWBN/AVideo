@@ -77,6 +77,7 @@ if (!empty($objSecure)) {
         <?php
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         echo AVideoPlugin::getFooterCode();
+        showCloseButton();
         ?>
     </body>
 </html>

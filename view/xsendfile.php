@@ -16,7 +16,7 @@ if (empty($_GET['file'])) {
 
 $path_parts = pathinfo($_GET['file']);
 $file = $path_parts['basename'];
-$path = "{$global['systemRootPath']}videos/{$file}";
+$path = Video::getStoragePath()."{$file}";
 
 if ($file == "X-Sendfile.mp4") {
     $path = "{$global['systemRootPath']}plugin/SecureVideosDirectory/test.json";

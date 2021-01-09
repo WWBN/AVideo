@@ -43,6 +43,8 @@ if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'no
     $img = $images->poster;
 }
 $twitter_site = $advancedCustom->twitter_site;
+$title = _substr(html2plainText($video['title']), 0,55);
+$description = _substr(html2plainText($video['description']), 0,155);
 ?>
 <link rel="image_src" href="<?php echo $img; ?>" />
 <meta property="og:image" content="<?php echo $img; ?>" />
@@ -52,22 +54,39 @@ $twitter_site = $advancedCustom->twitter_site;
 <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
 
 <meta property="fb:app_id"             content="774958212660408" />
-<meta property="og:title"              content="<?php echo html2plainText($video['title']); ?>" />
-<meta property="og:description"        content="<?php echo html2plainText($video['description']); ?>" />
+<meta property="og:title"              content="<?php echo $title; ?>" />
+<meta property="og:description"        content="<?php echo $description; ?>" />
 <meta property="og:url"                content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
 <meta property="og:type"               content="video.other" />
 
 <?php
-$sourceMP4 = Video::getSourceFile($video['filename'], ".mp4");
-if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($sourceMP4['url'])) {
+$source = Video::getHigestResolution($video['filename']);
+if(empty($source['url'])){
+    if(CustomizeUser::canDownloadVideos()){
+        echo "<!-- you cannot download videos we will not share the video source file -->";
+    }
+    if(empty($source['url'])){
+        echo "<!-- we could not get the MP4 source file -->";
+    }
+}else{
+    $source['url'] = str_replace(".m3u8", ".m3u8.mp4", $source['url']);
+}
+if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['url'])) {
     ?>
-    <meta property="og:video" content="<?php echo $sourceMP4['url']; ?>" />
-    <meta property="og:video:secure_url" content="<?php echo $sourceMP4['url']; ?>" />
+    <meta property="og:video" content="<?php echo $source['url']; ?>" />
+    <meta property="og:video:secure_url" content="<?php echo $source['url']; ?>" />
     <meta property="og:video:type" content="video/mp4" />
     <meta property="og:video:width" content="<?php echo $imgw; ?>" />
     <meta property="og:video:height" content="<?php echo $imgh; ?>" />
     <?php
 } else {
+    if(AVideoPlugin::isEnabledByName("SecureVideosDirectory")){
+        echo "<!-- SecureVideosDirectory plugin is enabled we will not share the video source file -->";
+    }
+    if(empty($source['url'])){
+        echo "<!-- we could not get the source file -->";
+    }
+    
     ?>
     <meta property="og:video" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
     <meta property="og:video:secure_url" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
@@ -80,27 +99,38 @@ if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($sourceMP4
 <!-- Twitter cards -->
 <?php
 if (!empty($advancedCustom->twitter_player)) {
+    if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['url'])) {
+    ?>
+    <meta name="twitter:card" content="player" />
+    <meta name="twitter:player" content=<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
+    <meta name="twitter:player:width" content="<?php echo $imgw; ?>" />
+    <meta name="twitter:player:height" content="<?php echo $imgh; ?>" />
+    <meta name="twitter:player:stream" content="<?php echo $source['url']; ?>" />
+    <meta name="twitter:player:stream:content_type" content="video/mp4" />
+    <?php
+} else {
     ?>
     <meta name="twitter:card" content="player" />
     <meta name="twitter:player" content="<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
     <meta name="twitter:player:width" content="480" />
-    <meta name="twitter:player:height" content="480" />    
+    <meta name="twitter:player:height" content="480" />
     <?php
+}
 } else {
     if (!empty($advancedCustom->twitter_summary_large_image)) {
         ?>
-        <meta name="twitter:card" content="summary_large_image" />   
+        <meta name="twitter:card" content="summary_large_image" />
         <?php
     } else {
         ?>
-        <meta name="twitter:card" content="summary" />   
+        <meta name="twitter:card" content="summary" />
         <?php
     }
 }
 ?>
 <meta name="twitter:site" content="<?php echo $twitter_site; ?>" />
 <meta name="twitter:url" content="<?php echo Video::getLinkToVideo($videos_id); ?>"/>
-<meta name="twitter:title" content="<?php echo html2plainText($video['title']); ?>"/>
-<meta name="twitter:description" content="<?php echo html2plainText($video['description']); ?>"/>
+<meta name="twitter:title" content="<?php echo $title; ?>"/>
+<meta name="twitter:description" content="<?php echo $description; ?>"/>
 <meta name="twitter:image" content="<?php echo $img; ?>"/>
 <?php

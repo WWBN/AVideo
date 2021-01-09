@@ -112,6 +112,7 @@ echo PlayerSkins::getStartPlayerJS();
         <!-- getFooterCode start -->
         <?php
         echo AVideoPlugin::getFooterCode();
+        showCloseButton();
         ?>  
         <!-- getFooterCode end -->
     </body>

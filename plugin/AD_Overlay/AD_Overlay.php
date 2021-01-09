@@ -155,9 +155,11 @@ class AD_Overlay extends PluginAbstract {
         if (empty(trim($adText))) {
             return '<!-- AD_Overlay adText not detected -->';
         }
+        
+        $ad = AVideoPlugin::getObjectData('ADs');
 
         $js = '<div id="adOverlay" style="display:none;"><button class="pull-right btn" onclick="$(\'.vjs-overlay\').fadeOut();"><i class="fa fa-times"></i></button>'
-                . '<center>' . $adText . '</center>'
+                . '<center>' . ADs::giveGoogleATimeout($adText) . '</center>'
                 . '</div>';
 
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.js" type="text/javascript"></script>';

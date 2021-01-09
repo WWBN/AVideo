@@ -1,9 +1,12 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 global $global, $config, $videosPaths;
+
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -102,9 +105,8 @@ if (!class_exists('Video')) {
                 $this->views_count++;
                 AVideoPlugin::addView($this->id, $this->views_count);
                 return $obj;
-            } else {
-                die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
 
         public function updateViewsCount($total)
@@ -123,9 +125,8 @@ if (!class_exists('Video')) {
 
             if ($insert_row) {
                 return $insert_row;
-            } else {
-                die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
 
         public function addViewPercent($percent = 25)
@@ -140,9 +141,8 @@ if (!class_exists('Video')) {
 
             if ($insert_row) {
                 return true;
-            } else {
-                die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
+            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
 
         // allow users to count a view again in case it is refreshed
@@ -372,10 +372,9 @@ if (!class_exists('Video')) {
                 }
                 self::clearCache($this->id);
                 return $id;
-            } else {
-                _error_log('Video::save ' . $sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
-                return false;
             }
+            _error_log('Video::save ' . $sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
+            return false;
         }
 
         /*
@@ -546,9 +545,9 @@ if (!class_exists('Video')) {
                         sqlDAL::close($res);
                         if ($res != false) {
                             foreach ($fullResult as $row) {
-                                if ($row['type'] == "audio") {
+                                if ($row['type'] == 'audio') {
                                     $audioFound = true;
-                                } elseif ($row['type'] == "video") {
+                                } elseif ($row['type'] == 'video') {
                                     $videoFound = true;
                                 }
                             }
@@ -1376,7 +1375,6 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.status = '{$status}'";
             }
 
-
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND v.users_id = '{$user['id']}' ";
@@ -1506,7 +1504,6 @@ if (!class_exists('Video')) {
 
             $sql .= AVideoPlugin::getVideoWhereClause();
 
-
             if (!empty($_POST['searchPhrase'])) {
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
@@ -1624,7 +1621,7 @@ if (!class_exists('Video')) {
             $object = new stdClass();
 
             foreach (self::$types as $value) {
-                $progressFilename = "{$global['systemRootPath']}videos/{$filename}_progress_{$value}.txt";
+                $progressFilename = self::getStoragePathFromFileName($filename). "progress_{$value}.txt";
                 $content = @url_get_contents($progressFilename);
                 $object->$value = new stdClass();
                 if (!empty($content)) {
@@ -1805,10 +1802,10 @@ if (!class_exists('Video')) {
                 return false;
             }
             global $global;
-            $file = "{$global['systemRootPath']}videos/original_{$filename}";
+            $file = self::getStoragePath()."original_{$filename}";
             $this->removeFilePath($file);
 
-            $files = "{$global['systemRootPath']}videos/{$filename}";
+            $files = self::getStoragePath()."{$filename}";
             $this->removeFilePath($files);
         }
 
@@ -1852,7 +1849,6 @@ if (!class_exists('Video')) {
             global $global, $advancedCustom;
             if (empty($advancedCustom->disableHTMLDescription)) {
                 $articleObj = AVideoPlugin::getObjectData('Articles');
-                require_once $global['systemRootPath'] . 'objects/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
                 $configPuri = HTMLPurifier_Config::createDefault();
                 $purifier = new HTMLPurifier($configPuri);
                 if (empty($articleObj->allowAttributes)) {
@@ -1945,7 +1941,6 @@ if (!class_exists('Video')) {
         public static function getDurationFromFile($file)
         {
             global $global;
-            require_once $global['systemRootPath'] . 'objects/james-heinrich/getid3/getid3.php';
             // get movie duration HOURS:MM:SS.MICROSECONDS
             if (!file_exists($file)) {
                 _error_log('{"status":"error", "msg":"getDurationFromFile ERROR, File (' . $file . ') Not Found"}');
@@ -1967,17 +1962,12 @@ if (!class_exists('Video')) {
             if (isset($videogetResolution[$file])) {
                 return $videogetResolution[$file];
             }
-            if (!file_exists($file)) {
-                _error_log('{"status":"error", "msg":"getResolution ERROR, File (' . $file . ') Not Found"}');
-                $videogetResolution[$file] = 0;
-                return 0;
-            }
-
             if (
                     AVideoPlugin::isEnabledByName("Blackblaze_B2") ||
                     AVideoPlugin::isEnabledByName("AWS_S3") ||
                     AVideoPlugin::isEnabledByName("FTP_Storage") ||
-                    AVideoPlugin::isEnabledByName("YPTStorage")) {
+                    AVideoPlugin::isEnabledByName("YPTStorage")
+                    || !file_exists($file)) {
                 $videogetResolution[$file] = 0;
                 return 0;
             }
@@ -1985,7 +1975,6 @@ if (!class_exists('Video')) {
             if (preg_match("/.m3u8$/i", $file) && AVideoPlugin::isEnabledByName('VideoHLS') && method_exists(new VideoHLS(), 'getHLSHigestResolutionFromFile')) {
                 $videogetResolution[$file] = VideoHLS::getHLSHigestResolutionFromFile($file);
             } else {
-                require_once $global['systemRootPath'] . 'objects/james-heinrich/getid3/getid3/getid3.php';
                 $getID3 = new getID3;
                 $ThisFileInfo = $getID3->analyze($file);
                 $videogetResolution[$file] = intval(@$ThisFileInfo['video']['resolution_y']);
@@ -2794,10 +2783,9 @@ if (!class_exists('Video')) {
                 }
             }
 
-
             // check if there is a webp image
             if ($type === '.gif' && (empty($_SERVER['HTTP_USER_AGENT']) || get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari')) {
-                $path = "{$global['systemRootPath']}videos/{$filename}.webp";
+                $path = self::getStoragePath()."{$filename}.webp";
                 if (file_exists($path)) {
                     $type = ".webp";
                 }
@@ -2831,10 +2819,10 @@ if (!class_exists('Video')) {
                     }
                 }
                 $source = array();
-                $source['path'] = "{$global['systemRootPath']}videos/{$filename}{$type}";
+                $source['path'] = self::getStoragePath()."{$filename}{$type}";
 
                 if ($type == ".m3u8") {
-                    $source['path'] = "{$global['systemRootPath']}videos/{$filename}/index{$type}";
+                    $source['path'] = self::getStoragePath()."{$filename}/index{$type}";
                 }
                 $cleanFileName = self::getCleanFilenameFromFile($filename);
                 $video = Video::getVideoFromFileNameLight($cleanFileName);
@@ -3142,11 +3130,22 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        public static function getStoragePath()
-        {
+        public static function getStoragePath(){
             global $global;
             $path = "{$global['systemRootPath']}videos/";
             return $path;
+        }
+
+        public static function getStoragePathFromFileName($filename){
+            $cleanFileName = self::getCleanFilenameFromFile($filename);
+            $path = self::getStoragePath()."{$cleanFileName}/";
+            make_path($path);
+            return $path;
+        }
+
+        public static function getStoragePathFromVideosId($videos_id){
+            $v = new Video("", "", $videos_id);
+            return self::getStoragePathFromFileName($v->getFilename());
         }
 
         public static function getImageFromFilename($filename, $type = "video", $async = false)
@@ -3635,7 +3634,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             global $global;
-            $filePath = "{$global['systemRootPath']}videos/{$filename}";
+            $filePath = Video::getStoragePath()."{$filename}";
             // Streamlined for less coding space.
             $files = glob("{$filePath}*_thumbs*.jpg");
             foreach ($files as $file) {
@@ -4001,16 +4000,12 @@ if (!class_exists('Video')) {
         public static function getIncludeType($video)
         {
             $vType = $video['type'];
-            if ($vType == "linkVideo") {
-                if (isHTMLPage($video['videoLink'])) {
-                    $vType = "embed";
-                } else {
-                    $vType = "video";
-                }
-            } elseif ($vType == "live") {
-                $vType = "../../plugin/Live/view/liveVideo";
-            } elseif ($vType == "linkAudio") {
-                $vType = "audio";
+            if ($vType == 'linkVideo') {
+                $vType = isHTMLPage($video['videoLink']) ? 'embed' : 'video';
+            } elseif ($vType == 'live') {
+                $vType = '../../plugin/Live/view/liveVideo';
+            } elseif ($vType == 'linkAudio') {
+                $vType = 'audio';
             }
             if (!in_array($vType, Video::$typeOptions)) {
                 $vType = 'video';

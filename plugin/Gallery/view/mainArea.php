@@ -13,7 +13,6 @@
         }
         //reloadSearchVar();
     }
-
     if (!empty($video)) {
         $contentSearchFound = true;
         $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
@@ -116,11 +115,23 @@
                     $container.on('append.infiniteScroll', function (event, response, path, items) {
                         //console.log('Append page: ' + path);
                         lazyImage();
-                        if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}
+                        <?php
+                        if($obj->playVideoOnFullscreenOnIframe){
+                            echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
+                        }else if(!empty($obj->playVideoOnFullscreen)){
+                            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
+                        }
+                        ?>
                     });
                     setTimeout(function () {
                         lazyImage();
-                        if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}
+                        <?php
+                        if($obj->playVideoOnFullscreenOnIframe){
+                            echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
+                        }else if(!empty($obj->playVideoOnFullscreen)){
+                            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
+                        }
+                        ?>
                     }, 500);
                 });
             </script>
@@ -133,6 +144,8 @@
             }
             $_REQUEST['current'] = $_GET['page'];
 
+            
+            include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
             $_POST['sort']['likes'] = "DESC";
@@ -142,6 +155,9 @@
             if (!empty($videos)) {
                 ?>
                 <div class="row clear clearfix" id="Div<?php echo $currentCat['clean_name']; ?>">
+                    <?php 
+                    if(canPrintCategoryTitle($currentCat['name'])){
+                    ?>
                     <h3 class="galleryTitle">
                         <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $currentCat['clean_name']; ?>">
                             <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name'] ; ?>
@@ -149,6 +165,7 @@
                     </h3>
                     <div class="Div<?php echo $currentCat['clean_name']; ?>Section">
                     <?php
+                    }
                     createGallerySection($videos, "", array(), true);
                     ?>
                     </div>
@@ -174,18 +191,20 @@
 
         <?php
     } else {
+        include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
         $ob = ob_get_clean();
         ob_start();
         echo AVideoPlugin::getGallerySection();
         $ob2 = ob_get_clean();
         echo $ob;
-        if (empty($ob2)) {
+        if (empty($contentSearchFound) && empty($ob2)) {
             $contentSearchFound = false;
         } else {
             $contentSearchFound = true;
         }
     }
-
+    
+    
     if (!$contentSearchFound) {
         _session_start();
         unset($_SESSION['type']);

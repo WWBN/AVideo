@@ -15,7 +15,7 @@ if (!User::isAdmin()) {
 }
 // remove cache dir before the script starts to let the script recreate the javascript and css files
 if (!empty($_POST['updateFile'])) {
-    $dir = "{$global['systemRootPath']}videos/cache";
+    $dir = Video::getStoragePath()."cache";
     rrmdir($dir);
 }
 ?>
@@ -124,7 +124,7 @@ if (!empty($_POST['updateFile'])) {
                 } else {
                     $obj = new stdClass();
                     $templine = '';
-                    $logfile = "{$global['systemRootPath']}videos/avideo.";
+                    $logfile = Video::getStoragePath()."avideo.";
                     if (file_exists($logfile . "log")) {
                         unlink($logfile . "log");
                         _error_log("avideo.log deleted by update");

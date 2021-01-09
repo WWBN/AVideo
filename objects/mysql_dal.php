@@ -63,7 +63,7 @@ class sqlDAL {
 
     /*
      * For Sql like INSERT and UPDATE. The special point about this method: You do not need to close it (more direct).
-     * @param string $preparedStatement  The Sql-command 
+     * @param string $preparedStatement  The Sql-command
      * @param string $formats            i=int,d=doube,s=string,b=blob (http://www.php.net/manual/en/mysqli-stmt.bind-param.php)
      * @param array  $values             A array, containing the values for the prepared statement.
      * @return boolean                   true on success, false on fail
@@ -106,7 +106,7 @@ class sqlDAL {
 
     /*
      * For Sql like SELECT. This method needs to be closed anyway. If you start another readSql, while the old is open, it will fail.
-     * @param string $preparedStatement  The Sql-command 
+     * @param string $preparedStatement  The Sql-command
      * @param string $formats            i=int,d=doube,s=string,b=blob (http://www.php.net/manual/en/mysqli-stmt.bind-param.php)
      * @param array  $values             A array, containing the values for the prepared statement.
      * @return Object                    Depend if mysqlnd is active or not, a object, but always false on fail
@@ -175,7 +175,7 @@ class sqlDAL {
 
             //
             // if ($readSqlCached[$crc] == "false") {
-            // add this in case the cache fail 
+            // add this in case the cache fail
             // ->lenghts seems to be always NULL.. fix: $readSqlCached[$crc]->data_seek(0); above
             //if("SELECT * FROM configurations WHERE id = 1 LIMIT 1"==$preparedStatement){
             //  var_dump($readSqlCached[$crc]);
@@ -283,7 +283,7 @@ class sqlDAL {
     }
 
     /*
-     * Make a single assoc fetch 
+     * Make a single assoc fetch
      * @param Object $result A object from sqlDAL::readSql
      * @return int           A single row in a assoc array
      */
@@ -327,7 +327,7 @@ class sqlDAL {
     }
 
     /*
-     * Make a single fetch 
+     * Make a single fetch
      * @param Object $result A object from sqlDAL::readSql
      * @return int           A single row in a array
      */

@@ -64,7 +64,7 @@ $obj->error = false;
 $obj->video_id = $video_id;
 Video::updateFilesize($video_id);
 // delete original files if any
-$originalFilePath =  "{$global['systemRootPath']}videos/original_" . $video->getFilename();
+$originalFilePath =  Video::getStoragePath()."original_" . $video->getFilename();
 if(file_exists($originalFilePath)){
     unlink($originalFilePath);
 }

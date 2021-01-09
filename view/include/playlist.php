@@ -1,5 +1,7 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+global $isSerie;
+$isSerie = 1;
 $playlist = new PlayList($playlist_id);
 
 $rowCount = getRowCount();
@@ -58,7 +60,7 @@ if (!empty($videoSerie)) {
                 }
                 ?>
                 <li class="<?php echo $class; ?>">
-                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count . "/{$value["channelName"]}/" . urlencode($playlist->getName()) . "/{$value['clean_title']}"; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count . "/".urlencode(cleanURLName($value["channelName"]))."/" . urlencode(cleanURLName($playlist->getName())) . "/{$value['clean_title']}"; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
                         <div class="col-md-1 col-sm-1 col-xs-1">
                             <?php echo $indicator; ?>
                         </div>

@@ -82,7 +82,7 @@ $cssURL = combineFiles($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
 <?php
-$filename = "{$global['systemRootPath']}videos/cache/custom.css";
+$filename = Video::getStoragePath()."cache/custom.css";
 if($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exists($filename)){
     echo '<link href="'.$global['webSiteRootURL'].'videos/cache/custom.css?'.  filectime($filename) .'" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 }else{

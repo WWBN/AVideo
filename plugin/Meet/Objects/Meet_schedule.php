@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 class Meet_schedule extends ObjectYPT {
 
     protected $id,$users_id,$status,$public,$live_stream,$password,$topic,$starts,$finish,$name,$meet_code;
-    
+
     static function getSearchFieldsNames() {
         return array('password','topic','name','meet_code');
     }
@@ -13,7 +13,7 @@ class Meet_schedule extends ObjectYPT {
     static function getTableName() {
         return 'meet_schedule';
     }
-    
+
     static function getAllUsers() {
         global $global;
         $table = "users";
@@ -33,20 +33,19 @@ class Meet_schedule extends ObjectYPT {
         }
         return $rows;
     }
-    
-     
+
     function setId($id) {
         $this->id = intval($id);
-    } 
- 
+    }
+
     function setUsers_id($users_id) {
         $this->users_id = intval($users_id);
-    } 
- 
+    }
+
     function setStatus($status) {
         $this->status = $status;
-    } 
-    
+    }
+
     /**
      * Public = 2
      * Logged Users Only = 1
@@ -55,49 +54,48 @@ class Meet_schedule extends ObjectYPT {
      */
     function setPublic($public) {
         $this->public = intval($public);
-    } 
- 
+    }
+
     function setLive_stream($live_stream) {
         $this->live_stream = intval($live_stream);
-    } 
- 
+    }
+
     function setPassword($password) {
         $this->password = $password;
-    } 
- 
+    }
+
     function setTopic($topic) {
         $this->topic = $topic;
-    } 
- 
+    }
+
     function setStarts($starts) {
         $this->starts = $starts;
-    } 
- 
+    }
+
     function setFinish($finish) {
         $this->finish = $finish;
-    } 
- 
+    }
+
     function setName($name) {
         $this->name = $name;
-    } 
- 
+    }
+
     function setMeet_code($meet_code) {
         $this->meet_code = $meet_code;
-    } 
-    
-     
+    }
+
     function getId() {
         return intval($this->id);
-    }  
- 
+    }
+
     function getUsers_id() {
         return intval($this->users_id);
-    }  
- 
+    }
+
     function getStatus() {
         return $this->status;
-    }  
- 
+    }
+
     /**
      * Public = 2
      * Logged Users Only = 1
@@ -106,39 +104,39 @@ class Meet_schedule extends ObjectYPT {
      */
     function getPublic() {
         return intval($this->public);
-    }  
- 
+    }
+
     function getLive_stream() {
         return intval($this->live_stream);
-    }  
- 
+    }
+
     function getPassword() {
         return $this->password;
-    }  
- 
+    }
+
     function getTopic() {
         return $this->topic;
-    }  
- 
+    }
+
     function getStarts() {
         return $this->starts;
-    }  
- 
+    }
+
     function getFinish() {
         return $this->finish;
-    }  
- 
+    }
+
     function getName() {
         return $this->name;
-    }  
-    
+    }
+
     function getCleanName(){
         return cleanURLName($this->name);
     }
- 
+
     function getMeet_code() {
         return $this->meet_code;
-    }  
+    }
 
     public function getMeetLink() {
         global $global;
@@ -149,45 +147,45 @@ class Meet_schedule extends ObjectYPT {
         global $global;
         return $global['webSiteRootURL'] . 'meet/'.$this->getId();
     }
-    
+
     static function getAllFromUsersId($users_id, $time="", $canAttend=false) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
-        
+
         $users_id = intval($users_id);
         if(empty($users_id)){
             return false;
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " ms WHERE users_id = $users_id ";
-        
+
         if($canAttend){
             $userGroups = UserGroups::getUserGroups($users_id);
             $userGroupsIds = array();
             foreach ($userGroups as $value){
                 $userGroupsIds[] = $value['id'];
             }
-            $sql .= " OR (public = 2 OR public = 1 "; 
+            $sql .= " OR (public = 2 OR public = 1 ";
             if(!empty($userGroupsIds)){
-                $sql .= " OR (public = 0 AND (SELECT count(id) FROM meet_schedule_has_users_groups WHERE meet_schedule_id=ms.id AND users_groups_id IN (". implode(",", $userGroupsIds)."))>0) "; 
+                $sql .= " OR (public = 0 AND (SELECT count(id) FROM meet_schedule_has_users_groups WHERE meet_schedule_id=ms.id AND users_groups_id IN (". implode(",", $userGroupsIds)."))>0) ";
             }
-            $sql .= " )  "; 
+            $sql .= " )  ";
         }
 
         $identification = User::getNameIdentificationById($users_id);
         if(!empty($time)){
             unset($_POST['sort']);
             if($time=="today"){
-               $sql .= " AND date(starts) = CURDATE() "; 
+               $sql .= " AND date(starts) = CURDATE() ";
                $_POST['sort']['starts']="ASC";
-               $sql .= self::getSqlFromPost(); 
+               $sql .= self::getSqlFromPost();
             }else if($time=="upcoming"){
                $sql .= " AND date(starts) > CURDATE() ";
                $_POST['sort']['starts']="ASC";
-               $sql .= self::getSqlFromPost(); 
+               $sql .= self::getSqlFromPost();
             }else if($time=="past"){
-               $sql .= " AND date(starts) < CURDATE() "; 
+               $sql .= " AND date(starts) < CURDATE() ";
                $_POST['sort']['starts']="DESC";
                $sql .= self::getSqlFromPost();
             }
@@ -222,8 +220,7 @@ class Meet_schedule extends ObjectYPT {
         }
         return $rows;
     }
-    
-    
+
     static function getTotalFromUsersId($users_id, $time="", $canAttend=false) {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
@@ -236,30 +233,30 @@ class Meet_schedule extends ObjectYPT {
             return false;
         }
         $sql = "SELECT id FROM  " . static::getTableName() . " WHERE 1=1  ";
-        
+
         if($canAttend){
             $userGroups = UserGroups::getUserGroups($users_id);
             $userGroupsIds = array();
             foreach ($userGroups as $value){
                 $userGroupsIds[] = $value['id'];
             }
-            $sql .= " OR (public = 2 OR public = 1 "; 
+            $sql .= " OR (public = 2 OR public = 1 ";
             if(!empty($userGroupsIds)){
-                $sql .= " OR (public = 0 AND (SELECT count(id) FROM meet_schedule_has_users_groups WHERE meet_schedule_id=ms.id AND users_groups_id IN (". implode(",", $userGroupsIds)."))>0) "; 
+                $sql .= " OR (public = 0 AND (SELECT count(id) FROM meet_schedule_has_users_groups WHERE meet_schedule_id=ms.id AND users_groups_id IN (". implode(",", $userGroupsIds)."))>0) ";
             }
-            $sql .= " )  "; 
+            $sql .= " )  ";
         }
         if(!empty($time)){
             unset($_POST['sort']);
             if($time=="today"){
-               $sql .= " AND date(starts) = CURDATE() "; 
-               $sql .= " ORDER BY starts ASC "; 
+               $sql .= " AND date(starts) = CURDATE() ";
+               $sql .= " ORDER BY starts ASC ";
             }else if($time=="upcoming"){
-               $sql .= " AND date(starts) > CURDATE() "; 
-               $sql .= " ORDER BY starts ASC "; 
+               $sql .= " AND date(starts) > CURDATE() ";
+               $sql .= " ORDER BY starts ASC ";
             }else if($time=="past"){
-               $sql .= " AND date(starts) < CURDATE() "; 
-               $sql .= " ORDER BY starts DESC "; 
+               $sql .= " AND date(starts) < CURDATE() ";
+               $sql .= " ORDER BY starts DESC ";
             }
         }
         $sql .= self::getSqlSearchFromPost();
@@ -268,8 +265,7 @@ class Meet_schedule extends ObjectYPT {
         sqlDAL::close($res);
         return $countRow;
     }
-    
-    
+
     static function getAll($time="") {
         global $global;
         if (!static::isTableInstalled()) {
@@ -280,15 +276,15 @@ class Meet_schedule extends ObjectYPT {
         if(!empty($time)){
             unset($_POST['sort']);
             if($time=="today"){
-               $sql .= " AND date(starts) = CURDATE() "; 
+               $sql .= " AND date(starts) = CURDATE() ";
                $_POST['sort']['starts']="ASC";
-               $sql .= self::getSqlFromPost(); 
+               $sql .= self::getSqlFromPost();
             }else if($time=="upcoming"){
                $sql .= " AND date(starts) > CURDATE() ";
                $_POST['sort']['starts']="ASC";
-               $sql .= self::getSqlFromPost(); 
+               $sql .= self::getSqlFromPost();
             }else if($time=="past"){
-               $sql .= " AND date(starts) < CURDATE() "; 
+               $sql .= " AND date(starts) < CURDATE() ";
                $_POST['sort']['starts']="DESC";
                $sql .= self::getSqlFromPost();
             }
@@ -310,7 +306,7 @@ class Meet_schedule extends ObjectYPT {
                 }else{
                     $row['userGroups'] = array();
                 }
-                
+
                 $row['isModerator'] = Meet::isModerator($row['id']);
                 $row['invitation'] = Meet::getInvitation($row['id']);
                 $row['joinURL'] = "";
@@ -325,7 +321,7 @@ class Meet_schedule extends ObjectYPT {
         }
         return $rows;
     }
-    
+
     static function getTotal($time="") {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
@@ -337,14 +333,14 @@ class Meet_schedule extends ObjectYPT {
         if(!empty($time)){
             unset($_POST['sort']);
             if($time=="today"){
-               $sql .= " AND date(starts) = CURDATE() "; 
-               $sql .= " ORDER BY starts ASC "; 
+               $sql .= " AND date(starts) = CURDATE() ";
+               $sql .= " ORDER BY starts ASC ";
             }else if($time=="upcoming"){
-               $sql .= " AND date(starts) > CURDATE() "; 
-               $sql .= " ORDER BY starts ASC "; 
+               $sql .= " AND date(starts) > CURDATE() ";
+               $sql .= " ORDER BY starts ASC ";
             }else if($time=="past"){
-               $sql .= " AND date(starts) < CURDATE() "; 
-               $sql .= " ORDER BY starts DESC "; 
+               $sql .= " AND date(starts) < CURDATE() ";
+               $sql .= " ORDER BY starts DESC ";
             }
         }
         $sql .= self::getSqlSearchFromPost();
@@ -353,7 +349,7 @@ class Meet_schedule extends ObjectYPT {
         sqlDAL::close($res);
         return $countRow;
     }
-    
+
     function canManageSchedule(){
         if(User::isAdmin()){
             return true;
@@ -366,12 +362,12 @@ class Meet_schedule extends ObjectYPT {
         }
         return false;
     }
-    
+
     function save() {
         if(empty($this->finish)){
             $this->finish = 'null';
         }
         return parent::save();
     }
-        
+
 }
