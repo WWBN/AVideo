@@ -1210,7 +1210,7 @@ class Live extends PluginAbstract {
 
     static function getOnAirImage($includeURL = true) {
         global $global;
-        $img = "plugin/Live/view/Offline.jpg";
+        $img = "plugin/Live/view/OnAir.jpg";
         if ($includeURL) {
             $img = "{$global['webSiteRootURL']}{$img}";
         }
