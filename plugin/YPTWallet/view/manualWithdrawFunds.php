@@ -58,7 +58,7 @@ $options = json_decode($obj->withdrawFundsOptions);
                             }
                             ?>
                             <div class="form-group">
-                                <label for="value"><?php echo __("Specify Ammount"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
+                                <label for="value"><?php echo __("Specify Amount"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
                                 <select class="form-control" id="value" >
                                     <?php
                                     foreach ($options as $value) {

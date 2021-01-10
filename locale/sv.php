@@ -615,4 +615,4 @@ $t['week'] = "vecka";
 $t['weeks'] = "veckor";
 $t['year'] = "år";
 $t['years'] = "år";
-$t['youtube-dl uses Python and some servers does not came with python as dafault, to install Python type:'] = "youtube-dl använder Python och vissa servrar kommer inte med python som dafault, för att installera Python-typ:";
+$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = "youtube-dl använder Python och vissa servrar kommer inte med python som default, för att installera Python-typ:";
