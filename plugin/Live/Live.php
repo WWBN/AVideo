@@ -1136,7 +1136,7 @@ class Live extends PluginAbstract {
             $live_servers_id = self::getCurrentLiveServersId();
         }
         $u = new User($users_id);
-        $username = $u->getUserName();
+        $username = $u->getUser();
         $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&u={$username}&format=gif";
         $url = $global['webSiteRootURL'] . $file;
         $url = addQueryStringParameter($url, "playlists_id_live", $playlists_id_live);
@@ -1173,7 +1173,7 @@ class Live extends PluginAbstract {
             }
         } else {
             $u = new User($users_id);
-            $username = $u->getUserName();
+            $username = $u->getUser();
             $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&u={$username}&format=jpg";
         }
 
