@@ -142,7 +142,7 @@ class Live_servers extends ObjectYPT {
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' ";
 
-        $sql .= self::getSqlFromPost();
+        //$sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
