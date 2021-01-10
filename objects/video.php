@@ -1120,17 +1120,18 @@ if (!class_exists('Video')) {
                 if (!empty($_GET['limitOnceToOne'])) {
                     $sql .= " LIMIT 1";
                     unset($_GET['limitOnceToOne']);
-                }
-                $_REQUEST['rowCount'] = getRowCount();
-                if (!empty($_REQUEST['rowCount'])) {
-                    $sql .= " LIMIT {$_REQUEST['rowCount']}";
-                } else {
-                    _error_log("getAllVideos without limit " . json_encode(debug_backtrace()));
-                    if (empty($global['limitForUnlimitedVideos'])) {
-                        $global['limitForUnlimitedVideos'] = 100;
-                    }
-                    if ($global['limitForUnlimitedVideos'] > 0) {
-                        $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                }else{
+                    $_REQUEST['rowCount'] = getRowCount();
+                    if (!empty($_REQUEST['rowCount'])) {
+                        $sql .= " LIMIT {$_REQUEST['rowCount']}";
+                    } else {
+                        _error_log("getAllVideos without limit " . json_encode(debug_backtrace()));
+                        if (empty($global['limitForUnlimitedVideos'])) {
+                            $global['limitForUnlimitedVideos'] = 100;
+                        }
+                        if ($global['limitForUnlimitedVideos'] > 0) {
+                            $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
+                        }
                     }
                 }
             }
