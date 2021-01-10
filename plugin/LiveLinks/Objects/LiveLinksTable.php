@@ -23,6 +23,9 @@ class LiveLinksTable extends ObjectYPT {
        if(empty($this->users_id)){
            $this->users_id = User::getId();
        }
+       if(empty($this->categories_id)){
+           $this->categories_id = 'NULL';
+       }
        Category::clearCacheCount();
        return parent::save();
    }
