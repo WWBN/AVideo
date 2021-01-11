@@ -105,19 +105,35 @@ class Gallery extends PluginAbstract {
         $obj->screenColsSmall = 2;
         $obj->screenColsXSmall = 1;
         $obj->allowSwitchTheme = true;
+        self::addDataObjectHelper('allowSwitchTheme', 'Show Switch theme button');
+        $themes = getThemes();
+        foreach ($themes as $value) {
+            $name = ucfirst($value);
+            eval('$obj->SwitchThemeShow'.$name.' = true;');
+            self::addDataObjectHelper('SwitchThemeShow'.$name, 'Show '.$name.' Option', 'Uncheck this button to not show the '.$name.' in your themes list');
+            eval('$obj->SwitchThemeLabel'.$name.' = "'.$name.'";');
+            self::addDataObjectHelper('SwitchThemeLabel'.$name, $name.' Theme Label', 'Change the label name to the theme '.$name.' in your themes list');
+        }
 
         return $obj;
     }
 
     public function navBarProfileButtons() {
         global $global;
-        $obj = AVideoPlugin::getObjectData("Gallery");
-        $str = "";
-
+        $navBarButtons = 0;
+        $obj = $this->getDataObject();
         if ($obj->allowSwitchTheme) {
             include $global['systemRootPath'] . 'plugin/Gallery/view/themeSwitcher.php';
         }
-        return $str;
+    }
+    
+    public function navBarButtons() {
+        global $global;
+        $navBarButtons = 1;
+        $obj = $this->getDataObject();
+        if (!empty($obj->allowSwitchTheme)) {
+            include $global['systemRootPath'] . 'plugin/Gallery/view/themeSwitcher.php';
+        }
     }
 
     public function getHelp() {
@@ -154,6 +170,24 @@ class Gallery extends PluginAbstract {
             $js .= '<script>var playVideoOnBrowserFullscreen = 1;</script>';
         }
         return $js;
+    }
+    
+    static function getThemes(){
+        $obj = AVideoPlugin::getDataObject("Gallery");
+        if(empty($obj->allowSwitchTheme)){
+           return false; 
+        }
+        $themes = getThemes();
+        $selectedThemes = array();
+        foreach ($themes as $value) {
+            $name = ucfirst($value);
+            eval('$t = $obj->SwitchThemeShow'.$name.';');
+            if(!empty($t)){
+                eval('$l = $obj->SwitchThemeLabel'.$name.';');
+                $selectedThemes[] = array('name'=>$value,'label'=>$l);
+            }
+        }
+        return $selectedThemes;
     }
 
 }
