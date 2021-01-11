@@ -421,16 +421,6 @@ if (User::isAdmin()) {
                                                     <button class="btn btn-primary" id="generateSiteMap">
                                                         <i class="fa fa-sitemap"></i> <?php echo __("Generate Sitemap"); ?>
                                                     </button>
-                                                    <?php
-                                                    if (!is_writable($sitemapFile)) {
-                                                        ?>
-                                                        <div class="alert alert-danger">
-                                                            the sitemap file must be writable
-                                                            <code>sudo chmod 777 <?php echo $sitemapFile; ?></code>
-                                                        </div>    
-                                                        <?php
-                                                    }
-                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="form-group">

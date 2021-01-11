@@ -146,7 +146,6 @@ $avideoCustomizeUser = $advancedCustomUser = AVideoPlugin::getObjectData('Custom
 $avideoCustomize = $customizePlugin = AVideoPlugin::getObjectData('Customize');
 $avideoPermissions = $permissionsPlugin = AVideoPlugin::getObjectData('Permissions');
 $avideoPlayerSkins = AVideoPlugin::getObjectData('PlayerSkins');
-$sitemapFile = "{$global['systemRootPath']}sitemap.xml";
 
 if (!empty($_GET['type'])) {
     $metaDescription = " {$_GET['type']}";
