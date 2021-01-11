@@ -206,7 +206,7 @@ class UserGroups {
         if (!is_array($array_groups_id)) {
             return false;
         }
-        self::deleteGroupsFromUser($users_id, $byPassAdmin);
+        self::deleteGroupsFromUser($users_id, true);
         global $global;
         $array_groups_id = array_unique($array_groups_id);
         $sql = "INSERT INTO users_has_users_groups ( users_id, users_groups_id) VALUES (?,?)";
