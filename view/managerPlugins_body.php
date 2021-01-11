@@ -486,7 +486,11 @@ $uuidJSCondition = implode(" && ", $rowId);
                         }
                     }
                     if (row.hasOwnProperty("permissions") && row.permissions.length) {
-                        txt += '<button type="button" class="btn btn-xs btn-default btn-block" onclick="pluginPermissionsBtn(' + row.id + ')" data-toggle="tooltip" data-placement="right" title="<?php echo __('User Groups Permissions'); ?>"><span class="fa fa-users" aria-hidden="true"></span> <?php echo __('User Groups Permissions'); ?></button>';
+                        var disabled = "";
+                        if (!row.isPluginTablesInstalled) {
+                            disabled = ' disabled="disabled" ';
+                        }
+                        txt += '<button ' + disabled + ' type="button" class="btn btn-xs btn-default btn-block" onclick="pluginPermissionsBtn(' + row.id + ')" data-toggle="tooltip" data-placement="right" title="<?php echo __('User Groups Permissions'); ?>"><span class="fa fa-users" aria-hidden="true"></span> <?php echo __('User Groups Permissions'); ?></button>';
                     }
 
                     return txt;
