@@ -1960,7 +1960,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                                     continue;
                                                                 }
 
-                                                                lists += '<div class="material-small material-switch"><input onchange="saveVideoOnPlaylist(' + videos_id + ', $(this).is(\':checked\'), ' + response[x].id + ')" data-toggle="toggle" type="checkbox" id="playlistVideo' + videos_id + "_" + response[x].id + '" value="1" ' + (response[x].isOnPlaylist ? "checked" : "") + ' videos_id="' + videos_id + '" ><label for="playlistVideo' + videos_id + "_" + response[x].id + '" class="label-primary"></label>  ' + response[x].name + '</div>';
+                                                                lists += '<div class="material-small material-switch"><input onchange="saveVideoOnPlaylist(' + videos_id + ', $(this).is(\':checked\'), ' + response[x].id + ')" data-toggle="toggle" type="checkbox" id="playlistVideo' + videos_id + "_" + response[x].id + '" value="1" ' + (response[x].isOnPlaylist ? "checked" : "") + ' videos_id="' + videos_id + '" ><label for="playlistVideo' + videos_id + "_" + response[x].id + '" class="label-primary"></label>  ' + response[x].name_translated + '</div>';
                                                             }
                                                             $($this).html(lists);
                                                         }
