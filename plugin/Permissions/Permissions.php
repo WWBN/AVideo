@@ -72,8 +72,18 @@ class Permissions extends PluginAbstract {
         return '<a href="plugin/Permissions/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</a>';
     }
 
-    static function getForm() {
+    static function getForm() {        
         global $global;
+                
+        $disabled = "";
+        if (!Users_groups_permissions::isTableInstalled()) {
+            $disabled = " disabled='disabled' ";
+            echo "<div class=\"alert alert-danger\">"
+            . "<span class=\"fa fa-info-circle\"></span> "
+            . __("The Permissions Plugin is not installed. Please install it if you want to customize the permissions.")
+            . "</div>";
+        }        
+
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             $row = Plugin::getPluginByName($value['dirName']);
@@ -86,9 +96,9 @@ class Permissions extends PluginAbstract {
                     }
                     echo "<div class=\"checkbox\">"
                     . "<label data-toggle=\"tooltip\" title=\"" . addcslashes($value->getDescription(), '"') . "\">"
-                    . "<input type=\"checkbox\" name=\"permissions[" . $value->getClassName() . "][]\" value=\"" . $value->getType() . "\" class=\"permissions " . $value->getClassName() . "\">" . $value->getName() . " "
+                    . "<input ".$disabled." type=\"checkbox\" name=\"permissions[" . $value->getClassName() . "][]\" value=\"" . $value->getType() . "\" class=\"permissions " . $value->getClassName() . "\">" . $value->getName() . " "
                     . "</label>"
-                    . " <button type='button' class='btn btn-xs pull-right' data-toggle=\"tooltip\" title=\"" . $value->getClassName() . " Plugin\" onclick=\"pluginPermissionsBtn({$row['id']})\">(" . $value->getClassName() . ")</button>"
+                    . " <button ".$disabled." type='button' class='btn btn-xs pull-right' data-toggle=\"tooltip\" title=\"" . $value->getClassName() . " Plugin\" onclick=\"pluginPermissionsBtn({$row['id']})\">(" . $value->getClassName() . ")</button>"
                     . "</div>";
                 }
             }
