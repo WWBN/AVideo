@@ -99,6 +99,7 @@ class PlayList extends ObjectYPT
         $watch_laterCount = 0;
         if ($res != false) {
             foreach ($fullData as $row) {
+                $row['name_translated'] = __($row['name']);
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
                 $row['isFavorite'] = false;
                 $row['isWatchLater'] = false;
@@ -220,6 +221,7 @@ class PlayList extends ObjectYPT
         if (empty($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)])) {
             $rows = self::getAllFromUser($userId, $publicOnly, $status);
             foreach ($rows as $key => $value) {
+                $rows[$key]['name_translated'] = __($rows[$key]['name']);
                 $videos = self::getVideosIdFromPlaylist($value['id']);
                 $rows[$key]['isOnPlaylist'] = in_array($videos_id, $videos);
             }
