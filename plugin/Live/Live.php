@@ -54,7 +54,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "5.2";
+        return "5.3";
     }
 
     public function updateScript() {

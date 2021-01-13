@@ -75,8 +75,8 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             $lu = AVideoPlugin::getObjectDataIfEnabled("LiveUsers");
             if (!empty($lu) && !$lu->doNotDisplayCounter) {
                 ?>
-                <span class="label label-primary"  data-toggle="tooltip" title="<?php echo __("Watching Now"); ?>" data-placement="bottom" ><i class="fa fa-user"></i> <b class="liveUsersOnline">0</b></span>
-                <span class="label label-default"  data-toggle="tooltip" title="<?php echo __("Total Views"); ?>" data-placement="bottom" ><i class="fa fa-eye"></i> <b class="liveUsersViews">0</b></span>
+                <span class="label label-primary"  data-toggle="tooltip" title="<?php echo __("Watching Now"); ?>" data-placement="bottom" ><i class="fa fa-eye"></i> <b class="liveUsersOnline">0</b></span>
+                <span class="label label-default"  data-toggle="tooltip" title="<?php echo __("Total Views"); ?>" data-placement="bottom" ><i class="fa fa-user"></i> <b class="liveUsersViews">0</b></span>
                 <?php
             }
             ?>
