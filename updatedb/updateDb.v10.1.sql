@@ -49,11 +49,15 @@ ENGINE = InnoDB;
 -- add full text search https://github.com/WWBN/AVideo/issues/4343
 
 ALTER TABLE `categories` 
-ADD FULLTEXT INDEX `index7cname` (`name`),
+ADD FULLTEXT INDEX `index7cname` (`name`);
+
+ALTER TABLE `categories` 
 ADD FULLTEXT INDEX `index8cdescr` (`description`);
 
 ALTER TABLE `videos` 
-ADD FULLTEXT INDEX `index17vname` (`title`),
+ADD FULLTEXT INDEX `index17vname` (`title`);
+
+ALTER TABLE `videos` 
 ADD FULLTEXT INDEX `index18vdesc` (`description`);
 
 UPDATE configurations SET  version = '10.1', modified = now() WHERE id = 1;
