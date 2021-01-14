@@ -57,6 +57,7 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->backgroundRGB = "20,20,20";
         $obj->landscapePosters = true;
         $obj->playVideoOnFullscreen = true;
+        $obj->playVideoOnFullscreenOnIframe = true;
         $obj->youtubeModeOnFullscreen = false;
         $obj->paidOnlyLabelOverPoster = false;
         $obj->titleLabel = true;
@@ -115,10 +116,16 @@ class YouPHPFlix2 extends PluginAbstract {
         global $global;
 
         $js = '';
-        if(!empty($obj->playVideoOnFullscreen) && !isSerie()){
-            $js = '<script>var playVideoOnFullscreen = true</script>';
-        }else{
-            $js = '<script>var playVideoOnFullscreen = false</script>';
+        
+        if (!empty($obj->playVideoOnFullscreenOnIframe) && !isSerie()) {
+            $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'a.galleryLink\'); } });</script>';
+            $js .= '<script>var playVideoOnFullscreen = 1</script>';
+        } else
+        if (!empty($obj->playVideoOnFullscreen) && !isSerie()) {
+            $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
+            $js .= '<script>var playVideoOnFullscreen = 2</script>';
+        } else{
+            $js .= '<script>var playVideoOnFullscreen = false</script>';
         }
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
         return $js;

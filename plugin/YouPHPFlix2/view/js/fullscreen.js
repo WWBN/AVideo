@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    linksToFullscreen('a.canWatchPlayButton');
+    transformLinksToEmbed('a.canWatchPlayButton');
     $(document).on('keyup', function (evt) {
         if (evt.keyCode == 27) {
             closeFlixFullScreen();
@@ -7,6 +7,14 @@ $(document).ready(function () {
     });
 
 });
+
+function transformLinksToEmbed(selector){
+    if(playVideoOnFullscreen === 1 && typeof linksToFullscreen === 'function'){
+        linksToFullscreen(selector);
+    }else if (playVideoOnFullscreen === 2 && typeof linksToEmbed === 'function'){
+        linksToEmbed(selector);
+    }
+}
 
 var flixFullScreenActive = false;
 

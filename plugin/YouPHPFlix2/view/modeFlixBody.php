@@ -259,15 +259,15 @@ $percent = 90;
                     });
 
                     lazyImage();
-                    if (typeof linksToFullscreen === 'function') {
-                        linksToFullscreen('a.galleryLink');
-                        linksToFullscreen('a.canWatchPlayButton');
+                    if (typeof transformLinksToEmbed === 'function') {
+                        transformLinksToEmbed('a.galleryLink');
+                        transformLinksToEmbed('a.canWatchPlayButton');
                     }
                 });
                 setTimeout(function () {
                     lazyImage();
-                    if (typeof linksToFullscreen === 'function') {
-                        linksToFullscreen('a.galleryLink');
+                    if (typeof transformLinksToEmbed === 'function') {
+                        transformLinksToEmbed('a.galleryLink');
                     }
                 }, 500);
             });
