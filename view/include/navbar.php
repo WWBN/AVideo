@@ -373,7 +373,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         if (!empty($_GET['search'])) {
                             echo htmlentities($_GET['search']);
                         }
-                        ?>" name="search" placeholder="<?php echo __("Search"); ?>">
+                        ?>" name="search" placeholder="<?php echo __("Search"); ?>" id="searchFormInput">
                         <span class="input-group-append">
                             <button class="btn btn-default btn-outline-secondary border-left-0 border  py-2" type="submit">
                                 <i class="fas fa-search"></i>
@@ -1155,7 +1155,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         <h3 class="text-danger"><?php echo __($advancedCustom->CategoryLabel); ?></h3>
                     </li>
                     <?php
-                    $_rowCount = getRowCount();                    
+                    $_rowCount = getRowCount();
                     $_REQUEST['rowCount'] = 1000;
                     $parsed_cats = array();
                     if (!function_exists('mkSub')) {
@@ -1226,7 +1226,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         $_POST = $post;
                         $_GET = $get;
                     }
-                                   
+
                     $_REQUEST['rowCount'] = $_rowCount;
                     ?>
 
@@ -1274,6 +1274,8 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
         </div>
     </nav>
     <script>
+
+        var seachFormIsRunning = 0;
         $(document).ready(function () {
             setTimeout(function () {
                 $('.nav li.navsub-toggle a:not(.selected) + ul').hide();
@@ -1312,7 +1314,69 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         c.slideUp();
                 }
             });
+
+            $('#searchForm').submit(function (event) {
+                if (seachFormIsRunning) {
+                    event.preventDefault();
+                    return false;
+                }
+                seachFormIsRunning = 1;
+                var str = $('#searchFormInput').val();
+                if (isMediaSiteURL(str)) {
+                    event.preventDefault();
+                    console.log("searchForm is URL " + str);
+                    seachFormPlayURL(str);
+                    return false;
+                } else {
+                    console.log("searchForm submit " + str);
+                    //document.location = webSiteRootURL + "?search=" + str;
+                }
+            });
+
         });
+        
+        function isMediaSiteURL(url){
+            if (validURL(url)) {
+                if(url.match(/youtube/i) ||
+                   url.match(/vimeo/i)  ||
+                   url.match(/dailymotion/i)  ||
+                   url.match(/metacafe/i)  ||
+                   url.match(/vid\.me/i)  ||
+                   url.match(/rutube\.ru/i)  ||
+                   url.match(/ok\.ru/i)   ||
+                   url.match(/streamable/i)   ||
+                   url.match(/twitch/i)   ||
+                   url.match(/evideoEmbed/i)   ||
+                   url.match(/videoEmbeded/i) ){
+                   return true;
+                }
+            }
+            return false;
+        }
+
+        function seachFormPlayURL(url) {
+            modal.showPleaseWait();
+            $.ajax({
+                url: webSiteRootURL + 'view/url2Embed.json.php',
+                method: 'POST',
+                data: {
+                    'url': url
+                },
+                success: function (response) {
+                    modal.hidePleaseWait();
+                    seachFormIsRunning = 0;
+                    if (response.error) {
+                        avideoToast(response.msg);
+                    } else {
+                        if (typeof flixFullScreen == 'function') {
+                            flixFullScreen(response.playEmbedLink, response.playLink);
+                        } else {
+                            document.location = response.playLink;
+                        }
+                    }
+                }
+            });
+        }
     </script>
     <?php
     if (!empty($advancedCustom->underMenuBarHTMLCode->value)) {
