@@ -1363,13 +1363,17 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                     'url': url
                 },
                 success: function (response) {
-                    modal.hidePleaseWait();
                     seachFormIsRunning = 0;
                     if (response.error) {
+                        modal.hidePleaseWait();
                         avideoToast(response.msg);
                     } else {
+                        if(typeof linksToEmbed === 'function'){
+                            document.location = response.playEmbedLink;
+                        }else 
                         if (typeof flixFullScreen == 'function') {
                             flixFullScreen(response.playEmbedLink, response.playLink);
+                            modal.hidePleaseWait();
                         } else {
                             document.location = response.playLink;
                         }
