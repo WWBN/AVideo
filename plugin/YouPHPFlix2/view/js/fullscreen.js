@@ -25,7 +25,9 @@ function flixFullScreen(link, url) {
     $('body').append(div);
     $('body').addClass('fullscreen');
     $("#divIframeFull").fadeIn();
-    window.history.pushState(null, null, url);
+    if(validURL(url)){
+        window.history.pushState(null, null, url);
+    }
 }
 
 var closeFlixFullScreenTimout;
