@@ -28,8 +28,14 @@ $obj->embed = parseVideos($obj->url);
     $evideo->description = "";
     $evideo->webSiteRootURL = $global['webSiteRootURL'];
     $evideo->thumbnails = false;
+    $evideo->poster = false;
+    $evideo->filename = "";
+    $evideo->type = 'embed';
+    $evideo->users_id = User::getId();
+    $evideo->thumbnails = false;
+    $evideo->thumbnails = false;
 
 $obj->playLink = "{$global['webSiteRootURL']}evideo/".  encryptString(json_encode($evideo));
-$obj->playEmbedLink = "{$global['webSiteRootURL']}evideo/".  encryptString(json_encode($evideo));
+$obj->playEmbedLink = "{$global['webSiteRootURL']}evideoEmbed/".  encryptString(json_encode($evideo));
 
 die(json_encode($obj));
