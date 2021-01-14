@@ -229,9 +229,13 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     $object->categories = array();
 }
 //_error_log("login.json.php get user groups");
-TimeLogEnd($timeLog, __LINE__);
-$object->userGroups = UserGroups::getAllUsersGroups();
-TimeLogEnd($timeLog, __LINE__);
+if(!empty($advancedCustomUser->autoSaveUsersOnCategorySelectedGroups)){
+    $object->userGroups = array();
+}else{
+    TimeLogEnd($timeLog, __LINE__);
+    $object->userGroups = UserGroups::getAllUsersGroups();
+    TimeLogEnd($timeLog, __LINE__);
+}
 $object->streamServerURL = "";
 $object->streamKey = "";
 if ($object->isLogged) {

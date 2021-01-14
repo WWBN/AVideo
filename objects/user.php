@@ -39,6 +39,7 @@ class User {
     private $city;
     private $donationLink;
     private $modified;
+    private $extra_info;
     public static $DOCUMENT_IMAGE_TYPE = "Document Image";
 
     public function __construct($id, $user = "", $password = "") {
@@ -380,6 +381,10 @@ if (typeof gtag !== \"function\") {
 
     public function _getName() {
         return $this->name;
+    }
+    
+    public function getBdName() {
+        return $this->_getName();
     }
 
     public static function _getPhoto($id = "") {
@@ -2259,7 +2264,7 @@ if (typeof gtag !== \"function\") {
         $values[] = $this->backgroundURL;
         $values[] = $this->id;
 
-        $sql .= "UPDATE users SET "
+        $sql = "UPDATE users SET "
                 . "photoURL = ?, backgroundURL = ?, "
                 . " modified = now() WHERE id = ?";
 
@@ -2267,6 +2272,22 @@ if (typeof gtag !== \"function\") {
         $obj->save = $insert_row; // create/update data for photoURL / backgroundURL
 
         return $obj;
+    }
+    
+    function getExtra_info() {
+        return $this->extra_info;
+    }
+
+    function setExtra_info($extra_info) {
+        $this->extra_info = $extra_info;
+    }
+
+    static function saveExtraInfo($string, $users_id){
+        $sql = "UPDATE users SET "
+                . "extra_info = ?, "
+                . " modified = now() WHERE id = ?";
+
+        return sqlDAL::writeSql($sql, "si", array($string, $users_id));
     }
 
 }

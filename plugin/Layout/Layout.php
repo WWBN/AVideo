@@ -162,7 +162,8 @@ class Layout extends PluginAbstract {
         if(empty($id)){
             $id = uniqid();
         }
-        $code = "<script>function getCategorySelectformatStateResult (state) {
+        $methodName = __FUNCTION__;
+        $code = "<script>function {$methodName}formatStateResult (state) {
                                     if (!state.id) {
                                       return state.text;
                                     }
@@ -172,9 +173,30 @@ class Layout extends PluginAbstract {
                                     return \$state;
                                   };";
         self::addFooterCode($code);
-        $code = '$(document).ready(function() {$(\'#'.$id.'\').select2({templateSelection: getCategorySelectformatStateResult, templateResult: getCategorySelectformatStateResult,width: \'100%\'});});</script>';
+        $code = '$(document).ready(function() {$(\'#'.$id.'\').select2({templateSelection: '.$methodName.'formatStateResult, templateResult: '.$methodName.'formatStateResult,width: \'100%\'});});</script>';
         self::addFooterCode($code);
         return self::getSelectSearchable($cats, $name, $selected, $id, $class, true);
+    }
+
+    static function getUserGroupsSelect($name, $selected="", $id="", $class = "") {
+        $rows = UserGroups::getAllUsersGroupsArray();
+        if(empty($id)){
+            $id = uniqid();
+        }
+        $methodName = __FUNCTION__;
+        $code = "<script>function {$methodName}formatStateResult (state) {
+                                    if (!state.id) {
+                                      return state.text;
+                                    }
+                                    var \$state = $(
+                                      '<span>' + state.text + '</span>'
+                                    );
+                                    return \$state;
+                                  };";
+        self::addFooterCode($code);
+        $code = '$(document).ready(function() {$(\'#'.$id.'\').select2({templateSelection: '.$methodName.'formatStateResult, templateResult: '.$methodName.'formatStateResult,width: \'100%\'});});</script>';
+        self::addFooterCode($code);
+        return self::getSelectSearchable($rows, $name, $selected, $id, $class, true);
     }
 
     public function getFooterCode() {

@@ -1087,6 +1087,10 @@ function validURL(str) {
     return !!pattern.test(str);
 }
 
+function isURL(url){
+    return validURL(url);
+}
+
 function startTimer(duration, selector) {
     var timer = duration;
     var startTimerInterval = setInterval(function () {

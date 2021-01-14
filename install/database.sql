@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `region` VARCHAR(100) NULL DEFAULT NULL,
   `city` VARCHAR(100) NULL DEFAULT NULL,
   `donationLink` VARCHAR(225) NULL DEFAULT NULL,
+  `extra_info` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
@@ -81,6 +82,8 @@ CREATE TABLE IF NOT EXISTS `categories` (
   INDEX `clean_name_INDEX2` (`clean_name` ASC),
   INDEX `sortcategoryOrderIndex` (`order` ASC),
   INDEX `category_name_idx` (`name` ASC),
+  FULLTEXT INDEX `index7cname` (`name`),
+  FULLTEXT INDEX `index8cdescr` (`description`),
   UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 
   CONSTRAINT `fk_categories_users1`
     FOREIGN KEY (`users_id`)
@@ -155,6 +158,8 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `video_filename_INDEX` (`filename` ASC),
   INDEX `video_status_idx` (`status` ASC),
   INDEX `video_type_idx` (`type` ASC) ,
+  FULLTEXT INDEX `index17vname` (`title`),
+  FULLTEXT INDEX `index18vdesc` (`description`),
   CONSTRAINT `fk_videos_sites1`
     FOREIGN KEY (`sites_id`)
     REFERENCES `sites` (`id`)
@@ -507,6 +512,41 @@ CREATE TABLE `category_type_cache` (
   `manualSet` int(1) NOT NULL COMMENT '0=auto, 1=manual' DEFAULT 0
 
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `categories_has_users_groups` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `categories_id` INT(11) NOT NULL,
+  `users_groups_id` INT(11) NOT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `status` CHAR(1) NOT NULL DEFAULT 'a',
+  PRIMARY KEY (`id`),
+  INDEX `fk_categories_has_users_groups_users_groups1_idx` (`users_groups_id` ASC),
+  INDEX `fk_categories_has_users_groups_categories1_idx` (`categories_id` ASC),
+  CONSTRAINT `fk_categories_has_users_groups_categories1`
+    FOREIGN KEY (`categories_id`)
+    REFERENCES `categories` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_categories_has_users_groups_users_groups1`
+    FOREIGN KEY (`users_groups_id`)
+    REFERENCES `users_groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `users_extra_info` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `field_name` VARCHAR(45) NOT NULL,
+  `field_type` VARCHAR(45) NOT NULL,
+  `field_options` TEXT NULL,
+  `field_default_value` VARCHAR(45) NULL,
+  `parameters` TEXT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `status` CHAR(1) NOT NULL DEFAULT 'a',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
 ALTER TABLE `category_type_cache`
   ADD UNIQUE KEY `categoryId` (`categoryId`);

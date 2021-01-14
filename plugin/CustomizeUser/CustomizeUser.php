@@ -5,6 +5,8 @@ if(empty($global['systemRootPath'])){
     require_once '../../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Categories_has_users_groups.php';
+require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_extra_info.php';
 
 class CustomizeUser extends PluginAbstract {
 
@@ -29,7 +31,7 @@ class CustomizeUser extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "3.0";
     }
 
     public function getEmptyDataObject() {
@@ -132,6 +134,10 @@ class CustomizeUser extends PluginAbstract {
         $obj->Checkmark3Enabled = true;
         $obj->Checkmark3HTML = '<i class="fas fa-certificate fa-spin" data-toggle="tooltip" data-placement="bottom" title="Premium User"></i>';
 
+        $obj->autoSaveUsersOnCategorySelectedGroups = false;
+        self::addDataObjectHelper('autoSaveUsersOnCategorySelectedGroups', 'Auto save new users on category selected User Groups', 'Edit this plugin to select the user groups per category');
+        $obj->enableExtraInfo = false;
+        self::addDataObjectHelper('enableExtraInfo', 'Enable user extra info', 'You can add custom fields on user´s profile, Edit this plugin to tell what fields should be saved');
 
         return $obj;
     }
@@ -406,6 +412,67 @@ class CustomizeUser extends PluginAbstract {
             header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($actual_link));
             exit;
         }
+    }
+    
+    public function getPluginMenu() {
+        global $global;
+        return '<a href="plugin/CustomizeUser/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</a>';
+    }
+    
+    public static function profileTabName($users_id) {
+        $p = AVideoPlugin::loadPlugin("CustomizeUser");
+        $obj = $p->getDataObject();
+        if(empty($obj->enableExtraInfo)){
+            return "";
+        }
+        return '<li><a data-toggle="tab" href="#tabExtraInfo' . $p->getUUID() . '">'.__('Extra Info').'</a></li>';
+    }
+
+    public static function profileTabContent($users_id) {
+        global $global;
+        $p = AVideoPlugin::loadPlugin("CustomizeUser");
+        $obj = $p->getDataObject();
+        if(empty($obj->enableExtraInfo)){
+            return "";
+        }
+        $tabId = 'tabExtraInfo' . $p->getUUID();
+        include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabExtraInfo.php';
+        return "";
+    }
+    
+    public function getUsersManagerListButton() {
+        global $global;
+        $p = AVideoPlugin::loadPlugin("CustomizeUser");
+        $obj = $p->getDataObject();
+        if(empty($obj->enableExtraInfo)){
+            return "";
+        }
+        if (User::isAdmin()) {
+            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoAlertAJAXHTML(webSiteRootURL+\\\'plugin/CustomizeUser/View/extraInfo.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="'.__('Show Extra Info').'"><i class="fas fa-info"></i> '.__('Extra Info').'</button>';
+        }
+        return $btn;
+    }
+    
+    public function afterNewVideo($videos_id) {
+        $obj = $this->getDataObject();
+        if(!empty($obj->autoSaveUsersOnCategorySelectedGroups)){
+            $video = new Video("", "", $videos_id);
+            $categories_id = $video->getCategories_id();
+            $rows = Categories_has_users_groups::getAllFromCategory($categories_id);
+            $userGroups = array();
+            foreach ($rows as $value) {
+                $userGroups[] = $value['users_groups_id'];
+            }
+            $userGroups = array_unique($userGroups);
+            
+            if(!empty($userGroups)){
+                _error_log("CustomizeUser::afterNewVideo: set user groups ". json_encode($userGroups));
+                $video->setVideoGroups($userGroups);
+                return $video->save(true, true);
+            }
+        }
+        
+        return false;
     }
 
 }

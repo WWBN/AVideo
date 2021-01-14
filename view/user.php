@@ -72,18 +72,6 @@ foreach ($tags as $value) {
                                         <?php } ?>
                                         <?php echo AVideoPlugin::profileTabContent($user->getId()); ?>
                                     </div>
-
-                                    <!-- Button -->
-                                    <div class="form-group">
-                                        <hr>
-                                        <div class="col-md-12">
-                                            <center>
-                                                <button type="submit" class="btn btn-primary btn-block btn-lg">
-													<span class="fa fa-save"></span> <?php echo __("Save"); ?>
-												</button>
-                                            </center>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </form>

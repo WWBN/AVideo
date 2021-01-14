@@ -20,7 +20,7 @@
             <li><a data-toggle="tab" href="#inactiveUsersTab" onclick="startUserGrid('#gridInactive', '?status=i');"><?php echo __('Inactive Users'); ?></a></li>
             <?php
             foreach ($userGroups as $value) {
-                echo '<li><a data-toggle="tab" href="#userGroupTab' . $value['id'] . '" onclick="startUserGrid(\'#userGroupGrid'.$value['id'].'\', \'?status=a&user_groups_id='.$value['id'].'\');">' . $value['group_name'] . '</a></li>';
+                echo '<li><a data-toggle="tab" href="#userGroupTab' . $value['id'] . '" onclick="startUserGrid(\'#userGroupGrid' . $value['id'] . '\', \'?status=a&user_groups_id=' . $value['id'] . '\');">' . $value['group_name'] . '</a></li>';
             }
             ?>
         </ul>
@@ -372,7 +372,7 @@ print AVideoPlugin::updateUserFormJS();
         );
     });
     function startUserGrid(selector, queryString) {
-        if($(selector).hasClass('.bootgrid-table')){
+        if ($(selector).hasClass('.bootgrid-table')) {
             return false;
         }
         var grid = $(selector).bootgrid({

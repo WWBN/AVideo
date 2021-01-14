@@ -763,14 +763,16 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
-                    $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), "OR");
+                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
                     $sql .= ")";
                 } else {
-                    $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
+                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
                 }
+                $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
             if (!$ignoreGroup) {
                 $arrayNotIN = AVideoPlugin::getAllVideosExcludeVideosIDArray();
@@ -1074,14 +1076,16 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
-                    $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), "OR");
+                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
                     $sql .= ")";
                 } else {
-                    $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
-                }
+                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
+                }                
+                $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
@@ -1506,14 +1510,16 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             if (!empty($_POST['searchPhrase'])) {
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
-                    $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'), "OR");
+                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
                     $sql .= ")";
                 } else {
-                    $sql .= BootGrid::getSqlSearchFromPost(array('v.title', 'v.description', 'c.name', 'c.description'));
+                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
                 }
+                $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
 
             if ($suggestedOnly) {
@@ -4012,6 +4018,22 @@ if (!class_exists('Video')) {
                 $vType = 'video';
             }
             return $vType;
+        }
+        
+        private static function getFullTextSearch($columnsArray, $search, $connection = "OR"){
+            global $global;
+            $search = $global['mysqli']->real_escape_string(xss_esc($search));
+            if(empty($columnsArray) || empty($search)){
+                return "";
+            }
+            $sql = "(";
+            $matches = array();
+            foreach ($columnsArray as $value) {
+                $matches[] = " (MATCH({$value}) AGAINST ('{$search}' IN NATURAL LANGUAGE MODE)) ";
+            }
+            $sql .= implode(" OR ", $matches);
+            $sql .= ")";
+            return "{$connection} {$sql}";
         }
     }
 }

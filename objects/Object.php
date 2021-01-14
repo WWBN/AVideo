@@ -88,13 +88,34 @@ abstract class ObjectYPT implements ObjectInterface
         return $row;
     }
 
-    public static function getAll()
-    {
+    public static function getAll(){
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
+
+        $sql .= self::getSqlFromPost();
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $rows[] = $row;
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
+    }
+    
+    public static function getAllActive(){
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' ";
 
         $sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);

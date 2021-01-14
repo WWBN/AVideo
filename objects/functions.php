@@ -3675,6 +3675,10 @@ function getToken($timeout = 0, $salt = "") {
     return encryptString($strObj);
 }
 
+function isTokenValid($token, $salt = ""){
+    return verifyToken($token, $salt);
+}
+
 function verifyToken($token, $salt = "") {
     global $global;
     $obj = json_decode(decryptString($token));
@@ -3899,6 +3903,7 @@ function getHomeURL() {
 }
 
 function isValidURL($url) {
+    //var_dump(empty($url), !is_string($url), preg_match("/^http.*/", $url), filter_var($url, FILTER_VALIDATE_URL));
     if (empty($url) || !is_string($url)) {
         return false;
     }
@@ -5284,3 +5289,20 @@ function getCurrentTheme() {
     return $config->getTheme();
 }
 
+function sendSocketMessage($msg, $callbackJSFunction="", $users_id=""){
+    if(AVideoPlugin::isEnabledByName('Socket')){
+        if(!is_string($msg)){
+            $msg = json_encode($msg);
+        }
+        $obj = Socket::send($msg, $callbackJSFunction, $users_id);
+        if($obj->error){
+            _error_log("sendSocketMessage ".$obj->msg, AVideoLog::$ERROR);
+        }
+        return $obj;
+    }
+    return false;
+}
+
+function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction=""){
+    return sendSocketMessage($msg, $callbackJSFunction, $users_id);
+}
