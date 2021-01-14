@@ -1329,7 +1329,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                     return false;
                 } else {
                     console.log("searchForm submit " + str);
-                    //document.location = webSiteRootURL + "?search=" + str;
+                    document.location = webSiteRootURL + "?search=" + str;
                 }
             });
 
