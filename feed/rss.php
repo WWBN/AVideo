@@ -9,14 +9,14 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
      xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
     <channel>
         <atom:link href="<?php echo $global['webSiteRootURL'].ltrim($_SERVER["REQUEST_URI"],"/"); ?>" rel="self" type="application/rss+xml" />
-        <title><?php echo htmlentities($title); ?></title>
-        <description><?php echo htmlentities(strip_tags(br2nl($description))); ?></description>
+        <title><?php echo feedText($title); ?></title>
+        <description><?php echo feedText($description); ?></description>
         <link><?php echo $link; ?></link>
         <sy:updatePeriod>hourly</sy:updatePeriod>
         <sy:updateFrequency>1</sy:updateFrequency>
 
         <image>
-        <title><?php echo $title; ?></title>
+        <title><?php echo feedText($title); ?></title>
         <url><?php echo $logo; ?></url>
         <link><?php echo $link; ?></link>
         <width>144</width>
@@ -41,8 +41,8 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
             }
             ?>
             <item>
-                <title><?php echo htmlentities($row['title']); ?></title>
-                <description><?php echo htmlentities(strip_tags(br2nl($row['description']))); ?></description>
+                <title><?php echo feedText($row['title']); ?></title>
+                <description><?php echo feedText($row['description']); ?></description>
                 <link> <?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
                 <?php echo $enclosure; ?>
                 <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>

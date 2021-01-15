@@ -43,4 +43,9 @@ if(!empty($_REQUEST['roku'])){
     header('Content-Type: text/xml; charset=UTF8');
     include $global['systemRootPath'] . 'feed/mrss.php';
 }
+
+function feedText($text){
+    return str_replace(array('&nbsp;'), array(''), htmlentities(strip_tags(br2nl($text))));
+}
+
 ?>
