@@ -13,7 +13,31 @@ if (empty($_GET['videoDirectory'])) {
 }
 
 $video = Video::getVideoFromFileName($_GET['videoDirectory'], true);
+
 $filename = Video::getStoragePath()."{$_GET['videoDirectory']}/index.m3u8";
+
+if(empty($video) || !file_exists($filename)){
+    header("Content-Type: text/plain");
+    if(empty($video)){
+        _error_log("HLS.php: Video Not found videoDirectory=({$_GET['videoDirectory']})");
+    }
+    if(!file_exists($filename)){
+        _error_log("HLS.php: Video file do not exists ({$filename})");
+    }
+    
+    echo "#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-STREAM-INF:BANDWIDTH=300000
+{$global['webSiteRootURL']}plugin/Live/view/loopBGHLS/res240/index.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=600000
+{$global['webSiteRootURL']}plugin/Live/view/loopBGHLS/res360/index.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=1000000
+{$global['webSiteRootURL']}plugin/Live/view/loopBGHLS/res480/index.m3u8
+#EXT-X-STREAM-INF:BANDWIDTH=2000000
+{$global['webSiteRootURL']}plugin/Live/view/loopBGHLS/res720/index.m3u8";
+    exit;
+}
+
 $_GET['file'] = Video::getStoragePath()."{$_GET['videoDirectory']}/index.m3u8";
 //var_dump($_GET['file']);exit;
 $cachedPath = explode("/", $_GET['videoDirectory']);
@@ -52,7 +76,7 @@ if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->vi
 } else {
     $newContent = "HLS.php Can not see video [{$video['id']}] ({$_GET['videoDirectory']}) ";
     $newContent .= $tokenIsValid ? "" : " tokenInvalid";
-    $newContent .= User::canWatchVideo($video['id']) ? "" : " cannot watch";
+    $newContent .= User::canWatchVideo($video['id']) ? "" : " cannot watch ({$video['id']})";
     $newContent .= " " . date("Y-m-d H:i:s");
 }
 header("Content-Type: text/plain");
