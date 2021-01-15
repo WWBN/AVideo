@@ -62,14 +62,14 @@ class BootGrid {
             $like = array();
             foreach ($searchFieldsNames as $value) {                
                 if(preg_match('/description/', $value)){
-                    $like[] = " {$value} regexp '[[:<:]]{$search}[[:>:]]' ";
+                    $like[] = " {$value} regexp '\\b{$search}\\b' ";
                     //$like[] = " {$value} LIKE '%{$search}%' ";
                 }else{
                     $like[] = " {$value} LIKE '%{$search}%' ";
                 }
                 // for accent insensitive
                 if(preg_match('/description/', $value)){
-                    $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) regexp '[[:<:]]{$search}[[:>:]]' ";
+                    $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) regexp '\\b{$search}\\b' ";
                     //$like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE '%{$search}%' ";
                 }else{
                     $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE '%{$search}%' ";
