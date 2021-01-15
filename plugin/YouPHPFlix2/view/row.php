@@ -224,7 +224,9 @@ foreach ($videos as $value) {
                 </div>
             </div>
             <div class="footerBtn">
-                <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo YouPHPFlix2::getLinkToVideo($value['id']); ?>">
+                <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" 
+                   href="<?php echo YouPHPFlix2::getLinkToVideo($value['id']); ?>" 
+                   embed="<?php echo Video::getLinkToVideo ($value['id'], $value['clean_title'], true); ?>">
                     <i class="fa fa-play"></i>
                     <span class="hidden-xs"><?php echo __("Play"); ?></span>
                 </a>

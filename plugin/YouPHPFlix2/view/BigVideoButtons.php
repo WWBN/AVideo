@@ -1,5 +1,7 @@
 <div class="col-md-12">
-    <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" href="<?php echo YouPHPFlix2::getLinkToVideo($video['id']); ?>">
+    <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" 
+       href="<?php echo YouPHPFlix2::getLinkToVideo($video['id']); ?>"
+       embed="<?php echo Video::getLinkToVideo ($value['id'], $value['clean_title'], true); ?>">
         <i class="fa fa-play"></i>
         <span class=""><?php echo __("Play"); ?></span>
     </a>
