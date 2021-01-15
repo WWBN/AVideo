@@ -1251,9 +1251,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             );
         }
 
+        TimeLogEnd($timeName, __LINE__);
         ObjectYPT::setCache($cacheName, $files);
     }
-    TimeLogEnd($timeName, __LINE__);
     $getVideosURL_V2Array[$cleanfilename] = $files;
     return $getVideosURL_V2Array[$cleanfilename];
 }
