@@ -42,7 +42,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
             ?>
             <item>
                 <title><?php echo htmlspecialchars($row['title']); ?></title>
-                <description><![CDATA[<?php echo strip_tags($row['description']); ?>]]></description>
+                <description><?php echo htmlentities(strip_tags($row['description'])); ?></description>
                 <link> <?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
                 <?php echo $enclosure; ?>
                 <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
