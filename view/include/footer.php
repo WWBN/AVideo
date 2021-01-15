@@ -167,7 +167,7 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
 </script>
 <!--
 <?php
-if (User::isAdmin()) {
+if (User::isAdmin() && !empty($getCachesProcessed) && is_array($getCachesProcessed)) {
     arsort($getCachesProcessed);
     echo "Total cached methods " . PHP_EOL;
     foreach ($getCachesProcessed as $key => $value) {
