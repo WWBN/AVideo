@@ -9,8 +9,8 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
      xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
     <channel>
         <atom:link href="<?php echo $global['webSiteRootURL'].ltrim($_SERVER["REQUEST_URI"],"/"); ?>" rel="self" type="application/rss+xml" />
-        <title><?php echo $title; ?></title>
-        <description><?php echo $description; ?></description>
+        <title><?php echo htmlentities($title); ?></title>
+        <description><?php echo htmlentities($description); ?></description>
         <link><?php echo $link; ?></link>
         <sy:updatePeriod>hourly</sy:updatePeriod>
         <sy:updateFrequency>1</sy:updateFrequency>
@@ -41,7 +41,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>'
             }
             ?>
             <item>
-                <title><?php echo htmlspecialchars($row['title']); ?></title>
+                <title><?php echo htmlentities($row['title']); ?></title>
                 <description><?php echo htmlentities(strip_tags($row['description'])); ?></description>
                 <link> <?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
                 <?php echo $enclosure; ?>

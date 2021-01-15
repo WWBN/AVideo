@@ -5,17 +5,16 @@ echo'<?xml version="1.0" encoding="UTF-8"?>';
   xmlns:georss="http://www.georss.org/georss"
   xmlns:gml="http://www.opengis.net/gml">
     <channel>
-        <title><?php echo $title; ?></title>
+        <title><?php echo htmlentities($title); ?></title>
         <description><?php echo $description; ?></description>
         <link><?php echo $link; ?></link>
-
         <image>
-        <title><?php echo $title; ?></title>
-        <url><?php echo $logo; ?></url>
-        <link><?php echo $link; ?></link>
-        <width>144</width>
-        <height>40</height>
-        <description>AVideo version rss</description>
+            <title><?php echo htmlentities($title); ?></title>
+            <url><?php echo $logo; ?></url>
+            <link><?php echo $link; ?></link>
+            <width>144</width>
+            <height>40</height>
+            <description>AVideo version rss</description>
         </image>
 
         <?php
@@ -40,7 +39,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>';
             }
             ?>
             <item>
-                <title><?php echo htmlspecialchars($row['title']); ?></title>
+                <title><?php echo htmlentities($row['title']); ?></title>
                 <description><?php echo htmlentities(strip_tags(br2nl($row['description']))); ?></description>
                 <link> <?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
                 <?php echo $enclosure; ?>
