@@ -1195,7 +1195,10 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         $files = array();
         $plugin = AVideoPlugin::loadPlugin("VideoHLS");
         if (!empty($plugin)) {
+            $timeName = "getVideosURL_V2::VideoHLS::getSourceFile($fileName)";
+            TimeLogStart($timeName);
             $files = VideoHLS::getSourceFile($fileName);
+            TimeLogEnd($timeName, __LINE__);
         }
         $video = array('webm', 'mp4');
         $audio = array('mp3', 'ogg');
@@ -1205,11 +1208,19 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         //$globQuery = Video::getStoragePath()."{$cleanfilename}*.{" . implode(",", $formats) . "}";
         //$filesInDir = glob($globQuery, GLOB_BRACE);
+        $timeName = "getVideosURL_V2::globVideosDir($cleanfilename)";
+        TimeLogStart($timeName);
         $filesInDir = globVideosDir($cleanfilename, true);
+        TimeLogEnd($timeName, __LINE__);
+        
+        $timeName = "getVideosURL_V2::foreach";
+        TimeLogStart($timeName);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
-
+            $timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
+            TimeLogStart($timeName2);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
+            TimeLogEnd($timeName2, __LINE__);
             if (empty($source)) {
                 continue;
             }
@@ -1242,6 +1253,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         ObjectYPT::setCache($cacheName, $files);
     }
+    TimeLogEnd($timeName, __LINE__);
     $getVideosURL_V2Array[$cleanfilename] = $files;
     return $getVideosURL_V2Array[$cleanfilename];
 }
