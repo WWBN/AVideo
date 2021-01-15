@@ -1,7 +1,12 @@
 <?php
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
-    require_once '../videos/configuration.php';
+    $configFile = '../videos/configuration.php';
+    if(file_exists($configFile)){
+        require_once $configFile;
+    }else{
+        die("Configuration file not found");
+    }
 }
 header("HTTP/1.0 404 Not Found");
 ?>
