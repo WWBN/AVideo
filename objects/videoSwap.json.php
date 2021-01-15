@@ -38,10 +38,14 @@ if (!$video2->userCanManageVideo()) {
 }
 
 $video1Filename = $video1->getFilename();
+$video1Sites_id = $video1->getSites_id();
 $video2Filename = $video2->getFilename();
+$video2Sites_id = $video2->getSites_id();
 
 $video1->setFilename($video2Filename, true);
+$video1->setSites_id($video2Sites_id);
 $video2->setFilename($video1Filename, true);
+$video2->setSites_id($video1Sites_id);
 $global['mysqli']->autocommit(false);
 if(!$video1->save()){
     $obj->msg = __("Error on save video 1");
