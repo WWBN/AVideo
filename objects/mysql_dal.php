@@ -224,7 +224,9 @@ class sqlDAL {
     static function close($result) {
         global $disableMysqlNdMethods, $global;
         if ((!function_exists('mysqli_fetch_all')) || ($disableMysqlNdMethods != false)) {
-            $result->stmt->close();
+            if(!empty($result->stmt)){
+                $result->stmt->close();
+            }
         }
     }
 
