@@ -6,7 +6,7 @@ echo'<?xml version="1.0" encoding="UTF-8"?>';
   xmlns:gml="http://www.opengis.net/gml">
     <channel>
         <title><?php echo htmlentities($title); ?></title>
-        <description><?php echo $description; ?></description>
+        <description><?php echo htmlentities(strip_tags(br2nl($description))); ?></description>
         <link><?php echo $link; ?></link>
         <image>
             <title><?php echo htmlentities($title); ?></title>
