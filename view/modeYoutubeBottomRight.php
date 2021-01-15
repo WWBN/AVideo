@@ -135,10 +135,10 @@ $modeYouTubeTime = microtime(true);
 
 <script>
     var fading = false;
-    var autoPlaySources = <?php echo json_encode($autoPlaySources); ?>;
-    var autoPlayURL = '<?php echo $autoPlayURL; ?>';
-    var autoPlayPoster = '<?php echo $autoPlayPoster; ?>';
-    var autoPlayThumbsSprit = '<?php echo $autoPlayThumbsSprit; ?>';
+    var autoPlaySources = <?php echo json_encode(@$autoPlaySources); ?>;
+    var autoPlayURL = '<?php echo @$autoPlayURL; ?>';
+    var autoPlayPoster = '<?php echo @$autoPlayPoster; ?>';
+    var autoPlayThumbsSprit = '<?php echo @$autoPlayThumbsSprit; ?>';
 
     function showAutoPlayVideoDiv() {
         var auto = $("#autoplay").prop('checked');

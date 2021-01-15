@@ -21,7 +21,9 @@
 $vType = Video::getIncludeType($video);
 
 require "{$global['systemRootPath']}view/include/{$vType}.php";
-$modeYouTubeTimeLog['After include video ' . $vType] = microtime(true) - $modeYouTubeTime;
+if(!empty($modeYouTubeTime)){
+    $modeYouTubeTimeLog['After include video ' . $vType] = microtime(true) - $modeYouTubeTime;
+}
 $modeYouTubeTime = microtime(true);
 ?>
 <div class="row">

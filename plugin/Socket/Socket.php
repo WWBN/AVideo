@@ -63,6 +63,9 @@ class Socket extends PluginAbstract {
     
     public static function getSocketJS() {
         global $global;
+        $socketobj = AVideoPlugin::getDataObject("Socket");
+        $address = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+        $port = $socketobj->port;
         include $global['systemRootPath'] . 'plugin/Socket/footer.php';
     }
 
@@ -80,7 +83,7 @@ class Socket extends PluginAbstract {
         $SocketSendObj->webSocketToken = getEncryptedInfo();
         $SocketSendObj->msg = $msg;
         $SocketSendObj->json = json_decode($msg);
-        $SocketSendObj->users_id = $users_id;
+        $SocketSendObj->to_users_id = $users_id;
         $SocketSendObj->callback = $callbackJSFunction;
         
         $obj = new stdClass();

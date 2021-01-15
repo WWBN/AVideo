@@ -44,6 +44,11 @@ if(!empty($metaDescription)){
 // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
 $metaDescription .= getSEOComplement(array("addAutoPrefix" => false));
 $theme = getCurrentTheme();
+
+if(empty($config)){
+    $config = new Configuration();
+}
+
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">

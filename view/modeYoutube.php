@@ -73,6 +73,9 @@ if (!empty($evideo)) {
         }
 
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist_id);
+        if(empty($videosArrayId)){
+            videoNotFound(__('Playlist is empty or does not exist'));
+        }
         $videosPlayList = Video::getAllVideos("viewable", false, false, $videosArrayId, false, true);
         $videosPlayList = PlayList::sortVideos($videosPlayList, $videosArrayId);
 

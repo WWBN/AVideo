@@ -4579,6 +4579,16 @@ function forbiddenPage($message, $logMessage = false) {
     exit;
 }
 
+function videoNotFound($message, $logMessage = false) {
+    global $global;
+    $_REQUEST['404ErrorMsg'] = $message;
+    if ($logMessage) {
+        _error_log($message);
+    }
+    include $global['systemRootPath'] . 'view/videoNotFound.php';
+    exit;
+}
+
 function isForbidden() {
     global $global;
     if (!empty($global['isForbidden'])) {
@@ -5289,7 +5299,11 @@ function getCurrentTheme() {
     return $config->getTheme();
 }
 
-function sendSocketMessage($msg, $callbackJSFunction="", $users_id=""){
+/*
+ * $users_id="" or 0 means send messages to all users
+ * $users_id="-1" means send to no one
+ */
+function sendSocketMessage($msg, $callbackJSFunction="", $users_id="-1"){
     if(AVideoPlugin::isEnabledByName('Socket')){
         if(!is_string($msg)){
             $msg = json_encode($msg);
@@ -5304,5 +5318,21 @@ function sendSocketMessage($msg, $callbackJSFunction="", $users_id=""){
 }
 
 function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction=""){
-    return sendSocketMessage($msg, $callbackJSFunction, $users_id);
+    if(!is_array($users_id)){
+        $users_id = array($users_id);
+    }
+    
+    $resp = array();
+    foreach ($users_id as $value) {
+        $resp[] = sendSocketMessage($msg, $callbackJSFunction, $value);
+    }
+    
+    return $resp;
+}
+
+function sendSocketMessageToAll($msg, $callbackJSFunction=""){
+    return sendSocketMessage($msg, $callbackJSFunction, "");
+}
+function sendSocketMessageToNone($msg, $callbackJSFunction=""){
+    return sendSocketMessage($msg, $callbackJSFunction, -1);
 }
