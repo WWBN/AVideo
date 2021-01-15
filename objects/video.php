@@ -772,6 +772,7 @@ if (!class_exists('Video')) {
                 } else {
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
                 }
+                $searchFieldsNames = array('v.title', 'c.name');
                 $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
             if (!$ignoreGroup) {
@@ -1084,7 +1085,8 @@ if (!class_exists('Video')) {
                     $sql .= ")";
                 } else {
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
-                }                
+                }      
+                $searchFieldsNames = array('v.title', 'c.name');          
                 $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
 
@@ -1519,6 +1521,8 @@ if (!class_exists('Video')) {
                 } else {
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
                 }
+                
+                $searchFieldsNames = array('v.title', 'c.name');
                 $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
 
