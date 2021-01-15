@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
-
 global $global, $config, $videosPaths;
 
 if (!isset($global['systemRootPath'])) {
@@ -3031,6 +3030,7 @@ if (!class_exists('Video')) {
                     $resolution = intval($matches[1]);
                 }
             }
+            
             //var_dump($filename, $resolution);exit;
             return $resolution;
         }

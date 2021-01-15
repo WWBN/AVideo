@@ -1175,8 +1175,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 if (
                         $value['type'] === 'video' && // is a video
                         preg_match("/^{$preg_match_url}/", $value['url']) && // the URL is the same as the main domain
-                        filesize($value['path']) < 20) { // file size is small
-                    _error_log("getVideosURL_V2:: dummy file found, fix cache " . json_encode(array("/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']), filesize($value['path']), $value)));
+                        @filesize($value['path']) < 20) { // file size is small
+                    _error_log("getVideosURL_V2:: dummy file found, fix cache " . json_encode(array("/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']), @filesize($value['path']), $value)));
                     unset($files);
                     break;
                 } else {
@@ -1254,8 +1254,50 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         TimeLogEnd($timeName, __LINE__);
         ObjectYPT::setCache($cacheName, $files);
     }
+    
+    // sort by resolution
+    uasort($files, "sortVideosURL");
+    
     $getVideosURL_V2Array[$cleanfilename] = $files;
     return $getVideosURL_V2Array[$cleanfilename];
+}
+
+//Returns < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
+function sortVideosURL($a, $b) {
+    if($a['type'] == 'video'){
+        $aRes = getResolutionFromFilename($a['filename']);
+        $bRes = getResolutionFromFilename($b['filename']);
+        return $aRes - $bRes;
+    }
+    
+    return 0;
+}
+
+function getResolutionFromFilename($filename){
+    global $getResolutionFromFilenameArray;
+    
+    if(!isset($getResolutionFromFilenameArray)){
+        $getResolutionFromFilenameArray = array();
+    }
+    
+    if(!empty($getResolutionFromFilenameArray[$filename])){
+        return $getResolutionFromFilenameArray[$filename];
+    }
+    
+    $res = Video::getResolutionFromFilename($filename);
+    if(empty($res)){
+        if(preg_match('/[_\/]hd[.\/]/i', $filename)){
+            $res = 720;
+        }else if(preg_match('/[_\/]sd[.\/]/i', $filename)){
+            $res = 480;
+        }else if(preg_match('/[_\/]low[.\/]/i', $filename)){
+            $res = 240;
+        }else{
+            $res = 0;
+        }
+    }
+    $getResolutionFromFilenameArray[$filename] = $res;
+    return $res;
 }
 
 function getSources($fileName, $returnArray = false, $try = 0) {
@@ -3268,6 +3310,9 @@ function _error_log($message, $type = 0, $doNotRepeat = false) {
     if (!empty($global['noDebug']) && $type == 0) {
         return false;
     }
+    if(!is_string($message)){
+        $message = json_encode($message);
+    }
     $prefix = "AVideoLog::";
     switch ($type) {
         case AVideoLog::$DEBUG:
@@ -4589,6 +4634,20 @@ function forbiddenPage($message, $logMessage = false) {
     }
     include $global['systemRootPath'] . 'view/forbiddenPage.php';
     exit;
+}
+
+define('E_FATAL',  E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR |
+            E_COMPILE_ERROR | E_RECOVERABLE_ERROR);
+register_shutdown_function('avidoeShutdown');
+
+function avidoeShutdown() {
+    global $global;
+    $error = error_get_last();
+    if($error && ($error['type'] & E_FATAL)){
+        _error_log($error, AVideoLog::$ERROR);
+        include $global['systemRootPath'] . 'view/maintanance.html';
+        exit;
+    }
 }
 
 function videoNotFound($message, $logMessage = false) {
