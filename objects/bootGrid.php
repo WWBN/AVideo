@@ -60,10 +60,20 @@ class BootGrid {
             $search = $global['mysqli']->real_escape_string(xss_esc($_POST['searchPhrase']));
 
             $like = array();
-            foreach ($searchFieldsNames as $value) {
-                $like[] = " {$value} LIKE '%{$search}%' ";
+            foreach ($searchFieldsNames as $value) {                
+                if(preg_match('/description/', $value)){
+                    $like[] = " {$value} regexp '[[:<:]]{$search}[[:>:]]' ";
+                    //$like[] = " {$value} LIKE '%{$search}%' ";
+                }else{
+                    $like[] = " {$value} LIKE '%{$search}%' ";
+                }
                 // for accent insensitive
-                $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE '%{$search}%' ";
+                if(preg_match('/description/', $value)){
+                    $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) regexp '[[:<:]]{$search}[[:>:]]' ";
+                    //$like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE '%{$search}%' ";
+                }else{
+                    $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE '%{$search}%' ";
+                }
             }
             if(!empty($like)){
                 $sql .= " {$connection} (". implode(" OR ", $like).")";
