@@ -5,7 +5,9 @@ if (!isset($global['systemRootPath'])) {
     if(file_exists($configFile)){
         require_once $configFile;
     }else{
-        die("Configuration file not found");
+        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+        include '../view/maintanance.html';
+        exit;
     }
 }
 header("HTTP/1.0 404 Not Found");
