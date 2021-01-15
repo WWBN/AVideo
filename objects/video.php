@@ -762,7 +762,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                $searchFieldsNames = array('v.title', 'c.name');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
@@ -771,6 +771,7 @@ if (!class_exists('Video')) {
                 } else {
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
                 }
+                $searchFieldsNames = array('v.title');
                 $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
             if (!$ignoreGroup) {
@@ -1075,7 +1076,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                $searchFieldsNames = array('v.title', 'c.name');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
@@ -1083,7 +1084,8 @@ if (!class_exists('Video')) {
                     $sql .= ")";
                 } else {
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
-                }             
+                }      
+                $searchFieldsNames = array('v.title');         
                 $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
 
@@ -1509,7 +1511,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             if (!empty($_POST['searchPhrase'])) {
-                $searchFieldsNames = array('v.title', 'c.name');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
@@ -1519,6 +1521,7 @@ if (!class_exists('Video')) {
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
                 }
                 
+                $searchFieldsNames = array('v.title');
                 $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
 
