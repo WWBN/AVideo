@@ -46,6 +46,8 @@ if ($bytes) {
 
 $user = new User(User::getId());
 $user->setPhotoURL($photoURL);
-$user->save();
-User::updateSessionInfo();
+if($user->save()){
+    User::deleteOGImage(User::getId());
+    User::updateSessionInfo();
+}
 print json_encode($response);

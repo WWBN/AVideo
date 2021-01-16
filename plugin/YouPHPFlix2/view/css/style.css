@@ -17,7 +17,7 @@ a:visited {
     transition: 450ms transform, 450ms -webkit-transform;
     font-size: 0;
     white-space: nowrap;
-    margin: 35px 0;
+    margin: 35px 0 45px 0;
     padding-bottom: 10px;
 }
 .tile {
@@ -143,7 +143,6 @@ a:visited {
     height: 370px;
     width: 100%;
     margin-top: 10px;
-    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/70390/show-1.jpg);
     background-repeat: no-repeat;
     background-size: auto 700px;
     background-position: right 0 center;    
@@ -155,14 +154,28 @@ a:visited {
 }
 
 .posterDetails {
+    padding: 60px 20px 56.25% 20px;
+    color: #FFF;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     top: 0;
-    padding: 5px 20px;
-    color: #FFF;
 }
+
+
+#carouselRows .poster{
+    position: relative;
+    background-size: cover;
+
+}
+
+#carouselRows .posterDetails {
+    padding: 10px;
+    position: relative;
+    min-height: 500px;
+}
+
 
 .posterDetails .row{
     margin-top: 15px;
@@ -286,7 +299,8 @@ footer .btn-outline {
     height: 210px;
 }
 #bigVideo .posterPortrait {
-    height: 30vh;
+    min-height: 250px;
+    min-width: 135px;
 }
 #bigVideo .mainInfoText{
     max-height: 29vh;
@@ -305,23 +319,28 @@ footer .btn-outline {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
     pointer-events: none;
 }
 #bg_container iframe{
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    min-height: 100%;
     pointer-events: none;
     opacity: 1;
     filter: alpha(opacity=100); /* For IE8 and earlier */
     overflow: hidden;
+    z-index: -1;
 }
 #carouselRows h2{
     position: relative;
+}
+
+#carouselRows{
+    position: relative;
+    padding: 20px;
 }
 
 body.fullscreen{
@@ -331,29 +350,24 @@ body.fullscreen{
 }
 @media (max-width: 1400px) {
     #bigVideo{
-        margin-bottom: -150px !important;
+        /*        margin-bottom: -150px !important;*/
     }
 }
 @media (max-width: 1200px) {
     #bigVideo{
-        margin-bottom: -100px !important;
+        /*        margin-bottom: -100px !important;*/
     }
 }
 @media (max-width: 1120px) {
     #bigVideo{
-        margin-bottom: -70px !important;
+        /*        margin-bottom: -70px !important;*/
     }
 }
 @media (max-width: 1060px) {
     #bigVideo{
-        margin-bottom: -10px !important;
+        /*        margin-bottom: -10px !important;*/
         overflow: hidden;
-        height: 450px !important;
-    }
-    #bigVideo .posterPortrait {
-        height: 20vh;
-        min-height: 193px;
-        min-width: 135px !important;
+        /*        height: 450px !important;*/
     }
 }
 .paidOnlyLabel{
@@ -367,4 +381,17 @@ body.fullscreen{
 }
 .footerBtn{
     margin-top: 10px;
+}
+.topicRow{
+    margin-top: 35px;
+}
+
+#mainNavBar{
+    transition: background-color 0.5s ease;
+}
+
+.bgTransparent{
+    background-color: transparent;
+    background: transparent;
+    border-color: transparent;
 }

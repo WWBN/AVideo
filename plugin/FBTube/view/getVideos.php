@@ -22,7 +22,7 @@ if (empty($_GET['page'])) {
 } else {
     $_GET['page'] = intval($_GET['page']);
 }
-$_POST['rowCount'] = 4;
+$_REQUEST['rowCount'] = 4;
 $half = floor($_POST['rowCount'] / 2);
 $_POST['current'] = $_GET['page'];
 $_POST['sort']['created'] = 'desc';
@@ -30,7 +30,7 @@ $videos = Video::getAllVideos("viewable");
 foreach ($videos as $key => $value) {
     $videos[$key] = Video::getVideo($value['id']);
     $name = empty($value['name']) ? $value['user'] : $value['name'];
-    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails" style="margin-left:60px;"><div class="commenterName"><strong><a href="' . User::getChannelLink($value['users_id']) . '/">' . $name . ' ' . User::getEmailVerifiedIcon($value['users_id']) . '</a></strong><br><span class="text-muted">' . humanTiming(strtotime($value['videoCreation'])) . '</span></div></div>';
+    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails" style="margin-left:60px;"><div class="commenterName"><strong><a href="' . User::getChannelLink($value['users_id']) . '">' . $name . ' ' . User::getEmailVerifiedIcon($value['users_id']) . '</a></strong><br><span class="text-muted">' . humanTiming(strtotime($value['videoCreation'])) . '</span></div></div>';
 }
 $count = 0;
 if (!empty($videos)) {
@@ -80,7 +80,7 @@ if (!empty($videos)) {
                             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
                             <p class="vjs-no-js">
                                 <?php echo __("To view this video please enable JavaScript, and consider upgrading to a web browser that"); ?>
-                                <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                                <a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a>
                             </p>
                         </video>
                         <?php
@@ -138,7 +138,7 @@ if (!empty($videos)) {
                                         <?php echo __("Make it public"); ?>
                                         <div class="material-switch pull-right">
                                             <input id="publicPlayList<?php echo $video['id']; ?>" name="publicPlayList" type="checkbox" checked="checked"/>
-                                            <label for="publicPlayList" class="label-success"></label>
+                                            <label for="publicPlayList<?php echo $video['id']; ?>" class="label-success"></label>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -419,9 +419,9 @@ if (!empty($videos)) {
                                                         success: function (response) {
                                                             modal.hidePleaseWait();
                                                             if (!response.error) {
-                                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
+                                                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your message has been sent!"); ?>", "success");
                                                             } else {
-                                                                swal("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
+                                                                avideoAlert("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
                                                             }
                                                             $('#btnReloadCapcha<?php echo $video['id']; ?>').trigger('click');
                                                         }
@@ -514,13 +514,13 @@ if (!empty($videos)) {
                                                 $('#comment<?php echo $video['id']; ?>').val('');
                                                 $('#grid<?php echo $video['id']; ?>').bootgrid('reload');
                                             } else {
-                                                swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
+                                                avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
                                             }
                                             modal.hidePleaseWait();
                                         }
                                     });
                                 } else {
-                                    swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
+                                    avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
                                 }
                             });
                         });

@@ -12,11 +12,10 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Transfer Funds</title>
+        <title><?php echo __("Transfer Funds") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
         <style>
             .ui-menu .ui-menu-item {
                 list-style-image: none !important;
@@ -99,7 +98,7 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                                     </div>
                                 </div>
 
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,7 +109,7 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
 
         <div class="hidden" id="model">
             <div style="background-image: url('{background}'); background-size: cover; height: 50px; width: 100%;" >
-                <img src="{photo}" class="pull-left img img-responsive img-circle" style="max-height: 40px;">
+                <img src="{photo}" class="pull-left img img-responsive img-circle" style="max-height: 40px;" alt="User Photo">
                 <div class="pull-left">
                     {identification}
                 </div>
@@ -119,7 +118,6 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
                 $('#btnReloadCapcha').click(function () {
@@ -128,16 +126,17 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                 });
 
                 $('#transferNow').click(function () {
-                    swal({
-                        title: "<?php echo __("Are you sure?"); ?>",
-                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "<?php echo __("Yes, transfer it!"); ?>",
-                        closeOnConfirm: true
-                    },
-                            function () {
+
+                            swal({
+                title: "<?php echo __("Are you sure?"); ?>",
+                text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(function(willDelete) {
+              if (willDelete) {
+
                                 modal.showPleaseWait();
                                 $.ajax({
                                     url: '<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/transferFunds.json.php',
@@ -152,16 +151,17 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                                         modal.hidePleaseWait();
                                         if (response.error) {
                                             setTimeout(function () {
-                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                                             }, 500);
                                         } else {
                                             setTimeout(function () {
-                                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Funds successfully transferred"); ?>", "success");
+                                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Funds successfully transferred"); ?>", "success");
                                             }, 500);
                                         }
                                     }
                                 });
-                            });
+              }
+            });
                 });
 
                 $("#users_name").autocomplete({

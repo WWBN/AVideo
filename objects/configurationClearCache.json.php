@@ -10,14 +10,13 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-if (!User::isAdmin()) {
+if (!Permissions::canClearCache()) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }
-$dir = "{$global['systemRootPath']}videos/cache/";
-if(!empty($_GET['FirstPage'])){
-    $dir .= "firstPage/";
-}
-rrmdir($dir);
+_session_start();
+$_SESSION['user']['sessionCache']['getAllCategoriesClearCache'] = 1;
+clearCache();
+ObjectYPT::deleteALLCache();
 $obj->error = false;
 die(json_encode($obj));

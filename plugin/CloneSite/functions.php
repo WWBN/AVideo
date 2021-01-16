@@ -45,3 +45,11 @@ function detectNewFiles($serverArray, $clientArray){
     }
     return $serverArray;
 }
+
+
+function isRsync() {
+    return trim(shell_exec('which rsync'));
+}
+function isSshpass() {
+    return trim(shell_exec('which sshpass'));
+}

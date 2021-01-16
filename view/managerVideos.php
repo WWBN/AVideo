@@ -11,7 +11,7 @@ if(!User::isLogged()) {
     exit;
 }
 
-if (!User::canUpload()) {
+if (!User::canUpload(true)) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage videos"));
     exit;
 }
@@ -24,7 +24,7 @@ if(!empty($_GET['iframe'])){
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Videos"); ?></title>
+        <title><?php echo __("Audios and Videos") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         include $global['systemRootPath'] . 'view/managerVideos_head.php';

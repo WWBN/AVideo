@@ -1,4 +1,5 @@
 <?php
+global $planTitle;
 $obj = AVideoPlugin::getObjectData('StripeYPT');
 $uid = uniqid();
 ?>
@@ -35,12 +36,12 @@ $uid = uniqid();
         background-color: #fefde5 !important;
     }
 </style>
-<button type="submit" class="btn btn-primary" id="YPTWalletStripeButton<?php echo $uid; ?>"><i class="fas fa-credit-card"></i> Subscribe</button>
+<button type="submit" class="btn btn-primary" id="YPTWalletStripeButton<?php echo $uid; ?>"><i class="fas fa-credit-card"></i> <?php echo __($obj->subscriptionButtonLabel); ?></button>
 <script src="https://js.stripe.com/v3/"></script>
 
-<form 
-    action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestSubscription.json.php" 
-    method="post" id="payment-form<?php echo $uid; ?>" style="display: none;">
+<form
+    action="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/plugins/YPTWalletStripe/requestSubscription.json.php"
+    method="post" id="payment-form<?php echo $uid; ?>" style="display:none;">
     <hr>
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Credit or debit card</strong></div>
@@ -53,7 +54,7 @@ $uid = uniqid();
         </div>
         <div class="panel-footer">
 
-            <button class="btn btn-primary btn-block">Submit Payment</button>
+            <button class="btn btn-primary btn-block"><?php echo __('Submit Payment'); ?></button>
         </div>
     </div>
 </form>
@@ -108,7 +109,6 @@ $uid = uniqid();
     var form<?php echo $uid; ?> = document.getElementById('payment-form<?php echo $uid; ?>');
     form<?php echo $uid; ?>.addEventListener('submit', function (event) {
         event.preventDefault();
-
         stripe<?php echo $uid; ?>.createToken(card<?php echo $uid; ?>).then(function (result) {
             console.log(result);
             if (result.error) {
@@ -139,13 +139,62 @@ $uid = uniqid();
                 if (!response.error) {
                     $(".walletBalance").text(response.walletBalance);
                     setTimeout(function () {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Payment complete!"); ?>", "success");
                     }, 2000);
                     setTimeout(function () {
-                        location.reload(); 
+                        location.reload();
                     }, 5000);
+                } else if (response.confirmCardPayment) {
+                    avideoToast(response.msg);
+                    $.ajax({
+                        url: '<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/getIntent.json.php',
+                        data: {
+                            "value": $('#value<?php echo @$_GET['plans_id']; ?>').val(),
+                            "description": "Subscription (<?php echo addcslashes(@$planTitle, '"'); ?>) plan_id=<?php echo @$_GET['plans_id']; ?> ",
+                            "plans_id": "<?php echo @$_GET['plans_id']; ?>",
+                            "plugin": "<?php echo @$_REQUEST['plugin']; ?>",
+                            "singlePayment": 0,
+                            "customer": response.customer,
+                            "future_usage": "off_session"
+                        },
+                        type: 'post',
+                        success: function (response) {
+
+                            setTimeout(function () {
+                                modal.hidePleaseWait();
+                            }, 3000);
+                            if (!response.error) {
+                                console.log(response);
+                                stripe<?php echo $uid; ?>.confirmCardPayment(
+                                        response.client_secret,
+                                        {
+                                            payment_method: {card: card<?php echo $uid; ?>}
+                                        }
+                                ).then(function (result) {
+                                    console.log(result);
+                                    if (result.error) {
+                                        // Inform the user if there was an error.
+                                        var errorElement = document.getElementById('card-errors<?php echo $uid; ?>');
+                                        errorElement.textContent = result.error.message;
+                                        avideoAlertError(result.error.message);
+                                    } else {
+                                        modal.showPleaseWait();
+                                        // Send the token to your server.
+                                        avideoToast("<?php echo __("Payment Success"); ?>");
+                                        updateYPTWallet();
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 3000);
+                                    }
+                                });
+                            } else {
+                                avideoAlertError(response.msg);
+                            }
+
+                        }
+                    });
                 } else {
-                    swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Error!"); ?>", "error");
                     setTimeout(function () {
                         modal.hidePleaseWait();
                     }, 500);

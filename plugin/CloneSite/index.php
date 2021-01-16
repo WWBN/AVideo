@@ -14,7 +14,7 @@ if (!User::isAdmin()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: VAST</title>
+        <title><?php echo __("Clone Site") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -120,7 +120,7 @@ if (!User::isAdmin()) {
 
                     }).done(function (resposta) {
                         if (resposta.error) {
-                            swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                         }
                         tableLinks.ajax.reload();
                         modal.hidePleaseWait();
@@ -130,17 +130,17 @@ if (!User::isAdmin()) {
                     e.preventDefault();
                     var tr = $(this).closest('tr')[0];
                     var data = tableLinks.row(tr).data();
-                    swal({
-                        title: "<?php echo __("Are you sure?"); ?>",
-                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                        closeOnConfirm: true
-                    },
-                            function () {
-                                modal.showPleaseWait();
+                            
+                                        swal({
+                title: "<?php echo __("Are you sure?"); ?>",
+                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(function(willDelete) {
+              if (willDelete) {
+modal.showPleaseWait();
                                 $.ajax({
                                     type: "POST",
                                     url: "<?php echo $global['webSiteRootURL']; ?>plugin/CloneSite/delete.json.php",
@@ -148,12 +148,13 @@ if (!User::isAdmin()) {
 
                                 }).done(function (resposta) {
                                     if (resposta.error) {
-                                        swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                        avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                                     }
                                     tableLinks.ajax.reload();
                                     modal.hidePleaseWait();
                                 });
-                            });
+              } 
+            });
                 });
 
 

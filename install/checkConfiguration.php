@@ -1,12 +1,12 @@
 <?php
 if (file_exists("../videos/configuration.php")) {
-    _error_log("Can not create configuration again: ".  json_encode($_SERVER));
+    error_log("Can not create configuration again: ".  json_encode($_SERVER));
     exit;
 }
 
-$installationVersion = "8.2";
+$installationVersion = "10.1";
 
-
+error_log("Installation: ".__LINE__." ". json_encode($_POST));
 header('Content-Type: application/json');
 
 $obj = new stdClass();
@@ -17,6 +17,7 @@ if (!file_exists($_POST['systemRootPath'] . "index.php")) {
     echo json_encode($obj);
     exit;
 }
+error_log("Installation: ".__LINE__);
 
 $mysqli = @new mysqli($_POST['databaseHost'], $_POST['databaseUser'], $_POST['databasePass'], "", $_POST['databasePort']);
 
@@ -29,6 +30,7 @@ if ($mysqli->connect_error) {
     echo json_encode($obj);
     exit;
 }
+error_log("Installation: ".__LINE__);
 
 if ($_POST['createTables'] == 2) {
     $sql = "CREATE DATABASE IF NOT EXISTS {$_POST['databaseName']}";
@@ -40,6 +42,7 @@ if ($_POST['createTables'] == 2) {
 }
 $mysqli->select_db($_POST['databaseName']);
 
+error_log("Installation: ".__LINE__);
 /*
   $cmd = "mysql -h {$_POST['databaseHost']} -u {$_POST['databaseUser']} -p {$_POST['databasePass']} {$_POST['databaseName']} < {$_POST['systemRootPath']}install/database.sql";
   exec("{$cmd} 2>&1", $output, $return_val);
@@ -49,11 +52,26 @@ $mysqli->select_db($_POST['databaseName']);
   exit;
   }
  */
+error_log("Installation: ".__LINE__);
 if ($_POST['createTables'] > 0) {
+    error_log("Installation: ".__LINE__);
 // Temporary variable, used to store current query
     $templine = '';
+    $installFile = "{$_POST['systemRootPath']}install/database.sql";
+    if(!file_exists($installFile)){
+        $obj->error = "File Not found {$installFile}";
+        echo json_encode($obj);
+        exit;
+    }
+    error_log("Installation: ".__LINE__);
 // Read in entire file
-    $lines = file("{$_POST['systemRootPath']}install/database.sql");
+    $lines = file($installFile);
+    if(empty($lines)){
+        $obj->error = "File is empty {$installFile}";
+        echo json_encode($obj);
+        exit;
+    }
+    error_log("Installation: ".__LINE__);
 // Loop through each line
     $obj->error = "";
     foreach ($lines as $line) {
@@ -66,15 +84,19 @@ if ($_POST['createTables'] > 0) {
 // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
+            //error_log("Installation: ".$templine);
             if (!$mysqli->query($templine)) {
+                error_log("Installation: SQL ERROR ".$mysqli->error);
                 $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $mysqli->error . '<br /><br />');
             }
             // Reset temp variable to empty
             $templine = '';
         }
     }
+    error_log("Installation: ".__LINE__);
 }
 
+error_log("Installation: ".__LINE__);
 
 $sql = "DELETE FROM users WHERE id = 1 ";
 if ($mysqli->query($sql) !== TRUE) {
@@ -84,6 +106,7 @@ if ($mysqli->query($sql) !== TRUE) {
 }
 
 
+error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO users (id, user, email, password, created, modified, isAdmin) VALUES (1, 'admin', '" . $_POST['contactEmail'] . "', '" . md5($_POST['systemAdminPass']) . "', now(), now(), true)";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating admin user: " . $mysqli->error;
@@ -91,6 +114,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+error_log("Installation: ".__LINE__);
 $sql = "DELETE FROM categories WHERE id = 1 ";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error deleting category: " . $mysqli->error;
@@ -98,6 +122,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO categories (id, name, clean_name, description, created, modified) VALUES (1, 'Default', 'default','', now(), now())";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating category: " . $mysqli->error;
@@ -105,6 +130,7 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+error_log("Installation: ".__LINE__);
 $sql = "DELETE FROM configurations WHERE id = 1 ";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error deleting configuration: " . $mysqli->error;
@@ -112,38 +138,69 @@ if ($mysqli->query($sql) !== TRUE) {
     exit;
 }
 
+error_log("Installation: ".__LINE__);
+
+$encoder = 'https://encoder1.avideo.com/';
+if(is_dir("{$_POST['systemRootPath']}Encoder")){
+    $encoder = "{$_POST['webSiteRootURL']}Encoder/";
+}
+
 $sql = "INSERT INTO configurations (id, video_resolution, users_id, version, webSiteTitle, language, contactEmail, encoderURL,  created, modified) "
         . " VALUES "
-        . " (1, '858:480', 1,'{$installationVersion}', '{$_POST['webSiteTitle']}', '{$_POST['mainLanguage']}', '{$_POST['contactEmail']}', 'https://encoder2.avideo.com/', now(), now())";
+        . " (1, '858:480', 1,'{$installationVersion}', '{$_POST['webSiteTitle']}', '{$_POST['mainLanguage']}', '{$_POST['contactEmail']}', '{$encoder}', now(), now())";
 if ($mysqli->query($sql) !== TRUE) {
     $obj->error = "Error creating configuration: " . $mysqli->error;
     echo json_encode($obj);
     exit;
 }
 
+error_log("Installation: ".__LINE__);
+$sql = "INSERT INTO `plugins` VALUES (NULL, 'a06505bf-3570-4b1f-977a-fd0e5cab205d', 'active', now(), now(), '', 'Gallery', 'Gallery', '1.0');";
+if ($mysqli->query($sql) !== TRUE) {
+    $obj->error = "Error enabling Gallery Plugin: " . $mysqli->error;
+    echo json_encode($obj);
+    exit;
+}
+
+
+error_log("Installation: ".__LINE__);
 $mysqli->close();
 
 if(empty($_POST['salt'])){
     $_POST['salt'] = uniqid();
 }
 $content = "<?php
-\$global['configurationVersion'] = 2;
+\$global['configurationVersion'] = 3.1;
 \$global['disableAdvancedConfigurations'] = 0;
 \$global['videoStorageLimitMinutes'] = 0;
+\$global['disableTimeFix'] = 0;
+\$global['logfile'] = '{$_POST['systemRootPath']}videos/avideo.log';
 if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) { 
     // get the subdirectory, if exists
-    \$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), __FILE__);
+    \$file = str_replace(\"\\\\\", \"/\", __FILE__);
+    \$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), \$file);
     \$global['webSiteRootURL'] = \"http\".(!empty(\$_SERVER['HTTPS'])?\"s\":\"\").\"://\".\$_SERVER['SERVER_NAME'].\$subDir;
 }else{
     \$global['webSiteRootURL'] = '{$_POST['webSiteRootURL']}';
 }
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
 \$global['salt'] = '{$_POST['salt']}';
+\$global['disableTimeFix'] = 0;
 \$global['enableDDOSprotection'] = 1;
 \$global['ddosMaxConnections'] = 40;
 \$global['ddosSecondTimeout'] = 5;
 \$global['strictDDOSprotection'] = 0;
 \$global['noDebug'] = 0;
+\$global['webSiteRootPath'] = '';
+if(empty(\$global['webSiteRootPath'])){
+    preg_match('/https?:\/\/[^\/]+(.*)/i', \$global['webSiteRootURL'], \$matches);
+    if(!empty(\$matches[1])){
+        \$global['webSiteRootPath'] = \$matches[1];
+    }
+}
+if(empty(\$global['webSiteRootPath'])){
+    die('Please configure your webSiteRootPath');
+}
 
 \$mysqlHost = '{$_POST['databaseHost']}';
 \$mysqlPort = '{$_POST['databasePort']}';
@@ -158,9 +215,11 @@ if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' &&
 require_once \$global['systemRootPath'].'objects/include_config.php';
 ";
 
+error_log("Installation: ".__LINE__);
 $fp = fopen($_POST['systemRootPath'] . "videos/configuration.php", "wb");
 fwrite($fp, $content);
 fclose($fp);
+error_log("Installation: ".__LINE__);
 /*
 //copy the 100% progress sample file to be used when the uploaded file is already encoded in the MP4 or WBM formats
 exec("cp {$_POST['systemRootPath']}install/FinishedProgressSample.* {$_POST['systemRootPath']}videos/", $output, $return_val);
@@ -171,5 +230,8 @@ if ($return_val !== 0) {
     exit;
 }
 */
+error_log("Installation: ".__LINE__);
 $obj->success = true;
 echo json_encode($obj);
+
+error_log("Installation: ".__LINE__);

@@ -58,10 +58,10 @@
             type: 'post',
             success: function (response) {
                 if (response.error) {
-                    swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                    avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                     modal.hidePleaseWait();
                 } else {
-                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your code has been saved!"); ?>", "success");
+                    avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your code has been saved!"); ?>", "success");
                     adsUser(ad_overlay_users_id);
                 }
                 //modal.hidePleaseWait();

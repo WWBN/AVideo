@@ -3,12 +3,17 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Articles extends PluginAbstract {
+    public function getTags() {
+        return array(
+            PluginTags::$FREE
+        );
+    }
 
     public function getDescription() {
         global $global;
         $str = "Create rich text articles";
         $alert = "";
-        $dir = $global['systemRootPath']."objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer";
+        $dir = $global['systemRootPath'] . 'objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer';
         if (!is_writable($dir)) {
             $alert = "<div class='alert alert-danger'>Your directory must be writable<br><code>sudo chmod 777 {$dir}</code></div>";
         }
@@ -30,11 +35,11 @@ class Articles extends PluginAbstract {
         $obj->allowCSS = false;
         return $obj;
     }
-    
+
     public function getPluginMenu() {
         global $global;
-        $btn = '<a href="' . $global['webSiteRootURL'] . 'plugin/Articles/updateDescriptions.php" class="btn btn-default btn-xs btn-block" target="_blank">Update Old Descriptions</a>';
-        $btn .= '<a href="' . $global['webSiteRootURL'] . 'plugin/Articles/updateDescriptionsRemoveTags.php" class="btn btn-default btn-xs btn-block" target="_blank">Revert Descriptions to NON-HTML</a>';
+        $btn = '<a href="' . $global['webSiteRootURL'] . 'plugin/Articles/updateDescriptions.php" class="btn btn-default btn-xs btn-block" target="_blank">'.__('Update Old Descriptions').'</a>';
+        $btn .= '<a href="' . $global['webSiteRootURL'] . 'plugin/Articles/updateDescriptionsRemoveTags.php" class="btn btn-default btn-xs btn-block" target="_blank">'.__('Revert Descriptions to NON-HTML').'</a>';
         return $btn;
     }
 

@@ -8,7 +8,7 @@ if(!isset($global['systemRootPath'])){
 if(!User::isLogged()){
     die("Is not logged");
 }
-
+$_REQUEST["do_not_login"]=1;
 require_once $global['systemRootPath'] . 'objects/user.php';
 $user = new User(0);
 $user->loadSelfUser();

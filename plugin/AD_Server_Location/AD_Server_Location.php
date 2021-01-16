@@ -12,6 +12,15 @@ require_once $global['systemRootPath'] . 'plugin/User_Location/Objects/IP2Locati
 
 class AD_Server_Location extends PluginAbstract {
 
+
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$ADS,
+            PluginTags::$FREE
+        );
+    }
+    
     public function getDescription() {
         $desc = "Enable select location to display each ad<br>";
         

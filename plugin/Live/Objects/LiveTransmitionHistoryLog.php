@@ -93,4 +93,18 @@ class LiveTransmitionHistoryLog extends ObjectYPT {
         return parent::save();
     }
     
+    
+    static function deleteAllFromHistory($live_transmitions_history_id) {
+        global $global;
+        $live_transmitions_history_id = intval($live_transmitions_history_id);
+        if (!empty($live_transmitions_history_id)) {
+            $sql = "DELETE FROM " . static::getTableName() . " ";
+            $sql .= " WHERE live_transmitions_history_id = ?";
+            $global['lastQuery'] = $sql;
+            //_error_log("Delete Query: ".$sql);
+            return sqlDAL::writeSql($sql, "i", array($live_transmitions_history_id));
+        }
+        return false;
+    }
+    
 }

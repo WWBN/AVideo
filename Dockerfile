@@ -1,36 +1,53 @@
-# Based on the work of @hannah98, thanks for that!
-# https://github.com/hannah98/avideo-docker
-# Licensed under the terms of the CC-0 license, see
-# https://creativecommons.org/publicdomain/zero/1.0/deed
+FROM ubuntu:latest
 
-FROM php:7-apache
+# Update SO
+RUN apt-get update && apt-get upgrade -y
 
-MAINTAINER TheAssassin <theassassin@assassinate-you.net>
+# Install utils
+RUN apt-get install apt-transport-https lsb-release logrotate git curl vim net-tools iputils-ping -y --no-install-recommends
 
-RUN apt-get update && \
-    apt-get install -y wget git zip default-libmysqlclient-dev libbz2-dev libmemcached-dev libsasl2-dev libfreetype6-dev libicu-dev libjpeg-dev libmemcachedutil2 libpng-dev libxml2-dev mariadb-client ffmpeg libimage-exiftool-perl python curl python-pip libzip-dev && \
-    docker-php-ext-configure gd --with-freetype-dir=/usr/include --with-jpeg-dir=/usr/include && \
-    docker-php-ext-install -j$(nproc) bcmath bz2 calendar exif gd gettext iconv intl mbstring mysqli opcache pdo_mysql zip && \
-    rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* /root/.cache && \
-    a2enmod rewrite
+# Add Ondrej's repo to the sources list
+#RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 
-# patch to use non-root port
-RUN sed -i "s|Listen 80|Listen 8000|g" /etc/apache2/ports.conf && \
-    sed -i "s|:80|:8000|g" /etc/apache2/sites-available/* && \
-    echo "post_max_size = 10240M\nupload_max_filesize = 10240M" >> /usr/local/etc/php/php.ini
+# Set localtime to UTC
+RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
-RUN pip install -U youtube-dl
+# Update packages list
+RUN apt-get update -y
 
-RUN rm -rf /var/www/html/*
-COPY . /var/www/html
+# Install Apache
+RUN apt-get -y install apache2
 
-# fix permissions
-RUN chown -R www-data. /var/www/html
+RUN a2enmod rewrite headers expires ssl http2 \
+    && service apache2 restart
 
-# create volume
-RUN install -d -m 0755 -o www-data -g www-data /var/www/html/videos
+# Set new default virtualhost
+RUN rm /etc/apache2/sites-enabled/000-default.conf
+COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/avideo.conf
 
-# set non-root user
-USER www-data
+# Install supervisord
+#RUN apt-get -y install supervisor
 
-VOLUME ["/var/www/html/videos"]
+# Install php7.4
+RUN apt-get -y -f install php7.4 php7.4-common php7.4-cli php7.4-json php7.4-mbstring php7.4-curl php7.4-mysql php7.4-bcmath php7.4-xml php7.4-gd php7.4-zip --no-install-recommends
+
+COPY  . /var/www/avideo
+WORKDIR /var/www/avideo
+
+# Set Permision
+RUN chown www-data:www-data /var/www/avideo/videos && chmod 755 /var/www/avideo/videos
+#VOLUME [ "/storage/data" ]
+
+# Manually set up the apache environment variables
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+
+EXPOSE 80
+EXPOSE 443
+#CMD ["supervisord"]
+
+# By default, simply start apache.
+CMD /usr/sbin/apache2ctl -D FOREGROUND

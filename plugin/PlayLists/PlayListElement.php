@@ -79,6 +79,12 @@ class playListSource {
         }else{
             $this->type = mime_content_type_per_filename($src);
         }
+        if($this->type=="application/x-mpegURL"){
+            $obj = AVideoPlugin::getDataObject('VideoHLS');
+            if(!empty($obj->downloadProtection)){
+                $this->src .= "?token=".VideoHLS::getToken();
+            }
+        }
     }
 
 

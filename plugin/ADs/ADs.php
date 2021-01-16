@@ -3,7 +3,13 @@
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class ADs extends PluginAbstract {
-
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$ADS,
+            PluginTags::$FREE
+        );
+    }
     public function getDescription() {
         $txt = "Handle the ads system, like Adsense or similar";
         //$help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
@@ -45,6 +51,11 @@ class ADs extends PluginAbstract {
         $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;
         $obj->leaderBoardTop2 = $o;
         
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;
+        $obj->channelLeaderBoardTop = $o;
+        
         $o = new stdClass();        
         $o->type = "textarea";
         $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample728x90.jpg'>":$adsense;;
@@ -78,6 +89,11 @@ class ADs extends PluginAbstract {
         $o->type = "textarea";
         $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'>":$adsense;;
         $obj->leaderBoardTopMobile2 = $o;
+        
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = empty($adsense)?"<img src='{$global['webSiteRootURL']}plugin/ADs/sample300x250.jpg'>":$adsense;
+        $obj->channelLeaderBoardTopMobile = $o;
                 
         $o = new stdClass();       
         $o->type = "textarea";
@@ -96,20 +112,22 @@ class ADs extends PluginAbstract {
     }
     
     public function getHeadCode() {
+        $head = "<script> var adsbygoogleTimeout; </script>";
         if(!empty($_GET['abkw'])){
             $abkw = preg_replace('/[^a-zA-Z0-9_ ,-]/', '',$_GET['abkw']);
-            return "<script> window.abkw = '{$abkw}'; </script>";                    
+            $head .= "<script> window.abkw = '{$abkw}'; </script>";   
+            return $head;
         }
-            $obj = $this->getDataObject();
+        $obj = $this->getDataObject();
         if(!empty($_GET['videoName'])){
             if(!empty($obj->tags3rdParty)){
                 $v = Video::getVideoFromCleanTitle($_GET['videoName']);
                 if(!empty($v)){            
                     $channelName = $v["channelName"];
                     $category = $v["category"];      
-                    $tag = str_replace(array('{ChannelName}','{Category}'), array(addcslashes($channelName,"'"),  addcslashes($category,"'")), $obj->tags3rdParty);                    
+                    $head .= str_replace(array('{ChannelName}','{Category}'), array(addcslashes($channelName,"'"),  addcslashes($category,"'")), $obj->tags3rdParty);                    
                     
-                    return $tag;
+                    return $head;
                 }
             }
         }
@@ -117,21 +135,25 @@ class ADs extends PluginAbstract {
             if(!empty($obj->tags3rdParty)){
                 $v = Category::getCategoryByName($_GET['catName']);
                 if(!empty($v)){
-                    $tag = str_replace(array(',','{ChannelName}','{Category}'), array('', '', addcslashes($v["name"],"'")), $obj->tags3rdParty);                    
-                    return $tag;
+                    $head .= str_replace(array(',','{ChannelName}','{Category}'), array('', '', addcslashes($v["name"],"'")), $obj->tags3rdParty);                    
+                    return $head;
                 }
             }
         }
         if(!empty($_GET['channelName'])){
             if(!empty($obj->tags3rdParty)){
-                $tag = str_replace(array(',','{ChannelName}','{Category}'), array('', addcslashes($_GET['channelName'],"'"), ''), $obj->tags3rdParty);                    
-                return $tag;
+                $head .= str_replace(array(',','{ChannelName}','{Category}'), array('', addcslashes($_GET['channelName'],"'"), ''), $obj->tags3rdParty);                    
+                return $head;
             }
         }
-        return '';
+        return "{$head}<script> window.abkw = 'home-page'; </script>";
     }
-
-    public function getTags() {
-        return array('free');
+    
+    static function giveGoogleATimeout($adCode){
+        if(preg_match("/adsbygoogle/i", $adCode)){
+            $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "clearTimeout(adsbygoogleTimeout); adsbygoogleTimeout = setTimeout(function () {(adsbygoogle = window.adsbygoogle || []).push({});},5000);", trim($adCode));
+            $adCode = "<div style='min-width:250px;min-height:90px;'>{$adCode}</div>";
+        }
+        return $adCode;
     }
 }

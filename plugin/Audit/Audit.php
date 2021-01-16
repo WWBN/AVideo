@@ -5,6 +5,13 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Audit/Objects/AuditTable.php';
 
 class Audit extends PluginAbstract {
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE,
+            PluginTags::$SECURITY
+        );
+    }
 
     public function getDescription() {
         return "Save all insert, update and delete queries for audit";
@@ -19,7 +26,7 @@ class Audit extends PluginAbstract {
     }  
 
     public function getPluginVersion() {
-        return "1.0";   
+        return "2.0";   
     }
         
     public function getPluginMenu(){
@@ -31,6 +38,15 @@ class Audit extends PluginAbstract {
     function exec($method, $class, $statement, $formats, $values, $users_id) {
         $audit = new AuditTable(0);
         return $audit->audit($method, $class, $statement, $formats, $values, $users_id);
+    }
+    
+    public function updateScript() {
+        global $global;
+        //update version 2.0
+        if(AVideoPlugin::compareVersion($this->getName(), "2.0")<0){
+            sqlDal::executeFile($global['systemRootPath'] . 'plugin/Audit/install/updateV2.0.sql');
+        }        
+        return true;
     }
 
 }

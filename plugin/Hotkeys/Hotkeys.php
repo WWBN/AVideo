@@ -4,6 +4,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Hotkeys extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+        );
+    }
     public function getDescription() {
         global $global;
         return "Enable hotkeys for videos, like F for fullscreen, space for play/pause, etc..<br />Author: <a href='http://hersche.github.io' target='_blank' >Vinzenz Hersche</a>";
@@ -14,7 +20,7 @@ class Hotkeys extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";   
+        return "1.1";   
     }
 
     public function getUUID() {
@@ -23,7 +29,7 @@ class Hotkeys extends PluginAbstract {
     
     public function getHelp(){
         $obj = $this->getDataObject();
-        $html = "<h2 id='Hotkeys help' >Hotkeys</h2><p>".__("When you are watching media, you can use these keyboard-shortcuts.")."</p><table class='table'><tbody>";
+        $html = "<h2 id='Hotkeys help' >".__('Hotkeys')."</h2><p>".__("When you are watching media, you can use these keyboard-shortcuts.")."</p><table class='table'><tbody>";
         $html .= "<tr><td>".__("Seek")."</td><td>".__("Left")."/".__("right")."-".__("arrow")."</td></tr><tr><td>";
         if($obj->ReplaceVolumeWithPlusMinus){
             $html .= __("Volume")."</td><td>+/-</td></tr>";
@@ -41,7 +47,7 @@ class Hotkeys extends PluginAbstract {
         return $html."</tbody></table>";
     }
     public function getJSFiles(){
-        if(!empty($_GET['isMediaPlaySite'])){
+        if(isVideo()){
             return array("plugin/Hotkeys/videojs.hotkeys.min.js");
         }
         return array();
@@ -57,26 +63,15 @@ class Hotkeys extends PluginAbstract {
         $obj->PlayPauseKey = " ";
         $obj->AlwaysCaptureHotkeys = true;
         return $obj;
-    }
-    
-    public function getTags() {
-        return array('free', 'videos', 'hotkeys');
-    }
-    
+    }    
 
     public function getFooterCode() {
         global $global;
         $obj = $this->getDataObject();
 
-        if(!empty($_GET['isMediaPlaySite'])){
-            $tmp = "<script> $( document ).ready(function() {";
-            if( isset($_SESSION['type']) && (($_SESSION['type']=="audio")||($_SESSION['type']=="linkAudio"))){
-                $tmp .= "videojs('mainAudio').ready(function() {";
-            } else {
-                $tmp .= "videojs('mainVideo').ready(function() {";
-            }
-            $tmp .= "this.hotkeys({ seekStep: 5,";
-               
+        if(isVideo()){
+            $tmp = "if(typeof player.hotkeys == 'function'){";
+            $tmp .= "player.hotkeys({ seekStep: 5,";
             if($obj->Volume){
                 $tmp .= "enableVolumeScroll: true,";
             } else {
@@ -105,11 +100,10 @@ class Hotkeys extends PluginAbstract {
             }
             
             $tmp .= "enableModifiersForNumbers: false
-                      });  
-            });";
+            });}";
 
-            $tmp .= "});</script>";
-            return $tmp;
+            
+            PlayerSkins::getStartPlayerJS($tmp);
         }
         return "";
     }

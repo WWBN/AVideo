@@ -30,7 +30,7 @@ if (User::isLogged() && $user_id == User::getId()) {
 $programs = PlayList::getAllFromUser($user_id, $publicOnly, false, @$_GET['program_id']);
 if (empty($programs)) {
     $programs = PlayList::getAllFromUser($user_id, $publicOnly);
-}else{
+} else {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['program_id']);
     $videos_id = $videosArrayId[0];
 }
@@ -39,7 +39,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Program"); ?></title>
+        <title><?php echo __("Program") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -52,8 +52,8 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                 padding: 5px;
             }
         </style>
-        <?php 
-        if(!empty($videos_id)){
+        <?php
+        if (!empty($videos_id)) {
             getOpenGraph($videos_id);
         }
         ?>
@@ -84,7 +84,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                     $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
                 } else {
                     $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
-                }
+                }//var_dump($videosArrayId, $videosP);exit;
                 @$timesC[__LINE__] += microtime(true) - $startC;
                 $startC = microtime(true);
                 //_error_log("channelPlaylist videosP: ".json_encode($videosP));
@@ -109,6 +109,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             ?>
                             <a href="<?php echo $link; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
                             <?php
+                            echo PlayLists::getPlayLiveButton($program['id']);
                         }
                         if ($isMyChannel) {
                             ?>
@@ -205,11 +206,19 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                         ?>
 
                         <div class="panel-body">
-
+                            <?php
+                            $_REQUEST['user_id'] = $program['users_id'];
+                            $_REQUEST['playlists_id'] = $program['id'];
+                            include $global['systemRootPath'] . 'plugin/PlayLists/epg.html.php';
+                            ?>
                             <div id="sortable<?php echo $program['id']; ?>" style="list-style: none;">
                                 <?php
                                 $count = 0;
                                 foreach ($videosP as $value) {
+                                    if (empty($value['created'])) {
+                                        $count++;
+                                        continue;
+                                    }
                                     $episodeLink = "{$global['webSiteRootURL']}program/{$program['id']}/{$count}";
                                     $count++;
                                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
@@ -228,7 +237,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                     <li class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo showMoreLess <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;  <?php echo $style; ?>">
                                         <div class="panel panel-default" playListId="<?php echo $program['id']; ?>" style="min-height: 215px;">
                                             <div class="panel-body" style="overflow: hidden;">
-                                                <a class="aspectRatio16_9" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>" style="margin: 3px 0; overflow: visible;" >
+                                                <a class="aspectRatio16_9" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>" style="margin: 15px 0; overflow: visible;" >
                                                     <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
                                                     <?php
                                                     if ($value['type'] !== 'pdf' && $value['type'] !== 'article' && $value['type'] !== 'serie') {
@@ -249,6 +258,9 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                                         <?php
                                                         $value['tags'] = Video::getTags($value['id']);
                                                         foreach ($value['tags'] as $value2) {
+                                                            if (is_array($value2)) {
+                                                                $value2 = (object) $value2;
+                                                            }
                                                             if ($value2->label === __("Group")) {
                                                                 ?>
                                                                 <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
@@ -326,9 +338,9 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             if (count($programs) > 1) {
                                 ?>
                                 <button class="btn btn-default btn-xs btn-sm showMoreLessBtn showMoreLessBtn<?php echo $program['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $program['id']; ?>').toggle();
-                                                $('.<?php echo $class; ?>').slideDown();"><i class="fas fa-angle-down"></i> <?php echo __('Show More'); ?></button>
+                                                    $('.<?php echo $class; ?>').slideDown();"><i class="fas fa-angle-down"></i> <?php echo __('Show More'); ?></button>
                                 <button class="btn btn-default btn-xs btn-sm  showMoreLessBtn showMoreLessBtn<?php echo $program['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $program['id']; ?>').toggle();
-                                                $('.<?php echo $class; ?>').slideUp();" style="display: none;"><i class="fas fa-angle-up"></i> <?php echo __('Show Less'); ?></button>
+                                                    $('.<?php echo $class; ?>').slideUp();" style="display: none;"><i class="fas fa-angle-up"></i> <?php echo __('Show Less'); ?></button>
                                         <?php
                                     }
                                     if ($isMyChannel && !empty($videosArrayId)) {
@@ -413,62 +425,67 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
 ?>
                     $('.removeVideo').click(function () {
                         currentObject = this;
+
                         swal({
                             title: "<?php echo __("Are you sure?"); ?>",
                             text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                            closeOnConfirm: true
-                        },
-                                function () {
-                                    modal.showPleaseWait();
-                                    var playlist_id = $(currentObject).attr('playlist_id');
-                                    var video_id = $(currentObject).attr('video_id');
-                                    $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
-                                        data: {
-                                            "playlist_id": playlist_id,
-                                            "video_id": video_id
-                                        },
-                                        type: 'post',
-                                        success: function (response) {
-                                            reloadPlayLists();
-                                            $(".playListsIds" + video_id).prop("checked", false);
-                                            $(currentObject).closest('.galleryVideo').fadeOut();
-                                            modal.hidePleaseWait();
-                                        }
-                                    });
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                                .then(function (willDelete) {
+                                    if (willDelete) {
+
+                                        modal.showPleaseWait();
+                                        var playlist_id = $(currentObject).attr('playlist_id');
+                                        var video_id = $(currentObject).attr('video_id');
+                                        $.ajax({
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
+                                            data: {
+                                                "playlist_id": playlist_id,
+                                                "video_id": video_id
+                                            },
+                                            type: 'post',
+                                            success: function (response) {
+                                                reloadPlayLists();
+                                                $(".playListsIds" + video_id).prop("checked", false);
+                                                $(currentObject).closest('.galleryVideo').fadeOut();
+                                                modal.hidePleaseWait();
+                                            }
+                                        });
+                                    }
                                 });
+
                     });
 
                     $('.deletePlaylist').click(function () {
                         currentObject = this;
+
                         swal({
                             title: "<?php echo __("Are you sure?"); ?>",
                             text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                            closeOnConfirm: true
-                        },
-                                function () {
-                                    modal.showPleaseWait();
-                                    var playlist_id = $(currentObject).attr('playlist_id');
-                                    console.log(playlist_id);
-                                    $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
-                                        data: {
-                                            "playlist_id": playlist_id
-                                        },
-                                        type: 'post',
-                                        success: function (response) {
-                                            $(currentObject).closest('.panel').slideUp();
-                                            modal.hidePleaseWait();
-                                        }
-                                    });
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                                .then(function (willDelete) {
+                                    if (willDelete) {
+
+                                        modal.showPleaseWait();
+                                        var playlist_id = $(currentObject).attr('playlist_id');
+                                        console.log(playlist_id);
+                                        $.ajax({
+                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
+                                            data: {
+                                                "playlist_id": playlist_id
+                                            },
+                                            type: 'post',
+                                            success: function (response) {
+                                                $(currentObject).closest('.panel').slideUp();
+                                                modal.hidePleaseWait();
+                                            }
+                                        });
+                                    }
                                 });
 
                     });
@@ -509,39 +526,41 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                     $('.renamePlaylist').click(function () {
                         currentObject = this;
                         swal({
-                            title: "<?php echo __("Change Playlist Name"); ?>!",
-                            text: "<?php echo __("What is the new name?"); ?>",
-                            type: "input",
-                            showCancelButton: true,
-                            closeOnConfirm: true,
-                            inputPlaceholder: "<?php echo __("Playlist name?"); ?>"
-                        },
-                                function (inputValue) {
-                                    if (inputValue === false)
-                                        return false;
-
-                                    if (inputValue === "") {
-                                        swal.showInputError("<?php echo __("You need to tell us the new name?"); ?>");
-                                        return false
-                                    }
-
-                                    modal.showPleaseWait();
-                                    var playlist_id = $(currentObject).attr('playlist_id');
-                                    console.log(playlist_id);
-                                    $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php',
-                                        data: {
-                                            "playlist_id": playlist_id,
-                                            "name": inputValue
-                                        },
-                                        type: 'post',
-                                        success: function (response) {
-                                            $(currentObject).closest('.panel').find('.playlistName').text(inputValue);
-                                            modal.hidePleaseWait();
-                                        }
-                                    });
-                                    return false;
-                                });
+                            text: "<?php echo __("Change Playlist Name"); ?>!",
+                            content: "input",
+                            button: {
+                                text: "<?php echo __("Confirm Playlist name"); ?>",
+                                closeModal: false,
+                            },
+                        }).then(function (name) {
+                            if (!name)
+                                throw null;
+                            modal.showPleaseWait();
+                            var playlist_id = $(currentObject).attr('playlist_id');
+                            console.log(playlist_id);
+                            return fetch('<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php?playlist_id=' + playlist_id + '&name=' + encodeURI(name));
+                        }).then(function (results) {
+                            return results.json();
+                        }).then(function (response) {
+                            if (response.error) {
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                modal.hidePleaseWait();
+                            } else {
+                                $(currentObject).closest('.panel').find('.playlistName').text(response.name);
+                                swal.stopLoading();
+                                swal.close();
+                                modal.hidePleaseWait();
+                            }
+                        }).catch(function (err) {
+                            if (err) {
+                                swal("Oh noes!", "The AJAX request failed!", "error");
+                            } else {
+                                swal.stopLoading();
+                                swal.close();
+                            }
+                            modal.hidePleaseWait();
+                        });
+                        ;
 
                     });
 

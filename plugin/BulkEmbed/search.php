@@ -9,7 +9,7 @@ $obj = AVideoPlugin::getObjectData("BulkEmbed");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Bulk Embed</title>
+        <title><?php echo __("Bulk Embed") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -185,9 +185,9 @@ $obj = AVideoPlugin::getObjectData("BulkEmbed");
                         type: 'post',
                         success: function (response) {
                             if (!response.error) {
-                                swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your videos have been saved!"); ?>", "success");
+                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your videos have been saved!"); ?>", "success");
                             } else {
-                                swal("<?php echo __("Sorry!"); ?>", response.msg.join("<br>"), "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg.join("<br>"), "error");
                             }
                             modal.hidePleaseWait();
                         }

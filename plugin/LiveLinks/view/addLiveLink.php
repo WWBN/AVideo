@@ -16,6 +16,7 @@ if(!$plugin->canAddLinks()){
 
 $o = new LiveLinksTable(@$_POST['linkId']);
 $o->setDescription($_POST['description']);
+$o->setCategories_id($_POST['categories_id']);
 $o->setEnd_date($_POST['end_date']);
 $o->setLink($_POST['link']);
 $o->setStart_date($_POST['start_date']);

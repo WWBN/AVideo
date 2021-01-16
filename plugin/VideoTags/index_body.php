@@ -95,16 +95,17 @@ if (!User::isAdmin()) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = tableLinks.row(tr).data();
-            swal({
+                    
+                    swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                closeOnConfirm: true
-            },
-                    function () {
+                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(function(willDelete) {
+              if (willDelete) {
+
                         modal.showPleaseWait();
                         $.ajax({
                             type: "POST",
@@ -113,12 +114,13 @@ if (!User::isAdmin()) {
 
                         }).done(function (resposta) {
                             if (resposta.error) {
-                                swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                             }
                             tableLinks.ajax.reload();
                             modal.hidePleaseWait();
                         });
-                    });
+              } 
+            });
         });
 
         $('#campaignTable').on('click', 'button.editor_edit_link', function (e) {
@@ -143,9 +145,9 @@ if (!User::isAdmin()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
 
                         $("#panelForm").trigger("reset");
                     }

@@ -4,8 +4,14 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class FBTube extends PluginAbstract {
     
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$DEPRECATED
+        );
+    }
     public function getDescription() {
-        return "Make the first page works as a facebook page";
+        return "<b>(Deprecated, will be removed in next version)</b> Make the first page works as a facebook page";
     }
 
     public function getName() {
@@ -30,9 +36,4 @@ class FBTube extends PluginAbstract {
         global $global;
         return '<link href="'.$global['webSiteRootURL'].'plugin/FBTube/view/style.css" rel="stylesheet" type="text/css"/>';
     }
-    
-    public function getTags() {
-        return array('free', 'firstPage', 'facebook');
-    }
-
 }

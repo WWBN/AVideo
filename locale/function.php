@@ -17,37 +17,24 @@ if (!empty($_GET['lang'])) {
 }
 @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 
-function __($str) {
+function __($str, $allowHTML = false) {
     global $t;
     if (empty($t[$str])) {
+        if ($allowHTML) {
+            return $str;
+        }
         return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $str);
     } else {
+        if ($allowHTML) {
+            return $t[$str];
+        }
         return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $t[$str]);
     }
 }
 
 function isRTL() {
-    /*
-      Arabic
-      Aramaic
-      Azeri
-      Dhivehi/Maldivian
-      Hebrew
-      Kurdish (Sorani)
-      Persian/Farsi
-      Urdu
-     */
-    $array = array(
-        'JO', // Arabic Jordan
-        'PS', // Arabic Palestinian Territory, Occupied
-        'SY', // Arabic Syrian Arab Republic
-        'IL'  // Hebrew
-    );
-
-    if (preg_grep("/{$_SESSION['language']}/i", $array)) {
-        return true;
-    }
-    return false;
+    global $t_isRTL;
+    return !empty($t_isRTL) && $t_isRTL;
 }
 
 function getAllFlags() {
@@ -75,8 +62,8 @@ function getEnabledLangs() {
     }
     if ($handle = opendir($dir)) {
         while (false !== ($entry = readdir($handle))) {
-            if ($entry != "." && $entry != ".." && $entry != "index.php" && $entry != "function.php" && $entry != "save.php") {
-                $flags[] = str_replace(".php", "", $entry);
+            if ($entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'function.php' && $entry != 'save.php') {
+                $flags[] = str_replace('.php', '', $entry);
             }
         }
         closedir($handle);
@@ -85,13 +72,20 @@ function getEnabledLangs() {
     return $flags;
 }
 
-function textToLink($string) {
+function textToLink($string, $targetBlank = false) {
+    $target = "";
+    if ($targetBlank) {
+        $target = "target=\"_blank\"";
+    }
+    
     return preg_replace(
-            "~[[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~", "<a href=\"\\0\">\\0</a>", $string
+        "~[[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~",
+        "<a href=\"\\0\" {$target} >\\0</a>",
+        $string
     );
 }
 
 function br2nl($html) {
-    $nl = preg_replace(array('#<br\s*/?>#i','#<p\s*/?>#i','#</p\s*>#i'), array("\n","\n",""), $html);
+    $nl = preg_replace(array('#<br\s*/?>#i', '#<p\s*/?>#i', '#</p\s*>#i'), array("\n", "\n", ''), $html);
     return $nl;
 }

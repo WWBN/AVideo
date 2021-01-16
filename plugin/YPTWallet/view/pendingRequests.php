@@ -11,7 +11,7 @@ if (!User::isAdmin()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Support Author</title>
+        <title><?php echo __("Pending Requests") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -102,7 +102,7 @@ if (!User::isAdmin()) {
                         modal.hidePleaseWait();
                         if (response.error) {
                             setTimeout(function () {
-                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                             }, 500);
                         } else {
                             $("#grid").bootgrid("reload");

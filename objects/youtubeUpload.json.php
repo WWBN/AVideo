@@ -1,14 +1,15 @@
 <?php
 error_reporting(0);
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 $obj = new stdClass();
 $obj->success = false;
 require_once $global['systemRootPath'] . 'objects/functions.php';
-require_once $global['systemRootPath'] . 'google/autoload.php';
 header('Content-Type: application/json');
 
 $obj = AVideoPlugin::getObjectData("LoginGoogle");
@@ -53,7 +54,7 @@ foreach ($_POST['id'] as $value) {
     if (isset($_SESSION[$tokenSessionKey])) {
         $client->setAccessToken($_SESSION[$tokenSessionKey]);
     }
-// Check to ensure that the access token was successfully acquired.
+    // Check to ensure that the access token was successfully acquired.
     if ($client->getAccessToken()) {
         try {
             // REPLACE this value with the path to the file you are uploading.
@@ -88,7 +89,12 @@ foreach ($_POST['id'] as $value) {
             $insertRequest = $youtube->videos->insert("status,snippet", $video);
             // Create a MediaFileUpload object for resumable uploads.
             $media = new Google_Http_MediaFileUpload(
-                    $client, $insertRequest, 'video/*', null, true, $chunkSizeBytes
+                $client,
+                $insertRequest,
+                'video/*',
+                null,
+                true,
+                $chunkSizeBytes
             );
             $media->setFileSize(filesize($videoPath));
             // Read the media file and upload it chunk by chunk.
@@ -105,7 +111,7 @@ foreach ($_POST['id'] as $value) {
             $obj->title = $status['snippet']['title'];
             $obj->id = $status['id'];
             $obj->status = $status;
-            $obj->msg = sprintf(__("Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> "), $obj->id, $obj->title);
+            $obj->msg = sprintf(__("Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> ", true), $obj->id, $obj->title);
             $v->setYoutubeId($obj->id);
             $v->save();
         } catch (Google_Service_Exception $e) {

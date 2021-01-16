@@ -1,15 +1,16 @@
 <?php
-
 global $global, $config;
+
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
-class VideoStatistic extends ObjectYPT {
-
+class VideoStatistic extends ObjectYPT
+{
     protected $id;
     protected $when;
     protected $ip;
@@ -18,27 +19,30 @@ class VideoStatistic extends ObjectYPT {
     protected $lastVideoTime;
     protected $session_id;
 
-    static function getSearchFieldsNames() {
+    public static function getSearchFieldsNames()
+    {
         return array();
     }
 
-    static function getTableName() {
+    public static function getTableName()
+    {
         return 'videos_statistics';
     }
 
-    static function create($videos_id, $currentTime = 0) {
+    public static function create($videos_id, $currentTime = 0)
+    {
         global $global;
         /**
          * Dont crash if is an old version
-        
-        $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
-        $result = sqlDal::num_rows($res);
-        sqlDAL::close($res);
-        if (empty($result)) {
-            echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
-            return false;
-        }
- */
+
+          $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
+          $result = sqlDal::num_rows($res);
+          sqlDAL::close($res);
+          if (empty($result)) {
+          echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
+          return false;
+          }
+         */
         if (empty($videos_id)) {
             die(__("You need a video to generate statistics"));
         }
@@ -67,7 +71,8 @@ class VideoStatistic extends ObjectYPT {
         }
     }
 
-    static function updateStatistic($videos_id, $users_id, $lastVideoTime) {
+    public static function updateStatistic($videos_id, $users_id, $lastVideoTime)
+    {
         $lastStatistic = self::getLastStatistics($videos_id, $users_id);
         if (empty($lastStatistic)) {
             $vs = new VideoStatistic(0);
@@ -81,7 +86,8 @@ class VideoStatistic extends ObjectYPT {
         return $vs->save();
     }
 
-    function save() {
+    public function save()
+    {
         $this->setSession_id(session_id());
         if (empty($this->session_id) && empty($this->users_id)) {
             return false;
@@ -92,13 +98,14 @@ class VideoStatistic extends ObjectYPT {
         return parent::save();
     }
 
-    static function getLastStatistics($videos_id, $users_id = 0) {
+    public static function getLastStatistics($videos_id, $users_id = 0)
+    {
         if (!empty($users_id)) {
             $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY modified DESC LIMIT 1 ";
-            $res = sqlDAL::readSql($sql, 'ii', array($videos_id, $users_id));
+            $res = sqlDAL::readSql($sql, 'ii', array($videos_id, $users_id), true);
         } else {
             $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY modified DESC LIMIT 1 ";
-            $res = sqlDAL::readSql($sql, 'is', array($videos_id, session_id()));
+            $res = sqlDAL::readSql($sql, 'is', array($videos_id, session_id()), true);
         }
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
@@ -108,7 +115,8 @@ class VideoStatistic extends ObjectYPT {
         return false;
     }
 
-    static function getLastVideoTimeFromVideo($videos_id, $users_id) {
+    public static function getLastVideoTimeFromVideo($videos_id, $users_id)
+    {
         $row = self::getLastStatistics($videos_id, $users_id);
         if (empty($row)) {
             return 0;
@@ -116,7 +124,8 @@ class VideoStatistic extends ObjectYPT {
         return intval($row['lastVideoTime']);
     }
 
-    static function getStatisticTotalViews($videos_id, $uniqueUsers = false, $startDate = "", $endDate = "") {
+    public static function getStatisticTotalViews($videos_id, $uniqueUsers = false, $startDate = "", $endDate = "")
+    {
         global $global;
         if ($uniqueUsers) {
             $ast = "distinct(users_id)";
@@ -152,10 +161,11 @@ class VideoStatistic extends ObjectYPT {
         return 0;
     }
 
-    static function getTotalLastDaysAsync($video_id, $numberOfDays) {
+    public static function getTotalLastDaysAsync($video_id, $numberOfDays)
+    {
         global $global, $advancedCustom;
         $md5 = ("{$video_id}_{$numberOfDays}");
-        $path = $global['systemRootPath'] . "videos/cache/getTotalLastDaysAsync/";
+        $path = getCacheDir() . "getTotalLastDaysAsync/";
         make_path($path);
         $cacheFileName = "{$path}{$md5}";
         if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
@@ -176,7 +186,8 @@ class VideoStatistic extends ObjectYPT {
         return $return;
     }
 
-    static function getTotalLastDays($video_id, $numberOfDays, $returnArray = array()) {
+    public static function getTotalLastDays($video_id, $numberOfDays, $returnArray = array())
+    {
         if ($numberOfDays < 0) {
             return $returnArray;
         }
@@ -186,7 +197,8 @@ class VideoStatistic extends ObjectYPT {
         return static::getTotalLastDays($video_id, $numberOfDays, $returnArray);
     }
 
-    static function getTotalToday($video_id, $hour = 0, $returnArray = array()) {
+    public static function getTotalToday($video_id, $hour = 0, $returnArray = array())
+    {
         if ($hour >= 24) {
             return $returnArray;
         }
@@ -197,9 +209,10 @@ class VideoStatistic extends ObjectYPT {
         return static::getTotalToday($video_id, $hour, $returnArray);
     }
 
-    static function getTotalTodayAsync($video_id) {
+    public static function getTotalTodayAsync($video_id)
+    {
         global $global, $advancedCustom;
-        $cacheFileName = $global['systemRootPath'] . "videos/cache/getTotalTodayAsync_{$video_id}";
+        $cacheFileName = getCacheDir() . "getTotalTodayAsync_{$video_id}";
         if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
             if (file_exists($cacheFileName . ".lock")) {
                 return array();
@@ -218,55 +231,198 @@ class VideoStatistic extends ObjectYPT {
         return $return;
     }
 
-    function getWhen() {
+    public function getWhen()
+    {
         return $this->when;
     }
 
-    function getIp() {
+    public function getIp()
+    {
         return $this->ip;
     }
 
-    function getUsers_id() {
+    public function getUsers_id()
+    {
         return $this->users_id;
     }
 
-    function getVideos_id() {
+    public function getVideos_id()
+    {
         return $this->videos_id;
     }
 
-    function getLastVideoTime() {
+    public function getLastVideoTime()
+    {
         return $this->lastVideoTime;
     }
 
-    function setWhen($when) {
+    public function setWhen($when)
+    {
         $this->when = $when;
     }
 
-    function setIp($ip) {
+    public function setIp($ip)
+    {
         $this->ip = $ip;
     }
 
-    function setUsers_id($users_id) {
+    public function setUsers_id($users_id)
+    {
         $this->users_id = intval($users_id);
         if (empty($this->users_id)) {
             $this->users_id = 'null';
         }
     }
 
-    function setVideos_id($videos_id) {
+    public function setVideos_id($videos_id)
+    {
         $this->videos_id = intval($videos_id);
     }
 
-    function setLastVideoTime($lastVideoTime) {
+    public function setLastVideoTime($lastVideoTime)
+    {
         $this->lastVideoTime = intval($lastVideoTime);
     }
 
-    function getSession_id() {
+    public function getSession_id()
+    {
         return $this->session_id;
     }
 
-    function setSession_id($session_id) {
+    public function setSession_id($session_id)
+    {
         $this->session_id = $session_id;
     }
 
+    public static function getChannelsWithMoreViews($daysLimit = 30)
+    {
+        global $global;
+        // get unique videos ids from the requested timeframe
+        $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics WHERE DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $channels = array();
+        if ($res != false) {
+            $channelsPerUser = array();
+            // get the channel owner from each of those videos
+            foreach ($fullData as $row) {
+                $users_id = Video::getOwner($row['videos_id']);
+                if (empty($channelsPerUser[$users_id])) {
+                    $channelsPerUser[$users_id] = array();
+                }
+                $channelsPerUser[$users_id][] = $row['videos_id'];
+            }
+            foreach ($channelsPerUser as $key => $value) {
+                // count how many views each one has
+                $sql2 = "SELECT count(id) as total FROM videos_statistics WHERE videos_id IN (" . implode(",", $value) . ") AND DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+                $res2 = sqlDAL::readSql($sql2);
+                $result2 = sqlDAL::fetchAssoc($res2);
+                sqlDAL::close($res2);
+                if (!empty($result2)) {
+                    $channels[$key]['users_id'] = $key;
+                    $channels[$key]['total'] = intval($result2['total']);
+                }
+            }
+        }
+        // return more first
+        usort($channels, function ($a, $b) {
+            return $a['total'] - $b['total'];
+        });
+        return $channels;
+    }
+
+    public static function getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly, $daysLimit = 30)
+    {
+        global $global;
+        // get unique videos ids from the requested timeframe
+        $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics s "
+                . " LEFT JOIN videos v ON v.id = videos_id "
+                . " WHERE DATE(s.created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+
+        if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
+            $sql .= " AND v.users_id = '" . User::getId() . "'";
+        } elseif (!empty($showOnlyLoggedUserVideos)) {
+            $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
+        }
+
+        if (!empty($_GET['channelName'])) {
+            $user = User::getChannelOwner($_GET['channelName']);
+            $sql .= " AND v.users_id = '{$user['id']}' ";
+        }
+        if ($status == "viewable") {
+            if (User::isLogged()) {
+                $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='" . User::getId() . "'))";
+            } else {
+                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+            }
+        } elseif ($status == "viewableNotUnlisted") {
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
+        } elseif (!empty($status)) {
+            $sql .= " AND v.status = '{$status}'";
+        }
+        $sql .= AVideoPlugin::getVideoWhereClause();
+
+        if ($suggestedOnly) {
+            $sql .= " AND v.isSuggested = 1 ";
+        }
+
+        $sql .= static::getSqlLimit();
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $channels = array();
+        $videos = array();
+        if ($res != false) {
+            foreach ($fullData as $key => $value) {
+                // count how many views each one has
+                $sql2 = "SELECT count(id) as total FROM videos_statistics WHERE videos_id = {$value['videos_id']} AND DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+
+                $res2 = sqlDAL::readSql($sql2);
+                $result2 = sqlDAL::fetchAssoc($res2);
+                sqlDAL::close($res2);
+                if (!empty($result2)) {
+                    $video = Video::getVideo($value['videos_id'], $status, false, false, $suggestedOnly, $showUnlisted, false, $showOnlyLoggedUserVideos);
+                    if (empty($video)) {
+                        continue;
+                    }
+                    $video['total'] = $result2['total'];
+                    $videos[] = $video;
+                }
+            }
+        }
+        // return more first
+        usort($videos, function ($a, $b) {
+            return $a['total'] - $b['total'];
+        });
+        return $videos;
+    }
+
+    public static function getUsersIDFromChannelsWithMoreViews($daysLimit = 30)
+    {
+        $channels = self::getChannelsWithMoreViews($daysLimit);
+        $users_id = array();
+        foreach ($channels as $value) {
+            $users_id[] = $value['users_id'];
+        }
+        return $users_id;
+    }
+
+    public static function getChannelsTotalViews($users_id, $daysLimit = 30)
+    {
+        global $global;
+        $users_id = intval($users_id);
+        // count how many views each one has
+        $sql2 = "SELECT count(s.id) as total FROM videos_statistics s "
+                . " LEFT JOIN videos v ON v.id = videos_id WHERE v.users_id = $users_id "
+                . " AND DATE(s.created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+        $res2 = sqlDAL::readSql($sql2);
+        $result2 = sqlDAL::fetchAssoc($res2);
+        sqlDAL::close($res2);
+        if (!empty($result2)) {
+            return intval($result2['total']);
+        }
+        return 0;
+    }
 }

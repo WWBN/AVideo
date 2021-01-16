@@ -20,7 +20,7 @@ function fixCommentText($subject){
 foreach ($comments as $key => $value) {
     $name = User::getNameIdentificationById($value['users_id']);
     //$comments[$key]['comment'] = " <div class=\"commenterName\"><strong>{$name}</strong><div class=\"date sub-text\">{$value['created']}</div></div><div class=\"commentText\">". nl2br($value['comment'])."</div>";
-    $comments[$key]['comment'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong><a href="'.User::getChannelLink($value['users_id']).'/">'.$name.'</a></strong> <small>'.humanTiming(strtotime($value['created'])).'</small></div>'. fixCommentText(textToLink($value['commentHTML'])).'</div>';
+    $comments[$key]['comment'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="User Photo" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong><a href="'.User::getChannelLink($value['users_id']).'">'.$name.'</a></strong> <small>'.humanTiming(strtotime($value['created'])).'</small></div>'. fixCommentText(textToLink($value['commentHTML'])).'</div>';
     $comments[$key]['total_replies'] = Comment::getTotalComments($_GET['video_id'], $comments[$key]['id']);
     $comments[$key]['video'] = Video::getVideo($comments[$key]['videos_id']);
     unset($comments[$key]['video']['description']);
@@ -29,4 +29,4 @@ foreach ($comments as $key => $value) {
     $comments[$key]['userCanEditComment'] = Comment::userCanEditComment($comments[$key]['id']);
 }
 
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($comments).'}';
+echo '{  "current": '. getCurrentPage().',"rowCount": '. getRowCount().', "total": '.$total.', "rows":'. json_encode($comments).'}';

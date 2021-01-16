@@ -26,7 +26,7 @@ if ($oIMDB->isReady) {
     if (empty($_GET['what']) || $_GET['what'] == 1) {
         // get poster
         $poster = $oIMDB->getPoster('big', true);
-        $filename = "{$global['systemRootPath']}videos/{$videoFileName}_portrait.jpg";
+        $filename = Video::getStoragePath()."{$videoFileName}_portrait.jpg";
         im_resizeV2($poster, $filename, $plugin->posterWidth, $plugin->posterHeight);
     }
 

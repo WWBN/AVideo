@@ -14,7 +14,7 @@ if (!User::canUpload()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: <?php echo __("Upload your file"); ?></title>
+        <title><?php echo __("Upload your file") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
 
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
@@ -63,7 +63,7 @@ if (!User::canUpload()) {
                     <div class="alert alert-warning">
                         <h1>
                             <span class="glyphicon glyphicon-warning-sign" style="font-size:1em;"></span>
-                            <?php echo __("This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder2.avideo.com/' class='btn btn-warning btn-xs'>public</a> one"); ?>
+                            <?php echo __("This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>public</a> one"); ?>
                         </h1>
                     </div>
                     <?php

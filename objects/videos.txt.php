@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-type: text/plain');
 $showOnlyLoggedUserVideos = true;
-if (User::isAdmin()) {
+if (Permissions::canModerateVideos()) {
     $showOnlyLoggedUserVideos = false;
 }
 $videos = Video::getAllVideosLight('', $showOnlyLoggedUserVideos, false);
@@ -18,5 +18,5 @@ foreach ($videos as $key => $value) {
     }else{
         echo Video::getURLFriendlyFromCleanTitle($videos[$key]['clean_title']);
     }
-    echo "\r\n";
+    echo PHP_EOL;
 }

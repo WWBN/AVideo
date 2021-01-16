@@ -4,6 +4,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class LoginYahoo extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$LOGIN,
+        );
+    }
     public function getDescription() {
         global $global;
         $obj = $this->getLogin();
@@ -33,10 +39,6 @@ class LoginYahoo extends PluginAbstract {
         $obj->id = "";
         $obj->key = "";
         return $obj;
-    }
-    
-    public function getTags() {
-        return array('free', 'login', 'yahoo');
     }
     
     public function getLogin() {

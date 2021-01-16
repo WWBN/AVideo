@@ -15,27 +15,43 @@ class MenuItem extends ObjectYPT {
     static function getTableName() {
         return 'topMenu_items';
     }
-    
+
     static function getAllFromMenu($menu_id, $activeOnly = false, $sort = true) {
         global $global;
         $menu_id = intval($menu_id);
-        if(empty($menu_id)){
+        if (empty($menu_id)) {
             return false;
         }
-        $sql = "SELECT * FROM  ".static::getTableName()." WHERE topMenu_id = {$menu_id}";
-        
-        if($activeOnly){
-            $sql .= " AND status = 'active' ";
-        }       
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE topMenu_id = {$menu_id}";
 
-        if($sort){
+        if ($activeOnly) {
+            $sql .= " AND status = 'active' ";
+        }
+
+        if ($sort) {
             $sql .= " ORDER BY item_order ";
         }
-        
+
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
+            $webSiteRootURLParse = parse_url($global['webSiteRootURL']);
+            $webSiteRootURLParse['host'] = strtolower($webSiteRootURLParse['host']);
             while ($row = $res->fetch_assoc()) {
+                $row['finalURL'] = $row['url'];
+                $row['target'] = "";
+                if (!empty($row['url']) && strpos($row['url'], 'iframe:') === false) {// it is not an iframe
+                    $parse = parse_url($row['url']);
+                    if (!empty($parse['host']) && strtolower($parse['host']) !== $webSiteRootURLParse['host']) {// it is to another domain
+                        $row['target'] = " target='_blank' rel='noopener noreferrer' ";
+                    }
+                } else {
+                    if (!empty($row['menuSeoUrlItem'])) {
+                        $row['finalURL'] = $global['webSiteRootURL'] . "menu/{$row['menuSeoUrlItem']}";
+                    } else {
+                        $row['finalURL'] = $global['webSiteRootURL'] . "plugin/TopMenu/?id={$row['id']}";
+                    }
+                }
                 $rows[] = $row;
             }
         } else {
@@ -43,7 +59,7 @@ class MenuItem extends ObjectYPT {
         }
         return $rows;
     }
-    
+
     function setTitle($title) {
         $this->title = $title;
     }
@@ -78,8 +94,8 @@ class MenuItem extends ObjectYPT {
 
     function setText($text) {
         $this->text = $text;
-    }    
-    
+    }
+
     function setIcon($icon) {
         $this->icon = $icon;
     }
@@ -87,31 +103,30 @@ class MenuItem extends ObjectYPT {
     function setClean_url($clean_url) {
         $this->clean_url = $clean_url;
     }
-    
-    function setmenuSeoUrlItem($menuSeoUrlItem){
-        $this->menuSeoUrlItem=$menuSeoUrlItem;
+
+    function setmenuSeoUrlItem($menuSeoUrlItem) {
+        $this->menuSeoUrlItem = $menuSeoUrlItem;
     }
 
-        
     function save() {
         global $global;
-        if(empty($this->title)){
+        if (empty($this->title)) {
             $this->title = "Unknow Item Menu Title";
         }
-        if(empty($this->status)){
+        if (empty($this->status)) {
             $this->status = "active";
         }
-        if(empty($this->menuSeoUrlItem)){
-            $this->menuSeoUrlItem=$this->title;
+        if (empty($this->menuSeoUrlItem)) {
+            $this->menuSeoUrlItem = $this->title;
         }
-        $this->menuSeoUrlItem=$global['mysqli']->real_escape_string(preg_replace('/[^a-z0-9]+/', '_', strtolower($this->title)));     
-        
+        $this->menuSeoUrlItem = $global['mysqli']->real_escape_string(preg_replace('/[^a-z0-9]+/', '_', strtolower($this->title)));
+
         $this->title = $global['mysqli']->real_escape_string($this->title);
         $this->text = $global['mysqli']->real_escape_string($this->text);
-        
+
         return parent::save();
     }
-    
+
     function getTitle() {
         return $this->title;
     }
@@ -119,13 +134,9 @@ class MenuItem extends ObjectYPT {
     function getText() {
         return $this->text;
     }
-    
+
     function getUrl() {
         return $this->url;
     }
 
-
-
-
-    
 }

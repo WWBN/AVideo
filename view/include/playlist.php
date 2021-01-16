@@ -1,13 +1,38 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+global $isSerie;
+$isSerie = 1;
 $playlist = new PlayList($playlist_id);
+
+$rowCount = getRowCount();
+$_REQUEST['rowCount'] = 1000;
+
 $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
+
+$videoSerie = Video::getVideoFromSeriePlayListsId($playlist_id);
+
+$_REQUEST['rowCount'] = $rowCount;
+
+if (!empty($videoSerie)) {
+    $playListObject = AVideoPlugin::getObjectData("PlayLists");
+    $videoSerie = Video::getVideo($videoSerie["id"], "", true);
+    if (!empty($playListObject->showTrailerInThePlayList) && !empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== FALSE) {
+        $videoSerie["type"] = "embed";
+        $videoSerie["videoLink"] = $videoSerie["trailer1"];
+        array_unshift($playlistVideos, $videoSerie);
+    }
+}
 ?>
 <div class="playlist-nav">
     <nav class="navbar navbar-inverse">
         <ul class="nav navbar-nav">
             <li class="navbar-header">
                 <a>
+                <div class="pull-right">
+                    <?php
+                    echo PlayLists::getPlayLiveButton($playlist_id);
+                    ?>
+                </div>
                     <h3 class="nopadding">
                         <?php
                         echo $playlist->getName();
@@ -35,7 +60,7 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                 }
                 ?>
                 <li class="<?php echo $class; ?>">
-                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count."/{$value["channelName"]}/".urlencode($playlist->getName())."/{$value['clean_title']}"; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count . "/".urlencode(cleanURLName($value["channelName"]))."/" . urlencode(cleanURLName($playlist->getName())) . "/{$value['clean_title']}"; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
                         <div class="col-md-1 col-sm-1 col-xs-1">
                             <?php echo $indicator; ?>
                         </div>
@@ -52,14 +77,14 @@ $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" itemprop="thumbnail" />
 
                             <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                            <span itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], $catLink, "video/", $value['clean_title']; ?>" />
+                            <span itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], @$catLink, "video/", $value['clean_title']; ?>" />
                             <span itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
                             <span itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
                             <?php
                             if ($value['type'] !== 'pdf' && $value['type'] !== 'article' && $value['type'] !== 'serie') {
                                 ?>
-                                <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                <time class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                                 <div class="progress" style="height: 3px; margin-bottom: 2px;">
                                     <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div> 

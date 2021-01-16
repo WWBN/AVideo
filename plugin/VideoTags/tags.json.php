@@ -1,5 +1,6 @@
 <?php
 require_once '../../videos/configuration.php';
+session_write_close();
 require_once $global['systemRootPath'].'plugin/VideoTags/Objects/Tags.php';
 header('Content-Type: application/json');
 

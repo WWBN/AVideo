@@ -1,0 +1,16 @@
+@media all and (max-width: 767px) {
+    .vjs-picture-in-picture-control ,
+    .player-logo,
+    .vjs-playback-rate,
+    .vjs-seek-button{
+        display: none !important;
+    }
+}
+@media (max-width: 1200px) {
+    .vjs-button:not(.player-logo)  {
+        max-width: 30px;
+    }
+    .vjs-remaining-time{
+        display: none !important;
+    }
+}

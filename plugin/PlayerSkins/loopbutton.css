@@ -1,0 +1,17 @@
+.loop-button{
+  outline: none;
+}
+.loop-button:before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    content: "\f021";
+    font-size: 1.2em;
+    line-height: 1.0em;
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
+}
+.loop-disabled-button:before {
+    opacity: 0.2;
+}

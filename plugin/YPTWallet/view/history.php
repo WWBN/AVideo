@@ -18,7 +18,7 @@ if (!empty($_GET['users_id'])) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Support Author</title>
+        <title><?php echo __("History") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -31,7 +31,7 @@ if (!empty($_GET['users_id'])) {
         <div class="container">
             <div class="panel panel-default">
                 <div class="panel-heading"  style="height: 70px;">
-                    <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-circle pull-left" style="height: 50px; margin-right: 10px;">
+                    <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-circle pull-left" style="height: 50px; margin-right: 10px;" alt="User Photo">
                     <h1><?php echo User::getNameIdentificationById($users_id); ?></h1>
                 </div>
                 <div class="panel-body">
@@ -145,7 +145,7 @@ if (User::isAdmin()) {
                                         modal.hidePleaseWait();
                                         if (response.error) {
                                             setTimeout(function () {
-                                                swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                                             }, 500);
                                         } else {
                                             $("#grid").bootgrid("reload");

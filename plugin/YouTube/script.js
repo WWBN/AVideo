@@ -12,7 +12,7 @@ $(document).ready(function () {
     });
     //$("#buttonSearch, #buttonMyNavbar").off('click');
     if ($(window).width() < 1500) {
-        var youTubeMenuIsOpened = Cookies.get('youTubeMenuIsOpened');
+        youTubeMenuIsOpened = Cookies.get('youTubeMenuIsOpened');
         if(typeof youTubeMenuIsOpened === 'undefined'){
             $('#buttonMenu').trigger("click");
         }

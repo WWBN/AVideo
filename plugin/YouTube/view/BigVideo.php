@@ -45,7 +45,7 @@ if ($objYTube->BigVideo && empty($_GET['showOnly'])) {
                 <div class="text-muted galeryDetails">
                     <div>
                         <?php if (empty($_GET['catName'])) { ?>
-                            <a class="label label-default" href="<?php echo Video::getLink($video['id'], $video['clean_title'], false, $get); ?>/">
+                            <a class="label label-default" href="<?php echo Video::getLink($video['id'], $video['clean_title'], false, $get); ?>">
                                 <?php
                                 if (!empty($video['iconClass'])) {
                                     ?>
@@ -72,7 +72,7 @@ if ($objYTube->BigVideo && empty($_GET['showOnly'])) {
 
                     <?php
                     if (empty($advancedCustom->doNotDisplayViews)) {
-                        ?> 
+                        ?>
                         <div>
                             <i class="fa fa-eye"></i>
                             <span itemprop="interactionCount"><?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?></span>

@@ -21,7 +21,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 unset($_SESSION['recurrentSubscription']['plans_id']);
 if(!empty($_POST['plans_id'])){
-    $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];    
+    $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];
 }
 
 $subs = new SubscriptionPlansTable($_POST['plans_id']);
@@ -45,5 +45,7 @@ if (!empty($payment)) {
     }
     $obj->error = false;
     $obj->approvalLink = $payment->getApprovalLink();
+    _session_start();
+    $_SESSION['addFunds_Cancel'] = $_SESSION['addFunds_Success'] = "{$global['webSiteRootURL']}plugin/Subscription/showPlans.php";
 }
 die(json_encode($obj));

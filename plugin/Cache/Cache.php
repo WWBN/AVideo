@@ -4,6 +4,13 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Cache extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$RECOMMENDED,
+            PluginTags::$FREE
+        );
+    }
+
     public function getDescription() {
         $txt = "AVideo application accelerator to cache pages.<br>Your website has 10,000 visitors who are online, and your dynamic page has to send 10,000 times the same queries to database on every page load. With this plugin, your page only sends 1 query to your DB, and uses the cache to serve the 9,999 other visitors.";
         $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Cache-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
@@ -34,11 +41,11 @@ class Cache extends PluginAbstract {
         return $obj;
     }
 
-    public function getCacheDir() {
+    public function getCacheDir($ignoreFirstPage = true) {
         global $global;
         $obj = $this->getDataObject();
         $firstPage = "";
-        if ($this->isFirstPage()) {
+        if (!$ignoreFirstPage && $this->isFirstPage()) {
             $firstPage = "firstPage/";
         }
 
@@ -50,13 +57,7 @@ class Cache extends PluginAbstract {
                 mkdir($obj->cacheDir, 0777, true);
             }
         }
-
-
         return $obj->cacheDir . $firstPage;
-    }
-
-    public function getTags() {
-        return array('free', 'cache', 'speed up');
     }
 
     private function getFileName() {
@@ -128,7 +129,7 @@ class Cache extends PluginAbstract {
 
         $isBot = isBot();
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
-            $cachefile = $this->getCacheDir() . $this->getFileName(); // e.g. cache/index.php.
+            $cachefile = $this->getCacheDir(false) . $this->getFileName(); // e.g. cache/index.php.
             $lifetime = $obj->cacheTimeInSeconds;
             if (!empty($_GET['lifetime'])) {
                 $lifetime = intval($_GET['lifetime']);
@@ -136,7 +137,7 @@ class Cache extends PluginAbstract {
             // if is a bot always show a cache
             if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile)) || $isBot)) {
                 if ($isBot && $_SERVER['REQUEST_URI'] !== '/login') {
-                    _error_log("Bot Detected, showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
+                    //_error_log("Bot Detected, showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
                 }
                 $c = @local_get_contents($cachefile);
                 if (preg_match("/\.json\.?/", $baseName)) {
@@ -152,7 +153,7 @@ class Cache extends PluginAbstract {
             }
         }
 
-        if ($isBot && strpos($_SERVER['REQUEST_URI'], 'aVideoEncoder') === false) {
+        if ($isBot && !self::isREQUEST_URIWhitelisted() && $_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
             if (empty($_SERVER['HTTP_USER_AGENT'])) {
                 $_SERVER['HTTP_USER_AGENT'] = "";
             }
@@ -166,6 +167,27 @@ class Cache extends PluginAbstract {
         ob_start();
     }
 
+    private function isREQUEST_URIWhitelisted() {
+        $cacheBotWhitelist = array(
+            'aVideoEncoder',
+            'plugin/Live/on_',
+            'plugin/YPTStorage',
+            '/login',
+            'restreamer.json.php',
+            'plugin/API',
+            '/info?version=',
+            'Meet',
+            '/roku.json',
+            'mrss');
+        foreach ($cacheBotWhitelist as $value) {
+            if (strpos($_SERVER['REQUEST_URI'], $value) !== false) {
+                _error_log("Cache::isREQUEST_URIWhitelisted: ($value) is whitelisted");
+                return true;
+            }
+        }
+        return false;
+    }
+
     private function isBlacklisted() {
         $blacklistedFiles = array('videosAndroid.json.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
@@ -175,16 +197,18 @@ class Cache extends PluginAbstract {
     public function getEnd() {
         global $global;
         $obj = $this->getDataObject();
-        $cachefile = $this->getCacheDir() . $this->getFileName();
+        $cachefile = $this->getCacheDir(false) . $this->getFileName();
         $c = ob_get_contents();
-        header_remove('Set-Cookie');
-        /*
-        if (!file_exists($this->getCacheDir())) {
-            mkdir($this->getCacheDir(), 0777, true);
+        if (!headers_sent()) {
+            header_remove('Set-Cookie');
         }
+        /*
+          if (!file_exists($this->getCacheDir())) {
+          mkdir($this->getCacheDir(), 0777, true);
+          }
          * 
          */
-        
+
         make_path($cachefile);
 
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
@@ -200,12 +224,12 @@ class Cache extends PluginAbstract {
         $time = microtime();
         $time = explode(' ', $time);
         $time = $time[1] + $time[0];
-        $global['start'] = $time;
+        $global['cachePluginStart'] = $time;
     }
 
     private function end($type = "No Cache") {
         global $global;
-        if (empty($global['start'])) {
+        if (empty($global['cachePluginStart'])) {
             return false;
         }
         require_once $global['systemRootPath'] . 'objects/user.php';
@@ -219,7 +243,7 @@ class Cache extends PluginAbstract {
         } else {
             $type = "User: Not Logged - " . $type;
         }
-        $t = (floatval($finish) - floatval($global['start']));
+        $t = (floatval($finish) - floatval($global['cachePluginStart']));
         $total_time = round($t, 4);
         _error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
     }

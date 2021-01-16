@@ -6,8 +6,7 @@
 </script>
 <script src="<?php echo $global['webSiteRootURL'] ?>plugin/Chromecast/videojs-chromecast/silvermine-videojs-chromecast.js" type="text/javascript"></script>
 <script>
-    if (typeof player === 'undefined') {
-        player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(",controls: true,techOrder: ['chromecast', 'html5'], plugins: {chromecast: {}}"); ?>);
-    }
-    player.chromecast();
+    <?php
+    echo PlayerSkins::getStartPlayerJS('player.chromecast();',",controls: true,techOrder: ['chromecast', 'html5'], plugins: {chromecast: {}}");
+    ?>
 </script>

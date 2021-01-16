@@ -1,98 +1,55 @@
 <?php
+
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
-session_write_close();
-require_once './Objects/LiveTransmition.php';
-require_once '../../objects/user.php';
-$p = AVideoPlugin::loadPluginIfEnabled("Live");
+
+if(!requestComesFromSafePlace()){
+    _error_log("Why are you requesting this ".getSelfURI()." ".json_encode($_SERVER));
+    die();
+}
 
 ini_set('max_execution_time', 10);
 set_time_limit(10);
-$obj = new stdClass();
-$obj->error = true;
-$obj->msg = "OFFLINE";
-$obj->nclients = 0;
-if(empty($_POST['name']) && !empty($_GET['name'])){
-    $_POST['name'] = $_GET['name'];
-}else if(empty($_POST['name'])){
-    $_POST['name'] = "undefined";
-}
-$obj->name = $_POST['name'];
-$obj->applications = array();
-$_GET['lifetime'] = "10";
-if(empty($p)){
-    die(json_encode($obj));
-}
-$xml = $p->getStatsObject();
-$xml = json_encode($xml);
-$xml = json_decode($xml);
+session_write_close();
+$pobj = AVideoPlugin::getDataObjectIfEnabled("Live");
 
-$stream = false;
-$lifeStream = array();
-//$obj->server = $xml->server;
-if(!empty($xml->server->application) && !is_array($xml->server->application)){
-    $application = $xml->server->application;
-    $xml->server->application = array();
-    $xml->server->application[] = $application;
+if (empty($pobj)) {
+    die(json_encode("Plugin disabled"));
 }
-if(!empty($xml->server->application[0]->live->stream)){
-    $lifeStream = $xml->server->application[0]->live->stream;
-    if(!is_array($xml->server->application[0]->live->stream)){
-        $lifeStream = array();
-        $lifeStream[0] = $xml->server->application[0]->live->stream;
+$live_servers_id = Live::getCurrentLiveServersId();
+$cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']. json_encode($_REQUEST));
+$json = ObjectYPT::getSessionCache($cacheName, $pobj->cacheStatsTimout);
+if(empty($json)){
+    $json = Live::getStats();
+    if(!is_array($json) && is_object($json)){
+        $json = object_to_array($json);
     }
-}
-
-require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-// the live users plugin
-$liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
-
-$obj->disableGif = $p->getDisableGifThumbs();
-$obj->countLiveStream = count($lifeStream);
-foreach ($lifeStream as $value){
-    if(!empty($value->name)){
-        $row = LiveTransmition::keyExists($value->name);
-        if(!empty($row) && $value->name === $_POST['name']){
-            $obj->msg = "ONLINE";
+    $appArray = AVideoPlugin::getLiveApplicationArray();
+    if(!empty($appArray)){
+        if(empty($json)){
+            $json = new stdClass();
         }
-        if(empty($row) || empty($row['public'])){
-            continue;
+        $json['error'] = false;
+        if(empty($json['msg'])){
+            $json['msg'] = "OFFLINE";
         }
-        
-        $users = false;
-        if($liveUsersEnabled){
-            $filename = $global['systemRootPath'] . 'plugin/LiveUsers/Objects/LiveOnlineUsers.php';
-            if(file_exists($filename)){
-                require_once $filename;
-                $liveUsers = new LiveOnlineUsers(0);
-                $users = $liveUsers->getUsersFromTransmitionKey($value->name);
-            }
+        $json['nclients'] = count($appArray);
+        if(empty($json['applications'])){
+            $json['applications'] = array();
         }
-        
-        $u = new User($row['users_id']);
-        if($u->getStatus()!=='a'){
-            continue;
-        }
-        
-        $userName = $u->getNameIdentificationBd();
-        $user = $u->getUser();
-        $channelName = $u->getChannelName();
-        $photo = $u->getPhotoDB();
-        $UserPhoto = $u->getPhoto();
-        $obj->applications[] = array("key"=>$value->name, "users"=>$users, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>$row['title'], 'channelName'=>$channelName);
-        if($value->name === $_POST['name']){
-            $obj->error = property_exists($value, 'publishing')?false:true;
-            $obj->msg = (!$obj->error)?"ONLINE":"Waiting for Streamer";
-            $obj->stream = $value;
-            $obj->nclients = intval($value->nclients);
-            break;
-        }
+        $json['applications'] = array_merge($json['applications'] , $appArray);
     }
+    
+    $count = 0;
+    $json['total'] = 0;
+    if(!empty($json['applications'])){
+        $json['total'] += count($json['applications']);
+    }
+    while (!empty($json[$count])) {
+        $json['total'] += count($json[$count]->applications);
+        $count++;
+    }    
+    
+    ObjectYPT::setSessionCache($cacheName, $json);
 }
-
-$appArray = AVideoPlugin::getLiveApplicationArray();
-$obj->applications = array_merge($obj->applications, $appArray);
-
-echo json_encode($obj);
-
-include $global['systemRootPath'].'objects/include_end.php';
+echo json_encode($json);

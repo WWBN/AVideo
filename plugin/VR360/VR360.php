@@ -7,6 +7,11 @@ class VR360 extends PluginAbstract {
 
     private $script = 'panorama';
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         return "Panoramic 360 video player. Project video onto different shapes";
     }
@@ -90,10 +95,6 @@ class VR360 extends PluginAbstract {
         });
     }(window, window.videojs));</script>';
         return $js;
-    }
-    
-    public function getTags() {
-        return array('free');
     }
 
 }

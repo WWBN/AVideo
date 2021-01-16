@@ -21,7 +21,7 @@ foreach ($_POST['id'] as $value) {
     if (empty($obj)) {
         die("Object not found");
     }
-    if (!$obj->userCanManageVideo()) {
+    if (!$obj->userCanManageVideo() && !Permissions::canModerateVideos()) {
         $obj->msg = __("You can not Manage This Video");
         die(json_encode($obj));
     }

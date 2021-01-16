@@ -21,19 +21,8 @@ if (!empty($_GET['type'])) {
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
-$currentCatType;
 if (!empty($_GET['catName'])) {
     $currentCat = Category::getCategoryByName($_GET['catName']);
-    $currentCatType = Category::getCategoryType($currentCat['id']);
-}
-if ((empty($_GET['type'])) && (!empty($currentCatType))) {
-    if ($currentCatType['type'] == "1") {
-        $_SESSION['type'] = "audio";
-    } else if ($currentCatType['type'] == "2") {
-        $_SESSION['type'] = "video";
-    } else {
-        unset($_SESSION['type']);
-    }
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 $orderString = "";
@@ -113,7 +102,7 @@ $contentSearchFound = false;
                             <?php echo getAdsLeaderBoardTop2(); ?>
                         </center>
                         <!-- For Live Videos -->
-                        <div id="liveVideos" class="clear clearfix" style="display: none;">
+                        <div id="liveVideos" class="clear clearfix" style="display:none;">
                             <h3 class="YouTubeTitle text-danger"> <i class="fas fa-play-circle"></i> <?php echo __("Live"); ?></h3>
                             <div class="row extraVideos"></div>
                         </div>
@@ -153,7 +142,7 @@ $contentSearchFound = false;
                             unset($_POST['sort']);
                             unset($_POST['rowCount']);
                             $categories = Category::getAllCategories();
-                            $_POST['rowCount'] = $objYTube->CategoriesRowCount;
+                            $_REQUEST['rowCount'] = $objYTube->CategoriesRowCount;
                             $showAllVideos = false;
                             if (!empty($_GET['catName'])) {
                                 $showAllVideos = true;

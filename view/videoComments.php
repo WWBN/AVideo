@@ -12,17 +12,23 @@ if (User::canSeeCommentTextarea()) {
             }
             ?>><?php
                           if (!User::canComment()) {
-                              echo __("You cannot comment on videos");
+                              if (User::isLogged()) {
+                                  echo __("Verify your email to be able to comment");
+                              } else {
+                                  echo __("You must login to be able to comment on videos");
+                              }
                           }
                           ?></textarea>
-            <?php if (User::canComment()) { ?>
+                <?php if (User::canComment()) { ?>
                 <span class="input-group-addon btn btn-success" id="saveCommentBtn" <?php
-                if (!User::canComment()) {
-                    echo "disabled='disabled'";
-                }
-                ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
-                  <?php } else { ?>
-                <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user"><span class="glyphicon glyphicon-log-in"></span> <?php echo __("You must login to be able to comment on videos"); ?></a>
+            if (!User::canComment()) {
+                echo "disabled='disabled'";
+            }
+                    ?>><span class="glyphicon glyphicon-comment"></span> <?php echo __("Comment"); ?></span>
+                  <?php } else if (User::isLogged()) { ?>
+                <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user" data-toggle="tooltip" title="<?php echo __("Verify your email to be able to comment"); ?>"><span class="glyphicon glyphicon-log-in"></span> <span class="hidden-sm hidden-xs"><?php echo __("Verify your email to be able to comment"); ?></span></a>
+            <?php } else { ?>
+                <a class="input-group-addon btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>user" data-toggle="tooltip" title="<?php echo __("You must login to be able to comment on videos"); ?>"><span class="glyphicon glyphicon-log-in"></span> <span class="hidden-sm hidden-xs"><?php echo __("You must login to be able to comment on videos"); ?></span></a>
             <?php } ?>
         </div>
         <div class="pull-right" id="count_message"></div>
@@ -227,7 +233,7 @@ if (User::canSeeCommentTextarea()) {
                                 data: {'comment': comment, 'video': video, 'comments_id': comments_id, 'id': id},
                                 success: function (response) {
                                     if (response.status === "1") {
-                                        swal("<?php echo __("Congratulations"); ?>!", "<?php echo __("Your comment has been saved!"); ?>", "success");
+                                        avideoToast("<?php echo __("Your comment has been saved!"); ?>");
                                         if (comments_id) {
                                             if ($('.grid' + comments_id).hasClass('bootgrid-table')) {
                                                 $('.grid' + comments_id).bootgrid('reload');
@@ -240,13 +246,13 @@ if (User::canSeeCommentTextarea()) {
                                         }
                                         addCommentCount(comments_id, 1);
                                     } else {
-                                        swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
+                                        avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
                                     }
                                     modal.hidePleaseWait();
                                 }
                             });
                         } else {
-                            swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
+                            avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment must be bigger then 5 characters!"); ?>", "error");
                         }
                     }
 
@@ -295,27 +301,29 @@ if (User::canSeeCommentTextarea()) {
                             swal({
                                 title: "<?php echo __("Are you sure?"); ?>",
                                 text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                                closeOnConfirm: true
-                            }, function () {
-                                modal.showPleaseWait();
-                                $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/commentDelete.json.php',
-                                    method: 'POST',
-                                    data: {'id': comments_id},
-                                    success: function (response) {
-                                        if (response.status) {
-                                            $(t).closest('tr').fadeOut();
-                                        } else {
-                                            swal("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been deleted!"); ?>", "error");
+                                icon: "warning",
+                                buttons: true,
+                                dangerMode: true,
+                            })
+                                    .then(function(willDelete) {
+                                        if (willDelete) {
+
+                                            modal.showPleaseWait();
+                                            $.ajax({
+                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/commentDelete.json.php',
+                                                method: 'POST',
+                                                data: {'id': comments_id},
+                                                success: function (response) {
+                                                    if (response.status) {
+                                                        $(t).closest('tr').fadeOut();
+                                                    } else {
+                                                        avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been deleted!"); ?>", "error");
+                                                    }
+                                                    modal.hidePleaseWait();
+                                                }
+                                            });
                                         }
-                                        modal.hidePleaseWait();
-                                    }
-                                });
-                            });
+                                    });
                         });
                         $('.reply').click(function () {
                             $(this).closest('.replySet').find('.formRepy').first().slideToggle();

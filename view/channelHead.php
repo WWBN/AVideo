@@ -1,15 +1,32 @@
-<link href="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-<script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-<script>
-    /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-    $.widget.bridge('uibutton', $.ui.button);
-    $.widget.bridge('uitooltip', $.ui.tooltip);
-    var channelName = '<?php echo $_GET['channelName']; ?>';
-</script>
 <!-- users_id = <?php echo $user_id; ?> -->
-<link href="<?php echo $global['webSiteRootURL']; ?>/plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
+<?php
+include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixHead.php';
+?>
+<link href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
 <style>
     .galleryVideo {
         padding-bottom: 10px;
+    }
+    #bigVideoCarousel{
+        height: auto;
+    }
+    .posterDetails {
+        padding: 10px !important;
+    }
+    .modeFlixContainer{
+        padding: 0;
+    }
+    .topicRow{
+        margin: 0;
+    }
+    #loading{
+        display: none;
+    }
+    .topicRow h2{
+        display: none;
+    }
+    #channelHome #bigVideo{
+        margin-bottom: 0 !important;
     }
 </style>

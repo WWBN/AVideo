@@ -3,13 +3,16 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
+if(!empty($_GET['PHPSESSID'])){
+    session_write_close();
+    session_id($_GET['PHPSESSID']);
+    _error_log("captcha: session_id changed to ". $_GET['PHPSESSID']);
+    session_start();
+}
 class Captcha{
     private $largura, $altura, $tamanho_fonte, $quantidade_letras;
 
     function __construct($largura, $altura, $tamanho_fonte, $quantidade_letras) {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
         $this->largura = $largura;
         $this->altura = $altura;
         $this->tamanho_fonte = $tamanho_fonte;
@@ -32,7 +35,9 @@ class Captcha{
         if(User::isAdmin()){
             $palavra = "admin";
         }
+        _session_start();
         $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
+        //_error_log("getCaptchaImage: ".$palavra." - session_name ". session_name()." session_id: ". session_id());
         for ($i = 1; $i <= $this->quantidade_letras; $i++) {
             imagettftext(
                 $imagem,
@@ -47,19 +52,23 @@ class Captcha{
         }
         imagejpeg($imagem); // gera a imagem
         imagedestroy($imagem); // limpa a imagem da memoria
+        //_error_log("getCaptchaImage _SESSION[palavra] = ($_SESSION[palavra]) - session_name ". session_name()." session_id: ". session_id());
     }
 
     static public function validation($word) {
         if(User::isAdmin()){
             return true;
         }
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        _session_start();
         if(empty($_SESSION["palavra"])){
+            _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name()." session_id: ". session_id());
             return false;
         }
-        return (strcasecmp($word, $_SESSION["palavra"]) == 0);
+        $validation = (strcasecmp($word, $_SESSION["palavra"]) == 0);
+        if(!$validation){
+            _error_log("Captcha validation Error: you type ({$word}) and session is ({$_SESSION["palavra"]})- session_name ". session_name()." session_id: ". session_id());
+        }
+        return $validation;
     }
 
 }

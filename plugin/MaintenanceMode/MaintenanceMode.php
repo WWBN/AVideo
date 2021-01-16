@@ -4,6 +4,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class MaintenanceMode extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         global $global;
         $desc = "Put your site in Maintenance Mode";

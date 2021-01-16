@@ -1,29 +1,29 @@
 $(document).ready(function () {
-// Extend default
-    setTimeout(function(){
-    if (typeof player == 'undefined') {
-        player = videojs(videoJsId);
-    }
-// Extend default
-    var Button = videojs.getComponent('Button');
-    var Theater = videojs.extend(Button, {
-        //constructor: function(player, options) {
-        constructor: function () {
-            Button.apply(this, arguments);
-            this.addClass('ypt-compress');
-            this.addClass('vjs-button-fa-size');
-            this.controlText("Theater");
-            if (Cookies.get('compress') === "true") {
-                toogleEC(this);
-            }
-        },
-        handleClick: function () {
-            toogleEC(this);
-        }
-    });
 
-// Register the new component
-    videojs.registerComponent('Theater', Theater);
-    player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('RemainingTimeDisplay') + 1);
-    }, 30);
+var Button = videojs.getComponent('Button');
+var Theater = videojs.extend(Button, {
+    //constructor: function(player, options) {
+    constructor: function () {
+        Button.apply(this, arguments);
+        if(isCompressed){
+            this.addClass('ypt-expand'); 
+            this.controlText("Switch to Compressed Mode");
+        }else{
+            this.addClass('ypt-compress');  
+            this.controlText("Switch to Theater Mode");
+        }
+        this.addClass('vjs-button-fa-size');
+        this.addClass('hidden-sm');
+        this.addClass('hidden-xs');
+        $(this).attr('id', 'avideoTheaterButton');
+    },
+    handleClick: function () {
+        toogleEC();
+    }
 });
+
+// Register the new component and set the right location as FF is not having a PIP button.
+videojs.registerComponent('Theater', Theater);
+});
+
+

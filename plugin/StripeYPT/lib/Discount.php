@@ -3,7 +3,7 @@
 namespace Stripe;
 
 /**
- * Class Discount
+ * Class Discount.
  *
  * @property string $object
  * @property Coupon $coupon
@@ -11,11 +11,8 @@ namespace Stripe;
  * @property int $end
  * @property int $start
  * @property string $subscription
- *
- * @package Stripe
  */
 class Discount extends StripeObject
 {
-
-    const OBJECT_NAME = "discount";
+    const OBJECT_NAME = 'discount';
 }

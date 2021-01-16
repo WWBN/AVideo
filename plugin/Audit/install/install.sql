@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `audit` (
   `method` VARCHAR(255) NULL,
   `class` VARCHAR(255) NULL,
   `statement` TEXT NULL,
-  `ip` VARCHAR(45) NULL,
+  `ip` VARCHAR(255) NULL,
   `users_id` INT NULL,
   `formats` VARCHAR(45) NULL,
   `values` TEXT NULL,

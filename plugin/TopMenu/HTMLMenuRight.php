@@ -12,15 +12,17 @@ $menu = Menu::getAllActive(1);
 foreach ($menu as $key => $value) {
     ?>
     <li class="dropdown">    
-        <a href="#" class=" btn  btn-default btn-light navbar-btn" data-toggle="dropdown">
+        <a href="#" class=" btn  btn-default btn-light navbar-btn" data-toggle="dropdown" data-toggle="tooltip" title="<?php echo $value['menuName']; ?>" data-placement="bottom" >
             <?php
+            $hiddenClass = "hidden-md hidden-sm";
             if (!empty($value['icon'])) {
                 ?>
                 <i class="<?php echo $value['icon'] ?>"></i> 
                 <?php
+                $hiddenClass = "hidden-md hidden-sm  hidden-mdx";
             }
             ?>
-            <span class="hidden-md hidden-sm">
+            <span class="<?php echo $hiddenClass; ?>">
                 <?php echo $value['menuName']; ?>
             </span>
             <b class="caret"></b>
@@ -29,17 +31,9 @@ foreach ($menu as $key => $value) {
             <?php
             $menuItems = MenuItem::getAllFromMenu($value['id'], true);
             foreach ($menuItems as $key2 => $value2) {
-                $url = $value2['url'];
-                if (empty($url) || strpos($url, 'iframe:') !== false) {
-                    if (!empty($value2['menuSeoUrlItem'])) {
-                        $url = $global['webSiteRootURL'] . "menu/{$value2['menuSeoUrlItem']}";
-                    } else {
-                        $url = $global['webSiteRootURL'] . "plugin/TopMenu/?id={$value2['id']}";
-                    }
-                }
                 ?>
                 <li  style="margin-right: 0;">
-                    <a  href="<?php echo $url; ?>" >
+                    <a  href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?> >
                         <?php
                         if (!empty($value2['icon'])) {
                             ?>

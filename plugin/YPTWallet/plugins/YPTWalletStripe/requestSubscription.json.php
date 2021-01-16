@@ -15,6 +15,9 @@ $objS = $pluginS->getDataObject();
 
 $obj= new stdClass();
 $obj->error = true;
+$obj->confirmCardPayment = false;
+$obj->msg = "";
+$obj->customer = false;
 
 $invoiceNumber = uniqid();
 if (session_status() == PHP_SESSION_NONE) {
@@ -22,7 +25,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 unset($_SESSION['recurrentSubscription']['plans_id']);
 if(!empty($_POST['plans_id'])){
-    $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];    
+    $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];
 }
 
 $subs = new SubscriptionPlansTable($_POST['plans_id']);
@@ -37,7 +40,7 @@ if(empty($_POST['stripeToken'])){
 
 if(!User::isLogged()){
     die("User not logged");
-    
+
 }
 $users_id = User::getId();
 //setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
@@ -50,7 +53,10 @@ if (!empty($payment) && !empty($payment->status) && ($payment->status=="active" 
     }
     $obj->error = false;
     $obj->subscription = $payment;
-}else{
-    _error_log("Request subscription Stripe error: ".  json_encode($payment));
+}else if (!empty($payment) && !empty($payment->status) && ($payment->status=="incomplete" && $payment->customer)) {
+    _error_log("Request subscription Stripe is incomplete ");
+    $obj->confirmCardPayment = true;
+    $obj->msg = "Please Confirm your Payment";
+    $obj->customer = $payment->customer;
 }
 die(json_encode($obj));

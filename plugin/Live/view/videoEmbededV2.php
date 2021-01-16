@@ -1,4 +1,7 @@
 <?php
+global $isLive;
+$isLive = 1;
+$isEmbed = 1;
 require_once '../../videos/configuration.php';
 /**
  * this was made to mask the main URL
@@ -17,13 +20,19 @@ if (!empty($_GET['c'])) {
 $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
 $livet =  LiveTransmition::getFromDbByUserName($_GET['u']);
-$uuid = $livet['key'];
+$uuid = LiveTransmition::keyNameFix($livet['key']);
 $p = AVideoPlugin::loadPlugin("Live");
 
 $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
 if(!empty($objSecure)){
     $objSecure->verifyEmbedSecurity();
 }
+$u = new User(0, $_GET['u'], false);
+$user_id = $u->getBdId();
+$video['users_id'] = $user_id;
+AVideoPlugin::getModeYouTubeLive($user_id);
+$_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
+$poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -31,14 +40,15 @@ if(!empty($objSecure)){
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="view/img/favicon.ico">
+        <link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?> </title>
         <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.5.1.min.js" type="text/javascript"></script>
+        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <?php
+        echo AVideoPlugin::afterVideoJS();
+        ?>
         <?php
         echo AVideoPlugin::getHeadCode();
         ?>
@@ -71,6 +81,10 @@ if(!empty($objSecure)){
 
             }
         </style>
+        <script>
+            var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+            var player;
+        </script>
     </head>
 
     <body style="background-color: black; overflow-x: hidden;">
@@ -80,10 +94,10 @@ if(!empty($objSecure)){
                 echo getAdsLeaderBoardTop();
                 ?>
                 <div class="embed-responsive  embed-responsive-16by9" >
-                    <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls autoplay="autoplay"
+                    <video poster="<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>" controls autoplay="autoplay"  playsinline webkit-playsinline="webkit-playsinline" 
                            class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered"
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
-                        <source src="<?php echo getM3U8File($uuid); ?>" type='application/x-mpegURL'>
+                        <source src="<?php echo Live::getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                     </video>
                     <?php
                     if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
@@ -92,7 +106,7 @@ if(!empty($objSecure)){
                         $url = VideoLogoOverlay::getLink();
                         ?>
                         <div style="<?php echo $style; ?>">
-                            <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
+                            <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
                         </div>
                     <?php } ?>
 
@@ -115,17 +129,6 @@ if(!empty($objSecure)){
                 ?>
             </div>
         </div>
-
-        <?php
-        $liveCount = AVideoPlugin::loadPluginIfEnabled('LiveCountdownEvent');
-        $html = array();
-        if ($liveCount) {
-            $html = $liveCount->getNextLiveApplicationFromUser($user_id);
-        }
-        foreach ($html as $value) {
-            echo $value['html'];
-        };
-        ?>
         <script>
             $(function () {
                 $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
@@ -134,58 +137,20 @@ if(!empty($objSecure)){
                 })
             });
         </script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/video.js/video.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/videojs-contrib-hls.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-persistvolume/videojs.persistvolume.js" type="text/javascript"></script>
+        <?php
+        include $global['systemRootPath'] . 'view/include/video.min.js.php';
+        ?>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
         <script>
 
-            $(document).ready(function () {
-                if (typeof player === 'undefined') {
-                    player = videojs('mainVideo');
-                }
-                player.ready(function () {
-                    var err = this.error();
-                    if (err && err.code) {
-                        $('.vjs-error-display').hide();
-                        $('#mainVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
 <?php
-if (!empty($html)) {
-    echo "showCountDown();";
-}
+echo PlayerSkins::getStartPlayerJS();
 ?>
-                    }
-<?php
-if ($config->getAutoplay()) {
-    echo "this.play();";
-}
-?>
-
-                });
-                player.persistvolume({
-                    namespace: "AVideo"
-                });
-            });
         </script>
         <?php
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         echo AVideoPlugin::getFooterCode();
-        ?>
-        <?php
-        if (empty($liveDO->disableDVR)) {
-            ?>
-            <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/videojs-dvr/videojs-dvrseekbar.min.js" type="text/javascript"></script>          
-            <script>
-                $(document).ready(function () {
-                    if (typeof player === 'undefined') {
-                        player = videojs('mainVideo');
-                    }
-
-                    player.dvrseekbar();
-                });
-            </script>      
-            <?php
-        }
-        ?>    
+        showCloseButton();
+        ?>  
     </body>
 </html>

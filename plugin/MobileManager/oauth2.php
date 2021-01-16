@@ -1,10 +1,9 @@
 <?php
-header("Access-Control-Allow-Headers: Content-Type");
+header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
-
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
+require_once $global['systemRootPath'] . 'objects/hybridauth/hybridauth/src/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 use Hybridauth\Hybridauth;
@@ -27,13 +26,12 @@ if (!empty($_GET['type'])) {
     if (empty($key)) {
         die(sprintf(__("%s ERROR: You must set a KEY on config"), $_GET['type']));
     }
-    
-    
+
     $scope = 'email';
     if($_GET['type']==='LinkedIn'){
         $scope = array('r_emailaddress');
     }
-    
+
     $configOauth = [
         'callback' => HttpClient\Util::getCurrentUrl() . "?type={$_GET['type']}",
         'providers' => [
@@ -73,7 +71,7 @@ if (!empty($_GET['type'])) {
         $adapter->disconnect();
         $userObject = new User($users_id);
         header("Location: oauth2Success.php?user=".$userObject->getUser()."&pass=".$userObject->getPassword());
-    } catch (\Exception $e) {       
+    } catch (\Exception $e) {
         header("Location: oauth2Error.php?message=".$e->getMessage());
     }
 }

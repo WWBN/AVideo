@@ -19,6 +19,7 @@ if(!$ipn){
 $obj= new stdClass();
 $obj->error = true;
 if(empty($_POST["recurring_payment_id"])){
+    _error_log("PayPalIPN: recurring_payment_id EMPTY ");
     $users_id = User::getId();
 
     $invoiceNumber = uniqid();
@@ -36,17 +37,21 @@ if(empty($_POST["recurring_payment_id"])){
         //header("Location: {$global['webSiteRootURL']}plugin/YPTWallet/view/addFunds.php?status=fail");
     }
 }else{
+    _error_log("PayPalIPN: recurring_payment_id = {$_POST["recurring_payment_id"]} ");
     // check for the recurrement payment
     $subscription = AVideoPlugin::loadPluginIfEnabled("Subscription");
     if(!empty($subscription)){
         $row = Subscription::getFromAgreement($_POST["recurring_payment_id"]);
+        _error_log("PayPalIPN: user found from recurring_payment_id (users_id = {$row['users_id']}) ");
         $users_id = $row['users_id']; 
-        $payment_amount = $_POST['mc_gross'];
-        $payment_currency = $_POST['mc_currency'];
+        $payment_amount = empty($_POST['mc_gross'])?$_POST['amount']:$_POST['mc_gross'];
+        $payment_currency = empty($_POST['mc_currency'])?$_POST['currency_code']:$_POST['mc_currency'];
         if($walletObject->currency===$payment_currency){
             $plugin->addBalance($users_id, $payment_amount, "Paypal recurrent", json_encode($_POST));
             Subscription::renew($users_id, $row['subscriptions_plans_id']);
             $obj->error = false;
+        }else{
+            _error_log("PayPalIPN: FAIL currency check $walletObject->currency===$payment_currency ");
         }
     }
 }

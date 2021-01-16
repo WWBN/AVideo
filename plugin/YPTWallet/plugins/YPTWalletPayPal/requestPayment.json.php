@@ -9,20 +9,22 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
-$pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
+$pluginS = AVideoPlugin::loadPlugin("YPTWallet");
 $objS = $pluginS->getDataObject();
 
 $obj= new stdClass();
 $obj->error = true;
 
-if(empty($_POST['value'])){ 
+if(empty($_POST['value'])){
     $obj->msg = "Invalid Value";
     die(json_encode($obj));
 }
 
 $invoiceNumber = uniqid();
 
-$payment = $plugin->setUpPayment($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $_POST['value'], $objS->currency, $config->getWebSiteTitle()." Payment");
+$description = $config->getWebSiteTitle()." Payment";
+
+$payment = $plugin->setUpPayment($invoiceNumber, $objS->RedirectURL, $objS->CancelURL, $_POST['value'], $objS->currency, $description);
 
 if (!empty($payment)) {
     $obj->error = false;

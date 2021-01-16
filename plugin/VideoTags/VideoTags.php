@@ -8,6 +8,11 @@ require_once $global['systemRootPath'] . 'plugin/VideoTags/Objects/TagsTypes.php
 
 class VideoTags extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         $txt = "User interface for managing tags";
         $help = "";
@@ -24,7 +29,7 @@ class VideoTags extends PluginAbstract {
 
     public function getEmptyDataObject() {
         $obj = new stdClass();
-        $obj->onlyAdminCanCreateTags = true;
+        $obj->onlyAdminCanCreateTags = false;
         $obj->maxTags = 100;
         $obj->maxChars = 100;
         return $obj;
@@ -131,7 +136,7 @@ var citynames' . $tagTypesId . ' = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace(\'name\'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
   prefetch: {
-    url: \'' . $global['webSiteRootURL'] . 'plugin/VideoTags/tags.json.php?tags_types_id=' . $tagTypesId . '\',
+    url: \'' . $global['webSiteRootURL'] . 'plugin/VideoTags/tags.json.php?tags_types_id=' . $tagTypesId . '?\'+Math.random(),
     filter: function(list) {
       return $.map(list, function(cityname) {
         return { name: cityname }; });
@@ -169,6 +174,11 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
     static function getLabels($videos_id, $showType=true) {
         global $global;
 
+        $currentPage = getCurrentPage();
+        $rowCount = getRowCount();
+        $_REQUEST['current'] = 1;
+        $_REQUEST['rowCount'] = 1000;           
+
         $post = $_POST;
         unset($_POST);
         $get = $_GET;
@@ -197,6 +207,9 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         }
         $_POST = $post;
         $_GET = $get;
+        
+        $_REQUEST['current'] = $currentPage;
+        $_REQUEST['rowCount'] = $rowCount;  
         return "<div class='text-muted'>".implode("</div><div class='text-muted'>", $tagsStrList)."</div>";
     }
 
@@ -234,6 +247,9 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
     }
     
     public static function saveVideosAddNew($post, $videos_id){
+        if(empty($post['videoTags'])){
+            return false;
+        }
         return self::saveTags($post['videoTags'], $videos_id);
     }
     

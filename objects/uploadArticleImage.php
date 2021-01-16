@@ -28,7 +28,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     //var_dump($extension, $type);exit;
     $video = new Video("", "", $_GET['video_id']);
     if (!empty($video)) {
-        $dir = "{$global['systemRootPath']}videos/articleImages/" . $video->getFilename()."/";
+        $dir = Video::getStoragePath()."articleImages/" . $video->getFilename()."/";
         $name = uniqid();
         if(!is_dir($dir)){
             mkdir($dir, 0777, true);

@@ -209,9 +209,9 @@ if (!User::isAdmin()) {
     </div>
 
     <div id="btnModelLinks" style="display: none;">
-            <button href="" class="editor_add_video btn btn-success btn-xs btn-block">
-                <i class="fa fa-video"></i> Add Video
-            </button>
+        <button href="" class="editor_add_video btn btn-success btn-xs btn-block">
+            <i class="fa fa-video"></i> Add Video
+        </button>
         <div class="btn-group pull-right">
             <button href="" class="editor_chart btn btn-info btn-xs">
                 <i class="fas fa-chart-area "></i>
@@ -230,7 +230,6 @@ if (!User::isAdmin()) {
 </div>
 <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-<script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Chart.bundle.min.js"></script>
 
 <script type="text/javascript">
@@ -343,9 +342,9 @@ if (!User::isAdmin()) {
                     sortable: false,
                     data: null,
                     "render": function (data, type, full, meta) {
-                        return '<img src="' + full.poster.thumbsJpg + '" class="ui-state-default img-responsive" alt=""><br>'+
-                               "<a href='<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_has_videos_id="+full.id+"' target='_blank'>VAST URL</a>";
-                   
+                        return '<img src="' + full.poster.thumbsJpg + '" class="ui-state-default img-responsive" alt=""><br>' +
+                                "<a href='<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_has_videos_id=" + full.id + "' target='_blank'>VAST URL</a>";
+
                     }, "width": "20%"
                 },
                 {
@@ -368,33 +367,33 @@ if (!User::isAdmin()) {
             var tr = $(this).closest('tr')[0];
             var data = tableVideos.row(tr).data();
             swal({
-                title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                closeOnConfirm: true
-            },
-                    function () {
-                        modal.showPleaseWait();
-                        $.ajax({
-                            type: "POST",
+            title: "<?php echo __("Are you sure?"); ?>",
+                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+            })
+                    .then(function(willDelete) {
+                    if (willDelete) {
+                    modal.showPleaseWait();
+                    $.ajax({
+                    type: "POST",
                             url: "<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/deleteCampaignVideo.json.php",
                             data: data
 
-                        }).done(function (resposta) {
-                            if (resposta.error) {
-                                swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
-                            }
-                            tableVideos.ajax.reload();
-                            modal.hidePleaseWait();
-                        });
+                    }).done(function (resposta) {
+                        if (resposta.error) {
+                            avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                        }
+                        tableVideos.ajax.reload();
+                        modal.hidePleaseWait();
                     });
+                    } else {
+
+                    }
+                });
         });
-
-
-        $('#campaignVideosTable').on('click', 'button.editor_edit_video', function (e) {
+                $('#campaignVideosTable').on('click', 'button.editor_edit_video', function (e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = tableVideos.row(tr).data();
@@ -418,9 +417,9 @@ if (!User::isAdmin()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                         $("#panelForm").trigger("reset");
                     }
                     clearVideoForm();
@@ -467,9 +466,9 @@ if (!User::isAdmin()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
 <?php
 if (!empty($ad_server_location)) {
     ?>
@@ -517,17 +516,17 @@ if (!empty($ad_server_location)) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = tableLinks.row(tr).data();
-            swal({
+                    
+                    swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                closeOnConfirm: true
-            },
-                    function () {
-                        modal.showPleaseWait();
+                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(function(willDelete) {
+              if (willDelete) {
+                modal.showPleaseWait();
                         $.ajax({
                             type: "POST",
                             url: "<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/deleteCampaign.json.php",
@@ -535,12 +534,15 @@ if (!empty($ad_server_location)) {
 
                         }).done(function (resposta) {
                             if (resposta.error) {
-                                swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                             }
                             tableLinks.ajax.reload();
                             modal.hidePleaseWait();
                         });
-                    });
+              } else {
+
+              }
+            });
         });
 
         $('#campaignTable').on('click', 'button.editor_edit_link', function (e) {
@@ -565,14 +567,14 @@ if (!empty($ad_server_location)) {
 ?>
             //$('#visibility').val(data.visibility);
         });
-        
-        
+
+
         $('#campaignTable').on('click', 'button.editor_link', function (e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = tableLinks.row(tr).data();
-            document.location = '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_id='+data.id;
-            
+            document.location = '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_id=' + data.id;
+
         });
     });
 </script>

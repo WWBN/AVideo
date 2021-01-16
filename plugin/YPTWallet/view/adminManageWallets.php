@@ -14,7 +14,7 @@ $obj = $plugin->getDataObject();
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Support Author</title>
+        <title><?php echo __("Support Author") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -138,7 +138,7 @@ $obj = $plugin->getDataObject();
                                 $('#userFormModal').modal('hide');
                                 $("#grid").bootgrid("reload");
                             } else {
-                                swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been saved!"); ?>", "error");
+                                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been saved!"); ?>", "error");
                             }
                             modal.hidePleaseWait();
                         }

@@ -1,0 +1,27 @@
+language: php
+
+branches:
+  only: [master]
+
+sudo: false
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+env:
+  matrix:
+    - COMPOSER_CMD="composer install" RUN_CS_FIXER=true
+    - COMPOSER_CMD="composer update --prefer-lowest"
+
+before_script:
+  - $(echo $COMPOSER_CMD)
+
+script:
+  - vendor/bin/phpunit
+  - if [ "${RUN_CS_FIXER}" = "true" ]; then
+      vendor/bin/php-cs-fixer fix --dry-run --diff --config-file=.php_cs .;
+    fi

@@ -5,6 +5,13 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class FloatVideo extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+            PluginTags::$PLAYER,
+            PluginTags::$LAYOUT,
+        );
+    }
     public function getDescription() {
         return "Enable Or disable Float Video";
     }
@@ -23,13 +30,27 @@ class FloatVideo extends PluginAbstract {
         return $obj;
     }
 
-    public function getFooterCode() {
-        $o = $this->getDataObject();
-        $str = "<script> doNotFloatVideo = ".($o->doNotFloatVideo?"true":"false").";</script>";
-        return $str;        
+    public function getHeadCode() {
+        global $global;
+        $str = "";
+        if(isVideo()){
+            $o = $this->getDataObject();
+            if(empty($o->doNotFloatVideo)){
+                $str .= "<style> ".(file_get_contents($global['systemRootPath'] . 'plugin/FloatVideo/floatVideo.css'))."</style>";
+            }
+        }
+        return $str;   
     }
     
-    public function getTags() {
-        return array('free');
+    public function getFooterCode() {
+        global $global;
+        $str = "";
+        if(isVideo()){
+            $o = $this->getDataObject();
+            if(empty($o->doNotFloatVideo)){
+                $str .= "<script> ".(file_get_contents($global['systemRootPath'] . 'plugin/FloatVideo/floatVideo.js'))."</script>";
+            }
+        }
+        return $str;        
     }
 }

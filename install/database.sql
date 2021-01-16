@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NULL,
-  `email` VARCHAR(45) NULL,
+  `email` VARCHAR(254) NULL,
   `password` VARCHAR(145) NOT NULL,
-  `created` DATETIME NOT NULL,
+  `created` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` DATETIME NOT NULL,
   `isAdmin` TINYINT(1) NOT NULL DEFAULT 0,
   `status` ENUM('a', 'i') NOT NULL DEFAULT 'a',
@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `backgroundURL` VARCHAR(255) NULL,
   `canStream` TINYINT(1) NULL,
   `canUpload` TINYINT(1) NULL,
+  `canCreateMeet` TINYINT(1) NULL,
   `canViewChart` TINYINT(1) NOT NULL DEFAULT 0,
   `about` TEXT NULL,
   `channelName` VARCHAR(45) NULL,
@@ -37,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `region` VARCHAR(100) NULL DEFAULT NULL,
   `city` VARCHAR(100) NULL DEFAULT NULL,
   `donationLink` VARCHAR(225) NULL DEFAULT NULL,
+  `extra_info` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;
@@ -74,9 +76,14 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `users_id` INT(11) NOT NULL DEFAULT 1,
   `private` TINYINT(1) NULL DEFAULT 0,
   `allow_download` TINYINT(1) NULL DEFAULT 1,
+  `order` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_categories_users1_idx` (`users_id` ASC),
   INDEX `clean_name_INDEX2` (`clean_name` ASC),
+  INDEX `sortcategoryOrderIndex` (`order` ASC),
+  INDEX `category_name_idx` (`name` ASC),
+  FULLTEXT INDEX `index7cname` (`name`),
+  FULLTEXT INDEX `index8cdescr` (`description`),
   UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 
   CONSTRAINT `fk_categories_users1`
     FOREIGN KEY (`users_id`)
@@ -116,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `categories_id` INT NOT NULL,
   `filename` VARCHAR(255) NOT NULL,
   `duration` VARCHAR(15) NOT NULL,
-  `type` ENUM('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie') NOT NULL DEFAULT 'video',
+  `type` ENUM('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'zip') NOT NULL DEFAULT 'video',
   `videoDownloadedLink` VARCHAR(255) NULL,
   `order` INT UNSIGNED NOT NULL DEFAULT 1,
   `rotation` SMALLINT NULL DEFAULT 0,
@@ -136,6 +143,10 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `only_for_paid` TINYINT(1) NULL DEFAULT NULL,
   `serie_playlists_id` INT(11) NULL DEFAULT NULL,
   `sites_id` INT(11) NULL,
+  `video_password` VARCHAR(45) NULL DEFAULT NULL,
+  `encoderURL` VARCHAR(255) NULL DEFAULT NULL,
+  `filepath` VARCHAR(255) NULL DEFAULT NULL,
+  `filesize` BIGINT(19) UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
@@ -145,6 +156,10 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `fk_videos_sites1_idx` (`sites_id` ASC),
   INDEX `clean_title_INDEX` (`clean_title` ASC),
   INDEX `video_filename_INDEX` (`filename` ASC),
+  INDEX `video_status_idx` (`status` ASC),
+  INDEX `video_type_idx` (`type` ASC) ,
+  FULLTEXT INDEX `index17vname` (`title`),
+  FULLTEXT INDEX `index18vdesc` (`description`),
   CONSTRAINT `fk_videos_sites1`
     FOREIGN KEY (`sites_id`)
     REFERENCES `sites` (`id`)
@@ -217,7 +232,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `version` VARCHAR(10) NOT NULL,
   `webSiteTitle` VARCHAR(45) NOT NULL DEFAULT 'AVideo',
   `language` VARCHAR(6) NOT NULL DEFAULT 'en',
-  `contactEmail` VARCHAR(45) NOT NULL,
+  `contactEmail` VARCHAR(254) NOT NULL,
   `modified` DATETIME NOT NULL,
   `created` DATETIME NOT NULL,
   `authGoogle_id` VARCHAR(255) NULL,
@@ -302,6 +317,7 @@ CREATE TABLE IF NOT EXISTS `likes` (
   PRIMARY KEY (`id`),
   INDEX `fk_likes_videos1_idx` (`videos_id` ASC),
   INDEX `fk_likes_users1_idx` (`users_id` ASC),
+  INDEX `likes_likes_idx` (`like` ASC),
   CONSTRAINT `fk_likes_videos1`
     FOREIGN KEY (`videos_id`)
     REFERENCES `videos` (`id`)
@@ -320,7 +336,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `users_groups` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `group_name` VARCHAR(45) NULL,
+  `group_name` VARCHAR(255) NULL,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   PRIMARY KEY (`id`))
@@ -404,21 +420,22 @@ ENGINE = InnoDB;
 -- Table `playlists`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `playlists` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `created` DATETIME NULL,
-  `modified` DATETIME NULL,
-  `users_id` INT NOT NULL,
+  `created` DATETIME NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL,
+  `users_id` INT(11) NOT NULL,
   `status` ENUM('public', 'private', 'unlisted', 'favorite', 'watch_later') NOT NULL DEFAULT 'public',
+  `showOnTV` TINYINT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_playlists_users1_idx` (`users_id` ASC),
+  INDEX `showOnTVindex3` (`showOnTV` ASC),
   CONSTRAINT `fk_playlists_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `playlists_has_videos`
@@ -495,6 +512,41 @@ CREATE TABLE `category_type_cache` (
   `manualSet` int(1) NOT NULL COMMENT '0=auto, 1=manual' DEFAULT 0
 
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `categories_has_users_groups` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `categories_id` INT(11) NOT NULL,
+  `users_groups_id` INT(11) NOT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `status` CHAR(1) NOT NULL DEFAULT 'a',
+  PRIMARY KEY (`id`),
+  INDEX `fk_categories_has_users_groups_users_groups1_idx` (`users_groups_id` ASC),
+  INDEX `fk_categories_has_users_groups_categories1_idx` (`categories_id` ASC),
+  CONSTRAINT `fk_categories_has_users_groups_categories1`
+    FOREIGN KEY (`categories_id`)
+    REFERENCES `categories` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_categories_has_users_groups_users_groups1`
+    FOREIGN KEY (`users_groups_id`)
+    REFERENCES `users_groups` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `users_extra_info` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `field_name` VARCHAR(45) NOT NULL,
+  `field_type` VARCHAR(45) NOT NULL,
+  `field_options` TEXT NULL,
+  `field_default_value` VARCHAR(45) NULL,
+  `parameters` TEXT NULL,
+  `created` DATETIME NULL,
+  `modified` DATETIME NULL,
+  `status` CHAR(1) NOT NULL DEFAULT 'a',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
 
 ALTER TABLE `category_type_cache`
   ADD UNIQUE KEY `categoryId` (`categoryId`);

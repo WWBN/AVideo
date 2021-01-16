@@ -1,7 +1,7 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('video.js')) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('video.js')) :
 	typeof define === 'function' && define.amd ? define(['video.js'], factory) :
-	(factory(global.videojs));
+	(global.videojsIma = factory(global.videojs));
 }(this, (function (videojs) { 'use strict';
 
 videojs = videojs && videojs.hasOwnProperty('default') ? videojs['default'] : videojs;
@@ -145,7 +145,12 @@ var PlayerWrapper = function PlayerWrapper(player, adsPluginSettings, controller
   this.vjsPlayer.on('contentended', this.boundContentEndedListener);
   this.vjsPlayer.on('dispose', this.playerDisposedListener.bind(this));
   this.vjsPlayer.on('readyforpreroll', this.onReadyForPreroll.bind(this));
+  this.vjsPlayer.on('adtimeout', this.onAdTimeout.bind(this));
   this.vjsPlayer.ready(this.onPlayerReady.bind(this));
+
+  if (this.controller.getSettings().requestMode === 'onPlay') {
+    this.vjsPlayer.one('play', this.controller.requestAds.bind(this.controller));
+  }
 
   this.vjsPlayer.ads(adsPluginSettings);
 };
@@ -264,6 +269,13 @@ PlayerWrapper.prototype.onReadyForPreroll = function () {
 };
 
 /**
+ * Detects if the ad has timed out.
+ */
+PlayerWrapper.prototype.onAdTimeout = function () {
+  this.controller.onAdTimeout();
+};
+
+/**
  * Called when the player fires its 'ready' event.
  */
 PlayerWrapper.prototype.onPlayerReady = function () {
@@ -363,6 +375,17 @@ PlayerWrapper.prototype.play = function () {
 };
 
 /**
+ * Toggles playback of the video.
+ */
+PlayerWrapper.prototype.togglePlayback = function () {
+  if (this.vjsPlayer.paused()) {
+    this.vjsPlayer.play();
+  } else {
+    this.vjsPlayer.pause();
+  }
+};
+
+/**
  * Get the player width.
  *
  * @return {number} The player's width.
@@ -370,11 +393,11 @@ PlayerWrapper.prototype.play = function () {
 PlayerWrapper.prototype.getPlayerWidth = function () {
   var width = (getComputedStyle(this.vjsPlayer.el()) || {}).width;
 
-  if (!width || parseInt(width, 10) === 0) {
+  if (!width || parseFloat(width) === 0) {
     width = (this.vjsPlayer.el().getBoundingClientRect() || {}).width;
   }
 
-  return parseInt(width, 10) || this.vjsPlayer.width();
+  return parseFloat(width) || this.vjsPlayer.width();
 };
 
 /**
@@ -385,11 +408,11 @@ PlayerWrapper.prototype.getPlayerWidth = function () {
 PlayerWrapper.prototype.getPlayerHeight = function () {
   var height = (getComputedStyle(this.vjsPlayer.el()) || {}).height;
 
-  if (!height || parseInt(height, 10) === 0) {
+  if (!height || parseFloat(height) === 0) {
     height = (this.vjsPlayer.el().getBoundingClientRect() || {}).height;
   }
 
-  return parseInt(height, 10) || this.vjsPlayer.height();
+  return parseFloat(height) || this.vjsPlayer.height();
 };
 
 /**
@@ -489,9 +512,9 @@ PlayerWrapper.prototype.onAdStart = function () {
  */
 PlayerWrapper.prototype.onAllAdsCompleted = function () {
   if (this.contentComplete == true) {
-    if (this.h5Player.src != this.contentSource) {
-      // Avoid setted autoplay after the post-roll
-      this.vjsPlayer.autoplay(false);
+    // The null check on this.contentSource was added to fix
+    // an error when the post-roll was an empty VAST tag.
+    if (this.contentSource && this.vjsPlayer.currentSrc() != this.contentSource) {
       this.vjsPlayer.src({
         src: this.contentSource,
         type: this.contentSourceType
@@ -512,10 +535,8 @@ PlayerWrapper.prototype.onAdsReady = function () {
  * Changes the player source.
  * @param {?string} contentSrc The URI for the content to be played. Leave
  *     blank to use the existing content.
- * @param {?boolean} playOnLoad True to play the content once it has loaded,
- *     false to only load the content but not start playback.
  */
-PlayerWrapper.prototype.changeSource = function (contentSrc, playOnLoad) {
+PlayerWrapper.prototype.changeSource = function (contentSrc) {
   // Only try to pause the player when initialised with a source already
   if (this.vjsPlayer.currentSrc()) {
     this.vjsPlayer.currentTime(0);
@@ -524,11 +545,7 @@ PlayerWrapper.prototype.changeSource = function (contentSrc, playOnLoad) {
   if (contentSrc) {
     this.vjsPlayer.src(contentSrc);
   }
-  if (playOnLoad) {
-    this.vjsPlayer.one('loadedmetadata', this.playContentFromZero.bind(this));
-  } else {
-    this.vjsPlayer.one('loadedmetadata', this.seekContentToZero.bind(this));
-  }
+  this.vjsPlayer.one('loadedmetadata', this.seekContentToZero.bind(this));
 };
 
 /**
@@ -538,16 +555,6 @@ PlayerWrapper.prototype.changeSource = function (contentSrc, playOnLoad) {
  */
 PlayerWrapper.prototype.seekContentToZero = function () {
   this.vjsPlayer.currentTime(0);
-};
-
-/**
- * Seeks content to 00:00:00 and starts playback. This is used as an event
- * handler for the loadedmetadata event, since seeking is not possible until
- * that event has fired.
- */
-PlayerWrapper.prototype.playContentFromZero = function () {
-  this.vjsPlayer.currentTime(0);
-  this.vjsPlayer.play();
 };
 
 /**
@@ -581,6 +588,11 @@ PlayerWrapper.prototype.addContentEndedListener = function (listener) {
  * Reset the player.
  */
 PlayerWrapper.prototype.reset = function () {
+  // Attempts to remove the contentEndedListener before adding it.
+  // This is to prevent an error where an erroring video caused multiple
+  // contentEndedListeners to be added.
+  this.vjsPlayer.off('contentended', this.boundContentEndedListener);
+
   this.vjsPlayer.on('contentended', this.boundContentEndedListener);
   this.vjsControls.show();
   if (this.vjsPlayer.ads.inAdBreak()) {
@@ -711,6 +723,11 @@ var AdUi = function AdUi(controller) {
     this.showCountdown = false;
   }
 
+  /**
+   * Boolean flag if the current ad is nonlinear.
+   */
+  this.isAdNonlinear = false;
+
   this.createAdContainer();
 };
 
@@ -723,6 +740,7 @@ AdUi.prototype.createAdContainer = function () {
   this.adContainerDiv.style.zIndex = 1111;
   this.adContainerDiv.addEventListener('mouseenter', this.showAdControls.bind(this), false);
   this.adContainerDiv.addEventListener('mouseleave', this.hideAdControls.bind(this), false);
+  this.adContainerDiv.addEventListener('click', this.onAdContainerClick.bind(this), false);
   this.createControls();
   this.controller.injectAdContainerDiv(this.adContainerDiv);
 };
@@ -734,9 +752,13 @@ AdUi.prototype.createControls = function () {
   this.assignControlAttributes(this.controlsDiv, 'ima-controls-div');
   this.controlsDiv.style.width = '100%';
 
-  this.assignControlAttributes(this.countdownDiv, 'ima-countdown-div');
-  this.countdownDiv.innerHTML = this.controller.getSettings().adLabel;
-  this.countdownDiv.style.display = this.showCountdown ? 'block' : 'none';
+  if (!this.controller.getIsMobile()) {
+    this.assignControlAttributes(this.countdownDiv, 'ima-countdown-div');
+    this.countdownDiv.innerHTML = this.controller.getSettings().adLabel;
+    this.countdownDiv.style.display = this.showCountdown ? 'block' : 'none';
+  } else {
+    this.countdownDiv.style.display = 'none';
+  }
 
   this.assignControlAttributes(this.seekBarDiv, 'ima-seek-bar-div');
   this.seekBarDiv.style.width = '100%';
@@ -801,6 +823,7 @@ AdUi.prototype.onAdFullscreenClick = function () {
  * Show pause and hide play button
  */
 AdUi.prototype.onAdsPaused = function () {
+  this.controller.sdkImpl.adPlaying = false;
   this.addClass(this.playPauseDiv, 'ima-paused');
   this.removeClass(this.playPauseDiv, 'ima-playing');
   this.showAdControls();
@@ -818,6 +841,7 @@ AdUi.prototype.onAdsResumed = function () {
  * Show play and hide pause button
  */
 AdUi.prototype.onAdsPlaying = function () {
+  this.controller.sdkImpl.adPlaying = true;
   this.addClass(this.playPauseDiv, 'ima-playing');
   this.removeClass(this.playPauseDiv, 'ima-paused');
 };
@@ -919,10 +943,33 @@ AdUi.prototype.showAdContainer = function () {
 };
 
 /**
+ * Hide the ad container
+ */
+AdUi.prototype.hideAdContainer = function () {
+  this.adContainerDiv.style.display = 'none';
+};
+
+/**
+ * Handles clicks on the ad container
+ */
+AdUi.prototype.onAdContainerClick = function () {
+  if (this.isAdNonlinear) {
+    this.controller.togglePlayback();
+  }
+};
+
+/**
+ * Resets the state of the ad ui.
+ */
+AdUi.prototype.reset = function () {
+  this.hideAdContainer();
+};
+
+/**
  * Handles ad errors.
  */
 AdUi.prototype.onAdError = function () {
-  this.adContainerDiv.style.display = 'none';
+  this.hideAdContainer();
 };
 
 /**
@@ -931,7 +978,7 @@ AdUi.prototype.onAdError = function () {
  * @param {Object} adEvent The event fired by the IMA SDK.
  */
 AdUi.prototype.onAdBreakStart = function (adEvent) {
-  this.adContainerDiv.style.display = 'block';
+  this.showAdContainer();
 
   var contentType = adEvent.getAd().getContentType();
   if (contentType === 'application/javascript' && !this.controller.getSettings().showControlsForJSAds) {
@@ -952,7 +999,7 @@ AdUi.prototype.onAdBreakEnd = function () {
   if (currentAd == null || // hide for post-roll only playlist
   currentAd.isLinear()) {
     // don't hide for non-linear ads
-    this.adContainerDiv.style.display = 'none';
+    this.hideAdContainer();
   }
   this.controlsDiv.style.display = 'none';
   this.countdownDiv.innerHTML = '';
@@ -962,7 +1009,7 @@ AdUi.prototype.onAdBreakEnd = function () {
  * Handles when all ads have finished playing.
  */
 AdUi.prototype.onAllAdsCompleted = function () {
-  this.adContainerDiv.style.display = 'none';
+  this.hideAdContainer();
 };
 
 /**
@@ -971,6 +1018,7 @@ AdUi.prototype.onAllAdsCompleted = function () {
 AdUi.prototype.onLinearAdStart = function () {
   // Don't bump container when controls are shown
   this.removeClass(this.adContainerDiv, 'bumpable-ima-ad-container');
+  this.isAdNonlinear = false;
 };
 
 /**
@@ -982,6 +1030,7 @@ AdUi.prototype.onNonLinearAdLoad = function () {
   this.adContainerDiv.style.display = 'block';
   // Bump container when controls are shown
   this.addClass(this.adContainerDiv, 'bumpable-ima-ad-container');
+  this.isAdNonlinear = true;
 };
 
 AdUi.prototype.onPlayerEnterFullscreen = function () {
@@ -1015,13 +1064,11 @@ AdUi.prototype.onPlayerVolumeChanged = function (volume) {
  * Shows ad controls on mouseover.
  */
 AdUi.prototype.showAdControls = function () {
-  this.addClass(this.controlsDiv, 'ima-controls-div-showing');
-  this.playPauseDiv.style.display = 'block';
-  this.muteDiv.style.display = 'block';
-  this.fullscreenDiv.style.display = 'block';
-  // Don't show on iOS.
-  if (!this.controller.getIsIos()) {
-    this.sliderDiv.style.display = 'block';
+  var _controller$getSettin = this.controller.getSettings(),
+      disableAdControls = _controller$getSettin.disableAdControls;
+
+  if (!disableAdControls) {
+    this.addClass(this.controlsDiv, 'ima-controls-div-showing');
   }
 };
 
@@ -1030,10 +1077,6 @@ AdUi.prototype.showAdControls = function () {
  */
 AdUi.prototype.hideAdControls = function () {
   this.removeClass(this.controlsDiv, 'ima-controls-div-showing');
-  this.playPauseDiv.style.display = 'none';
-  this.muteDiv.style.display = 'none';
-  this.sliderDiv.style.display = 'none';
-  this.fullscreenDiv.style.display = 'none';
 };
 
 /**
@@ -1112,27 +1155,31 @@ AdUi.prototype.setShowCountdown = function (showCountdownIn) {
 };
 
 var name = "videojs-ima";
-var version = "1.5.1";
+var version = "1.8.3";
 var license = "Apache-2.0";
 var main = "./dist/videojs.ima.js";
+var module$1 = "./dist/videojs.ima.es.js";
 var author = { "name": "Google Inc." };
 var engines = { "node": ">=0.8.0" };
-var scripts = { "contBuild": "watch 'npm run rollup:max' src", "predevServer": "echo \"Starting up server on localhost:8000.\"", "devServer": "npm-run-all -p testServer contBuild", "lint": "eslint \"src/*.js\"", "rollup": "npm-run-all rollup:*", "rollup:max": "rollup -c configs/rollup.config.js", "rollup:min": "rollup -c configs/rollup.config.min.js", "pretest": "npm run rollup", "start": "npm run devServer", "test": "npm-run-all test:*", "test:vjs5": "npm install video.js@5.19.2 --no-save && npm-run-all -p -r testServer webdriver", "test:vjs6": "npm install video.js@6 --no-save && npm-run-all -p -r testServer webdriver", "testServer": "http-server --cors -p 8000 --silent", "preversion": "node scripts/preversion.js && npm run lint && npm test", "version": "node scripts/version.js", "postversion": "node scripts/postversion.js", "webdriver": "mocha test/webdriver/*.js --no-timeouts" };
+var scripts = { "contBuild": "watch 'npm run rollup:max' src", "predevServer": "echo \"Starting up server on localhost:8000.\"", "devServer": "npm-run-all -p testServer contBuild", "lint": "eslint \"src/*.js\"", "rollup": "npm-run-all rollup:*", "rollup:max": "rollup -c configs/rollup.config.js", "rollup:es": "rollup -c configs/rollup.config.es.js", "rollup:min": "rollup -c configs/rollup.config.min.js", "pretest": "npm run rollup", "start": "npm run devServer", "test": "npm-run-all test:*", "test:vjs5": "npm install video.js@5.19.2 --no-save && npm-run-all -p -r testServer webdriver", "test:vjs6": "npm install video.js@6 --no-save && npm-run-all -p -r testServer webdriver", "test:vjs7": "npm install video.js@7 --no-save && npm-run-all -p -r testServer webdriver", "testServer": "http-server --cors -p 8000 --silent", "preversion": "node scripts/preversion.js && npm run lint && npm test", "version": "node scripts/version.js", "postversion": "node scripts/postversion.js", "webdriver": "mocha test/webdriver/*.js --no-timeouts" };
 var repository = { "type": "git", "url": "https://github.com/googleads/videojs-ima" };
 var files = ["CHANGELOG.md", "LICENSE", "README.md", "dist/", "src/"];
-var dependencies = { "can-autoplay": "^3.0.0", "cryptiles": "^4.1.2", "video.js": "^5.19.2 || ^6", "videojs-contrib-ads": "^6" };
-var devDependencies = { "babel-core": "^6.26.3", "babel-preset-env": "^1.7.0", "child_process": "^1.0.2", "chromedriver": "^2.35.0", "conventional-changelog-cli": "^1.3.5", "conventional-changelog-videojs": "^3.0.0", "eslint": "^4.11.0", "eslint-config-google": "^0.9.1", "eslint-plugin-jsdoc": "^3.2.0", "geckodriver": "^1.12.2", "http-server": "^0.10.0", "mocha": "^4.0.1", "npm-run-all": "^4.1.2", "path": "^0.12.7", "rimraf": "^2.6.2", "rollup": "^0.51.8", "rollup-plugin-babel": "^3.0.3", "rollup-plugin-copy": "^0.2.3", "rollup-plugin-json": "^2.3.0", "rollup-plugin-uglify": "^2.0.1", "selenium-webdriver": "^3.6.0", "uglify-es": "^3.1.10", "watch": "^1.0.2" };
+var peerDependencies = { "video.js": "^5.19.2 || ^6 || ^7" };
+var dependencies = { "can-autoplay": "^3.0.0", "cryptiles": "^4.1.3", "extend": ">=3.0.2", "lodash": ">=4.17.19", "lodash.template": ">=4.5.0", "videojs-contrib-ads": "^6.6.5" };
+var devDependencies = { "babel-core": "^6.26.3", "babel-preset-env": "^1.7.0", "child_process": "^1.0.2", "chromedriver": "^86.0.0", "conventional-changelog-cli": "^2.0.31", "conventional-changelog-videojs": "^3.0.1", "eslint": "^4.19.1", "eslint-config-google": "^0.9.1", "eslint-plugin-jsdoc": "^3.15.1", "geckodriver": "^1.19.1", "http-server": "^0.12.3", "mocha": "^7.1.2", "npm-run-all": "^4.1.5", "path": "^0.12.7", "protractor": "^7.0.0", "rimraf": "^2.7.1", "rollup": "^0.51.8", "rollup-plugin-babel": "^3.0.7", "rollup-plugin-copy": "^0.2.3", "rollup-plugin-json": "^2.3.1", "rollup-plugin-uglify": "^2.0.1", "selenium-webdriver": "^3.6.0", "uglify-es": "^3.3.9", "video.js": "^5.19.2 || ^6 || ^7", "watch": "^1.0.2", "webdriver-manager": "^12.1.7" };
 var keywords = ["videojs", "videojs-plugin"];
 var pkg = {
 	name: name,
 	version: version,
 	license: license,
 	main: main,
+	module: module$1,
 	author: author,
 	engines: engines,
 	scripts: scripts,
 	repository: repository,
 	files: files,
+	peerDependencies: peerDependencies,
 	dependencies: dependencies,
 	devDependencies: devDependencies,
 	keywords: keywords
@@ -1248,6 +1295,11 @@ var SdkImpl = function SdkImpl(controller) {
   this.contentCompleteCalled = false;
 
   /**
+   * True if the ad has timed out.
+   */
+  this.isAdTimedOut = false;
+
+  /**
    * Stores the dimensions for the ads manager.
    */
   this.adsManagerDimensions = {
@@ -1275,6 +1327,10 @@ var SdkImpl = function SdkImpl(controller) {
   if (this.controller.getSettings().disableCustomPlaybackForIOS10Plus) {
     google.ima.settings.setDisableCustomPlaybackForIOS10Plus(this.controller.getSettings().disableCustomPlaybackForIOS10Plus);
   }
+
+  if (this.controller.getSettings().ppid) {
+    google.ima.settings.setPpid(this.controller.getSettings().ppid);
+  }
 };
 
 /**
@@ -1289,7 +1345,7 @@ SdkImpl.prototype.initAdObjects = function () {
   if (this.controller.getSettings().vpaidAllowed == false) {
     this.adsLoader.getSettings().setVpaidMode(google.ima.ImaSdkSettings.VpaidMode.DISABLED);
   }
-  if (this.controller.getSettings().vpaidMode) {
+  if (this.controller.getSettings().vpaidMode !== undefined) {
     this.adsLoader.getSettings().setVpaidMode(this.controller.getSettings().vpaidMode);
   }
 
@@ -1307,6 +1363,11 @@ SdkImpl.prototype.initAdObjects = function () {
 
   this.adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED, this.onAdsManagerLoaded.bind(this), false);
   this.adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR, this.onAdsLoaderError.bind(this), false);
+
+  this.controller.playerWrapper.vjsPlayer.trigger({
+    type: 'ads-loader',
+    adsLoader: this.adsLoader
+  });
 };
 
 /**
@@ -1344,7 +1405,10 @@ SdkImpl.prototype.requestAds = function () {
   }
 
   this.adsLoader.requestAds(adsRequest);
-  this.controller.triggerPlayerEvent('ads-request', adsRequest);
+  this.controller.playerWrapper.vjsPlayer.trigger({
+    type: 'ads-request',
+    AdsRequest: adsRequest
+  });
 };
 
 /**
@@ -1368,7 +1432,6 @@ SdkImpl.prototype.onAdsManagerLoaded = function (adsManagerLoadedEvent) {
 
   this.adsManager.addEventListener(google.ima.AdEvent.Type.LOADED, this.onAdLoaded.bind(this));
   this.adsManager.addEventListener(google.ima.AdEvent.Type.STARTED, this.onAdStarted.bind(this));
-  this.adsManager.addEventListener(google.ima.AdEvent.Type.CLICK, this.onAdPaused.bind(this));
   this.adsManager.addEventListener(google.ima.AdEvent.Type.COMPLETE, this.onAdComplete.bind(this));
   this.adsManager.addEventListener(google.ima.AdEvent.Type.SKIPPED, this.onAdComplete.bind(this));
   this.adsManager.addEventListener(google.ima.AdEvent.Type.LOG, this.onAdLog.bind(this));
@@ -1379,11 +1442,23 @@ SdkImpl.prototype.onAdsManagerLoaded = function (adsManagerLoadedEvent) {
     this.adsManager.addEventListener(google.ima.AdEvent.Type.RESUMED, this.onAdResumed.bind(this));
   }
 
+  this.controller.playerWrapper.vjsPlayer.trigger({
+    type: 'ads-manager',
+    adsManager: this.adsManager
+  });
+
   if (!this.autoPlayAdBreaks) {
     this.initAdsManager();
   }
 
-  this.controller.onAdsReady();
+  var _controller$getSettin = this.controller.getSettings(),
+      preventLateAdStart = _controller$getSettin.preventLateAdStart;
+
+  if (!preventLateAdStart) {
+    this.controller.onAdsReady();
+  } else if (preventLateAdStart && !this.isAdTimedOut) {
+    this.controller.onAdsReady();
+  }
 
   if (this.controller.getSettings().adsManagerLoadedCallback) {
     this.controller.getSettings().adsManagerLoadedCallback();
@@ -1394,7 +1469,7 @@ SdkImpl.prototype.onAdsManagerLoaded = function (adsManagerLoadedEvent) {
  * Listener for errors fired by the AdsLoader.
  * @param {google.ima.AdErrorEvent} event The error event thrown by the
  *     AdsLoader. See
- *     https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdError.Type
+ *     https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.AdError#.Type
  */
 SdkImpl.prototype.onAdsLoaderError = function (event) {
   window.console.warn('AdsLoader error: ' + event.getError());
@@ -1415,10 +1490,7 @@ SdkImpl.prototype.initAdsManager = function () {
     this.adsManagerDimensions.height = initHeight;
     this.adsManager.init(initWidth, initHeight, google.ima.ViewMode.NORMAL);
     this.adsManager.setVolume(this.controller.getPlayerVolume());
-    if (!this.adDisplayContainerInitialized) {
-      this.adDisplayContainer.initialize();
-      this.adDisplayContainer.initialized = true;
-    }
+    this.initializeAdDisplayContainer();
   } catch (adError) {
     this.onAdError(adError);
   }
@@ -1560,6 +1632,7 @@ SdkImpl.prototype.onAdLog = function (adEvent) {
  * update the ad UI.
  */
 SdkImpl.prototype.onAdPlayheadTrackerInterval = function () {
+  if (this.adsManager === null) return;
   var remainingTime = this.adsManager.getRemainingTime();
   var duration = this.currentAd.getDuration();
   var currentTime = duration - remainingTime;
@@ -1619,10 +1692,14 @@ SdkImpl.prototype.onPlayerReadyForPreroll = function () {
   }
 };
 
+SdkImpl.prototype.onAdTimeout = function () {
+  this.isAdTimedOut = true;
+};
+
 SdkImpl.prototype.onPlayerReady = function () {
   this.initAdObjects();
 
-  if (this.controller.getSettings().adTagUrl || this.controller.getSettings().adsResponse) {
+  if ((this.controller.getSettings().adTagUrl || this.controller.getSettings().adsResponse) && this.controller.getSettings().requestMode === 'onLoad') {
     this.requestAds();
   }
 };
@@ -1760,8 +1837,10 @@ SdkImpl.prototype.setVolume = function (volume) {
  */
 SdkImpl.prototype.initializeAdDisplayContainer = function () {
   if (this.adDisplayContainer) {
-    this.adDisplayContainerInitialized = true;
-    this.adDisplayContainer.initialize();
+    if (!this.adDisplayContainerInitialized) {
+      this.adDisplayContainer.initialize();
+      this.adDisplayContainerInitialized = true;
+    }
   }
 };
 
@@ -1786,7 +1865,7 @@ SdkImpl.prototype.playAdBreak = function () {
 /**
  * Ads an EventListener to the AdsManager. For a list of available events,
  * see
- * https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
+ * https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.AdEvent#.Type
  * @param {google.ima.AdEvent.Type} event The AdEvent.Type for which to
  *     listen.
  * @param {callback} callback The method to call when the event is fired.
@@ -1900,12 +1979,15 @@ var Controller = function Controller(player, options) {
 };
 
 Controller.IMA_DEFAULTS = {
-  debug: false,
-  timeout: 5000,
-  prerollTimeout: 1000,
   adLabel: 'Advertisement',
   adLabelNofN: 'of',
-  showControlsForJSAds: true
+  debug: false,
+  disableAdControls: false,
+  prerollTimeout: 1000,
+  preventLateAdStart: false,
+  requestMode: 'onLoad',
+  showControlsForJSAds: true,
+  timeout: 5000
 };
 
 /**
@@ -2270,6 +2352,13 @@ Controller.prototype.onPlayerReadyForPreroll = function () {
 };
 
 /**
+ * Called if the ad times out.
+ */
+Controller.prototype.onAdTimeout = function () {
+  this.sdkImpl.onAdTimeout();
+};
+
+/**
  * Called when the player is ready.
  */
 Controller.prototype.onPlayerReady = function () {
@@ -2310,13 +2399,11 @@ Controller.prototype.onPlayerVolumeChanged = function (volume) {
  *     blank to use the existing content.
  * @param {?string} adTag The ad tag to be requested when the content loads.
  *     Leave blank to use the existing ad tag.
- * @param {?boolean} playOnLoad True to play the content once it has loaded,
- *     false to only load the content but not start playback.
  */
-Controller.prototype.setContentWithAdTag = function (contentSrc, adTag, playOnLoad) {
+Controller.prototype.setContentWithAdTag = function (contentSrc, adTag) {
   this.reset();
   this.settings.adTagUrl = adTag ? adTag : this.settings.adTagUrl;
-  this.playerWrapper.changeSource(contentSrc, playOnLoad);
+  this.playerWrapper.changeSource(contentSrc);
 };
 
 /**
@@ -2327,13 +2414,11 @@ Controller.prototype.setContentWithAdTag = function (contentSrc, adTag, playOnLo
  *     blank to use the existing content.
  * @param {?string} adsResponse The ads response to be requested when the
  *     content loads. Leave blank to use the existing ads response.
- * @param {?boolean} playOnLoad True to play the content once it has loaded,
- *     false to only load the content but not start playback.
  */
-Controller.prototype.setContentWithAdsResponse = function (contentSrc, adsResponse, playOnLoad) {
+Controller.prototype.setContentWithAdsResponse = function (contentSrc, adsResponse) {
   this.reset();
   this.settings.adsResponse = adsResponse ? adsResponse : this.settings.adsResponse;
-  this.playerWrapper.changeSource(contentSrc, playOnLoad);
+  this.playerWrapper.changeSource(contentSrc);
 };
 
 /**
@@ -2344,13 +2429,11 @@ Controller.prototype.setContentWithAdsResponse = function (contentSrc, adsRespon
  *     blank to use the existing content.
  * @param {?Object} adsRequest The ads request to be requested when the
  *     content loads. Leave blank to use the existing ads request.
- * @param {?boolean} playOnLoad True to play the content once it has loaded,
- *     false to only load the content but not start playback.
  */
-Controller.prototype.setContentWithAdsRequest = function (contentSrc, adsRequest, playOnLoad) {
+Controller.prototype.setContentWithAdsRequest = function (contentSrc, adsRequest) {
   this.reset();
   this.settings.adsRequest = adsRequest ? adsRequest : this.settings.adsRequest;
-  this.playerWrapper.changeSource(contentSrc, playOnLoad);
+  this.playerWrapper.changeSource(contentSrc);
 };
 
 /**
@@ -2359,6 +2442,7 @@ Controller.prototype.setContentWithAdsRequest = function (contentSrc, adsRequest
 Controller.prototype.reset = function () {
   this.sdkImpl.reset();
   this.playerWrapper.reset();
+  this.adUi.reset();
 };
 
 /**
@@ -2406,7 +2490,7 @@ Controller.prototype.setAdBreakReadyListener = function (listener) {
 Controller.prototype.setShowCountdown = function (showCountdownIn) {
   this.adUi.setShowCountdown(showCountdownIn);
   this.showCountdown = showCountdownIn;
-  this.countdownDiv.style.display = this.showCountdown ? 'block' : 'none';
+  this.adUi.countdownDiv.style.display = this.showCountdown ? 'block' : 'none';
 };
 
 /**
@@ -2433,7 +2517,7 @@ Controller.prototype.playAdBreak = function () {
 /**
  * Ads an EventListener to the AdsManager. For a list of available events,
  * see
- * https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
+ * https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.AdEvent#.Type
  * @param {google.ima.AdEvent.Type} event The AdEvent.Type for which to
  *     listen.
  * @param {callback} callback The method to call when the event is fired.
@@ -2483,6 +2567,13 @@ Controller.prototype.pauseAd = function () {
 Controller.prototype.resumeAd = function () {
   this.adUi.onAdsPlaying();
   this.sdkImpl.resumeAds();
+};
+
+/**
+ * Toggles video/ad playback.
+ */
+Controller.prototype.togglePlayback = function () {
+  this.playerWrapper.togglePlayback();
 };
 
 /**
@@ -2619,7 +2710,7 @@ var ImaPlugin = function ImaPlugin(player, options) {
   /**
    * Ads an EventListener to the AdsManager. For a list of available events,
    * see
-   * https://developers.google.com/interactive-media-ads/docs/sdks/html5/v3/apis#ima.AdEvent.Type
+   * https://developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.AdEvent#.Type
    * @param {google.ima.AdEvent.Type} event The AdEvent.Type for which to
    *     listen.
    * @param {callback} callback The method to call when the event is fired.
@@ -2700,11 +2791,9 @@ var ImaPlugin = function ImaPlugin(player, options) {
    *     blank to use the existing content.
    * @param {?string} adTag The ad tag to be requested when the content loads.
    *     Leave blank to use the existing ad tag.
-   * @param {?boolean} playOnLoad True to play the content once it has loaded,
-   *     false to only load the content but not start playback.
    */
-  this.setContentWithAdTag = function (contentSrc, adTag, playOnLoad) {
-    this.controller.setContentWithAdTag(contentSrc, adTag, playOnLoad);
+  this.setContentWithAdTag = function (contentSrc, adTag) {
+    this.controller.setContentWithAdTag(contentSrc, adTag);
   }.bind(this);
 
   /**
@@ -2715,11 +2804,9 @@ var ImaPlugin = function ImaPlugin(player, options) {
    *     blank to use the existing content.
    * @param {?string} adsResponse The ads response to be requested when the
    *     content loads. Leave blank to use the existing ads response.
-   * @param {?boolean} playOnLoad True to play the content once it has loaded,
-   *     false to only load the content but not start playback.
    */
-  this.setContentWithAdsResponse = function (contentSrc, adsResponse, playOnLoad) {
-    this.controller.setContentWithAdsResponse(contentSrc, adsResponse, playOnLoad);
+  this.setContentWithAdsResponse = function (contentSrc, adsResponse) {
+    this.controller.setContentWithAdsResponse(contentSrc, adsResponse);
   }.bind(this);
 
   /**
@@ -2730,11 +2817,9 @@ var ImaPlugin = function ImaPlugin(player, options) {
    *     blank to use the existing content.
    * @param {?Object} adsRequest The ads request to be requested when the
    *     content loads. Leave blank to use the existing ads request.
-   * @param {?boolean} playOnLoad True to play the content once it has loaded,
-   *     false to only load the content but not start playback.
    */
-  this.setContentWithAdsRequest = function (contentSrc, adsRequest, playOnLoad) {
-    this.controller.setContentWithAdsRequest(contentSrc, adsRequest, playOnLoad);
+  this.setContentWithAdsRequest = function (contentSrc, adsRequest) {
+    this.controller.setContentWithAdsRequest(contentSrc, adsRequest);
   }.bind(this);
 
   /**
@@ -2754,5 +2839,7 @@ var init = function init(options) {
 
 var registerPlugin = videojs.registerPlugin || videojs.plugin;
 registerPlugin('ima', init);
+
+return ImaPlugin;
 
 })));

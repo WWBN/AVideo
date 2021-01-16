@@ -20,7 +20,7 @@ $output = fopen("php://output", 'w') or die("Can't open php://output");
 header("Content-Type:application/csv");
 header("Content-Disposition:attachment;filename=email.csv");
 fputcsv($output, array('id', 'user', 'name', 'email', 'status', 'created', 'isAdmin'));
-foreach ($users as $user) {    
+foreach ($users as $user) {
     fputcsv($output, $user);
 }
 fclose($output) or die("Can't close php://output");

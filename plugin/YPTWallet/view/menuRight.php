@@ -9,11 +9,11 @@ $balance = $plugin->getBalance(User::getId());
 <style>
 </style>
 <li>
-    <div class="btn-group">
+    <div class="btn-group"  data-toggle="tooltip" title="<?php echo __($obj->wallet_button_title); ?>" data-placement="left" >
         <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
-            <span class="hidden-md hidden-sm"><?php echo $obj->wallet_button_title; ?></span> <span class="badge"><?php echo $obj->currency_symbol; ?> <span class="walletBalance"><?php echo number_format($balance, $obj->decimalPrecision); ?></span> <?php echo $obj->currency; ?></span></span> <span class="caret"></span>
+            <span class="badge"><?php echo YPTWallet::formatCurrency($balance, true); ?></span> <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu"> 
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
             <?php
             if($obj->enableAutomaticAddFundsPage){
             ?>
@@ -51,19 +51,19 @@ $balance = $plugin->getBalance(User::getId());
                     <i class="fas fa-exchange-alt" aria-hidden="true"></i>
                     <?php echo __("Transfer Funds"); ?>
                 </a>
-            </li> 
+            </li>
             <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/history.php">
                     <i class="fa fa-history" aria-hidden="true"></i>
                     <?php echo __("History"); ?>
                 </a>
-            </li> 
+            </li>
             <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/configuration.php">
                     <i class="fas fa-cog" aria-hidden="true"></i>
                     <?php echo __("Configuration"); ?>
                 </a>
-            </li> 
+            </li>
             <?php
             if (User::isAdmin()) {
                 $total = WalletLog::getTotalFromWallet(0,true,'pending');
@@ -74,13 +74,13 @@ $balance = $plugin->getBalance(User::getId());
                         <i class="fa fa-users" aria-hidden="true"></i>
                         <?php echo __("Manage Wallets"); ?>
                     </a>
-                </li> 
+                </li>
                 <li class="dropdown-submenu">
                     <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/pendingRequests.php">
                         <i class="far fa-clock" aria-hidden="true"></i>
                         <?php echo __("Pending Requests"); ?> <span class="badge"><?php echo $total; ?></span>
                     </a>
-                </li> 
+                </li>
                 <?php
             }
             ?>

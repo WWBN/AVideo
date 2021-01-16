@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 header('Content-Type: application/json');
 global $global, $config;
@@ -50,7 +51,7 @@ if (!file_exists($global['systemRootPath'] . $imagePath)) {
 }
 
 if (!is_writable($global['systemRootPath'] . $imagePath)) {
-    $response = Array(
+    $response = array(
         "status" => 'error',
         "message" => 'No write Access'
     );
@@ -88,14 +89,13 @@ if (!empty($_POST['faviconBase64'])) {
             "status" => 'success',
             "url" => $global['systemRootPath'] . $photoURL
         );
-        require(  $global['systemRootPath'] . 'objects/php-ico/class-php-ico.php' );
-        
+
         $sizes = array(
             array(16, 16),
             array(24, 24),
             array(32, 32),
             array(48, 48),
-            array(144, 144),
+            array(144, 144)
         );
 
         $ico_lib = new PHP_ICO($global['systemRootPath'] . $photoURL, $sizes);

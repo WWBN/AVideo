@@ -5,12 +5,17 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-$time = 600; //10 minutes
+$name = "sitemap.xml";
+$lifetime = 43200;
 
-if (!file_exists($sitemapFile) || (time() - filemtime($sitemapFile)) > $time) {
+$sitemap = ObjectYPT::getCache($name, $lifetime);
+
+header("Content-type: application/xml");
+if (empty($sitemap)) {
     $sitemap = siteMap();
-    file_put_contents($sitemapFile, $sitemap);
+    ObjectYPT::setCache($name, $sitemap);
+}else{
+    $sitemap .= "<!-- cached -->";
 }
-header("Content-type: text/xml");
-echo file_get_contents($sitemapFile);
+echo $sitemap;
 exit;

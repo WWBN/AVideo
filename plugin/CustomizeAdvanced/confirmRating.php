@@ -3,7 +3,7 @@ require_once '../videos/configuration.php';
 
 $images = Video::getImageFromFilename($video['filename']);
 $img = $images->poster;
-if (!empty($images->posterPortrait)) {
+if (!empty($images->posterPortrait) && strpos($images->posterPortrait, 'notfound_portrait') === false) {
     $img = $images->posterPortrait;
 }
 $imgw = 1280;
@@ -12,7 +12,7 @@ $imgh = 720;
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Confirm Rating</title>
+        <title><?php echo __("Confirm Rating") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -28,6 +28,12 @@ $imgh = 720;
         <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
         <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
         <style>
+            body {
+                padding-top: 0;
+            }
+            footer{
+                display: none;   
+            }
             #bg{
                 position: fixed;
                 width: 100%;
@@ -41,7 +47,7 @@ $imgh = 720;
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
+        //include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div id="bg"></div>
 
@@ -71,7 +77,7 @@ $imgh = 720;
 
                     <div class="modal-footer" >
                         <a href="<?php echo $_SERVER['REQUEST_URI'],strpos($_SERVER['REQUEST_URI'], "?")===false?"?":"&"; ?>rrating=1" class="btn btn-success pull-right"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></a>
-                        <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-danger pull-right"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
+                        <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-danger pull-right"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
                     </div>
                 </div>
 

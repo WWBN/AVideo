@@ -63,6 +63,7 @@ $menu = new MenuAdmin(__("Design"), "fas fa-pen-fancy");
 $menu->addItem(new MenuAdmin(__("First Page Style"), "fas fa-columns", "design_first_page"));
 $menu->addItem(new MenuAdmin(__("Player Skin"), "fas fa-play-circle", "design_player"));
 $menu->addItem(new MenuAdmin(__("Themes"), "fas fa-palette", "design_themes"));
+$menu->addItem(new MenuAdmin(__("Colors"), "fas fa-palette", "design_colors"));
 //$menu->addItem(new MenuAdmin(__("Custom CSS"), "fab fa-css3-alt", "design_css"));
 $itens[] = $menu;
 
@@ -98,6 +99,9 @@ switch ($_GET['page']) {
         break;
     case "design_themes":
         $includeBody = $global['systemRootPath'] . 'admin/design_themes.php';
+        break;
+    case "design_colors":
+        $includeBody = $global['systemRootPath'] . 'admin/design_colors.php';
         break;
     case "design_player":
         $includeBody = $global['systemRootPath'] . 'admin/design_player.php';
@@ -169,7 +173,7 @@ switch ($_GET['page']) {
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Administration") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         if (!empty($includeHead) && file_exists($includeHead)) {
@@ -264,8 +268,8 @@ switch ($_GET['page']) {
                                 } else {
                                     ?>
                                     <div class="alert alert-danger">
-                                        Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store
-                                        <a class="btn btn-danger" href="https://www.avideo.com/plugins/">Plugin Store</a>
+                                        <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
+                                        <a class="btn btn-danger" href="https://youphp.tube/plugins/"><?php echo __('Plugin Store'); ?></a>
                                     </div>
                                     <?php
                                 }
@@ -276,8 +280,8 @@ switch ($_GET['page']) {
                             } else {
                                 ?>
                                 <div class="alert alert-danger">
-                                    Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store
-                                    <a class="btn btn-danger" href="https://www.avideo.com/plugins/">Plugin Store</a>
+                                    <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
+                                    <a class="btn btn-danger" href="https://youphp.tube/plugins/"><?php echo __('Plugin Store'); ?></a>
                                 </div>
                                 <?php
                             }

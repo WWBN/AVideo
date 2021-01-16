@@ -4,6 +4,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class MonetizeUsers extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         $txt = "This plugin will reward your users based on their videos view, each view will affect the user's walled balance";
 
@@ -31,10 +37,6 @@ class MonetizeUsers extends PluginAbstract {
         return $obj;
     }
 
-    public function getTags() {
-        return array('free', 'monetize', 'wallet');
-    }
-
     public function addView($videos_id, $total) {
         global $global;
         $obj = $this->getDataObject();
@@ -52,7 +54,7 @@ class MonetizeUsers extends PluginAbstract {
 
         $wallet = AVideoPlugin::loadPlugin("YPTWallet");
         $video = new Video("", "", $videos_id);
-        return $wallet->transferBalanceFromSiteOwner($video->getUsers_id(), $obj->rewardPerView, "Reward from video <a href='{$global['webSiteRootURL']}v/{$videos_id}'>" . $video->getTitle() . "</a>", true);
+        return YPTWallet::transferBalanceFromSiteOwner($video->getUsers_id(), $obj->rewardPerView, "Reward from video <a href='{$global['webSiteRootURL']}v/{$videos_id}'>" . $video->getTitle() . "</a>", true);
     }
 
 }

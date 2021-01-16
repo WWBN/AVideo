@@ -1,7 +1,7 @@
 <link href="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
 <script src="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
 <div class="panel panel-default">
-    <div class="panel-heading">Title and Logo </div>
+    <div class="panel-heading"><?php echo __('Title and Logo'); ?> </div>
     <div class="panel-body">
         <form id="updateConfigForm">
             <div class="row">
@@ -53,7 +53,7 @@
 
             reader.readAsDataURL($(input)[0].files[0]);
         } else {
-            swal("Sorry - you're browser doesn't support the FileReader API");
+            avideoAlert("Sorry - you're browser doesn't support the FileReader API");
         }
     }
 
@@ -77,7 +77,7 @@
         });
 
         logoCrop = $('#croppieLogo').croppie({
-            url: '<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>',
+            url: '<?php echo $global['webSiteRootURL'], $config->getLogo(); ?>?'+Math.random(),
             enableExif: true,
             enforceBoundary: false,
             mouseWheelZoom: false,
@@ -115,9 +115,9 @@
                     type: 'post',
                     success: function (response) {
                         if (response.status === "1") {
-                            swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
+                            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your configurations has been updated!"); ?>", "success");
                         } else {
-                            swal("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your configurations has NOT been updated!"); ?>", "error");
                         }
                         modal.hidePleaseWait();
                     }

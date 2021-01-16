@@ -1,0 +1,18 @@
+<svg height="24" width="24" viewBox="0 0 32 32">
+    <path d="M22.667 16a6.667 6.667 0 11-13.334 0 6.667 6.667 0 0113.334 0z">
+        <animate
+            attributeType="XML"
+            attributeName="fill"
+            values="#800;#f00;#800;#800"
+            dur="0.8s"
+            repeatCount="indefinite"/>
+    </path>
+    <path d="M16 24a8 8 0 000-16 8 8 0 000 16zm0 1.333a9.333 9.333 0 110-18.666 9.333 9.333 0 110 18.666z">
+        <animate
+            attributeType="XML"
+            attributeName="fill"
+            values="#800;#f00;#800;#800"
+            dur="0.8s"
+            repeatCount="indefinite"/>
+    </path>    
+</svg>

@@ -5,6 +5,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class VideoLogoOverlay extends PluginAbstract {
 
+    public function getTags() {
+        return array(
+            PluginTags::$FREE,
+        );
+    }
     public function getDescription() {
         return "Put an Logo overlay on video";
     }
@@ -73,11 +78,6 @@ class VideoLogoOverlay extends PluginAbstract {
             $url = "#";
         }
         return $url;
-    }
-    
-    
-    public function getTags() {
-        return array('free');
     }
 
 }

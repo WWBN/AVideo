@@ -3,7 +3,7 @@
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 abstract class PluginAbstract {
-
+    private $dataObjectHelper = array();
     static $dataObject = array();
 
     /**
@@ -75,6 +75,10 @@ abstract class PluginAbstract {
         return array();
     }
 
+    public function getVideosManagerListButtonTitle() {
+        return "";
+    }
+
     public function getVideosManagerListButton() {
         return "";
     }
@@ -84,7 +88,7 @@ abstract class PluginAbstract {
     }
 
     public function getTags() {
-        
+        return array();
     }
 
     public function getGallerySection() {
@@ -92,15 +96,17 @@ abstract class PluginAbstract {
     }
 
     public function getDataObject() {
-        if (empty(PluginAbstract::$dataObject[$this->getUUID()])) {
-            $obj = Plugin::getPluginByUUID($this->getUUID());
+        $uuid = $this->getUUID();
+        if (empty(PluginAbstract::$dataObject[$uuid])) {
+            $obj = Plugin::getPluginByUUID($uuid);
             //echo $obj['object_data'];
             $o = array();
             if (!empty($obj['object_data'])) {
                 $o = json_decode(stripslashes($obj['object_data']));
                 $json_last_error = json_last_error();
                 if ($json_last_error !== JSON_ERROR_NONE) {
-                    //_error_log('getDataObject - JSON error (' . $json_last_error . ')' . $this->getName());
+                    //var_dump($this->getName(), $json_last_error, $o, $obj['object_data']);
+                    //_error_log('getDataObject - JSON error (' . $json_last_error . ') ' . $this->getName()." ".$this->getUUID());
                     $o = json_decode($obj['object_data']);
                     $json_last_error = json_last_error();
                 }
@@ -159,9 +165,18 @@ abstract class PluginAbstract {
 
     public function setDataObject($object) {
         $pluginRow = Plugin::getPluginByUUID($this->getUUID());
+        if(empty($pluginRow)){
+            return false;
+        }
         $obj = new Plugin($pluginRow['id']);
         $obj->setObject_data(addcslashes(json_encode($object), '\\'));
         return $obj->save();
+    }
+    
+    public function setDataObjectParameter($parameterName, $value) {
+        $object = $this->getDataObject();
+        eval("\$object->$parameterName = \$value;");
+        return $this->setDataObject($object);
     }
 
     public function getEmptyDataObject() {
@@ -174,6 +189,10 @@ abstract class PluginAbstract {
     }
 
     public function afterNewVideo($videos_id) {
+        return false;
+    }
+    
+    public function afterDonation($from_users_id, $how_much, $videos_id, $users_id) {
         return false;
     }
 
@@ -216,6 +235,10 @@ abstract class PluginAbstract {
     }
 
     public function getEnd() {
+        return false;
+    }
+    
+    public function afterVideoJS() {
         return false;
     }
 
@@ -275,6 +298,10 @@ abstract class PluginAbstract {
     public function getModeYouTube($videos_id) {
         return false;
     }
+
+    public function getModeYouTubeLive($users_id) {
+        return false;
+    }
     
     public function getEmbed($videos_id) {
         return false;
@@ -298,6 +325,10 @@ abstract class PluginAbstract {
     }
 
     public function navBarButtons() {
+        return "";
+    }
+    
+    public function navBarProfileButtons() {
         return "";
     }
 
@@ -341,6 +372,15 @@ abstract class PluginAbstract {
     /**
      * 
      * @param type $users_id
+     * @return 0 = I dont know, -1 = can not upload, 1 = can upload
+     */
+    public function userCanUpload($users_id) {
+        return 0;
+    }
+
+    /**
+     * 
+     * @param type $users_id
      * @param type $videos_id
      * @return 0 = I dont know, -1 = can not watch, 1 = can watch
      */
@@ -348,6 +388,12 @@ abstract class PluginAbstract {
         return 0;
     }
 
+    /**
+     * 
+     * @param type $users_id
+     * @param type $videos_id
+     * @return 0 = I dont know, -1 = can not watch, 1 = can watch
+     */
     public function userCanWatchVideoWithAds($users_id, $videos_id) {
         return 0;
     }
@@ -376,7 +422,7 @@ abstract class PluginAbstract {
         return null;
     }
 
-    public function onLiveStream($users_id) {
+    public function onLiveStream($users_id, $live_servers_id) {
         return null;
     }
 
@@ -443,5 +489,49 @@ abstract class PluginAbstract {
     public function getUploadMenuButton() {
         return "";
     }
+    
+    public function dataSetup() {
+        return "";
+    }
+    
+    function getPermissionsOptions(){
+        return array();
+    }
 
+    protected function addDataObjectHelper($property, $name, $description=""){
+        $this->dataObjectHelper[$property] = array("name"=>$name, "description"=>$description);
+    }
+    
+    function getDataObjectHelper(){
+        return $this->dataObjectHelper;
+    }
+}
+
+
+
+class PluginPermissionOption{
+    private $type, $name, $description, $className;
+    
+    function __construct($type, $name, $description, $className) {
+        $this->type = $type;
+        $this->name = $name;
+        $this->description = $description;
+        $this->className = $className;
+    }
+
+    function getType() {
+        return $this->type;
+    }
+
+    function getName() {
+        return $this->name;
+    }
+
+    function getDescription() {
+        return $this->description;
+    }
+
+    function getClassName() {
+        return $this->className;
+    }
 }

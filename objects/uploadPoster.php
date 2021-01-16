@@ -57,10 +57,10 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         /**
          * This is when is using in a non file_dataoaded movie
          */
-        $destination = "{$global['systemRootPath']}videos/" . $video->getFilename() . $ext;
+        $destination = Video::getStoragePath()."" . $video->getFilename() . $ext;
         _error_log("Try to move " . $destination . " \n " . print_r($video, true));
         if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $destination)) {
-            $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename . $ext;
+            $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . Video::getStoragePath()."" . $filename . $ext;
             die(json_encode($obj));
         } else {
             // delete thumbs from poster

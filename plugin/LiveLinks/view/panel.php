@@ -1,7 +1,10 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/> 
 <link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
 <div class="panel panel-default">
-    <div class="panel-heading"><i class="fas fa-link"></i> <?php echo __("Add an external Live Link"); ?></div>
+    <div class="panel-heading">
+        <i class="fas fa-link"></i> <?php echo __("Add an external Live Link"); ?>
+        <span id="serverTime" class="pull-right"></span>
+    </div>
     <div class="panel-body"> 
         <div class="row">
             <div class="col-sm-4">
@@ -28,6 +31,12 @@
                             <label for="inputLinkEnd"><?php echo __("End on"); ?>:</label>
                             <input type="text" id="inputLinkEnd" name="end_date" class="form-control datepickerLink input-sm" placeholder="<?php echo __("End on"); ?>" required>
                         </div>
+                        <div class="form-group col-sm-12">
+                            <label for="title"><?php echo __("Category"); ?>:</label>
+                            <?php
+                            echo Layout::getCategorySelect('categories_id');
+                            ?>
+                        </div>  
                         <div class="form-group col-sm-6">
                             <label for="linkType"><?php echo __("Type"); ?>:</label>
                             <select class="form-control input-sm" name="type" id="linkType">
@@ -96,9 +105,15 @@
 </div>
 <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
 <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-
+<?php $today = getdate(); ?>
 <script type="text/javascript">
     $(document).ready(function () {
+
+        var d = new Date(<?php echo $today['year'] . "," . $today['mon'] . "," . $today['mday'] . "," . $today['hours'] . "," . $today['minutes'] . "," . $today['seconds']; ?>);
+        setInterval(function () {
+            d.setSeconds(d.getSeconds() + 1);
+            $('#serverTime').text((d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()));
+        }, 1000);
 
         var tableLinks = $('#exampleLinks').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/liveLinks.json.php",
@@ -106,7 +121,7 @@
                 {"data": "title"},
                 {"data": "start_date"},
                 {"data": "end_date"},
-                {"data": "status", width:10},
+                {"data": "status", width: 10},
                 {"data": "type"},
                 {
                     sortable: false,
@@ -125,6 +140,8 @@
             e.preventDefault();
             $('#liveLinksForm').trigger("reset");
             $('#linkId').val('');
+            $('select[name="categories_id"]').val('');
+            $('select[name="categories_id"]').trigger('change');
         });
 
         $('#liveLinksForm').on('submit', function (e) {
@@ -136,9 +153,9 @@
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
-                        swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your link has been saved!"); ?>", "success");
+                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your link has been saved!"); ?>", "success");
                         $("#liveLinksForm").trigger("reset");
                     }
                     tableLinks.ajax.reload();
@@ -151,30 +168,33 @@
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = tableLinks.row(tr).data();
+
             swal({
                 title: "<?php echo __("Are you sure?"); ?>",
                 text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "<?php echo __("Yes, delete it!"); ?>",
-                closeOnConfirm: true
-            },
-                    function () {
-                        modal.showPleaseWait();
-                        $.ajax({
-                            type: "POST",
-                            url: "<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/delete_liveLink.json.php",
-                            data: data
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                    .then(function (willDelete) {
+                        if (willDelete) {
 
-                        }).done(function (resposta) {
-                            if (resposta.error) {
-                                swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
-                            }
-                            tableLinks.ajax.reload();
-                            modal.hidePleaseWait();
-                        });
+                            modal.showPleaseWait();
+                            $.ajax({
+                                type: "POST",
+                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/LiveLinks/view/delete_liveLink.json.php",
+                                data: data
+
+                            }).done(function (resposta) {
+                                if (resposta.error) {
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                }
+                                tableLinks.ajax.reload();
+                                modal.hidePleaseWait();
+                            });
+                        }
                     });
+
         });
 
         $('#exampleLinks').on('click', 'button.editor_edit_link', function (e) {
@@ -188,6 +208,8 @@
             $('#inputLinkStarts').val(data.start_date);
             $('#inputLinkEnd').val(data.end_date);
             $('#linkType').val(data.type);
+            $('select[name="categories_id"]').val(data.categories_id);
+            $('select[name="categories_id"]').trigger('change');
             $('#linkStatus').val(data.status);
         });
     });

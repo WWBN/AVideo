@@ -1,5 +1,5 @@
 <?php
-header("Access-Control-Allow-Headers: Content-Type");
+header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -23,7 +23,7 @@ if (!User::canUpload()) {
 }
 
 // A list of permitted file extensions
-$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv', 'mpg', 'mpeg', 'f4v', 'm4v', 'm4a', 'm2p', 'rm', 'vob', 'mkv');
+$allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv', 'mpg', 'mpeg', 'f4v', 'm4v', 'm4a', 'm2p', 'rm', 'vob', 'mkv', 'jpg', 'jpeg', 'gif', 'png', 'webp');
 _error_log("MOBILE UPLOAD: Starts");
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
@@ -56,7 +56,6 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
                     . "<br>[This File Duration: {$thisFile} Seconds]"
                     . "<br>[Limit after this file: {$limitAfterThisFile} Seconds]";
 
-
             if (!empty($_FILES['upl']['videoId'])) {
                 $video = new Video("", "", $_FILES['upl']['videoId']);
                 $video->delete();
@@ -76,7 +75,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     } else {
         $video->setType("video");
     }
-    
+
     if(!empty($_REQUEST['title'])){
         $video->setTitle($_REQUEST['title']);
     }
@@ -86,11 +85,14 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     if(!empty($_REQUEST['categories_id'])){
         $video->setCategories_id($_REQUEST['categories_id']);
     }
-    
+    if(!empty($_REQUEST['can_share'])) {
+        $video->setCan_share($_REQUEST['can_share']);
+    }
+
     $video->setStatus('e');
 
-    if (!move_uploaded_file($_FILES['upl']['tmp_name'], "{$global['systemRootPath']}videos/original_" . $filename)) {
-        $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/original_" . $filename . ")";
+    if (!move_uploaded_file($_FILES['upl']['tmp_name'], Video::getStoragePath()."original_" . $filename)) {
+        $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . Video::getStoragePath()."original_" . $filename . ")";
         _error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
         die(json_encode($object));
     }

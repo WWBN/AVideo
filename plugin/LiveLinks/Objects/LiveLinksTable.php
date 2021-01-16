@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveLinksTable extends ObjectYPT {
 
-    protected $id, $title, $description, $link, $start_date, $end_date, $type, $status, $users_id;
+    protected $id, $title, $description, $link, $start_date, $end_date, $type, $status, $users_id, $categories_id;
 
     static function getSearchFieldsNames() {
         return array('title', 'description');
@@ -23,6 +23,10 @@ class LiveLinksTable extends ObjectYPT {
        if(empty($this->users_id)){
            $this->users_id = User::getId();
        }
+       if(empty($this->categories_id)){
+           $this->categories_id = 'NULL';
+       }
+       Category::clearCacheCount();
        return parent::save();
    }
    
@@ -92,6 +96,14 @@ class LiveLinksTable extends ObjectYPT {
 
    function setUsers_id($users_id) {
        $this->users_id = $users_id;
+   }
+
+   function getCategories_id() {
+       return $this->categories_id;
+   }
+
+   function setCategories_id($categories_id) {
+       $this->categories_id = intval($categories_id);
    }
 
 

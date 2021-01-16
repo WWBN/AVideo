@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -7,15 +9,11 @@ require_once $global['systemRootPath'] . 'objects/captcha.php';
 $config = new Configuration();
 $valid = Captcha::validation(@$_POST['captcha']);
 $obj = new stdClass();
+$obj->error = "";
 if ($valid) {
-
     $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><b>Website:</b> {$_POST['website']}<br><br>{$_POST['comment']}";
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
-
     //Create a new PHPMailer instance
-    $mail = new PHPMailer\PHPMailer\PHPMailer;
+    $mail = new \PHPMailer\PHPMailer\PHPMailer;
     setSiteSendMessage($mail);
     //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
     //var_dump($mail->SMTPAuth, $mail);
@@ -45,7 +43,7 @@ if ($valid) {
 
         //send the message, check for errors
         if (!$mail->send()) {
-            $obj->error = __("Message could not be sent") . " " . $mail->ErrorInfo;
+            $obj->error = __("Message could not be sent") . " (" . $mail->ErrorInfo.")";
         } else {
             $obj->success = __("Message sent");
         }
@@ -55,6 +53,6 @@ if ($valid) {
 } else {
     $obj->error = __("Your code is not valid");
 }
-
+_error_log("sendEmail: ".$obj->error);
 header('Content-Type: application/json');
 echo json_encode($obj);

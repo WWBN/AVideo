@@ -71,9 +71,9 @@ foreach ($playList as $value) {
 
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.css" rel="stylesheet">
 
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video.js" type="text/javascript"></script>
+
         <style>
             body {
                 padding: 0 !important;
@@ -91,20 +91,6 @@ foreach ($playList as $value) {
             }
         </style>
 
-        <?php
-        $jsFiles = array();
-        $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
-        $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
-        $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
-        $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
-        $jsFiles[] = "view/js/script.js";
-        $jsFiles[] = "view/js/js-cookie/js.cookie.js";
-        $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
-        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
-        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
-        $jsURL = combineFiles($jsFiles, "js");
-        ?>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -144,7 +130,26 @@ foreach ($playList as $value) {
         </div>
 
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-
+        <?php
+        include $global['systemRootPath'] . 'view/include/video.min.js.php';
+        ?>
+        <?php
+        echo AVideoPlugin::afterVideoJS();
+        ?>
+        <?php
+        $jsFiles = array();
+        $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+        $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
+        $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
+        $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
+        $jsFiles[] = "view/js/script.js";
+        $jsFiles[] = "view/js/js-cookie/js.cookie.js";
+        $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
+        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
+        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+        $jsURL = combineFiles($jsFiles, "js");
+        ?>
+        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <?php
         echo AVideoPlugin::getFooterCode();
         ?>
@@ -161,6 +166,11 @@ foreach ($playList as $value) {
 
             player.playlist(playerPlaylist);
             player.playlist.autoadvance(0);
+            player.on('play', function () {
+                //console.log(player.playlist.currentIndex());
+                //console.log(playerPlaylist[player.playlist.currentIndex()].videos_id);
+                addView(playerPlaylist[player.playlist.currentIndex()].videos_id, 0);
+            });
             // Initialize the playlist-ui plugin with no option (i.e. the defaults).
             player.playlistUi();
             var timeout;
@@ -189,7 +199,7 @@ foreach ($playList as $value) {
                         $('#playList, #embededSortBy, #playListSearch, #closeButton').fadeOut();
                     }, 3000);
                 });
-                
+
                 $('#closeButton').click(function () {
                     $('#playList, #embededSortBy, #playListSearch, #closeButton').fadeOut();
                 });

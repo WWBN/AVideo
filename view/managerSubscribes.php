@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -12,7 +12,7 @@ if (!User::canUpload()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Subscribes"); ?></title>
+        <title><?php echo __("Subscribes") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -24,25 +24,31 @@ if (!User::canUpload()) {
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
-        <div class="container">
-            <div class="col-lg-9">
-                <textarea id="emailMessage" placeholder="<?php echo __("Enter text"); ?> ..." style="width: 100%;"></textarea>
+        <div class="container-fluid">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <?php echo __("Subscribes"); ?>
+                </div>
+                <div class="panel-body">
+                    <button type="button" class="btn btn-success pull-right" id="sendSubscribeBtn">
+                        <i class="fas fa-envelope-square"></i> <?php echo __("Notify Subscribers"); ?>
+                    </button>
+                    <div class="clearfix hidden-sm hidden-md hidden-lg"></div>
+                    <textarea id="emailMessage" placeholder="<?php echo __("Enter text"); ?> ..." style="width: 100%;"></textarea>
+                </div>
+                <div class="panel-footer">
+                    <table id="grid" class="table table-condensed table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th data-column-id="identification" ><?php echo __("My Subscribers"); ?></th>
+                                <th data-column-id="created" ><?php echo __("Created"); ?></th>
+                                <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
+                                <th data-column-id="status" data-formatter="status" data-sortable="false"><?php echo __("Status"); ?></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
-            <div class="col-lg-3">
-                <button type="button" class="btn btn-success" id="sendSubscribeBtn">
-                    <i class="fas fa-envelope-square"></i> <?php echo __("Notify Subscribers"); ?>
-                </button>
-            </div>
-            <table id="grid" class="table table-condensed table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th data-column-id="identification" ><?php echo __("My Subscribers"); ?></th>
-                        <th data-column-id="created" ><?php echo __("Created"); ?></th>
-                        <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
-                        <th data-column-id="status" data-formatter="status" data-sortable="false"><?php echo __("Status"); ?></th>
-                    </tr>
-                </thead>
-            </table>
         </div><!--/.container-->
 
         <?php
@@ -50,13 +56,13 @@ if (!User::canUpload()) {
         ?>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
         <script>
-            function _subscribe(email,user_id, id) {
+            function _subscribe(email, user_id, id) {
                 $('#subscribe' + id + ' span').addClass("fa-spinner");
                 $('#subscribe' + id + ' span').addClass("fa-spin");
                 $.ajax({
                     url: '<?php echo $global['webSiteRootURL']; ?>objects/subscribe.json.php',
                     method: 'POST',
-                    data: {'email': email, 'user_id':user_id},
+                    data: {'email': email, 'user_id': user_id},
                     success: function (response) {
                         console.log(response);
                         $('#subscribe' + id + ' span').removeClass("fa-spinner");
@@ -76,7 +82,7 @@ if (!User::canUpload()) {
                 });
             }
 
-            function notify(){
+            function notify() {
                 modal.showPleaseWait();
                 $.ajax({
                     url: '<?php echo $global['webSiteRootURL']; ?>objects/notifySubscribers.json.php',
@@ -85,9 +91,9 @@ if (!User::canUpload()) {
                     success: function (response) {
                         console.log(response);
                         if (response.error) {
-                            swal("<?php echo __("Sorry!"); ?>", response.error, "error");
+                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
                         } else {
-                            swal("<?php echo __("Success"); ?>", "<?php echo __("You have sent the notification"); ?>", "success");
+                            avideoAlert("<?php echo __("Success"); ?>", "<?php echo __("You have sent the notification"); ?>", "success");
                         }
                         modal.hidePleaseWait();
                     }
@@ -121,10 +127,10 @@ if (!User::canUpload()) {
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         console.log(row);
-                        _subscribe(row.email,row.users_id, row.id);
+                        _subscribe(row.email, row.users_id, row.id);
                     });
                 });
-                $("#sendSubscribeBtn").click(function (){
+                $("#sendSubscribeBtn").click(function () {
                     notify();
                 });
 

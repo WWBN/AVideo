@@ -5,29 +5,43 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/YPTWallet/Objects/Wallet.php';
 require_once $global['systemRootPath'] . 'plugin/YPTWallet/Objects/Wallet_log.php';
+require_once $global['systemRootPath'] . 'objects/autoload.php';
 
-class YPTWallet extends PluginAbstract {
-
+class YPTWallet extends PluginAbstract
+{
     const MANUAL_WITHDRAW = "Manual Withdraw Funds";
     const MANUAL_ADD = "Manual Add Funds";
 
-    public function getDescription() {
+    public function getTags()
+    {
+        return array(
+            PluginTags::$MONETIZATION,
+            PluginTags::$NETFLIX,
+            PluginTags::$FREE,
+        );
+    }
+    public function getDescription()
+    {
         return "Wallet for AVideo";
     }
 
-    public function getName() {
+    public function getName()
+    {
         return "YPTWallet";
     }
 
-    public function getUUID() {
+    public function getUUID()
+    {
         return "2faf2eeb-88ac-48e1-a098-37e76ae3e9f3";
     }
 
-    public function getPluginVersion() {
-        return "2.0";
+    public function getPluginVersion()
+    {
+        return "3.1";
     }
 
-    public function getEmptyDataObject() {
+    public function getEmptyDataObject()
+    {
         $obj = new stdClass();
         $obj->decimalPrecision = 2;
         $obj->wallet_button_title = "My Wallet";
@@ -41,6 +55,11 @@ class YPTWallet extends PluginAbstract {
         $obj->withdraw_funds_text = "<h1>Withdraw money from your</h1>Transfer funds from your account to your credit card or bank account";
         $obj->withdraw_funds_success_success = "<h1>Thank you,<br> Your request was submited<h1>";
         $obj->withdraw_funds_success_fail = "<h1>Sorry,<br> Your funds withdraw request has been fail<h1>";
+        $obj->virtual_currency = "HEART";  // we will show this currency on the wallet but we will not make transactions on the payment gateway with it
+        $obj->virtual_currency_symbol = "❤";  // we will show this currency on the wallet but we will not make transactions on the payment gateway with it
+        $obj->virtual_currency_exchange_rate = "2"; // means 1 real currency will be 2 virtual currencies
+        $obj->virtual_currency_decimalPrecision = 2.5; // the value 2.5 on it means if you purchase 2 real currency it will worth 5 virtual currencies
+        $obj->virtual_currency_enable = false;
         $obj->currency = "USD";
         $obj->currency_symbol = "$";
         $obj->addFundsOptions = "[5,10,20,50]";
@@ -53,7 +72,7 @@ class YPTWallet extends PluginAbstract {
         $obj->manualAddFundsPageButton = "Notify Deposit Made";
         $obj->manualAddFundsNotifyEmail = "yourEmail@yourDomain.com";
         $obj->manualAddFundsTransferFromUserId = 1;
-        // sell funds        
+        // sell funds
         $obj->enableManualWithdrawFundsPage = true;
         $obj->withdrawFundsOptions = "[5,10,20,50,100,1000]";
         $obj->manualWithdrawFundsMenuTitle = "Withdraw Funds";
@@ -74,45 +93,75 @@ class YPTWallet extends PluginAbstract {
         return $obj;
     }
 
-    public function getTags() {
-        return array('free', 'monetization');
-    }
-
-    public function getBalance($users_id) {
-        $wallet = $this->getWallet($users_id);
+    public function getBalance($users_id)
+    {
+        $wallet = self::getWallet($users_id);
         return $wallet->getBalance();
     }
 
-    public function getBalanceText($users_id) {
+    public function getBalanceText($users_id)
+    {
         $balance = $this->getBalanceFormated($users_id);
         return self::formatCurrency($balance);
     }
 
-    public function getBalanceFormated($users_id) {
+    public function getBalanceFormated($users_id)
+    {
         $balance = $this->getBalance($users_id);
         $obj = $this->getDataObject();
         return number_format($balance, $obj->decimalPrecision);
     }
 
-    static function formatCurrency($value) {
+    public static function formatCurrency($value, $addHTML=false, $doNotUseVirtualCurrency = false)
+    {
         $value = floatval($value);
         $obj = AVideoPlugin::getObjectData('YPTWallet');
-        return "{$obj->currency_symbol} " . number_format($value, $obj->decimalPrecision) . " {$obj->currency}";
+        $currency_symbol = $obj->currency_symbol;
+        $decimalPrecision = $obj->decimalPrecision;
+        $currency = $obj->currency;
+        if (empty($doNotUseVirtualCurrency) && $obj->virtual_currency_enable) {
+            $currency_symbol = $obj->virtual_currency_symbol;
+            $decimalPrecision = $obj->virtual_currency_decimalPrecision;
+            $currency = $obj->virtual_currency;
+        }
+        $value = number_format($value, $decimalPrecision);
+
+        if ($addHTML) {
+            return "{$currency_symbol} <span class=\"walletBalance\">{$value}</span> {$currency}";
+        } else {
+            return "{$currency_symbol} {$value} {$currency}";
+        }
     }
 
-    static function formatFloat($value) {
+    public static function getStep($doNotUseVirtualCurrency = false)
+    {
+        $obj = AVideoPlugin::getObjectData('YPTWallet');
+        $decimalPrecision = $obj->decimalPrecision;
+        if ($obj->virtual_currency_enable) {
+            $decimalPrecision = $obj->virtual_currency_decimalPrecision;
+        }
+        if (empty($decimalPrecision)) {
+            return 1;
+        }
+        return "0.".str_repeat("0", $decimalPrecision-1)."1";
+    }
+
+    public static function formatFloat($value)
+    {
         $value = floatval($value);
         $obj = AVideoPlugin::getObjectData('YPTWallet');
         return number_format($value, $obj->decimalPrecision);
     }
 
-    public function getWallet($users_id) {
+    public static function getWallet($users_id)
+    {
         $wallet = new Wallet(0);
         $wallet->setUsers_id($users_id);
         return $wallet;
     }
 
-    public function getOrCreateWallet($users_id) {
+    public function getOrCreateWallet($users_id)
+    {
         $wallet = new Wallet(0);
         $wallet->setUsers_id($users_id);
         if (empty($wallet->getId())) {
@@ -122,7 +171,8 @@ class YPTWallet extends PluginAbstract {
         return $wallet;
     }
 
-    function getAllUsers($activeOnly = true) {
+    public function getAllUsers($activeOnly = true)
+    {
         global $global;
         $sql = "SELECT w.*, u.*, u.id as user_id, IFNULL(balance, 0) as balance FROM users u "
                 . " LEFT JOIN wallet w ON u.id = w.users_id WHERE 1=1 ";
@@ -155,7 +205,8 @@ class YPTWallet extends PluginAbstract {
         return $user;
     }
 
-    static function getTotalBalance() {
+    public static function getTotalBalance()
+    {
         global $global;
         $sql = "SELECT sum(balance) as total FROM wallet ";
 
@@ -172,30 +223,54 @@ class YPTWallet extends PluginAbstract {
         return 0;
     }
 
-    static function getTotalBalanceText() {
+    public static function getTotalBalanceText()
+    {
         $value = self::getTotalBalance();
         return self::formatCurrency($value);
     }
 
-    public function getHistory($user_id) {
-        $wallet = $this->getWallet($user_id);
+    public function getHistory($user_id)
+    {
+        $wallet = self::getWallet($user_id);
         $log = new WalletLog(0);
         $rows = $log->getAllFromWallet($wallet->getId());
         return $rows;
     }
 
+    public static function exchange($value)
+    {
+        $obj = AVideoPlugin::getObjectData('YPTWallet');
+        $value = floatval($value);
+        $virtual_currency_exchange_rate = floatval($obj->virtual_currency_exchange_rate);
+        if (!empty($virtual_currency_exchange_rate)) {
+            $value *= $virtual_currency_exchange_rate;
+        }
+        return $value;
+    }
+
     /**
-     * 
+     *
      * @param type $users_id
      * @param type $value
      * @param type $description
      * @param type $json_data
      * @param type $mainWallet_user_id A user ID where the money comes from and where the money goes for
      */
-    public function addBalance($users_id, $value, $description = "", $json_data = "{}", $mainWallet_user_id = 0) {
+    public function addBalance($users_id, $value, $description = "", $json_data = "{}", $mainWallet_user_id = 0, $noNotExchangeValue = false)
+    {
         global $global;
+        $obj = $this->getDataObject();
+        if (empty($noNotExchangeValue) && !empty($obj->virtual_currency_enable)) {
+            $originalValue = $value;
+            $value = self::exchange($value);
+
+            $originalValueFormated = self::formatCurrency($originalValue, false, true);
+            $valueFormated = self::formatCurrency($value);
+            $description .= " Rate Exchanged {$originalValueFormated} => {$valueFormated} ";
+        }
         $wallet = $this->getOrCreateWallet($users_id);
         $balance = $wallet->getBalance();
+        _error_log("YPTWallet::addBalance BEFORE (user_id={$users_id}) (balance={$balance})");
         $balance += $value;
         $wallet->setBalance($balance);
         $wallet_id = $wallet->save();
@@ -211,14 +286,19 @@ class YPTWallet extends PluginAbstract {
             $user = new User($users_id);
             WalletLog::addLog($wallet_id, ($value * -1), " From user ($users_id) " . $user->getUser() . " - " . $description, $json_data, "success", "addBalance to main wallet");
         }
-        _error_log("YPTWallet::addBalance $wallet_id, $value, $description, $json_data");
+
+        $wallet = $this->getOrCreateWallet($users_id);
+        $balance = $wallet->getBalance();
+        _error_log("YPTWallet::addBalance AFTER (user_id={$users_id}) (balance={$balance})");
+        //_error_log("YPTWallet::addBalance $wallet_id, $value, $description, $json_data");
     }
 
-    public function saveBalance($users_id, $value) {
+    public function saveBalance($users_id, $value)
+    {
         if (!User::isAdmin()) {
             return false;
         }
-        $wallet = $this->getWallet($users_id);
+        $wallet = self::getWallet($users_id);
         $balance = $wallet->getBalance();
         $wallet->setBalance($value);
         $wallet_id = $wallet->save();
@@ -226,32 +306,41 @@ class YPTWallet extends PluginAbstract {
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "saveBalance");
     }
 
-    public function transferBalanceToSiteOwner($users_id_from, $value, $description = "", $forceTransfer = false) {
-        $obj = $this->getDataObject();
-        return $this->transferBalance($users_id_from, $obj->manualWithdrawFundsTransferToUserId, $value, $description, $forceTransfer);
+    public static function transferBalanceToSiteOwner($users_id_from, $value, $description = "", $forceTransfer = false)
+    {
+        $obj = AVideoPlugin::getObjectData('YPTWallet');
+        if (empty($obj->manualWithdrawFundsTransferToUserId)) {
+            _error_log("YPTWallet::transferBalanceToSiteOwner site owner is not defined in the plugin, define it on the option manualWithdrawFundsTransferToUserId", AVideoLog::$ERROR);
+        }
+        return self::transferBalance($users_id_from, $obj->manualWithdrawFundsTransferToUserId, $value, $description, $forceTransfer);
     }
 
-    public function transferBalanceFromSiteOwner($users_id_from, $value, $description = "", $forceTransfer = false) {
-        $obj = $this->getDataObject();
-        return $this->transferBalance($obj->manualWithdrawFundsTransferToUserId, $users_id_from, $value, $description, $forceTransfer);
+    public static function transferBalanceFromSiteOwner($users_id_from, $value, $description = "", $forceTransfer = false)
+    {
+        $obj = AVideoPlugin::getObjectData('YPTWallet');
+        return self::transferBalance($obj->manualWithdrawFundsTransferToUserId, $users_id_from, $value, $description, $forceTransfer);
     }
 
-    public function transferBalanceFromMeToSiteOwner($value) {
+    public static function transferBalanceFromMeToSiteOwner($value)
+    {
         if (!User::isLogged()) {
             return false;
         }
-        return $this->transferBalanceToSiteOwner(User::getId(), $value);
+        return self::transferBalanceToSiteOwner(User::getId(), $value);
     }
 
-    public function transferBalanceFromOwnerToMe($value) {
+    public static function transferBalanceFromOwnerToMe($value)
+    {
         if (!User::isLogged()) {
             return false;
         }
-        return $this->transferBalanceFromSiteOwner(User::getId(), $value);
+        return self::transferBalanceFromSiteOwner(User::getId(), $value);
     }
 
-    public function transferBalance($users_id_from, $users_id_to, $value, $forceDescription = "", $forceTransfer = false) {
+    public static function transferBalance($users_id_from, $users_id_to, $value, $forceDescription = "", $forceTransfer = false)
+    {
         global $global;
+        _error_log("transferBalance: $users_id_from, $users_id_to, $value, $forceDescription, $forceTransfer");
         if (!User::isAdmin()) {
             if ($users_id_from != User::getId() && !$forceTransfer) {
                 _error_log("transferBalance: you are not admin, $users_id_from,$users_id_to, $value");
@@ -264,14 +353,13 @@ class YPTWallet extends PluginAbstract {
         }
         $value = floatval($value);
         if ($value <= 0) {
-            _error_log("transferBalance: invalid value, $users_id_from,$users_id_to, $value");
             return false;
         }
-        $wallet = $this->getWallet($users_id_from);
+        $wallet = self::getWallet($users_id_from);
         $balance = $wallet->getBalance();
         $newBalance = $balance - $value;
         if ($newBalance < 0) {
-            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value");
+            _error_log("transferBalance: you dont have balance, $users_id_from,$users_id_to, $value (Balance: {$balance}) (New Balance: {$newBalance})");
             return false;
         }
         $identificationFrom = User::getNameIdentificationById($users_id_from);
@@ -284,10 +372,10 @@ class YPTWallet extends PluginAbstract {
         if (!empty($forceDescription)) {
             $description = $forceDescription;
         }
-        WalletLog::addLog($wallet_id, "-".$value, $description, "{}", "success", "transferBalance to");
+        WalletLog::addLog($wallet_id, "-" . $value, $description, "{}", "success", "transferBalance to");
 
 
-        $wallet = $this->getWallet($users_id_to);
+        $wallet = self::getWallet($users_id_to);
         $balance = $wallet->getBalance();
         $newBalance = $balance + $value;
         $wallet->setBalance($newBalance);
@@ -296,11 +384,13 @@ class YPTWallet extends PluginAbstract {
         if (!empty($forceDescription)) {
             $description = $forceDescription;
         }
+        ObjectYPT::clearSessionCache();
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
         return true;
     }
 
-    public function getHTMLMenuRight() {
+    public function getHTMLMenuRight()
+    {
         global $global;
         if (!User::isLogged()) {
             return "";
@@ -312,8 +402,23 @@ class YPTWallet extends PluginAbstract {
         include $global['systemRootPath'] . 'plugin/YPTWallet/view/menuRight.php';
     }
 
-    static function getAvailablePayments() {
+    public static function getAvailablePayments()
+    {
         global $global;
+
+        if (!User::isLogged()) {
+            $redirectUri = getSelfURI();
+            if (!empty($redirectUri)) {
+                $redirectUri = "&redirectUri=" . urlencode($redirectUri);
+            }
+            echo '<div class="btn-group  btn-group-justified"><a href="' . $global['webSiteRootURL'] . 'signUp?redirectUri' . $redirectUri . '" class="btn btn-primary" id="YPTWalletSignUp">'
+            . '<i class="fas fa-user-plus"></i>  ' . __("Sign Up")
+            . '</a><a href="' . $global['webSiteRootURL'] . 'user?redirectUri' . $redirectUri . '" class="btn btn-success" id="YPTWalletSignIn">'
+            . '<i class="fas fa-sign-in-alt"></i>  ' . __("Sign In")
+            . '</a></div>';
+            return false;
+        }
+
         $dir = self::getPluginDir();
         $plugins = self::getEnabledPlugins();
         foreach ($plugins as $value) {
@@ -325,10 +430,26 @@ class YPTWallet extends PluginAbstract {
                 eval($eval);
             }
         }
+        return true;
     }
 
-    static function getAvailableRecurrentPayments() {
+    public static function getAvailableRecurrentPayments()
+    {
         global $global;
+
+        if (!User::isLogged()) {
+            $redirectUri = getSelfURI();
+            if (!empty($redirectUri)) {
+                $redirectUri = "&redirectUri=" . urlencode($redirectUri);
+            }
+            echo '<div class="btn-group  btn-group-justified"><a href="' . $global['webSiteRootURL'] . 'signUp?redirectUri' . $redirectUri . '" class="btn btn-primary" id="YPTWalletSignUp">'
+            . '<i class="fas fa-user-plus"></i>  ' . __("Sign Up")
+            . '</a><a href="' . $global['webSiteRootURL'] . 'user?redirectUri' . $redirectUri . '" class="btn btn-success" id="YPTWalletSignIn">'
+            . '<i class="fas fa-sign-in-alt"></i>  ' . __("Sign In")
+            . '</a></div>';
+            return false;
+        }
+
         $dir = self::getPluginDir();
         $plugins = self::getEnabledPlugins();
         foreach ($plugins as $value) {
@@ -342,7 +463,8 @@ class YPTWallet extends PluginAbstract {
         }
     }
 
-    static function getAvailablePlugins() {
+    public static function getAvailablePlugins()
+    {
         $dir = self::getPluginDir();
         $dirs = scandir($dir);
         $plugins = array();
@@ -358,7 +480,8 @@ class YPTWallet extends PluginAbstract {
         return $plugins;
     }
 
-    static function getEnabledPlugins() {
+    public static function getEnabledPlugins()
+    {
         global $global;
         $plugins = self::getAvailablePlugins();
         $wallet = new YPTWallet();
@@ -373,7 +496,8 @@ class YPTWallet extends PluginAbstract {
         return $plugins;
     }
 
-    static function getPluginDataObject($pluginName) {
+    public static function getPluginDataObject($pluginName)
+    {
         $dir = self::getPluginDir();
         $file = $dir . "/{$pluginName}/{$pluginName}.php";
         if (file_exists($file)) {
@@ -385,13 +509,15 @@ class YPTWallet extends PluginAbstract {
         return array();
     }
 
-    static function getPluginDir() {
+    public static function getPluginDir()
+    {
         global $global;
         $dir = $global['systemRootPath'] . "plugin/YPTWallet/plugins";
         return $dir;
     }
 
-    function sendEmails($emailsArray, $subject, $message) {
+    public function sendEmails($emailsArray, $subject, $message)
+    {
         global $global, $config;
         $siteTitle = $config->getWebSiteTitle();
         $footer = $config->getWebSiteTitle();
@@ -399,7 +525,8 @@ class YPTWallet extends PluginAbstract {
         return $this->send($emailsArray, $subject, $body);
     }
 
-    private function replaceTemplateText($siteTitle, $footer, $message) {
+    private function replaceTemplateText($siteTitle, $footer, $message)
+    {
         global $global, $config;
         $text = file_get_contents("{$global['systemRootPath']}plugin/YPTWallet/template.html");
         $words = array($siteTitle, $footer, $message);
@@ -408,7 +535,8 @@ class YPTWallet extends PluginAbstract {
         return str_replace($replace, $words, $text);
     }
 
-    private function send($emailsArray, $subject, $body) {
+    private function send($emailsArray, $subject, $body)
+    {
         if (empty($emailsArray)) {
             return false;
         }
@@ -416,12 +544,8 @@ class YPTWallet extends PluginAbstract {
 
         global $global, $config;
 
-        require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
-
         //Create a new PHPMailer instance
-        $mail = new PHPMailer\PHPMailer\PHPMailer;
+        $mail = new \PHPMailer\PHPMailer\PHPMailer;
         setSiteSendMessage($mail);
         //Set who the message is to be sent from
         $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
@@ -447,12 +571,13 @@ class YPTWallet extends PluginAbstract {
     }
 
     /**
-     * 
+     *
      * @param type $wallet_log_id
      * @param type $new_status
      * return true if balance is enought
      */
-    function processStatus($wallet_log_id, $new_status) {
+    public function processStatus($wallet_log_id, $new_status)
+    {
         $obj = $this->getDataObject();
         $walletLog = new WalletLog($wallet_log_id);
         $wallet = new Wallet($walletLog->getWallet_id());
@@ -462,7 +587,7 @@ class YPTWallet extends PluginAbstract {
                 if ($oldStatus == "success" || $oldStatus == "pending") {
                     if ($new_status == "canceled") {
                         // return the value
-                        return $this->transferBalance($obj->manualWithdrawFundsTransferToUserId, $wallet->getUsers_id(), $walletLog->getValue());
+                        return self::transferBalance($obj->manualWithdrawFundsTransferToUserId, $wallet->getUsers_id(), $walletLog->getValue());
                     } else {
                         // keep the value
                         return true;
@@ -470,32 +595,53 @@ class YPTWallet extends PluginAbstract {
                 }
                 // get the value again
                 if ($oldStatus == "canceled") {
-                    return $this->transferBalance($wallet->getUsers_id(), $obj->manualWithdrawFundsTransferToUserId, $walletLog->getValue());
+                    return self::transferBalance($wallet->getUsers_id(), $obj->manualWithdrawFundsTransferToUserId, $walletLog->getValue());
                 }
             }
-        } else if ($walletLog->getType() == self::MANUAL_ADD) {
+        } elseif ($walletLog->getType() == self::MANUAL_ADD) {
             if ($oldStatus == "pending") {
                 if ($new_status == "canceled") {
                     // do nothing
                     return true;
-                } else if ($new_status == "success") {
+                } elseif ($new_status == "success") {
                     // transfer the value
-                    return $this->transferBalance($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $walletLog->getValue());
+                    return self::transferBalance($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $walletLog->getValue());
                 }
-            } else if ($oldStatus == "success") {
+            } elseif ($oldStatus == "success") {
                 //get the money back
-                return $this->transferBalance($wallet->getUsers_id(), $obj->manualAddFundsTransferFromUserId, $walletLog->getValue());
-            } else if ($oldStatus == "canceled") {
+                return self::transferBalance($wallet->getUsers_id(), $obj->manualAddFundsTransferFromUserId, $walletLog->getValue());
+            } elseif ($oldStatus == "canceled") {
                 if ($new_status == "pending") {
                     // do nothing
                     return true;
-                } else if ($new_status == "success") {
+                } elseif ($new_status == "success") {
                     // transfer the value
-                    return $this->transferBalance($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $walletLog->getValue());
+                    return self::transferBalance($obj->manualAddFundsTransferFromUserId, $wallet->getUsers_id(), $walletLog->getValue());
                 }
             }
         }
         return true;
     }
 
+    public static function getUserBalance($users_id=0)
+    {
+        if (empty($users_id)) {
+            $users_id = User::getId();
+        }
+        if (empty($users_id)) {
+            return 0;
+        }
+        $wallet = self::getWallet($users_id);
+        return $wallet->getBalance();
+    }
+
+    public function getFooterCode()
+    {
+        global $global;
+        $obj = $this->getDataObject();
+        $js = "";
+        $js .= "<script src=\"{$global['webSiteRootURL']}plugin/YPTWallet/script.js\"></script>";
+
+        return $js;
+    }
 }

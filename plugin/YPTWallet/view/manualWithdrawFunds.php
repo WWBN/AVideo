@@ -14,7 +14,7 @@ $options = json_decode($obj->withdrawFundsOptions);
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Add Funds</title>
+        <title><?php echo __("Withdraw Funds") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -58,7 +58,7 @@ $options = json_decode($obj->withdrawFundsOptions);
                             }
                             ?>
                             <div class="form-group">
-                                <label for="value"><?php echo __("Specify Ammount"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
+                                <label for="value"><?php echo __("Specify Amount"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
                                 <select class="form-control" id="value" >
                                     <?php
                                     foreach ($options as $value) {
@@ -70,11 +70,11 @@ $options = json_decode($obj->withdrawFundsOptions);
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="informations"><?php echo __("Informations"); ?></label>
-                                <textarea class="form-control" id="informations" name="informations"></textarea>
+                                <label for="information"><?php echo __("Information"); ?></label>
+                                <textarea class="form-control" id="information" name="information"></textarea>
                             </div>
                             <button class="btn btn-primary" id="manualWithdrawFundsPageButton"><?php echo $obj->manualWithdrawFundsPageButton; ?></button>
-                        </div>  
+                        </div>
                     </div>
                 </div>
 
@@ -95,18 +95,18 @@ $options = json_decode($obj->withdrawFundsOptions);
                         type: "POST",
                         data: {
                             value: $('#value').val(),
-                            informations: $('#informations').val()
+                            information: $('#information').val()
                         },
                         success: function (response) {
                             $(".walletBalance").text(response.walletBalance);
                             modal.hidePleaseWait();
                             if (response.error) {
                                 setTimeout(function () {
-                                    swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                                 }, 500);
                             } else {
                                 setTimeout(function () {
-                                    swal("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your request was sent"); ?>", "success");
+                                    avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your request was sent"); ?>", "success");
                                 }, 500);
                             }
                         }

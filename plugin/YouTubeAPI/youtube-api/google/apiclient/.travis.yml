@@ -1,0 +1,47 @@
+language: php
+
+services:
+  - memcached
+
+env:
+  global:
+    - MEMCACHE_HOST=127.0.0.1
+    - MEMCACHE_PORT=11211
+  matrix:
+    - GUZZLE_VERSION=~5.2
+    - GUZZLE_VERSION=~6.0
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - hhvm
+
+# Guzzle 6.0 is not compatible with PHP 5.4
+matrix:
+  exclude:
+    - php: 5.4
+      env: GUZZLE_VERSION=~6.0
+
+before_install:
+  - composer self-update
+
+install:
+  - composer install
+  - composer require guzzlehttp/guzzle:$GUZZLE_VERSION
+
+before_script:
+  - phpenv version-name | grep ^5.[34] && echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
+  - phpenv version-name | grep ^5.[34] && echo "apc.enable_cli=1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ; true
+
+script:
+  - vendor/bin/phpunit
+  - if [[ "$TRAVIS_PHP_VERSION" == "5.4" ]]; then vendor/bin/phpcs src --standard=style/ruleset.xml -np; fi
+
