@@ -135,7 +135,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->Checkmark3HTML = '<i class="fas fa-certificate fa-spin" data-toggle="tooltip" data-placement="bottom" title="Premium User"></i>';
 
         $obj->autoSaveUsersOnCategorySelectedGroups = false;
-        self::addDataObjectHelper('autoSaveUsersOnCategorySelectedGroups', 'Auto save new users on category selected User Groups', 'Edit this plugin to select the user groups per category');
+        self::addDataObjectHelper('autoSaveUsersOnCategorySelectedGroups', 'Auto save new videos on category selected User Groups', 'Edit this plugin to select the user groups per category');
         $obj->enableExtraInfo = false;
         self::addDataObjectHelper('enableExtraInfo', 'Enable user extra info', 'You can add custom fields on user´s profile, Edit this plugin to tell what fields should be saved');
 
