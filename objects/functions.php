@@ -1139,6 +1139,10 @@ function getVideosURLOnly($fileName) {
     return $allFiles;
 }
 
+function getVideosDir(){
+    return Video::getStoragePath();
+}
+
 $getVideosURL_V2Array = array();
 
 function getVideosURL_V2($fileName, $recreateCache = false) {
@@ -1153,8 +1157,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         return $getVideosURL_V2Array[$cleanfilename];
     }
 
-    $pdf = Video::getStoragePath() . "{$cleanfilename}.pdf";
-    $mp3 = Video::getStoragePath() . "{$cleanfilename}.mp3";
+    $pdf = getVideosDir() . "{$cleanfilename}.pdf";
+    $mp3 = getVideosDir() . "{$cleanfilename}.mp3";
     if (file_exists($pdf)) {
         return getVideosURLPDF($fileName);
     } elseif (file_exists($mp3)) {
@@ -1206,7 +1210,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         $formats = array_merge($video, $audio, $image);
 
-        //$globQuery = Video::getStoragePath()."{$cleanfilename}*.{" . implode(",", $formats) . "}";
+        //$globQuery = getVideosDir()."{$cleanfilename}*.{" . implode(",", $formats) . "}";
         //$filesInDir = glob($globQuery, GLOB_BRACE);
         $timeName = "getVideosURL_V2::globVideosDir($cleanfilename)";
         TimeLogStart($timeName);
@@ -1666,12 +1670,12 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
     $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-    $destinationFile = Video::getStoragePath() . "{$filename}";
+    $destinationFile = getVideosDir() . "{$filename}";
     _error_log("decideMoveUploadedToVideos: {$filename}");
     $path_info = pathinfo($filename);
     if ($type !== "zip" && $path_info['extension'] === 'zip') {
         _error_log("decideMoveUploadedToVideos: ZIp file {$filename}");
-        $dir = Video::getStoragePath() . "{$path_info['filename']}";
+        $dir = getVideosDir() . "{$path_info['filename']}";
         unzipDirectory($tmp_name, $dir); // unzip it
         cleanDirectory($dir);
         if (!empty($aws_s3)) {
@@ -1801,7 +1805,7 @@ function decideFile_put_contentsToVideos($tmp_name, $filename) {
     } elseif (!empty($ftp)) {
         $ftp->move_uploaded_file($tmp_name, $filename);
     } else {
-        if (!move_uploaded_file($tmp_name, Video::getStoragePath() . "{$filename}")) {
+        if (!move_uploaded_file($tmp_name, getVideosDir() . "{$filename}")) {
             $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$filename})";
             die(json_encode($obj));
         }
@@ -2393,6 +2397,8 @@ function requestComesFromSameDomainAsMyAVideo() {
         $url = $_SERVER['HTTP_REFERER'];
     } elseif (!empty($_SERVER['HTTP_ORIGIN'])) {
         $url = $_SERVER['HTTP_ORIGIN'];
+    } elseif (!empty($_SERVER['SERVER_NAME'])) {
+        $url = $_SERVER['SERVER_NAME'];
     }
     return isSameDomain($url, $global['webSiteRootURL']);
 }
@@ -2722,7 +2728,7 @@ function allowOrigin() {
 
 function rrmdir($dir) {
     global $global;
-    if ($dir == Video::getStoragePath() . "" || $dir == "{$global['systemRootPath']}videos") {
+    if ($dir == getVideosDir() . "" || $dir == "{$global['systemRootPath']}videos") {
         return false;
     }
     if (is_dir($dir)) {
@@ -3406,7 +3412,7 @@ function getCacheDir() {
 
 function clearCache() {
     global $global;
-    $dir = Video::getStoragePath() . "cache/";
+    $dir = getVideosDir() . "cache/";
     if (!empty($_GET['FirstPage'])) {
         $dir .= "firstPage/";
     }
@@ -3427,7 +3433,7 @@ function getUsageFromFilename($filename, $dir = "") {
     }
 
     if (empty($dir)) {
-        $dir = Video::getStoragePath() . "";
+        $dir = getVideosDir() . "";
     }
     $pos = strrpos($dir, '/');
     $dir .= (($pos === false) ? "/" : "");
@@ -3634,7 +3640,7 @@ function foldersize($path) {
 
 function getDiskUsage() {
     global $global;
-    $dir = Video::getStoragePath() . "";
+    $dir = getVideosDir() . "";
     $obj = new stdClass();
     $obj->disk_free_space = disk_free_space($dir);
     $obj->disk_total_space = disk_total_space($dir);
@@ -3866,7 +3872,7 @@ function isHLS() {
     global $video, $global;
     if (isLive()) {
         return true;
-    } elseif (!empty($video) && $video['type'] == 'video' && file_exists(Video::getStoragePath() . "{$video['filename']}/index.m3u8")) {
+    } elseif (!empty($video) && $video['type'] == 'video' && file_exists(getVideosDir() . "{$video['filename']}/index.m3u8")) {
         return true;
     }
     return false;
@@ -4257,7 +4263,7 @@ function getTmpDir($subdir = "") {
     if (empty($_SESSION['getTmpDir'][$subdir . "_"])) {
         $tmpDir = sys_get_temp_dir();
         if (empty($tmpDir) || !_isWritable($tmpDir)) {
-            $tmpDir = Video::getStoragePath() . "cache/";
+            $tmpDir = getVideosDir() . "cache/";
         }
         $tmpDir = rtrim($tmpDir, '/') . '/';
         $tmpDir = "{$tmpDir}{$subdir}";
@@ -4991,7 +4997,7 @@ function globVideosDir($filename, $filesOnly = false) {
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
-    return _glob(Video::getStoragePath() . "", $pattern);
+    return _glob(getVideosDir() . "", $pattern);
 }
 
 function getValidFormats() {
@@ -5113,7 +5119,7 @@ function playHLSasMP4($filepath) {
 }
 
 function m3u8ToMP4($input) {
-    $videosDir = Video::getStoragePath();
+    $videosDir = getVideosDir();
     $outputfilename = str_replace($videosDir, "", $input);
     $parts = explode("/", $outputfilename);
     $resolution = Video::getResolutionFromFilename($input);
@@ -5316,7 +5322,7 @@ function pathToRemoteURL($filename) {
 
 function getFilenameFromPath($path) {
     global $global;
-    $fileName = str_replace(Video::getStoragePath() . "", "", $path);
+    $fileName = str_replace(getVideosDir() . "", "", $path);
     $fileName = Video::getCleanFilenameFromFile($fileName);
 
     return $fileName;
@@ -5406,4 +5412,28 @@ function sendSocketMessageToAll($msg, $callbackJSFunction=""){
 }
 function sendSocketMessageToNone($msg, $callbackJSFunction=""){
     return sendSocketMessage($msg, $callbackJSFunction, -1);
+}
+
+function execAsync($command) {
+    // If windows, else
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        //$pid = system($command . " > NUL");
+        pclose($pid = popen("start /B ". $command, "r")); 
+    } else {
+        $pid = exec($command . " > /dev/null 2>&1 & echo $!; ");
+    }
+    return $pid;
+}
+
+function killProcess($pid){
+    $pid = intval($pid);
+    if(empty($pid)){
+        return false;
+    }
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        exec("taskkill /F /PID $pid");
+    } else {
+        exec("kill -9 $pid");
+    }
+    return true;
 }
