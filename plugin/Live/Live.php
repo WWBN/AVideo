@@ -623,7 +623,7 @@ class Live extends PluginAbstract {
 
     function get_data($url, $timeout) {
         try {
-            $content = @url_get_contents($url, "", $timeout);
+            $content = url_get_contents($url, "", $timeout);
             return $content;
         } catch (Exception $exc) {
             _error_log($exc->getTraceAsString());
