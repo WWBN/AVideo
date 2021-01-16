@@ -605,7 +605,7 @@ class Live extends PluginAbstract {
                 }
                 $_SESSION['getStatsObjectRequestStatsTimout'][$url] = 0.5;
             }
-            _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE, we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
+            _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE, timeout=({$o->requestStatsTimout}) we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
             $data = '<?xml version="1.0" encoding="utf-8" ?><?xml-stylesheet type="text/xsl" href="stat.xsl" ?><rtmp><server><application><name>The RTMP Server is Unavailable</name><live><nclients>0</nclients></live></application></server></rtmp>';
         } else {
             if (!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
