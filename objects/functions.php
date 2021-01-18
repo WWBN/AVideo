@@ -865,11 +865,11 @@ function maxLifetime() {
         $bb_b2 = AVideoPlugin::getObjectDataIfEnabled('Blackblaze_B2');
         $secure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
         $maxLifetime = 0;
-        if (!empty($aws_s3) && !empty($aws_s3->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $aws_s3->presignedRequestSecondsTimeout < $maxLifetime)) {
+        if (!empty($aws_s3) && empty($aws_s3->makeMyFilesPublicRead) && !empty($aws_s3->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $aws_s3->presignedRequestSecondsTimeout < $maxLifetime)) {
             $maxLifetime = $aws_s3->presignedRequestSecondsTimeout;
             _error_log("maxLifetime: AWS_S3 = {$maxLifetime}");
         }
-        if (!empty($bb_b2) && !empty($aws_s3->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $bb_b2->presignedRequestSecondsTimeout < $maxLifetime)) {
+        if (!empty($bb_b2) && empty($bb_b2->usePublicBucket)  && !empty($bb_b2->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $bb_b2->presignedRequestSecondsTimeout < $maxLifetime)) {
             $maxLifetime = $bb_b2->presignedRequestSecondsTimeout;
             _error_log("maxLifetime: B2 = {$maxLifetime}");
         }
@@ -5416,10 +5416,13 @@ function sendSocketMessageToNone($msg, $callbackJSFunction=""){
 }
 
 function execAsync($command) {
+    $command = escapeshellarg($command);
     // If windows, else
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        //$pid = system($command . " > NUL");
-        pclose($pid = popen("start /B ". $command, "r")); 
+        //echo $command;
+        //$pid = system("start /min  ".$command. " > NUL");
+        $commandString = "start /B cmd /S /C  ". $command."  > NUL";
+        pclose($pid = popen($commandString, "r")); 
     } else {
         $pid = exec($command . " > /dev/null 2>&1 & echo $!; ");
     }
