@@ -1943,9 +1943,10 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                     return ret;
                                                 },
                                             }).on("loaded.rs.jquery.bootgrid", function () {
-
-
-                                                $('.videoPlaylist').each(function (i, obj) {
+                                                if($('.videoPlaylist').length>50){
+                                                    console.log("You are listing too many videos we will not process the playlist");
+                                                }else{
+                                                    $('.videoPlaylist').each(function (i, obj) {
                                                     var $this = this;
                                                     var videos_id = $($this).attr('videos_id');
                                                     //$(this).html($(this).attr('videos_id'));
@@ -1966,6 +1967,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                         }
                                                     });
                                                 });
+                                                }
                                                 /* Executes after data is loaded and rendered */
                                                 grid.find(".command-edit").on("click", function (e) {
                                                     waitToSubmit = true;
