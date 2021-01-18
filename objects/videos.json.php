@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
 $showOnlyLoggedUserVideos = true;
-if (Permissions::canModerateVideos()) {
+if (!Permissions::canModerateVideos()) {
     $showOnlyLoggedUserVideos = false;
 }
 $showUnlisted = false;
