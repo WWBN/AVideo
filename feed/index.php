@@ -35,6 +35,7 @@ $rows = ObjectYPT::getCache($cacheName, 0);
 if(empty($rows)){
     // send $_GET['catName'] to be able to filter by category
     $rows = Video::getAllVideos("viewable", $showOnlyLoggedUserVideos);
+    ObjectYPT::setCache($cacheName, $rows);
 }else{
     $rows = object_to_array($rows);
 }
