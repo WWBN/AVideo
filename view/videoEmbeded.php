@@ -155,6 +155,7 @@ $disableEmbedTopInfo = $playerSkinsO->disableEmbedTopInfo;
 
 if(isset($_REQUEST['showinfo']) && empty($_REQUEST['showinfo'])){
     $disableEmbedTopInfo = true;
+    $modestbranding = true;
 }
 
 $url = Video::getLink($video['id'], $video['clean_title'], false);
