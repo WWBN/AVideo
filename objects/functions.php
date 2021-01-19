@@ -1182,6 +1182,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                         @filesize($value['path']) < 20) { // file size is small
                     _error_log("getVideosURL_V2:: dummy file found, fix cache " . json_encode(array("/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']), @filesize($value['path']), $value)));
                     unset($files);
+                    $video = Video::getVideoFromFileName($fileName, true, true);
+                    Video::clearCache($video['id']);
                     break;
                 } else {
                     //_error_log("getVideosURL_V2:: NOT dummy file ". json_encode(array("/^{$preg_match_url}video/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']),filesize($value['path']),$value)));
