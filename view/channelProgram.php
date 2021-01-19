@@ -116,6 +116,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             <script>
                                 $(function () {
                                     $("#sortable<?php echo $program['id']; ?>").sortable({
+                                        items: "li",
                                         stop: function (event, ui) {
                                             modal.showPleaseWait();
                                             saveSortable(this, <?php echo $program['id']; ?>);
