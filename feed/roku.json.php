@@ -26,6 +26,7 @@ if (empty($movies)) {
         $movie->tags = _substr(UTF8encode($row['category']), 0, 20);
         $movie->genres = array("special");
         $movie->releaseDate = date('c', strtotime($row['created']));
+        $movie->categories_id = $row['categories_id'];
 
         $content = new stdClass();
         $content->dateAdded = date('c', strtotime($row['created']));
@@ -44,22 +45,22 @@ if (empty($movies)) {
 
         $obj->movies[] = $movie;
 
-        if (empty($categories[$row['categories_id']])) {
-            $categories[$row['categories_id']] = new stdClass();
-            $categories[$row['categories_id']]->name = $movie->tags;
-            $categories[$row['categories_id']]->query = $movie->tags;
-            $categories[$row['categories_id']]->order = 'most_recent';
+        if (empty($categories[$movie->categories_id])) {
+            $categories[$movie->categories_id] = new stdClass();
+            $categories[$movie->categories_id]->name = $movie->tags;
+            $categories[$movie->categories_id]->query = $movie->tags;
+            $categories[$movie->categories_id]->order = 'most_recent';
         }
     }
     ObjectYPT::setCache($cacheName, $obj->movies);
 } else {
     $obj->movies = $movies;
     foreach ($obj->movies as $movie) {
-        if (empty($categories[$row['categories_id']])) {
-            $categories[$row['categories_id']] = new stdClass();
-            $categories[$row['categories_id']]->name = $movie->tags;
-            $categories[$row['categories_id']]->query = $movie->tags;
-            $categories[$row['categories_id']]->order = 'most_recent';
+        if (empty($categories[$movie->categories_id])) {
+            $categories[$movie->categories_id] = new stdClass();
+            $categories[$movie->categories_id]->name = $movie->tags;
+            $categories[$movie->categories_id]->query = $movie->tags;
+            $categories[$movie->categories_id]->order = 'most_recent';
         }
     }
 }
