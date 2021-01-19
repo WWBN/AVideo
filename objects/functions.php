@@ -5290,6 +5290,8 @@ function pathToRemoteURL($filename) {
     if (!isset($pathToRemoteURL)) {
         $pathToRemoteURL = array();
     }
+    
+    $filename = str_replace(array($global['systemRootPath']), array(""), $filename);
 
     if (isset($pathToRemoteURL[$filename])) {
         return $pathToRemoteURL[$filename];
