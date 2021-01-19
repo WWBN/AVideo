@@ -5317,6 +5317,9 @@ function pathToRemoteURL($filename) {
     if (empty($url)) {
         $url = $filename;
     }
+    
+    $url = str_replace($global['systemRootPath'], "", $url);
+    
     $pathToRemoteURL[$filename] = $url;
     return $url;
 }
