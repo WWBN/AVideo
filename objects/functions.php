@@ -5320,7 +5320,7 @@ function pathToRemoteURL($filename) {
         $url = $filename;
     }
     
-    $url = str_replace(array($global['systemRootPath'], '/videos/videos/'), array("", '/videos/'), $url);
+    //$url = str_replace(array($global['systemRootPath'], '/videos/videos/'), array("", '/videos/'), $url);
     
     $pathToRemoteURL[$filename] = $url;
     return $url;
