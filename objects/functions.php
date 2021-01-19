@@ -5298,19 +5298,19 @@ function pathToRemoteURL($filename) {
     if (!file_exists($filename) || filesize($filename) < 1000) {
         $fileName = getFilenameFromPath($filename);
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
-            $source = $yptStorage->getAddress("{$filename}");
+            $source = $yptStorage->getAddress("{$fileName}");
             $url = $source['url'];
         } else
         if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
-            $source = $aws_s3->getAddress("{$filename}");
+            $source = $aws_s3->getAddress("{$fileName}");
             $url = $source['url'];
         } else
         if ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
-            $source = $bb_b2->getAddress("{$filename}");
+            $source = $bb_b2->getAddress("{$fileName}");
             $url = $source['url'];
         } else
         if ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
-            $source = $ftp->getAddress("{$filename}");
+            $source = $ftp->getAddress("{$fileName}");
             $url = $source['url'];
         }
     }
