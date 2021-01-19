@@ -3004,7 +3004,10 @@ if (!class_exists('Video')) {
                     if (empty($resolution)) {
                         $name2 = "Video:::getHigestResolution::getResolution({$value["path"]})";
                         TimeLogStart($name2);
-                        $resolution = self::getResolution($value["path"]);
+                        $resolution = self::getResolutionFromFilename($value["path"]); // this is faster
+                        if($resolution){
+                            $resolution = self::getResolution($value["path"]);
+                        }
                         TimeLogEnd($name2, __LINE__);
                     }
                     if (!isset($return['resolution']) || $resolution > $return['resolution']) {
