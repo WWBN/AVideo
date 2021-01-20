@@ -39,6 +39,8 @@ class Socket extends PluginAbstract {
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->port = "8888";
+        $obj->debugSocket = false;
+        $obj->debugAllUsersSocket = false;
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;

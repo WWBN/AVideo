@@ -170,6 +170,7 @@ Options All -Indexes
 
     #edit your own user
     RewriteRule    ^user$ view/user.php    [NC,L]
+    RewriteRule    ^user/([0-9]+)/foto.png$ view/userGetPhoto.php?users_id=$1    [QSA]
 
     #manager user
     RewriteRule    ^users$ view/managerUsers.php    [NC,L]

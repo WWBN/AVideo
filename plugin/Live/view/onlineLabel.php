@@ -2,8 +2,15 @@
 $live_servers_id = Live::getCurrentLiveServersId();
 $liveViewStatusID = "liveViewStatusID_{$streamName}_{$live_servers_id}";
 $liveViewStatusClass = "liveViewStatusClass liveViewStatusClass_{$streamName} liveViewStatusClass_{$streamName}_{$live_servers_id}";
+
+if(Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)){
+    echo "<span class='label label-success liveOnlineLabel {$liveViewStatusClass}' id='{$liveViewStatusID}'>ONLINE</span>";
+}else{
+    echo "<span class='label label-danger liveOnlineLabel {$liveViewStatusClass}' id='{$liveViewStatusID}'>OFFLINE</span>";
+}
+
 ?>
-<span class="label label-danger liveOnlineLabel <?php $liveViewStatusClass ?>" id="<?php echo $liveViewStatusID; ?>">OFFLINE</span>
+
 <script>
 
     function isOfflineVideo() {

@@ -3,9 +3,6 @@
 require_once '../../videos/configuration.php';
 require_once './Objects/LiveTransmition.php';
 require_once './Objects/LiveTransmitionHistory.php';
-$obj = new stdClass();
-$obj->error = true;
-$obj->liveTransmitionHistory_id = 0;
 
 _error_log("NGINX ON Publish Done  POST: " . json_encode($_POST));
 _error_log("NGINX ON Publish Done  GET: " . json_encode($_GET));
@@ -50,5 +47,5 @@ if (strpos($_GET['p'], '/') !== false) {
 
 $row = LiveTransmitionHistory::getLatest($_POST['name']);
 $array = setLiveKey($row['key'], $row['live_servers_id']);
-$array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($obj->liveTransmitionHistory_id);
+$array['stats'] = LiveTransmitionHistory::getStatsAndRemoveApplication($row['id']);
 $socketObj = sendSocketMessageToAll($array, "socketLiveOFFCallback");

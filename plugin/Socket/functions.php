@@ -18,6 +18,7 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     if (empty($msgObj->live_key)) {
         $msgObj->live_key = isLive();
     }    
+    /*
     if (!empty($msgObj->live_key)) {
         $msgObj->is_live = Live::isLiveAndIsReadyFromKey($msgObj->live_key['key'], $msgObj->live_key['live_servers_id'], true);
         if($msgObj->is_live){
@@ -27,6 +28,8 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
         }
         $msgObj->autoEvalCodeOnHTML[] = $code;
     }
+     * 
+     */
     
     return encryptString(json_encode($msgObj));
 }

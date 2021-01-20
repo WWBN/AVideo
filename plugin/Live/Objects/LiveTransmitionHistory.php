@@ -161,6 +161,28 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $stats;
     }
 
+    static function getStatsAndRemoveApplication($liveTransmitionHistory_id) {
+        $stats = Live::getStats();
+        $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
+        
+        $key = $lth->getKey();
+        foreach ($stats->applications as $k => $value) {
+            $value = object_to_array($value);
+            if($value['key']==$key){ // application is already in the list
+                unset($stats->applications[$k]);
+                $stats->countLiveStream--;
+            }
+        }
+        foreach ($stats->hidden_applications as $k => $value) {
+            $value = object_to_array($value);
+            if($value['key']==$key){ // application is already in the list
+                unset($stats->hidden_applications[$k]);
+            }
+        }
+        
+        return $stats;
+    }
+
     function setLive_servers_id($live_servers_id) {
         $this->live_servers_id = intval($live_servers_id);
     }

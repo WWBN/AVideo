@@ -99,14 +99,13 @@ function parseSocketResponse(json) {
         }
     }
     
-    if (json && typeof json.autoEvalCode !== 'undefined') {
-        //console.log("parseSocketResponse", json.autoUpdateOnHTML);
-        for (var prop in json.autoUpdateOnHTML) {
-            if(json.autoEvalCode[prop]===false){
+    if (json && typeof json.autoEvalCodeOnHTML !== 'undefined') {
+        for (var prop in json.autoEvalCodeOnHTML) {
+            if(json.autoEvalCodeOnHTML[prop]===false){
                 continue;
             }
-            console.log("autoEvalCode", json.autoEvalCode[prop]);
-            eval(json.autoEvalCode[prop]);
+            //console.log("autoEvalCodeOnHTML", json.autoEvalCodeOnHTML[prop]);
+            eval(json.autoEvalCodeOnHTML[prop]);
         }
     }
 }

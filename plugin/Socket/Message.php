@@ -69,7 +69,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
-        global $getStatsLive, $_getStats, $onMessageSentTo;
+        global $onMessageSentTo;
         $onMessageSentTo = array();
 
         unset($getStatsLive);
@@ -193,8 +193,8 @@ class Message implements MessageComponentInterface {
         $obj['autoUpdateOnHTML'] = array(
             'socket_users_id' => $users_id,
             'socket_resourceId' => $resourceId,
-            'total_devices_online' => count($this->getUsersIdFromDevicesOnline()),
-            'totalConnections' => count($this->clients),
+            'total_devices_online' => count($this->clients),
+            'total_users_online' => count($this->getUsersIdFromDevicesOnline()),
             'usersonline_per_video' => $this->getTotalPerVideo(),
             'total_on_same_video' => $this->getTotalOnVideos_id($videos_id),
             'total_on_same_live' => $this->getTotalOnlineOnLive_key($live_key)
@@ -284,23 +284,19 @@ class Message implements MessageComponentInterface {
     }
 
     public function getUsersIdFromDevicesOnline() {
-        $devices = array();
+        $users_id = array();
         foreach ($this->clients as $value) {
-            if (empty($value['yptDeviceId'])) {
+            if (empty($value['yptDeviceId']) || empty($value['users_id'])) {
                 continue;
             }
-            if (!in_array($value['yptDeviceId'], $devices) && $this->shouldPropagateInfo($value)) {
-                $array = array(
-                    'users_id' => $value['users_id'],
-                    'yptDeviceId' => $value['yptDeviceId'],
-                    'selfURI'=>$value['selfURI'] //removed for security reasons
-                );
-                $devices[] = $array;
+            if(in_array($value['users_id'], $users_id)){
+                continue;
+            }
+            if ($this->shouldPropagateInfo($value)) {
+                $users_id[] = $value['users_id'];
             }
         }
-        $total = count($devices);
-        //_log_message("getUsersIdFromDevicesOnline: {$total}/" . count($this->clients));
-        return $devices;
+        return $users_id;
     }
 
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {

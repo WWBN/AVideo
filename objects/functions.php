@@ -2453,6 +2453,9 @@ function removeQueryStringParameter($url, $varname) {
  */
 function addQueryStringParameter($url, $varname, $value) {
     $parsedUrl = parse_url($url);
+    if(empty($parsedUrl['host'])){
+        return "";
+    }
     $query = array();
 
     if (isset($parsedUrl['query'])) {
@@ -3873,7 +3876,7 @@ function getLiveKey() {
 
 function setLiveKey($key, $live_servers_id){
     global $getLiveKey;
-    $getLiveKey = array('key'=>$key,'live_servers_id'=>$live_servers_id);
+    $getLiveKey = array('key'=>$key,'live_servers_id'=>intval($live_servers_id));
     return $getLiveKey;
 }
 
