@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 
 // filter some security here
 $securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName');
-$securityFilterInt = array('videos_id', 'video_id', 'categories_id', 'user_id', 'users_id', 'comments_id', 'isAdmin', 'priority', 'totalClips', 'rowCount');
+$securityFilterInt = array('isAdmin', 'priority', 'totalClips', 'rowCount');
 $securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password');
 $securityRemoveNonChars = array('resolution', 'format', 'videoDirectory');
 $filterURL = array('videoURL', 'siteURL', 'redirectUri', 'encoderURL');
@@ -67,6 +67,11 @@ foreach ($scanVars as $value) {
         }
     }
 
+    foreach ($scanThis as $key => $value) {
+        if(preg_match('/_id$/i', $key)){
+            $scanThis[$key] = intval($value);
+        }
+    }
 
     foreach ($securityFilterInt as $value) {
         if (!empty($scanThis[$value])) {
