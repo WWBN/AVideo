@@ -505,6 +505,14 @@ abstract class PluginAbstract {
     function getDataObjectHelper(){
         return $this->dataObjectHelper;
     }
+    
+    function onUserSocketConnect($users_id, $data){
+        
+    }
+    
+    function onUserSocketDisconnect($users_id, $data){
+        
+    }
 }
 
 

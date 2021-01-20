@@ -987,8 +987,10 @@ $(document).ready(function () {
     } catch (e) {
 
     }
-    
-    setInterval(function(){setToolTips();},1000);
+
+    setInterval(function () {
+        setToolTips();
+    }, 1000);
 
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');
@@ -1087,7 +1089,7 @@ function validURL(str) {
     return !!pattern.test(str);
 }
 
-function isURL(url){
+function isURL(url) {
     return validURL(url);
 }
 
@@ -1159,7 +1161,7 @@ function getCroppie(uploadCropObject, callback, width, height) {
 }
 
 function setToolTips() {
-    if(!$('[data-toggle="tooltip"]').not('.alreadyTooltip').length){
+    if (!$('[data-toggle="tooltip"]').not('.alreadyTooltip').length) {
         return false;
     }
     $('[data-toggle="tooltip"]').not('.alreadyTooltip').tooltip({container: 'body'});
@@ -1170,4 +1172,12 @@ function setToolTips() {
         }, 2000);
     });
     $('[data-toggle="tooltip"]').addClass('alreadyTooltip');
+}
+
+function avideoSocketIsActive() {
+    if (typeof isSocketActive == 'function') {
+        return isSocketActive();
+    } else {
+        return false;
+    }
 }

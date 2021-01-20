@@ -67,6 +67,7 @@ foreach ($scanVars as $value) {
         }
     }
 
+    // all variables with _id at the end will be forced to be interger
     foreach ($scanThis as $key => $value) {
         if(preg_match('/_id$/i', $key)){
             $scanThis[$key] = intval($value);
