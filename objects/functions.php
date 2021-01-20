@@ -867,15 +867,15 @@ function maxLifetime() {
         $maxLifetime = 0;
         if (!empty($aws_s3) && empty($aws_s3->makeMyFilesPublicRead) && !empty($aws_s3->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $aws_s3->presignedRequestSecondsTimeout < $maxLifetime)) {
             $maxLifetime = $aws_s3->presignedRequestSecondsTimeout;
-            _error_log("maxLifetime: AWS_S3 = {$maxLifetime}");
+            //_error_log("maxLifetime: AWS_S3 = {$maxLifetime}");
         }
         if (!empty($bb_b2) && empty($bb_b2->usePublicBucket) && !empty($bb_b2->presignedRequestSecondsTimeout) && (empty($maxLifetime) || $bb_b2->presignedRequestSecondsTimeout < $maxLifetime)) {
             $maxLifetime = $bb_b2->presignedRequestSecondsTimeout;
-            _error_log("maxLifetime: B2 = {$maxLifetime}");
+            //_error_log("maxLifetime: B2 = {$maxLifetime}");
         }
         if (!empty($secure) && !empty($secure->tokenTimeOut) && (empty($maxLifetime) || $secure->tokenTimeOut < $maxLifetime)) {
             $maxLifetime = $secure->tokenTimeOut;
-            _error_log("maxLifetime: Secure = {$maxLifetime}");
+            //_error_log("maxLifetime: Secure = {$maxLifetime}");
         }
     }
     return $maxLifetime;
