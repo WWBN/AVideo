@@ -4024,7 +4024,7 @@ if (!class_exists('Video')) {
                 if(!preg_match('/m3u8/', $video['videoLink'])){                 
                     $vType = isHTMLPage($video['videoLink']) ? 'embed' : 'video';
                 }else{
-                    $vType == 'video';
+                    $vType = 'video';
                 }
             } elseif ($vType == 'live') {
                 $vType = '../../plugin/Live/view/liveVideo';
