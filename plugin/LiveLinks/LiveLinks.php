@@ -297,7 +297,8 @@ class LiveLinks extends PluginAbstract {
         }
 
         if (!empty($_GET['catName'])) {
-            $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name =  '{$_GET['catName']}' ))";
+            $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+            $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name =  '{$catName}' ))";
         }
 
         if (!empty($_GET['modified'])) {
