@@ -5479,7 +5479,7 @@ function killProcess($pid) {
 }
 
 function isURL200($url) {
-    error_log("isURL200 checking URL {$url}");
+    //error_log("isURL200 checking URL {$url}");
     $headers = @get_headers($url);
     foreach ($headers as $value) {
         if(
