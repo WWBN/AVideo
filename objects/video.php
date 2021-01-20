@@ -747,7 +747,8 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['catName'])) {
-                $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$_GET['catName']}' ))";
+                $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
 
             if (empty($id) && !empty($_GET['channelName'])) {
@@ -1063,7 +1064,8 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['catName'])) {
-                $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$_GET['catName']}' ))";
+                $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
 
             if (!empty($_GET['search'])) {
@@ -1487,7 +1489,8 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
             }
             if (!empty($_GET['catName'])) {
-                $sql .= " AND c.clean_name = '{$_GET['catName']}'";
+                $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+                $sql .= " AND c.clean_name = '{$catName}'";
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
