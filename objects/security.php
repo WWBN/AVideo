@@ -86,7 +86,7 @@ foreach ($scanVars as $value) {
 
     foreach ($securityFilter as $value) {
         if (!empty($scanThis[$value])) {
-            $scanThis[$value] = str_replace(array("--", "'", '"', "&quot;", "&#039;", "%23", "%5c", "#"), array('', '', '', '', '', '', '', ''), xss_esc($scanThis[$value]));
+            $scanThis[$value] = str_replace(array('\\', "--", "'", '"', "&quot;", "&#039;", "%23", "%5c", "#"), array('', '', '', '', '', '', '', '', ''), xss_esc($scanThis[$value]));
         }
     }
 
