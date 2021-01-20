@@ -4021,7 +4021,9 @@ if (!class_exists('Video')) {
         {
             $vType = $video['type'];
             if ($vType == 'linkVideo') {
-                $vType = isHTMLPage($video['videoLink']) ? 'embed' : 'video';
+                if(!preg_match('/m3u8/', $video['videoLink'])){                 
+                    $vType = isHTMLPage($video['videoLink']) ? 'embed' : 'video';
+                }
             } elseif ($vType == 'live') {
                 $vType = '../../plugin/Live/view/liveVideo';
             } elseif ($vType == 'linkAudio') {
