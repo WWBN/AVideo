@@ -427,7 +427,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
-        _log_message("An error has occurred: {$e->getMessage()} ". json_encode(debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT , 10)), \AVideoLog::$ERROR);
+        _log_message("An error has occurred: {$e->getMessage()} ". json_encode(debug_backtrace()), \AVideoLog::$ERROR);
         $conn->close();
     }
 
