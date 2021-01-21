@@ -30,9 +30,15 @@ if(!empty($_GET['channelName'])){
     $logo = User::getPhoto($user['id']);
 }
 
-// send $_GET['catName'] to be able to filter by category
-$rows = Video::getAllVideos("viewable", $showOnlyLoggedUserVideos);
-
+$cacheName = "feedCache".json_encode($_GET);
+$rows = ObjectYPT::getCache($cacheName, 0);
+if(empty($rows)){
+    // send $_GET['catName'] to be able to filter by category
+    $rows = Video::getAllVideos("viewable", $showOnlyLoggedUserVideos);
+    ObjectYPT::setCache($cacheName, $rows);
+}else{
+    $rows = object_to_array($rows);
+}
 if(!empty($_REQUEST['roku'])){
     header('Content-Type: application/json');
     include $global['systemRootPath'] . 'feed/roku.json.php';

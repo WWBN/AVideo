@@ -307,7 +307,7 @@ class AVideoPlugin {
         if (isset($isPluginTablesInstalled[$installSQLFile])) {
             return $isPluginTablesInstalled[$installSQLFile];
         }
-        _error_log("isPluginTablesInstalled: Check for {$installSQLFile}");
+        //_error_log("isPluginTablesInstalled: Check for {$installSQLFile}");
         if (!file_exists($installSQLFile)) {
             $isPluginTablesInstalled[$installSQLFile] = true;
             return $isPluginTablesInstalled[$installSQLFile];
@@ -1166,6 +1166,34 @@ class AVideoPlugin {
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
+    }
+    
+    public static function onUserSocketConnect($users_id, $data) {
+        _mysql_connect();
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onUserSocketConnect($users_id, $data);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        _mysql_close();
+    }
+    
+    public static function onUserSocketDisconnect($users_id, $data) {
+        _mysql_connect();
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onUserSocketConnect($users_id, $data);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        _mysql_close();
     }
 
     public static function thumbsOverlay($videos_id) {

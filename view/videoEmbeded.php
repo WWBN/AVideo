@@ -153,6 +153,11 @@ if (!empty($_GET['t'])) {
 $playerSkinsO = AVideoPlugin::getObjectData("PlayerSkins");
 $disableEmbedTopInfo = $playerSkinsO->disableEmbedTopInfo;
 
+if(isset($_REQUEST['showinfo']) && empty($_REQUEST['showinfo'])){
+    $disableEmbedTopInfo = true;
+    $modestbranding = true;
+}
+
 $url = Video::getLink($video['id'], $video['clean_title'], false);
 $title = str_replace('"', '', $video['title']) . ' - ' . $config->getWebSiteTitle();
 $photo = User::getPhoto($video['users_id']);

@@ -45,6 +45,7 @@ if (!empty($_GET['users_id']) && User::isAdmin()) {
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
+$getLiveKey = array('key'=>$trasnmition['key'], 'live_servers_id'=> Live::getLiveServersIdRequest());
 if (!empty($_GET['resetKey'])) {
     LiveTransmition::resetTransmitionKey($users_id);
     header("Location: {$global['webSiteRootURL']}plugin/Live/");

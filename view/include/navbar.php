@@ -521,7 +521,8 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                             if (!value && element[1]) {
                                                 value = $(element[1]).val();
                                             }
-                                            window.location.href = "<?php echo $global['webSiteRootURL']; ?>?lang=" + value;
+                                            var selfURI = "<?php echo getSelfURI(); ?>";
+                                            window.location.href = addGetParam(selfURI, 'lang', value);
                                         },
                                         placeholder: {
                                             value: "",

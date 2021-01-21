@@ -747,7 +747,8 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['catName'])) {
-                $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$_GET['catName']}' ))";
+                $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
 
             if (empty($id) && !empty($_GET['channelName'])) {
@@ -1063,7 +1064,8 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['catName'])) {
-                $sql .= " AND (c.clean_name = '{$_GET['catName']}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$_GET['catName']}' ))";
+                $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
 
             if (!empty($_GET['search'])) {
@@ -1081,12 +1083,14 @@ if (!class_exists('Video')) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
+                    $searchFieldsNames = array('v.title');         
+                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
                     $sql .= ")";
                 } else {
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
+                    $searchFieldsNames = array('v.title');         
+                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
                 }      
-                $searchFieldsNames = array('v.title');         
-                $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
@@ -1485,7 +1489,8 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
             }
             if (!empty($_GET['catName'])) {
-                $sql .= " AND c.clean_name = '{$_GET['catName']}'";
+                $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+                $sql .= " AND c.clean_name = '{$catName}'";
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
@@ -1516,13 +1521,14 @@ if (!class_exists('Video')) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
+                    $searchFieldsNames = array('v.title');         
+                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
                     $sql .= ")";
                 } else {
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
+                    $searchFieldsNames = array('v.title');         
+                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
                 }
-                
-                $searchFieldsNames = array('v.title');
-                $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
 
             if ($suggestedOnly) {
@@ -3001,7 +3007,10 @@ if (!class_exists('Video')) {
                     if (empty($resolution)) {
                         $name2 = "Video:::getHigestResolution::getResolution({$value["path"]})";
                         TimeLogStart($name2);
-                        $resolution = self::getResolution($value["path"]);
+                        $resolution = self::getResolutionFromFilename($value["path"]); // this is faster
+                        if($resolution){
+                            $resolution = self::getResolution($value["path"]);
+                        }
                         TimeLogEnd($name2, __LINE__);
                     }
                     if (!isset($return['resolution']) || $resolution > $return['resolution']) {
@@ -4012,7 +4021,11 @@ if (!class_exists('Video')) {
         {
             $vType = $video['type'];
             if ($vType == 'linkVideo') {
-                $vType = isHTMLPage($video['videoLink']) ? 'embed' : 'video';
+                if(!preg_match('/m3u8/', $video['videoLink'])){                 
+                    $vType = isHTMLPage($video['videoLink']) ? 'embed' : 'video';
+                }else{
+                    $vType = 'video';
+                }
             } elseif ($vType == 'live') {
                 $vType = '../../plugin/Live/view/liveVideo';
             } elseif ($vType == 'linkAudio') {

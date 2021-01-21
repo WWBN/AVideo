@@ -116,6 +116,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             <script>
                                 $(function () {
                                     $("#sortable<?php echo $program['id']; ?>").sortable({
+                                        items: "li",
                                         stop: function (event, ui) {
                                             modal.showPleaseWait();
                                             saveSortable(this, <?php echo $program['id']; ?>);
@@ -215,12 +216,11 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                 <?php
                                 $count = 0;
                                 foreach ($videosP as $value) {
-                                    if (empty($value['created'])) {
-                                        $count++;
-                                        continue;
-                                    }
                                     $episodeLink = "{$global['webSiteRootURL']}program/{$program['id']}/{$count}";
                                     $count++;
+                                    if (empty($value['created'])) {
+                                        continue;
+                                    }
                                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                                     $name = User::getNameIdentificationById($value['users_id']);
 
@@ -328,6 +328,15 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                         </div>
                                     </li>
                                     <?php
+                                    if($count%6===0){
+                                        echo '<div class="clearfix hidden-md hidden-sm hidden-xs"></div>';
+                                    }
+                                    if($count%3===0){
+                                        echo '<div class="clearfix hidden-lg hidden-xs"></div>';
+                                    }
+                                    if($count%2===0){
+                                        echo '<div class="clearfix hidden-md hidden-sm hidden-lg"></div>';
+                                    }
                                 }
                                 ?>
                             </div>

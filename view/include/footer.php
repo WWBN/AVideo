@@ -9,6 +9,7 @@ if (thereIsAnyUpdate()) {
     hideAfter: 20000
 });";
 }
+/*
 if ($version = thereIsAnyRemoteUpdate()) {
     $footerjs .= "$.toast({
     heading: 'Update available',
@@ -18,6 +19,8 @@ if ($version = thereIsAnyRemoteUpdate()) {
     hideAfter: 20000
 });";
 }
+ * 
+ */
 if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }

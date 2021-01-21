@@ -13,6 +13,9 @@
             <a href="<?php echo $global['webSiteRootURL']; ?>objects/getAllEmails.csv.php" class="btn btn-primary">
                 <i class="fas fa-file-csv"></i> <?php echo __("CSV File"); ?>
             </a>
+            <a href="#" class="btn btn-primary">
+                <i class="fas fa-users"></i> <span class="totalDevicesOnline">0</span>
+            </a>
         </div>
 
         <ul class="nav nav-tabs">
