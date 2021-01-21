@@ -48,25 +48,25 @@ class Message implements MessageComponentInterface {
         $this->clients[$conn->resourceId]['ip'] = $json->ip;
         $this->clients[$conn->resourceId]['location'] = $json->location;
         
-        _log_message("New connection ");
+        _log_message("New connection {$json->yptDeviceId}");
         if ($this->shouldPropagateInfo($this->clients[$conn->resourceId])) {
             _log_message("shouldPropagateInfo ");
             $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION, true);
             \AVideoPlugin::onUserSocketConnect($json->from_users_id, $this->clients[$conn->resourceId]);
         } else {
-            _log_message("NOT shouldPropagateInfo ");
+            //_log_message("NOT shouldPropagateInfo ");
         }
         if (!empty($json->videos_id)) {
             _log_message("msgToAllSameVideo ");
             $this->msgToAllSameVideo($json->videos_id, "");
         } else {
-            _log_message("NOT msgToAllSameVideo ");
+            //_log_message("NOT msgToAllSameVideo ");
         }
         if (!empty($json->live_key)) {
             _log_message("msgToAllSameLive ");
             $this->msgToAllSameLive($json->live_key, "");
         } else {
-            _log_message("NOT msgToAllSameLive ");
+            //_log_message("NOT msgToAllSameLive ");
         }
     }
 
@@ -138,7 +138,7 @@ class Message implements MessageComponentInterface {
     }
 
     private function shouldPropagateInfo($connection) {
-        if ($connection['yptDeviceId'] == 'unknowDevice') {
+        if (preg_match('/^unknowDevice.*/', $connection['yptDeviceId'])) {
             return false;
         }
         if (!empty($connection['isCommandLine'])) {
@@ -195,7 +195,7 @@ class Message implements MessageComponentInterface {
         $obj['autoUpdateOnHTML'] = array(
             'socket_users_id' => $users_id,
             'socket_resourceId' => $resourceId,
-            'total_devices_online' => count($this->clients),
+            'total_devices_online' => count($this->getUniqueDevices()),
             'total_users_online' => count($this->getUsersIdFromDevicesOnline()),
             'usersonline_per_video' => $this->getTotalPerVideo(),
             'total_on_same_video' => $this->getTotalOnVideos_id($videos_id),
@@ -299,6 +299,19 @@ class Message implements MessageComponentInterface {
             }
         }
         return $users_id;
+    }
+
+    public function getUniqueDevices() {
+        $devices = array();
+        foreach ($this->clients as $value) {
+            if (empty($value['yptDeviceId'])) {
+                continue;
+            }
+            if(!in_array($value['yptDeviceId'], $devices)){
+                $devices[] = $value['yptDeviceId'];
+            }
+        }
+        return $devices;
     }
 
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {

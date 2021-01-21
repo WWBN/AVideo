@@ -134,17 +134,17 @@ class LiveTransmitionHistory extends ObjectYPT {
     }
 
     static function getStatsAndAddApplication($liveTransmitionHistory_id) {
-        $stats = Live::getStats();
+        $stats = getStatsNotifications();
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
         
         $key = $lth->getKey();
-        foreach ($stats->applications as $value) {
+        foreach ($stats['applications'] as $value) {
             $value = object_to_array($value);
-            if($value['key']==$key){ // application is already in the list
-                return $stats;
+            if(!empty($value['key']) && $value['key']==$key){ // application is already in the list
+                return $stats; 
             }
         }
-        foreach ($stats->hidden_applications as $value) {
+        foreach ($stats['hidden_applications'] as $value) {
             $value = object_to_array($value);
             if($value['key']==$key){ // application is already in the list
                 return $stats;
@@ -153,30 +153,30 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $application = self::getApplicationObject($liveTransmitionHistory_id);
         if ($application->isPrivate) {
-            $stats->hidden_applications[] = $application;
+            $stats['hidden_applications'][] = $application;
         } else {
-            $stats->applications[] = $application;
+            $stats['applications'][] = $application;
         }
-        $stats->countLiveStream++;
+        $stats['countLiveStream']++;
         return $stats;
     }
 
     static function getStatsAndRemoveApplication($liveTransmitionHistory_id) {
-        $stats = Live::getStats();
+        $stats = getStatsNotifications();
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
         
         $key = $lth->getKey();
-        foreach ($stats->applications as $k => $value) {
+        foreach ($stats['applications'] as $k => $value) {
             $value = object_to_array($value);
             if($value['key']==$key){ // application is already in the list
-                unset($stats->applications[$k]);
-                $stats->countLiveStream--;
+                unset($stats['applications'][$k]);
+                $stats['countLiveStream']--;
             }
         }
-        foreach ($stats->hidden_applications as $k => $value) {
+        foreach ($stats['hidden_applications'] as $k => $value) {
             $value = object_to_array($value);
             if($value['key']==$key){ // application is already in the list
-                unset($stats->hidden_applications[$k]);
+                unset($stats['hidden_applications'][$k]);
             }
         }
         

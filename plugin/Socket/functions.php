@@ -6,7 +6,7 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     }
     $msgObj = new stdClass();
     $msgObj->from_users_id = User::getId();
-    $msgObj->yptDeviceId = getDeviceID();
+    $msgObj->yptDeviceId = getDeviceID(false);
     $msgObj->token = getToken($timeOut);
     $msgObj->time = time();
     $msgObj->selfURI = getSelfURI();

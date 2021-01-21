@@ -2453,7 +2453,7 @@ function removeQueryStringParameter($url, $varname) {
  */
 function addQueryStringParameter($url, $varname, $value) {
     $parsedUrl = parse_url($url);
-    if(empty($parsedUrl['host'])){
+    if (empty($parsedUrl['host'])) {
         return "";
     }
     $query = array();
@@ -3863,24 +3863,24 @@ function isEmbed() {
 
 function isLive() {
     global $isLive;
-    if(!empty($isLive)){
+    if (!empty($isLive)) {
         return getLiveKey();
-    }else{
+    } else {
         return false;
     }
 }
 
 function getLiveKey() {
     global $getLiveKey;
-    if(empty($getLiveKey)){
+    if (empty($getLiveKey)) {
         return false;
     }
     return $getLiveKey;
 }
 
-function setLiveKey($key, $live_servers_id){
+function setLiveKey($key, $live_servers_id) {
     global $getLiveKey;
-    $getLiveKey = array('key'=>$key,'live_servers_id'=>intval($live_servers_id));
+    $getLiveKey = array('key' => $key, 'live_servers_id' => intval($live_servers_id));
     return $getLiveKey;
 }
 
@@ -3947,8 +3947,8 @@ function URLsAreSameVideo($url1, $url2) {
     return $videos_id1 === $videos_id2;
 }
 
-function getVideos_id(){
-    if(isVideo()){
+function getVideos_id() {
+    if (isVideo()) {
         return getVideoIDFromURL(getSelfURI());
     }
     return false;
@@ -4679,9 +4679,10 @@ function forbiddenPage($message, $logMessage = false) {
 
 define('E_FATAL', E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR |
         E_COMPILE_ERROR | E_RECOVERABLE_ERROR);
-if(!isCommandLineInterface()){
+if (!isCommandLineInterface()) {
     register_shutdown_function('avidoeShutdown');
 }
+
 function avidoeShutdown() {
     global $global;
     $error = error_get_last();
@@ -4738,14 +4739,28 @@ function getDomain() {
  * 8-4-4-4-12
  * @return string
  */
-function getDeviceID() {
+function getDeviceID($useRandomString = true) {
+    $ip = getRealIpAddr();
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
-        return "unknowDevice";
+        return "unknowDevice-{$ip}";
     }
+
+    if (empty($useRandomString)) {
+        $device = get_browser_name() . '-' . getOS() . '-' . $ip . '-' . md5($_SERVER['HTTP_USER_AGENT']);
+        $device = str_replace(
+                array('[', ']', ' '),
+                array('', '', '_'), $device);
+        if(User::isLogged()){
+            $device .= '-'.User::getId();
+        }
+        return $device;
+    }
+
     $cookieName = "yptDeviceID";
     if (empty($_COOKIE[$cookieName])) {
         if (empty($_GET[$cookieName])) {
-            $_GET[$cookieName] = uniqidV4();
+            $id = uniqidV4();
+            $_GET[$cookieName] = $id;
         }
         if (empty($_SESSION[$cookieName])) {
             _session_start();
@@ -5420,7 +5435,7 @@ function getCurrentTheme() {
  * $users_id="-1" means send to no one
  */
 
-function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $send_to_uri_pattern="") {
+function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $send_to_uri_pattern = "") {
     if (AVideoPlugin::isEnabledByName('Socket')) {
         if (!is_string($msg)) {
             $msg = json_encode($msg);
@@ -5447,7 +5462,7 @@ function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction = "") 
     return $resp;
 }
 
-function sendSocketMessageToAll($msg, $callbackJSFunction = "", $send_to_uri_pattern="") {
+function sendSocketMessageToAll($msg, $callbackJSFunction = "", $send_to_uri_pattern = "") {
     return sendSocketMessage($msg, $callbackJSFunction, "", $send_to_uri_pattern);
 }
 
@@ -5486,13 +5501,51 @@ function isURL200($url) {
     //error_log("isURL200 checking URL {$url}");
     $headers = @get_headers($url);
     foreach ($headers as $value) {
-        if(
-                strpos($headers[0],'200') || 
-                strpos($headers[0],'302') || 
-                strpos($headers[0],'304')
-                ){
+        if (
+                strpos($headers[0], '200') ||
+                strpos($headers[0], '302') ||
+                strpos($headers[0], '304')
+        ) {
             return true;
         }
     }
     return false;
+}
+
+function getStatsNotifications() {
+    $json = Live::getStats();
+    if (!is_array($json) && is_object($json)) {
+        $json = object_to_array($json);
+    }
+    $appArray = AVideoPlugin::getLiveApplicationArray();
+    if (!empty($appArray)) {
+        if (empty($json)) {
+            $json = new stdClass();
+        }
+        $json['error'] = false;
+        if (empty($json['msg'])) {
+            $json['msg'] = "OFFLINE";
+        }
+        $json['nclients'] = count($appArray);
+        if (empty($json['applications'])) {
+            $json['applications'] = array();
+        }
+        $json['applications'] = array_merge($json['applications'], $appArray);
+    }
+
+    $count = 0;
+    if (!isset($json['total'])) {
+        $json['total'] = 0;
+    }
+    if (!empty($json['applications'])) {
+        $json['total'] += count($json['applications']);
+    }
+    while (!empty($json[$count])) {
+        $json['total'] += count($json[$count]->applications);
+        $count++;
+    }
+    if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
+        $json['countLiveStream'] = $json['total'];
+    }
+    return $json;
 }

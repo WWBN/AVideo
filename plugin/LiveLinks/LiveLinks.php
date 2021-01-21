@@ -45,7 +45,7 @@ class LiveLinks extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "3.1";   
+        return "3.2";   
     }
 
     public function canAddLinks() {

@@ -20,36 +20,7 @@ $live_servers_id = Live::getCurrentLiveServersId();
 $cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']. json_encode($_REQUEST));
 $json = ObjectYPT::getSessionCache($cacheName, $pobj->cacheStatsTimout);
 if(empty($json)){
-    $json = Live::getStats();
-    if(!is_array($json) && is_object($json)){
-        $json = object_to_array($json);
-    }
-    $appArray = AVideoPlugin::getLiveApplicationArray();
-    if(!empty($appArray)){
-        if(empty($json)){
-            $json = new stdClass();
-        }
-        $json['error'] = false;
-        if(empty($json['msg'])){
-            $json['msg'] = "OFFLINE";
-        }
-        $json['nclients'] = count($appArray);
-        if(empty($json['applications'])){
-            $json['applications'] = array();
-        }
-        $json['applications'] = array_merge($json['applications'] , $appArray);
-    }
-    
-    $count = 0;
-    $json['total'] = 0;
-    if(!empty($json['applications'])){
-        $json['total'] += count($json['applications']);
-    }
-    while (!empty($json[$count])) {
-        $json['total'] += count($json[$count]->applications);
-        $count++;
-    }    
-    
+    $json = getStatsNotifications();
     ObjectYPT::setSessionCache($cacheName, $json);
 }
 echo json_encode($json);

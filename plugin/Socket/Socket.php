@@ -59,8 +59,12 @@ class Socket extends PluginAbstract {
             $server_key_file = "";
         }
         
-        $obj->port = "8888";
+        $host = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+        
+        $obj->port = "2053";
         self::addDataObjectHelper('port', 'Server Port', 'You also MUST open this port on the firewall');
+        $obj->host = $host;
+        self::addDataObjectHelper('host', 'Server host', 'If your site is HTTPS make sure this host also handle the SSL connection');
         $obj->debugSocket = false;
         self::addDataObjectHelper('debugSocket', 'Show server debugger to admin', 'This will show a panel with some socket informations to the ADMIN user only');
         $obj->debugAllUsersSocket = false;
@@ -136,7 +140,7 @@ class Socket extends PluginAbstract {
         $socketobj = AVideoPlugin::getDataObject("Socket");
         $address = "localhost";
         if (empty($useLocalHost)) {
-            $address = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+            $address = $socketobj->host;
         }
         $port = $socketobj->port;
         $protocol = "ws";
