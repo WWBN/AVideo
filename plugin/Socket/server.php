@@ -46,7 +46,9 @@ if(strtolower($scheme)!=='https'){
         'security_level'=>0
     ];
     
-    echo "Server Parameters ".json_encode($parameters).PHP_EOL;
+    foreach ($parameters as $key => $value) {
+        echo "Parameter [{$key}]: $value ".PHP_EOL;
+    }
     
     $loop = React\EventLoop\Factory::create();
 // Set up our WebSocket server for clients wanting real-time updates
