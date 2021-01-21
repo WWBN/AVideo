@@ -429,6 +429,7 @@ class Message implements MessageComponentInterface {
     public function onError(ConnectionInterface $conn, \Exception $e) {
         $msg = $e->getMessage();
         if(!preg_match('/protocol is shutdown/i', $msg)){ // it is already closed
+            var_dump($this->clients[$conn->resourceId]);
             _log_message("An error has occurred #{$e->getCode()} : ($conn->resourceId) {$e->getMessage()} ", \AVideoLog::$ERROR);
         }
         $conn->close();
