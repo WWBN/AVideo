@@ -65,8 +65,6 @@ class Socket extends PluginAbstract {
         self::addDataObjectHelper('debugSocket', 'Debug the socket server', 'This will show a panel with some socket informations to the ADMIN user only');
         $obj->debugAllUsersSocket = false;
         self::addDataObjectHelper('debugAllUsersSocket', 'Debug the socket server', 'Same as above but will show the panel to all users');
-        $obj->secure = true;
-        self::addDataObjectHelper('secure', 'Secure connection', 'If your site use HTTPS, this option MUST be checked');
         $obj->server_crt_file = $server_crt_file;
         self::addDataObjectHelper('server_crt_file', 'SSL Certificate File', 'If your site use HTTPS, you MUST provide one');
         $obj->server_key_file = $server_key_file;
