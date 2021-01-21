@@ -37,7 +37,20 @@ class Socket extends PluginAbstract {
     }
 
     public function getEmptyDataObject() {
+        global $global;
         $obj = new stdClass();
+        
+        $host = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+        $server_crt_file = "/etc/letsencrypt/live/{$host}/fullchain.pem";
+        $server_key_file = "/etc/letsencrypt/live/{$host}/privkey.pem";
+        
+        if(!file_exists($server_crt_file)){
+            $server_crt_file = "";
+        }
+        if(!file_exists($server_key_file)){
+            $server_key_file = "";
+        }
+        
         $obj->port = "8888";
         self::addDataObjectHelper('port', 'Server Port', 'You also MUST open this port on the firewall');
         $obj->debugSocket = false;
@@ -46,10 +59,10 @@ class Socket extends PluginAbstract {
         self::addDataObjectHelper('debugAllUsersSocket', 'Debug the socket server', 'Same as above but will show the panel to all users');
         $obj->secure = true;
         self::addDataObjectHelper('secure', 'Secure connection', 'If your site use HTTPS, this option MUST be checked');
-        $obj->server_crt_file = "";
-        self::addDataObjectHelper('server_crt_file', 'SSL Certificate File', 'if is blank we will try to find the letsencrypt fullchain.pem');
-        $obj->server_key_file = "";
-        self::addDataObjectHelper('server_key_file', 'SSL Certificate Key File', 'if is blank we will try to find the letsencrypt privkey.pem');
+        $obj->server_crt_file = $server_crt_file;
+        self::addDataObjectHelper('server_crt_file', 'SSL Certificate File', 'If your site use HTTPS, you MUST provide one');
+        $obj->server_key_file = $server_key_file;
+        self::addDataObjectHelper('server_key_file', 'SSL Certificate Key File', 'If your site use HTTPS, you MUST provide one');
         $obj->allow_self_signed = true;
         self::addDataObjectHelper('allow_self_signed', 'Allow self signed certs', 'Should be unchecked in production');
         
