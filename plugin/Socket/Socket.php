@@ -129,7 +129,7 @@ class Socket extends PluginAbstract {
             
             //$SocketSendResponseObj->error = false;
         }, function ($e) {
-            echo "Could not connect: {$e->getMessage()}\n";
+            _error_log("Could not connect: {$e->getMessage()}", AVideoLog::$ERROR);
         });
         
         return $SocketSendResponseObj;
@@ -145,7 +145,7 @@ class Socket extends PluginAbstract {
         $port = $socketobj->port;
         $protocol = "ws";
         $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
-        if(strtolower($scheme)==='https'){
+        if(!$useLocalHost && strtolower($scheme)==='https'){
             $protocol = "wss";
         }
         return "{$protocol}://{$address}:{$port}?webSocketToken=".getEncryptedInfo(0)."&isCommandLine=".intval($isCommandLine);
