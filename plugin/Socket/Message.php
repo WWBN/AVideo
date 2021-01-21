@@ -206,6 +206,7 @@ class Message implements MessageComponentInterface {
         $msgToSend = json_encode($obj);
         //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
         $this->clients[$resourceId]['conn']->send($msgToSend);
+        sleep(0.1);
     }
 
     public function msgToUsers_id($msg, $users_id, $type = "") {
