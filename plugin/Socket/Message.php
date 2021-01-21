@@ -422,6 +422,6 @@ class Message implements MessageComponentInterface {
 }
 
 function _log_message($msg) {
-    _error_log($msg);
+    _error_log($msg, \AVideoLog::$SOCKET);
     echo $msg . PHP_EOL;
 }
