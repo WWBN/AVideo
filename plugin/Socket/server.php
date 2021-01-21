@@ -43,6 +43,7 @@ if(strtolower($scheme)!=='https'){
         'allow_self_signed' => $SocketDataObj->allow_self_signed, // Allow self signed certs (should be false in production)
         'verify_peer' => false,
         'verify_peer_name'=>false,
+        'security_level'=>0
     ];
     
     echo "Server Parameters ".json_encode($parameters).PHP_EOL;
@@ -59,6 +60,9 @@ if(strtolower($scheme)!=='https'){
             ),
             $webSock
     );
-
+    $socket = new Reactor($loop);
+    $socket->listen(8082, '0.0.0.0'); //Port 2
+    $socket->on('connection', [$webServer, 'handleConnect']);
+    
     $loop->run();
 }
