@@ -112,7 +112,7 @@ class Socket extends PluginAbstract {
         
         require_once $global['systemRootPath'] . 'objects/autoload.php';
 
-        $SocketURL = self::getWebSocketURL(true, true);
+        $SocketURL = self::getWebSocketURL(true);
         
         \Ratchet\Client\connect($SocketURL)->then(function($conn) {
             global $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
@@ -138,13 +138,10 @@ class Socket extends PluginAbstract {
         return $SocketSendResponseObj;
     }
 
-    public static function getWebSocketURL($useLocalHost = true, $isCommandLine=false) {
+    public static function getWebSocketURL($isCommandLine=false) {
         global $global;
         $socketobj = AVideoPlugin::getDataObject("Socket");
-        $address = "127.0.0.1";
-        if (empty($useLocalHost)) {
-            $address = $socketobj->host;
-        }
+        $address = $socketobj->host;
         $port = $socketobj->port;
         $protocol = "ws";
         $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
