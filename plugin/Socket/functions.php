@@ -10,6 +10,7 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     $msgObj->token = getToken($timeOut);
     $msgObj->time = time();
     $msgObj->selfURI = getSelfURI();
+    $msgObj->ip = getRealIpAddr();
     $msgObj->send_to_uri_pattern = $send_to_uri_pattern;
     $msgObj->autoEvalCodeOnHTML = array();
     if (empty($msgObj->videos_id)) {
@@ -18,6 +19,13 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     if (empty($msgObj->live_key)) {
         $msgObj->live_key = isLive();
     }    
+    
+    if(AVideoPlugin::isEnabledByName('User_location')){
+        $msgObj->location = User_Location::getThisUserLocation();
+    }else{
+        $msgObj->location = false;
+    }
+    
     /*
     if (!empty($msgObj->live_key)) {
         $msgObj->is_live = Live::isLiveAndIsReadyFromKey($msgObj->live_key['key'], $msgObj->live_key['live_servers_id'], true);
