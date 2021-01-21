@@ -89,7 +89,7 @@ class Socket extends PluginAbstract {
     }
 
     public static function send($msg, $callbackJSFunction = "", $users_id = "", $send_to_uri_pattern = "") {
-        global $global, $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
+        global $global, $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj, $SocketURL;
         if(!is_string($msg)){
             $msg = json_encode($msg);
         }
@@ -112,9 +112,9 @@ class Socket extends PluginAbstract {
         
         require_once $global['systemRootPath'] . 'objects/autoload.php';
 
-        $socketURL = self::getWebSocketURL(true, true);
+        $SocketURL = self::getWebSocketURL(true, true);
         
-        \Ratchet\Client\connect($socketURL)->then(function($conn) {
+        \Ratchet\Client\connect($SocketURL)->then(function($conn) {
             global $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
             $conn->on('message', function($msg) use ($conn) {
                 //echo "Received: {$msg}\n";
@@ -131,7 +131,8 @@ class Socket extends PluginAbstract {
             
             //$SocketSendResponseObj->error = false;
         }, function ($e) {
-            _error_log("Could not connect: {$e->getMessage()} {$socketURL}", AVideoLog::$ERROR);
+            global $SocketURL;
+            _error_log("Could not connect: {$e->getMessage()} {$SocketURL}", AVideoLog::$ERROR);
         });
         
         return $SocketSendResponseObj;
