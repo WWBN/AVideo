@@ -41,7 +41,8 @@ if(strtolower($scheme)!=='https'){
         'local_cert' => $SocketDataObj->server_crt_file,
         'local_pk' => $SocketDataObj->server_key_file,
         'allow_self_signed' => $SocketDataObj->allow_self_signed, // Allow self signed certs (should be false in production)
-        'verify_peer' => false
+        'verify_peer' => false,
+        'verify_peer_name'=>false,
     ];
     
     echo "Server Parameters ".json_encode($parameters).PHP_EOL;
