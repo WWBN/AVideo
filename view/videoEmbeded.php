@@ -404,7 +404,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         $isAudio = 1;
         ?>
         <audio style="width: 100%; height: 100%;"  id="mainVideo" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainVideo"  data-setup='{ "fluid": true }'
-               poster="<?php echo $global['webSiteRootURL']; ?>view/img/recorder.gif">
+                poster="<?php echo $poster; ?>">
                    <?php
                    $ext = "";
                    if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
