@@ -24,7 +24,7 @@ $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
 echo "Starting server on port {$SocketDataObj->port}".PHP_EOL;
 
 if(strtolower($scheme)!=='https'){
-    echo "Your socket server uses a secure connection".PHP_EOL;
+    echo "Your socket server does NOT use a secure connection".PHP_EOL;
     $server = IoServer::factory(
                     new HttpServer(
                             new WsServer(
@@ -36,7 +36,7 @@ if(strtolower($scheme)!=='https'){
 
     $server->run();
 } else {
-    echo "Your socket server does NOT use a secure connection".PHP_EOL;
+    echo "Your socket server uses a secure connection".PHP_EOL;
     $parameters = [
         'local_cert' => $SocketDataObj->server_crt_file,
         'local_pk' => $SocketDataObj->server_key_file,
@@ -60,9 +60,8 @@ if(strtolower($scheme)!=='https'){
             ),
             $webSock
     );
-    $socket = new Reactor($loop);
-    $socket->listen(8082, '0.0.0.0'); //Port 2
-    $socket->on('connection', [$webServer, 'handleConnect']);
+    //$socket = new React\Socket\Server('0.0.0.0:8082', $loop);
+    //$socket->on('connection', [$webServer, 'handleConnect']);
     
     $loop->run();
 }
