@@ -5476,8 +5476,9 @@ function execAsync($command) {
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         //echo $command;
         //$pid = system("start /min  ".$command. " > NUL");
-        $commandString = "start /B cmd /S /C  " . $command . "  > NUL";
+        $commandString = "start /B " . $command;
         pclose($pid = popen($commandString, "r"));
+        var_dump($pid, $commandString);
     } else {
         $pid = exec($command . " > /dev/null 2>&1 & echo $!; ");
     }
@@ -5495,6 +5496,39 @@ function killProcess($pid) {
         exec("kill -9 $pid");
     }
     return true;
+}
+
+function getPIDUsingPort($port) {
+    $port = intval($port);
+    if (empty($port)) {
+        return false;
+    }
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $command = 'netstat -ano | findstr ' . $port;
+        exec($command, $output, $retval);
+        $pid = 0;
+        foreach ($output as $value) {
+            if (preg_match('/LISTENING[^0-9]+([0-9]+)/i', $value, $matches)) {
+                if (!empty($matches[1])) {
+                    $pid = intval($matches[1]);
+                    return $pid;
+                }
+            }
+        }
+    } else {
+        $command = 'lsof -n -i :' . $port.' | grep LISTEN';
+        exec($command, $output, $retval);
+        $pid = 0;
+        foreach ($output as $value) {
+            if (preg_match('/[^ ] +([0-9]+).*/i', $value, $matches)) {
+                if (!empty($matches[1])) {
+                    $pid = intval($matches[1]);
+                    return $pid;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 function isURL200($url) {

@@ -23,7 +23,9 @@ if(file_exists($pidFile)){
     }
 }
 
-$obj->pid = execAsync("php '{$global['systemRootPath']}plugin/Socket/server.php'");
+$cmd = "E:/xampp/php/php.exe {$global['systemRootPath']}plugin/Socket/server.php";
+$obj->pid = exec("php {$global['systemRootPath']}plugin/Socket/server.php", $o, $i);
+var_dump($cmd, $o, $i);
 
 file_put_contents($pidFile, json_encode($obj));
 

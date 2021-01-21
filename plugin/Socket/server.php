@@ -16,11 +16,15 @@ $obj = AVideoPlugin::getDataObject("Socket");
 ob_end_flush();
 _mysql_close();
 session_write_close();
-
+$obj->port = intval($obj->port);
 _error_log("Starting Socket server at port {$obj->port}");
-
+killProcessOnPort();
 $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
+
+echo "Starting server on port {$obj->port}".PHP_EOL;
+
 if(strtolower($scheme)!=='https'){
+    echo "Your socket server uses a secure connection".PHP_EOL;
     $server = IoServer::factory(
                     new HttpServer(
                             new WsServer(
@@ -32,6 +36,7 @@ if(strtolower($scheme)!=='https'){
 
     $server->run();
 } else {
+    echo "Your socket server does NOT use a secure connection".PHP_EOL;
     $parameters = [
         'local_cert' => $obj->server_crt_file,
         'local_pk' => $obj->server_key_file,
@@ -40,7 +45,6 @@ if(strtolower($scheme)!=='https'){
     ];
     
     echo "Server Parameters ".json_encode($parameters).PHP_EOL;
-    echo "Starting server on port {$obj->port}".PHP_EOL;
     
     $loop = React\EventLoop\Factory::create();
 // Set up our WebSocket server for clients wanting real-time updates

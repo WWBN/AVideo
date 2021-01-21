@@ -18,27 +18,27 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     }
     if (empty($msgObj->live_key)) {
         $msgObj->live_key = isLive();
-    }    
-    
-    if(AVideoPlugin::isEnabledByName('User_location')){
+    }
+
+    if (AVideoPlugin::isEnabledByName('User_location')) {
         $msgObj->location = User_Location::getThisUserLocation();
-    }else{
+    } else {
         $msgObj->location = false;
     }
-    
+
     /*
-    if (!empty($msgObj->live_key)) {
-        $msgObj->is_live = Live::isLiveAndIsReadyFromKey($msgObj->live_key['key'], $msgObj->live_key['live_servers_id'], true);
-        if($msgObj->is_live){
-             $code = "onlineLabelOnline('.liveOnlineLabel');";
-        }else{
-             $code = "onlineLabelOffline('.liveOnlineLabel');";
-        }
-        $msgObj->autoEvalCodeOnHTML[] = $code;
-    }
+      if (!empty($msgObj->live_key)) {
+      $msgObj->is_live = Live::isLiveAndIsReadyFromKey($msgObj->live_key['key'], $msgObj->live_key['live_servers_id'], true);
+      if($msgObj->is_live){
+      $code = "onlineLabelOnline('.liveOnlineLabel');";
+      }else{
+      $code = "onlineLabelOffline('.liveOnlineLabel');";
+      }
+      $msgObj->autoEvalCodeOnHTML[] = $code;
+      }
      * 
      */
-    
+
     return encryptString(json_encode($msgObj));
 }
 
@@ -84,4 +84,21 @@ function getTotalViewsLive_key($live_key) {
     _mysql_close();
 
     return $total;
+}
+
+function killProcessOnPort() {
+    $obj = \AVideoPlugin::getDataObject("Socket");
+    $port = intval($obj->port);
+    if(!empty($port)){
+        echo 'Searching for port: '.$port.PHP_EOL;
+        $command = 'netstat -ano | findstr ' . $port;
+        exec($command, $output, $retval);
+        $pid = getPIDUsingPort($port);
+        if (!empty($pid)) {
+            echo 'Killing, PID '.$pid.PHP_EOL;
+            killProcess($pid);
+        }else{
+            echo 'No Need to kill, port NOT found'.PHP_EOL;
+        }
+    }
 }
