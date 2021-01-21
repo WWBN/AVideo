@@ -10,7 +10,7 @@ if (empty($_POST['id'])) {
 if (empty($_COOKIE[$global['session_name']])) {
     die('{"error":"Cookie is disabled"}');
 }
-if(isIframeInDifferentDomain()){
+if(empty($_COOKIE) && isIframe() && isIframeInDifferentDomain()){
     die('{"error":"isIframeInDifferentDomain"}');
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
