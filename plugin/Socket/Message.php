@@ -427,7 +427,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
-        _log_message("An error has occurred: ($conn->resourceId) {$e->getMessage()} ", \AVideoLog::$ERROR);
+        _log_message("An error has occurred #{$e->getCode()} : ($conn->resourceId) {$e->getMessage()} ", \AVideoLog::$ERROR);
         $conn->close();
     }
 
