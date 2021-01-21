@@ -112,7 +112,9 @@ class Socket extends PluginAbstract {
         
         require_once $global['systemRootPath'] . 'objects/autoload.php';
 
-        \Ratchet\Client\connect(self::getWebSocketURL(true, true))->then(function($conn) {
+        $socketURL = self::getWebSocketURL(true, true);
+        
+        \Ratchet\Client\connect($socketURL)->then(function($conn) {
             global $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
             $conn->on('message', function($msg) use ($conn) {
                 //echo "Received: {$msg}\n";
@@ -129,7 +131,7 @@ class Socket extends PluginAbstract {
             
             //$SocketSendResponseObj->error = false;
         }, function ($e) {
-            _error_log("Could not connect: {$e->getMessage()}", AVideoLog::$ERROR);
+            _error_log("Could not connect: {$e->getMessage()} {$socketURL}", AVideoLog::$ERROR);
         });
         
         return $SocketSendResponseObj;
