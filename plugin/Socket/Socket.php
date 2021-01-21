@@ -127,7 +127,6 @@ class Socket extends PluginAbstract {
                 $conn->send(json_encode($SocketSendObj));
             }
         
-            sleep(5);
             $conn->close();
             
             //$SocketSendResponseObj->error = false;
