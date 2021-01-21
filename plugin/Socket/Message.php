@@ -45,6 +45,8 @@ class Message implements MessageComponentInterface {
         $this->clients[$conn->resourceId]['videos_id'] = $json->videos_id;        
         $this->clients[$conn->resourceId]['live_key'] = object_to_array(@$json->live_key);
         $this->clients[$conn->resourceId]['autoEvalCodeOnHTML'] = $json->autoEvalCodeOnHTML;
+        $this->clients[$conn->resourceId]['ip'] = $json->ip;
+        $this->clients[$conn->resourceId]['location'] = $json->location;
         
         _log_message("New connection ");
         if ($this->shouldPropagateInfo($this->clients[$conn->resourceId])) {

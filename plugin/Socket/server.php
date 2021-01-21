@@ -19,7 +19,8 @@ session_write_close();
 
 _error_log("Starting Socket server at port {$obj->port}");
 
-if (empty($obj->secure)) {
+$scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
+if(strtolower($scheme)!=='https'){
     $server = IoServer::factory(
                     new HttpServer(
                             new WsServer(
@@ -39,7 +40,7 @@ if (empty($obj->secure)) {
     ];
     
     echo "Server Parameters ".json_encode($parameters).PHP_EOL;
-    echo "Starting server on port {$obj->port}";
+    echo "Starting server on port {$obj->port}".PHP_EOL;
     
     $loop = React\EventLoop\Factory::create();
 // Set up our WebSocket server for clients wanting real-time updates

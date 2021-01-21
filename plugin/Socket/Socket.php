@@ -142,7 +142,8 @@ class Socket extends PluginAbstract {
         }
         $port = $socketobj->port;
         $protocol = "ws";
-        if($socketobj->secure){
+        $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
+        if(strtolower($scheme)==='https'){
             $protocol = "wss";
         }
         return "{$protocol}://{$address}:{$port}?webSocketToken=".getEncryptedInfo(0)."&isCommandLine=".intval($isCommandLine);
