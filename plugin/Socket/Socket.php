@@ -10,7 +10,7 @@ class Socket extends PluginAbstract {
     public function getDescription() {
         global $global;
         $desc = "Socket Plugin, run the command below to start the server<br>";
-        $desc .= "<code>nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &</code>";
+        $desc .= "<code>nohup php {$global['systemRootPath']}plugin/Socket/server.php &</code>";
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
         return $desc;
     }
