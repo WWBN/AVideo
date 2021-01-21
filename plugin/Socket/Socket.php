@@ -8,7 +8,9 @@ require_once $global['systemRootPath'] . 'plugin/Socket/functions.php';
 class Socket extends PluginAbstract {
 
     public function getDescription() {
-        $desc = "Socket Plugin";
+        global $global;
+        $desc = "Socket Plugin, run the command below to start the server<br>";
+        $desc .= "<code>nohup php {$global['systemRootPath']}plugin/LiveChat/chat-server.php &</code>";
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
         return $desc;
     }
