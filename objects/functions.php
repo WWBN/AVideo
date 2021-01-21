@@ -3307,7 +3307,7 @@ class AVideoLog {
     public static $WARNING = 1;
     public static $ERROR = 2;
     public static $SECURITY = 3;
-    public static $SOCKET = 3;
+    public static $SOCKET = 4;
 
 }
 
