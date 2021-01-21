@@ -40,7 +40,10 @@ class Socket extends PluginAbstract {
         $obj = new stdClass();
         $obj->port = "8888";
         $obj->debugSocket = false;
-        $obj->debugAllUsersSocket = false;
+        $obj->useHTTPS = true;
+        $obj->server_crt_file = "";
+        $obj->server_key_file = "";
+        $obj->allow_self_signed = true;// Allow self signed certs (should be false in production)
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;
@@ -123,7 +126,11 @@ class Socket extends PluginAbstract {
             $address = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
         }
         $port = $socketobj->port;
-        return "ws://{$address}:{$port}?webSocketToken=".getEncryptedInfo(0)."&isCommandLine=".intval($isCommandLine);
+        $protocol = "ws";
+        if($socketobj->useHTTPS){
+            $protocol = "wss";
+        }
+        return "{$protocol}://{$address}:{$port}?webSocketToken=".getEncryptedInfo(0)."&isCommandLine=".intval($isCommandLine);
     }
 
 }
