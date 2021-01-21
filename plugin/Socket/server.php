@@ -1,5 +1,4 @@
 <?php
-
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
@@ -38,15 +37,19 @@ if (empty($obj->useHTTPS)) {
         $obj->server_key_file = "/etc/letsencrypt/live/{$host}/privkey.pem";
     }
     
-    $loop = React\EventLoop\Factory::create();
-// Set up our WebSocket server for clients wanting real-time updates
-    $webSock = new React\Socket\Server('0.0.0.0:' . $obj->port, $loop);
-    $webSock = new React\Socket\SecureServer($webSock, $loop, [
+    $parameters = [
         'local_cert' => $obj->server_crt_file,
         'local_pk' => $obj->server_key_file,
         'allow_self_signed' => $obj->allow_self_signed, // Allow self signed certs (should be false in production)
         'verify_peer' => false
-    ]);
+    ];
+    
+    echo "Server Parameters ".json_encode($parameters).PHP_EOL;
+    
+    $loop = React\EventLoop\Factory::create();
+// Set up our WebSocket server for clients wanting real-time updates
+    $webSock = new React\Socket\Server('0.0.0.0:' . $obj->port, $loop);
+    $webSock = new React\Socket\SecureServer($webSock, $loop, $parameters);
     $webServer = new Ratchet\Server\IoServer(
             new HttpServer(
                     new WsServer(
