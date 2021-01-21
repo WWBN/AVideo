@@ -39,26 +39,20 @@ class Socket extends PluginAbstract {
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->port = "8888";
+        self::addDataObjectHelper('port', 'Server Port', 'You also MUST open this port on the firewall');
         $obj->debugSocket = false;
-        $obj->useHTTPS = true;
+        self::addDataObjectHelper('debugSocket', 'Debug the socket server', 'This will show a panel with some socket informations to the ADMIN user only');
+        $obj->debugAllUsersSocket = false;
+        self::addDataObjectHelper('debugAllUsersSocket', 'Debug the socket server', 'Same as above but will show the panel to all users');
+        $obj->secure = true;
+        self::addDataObjectHelper('secure', 'Secure connection', 'If your site use HTTPS, this option MUST be checked');
         $obj->server_crt_file = "";
+        self::addDataObjectHelper('server_crt_file', 'SSL Certificate File', 'if is blank we will try to find the letsencrypt fullchain.pem');
         $obj->server_key_file = "";
-        $obj->allow_self_signed = true;// Allow self signed certs (should be false in production)
-        /*
-          $obj->textSample = "text";
-          $obj->checkboxSample = true;
-          $obj->numberSample = 5;
-
-          $o = new stdClass();
-          $o->type = array(0=>__("Default"))+array(1,2,3);
-          $o->value = 0;
-          $obj->selectBoxSample = $o;
-
-          $o = new stdClass();
-          $o->type = "textarea";
-          $o->value = "";
-          $obj->textareaSample = $o;
-         */
+        self::addDataObjectHelper('server_key_file', 'SSL Certificate Key File', 'if is blank we will try to find the letsencrypt privkey.pem');
+        $obj->allow_self_signed = true;
+        self::addDataObjectHelper('allow_self_signed', 'Allow self signed certs', 'Should be unchecked in production');
+        
         return $obj;
     }
 
