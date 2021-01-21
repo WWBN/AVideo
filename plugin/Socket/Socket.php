@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * to stop
+ * find who is using the port 
+ * * lsof -i :25
+ * Kill it
+ * * kill -9 PID
+ */
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
@@ -136,7 +142,7 @@ class Socket extends PluginAbstract {
         }
         $port = $socketobj->port;
         $protocol = "ws";
-        if($socketobj->useHTTPS){
+        if($socketobj->secure){
             $protocol = "wss";
         }
         return "{$protocol}://{$address}:{$port}?webSocketToken=".getEncryptedInfo(0)."&isCommandLine=".intval($isCommandLine);
