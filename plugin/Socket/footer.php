@@ -48,7 +48,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
 ?>
 <script>
     var webSocketToken = '<?php echo getEncryptedInfo(0); ?>';
-    var webSocketURL = '<?php echo Socket::getWebSocketURL(true); ?>';
+    var webSocketURL = '<?php echo Socket::getWebSocketURL(); ?>';
     var webSocketTypes = <?php echo json_encode($refl->getConstants()); ?>;
 </script>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Socket/script.js" type="text/javascript"></script>
