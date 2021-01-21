@@ -204,7 +204,7 @@ class Message implements MessageComponentInterface {
         $obj['autoEvalCodeOnHTML'] = $this->clients[$resourceId]['autoEvalCodeOnHTML'];
         
         $msgToSend = json_encode($obj);
-        //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
+        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
         $this->clients[$resourceId]['conn']->send($msgToSend);
         //sleep(0.1);
     }
