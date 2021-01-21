@@ -51,7 +51,7 @@ class Message implements MessageComponentInterface {
         _log_message("New connection ($conn->resourceId) {$json->yptDeviceId}");
         if ($this->shouldPropagateInfo($this->clients[$conn->resourceId])) {
             //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
-            $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION, true);
+            $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION);
             \AVideoPlugin::onUserSocketConnect($json->from_users_id, $this->clients[$conn->resourceId]);
         } else {
             //_log_message("NOT shouldPropagateInfo ");
@@ -83,7 +83,7 @@ class Message implements MessageComponentInterface {
         $videos_id = $this->clients[$conn->resourceId]['videos_id'];
         $live_key = $this->clients[$conn->resourceId]['live_key'];
         if ($this->shouldPropagateInfo($this->clients[$conn->resourceId])) {
-            $this->msgToAll($conn, array(), \SocketMessageType::NEW_DISCONNECTION, true);
+            $this->msgToAll($conn, array(), \SocketMessageType::NEW_DISCONNECTION);
             \AVideoPlugin::onUserSocketDisconnect($users_id, $this->clients[$conn->resourceId]);
         }
 
@@ -315,10 +315,10 @@ class Message implements MessageComponentInterface {
         return $devices;
     }
 
-    public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
+    public function msgToAll(ConnectionInterface $from, $msg, $type = "") {
         _log_message("msgToAll ({$from->resourceId}) {$type}");
         foreach ($this->clients as $key => $client) {
-            if (!empty($includeMe) || $from !== $client['conn']) {
+            if ($from !== $client['conn']) {
                 $this->msgToResourceId($msg, $key, $type);
             }
         }
