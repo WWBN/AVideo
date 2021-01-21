@@ -3307,6 +3307,7 @@ class AVideoLog {
     public static $WARNING = 1;
     public static $ERROR = 2;
     public static $SECURITY = 3;
+    public static $SOCKET = 3;
 
 }
 
@@ -3338,6 +3339,9 @@ function _error_log($message, $type = 0, $doNotRepeat = false) {
             break;
         case AVideoLog::$SECURITY:
             $prefix .= "SECURITY: ";
+            break;
+        case AVideoLog::$SOCKET:
+            $prefix .= "SOCKET: ";
             break;
     }
     error_log($prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}");
