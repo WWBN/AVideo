@@ -12,16 +12,16 @@ if (!isCommandLineInterface()) {
     die("Command line only");
 }
 
-$obj = AVideoPlugin::getDataObject("Socket");
+$SocketDataObj = AVideoPlugin::getDataObject("Socket");
 ob_end_flush();
 _mysql_close();
 session_write_close();
-$obj->port = intval($obj->port);
-_error_log("Starting Socket server at port {$obj->port}");
+$SocketDataObj->port = intval($SocketDataObj->port);
+_error_log("Starting Socket server at port {$SocketDataObj->port}");
 killProcessOnPort();
 $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
 
-echo "Starting server on port {$obj->port}".PHP_EOL;
+echo "Starting server on port {$SocketDataObj->port}".PHP_EOL;
 
 if(strtolower($scheme)!=='https'){
     echo "Your socket server uses a secure connection".PHP_EOL;
@@ -31,16 +31,16 @@ if(strtolower($scheme)!=='https'){
                                     new Message()
                             )
                     ),
-                    $obj->port
+                    $SocketDataObj->port
     );
 
     $server->run();
 } else {
     echo "Your socket server does NOT use a secure connection".PHP_EOL;
     $parameters = [
-        'local_cert' => $obj->server_crt_file,
-        'local_pk' => $obj->server_key_file,
-        'allow_self_signed' => $obj->allow_self_signed, // Allow self signed certs (should be false in production)
+        'local_cert' => $SocketDataObj->server_crt_file,
+        'local_pk' => $SocketDataObj->server_key_file,
+        'allow_self_signed' => $SocketDataObj->allow_self_signed, // Allow self signed certs (should be false in production)
         'verify_peer' => false
     ];
     
@@ -48,7 +48,7 @@ if(strtolower($scheme)!=='https'){
     
     $loop = React\EventLoop\Factory::create();
 // Set up our WebSocket server for clients wanting real-time updates
-    $webSock = new React\Socket\Server('0.0.0.0:' . $obj->port, $loop);
+    $webSock = new React\Socket\Server('0.0.0.0:' . $SocketDataObj->port, $loop);
     $webSock = new React\Socket\SecureServer($webSock, $loop, $parameters);
     $webServer = new Ratchet\Server\IoServer(
             new HttpServer(

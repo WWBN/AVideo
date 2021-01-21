@@ -48,22 +48,22 @@ class Message implements MessageComponentInterface {
         $this->clients[$conn->resourceId]['ip'] = $json->ip;
         $this->clients[$conn->resourceId]['location'] = $json->location;
         
-        _log_message("New connection {$json->yptDeviceId}");
+        _log_message("New connection ($conn->resourceId) {$json->yptDeviceId}");
         if ($this->shouldPropagateInfo($this->clients[$conn->resourceId])) {
-            _log_message("shouldPropagateInfo ");
+            //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
             $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION, true);
             \AVideoPlugin::onUserSocketConnect($json->from_users_id, $this->clients[$conn->resourceId]);
         } else {
             //_log_message("NOT shouldPropagateInfo ");
         }
         if (!empty($json->videos_id)) {
-            _log_message("msgToAllSameVideo ");
+            //_log_message("msgToAllSameVideo ");
             $this->msgToAllSameVideo($json->videos_id, "");
         } else {
             //_log_message("NOT msgToAllSameVideo ");
         }
         if (!empty($json->live_key)) {
-            _log_message("msgToAllSameLive ");
+            //_log_message("msgToAllSameLive ");
             $this->msgToAllSameLive($json->live_key, "");
         } else {
             //_log_message("NOT msgToAllSameLive ");
@@ -204,7 +204,7 @@ class Message implements MessageComponentInterface {
         $obj['autoEvalCodeOnHTML'] = $this->clients[$resourceId]['autoEvalCodeOnHTML'];
         
         $msgToSend = json_encode($obj);
-        _log_message("msgToResourceId: resourceId=({$resourceId})");
+        //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
         $this->clients[$resourceId]['conn']->send($msgToSend);
     }
 
@@ -236,7 +236,7 @@ class Message implements MessageComponentInterface {
                 $this->msgToResourceId($msg, $resourceId, $type);
             }
         }
-        _log_message("msgToSelfURI: sent to ($count) clients pattern={$pattern} ");
+        _log_message("msgToSelfURI: sent to ($count) clients pattern={$pattern} {$type}");
     }
 
     public function getTotalSelfURI($pattern) {
@@ -252,7 +252,7 @@ class Message implements MessageComponentInterface {
                 $count++;
             }
         }
-        _log_message("getTotalSelfURI: total ($count) clients pattern={$pattern} ");
+        _log_message("getTotalSelfURI: total ($count) clients pattern={$pattern} {$type}");
         return $count;
     }
 
@@ -282,7 +282,7 @@ class Message implements MessageComponentInterface {
                 $this->msgToResourceId($msg, $resourceId);
             }
         }
-        _log_message("msgToDevice_id: sent to ($count) clients yptDeviceId={$yptDeviceId}");
+        _log_message("msgToDevice_id: sent to ($count) clients yptDeviceId={$yptDeviceId} ");
     }
 
     public function getUsersIdFromDevicesOnline() {
@@ -315,7 +315,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
-        _log_message("msgToAll {$type}");
+        _log_message("msgToAll ({$from->resourceId}) {$type}");
         foreach ($this->clients as $key => $client) {
             if (!empty($includeMe) || $from !== $client['conn']) {
                 $this->msgToResourceId($msg, $key, $type);
@@ -426,7 +426,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
-        _log_message("An error has occurred: {$e->getMessage()}");
+        _log_message("An error has occurred: {$e->getMessage()}", \AVideoLog::$ERROR);
         $conn->close();
     }
 
@@ -436,7 +436,13 @@ class Message implements MessageComponentInterface {
 
 }
 
-function _log_message($msg) {
-    _error_log($msg, \AVideoLog::$SOCKET);
-    echo $msg . PHP_EOL;
+function _log_message($msg, $type="") {
+    global $SocketDataObj;
+    if (!empty($SocketDataObj->debugAllUsersSocket) || !empty($SocketDataObj->debugSocket)) {
+        _error_log($msg, \AVideoLog::$SOCKET);
+        echo $msg . PHP_EOL;
+    }else if($type==\AVideoLog::$ERROR){
+        _error_log($msg, \AVideoLog::$SOCKET);
+        echo $msg . PHP_EOL;
+    }
 }
