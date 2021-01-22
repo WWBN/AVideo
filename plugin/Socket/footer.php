@@ -1,4 +1,7 @@
 <?php
+if(isBot()){
+    return false;
+}
 $refl = new ReflectionClass('SocketMessageType');
 $obj = AVideoPlugin::getDataObjectIfEnabled('Socket');
 if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugSocket))) {
