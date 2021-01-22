@@ -34,23 +34,21 @@ class Message implements MessageComponentInterface {
         }
         // Store the new connection to send messages to later
         //$this->clients->attach($conn);
-        if (!isset($this->clients[$conn->resourceId])) {
-            $this->clients[$conn->resourceId] = array();
-        }
-        $this->clients[$conn->resourceId]['conn'] = $conn;
-        $this->clients[$conn->resourceId]['users_id'] = $json->from_users_id;
-        $this->clients[$conn->resourceId]['yptDeviceId'] = $json->yptDeviceId;
-        $this->clients[$conn->resourceId]['selfURI'] = $json->selfURI;
-        $this->clients[$conn->resourceId]['isCommandLine'] = $wsocketToken['isCommandLine'];
-        $this->clients[$conn->resourceId]['videos_id'] = $json->videos_id;        
-        $this->clients[$conn->resourceId]['live_key'] = object_to_array(@$json->live_key);
-        $this->clients[$conn->resourceId]['autoEvalCodeOnHTML'] = $json->autoEvalCodeOnHTML;
-        $this->clients[$conn->resourceId]['ip'] = $json->ip;
-        $this->clients[$conn->resourceId]['location'] = $json->location;
+        $client = array();
+        $client['conn'] = $conn;
+        $client['users_id'] = $json->from_users_id;
+        $client['yptDeviceId'] = $json->yptDeviceId;
+        $client['selfURI'] = $json->selfURI;
+        $client['isCommandLine'] = $wsocketToken['isCommandLine'];
+        $client['videos_id'] = $json->videos_id;        
+        $client['live_key'] = object_to_array(@$json->live_key);
+        $client['autoEvalCodeOnHTML'] = $json->autoEvalCodeOnHTML;
+        $client['ip'] = $json->ip;
+        $client['location'] = $json->location;
         
         _log_message("New connection ($conn->resourceId) {$json->yptDeviceId}");
         sleep(1);
-        if ($this->shouldPropagateInfo($this->clients[$conn->resourceId])) {
+        if ($this->shouldPropagateInfo($client)) {
             //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
             $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION);
             //\AVideoPlugin::onUserSocketConnect($json->from_users_id, $this->clients[$conn->resourceId]);
@@ -69,6 +67,8 @@ class Message implements MessageComponentInterface {
         } else {
             //_log_message("NOT msgToAllSameLive ");
         }
+        
+        $this->clients[$conn->resourceId] = $client;
     }
 
     public function onClose(ConnectionInterface $conn) {
@@ -452,9 +452,9 @@ function _log_message($msg, $type="") {
     global $SocketDataObj;
     if (!empty($SocketDataObj->debugAllUsersSocket) || !empty($SocketDataObj->debugSocket)) {
         _error_log($msg, \AVideoLog::$SOCKET);
-        echo date('Y-m-d H:i:s.u').' '.$msg . PHP_EOL;
+        echo date('Y-m-d H:i:s').' '.$msg . PHP_EOL;
     }else if($type==\AVideoLog::$ERROR){
         _error_log($msg, \AVideoLog::$SOCKET);
-        echo date('Y-m-d H:i:s.u').' '.$msg . PHP_EOL;
+        echo date('Y-m-d H:i:s').' '.$msg . PHP_EOL;
     }
 }
