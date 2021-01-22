@@ -215,7 +215,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
-        if(!preg_match('protocol is shutdown', $e->getMessage())){ // this may be the iframe that reloads the page
+        if(!preg_match('/protocol is shutdown/i', $e->getMessage())){ // this may be the iframe that reloads the page
             $debug = $this->clients[$conn->resourceId];
             unset($debug['conn']);
             var_dump($debug);
