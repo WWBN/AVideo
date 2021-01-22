@@ -137,11 +137,11 @@ class Message implements MessageComponentInterface {
         }
     }
 
-    private function shouldPropagateInfo($connection) {
-        if (preg_match('/^unknowDevice.*/', $connection['yptDeviceId'])) {
+    private function shouldPropagateInfo($client) {
+        if (preg_match('/^unknowDevice.*/', $client['yptDeviceId'])) {
             return false;
         }
-        if (!empty($connection['isCommandLine'])) {
+        if (!empty($client['isCommandLine'])) {
             return false;
         }
         return true;
@@ -155,6 +155,10 @@ class Message implements MessageComponentInterface {
         // do not sent duplicated messages
         $onMessageSentTo[] = $resourceId;
 
+        if(!$this->shouldPropagateInfo($this->clients[$resourceId])){
+            _log_message("msgToResourceId: we wil NOT send the message to resourceId=({$resourceId}) {$type} {$this->clients[$resourceId]}");
+        }
+        
         if (!is_array($msg)) {
             $this->msgToArray($msg);
         }
@@ -207,6 +211,14 @@ class Message implements MessageComponentInterface {
         _log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
         $this->clients[$resourceId]['conn']->send($msgToSend);
         //sleep(0.1);
+    }
+
+    public function onError(ConnectionInterface $conn, \Exception $e) {
+        $debug = $this->clients[$conn->resourceId];
+        unset($debug['conn']);
+        var_dump($debug);
+        _log_message("ERROR: ($conn->resourceId) {$e->getMessage()} ", \AVideoLog::$ERROR);
+        $conn->close();
     }
 
     public function msgToUsers_id($msg, $users_id, $type = "") {
@@ -424,17 +436,6 @@ class Message implements MessageComponentInterface {
             return object_to_array($decoded);
         }
         return object_to_array($msg);
-    }
-
-    public function onError(ConnectionInterface $conn, \Exception $e) {
-        $msg = $e->getMessage();
-        if(!preg_match('/protocol is shutdown/i', $msg)){ // it is already closed
-            $debug = $this->clients[$conn->resourceId];
-            unset($debug['conn']);
-            var_dump($debug);
-            _log_message("An error has occurred #{$e->getCode()} : ($conn->resourceId) {$e->getMessage()} ", \AVideoLog::$ERROR);
-        }
-        $conn->close();
     }
 
     public function getTags() {

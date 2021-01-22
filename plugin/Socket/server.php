@@ -3,6 +3,7 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use Socket\Message;
+//use React\Socket\Server as Reactor;
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Socket/Message.php';
@@ -62,8 +63,9 @@ if(strtolower($scheme)!=='https'){
             ),
             $webSock
     );
-    //$socket = new React\Socket\Server('0.0.0.0:8082', $loop);
-    //$socket->on('connection', [$webServer, 'handleConnect']);
-    
+//$socket = new Reactor($webServer->loop);
+//$socket->listen(8082, '0.0.0.0'); //Port 2
+//$socket->on('connection', [$webServer, 'handleConnect']);
+//$webServer->run();
     $loop->run();
 }
