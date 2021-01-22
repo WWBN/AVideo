@@ -95,4 +95,4 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     var webSocketURL = '<?php echo Socket::getWebSocketURL(); ?>';
     var webSocketTypes = <?php echo json_encode($refl->getConstants()); ?>;
 </script>
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/Socket/script.js" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>plugin/Socket/script.js?<?php echo filectime($global['systemRootPath'].'plugin/Socket/script.js'); ?>" type="text/javascript"></script>
