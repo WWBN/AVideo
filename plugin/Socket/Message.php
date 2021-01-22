@@ -84,7 +84,6 @@ class Message implements MessageComponentInterface {
         $videos_id = $client['videos_id'];
         $live_key = $client['live_key'];
         if ($this->shouldPropagateInfo($client)) {
-            sleep(1);
             $this->msgToAll($conn, array(), \SocketMessageType::NEW_DISCONNECTION);
             //\AVideoPlugin::onUserSocketDisconnect($users_id, $this->clients[$conn->resourceId]);
             if (!empty($videos_id)) {
