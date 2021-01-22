@@ -127,7 +127,7 @@ class Message implements MessageComponentInterface {
                 break;
             default:
                 $this->msgToArray($json);
-                _log_message("onMessage:msgObj: " . json_encode($json));
+                //_log_message("onMessage:msgObj: " . json_encode($json));
                 if (!empty($msgObj->send_to_uri_pattern)) {
                     $this->msgToSelfURI($json, $msgObj->send_to_uri_pattern);
                 } else if (!empty($json['to_users_id'])) {
@@ -198,21 +198,24 @@ class Message implements MessageComponentInterface {
         $obj['users_id'] = $users_id;
         $obj['videos_id'] = $videos_id;
         $obj['live_key'] = $live_key;
-        $obj['autoUpdateOnHTML'] = array(
+        $totals = array(
             'socket_users_id' => $users_id,
             'socket_resourceId' => $resourceId,
             'total_devices_online' => count($this->getUniqueDevices()),
             'total_users_online' => count($this->getUsersIdFromDevicesOnline()),
-            'usersonline_per_video' => $this->getTotalPerVideo(),
             'total_on_same_video' => $this->getTotalOnVideos_id($videos_id),
-            'total_on_same_live' => $this->getTotalOnlineOnLive_key($live_key)
+            'total_on_same_live' => $this->getTotalOnlineOnLive_key($live_key),
+            'total_on_same_livelink' => $this->getTotalOnlineOnLiveLink($live_key)
         );
+        
+        $totalOnMedias = $this->getTotalPerMedia();
+        $obj['autoUpdateOnHTML'] = array_merge($totals, $totalOnMedias);
+        
         $obj['autoEvalCodeOnHTML'] = $this->clients[$resourceId]['autoEvalCodeOnHTML'];
         
         $msgToSend = json_encode($obj);
         _log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
         $this->clients[$resourceId]['conn']->send($msgToSend);
-        //sleep(0.1);
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
@@ -273,19 +276,27 @@ class Message implements MessageComponentInterface {
         return $count;
     }
 
-    public function getTotalPerVideo() {
-        $videos = array();
+    public function getTotalPerMedia() {
+        global $SocketDataObj;
+        $list = array();
         foreach ($this->clients as $key => $client) {
-            if (empty($client['videos_id'])) {
-                continue;
+            $keyName = "";
+            if (!empty($SocketDataObj->showTotalOnlineUsersPerVideo) && !empty($client['videos_id'])) {
+                $keyName = getSocketVideoClassName($client['videos_id']);
+            }else if (!empty($SocketDataObj->showTotalOnlineUsersPerLive) && !empty($client['live_key']['key'])) {
+                $keyName = getSocketLiveClassName($client['live_key']['key'], $client['live_key']['live_servers_id']);
+            } else  if (!empty($SocketDataObj->showTotalOnlineUsersPerLiveLink) && !empty($client['live_key']['liveLink'])){
+                $keyName = getSocketLiveLinksClassName($client['live_key']['liveLink']);
             }
-            if (!isset($videos[$client['videos_id']])) {
-                $videos[$client['videos_id']] = array('videos_id' => $client['videos_id'], 'total' => 1);
-            } else {
-                $videos[$client['videos_id']]['total']++;
+            if(!empty($keyName)){
+                if(!isset($list[$keyName])){
+                    $list[$keyName] = 1;
+                }else{
+                    $list[$keyName]++;
+                }
             }
         }
-        return $videos;
+        return $list;
     }
 
     public function msgToDevice_id($msg, $yptDeviceId) {
@@ -357,7 +368,6 @@ class Message implements MessageComponentInterface {
         }
         return $count;
     }
-    
 
     public function getTotalOnlineOnLive_key($live_key) {
         if (empty($live_key)) {
@@ -368,10 +378,30 @@ class Message implements MessageComponentInterface {
         //_log_message("getTotalOnlineOnLive_key: key={$live_key['key']} live_servers_id={$live_key['live_servers_id']}");
         $count = 0;
         foreach ($this->clients as $key => $client) {
-            if (empty($client['live_key'])) {
+            if (empty($client['live_key']['key'])) {
                 continue;
             }
             if ($client['live_key']['key'] == $live_key['key'] && $client['live_key']['live_servers_id'] == $live_key['live_servers_id']) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+    
+    public function getTotalOnlineOnLiveLink($live_key) {
+        if (empty($live_key)) {
+            return false;
+        }
+        
+        $live_key = object_to_array($live_key);
+        //_log_message("getTotalOnlineOnLive_key: key={$live_key['key']} live_servers_id={$live_key['live_servers_id']}");
+        $count = 0;
+        foreach ($this->clients as $key => $client) {
+            if (empty($client['live_key']['liveLink'])) {
+                continue;
+            }
+            if ($client['live_key']['liveLink'] == $live_key['liveLink']) {
                 $count++;
             }
         }
@@ -410,12 +440,14 @@ class Message implements MessageComponentInterface {
         _mysql_connect();
         $msg['is_live'] = \Live::isLiveAndIsReadyFromKey($live_key['key'], $live_key['live_servers_id'], true);
         _mysql_close();
-        _log_message("msgToAllSameLive: key={$live_key['key']} live_servers_id={$live_key['live_servers_id']}");
+        _log_message("msgToAllSameLive: key={$live_key['key']} live_servers_id={$live_key['live_servers_id']} liveLink={$live_key['liveLink']}");
         foreach ($this->clients as $key => $client) {
-            if (empty($client['live_key'])) {
+            if (empty($client['live_key']) || (empty($client['live_key']['key']) && empty($client['live_key']['liveLink']))) {
                 continue;
             }
             if ($client['live_key']['key'] == $live_key['key'] && $client['live_key']['live_servers_id'] == $live_key['live_servers_id']) {
+                $this->msgToResourceId($msg, $key, \SocketMessageType::ON_LIVE_MSG);
+            }else if ($client['live_key']['liveLink'] == $live_key['liveLink'] ) {
                 $this->msgToResourceId($msg, $key, \SocketMessageType::ON_LIVE_MSG);
             }
         }

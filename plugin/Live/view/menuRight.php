@@ -69,21 +69,10 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
                     <div class="liveUser"><?php echo __("User"); ?></div>
                 </div>
             </div>
+            <div class="clearfix"></div>
             <?php
-            require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-            // the live users plugin
-            $lu = AVideoPlugin::getObjectDataIfEnabled("LiveUsers");
-            if (!empty($lu) && !$lu->doNotDisplayCounter) {
-                if (empty($lu->doNotDisplayLiveCounter)) {
-                    ?>
-                    <span class="label label-primary"  data-toggle="tooltip" title="<?php echo __("Watching Now"); ?>" data-placement="bottom" ><i class="fa fa-eye"></i> <b class="liveUsersOnline">0</b></span>
-                    <?php
-                }
-                if (empty($lu->doNotDisplayTotal)) {
-                    ?>
-                    <span class="label label-default"  data-toggle="tooltip" title="<?php echo __("Total Views"); ?>" data-placement="bottom" ><i class="fa fa-user"></i> <b class="liveUsersViews">0</b></span>
-                    <?php
-                }
+            if (AVideoPlugin::isEnabledByName("LiveUsers")) {
+                echo LiveUsers::getLabels('extraVideosModelOnLineLabels');
             }
             ?>
         </div>
@@ -149,6 +138,11 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             var $liveLi = $('.extraVideosModel').clone();
             $($liveLi).find('a').removeClass('linksToFullscreen');
             $liveLi.removeClass("hidden").removeClass("extraVideosModel");
+            
+            var counterClassName = "total_on_live_" +key+"_"+ live_servers_id;
+            $liveLi.find('.extraVideosModelOnLineLabels').addClass(counterClassName);
+            $liveLi.find('.views_on_extraVideosModelOnLineLabels').addClass('views_on_'+counterClassName);
+            
             $liveLi.css({'display': 'none'})
             $liveLi.attr('id', id);
             $liveLi.addClass(_class);
@@ -162,9 +156,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
                 $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_" + key);
                 $liveLi.find('.liveUsersViews').addClass("liveUsersViews_" + key);
             }
-            $liveLi.find('.thumbsJPG').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=jpg" + playlists_id_live + '&' + Math.random());
+            $liveLi.find('.thumbsJPG').attr("src", webSiteRootURL+"plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=jpg" + playlists_id_live + '&' + Math.random());
             if (!disableGif) {
-                $liveLi.find('.thumbsGIF').attr("src", "<?php echo $global['webSiteRootURL']; ?>plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=gif" + playlists_id_live + '&' + Math.random());
+                $liveLi.find('.thumbsGIF').attr("src", webSiteRootURL+"plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=gif" + playlists_id_live + '&' + Math.random());
             } else {
                 $liveLi.find('.thumbsGIF').remove();
             }
@@ -214,7 +208,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         }
         availableLiveStreamIsLoading();
         $.ajax({
-            url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu<?php echo (!empty($_GET['videoName']) ? "&requestComesFromVideoPage=1" : "") ?>',
+            url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu',
             success: function (response) {
                 if (avideoSocketIsActive()) {
                     console.log('getStatsMenu: Socket is enabled we will not process ajax result');

@@ -3864,7 +3864,21 @@ function isEmbed() {
 function isLive() {
     global $isLive;
     if (!empty($isLive)) {
-        return getLiveKey();
+        $live = getLiveKey();
+        if(empty($live)){
+           $live = array('key'=>false, 'live_servers_id'=>false); 
+        }
+        $live['liveLink'] = isLiveLink();
+        return $live;
+    } else {
+        return false;
+    }
+}
+
+function isLiveLink() {
+    global $isLiveLink;
+    if (!empty($isLiveLink)) {
+        return $isLiveLink;
     } else {
         return false;
     }
@@ -3976,6 +3990,16 @@ function getVideoIDFromURL($url) {
     if (preg_match('/\/articleEmbed\/([0-9]+)/', $url, $matches)) {
         return intval($matches[1]);
     }
+    if(AVideoPlugin::isEnabledByName('PlayLists')){
+        if (preg_match('/player.php\?playlists_id=([0-9]+)/', $url, $matches)) {
+            $serie_playlists_id = intval($matches[1]);
+            $video = PlayLists::isPlayListASerie($serie_playlists_id);
+            if($video){
+                return $video['id'];
+            }
+        }
+    }
+    return false;
 }
 
 function getBackURL() {
@@ -4750,8 +4774,8 @@ function getDeviceID($useRandomString = true) {
         $device = str_replace(
                 array('[', ']', ' '),
                 array('', '', '_'), $device);
-        if(User::isLogged()){
-            $device .= '-'.User::getId();
+        if (User::isLogged()) {
+            $device .= '-' . User::getId();
         }
         return $device;
     }
@@ -5516,7 +5540,7 @@ function getPIDUsingPort($port) {
             }
         }
     } else {
-        $command = 'lsof -n -i :' . $port.' | grep LISTEN';
+        $command = 'lsof -n -i :' . $port . ' | grep LISTEN';
         exec($command, $output, $retval);
         $pid = 0;
         foreach ($output as $value) {
@@ -5582,4 +5606,64 @@ function getStatsNotifications() {
         $json['countLiveStream'] = $json['total'];
     }
     return $json;
+}
+
+function getSocketConnectionLabel() {
+    $html = '<span class="socketStatus">
+            <span class="socket_disconnected">
+                <i class="fas fa-times"></i> ' . __('Socket Disconnected') . '
+            </span>
+            <span class="socket_connected">
+                <i class="fas fa-check"></i> ' . __('Socket Connected') . '
+            </span>
+        </span>';
+    return $html;
+}
+
+function getSocketVideoClassName($videos_id){
+    return 'total_on_videos_id_'.$videos_id;
+}
+function getSocketLiveClassName($key, $live_servers_id){
+    return 'total_on_live_'.$key.'_'.intval($live_servers_id);
+}
+function getSocketLiveLinksClassName($live_links_id){
+    return 'total_on_live_links_id_'.$live_links_id;
+}
+
+function getLiveUsersLabelVideo($videos_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary"){
+    if(AVideoPlugin::isEnabledByName('LiveUsers')){
+        return LiveUsers::getLabels(getSocketVideoClassName($videos_id), $totalViews, $viewsClass, $counterClass);
+    }
+}
+function getLiveUsersLabelLive($key, $live_servers_id, $viewsClass = "label label-default", $counterClass = "label label-primary"){
+    if(AVideoPlugin::isEnabledByName('LiveUsers')){
+        $totalViews = LiveUsers::getTotalUsers($key, $live_servers_id);
+        return LiveUsers::getLabels(getSocketLiveClassName($key, $live_servers_id), $totalViews, $viewsClass, $counterClass);
+    }
+}
+function getLiveUsersLabelLiveLinks($liveLinks_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary"){
+    if(AVideoPlugin::isEnabledByName('LiveUsers')){
+        return LiveUsers::getLabels(getSocketLiveLinksClassName($liveLinks_id), $totalViews, $viewsClass, $counterClass);
+    }
+}
+
+function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = "label label-primary"){
+    if(AVideoPlugin::isEnabledByName('LiveUsers')){
+        $live = isLive();
+        if(!empty($live)){
+            if(!empty($live['key'])){
+                return getLiveUsersLabelLive($live['key'], $live['live_servers_id'], $viewsClass, $counterClass);
+            }else if(!empty($live['liveLinks_id'])){
+                return getLiveUsersLabelLiveLinks($live['liveLinks_id'], null, $viewsClass, $counterClass);
+            }
+        }else{
+            $videos_id = getVideos_id();
+            if(!empty($videos_id)){
+                $v = new Video("", "", $videos_id);
+                $totalViews = $v->getViews_count();
+                return getLiveUsersLabelVideo($videos_id, $totalViews, $viewsClass, $counterClass);
+            }
+        }
+    }
+    return "";
 }

@@ -15,10 +15,13 @@ class Socket extends PluginAbstract {
 
     public function getDescription() {
         global $global;
-        $desc = "Socket Plugin, run the command below to start the server<br>";
+        $desc = getSocketConnectionLabel();
+        $desc .= "Socket Plugin, WebSockets allow for a higher amount of efficiency compared to REST because they do not require the HTTP request/response overhead for each message sent and received<br>";
         $desc .= "<code>nohup php {$global['systemRootPath']}plugin/Socket/server.php &</code>";
+        $help = "<br>run this command start the server <small><a href='https://github.com/WWBN/AVideo/wiki/Socket-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
-        return $desc;
+        return $desc.$help;
     }
 
     public function getName() {
@@ -69,9 +72,16 @@ class Socket extends PluginAbstract {
         $obj->allow_self_signed = true;
         self::addDataObjectHelper('allow_self_signed', 'Allow self signed certs', 'Should be unchecked in production');
         
+        $obj->showTotalOnlineUsersPerVideo = true;
+        self::addDataObjectHelper('showTotalOnlineUsersPerVideo', 'Show Total Online Users Per Video');
+        $obj->showTotalOnlineUsersPerLive = true;
+        self::addDataObjectHelper('showTotalOnlineUsersPerLive', 'Show Total Online Users Per Live');
+        $obj->showTotalOnlineUsersPerLiveLink = true;
+        self::addDataObjectHelper('showTotalOnlineUsersPerLiveLink', 'Show Total Online Users Per LiveLink');        
+        
         return $obj;
     }
-
+    
     public function getFooterCode() {
         self::getSocketJS();
     }

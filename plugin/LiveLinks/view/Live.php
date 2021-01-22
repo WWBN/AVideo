@@ -19,6 +19,7 @@ if (empty($_GET['link'])) {
 $_GET['link'] = intval($_GET['link']);
 $liveLink = new LiveLinksTable($_GET['link']);
 
+$isLiveLink = $liveLink->getId();
 if ($liveLink->getType() == 'logged_only' && !User::isLogged()) {
     die('Link for logged only');
 }

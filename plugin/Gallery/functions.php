@@ -154,12 +154,11 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
 
         $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
         $isserie = Video::isSerie($value['id']);
-        
+
         $isserieClass = "";
-        if($isserie){
+        if ($isserie) {
             $isserieClass = "isserie";
         }
-        
         ?>
         <div class=" <?php echo $colsClass; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
             <a class="galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $value['id']; ?>" 
@@ -293,17 +292,22 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                     $startG = microtime(true);
                     ?>
                 </div>
-
                 <?php
                 if (empty($advancedCustom->doNotDisplayViews)) {
-                    ?>
-                    <div>
-                        <i class="fa fa-eye"></i>
-                        <span itemprop="interactionCount">
-                            <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                        </span>
-                    </div>
-                <?php } ?>
+                    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+                        echo getLiveUsersLabelVideo($value['id'], $value['views_count'], "", "");
+                    } else {
+                        ?>
+                        <div>
+                            <i class="fa fa-eye"></i>
+                            <span itemprop="interactionCount">
+                                <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                            </span>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
                 <div>
                     <i class="far fa-clock"></i>
                     <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -479,7 +483,7 @@ function createGalleryLiveSection($videos) {
             }
 
             if (empty($lives) && empty($liveobj->doNotShowOfflineLiveOnCategoryList)) {
-                $url = addQueryStringParameter(Live::getLinkToLiveFromUsers_id($video['users_id']),'playlists_id_live',0);
+                $url = addQueryStringParameter(Live::getLinkToLiveFromUsers_id($video['users_id']), 'playlists_id_live', 0);
                 $lives = array(
                     array(
                         'title' => $video['title'],

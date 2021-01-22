@@ -1076,7 +1076,17 @@ $(document).ready(function () {
     setPlayerListners();
 
     $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
+    
+    setInterval(function () {
+        if (typeof conn != 'undefined') {
+            if (avideoSocketIsActive()) {
+                $(".socketStatus").removeClass('disconnected');
+            } else {
+                $(".socketStatus").addClass('disconnected');
+            }
+        }
 
+    }, 1000);
 });
 
 function validURL(str) {

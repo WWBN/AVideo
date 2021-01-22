@@ -90,18 +90,19 @@ function defaultCallback(json) {
 function parseSocketResponse(json) {
     console.log("parseSocketResponse", json);
     if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
+        $('.total_on').text(0);
         //console.log("parseSocketResponse", json.autoUpdateOnHTML);
         for (var prop in json.autoUpdateOnHTML) {
-            if(json.autoUpdateOnHTML[prop]===false){
+            if (json.autoUpdateOnHTML[prop] === false) {
                 continue;
             }
-            $('.'+prop).text(json.autoUpdateOnHTML[prop]);
+            $('.' + prop).text(json.autoUpdateOnHTML[prop]);
         }
     }
-    
+
     if (json && typeof json.autoEvalCodeOnHTML !== 'undefined') {
         for (var prop in json.autoEvalCodeOnHTML) {
-            if(json.autoEvalCodeOnHTML[prop]===false){
+            if (json.autoEvalCodeOnHTML[prop] === false) {
                 continue;
             }
             //console.log("autoEvalCodeOnHTML", json.autoEvalCodeOnHTML[prop]);

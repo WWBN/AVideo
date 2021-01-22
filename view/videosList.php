@@ -5,7 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
-if(isBot()){
+if (isBot()) {
     return;
 }
 
@@ -36,8 +36,8 @@ if (empty($_REQUEST['rowCount'])) {
     }
 }
 
-if($_REQUEST['rowCount']<=0 || $_REQUEST['rowCount']>100){
-    $_REQUEST['rowCount']=10;
+if ($_REQUEST['rowCount'] <= 0 || $_REQUEST['rowCount'] > 100) {
+    $_REQUEST['rowCount'] = 10;
 }
 
 if (empty($_POST['sort'])) {
@@ -71,7 +71,7 @@ if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannel
     $user = User::getChannelOwner($_GET['channelName']);
     //var_dump($user);exit;
     ?>
-<div class="col-md-12" style="padding: 15px; margin: 5px 0; background-image: url(<?php echo $global['webSiteRootURL'], User::getBackgroundURLFromUserID($user['id']); ?>); background-size: cover;"  >
+    <div class="col-md-12" style="padding: 15px; margin: 5px 0; background-image: url(<?php echo $global['webSiteRootURL'], User::getBackgroundURLFromUserID($user['id']); ?>); background-size: cover;"  >
         <img src="<?php echo User::getPhoto($user['id']); ?>" class="img img-responsive img-circle" style="max-width: 60px;" alt="User Photo"/>
         <div style="position: absolute; right: 5px; top: 5px;">
             <button class="btn btn-default btn-xs btn-sm" onclick="loadPage(<?php echo $_GET['page']; ?>, true);"><?php echo User::getNameIdentificationById($user['id']); ?> <i class="fa fa-times"></i></button>
@@ -104,14 +104,14 @@ if (empty($video['id'])) {
         <?php
         $jsonArray = json_decode($advancedCustom->videosListRowCount);
         foreach ($jsonArray as $item) {
-            if($item==-1){
-            ?>
-            <option <?php echo (!empty($_REQUEST['rowCount']) && $_REQUEST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo __("All"); ?></option>
-            <?php
-            }else{
-            ?>
-            <option <?php echo (!empty($_REQUEST['rowCount']) && $_REQUEST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo $item; ?></option>
-            <?php
+            if ($item == -1) {
+                ?>
+                <option <?php echo (!empty($_REQUEST['rowCount']) && $_REQUEST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo __("All"); ?></option>
+                <?php
+            } else {
+                ?>
+                <option <?php echo (!empty($_REQUEST['rowCount']) && $_REQUEST['rowCount'] == $item) ? "selected='selected'" : "" ?>><?php echo $item; ?></option>
+                <?php
             }
         }
         ?>
@@ -248,13 +248,20 @@ foreach ($videos as $key => $value) {
                     }
                     ?>
                 </div>
+
                 <?php
                 if (empty($advancedCustom->doNotDisplayViews)) {
-                    ?>
-                    <div class="text-muted pull-right">
-                        <strong class="view-count<?php echo $value['id']; ?>"> <i class="fas fa-eye"></i> <?php echo number_format($value['views_count'], 0); ?></strong>
-                    </div>
-                <?php } ?>
+                    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+                        echo '<div class="text-muted pull-right" style="display:flex;font-size: 1.2em;">'.getLiveUsersLabelVideo($value['id'], $value['views_count']).'</div>';
+                    } else {
+                        ?>
+                        <div class="text-muted pull-right">
+                            <i class="fas fa-eye"></i> <?php echo number_format($value['views_count'], 0); ?></strong>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
                 <div class="clearfix"></div>
                 <div class="nopadding"  style="margin-top: 5px !important;"><?php echo $value['creator']; ?></div>
 

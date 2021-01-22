@@ -1,6 +1,7 @@
 <?php
 global $isLive;
 $isLive = 1;
+$isLiveLink = $t['id'];
 $isEmbed = 1;
 $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
