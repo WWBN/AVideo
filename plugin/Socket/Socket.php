@@ -52,13 +52,6 @@ class Socket extends PluginAbstract {
         $server_crt_file = "/etc/letsencrypt/live/{$host}/fullchain.pem";
         $server_key_file = "/etc/letsencrypt/live/{$host}/privkey.pem";
         
-        if(!file_exists($server_crt_file)){
-            $server_crt_file = "";
-        }
-        if(!file_exists($server_key_file)){
-            $server_key_file = "";
-        }
-        
         $host = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
         
         $obj->port = "2053";

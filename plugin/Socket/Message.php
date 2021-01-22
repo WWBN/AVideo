@@ -94,6 +94,7 @@ class Message implements MessageComponentInterface {
         if (!empty($live_key)) {
             $this->msgToAllSameLive($live_key, "");
         }
+        sleep(5);
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
