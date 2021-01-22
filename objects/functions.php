@@ -5631,18 +5631,18 @@ function getSocketLiveLinksClassName($live_links_id){
 }
 
 function getLiveUsersLabelVideo($videos_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary"){
-    if(AVideoPlugin::isEnabledByName('LiveUsers')){
+    if(AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")){
         return LiveUsers::getLabels(getSocketVideoClassName($videos_id), $totalViews, $viewsClass, $counterClass);
     }
 }
 function getLiveUsersLabelLive($key, $live_servers_id, $viewsClass = "label label-default", $counterClass = "label label-primary"){
-    if(AVideoPlugin::isEnabledByName('LiveUsers')){
+    if(AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")){
         $totalViews = LiveUsers::getTotalUsers($key, $live_servers_id);
         return LiveUsers::getLabels(getSocketLiveClassName($key, $live_servers_id), $totalViews, $viewsClass, $counterClass);
     }
 }
 function getLiveUsersLabelLiveLinks($liveLinks_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary"){
-    if(AVideoPlugin::isEnabledByName('LiveUsers')){
+    if(AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")){
         return LiveUsers::getLabels(getSocketLiveLinksClassName($liveLinks_id), $totalViews, $viewsClass, $counterClass);
     }
 }
