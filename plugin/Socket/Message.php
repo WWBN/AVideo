@@ -215,10 +215,12 @@ class Message implements MessageComponentInterface {
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
-        $debug = $this->clients[$conn->resourceId];
-        unset($debug['conn']);
-        var_dump($debug);
-        _log_message("ERROR: ($conn->resourceId) {$e->getMessage()} ", \AVideoLog::$ERROR);
+        if(!preg_match('protocol is shutdown', $e->getMessage())){
+            $debug = $this->clients[$conn->resourceId];
+            unset($debug['conn']);
+            var_dump($debug);
+            _log_message("ERROR: ($conn->resourceId) {$e->getMessage()} ", \AVideoLog::$ERROR);
+        }
         $conn->close();
     }
 
