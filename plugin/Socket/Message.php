@@ -330,9 +330,10 @@ class Message implements MessageComponentInterface {
     }
 
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
-        _log_message("msgToAll ({$from->resourceId}) {$type}");
+        _log_message("msgToAll FROM ({$from->resourceId}) {$type}");
         foreach ($this->clients as $key => $client) {
             if (!empty($includeMe) || $from !== $client['conn']) {
+                _log_message("msgToAll FROM ({$from->resourceId}) TO {$key} {$type}");
                 $this->msgToResourceId($msg, $key, $type);
             }
         }
