@@ -36,6 +36,7 @@ class Message implements MessageComponentInterface {
         //$this->clients->attach($conn);
         $client = array();
         $client['conn'] = $conn;
+        $client['resourceId'] = $conn->resourceId;
         $client['users_id'] = $json->from_users_id;
         $client['yptDeviceId'] = $json->yptDeviceId;
         $client['selfURI'] = $json->selfURI;
