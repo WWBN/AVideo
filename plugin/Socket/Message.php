@@ -158,7 +158,7 @@ class Message implements MessageComponentInterface {
         $onMessageSentTo[] = $resourceId;
 
         if(!$this->shouldPropagateInfo($this->clients[$resourceId])){
-            _log_message("msgToResourceId: we wil NOT send the message to resourceId=({$resourceId}) {$type} {$this->clients[$resourceId]}");
+            _log_message("msgToResourceId: we wil NOT send the message to resourceId=({$resourceId}) {$type}");
         }
         
         if (!is_array($msg)) {
