@@ -49,9 +49,10 @@ class Message implements MessageComponentInterface {
         $this->clients[$conn->resourceId]['location'] = $json->location;
         
         _log_message("New connection ($conn->resourceId) {$json->yptDeviceId}");
+        sleep(1);
         if ($this->shouldPropagateInfo($this->clients[$conn->resourceId])) {
             //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
-            $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION, true);
+            $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION);
             //\AVideoPlugin::onUserSocketConnect($json->from_users_id, $this->clients[$conn->resourceId]);
         } else {
             //_log_message("NOT shouldPropagateInfo ");
