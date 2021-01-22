@@ -86,12 +86,12 @@ class Message implements MessageComponentInterface {
         if ($this->shouldPropagateInfo($client)) {
             $this->msgToAll($conn, array(), \SocketMessageType::NEW_DISCONNECTION, true);
             //\AVideoPlugin::onUserSocketDisconnect($users_id, $this->clients[$conn->resourceId]);
-        }
-        if (!empty($videos_id)) {
-            $this->msgToAllSameVideo($videos_id, "");
-        }
-        if (!empty($live_key)) {
-            $this->msgToAllSameLive($live_key, "");
+            if (!empty($videos_id)) {
+                $this->msgToAllSameVideo($videos_id, "");
+            }
+            if (!empty($live_key)) {
+                $this->msgToAllSameLive($live_key, "");
+            }
         }
         _log_message("Connection {$conn->resourceId} has disconnected");
     }
