@@ -450,12 +450,11 @@ class Message implements MessageComponentInterface {
 
 function _log_message($msg, $type="") {
     global $SocketDataObj;
-    $msg = date('Y-m-d H:i:s.u').' '.$msg;
     if (!empty($SocketDataObj->debugAllUsersSocket) || !empty($SocketDataObj->debugSocket)) {
         _error_log($msg, \AVideoLog::$SOCKET);
-        echo $msg . PHP_EOL;
+        echo date('Y-m-d H:i:s.u').' '.$msg . PHP_EOL;
     }else if($type==\AVideoLog::$ERROR){
         _error_log($msg, \AVideoLog::$SOCKET);
-        echo $msg . PHP_EOL;
+        echo date('Y-m-d H:i:s.u').' '.$msg . PHP_EOL;
     }
 }
