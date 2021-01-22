@@ -122,12 +122,6 @@ class LiveLinks extends PluginAbstract {
         $contentExtra = file_get_contents($filenameExtra);
         $contentExtraVideoPage = file_get_contents($filenameExtraVideoPage);
         
-        if(empty($_GET['requestComesFromVideoPage'])){
-            $regex = "/".addcslashes($global['webSiteRootURL'],"/")."video\/.*/";
-            $requestComesFromVideoPage = preg_match($regex, @$_SERVER["HTTP_REFERER"]);
-        }else{
-            $requestComesFromVideoPage = 1;
-        }
         foreach ($row as $value) {
             
             if($value['type']=='unlisted'){
@@ -149,7 +143,7 @@ class LiveLinks extends PluginAbstract {
                 self::getLink($value['id']),
                 '<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg".'" class="thumbsJPG img-responsive" height="130">',
                 empty($obj->disableGifThumbs)?('<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif".'" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">'):"",
-                ($requestComesFromVideoPage)?"col-xs-6":"col-lg-2 col-md-4 col-sm-4 col-xs-6"
+                (isVideo())?"col-xs-6":"col-lg-2 col-md-4 col-sm-4 col-xs-6"
             );
 
             $newContent = str_replace($search, $replace, $content);
