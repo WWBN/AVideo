@@ -71,7 +71,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             </div>
             <div class="clearfix"></div>
             <?php
-            if (AVideoPlugin::isEnabledByName("LiveUsers")) {
+            if (AVideoPlugin::isEnabledByName("LiveUsers") && method_exists("LiveUsers", "getLabels")) {
                 echo LiveUsers::getLabels('extraVideosModelOnLineLabels');
             }
             ?>
