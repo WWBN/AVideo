@@ -52,7 +52,7 @@ class Message implements MessageComponentInterface {
         if ($this->shouldPropagateInfo($this->clients[$conn->resourceId])) {
             //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
             $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION, true);
-            \AVideoPlugin::onUserSocketConnect($json->from_users_id, $this->clients[$conn->resourceId]);
+            //\AVideoPlugin::onUserSocketConnect($json->from_users_id, $this->clients[$conn->resourceId]);
         } else {
             //_log_message("NOT shouldPropagateInfo ");
         }
@@ -76,25 +76,24 @@ class Message implements MessageComponentInterface {
 
         unset($getStatsLive);
         unset($_getStats);
-        _log_message("Connection {$conn->resourceId} has disconnected");
         // The connection is closed, remove it, as we can no longer send it messages
         //$this->clients->detach($conn);
-        $users_id = $this->clients[$conn->resourceId]['users_id'];
-        $videos_id = $this->clients[$conn->resourceId]['videos_id'];
-        $live_key = $this->clients[$conn->resourceId]['live_key'];
-        if ($this->shouldPropagateInfo($this->clients[$conn->resourceId])) {
-            $this->msgToAll($conn, array(), \SocketMessageType::NEW_DISCONNECTION, true);
-            \AVideoPlugin::onUserSocketDisconnect($users_id, $this->clients[$conn->resourceId]);
-        }
-
+        $client = $this->clients[$conn->resourceId];
         unset($this->clients[$conn->resourceId]);
+        $users_id = $client['users_id'];
+        $videos_id = $client['videos_id'];
+        $live_key = $client['live_key'];
+        if ($this->shouldPropagateInfo($client)) {
+            $this->msgToAll($conn, array(), \SocketMessageType::NEW_DISCONNECTION, true);
+            //\AVideoPlugin::onUserSocketDisconnect($users_id, $this->clients[$conn->resourceId]);
+        }
         if (!empty($videos_id)) {
             $this->msgToAllSameVideo($videos_id, "");
         }
         if (!empty($live_key)) {
             $this->msgToAllSameLive($live_key, "");
         }
-        sleep(5);
+        _log_message("Connection {$conn->resourceId} has disconnected");
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
