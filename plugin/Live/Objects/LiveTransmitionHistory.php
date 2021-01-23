@@ -138,19 +138,22 @@ class LiveTransmitionHistory extends ObjectYPT {
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
         
         $key = $lth->getKey();
-        foreach ($stats['applications'] as $value) {
-            $value = object_to_array($value);
-            if(!empty($value['key']) && $value['key']==$key){ // application is already in the list
-                return $stats; 
+        if(!empty($stats['applications'])){
+            foreach ($stats['applications'] as $value) {
+                $value = object_to_array($value);
+                if(!empty($value['key']) && $value['key']==$key){ // application is already in the list
+                    return $stats; 
+                }
             }
         }
-        foreach ($stats['hidden_applications'] as $value) {
-            $value = object_to_array($value);
-            if($value['key']==$key){ // application is already in the list
-                return $stats;
+        if(!empty($stats['hidden_applications'])){
+            foreach ($stats['hidden_applications'] as $value) {
+                $value = object_to_array($value);
+                if($value['key']==$key){ // application is already in the list
+                    return $stats;
+                }
             }
         }
-        
         $application = self::getApplicationObject($liveTransmitionHistory_id);
         if ($application->isPrivate) {
             $stats['hidden_applications'][] = $application;
