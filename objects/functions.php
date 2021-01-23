@@ -4204,7 +4204,7 @@ function wget($url, $filename, $debug = false) {
     }
     wgetLock($url);
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        $content = file_get_contents($url);
+        $content = @file_get_contents($url);
         if (!empty($content) && file_put_contents($filename, $content) > 100) {
             wgetRemoveLock($url);
             return true;

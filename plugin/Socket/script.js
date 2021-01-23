@@ -130,9 +130,27 @@ function parseSocketResponse(json) {
                     if (json.users_uri[prop][prop2][prop3] === false || typeof json.users_uri[prop][prop2][prop3] !== 'object') {
                         continue;
                     }
-                    var html = '<div><a href="' + json.users_uri[prop][prop2][prop3].selfURI + '" target="_blank"><img src="' + webSiteRootURL + 'user/' + json.users_uri[prop][prop2][prop3].users_id + '/foto.png" class="img img-circle img-responsive">(' + json.users_uri[prop][prop2][prop3].page_title + ') ' + json.users_uri[prop][prop2][prop3].user_name + '  IP: ' + json.users_uri[prop][prop2][prop3].ip + ' </a></div>'
-                    //console.log(json.users_uri[prop]);
-                    $('#socketUsersURI').append(html);
+                    
+                    var socketUserDivID = 'socketUser'+json.users_uri[prop][prop2][prop3].users_id;
+                    
+                    if(!$('#'+socketUserDivID).length){
+                        var html = '<div class="socketUserDiv" id="'+socketUserDivID+'" >';
+                        html += '<div class="socketUserName" onclick="socketUserNameToggle(\'#'+socketUserDivID+'\');">';
+                        html += '<i class="fas fa-caret-down"></i><i class="fas fa-caret-up"></i> <img src="'+webSiteRootURL+'user/' + json.users_uri[prop][prop2][prop3].users_id + '/foto.png" class="img img-circle img-responsive">' + json.users_uri[prop][prop2][prop3].user_name + '</div>';
+                        html += '<div class="socketUserPages"></div></div>';
+                        $('#socketUsersURI').append(html);
+                    }
+                    var text = '(' + json.users_uri[prop][prop2][prop3].page_title + ') IP: ' + json.users_uri[prop][prop2][prop3].ip ;
+                    if(json.users_uri[prop][prop2][prop3].location){
+                        text += '<br><i class="flagstrap-icon flagstrap-'+json.users_uri[prop][prop2][prop3].location.country_code+'" style="margin-right: 10px;"></i>';
+                        text += ' '+json.users_uri[prop][prop2][prop3].location.country_name;
+                    }
+                    html = '<a href="' + json.users_uri[prop][prop2][prop3].selfURI + '" target="_blank" class="btn btn-xs btn-default btn-block"><i class="far fa-compass"></i> '+text+'</a>';
+                    $('#'+socketUserDivID+' .socketUserPages').append(html);
+                    var isVisible = Cookies.get('#'+socketUserDivID);
+                    if(isVisible && isVisible !== 'false'){
+                        $('#'+socketUserDivID).addClass('visible')
+                    }
                 }
             }
 

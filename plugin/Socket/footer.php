@@ -19,7 +19,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     }
     ?>
     <style>
-        #socket_info_container div{
+        #socket_info_container>div{
             text-shadow: 0 0 2px #FFF;
             padding: 5px;
             font-size: 11px;
@@ -53,12 +53,11 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             -o-transition: background  0.5s ease-in-out;
             transition: background  0.5s ease-in-out;
             opacity: 1;
-            cursor: move;
 
             -moz-box-shadow:    0 0 10px #000000;
             -webkit-box-shadow: 0 0 10px #000000;
             box-shadow:         0 0 10px #000000;
-            z-index: 9999;
+            z-index: 1000;
             max-width: 300px;
 
         }
@@ -87,19 +86,46 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             text-align: center;
             font-size: 14px;
             width: 100%;
+            cursor: move;
+        }
+        .socketUserName{
+            cursor: pointer;
+        }
+        #socket_info_container > div.clearfix{
+            cursor: move;
         }
         #socketUsersURI{
             max-height: 300px;
             overflow: auto;
         }
-        #socketUsersURI img{
+        .socketItem img{
             height: 20px;
             width: 20px;
-            margin: 2px 5px;
+            margin: 2px 5px 2px 0;
             display: inline;
         }
+        #socket_info_container > div:last-child{
+            margin-top: 5px;
+            border-top: solid 1px #000;
+        }
+        
+        .socketUserDiv .fa-caret-up{
+            display: none;
+        }
+        
+        .socketUserDiv.visible .fa-caret-up{
+            display: inline-block;
+        }
+        .socketUserDiv.visible .fa-caret-down{
+            display: none;
+        }
+        .socketUserDiv .socketUserPages{
+            display: none;
+        }
+        .socketUserDiv.visible .socketUserPages{
+            display: block;
+        }
     </style>
-
     <div id="socket_info_container" class="socketStatus disconnected <?php echo $socket_info_container_class; ?>" >
         <div class="socketTitle">
             <div class="pull-left">
@@ -124,8 +150,8 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         <div class="socketItem" ><i class="far fa-play-circle"></i> Users online on same video as you <span class="total_on_same_video">0</span></div>
         <div class="socketItem" ><i class="fas fa-podcast"></i> Users online on same live as you <span class="total_on_same_live">0</span></div>
         <div class="socketItem" ><i class="fas fa-podcast"></i> Users online on same live link as you <span class="total_on_same_livelink">0</span></div>
-        <hr>
-        <div class="socketItem" id="socketUsersURI"></div>
+        <div class="socketItem" id="socketUsersURI">    
+        </div>
     </div>
     <script>
         $(document).ready(function () {
@@ -179,7 +205,19 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
                 $('#socket_info_container').css('left', '60px');
             }
         }
-
+        
+        function socketUserNameToggle(socketUserDivID){
+            var isVisible = $(socketUserDivID).find('.socketUserPages').is(":visible");
+            if(isVisible){
+                $(socketUserDivID).removeClass('visible');
+            }else{
+                $(socketUserDivID).addClass('visible');
+            }
+            Cookies.set(socketUserDivID, !isVisible, {
+                            path: '/',
+                            expires: 365
+                        });
+        }
 
     </script>
     <?php
