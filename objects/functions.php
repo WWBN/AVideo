@@ -5611,10 +5611,10 @@ function getStatsNotifications() {
 function getSocketConnectionLabel() {
     $html = '<span class="socketStatus">
             <span class="socket_disconnected">
-                <i class="fas fa-times"></i> ' . __('Socket Disconnected') . '
+                <i class="fas fa-times"></i> ' . __('Disconnected') . '
             </span>
             <span class="socket_connected">
-                <i class="fas fa-check"></i> ' . __('Socket Connected') . '
+                <i class="fas fa-check"></i> ' . __('Connected') . '
             </span>
         </span>';
     return $html;
