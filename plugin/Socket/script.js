@@ -139,7 +139,12 @@ function parseSocketResponse(json) {
                         html += '<div class="socketUserPages"></div></div>';
                         $('#socketUsersURI').append(html);
                     }
-                    var text = ' ' + json.users_uri[prop][prop2][prop3].page_title;
+                    
+                    var text = '';
+                    if(json.ResourceID == json.users_uri[prop][prop2][prop3].resourceId){
+                        text += '<stcong>(YOU)</strong>' ;
+                    }
+                    text = ' ' + json.users_uri[prop][prop2][prop3].page_title;
                     text += '<br><small>' + json.users_uri[prop][prop2][prop3].ip+'</small>' ;
                     if(json.users_uri[prop][prop2][prop3].location){
                         text += '<br><i class="flagstrap-icon flagstrap-'+json.users_uri[prop][prop2][prop3].location.country_code+'" style="margin-right: 10px;"></i>';
@@ -159,5 +164,19 @@ function parseSocketResponse(json) {
 }
 
 $(function () {
-    socketConnect();
+    console.log('Getting webSocketToken ...');
+    $.ajax({
+        url: webSiteRootURL + 'plugin/Socket/getWebSocket.json.php',
+        success: function (response) {
+            if(response.error){
+                console.log('Getting webSocketToken ERROR '+response.msg);
+                avideoToastError(response.msg);
+            }else{
+                console.log('Getting webSocketToken SUCCESS ', response);
+                webSocketToken = response.webSocketToken;
+                webSocketURL = response.webSocketURL;
+                socketConnect();
+            }
+        }
+    });
 });

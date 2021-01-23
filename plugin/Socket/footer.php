@@ -224,8 +224,8 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
 ?>
 <script>
     var webSocketServerVersion = '<?php echo Socket::getServerVersion(); ?>';
-    var webSocketToken = '<?php echo getEncryptedInfo(0); ?>';
-    var webSocketURL = '<?php echo Socket::getWebSocketURL(); ?>';
+    var webSocketToken = '';
+    var webSocketURL = '';
     var webSocketTypes = <?php echo json_encode($refl->getConstants()); ?>;
 </script>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Socket/script.js?<?php echo filectime($global['systemRootPath'] . 'plugin/Socket/script.js'); ?>" type="text/javascript"></script>
