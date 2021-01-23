@@ -13,7 +13,6 @@ function socketConnect() {
         return false;
     };
     conn.onmessage = function (e) {
-        console.log(e.data);
         var json = JSON.parse(e.data);
         parseSocketResponse(json);
         if (json.type == webSocketTypes.ON_VIDEO_MSG) {
