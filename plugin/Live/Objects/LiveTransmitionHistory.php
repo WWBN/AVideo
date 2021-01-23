@@ -190,7 +190,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $this->live_servers_id = intval($live_servers_id);
     }
 
-    function getAllFromUser($users_id) {
+    static function getAllFromUser($users_id) {
         global $global;
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE users_id = ? ";
 
