@@ -14,7 +14,9 @@ if (!User::isAdmin()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Clone Site") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <?php 
+        echo getHTMLTitle( __("Clone Site"));
+        ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

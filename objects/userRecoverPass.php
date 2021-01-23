@@ -55,19 +55,19 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     <!DOCTYPE html>
     <html lang="<?php echo $_SESSION['language']; ?>">
         <head>
-            <title><?php echo __("Recover Password") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
             <?php
-            include $global['systemRootPath'] . 'view/include/head.php'; ?>
+            echo getHTMLTitle(__("Recover Password"));
+            ?>
+            <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         </head>
 
         <body class="<?php echo $global['bodyClass']; ?>">
-            <?php
-            include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
+            <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
             <div class="container">
-                <?php
-                if ($user->getRecoverPass() != $_GET['recoverpass']) {
-                    ?>
+    <?php
+    if ($user->getRecoverPass() != $_GET['recoverpass']) {
+        ?>
                     <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
                     <?php
                 } else {
@@ -100,16 +100,14 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
-                                    <?php
-                                    getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password")); ?>
+        <?php getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password")); ?>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
-                                    <?php
-                                    getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password")); ?>
+        <?php getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password")); ?>
                                 </div>
                             </div>
 
@@ -124,14 +122,13 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
                         </fieldset>
                     </form>
-                    <?php
-                } ?>
+        <?php }
+    ?>
             </div>
 
         </div><!--/.container-->
 
-        <?php
-        include $global['systemRootPath'] . 'view/include/footer.php'; ?>
+    <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
 
         <script>
             $(document).ready(function () {

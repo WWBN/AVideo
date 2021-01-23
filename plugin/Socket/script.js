@@ -5,13 +5,15 @@ function socketConnect() {
         return false;
     }
     socketConnectRequested = 1;
-    console.log('Trying to reconnect on socket...');
-    conn = new WebSocket(webSocketURL);
+    var url = addGetParam(webSocketURL, 'page_title', $(document).find("title").text());
+    console.log('Trying to reconnect on socket... ' + url);
+    conn = new WebSocket(url);
     conn.onopen = function (e) {
         console.log("Socket onopen");
         return false;
     };
     conn.onmessage = function (e) {
+        console.log(e.data);
         var json = JSON.parse(e.data);
         parseSocketResponse(json);
         if (json.type == webSocketTypes.ON_VIDEO_MSG) {
@@ -90,7 +92,7 @@ function defaultCallback(json) {
 function parseSocketResponse(json) {
     console.log("parseSocketResponse", json);
     if(json.isAdmin && webSocketServerVersion!==json.webSocketServerVersion){
-        avideoToast("Please restart your socket server. You are running (v"+json.webSocketServerVersion+") and your client is expecting (v"+webSocketServerVersion+")");
+        avideoToastWarning("Please restart your socket server. You are running (v"+json.webSocketServerVersion+") and your client is expecting (v"+webSocketServerVersion+")");
     }
     if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
         $('.total_on').text(0);
@@ -128,7 +130,7 @@ function parseSocketResponse(json) {
                     if (json.users_uri[prop][prop2][prop3] === false || typeof json.users_uri[prop][prop2][prop3] !== 'object') {
                         continue;
                     }
-                    var html = '<div><a href="' + json.users_uri[prop][prop2][prop3].selfURI + '" target="_blank"><img src="' + webSiteRootURL + 'user/' + json.users_uri[prop][prop2][prop3].users_id + '/foto.png" class="img img-circle img-responsive">IP: ' + json.users_uri[prop][prop2][prop3].ip + ' (' + json.users_uri[prop][prop2][prop3].user_name + ') </a></div>'
+                    var html = '<div><a href="' + json.users_uri[prop][prop2][prop3].selfURI + '" target="_blank"><img src="' + webSiteRootURL + 'user/' + json.users_uri[prop][prop2][prop3].users_id + '/foto.png" class="img img-circle img-responsive">(' + json.users_uri[prop][prop2][prop3].page_title + ') ' + json.users_uri[prop][prop2][prop3].user_name + '  IP: ' + json.users_uri[prop][prop2][prop3].ip + ' </a></div>'
                     //console.log(json.users_uri[prop]);
                     $('#socketUsersURI').append(html);
                 }

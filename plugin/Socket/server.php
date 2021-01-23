@@ -24,7 +24,7 @@ _error_log("Starting Socket server at port {$SocketDataObj->port}");
 killProcessOnPort();
 $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
 
-echo "Starting server on port {$SocketDataObj->port}".PHP_EOL;
+echo "Starting AVideo Socket server version {$SocketDataObj->serverVersion} on port {$SocketDataObj->port}".PHP_EOL;
 
 if(strtolower($scheme)!=='https'){
     echo "Your socket server does NOT use a secure connection".PHP_EOL;

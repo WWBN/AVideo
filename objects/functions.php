@@ -5667,3 +5667,33 @@ function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = 
     }
     return "";
 }
+
+function getHTMLTitle($titleArray){
+    global $config, $global;
+    
+    if(!is_array($titleArray)){
+        $titleArray = array();
+    }
+    $titleArray[] = $config->getWebSiteTitle();
+    
+    $title = implode($config->getPageTitleSeparator(), $titleArray);
+    $global['pageTitle'] = $title; 
+    return "<title>{$title}</title>";
+}
+
+function getTitle(){
+    global $global;
+    if(empty($global['pageTitle'])){
+        $url = getSelfURI();
+        
+        $global['pageTitle'] = str_replace($global['webSiteRootURL'], '', $url);
+        
+        if(preg_match('/\/plugin\/([^\/])/i', $url, $matches)){
+            $global['pageTitle'] = __('Plugin').' '.__($matches[1]);
+        }
+        
+        $title = $global['pageTitle'];
+    }
+    
+    return $global['pageTitle'];
+}

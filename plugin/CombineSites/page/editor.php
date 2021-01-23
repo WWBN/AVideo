@@ -12,7 +12,9 @@ require_once $global['systemRootPath'] . 'plugin/CombineSites/Objects/CombineSit
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Combine Sites") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <?php 
+        echo getHTMLTitle( __("Combine Sites"));
+        ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

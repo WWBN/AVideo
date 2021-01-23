@@ -14,7 +14,9 @@ $order = new BlockonomicsOrder($order_id);
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Invoice") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <?php 
+        echo getHTMLTitle( __("Invoice"));
+        ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

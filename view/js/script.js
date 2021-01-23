@@ -677,7 +677,7 @@ function playNext(url) {
             });
         }
     } else if (isPlayerLoop()) {
-        $.toast("Looping video");
+        avideoToast("Looping video");
         userIsControling = false;
         playerPlayTimeout = setTimeout(function () {
             playerPlay(currentTime);
@@ -861,8 +861,27 @@ function avideoAlert(title, msg, type) {
     }
 }
 
+function _avideoToast(msg, icon) {
+    var options = {text:msg, hideAfter:7000};
+    if(icon){
+        options.icon = icon;
+    }
+    $.toast(options);
+}
 function avideoToast(msg) {
-    $.toast({text:msg, hideAfter:7000});
+    _avideoToast(msg, null);
+}
+function avideoToastInfo(msg) {
+    _avideoToast(msg, 'info');
+}
+function avideoToastError(msg) {
+    _avideoToast(msg, 'error');
+}
+function avideoToastSuccess(msg) {
+    _avideoToast(msg, 'success');
+}
+function avideoToastWarning(msg) {
+    _avideoToast(msg, 'warning');
 }
 
 function avideoAlertAJAXHTML(url) {

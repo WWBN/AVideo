@@ -22,12 +22,12 @@ class Message implements MessageComponentInterface {
         global $onMessageSentTo;
         $onMessageSentTo = array();
         $query = $conn->httpRequest->getUri()->getQuery();
-        parse_str($query, $wsocketToken);
-        if (empty($wsocketToken['webSocketToken'])) {
+        parse_str($query, $wsocketGetVars);
+        if (empty($wsocketGetVars['webSocketToken'])) {
             _log_message("Empty websocket token ");
             return false;
         }
-        $json = getDecryptedInfo($wsocketToken['webSocketToken']);
+        $json = getDecryptedInfo($wsocketGetVars['webSocketToken']);
         if (empty($json)) {
             _log_message("Invalid websocket token ");
             return false;
@@ -43,7 +43,8 @@ class Message implements MessageComponentInterface {
         $client['browser'] = $json->browser;
         $client['yptDeviceId'] = $json->yptDeviceId;
         $client['selfURI'] = $json->selfURI;
-        $client['isCommandLine'] = $wsocketToken['isCommandLine'];
+        $client['isCommandLine'] = $wsocketGetVars['isCommandLine'];
+        $client['page_title'] = utf8_encode($wsocketGetVars['page_title']);
         $client['videos_id'] = $json->videos_id;
         $client['live_key'] = object_to_array(@$json->live_key);
         $client['autoEvalCodeOnHTML'] = $json->autoEvalCodeOnHTML;

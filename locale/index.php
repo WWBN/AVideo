@@ -48,7 +48,9 @@ sort($vars);
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php __("Translate AVideo") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <?php 
+        echo getHTMLTitle(__("Translate AVideo"));
+        ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
 

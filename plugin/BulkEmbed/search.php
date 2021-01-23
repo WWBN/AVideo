@@ -9,7 +9,9 @@ $obj = AVideoPlugin::getObjectData("BulkEmbed");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Bulk Embed") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <?php 
+        echo getHTMLTitle( __("Search"));
+        ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
