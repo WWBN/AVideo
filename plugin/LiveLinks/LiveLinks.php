@@ -204,7 +204,7 @@ class LiveLinks extends PluginAbstract {
         return $js.$css;
     }
     
-    public function getLinkToLiveFromId($id, $embed=false){
+    public static function getLinkToLiveFromId($id, $embed=false){
         return self::getLink($id, $embed);
     }
     
