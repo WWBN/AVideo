@@ -1170,7 +1170,7 @@ class Live extends PluginAbstract {
         return $url;
     }
 
-    public function getPosterImage($users_id, $live_servers_id) {
+    public static function  getPosterImage($users_id, $live_servers_id) {
         global $global;
         $file = self::_getPosterImage($users_id, $live_servers_id);
 
@@ -1244,7 +1244,7 @@ class Live extends PluginAbstract {
         return $img;
     }
 
-    public function _getPosterImage($users_id, $live_servers_id) {
+    public static function _getPosterImage($users_id, $live_servers_id) {
         $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}.jpg";
         return $file;
     }
