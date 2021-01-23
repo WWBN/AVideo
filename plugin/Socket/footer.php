@@ -125,7 +125,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             display: block;
         }
     </style>
-    <div id="socket_info_container" class="socketStatus disconnected <?php echo $socket_info_container_class; ?>" >
+    <div id="socket_info_container" class="hidden-xs socketStatus disconnected <?php echo $socket_info_container_class; ?>" >
         <div class="socketTitle">
             <div class="pull-left">
                 <?php
