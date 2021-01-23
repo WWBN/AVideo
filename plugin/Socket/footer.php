@@ -58,7 +58,6 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             -webkit-box-shadow: 0 0 10px #000000;
             box-shadow:         0 0 10px #000000;
             z-index: 1000;
-            max-width: 300px;
 
         }
         #socket_info_container:hover{
