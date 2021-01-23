@@ -5558,6 +5558,9 @@ function getPIDUsingPort($port) {
 function isURL200($url) {
     //error_log("isURL200 checking URL {$url}");
     $headers = @get_headers($url);
+    if(!is_array($headers)){
+        $headers = array($headers);
+    }
     foreach ($headers as $value) {
         if (
                 strpos($headers[0], '200') ||
