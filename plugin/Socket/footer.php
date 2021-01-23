@@ -223,6 +223,9 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
 }
 ?>
 <script>
+    var webSocketSelfURI = '<?php echo getSelfURI(); ?>';
+    var webSocketVideos_id = '<?php echo getVideos_id(); ?>';
+    var webSocketLiveKey = '<?php echo json_encode(isLive()); ?>';
     var webSocketServerVersion = '<?php echo Socket::getServerVersion(); ?>';
     var webSocketToken = '';
     var webSocketURL = '';

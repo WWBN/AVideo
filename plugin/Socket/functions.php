@@ -12,15 +12,29 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     $msgObj->yptDeviceId = getDeviceID(false);
     $msgObj->token = getToken($timeOut);
     $msgObj->time = time();
-    $msgObj->selfURI = getSelfURI();
     $msgObj->ip = getRealIpAddr();
     $msgObj->send_to_uri_pattern = $send_to_uri_pattern;
     $msgObj->autoEvalCodeOnHTML = array();
+
+    if (!empty($_REQUEST['webSocketSelfURI'])) {
+        $msgObj->selfURI = $_REQUEST['webSocketSelfURI'];
+    } else {
+        $msgObj->selfURI = getSelfURI();
+    }
+    $msgObj->selfURI = getSelfURI();
     if (empty($msgObj->videos_id)) {
-        $msgObj->videos_id = getVideos_id();
+        if (!empty($_REQUEST['webSocketVideos_id'])) {
+            $msgObj->videos_id = $_REQUEST['webSocketVideos_id'];
+        } else {
+            $msgObj->videos_id = getVideos_id();
+        }
     }
     if (empty($msgObj->live_key)) {
-        $msgObj->live_key = isLive();
+        if (!empty($_REQUEST['webSocketLiveKey'])) {
+            $msgObj->live_key = json_decode($_REQUEST['webSocketLiveKey']);
+        } else {
+            $msgObj->live_key = isLive();
+        }
     }
 
     if (AVideoPlugin::isEnabledByName('User_location')) {
@@ -92,16 +106,16 @@ function getTotalViewsLive_key($live_key) {
 function killProcessOnPort() {
     $obj = \AVideoPlugin::getDataObject("Socket");
     $port = intval($obj->port);
-    if(!empty($port)){
-        echo 'Searching for port: '.$port.PHP_EOL;
+    if (!empty($port)) {
+        echo 'Searching for port: ' . $port . PHP_EOL;
         $command = 'netstat -ano | findstr ' . $port;
         exec($command, $output, $retval);
         $pid = getPIDUsingPort($port);
         if (!empty($pid)) {
-            echo 'Killing, PID '.$pid.PHP_EOL;
+            echo 'Killing, PID ' . $pid . PHP_EOL;
             killProcess($pid);
-        }else{
-            echo 'No Need to kill, port NOT found'.PHP_EOL;
+        } else {
+            echo 'No Need to kill, port NOT found' . PHP_EOL;
         }
     }
 }

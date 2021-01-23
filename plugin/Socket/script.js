@@ -6,7 +6,7 @@ function socketConnect() {
     }
     socketConnectRequested = 1;
     var url = addGetParam(webSocketURL, 'page_title', $(document).find("title").text());
-    console.log('Trying to reconnect on socket... ' + url);
+    console.log('Trying to reconnect on socket... ');
     conn = new WebSocket(url);
     conn.onopen = function (e) {
         console.log("Socket onopen");
@@ -165,8 +165,12 @@ function parseSocketResponse(json) {
 
 $(function () {
     console.log('Getting webSocketToken ...');
+    var getWebSocket = webSiteRootURL + 'plugin/Socket/getWebSocket.json.php';
+    getWebSocket = addGetParam(getWebSocket, 'webSocketSelfURI', webSocketSelfURI);
+    getWebSocket = addGetParam(getWebSocket, 'webSocketVideos_id', webSocketVideos_id);
+    getWebSocket = addGetParam(getWebSocket, 'webSocketLiveKey', webSocketLiveKey);
     $.ajax({
-        url: webSiteRootURL + 'plugin/Socket/getWebSocket.json.php',
+        url: getWebSocket,
         success: function (response) {
             if(response.error){
                 console.log('Getting webSocketToken ERROR '+response.msg);
