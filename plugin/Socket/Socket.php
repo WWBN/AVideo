@@ -35,6 +35,10 @@ class Socket extends PluginAbstract {
     public function getPluginVersion() {
         return "1.0";
     }
+    
+    public static function getServerVersion() {
+        return "2.0";
+    }
 
     public function updateScript() {
         global $global;

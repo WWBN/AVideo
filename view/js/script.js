@@ -862,7 +862,7 @@ function avideoAlert(title, msg, type) {
 }
 
 function avideoToast(msg) {
-    $.toast(msg);
+    $.toast({text:msg, hideAfter:7000});
 }
 
 function avideoAlertAJAXHTML(url) {

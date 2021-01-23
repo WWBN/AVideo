@@ -63,9 +63,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             $colClass3 = "col-sm-6";
                         }
                         $isserie = Video::isSerie($videoRow['id']);
-        
+
                         $isserieClass = "";
-                        if($isserie){
+                        if ($isserie) {
                             $isserieClass = "isserie";
                         }
                         ?>
@@ -77,11 +77,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                            href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
                                            embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
                                            title="<?php echo $videoRow['title']; ?>" style="">
-                                            <?php
-                                            $images = Video::getImageFromFilename($videoRow['filename'], $videoRow['type']);
-                                            $imgGif = $images->thumbsGif;
-                                            $poster = isMobile() ? $images->thumbsJpg : $images->poster;
-                                            ?>
+                                               <?php
+                                               $images = Video::getImageFromFilename($videoRow['filename'], $videoRow['type']);
+                                               $imgGif = $images->thumbsGif;
+                                               $poster = isMobile() ? $images->thumbsJpg : $images->poster;
+                                               ?>
                                             <div class="aspectRatio16_9">
                                                 <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $videoRow['title']; ?>" class="thumbsJPG img img-responsive <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" style="height: auto; width: 100%;" id="thumbsJPG<?php echo $videoRow['id']; ?>" />
                                                 <?php if (!empty($obj->GifOnBigVideo) && !empty($imgGif)) { ?>
@@ -195,12 +195,20 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
 
                                                 <?php
                                                 if (empty($advancedCustom->doNotDisplayViews)) {
-                                                    ?>
-                                                    <div>
-                                                        <i class="fa fa-eye"></i>
-                                                        <span itemprop="interactionCount"><?php echo number_format($videoRow['views_count'], 0); ?> <?php echo __("Views"); ?></span>
-                                                    </div>
-                                                <?php } ?>
+                                                    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+                                                        echo getLiveUsersLabelVideo($videoRow['id'], $videoRow['views_count'], "", "");
+                                                    } else {
+                                                        ?>
+                                                        <div>
+                                                            <i class="fa fa-eye"></i>
+                                                            <span itemprop="interactionCount">
+                                                                <?php echo number_format($videoRow['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                                            </span>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
                                                 <div>
                                                     <i class="far fa-clock"></i>
                                                     <?php echo humanTiming(strtotime($videoRow['videoCreation'])), " ", __('ago'); ?>

@@ -89,6 +89,9 @@ function defaultCallback(json) {
 
 function parseSocketResponse(json) {
     console.log("parseSocketResponse", json);
+    if(json.isAdmin && webSocketServerVersion!==json.webSocketServerVersion){
+        avideoToast("Please restart your socket server. You are running (v"+json.webSocketServerVersion+") and your client is expecting (v"+webSocketServerVersion+")");
+    }
     if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
         $('.total_on').text(0);
         //console.log("parseSocketResponse", json.autoUpdateOnHTML);
@@ -107,6 +110,30 @@ function parseSocketResponse(json) {
             }
             //console.log("autoEvalCodeOnHTML", json.autoEvalCodeOnHTML[prop]);
             eval(json.autoEvalCodeOnHTML[prop]);
+        }
+    }
+
+    $('#socketUsersURI').empty();
+    if (json && typeof json.users_uri !== 'undefined' && $('#socket_info_container').length) {
+        for (var prop in json.users_uri) {
+            if (json.users_uri[prop] === false) {
+                continue;
+            }
+
+            for (var prop2 in json.users_uri[prop]) {
+                if (json.users_uri[prop][prop2] === false || typeof json.users_uri[prop][prop2] !== 'object') {
+                    continue;
+                }
+                for (var prop3 in json.users_uri[prop][prop2]) {
+                    if (json.users_uri[prop][prop2][prop3] === false || typeof json.users_uri[prop][prop2][prop3] !== 'object') {
+                        continue;
+                    }
+                    var html = '<div><a href="' + json.users_uri[prop][prop2][prop3].selfURI + '" target="_blank"><img src="' + webSiteRootURL + 'user/' + json.users_uri[prop][prop2][prop3].users_id + '/foto.png" class="img img-circle img-responsive">IP: ' + json.users_uri[prop][prop2][prop3].ip + ' (' + json.users_uri[prop][prop2][prop3].user_name + ') </a></div>'
+                    //console.log(json.users_uri[prop]);
+                    $('#socketUsersURI').append(html);
+                }
+            }
+
         }
     }
 }

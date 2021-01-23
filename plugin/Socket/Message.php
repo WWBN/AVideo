@@ -38,19 +38,22 @@ class Message implements MessageComponentInterface {
         $client['conn'] = $conn;
         $client['resourceId'] = $conn->resourceId;
         $client['users_id'] = $json->from_users_id;
+        $client['isAdmin'] = $json->isAdmin;
+        $client['user_name'] = $json->user_name;
+        $client['browser'] = $json->browser;
         $client['yptDeviceId'] = $json->yptDeviceId;
         $client['selfURI'] = $json->selfURI;
         $client['isCommandLine'] = $wsocketToken['isCommandLine'];
-        $client['videos_id'] = $json->videos_id;        
+        $client['videos_id'] = $json->videos_id;
         $client['live_key'] = object_to_array(@$json->live_key);
         $client['autoEvalCodeOnHTML'] = $json->autoEvalCodeOnHTML;
         $client['ip'] = $json->ip;
         $client['location'] = $json->location;
-        
+
         _log_message("New connection ($conn->resourceId) {$json->yptDeviceId}");
-        
+
         $this->clients[$conn->resourceId] = $client;
-        
+
         if ($this->shouldPropagateInfo($client)) {
             //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
             $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION, true);
@@ -111,7 +114,7 @@ class Message implements MessageComponentInterface {
             _log_message("onMessage ERROR: webSocketToken is empty ");
             return false;
         }
-        
+
         if (!$msgObj = getDecryptedInfo($json->webSocketToken)) {
             _log_message("onMessage ERROR: could not decrypt webSocketToken");
             return false;
@@ -150,76 +153,83 @@ class Message implements MessageComponentInterface {
     }
 
     public function msgToResourceId($msg, $resourceId, $type = "") {
-        global $onMessageSentTo;
+        global $onMessageSentTo, $SocketDataObj;
         if (in_array($resourceId, $onMessageSentTo)) {
             return false;
         }
         // do not sent duplicated messages
         $onMessageSentTo[] = $resourceId;
 
-        if(!$this->shouldPropagateInfo($this->clients[$resourceId])){
+        if (!$this->shouldPropagateInfo($this->clients[$resourceId])) {
             _log_message("msgToResourceId: we wil NOT send the message to resourceId=({$resourceId}) {$type}");
         }
-        
+
         if (!is_array($msg)) {
             $this->msgToArray($msg);
         }
-        if(!empty($msg['webSocketToken'])){
+        if (!empty($msg['webSocketToken'])) {
             unset($msg['webSocketToken']);
         }
         if (empty($type)) {
             $type = \SocketMessageType::DEFAULT_MESSAGE;
         }
-        
+
         $videos_id = $this->clients[$resourceId]['videos_id'];
         $users_id = $this->clients[$resourceId]['users_id'];
         $live_key = $this->clients[$resourceId]['live_key'];
-        
+
         $obj = array();
         $obj['ResourceId'] = $resourceId;
         $obj['type'] = $type;
 
-        if(isset($msg['callback'])){
+        if (isset($msg['callback'])) {
             $obj['callback'] = $msg['callback'];
             unset($msg['callback']);
-        }else{
+        } else {
             $obj['callback'] = "";
         }
-        
-        if(!empty($msg['json'])){
+
+        if (!empty($msg['json'])) {
             $obj['msg'] = $msg['json'];
-        }else if(!empty($msg['msg'])){
+        } else if (!empty($msg['msg'])) {
             $obj['msg'] = $msg['msg'];
-        }else{
+        } else {
             $obj['msg'] = $msg;
         }
-        
+
         $obj['uniqid'] = uniqid();
         $obj['users_id'] = $users_id;
         $obj['videos_id'] = $videos_id;
         $obj['live_key'] = $live_key;
+        $obj['webSocketServerVersion'] = $SocketDataObj->serverVersion;
+        $obj['isAdmin'] = $this->clients[$resourceId]['isAdmin'];
+        
+        $return = $this->getTotals($this->clients[$resourceId]);
+        
         $totals = array(
+            'webSocketServerVersion' => $SocketDataObj->serverVersion,
             'socket_users_id' => $users_id,
             'socket_resourceId' => $resourceId,
-            'total_devices_online' => count($this->getUniqueDevices()),
-            'total_users_online' => count($this->getUsersIdFromDevicesOnline()),
-            'total_on_same_video' => $this->getTotalOnVideos_id($videos_id),
-            'total_on_same_live' => $this->getTotalOnlineOnLive_key($live_key),
-            'total_on_same_livelink' => $this->getTotalOnlineOnLiveLink($live_key)
+            'total_devices_online' => count($return['users_id']),
+            'total_users_online' => count($return['devices']),
+            'total_on_same_video' => $return['total_on_same_video'],
+            'total_on_same_live' => $return['total_on_same_live'],
+            'total_on_same_livelink' => $return['total_on_same_livelink']
         );
+
+        $obj['autoUpdateOnHTML'] = array_merge($totals, $return['class_to_update']);
         
-        $totalOnMedias = $this->getTotalPerMedia();
-        $obj['autoUpdateOnHTML'] = array_merge($totals, $totalOnMedias);
-        
+        $obj['users_uri'] = $return['users_uri'];
+
         $obj['autoEvalCodeOnHTML'] = $this->clients[$resourceId]['autoEvalCodeOnHTML'];
-        
+
         $msgToSend = json_encode($obj);
-        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
+        //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
         $this->clients[$resourceId]['conn']->send($msgToSend);
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
-        if(!preg_match('/protocol is shutdown/i', $e->getMessage())){ // this may be the iframe that reloads the page
+        if (!preg_match('/protocol is shutdown/i', $e->getMessage())) { // this may be the iframe that reloads the page
             $debug = $this->clients[$conn->resourceId];
             unset($debug['conn']);
             var_dump($debug);
@@ -259,44 +269,100 @@ class Message implements MessageComponentInterface {
         _log_message("msgToSelfURI: sent to ($count) clients pattern={$pattern} {$type}");
     }
 
-    public function getTotalSelfURI($pattern) {
-        if (empty($videos_id)) {
-            return false;
-        }
-        $count = 0;
+    public function getTotals($_client) {
+
+        $isAdmin = $_client['isAdmin'];
+        $selfURI = $_client['selfURI'];
+        $videos_id = $_client['videos_id'];
+        $users_id = $_client['users_id'];
+        $live_key = object_to_array($_client['live_key']);
+        global $SocketDataObj;
+        
+        $return = array(
+            'users_id' => array(),
+            'devices' => array(),
+            'class_to_update' => array(),
+            'users_uri' => array(),
+            'total_on_same_video' => 0,
+            'total_on_same_live' => 0,
+            'total_on_same_livelink' => 0
+        );
+        
+        $users_id_array = $devices = $list = array();
+        $total_on_same_video = $total_on_same_live = $total_on_same_livelink = 0;
+
         foreach ($this->clients as $key => $client) {
-            if (empty($client['selfURI'])) {
+            if (empty($client['yptDeviceId'])) {
                 continue;
             }
-            if (preg_match($pattern, $client['selfURI'])) {
-                $count++;
+            
+            unset($client['conn']);
+            
+            if($isAdmin){
+                if(!isset($return['users_uri'][$client['selfURI']])){
+                    $return['users_uri'][$client['selfURI']] = array();
+                }
+                if(!isset($return['users_uri'][$client['selfURI']][$client['yptDeviceId']])){
+                    $return['users_uri'][$client['selfURI']][$client['yptDeviceId']] = array();
+                }
+                if(empty($client['users_id'])){
+                    $return['users_uri'][$client['selfURI']][$client['yptDeviceId']][uniqid()] = $client;
+                }else
+                if(!isset($return['users_uri'][$client['yptDeviceId']][$client['users_id']])){
+                    $return['users_uri'][$client['selfURI']][$client['yptDeviceId']][$client['users_id']] = $client;
+                }
             }
-        }
-        _log_message("getTotalSelfURI: total ($count) clients pattern={$pattern} {$type}");
-        return $count;
-    }
+            
+            //total_devices_online
+            if (!in_array($client['yptDeviceId'], $return['devices'])) {
+                $return['devices'][] = $client['yptDeviceId'];
+            }
+            //total_users_online
+            if (!empty($client['users_id']) && !in_array($client['users_id'], $return['users_id'])) {
+                if ($this->shouldPropagateInfo($client)) {
+                    $return['users_id'][] = $client['users_id'];
+                }
+            }
+            //total_on_same_video
+            if (!empty($videos_id)) {
+                if (!empty($client['videos_id'])) {
+                    if ($client['videos_id'] == $videos_id) {
+                        $return['total_on_same_video']++;
+                    }
+                }
+            }
+            //total_on_same_live
 
-    public function getTotalPerMedia() {
-        global $SocketDataObj;
-        $list = array();
-        foreach ($this->clients as $key => $client) {
+            if (!empty($live_key)) {
+                if (!empty($client['live_key']['key'])) {//total_on_same_live
+                    if ($client['live_key']['key'] == $live_key['key'] && $client['live_key']['live_servers_id'] == $live_key['live_servers_id']) {
+                        $return['total_on_same_live']++;
+                    }
+                } else if (!empty($client['live_key']['liveLink'])) { //total_on_same_livelink
+                    if ($client['live_key']['liveLink'] == $live_key['liveLink']) {
+                        $return['total_on_same_livelink']++;
+                    }
+                }
+            }
+
             $keyName = "";
             if (!empty($SocketDataObj->showTotalOnlineUsersPerVideo) && !empty($client['videos_id'])) {
                 $keyName = getSocketVideoClassName($client['videos_id']);
-            }else if (!empty($SocketDataObj->showTotalOnlineUsersPerLive) && !empty($client['live_key']['key'])) {
+            } else if (!empty($SocketDataObj->showTotalOnlineUsersPerLive) && !empty($client['live_key']['key'])) {
                 $keyName = getSocketLiveClassName($client['live_key']['key'], $client['live_key']['live_servers_id']);
-            } else  if (!empty($SocketDataObj->showTotalOnlineUsersPerLiveLink) && !empty($client['live_key']['liveLink'])){
+            } else if (!empty($SocketDataObj->showTotalOnlineUsersPerLiveLink) && !empty($client['live_key']['liveLink'])) {
                 $keyName = getSocketLiveLinksClassName($client['live_key']['liveLink']);
             }
-            if(!empty($keyName)){
-                if(!isset($list[$keyName])){
-                    $list[$keyName] = 1;
-                }else{
-                    $list[$keyName]++;
+            
+            if (!empty($keyName)) {
+                if (!isset($return['class_to_update'][$keyName])) {
+                    $return['class_to_update'][$keyName] = 1;
+                } else {
+                    $return['class_to_update'][$keyName]++;
                 }
             }
         }
-        return $list;
+        return $return;
     }
 
     public function msgToDevice_id($msg, $yptDeviceId) {
@@ -313,100 +379,14 @@ class Message implements MessageComponentInterface {
         _log_message("msgToDevice_id: sent to ($count) clients yptDeviceId={$yptDeviceId} ");
     }
 
-    public function getUsersIdFromDevicesOnline() {
-        $users_id = array();
-        foreach ($this->clients as $value) {
-            if (empty($value['yptDeviceId']) || empty($value['users_id'])) {
-                continue;
-            }
-            if(in_array($value['users_id'], $users_id)){
-                continue;
-            }
-            if ($this->shouldPropagateInfo($value)) {
-                $users_id[] = $value['users_id'];
-            }
-        }
-        return $users_id;
-    }
-
-    public function getUniqueDevices() {
-        $devices = array();
-        foreach ($this->clients as $value) {
-            if (empty($value['yptDeviceId'])) {
-                continue;
-            }
-            if(!in_array($value['yptDeviceId'], $devices)){
-                $devices[] = $value['yptDeviceId'];
-            }
-        }
-        return $devices;
-    }
-
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
         _log_message("msgToAll FROM ({$from->resourceId}) {$type}");
         foreach ($this->clients as $key => $client) {
             if (!empty($includeMe) || $from !== $client['conn']) {
-                _log_message("msgToAll FROM ({$from->resourceId}) TO {$key} {$type}");
+                //_log_message("msgToAll FROM ({$from->resourceId}) TO {$key} {$type}");
                 $this->msgToResourceId($msg, $key, $type);
             }
         }
-    }
-
-    public function getTotalOnVideos_id($videos_id) {
-        if (empty($videos_id)) {
-            return false;
-        }
-        //_log_message("getTotalOnVideos_id: {$videos_id}");
-        $count = 0;
-        foreach ($this->clients as $key => $client) {
-            if (empty($client['videos_id'])) {
-                continue;
-            }
-            if ($client['videos_id'] == $videos_id) {
-                $count++;
-            }
-        }
-        return $count;
-    }
-
-    public function getTotalOnlineOnLive_key($live_key) {
-        if (empty($live_key)) {
-            return false;
-        }
-        
-        $live_key = object_to_array($live_key);
-        //_log_message("getTotalOnlineOnLive_key: key={$live_key['key']} live_servers_id={$live_key['live_servers_id']}");
-        $count = 0;
-        foreach ($this->clients as $key => $client) {
-            if (empty($client['live_key']['key'])) {
-                continue;
-            }
-            if ($client['live_key']['key'] == $live_key['key'] && $client['live_key']['live_servers_id'] == $live_key['live_servers_id']) {
-                $count++;
-            }
-        }
-
-        return $count;
-    }
-    
-    public function getTotalOnlineOnLiveLink($live_key) {
-        if (empty($live_key)) {
-            return false;
-        }
-        
-        $live_key = object_to_array($live_key);
-        //_log_message("getTotalOnlineOnLive_key: key={$live_key['key']} live_servers_id={$live_key['live_servers_id']}");
-        $count = 0;
-        foreach ($this->clients as $key => $client) {
-            if (empty($client['live_key']['liveLink'])) {
-                continue;
-            }
-            if ($client['live_key']['liveLink'] == $live_key['liveLink']) {
-                $count++;
-            }
-        }
-
-        return $count;
     }
 
     public function msgToAllSameVideo($videos_id, $msg) {
@@ -416,8 +396,6 @@ class Message implements MessageComponentInterface {
         if (!is_array($msg)) {
             $this->msgToArray($msg);
         }
-        $msg['total'] = $this->getTotalOnVideos_id($videos_id);
-        $msg['videos_id'] = $videos_id;
         _log_message("msgToAllSameVideo: {$videos_id}");
         foreach ($this->clients as $key => $client) {
             if (empty($client['videos_id'])) {
@@ -447,7 +425,7 @@ class Message implements MessageComponentInterface {
             }
             if ($client['live_key']['key'] == $live_key['key'] && $client['live_key']['live_servers_id'] == $live_key['live_servers_id']) {
                 $this->msgToResourceId($msg, $key, \SocketMessageType::ON_LIVE_MSG);
-            }else if ($client['live_key']['liveLink'] == $live_key['liveLink'] ) {
+            } else if ($client['live_key']['liveLink'] == $live_key['liveLink']) {
                 $this->msgToResourceId($msg, $key, \SocketMessageType::ON_LIVE_MSG);
             }
         }
@@ -481,13 +459,13 @@ class Message implements MessageComponentInterface {
 
 }
 
-function _log_message($msg, $type="") {
+function _log_message($msg, $type = "") {
     global $SocketDataObj;
     if (!empty($SocketDataObj->debugAllUsersSocket) || !empty($SocketDataObj->debugSocket)) {
         _error_log($msg, \AVideoLog::$SOCKET);
-        echo date('Y-m-d H:i:s').' '.$msg . PHP_EOL;
-    }else if($type==\AVideoLog::$ERROR){
+        echo date('Y-m-d H:i:s') . ' ' . $msg . PHP_EOL;
+    } else if ($type == \AVideoLog::$ERROR) {
         _error_log($msg, \AVideoLog::$SOCKET);
-        echo date('Y-m-d H:i:s').' '.$msg . PHP_EOL;
+        echo date('Y-m-d H:i:s') . ' ' . $msg . PHP_EOL;
     }
 }

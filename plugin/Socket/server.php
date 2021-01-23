@@ -14,6 +14,8 @@ if (!isCommandLineInterface()) {
 }
 
 $SocketDataObj = AVideoPlugin::getDataObject("Socket");
+$SocketDataObj->serverVersion = Socket::getServerVersion();
+
 ob_end_flush();
 _mysql_close();
 session_write_close();
