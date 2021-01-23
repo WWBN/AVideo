@@ -140,7 +140,7 @@ function parseSocketResponse(json) {
                         $('#socketUsersURI').append(html);
                     }
                     var text = ' ' + json.users_uri[prop][prop2][prop3].page_title;
-                    text += '<br><small>IP: ' + json.users_uri[prop][prop2][prop3].ip+'</small>' ;
+                    text += '<br><small>' + json.users_uri[prop][prop2][prop3].ip+'</small>' ;
                     if(json.users_uri[prop][prop2][prop3].location){
                         text += '<br><i class="flagstrap-icon flagstrap-'+json.users_uri[prop][prop2][prop3].location.country_code+'" style="margin-right: 10px;"></i>';
                         text += ' '+json.users_uri[prop][prop2][prop3].location.country_name;
