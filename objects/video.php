@@ -3999,7 +3999,7 @@ if (!class_exists('Video')) {
             return array('evideo' => $evideo, 'video' => $video);
         }
 
-        private function getBlockedUsersIdsArray($users_id = 0)
+        private static function getBlockedUsersIdsArray($users_id = 0)
         {
             if (empty($users_id)) {
                 $users_id = intval(User::getId());
