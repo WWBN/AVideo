@@ -87,18 +87,18 @@ if (!empty($obj) && empty($obj->error)) {
     header("HTTP/1.1 200 OK");
     echo "success";
     Live::on_publish($obj->liveTransmitionHistory_id);
-    ob_end_flush();
-    $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
-    $m3u8 = Live::getM3U8File($lth->getKey());
-    for ($i = 5; $i > 0; $i--) {
-        if (!isURL200($m3u8)) {
-            //live is not ready request again
-            sleep($i);
-        } else {
-            break;
-        }
-    }
     if (AVideoPlugin::isEnabledByName('Socket')) {
+        ob_end_flush();
+        $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
+        $m3u8 = Live::getM3U8File($lth->getKey());
+        for ($i = 5; $i > 0; $i--) {
+            if (!isURL200($m3u8)) {
+                //live is not ready request again
+                sleep($i);
+            } else {
+                break;
+            }
+        }
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
         $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($obj->liveTransmitionHistory_id);
         $socketObj = sendSocketMessageToAll($array, "socketLiveONCallback");
