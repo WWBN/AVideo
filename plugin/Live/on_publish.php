@@ -98,11 +98,12 @@ if (!empty($obj) && empty($obj->error)) {
             break;
         }
     }
-    $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
-    $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($obj->liveTransmitionHistory_id);
-    $socketObj = sendSocketMessageToAll($array, "socketLiveONCallback");
-
-    exit;
+    if (AVideoPlugin::isEnabledByName('Socket')) {
+        $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
+        $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($obj->liveTransmitionHistory_id);
+        $socketObj = sendSocketMessageToAll($array, "socketLiveONCallback");
+    }
+    //exit;
 } else {
     _error_log("NGINX ON Publish denied ", AVideoLog::$SECURITY);
     http_response_code(401);
