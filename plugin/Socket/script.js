@@ -90,7 +90,7 @@ function defaultCallback(json) {
 
 function parseSocketResponse(json) {
     console.log("parseSocketResponse", json);
-    if(json.isAdmin && webSocketServerVersion!==json.webSocketServerVersion){
+    if(json.isAdmin && webSocketServerVersion>json.webSocketServerVersion){
         avideoToastWarning("Please restart your socket server. You are running (v"+json.webSocketServerVersion+") and your client is expecting (v"+webSocketServerVersion+")");
     }
     if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
