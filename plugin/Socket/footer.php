@@ -8,13 +8,13 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     $socket_info_container_class = '';
     $socket_info_container_top = 60;
     $socket_info_container_left = 50;
-    if ($_COOKIE['socketInfoMinimized']) {
+    if (isset($_COOKIE['socketInfoMinimized'])) {
         $socket_info_container_class = 'socketMinimized';
     }
-    if ($_COOKIE['socketInfoPositionTop']) {
+    if (isset($_COOKIE['socketInfoPositionTop'])) {
         $socket_info_container_top = $_COOKIE['socketInfoPositionTop'];
     }
-    if ($_COOKIE['socketInfoPositionLeft']) {
+    if (isset($_COOKIE['socketInfoPositionLeft'])) {
         $socket_info_container_left = $_COOKIE['socketInfoPositionLeft'];
     }
     ?>
