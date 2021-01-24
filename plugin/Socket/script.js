@@ -95,12 +95,17 @@ function parseSocketResponse(json) {
     }
     if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
         $('.total_on').text(0);
+        $('.total_on').parent().removeClass('text-success');
         //console.log("parseSocketResponse", json.autoUpdateOnHTML);
         for (var prop in json.autoUpdateOnHTML) {
             if (json.autoUpdateOnHTML[prop] === false) {
                 continue;
             }
-            $('.' + prop).text(json.autoUpdateOnHTML[prop]);
+            var val = json.autoUpdateOnHTML[prop];
+            $('.' + prop).text(val);
+            if(parseInt(val)>0){
+                $('.' + prop).parent().addClass('text-success');
+            }
         }
     }
 

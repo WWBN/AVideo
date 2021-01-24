@@ -37,7 +37,7 @@ class Socket extends PluginAbstract {
     }
     
     public static function getServerVersion() {
-        return "2.1";
+        return "2.2";
     }
 
     public function updateScript() {

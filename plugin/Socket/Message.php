@@ -42,7 +42,11 @@ class Message implements MessageComponentInterface {
         $client['user_name'] = $json->user_name;
         $client['browser'] = $json->browser;
         $client['yptDeviceId'] = $json->yptDeviceId;
-        $client['selfURI'] = $json->selfURI;
+        if(!empty($wsocketGetVars['selfURI'])){
+            $client['selfURI'] = $wsocketGetVars['selfURI'];
+        }else{
+            $client['selfURI'] = $json->selfURI;
+        }
         $client['isCommandLine'] = $wsocketGetVars['isCommandLine'];
         $client['page_title'] = utf8_encode($wsocketGetVars['page_title']);
         $client['videos_id'] = $json->videos_id;
