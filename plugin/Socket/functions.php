@@ -21,7 +21,6 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     } else {
         $msgObj->selfURI = getSelfURI();
     }
-    $msgObj->selfURI = getSelfURI();
     if (empty($msgObj->videos_id)) {
         if (!empty($_REQUEST['webSocketVideos_id'])) {
             $msgObj->videos_id = $_REQUEST['webSocketVideos_id'];
