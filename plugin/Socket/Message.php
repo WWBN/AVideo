@@ -42,8 +42,8 @@ class Message implements MessageComponentInterface {
         $client['user_name'] = $json->user_name;
         $client['browser'] = $json->browser;
         $client['yptDeviceId'] = $json->yptDeviceId;
-        if(!empty($wsocketGetVars['selfURI'])){
-            $client['selfURI'] = $wsocketGetVars['selfURI'];
+        if(!empty($wsocketGetVars['webSocketSelfURI'])){
+            $client['selfURI'] = $wsocketGetVars['webSocketSelfURI'];
         }else{
             $client['selfURI'] = $json->selfURI;
         }
