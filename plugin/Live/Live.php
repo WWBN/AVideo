@@ -982,9 +982,15 @@ class Live extends PluginAbstract {
                 $stream = $application->live->stream;
                 if (empty($application->live->stream->name) && !empty($application->live->stream[0]->name)) {
                     foreach ($application->live->stream as $stream) {
+                        if(Live::isAdaptive($stream->name)){
+                            continue;
+                        }
                         $lifeStream[] = $stream;
                     }
                 } else {
+                    if(Live::isAdaptive($stream->name)){
+                        continue;
+                    }
                     $lifeStream[] = $application->live->stream;
                 }
             }
