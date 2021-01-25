@@ -918,6 +918,16 @@ class Live extends PluginAbstract {
         return $lt->isAPrivateLive();
     }
 
+    static function getTitleFromUsers_Id($users_id){
+        $lt = self::getLiveTransmitionObjectFromUsers_id($users_id);
+        return $lt->getTitle();
+    }
+    
+    static function getLiveTransmitionObjectFromUsers_id($users_id) {
+        $key = self::getLiveKey($users_id);
+        return self::getLiveTransmitionObjectFromKey($key);
+    }
+
     static function getLiveTransmitionObjectFromKey($key) {
         global $getLiveTransmitionObjectFromKey;
         if (empty($getLiveTransmitionObjectFromKey)) {

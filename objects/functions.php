@@ -5684,6 +5684,44 @@ function getHTMLTitle($titleArray){
     return "<title>{$title}</title>";
 }
 
+function getButtonSignInAndUp(){
+    $signIn = getButtonSignIn();
+    $signUp = getButtonSignUp();
+    $html = $signIn.$signUp;
+    if(!empty($signIn) && !empty($signIn)){
+        return '<div class="btn-group justified">'.$html.'</div>';
+    }else{
+        return $html;
+    }
+}
+
+function getButtonSignUp(){
+    global $global;
+    $obj = AVideoPlugin::getDataObject('CustomizeUser');
+    if(!empty($obj->disableNativeSignUp)){
+        return '';
+    }
+    
+    $url = $global['webSiteRootURL'].'signUp';
+    $url = addQueryStringParameter($url, 'redirectUri', getRedirectUri());
+    
+    $html = '<a class="btn navbar-btn btn-default" href="'.$url.'" ><i class="fas fa-user-plus"></i> '.__("Sign Up").'</a> ';
+    return $html;
+}
+function getButtonSignIn(){
+    global $global;
+    $obj = AVideoPlugin::getDataObject('CustomizeUser');
+    if(!empty($obj->disableNativeSignIn)){
+        return '';
+    }
+    
+    $url = $global['webSiteRootURL'].'user';
+    $url = addQueryStringParameter($url, 'redirectUri', getRedirectUri());
+    
+    $html = '<a class="btn navbar-btn btn-success" href="'.$url.'" ><i class="fas fa-sign-in-alt" ></i> '.__("Sign In").'</a> ';
+    return $html;
+}
+
 function getTitle(){
     global $global;
     if(empty($global['pageTitle'])){
