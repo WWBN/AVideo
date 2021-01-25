@@ -141,6 +141,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         if(!empty($stats['applications'])){
             foreach ($stats['applications'] as $value) {
                 $value = object_to_array($value);
+                $value['key'] = self::getCleankeyName($value['key']);
                 if(!empty($value['key']) && $value['key']==$key){ // application is already in the list
                     return $stats; 
                 }
@@ -149,6 +150,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         if(!empty($stats['hidden_applications'])){
             foreach ($stats['hidden_applications'] as $value) {
                 $value = object_to_array($value);
+                $value['key'] = self::getCleankeyName($value['key']);
                 if($value['key']==$key){ // application is already in the list
                     return $stats;
                 }
@@ -162,6 +164,11 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         $stats['countLiveStream']++;
         return $stats;
+    }
+    
+    static function getCleankeyName($key){
+        $parts = explode("_", $key);
+        return $parts[0];
     }
 
     static function getStatsAndRemoveApplication($liveTransmitionHistory_id) {
