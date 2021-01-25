@@ -831,12 +831,12 @@ class Live extends PluginAbstract {
         foreach ($ls as $value) {
             $server = Live_servers::getStatsFromId($value['id']);
             if (!empty($server) && is_object($server)) {
-                if(self::isAdaptive($app['key'])){
-                    continue;
-                }
                 $server->live_servers_id = $value['id'];
                 $server->playerServer = $value['playerServer'];
                 foreach ($server->applications as $key => $app) {
+                    if(self::isAdaptive($app['key'])){
+                        continue;
+                    }
                     $_REQUEST['live_servers_id'] = $value['id'];
                     if (empty($app['key'])) {
                         $app['key'] = "";
