@@ -831,6 +831,9 @@ class Live extends PluginAbstract {
         foreach ($ls as $value) {
             $server = Live_servers::getStatsFromId($value['id']);
             if (!empty($server) && is_object($server)) {
+                if(self::isAdaptive($app['key'])){
+                    continue;
+                }
                 $server->live_servers_id = $value['id'];
                 $server->playerServer = $value['playerServer'];
                 foreach ($server->applications as $key => $app) {
@@ -850,6 +853,17 @@ class Live extends PluginAbstract {
         $_REQUEST['live_servers_id'] = $getLiveServersIdRequest;
         $getStatsLive = $liveServers;
         return $liveServers;
+    }
+    
+    static function isAdaptive($key){
+        $parts = explode("_", $key);
+        if(!empty($parts[1])){
+            $adaptive = array('hi', 'low', 'mid');
+            if(in_array($parts[1], $adaptive)){
+                return true;
+            }
+        }
+        return false;
     }
 
     static function getAllServers() {
