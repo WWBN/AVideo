@@ -103,7 +103,7 @@ function getTotalViewsLive_key($live_key) {
 }
 
 function killProcessOnPort() {
-    $obj = \AVideoPlugin::getDataObject("Socket");
+    $obj = \AVideoPlugin::getDataObject("YPTSocket");
     $port = intval($obj->port);
     if (!empty($port)) {
         echo 'Searching for port: ' . $port . PHP_EOL;

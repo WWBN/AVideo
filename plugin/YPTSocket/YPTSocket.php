@@ -147,7 +147,7 @@ class YPTSocket extends PluginAbstract {
 
     public static function getWebSocketURL($isCommandLine=false) {
         global $global;
-        $socketobj = AVideoPlugin::getDataObject("Socket");
+        $socketobj = AVideoPlugin::getDataObject("YPTSocket");
         $address = $socketobj->host;
         $port = $socketobj->port;
         $protocol = "ws";

@@ -16,7 +16,7 @@ if(empty($_REQUEST['msg'])){
     die(json_encode($obj));
 }
 
-if(!AVideoPlugin::isEnabledByName("Socket")){
+if(!AVideoPlugin::isEnabledByName("YPTSocket")){
     $obj->msg = "Socket plugin not enabled";
     die(json_encode($obj));
 }

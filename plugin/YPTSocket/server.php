@@ -13,7 +13,7 @@ if (!isCommandLineInterface()) {
     die("Command line only");
 }
 
-$SocketDataObj = AVideoPlugin::getDataObject("Socket");
+$SocketDataObj = AVideoPlugin::getDataObject("YPTSocket");
 $SocketDataObj->serverVersion = YPTSocket::getServerVersion();
 
 ob_end_flush();
