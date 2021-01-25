@@ -14,7 +14,7 @@ if (!isCommandLineInterface()) {
 }
 
 $SocketDataObj = AVideoPlugin::getDataObject("Socket");
-$SocketDataObj->serverVersion = Socket::getServerVersion();
+$SocketDataObj->serverVersion = YPTSocket::getServerVersion();
 
 ob_end_flush();
 _mysql_close();

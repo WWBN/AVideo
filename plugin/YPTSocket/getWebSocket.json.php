@@ -16,6 +16,6 @@ if(!AVideoPlugin::isEnabledByName("Socket")){
 
 $obj->error = false;
 $obj->webSocketToken = getEncryptedInfo(0);
-$obj->webSocketURL = Socket::getWebSocketURL();
+$obj->webSocketURL = YPTSocket::getWebSocketURL();
 
 die(json_encode($obj));
