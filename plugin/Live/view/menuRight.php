@@ -344,7 +344,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             getStatsMenu(true);
         }
 <?php
-if (AVideoPlugin::isEnabledByName('Socket')) {
+if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     echo 'processLiveStats(' . json_encode(getStatsNotifications()) . ');';
 }
 ?>

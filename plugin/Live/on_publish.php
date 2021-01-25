@@ -87,7 +87,7 @@ if (!empty($obj) && empty($obj->error)) {
     header("HTTP/1.1 200 OK");
     echo "success";
     Live::on_publish($obj->liveTransmitionHistory_id);
-    if (AVideoPlugin::isEnabledByName('Socket')) {
+    if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         ob_end_flush();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey());

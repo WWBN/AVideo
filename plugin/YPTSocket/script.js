@@ -170,7 +170,7 @@ function parseSocketResponse(json) {
 
 $(function () {
     console.log('Getting webSocketToken ...');
-    var getWebSocket = webSiteRootURL + 'plugin/Socket/getWebSocket.json.php';
+    var getWebSocket = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
     getWebSocket = addGetParam(getWebSocket, 'webSocketSelfURI', webSocketSelfURI);
     getWebSocket = addGetParam(getWebSocket, 'webSocketVideos_id', webSocketVideos_id);
     getWebSocket = addGetParam(getWebSocket, 'webSocketLiveKey', webSocketLiveKey);

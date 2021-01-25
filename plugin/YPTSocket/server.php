@@ -6,7 +6,7 @@ use Socket\Message;
 //use React\Socket\Server as Reactor;
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'plugin/Socket/Message.php';
+require_once $global['systemRootPath'] . 'plugin/YPTSocket/Message.php';
 require_once $global['systemRootPath'] . 'objects/autoload.php';
 
 if (!isCommandLineInterface()) {

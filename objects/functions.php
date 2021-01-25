@@ -5460,7 +5460,7 @@ function getCurrentTheme() {
  */
 
 function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $send_to_uri_pattern = "") {
-    if (AVideoPlugin::isEnabledByName('Socket')) {
+    if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         if (!is_string($msg)) {
             $msg = json_encode($msg);
         }

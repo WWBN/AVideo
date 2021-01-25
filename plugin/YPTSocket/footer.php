@@ -3,7 +3,7 @@ if (isBot()) {
     return false;
 }
 $refl = new ReflectionClass('SocketMessageType');
-$obj = AVideoPlugin::getDataObjectIfEnabled('Socket');
+$obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
 if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugSocket))) {
     $socket_info_container_class = '';
     $socket_info_container_top = 60;
@@ -231,4 +231,4 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     var webSocketURL = '';
     var webSocketTypes = <?php echo json_encode($refl->getConstants()); ?>;
 </script>
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/Socket/script.js?<?php echo filectime($global['systemRootPath'] . 'plugin/Socket/script.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>plugin/YPTSocket/script.js?<?php echo filectime($global['systemRootPath'] . 'plugin/YPTSocket/script.js'); ?>" type="text/javascript"></script>
