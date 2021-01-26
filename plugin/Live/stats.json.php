@@ -15,7 +15,7 @@ $pobj = AVideoPlugin::getDataObjectIfEnabled("Live");
 if (empty($pobj)) {
     die(json_encode("Plugin disabled"));
 }
-$live_servers_id = Live::getCurrentLiveServersId();
+$live_servers_id = Live::getLiveServersIdRequest();
 $cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']. json_encode($_REQUEST));
 $json = ObjectYPT::getSessionCache($cacheName, $pobj->cacheStatsTimout);
 if(empty($json)){
