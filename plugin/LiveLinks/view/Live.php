@@ -25,6 +25,7 @@ if ($liveLink->getType() == 'logged_only' && !User::isLogged()) {
 }
 
 $uuid = $_GET['link'];
+$t['id'] = $uuid;
 $t['users_id'] = $liveLink->getUsers_id();
 $t['title'] = $liveLink->getTitle();
 $t['link'] = $liveLink->getLink();
