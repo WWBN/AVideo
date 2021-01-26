@@ -136,7 +136,10 @@ class Live_servers extends ObjectYPT {
     }
 
     static function getAllActive() {
-        global $global;
+        global $global, $liveServersgetAllActive;
+        if(isset($liveServersgetAllActive)){
+            return $liveServersgetAllActive;
+        }
         if (!static::isTableInstalled()) {
             return false;
         }
@@ -154,6 +157,7 @@ class Live_servers extends ObjectYPT {
         } else {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+        $liveServersgetAllActive = $rows;
         return $rows;
     }
 
