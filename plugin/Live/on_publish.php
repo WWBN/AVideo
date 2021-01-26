@@ -89,19 +89,24 @@ if (!empty($obj) && empty($obj->error)) {
     outputAndContinueInBackground();
     Live::on_publish($obj->liveTransmitionHistory_id);
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
+        $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
         ob_end_flush();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey());
+        $is200 = false;
         for ($i = 5; $i > 0; $i--) {
-            if (!isURL200($m3u8)) {
+            if (!$is200 = isURL200($m3u8)) {
                 //live is not ready request again
                 sleep($i);
             } else {
                 break;
             }
         }
-        $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
-        $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($obj->liveTransmitionHistory_id);
+        if($is200){
+            $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($obj->liveTransmitionHistory_id);
+        }else{
+            $array['stats'] = getStatsNotifications();
+        }
         $socketObj = sendSocketMessageToAll($array, "socketLiveONCallback");
     }
     //exit;
