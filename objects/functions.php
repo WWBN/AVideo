@@ -2466,7 +2466,12 @@ function addQueryStringParameter($url, $varname, $value) {
     $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
     $query = !empty($query) ? '?' . http_build_query($query) : '';
 
-    return $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $path . $query;
+    $port = "";
+    if (!empty($parsedUrl['port']) && $parsedUrl['port'] != '80') {
+        $port = ":{$parsedUrl['port']}";
+    }
+
+    return $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $port . $path . $query;
 }
 
 function isSameDomain($url1, $url2) {
@@ -5242,7 +5247,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -5745,4 +5750,23 @@ function getTitle() {
     }
 
     return $global['pageTitle'];
+}
+
+function outputAndContinueInBackground() {
+    @session_write_close();
+
+    // Instruct PHP to continue execution
+    ignore_user_abort(true);
+    fastcgi_finish_request();
+
+    // Send HTTP headers
+    header('Content-Length: 0');
+    header('Connection: close');
+
+    // Clean up buffers
+    if (ob_get_level() > 0) {
+        ob_end_clean();
+        ob_flush();
+    }
+    flush();
 }
