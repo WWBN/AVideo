@@ -19,7 +19,8 @@ class Message implements MessageComponentInterface {
     }
 
     public function onOpen(ConnectionInterface $conn) {
-        global $onMessageSentTo;
+        global $onMessageSentTo, $SocketGetTotals;
+        $SocketGetTotals = null;
         $onMessageSentTo = array();
         $query = $conn->httpRequest->getUri()->getQuery();
         parse_str($query, $wsocketGetVars);
@@ -81,7 +82,8 @@ class Message implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
-        global $onMessageSentTo;
+        global $onMessageSentTo, $SocketGetTotals;
+        $SocketGetTotals = null;
         $onMessageSentTo = array();
 
         unset($getStatsLive);
@@ -107,7 +109,8 @@ class Message implements MessageComponentInterface {
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        global $onMessageSentTo;
+        global $onMessageSentTo, $SocketGetTotals;
+        $SocketGetTotals = null;
         $onMessageSentTo = array();
         //_log_message("onMessage: {$msg}");
         $json = json_decode($msg);
@@ -216,10 +219,7 @@ class Message implements MessageComponentInterface {
             'socket_users_id' => $users_id,
             'socket_resourceId' => $resourceId,
             'total_devices_online' => count($return['users_id']),
-            'total_users_online' => count($return['devices']),
-            'total_on_same_video' => $return['total_on_same_video'],
-            'total_on_same_live' => $return['total_on_same_live'],
-            'total_on_same_livelink' => $return['total_on_same_livelink']
+            'total_users_online' => count($return['devices'])
         );
 
         $obj['autoUpdateOnHTML'] = array_merge($totals, $return['class_to_update']);
@@ -281,20 +281,20 @@ class Message implements MessageComponentInterface {
         $videos_id = $_client['videos_id'];
         $users_id = $_client['users_id'];
         $live_key = object_to_array($_client['live_key']);
-        global $SocketDataObj;
+        global $SocketDataObj, $SocketGetTotals;
+        
+        if(isset($SocketGetTotals)){
+            return $SocketGetTotals;
+        }
         
         $return = array(
             'users_id' => array(),
             'devices' => array(),
             'class_to_update' => array(),
-            'users_uri' => array(),
-            'total_on_same_video' => 0,
-            'total_on_same_live' => 0,
-            'total_on_same_livelink' => 0
+            'users_uri' => array()
         );
         
         $users_id_array = $devices = $list = array();
-        $total_on_same_video = $total_on_same_live = $total_on_same_livelink = 0;
 
         foreach ($this->clients as $key => $client) {
             if (empty($client['yptDeviceId'])) {
@@ -328,28 +328,7 @@ class Message implements MessageComponentInterface {
                     $return['users_id'][] = $client['users_id'];
                 }
             }
-            //total_on_same_video
-            if (!empty($videos_id)) {
-                if (!empty($client['videos_id'])) {
-                    if ($client['videos_id'] == $videos_id) {
-                        $return['total_on_same_video']++;
-                    }
-                }
-            }
-            //total_on_same_live
-
-            if (!empty($live_key)) {
-                if (!empty($client['live_key']['key'])) {//total_on_same_live
-                    if ($client['live_key']['key'] == $live_key['key'] && $client['live_key']['live_servers_id'] == $live_key['live_servers_id']) {
-                        $return['total_on_same_live']++;
-                    }
-                } else if (!empty($client['live_key']['liveLink'])) { //total_on_same_livelink
-                    if ($client['live_key']['liveLink'] == $live_key['liveLink']) {
-                        $return['total_on_same_livelink']++;
-                    }
-                }
-            }
-
+            
             $keyName = "";
             if (!empty($SocketDataObj->showTotalOnlineUsersPerVideo) && !empty($client['videos_id'])) {
                 $keyName = getSocketVideoClassName($client['videos_id']);
@@ -367,6 +346,7 @@ class Message implements MessageComponentInterface {
                 }
             }
         }
+        $SocketGetTotals = $return;
         return $return;
     }
 
