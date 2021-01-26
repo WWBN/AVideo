@@ -1,9 +1,4 @@
 <?php
-global $_statsAlreadyConsumed;
-if(!empty($_statsAlreadyConsumed)){
-    die(json_encode(array()));
-}
-$_statsAlreadyConsumed = 1;
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 
