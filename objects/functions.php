@@ -5564,6 +5564,13 @@ function getPIDUsingPort($port) {
 }
 
 function isURL200($url) {
+    global $_isURL200;
+    if(!isset($_isURL200)){
+        $_isURL200 = array();
+    }
+    if(isset($_isURL200[$url])){
+        return $_isURL200[$url];
+    }
     //error_log("isURL200 checking URL {$url}");
     $headers = @get_headers($url);
     if (!is_array($headers)) {
@@ -5575,9 +5582,11 @@ function isURL200($url) {
                 strpos($headers[0], '302') ||
                 strpos($headers[0], '304')
         ) {
+            $_isURL200[$url] = true;
             return true;
         }
     }
+    $_isURL200[$url] = false;
     return false;
 }
 
