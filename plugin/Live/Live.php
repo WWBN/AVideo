@@ -876,6 +876,10 @@ class Live extends PluginAbstract {
     }
 
     static function getAvailableLiveServer() {
+        global $_getAvailableLiveServer;
+        if(isse($_getAvailableLiveServer)){
+            return $_getAvailableLiveServer;
+        }
         // create 1 min cache
         $name = "Live::getAvailableLiveServer";
         $return = ObjectYPT::getCache($name, 60);
@@ -887,18 +891,22 @@ class Live extends PluginAbstract {
                 $liveServers = self::getStats();
                 usort($liveServers, function($a, $b) {
                     if ($a->countLiveStream == $b->countLiveStream) {
+                        $_getAvailableLiveServer = 0;
                         return 0;
                     }
-                    return ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;
+                    $_getAvailableLiveServer = ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;;
+                    return $_getAvailableLiveServer;
                 });
                 if (empty($liveServers[0])) {
                     _error_log("Live::getAvailableLiveServer we could not get server status, try to uncheck useLiveServers parameter from the Live plugin");
+                    $_getAvailableLiveServer = array();
                     return array();
                 }
                 $return = $liveServers[0];
                 ObjectYPT::setCache($name, $return);
             }
         }
+        $_getAvailableLiveServer = $return;
         return $return;
     }
 
