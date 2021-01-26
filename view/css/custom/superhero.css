@@ -21,3 +21,7 @@
 body {
     padding-top: 40px !important;
 }
+
+.text-muted {
+    color: #ccc;
+}
