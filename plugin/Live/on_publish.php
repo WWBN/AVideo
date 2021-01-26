@@ -94,10 +94,10 @@ if (!empty($obj) && empty($obj->error)) {
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey());
         $is200 = false;
-        for ($i = 5; $i > 0; $i--) {
+        for ($itt = 5; $itt > 0; $itt--) {
             if (!$is200 = isURL200($m3u8)) {
                 //live is not ready request again
-                sleep($i);
+                sleep($itt);
             } else {
                 break;
             }
