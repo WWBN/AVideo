@@ -3,6 +3,7 @@ $AVideoMobileAPP_UA = "AVideoMobileApp";
 $AVideoEncoder_UA = "AVideoEncoder";
 $AVideoStreamer_UA = "AVideoStreamer";
 $AVideoStorage_UA = "AVideoStorage";
+$mysql_connect_was_closed = 1;
 
 function forbiddenWords($text) {
     global $global;
@@ -3384,23 +3385,25 @@ function _session_start(array $options = array()) {
 }
 
 function _mysql_connect() {
-    global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-    if (is_object($global['mysqli']) && empty(@$global['mysqli']->ping())) {
-        try {
+    global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
+    try {
+        if (is_object($global['mysqli']) && ($mysql_connect_was_closed || empty(@$global['mysqli']->ping()))) {
+            $mysql_connect_was_closed = 0;
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
             if (!empty($global['mysqli_charset'])) {
                 $global['mysqli']->set_charset($global['mysqli_charset']);
             }
-        } catch (Exception $exc) {
-            _error_log($exc->getTraceAsString());
-            return false;
         }
+    } catch (Exception $exc) {
+        _error_log($exc->getTraceAsString());
+        return false;
     }
 }
 
 function _mysql_close() {
-    global $global;
+    global $global, $mysql_connect_was_closed;
     if (is_object($global['mysqli']) && !empty(@$global['mysqli']->ping())) {
+        $mysql_connect_was_closed = 1;
         @$global['mysqli']->close();
     }
 }
@@ -3865,8 +3868,8 @@ function isLive() {
     global $isLive;
     if (!empty($isLive)) {
         $live = getLiveKey();
-        if(empty($live)){
-           $live = array('key'=>false, 'live_servers_id'=>false); 
+        if (empty($live)) {
+            $live = array('key' => false, 'live_servers_id' => false);
         }
         $live['liveLink'] = isLiveLink();
         return $live;
@@ -3990,11 +3993,11 @@ function getVideoIDFromURL($url) {
     if (preg_match('/\/articleEmbed\/([0-9]+)/', $url, $matches)) {
         return intval($matches[1]);
     }
-    if(AVideoPlugin::isEnabledByName('PlayLists')){
+    if (AVideoPlugin::isEnabledByName('PlayLists')) {
         if (preg_match('/player.php\?playlists_id=([0-9]+)/', $url, $matches)) {
             $serie_playlists_id = intval($matches[1]);
             $video = PlayLists::isPlayListASerie($serie_playlists_id);
-            if($video){
+            if ($video) {
                 return $video['id'];
             }
         }
@@ -5239,7 +5242,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -5558,7 +5561,7 @@ function getPIDUsingPort($port) {
 function isURL200($url) {
     //error_log("isURL200 checking URL {$url}");
     $headers = @get_headers($url);
-    if(!is_array($headers)){
+    if (!is_array($headers)) {
         $headers = array($headers);
     }
     foreach ($headers as $value) {
@@ -5623,45 +5626,49 @@ function getSocketConnectionLabel() {
     return $html;
 }
 
-function getSocketVideoClassName($videos_id){
-    return 'total_on_videos_id_'.$videos_id;
-}
-function getSocketLiveClassName($key, $live_servers_id){
-    return 'total_on_live_'.$key.'_'.intval($live_servers_id);
-}
-function getSocketLiveLinksClassName($live_links_id){
-    return 'total_on_live_links_id_'.$live_links_id;
+function getSocketVideoClassName($videos_id) {
+    return 'total_on_videos_id_' . $videos_id;
 }
 
-function getLiveUsersLabelVideo($videos_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary"){
-    if(AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")){
+function getSocketLiveClassName($key, $live_servers_id) {
+    return 'total_on_live_' . $key . '_' . intval($live_servers_id);
+}
+
+function getSocketLiveLinksClassName($live_links_id) {
+    return 'total_on_live_links_id_' . $live_links_id;
+}
+
+function getLiveUsersLabelVideo($videos_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary") {
+    if (AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")) {
         return LiveUsers::getLabels(getSocketVideoClassName($videos_id), $totalViews, $viewsClass, $counterClass);
     }
 }
-function getLiveUsersLabelLive($key, $live_servers_id, $viewsClass = "label label-default", $counterClass = "label label-primary"){
-    if(AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")){
+
+function getLiveUsersLabelLive($key, $live_servers_id, $viewsClass = "label label-default", $counterClass = "label label-primary") {
+    if (AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")) {
         $totalViews = LiveUsers::getTotalUsers($key, $live_servers_id);
         return LiveUsers::getLabels(getSocketLiveClassName($key, $live_servers_id), $totalViews, $viewsClass, $counterClass);
     }
 }
-function getLiveUsersLabelLiveLinks($liveLinks_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary"){
-    if(AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")){
+
+function getLiveUsersLabelLiveLinks($liveLinks_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary") {
+    if (AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")) {
         return LiveUsers::getLabels(getSocketLiveLinksClassName($liveLinks_id), $totalViews, $viewsClass, $counterClass);
     }
 }
 
-function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = "label label-primary"){
-    if(AVideoPlugin::isEnabledByName('LiveUsers')){
+function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = "label label-primary") {
+    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
         $live = isLive();
-        if(!empty($live)){
-            if(!empty($live['key'])){
+        if (!empty($live)) {
+            if (!empty($live['key'])) {
                 return getLiveUsersLabelLive($live['key'], $live['live_servers_id'], $viewsClass, $counterClass);
-            }else if(!empty($live['liveLinks_id'])){
+            } else if (!empty($live['liveLinks_id'])) {
                 return getLiveUsersLabelLiveLinks($live['liveLinks_id'], null, $viewsClass, $counterClass);
             }
-        }else{
+        } else {
             $videos_id = getVideos_id();
-            if(!empty($videos_id)){
+            if (!empty($videos_id)) {
                 $v = new Video("", "", $videos_id);
                 $totalViews = $v->getViews_count();
                 return getLiveUsersLabelVideo($videos_id, $totalViews, $viewsClass, $counterClass);
@@ -5671,70 +5678,71 @@ function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = 
     return "";
 }
 
-function getHTMLTitle($titleArray){
+function getHTMLTitle($titleArray) {
     global $config, $global;
-    
-    if(!is_array($titleArray)){
+
+    if (!is_array($titleArray)) {
         $titleArray = array();
     }
     $titleArray[] = $config->getWebSiteTitle();
-    
+
     $title = implode($config->getPageTitleSeparator(), $titleArray);
-    $global['pageTitle'] = $title; 
+    $global['pageTitle'] = $title;
     return "<title>{$title}</title>";
 }
 
-function getButtonSignInAndUp(){
+function getButtonSignInAndUp() {
     $signIn = getButtonSignIn();
     $signUp = getButtonSignUp();
-    $html = $signIn.$signUp;
-    if(!empty($signIn) && !empty($signIn)){
-        return '<div class="btn-group justified">'.$html.'</div>';
-    }else{
+    $html = $signIn . $signUp;
+    if (!empty($signIn) && !empty($signIn)) {
+        return '<div class="btn-group justified">' . $html . '</div>';
+    } else {
         return $html;
     }
 }
 
-function getButtonSignUp(){
+function getButtonSignUp() {
     global $global;
     $obj = AVideoPlugin::getDataObject('CustomizeUser');
-    if(!empty($obj->disableNativeSignUp)){
+    if (!empty($obj->disableNativeSignUp)) {
         return '';
     }
-    
-    $url = $global['webSiteRootURL'].'signUp';
+
+    $url = $global['webSiteRootURL'] . 'signUp';
     $url = addQueryStringParameter($url, 'redirectUri', getRedirectUri());
-    
-    $html = '<a class="btn navbar-btn btn-default" href="'.$url.'" ><i class="fas fa-user-plus"></i> '.__("Sign Up").'</a> ';
-    return $html;
-}
-function getButtonSignIn(){
-    global $global;
-    $obj = AVideoPlugin::getDataObject('CustomizeUser');
-    if(!empty($obj->disableNativeSignIn)){
-        return '';
-    }
-    
-    $url = $global['webSiteRootURL'].'user';
-    $url = addQueryStringParameter($url, 'redirectUri', getRedirectUri());
-    
-    $html = '<a class="btn navbar-btn btn-success" href="'.$url.'" ><i class="fas fa-sign-in-alt" ></i> '.__("Sign In").'</a> ';
+
+    $html = '<a class="btn navbar-btn btn-default" href="' . $url . '" ><i class="fas fa-user-plus"></i> ' . __("Sign Up") . '</a> ';
     return $html;
 }
 
-function getTitle(){
+function getButtonSignIn() {
     global $global;
-    if(empty($global['pageTitle'])){
+    $obj = AVideoPlugin::getDataObject('CustomizeUser');
+    if (!empty($obj->disableNativeSignIn)) {
+        return '';
+    }
+
+    $url = $global['webSiteRootURL'] . 'user';
+    $url = addQueryStringParameter($url, 'redirectUri', getRedirectUri());
+
+    $html = '<a class="btn navbar-btn btn-success" href="' . $url . '" ><i class="fas fa-sign-in-alt" ></i> ' . __("Sign In") . '</a> ';
+    return $html;
+}
+
+function getTitle() {
+    global $global;
+    if (empty($global['pageTitle'])) {
         $url = getSelfURI();
-        
+
         $global['pageTitle'] = str_replace($global['webSiteRootURL'], '', $url);
-        
-        if(preg_match('/\/plugin\/([^\/])/i', $url, $matches)){
-            $global['pageTitle'] = __('Plugin').' '.__($matches[1]);
+
+        if (preg_match('/\/plugin\/([^\/])/i', $url, $matches)) {
+            $global['pageTitle'] = __('Plugin') . ' ' . __($matches[1]);
         }
-        
+
         $title = $global['pageTitle'];
     }
-    
+
     return $global['pageTitle'];
 }
