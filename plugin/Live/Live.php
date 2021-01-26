@@ -1139,7 +1139,7 @@ class Live extends PluginAbstract {
                     if (empty($live_servers_id)) {
                         return true;
                     } else {
-                        if ($value['live_servers_id'] == $live_servers_id) {
+                        if (intval(@$value['live_servers_id']) == $live_servers_id) {
                             return true;
                         }
                     }
