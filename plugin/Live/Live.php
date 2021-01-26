@@ -877,7 +877,7 @@ class Live extends PluginAbstract {
 
     static function getAvailableLiveServer() {
         global $_getAvailableLiveServer;
-        if(isse($_getAvailableLiveServer)){
+        if(isset($_getAvailableLiveServer)){
             return $_getAvailableLiveServer;
         }
         // create 1 min cache
