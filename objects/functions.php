@@ -5757,8 +5757,9 @@ function outputAndContinueInBackground() {
 
     // Instruct PHP to continue execution
     ignore_user_abort(true);
-    fastcgi_finish_request();
-
+    if(function_exists('fastcgi_finish_request')){
+        fastcgi_finish_request();
+    }
     // Send HTTP headers
     header('Content-Length: 0');
     header('Connection: close');
