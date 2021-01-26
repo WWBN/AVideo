@@ -473,7 +473,7 @@ class Live extends PluginAbstract {
         $obj = AVideoPlugin::getObjectData("Live");
         $url = $obj->playerServer;
         if (!empty($obj->useLiveServers)) {
-            $ls = new Live_servers(self::getCurrentLiveServersId());
+            $ls = new Live_servers(self::getLiveServersIdRequest());
             if (!empty($ls->getPlayerServer())) {
                 $url = $ls->getPlayerServer();
             }
