@@ -5625,7 +5625,7 @@ function getStatsNotifications() {
     if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
         $json['countLiveStream'] = $json['total'];
     }
-    if(is_array($json['applications'])){
+    if(!empty($json['applications'])){
         foreach ($json['applications'] as $key => $value) {
             if(empty($value['users_id']) && !empty($value['user'])){
                 $u = User::getFromUsername($value['user']);
