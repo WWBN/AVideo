@@ -5578,9 +5578,9 @@ function isURL200($url) {
     }
     foreach ($headers as $value) {
         if (
-                strpos($headers[0], '200') ||
-                strpos($headers[0], '302') ||
-                strpos($headers[0], '304')
+                strpos($value, '200') ||
+                strpos($value, '302') ||
+                strpos($value, '304')
         ) {
             $_isURL200[$url] = true;
             return true;
@@ -5598,7 +5598,7 @@ function getStatsNotifications() {
     $appArray = AVideoPlugin::getLiveApplicationArray();
     if (!empty($appArray)) {
         if (empty($json)) {
-            $json = new stdClass();
+            $json = array();
         }
         $json['error'] = false;
         if (empty($json['msg'])) {
@@ -5624,6 +5624,12 @@ function getStatsNotifications() {
     }
     if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
         $json['countLiveStream'] = $json['total'];
+    }
+    foreach ($json['applications'] as $key => $value) {
+        if(empty($value['users_id']) && !empty($value['user'])){
+            $u = User::getFromUsername($value['user']);
+            $json['applications'][$key]['users_id'] = $u['id'];
+        }
     }
     return $json;
 }
