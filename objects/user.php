@@ -835,9 +835,8 @@ if (typeof gtag !== \"function\") {
         if (!self::checkLoginAttempts()) {
             return self::CAPTCHA_ERROR;
         }
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        ObjectYPT::clearSessionCache();
+        _session_start();
 
         // check for multiple logins attempts to prevent hacking end
         // if user is not verified
