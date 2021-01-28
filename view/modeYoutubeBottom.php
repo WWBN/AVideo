@@ -143,7 +143,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                             }
 
                             $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
-                            $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_.mp4");
+                            $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_.".($video['title']==='audio'?'mp3':'mp4'));
 
                             $parts = explode("_", $key);
                             $name = $key;
