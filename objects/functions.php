@@ -5625,10 +5625,12 @@ function getStatsNotifications() {
     if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
         $json['countLiveStream'] = $json['total'];
     }
-    foreach ($json['applications'] as $key => $value) {
-        if(empty($value['users_id']) && !empty($value['user'])){
-            $u = User::getFromUsername($value['user']);
-            $json['applications'][$key]['users_id'] = $u['id'];
+    if(is_array($json['applications'])){
+        foreach ($json['applications'] as $key => $value) {
+            if(empty($value['users_id']) && !empty($value['user'])){
+                $u = User::getFromUsername($value['user']);
+                $json['applications'][$key]['users_id'] = $u['id'];
+            }
         }
     }
     return $json;
