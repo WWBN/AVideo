@@ -447,7 +447,7 @@ class Message implements MessageComponentInterface {
 function _log_message($msg, $type = "") {
     global $SocketDataObj;
     if (!empty($SocketDataObj->debugAllUsersSocket) || !empty($SocketDataObj->debugSocket)) {
-        _error_log($msg, \AVideoLog::$SOCKET);
+        //_error_log($msg, \AVideoLog::$SOCKET);
         echo date('Y-m-d H:i:s') . ' ' . $msg . PHP_EOL;
     } else if ($type == \AVideoLog::$ERROR) {
         _error_log($msg, \AVideoLog::$SOCKET);
