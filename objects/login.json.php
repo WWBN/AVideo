@@ -8,7 +8,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/functions.php';
-ObjectYPT::clearSessionCache();
+
 $timeLog = __FILE__."::Login ";
 TimeLogStart($timeLog);
 
