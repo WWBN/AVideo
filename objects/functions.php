@@ -2446,7 +2446,12 @@ function removeQueryStringParameter($url, $varname) {
     $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
     $query = !empty($query) ? '?' . http_build_query($query) : '';
 
-    return $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $path . $query;
+    if(empty($parsedUrl['scheme'])){
+        $scheme = '';
+    }else{
+        $scheme = "{$parsedUrl['scheme']}:";
+    }
+    return $scheme . '//' . $parsedUrl['host'] . $path . $query;
 }
 
 /**
@@ -2475,8 +2480,13 @@ function addQueryStringParameter($url, $varname, $value) {
     if (!empty($parsedUrl['port']) && $parsedUrl['port'] != '80') {
         $port = ":{$parsedUrl['port']}";
     }
-
-    return $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $port . $path . $query;
+    
+    if(empty($parsedUrl['scheme'])){
+        $scheme = '';
+    }else{
+        $scheme = "{$parsedUrl['scheme']}:";
+    }
+    return $scheme . '//' . $parsedUrl['host'] . $port . $path . $query;
 }
 
 function isSameDomain($url1, $url2) {
