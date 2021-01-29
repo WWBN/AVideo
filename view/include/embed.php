@@ -45,7 +45,7 @@
                 </video>
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php
-                    echo parseVideos($video['videoLink'], 1);
+                    echo parseVideos($video['videoLink']);
                     if ($config->getAutoplay()) {
                         echo "?autoplay=1";
                     }
