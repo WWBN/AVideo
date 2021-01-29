@@ -160,6 +160,7 @@ class LiveLinks extends PluginAbstract {
                 "htmlExtraVideoPage" => $newContentExtraVideoPage,
                 "UserPhoto" => $UserPhoto,
                 "title" => $value['title'],
+                "users_id" => $value['users_id'],
                 "name" => $name,
                 "poster" => self::getPosterToLiveFromId($value['id']),
                 "link" => self::getLinkToLiveFromId($value['id'], true)

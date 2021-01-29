@@ -1123,7 +1123,7 @@ class Live extends PluginAbstract {
             $url = $p->getLivePosterImage($users_id, $live_servers_id);
             $url = addQueryStringParameter($url, "playlists_id_live", $playlists_id_live);
         } else {
-            $file = self::getOfflineImage(false);
+            $url = self::getOfflineImage(false);
         }
         return $url;
     }
