@@ -382,7 +382,7 @@ if (typeof gtag !== \"function\") {
     public function _getName() {
         return $this->name;
     }
-    
+
     public function getBdName() {
         return $this->_getName();
     }
@@ -951,11 +951,11 @@ if (typeof gtag !== \"function\") {
     }
 
     private static function recreateLoginFromCookie() {
-        global $justLogoff, $justTryToRecreateLoginFromCookie;     
+        global $justLogoff, $justTryToRecreateLoginFromCookie;
 
         if (empty($justTryToRecreateLoginFromCookie) && empty($justLogoff) && empty($_SESSION['user']['id'])) {
             $justTryToRecreateLoginFromCookie = 1;
-            
+
             // first check if the LoginControl::singleDeviceLogin is enabled, if it is only recreate login if the device is the last device  
             if ($obj = AVideoPlugin::getDataObjectIfEnabled("LoginControl")) {
                 if (!empty($obj->singleDeviceLogin)) {
@@ -1588,13 +1588,42 @@ if (typeof gtag !== \"function\") {
         return $this->recoverPass;
     }
 
-    public function setRecoverPass($recoverPass, $forceChange = false) {
+    public function setRecoverPass($forceChange = false) {
         // let the same recover pass if it was 10 minutes ago
-        if (empty($forceChange) && !empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")) {
+        if (!$this->isRecoverPassExpired($this->recoverPass) && empty($forceChange) && !empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")) {
             return $this->recoverPass;
         }
-        $this->recoverPass = $recoverPass;
+        $this->recoverPass = $this->createRecoverPass();
         return $this->recoverPass;
+    }
+
+    private function createRecoverPass($secondsValid = 600) {
+        $json = new stdClass();
+        $json->valid = strtotime("+{$secondsValid} seconds");
+        return encryptString(json_encode($json));
+    }
+
+    function checkRecoverPass($recoverPass) {
+        if ($this->recoverPass === $recoverPass) {
+            if (!$this->isRecoverPassExpired($recoverPass)) {
+                _error_log('checkRecoverPass success: ' . $this->user . ' ' . getRealIpAddr());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function isRecoverPassExpired($recoverPass) {
+        $string = decryptString($recoverPass);
+        if ($string) {
+            $json = json_decode($string);
+            if (is_object($json)) {
+                if (time() < $json->valid) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public static function canUpload($doNotCheckPlugins = false) {
@@ -1927,11 +1956,10 @@ if (typeof gtag !== \"function\") {
         global $global;
         $obj = new stdClass();
         $obj->users_id = $users_id;
-        $obj->recoverPass = uniqid();
         $obj->salt = hash('sha256', $global['salt']);
 
         $user = new User($users_id);
-        $obj->recoverPass = $user->setRecoverPass($obj->recoverPass);
+        $obj->recoverPass = $user->setRecoverPass();
         $user->save();
 
         return base64_encode(json_encode($obj));
@@ -2272,7 +2300,7 @@ if (typeof gtag !== \"function\") {
 
         return $obj;
     }
-    
+
     function getExtra_info() {
         return $this->extra_info;
     }
@@ -2281,7 +2309,7 @@ if (typeof gtag !== \"function\") {
         $this->extra_info = $extra_info;
     }
 
-    static function saveExtraInfo($string, $users_id){
+    static function saveExtraInfo($string, $users_id) {
         $sql = "UPDATE users SET "
                 . "extra_info = ?, "
                 . " modified = now() WHERE id = ?";

@@ -88,6 +88,7 @@ class Wallet extends ObjectYPT {
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $row = $res->fetch_assoc();
+            $row = cleanUpRowFromDatabase($row);
         } else {
             $row = false;
         }

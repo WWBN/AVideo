@@ -336,8 +336,7 @@ class LiveLinks extends PluginAbstract {
         $videos = array();
         if ($res != false) {
             foreach ($fullData as $row) {
-                unset($row['password']);
-                unset($row['recoverPass']);
+                $row = cleanUpRowFromDatabase($row);
                 if (empty($otherInfo)) {
                     $otherInfo = array();
                     $otherInfo['category'] = xss_esc_back($row['category']);

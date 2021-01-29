@@ -5788,3 +5788,14 @@ function outputAndContinueInBackground() {
     }
     flush();
 }
+
+function cleanUpRowFromDatabase($row){
+    if(is_array($row)){
+        foreach ($row as $key => $value) {
+            if(preg_match('/pass/i', $key)){
+                unset($row[$key]);
+            }
+        }
+    }
+    return $row;
+}

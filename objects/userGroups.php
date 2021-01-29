@@ -249,6 +249,7 @@ class UserGroups {
                 if(in_array($row['id'], $doNotRepeat)){
                     continue;
                 }
+                $row = cleanUpRowFromDatabase($row);
                 $doNotRepeat[] = $row['id'];
                 $arr[] = $row;
             }
@@ -371,6 +372,7 @@ class UserGroups {
         $arr = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $arr[] = $row;
             }
         } else {

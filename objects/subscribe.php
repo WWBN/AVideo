@@ -174,6 +174,7 @@ class Subscribe {
             if ($res != false) {
                 $emails = array();
                 foreach ($fullData as $row) {
+                    $row = cleanUpRowFromDatabase($row);
                     if (in_array($row['email'], $emails)) {
                         //continue;
                     }

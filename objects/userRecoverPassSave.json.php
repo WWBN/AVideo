@@ -22,7 +22,7 @@ if (empty($user)) {
    die(json_encode($obj));
 } else {
     $user->setPassword($_POST['newPassword']);
-    $user->setRecoverPass(uniqid(), true);
+    $user->setRecoverPass(true);
     if ($user->save()) {
         $obj->success = __("Your Password has been set");
         die(json_encode($obj));
