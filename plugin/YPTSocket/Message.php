@@ -305,17 +305,18 @@ class Message implements MessageComponentInterface {
             unset($client['conn']);
             
             if($isAdmin){
+                $index = md5($client['selfURI']);
                 if(!isset($return['users_uri'][$client['selfURI']])){
-                    $return['users_uri'][$client['selfURI']] = array();
+                    $return['users_uri'][$index] = array();
                 }
                 if(!isset($return['users_uri'][$client['selfURI']][$client['yptDeviceId']])){
-                    $return['users_uri'][$client['selfURI']][$client['yptDeviceId']] = array();
+                    $return['users_uri'][$index][$client['yptDeviceId']] = array();
                 }
                 if(empty($client['users_id'])){
-                    $return['users_uri'][$client['selfURI']][$client['yptDeviceId']][uniqid()] = $client;
+                    $return['users_uri'][$index][$client['yptDeviceId']][uniqid()] = $client;
                 }else
                 if(!isset($return['users_uri'][$client['yptDeviceId']][$client['users_id']])){
-                    $return['users_uri'][$client['selfURI']][$client['yptDeviceId']][$client['users_id']] = $client;
+                    $return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']] = $client;
                 }
             }
             
