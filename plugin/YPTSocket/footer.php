@@ -124,19 +124,22 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         .socketUserDiv.visible .socketUserPages{
             display: block;
         }
+        .socketButtons{
+            margin-left: 10px;
+        }
     </style>
     <div id="socket_info_container" class="hidden-xs socketStatus disconnected <?php echo $socket_info_container_class; ?>" >
-        <div class="socketTitle">
+        <div class=" ">
             <div class="pull-left">
                 <?php
                 echo getSocketConnectionLabel();
                 ?>
             </div>
-            <div class="pull-right">
-                <button class="btn btn-xs" id="socketBtnMinimize">
+            <div class="pull-right socketButtons">
+                <button class="btn btn-default btn-xs" id="socketBtnMinimize">
                     <i class="fas fa-window-minimize"></i>
                 </button>
-                <button class="btn btn-xs maximize" id="socketBtnMaximize">
+                <button class="btn btn-default btn-xs maximize" id="socketBtnMaximize">
                     <i class="far fa-window-maximize"></i>
                 </button>
             </div>

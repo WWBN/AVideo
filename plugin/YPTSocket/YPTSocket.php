@@ -37,7 +37,7 @@ class YPTSocket extends PluginAbstract {
     }
     
     public static function getServerVersion() {
-        return "2.2";
+        return "2.3";
     }
 
     public function updateScript() {
@@ -127,6 +127,7 @@ class YPTSocket extends PluginAbstract {
                 //echo "Received: {$msg}\n";
                 //$conn->close();
                 $SocketSendResponseObj->error = false;
+                $SocketSendResponseObj->msg = $msg;
             });
 
             foreach ($SocketSendUsers_id as $users_id) {

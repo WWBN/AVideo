@@ -43,13 +43,14 @@ class Message implements MessageComponentInterface {
         $client['user_name'] = $json->user_name;
         $client['browser'] = $json->browser;
         $client['yptDeviceId'] = $json->yptDeviceId;
+        $client['client'] = deviceIdToObject($json->yptDeviceId);
         if(!empty($wsocketGetVars['webSocketSelfURI'])){
             $client['selfURI'] = $wsocketGetVars['webSocketSelfURI'];
         }else{
             $client['selfURI'] = $json->selfURI;
         }
         $client['isCommandLine'] = $wsocketGetVars['isCommandLine'];
-        $client['page_title'] = utf8_encode($wsocketGetVars['page_title']);
+        $client['page_title'] = utf8_encode(@$wsocketGetVars['page_title']);
         $client['videos_id'] = $json->videos_id;
         $client['live_key'] = object_to_array(@$json->live_key);
         $client['autoEvalCodeOnHTML'] = $json->autoEvalCodeOnHTML;
