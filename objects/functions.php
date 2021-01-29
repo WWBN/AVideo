@@ -813,8 +813,13 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     $final_query_string_array = array_merge($new_qs_parsed, $other_qs_parsed);
     $final_query_string = http_build_query($final_query_string_array);
     // Now, our final URL:
-    $new_url = $url_parsed['scheme']
-            . '://'
+    if(empty($url_parsed['scheme'])){
+        $scheme = '';
+    }else{
+        $scheme = "{$url_parsed['scheme']}:";
+    }
+    $new_url = $scheme
+            . '//'
             . $url_parsed['host']
             . $url_parsed['path']
             . '?'
