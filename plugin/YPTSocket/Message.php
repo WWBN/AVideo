@@ -306,16 +306,16 @@ class Message implements MessageComponentInterface {
             
             if($isAdmin){
                 $index = md5($client['selfURI']);
-                if(!isset($return['users_uri'][$client['selfURI']])){
+                if(!isset($return['users_uri'][$index])){
                     $return['users_uri'][$index] = array();
                 }
-                if(!isset($return['users_uri'][$client['selfURI']][$client['yptDeviceId']])){
+                if(!isset($return['users_uri'][$index][$client['yptDeviceId']])){
                     $return['users_uri'][$index][$client['yptDeviceId']] = array();
                 }
                 if(empty($client['users_id'])){
                     $return['users_uri'][$index][$client['yptDeviceId']][uniqid()] = $client;
                 }else
-                if(!isset($return['users_uri'][$client['yptDeviceId']][$client['users_id']])){
+                if(!isset($return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']])){
                     $return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']] = $client;
                 }
             }
