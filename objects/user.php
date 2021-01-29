@@ -313,6 +313,7 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
 
         if ($user != false) {
+            $user = cleanUpRowFromDatabase($user);
             return $user;
         } else {
             return false;
@@ -659,6 +660,7 @@ if (typeof gtag !== \"function\") {
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
+            $result = cleanUpRowFromDatabase($result);
             $user = $result;
         } else {
             $user = false;
@@ -674,6 +676,7 @@ if (typeof gtag !== \"function\") {
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
+            $result = cleanUpRowFromDatabase($result);
             $user = $result;
         } else {
             $user = false;
@@ -1361,6 +1364,7 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if ($res != false) {
             foreach ($downloadedArray as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $user[] = self::getUserInfoFromRow($row);
             }
         } else {
@@ -1397,7 +1401,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql);
         $result = sqlDal::num_rows($res);
         sqlDAL::close($res);
-
+        
 
         return $result;
     }
@@ -1426,6 +1430,7 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if ($res != false) {
             foreach ($downloadedArray as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $user[] = self::getUserInfoFromRow($row);
             }
         } else {
@@ -1485,6 +1490,7 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if ($res != false) {
             foreach ($downloadedArray as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $user[] = $row;
             }
         } else {

@@ -188,6 +188,7 @@ class YPTWallet extends PluginAbstract
 
         if ($res) {
             while ($row = $res->fetch_assoc()) {
+                $row = cleanUpRowFromDatabase($row);
                 $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
                 $row['identification'] = User::getNameIdentificationById($row['user_id']);
                 $row['identification'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['identification']);
