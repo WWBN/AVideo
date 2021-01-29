@@ -26,7 +26,7 @@ class Channel
         $subscribe = array();
         if ($res != false) {
             foreach ($fullResult as $row) {
-                unset($row['password']);
+                $row = cleanUpRowFromDatabase($row);
                 $subscribe[] = $row;
             }
         } else {
