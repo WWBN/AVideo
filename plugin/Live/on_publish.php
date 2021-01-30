@@ -97,8 +97,9 @@ if (!empty($obj) && empty($obj->error)) {
         $users_id = $obj->row['users_id'];
         $command = "php {$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php '$users_id' '$m3u8'";
         
-        _error_log("NGINX Live::on_publish YPTSocket ($command)");
-        execAsync($command);;
+        _error_log("NGINX Live::on_publish YPTSocket start  ($command)");
+        $pid = execAsync($command);        
+        _error_log("NGINX Live::on_publish YPTSocket end {$pid}");
     }
     //exit;
 } else {
