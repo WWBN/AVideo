@@ -212,7 +212,8 @@ class Message implements MessageComponentInterface {
         $obj['live_key'] = $live_key;
         $obj['webSocketServerVersion'] = $SocketDataObj->serverVersion;
         $obj['isAdmin'] = $this->clients[$resourceId]['isAdmin'];
-
+        
+        _log_message("msgToResourceId: getTotals resourceId=({$resourceId}) {$type}");
         $return = $this->getTotals($this->clients[$resourceId]);
 
         $totals = array(
