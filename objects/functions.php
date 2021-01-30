@@ -5521,7 +5521,7 @@ function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $se
         if (!is_string($msg)) {
             $msg = json_encode($msg);
         }
-        $obj = YPTSocket::send($msg, $callbackJSFunction, $users_id, $send_to_uri_pattern);
+        $obj = YPTSocket::sendAsync($msg, $callbackJSFunction, $users_id, $send_to_uri_pattern);
         if ($obj->error) {
             _error_log("sendSocketMessage " . $obj->msg, AVideoLog::$ERROR);
         }
