@@ -16,7 +16,7 @@ if (!empty($_GET['type'])) {
         if (empty($obj)) {
             die('Apple Login is disabled');
         }
-        $config = [
+        $configOauth = [
             'callback' => HttpClient\Util::getCurrentUrl() . "?type={$_GET['type']}",
             'providers' => [
                 $_GET['type'] => [
