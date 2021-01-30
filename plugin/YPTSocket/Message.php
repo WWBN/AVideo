@@ -213,7 +213,6 @@ class Message implements MessageComponentInterface {
         $obj['webSocketServerVersion'] = $SocketDataObj->serverVersion;
         $obj['isAdmin'] = $this->clients[$resourceId]['isAdmin'];
         
-        _log_message("msgToResourceId: getTotals resourceId=({$resourceId}) {$type}");
         $return = $this->getTotals($this->clients[$resourceId]);
 
         $totals = array(
@@ -297,14 +296,7 @@ class Message implements MessageComponentInterface {
         );
 
         $users_id_array = $devices = $list = array();
-
-        unset($_client['conn']);
-        if (!$isAdmin) {
-            _log_message("getTotals: {$_client['conn']->resourceId} is NOT admin ". json_encode($_client));
-        }else{
-            _log_message("getTotals: {$_client['conn']->resourceId} is admin");
-        }
-
+        
         foreach ($this->clients as $key => $client) {
             if (empty($client['yptDeviceId'])) {
                 continue;
@@ -321,10 +313,10 @@ class Message implements MessageComponentInterface {
                     $return['users_uri'][$index][$client['yptDeviceId']] = array();
                 }
                 if (empty($client['users_id'])) {
-                    $return['users_uri'][$index][$client['yptDeviceId']][uniqid()] = $newClient;
+                    $return['users_uri'][$index][$client['yptDeviceId']][uniqid()] = $client;
                 } else
                 if (!isset($return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']])) {
-                    $return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']] = $newClient;
+                    $return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']] = $client;
                 }
             }
 
