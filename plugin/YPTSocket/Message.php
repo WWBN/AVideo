@@ -298,7 +298,9 @@ class Message implements MessageComponentInterface {
         $users_id_array = $devices = $list = array();
 
         if (!$isAdmin) {
-            _log_message("getTotals: is NOT admin");
+            _log_message("getTotals: {$_client['conn']->resourceId} is NOT admin");
+        }else{
+            _log_message("getTotals: {$_client['conn']->resourceId} is admin");
         }
 
         foreach ($this->clients as $key => $client) {
