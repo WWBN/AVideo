@@ -95,24 +95,8 @@ if (!empty($obj) && empty($obj->error)) {
         ob_end_flush();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey());
-        $is200 = false;
-        for ($itt = 5; $itt > 0; $itt--) {
-            if (!$is200 = isURL200($m3u8)) {
-                //live is not ready request again
-                sleep($itt);
-            } else {
-                break;
-            }
-        }
-        if($is200){
-            $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($obj->liveTransmitionHistory_id);
-        }else{
-            $array['stats'] = getStatsNotifications();
-        }
-        
-        _error_log("NGINX Live::on_publish YPTSocket sendSocketMessageToAll");
-        $socketObj = sendSocketMessageToAll($array, "socketLiveONCallback");
-        _error_log("NGINX Live::on_publish YPTSocket sendSocketMessageToAll END");
+        $command = "php {$global['systemRootPath']}plugin/YPTSocket/on_publish_socket_notification.php '$msg' '$callbackJSFunction' '$users_id' '$send_to_uri_pattern' '$m3u8'";
+        execAsync($command);;
     }
     //exit;
 } else {
