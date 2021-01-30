@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../videos/configuration.php';
+require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/autoload.php';
 header('Content-Type: application/json');
 
