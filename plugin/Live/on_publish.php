@@ -95,7 +95,7 @@ if (!empty($obj) && empty($obj->error)) {
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey());                
         $users_id = $obj->row['users_id'];
-        $command = "php {$global['systemRootPath']}plugin/YPTSocket/on_publish_socket_notification.php '$users_id' '$m3u8'";
+        $command = "php {$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php '$users_id' '$m3u8'";
         
         _error_log("NGINX Live::on_publish YPTSocket ($command)");
         execAsync($command);;
