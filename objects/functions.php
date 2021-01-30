@@ -4850,7 +4850,7 @@ function deviceIdToObject($deviceID) {
             $obj->os = $parts[0];
             $obj->ip = $parts[1];
             $obj->user_agent = $parts[0];
-            $obj->users_id = $parts[5];
+            $obj->users_id = $parts[2];
             break;
         default:
             break;
