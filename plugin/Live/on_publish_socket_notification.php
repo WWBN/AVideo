@@ -35,6 +35,7 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     } else {
         $array['stats'] = getStatsNotifications();
     }
+    $obj->error = false;
 
     _error_log("NGINX Live::on_publish_socket_notification sendSocketMessageToAll");
     $socketObj = sendSocketMessageToAll($array, "socketLiveONCallback");
