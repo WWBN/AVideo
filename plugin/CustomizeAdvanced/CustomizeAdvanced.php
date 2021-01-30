@@ -121,6 +121,7 @@ class CustomizeAdvanced extends PluginAbstract {
             }
         }
 
+        $obj->disablePlayLink = false;
         $obj->disableHelpLeftMenu = false;
         $obj->disableAboutLeftMenu = false;
         $obj->disableContactLeftMenu = false;

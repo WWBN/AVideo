@@ -813,8 +813,13 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     $final_query_string_array = array_merge($new_qs_parsed, $other_qs_parsed);
     $final_query_string = http_build_query($final_query_string_array);
     // Now, our final URL:
-    $new_url = $url_parsed['scheme']
-            . '://'
+    if (empty($url_parsed['scheme'])) {
+        $scheme = '';
+    } else {
+        $scheme = "{$url_parsed['scheme']}:";
+    }
+    $new_url = $scheme
+            . '//'
             . $url_parsed['host']
             . $url_parsed['path']
             . '?'
@@ -2441,7 +2446,12 @@ function removeQueryStringParameter($url, $varname) {
     $path = isset($parsedUrl['path']) ? $parsedUrl['path'] : '';
     $query = !empty($query) ? '?' . http_build_query($query) : '';
 
-    return $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $path . $query;
+    if (empty($parsedUrl['scheme'])) {
+        $scheme = '';
+    } else {
+        $scheme = "{$parsedUrl['scheme']}:";
+    }
+    return $scheme . '//' . $parsedUrl['host'] . $path . $query;
 }
 
 /**
@@ -2471,7 +2481,12 @@ function addQueryStringParameter($url, $varname, $value) {
         $port = ":{$parsedUrl['port']}";
     }
 
-    return $parsedUrl['scheme'] . '://' . $parsedUrl['host'] . $port . $path . $query;
+    if (empty($parsedUrl['scheme'])) {
+        $scheme = '';
+    } else {
+        $scheme = "{$parsedUrl['scheme']}:";
+    }
+    return $scheme . '//' . $parsedUrl['host'] . $port . $path . $query;
 }
 
 function isSameDomain($url1, $url2) {
@@ -4774,17 +4789,17 @@ function getDomain() {
 function getDeviceID($useRandomString = true) {
     $ip = getRealIpAddr();
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
-        return "unknowDevice-{$ip}";
+        $device = "unknowDevice-{$ip}";
+        $device .= '-' . intval(User::getId());
+        return $device;
     }
 
     if (empty($useRandomString)) {
-        $device = get_browser_name() . '-' . getOS() . '-' . $ip . '-' . md5($_SERVER['HTTP_USER_AGENT']);
+        $device = 'ypt-' . get_browser_name() . '-' . getOS() . '-' . $ip . '-' . md5($_SERVER['HTTP_USER_AGENT']);
         $device = str_replace(
                 array('[', ']', ' '),
                 array('', '', '_'), $device);
-        if (User::isLogged()) {
-            $device .= '-' . User::getId();
-        }
+        $device .= '-' . intval(User::getId());
         return $device;
     }
 
@@ -4807,6 +4822,40 @@ function getDeviceID($useRandomString = true) {
         return $_GET[$cookieName];
     }
     return $_COOKIE[$cookieName];
+}
+
+function deviceIdToObject($deviceID) {
+    $parts = explode('-', $deviceID);
+    $obj = new stdClass();
+    $obj->browser = '';
+    $obj->os = '';
+    $obj->ip = '';
+    $obj->user_agent = '';
+    $obj->users_id = 0;
+    
+    foreach ($parts as $key => $value) {
+        $parts[$key] = str_replace('_', ' ', $value);
+    }
+    
+    switch ($parts[0]) {
+        case 'ypt':
+            $obj->browser = $parts[1];
+            $obj->os = $parts[2];
+            $obj->ip = $parts[3];
+            $obj->user_agent = $parts[4];
+            $obj->users_id = $parts[5];
+            break;
+        case 'unknowDevice':
+            $obj->browser = $parts[0];
+            $obj->os = $parts[0];
+            $obj->ip = $parts[1];
+            $obj->user_agent = $parts[0];
+            $obj->users_id = $parts[5];
+            break;
+        default:
+            break;
+    }
+    return $obj;
 }
 
 function uniqidV4() {
@@ -5565,10 +5614,10 @@ function getPIDUsingPort($port) {
 
 function isURL200($url) {
     global $_isURL200;
-    if(!isset($_isURL200)){
+    if (!isset($_isURL200)) {
         $_isURL200 = array();
     }
-    if(isset($_isURL200[$url])){
+    if (isset($_isURL200[$url])) {
         return $_isURL200[$url];
     }
     //error_log("isURL200 checking URL {$url}");
@@ -5578,9 +5627,9 @@ function isURL200($url) {
     }
     foreach ($headers as $value) {
         if (
-                strpos($headers[0], '200') ||
-                strpos($headers[0], '302') ||
-                strpos($headers[0], '304')
+                strpos($value, '200') ||
+                strpos($value, '302') ||
+                strpos($value, '304')
         ) {
             $_isURL200[$url] = true;
             return true;
@@ -5598,7 +5647,7 @@ function getStatsNotifications() {
     $appArray = AVideoPlugin::getLiveApplicationArray();
     if (!empty($appArray)) {
         if (empty($json)) {
-            $json = new stdClass();
+            $json = array();
         }
         $json['error'] = false;
         if (empty($json['msg'])) {
@@ -5624,6 +5673,14 @@ function getStatsNotifications() {
     }
     if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
         $json['countLiveStream'] = $json['total'];
+    }
+    if (!empty($json['applications'])) {
+        foreach ($json['applications'] as $key => $value) {
+            if (empty($value['users_id']) && !empty($value['user'])) {
+                $u = User::getFromUsername($value['user']);
+                $json['applications'][$key]['users_id'] = $u['id'];
+            }
+        }
     }
     return $json;
 }
@@ -5763,10 +5820,10 @@ function getTitle() {
 
 function outputAndContinueInBackground() {
     @session_write_close();
-
+    //_mysql_close();
     // Instruct PHP to continue execution
     ignore_user_abort(true);
-    if(function_exists('fastcgi_finish_request')){
+    if (function_exists('fastcgi_finish_request')) {
         fastcgi_finish_request();
     }
     // Send HTTP headers
@@ -5779,4 +5836,15 @@ function outputAndContinueInBackground() {
         ob_flush();
     }
     flush();
+}
+
+function cleanUpRowFromDatabase($row) {
+    if (is_array($row)) {
+        foreach ($row as $key => $value) {
+            if (preg_match('/pass/i', $key)) {
+                unset($row[$key]);
+            }
+        }
+    }
+    return $row;
 }

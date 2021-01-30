@@ -74,6 +74,7 @@ Options All -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine on
     #VideoHLS for DRM
+    RewriteRule    ^playLink/?$ view/modePlayLink.php    [QSA]
     RewriteRule    ^videos/([^/]+)/(.*).key$ plugin/VideoHLS/downloadProtection.php?filename=$1&key=$2    [QSA]
 
     RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
@@ -196,6 +197,7 @@ Options All -Indexes
     RewriteRule    ^categories.json$ objects/categories.json.php    [NC,L]
     RewriteRule    ^addNewCategory$ objects/categoryAddNew.json.php    [NC,L]
     RewriteRule    ^deleteCategory$ objects/categoryDelete.json.php    [NC,L]
+    RewriteRule    ^listCategories$ view/listCategories.php    [NC,L]
 
     #manager plugin
     RewriteRule    ^plugins$ view/managerPlugins.php    [NC,L]

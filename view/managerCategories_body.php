@@ -356,10 +356,16 @@ echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(0));";
         });
 
         $('#updateCategoryForm').submit(function (evt) {
+            //$('#updateCategoryForm a[href="#images"]').trigger("click");
+            
             evt.preventDefault();
-<?php
+            setTimeout(function(){
+                <?php
 echo $croppie1['getCroppieFunction'];
 ?>
+                
+            },500);
+
             return false;
         });
     });

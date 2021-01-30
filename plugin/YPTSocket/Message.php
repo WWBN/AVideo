@@ -43,13 +43,14 @@ class Message implements MessageComponentInterface {
         $client['user_name'] = $json->user_name;
         $client['browser'] = $json->browser;
         $client['yptDeviceId'] = $json->yptDeviceId;
+        $client['client'] = deviceIdToObject($json->yptDeviceId);
         if(!empty($wsocketGetVars['webSocketSelfURI'])){
             $client['selfURI'] = $wsocketGetVars['webSocketSelfURI'];
         }else{
             $client['selfURI'] = $json->selfURI;
         }
         $client['isCommandLine'] = $wsocketGetVars['isCommandLine'];
-        $client['page_title'] = utf8_encode($wsocketGetVars['page_title']);
+        $client['page_title'] = utf8_encode(@$wsocketGetVars['page_title']);
         $client['videos_id'] = $json->videos_id;
         $client['live_key'] = object_to_array(@$json->live_key);
         $client['autoEvalCodeOnHTML'] = $json->autoEvalCodeOnHTML;
@@ -304,17 +305,18 @@ class Message implements MessageComponentInterface {
             unset($client['conn']);
             
             if($isAdmin){
-                if(!isset($return['users_uri'][$client['selfURI']])){
-                    $return['users_uri'][$client['selfURI']] = array();
+                $index = md5($client['selfURI']);
+                if(!isset($return['users_uri'][$index])){
+                    $return['users_uri'][$index] = array();
                 }
-                if(!isset($return['users_uri'][$client['selfURI']][$client['yptDeviceId']])){
-                    $return['users_uri'][$client['selfURI']][$client['yptDeviceId']] = array();
+                if(!isset($return['users_uri'][$index][$client['yptDeviceId']])){
+                    $return['users_uri'][$index][$client['yptDeviceId']] = array();
                 }
                 if(empty($client['users_id'])){
-                    $return['users_uri'][$client['selfURI']][$client['yptDeviceId']][uniqid()] = $client;
+                    $return['users_uri'][$index][$client['yptDeviceId']][uniqid()] = $client;
                 }else
-                if(!isset($return['users_uri'][$client['yptDeviceId']][$client['users_id']])){
-                    $return['users_uri'][$client['selfURI']][$client['yptDeviceId']][$client['users_id']] = $client;
+                if(!isset($return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']])){
+                    $return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']] = $client;
                 }
             }
             
@@ -447,7 +449,7 @@ class Message implements MessageComponentInterface {
 function _log_message($msg, $type = "") {
     global $SocketDataObj;
     if (!empty($SocketDataObj->debugAllUsersSocket) || !empty($SocketDataObj->debugSocket)) {
-        _error_log($msg, \AVideoLog::$SOCKET);
+        //_error_log($msg, \AVideoLog::$SOCKET);
         echo date('Y-m-d H:i:s') . ' ' . $msg . PHP_EOL;
     } else if ($type == \AVideoLog::$ERROR) {
         _error_log($msg, \AVideoLog::$SOCKET);

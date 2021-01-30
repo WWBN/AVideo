@@ -52,6 +52,7 @@ class AuditTable extends ObjectYPT {
         $rows = array();
         if ($res!=false) {
             foreach ($fullData as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $rows[] = $row;
             }
         } else {

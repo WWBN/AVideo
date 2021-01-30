@@ -143,7 +143,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                             }
 
                             $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
-                            $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_.mp4");
+                            $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_.".($video['type']==='audio'?'mp3':'mp4'));
 
                             $parts = explode("_", $key);
                             $name = $key;
@@ -164,7 +164,11 @@ if (User::hasBlockedUser($video['users_id'])) {
                                 <span class="fa fa-download"></span> <?php echo __("Download"); ?>
                             </a>
                             <?php
+                        }else{
+                            echo '<!-- files to download are empty -->';
                         }
+                    }else{
+                        echo '<!-- CustomizeUser::canDownloadVideosFromVideo said NO -->';
                     }
                     ?>
                 <?php } echo AVideoPlugin::getWatchActionButton($video['id']); ?>

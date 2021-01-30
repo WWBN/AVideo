@@ -99,6 +99,7 @@ class PlayList extends ObjectYPT
         $watch_laterCount = 0;
         if ($res != false) {
             foreach ($fullData as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
                 $row['isFavorite'] = false;
@@ -303,6 +304,7 @@ class PlayList extends ObjectYPT
                 $timeLog2 = __FILE__ . " - getVideosFromPlaylist: {$playlists_id}";
                 TimeLogStart($timeLog2);
                 foreach ($fullData as $row) {
+                    $row = cleanUpRowFromDatabase($row);
                     if (!empty($_GET['isChannel'])) {
                         $row['tags'] = Video::getTags($row['id']);
                         $row['pluginBtns'] = AVideoPlugin::getPlayListButtons($playlists_id);
@@ -376,6 +378,7 @@ class PlayList extends ObjectYPT
         sqlDAL::close($res);
         if ($res) {
             $row = $data;
+            $row = cleanUpRowFromDatabase($row);
         } else {
             $row = false;
         }
@@ -642,6 +645,7 @@ class PlayList extends ObjectYPT
         $rows = array();
         if ($res != false) {
             foreach ($fullData as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $rows[] = $row;
             }
         } else {

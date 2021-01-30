@@ -18,7 +18,7 @@ if (!isValidURL($obj->url)) {
 }
 
 $obj->error = false;
-$obj->embed = parseVideos($obj->url);
+$obj->embed = parseVideos($obj->url, 1);
 
 
 $evideo = new stdClass();

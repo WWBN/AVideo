@@ -825,6 +825,7 @@ if (!class_exists('Video')) {
             if ($res != false) {
                 require_once $global['systemRootPath'] . 'objects/userGroups.php';
                 if (!empty($video)) {
+                    $video = cleanUpRowFromDatabase($video);
                     $video['category'] = xss_esc_back($video['category']);
                     $video['groups'] = UserGroups::getVideoGroups($video['id']);
                     $video['title'] = UTF8encode($video['title']);
@@ -850,8 +851,6 @@ if (!class_exists('Video')) {
                         $video['videoTags'] = Tags::getAllFromVideosId($video['id']);
                         $video['videoTagsObject'] = Tags::getObjectFromVideosId($video['id']);
                     }
-                    unset($video['password']);
-                    unset($video['recoverPass']);
                 }
             } else {
                 $video = false;
@@ -1165,8 +1164,7 @@ if (!class_exists('Video')) {
                 require_once 'userGroups.php';
                 TimeLogStart("video::getAllVideos foreach");
                 foreach ($fullData as $row) {
-                    unset($row['password']);
-                    unset($row['recoverPass']);
+                    $row = cleanUpRowFromDatabase($row);
                     if (!self::canEdit($row['id'])) {
                         if (!empty($row['video_password'])) {
                             $row['video_password'] = 1;

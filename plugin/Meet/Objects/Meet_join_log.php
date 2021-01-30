@@ -27,6 +27,7 @@ class Meet_join_log extends ObjectYPT {
         $rows = array();
         if ($res != false) {
             foreach ($fullData as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $rows[] = $row;
             }
         } else {

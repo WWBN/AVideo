@@ -189,6 +189,7 @@ class LiveTransmition extends ObjectYPT {
         sqlDAL::close($res);
         if ($res) {
             $row = $data;
+            $row = cleanUpRowFromDatabase($row);
         } else {
             $row = false;
         }

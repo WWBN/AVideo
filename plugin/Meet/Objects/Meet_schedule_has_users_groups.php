@@ -35,6 +35,7 @@ class Meet_schedule_has_users_groups extends ObjectYPT {
         $rows = array();
         if ($res != false) {
             foreach ($fullData as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $rows[] = $row;
             }
         } else {

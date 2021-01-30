@@ -1,11 +1,11 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'plugin/MobileManager/MobileManager.php';
-require_once 'functions.php';
+header('Access-Control-Allow-Origin: *');
+allowOrigin();
+AVideoPlugin::loadPlugin('MobileManager');
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->max_file_size = get_max_file_size();

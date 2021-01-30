@@ -862,8 +862,8 @@ function avideoAlert(title, msg, type) {
 }
 
 function _avideoToast(msg, icon) {
-    var options = {text:msg, hideAfter:7000};
-    if(icon){
+    var options = {text: msg, hideAfter: 7000};
+    if (icon) {
         options.icon = icon;
     }
     $.toast(options);
@@ -1095,7 +1095,7 @@ $(document).ready(function () {
     setPlayerListners();
 
     $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
-    
+
     setInterval(function () {
         if (typeof conn != 'undefined') {
             if (avideoSocketIsActive()) {
@@ -1184,9 +1184,16 @@ function readFileCroppie(input, crop) {
 }
 
 function getCroppie(uploadCropObject, callback, width, height) {
-    uploadCropObject.croppie('result', {type: 'base64', size: {width: width, height: height}, format: 'png'}).then(function (resp) {
+    console.log('getCroppie 1', uploadCropObject);
+    var ret = uploadCropObject.croppie('result', {type: 'base64', size: {width: width, height: height}, format: 'png'}).then(function (resp) {
+        console.log('getCroppie 2 ' + callback, resp);
         eval(callback + "(resp);");
+    }).catch(function (err) {
+        console.log('cropieError getCroppie => '+callback, err);
+        eval(callback + "(null);");
     });
+
+    console.log('getCroppie 3', ret);
 }
 
 function setToolTips() {

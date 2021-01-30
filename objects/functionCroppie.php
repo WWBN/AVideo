@@ -24,6 +24,7 @@ $croppieFilesAdded = 1;
     var uploadCrop<?php echo $uid; ?>;
 
     function createCroppie<?php echo $uid; ?>(imageURL) {
+        console.log('createCroppie');
         uploadCrop<?php echo $uid; ?> = $('#croppie<?php echo $uid; ?>').croppie({
             //url: imageURL,
             //enableExif: true,

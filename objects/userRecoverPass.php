@@ -14,8 +14,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     $obj = new stdClass();
     header('Content-Type: application/json');
     if (!empty($user->getEmail())) {
-        $recoverPass = md5(rand());
-        $recoverPass = $user->setRecoverPass($recoverPass);
+        $recoverPass = $user->setRecoverPass();
         if (!empty($_POST['captcha']) && $user->save()) {
             require_once 'captcha.php';
             $valid = Captcha::validation($_POST['captcha']);

@@ -160,6 +160,7 @@ class LiveLinks extends PluginAbstract {
                 "htmlExtraVideoPage" => $newContentExtraVideoPage,
                 "UserPhoto" => $UserPhoto,
                 "title" => $value['title'],
+                "users_id" => $value['users_id'],
                 "name" => $name,
                 "poster" => self::getPosterToLiveFromId($value['id']),
                 "link" => self::getLinkToLiveFromId($value['id'], true)
@@ -335,8 +336,7 @@ class LiveLinks extends PluginAbstract {
         $videos = array();
         if ($res != false) {
             foreach ($fullData as $row) {
-                unset($row['password']);
-                unset($row['recoverPass']);
+                $row = cleanUpRowFromDatabase($row);
                 if (empty($otherInfo)) {
                     $otherInfo = array();
                     $otherInfo['category'] = xss_esc_back($row['category']);

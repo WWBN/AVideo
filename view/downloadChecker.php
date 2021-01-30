@@ -51,6 +51,11 @@ function getChecked($text, $isChecked, $help = array()) {
                 }
             }else{
                 echo getChecked(__("This site configuration allow download"), true, $help);
+                
+                if ($obj->nonAdminCannotDownload) {
+                    $help[] = "Plugins menu / CustomizeUser / nonAdminCannotDownload";
+                    echo getChecked(__("But only admin can download"), true, $help);
+                } 
             }
             ?>
         </ul>

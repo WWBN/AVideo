@@ -1123,7 +1123,7 @@ class Live extends PluginAbstract {
             $url = $p->getLivePosterImage($users_id, $live_servers_id);
             $url = addQueryStringParameter($url, "playlists_id_live", $playlists_id_live);
         } else {
-            $file = self::getOfflineImage(false);
+            $url = self::getOfflineImage(false);
         }
         return $url;
     }
@@ -1474,8 +1474,7 @@ class Live extends PluginAbstract {
         $videos = array();
         if ($res != false) {
             foreach ($fullData as $row) {
-                unset($row['password']);
-                unset($row['recoverPass']);
+                $row = cleanUpRowFromDatabase($row);
 
                 $row['live_servers_id'] = self::getLastServersIdFromUser($row['users_id']);
 

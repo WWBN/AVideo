@@ -17,7 +17,7 @@ class YPTSocket extends PluginAbstract {
         global $global;
         $desc = getSocketConnectionLabel();
         $desc .= "Socket Plugin, WebSockets allow for a higher amount of efficiency compared to REST because they do not require the HTTP request/response overhead for each message sent and received<br>";
-        $desc .= "<code>nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &</code>";
+        $desc .= "<code>sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &</code>";
         $help = "<br>run this command start the server <small><a href='https://github.com/WWBN/AVideo/wiki/Socket-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
 
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
@@ -37,7 +37,7 @@ class YPTSocket extends PluginAbstract {
     }
     
     public static function getServerVersion() {
-        return "2.2";
+        return "2.3";
     }
 
     public function updateScript() {
@@ -127,6 +127,7 @@ class YPTSocket extends PluginAbstract {
                 //echo "Received: {$msg}\n";
                 //$conn->close();
                 $SocketSendResponseObj->error = false;
+                $SocketSendResponseObj->msg = $msg;
             });
 
             foreach ($SocketSendUsers_id as $users_id) {

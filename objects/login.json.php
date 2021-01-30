@@ -141,9 +141,7 @@ if (!empty($_GET['type'])) {
         $adapter->disconnect();
 
         if (!empty($_SESSION['redirectUri'])) {
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+            _session_start();
             $location = $_SESSION['redirectUri'];
             //header("Location: {$_SESSION['redirectUri']}");
             $_SESSION['redirectUri'] = "";
