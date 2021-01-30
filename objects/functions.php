@@ -4847,9 +4847,9 @@ function deviceIdToObject($deviceID) {
             break;
         case 'unknowDevice':
             $obj->browser = $parts[0];
-            $obj->os = $parts[0];
+            $obj->os = 'unknow OS';
             $obj->ip = $parts[1];
-            $obj->user_agent = $parts[0];
+            $obj->user_agent = 'unknow UA';
             $obj->users_id = $parts[2];
             break;
         default:
@@ -5818,23 +5818,24 @@ function getTitle() {
     return $global['pageTitle'];
 }
 
-function outputAndContinueInBackground() {
+function outputAndContinueInBackground() {    
+    global $outputAndContinueInBackground;
+    
+    if(!empty($outputAndContinueInBackground)){
+        return false;
+    }
+    $outputAndContinueInBackground = 1;
     @session_write_close();
     //_mysql_close();
     // Instruct PHP to continue execution
     ignore_user_abort(true);
     if (function_exists('fastcgi_finish_request')) {
         fastcgi_finish_request();
-    }
-    // Send HTTP headers
-    header('Content-Length: 0');
-    header('Connection: close');
-
-    // Clean up buffers
-    if (ob_get_level() > 0) {
-        ob_end_clean();
-        ob_flush();
-    }
+    }    
+    ob_start();
+    @header("Connection: close");
+    @header("Content-Length: " . ob_get_length());
+    ob_end_flush();
     flush();
 }
 
