@@ -285,7 +285,7 @@ class Message implements MessageComponentInterface {
         $live_key = object_to_array($_client['live_key']);
         global $SocketDataObj, $SocketGetTotals;
 
-        if (isset($SocketGetTotals)) {
+        if (!$isAdmin && isset($SocketGetTotals)) {
             return $SocketGetTotals;
         }
 
@@ -356,7 +356,9 @@ class Message implements MessageComponentInterface {
                 }
             }
         }
-        $SocketGetTotals = $return;
+        if(!$isAdmin){
+            $SocketGetTotals = $return;
+        }
         return $return;
     }
 
