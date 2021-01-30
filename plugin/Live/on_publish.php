@@ -86,8 +86,11 @@ if (!empty($obj) && empty($obj->error)) {
     http_response_code(200);
     header("HTTP/1.1 200 OK");
     outputAndContinueInBackground();
+    _error_log("NGINX Live::on_publish start");
     Live::on_publish($obj->liveTransmitionHistory_id);
+    _error_log("NGINX Live::on_publish end");
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
+        _error_log("NGINX Live::on_publish YPTSocket");
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
         ob_end_flush();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
@@ -106,7 +109,10 @@ if (!empty($obj) && empty($obj->error)) {
         }else{
             $array['stats'] = getStatsNotifications();
         }
+        
+        _error_log("NGINX Live::on_publish YPTSocket sendSocketMessageToAll");
         $socketObj = sendSocketMessageToAll($array, "socketLiveONCallback");
+        _error_log("NGINX Live::on_publish YPTSocket sendSocketMessageToAll END");
     }
     //exit;
 } else {
