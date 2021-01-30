@@ -24,6 +24,9 @@ class Message implements MessageComponentInterface {
         $onMessageSentTo = array();
         $query = $conn->httpRequest->getUri()->getQuery();
         parse_str($query, $wsocketGetVars);
+        foreach ($wsocketGetVars as $key => $value) {
+            $wsocketGetVars[$key] = urldecode($value);
+        }
         if (empty($wsocketGetVars['webSocketToken'])) {
             _log_message("Empty websocket token ");
             return false;
