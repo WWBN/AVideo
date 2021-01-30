@@ -5,7 +5,7 @@ function socketConnect() {
         return false;
     }
     socketConnectRequested = 1;
-    var url = addGetParam(webSocketURL, 'page_title', $(document).find("title").text());
+    var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
     console.log('Trying to reconnect on socket... ');
     conn = new WebSocket(url);
     conn.onopen = function (e) {
