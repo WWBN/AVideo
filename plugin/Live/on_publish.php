@@ -90,13 +90,14 @@ if (!empty($obj) && empty($obj->error)) {
     Live::on_publish($obj->liveTransmitionHistory_id);
     _error_log("NGINX Live::on_publish end");
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
-        _error_log("NGINX Live::on_publish YPTSocket");
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
         ob_end_flush();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey());                
         $users_id = $obj->row['users_id'];
         $command = "php {$global['systemRootPath']}plugin/YPTSocket/on_publish_socket_notification.php '$users_id' '$m3u8'";
+        
+        _error_log("NGINX Live::on_publish YPTSocket ($command)");
         execAsync($command);;
     }
     //exit;
