@@ -297,8 +297,9 @@ class Message implements MessageComponentInterface {
 
         $users_id_array = $devices = $list = array();
 
+        unset($_client['conn']);
         if (!$isAdmin) {
-            _log_message("getTotals: {$_client['conn']->resourceId} is NOT admin");
+            _log_message("getTotals: {$_client['conn']->resourceId} is NOT admin ". json_encode($_client));
         }else{
             _log_message("getTotals: {$_client['conn']->resourceId} is admin");
         }
@@ -308,8 +309,6 @@ class Message implements MessageComponentInterface {
                 continue;
                 _log_message("getTotals: yptDeviceId is empty ");
             }
-
-            $conn = $client['conn'];
             unset($client['conn']);
             
             if ($isAdmin) {
@@ -326,10 +325,7 @@ class Message implements MessageComponentInterface {
                 if (!isset($return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']])) {
                     $return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']] = $newClient;
                 }
-            } else {
-                _log_message("getTotals: is NOT admin");
             }
-            $client['conn'] = $conn;
 
             //total_devices_online
             if (!in_array($client['yptDeviceId'], $return['devices'])) {
