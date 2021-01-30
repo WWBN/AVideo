@@ -9,7 +9,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
-$timeLog = __FILE__."::Login ";
+$timeLog = __FILE__ . "::Login ";
 TimeLogStart($timeLog);
 
 // gettig the mobile submited value
@@ -45,52 +45,76 @@ use Hybridauth\HttpClient;
 TimeLogEnd($timeLog, __LINE__);
 if (!empty($_GET['type'])) {
     if (!empty($_GET['redirectUri'])) {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
+        _session_start();
+        $_SESSION['redirectUri'] = getRedirectUri();
+    }
+    if ($_GET['type'] === "Apple") {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('LoginApple');
+        if(empty($obj)){
+           die('Apple Login is disabled'); 
         }
-        $_SESSION['redirectUri'] = $_GET['redirectUri'];
-    }
-    $login = AVideoPlugin::getLogin();
-    foreach ($login as $value) {
-        $obj = $value['loginObject']->getDataObject();
-        if ($value['parameters']->type === $_GET['type']) {
-            $id = $obj->id;
-            $key = $obj->key;
-            break;
+        $config = [
+            'callback' => HttpClient\Util::getCurrentUrl() . "?type={$_GET['type']}",
+            'providers' => [
+                $_GET['type'] => [
+                    "enabled" => true,
+                    "keys" => [
+                        "id" => trim($obj->id),
+                        "team_id" => trim($obj->team_id),
+                        "key_id" => trim($obj->key_id),
+                        "key_content" => trim($obj->key_content->value)
+                    ],
+                    "scope" => "name email",
+                    "verifyTokenSignature" => true
+                ]
+            ],
+                /* optional : set debug mode
+                  'debug_mode' => true,
+                  // Path to file writeable by the web server. Required if 'debug_mode' is not false
+                  'debug_file' => __FILE__ . '.log', */
+        ];
+    } else {
+        $login = AVideoPlugin::getLogin();
+        foreach ($login as $value) {
+            $obj = $value['loginObject']->getDataObject();
+            if ($value['parameters']->type === $_GET['type']) {
+                $id = $obj->id;
+                $key = $obj->key;
+                break;
+            }
         }
-    }
-    if (empty($id)) {
-        die(sprintf(__("%s ERROR: You must set a ID on config"), $_GET['type']));
-    }
+        if (empty($id)) {
+            die(sprintf(__("%s ERROR: You must set a ID on config"), $_GET['type']));
+        }
 
-    if (empty($key)) {
-        die(sprintf(__("%s ERROR: You must set a KEY on config"), $_GET['type']));
-    }
+        if (empty($key)) {
+            die(sprintf(__("%s ERROR: You must set a KEY on config"), $_GET['type']));
+        }
+        $scope = 'email';
+        if ($_GET['type'] === "Yahoo") {
+            $scope = 'sdpp-w';
+        }
+        if ($_GET['type'] === 'LinkedIn') {
+            $scope = ("r_liteprofile r_emailaddress w_member_social");
+        }
 
-    $scope = 'email';
-    if ($_GET['type'] === "Yahoo") {
-        $scope = 'sdpp-w';
+        $config = [
+            'callback' => HttpClient\Util::getCurrentUrl() . "?type={$_GET['type']}",
+            'providers' => [
+                $_GET['type'] => [
+                    'enabled' => true,
+                    'keys' => ['id' => $id, 'secret' => $key, 'key' => $id],
+                    "includeEmail" => true,
+                    'scope' => $scope,
+                    'trustForwarded' => false
+                ]
+            ],
+                /* optional : set debug mode
+                  'debug_mode' => true,
+                  // Path to file writeable by the web server. Required if 'debug_mode' is not false
+                  'debug_file' => __FILE__ . '.log', */
+        ];
     }
-    if ($_GET['type'] === 'LinkedIn') {
-        $scope = ("r_liteprofile r_emailaddress w_member_social");
-    }
-
-    $config = [
-        'callback' => HttpClient\Util::getCurrentUrl() . "?type={$_GET['type']}",
-        'providers' => [
-            $_GET['type'] => [
-                'enabled' => true,
-                'keys' => ['id' => $id, 'secret' => $key, 'key' => $id],
-                "includeEmail" => true,
-                'scope' => $scope,
-                'trustForwarded' => false
-            ]
-        ],
-            /* optional : set debug mode
-              'debug_mode' => true,
-              // Path to file writeable by the web server. Required if 'debug_mode' is not false
-              'debug_file' => __FILE__ . '.log', */
-    ];
     try {
         $hybridauth = new Hybridauth($config);
 
@@ -133,15 +157,16 @@ if (!empty($_GET['type'])) {
         //header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
         //echo $e->getMessage();
     }
-    header('Content-Type: text/html'); ?>
-<script>
-    window.opener = self;
-    if(window.name == 'loginYPT'){
-        window.close();
-    }else{
-        document.location = "<?php echo $location; ?>";
-    }
-</script>
+    header('Content-Type: text/html');
+    ?>
+    <script>
+        window.opener = self;
+        if (window.name == 'loginYPT') {
+            window.close();
+        } else {
+            document.location = "<?php echo $location; ?>";
+        }
+    </script>
     <?php
     return;
 }
@@ -235,7 +260,7 @@ TimeLogEnd($timeLog, __LINE__);
 $object->streamServerURL = "";
 $object->streamKey = "";
 if ($object->isLogged) {
-    $timeLog2 = __FILE__."::Is Logged ";
+    $timeLog2 = __FILE__ . "::Is Logged ";
     TimeLogStart($timeLog2);
 
     //_error_log("login.json.php get Live");
