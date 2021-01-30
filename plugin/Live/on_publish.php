@@ -85,7 +85,6 @@ if (!empty($obj) && empty($obj->error)) {
     _error_log("NGINX ON Publish success");
     http_response_code(200);
     header("HTTP/1.1 200 OK");
-    echo "success";
     outputAndContinueInBackground();
     Live::on_publish($obj->liveTransmitionHistory_id);
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
