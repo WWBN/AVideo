@@ -94,6 +94,15 @@ class YPTSocket extends PluginAbstract {
         global $global;
         include $global['systemRootPath'] . 'plugin/YPTSocket/footer.php';
     }
+    
+    public static function sendAsync($msg, $callbackJSFunction = "", $users_id = "", $send_to_uri_pattern = "") {
+        global $global;
+        if(!is_string($msg)){
+            $msg = json_encode($msg);
+        }
+        $command = "php {$global['systemRootPath']}plugin/YPTSocket/send.json.php '$msg' '$callbackJSFunction' '$users_id' '$send_to_uri_pattern'";
+        execAsync($command);
+    }
 
     public static function send($msg, $callbackJSFunction = "", $users_id = "", $send_to_uri_pattern = "") {
         global $global, $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj, $SocketURL;
