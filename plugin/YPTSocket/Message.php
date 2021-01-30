@@ -309,7 +309,7 @@ class Message implements MessageComponentInterface {
                 _log_message("getTotals: yptDeviceId is empty ");
             }
 
-            $newClient = clone $client;
+            $newClient = $client;
             unset($newClient['conn']);
 
             if ($isAdmin) {
