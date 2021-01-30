@@ -1325,12 +1325,7 @@ class Live extends PluginAbstract {
     }
 
     public static function restream($liveTransmitionHistory_id) {
-        ignore_user_abort(true);
-        ob_start();
-        header("Connection: close");
-        @header("Content-Length: " . ob_get_length());
-        ob_end_flush();
-        flush();
+        outputAndContinueInBackground();
         try {
             $obj = self::getRestreamObject($liveTransmitionHistory_id);
             if (empty($obj)) {
