@@ -309,9 +309,9 @@ class Message implements MessageComponentInterface {
                 _log_message("getTotals: yptDeviceId is empty ");
             }
 
-            $newClient = $client;
-            unset($newClient['conn']);
-
+            $conn = $client['conn'];
+            unset($client['conn']);
+            
             if ($isAdmin) {
                 $index = md5($client['selfURI']);
                 if (!isset($return['users_uri'][$index])) {
@@ -329,6 +329,7 @@ class Message implements MessageComponentInterface {
             } else {
                 _log_message("getTotals: is NOT admin");
             }
+            $client['conn'] = $conn;
 
             //total_devices_online
             if (!in_array($client['yptDeviceId'], $return['devices'])) {
