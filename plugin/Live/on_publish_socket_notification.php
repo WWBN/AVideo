@@ -8,7 +8,7 @@ if (!isCommandLineInterface()) {
     die('Command line only');
 }
 
-if (count($argv) < 6) {
+if (count($argv) < 3) {
     die('Please pass all argumments');
 }
 
@@ -16,11 +16,8 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-$msg = $argv[1];
-$callbackJSFunction = $argv[2];
-$users_id = intval($argv[3]);
-$send_to_uri_pattern = $argv[4];
-$m3u8 = $argv[6];
+$users_id = intval($argv[1]);
+$m3u8 = $argv[2];
 
 if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     _error_log("NGINX Live::on_publish_socket_notification");

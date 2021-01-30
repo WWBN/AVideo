@@ -94,8 +94,9 @@ if (!empty($obj) && empty($obj->error)) {
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
         ob_end_flush();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
-        $m3u8 = Live::getM3U8File($lth->getKey());
-        $command = "php {$global['systemRootPath']}plugin/YPTSocket/on_publish_socket_notification.php '$msg' '$callbackJSFunction' '$users_id' '$send_to_uri_pattern' '$m3u8'";
+        $m3u8 = Live::getM3U8File($lth->getKey());                
+        $users_id = $obj->row['users_id'];
+        $command = "php {$global['systemRootPath']}plugin/YPTSocket/on_publish_socket_notification.php '$users_id' '$m3u8'";
         execAsync($command);;
     }
     //exit;
