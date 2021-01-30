@@ -5820,7 +5820,7 @@ function getTitle() {
 
 function outputAndContinueInBackground() {
     @session_write_close();
-    _mysql_close();
+    //_mysql_close();
     // Instruct PHP to continue execution
     ignore_user_abort(true);
     if (function_exists('fastcgi_finish_request')) {
