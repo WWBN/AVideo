@@ -4,11 +4,14 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/autoload.php';
 header('Content-Type: application/json');
 
+_error_log("NGINX Live::on_publish_socket_notification start");
 if (!isCommandLineInterface()) {
+    _error_log("NGINX Live::on_publish_socket_notification Command line only");
     die('Command line only');
 }
 
 if (count($argv) < 3) {
+    _error_log("NGINX Live::on_publish_socket_notification Please pass all argumments");
     die('Please pass all argumments');
 }
 
@@ -42,4 +45,5 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     _error_log("NGINX Live::on_publish_socket_notification  endSocketMessageToAll END");
 }
 
+_error_log("NGINX Live::on_publish_socket_notification end");
 die(json_encode($obj));
