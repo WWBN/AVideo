@@ -23,6 +23,7 @@ $obj->oauthLogin[] = array('type'=>'Facebook', 'status'=> !empty(AVideoPlugin::l
 $obj->oauthLogin[] = array('type'=>'Google', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginGoogle')));
 $obj->oauthLogin[] = array('type'=>'Twitter', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginTwitter')));
 $obj->oauthLogin[] = array('type'=>'LinkedIn', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginLinkedin')));
+$obj->oauthLogin[] = array('type'=>'Apple', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginApple')));
 
 $obj->plugins = array();
 $plugins = Plugin::getAllEnabled();
