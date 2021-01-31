@@ -97,6 +97,11 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             max-height: 300px;
             overflow: auto;
         }
+        #socketUsersURI a{
+            text-overflow: ellipsis;
+            overflow: hidden; 
+            max-width: 300px;
+        }
         .socketItem img{
             height: 20px;
             width: 20px;
@@ -107,11 +112,11 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             margin-top: 5px;
             border-top: solid 1px #000;
         }
-        
+
         .socketUserDiv .fa-caret-up{
             display: none;
         }
-        
+
         .socketUserDiv.visible .fa-caret-up{
             display: inline-block;
         }
@@ -204,18 +209,18 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
                 $('#socket_info_container').css('left', '60px');
             }
         }
-        
-        function socketUserNameToggle(socketUserDivID){
+
+        function socketUserNameToggle(socketUserDivID) {
             var isVisible = $(socketUserDivID).find('.socketUserPages').is(":visible");
-            if(isVisible){
+            if (isVisible) {
                 $(socketUserDivID).removeClass('visible');
-            }else{
+            } else {
                 $(socketUserDivID).addClass('visible');
             }
             Cookies.set(socketUserDivID, !isVisible, {
-                            path: '/',
-                            expires: 365
-                        });
+                path: '/',
+                expires: 365
+            });
         }
 
     </script>
