@@ -5552,7 +5552,7 @@ function sendSocketMessageToNone($msg, $callbackJSFunction = "") {
 }
 
 function execAsync($command) {
-    $command = escapeshellarg($command);
+    //$command = escapeshellarg($command);
     // If windows, else
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         //echo $command;
