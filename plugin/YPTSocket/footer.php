@@ -132,8 +132,43 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         .socketButtons{
             margin-left: 10px;
         }
+        .socket_disconnected{
+            display: none;
+        }
+        .disconnected .socket_connected{
+            display: none;
+        }
+        .disconnected .socket_disconnected{
+            display: block;
+        }
+        .socket_connected, .socket_disconnected{
+            font-weight: bold;
+        }
+        .socket_connected{
+            color: #FFF;
+            animation: socketGlow 1s infinite alternate;
+        }
+        @keyframes socketGlow {
+            from {
+                color: #DFD;
+                text-shadow: 
+                    0 0 1px #050, 
+                    0 0 2px #070, 
+                    0 0 3px #670, 
+                    0 0 4px #670;
+            }
+            to {
+                color: #FFF;
+                text-shadow: 
+                    0 0 2px #020,
+                    0 0 5px #090, 
+                    0 0 10px #0F0, 
+                    0 0 15px #BF0, 
+                    0 0 20px #B6FF00;
+            }
+        }
     </style>
-    <div id="socket_info_container" class="hidden-xs socketStatus disconnected <?php echo $socket_info_container_class; ?>" >
+    <div id="socket_info_container" class="socketStatus disconnected <?php echo $socket_info_container_class; ?>" >
         <div class=" ">
             <div class="pull-left">
                 <?php
@@ -173,6 +208,8 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
                         });
                     }
                 });
+            }else{
+                $("#socket_info_container").hide();
             }
             $("#socketBtnMinimize").click(function () {
                 socketInfoMinimize();

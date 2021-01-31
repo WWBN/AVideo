@@ -5557,8 +5557,11 @@ function execAsync($command) {
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         //echo $command;
         //$pid = system("start /min  ".$command. " > NUL");
-        $commandString = "start /B " . $command;
-        pclose($pid = popen($commandString, "r"));
+        //$commandString = "start /B " . $command;
+        //pclose($pid = popen($commandString, "r"));
+        _error_log($command);
+        $pid = exec($command, $output, $retval);
+        _error_log('execAsync: '. json_encode($output).' '.$retval);
     } else {
         $newCommand = $command . " > /dev/null 2>&1 & echo $!; ";
         _error_log($newCommand);
@@ -5642,10 +5645,21 @@ function isURL200($url) {
 
 function getStatsNotifications() {
     $json = Live::getStats();
-    if (!is_array($json) && is_object($json)) {
-        $json = object_to_array($json);
+    $json = object_to_array($json);
+    
+    if(empty($json['applications']) && is_array($json)){
+        $json['applications'] = array();
+        foreach ($json as $key => $value) {
+            if(empty($value['applications'])){
+                continue;
+            }
+            $json['applications'] = array_merge($json['applications'], $value['applications']);
+            unset($json[$key]);
+        }
     }
+    
     $appArray = AVideoPlugin::getLiveApplicationArray();
+    
     if (!empty($appArray)) {
         if (empty($json)) {
             $json = array();
@@ -5669,7 +5683,7 @@ function getStatsNotifications() {
         $json['total'] += count($json['applications']);
     }
     while (!empty($json[$count])) {
-        $json['total'] += count($json[$count]->applications);
+        $json['total'] += count($json[$count]['applications']);
         $count++;
     }
     if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {

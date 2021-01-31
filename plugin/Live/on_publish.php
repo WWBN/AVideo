@@ -95,11 +95,16 @@ if (!empty($obj) && empty($obj->error)) {
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey());                
         $users_id = $obj->row['users_id'];
-        $command = "php {$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php '$users_id' '$m3u8' '{$obj->liveTransmitionHistory_id}'";
-        
-        _error_log("NGINX Live::on_publish YPTSocket start  ($command)");
-        $pid = execAsync($command);        
-        _error_log("NGINX Live::on_publish YPTSocket end {$pid}");
+        $liveTransmitionHistory_id = $obj->liveTransmitionHistory_id;
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            include "{$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php";
+        }else{
+            $command = "php {$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php '$users_id' '$m3u8' '{$obj->liveTransmitionHistory_id}'";
+
+            _error_log("NGINX Live::on_publish YPTSocket start  ($command)");
+            $pid = execAsync($command);        
+            _error_log("NGINX Live::on_publish YPTSocket end {$pid}");
+        }
     }
     //exit;
 } else {

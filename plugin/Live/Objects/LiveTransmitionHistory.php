@@ -113,7 +113,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $obj->link = addQueryStringParameter($obj->href, 'embed', 1);
         $obj->name = $u->getNameIdentificationBd();
         $obj->playlists_id_live = $playlists_id_live;
-        $obj->poster = Live::isAPrivateLiveFromLiveKey($obj->key);
+        $obj->poster = $poster;
         $obj->title = $title;
         $obj->user = $u->getUser();
         $users = false;
@@ -129,6 +129,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $obj->m3u8 =$m3u8;
         $obj->isURL200 = isURL200($m3u8);
+        $obj->users_id = $users_id;
         
         return $obj;
     }
