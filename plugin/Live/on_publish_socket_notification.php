@@ -10,7 +10,7 @@ if (!isCommandLineInterface()) {
     die('Command line only');
 }
 
-if (count($argv) < 3) {
+if (count($argv) < 4) {
     _error_log("NGINX Live::on_publish_socket_notification Please pass all argumments");
     die('Please pass all argumments');
 }
@@ -21,6 +21,7 @@ $obj->msg = "";
 
 $users_id = intval($argv[1]);
 $m3u8 = $argv[2];
+$liveTransmitionHistory_id = $argv[3];
 
 if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     _error_log("NGINX Live::on_publish_socket_notification");

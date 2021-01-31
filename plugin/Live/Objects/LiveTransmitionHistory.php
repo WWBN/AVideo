@@ -149,6 +149,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         if(!empty($stats['hidden_applications'])){
             foreach ($stats['hidden_applications'] as $value) {
+                if(empty($value['key'])){
+                    continue;
+                }
                 $value = object_to_array($value);
                 $value['key']= self::getCleankeyName($value['key']);
                 if($value['key']==$key){ // application is already in the list
