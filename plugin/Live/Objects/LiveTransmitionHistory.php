@@ -140,6 +140,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         $key = $lth->getKey();
         if(!empty($stats['applications'])){
             foreach ($stats['applications'] as $value) {
+                if(empty($value['key'])){
+                    continue;
+                }
                 $value = object_to_array($value);
                 $value['key']= self::getCleankeyName($value['key']);
                 if(!empty($value['key']) && $value['key']==$key){ // application is already in the list
