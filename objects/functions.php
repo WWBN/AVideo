@@ -5559,9 +5559,10 @@ function execAsync($command) {
         //$pid = system("start /min  ".$command. " > NUL");
         $commandString = "start /B " . $command;
         pclose($pid = popen($commandString, "r"));
-        var_dump($pid, $commandString);
     } else {
-        $pid = exec($command . " > /dev/null 2>&1 & echo $!; ");
+        $newCommand = $command . " > /dev/null 2>&1 & echo $!; ";
+        _error_log($newCommand);
+        $pid = exec($newCommand);
     }
     return $pid;
 }
