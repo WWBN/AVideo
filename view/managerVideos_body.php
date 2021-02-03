@@ -720,7 +720,9 @@
 <script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.fileupload.js"></script>
 <?php
 echo AVideoPlugin::getManagerVideosJavaScripts();
-echo getTinyMCE("inputDescription");
+if (empty($advancedCustom->disableHTMLDescription)) {
+    echo getTinyMCE("inputDescription");
+}
 ?>
 <script>
                                         var timeOut;
