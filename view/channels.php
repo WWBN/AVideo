@@ -85,7 +85,7 @@ $metaDescription = __("Channels");
                         <div id="custom-search-input">
                             <div class="input-group col-md-12">
                                 <input type="search" name="searchPhrase" class="form-control input-lg" placeholder="<?php echo __("Search Channels"); ?>" value="<?php
-                                echo addcslashes(@$_GET['searchPhrase'],'"');
+                                echo htmlentities(@$_GET['searchPhrase']);
                                 unsetSearch();
                                 ?>" />
                                 <span class="input-group-btn">
