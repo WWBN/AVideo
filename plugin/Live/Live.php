@@ -1100,7 +1100,8 @@ class Live extends PluginAbstract {
                     'href' => $link,
                     'playlists_id_live' => $playlists_id_live,
                     'm3u8' => $m3u8,
-                    'isURL200' => isURL200($m3u8)
+                    'isURL200' => isURL200($m3u8),
+                    'users_id' => $row['users_id']
                 );
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;
@@ -1325,12 +1326,7 @@ class Live extends PluginAbstract {
     }
 
     public static function restream($liveTransmitionHistory_id) {
-        ignore_user_abort(true);
-        ob_start();
-        header("Connection: close");
-        @header("Content-Length: " . ob_get_length());
-        ob_end_flush();
-        flush();
+        outputAndContinueInBackground();
         try {
             $obj = self::getRestreamObject($liveTransmitionHistory_id);
             if (empty($obj)) {

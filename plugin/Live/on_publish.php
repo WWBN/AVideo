@@ -85,29 +85,26 @@ if (!empty($obj) && empty($obj->error)) {
     _error_log("NGINX ON Publish success");
     http_response_code(200);
     header("HTTP/1.1 200 OK");
-    echo "success";
     outputAndContinueInBackground();
+    _error_log("NGINX Live::on_publish start");
     Live::on_publish($obj->liveTransmitionHistory_id);
+    _error_log("NGINX Live::on_publish end");
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
         ob_end_flush();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
-        $m3u8 = Live::getM3U8File($lth->getKey());
-        $is200 = false;
-        for ($itt = 5; $itt > 0; $itt--) {
-            if (!$is200 = isURL200($m3u8)) {
-                //live is not ready request again
-                sleep($itt);
-            } else {
-                break;
-            }
-        }
-        if($is200){
-            $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($obj->liveTransmitionHistory_id);
+        $m3u8 = Live::getM3U8File($lth->getKey());                
+        $users_id = $obj->row['users_id'];
+        $liveTransmitionHistory_id = $obj->liveTransmitionHistory_id;
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            include "{$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php";
         }else{
-            $array['stats'] = getStatsNotifications();
+            $command = "php {$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php '$users_id' '$m3u8' '{$obj->liveTransmitionHistory_id}'";
+
+            _error_log("NGINX Live::on_publish YPTSocket start  ($command)");
+            $pid = execAsync($command);        
+            _error_log("NGINX Live::on_publish YPTSocket end {$pid}");
         }
-        $socketObj = sendSocketMessageToAll($array, "socketLiveONCallback");
     }
     //exit;
 } else {

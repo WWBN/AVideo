@@ -24,6 +24,9 @@ class Message implements MessageComponentInterface {
         $onMessageSentTo = array();
         $query = $conn->httpRequest->getUri()->getQuery();
         parse_str($query, $wsocketGetVars);
+        foreach ($wsocketGetVars as $key => $value) {
+            $wsocketGetVars[$key] = urldecode($value);
+        }
         if (empty($wsocketGetVars['webSocketToken'])) {
             _log_message("Empty websocket token ");
             return false;
@@ -44,9 +47,9 @@ class Message implements MessageComponentInterface {
         $client['browser'] = $json->browser;
         $client['yptDeviceId'] = $json->yptDeviceId;
         $client['client'] = deviceIdToObject($json->yptDeviceId);
-        if(!empty($wsocketGetVars['webSocketSelfURI'])){
+        if (!empty($wsocketGetVars['webSocketSelfURI'])) {
             $client['selfURI'] = $wsocketGetVars['webSocketSelfURI'];
-        }else{
+        } else {
             $client['selfURI'] = $json->selfURI;
         }
         $client['isCommandLine'] = $wsocketGetVars['isCommandLine'];
@@ -214,7 +217,7 @@ class Message implements MessageComponentInterface {
         $obj['isAdmin'] = $this->clients[$resourceId]['isAdmin'];
         
         $return = $this->getTotals($this->clients[$resourceId]);
-        
+
         $totals = array(
             'webSocketServerVersion' => $SocketDataObj->serverVersion,
             'socket_users_id' => $users_id,
@@ -224,7 +227,7 @@ class Message implements MessageComponentInterface {
         );
 
         $obj['autoUpdateOnHTML'] = array_merge($totals, $return['class_to_update']);
-        
+
         $obj['users_uri'] = $return['users_uri'];
 
         $obj['autoEvalCodeOnHTML'] = $this->clients[$resourceId]['autoEvalCodeOnHTML'];
@@ -283,43 +286,43 @@ class Message implements MessageComponentInterface {
         $users_id = $_client['users_id'];
         $live_key = object_to_array($_client['live_key']);
         global $SocketDataObj, $SocketGetTotals;
-        
-        if(isset($SocketGetTotals)){
+
+        if (!$isAdmin && isset($SocketGetTotals)) {
             return $SocketGetTotals;
         }
-        
+
         $return = array(
             'users_id' => array(),
             'devices' => array(),
             'class_to_update' => array(),
             'users_uri' => array()
         );
-        
-        $users_id_array = $devices = $list = array();
 
+        $users_id_array = $devices = $list = array();
+        
         foreach ($this->clients as $key => $client) {
             if (empty($client['yptDeviceId'])) {
                 continue;
+                _log_message("getTotals: yptDeviceId is empty ");
             }
-            
             unset($client['conn']);
             
-            if($isAdmin){
+            if ($isAdmin) {
                 $index = md5($client['selfURI']);
-                if(!isset($return['users_uri'][$index])){
+                if (!isset($return['users_uri'][$index])) {
                     $return['users_uri'][$index] = array();
                 }
-                if(!isset($return['users_uri'][$index][$client['yptDeviceId']])){
+                if (!isset($return['users_uri'][$index][$client['yptDeviceId']])) {
                     $return['users_uri'][$index][$client['yptDeviceId']] = array();
                 }
-                if(empty($client['users_id'])){
+                if (empty($client['users_id'])) {
                     $return['users_uri'][$index][$client['yptDeviceId']][uniqid()] = $client;
-                }else
-                if(!isset($return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']])){
+                } else
+                if (!isset($return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']])) {
                     $return['users_uri'][$index][$client['yptDeviceId']][$client['users_id']] = $client;
                 }
             }
-            
+
             //total_devices_online
             if (!in_array($client['yptDeviceId'], $return['devices'])) {
                 $return['devices'][] = $client['yptDeviceId'];
@@ -330,7 +333,7 @@ class Message implements MessageComponentInterface {
                     $return['users_id'][] = $client['users_id'];
                 }
             }
-            
+
             $keyName = "";
             if (!empty($SocketDataObj->showTotalOnlineUsersPerVideo) && !empty($client['videos_id'])) {
                 $keyName = getSocketVideoClassName($client['videos_id']);
@@ -339,7 +342,7 @@ class Message implements MessageComponentInterface {
             } else if (!empty($SocketDataObj->showTotalOnlineUsersPerLiveLink) && !empty($client['live_key']['liveLink'])) {
                 $keyName = getSocketLiveLinksClassName($client['live_key']['liveLink']);
             }
-            
+
             if (!empty($keyName)) {
                 if (!isset($return['class_to_update'][$keyName])) {
                     $return['class_to_update'][$keyName] = 1;
@@ -348,7 +351,9 @@ class Message implements MessageComponentInterface {
                 }
             }
         }
-        $SocketGetTotals = $return;
+        if(!$isAdmin){
+            $SocketGetTotals = $return;
+        }
         return $return;
     }
 

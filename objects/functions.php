@@ -4847,10 +4847,10 @@ function deviceIdToObject($deviceID) {
             break;
         case 'unknowDevice':
             $obj->browser = $parts[0];
-            $obj->os = $parts[0];
+            $obj->os = 'unknow OS';
             $obj->ip = $parts[1];
-            $obj->user_agent = $parts[0];
-            $obj->users_id = $parts[5];
+            $obj->user_agent = 'unknow UA';
+            $obj->users_id = $parts[2];
             break;
         default:
             break;
@@ -5552,16 +5552,20 @@ function sendSocketMessageToNone($msg, $callbackJSFunction = "") {
 }
 
 function execAsync($command) {
-    $command = escapeshellarg($command);
+    //$command = escapeshellarg($command);
     // If windows, else
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         //echo $command;
         //$pid = system("start /min  ".$command. " > NUL");
-        $commandString = "start /B " . $command;
-        pclose($pid = popen($commandString, "r"));
-        var_dump($pid, $commandString);
+        //$commandString = "start /B " . $command;
+        //pclose($pid = popen($commandString, "r"));
+        _error_log($command);
+        $pid = exec($command, $output, $retval);
+        _error_log('execAsync: '. json_encode($output).' '.$retval);
     } else {
-        $pid = exec($command . " > /dev/null 2>&1 & echo $!; ");
+        $newCommand = $command . " > /dev/null 2>&1 & echo $!; ";
+        _error_log($newCommand);
+        $pid = exec($newCommand);
     }
     return $pid;
 }
@@ -5641,10 +5645,21 @@ function isURL200($url) {
 
 function getStatsNotifications() {
     $json = Live::getStats();
-    if (!is_array($json) && is_object($json)) {
-        $json = object_to_array($json);
+    $json = object_to_array($json);
+    
+    if(empty($json['applications']) && is_array($json)){
+        $json['applications'] = array();
+        foreach ($json as $key => $value) {
+            if(empty($value['applications'])){
+                continue;
+            }
+            $json['applications'] = array_merge($json['applications'], $value['applications']);
+            unset($json[$key]);
+        }
     }
+    
     $appArray = AVideoPlugin::getLiveApplicationArray();
+    
     if (!empty($appArray)) {
         if (empty($json)) {
             $json = array();
@@ -5668,7 +5683,7 @@ function getStatsNotifications() {
         $json['total'] += count($json['applications']);
     }
     while (!empty($json[$count])) {
-        $json['total'] += count($json[$count]->applications);
+        $json['total'] += count($json[$count]['applications']);
         $count++;
     }
     if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
@@ -5818,23 +5833,24 @@ function getTitle() {
     return $global['pageTitle'];
 }
 
-function outputAndContinueInBackground() {
+function outputAndContinueInBackground() {    
+    global $outputAndContinueInBackground;
+    
+    if(!empty($outputAndContinueInBackground)){
+        return false;
+    }
+    $outputAndContinueInBackground = 1;
     @session_write_close();
     //_mysql_close();
     // Instruct PHP to continue execution
     ignore_user_abort(true);
     if (function_exists('fastcgi_finish_request')) {
         fastcgi_finish_request();
-    }
-    // Send HTTP headers
-    header('Content-Length: 0');
-    header('Connection: close');
-
-    // Clean up buffers
-    if (ob_get_level() > 0) {
-        ob_end_clean();
-        ob_flush();
-    }
+    }    
+    ob_start();
+    @header("Connection: close");
+    @header("Content-Length: " . ob_get_length());
+    ob_end_flush();
     flush();
 }
 
