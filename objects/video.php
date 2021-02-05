@@ -56,6 +56,7 @@ if (!class_exists('Video')) {
         private $filesize;
         public static $statusDesc = array(
             'a' => 'active',
+            'k' => 'active and encoding',
             'i' => 'inactive',
             'e' => 'encoding',
             'x' => 'encoding error',
@@ -1057,7 +1058,7 @@ if (!class_exists('Video')) {
             } elseif ($status == "viewableNotUnlisted") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
             } elseif ($status == "publicOnly") {
-                $sql .= " AND v.status = 'a' AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
+                $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
@@ -1601,6 +1602,7 @@ if (!class_exists('Video')) {
         {
             /**
               a = active
+              k = active and encoding
               i = inactive
               e = encoding
               x = encoding error
@@ -1611,7 +1613,7 @@ if (!class_exists('Video')) {
               xmp3 = encoding mp3 error
               xogg = encoding ogg error
              */
-            $viewable = array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
+            $viewable = array('a', 'k', 'xmp4', 'xwebm', 'xmp3', 'xogg');
             if ($showUnlisted) {
                 $viewable[] = "u";
             } elseif (!empty($_GET['videoName'])) {
@@ -2244,10 +2246,15 @@ if (!class_exists('Video')) {
             if (empty($type) || $type === "status") {
                 $objTag = new stdClass();
                 $objTag->label = __("Status");
+error_log("status = ".$video->getStatus());
                 switch ($video->getStatus()) {
                     case 'a':
                         $objTag->type = "success";
                         $objTag->text = __("Active");
+                        break;
+                    case 'k':
+                        $objTag->type = "success";
+                        $objTag->text = __("Active and encoding");
                         break;
                     case 'i':
                         $objTag->type = "warning";

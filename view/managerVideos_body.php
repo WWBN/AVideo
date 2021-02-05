@@ -1770,7 +1770,7 @@ if (User::isAdmin()) {
 
                                                         if (row.status == "i") {
                                                             status = inactiveBtn;
-                                                        } else if (row.status == "a") {
+                                                        } else if (row.status == "a"  || row.status == "k") {
                                                             status = activeBtn;
                                                         } else if (row.status == "u") {
                                                             status = unlistedBtn;

@@ -61,8 +61,13 @@ $status = $video->getStatus();
 // if status is not unlisted
 if ($status !== 'u' && $status !== 'a') {
     if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
-        // set active
-        $video->setStatus('a');
+        // set active or active+encoding
+        if ($_POST['keepEncoding'] == '1') {
+            $video->setStatus('k');
+        } else {
+            $video->setStatus('a');
+        }
+
     } elseif (empty($advancedCustom->makeVideosUnlistedAfterEncode)) {
         // set active
         $video->setStatus('u');
@@ -176,6 +181,7 @@ if (!empty($_POST['usergroups_id'])) {
 $obj->error = false;
 $obj->video_id = $video_id;
 _error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
+fprintf(fopen("/tmp/log", "a"), "aVideoEncoder.json returns\n%s\n", json_encode($obj));
 die(json_encode($obj));
 
 /*
