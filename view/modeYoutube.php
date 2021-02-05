@@ -344,8 +344,14 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
-        getOpenGraph(0);
-        getLdJson(0);
+        
+        if(!empty($_GET['v'])){
+            getOpenGraph($_GET['v']);
+            getLdJson($_GET['v']);
+        }else{
+            getOpenGraph(0);
+            getLdJson(0);
+        }
         $modeYouTubeTimeLog['After head'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
         ?>
