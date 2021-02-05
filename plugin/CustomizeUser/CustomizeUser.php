@@ -402,7 +402,7 @@ class CustomizeUser extends PluginAbstract {
         global $global;
         $obj = $this->getDataObject();
         $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
-        if (!empty($obj->userMustBeLoggedIn) &&
+        if (!isBot() && !empty($obj->userMustBeLoggedIn) &&
                 ($thisScriptFile["basename"] === 'index.php' ||
                 $thisScriptFile["basename"] === "channel.php" ||
                 $thisScriptFile["basename"] === "channels.php" ||
