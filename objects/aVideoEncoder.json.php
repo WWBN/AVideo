@@ -181,7 +181,6 @@ if (!empty($_POST['usergroups_id'])) {
 $obj->error = false;
 $obj->video_id = $video_id;
 _error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
-fprintf(fopen("/tmp/log", "a"), "aVideoEncoder.json returns\n%s\n", json_encode($obj));
 die(json_encode($obj));
 
 /*
