@@ -2246,7 +2246,6 @@ if (!class_exists('Video')) {
             if (empty($type) || $type === "status") {
                 $objTag = new stdClass();
                 $objTag->label = __("Status");
-error_log("status = ".$video->getStatus());
                 switch ($video->getStatus()) {
                     case 'a':
                         $objTag->type = "success";
