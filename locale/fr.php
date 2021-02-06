@@ -16,6 +16,7 @@ $t['AVideo URL'] = "AVideo URL";
 $t['About AVideo!'] = "À propos de AVideo !";
 $t['About'] = "À propos";
 $t['Activate'] = "Activer";
+$t['Active and encoding'] = "Actif et codage";
 $t['Active Users'] = 'Utilisateurs actifs';
 $t['Active'] = "Actif";
 $t['Ad Title'] = "Ajouter un titre";

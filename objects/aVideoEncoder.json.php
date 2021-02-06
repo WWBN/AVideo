@@ -61,8 +61,13 @@ $status = $video->getStatus();
 // if status is not unlisted
 if ($status !== 'u' && $status !== 'a') {
     if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
-        // set active
-        $video->setStatus('a');
+        // set active or active+encoding
+        if ($_POST['keepEncoding'] == '1') {
+            $video->setStatus('k');
+        } else {
+            $video->setStatus('a');
+        }
+
     } elseif (empty($advancedCustom->makeVideosUnlistedAfterEncode)) {
         // set active
         $video->setStatus('u');
