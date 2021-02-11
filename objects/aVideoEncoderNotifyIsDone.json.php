@@ -40,17 +40,22 @@ $video = new Video("", "", $_POST['videos_id']);
 $obj->video_id = $_POST['videos_id'];
 
 if(empty($_POST['fail'])){
-    $status = $video->getStatus();
-    // if status is not unlisted
-    if($status!=='u' && $status !== 'a'){
-        if(empty($advancedCustom->makeVideosInactiveAfterEncode)){
-            // set active
-            $video->setStatus('a');
-        }else if(empty($advancedCustom->makeVideosUnlistedAfterEncode)){
-            // set active
-            $video->setStatus('u');
-        }else{
-            $video->setStatus('i');
+    // if encoder requested a status
+    if (!empty($_POST['overrideStatus'])) {
+        $video->setStatus($_POST['overrideStatus']);
+    } else { // encoder did not provide a status
+        $status = $video->getStatus();
+        // if status is not unlisted
+        if($status!=='u' && $status !== 'a'){
+            if(empty($advancedCustom->makeVideosInactiveAfterEncode)){
+                // set active
+                $video->setStatus('a');
+            }else if(empty($advancedCustom->makeVideosUnlistedAfterEncode)){
+                // set active
+                $video->setStatus('u');
+            }else{
+                $video->setStatus('i');
+            }
         }
     }
 }else{
