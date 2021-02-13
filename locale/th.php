@@ -3,7 +3,7 @@ global $t;
 
 $t['%s ERROR: You must set a ID on config'] = "%s ERROR: คุณต้องตั้งรหัสใน config";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: คุณต้องตั้ง KEY ใน config";
-$t['465 OR 587'] = "465 OR 587";
+$t['465 OR 587'] = "465 หรือ 587";
 $t['A service error occurred: %s'] = "เกิดข้อผิดพลาดเกี่ยวกับบริการ: %s";
 $t['AVideo URL'] = "URL ของ";
 $t['About'] = "เกี่ยวกับ";
@@ -545,5 +545,5 @@ $t['seconds'] = "วินาที";
 $t['week'] = "วินาที";
 $t['weeks'] = "สัปดาห์";
 $t['year'] = "สัปดาห์";
-$t['years'] = "yปี";
+$t['years'] = "ปี";
 $t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = "youtube-dl ใช้ Python และเซิร์ฟเวอร์บางเครื่องไม่ได้มาพร้อมกับ python เป็น default เพื่อติดตั้ง Python type:";

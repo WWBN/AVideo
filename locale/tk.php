@@ -1,6 +1,7 @@
 <?php
 global $t;
 
+$t['465 OR 587'] = "465 veya 587";
 $t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<P> AVideo! Bir video paylaşım sitesidir. Hizmet Daniel Neto tarafından Mart 2017'de oluşturulmuştur. </p><p> Yazılım, videoları yüklemenize, görüntülemenize, paylaşmanıza ve yorum yapmanıza izin verir ve WebM ve H.264'ü kullanır / MPEG-4 AVC, kullanıcı tarafından üretilen ve kurumsal medya videolarının geniş bir yelpazesini görüntüler. </p><p> En iyisi, AVideo! Herkes tarafından serbestçe temin edilebilen açık kaynaklı bir çözümdür. </p>";
 $t['About AVideo!'] = "AVideo Hakkında!";
 $t['About'] = "hakkında";
@@ -149,4 +150,16 @@ $t['Your video has NOT been saved!'] = "Videonuz kaydedilmemiş!";
 $t['Your video has been deleted!'] = "Videonuz silindi!";
 $t['Your video has been saved!'] = "Videonuz kaydedildi!";
 $t['is Admin'] = "Yönetici";
-$t['remaining'] = "kalan";
+$t['is live'] = "yayında";
+$t['minute']  = "dakika";
+$t['minutes']  = "dakika";
+$t['month']  = "ay";
+$t['months']  = "ay";
+$t['remaining']  = "kalan";
+$t['second']  = "saniye";
+$t['seconds']  = "saniye";
+$t['week']  = "hafta";
+$t['weeks']  = "hafta";
+$t['year']  = "yıl";
+$t['years']  = "yıl";
+$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = "youtube-dl uses Python and some servers does not came with python as default, to install Python type:";
