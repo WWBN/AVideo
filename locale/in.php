@@ -1,6 +1,7 @@
 <?php
 global $t;
 
+$t['465 OR 587'] = "465 या 587";
 $t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<P> AVideo! एक वीडियो साझाकरण वेबसाइट है, यह सेवा डैनियल नेटो द्वारा मार्च 2017 में बनाई गई थी। </p><p> सॉफ्टवेयर आपको वीडियो अपलोड करने, देखने, साझा करने और टिप्पणी करने की अनुमति देता है, और यह वेबएम और एच .264 का उपयोग करता है / एमपीईजी -4 एवीसी उपयोगकर्ता-व्युत्पन्न और कॉर्पोरेट मीडिया वीडियो की एक विस्तृत विविधता प्रदर्शित करने के लिए। </p><p> सभी के सर्वश्रेष्ठ, AVideo! एक खुला स्रोत समाधान है जो सभी के लिए स्वतंत्र रूप से उपलब्ध है। </p>";
 $t['About AVideo!'] = "AVideo के बारे में!";
 $t['About'] = "के बारे में";
@@ -148,3 +149,19 @@ $t['Your video has NOT been deleted!'] = "आपका वीडियो हट
 $t['Your video has NOT been saved!'] = "आपका वीडियो सहेजा गया है!";
 $t['Your video has been deleted!'] = "व्यवस्थापक है";
 $t['Your video has been saved!'] = "शेष";
+$t['day'] = "दिन";
+$t['days'] = "दिन";
+$t['description'] = "विवरण";
+$t['hour'] = "घंटा";
+$t['hours'] = "घंटे";
+$t['minute'] = "मिनट";
+$t['minutes'] = "मिनट";
+$t['month'] = "महीना";
+$t['months'] = "महीने";
+$t['remaining'] = "बचा हुआ";
+$t['second'] = "सेकंड";
+$t['seconds'] = "सेकंड";
+$t['week'] = "हफ्ता";
+$t['weeks'] = "हफ्ता";
+$t['year'] = "साल";
+$t['years'] = "साल";

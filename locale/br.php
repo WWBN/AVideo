@@ -4,7 +4,7 @@ global $t;
 $t[' (Do not change the title yet, wait to finish download)'] = "(Não altere o título ainda, espere para terminar o download)";
 $t['%s ERROR: You must set a ID on config'] = "%s ERRO: Você deve definir uma ID na configuração";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: Você deve definir uma KEY em config";
-$t['465 OR 587'] = "465 OU 587";
+$t['465 OR 587'] = "465 ou 587";
 $t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<P> AVideo! É um site de partilha de vídeo, O serviço foi criado por Daniel Neto em Março de 2017. O software permite-lhe carregar, ver e comentar em vídeos, e faz uso de WebM e H.264 / MPEG -4 AVC para exibir uma grande variedade de vídeos gerados por usuários e mídia corporativa. </p><p> Melhor de tudo, AVideo! É uma solução open source que está disponível gratuitamente para todos. </p>";
 $t['A service error occurred: %s'] = "Ocorreu um erro no servidor: %s";
 $t['About AVideo!'] = "Sobre o AVideo!";

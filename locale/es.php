@@ -1,6 +1,7 @@
 <?php
 global $t;
 
+$t['465 o 587']
 $t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<P> ¡AVideo! Es un sitio web de intercambio de videos, el servicio fue creado por Daniel Neto en marzo de 2017. El software le permite cargar, ver, compartir y comentar videos, y hace uso de WebM y H.264 / MPEG-4 AVC para mostrar una amplia variedad de videos de medios generados por el usuario y corporativos. </p><p> Lo mejor de todo, AVideo! Es una solución de código abierto que está disponible gratuitamente para todos. </p>";
 $t['About AVideo!'] = "Acerca de AVideo!";
 $t['About'] = "Acerca de";
@@ -308,11 +309,20 @@ $t['day'] = "día";
 $t['days ago'] = "hace días";
 $t['days'] = "días";
 $t['entries'] = "entradas";
-$t['is Admin'] = "Es admin";
+$t['is Admin'] = "es admin";
+$t['is live'] = "es en vivo";
+$t['minute'] = "minuto";
+$t['minutes'] = "minutos";
 $t['month'] = "mes";
 $t['months'] = "meses";
 $t['newest'] = "el más nuevo";
 $t['oldest'] = "más antiguo";
 $t['remaining'] = "restante";
-$t['subscribes'] = "Suscribete";
+$t['second'] = "segundo";
+$t['seconds'] = "segundos";
+$t['subscribes'] = "suscribete";
+$t['week'] = "semana";
+$t['weeks'] = "semanas";
+$t['year'] = "año";
 $t['year-month-day (2018-04 or 2018-05-01 or so)'] = "año-mes-día (2018-04 o 2018-05-01 más o menos)";
+$t['years'] = "años";
