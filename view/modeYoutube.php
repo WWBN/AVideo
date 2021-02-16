@@ -279,7 +279,7 @@ if (!empty($evideo)) {
         $autoPlayThumbsSprit = "";
     }
 
-    if (empty($_GET['videoName'])) {
+    if (empty($_GET['videoName']) && !empty($video)) {
         $_GET['videoName'] = $video['clean_title'];
     }
 
