@@ -5263,7 +5263,7 @@ function m3u8ToMP4($input) {
         return false;
     }
 
-    if(!preg_match('/^http/i', $input) && filesize($input)<=10){ // dummy file
+    if((!preg_match('/^http/i', $input) && filesize($input)<=10) || preg_match('/.m3u8$/i', $input)){ // dummy file
         $filepath = escapeshellcmd(pathToRemoteURL($input));
     }else{
         $filepath = escapeshellcmd($input);
