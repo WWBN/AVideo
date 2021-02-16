@@ -166,7 +166,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     $m3u8 = clearCommandURL($m3u8);
 
     killIfIsRunning($m3u8);
-    
+    sleep(3);
     if (!isURL200($m3u8)) {
         if ($tries > 10) {
             error_log("Restreamer.json.php tried too many times, we could not find your stream URL");
