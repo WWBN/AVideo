@@ -137,26 +137,6 @@ function clearCommandURL($url) {
     return preg_replace('/[^0-9a-z:.\/_&?=-]/i', "", $url);
 }
 
-if(!function_exists('isURL200')){
-    function isURL200($url) {
-        error_log("Restreamer.json.php checking URL {$url}");
-        //open connection
-        $ch = curl_init();
-
-        //set the url, number of POST vars, POST data
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_HEADER, true);    // we want headers
-        $output = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        error_log("Restreamer.json.php URL {$url} return code {$httpcode}");
-        return $httpcode == 200;
-    }
-}
-
 function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     global $ffmpegBinary;
     if (empty($restreamsDestinations)) {

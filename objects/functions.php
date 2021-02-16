@@ -5625,12 +5625,12 @@ function getPIDUsingPort($port) {
     return false;
 }
 
-function isURL200($url) {
+function isURL200($url, $forceRecheck = false) {
     global $_isURL200;
     if (!isset($_isURL200)) {
         $_isURL200 = array();
     }
-    if (isset($_isURL200[$url])) {
+    if (empty($forceRecheck) && isset($_isURL200[$url])) {
         return $_isURL200[$url];
     }
     //error_log("isURL200 checking URL {$url}");
