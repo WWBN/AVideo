@@ -832,7 +832,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                                                         }
 
                                                     }
-                                                    if (response.encoding && webSiteRootURL === response.encoding.streamer_site) {
+                                                    if (response.encoding && response.encoding.length) {
                                                         for (i = 0; i < response.encoding.length; i++) {
                                                             var encoding = response.encoding[i];
                                                             var id = encoding.return_vars.videos_id;
