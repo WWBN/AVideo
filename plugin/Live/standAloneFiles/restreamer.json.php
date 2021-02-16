@@ -149,7 +149,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     if($tries === 1){
         sleep(3);
     }
-    if (!isURL200($m3u8)) {
+    if (!isURL200($m3u8, $true)) {
         if ($tries > 10) {
             error_log("Restreamer.json.php tried too many times, we could not find your stream URL");
             return false;
