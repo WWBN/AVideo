@@ -5451,7 +5451,8 @@ function pathToRemoteURL($filename) {
         }
     }
     if (empty($url)) {
-        $url = str_replace(getVideosDir(), "{$global['webSiteRootURL']}videos/", $filename);
+        //$url = str_replace(getVideosDir(), "{$global['webSiteRootURL']}videos/", $filename);
+        $url = $filename;
     }
 
     //$url = str_replace(array($global['systemRootPath'], '/videos/videos/'), array("", '/videos/'), $url);
