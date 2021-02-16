@@ -284,17 +284,20 @@ if (!empty($evideo)) {
     }
 
     $v = Video::getVideoFromCleanTitle($_GET['videoName']);
-
-    $modeYouTubeTimeLog['Code part 4'] = microtime(true) - $modeYouTubeTime;
-    $modeYouTubeTime = microtime(true);
-    AVideoPlugin::getModeYouTube($v['id']);
-    $modeYouTubeTimeLog['Code part 5'] = microtime(true) - $modeYouTubeTime;
-    $modeYouTubeTime = microtime(true);
-    if (empty($video)) {
-        header('HTTP/1.0 404 Not Found', true, 404);
+    if(empty($v)){
+        videoNotFound("");
+    }else{
+        $modeYouTubeTimeLog['Code part 4'] = microtime(true) - $modeYouTubeTime;
+        $modeYouTubeTime = microtime(true);
+        AVideoPlugin::getModeYouTube($v['id']);
+        $modeYouTubeTimeLog['Code part 5'] = microtime(true) - $modeYouTubeTime;
+        $modeYouTubeTime = microtime(true);
+        if (empty($video)) {
+            header('HTTP/1.0 404 Not Found', true, 404);
+        }
+        $modeYouTubeTimeLog['Code part 6'] = microtime(true) - $modeYouTubeTime;
+        $modeYouTubeTime = microtime(true);
     }
-    $modeYouTubeTimeLog['Code part 6'] = microtime(true) - $modeYouTubeTime;
-    $modeYouTubeTime = microtime(true);
 }
 
 // video not found
