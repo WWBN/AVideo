@@ -833,43 +833,46 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
 
                                                     }
                                                     if (response.encoding && webSiteRootURL === response.encoding.streamer_site) {
-                                                        var id = response.encoding.return_vars.videos_id;
-                                                        $("#downloadProgress" + id).slideDown();
-                                                        if (response.download_status && !response.encoding_status.progress) {
-                                                            $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
-                                                        } else {
-                                                            var encodingProgressCounter = $("#encodingProgressCounter" + id).text();
-                                                            if (isNaN(encodingProgressCounter)) {
-                                                                encodingProgressCounter = 0;
+                                                        for (i = 0; i < response.encoding.length; i++) {
+                                                            var encoding = response.encoding[i];
+                                                            var id = encoding.return_vars.videos_id;
+                                                            $("#downloadProgress" + id).slideDown();
+                                                            if (response.download_status && !response.encoding_status.progress) {
+                                                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
                                                             } else {
-                                                                encodingProgressCounter = parseInt(encodingProgressCounter);
+                                                                var encodingProgressCounter = $("#encodingProgressCounter" + id).text();
+                                                                if (isNaN(encodingProgressCounter)) {
+                                                                    encodingProgressCounter = 0;
+                                                                } else {
+                                                                    encodingProgressCounter = parseInt(encodingProgressCounter);
+                                                                }
+
+
+                                                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id + "'>" + encodingProgressCounter + "</span>%");
+                                                                $("#encodingProgress" + id).find('.progress-bar').css({'width': response.encoding_status.progress + '%'});
+                                                                //$("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
+                                                                countTo("#encodingProgressComplete" + id, response.encoding_status.progress);
+                                                                countTo("#encodingProgressCounter" + id, response.encoding_status.progress);
                                                             }
+                                                            if (response.download_status) {
+                                                                $("#downloadProgress" + id).find('.progress-bar').css({'width': response.download_status.progress + '%'});
+                                                            }
+                                                            if (response.encoding_status.progress >= 100 && $("#encodingProgress" + id).length) {
+                                                                $("#encodingProgress" + id).find('.progress-bar').css({'width': '100%'});
+                                                                $("#encodingProgressComplete" + id).text('100%');
+                                                                clearTimeout(timeOut);
+                                                                $.toast("Encode Complete");
+                                                                timeOut = setTimeout(function () {
+                                                                    $("#grid").bootgrid('reload');
+                                                                }, 5000);
+                                                            } else {
 
-
-                                                            $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id + "'>" + encodingProgressCounter + "</span>%");
-                                                            $("#encodingProgress" + id).find('.progress-bar').css({'width': response.encoding_status.progress + '%'});
-                                                            //$("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
-                                                            countTo("#encodingProgressComplete" + id, response.encoding_status.progress);
-                                                            countTo("#encodingProgressCounter" + id, response.encoding_status.progress);
+                                                            }
+                                                            clearTimeout(checkProgressTimeout[encoderURL]);
+                                                            checkProgressTimeout[encoderURL] = setTimeout(function () {
+                                                                checkProgress(encoderURL);
+                                                            }, 10000);
                                                         }
-                                                        if (response.download_status) {
-                                                            $("#downloadProgress" + id).find('.progress-bar').css({'width': response.download_status.progress + '%'});
-                                                        }
-                                                        if (response.encoding_status.progress >= 100 && $("#encodingProgress" + id).length) {
-                                                            $("#encodingProgress" + id).find('.progress-bar').css({'width': '100%'});
-                                                            $("#encodingProgressComplete" + id).text('100%');
-                                                            clearTimeout(timeOut);
-                                                            $.toast("Encode Complete");
-                                                            timeOut = setTimeout(function () {
-                                                                $("#grid").bootgrid('reload');
-                                                            }, 5000);
-                                                        } else {
-
-                                                        }
-                                                        clearTimeout(checkProgressTimeout[encoderURL]);
-                                                        checkProgressTimeout[encoderURL] = setTimeout(function () {
-                                                            checkProgress(encoderURL);
-                                                        }, 10000);
                                                     }
 
                                                 }
