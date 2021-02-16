@@ -66,7 +66,7 @@ if (!empty($_POST['overrideStatus'])) {
     if ($status !== 'u' && $status !== 'a') {
         if (empty($advancedCustom->makeVideosInactiveAfterEncode)) {
             // set active or active+encoding
-            if ($_POST['keepEncoding'] == '1') {
+            if (!empty($_POST['keepEncoding'])) {
                 $video->setStatus('k');
             } else {
                 $video->setStatus('a');
