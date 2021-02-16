@@ -5263,7 +5263,12 @@ function m3u8ToMP4($input) {
         return false;
     }
 
-    $filepath = escapeshellcmd($input);
+    if(!preg_match('/^http/i', $input) && filesize($input)<100){ // dummy file
+        $filepath = escapeshellcmd(pathToRemoteURL($input));
+    }else{
+        $filepath = escapeshellcmd($input);
+    }
+    
     $outputpath = escapeshellcmd($outputpath);
     if (!file_exists($outputpath)) {
         $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$filepath} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
