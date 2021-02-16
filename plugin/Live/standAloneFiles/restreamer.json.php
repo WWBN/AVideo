@@ -206,8 +206,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     if(empty($command) || !preg_match("/-f flv/i", $command)){
         error_log("Restreamer.json.php ERROR command is empty ");
     }else{
-        error_log("Restreamer.json.php startRestream {$command}, check the file ($logFile) for the log");
-        exec('echo \'' . $command . PHP_EOL . '\'  > ' . $logFile);
+        error_log("Restreamer.json.php startRestream, check the file ($logFile) for the log");
+        file_put_contents($logFile, $command . PHP_EOL);
         exec('nohup ' . $command . '  2>> ' . $logFile . ' > /dev/null &');
         error_log("Restreamer.json.php startRestream finish");
     }
