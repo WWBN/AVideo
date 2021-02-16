@@ -496,7 +496,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         if (empty($getEncoderURL)) {
             $getEncoderURL = ObjectYPT::getCache("getEncoderURL", 60);
             if (empty($getEncoderURL)) {
-                if (!empty($advancedCustom->useEncoderNetworkRecomendation) && !empty($advancedCustom->encoderNetwork)) {
+                if ($this->shouldUseEncodernetwork()) {
                     if (substr($advancedCustom->encoderNetwork, -1) !== '/') {
                         $advancedCustom->encoderNetwork .= "/";
                     }
