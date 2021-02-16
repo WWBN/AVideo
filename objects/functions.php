@@ -5264,7 +5264,7 @@ function m3u8ToMP4($input) {
     }
     //var_dump(!preg_match('/^http/i', $input), filesize($input), preg_match('/.m3u8$/i', $input));
     if(!preg_match('/^http/i', $input) && (filesize($input)<=10 || preg_match('/.m3u8$/i', $input))){ // dummy file
-        $filepath = escapeshellcmd(pathToRemoteURL($input));
+        $filepath = escapeshellcmd(pathToRemoteURL($input, true));
     }else{
         $filepath = escapeshellcmd($input);
     }
@@ -5422,7 +5422,7 @@ function getTinyMCE($id) {
     return $contents;
 }
 
-function pathToRemoteURL($filename) {
+function pathToRemoteURL($filename, $forceHTTP=false) {
     global $pathToRemoteURL, $global;
     if (!isset($pathToRemoteURL)) {
         $pathToRemoteURL = array();
@@ -5451,8 +5451,11 @@ function pathToRemoteURL($filename) {
         }
     }
     if (empty($url)) {
-        //$url = str_replace(getVideosDir(), "{$global['webSiteRootURL']}videos/", $filename);
-        $url = $filename;
+        if($forceHTTP){
+            $url = str_replace(getVideosDir(), "{$global['webSiteRootURL']}videos/", $filename);
+        }else{
+            $url = $filename;
+        }
     }
 
     //$url = str_replace(array($global['systemRootPath'], '/videos/videos/'), array("", '/videos/'), $url);
