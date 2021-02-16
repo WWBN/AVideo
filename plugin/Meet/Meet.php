@@ -80,7 +80,7 @@ Passcode: {password}
         } else {
             $u = new User($users_id);
             $user = [
-                "avatar" => User::getOGImage($users_id),
+                "avatar" => $u->getPhotoDB(),
                 "name" => $u->getNameIdentificationBd(),
                 "email" => $u->getEmail(),
                 "id" => $users_id
