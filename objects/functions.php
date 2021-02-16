@@ -5262,7 +5262,7 @@ function m3u8ToMP4($input) {
         _error_log("downloadHLS: empty outputfilename {$outputfilename}");
         return false;
     }
-
+    var_dump(!preg_match('/^http/i', $input), filesize($input), preg_match('/.m3u8$/i', $input));
     if(!preg_match('/^http/i', $input) && (filesize($input)<=10 || preg_match('/.m3u8$/i', $input))){ // dummy file
         $filepath = escapeshellcmd(pathToRemoteURL($input));
     }else{
@@ -5431,7 +5431,6 @@ function pathToRemoteURL($filename) {
     if (isset($pathToRemoteURL[$filename])) {
         return $pathToRemoteURL[$filename];
     }
-    $url = $filename;
     if (!file_exists($filename) || filesize($filename) < 1000) {
         $fileName = getFilenameFromPath($filename);
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
@@ -5452,7 +5451,7 @@ function pathToRemoteURL($filename) {
         }
     }
     if (empty($url)) {
-        $url = $filename;
+        $url = str_replace(getVideosDir(), "{$global['webSiteRootURL']}videos/", $filename);
     }
 
     //$url = str_replace(array($global['systemRootPath'], '/videos/videos/'), array("", '/videos/'), $url);
