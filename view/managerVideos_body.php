@@ -1929,7 +1929,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
     <?php
 }
 ?>
-
+                                                        img = img+'<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> '+row.duration+'</div>';
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
                                                         var buttonTitleLink = '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.id + '/' + row.clean_title + '" class="btn btn-default btn-xs titleBtn" style="overflow: hidden;">' + type + row.title + '</a>';
                                                         return img + '<div class="clearfix hidden-md hidden-lg"></div>' + buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList;
