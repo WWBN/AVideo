@@ -837,8 +837,10 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                                                             var encoding = response.encoding[i];
                                                             var id = encoding.return_vars.videos_id;
                                                             $("#downloadProgress" + id).slideDown();
-                                                            if (response.download_status && !response.encoding_status.progress) {
-                                                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
+                                                            var download_status = response.download_status[i];
+                                                            var encoding_status = response.encoding_status[i];
+                                                            if (download_status && !encoding_status.progress) {
+                                                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + encoding.name + " [Downloading ...] </strong> " + download_status.progress + '%');
                                                             } else {
                                                                 var encodingProgressCounter = $("#encodingProgressCounter" + id).text();
                                                                 if (isNaN(encodingProgressCounter)) {
@@ -848,16 +850,16 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                                                                 }
 
 
-                                                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id + "'>" + encodingProgressCounter + "</span>%");
-                                                                $("#encodingProgress" + id).find('.progress-bar').css({'width': response.encoding_status.progress + '%'});
+                                                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + encoding.name + "[" + encoding_status.from + " to " + encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id + "'>" + encodingProgressCounter + "</span>%");
+                                                                $("#encodingProgress" + id).find('.progress-bar').css({'width': encoding_status.progress + '%'});
                                                                 //$("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
-                                                                countTo("#encodingProgressComplete" + id, response.encoding_status.progress);
-                                                                countTo("#encodingProgressCounter" + id, response.encoding_status.progress);
+                                                                countTo("#encodingProgressComplete" + id, encoding_status.progress);
+                                                                countTo("#encodingProgressCounter" + id, encoding_status.progress);
                                                             }
-                                                            if (response.download_status) {
-                                                                $("#downloadProgress" + id).find('.progress-bar').css({'width': response.download_status.progress + '%'});
+                                                            if (download_status) {
+                                                                $("#downloadProgress" + id).find('.progress-bar').css({'width': download_status.progress + '%'});
                                                             }
-                                                            if (response.encoding_status.progress >= 100 && $("#encodingProgress" + id).length) {
+                                                            if (encoding_status.progress >= 100 && $("#encodingProgress" + id).length) {
                                                                 $("#encodingProgress" + id).find('.progress-bar').css({'width': '100%'});
                                                                 $("#encodingProgressComplete" + id).text('100%');
                                                                 clearTimeout(timeOut);
