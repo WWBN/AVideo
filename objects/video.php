@@ -958,7 +958,7 @@ if (!class_exists('Video')) {
             $res = sqlDAL::readSql($sql, "s", array($clean_title));
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
-            if ($res) {
+            if (!empty($video) && $res) {
                 return self::getVideo($video['id'], "", true, false, false, true);
             //$video['groups'] = UserGroups::getVideoGroups($video['id']);
             } else {
