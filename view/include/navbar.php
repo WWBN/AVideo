@@ -1353,6 +1353,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
         function isMediaSiteURL(url){
             if (validURL(url)) {
                 if(url.match(/youtube/i) ||
+                   url.match(/youtu\.be/i) ||
                    url.match(/vimeo/i)  ||
                    url.match(/dailymotion/i)  ||
                    url.match(/metacafe/i)  ||
