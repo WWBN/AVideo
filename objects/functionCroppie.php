@@ -55,7 +55,7 @@ $croppieFilesAdded = 1;
             $('.croppieDiv').removeClass('ready');
             $('#upload<?php echo $uid; ?>').val(''); // this will clear the input val.
             uploadCrop<?php echo $uid; ?>.croppie('bind', {
-                url: ''
+                url: '<?php echo getImageTransparent1pxURL(); ?>'
             }).then(function () {
                 console.log('reset complete');
             });
