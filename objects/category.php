@@ -818,15 +818,23 @@ class Category {
         if (!file_exists($photo['path']) || !file_exists($background['path'])) {
             return false;
         }
+        if(filesize($photo['path']) <= 190){ // transparent image
+            return false;
+        }
+        if(filesize($background['path']) <= 980){ // transparent image
+            return false;
+        }
         return true;
     }
 
     static function getCategoryPhotoPath($categories_id) {
-        return self::getCategoryAssetPath("photo.png", $categories_id);
+        $path = self::getCategoryAssetPath("photo.png", $categories_id);
+        return $path;
     }
 
     static function getCategoryBackgroundPath($categories_id) {
-        return self::getCategoryAssetPath("background.png", $categories_id);
+        $path = self::getCategoryAssetPath("background.png", $categories_id);
+        return $path;
     }
 
     private static function getCategoryAssetPath($name, $categories_id) {
