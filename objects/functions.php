@@ -5874,3 +5874,8 @@ function cleanUpRowFromDatabase($row) {
     }
     return $row;
 }
+
+function getImageTransparent1pxURL(){
+    global $global;
+    return "{$global['webSiteRootURL']}view/img/transparent1px.png";
+}
