@@ -1349,26 +1349,6 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
             });
 
         });
-        
-        function isMediaSiteURL(url){
-            if (validURL(url)) {
-                if(url.match(/youtube/i) ||
-                   url.match(/youtu\.be/i) ||
-                   url.match(/vimeo/i)  ||
-                   url.match(/dailymotion/i)  ||
-                   url.match(/metacafe/i)  ||
-                   url.match(/vid\.me/i)  ||
-                   url.match(/rutube\.ru/i)  ||
-                   url.match(/ok\.ru/i)   ||
-                   url.match(/streamable/i)   ||
-                   url.match(/twitch/i)   ||
-                   url.match(/evideoEmbed/i)   ||
-                   url.match(/videoEmbeded/i) ){
-                   return true;
-                }
-            }
-            return false;
-        }
 
         function seachFormPlayURL(url) {
             modal.showPleaseWait();
