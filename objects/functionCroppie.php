@@ -52,13 +52,7 @@ $croppieFilesAdded = 1;
 
         $('#delete-btn<?php echo $uid; ?>').off('click');
         $('#delete-btn<?php echo $uid; ?>').on('click', function (ev) {
-            $('.croppieDiv').removeClass('ready');
-            $('#upload<?php echo $uid; ?>').val(''); // this will clear the input val.
-            uploadCrop<?php echo $uid; ?>.croppie('bind', {
-                url: '<?php echo getImageTransparent1pxURL(); ?>'
-            }).then(function () {
-                console.log('reset complete');
-            });
+            restartCroppie<?php echo $uid; ?>('<?php echo getImageTransparent1pxURL(); ?>');
         });
 
         $('#croppie<?php echo $uid; ?>').croppie('bind', {url: imageURL + '?' + Math.random()}).then(function () {
