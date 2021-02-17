@@ -636,6 +636,7 @@ function sendEmailToSiteOwner($subject, $message) {
 }
 
 function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $showinfo = 0, $controls = 1, $time = 0, $objectFit = "") {
+    global $global;
     //_error_log("parseVideos: $videoString");
     if (strpos($videoString, 'youtube.com/embed') !== false) {
         return $videoString . (parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
@@ -761,19 +762,19 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         preg_match('/\/\/(www\.)?twitch.tv\/videos\/([a-zA-Z0-9_-]+)$/', $link, $matches);
         if (!empty($matches[2])) {
             $id = $matches[2];
-            return '//player.twitch.tv/?video=' . $id . '#';
+            return '//player.twitch.tv/?video=' . $id . '&parent='.parse_url($global['webSiteRootURL'], PHP_URL_HOST);
         }
         //extract the ID
         preg_match('/\/\/(www\.)?twitch.tv\/[a-zA-Z0-9_-]+\/v\/([a-zA-Z0-9_-]+)$/', $link, $matches);
 
         $id = $matches[2];
-        return '//player.twitch.tv/?video=' . $id . '#';
+        return '//player.twitch.tv/?video=' . $id . '&parent='.parse_url($global['webSiteRootURL'], PHP_URL_HOST);
     } elseif (strpos($link, 'twitch.tv') !== false) {
         //extract the ID
         preg_match('/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches);
 
         $id = $matches[2];
-        return '//player.twitch.tv/?channel=' . $id . '#';
+        return '//player.twitch.tv/?channel=' . $id . '&parent='.parse_url($global['webSiteRootURL'], PHP_URL_HOST);
     } elseif (strpos($link, '/evideo/') !== false) {
         //extract the ID
         preg_match('/(http.+)\/evideo\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
