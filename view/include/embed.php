@@ -36,6 +36,7 @@
             if (((strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
                 $_GET['isEmbedded'] = "e";
                 ?>
+                <!-- embed iframe -->
                 <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" >
                     <?php
                     if (function_exists('getVTTTracks')) {
@@ -70,6 +71,7 @@
                 PlayerSkins::playerJSCodeOnLoad($video['id'], @$autoPlayVideo['url']);
                 ?>      
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
+                    <!-- embed iframe advancedCustom-> YoutubePlayerIntegration -->
                     <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php
                     if ($config->getAutoplay()) {
                         echo " autoplay ";
