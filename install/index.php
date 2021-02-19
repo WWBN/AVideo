@@ -243,7 +243,7 @@ require_once '../locale/function.php';
                                     <div class="form-group">
                                         <label for="databasePass">Database Password</label>
                                         <?php
-                                        getInputPassword("databasePass", 'class="form-control" required="required"', __("Enter Database Password"));
+                                        getInputPassword("databasePass", 'class="form-control"', __("Enter Database Password"));
                                         ?>
                                     </div>
                                     <div class="form-group">
