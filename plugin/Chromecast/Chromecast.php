@@ -39,7 +39,7 @@ class Chromecast extends PluginAbstract {
 
     public function getFooterCode() {
         global $global;
-        if (isVideo()) {
+        if (isVideoOrAudioNotEmbed()) {
             include $global['systemRootPath'] . 'plugin/Chromecast/footer.php';
         }
     }

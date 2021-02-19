@@ -3408,7 +3408,7 @@ function _session_start(array $options = array()) {
 function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
     try {
-        if (is_object($global['mysqli']) && ($mysql_connect_was_closed || empty(@$global['mysqli']->ping()))) {
+        if (!_mysql_is_open()) {
             $mysql_connect_was_closed = 0;
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
             if (!empty($global['mysqli_charset'])) {
@@ -3423,10 +3423,22 @@ function _mysql_connect() {
 
 function _mysql_close() {
     global $global, $mysql_connect_was_closed;
-    if (is_object($global['mysqli']) && !empty(@$global['mysqli']->ping())) {
+    if (_mysql_is_open()) {
         $mysql_connect_was_closed = 1;
         @$global['mysqli']->close();
     }
+}
+
+function _mysql_is_open(){
+    global $global, $mysql_connect_was_closed;
+    try {
+        if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
+            return true;
+        }
+    } catch (Exception $exc) {
+        return false;
+    }
+    return false;
 }
 
 function remove_utf8_bom($text) {
@@ -3988,6 +4000,25 @@ function URLsAreSameVideo($url1, $url2) {
 function getVideos_id() {
     if (isVideo()) {
         return getVideoIDFromURL(getSelfURI());
+    }
+    return false;
+}
+
+function isVideoOrAudioNotEmbed(){
+    if(!isVideo()){
+        return false;
+    }
+    $videos_id = getVideos_id();
+    if(empty($videos_id)){
+        return false;
+    }
+    $v = Video::getVideoLight($videos_id);
+    if(empty($v)){
+        return false;
+    }
+    $types = array('audio', 'video');
+    if(in_array($v['type'], $types)){
+        return true;
     }
     return false;
 }
