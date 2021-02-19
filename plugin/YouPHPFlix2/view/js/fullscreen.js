@@ -9,6 +9,9 @@ $(document).ready(function () {
 });
 
 function transformLinksToEmbed(selector){
+    if(typeof playVideoOnFullscreen === 'undefined'){
+        return false;
+    }
     if(playVideoOnFullscreen === 1 && typeof linksToFullscreen === 'function'){
         linksToFullscreen(selector);
     }else if (playVideoOnFullscreen === 2 && typeof linksToEmbed === 'function'){
