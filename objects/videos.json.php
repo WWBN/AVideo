@@ -5,6 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
+require_once $global['systemRootPath'] . 'objects/videoMetadata.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
 $showOnlyLoggedUserVideos = true;
@@ -54,6 +55,16 @@ foreach ($videos as $key => $value) {
         $videos[$key]['videosURL'] = getVideosURLAudio($videos[$key]['filename']);
     } else {
         $videos[$key]['videosURL'] = getVideosURL($videos[$key]['filename']);
+        foreach ($videos[$key]['videosURL'] as $f => $data) {
+            if ($data['type'] != 'video')
+                continue;
+            list($format, $resolution) = explode("_", $f);
+            list($w, $h) = VideoMetadata::getVideoMetadata($videos[$key]["id"], $resolution, $format, array("width", "height"));
+           $videos[$key]['videosURL'][$f]["width"] = $w;
+           $videos[$key]['videosURL'][$f]["height"] = $h;
+           $videos[$key]['videosURL'][$f]["res_name"] = resolution_to_name($w, $h, "~ ");
+           $videos[$key]['videosURL'][$f]["res_color"] = resolution_to_color($w, $h);
+       }
     }
     unset($videos[$key]['password']);
     unset($videos[$key]['recoverPass']);

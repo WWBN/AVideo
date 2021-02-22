@@ -5910,3 +5910,103 @@ function getImageTransparent1pxURL(){
     global $global;
     return "{$global['webSiteRootURL']}view/img/transparent1px.png";
 }
+
+function resolution_to_color($width, $height) {
+    $w = max($width, $height);
+    $h = min($width, $height);
+
+    $color = "#ccc";
+    if ($w * 1.02 > 1280 && $h * 1.02 > 720) /* HD */
+        $color = "#cc8";
+    if ($w * 1.02 > 1920 && $h * 1.02 > 1080) /* FHD */
+        $color = "#c88";
+    if ($w * 1.02 > 3840 && $h * 1.02 > 2160) /* 4K */
+        $color = "#c8c";
+    if ($w * 1.02 > 7680 && $h * 1.02 > 4320) /* 8K */
+        $color = "#000";
+
+    return $color;
+}
+
+function resolution_to_name($width, $height, $approx = true) {
+    /* Reference https://en.wikipedia.org/wiki/Graphics_display_resolution */
+    $well_known_resolutions = array(
+        array("CGA",	320,	200),
+        array("QVGA",	320,	240),
+        array("nHD",	640,	360),
+        array("WVGA",	640,	360),
+        array("WVGA",	640,	384),
+        array("VGA",	640,	480),
+        array("NTSC",	720,	480),
+        array("WVGA",	768,	480),
+        array("PAL",	768,	576),
+        array("WVGA",	800,	450),
+        array("WVGA",	800,	480),
+        array("SVGA",	800,	600),
+        array("WVGA",	848,	480),
+        array("WVGA",	852,	480),
+        array("WVGA",	853,	480),
+        array("FWVGA",	854,	480),
+        array("qHD",	960,	540),
+        array("DVGA",	960,	640),
+        array("WSVGA",	1024,	576),
+        array("WSVGA",	1024,	600),
+        array("XGA",	1024,	768),
+        array("WXGA",	1152,	768),
+        array("XGA+",	1152,	864),
+        array("HD",	1280,	720),
+        array("WXGA",	1280,	720),
+        array("WXGA",	1280,	768),
+        array("WXGA",	1280,	800),
+        array("SXGA",	1280,	1024),
+        array("WXGA",	1344,	768),
+        array("WXGA",	1360,	768),
+        array("WXGA",	1366,	768),
+        array("SXGA+",	1400,	1050),
+        array("WXGA+",	1440,	900),
+        array("HD+",	1600,	900),
+        array("UXGA",	1600,	1200),
+        array("WSXGA+",	1680,	1050),
+        array("FHD",	1920,	1080),
+        array("WUXGA",	1920,	1200),
+        array("2K",	2048,	1080),
+        array("QWXGA",	2048,	1152),
+        array("QXGA",	2048,	1536),
+        array("QHD",	2560,	1440),
+        array("QSXGA",	2560,	2048),
+        array("WQXGA",	2560,	1600),
+        array("QHD+",	3200,	1800),
+        array("XQSXGA",	3200,	2048),
+        array("QUXGA",	3200,	2400),
+        array("4K UHD",	3840,	2160),
+        array("WQUXGA",	3840,	2400),
+        array("5K",	5120,	2880),
+        array("8K UHD",	7680,	4320),
+        array("16K",	15360,	8640),
+    );
+
+    $w = max($width, $height);
+    $h = min($width, $height);
+    $name = null;
+    $match = null;
+    $best = null;
+
+    foreach ($well_known_resolutions as $v) {
+        if ($w == $v[1] && $h == $v[2]) {
+            $match = $v[0];
+            break;
+        }
+        if ($approx && $w * 1.02 >= $v[1] && $h * 1.02 >= $v[2]) {
+            $best = $approx.$v[0];
+        }
+    }
+
+    if (isset($match))
+        $name = $match;
+    else if (isset($best))
+        $name = $best;
+    else
+        $name = null;
+
+    return $name;
+}
