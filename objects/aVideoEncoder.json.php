@@ -55,7 +55,13 @@ if (empty($description)) {
     $video->setDescription($_POST['description']);
 }
 
-$video->setDuration($_POST['duration']);
+
+if(!empty($_REQUEST['duration'])){
+    $duration = $video->getDuration();
+    if(empty($duration) || $duration === 'EE:EE:EE'){
+        $video->setDuration($_REQUEST['duration']);
+    }
+}
 
 $status = $video->getStatus();
 // if encoder requested a status
