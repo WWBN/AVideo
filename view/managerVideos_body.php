@@ -19,6 +19,23 @@
     .modal-dialog {
         width: 90%;
     }
+    .video_res {
+        font-size: 75%;
+        color: #888;
+        margin: 0 1em;
+        text-align: right;
+    }
+    .video_res_name {
+       display: inline-block !important;
+       color: white;
+       padding: .2em .6em .3em;
+       font-size: 75%;
+       font-weight: 700;
+       line-height: 1;
+       white-space: nowrap;
+       border-radius: .25em;
+       text-align: right;
+    }
     @media (max-width:767px){
         .modal-dialog {
             width: 100vw;
@@ -1755,7 +1772,20 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                     download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
                                                                     download += '</div>';
                                                                 } else {
-                                                                    download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
+                                                                    res = '';
+                                                                    res_name = '';
+                                                                    if (row.videosURL[k].width && row.videosURL[k].height) {
+                                                                        res = row.videosURL[k].width + 'x' + row.videosURL[k].height;
+                                                                        res = '<span class="video_res">' + res + '</span>';
+                                                                        res_name_style = '';
+                                                                        if (row.videosURL[k].res_color) {
+                                                                            res_name_style = ' style="background-color: ' + row.videosURL[k].res_color + '"';
+                                                                        }
+                                                                        if (row.videosURL[k].res_name) {
+                                                                            res_name = '<span class="video_res_name"' + res_name_style + '>' + row.videosURL[k].res_name + '</span>';
+                                                                        }
+                                                                    }
+                                                                    download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + res + res_name + '</a>';
                                                                 }
 
                                                             }

@@ -189,6 +189,29 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `videos_metadata`
+-- Constraint on videos.id commented out for now because it bugs
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `videos_metadata` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `videos_id` INT NOT NULL,
+  `resolution` VARCHAR(12) NOT NULL,
+  `format` VARCHAR(12) NOT NULL,
+  `stream_id` INT NOT NULL,
+  `name` VARCHAR(128) NOT NULL,
+  `value` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE (`videos_id`, `resolution`, `format`, `stream_id`, `name`),
+  INDEX `fk_videos_metadata_videos1_idx` (`videos_id` ASC)
+  -- CONSTRAINT `fk_videos_metadata_videos1`
+  --   FOREIGN KEY (`videos_id`)
+  --   REFERENCES `videos` (`id`)
+  --   ON DELETE CASCADE
+  --   ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `comments`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comments` (

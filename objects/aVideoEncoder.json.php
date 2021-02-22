@@ -10,6 +10,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
+require_once $global['systemRootPath'] . 'objects/videoMetadata.php';
 
 if (empty($_POST)) {
     $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
@@ -135,6 +136,7 @@ if (!empty($_FILES['video']['tmp_name'])) {
 
     _error_log("aVideoEncoder.json: receiving video upload to {$filename} filesize=" . ($fsize) . " (" . humanFileSize($fsize) . ")" . json_encode($_FILES));
     decideMoveUploadedToVideos($_FILES['video']['tmp_name'], $filename);
+    VideoMetadata::importMetadata($video->getId(), $resolution, $_POST['format']);
 } else {
     // set encoding
     $video->setStatus('e');
