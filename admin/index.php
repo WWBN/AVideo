@@ -201,6 +201,7 @@ switch ($_GET['page']) {
         ?>
 
         <div class="container-fluid">
+            <br>
             <div class="row">
                 <div class="col-sm-3 col-md-3 fixed affix leftMenu">
                     <div class="panel-group" id="accordion">
