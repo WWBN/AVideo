@@ -86,8 +86,10 @@ class VideoStatistic extends ObjectYPT
         return $vs->save();
     }
 
-    public function save()
-    {
+    public function save(){
+        if(empty($this->videos_id)){
+            return false;
+        }
         $this->setSession_id(session_id());
         if (empty($this->session_id) && empty($this->users_id)) {
             return false;
