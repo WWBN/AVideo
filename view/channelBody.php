@@ -165,14 +165,17 @@ TimeLogEnd($timeLog, __LINE__);
                                 $active = "";
                             }
                             if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
-                                ?>
-                                <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
-                                    <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
-                                        <?php echo strtoupper(__("Playlists")); ?>
-                                    </a>
-                                </li>
-                                <?php
-                                $active = "";
+                                $totalPrograms = PlayList::getAllFromUserLight($user_id, true, false, 0, true);
+                                if($totalPrograms){
+                                    ?>
+                                    <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
+                                        <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
+                                            <?php echo strtoupper($palyListsObj->name); ?> <span class="badge"><?php echo count($totalPrograms); ?></span>
+                                        </a>
+                                    </li>
+                                    <?php
+                                    $active = "";
+                                }
                             }
                             ?>
                         </ul>
@@ -265,12 +268,31 @@ TimeLogEnd($timeLog, __LINE__);
                                 <?php
                                 $active = "fade";
                             }
-                            if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
+                            if (!empty($totalPrograms)) {
                                 ?>
                                 <div class="tab-pane <?php echo $active; ?>" id="channelPlayLists" style="min-height: 800px;">
-                                    <?php
-                                    include $global['systemRootPath'] . 'view/channelPlaylist.php';
-                                    ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading text-right">
+                                            <?php
+                                            if($isMyChannel){
+                                            ?>
+                                            <a class="btn btn-default btn-xs " href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/managerPlaylists.php">
+                                                <i class="fas fa-edit"></i> <?php echo __('Organize') . ' ' .$palyListsObj->name; ?>
+                                            </a>
+                                            <?php
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="panel-body">
+                                            <?php
+                                            include $global['systemRootPath'] . 'view/channelPlaylist.php';
+                                            ?>
+                                        </div>
+                                        <div class="panel-footer">
+
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <?php
                                 $active = "fade";

@@ -38,6 +38,7 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
             break;
         }
     }
+    $array['live_transmitions_history_id'] = $liveTransmitionHistory_id;
     if ($is200) {
         $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($liveTransmitionHistory_id);
     } else {

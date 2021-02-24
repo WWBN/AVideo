@@ -13,7 +13,6 @@ $percent = 90;
          $_REQUEST['current'] = 1;
          $_REQUEST['rowCount'] = $obj->maxVideos;
 
-         TimeLogEnd($timeLog, __LINE__);
          if ($obj->Suggested) {
              $dataFlickirty = new stdClass();
              $dataFlickirty->wrapAround = true;
@@ -45,7 +44,102 @@ $percent = 90;
             <?php
         }
     }
-    TimeLogEnd($timeLog, __LINE__);
+
+    if ($obj->Channels) {
+        require_once $global['systemRootPath'] . 'objects/Channel.php';
+        $dataFlickirty = new stdClass();
+        $dataFlickirty->wrapAround = true;
+        $dataFlickirty->pageDots = !empty($obj->pageDots);
+        $dataFlickirty->lazyLoad = 15;
+        $dataFlickirty->setGallerySize = false;
+        $dataFlickirty->cellAlign = 'left';
+        $dataFlickirty->groupCells = true;
+        if ($obj->ChannelsAutoPlay) {
+            $dataFlickirty->autoPlay = 10000;
+        }
+        $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
+        $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
+        if (!empty($channels)) {
+            foreach ($channels as $channel) {
+                $_POST['sort']['created'] = "DESC";
+                $videos = Video::getAllVideosAsync("viewable", $channel['id']);
+                unset($_POST['sort']['created']);
+                $link = User::getChannelLinkFromChannelName($channel["channelName"]);
+                ?>
+                <div class="row topicRow">
+                    <h2>
+                        <a href="<?php echo $link; ?>">
+                            <img src="<?php echo $global['webSiteRootURL'] . $channel["photoURL"]; ?>" class="img img-responsive pull-left" style="max-width: 18px; max-height: 18px; margin-right: 5px;"> <?php
+                            echo $channel["channelName"];
+                            ?>
+                        </a>
+                    </h2>
+                    <!-- Date Programs/Playlists -->
+                    <?php
+                    include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                    ?>
+                </div>
+
+                <?php
+            }
+        }
+    }
+
+
+    $plObj = AVideoPlugin::getDataObjectIfEnabled('PlayLists');
+    if ($obj->PlayList && !empty($plObj)) {
+        $dataFlickirty = new stdClass();
+        $dataFlickirty->wrapAround = true;
+        $dataFlickirty->pageDots = !empty($obj->pageDots);
+        $dataFlickirty->lazyLoad = 15;
+        $dataFlickirty->setGallerySize = false;
+        $dataFlickirty->cellAlign = 'left';
+        $dataFlickirty->groupCells = true;
+        if ($obj->PlayListAutoPlay) {
+            $dataFlickirty->autoPlay = 10000;
+        }
+
+        $programs = Video::getAllVideos("viewableNotUnlisted", false, true, array(), false, false, true, false, true);
+        cleanSearchVar();
+        if (!empty($programs)) {
+            foreach ($programs as $serie) {
+                $videos = PlayList::getAllFromPlaylistsID($serie['serie_playlists_id']);
+
+                foreach ($videos as $key => $value) {
+                    $videos[$key]['title'] = "{$value['icon']} {$value['title']}";
+                }
+
+                $link = PlayLists::getLink($serie['serie_playlists_id']);
+                $linkEmbed = PlayLists::getLink($serie['serie_playlists_id'], true);
+                $canWatchPlayButton = "";
+                if (User::canWatchVideoWithAds($value['id'])) {
+                    $canWatchPlayButton = "canWatchPlayButton";
+                }
+                ?>
+                <div class="row topicRow">
+                    <h2>
+                        <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>" class="<?php echo $canWatchPlayButton; ?>">
+                            <i class="fas fa-list"></i> <?php
+                            echo $serie['title'];
+                            ?>
+                        </a>
+                    </h2>
+                    <!-- Date Programs/Playlists -->
+                    <?php
+                    $rowPlayListLink = PlayLists::getLink($serie['serie_playlists_id']);
+                    $rowPlayListLinkEmbed = PlayLists::getLink($serie['serie_playlists_id'], true);
+                    include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                    unset($rowPlayListLink);
+                    unset($rowPlayListLinkEmbed);
+                    ?>
+                </div>
+
+                <?php
+            }
+        }
+        reloadSearchVar();
+    }
+
     if ($obj->Trending) {
         $dataFlickirty = new stdClass();
         $dataFlickirty->wrapAround = true;
@@ -79,7 +173,6 @@ $percent = 90;
             <?php
         }
     }
-    TimeLogEnd($timeLog, __LINE__);
     if ($obj->DateAdded) {
         $dataFlickirty = new stdClass();
         $dataFlickirty->wrapAround = true;
@@ -113,7 +206,6 @@ $percent = 90;
             <?php
         }
     }
-    TimeLogEnd($timeLog, __LINE__);
     if ($obj->MostPopular) {
         $_REQUEST['rowCount'] = $obj->maxVideos;
         $dataFlickirty = new stdClass();
@@ -148,7 +240,6 @@ $percent = 90;
 
         <?php
     }
-    TimeLogEnd($timeLog, __LINE__);
     if ($obj->MostWatched) {
         $_REQUEST['rowCount'] = $obj->maxVideos;
         $dataFlickirty = new stdClass();
@@ -181,7 +272,6 @@ $percent = 90;
         </div>
         <?php
     }
-    TimeLogEnd($timeLog, __LINE__);
     if ($obj->SortByName) {
         $_REQUEST['rowCount'] = $obj->maxVideos;
         $dataFlickirty = new stdClass();
@@ -214,14 +304,13 @@ $percent = 90;
         </div>
         <?php
     }
-    TimeLogEnd($timeLog, __LINE__);
     if ($obj->Categories) {
         $url = "{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/modeFlixCategory.php";
-        if(!empty($_GET['catName'])){
+        if (!empty($_GET['catName'])) {
             $url = addQueryStringParameter($url, 'catName', $_GET['catName']);
         }
         $search = getSearchVar();
-        if(!empty($search)){
+        if (!empty($search)) {
             $url = addQueryStringParameter($url, 'search', $search);
         }
         $url = addQueryStringParameter($url, 'tags_id', intval(@$_GET['tags_id']));
@@ -253,7 +342,7 @@ $percent = 90;
                 $container.on('append.infiniteScroll', function (event, response, path, items) {
                     //console.log('Append page: ' + path);
 
-                    $("img.thumbsJPG").each(function (index) {
+                    $("img.thumbsJPG").not('flickity-lazyloaded').each(function (index) {
                         $(this).attr('src', $(this).attr('data-flickity-lazyload'));
                         $(this).addClass('flickity-lazyloaded');
                     });
@@ -274,7 +363,6 @@ $percent = 90;
         </script>
         <?php
     }
-    TimeLogEnd($timeLog, __LINE__);
     unset($_POST['sort']);
     unset($_REQUEST['current']);
     unset($_REQUEST['rowCount']);

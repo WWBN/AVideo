@@ -66,8 +66,7 @@ class Message implements MessageComponentInterface {
 
         if ($this->shouldPropagateInfo($client)) {
             //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
-            $this->msgToAll($conn, array(), \SocketMessageType::NEW_CONNECTION, true);
-            //\AVideoPlugin::onUserSocketConnect($json->from_users_id, $this->clients[$conn->resourceId]);
+            $this->msgToAll($conn, array('users_id'=>$client['users_id']), \SocketMessageType::NEW_CONNECTION, true);
         } else {
             //_log_message("NOT shouldPropagateInfo ");
         }
@@ -100,7 +99,7 @@ class Message implements MessageComponentInterface {
         $videos_id = $client['videos_id'];
         $live_key = $client['live_key'];
         if ($this->shouldPropagateInfo($client)) {
-            $this->msgToAll($conn, array(), \SocketMessageType::NEW_DISCONNECTION);
+            $this->msgToAll($conn, array('users_id'=>$client['users_id']), \SocketMessageType::NEW_DISCONNECTION);
             //\AVideoPlugin::onUserSocketDisconnect($users_id, $this->clients[$conn->resourceId]);
             if (!empty($videos_id)) {
                 $this->msgToAllSameVideo($videos_id, "");

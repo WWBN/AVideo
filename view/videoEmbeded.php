@@ -543,16 +543,6 @@ if (User::hasBlockedUser($video['users_id'])) {
     echo AVideoPlugin::getFooterCode();
     include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
     ?>
-    <textarea id="elementToCopy" style="
-              filter: alpha(opacity=0);
-              -moz-opacity: 0;
-              -khtml-opacity: 0;
-              opacity: 0;
-              position: absolute;
-              z-index: -9999;
-              top: 0;
-              left: 0;
-              pointer-events: none;"></textarea>
     <script>
             var topInfoTimeout;
             $(document).ready(function () {

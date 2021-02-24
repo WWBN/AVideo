@@ -29,7 +29,7 @@ function flixFullScreen(link, url) {
     setTimeout(function(){flixFullScreenActive=false;}, 500);
     $('body').addClass('fullScreen');
     var divHTML = '<div id="divIframeFull" style="background-color:black; text-align: center; position: fixed; top: 0;left: 0; z-index: 9999;">';
-    divHTML += '<div id="divTopBar" style="position: fixed; top: 0; left: 0; height: 50px; width: 100vw; z-index: 99999; padding:10px; ">';
+    divHTML += '<div id="divTopBar" style="position: fixed; top: 0; right: 0; height: 50px; width: 45px; z-index: 99999; padding:10px; ">';
     divHTML += '<span id="closeBtnFull" class="pull-right" onclick="closeFlixFullScreen(\''+window.location.href+'\');">';
     divHTML += '<i class="fa fa-times"></i></span></div></div>';
     var div = $(divHTML).append('<iframe src="' + link + '" style="background-color:black; position: fixed; top: 0; left: 0; height: 100vh; width: 100vw; z-index: 9999; overflow: hidden;"  frameBorder="0" id="iframeFull" allow="autoplay" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen>');

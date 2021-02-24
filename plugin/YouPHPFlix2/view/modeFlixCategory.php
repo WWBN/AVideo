@@ -14,10 +14,12 @@ if (empty($_GET['current'])) {
     $_REQUEST['current'] = intval($_GET['current']);
 }
 
+$uid = '{serie_uid}';
+
 $cacheName = "modeFlixCategory" . md5(json_encode($_GET)) . User::getId();
 $cache = ObjectYPT::getCache($cacheName, 600);
 if (!empty($cache)) {
-    echo $cache;
+    echo str_replace('{serie_uid}', uniqid(), $cache);
     return false;
 }
 ob_start();
@@ -141,5 +143,5 @@ $cache = ob_get_clean();
 
 ObjectYPT::setCache($cacheName, $cache);
 
-echo $cache;
+echo str_replace('{serie_uid}', uniqid(), $cache);
 ?>

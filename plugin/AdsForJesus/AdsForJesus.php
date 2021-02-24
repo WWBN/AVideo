@@ -63,13 +63,11 @@ class AdsForJesus extends PluginAbstract {
         $js = '';
         $css = '';
         //if (!empty($_GET['videoName']) || !empty($_GET['u'])) {
-        if (!empty($_GET['videoName'])) {
-            if (empty($_GET['u'])) {
-                $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-                $showAds = AVideoPlugin::showAds($video['id']);
-                if (!$showAds) {
-                    return "";
-                }
+        $videos_id = getVideos_id();
+        if (!empty($videos_id)) {
+            $showAds = AVideoPlugin::showAds($videos_id);
+            if (!$showAds) {
+                return "";
             }
             global $global;
             $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
@@ -86,7 +84,12 @@ class AdsForJesus extends PluginAbstract {
         $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
 
         //if (!empty($_GET['videoName']) || !empty($_GET['u'])) {
-        if (!empty($_GET['videoName'])) {
+        $videos_id = getVideos_id();
+        if (!empty($videos_id)) {
+            $showAds = AVideoPlugin::showAds($videos_id);
+            if (!$showAds) {
+                return "";
+            }
             if (empty($_GET['u'])) {
                 $video = Video::getVideoFromCleanTitle($_GET['videoName']);
                 $showAds = AVideoPlugin::showAds($video['id']);
@@ -101,10 +104,7 @@ class AdsForJesus extends PluginAbstract {
             $video_length = parseDurationToSeconds($video['duration']);
             $obj = $this->getDataObject();
             PlayerSkins::setIMAADTag("https://forjesus.tv/vmap.xml?video_durarion={$video_length}&start={$obj->start}&mid25Percent={$obj->mid25Percent}&mid50Percent={$obj->mid50Percent}&mid75Percent={$obj->mid75Percent}&end={$obj->end}");
-        }else if(isLive()){
-            //PlayerSkins::setIMAADTag("https://forjesus.tv/vmap.xml?video_durarion=0&start=1&mid25Percent=0&mid50Percent=0&mid75Percent=0&end=1");
-        }
-        
+        }        
         
         return $js;
     }

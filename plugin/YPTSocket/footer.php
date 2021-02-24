@@ -208,7 +208,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
                         });
                     }
                 });
-            }else{
+            } else {
                 $("#socket_info_container").hide();
             }
             $("#socketBtnMinimize").click(function () {
@@ -272,5 +272,22 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     var webSocketToken = '';
     var webSocketURL = '';
     var webSocketTypes = <?php echo json_encode($refl->getConstants()); ?>;
+
+
+    function onUserSocketConnect(response) {
+        try {
+            <?php echo AVideoPlugin::onUserSocketConnect(); ?>
+        } catch (e) {
+            console.log('onUserSocketConnect:error', e.message);
+        }
+    }
+
+    function onUserSocketDisconnect(response) {
+        try {
+            <?php echo AVideoPlugin::onUserSocketDisconnect(); ?>
+        } catch (e) {
+            console.log('onUserSocketConnect:error', e.message);
+        }
+    }
 </script>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/YPTSocket/script.js?<?php echo filectime($global['systemRootPath'] . 'plugin/YPTSocket/script.js'); ?>" type="text/javascript"></script>

@@ -3309,7 +3309,7 @@ function TimeLogStart($name) {
 
 function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
     global $global;
-    if (!empty($global['noDebug'])) {
+    if (!empty($global['noDebug']) || empty($global['start'][$name])) {
         return false;
     }
     $time = microtime();
@@ -3843,7 +3843,7 @@ function _dieAndLogObject($obj, $prefix = "") {
 }
 
 function isAVideoPlayer() {
-    if (isVideo()) {
+    if (isVideo() || isSerie()) {
         return true;
     }
     return false;
@@ -3998,10 +3998,51 @@ function URLsAreSameVideo($url1, $url2) {
 }
 
 function getVideos_id() {
+    global $_getVideos_id;
+    if(isset($_getVideos_id)){
+        return $_getVideos_id;
+    }
     if (isVideo()) {
-        return getVideoIDFromURL(getSelfURI());
+        $videos_id = getVideoIDFromURL(getSelfURI());
+        if(empty($videos_id) && !empty($_REQUEST['videoName'])){
+            $video = Video::getVideoFromCleanTitle($_REQUEST['videoName']);
+            if(!empty($video)){
+                $videos_id = $video['id'];
+            }
+        }
+        setVideos_id($videos_id);
+        return $videos_id;
     }
     return false;
+}
+
+function setVideos_id($videos_id) {
+    global $_getVideos_id;
+    $_getVideos_id = $videos_id;
+}
+
+function getPlaylists_id() {
+    global $_isPlayList;
+    if(!isset($_isPlayList)){
+        $_isPlayList = false;
+        if(isPlayList()){
+            $_isPlayList = intval(@$_GET['playlists_id']);
+            if(empty($_isPlayList)){
+                $videos_id = getVideos_id();
+                if(empty($videos_id)){
+                    $_isPlayList = false;
+                }else{
+                    $v = Video::getVideoLight($videos_id);
+                    if(empty($v) || empty($v['serie_playlists_id'])){
+                        $_isPlayList = false;
+                    }else{
+                        $_isPlayList = $v['serie_playlists_id'];
+                    }
+                }
+            }
+        }
+    }
+    return $_isPlayList;
 }
 
 function isVideoOrAudioNotEmbed(){
