@@ -152,19 +152,21 @@ function lazyImage() {
 lazyImage();
 
 var pleaseWaitIsINUse = false;
-
+var pauseIfIsPlayinAdsInterval;
 function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
             clearTimeout(promisePlayTimeout);
             console.log("setPlayerListners: pause");
             //userIsControling = true;
+            clearInterval(pauseIfIsPlayinAdsInterval);
         });
 
         player.on('play', function () {
             clearTimeout(promisePlayTimeout);
             console.log("setPlayerListners: play");
             //userIsControling = true;
+            pauseIfIsPlayinAdsInterval = setInterval(function(){pauseIfIsPlayinAds();},500);
         });
 
         $("#mainVideo .vjs-mute-control").click(function () {
@@ -178,7 +180,6 @@ function setPlayerListners() {
             setPlayerListners();
         }, 2000);
     }
-    pauseIfIsPlayinAds();
 }
 
 function removeTracks() {
@@ -858,6 +859,9 @@ function isPlayNextEnabled() {
 }
 
 function avideoAlert(title, msg, type) {
+    if(typeof msg == 'undefined'){
+        return false;
+    }
     if (msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
         avideoAlertHTMLText(title, msg, type);
     } else {
@@ -977,12 +981,8 @@ function playerHasAds() {
 }
 
 function pauseIfIsPlayinAds(){
-    if(playerHasAds()){
-        setTimeout(function(){
-            if(playerIsPlayingAds()){
-                player.pause();
-            }
-        }, 1000);
+    if(!player.paused() && playerHasAds() && playerIsPlayingAds()){
+        player.pause();
     }
 }
 

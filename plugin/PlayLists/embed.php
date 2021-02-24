@@ -84,9 +84,9 @@ if (empty($playListData)) {
 $url = PlayLists::getLink($pl->getId());
 $title = $pl->getName();
 
-if($serie = PlayLists::isPlayListASerie($pl->getId())){
+if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
     setVideos_id($serie['id']);
-}else if(!empty($playList[$playlist_index])){
+} else if (!empty($playList[$playlist_index])) {
     setVideos_id($playList[$playlist_index]['id']);
 }
 //var_dump($playListData);exit;
@@ -246,36 +246,45 @@ if($serie = PlayLists::isPlayListASerie($pl->getId())){
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js"></script>
         <script>
 
-            var playerPlaylist = <?php echo json_encode($playListData); ?>;
-            var originalPlayerPlaylist = playerPlaylist;
+            var embed_playerPlaylist = <?php echo json_encode($playListData); ?>;
+            var originalPlayerPlaylist = embed_playerPlaylist;
             var updatePLSourcesTimeout;
-            function updatePLSources(_index){
+            function updatePLSources(_index) {
+                if(_index<0){
+                    _index = 0;
+                }
                 clearTimeout(updatePLSourcesTimeout);
-                if (typeof player.updateSrc == 'function' && playerPlaylist[_index].sources != 'undefined') {
-                    player.updateSrc(playerPlaylist[_index].sources);
-                }else{
+                if (typeof player.updateSrc == 'function' && typeof player.videoJsResolutionSwitcher != 'undefined' && typeof embed_playerPlaylist[_index] != 'undefined' && typeof embed_playerPlaylist[_index].sources != 'undefined') {
+                    console.log('updatePLSources', _index);
+                    
+    //player.src(embed_playerPlaylist[_index].sources);
+    player.updateSrc(embed_playerPlaylist[_index].sources);
+    //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
+                    //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
+                    //player.updateSrc(embed_playerPlaylist[_index].sources);
+                    userIsControling = false;
+                    if (typeof player.ima != 'undefined') {
+                        console.log('updatePLSources ADs reloaded');
+                        player.ima.requestAds();
+                    } else {
+                        console.log('updatePLSources player.ima is undefined');
+                    }
+                    if (typeof embed_playerPlaylist[_index] !== 'undefined') {
+                        playerPlay(embed_playerPlaylist[_index].videoStartSeconds);
+                    }
+                } else {
                     updatePLSourcesTimeout = setTimeout(function () {
                         updatePLSources(_index);
                     }, 500);
                     return false;
                 }
-                setTimeout(function () {
-                    userIsControling = false;
-                    if(typeof player.ima != 'undefined'){
-                        console.log('updatePLSources ADs reloaded');
-                        player.ima.requestAds();
-                    }
-                    if (typeof playerPlaylist[index] !== 'undefined') {
-                        playerPlay(playerPlaylist[index].videoStartSeconds);
-                    }
-                }, 500);
             }
 
 <?php
-$str = "player.playlist(playerPlaylist);
+$str = "player.playlist(embed_playerPlaylist);
             player.playlist.autoadvance(0);
             player.on('play', function () {
-                addView(playerPlaylist[player.playlist.currentIndex()].videos_id, 0);
+                addView(embed_playerPlaylist[player.playlist.currentIndex()].videos_id, 0);
             });
             player.on('playlistchange', function() {
                 console.log('event playlistchange');
@@ -284,21 +293,19 @@ $str = "player.playlist(playerPlaylist);
                 console.log('event duringplaylistchange');
             });
             player.on('playlistitem', function() {
-                console.log('event playlistitem');
-                var t = $(this);
-                index = t.index();
+                var index = player.playlist.currentIndex();
+                console.log('event playlistitem '+index);
                 updatePLSources(index);
             });
             player.playlistUi();";
 if (!empty($playlist_index)) {
     $str .= 'player.playlist.currentItem(' . $playlist_index . ');';
 }
-$str .= "if (typeof playerPlaylist[0] !== 'undefined') {
+$str .= "if (typeof embed_playerPlaylist[0] !== 'undefined') {
                     updatePLSources({$playlist_index});
                 }
                 $('.vjs-playlist-item ').click(function () {
-                    var t = $(this);
-                    index = t.index();
+                    var index = player.playlist.currentIndex();
                     updatePLSources(index);
                 });";
 PlayerSkins::getStartPlayerJS($str);
@@ -323,7 +330,7 @@ PlayerSkins::getStartPlayerJS($str);
 
                 $('#embededSortBy').change(function () {
                     var value = $(this).val();
-                    playerPlaylist.sort(function (a, b) {
+                    embed_playerPlaylist.sort(function (a, b) {
                         return compare(a, b, value);
                     });
                     player.playlist.sort(function (a, b) {

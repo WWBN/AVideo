@@ -1,5 +1,7 @@
 <?php
-require_once '../videos/configuration.php';
+if(empty($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 if (empty($video) && !empty($_GET['videos_id'])) {
     $video = Video::getVideo(intval($_GET['videos_id']), "viewable", true, false, true, true);
