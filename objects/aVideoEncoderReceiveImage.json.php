@@ -59,9 +59,32 @@ if (!empty($_FILES['image']['tmp_name']) && (!file_exists($obj->jpgDest) || file
     }
     if(file_exists($obj->jpgDest)){
         _error_log("ReceiveImage: File already exists ".$obj->jpgDest);
+        if(filesize($obj->jpgDest)!==42342){
+            _error_log("ReceiveImage: file is not an error image ".filesize($obj->jpgDest));
+        }
     }
-    if(filesize($obj->jpgDest)!==42342){
-        _error_log("ReceiveImage: file is not an error image ".filesize($obj->jpgDest));
+}
+
+if(!empty($_FILES['spectrumimage']['tmp_name'])){
+    $obj->jpgSpectrumDest = "{$destination_local}_spectrum.jpg";
+    if ((!file_exists($obj->jpgSpectrumDest) || filesize($obj->jpgSpectrumDest)===42342)) {
+        if (!move_uploaded_file($_FILES['spectrumimage']['tmp_name'], $obj->jpgSpectrumDest)) {
+            $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
+            _error_log("ReceiveImage: ".$obj->msg);
+            die(json_encode($obj));
+        } else{
+            $obj->jpgSpectrumDest = humanFileSize(filesize($obj->jpgSpectrumDest));
+        }
+    }else{
+        if(empty($_FILES['spectrumimage']['tmp_name'])){
+            _error_log("ReceiveImage: empty \$_FILES['spectrumimage']['tmp_name'] " . json_encode($_FILES));
+        }
+        if(file_exists($obj->jpgSpectrumDest)){
+            _error_log("ReceiveImage: File already exists ".$obj->jpgDest);
+            if(filesize($obj->jpgSpectrumDest)!==42342){
+                _error_log("ReceiveImage: file is not an error image ".filesize($obj->jpgDest));
+            }
+        }
     }
 }
 
@@ -80,9 +103,9 @@ if (!empty($_FILES['gifimage']['tmp_name']) && (!file_exists($obj->gifDest) || f
     }
     if(file_exists($obj->gifDest)){
         _error_log("ReceiveImage: File already exists ".$obj->gifDest);
-    }
-    if(filesize($obj->gifDest)!==42342){
-        _error_log("ReceiveImage: file is not an error image ".filesize($obj->gifDest));
+        if(filesize($obj->gifDest)!==42342){
+            _error_log("ReceiveImage: file is not an error image ".filesize($obj->gifDest));
+        }
     }
 }
 $obj->webpDest = "{$destination_local}.webp";
@@ -100,9 +123,9 @@ if (!empty($_FILES['webpimage']['tmp_name']) && (!file_exists($obj->webpDest) ||
     }
     if(file_exists($obj->webpDest)){
         _error_log("ReceiveImage: File already exists ".$obj->webpDest);
-    }
-    if(filesize($obj->webpDest)!==42342){
-        _error_log("ReceiveImage: file is not an error image ".filesize($obj->webpDest));
+        if(filesize($obj->webpDest)!==42342){
+            _error_log("ReceiveImage: file is not an error image ".filesize($obj->webpDest));
+        }
     }
 }
 

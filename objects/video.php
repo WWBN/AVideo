@@ -3301,6 +3301,7 @@ if (!class_exists('Video')) {
                 $jpegPortraitThumbsSmall = self::getSourceFile($filename, "_portrait_thumbsSmallV2.jpg");
                 $thumbsSource = self::getSourceFile($filename, "_thumbsV2.jpg");
                 $thumbsSmallSource = self::getSourceFile($filename, "_thumbsSmallV2.jpg");
+                $spectrumSource = self::getSourceFile($filename, "_spectrum.jpg");
                 if (empty($jpegSource)) {
                     return array();
                 }
@@ -3313,6 +3314,7 @@ if (!class_exists('Video')) {
                 $obj->gifPortrait = $gifPortraitSource['url'];
                 $obj->thumbsJpg = $thumbsSource['url'];
                 $obj->thumbsJpgSmall = $thumbsSmallSource['url'];
+                $obj->spectrumSource = $spectrumSource['url'];
 
                 $obj->posterLandscape = $jpegSource['url'];
                 $obj->posterLandscapePath = $jpegSource['path'];
@@ -3409,9 +3411,15 @@ if (!class_exists('Video')) {
                         $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/zip.png";
                         $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/zip.png";
                     } elseif (($type !== "audio") && ($type !== "linkAudio")) {
-                        $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
-                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
-                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
+                        if(file_exists($spectrumSource['path'])){
+                            $obj->poster = $spectrumSource['url'];
+                            $obj->thumbsJpg = $spectrumSource['url'];
+                            $obj->thumbsJpgSmall = $spectrumSource['url'];
+                        }else{
+                            $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+                            $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
+                            $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
+                        }
                     } else {
                         $obj->poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
                         $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_waveThumbs.jpg";
