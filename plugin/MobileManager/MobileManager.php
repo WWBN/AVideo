@@ -72,6 +72,7 @@ class MobileManager extends PluginAbstract {
         //$obj->netflixSortByName = false;
         $obj->netflixBigVideo = true;
         $obj->disableWhitelabel = false;
+        $obj->disableComments = false;
         $obj->approvalMode = false;
         $obj->showMeet = true;
         $obj->goLiveWithMeet = true;
