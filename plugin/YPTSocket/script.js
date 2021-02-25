@@ -205,4 +205,7 @@ $(function () {
             }
         }
     });
+    if(inIframe()){
+        $('#socket_info_container').hide();
+    }
 });
