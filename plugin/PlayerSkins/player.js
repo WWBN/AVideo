@@ -5,6 +5,7 @@ function startAudioSpectrumProgress(spectrumImage) {
         player.on('play', function () {
             $('#avideo-audio-progress').fadeIn();
             $('#mainVideo .vjs-poster').css('background-image', "url("+spectrumImage+")");
+            $('#mainVideo .vjs-poster').css('background-size', "cover");
             //clearInterval(startAudioSpectrumProgressInterval);
             startAudioSpectrumProgressInterval = setInterval(function () {
                 var style = $('#mainVideo .vjs-play-progress').attr('style');
