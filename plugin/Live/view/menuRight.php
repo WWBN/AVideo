@@ -329,6 +329,17 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         $('.live_' + json.live_servers_id + "_" + json.key).slideDown();
         var selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
         onlineLabelOnline(selector);
+        
+        // update the chat if the history changes
+        var IframeClass = ".yptchat2IframeClass_"+json.key+"_"+json.live_servers_id;
+        if($( IframeClass ).length){
+            var src = $( IframeClass ).attr('src');
+            if(src){
+                avideoToast('Loading new chat');
+                var newSRC = addGetParam(src, 'live_transmitions_history_id', json.live_transmitions_history_id);
+                $( IframeClass ).attr('src', newSRC);
+            }
+        }
     }
     function socketLiveOFFCallback(json) {
         console.log('socketLiveOFFCallback', json);

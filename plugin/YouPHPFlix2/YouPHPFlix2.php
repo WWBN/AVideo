@@ -37,6 +37,8 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->SuggestedAutoPlay = true;
         $obj->PlayList = true;
         $obj->PlayListAutoPlay = true;
+        $obj->Channels = true;
+        $obj->ChannelsAutoPlay = true;
         $obj->Trending = true;
         $obj->TrendingAutoPlay = true;
         $obj->DateAdded = true;

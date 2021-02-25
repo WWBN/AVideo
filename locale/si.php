@@ -4,7 +4,7 @@ global $t;
 $t['%s ERROR: You must set a ID on config'] = "%s ERROR: You must set a ID on config";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: You must set a KEY on config";
 $t['(filtered from _MAX_ total entries)'] = "(filtered from _MAX_ total entries)";
-$t['465 OR 587'] = "465 or 587";
+$t['465 OR 587'] = "465 ali 587";
 $t[': activate to sort column ascending'] = ": activate to sort column ascending";
 $t[': activate to sort column descending'] = ": activate to sort column descending";
 $t['A service error occurred: %s'] = "Pojavila se je napaka: %s";

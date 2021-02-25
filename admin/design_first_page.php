@@ -66,21 +66,6 @@ if (empty($netflixSwitch) && empty($gallerySwitch) && empty($youtubeSwitch) && e
             </div>
         </div>
     </div>
-    <div class="clearfix"></div>
-    <div class="col-sm-6 col-md-3 col-lg-3">
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                YouTube <span class="label label-danger" data-toggle="tooltip" title="This layout will be removed in future releases, use the Gallery instead"> Deprecated </span>
-                <div class="material-switch pull-right">
-                    <input class="" data-toggle="toggle" type="checkbox" id="youtubeSwitch" <?php echo $youtubeSwitch ? "checked" : ""; ?>>
-                    <label for="youtubeSwitch" class="label-primary"></label>
-                </div>
-            </div>
-            <div class="panel-body">
-                <img src="<?php echo $global['webSiteRootURL']; ?>admin/img/youtube.jpg" class="img-responsive">
-            </div>
-        </div>
-    </div>
 </div>
 <script>
     function checkSwitch() {

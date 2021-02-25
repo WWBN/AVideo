@@ -13,19 +13,6 @@
             </div>
 
             <?php
-            /* $autoPlayVideo = Video::getVideo($video['next_videos_id']);
-              if($video==$autoPlayVideo){
-              unset($autoPlayVideo);
-              }
-              if ($video['rotation'] === "90" || $video['rotation'] === "270") {
-              $aspectRatio = "9:16";
-              $vjsClass = "vjs-9-16";
-              $embedResponsiveClass = "embed-responsive-9by16";
-              } else {
-              $aspectRatio = "16:9";
-              $vjsClass = "vjs-16-9";
-              $embedResponsiveClass = "embed-responsive-16by9";
-              } */
             $vjsClass = "";
             $playNowVideo = $video;
             $disableYoutubeIntegration = false;
@@ -36,6 +23,7 @@
             if (((strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
                 $_GET['isEmbedded'] = "e";
                 ?>
+                <!-- embed iframe -->
                 <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" >
                     <?php
                     if (function_exists('getVTTTracks')) {
@@ -61,15 +49,16 @@
                 <?php
             } else {
                 // youtube!
-                if ((strpos($video['videoLink'], "youtube.com") != false) || (strpos($video['videoLink'], "youtu.be") != false)) {
+                if ((stripos($video['videoLink'], "youtube.com") != false) || (stripos($video['videoLink'], "youtu.be") != false)) {
                     $_GET['isEmbedded'] = "y";
-                } else if ((strpos($video['videoLink'], "vimeo.com") != false)) {
+                } else if ((stripos($video['videoLink'], "vimeo.com") != false)) {
                     $_GET['isEmbedded'] = "v";
                 }
                 $_GET['isMediaPlaySite'] = $video['id'];
                 PlayerSkins::playerJSCodeOnLoad($video['id'], @$autoPlayVideo['url']);
                 ?>      
                 <div id="main-video" class="embed-responsive embed-responsive-16by9">
+                    <!-- embed iframe advancedCustom-> YoutubePlayerIntegration isEmbedded =  <?php echo $_GET['isEmbedded']; ?> -->
                     <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" controls <?php
                     if ($config->getAutoplay()) {
                         echo " autoplay ";
@@ -78,26 +67,20 @@
                     <script>
                         var player;
                         var mediaId = <?php echo $video['id']; ?>;
-    <?php if (!CustomizeUser::canDownloadVideosFromVideo($video['id'])) { ?>
-                            // Prevent HTML5 video from being downloaded (right-click saved)?
-                            $('#mainVideo').bind('contextmenu', function () {
-                                return false;
-                            });
-    <?php } ?>
+                        // Prevent HTML5 video from being downloaded (right-click saved)?
+                        $('#mainVideo').bind('contextmenu', function () {
+                            return false;
+                        });
 
                         $(document).ready(function () {
-
-                            //$(".vjs-big-play-button").hide();
                             $(".vjs-control-bar").css("opacity: 1; visibility: visible;");
-
                         });
                     </script>
-
                 </div>
                 <?php
             } // youtube! end
             require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-// the live users plugin
+            // the live users plugin
             if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
 
                 require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';

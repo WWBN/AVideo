@@ -130,14 +130,18 @@ class sqlDAL {
                 // When not cached
 
                 $readSqlCached[$crc] = "false";
+                _mysql_connect();
+                
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                     log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement}) - format=({$formats}) values=" . json_encode($values));
-                    log_error("[sqlDAL::readSql] trying close and reconnect");
+                    //log_error("[sqlDAL::readSql] trying close and reconnect");
                     _mysql_close();
                     _mysql_connect();
                     if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                         log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed again return false");
                         return false;
+                    }else{
+                        log_error("[sqlDAL::readSql] SUCCESS close and reconnect works!");
                     }
                 }
                 if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {

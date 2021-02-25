@@ -48,7 +48,7 @@ sort($vars);
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <?php 
+        <?php
         echo getHTMLTitle(__("Translate AVideo"));
         ?>
         <?php

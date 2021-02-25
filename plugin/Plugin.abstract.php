@@ -140,6 +140,12 @@ abstract class PluginAbstract {
                 }
             }
             $eo = $this->getEmptyDataObject();
+            // check if the plugin define any array for the select option, if does, overwrite it
+            foreach ($eo as $key => $value) {
+                if(isset($value->type) && is_array($value->type) && isset($o->$key) && isset($o->$key->type)){
+                    $o->$key->type = $value->type;
+                }
+            }
             $wholeObjects = array_merge((array) $eo, (array) $o);
             $disabledPlugins = plugin::getAllDisabled();
             foreach ($disabledPlugins as $value) {
@@ -506,11 +512,11 @@ abstract class PluginAbstract {
         return $this->dataObjectHelper;
     }
     
-    function onUserSocketConnect($users_id, $data){
+    function onUserSocketConnect(){
         
     }
     
-    function onUserSocketDisconnect($users_id, $data){
+    function onUserSocketDisconnect(){
         
     }
 }

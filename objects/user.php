@@ -306,7 +306,7 @@ if (typeof gtag !== \"function\") {
     public static function getUserFromChannelName($channelName) {
         $channelName = cleanString($channelName);
         global $global;
-        $channelName = $global['mysqli']->real_escape_string($channelName);
+        $channelName = ($channelName);
         $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($channelName));
         $user = sqlDAL::fetchAssoc($res);
@@ -574,20 +574,19 @@ if (typeof gtag !== \"function\") {
             $this->emailVerified = "false";
         }
 
-        $this->user = $global['mysqli']->real_escape_string($this->user);
-        $this->password = $global['mysqli']->real_escape_string($this->password);
-        $this->name = $global['mysqli']->real_escape_string($this->name);
-        $this->status = $global['mysqli']->real_escape_string($this->status);
-        $this->about = $global['mysqli']->real_escape_string($this->about);
+        $user = ($this->user);
+        $password = ($this->password); 
+        $name = ($this->name); 
+        $status = ($this->status);
         $this->about = preg_replace("/(\\\)+n/", "\n", $this->about);
         $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);
-        $this->channelName = $global['mysqli']->real_escape_string($this->channelName);
+        $channelName = ($this->channelName);
         if (filter_var($this->donationLink, FILTER_VALIDATE_URL) === false) {
             $this->donationLink = "";
         }
         if (!empty($this->id)) {
             $formats = "ssssiiii";
-            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet);
+            $values = array($user, $password, $this->email, $name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet);
             $sql = "UPDATE users SET user = ?, password = ?, "
                     . "email = ?, name = ?, isAdmin = ?,"
                     . "canStream = ?,canUpload = ?,canCreateMeet = ?,";
@@ -624,8 +623,8 @@ if (typeof gtag !== \"function\") {
                     . " modified = now() WHERE id = ?";
         } else {
             $formats = "ssssiiiissssss";
-            $values = array($this->user, $this->password, $this->email, $this->name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
-                $this->status, $this->photoURL, $this->recoverPass, $this->channelName, $this->analyticsCode, $this->externalOptions);
+            $values = array($user, $password, $this->email, $name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
+                $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions);
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) "
                     . " VALUES (?,?,?,?,?,?,?,?, false, "
                     . "?,?,?, now(), now(),?,?,?)";
@@ -654,7 +653,7 @@ if (typeof gtag !== \"function\") {
 
     public static function getChannelOwner($channelName) {
         global $global;
-        $channelName = $global['mysqli']->real_escape_string($channelName);
+        $channelName = ($channelName);
         $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($channelName));
         $result = sqlDAL::fetchAssoc($res);
@@ -670,7 +669,7 @@ if (typeof gtag !== \"function\") {
 
     public static function getFromUsername($user) {
         global $global;
-        $user = $global['mysqli']->real_escape_string($user);
+        $user = ($user);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($user));
         $result = sqlDAL::fetchAssoc($res);
@@ -1056,7 +1055,6 @@ if (typeof gtag !== \"function\") {
         global $global, $advancedCustom;
         $formats = "";
         $values = array();
-        $user = $global['mysqli']->real_escape_string($user);
         $sql = "SELECT * FROM users WHERE user = ? ";
 
         $formats .= "s";
@@ -1104,7 +1102,6 @@ if (typeof gtag !== \"function\") {
         global $global;
         $formats = "";
         $values = array();
-        $user = $global['mysqli']->real_escape_string($user);
         $sql = "SELECT * FROM users WHERE user = ? ";
 
         $formats .= "s";
@@ -1529,7 +1526,7 @@ if (typeof gtag !== \"function\") {
 
     public static function userExists($user) {
         global $global;
-        $user = $global['mysqli']->real_escape_string($user);
+        $user = ($user);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($user));
         $user = sqlDAL::fetchAssoc($res);
@@ -1558,7 +1555,6 @@ if (typeof gtag !== \"function\") {
 
     public static function createUserIfNotExists($user, $pass, $name, $email, $photoURL, $isAdmin = false, $emailVerified = false) {
         global $global, $advancedCustomUser;
-        $user = $global['mysqli']->real_escape_string($user);
         $userId = 0;
         if (!$userId = self::userExists($user)) {
             if (empty($pass)) {

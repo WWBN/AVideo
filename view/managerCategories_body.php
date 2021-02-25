@@ -56,7 +56,7 @@
                                         <div class="form-group">
                                             <label><?php echo __("Background"); ?></label>                        
                                             <?php
-                                            $croppie2 = getCroppie(__("Upload Image"), "setImage2", 1280, 180, 500);
+                                            $croppie2 = getCroppie(__("Upload Image"), "setImage2", 1280, 180, 400);
                                             echo $croppie2['html'];
                                             ?>
                                         </div>

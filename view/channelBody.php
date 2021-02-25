@@ -37,6 +37,39 @@ $get = array('channelName' => $_GET['channelName']);
 $palyListsObj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 TimeLogEnd($timeLog, __LINE__);
 ?>
+
+<style>
+    #aboutArea #aboutAreaPreContent{
+        max-height: 120px;
+        overflow: hidden;
+        transition: max-height 0.25s ease-out;
+        overflow: hidden;
+    }
+    #aboutAreaPreContent{
+        margin-bottom: 30px;
+    }
+    #aboutArea.expanded #aboutAreaPreContent{
+        max-height: 1500px;
+        overflow: auto;
+        transition: max-height 0.25s ease-in;
+    }
+    #aboutAreaShowMoreBtn{
+        position: absolute;
+        bottom: 0;
+    }
+    #aboutArea .showMore{
+        display: block;
+    }
+    #aboutArea .showLess{
+        display: none;
+    }
+    #aboutArea.expanded .showMore{
+        display: none;
+    }
+    #aboutArea.expanded .showLess{
+        display: block;
+    }
+</style>
 <!-- <?php var_dump($uploadedTotalVideos, $user_id, !isToHidePrivateVideos()); ?> -->
 <div class="clearfix"></div>
 <div class="panel panel-default">
@@ -60,7 +93,8 @@ TimeLogEnd($timeLog, __LINE__);
                 <?php
             }
             ?>
-            <div class="row"><div class="col-6 col-md-12">
+            <div class="row">
+                <div class="col-6 col-md-12">
                     <h2 class="pull-left">
                         <?php
                         echo $user->getNameIdentificationBd();
@@ -74,12 +108,28 @@ TimeLogEnd($timeLog, __LINE__);
                         echo Subscribe::getButton($user_id);
                         ?>
                     </span>
-                </div></div>
-            <div class="col-md-12">
-                <?php echo nl2br($user->getAbout()); ?>
+                </div>
             </div>
 
+            <div class="col-md-12" id="aboutArea">
+                <div id="aboutAreaPreContent">
+                    <div id="aboutAreaContent">
+                        <?php echo nl2br(textToLink($user->getAbout())); ?>
+                    </div>
+                </div>
+                <button onclick="$('#aboutArea').toggleClass('expanded');" class="btn btn-xs btn-default" id="aboutAreaShowMoreBtn" style="display: none; ">
+                    <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
+                    <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
+                </button>
+            </div>
 
+            <script>
+                $(document).ready(function () {
+                    if ($('#aboutArea').height() < $('#aboutAreaContent').height()) {
+                        $('#aboutAreaShowMoreBtn').show();
+                    }
+                });
+            </script>
             <?php
             if (!User::hasBLockedUser($user_id)) {
                 ?>
@@ -115,14 +165,17 @@ TimeLogEnd($timeLog, __LINE__);
                                 $active = "";
                             }
                             if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
-                                ?>
-                                <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
-                                    <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
-                                        <?php echo strtoupper(__("Playlists")); ?>
-                                    </a>
-                                </li>
-                                <?php
-                                $active = "";
+                                $totalPrograms = PlayList::getAllFromUserLight($user_id, true, false, 0, true);
+                                if($totalPrograms){
+                                    ?>
+                                    <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
+                                        <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
+                                            <?php echo strtoupper($palyListsObj->name); ?> <span class="badge"><?php echo count($totalPrograms); ?></span>
+                                        </a>
+                                    </li>
+                                    <?php
+                                    $active = "";
+                                }
                             }
                             ?>
                         </ul>
@@ -215,12 +268,31 @@ TimeLogEnd($timeLog, __LINE__);
                                 <?php
                                 $active = "fade";
                             }
-                            if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
+                            if (!empty($totalPrograms)) {
                                 ?>
                                 <div class="tab-pane <?php echo $active; ?>" id="channelPlayLists" style="min-height: 800px;">
-                                    <?php
-                                    include $global['systemRootPath'] . 'view/channelPlaylist.php';
-                                    ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading text-right">
+                                            <?php
+                                            if($isMyChannel){
+                                            ?>
+                                            <a class="btn btn-default btn-xs " href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/managerPlaylists.php">
+                                                <i class="fas fa-edit"></i> <?php echo __('Organize') . ' ' .$palyListsObj->name; ?>
+                                            </a>
+                                            <?php
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class="panel-body">
+                                            <?php
+                                            include $global['systemRootPath'] . 'view/channelPlaylist.php';
+                                            ?>
+                                        </div>
+                                        <div class="panel-footer">
+
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <?php
                                 $active = "fade";

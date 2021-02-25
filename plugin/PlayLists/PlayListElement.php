@@ -4,7 +4,7 @@ class PlayListElement {
 
     public $name, $description, $duration, $sources, $thumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id;
 
-    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id) {
+    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id, $className='') {
         $this->name = $name;
         $this->description = $description;
         $this->setDuration($duration);
@@ -16,6 +16,7 @@ class PlayListElement {
         $this->likes = $likes;
         $this->views = $views;
         $this->videos_id = $videos_id;
+        $this->className = $className;
     }
 
     
@@ -74,6 +75,12 @@ class playListSource {
     
     function __construct($src, $youtube = false) {
         $this->src = $src;
+        $this->label = getResolutionFromFilename($src);
+        if(empty($this->label)){
+            $this->label = 'Auto';
+        }else{
+            $this->label .= 'p';
+        }
         if($youtube){
             $this->type = "video/youtube";
         }else{

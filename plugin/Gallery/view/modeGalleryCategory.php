@@ -58,5 +58,5 @@ foreach ($categories as $value) {
 ?>
 </div>
 <p class="pagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?tags_id=<?php echo intval(@$_GET['tagsid']); ?>&search=<?php echo getSearchVar(); ?>&current=<?php echo count($categories)?$_REQUEST['current'] + 1:$_REQUEST['current']; ?>"></a>
+    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?tags_id=<?php echo intval(@$_GET['tagsid']); ?>&search=<?php echo htmlentities(urlencode(getSearchVar())); ?>&current=<?php echo count($categories)?$_REQUEST['current'] + 1:$_REQUEST['current']; ?>"></a>
 </p>

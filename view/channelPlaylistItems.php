@@ -46,6 +46,11 @@ unset($_POST['current']);
 <div class="programsContainerItem">
     <?php
     if (empty($playlists)) {
+        
+        if($current==1){
+            echo "<div class='alert alert-warning'><i class=\"fas fa-exclamation-triangle\"></i> ".__('Sorry you do not have anything available')."</div>";
+        }
+        
         die("</div>");
     }
     $playListsObj = AVideoPlugin::getObjectData("PlayLists");
@@ -142,10 +147,6 @@ unset($_POST['current']);
                             <div id="seriePlaylistModal" class="modal fade" tabindex="-1" role="dialog" >
                                 <div class="modal-dialog" role="document" style="width: 90%; margin: auto;">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title"><?php echo __("Serie"); ?></h4>
-                                        </div>
                                         <div class="modal-body">
                                             <iframe style="width: 100%; height: 80vh;" src="about:blank">
 

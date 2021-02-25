@@ -176,6 +176,9 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                        $images->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
                        $images->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
                    }
+                   if ($value['type'] === 'serie' && !empty($value['serie_playlists_id']) && stripos($images->thumbsJpg, 'notfound') !== false) {
+                       $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
+                   }
                    $startG = microtime(true);
                    $imgGif = $images->thumbsGif;
                    $poster = $images->thumbsJpg;
@@ -331,7 +334,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 </div>
                 <?php if (Video::canEdit($value['id'])) { ?>
                     <div>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary">
+                        <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>');return false;" class="text-primary">
                             <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
                         </a>
                     </div>

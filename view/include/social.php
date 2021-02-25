@@ -9,6 +9,7 @@ if (!empty($video['id'])) {
         $title = $video->getTitle();
     }
 }
+
 //$originalURL = $url;
 //$url = urlencode($url);
 //set the $url and the $title before include this

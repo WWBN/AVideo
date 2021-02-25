@@ -463,15 +463,42 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     function _getEncoderURL() {
         return $this->encoderURL;
     }
+    
+    function shouldUseEncodernetwork(){
+        global $advancedCustom;
+        if(empty($advancedCustom->useEncoderNetworkRecomendation) || empty($advancedCustom->encoderNetwork)){
+           return false; 
+        }
+        if($advancedCustom->encoderNetwork === 'https://network.avideo.com/'){   
+            // check if you have your own encoder
+            $encoderConfigFile = "{$global['systemRootPath']}Encoder/videos/configuration.php";
+            if(file_exists($encoderConfigFile)){ // you have an encoder do not use the public one
+                _error_log("Configuration:shouldUseEncodernetwork 1 You checked the Encoder Network but you have your own encoder, we will ignore this option");
+                return false;
+            }
+            
+            if (substr($this->encoderURL, -1) !== '/') {
+                $this->encoderURL .= "/";
+            }
+            
+            if(!preg_match('/encoder[1-9].avideo.com/i', $this->encoderURL)){
+                $creatingImages = "{$this->encoderURL}view/img/creatingImages.jpg";
+                if(isURL200($creatingImages)){
+                    _error_log("Configuration:shouldUseEncodernetwork 2 You checked the Encoder Network but you have your own encoder, we will ignore this option");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     function getEncoderURL() {
-        global $getEncoderURL;
+        global $getEncoderURL, $advancedCustom;
 
         if (empty($getEncoderURL)) {
             $getEncoderURL = ObjectYPT::getCache("getEncoderURL", 60);
             if (empty($getEncoderURL)) {
-                global $advancedCustom;
-                if (!empty($advancedCustom->useEncoderNetworkRecomendation) && !empty($advancedCustom->encoderNetwork)) {
+                if ($this->shouldUseEncodernetwork()) {
                     if (substr($advancedCustom->encoderNetwork, -1) !== '/') {
                         $advancedCustom->encoderNetwork .= "/";
                     }

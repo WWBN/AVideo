@@ -116,7 +116,7 @@ if (!isset($global['systemRootPath'])) {
                     $photoBg = Category::getCategoryBackgroundPath($value['id']);
                     $link = $global['webSiteRootURL'] . 'cat/' . $value['clean_name'];
                     $imageNotFound = preg_match('/notfound/i', $image);
-                    $photoNotFound = preg_match('/notfound/i', $photo['url']);
+                    $photoNotFound = empty($photo) || preg_match('/notfound/i', $photo['url']);
                     $icon = '<i class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></i>  ' ;
                     if (!$imageNotFound) {
                         ?>

@@ -3,49 +3,50 @@ $live_servers_id = Live::getCurrentLiveServersId();
 $liveViewStatusID = "liveViewStatusID_{$streamName}_{$live_servers_id}";
 $liveViewStatusClass = "liveViewStatusClass liveViewStatusClass_{$streamName} liveViewStatusClass_{$streamName}_{$live_servers_id}";
 
-if(Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)){
+if (Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)) {
     echo "<span class='label label-success liveOnlineLabel {$liveViewStatusClass}' id='{$liveViewStatusID}'>ONLINE</span>";
-}else{
+} else {
     echo "<span class='label label-danger liveOnlineLabel {$liveViewStatusClass}' id='{$liveViewStatusID}'>OFFLINE</span>";
 }
-
 ?>
 
 <script>
 
     function isOfflineVideo() {
-        <?php
-        if(isMobile()){
-            ?>
-                return !$('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline');
-            <?php
-        }else{
-            ?>
+<?php
+if (isMobile()) {
+    ?>
+            return !$('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline');
+    <?php
+} else {
+    ?>
             if (player.readyState()) {
-                var uri = player.tech_.hls.selectPlaylist().uri;
-                console.log("isOfflineVideo player.readyState", uri);
-                if (uri.includes("loopBGHLS/res")) {
-                    return true;
-                }
-                if (player.tech_.hls.playlists.media_.segments[0].resolvedUri.includes(".ts?seq=")) {
-                    return true;
+                if (typeof player.tech_ !== 'undefined') {
+                    var uri = player.tech_.hls.selectPlaylist().uri;
+                    console.log("isOfflineVideo player.readyState", uri);
+                    if (uri.includes("loopBGHLS/res")) {
+                        return true;
+                    }
+                    if (player.tech_.hls.playlists.media_.segments[0].resolvedUri.includes(".ts?seq=")) {
+                        return true;
+                    }
                 }
                 return false;
-            }else if(player.readyState()===0 && player.paused()){
+            } else if (player.readyState() === 0 && player.paused()) {
                 console.log("isOfflineVideo paused ");
                 return false;
-            }else{
+            } else {
                 console.log("isOfflineVideo player.readyState not ready", player.readyState());
             }
-            <?php
-        }
-        ?>
+    <?php
+}
+?>
         return true;
     }
     var isOnlineLabel = false;
     var playCorrectSource<?php echo $liveViewStatusID; ?>Timout;
     function playCorrectSource<?php echo $liveViewStatusID; ?>() {
-        if(typeof player === 'undefined'){
+        if (typeof player === 'undefined') {
             clearTimeout(playCorrectSource<?php echo $liveViewStatusID; ?>Timout);
             playCorrectSource<?php echo $liveViewStatusID; ?>Timout = setTimeout(function () {
                 playCorrectSource<?php echo $liveViewStatusID; ?>();
@@ -53,20 +54,20 @@ if(Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)){
             return false;
         }
         var bigPlayButtonModified = false;
-        if($('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline') && !isOfflineVideo()){
-            isOnlineLabel=true;
+        if ($('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline') && !isOfflineVideo()) {
+            isOnlineLabel = true;
             player.bigPlayButton.show();
-            bigPlayButtonModified  = true;
+            bigPlayButtonModified = true;
             onlineLabelOnline('#<?php echo $liveViewStatusID; ?>');
             //playerPlayIfAutoPlay(0);
             clearTimeout(_reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>);
             if (isAutoplayEnabled() && !player.paused()) {
                 player.play();
             }
-        }else if ($('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline') && isOfflineVideo()) {
-            isOnlineLabel=true;
+        } else if ($('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline') && isOfflineVideo()) {
+            isOnlineLabel = true;
             player.bigPlayButton.show();
-            bigPlayButtonModified  = true;
+            bigPlayButtonModified = true;
             onlineLabelPleaseWait('#<?php echo $liveViewStatusID; ?>');
             reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>(10000);
             //reloadVideoJS();
@@ -74,13 +75,15 @@ if(Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)){
             if (isAutoplayEnabled() && !player.paused()) {
                 player.play();
             }
-            player.on('error', function(){
-                console.log("PError 1 "+player.error());
+            player.on('error', function () {
+                console.log("PError 1 " + player.error());
             });
-            player.tech_.hls.playlists.on('error', function(){
-                console.log("PError 2 "+player.error());
-                console.log("PError 2.1 "+this.error());
-            });
+            if (typeof player.tech_ !== 'undefined') {
+                player.tech_.hls.playlists.on('error', function () {
+                    console.log("PError 2 " + player.error());
+                    console.log("PError 2.1 " + this.error());
+                });
+            }
             clearTimeout(playCorrectSource<?php echo $liveViewStatusID; ?>Timout);
             playCorrectSource<?php echo $liveViewStatusID; ?>Timout = setTimeout(function () {
                 playCorrectSource<?php echo $liveViewStatusID; ?>();
@@ -88,7 +91,7 @@ if(Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)){
             }, 5000);
         } else if (!$('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline') && !isOfflineVideo()) {
             if (player.readyState() <= 2) {
-                isOnlineLabel=false;
+                isOnlineLabel = false;
                 onlineLabelOffline('#<?php echo $liveViewStatusID; ?>');
                 player.pause();
                 //player.reset();
@@ -98,7 +101,7 @@ if(Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)){
                 player.posterImage.show();
                 player.bigPlayButton.show();
                 player.currentTime(0);
-                player.on('play', function(){
+                player.on('play', function () {
                     $('#mainVideo.liveVideo').find('.vjs-poster').fadeOut();
                 });
                 //reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>(10000);
@@ -113,39 +116,41 @@ if(Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)){
                 }, 15000);
             }
         }
-        if(!bigPlayButtonModified){
+        if (!bigPlayButtonModified) {
             player.bigPlayButton.hide();
         }
     }
 
     var _reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>;
-    function reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>(timeout){
-        if(_reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>){
+    function reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>(timeout) {
+        if (_reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>) {
             return false;
         }
-        
-        _reloadVideoJSTimeout<?php echo $liveViewStatusID; ?> = setTimeout(function(){reloadVideoJS();},timeout);
+
+        _reloadVideoJSTimeout<?php echo $liveViewStatusID; ?> = setTimeout(function () {
+            reloadVideoJS();
+        }, timeout);
     }
 
     function getStats<?php echo $liveViewStatusID; ?>() {
-        if(avideoSocketIsActive()){
+        if (avideoSocketIsActive()) {
             return false;
         }
         var timeout = 10000;
         $.ajax({
-            url: webSiteRootURL+'plugin/Live/stats.json.php?live_servers_id=<?php echo $live_servers_id; ?>&Label',
+            url: webSiteRootURL + 'plugin/Live/stats.json.php?live_servers_id=<?php echo $live_servers_id; ?>&Label',
             data: {"name": "<?php echo $streamName; ?>"},
             type: 'post',
             success: function (response) {
-                if(avideoSocketIsActive()){
+                if (avideoSocketIsActive()) {
                     return false;
                 }
-                if(response.name == "<?php echo $streamName; ?>"){
+                if (response.name == "<?php echo $streamName; ?>") {
                     if (response.msg === "ONLINE") {
-                        isOnlineLabel=true;
+                        isOnlineLabel = true;
                         $('#<?php echo $liveViewStatusID; ?>').addClass('isOnline');
                     } else {
-                        isOnlineLabel=false;
+                        isOnlineLabel = false;
                         $('#<?php echo $liveViewStatusID; ?>').removeClass('isOnline');
                     }
                     playCorrectSource<?php echo $liveViewStatusID; ?>();
@@ -162,7 +167,7 @@ if(Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)){
     }
 
     $(document).ready(function () {
-        if(!avideoSocketIsActive()){
+        if (!avideoSocketIsActive()) {
             getStats<?php echo $liveViewStatusID; ?>();
         }
     });

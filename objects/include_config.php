@@ -125,6 +125,13 @@ if (empty($global['bodyClass'])) {
     $global['bodyClass'] = '';
 }
 $global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3', 'm4a', 'ogg', 'zip', 'm3u8');
+
+if(empty($global['avideo_resolutions'])){
+    $global['avideo_resolutions'] = array(240, 360, 480, 540, 720, 1080, 1440, 2160);
+}
+
+sort($global['avideo_resolutions']);
+
 $advancedCustom = AVideoPlugin::getObjectData('CustomizeAdvanced');
 
 if (empty($global['disableTimeFix'])) {

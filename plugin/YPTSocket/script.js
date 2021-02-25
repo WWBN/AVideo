@@ -1,5 +1,7 @@
 var socketConnectRequested = 0;
 var totalDevicesOnline = 0;
+var yptSocketResponse;
+
 function socketConnect() {
     if (socketConnectRequested) {
         return false;
@@ -14,7 +16,8 @@ function socketConnect() {
     };
     conn.onmessage = function (e) {
         var json = JSON.parse(e.data);
-        parseSocketResponse(json);
+        yptSocketResponse = json;
+        parseSocketResponse();
         if (json.type == webSocketTypes.ON_VIDEO_MSG) {
             console.log("Socket onmessage ON_VIDEO_MSG", json);
             $('.videoUsersOnline, .videoUsersOnline_' + json.videos_id).text(json.total);
@@ -30,8 +33,14 @@ function socketConnect() {
         }
         if (json.type == webSocketTypes.NEW_CONNECTION) {
             //console.log("Socket onmessage NEW_CONNECTION", json);
+            if(typeof onUserSocketConnect === 'function'){
+                onUserSocketConnect(json);
+            }
         } else if (json.type == webSocketTypes.NEW_DISCONNECTION) {
             //console.log("Socket onmessage NEW_DISCONNECTION", json);
+            if(typeof onUserSocketDisconnect === 'function'){
+                onUserSocketDisconnect(json);
+            }
         } else {
             var myfunc;
             if (json.callback) {
@@ -56,7 +65,7 @@ function socketConnect() {
 
     conn.onerror = function (err) {
         socketConnectRequested = 0;
-        console.error('Socket encountered error: ', err.message, 'Closing socket');
+        console.error('Socket encountered error: ', err, 'Closing socket');
         conn.close();
     };
 }
@@ -88,7 +97,11 @@ function defaultCallback(json) {
     //console.log('defaultCallback', json);
 }
 
-function parseSocketResponse(json) {
+function parseSocketResponse() {
+    json = yptSocketResponse;
+    if(typeof json === 'undefined'){
+        return false;
+    }
     console.log("parseSocketResponse", json);
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
         if (typeof avideoToastWarning == 'funciton') {

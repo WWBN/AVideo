@@ -105,13 +105,22 @@ if (!empty($_FILES['webpimage']['tmp_name']) && (!file_exists($obj->webpDest) ||
         _error_log("ReceiveImage: file is not an error image ".filesize($obj->webpDest));
     }
 }
-$video_id = $video->save();
-Video::updateFilesize($video_id);
+
+if(!empty($_REQUEST['duration'])){
+    $duration = $video->getDuration();
+    if(empty($duration) || $duration === 'EE:EE:EE'){
+        $video->setDuration($_REQUEST['duration']);
+    }
+}
+
+$videos_id = $video->save();
+Video::clearCache($videos_id);
+Video::updateFilesize($videos_id);
 $obj->error = false;
-$obj->video_id = $video_id;
+$obj->video_id = $videos_id;
 
 $json = json_encode($obj);
-_error_log("ReceiveImage: "."Files Received for video {$video_id}: " . $video->getTitle()." {$json}");
+_error_log("ReceiveImage: "."Files Received for video {$videos_id}: " . $video->getTitle()." {$json}");
 die($json);
 
 /*

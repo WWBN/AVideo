@@ -636,6 +636,7 @@ function sendEmailToSiteOwner($subject, $message) {
 }
 
 function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $showinfo = 0, $controls = 1, $time = 0, $objectFit = "") {
+    global $global;
     //_error_log("parseVideos: $videoString");
     if (strpos($videoString, 'youtube.com/embed') !== false) {
         return $videoString . (parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
@@ -761,19 +762,19 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         preg_match('/\/\/(www\.)?twitch.tv\/videos\/([a-zA-Z0-9_-]+)$/', $link, $matches);
         if (!empty($matches[2])) {
             $id = $matches[2];
-            return '//player.twitch.tv/?video=' . $id . '#';
+            return '//player.twitch.tv/?video=' . $id . '&parent='.parse_url($global['webSiteRootURL'], PHP_URL_HOST);
         }
         //extract the ID
         preg_match('/\/\/(www\.)?twitch.tv\/[a-zA-Z0-9_-]+\/v\/([a-zA-Z0-9_-]+)$/', $link, $matches);
 
         $id = $matches[2];
-        return '//player.twitch.tv/?video=' . $id . '#';
+        return '//player.twitch.tv/?video=' . $id . '&parent='.parse_url($global['webSiteRootURL'], PHP_URL_HOST);
     } elseif (strpos($link, 'twitch.tv') !== false) {
         //extract the ID
         preg_match('/\/\/(www\.)?twitch.tv\/([a-zA-Z0-9_-]+)$/', $link, $matches);
 
         $id = $matches[2];
-        return '//player.twitch.tv/?channel=' . $id . '#';
+        return '//player.twitch.tv/?channel=' . $id . '&parent='.parse_url($global['webSiteRootURL'], PHP_URL_HOST);
     } elseif (strpos($link, '/evideo/') !== false) {
         //extract the ID
         preg_match('/(http.+)\/evideo\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
@@ -3308,7 +3309,7 @@ function TimeLogStart($name) {
 
 function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
     global $global;
-    if (!empty($global['noDebug'])) {
+    if (!empty($global['noDebug']) || empty($global['start'][$name])) {
         return false;
     }
     $time = microtime();
@@ -3407,7 +3408,7 @@ function _session_start(array $options = array()) {
 function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
     try {
-        if (is_object($global['mysqli']) && ($mysql_connect_was_closed || empty(@$global['mysqli']->ping()))) {
+        if (!_mysql_is_open()) {
             $mysql_connect_was_closed = 0;
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
             if (!empty($global['mysqli_charset'])) {
@@ -3422,10 +3423,22 @@ function _mysql_connect() {
 
 function _mysql_close() {
     global $global, $mysql_connect_was_closed;
-    if (is_object($global['mysqli']) && !empty(@$global['mysqli']->ping())) {
+    if (_mysql_is_open()) {
         $mysql_connect_was_closed = 1;
         @$global['mysqli']->close();
     }
+}
+
+function _mysql_is_open(){
+    global $global, $mysql_connect_was_closed;
+    try {
+        if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
+            return true;
+        }
+    } catch (Exception $exc) {
+        return false;
+    }
+    return false;
 }
 
 function remove_utf8_bom($text) {
@@ -3830,7 +3843,7 @@ function _dieAndLogObject($obj, $prefix = "") {
 }
 
 function isAVideoPlayer() {
-    if (isVideo()) {
+    if (isVideo() || isSerie()) {
         return true;
     }
     return false;
@@ -3985,8 +3998,68 @@ function URLsAreSameVideo($url1, $url2) {
 }
 
 function getVideos_id() {
+    global $_getVideos_id;
+    if(isset($_getVideos_id)){
+        return $_getVideos_id;
+    }
     if (isVideo()) {
-        return getVideoIDFromURL(getSelfURI());
+        $videos_id = getVideoIDFromURL(getSelfURI());
+        if(empty($videos_id) && !empty($_REQUEST['videoName'])){
+            $video = Video::getVideoFromCleanTitle($_REQUEST['videoName']);
+            if(!empty($video)){
+                $videos_id = $video['id'];
+            }
+        }
+        setVideos_id($videos_id);
+        return $videos_id;
+    }
+    return false;
+}
+
+function setVideos_id($videos_id) {
+    global $_getVideos_id;
+    $_getVideos_id = $videos_id;
+}
+
+function getPlaylists_id() {
+    global $_isPlayList;
+    if(!isset($_isPlayList)){
+        $_isPlayList = false;
+        if(isPlayList()){
+            $_isPlayList = intval(@$_GET['playlists_id']);
+            if(empty($_isPlayList)){
+                $videos_id = getVideos_id();
+                if(empty($videos_id)){
+                    $_isPlayList = false;
+                }else{
+                    $v = Video::getVideoLight($videos_id);
+                    if(empty($v) || empty($v['serie_playlists_id'])){
+                        $_isPlayList = false;
+                    }else{
+                        $_isPlayList = $v['serie_playlists_id'];
+                    }
+                }
+            }
+        }
+    }
+    return $_isPlayList;
+}
+
+function isVideoOrAudioNotEmbed(){
+    if(!isVideo()){
+        return false;
+    }
+    $videos_id = getVideos_id();
+    if(empty($videos_id)){
+        return false;
+    }
+    $v = Video::getVideoLight($videos_id);
+    if(empty($v)){
+        return false;
+    }
+    $types = array('audio', 'video');
+    if(in_array($v['type'], $types)){
+        return true;
     }
     return false;
 }
@@ -5262,11 +5335,17 @@ function m3u8ToMP4($input) {
         _error_log("downloadHLS: empty outputfilename {$outputfilename}");
         return false;
     }
-
-    $filepath = escapeshellcmd($input);
+    //var_dump(!preg_match('/^http/i', $input), filesize($input), preg_match('/.m3u8$/i', $input));
+    if(!preg_match('/^http/i', $input) && (filesize($input)<=10 || preg_match('/.m3u8$/i', $input))){ // dummy file
+        $filepath = escapeshellcmd(pathToRemoteURL($input, true));
+    }else{
+        $filepath = escapeshellcmd($input);
+    }
+    
     $outputpath = escapeshellcmd($outputpath);
     if (!file_exists($outputpath)) {
         $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$filepath} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
+        _error_log("downloadHLS: Exec Command ({$command})");
         //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
         exec($command . " 2>&1", $output, $return);
         if (!empty($return)) {
@@ -5416,7 +5495,7 @@ function getTinyMCE($id) {
     return $contents;
 }
 
-function pathToRemoteURL($filename) {
+function pathToRemoteURL($filename, $forceHTTP=false) {
     global $pathToRemoteURL, $global;
     if (!isset($pathToRemoteURL)) {
         $pathToRemoteURL = array();
@@ -5425,7 +5504,6 @@ function pathToRemoteURL($filename) {
     if (isset($pathToRemoteURL[$filename])) {
         return $pathToRemoteURL[$filename];
     }
-    $url = $filename;
     if (!file_exists($filename) || filesize($filename) < 1000) {
         $fileName = getFilenameFromPath($filename);
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
@@ -5446,7 +5524,11 @@ function pathToRemoteURL($filename) {
         }
     }
     if (empty($url)) {
-        $url = $filename;
+        if($forceHTTP){
+            $url = str_replace(getVideosDir(), "{$global['webSiteRootURL']}videos/", $filename);
+        }else{
+            $url = $filename;
+        }
     }
 
     //$url = str_replace(array($global['systemRootPath'], '/videos/videos/'), array("", '/videos/'), $url);
@@ -5616,12 +5698,12 @@ function getPIDUsingPort($port) {
     return false;
 }
 
-function isURL200($url) {
+function isURL200($url, $forceRecheck = false) {
     global $_isURL200;
     if (!isset($_isURL200)) {
         $_isURL200 = array();
     }
-    if (isset($_isURL200[$url])) {
+    if (empty($forceRecheck) && isset($_isURL200[$url])) {
         return $_isURL200[$url];
     }
     //error_log("isURL200 checking URL {$url}");
@@ -5865,6 +5947,7 @@ function cleanUpRowFromDatabase($row) {
     return $row;
 }
 
+
 function resolution_to_color($width, $height) {
     $w = max($width, $height);
     $h = min($width, $height);
@@ -5964,3 +6047,9 @@ function resolution_to_name($width, $height, $approx = true) {
 
     return $name;
 }
+
+function getImageTransparent1pxURL(){
+    global $global;
+    return "{$global['webSiteRootURL']}view/img/transparent1px.png";
+}
+

@@ -286,11 +286,20 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                 $("#sidebar").fadeOut();
                                 youTubeMenuIsOpened = false;
                             }
-                            $(document).ready(function () {
-                                if (inIframe()) {
-                                    $("#mainNavBar").hide();
-                                    $("body").css("padding-top", "0");
+                            
+                            function YPTHidenavbar(){
+                                if(typeof inIframe == 'undefined'){
+                                    setTimeout(function(){YPTHidenavbar()},500);
+                                }else{
+                                    if (inIframe()) {
+                                        $("#mainNavBar").hide();
+                                        $("body").css("padding-top", "0");
+                                    }
                                 }
+                            }
+                            
+                            $(document).ready(function () {
+                                YPTHidenavbar();
                                 $('#buttonMenu').on("click.sidebar", function (event) {
                                     event.stopPropagation();
                                     //$('#sidebar').fadeToggle();
@@ -1349,25 +1358,6 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
             });
 
         });
-        
-        function isMediaSiteURL(url){
-            if (validURL(url)) {
-                if(url.match(/youtube/i) ||
-                   url.match(/vimeo/i)  ||
-                   url.match(/dailymotion/i)  ||
-                   url.match(/metacafe/i)  ||
-                   url.match(/vid\.me/i)  ||
-                   url.match(/rutube\.ru/i)  ||
-                   url.match(/ok\.ru/i)   ||
-                   url.match(/streamable/i)   ||
-                   url.match(/twitch/i)   ||
-                   url.match(/evideoEmbed/i)   ||
-                   url.match(/videoEmbeded/i) ){
-                   return true;
-                }
-            }
-            return false;
-        }
 
         function seachFormPlayURL(url) {
             modal.showPleaseWait();

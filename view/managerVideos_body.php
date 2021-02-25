@@ -849,44 +849,49 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                                                         }
 
                                                     }
-                                                    if (response.encoding && webSiteRootURL === response.encoding.streamer_site) {
-                                                        var id = response.encoding.return_vars.videos_id;
-                                                        $("#downloadProgress" + id).slideDown();
-                                                        if (response.download_status && !response.encoding_status.progress) {
-                                                            $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + " [Downloading ...] </strong> " + response.download_status.progress + '%');
-                                                        } else {
-                                                            var encodingProgressCounter = $("#encodingProgressCounter" + id).text();
-                                                            if (isNaN(encodingProgressCounter)) {
-                                                                encodingProgressCounter = 0;
+                                                    if (response.encoding && response.encoding.length) {
+                                                        for (i = 0; i < response.encoding.length; i++) {
+                                                            var encoding = response.encoding[i];
+                                                            var id = encoding.return_vars.videos_id;
+                                                            $("#downloadProgress" + id).slideDown();
+                                                            var download_status = response.download_status[i];
+                                                            var encoding_status = response.encoding_status[i];
+                                                            if (download_status && !encoding_status.progress) {
+                                                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + encoding.name + " [Downloading ...] </strong> " + download_status.progress + '%');
                                                             } else {
-                                                                encodingProgressCounter = parseInt(encodingProgressCounter);
+                                                                var encodingProgressCounter = $("#encodingProgressCounter" + id).text();
+                                                                if (isNaN(encodingProgressCounter)) {
+                                                                    encodingProgressCounter = 0;
+                                                                } else {
+                                                                    encodingProgressCounter = parseInt(encodingProgressCounter);
+                                                                }
+
+
+                                                                $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + encoding.name + "[" + encoding_status.from + " to " + encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id + "'>" + encodingProgressCounter + "</span>%");
+                                                                $("#encodingProgress" + id).find('.progress-bar').css({'width': encoding_status.progress + '%'});
+                                                                //$("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
+                                                                countTo("#encodingProgressComplete" + id, encoding_status.progress);
+                                                                countTo("#encodingProgressCounter" + id, encoding_status.progress);
                                                             }
+                                                            if (download_status) {
+                                                                $("#downloadProgress" + id).find('.progress-bar').css({'width': download_status.progress + '%'});
+                                                            }
+                                                            if (encoding_status.progress >= 100 && $("#encodingProgress" + id).length) {
+                                                                $("#encodingProgress" + id).find('.progress-bar').css({'width': '100%'});
+                                                                $("#encodingProgressComplete" + id).text('100%');
+                                                                clearTimeout(timeOut);
+                                                                $.toast("Encode Complete");
+                                                                timeOut = setTimeout(function () {
+                                                                    $("#grid").bootgrid('reload');
+                                                                }, 5000);
+                                                            } else {
 
-
-                                                            $("#encodingProgress" + id).find('.progress-completed').html("<strong>" + response.encoding.name + "[" + response.encoding_status.from + " to " + response.encoding_status.to + "] </strong> <span id='encodingProgressCounter" + id + "'>" + encodingProgressCounter + "</span>%");
-                                                            $("#encodingProgress" + id).find('.progress-bar').css({'width': response.encoding_status.progress + '%'});
-                                                            //$("#encodingProgressComplete" + id).text(response.encoding_status.progress + '%');
-                                                            countTo("#encodingProgressComplete" + id, response.encoding_status.progress);
-                                                            countTo("#encodingProgressCounter" + id, response.encoding_status.progress);
+                                                            }
+                                                            clearTimeout(checkProgressTimeout[encoderURL]);
+                                                            checkProgressTimeout[encoderURL] = setTimeout(function () {
+                                                                checkProgress(encoderURL);
+                                                            }, 10000);
                                                         }
-                                                        if (response.download_status) {
-                                                            $("#downloadProgress" + id).find('.progress-bar').css({'width': response.download_status.progress + '%'});
-                                                        }
-                                                        if (response.encoding_status.progress >= 100 && $("#encodingProgress" + id).length) {
-                                                            $("#encodingProgress" + id).find('.progress-bar').css({'width': '100%'});
-                                                            $("#encodingProgressComplete" + id).text('100%');
-                                                            clearTimeout(timeOut);
-                                                            $.toast("Encode Complete");
-                                                            timeOut = setTimeout(function () {
-                                                                $("#grid").bootgrid('reload');
-                                                            }, 5000);
-                                                        } else {
-
-                                                        }
-                                                        clearTimeout(checkProgressTimeout[encoderURL]);
-                                                        checkProgressTimeout[encoderURL] = setTimeout(function () {
-                                                            checkProgress(encoderURL);
-                                                        }, 10000);
                                                     }
 
                                                 }
@@ -1785,6 +1790,7 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                             res_name = '<span class="video_res_name"' + res_name_style + '>' + row.videosURL[k].res_name + '</span>';
                                                                         }
                                                                     }
+                                                                    downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '.mp4');
                                                                     download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + res + res_name + '</a>';
                                                                 }
 
@@ -1800,7 +1806,7 @@ if (User::isAdmin()) {
 
                                                         if (row.status == "i") {
                                                             status = inactiveBtn;
-                                                        } else if (row.status == "a") {
+                                                        } else if (row.status == "a"  || row.status == "k") {
                                                             status = activeBtn;
                                                         } else if (row.status == "u") {
                                                             status = unlistedBtn;
@@ -1958,7 +1964,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
     <?php
 }
 ?>
-
+                                                        img = img+'<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> '+row.duration+'</div>';
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
                                                         var buttonTitleLink = '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.id + '/' + row.clean_title + '" class="btn btn-default btn-xs titleBtn" style="overflow: hidden;">' + type + row.title + '</a>';
                                                         return img + '<div class="clearfix hidden-md hidden-lg"></div>' + buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList;

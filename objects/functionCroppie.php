@@ -13,6 +13,7 @@ $croppieFilesAdded = 1;
         <div id="croppie<?php echo $uid; ?>"></div>
         <center>
             <a id="upload-btn<?php echo $uid; ?>" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo $buttonTitle; ?></a>
+            <a id="delete-btn<?php echo $uid; ?>" class="btn btn-danger"><i class="fa fa-trash"></i> <?php echo __('Delete'); ?></a>
         </center>
     </div>
     <div class="col-md-12 ">
@@ -49,7 +50,12 @@ $croppieFilesAdded = 1;
             $('#upload<?php echo $uid; ?>').trigger("click");
         });
 
-        $('#croppie<?php echo $uid; ?>').croppie('bind',{url: imageURL+'?'+Math.random()}).then(function () {
+        $('#delete-btn<?php echo $uid; ?>').off('click');
+        $('#delete-btn<?php echo $uid; ?>').on('click', function (ev) {
+            restartCroppie<?php echo $uid; ?>('<?php echo getImageTransparent1pxURL(); ?>');
+        });
+
+        $('#croppie<?php echo $uid; ?>').croppie('bind', {url: imageURL + '?' + Math.random()}).then(function () {
             $('#croppie<?php echo $uid; ?>').croppie('setZoom', <?php echo $zoom; ?>)
         });
     }
@@ -57,6 +63,8 @@ $croppieFilesAdded = 1;
     function restartCroppie<?php echo $uid; ?>(imageURL) {
         console.log("restartCroppie<?php echo $uid; ?>", imageURL);
         $('#croppie<?php echo $uid; ?>').croppie('destroy');
-        setTimeout(function(){createCroppie<?php echo $uid; ?>(imageURL);},1000);
+        setTimeout(function () {
+            createCroppie<?php echo $uid; ?>(imageURL);
+        }, 1000);
     }
 </script>

@@ -54,8 +54,10 @@ if (!class_exists('Video')) {
         private $encoderURL;
         private $filepath;
         private $filesize;
+        private $live_transmitions_history_id;
         public static $statusDesc = array(
             'a' => 'active',
+            'k' => 'active and encoding',
             'i' => 'inactive',
             'e' => 'encoding',
             'x' => 'encoding error',
@@ -165,6 +167,14 @@ if (!class_exists('Video')) {
             }
         }
 
+        function getLive_transmitions_history_id() {
+            return $this->live_transmitions_history_id;
+        }
+
+        function setLive_transmitions_history_id($live_transmitions_history_id) {
+            $this->live_transmitions_history_id = intval($live_transmitions_history_id);
+        }
+                
         public function getEncoderURL()
         {
             return $this->encoderURL;
@@ -320,6 +330,10 @@ if (!class_exists('Video')) {
                     $this->type = 'video';
                 }
             }
+            
+            if (empty($this->live_transmitions_history_id)) {
+                $this->live_transmitions_history_id = 'NULL';
+            }
 
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo() && !$allowOfflineUser && !Permissions::canModerateVideos()) {
@@ -329,13 +343,13 @@ if (!class_exists('Video')) {
                 $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
                         . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
                         . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, isSuggested = {$this->isSuggested}, users_id = {$this->users_id}, "
-                        . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}', sites_id = {$this->sites_id}, serie_playlists_id = {$this->serie_playlists_id} , video_password = '{$this->video_password}', "
+                        . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}', sites_id = {$this->sites_id}, serie_playlists_id = {$this->serie_playlists_id} ,live_transmitions_history_id = {$this->live_transmitions_history_id} , video_password = '{$this->video_password}', "
                         . " encoderURL = '{$this->encoderURL}', filepath = '{$this->filepath}' , filesize = '{$this->filesize}' , modified = now()"
                         . " WHERE id = {$this->id}";
             } else {
                 $sql = "INSERT INTO videos "
-                        . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id, video_password, encoderURL, filepath , filesize) values "
-                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}')";
+                        . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id,live_transmitions_history_id, video_password, encoderURL, filepath , filesize) values "
+                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}')";
             }
             $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
@@ -565,8 +579,7 @@ if (!class_exists('Video')) {
             $this->clean_title = cleanURLName($clean_title);
         }
 
-        public function setDuration($duration)
-        {
+        public function setDuration($duration){
             $this->duration = $duration;
         }
 
@@ -768,12 +781,14 @@ if (!class_exists('Video')) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
                     $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames, "OR");
+                    $searchFieldsNames = array('v.title');
+                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
                     $sql .= ")";
                 } else {
-                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
+                    $sql .= ' AND (1=1 '.BootGrid::getSqlSearchFromPost($searchFieldsNames);
+                    $searchFieldsNames = array('v.title');
+                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']).')';
                 }
-                $searchFieldsNames = array('v.title');
-                $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
             }
             if (!$ignoreGroup) {
                 $arrayNotIN = AVideoPlugin::getAllVideosExcludeVideosIDArray();
@@ -945,19 +960,13 @@ if (!class_exists('Video')) {
 
         public static function getVideoFromCleanTitle($clean_title)
         {
-            // for some reason in some servers (CPanel) we got the error "Error while sending QUERY packet centos on a select"
             // even increasing the max_allowed_packet it only goes away when close and reopen the connection
-            global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-            $global['mysqli']->close();
-            _mysql_connect();
-            if (!empty($global['mysqli_charset'])) {
-                $global['mysqli']->set_charset($global['mysqli_charset']);
-            }
+            global $global;
             $sql = "SELECT id  FROM videos  WHERE clean_title = ? LIMIT 1";
             $res = sqlDAL::readSql($sql, "s", array($clean_title));
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
-            if ($res) {
+            if (!empty($video) && $res) {
                 return self::getVideo($video['id'], "", true, false, false, true);
             //$video['groups'] = UserGroups::getVideoGroups($video['id']);
             } else {
@@ -974,7 +983,7 @@ if (!class_exists('Video')) {
          * @param type $videosArrayId an array with videos to return (for filter only)
          * @return boolean
          */
-        public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
+        public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null)
         {
             global $global, $config, $advancedCustom;
             if ($config->currentVersionLowerThen('5')) {
@@ -1016,6 +1025,19 @@ if (!class_exists('Video')) {
                 $uid = intval($user['id']);
                 $sql .= " AND v.users_id = '{$uid}' ";
             }
+            
+            if (isset($_REQUEST['is_serie']) && empty($is_serie)) {
+                $is_serie = intval($_REQUEST['is_serie']);
+            }
+            
+            if (isset($is_serie)) {
+                if(empty($is_serie)){
+                    $sql .= " AND v.serie_playlists_id IS NULL ";
+                }else{
+                    $sql .= " AND v.serie_playlists_id IS NOT NULL ";
+                }
+            }
+            
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
@@ -1057,7 +1079,7 @@ if (!class_exists('Video')) {
             } elseif ($status == "viewableNotUnlisted") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
             } elseif ($status == "publicOnly") {
-                $sql .= " AND v.status = 'a' AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
+                $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
@@ -1086,9 +1108,9 @@ if (!class_exists('Video')) {
                     $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
                     $sql .= ")";
                 } else {
-                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
+                    $sql .= ' AND (1=1 '.BootGrid::getSqlSearchFromPost($searchFieldsNames);
                     $searchFieldsNames = array('v.title');         
-                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
+                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']).')';
                 }      
             }
 
@@ -1144,7 +1166,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            //echo $sql;exit;
+            //echo $sql;//exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
@@ -1486,6 +1508,16 @@ if (!class_exists('Video')) {
             } elseif (is_int($showOnlyLoggedUserVideos)) {
                 $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
             }
+            
+            if (isset($_REQUEST['is_serie'])) {
+                $is_serie = intval($_REQUEST['is_serie']);
+                if(empty($is_serie)){
+                    $sql .= " AND v.serie_playlists_id IS NULL ";
+                }else{
+                    $sql .= " AND v.serie_playlists_id IS NOT NULL ";
+                }
+            }
+            
             if (!empty($_GET['catName'])) {
                 $catName = $global['mysqli']->real_escape_string($_GET['catName']);
                 $sql .= " AND c.clean_name = '{$catName}'";
@@ -1523,9 +1555,9 @@ if (!class_exists('Video')) {
                     $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
                     $sql .= ")";
                 } else {
-                    $sql .= BootGrid::getSqlSearchFromPost($searchFieldsNames);
+                    $sql .= ' AND (1=1 '.BootGrid::getSqlSearchFromPost($searchFieldsNames);
                     $searchFieldsNames = array('v.title');         
-                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']);
+                    $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']).')';
                 }
             }
 
@@ -1601,6 +1633,7 @@ if (!class_exists('Video')) {
         {
             /**
               a = active
+              k = active and encoding
               i = inactive
               e = encoding
               x = encoding error
@@ -1611,7 +1644,7 @@ if (!class_exists('Video')) {
               xmp3 = encoding mp3 error
               xogg = encoding ogg error
              */
-            $viewable = array('a', 'xmp4', 'xwebm', 'xmp3', 'xogg');
+            $viewable = array('a', 'k', 'xmp4', 'xwebm', 'xmp3', 'xogg');
             if ($showUnlisted) {
                 $viewable[] = "u";
             } elseif (!empty($_GET['videoName'])) {
@@ -2028,7 +2061,7 @@ if (!class_exists('Video')) {
                 $res = sqlDAL::writeSql($sql, "si", array($this->duration, $this->id));
                 return $this->id;
             } else {
-                _error_log("Do not need update duration: " . json_encode($this));
+                _error_log("Do not need update duration: ");
                 return false;
             }
         }
@@ -2248,6 +2281,10 @@ if (!class_exists('Video')) {
                     case 'a':
                         $objTag->type = "success";
                         $objTag->text = __("Active");
+                        break;
+                    case 'k':
+                        $objTag->type = "success";
+                        $objTag->text = __("Active and encoding");
                         break;
                     case 'i':
                         $objTag->type = "warning";
@@ -2903,17 +2940,25 @@ if (!class_exists('Video')) {
             return $VideoGetSourceFile[$cacheName];
         }
 
-        public static function getCleanFilenameFromFile($filename)
-        {
+        public static function getCleanFilenameFromFile($filename){
+            global $global;
             if (empty($filename)) {
                 return "";
             }
-            $cleanName = str_replace(
-                array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku',
-                        '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2'),
-                array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-                $filename
-            );
+            
+            $search = array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2');
+            $replace = array('', '', '', '', '', '', '', '', '', '');
+            
+            if(empty($global['avideo_resolutions']) || !is_array($global['avideo_resolutions'])){
+                $global['avideo_resolutions'] = array(240, 360, 480, 540, 720, 1080, 1440, 2160);
+            }
+            
+            foreach ($global['avideo_resolutions'] as $value) {
+                $search[] = "_{$value}";
+                $replace[] = '';
+            }
+            
+            $cleanName = str_replace($search,$replace,$filename);
             $path_parts = pathinfo($cleanName);
 
             if (!empty($path_parts["extension"]) && $path_parts["extension"] === "m3u8") {
@@ -3054,13 +3099,14 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        public static function getHigherVideoPathFromID($videos_id)
-        {
+        public static function getHigherVideoPathFromID($videos_id){
+            global $global;
             if (empty($videos_id)) {
                 return false;
             }
             $paths = self::getVideosPathsFromID($videos_id);
-            $types = array(0, 2160, 1330, 1080, 720, 'HD', 'SD', 'Low', 480, 360, 240);
+            
+            $types = array(0, 2160, 1440, 1080, 720, 'HD', 'SD', 'Low', 540, 480, 360, 240);
 
             if (!empty($paths['mp4'])) {
                 foreach ($types as $value) {
@@ -3110,9 +3156,14 @@ if (!class_exists('Video')) {
             return self::getVideosPaths($video->getFilename(), true);
         }
 
-        public static function getVideosPaths($filename, $includeS3 = false)
-        {
-            $types = array('', '_Low', '_SD', '_HD', '_2160', '_1440', '_1080', '_720', '_480', '_360', '_240');
+        public static function getVideosPaths($filename, $includeS3 = false){
+            global $global;
+            $types = array('', '_Low', '_SD', '_HD');
+            
+            foreach ($global['avideo_resolutions'] as $value) {
+                $types[] = "_{$value}";
+            }
+            
             $videos = array();
 
             $plugin = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
@@ -3921,8 +3972,7 @@ if (!class_exists('Video')) {
             $this->serie_playlists_id = $serie_playlists_id;
         }
 
-        public static function getVideoFromSeriePlayListsId($serie_playlists_id)
-        {
+        public static function getVideoFromSeriePlayListsId($serie_playlists_id){
             global $global, $config;
             $serie_playlists_id = intval($serie_playlists_id);
             $sql = "SELECT * FROM videos WHERE serie_playlists_id = '$serie_playlists_id' LIMIT 1";
@@ -4049,6 +4099,21 @@ if (!class_exists('Video')) {
             $sql .= implode(" OR ", $matches);
             $sql .= ")";
             return "{$connection} {$sql}";
+        }
+        
+        public static function getChangeVideoStatusButton($videos_id){
+            
+            $video = new Video('', '', $videos_id);
+            $status = $video->getStatus();
+            
+            $activeBtn = '<button onclick="changeVideoStatus('.$videos_id.', \'u\');" style="color: #090" type="button" '
+                    . 'class="btn btn-default btn-xs getChangeVideoStatusButton_a" data-toggle="tooltip" title="'.str_replace("'", "\\'", __("This video is Active and Listed, click here to unlist it")).'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
+            $inactiveBtn = '<button onclick="changeVideoStatus('.$videos_id.', \'a\');" style="color: #A00" type="button" '
+                    . 'class="btn btn-default btn-xs getChangeVideoStatusButton_i"  data-toggle="tooltip" title="'.str_replace("'", "\\'", __("This video is inactive, click here to activate it")).'"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
+            $unlistedBtn = '<button onclick="changeVideoStatus('.$videos_id.', \'i\');" style="color: #BBB" type="button" '
+                    . 'class="btn btn-default btn-xs getChangeVideoStatusButton_u"  data-toggle="tooltip" title="'.str_replace("'", "\\'", __("This video is unlisted, click here to inactivate it")).'"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
+            
+            return "<span class='getChangeVideoStatusButton getChangeVideoStatusButton_{$videos_id} status_{$status}'>{$activeBtn}{$inactiveBtn}{$unlistedBtn}</span>";
         }
     }
 }
