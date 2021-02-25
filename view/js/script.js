@@ -152,19 +152,21 @@ function lazyImage() {
 lazyImage();
 
 var pleaseWaitIsINUse = false;
-
+var pauseIfIsPlayinAdsInterval;
 function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
             clearTimeout(promisePlayTimeout);
             console.log("setPlayerListners: pause");
             //userIsControling = true;
+            clearInterval(pauseIfIsPlayinAdsInterval);
         });
 
         player.on('play', function () {
             clearTimeout(promisePlayTimeout);
             console.log("setPlayerListners: play");
             //userIsControling = true;
+            pauseIfIsPlayinAdsInterval = setInterval(function(){pauseIfIsPlayinAds();},500);
         });
 
         $("#mainVideo .vjs-mute-control").click(function () {
@@ -385,13 +387,13 @@ function getPlayerButtonIndex(name) {
 }
 
 function copyToClipboard(text) {
-
-    $('#elementToCopy').css({'top': mouseY, 'left': 0}).fadeIn('slow');
-    $('#elementToCopy').val(text);
-    $('#elementToCopy').focus();
-    $('#elementToCopy').select();
+    $('body').append('<textarea id="elementToCopyAvideo" style="filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0; opacity: 0;position: absolute;z-index: -9999;top: 0;left: 0;pointer-events: none;"></textarea>');
+    $('#elementToCopyAvideo').css({'top': mouseY, 'left': 0}).fadeIn('slow');
+    $('#elementToCopyAvideo').val(text);
+    $('#elementToCopyAvideo').focus();
+    $('#elementToCopyAvideo').select();
     document.execCommand('copy');
-    $('#elementToCopy').hide();
+    $('#elementToCopyAvideo').remove();
     $.toast("Copied to Clipboard");
 }
 
@@ -422,6 +424,9 @@ var browserPreventShowed = false;
 var playerPlayTimeout;
 function playerPlay(currentTime) {
     clearTimeout(playerPlayTimeout);
+    if(playerIsPlayingAds()){
+        return false;
+    }
     if (currentTime) {
         console.log("playerPlay time:", currentTime);
     }
@@ -632,7 +637,7 @@ function playerPlayIfAutoPlay(currentTime) {
 }
 
 function playNext(url) {
-    if (isPlayingAds()) {
+    if (playerIsPlayingAds()) {
         setTimeout(function () {
             playNext(url);
         }, 1000);
@@ -854,6 +859,9 @@ function isPlayNextEnabled() {
 }
 
 function avideoAlert(title, msg, type) {
+    if(typeof msg == 'undefined'){
+        return false;
+    }
     if (msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
         avideoAlertHTMLText(title, msg, type);
     } else {
@@ -907,6 +915,31 @@ function avideoAlertHTMLText(title, msg, type) {
     });
 }
 
+function avideoModalIframe(url) {
+    var span = document.createElement("span");
+    span.innerHTML = '<iframe src="' + url + '" />';
+    swal({
+        content: span,
+        closeModal: true,
+        buttons: false,
+        className: 'swal-modal-iframe',
+        onClose: avideoModalIframeRemove
+    });
+    setTimeout(function () {
+        avideoModalIframeRemove();
+    }, 1000);
+}
+
+function avideoModalIframeRemove() {
+    if ($('.swal-modal-iframe').parent().hasClass('swal-overlay--show-modal')) {
+        setTimeout(function () {
+            avideoModalIframeRemove();
+        }, 1000);
+    } else {
+        $('.swal-modal-iframe .swal-content').html('');
+    }
+}
+
 function avideoAlertText(msg) {
     avideoAlert("", msg, '');
 }
@@ -939,12 +972,18 @@ function fixAdSize() {
     }
 }
 
-function isPlayingAds() {
+function playerIsPlayingAds() {
     return ($("#mainVideo_ima-ad-container").length && $("#mainVideo_ima-ad-container").is(':visible'));
 }
 
 function playerHasAds() {
     return ($("#mainVideo_ima-ad-container").length > 0);
+}
+
+function pauseIfIsPlayinAds(){
+    if(!player.paused() && playerHasAds() && playerIsPlayingAds()){
+        player.pause();
+    }
 }
 
 function countTo(selector, total) {
@@ -1189,7 +1228,7 @@ function getCroppie(uploadCropObject, callback, width, height) {
         console.log('getCroppie 2 ' + callback, resp);
         eval(callback + "(resp);");
     }).catch(function (err) {
-        console.log('cropieError getCroppie => '+callback, err);
+        console.log('cropieError getCroppie => ' + callback, err);
         eval(callback + "(null);");
     });
 
@@ -1217,23 +1256,55 @@ function avideoSocketIsActive() {
         return false;
     }
 }
-        
-function isMediaSiteURL(url){
+
+function isMediaSiteURL(url) {
     if (validURL(url)) {
-        if(url.match(/youtube/i) ||
-           url.match(/youtu\.be/i) ||
-           url.match(/vimeo/i)  ||
-           url.match(/dailymotion/i)  ||
-           url.match(/metacafe/i)  ||
-           url.match(/vid\.me/i)  ||
-           url.match(/rutube\.ru/i)  ||
-           url.match(/ok\.ru/i)   ||
-           url.match(/streamable/i)   ||
-           url.match(/twitch/i)   ||
-           url.match(/evideoEmbed/i)   ||
-           url.match(/videoEmbeded/i) ){
-           return true;
+        if (url.match(/youtube/i) ||
+                url.match(/youtu\.be/i) ||
+                url.match(/vimeo/i) ||
+                url.match(/dailymotion/i) ||
+                url.match(/metacafe/i) ||
+                url.match(/vid\.me/i) ||
+                url.match(/rutube\.ru/i) ||
+                url.match(/ok\.ru/i) ||
+                url.match(/streamable/i) ||
+                url.match(/twitch/i) ||
+                url.match(/evideoEmbed/i) ||
+                url.match(/videoEmbeded/i)) {
+            return true;
         }
     }
     return false;
+}
+
+function avideoSocket() {
+    if (typeof parseSocketResponse === 'function') {
+        parseSocketResponse();
+    }
+}
+
+function changeVideoStatus(videos_id, status) {
+    modal.showPleaseWait();
+    $.ajax({
+        url: webSiteRootURL + 'objects/videoStatus.json.php',
+        data: {"id": [videos_id], "status": status},
+        type: 'post',
+        success: function (response) {
+            modal.hidePleaseWait();
+            if (response.error) {
+                avideoToast("Sorry!", response.msg, "error");
+            } else {
+
+                for (var item in response.status) {
+                    var videos_id = response.status[item].videos_id
+                    $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_a');
+                    $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_u');
+                    $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_i');
+                    $(".getChangeVideoStatusButton_" + videos_id).addClass('status_' + response.status[item].status);
+                }
+
+
+            }
+        }
+    });
 }

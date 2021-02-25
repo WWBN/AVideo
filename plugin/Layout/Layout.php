@@ -40,6 +40,7 @@ class Layout extends PluginAbstract {
           $obj->showCustomCSS = true;
          * 
          */
+        $obj->showButtonNotification = false;
         return $obj;
     }
 
@@ -229,6 +230,15 @@ class Layout extends PluginAbstract {
         }
         $LayoutaddFooterCode = array_unique($LayoutaddFooterCode);
         return implode(PHP_EOL, $LayoutaddFooterCode);
+    }
+    
+    public function getHTMLMenuRight() {
+        global $global;
+        $obj = $this->getDataObject();
+        if(empty($obj->showButtonNotification)){
+            return false;
+        }
+        include $global['systemRootPath'] . 'plugin/Layout/menuRight.php';
     }
 
 }

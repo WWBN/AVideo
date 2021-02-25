@@ -286,11 +286,20 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                 $("#sidebar").fadeOut();
                                 youTubeMenuIsOpened = false;
                             }
-                            $(document).ready(function () {
-                                if (inIframe()) {
-                                    $("#mainNavBar").hide();
-                                    $("body").css("padding-top", "0");
+                            
+                            function YPTHidenavbar(){
+                                if(typeof inIframe == 'undefined'){
+                                    setTimeout(function(){YPTHidenavbar()},500);
+                                }else{
+                                    if (inIframe()) {
+                                        $("#mainNavBar").hide();
+                                        $("body").css("padding-top", "0");
+                                    }
                                 }
+                            }
+                            
+                            $(document).ready(function () {
+                                YPTHidenavbar();
                                 $('#buttonMenu').on("click.sidebar", function (event) {
                                     event.stopPropagation();
                                     //$('#sidebar').fadeToggle();

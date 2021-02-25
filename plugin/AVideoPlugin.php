@@ -1168,28 +1168,28 @@ class AVideoPlugin {
         }
     }
     
-    public static function onUserSocketConnect($users_id, $data) {
+    public static function onUserSocketConnect() {
         _mysql_connect();
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->onUserSocketConnect($users_id, $data);
+                $p->onUserSocketConnect();
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
         _mysql_close();
     }
     
-    public static function onUserSocketDisconnect($users_id, $data) {
+    public static function onUserSocketDisconnect() {
         _mysql_connect();
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->onUserSocketConnect($users_id, $data);
+                $p->onUserSocketDisconnect();
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }

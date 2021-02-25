@@ -11,13 +11,6 @@ if (!PlayList::canSee($_GET['playlists_id'], User::getId())) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
 
-$video = PlayLists::isPlayListASerie($_GET['playlists_id']);
-if(!empty($video)){
-    $video = Video::getVideo($video['id']);
-    include $global['systemRootPath'] . 'view/modeYoutube.php';
-    exit;
-}
-
 $playListObj = new PlayList($_GET['playlists_id']);
 
 $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);

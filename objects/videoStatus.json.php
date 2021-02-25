@@ -16,16 +16,41 @@ if (!is_array($_POST['id'])) {
 require_once 'video.php';
 
 $id = 0;
+
+$obj = new stdClass();
+$obj->error = true;
+$obj->status = array();
+$obj->msg = '';
+
 foreach ($_POST['id'] as $value) {
-    $obj = new Video("", "", $value);
-    if (empty($obj)) {
-        die("Object not found");
+    $obj2 = new stdClass();
+    $obj2->error = true;
+    $obj2->videos_id = $value;
+    $obj2->status = $_POST['status'];
+    $obj2->msg = '';
+    
+    
+    $v = new Video("", "", $value);
+    if (empty($v)) {
+        $obj2->msg = __("Video NOT Found");
+        $obj->status[] = $obj2;
+        continue;
     }
-    if (!$obj->userCanManageVideo() && !Permissions::canModerateVideos()) {
-        $obj->msg = __("You can not Manage This Video");
-        die(json_encode($obj));
+    if (!$v->userCanManageVideo() && !Permissions::canModerateVideos()) {
+        $obj2->msg = __("You can not Manage This Video");
+        $obj->status[] = $obj2;
+        continue;
     }
-    $obj->setStatus($_POST['status']);
-    $resp = $value;
+    $v->setStatus($_POST['status']);
+    $obj2->error = false;
+    $obj->status[] = $obj2;
 }
-echo '{"status":"' . !empty($resp) . '"}';
+
+foreach ($obj->status as $value) {
+    if($value->error){
+        break;
+    }
+    $obj->error = false;
+}
+
+die(json_encode($obj));

@@ -98,6 +98,10 @@ class PlayLists extends PluginAbstract {
 
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/PlayLists/style.css" rel="stylesheet" type="text/css"/>';
         $css .= '<style>.epgProgress.progress-bar-primary{opacity: 0.5;}.epgProgress:hover{opacity: 1.0;}.epgProgressText{border-right: 1px solid #FFF; height:100%;}</style>';
+        
+        if(!empty(getPlaylists_id())){
+            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayLists/playerButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+        }
 
         return $css;
     }
@@ -121,6 +125,10 @@ class PlayLists extends PluginAbstract {
                 $liveLink = PlayLists::getLiveLink($_REQUEST['playlists_id_live']);
                 $js .= '<script>var liveLink = "'.$liveLink.'";'. file_get_contents("{$global['systemRootPath']}plugin/PlayLists/goLiveNow.js").'</script>';
             }
+        }
+        
+        if(!empty(getPlaylists_id())){
+            PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayLists/playerButton.js"));
         }
         
         return $js;
@@ -194,8 +202,9 @@ class PlayLists extends PluginAbstract {
         $video = self::isPlayListASerie($serie_playlists_id);
         if (!empty($video)) {
             $video = new Video("", "", $video['id']);
-            $video->delete();
+            return $video->delete();
         }
+        return false;
     }
 
     static function saveSerie($serie_playlists_id) {
@@ -281,6 +290,14 @@ class PlayLists extends PluginAbstract {
                         </div>
                     </li>';
         }
+        $str .= '<li>
+                    <div>
+                        <a href="' . "{$global['webSiteRootURL']}plugin/PlayLists/managerPlaylists.php" . '" class="btn btn-default btn-block" style="border-radius: 0;">
+                            <i class="fas fa-list"></i>
+                            ' . __("Organize") . ' ' .$obj->name . '
+                        </a>
+                    </div>
+                </li>';
         return $str;
     }
 
@@ -480,10 +497,10 @@ class PlayLists extends PluginAbstract {
         if (!self::canManagePlaylist($playlists_id)) {
             return "";
         }
-        $input = __('Show on TV') . '<div class="material-switch" style="margin:0 10px;">
+        $input = '<i class="fas fa-tv" style="margin:2px 5px;"></i> <span class="hidden-xs hidden-sm">'.__('Show on TV') . '</span> <div class="material-switch material-small" style="margin:0 10px;">
                                 <input class="ShowOnTVSwitch" data-toggle="toggle" type="checkbox" id="ShowOnTVSwitch' . $playlists_id . '" name="ShowOnTVSwitch' . $playlists_id . '" value="1" ' . (self::showOnTV($playlists_id) ? "checked" : "") . ' onchange="saveShowOnTV(' . $playlists_id . ', $(this).is(\':checked\'))" >
-                                <label for="ShowOnTVSwitch' . $playlists_id . '" class="label-primary"></label>
-                            </div> ';
+                                <label for="ShowOnTVSwitch' . $playlists_id . '" class="label-primary" data-toggle="tooltip" title="'.__('Show on TV').'"></label>
+                            </div>';
         return $input;
     }
 

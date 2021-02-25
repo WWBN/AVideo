@@ -54,7 +54,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "5.3";
+        return "7.0";
     }
 
     public function updateScript() {
@@ -111,9 +111,15 @@ class Live extends PluginAbstract {
                 sqlDal::writeSql(trim($value));
             }
         }
-        //update version 5.2
         if (AVideoPlugin::compareVersion($this->getName(), "6.0") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV6.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "7.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV7.0.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -1504,6 +1510,10 @@ class Live extends PluginAbstract {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $videos;
+    }
+    
+    static function finishLive($key){
+        $lh = LiveTransmitionHistory::finish($key);
     }
 
 }

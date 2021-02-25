@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveTransmitionHistory extends ObjectYPT {
 
-    protected $id, $title, $description, $key, $created, $modified, $users_id, $live_servers_id;
+    protected $id, $title, $description, $key, $created, $modified, $users_id, $live_servers_id, $finished;
 
     static function getSearchFieldsNames() {
         return array('title', 'description');
@@ -47,7 +47,11 @@ class LiveTransmitionHistory extends ObjectYPT {
     function setId($id) {
         $this->id = $id;
     }
-
+    
+    function getFinished() {
+        return $this->finished;
+    }
+    
     function setTitle($title) {
         global $global;
         $title = $global['mysqli']->real_escape_string($title);
@@ -231,9 +235,13 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $rows;
     }
 
-    static function getLatest($key) {
+    static function getLatest($key, $live_servers_id=null) {
         global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = ? ORDER BY created DESC LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = ? ";
+        if(isset($live_servers_id)){
+            $sql .= " AND live_servers_id = ".intval($live_servers_id);
+        }
+        $sql .= " ORDER BY created DESC LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
 
         $res = sqlDAL::readSql($sql, "s", array($key));
@@ -244,6 +252,28 @@ class LiveTransmitionHistory extends ObjectYPT {
         } else {
             $row = false;
         }
+        return $row;
+    }
+    
+    static function finish($key) {
+        $row = self::getLatest($key);
+        if(empty($row) || empty($row['id']) || !empty($row['finished'])){
+            return false;
+        }
+
+        return self::finishFromTransmitionHistoryId($row['id']);
+    }
+    
+    static function finishFromTransmitionHistoryId($live_transmitions_history_id) {
+        $live_transmitions_history_id = intval($live_transmitions_history_id);
+        if(empty($live_transmitions_history_id)){
+            return false;
+        }
+        
+        $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$live_transmitions_history_id} ";
+        
+        $insert_row = sqlDAL::writeSql($sql);
+
         return $row;
     }
 

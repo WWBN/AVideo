@@ -115,6 +115,7 @@
                     $container.on('append.infiniteScroll', function (event, response, path, items) {
                         //console.log('Append page: ' + path);
                         lazyImage();
+                        avideoSocket();
                         <?php
                         if($obj->playVideoOnFullscreenOnIframe){
                             echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";

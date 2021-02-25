@@ -32,7 +32,7 @@ if (empty($programs)) {
     $programs = PlayList::getAllFromUser($user_id, $publicOnly);
 } else {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['program_id']);
-    $videos_id = $videosArrayId[0];
+    $videos_id = @$videosArrayId[0];
 }
 $playListsObj = AVideoPlugin::getObjectData("PlayLists");
 ?>
@@ -97,7 +97,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                 @$timesC[__LINE__] += microtime(true) - $startC;
                 $startC = microtime(true);
                 ?>
-
+                <br>
                 <div class="panel panel-default program" playListId="<?php echo $program['id']; ?>">
                     <div class="panel-heading">
 
@@ -135,25 +135,28 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                     <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $program['id']; ?>&sort=4"><?php echo __("Created Date"); ?> Desc 9-0</a></li>
                                 </ul>
                             </div>
-                            <div class="pull-right btn-group">
+                            <div class="pull-right btn-group"  style="display: inline-flex;">
+                                <?php
+                                echo PlayLists::getShowOnTVSwitch($program['id']);
+                                ?>
                                 <?php
                                 if ($program['status'] != "favorite" && $program['status'] != "watch_later") {
                                     if (AVideoPlugin::isEnabledByName("PlayLists")) {
                                         ?>
-                                        <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $program['id']; ?>').val());setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
+                                        <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $program['id']; ?>').val());setTextEmbedCopied();"  data-toggle="tooltip" title="<?php echo __('Copy embed code'); ?>" >
+                                            <span class="fa fa-copy"></span> 
+                                            <span id="btnEmbedText" class="hidden-xs hidden-sm"><?php echo __("Copy embed code"); ?></span></button>
                                         <input type="hidden" id="playListEmbedCode<?php echo $program['id']; ?>" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php echo $program['id']; ?>" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay"></iframe>'/>
                                         <?php
                                     }
                                     ?>
-                                    <button class="btn btn-xs btn-info seriePlaylist" playlist_id="<?php echo $program['id']; ?>" ><i class="fas fa-film"></i> <?php echo __("Serie"); ?></button>
+                                    <button class="btn btn-xs btn-info seriePlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Add this playlist in your video library'); ?>" >
+                                        <i class="fas fa-film"></i> <span class="hidden-xs hidden-sm"><?php echo __("Serie"); ?></span>
+                                    </button>
 
                                     <div id="seriePlaylistModal" class="modal fade" tabindex="-1" role="dialog" >
                                         <div class="modal-dialog" role="document" style="width: 90%; margin: auto;">
                                             <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                    <h4 class="modal-title"><?php echo __("Serie"); ?></h4>
-                                                </div>
                                                 <div class="modal-body">
                                                     <iframe style="width: 100%; height: 80vh;" src="about:blank">
 
@@ -174,24 +177,25 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                         });
                                     </script>
 
-                                    <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $program['id']; ?>" ><i class="fas fa-trash"></i> <?php echo __("Delete"); ?></button>
-                                    <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $program['id']; ?>" ><i class="fas fa-edit"></i> <?php echo __("Rename"); ?></button>
+                                    <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Delete'); ?>" ><i class="fas fa-trash"></i> <span class="hidden-xs hidden-sm"><?php echo __("Delete"); ?></span></button>
+                                    <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Rename'); ?>" ><i class="fas fa-edit"></i> <span class="hidden-xs hidden-sm"><?php echo __("Rename"); ?></span></button>
+                                    <button class="btn btn-xs btn-success addToPlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Add to Program'); ?>" ><i class="fas fa-plus"></i> <span class="hidden-xs hidden-sm"><?php echo __("Add"); ?></span></button>
                                     <button class="btn btn-xs btn-default statusPlaylist statusPlaylist<?php echo $program['id']; ?>" playlist_id="<?php echo $program['id']; ?>" style="" >
                                         <span class="fa fa-lock" id="statusPrivate<?php echo $program['id']; ?>" style="color: red; <?php
                                         if ($program['status'] !== 'private') {
                                             echo ' display: none;';
                                         }
-                                        ?> " ></span> 
+                                        ?> "  data-toggle="tooltip" title="<?php echo __('This playlist is private, click to make it public'); ?>"  ></span> 
                                         <span class="fa fa-globe" id="statusPublic<?php echo $program['id']; ?>" style="color: green; <?php
                                         if ($program['status'] !== 'public') {
                                             echo ' display: none;';
                                         }
-                                        ?>"></span> 
+                                        ?>"  data-toggle="tooltip" title="<?php echo __('This playlist is public, click to make it unlisted'); ?>" ></span> 
                                         <span class="fa fa-eye-slash" id="statusUnlisted<?php echo $program['id']; ?>" style="color: gray;   <?php
                                         if ($program['status'] !== 'unlisted') {
                                             echo ' display: none;';
                                         }
-                                        ?>"></span>
+                                        ?>"  data-toggle="tooltip" title="<?php echo __('This playlist is unlisted, click to make it private'); ?>" ></span>
                                     </button>
                                     <?php
                                 }
@@ -328,13 +332,13 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                         </div>
                                     </li>
                                     <?php
-                                    if($count%6===0){
+                                    if ($count % 6 === 0) {
                                         echo '<div class="clearfix hidden-md hidden-sm hidden-xs"></div>';
                                     }
-                                    if($count%3===0){
+                                    if ($count % 3 === 0) {
                                         echo '<div class="clearfix hidden-lg hidden-xs"></div>';
                                     }
-                                    if($count%2===0){
+                                    if ($count % 2 === 0) {
                                         echo '<div class="clearfix hidden-md hidden-sm hidden-lg"></div>';
                                     }
                                 }
@@ -347,9 +351,9 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             if (count($programs) > 1) {
                                 ?>
                                 <button class="btn btn-default btn-xs btn-sm showMoreLessBtn showMoreLessBtn<?php echo $program['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $program['id']; ?>').toggle();
-                                                    $('.<?php echo $class; ?>').slideDown();"><i class="fas fa-angle-down"></i> <?php echo __('Show More'); ?></button>
+                                        $('.<?php echo $class; ?>').slideDown();"><i class="fas fa-angle-down"></i> <?php echo __('Show More'); ?></button>
                                 <button class="btn btn-default btn-xs btn-sm  showMoreLessBtn showMoreLessBtn<?php echo $program['id']; ?>" onclick="$('.showMoreLessBtn<?php echo $program['id']; ?>').toggle();
-                                                    $('.<?php echo $class; ?>').slideUp();" style="display: none;"><i class="fas fa-angle-up"></i> <?php echo __('Show Less'); ?></button>
+                                        $('.<?php echo $class; ?>').slideUp();" style="display: none;"><i class="fas fa-angle-up"></i> <?php echo __('Show Less'); ?></button>
                                         <?php
                                     }
                                     if ($isMyChannel && !empty($videosArrayId)) {
@@ -369,6 +373,60 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
 
             $_GET['channelName'] = $channelName;
             ?>
+
+            <div class="modal fade" id="videoSearchModal" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-body">
+
+                            <div class="panel panle-default">
+                                <div class="panel-heading">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#addSeries"><i class="fas fa-list"></i> <?php echo __('Series'); ?></a></li>
+                                        <li><a data-toggle="tab" href="#addVideos"><i class="fas fa-video"></i> <?php echo __('Videos'); ?></a></li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="tab-content">
+                                        <div id="addSeries" class="tab-pane fade in active">
+                                            <form id="serieSearch-form" name="search-form" action="<?php echo $global['webSiteRootURL'] . ''; ?>" method="get">
+                                                <div id="custom-search-input">
+                                                    <div class="input-group col-md-12">
+                                                        <input type="search" name="searchPhrase" id="videoSearch-input" class="form-control input-lg" placeholder="<?php echo __('Search Serie'); ?>" value="">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-info btn-lg" type="submit">
+                                                                <i class="fas fa-search"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <hr>
+                                            <div id="searchSerieResult"></div>
+                                        </div>
+                                        <div id="addVideos" class="tab-pane fade">
+                                            <form id="videoSearch-form" name="search-form" action="<?php echo $global['webSiteRootURL'] . ''; ?>" method="get">
+                                                <div id="custom-search-input">
+                                                    <div class="input-group col-md-12">
+                                                        <input type="search" name="searchPhrase" id="videoSearch-input" class="form-control input-lg" placeholder="<?php echo __('Search Videos'); ?>" value="">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-info btn-lg" type="submit">
+                                                                <i class="fas fa-search"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <hr>
+                                            <div id="searchVideoResult"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <script>
 
                 var timoutembed;
@@ -603,10 +661,67 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
         ?>
 
         <script>
+            
+            var videoWasAdded = false;
+            
             $(document).ready(function () {
+                $('.addToPlaylist').click(function () {
+                    openVideoSearch();
+                });
 
+                $('#videoSearch-form').submit(function (event) {
+                    event.preventDefault();
+                    videoSearch(0);
+                });
+
+                $('#serieSearch-form').submit(function (event) {
+                    event.preventDefault();
+                    videoSearch(1);
+                });
+                
+                $('#videoSearchModal').on('hidden.bs.modal', function () {
+                    if(videoWasAdded){
+                        modal.showPleaseWait();
+                        location.reload();
+                    }
+                });
 
             });
+
+            function openVideoSearch() {
+                $('#videoSearchModal').modal();
+            }
+
+            function videoSearch(is_serie) {
+                modal.showPleaseWait();
+                var searchPhrase = $('#videoSearch-input').val();
+                $.ajax({
+                    url: webSiteRootURL + 'plugin/API/get.json.php?APIName=video&rowCount=10&is_serie=' + is_serie + '&searchPhrase=' + searchPhrase,
+                    success: function (response) {
+                        console.log(response);
+                        var resultId = '#searchVideoResult';
+                        if (is_serie) {
+                            resultId = '#searchSerieResult';
+                        }
+                        $(resultId).empty();
+                        var rows = response.response.rows;
+                        for (var i in rows) {
+                            if (typeof rows[i] !== 'object') {
+                                continue;
+                            }
+                            var html = '<button type="button" class="btn btn-default btn-block"  data-toggle="tooltip" title="<?php echo __('Add To Serie'); ?>" onclick="addToSerie(<?php echo $program['id']; ?>, ' + rows[i].id + ');" id="videos_id_' + rows[i].id + '_playlists_id_<?php echo $program['id']; ?>" ><i class="fas fa-plus"></i> ' + rows[i].title + '</button>';
+                            $(resultId).append(html);
+                        }
+                        modal.hidePleaseWait();
+                    }
+                });
+            }
+
+            function addToSerie(playlists_id, videos_id) {
+                addVideoToPlayList(videos_id, true, playlists_id);
+                $('#videos_id_' + videos_id + '_playlists_id_' + playlists_id).fadeOut();
+                videoWasAdded = true;
+            }
 
         </script>
     </body>

@@ -147,6 +147,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `encoderURL` VARCHAR(255) NULL DEFAULT NULL,
   `filepath` VARCHAR(255) NULL DEFAULT NULL,
   `filesize` BIGINT(19) UNSIGNED NULL DEFAULT 0,
+  `live_transmitions_history_id` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
@@ -158,6 +159,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `video_filename_INDEX` (`filename` ASC),
   INDEX `video_status_idx` (`status` ASC),
   INDEX `video_type_idx` (`type` ASC) ,
+  INDEX `fk_videos_live_transmitions_history1_idx` (`live_transmitions_history_id` ASC),
   FULLTEXT INDEX `index17vname` (`title`),
   FULLTEXT INDEX `index18vdesc` (`description`),
   CONSTRAINT `fk_videos_sites1`

@@ -109,6 +109,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                         $activeServerFound = false;
                         if (!$obj->useLiveServers) {
                             $activeServerFound = true;
+                            $_REQUEST['live_servers_id'] = 0;
                             ?>
                             <li class="active">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=0">
@@ -118,6 +119,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                             <?php
                         } else {
                             $servers = Live::getAllServers();
+                            $activeFound = false;
                             foreach ($servers as $key => $value) {
                                 $active = "";
                                 if (isset($_REQUEST['live_servers_id'])) {
@@ -144,17 +146,21 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                 <?php
                             }
                         }
-                        if (empty($activeServerFound)) {
-                            ?>
-                            <li>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/editor.php" class="btn btn-danger">
-                                    <i class="fas fa-exclamation-triangle"></i> <?php echo __("Server not found or inactive"); ?>
-                                </a>
-                            </li>
-                            <?php
+                        if (empty($activeServerFound)) {                            
+                            if(!empty($servers[0])){
+                                $_REQUEST['live_servers_id'] = $servers[0]['id'];
+                            }else{
+                                ?>
+                                <li>
+                                    <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/editor.php" class="btn btn-danger">
+                                        <i class="fas fa-exclamation-triangle"></i> <?php echo __("Server not found or inactive"); ?>
+                                    </a>
+                                </li>
+                                <?php
+                            }
                         }
-
                         $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
+                        $getLiveKey['live_servers_id'] = $_REQUEST['live_servers_id'];
                         $poster = Live::getPosterImage(User::getId(), $_REQUEST['live_servers_id']);
                         ?>
                     </ul>

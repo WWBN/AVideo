@@ -268,6 +268,14 @@ footer ul.list-inline li {
     /*overflow: hidden;*/
     text-overflow: ellipsis;
 }
+
+.ellipsis {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .no-outline {
     border: 0;
 }
@@ -783,11 +791,11 @@ img.blur{
     opacity: 0.2;   
 }
 
-.btn-group.justified {
+.btn-group.justified, .btn-group-justified  {
     display: flex;
 }
 
-.justified .btn {
+.btn-group-justified .btn, .justified .btn {
     flex: 1
 }
 
@@ -937,10 +945,61 @@ li.dropdown-submenu > ul > li > a{
     }
 }
 
+.glowBox{
+    animation: glowBox 1s infinite alternate;
+}
+
+@keyframes glowBox {
+    from {
+        color: #DFD;
+        box-shadow: 
+            0 0 1px #050, 
+            0 0 2px #070, 
+            0 0 3px #670, 
+            0 0 4px #670;
+    }
+    to {
+        color: #FFF;
+        box-shadow: 
+            0 0 2px #020,
+            0 0 5px #090, 
+            0 0 10px #0F0, 
+            0 0 15px #BF0, 
+            0 0 20px #B6FF00;
+    }
+}
+
 #extraVideos .liveVideo{
     min-height: 170px;
 }
 
 #extraVideos .liveVideo .thumbsImage img{
     min-height: 90px;
+}
+
+.swal-modal.swal-modal-iframe {
+    width: calc(100% - 150px);
+    height: calc(100% - 150px);
+}
+.swal-modal.swal-modal-iframe .swal-content {
+    width: calc(100%);
+    height: calc(100% - 50px);
+}
+.swal-modal.swal-modal-iframe iframe{
+    width: 100%;
+    height: 100%;
+}
+
+.getChangeVideoStatusButton button{
+    display: none;
+}
+
+.getChangeVideoStatusButton.status_i button.getChangeVideoStatusButton_i{
+    display: block;
+}
+.getChangeVideoStatusButton.status_a button.getChangeVideoStatusButton_a{
+    display: block;
+}
+.getChangeVideoStatusButton.status_u button.getChangeVideoStatusButton_u{
+    display: block;
 }

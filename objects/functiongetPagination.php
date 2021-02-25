@@ -16,6 +16,7 @@
         });
         $container$uid.on('append.infiniteScroll', function (event, response, path, items) {
             lazyImage();
+            avideoSocket();
         });
 
     });

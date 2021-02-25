@@ -25,23 +25,22 @@ if (User::getId() != $pl->getUsers_id()) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
 $msg = "";
-if(!empty($_GET['action'])){
+if (!empty($_GET['action'])) {
     switch ($_GET['action']) {
         case 'delete':
             $id = PlayLists::removeSerie($serie_playlists_id);
-            if(empty($id)){
+            if (empty($id)) {
                 $msg = "Serie NOT deleted";
             }
             break;
         case 'create':
             $id = PlayLists::saveSerie($serie_playlists_id);
-            if(empty($id)){
+            if (empty($id)) {
                 $msg = "Serie NOT saved";
             }
             break;
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -66,32 +65,60 @@ if(!empty($_GET['action'])){
 
     <body style="background-color: transparent;">
         <div class="container-fluid">
-            <h1><?php echo $pl->getName(); ?></h1>
-            <?php
-            $videoPL = PlayLists::isPlayListASerie($serie_playlists_id);
-            if (!empty($videoPL)) {
-                ?>
-                <a class="btn btn-primary btn-block" href="<?php echo $global['webSiteRootURL']; ?>mvideos?iframe=1&video_id=<?php echo $videoPL['id']; ?>"><?php echo __('Edit'); ?></a>    
-                <a class="btn btn-danger btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=<?php echo $serie_playlists_id; ?>&action=delete"><?php echo __('Delete'); ?></a> 
-                <div class="alert alert-danger"> 
-                    <p>Deleting this series will remove only the video linked to it. All items in your playlist will remain unchanged.</p> 
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h1><?php echo $pl->getName(); ?></h1>
                 </div>
-                <?php
-            } else {
-                ?>
-                <a class="btn btn-success btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=<?php echo $serie_playlists_id; ?>&action=create"><?php echo __('Create'); ?></a>    
-                <div class="alert alert-info"> 
-                    <p>In order to create series and make it easier to play videos in sequence, on this page we will create a video linked to this playlist.</p>
-                    <p>This video can be set up just like any other video by adding posters and viewing permissions</p> 
+                <div class="panel-body">
+                    <?php
+                    $videoPL = PlayLists::isPlayListASerie($serie_playlists_id);
+                    if (!empty($videoPL)) {
+                        ?>
+                        <div class="alert alert-danger"> 
+                            <p>Deleting this series will remove only the video linked to it. All items in your playlist will remain unchanged.</p> 
+                        </div>
+                        <?php
+                    } else {
+                        ?>
+                        <div class="alert alert-info"> 
+                            <p>In order to create series and make it easier to play videos in sequence, on this page we will create a video linked to this playlist.</p>
+                            <p>This video can be set up just like any other video by adding posters and viewing permissions</p> 
+
+                            Programs can be expanded to Series, when a program becomes a series, a new "video" is created. In this video, you can choose the title, thumbnail images, visibility, etc. in other words all the characteristics that a video can have you also can have for your playlist.
+
+                            The benefit to this is that you can add all needed metadata to your program, for example, create a cover and a specific name for your program, and manage it all in the video management menu.
+                        </div>
+                        <?php
+                    }
+                    if (!empty($msg)) {
+                        ?>
+                        <div class="alert alert-danger"><?php echo $msg; ?></div>    
+                        <?php
+                    }
+                    ?>
                 </div>
-                <?php
-            }
-            if(!empty($msg)){
-                ?>
-                <div class="alert alert-danger"><?php echo $msg; ?></div>    
-                <?php
-            }
-            ?>
+                <div class="panel-footer text-right">
+                    <?php
+                    if (!empty($videoPL)) {
+                        ?>
+                        <a class="btn btn-primary" href="<?php echo $global['webSiteRootURL']; ?>mvideos?iframe=1&video_id=<?php echo $videoPL['id']; ?>">
+                            <i class="fas fa-edit"></i> <?php echo __('Edit'); ?>
+                        </a>    
+                        <a class="btn btn-danger" href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=<?php echo $serie_playlists_id; ?>&action=delete">
+                            <i class="fas fa-trash"></i> <?php echo __('Delete'); ?>
+                        </a> 
+                        <?php
+                    } else {
+                        ?>
+                        <a class="btn btn-success" href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=<?php echo $serie_playlists_id; ?>&action=create">
+                            <i class="fas fa-film"></i> <?php echo __('Create'); ?>
+                        </a>    
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
         </div>
         <?php
         $jsFiles = array();
