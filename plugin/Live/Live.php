@@ -633,7 +633,7 @@ class Live extends PluginAbstract {
 
     function get_data($url, $timeout) {
         $name = "get_data_".md5($url);
-        $result = ObjectYPT::getCache($name, 15);
+        $result = ObjectYPT::getCache($name, 30);
         if(empty($result)){
             $result = ObjectYPT::getCache($name, 0);
             ObjectYPT::setCache($name, $result);
