@@ -5751,6 +5751,16 @@ function isURL200($url, $forceRecheck = false) {
 }
 
 function getStatsNotifications() {
+    global $_getStatsNotifications;
+    
+    if(!isset($_getStatsNotifications)){
+        $_getStatsNotifications = array();
+    }
+    $key = md5(json_encode($_REQUEST));
+    if(isset($_getStatsNotifications[$key])){
+        return $_getStatsNotifications[$key];
+    }
+    
     $json = Live::getStats();
     $json = object_to_array($json);
 
@@ -5804,6 +5814,7 @@ function getStatsNotifications() {
             }
         }
     }
+    $_getStatsNotifications[$key] = $json;
     return $json;
 }
 
