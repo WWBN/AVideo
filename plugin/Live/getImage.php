@@ -69,7 +69,7 @@ if($lt->userCanSeeTransmition()){
     }
     
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
-        $content = url_get_contents($url, '', 5);
+        $content = url_get_contents($url, '', 5, true);
         _session_start();
         _error_log("Live:getImage  Image Expired in ".  date("d/m/Y H:i:s", @$_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
         $_SESSION[$url] = array('content' => $content, 'expire' => strtotime("+2 min"));
