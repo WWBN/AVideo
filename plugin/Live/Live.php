@@ -986,6 +986,13 @@ class Live extends PluginAbstract {
             //_error_log("Live::_getStats cached result {$_REQUEST['name']} " . json_encode($_getStats[$live_servers_id][$_REQUEST['name']]));
             return $_getStats[$live_servers_id][$_REQUEST['name']];
         }
+        
+        $cacneName = "_getStats[$live_servers_id][{$_REQUEST['name']}]".User::getId();
+        $result = ObjectYPT::getCache($cacneName, 30);
+        if(!empty($result)){
+            return json_decode($result); 
+        }
+        
         session_write_close();
         $obj = new stdClass();
         $obj->error = true;
@@ -1137,6 +1144,7 @@ class Live extends PluginAbstract {
         $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
+        ObjectYPT::setCache($cacneName, json_encode($obj));
         return $obj;
     }
 
