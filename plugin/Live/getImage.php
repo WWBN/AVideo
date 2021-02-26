@@ -66,7 +66,7 @@ if (!empty($result)) {
     $video = Live::getM3U8File($uuid);
     $url = $config->getEncoderURL() . "getImage/" . base64_encode($video) . "/{$_GET['format']}";
     _error_log("Live:getImage $url");
-    $content = url_get_contents($url, '', 5, true);
+    $content = url_get_contents($url, '', 2, true);
 
     if (empty($content)) {
         echo file_get_contents($filename);
