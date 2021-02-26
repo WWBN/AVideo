@@ -587,12 +587,20 @@ class Live extends PluginAbstract {
         if (isset($getStatsObject[$live_servers_id])) {
             return $getStatsObject[$live_servers_id];
         }
+        
+        $name = "getStatsObject_{$live_servers_id}";
+        $result = ObjectYPT::getCache($name, 30);
+        if(!empty($result)){
+            return json_decode($result);
+        }
+        
         $o = $this->getDataObject();
         if ($o->doNotProcessNotifications) {
             $xml = new stdClass();
             $xml->server = new stdClass();
             $xml->server->application = array();
             $getStatsObject[$live_servers_id] = $xml;
+            ObjectYPT::setCache($name, json_encode($xml));
             return $xml;
         }
         if (empty($o->requestStatsTimout)) {
@@ -628,6 +636,7 @@ class Live extends PluginAbstract {
         }
         $xml = simplexml_load_string($data);
         $getStatsObject[$live_servers_id] = $xml;
+        ObjectYPT::setCache($name, json_encode($xml));
         return $xml;
     }
 
