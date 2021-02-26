@@ -56,6 +56,7 @@ if(Live::isLiveThumbsDisabled()){
 $lt = new LiveTransmition($livet['id']);
 _error_log("Live:getImage  start");
 if($lt->userCanSeeTransmition()){
+    outputAndContinueInBackground();
     $uuid = LiveTransmition::keyNameFix($livet['key']);
     $p = AVideoPlugin::loadPlugin("Live");
     $video = Live::getM3U8File($uuid);
