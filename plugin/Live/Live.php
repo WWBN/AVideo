@@ -582,7 +582,7 @@ class Live extends PluginAbstract {
 
         global $getStatsObject;
         if (!isset($getStatsObject)) {
-            return $getStatsObject = array();
+            $getStatsObject = array();
         }
         if (isset($getStatsObject[$live_servers_id])) {
             return $getStatsObject[$live_servers_id];
