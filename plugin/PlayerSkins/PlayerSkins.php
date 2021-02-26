@@ -83,6 +83,7 @@ class PlayerSkins extends PluginAbstract {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
             $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+            $css .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.js\"></script>";
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"
@@ -107,7 +108,7 @@ class PlayerSkins extends PluginAbstract {
 }"
                         . "</style>";
             }
-            
+
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/shareButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
@@ -136,13 +137,22 @@ class PlayerSkins extends PluginAbstract {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/logo.js"));
                 //$js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/logo.js\"></script>";
             }
-            
+
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $social = getSocialModal(@$video['id'], @$url, @$title);
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
                 //$js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/shareButton.js\"></script>";
                 $js .= $social['html'];
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
+            }
+        }
+        if (isAudio()) {
+            $videos_id = getVideos_id();
+            $video = Video::getVideoLight($videos_id);
+            $spectrumSource = Video::getSourceFile($video['filename'], "_spectrum.jpg");
+            if(!empty($spectrumSource["path"])){
+                $onPlayerReady = "startAudioSpectrumProgress('{$spectrumSource["url"]}');";
+                self::prepareStartPlayerJS($onPlayerReady);
             }
         }
         if (!empty($getStartPlayerJSWasRequested) || isVideo()) {
@@ -271,7 +281,7 @@ class PlayerSkins extends PluginAbstract {
         $currentTime = 0;
         if (isset($_GET['t'])) {
             $currentTime = intval($_GET['t']);
-        } else if (!empty ($video['progress']) && !empty($video['progress']['lastVideoTime'])) {
+        } else if (!empty($video['progress']) && !empty($video['progress']['lastVideoTime'])) {
             $currentTime = intval($video['progress']['lastVideoTime']);
             $maxCurrentTime = parseDurationToSeconds($video['duration']);
             if ($maxCurrentTime <= $currentTime + 5) {

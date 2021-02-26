@@ -78,7 +78,7 @@ $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
     </div>
     <div class="col-md-2"></div>
 </div>
-<!--/row-->
+<!-- video finish -->
 <script>
     var mediaId = '<?php echo $playNowVideo['id']; ?>';
     var player;

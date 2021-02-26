@@ -170,7 +170,7 @@ TimeLogEnd($timeLog, __LINE__);
                                     ?>
                                     <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
                                         <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
-                                            <?php echo strtoupper($palyListsObj->name); ?> <span class="badge"><?php echo count($totalPrograms); ?></span>
+                                            <?php echo strtoupper(__($palyListsObj->name)); ?> <span class="badge"><?php echo count($totalPrograms); ?></span>
                                         </a>
                                     </li>
                                     <?php

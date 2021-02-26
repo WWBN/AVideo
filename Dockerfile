@@ -35,6 +35,8 @@ COPY  . /var/www/avideo
 WORKDIR /var/www/avideo
 
 # Set Permision
+# Create folder if not exists
+RUN mkdir /var/www/avideo/videos
 RUN chown www-data:www-data /var/www/avideo/videos && chmod 755 /var/www/avideo/videos
 #VOLUME [ "/storage/data" ]
 

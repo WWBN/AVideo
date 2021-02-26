@@ -9,18 +9,6 @@ if (thereIsAnyUpdate()) {
     hideAfter: 20000
 });";
 }
-/*
-if ($version = thereIsAnyRemoteUpdate()) {
-    $footerjs .= "$.toast({
-    heading: 'Update available',
-    text: '<a href=\"" . $global['webSiteRootURL'] . "update\">" . __('Our repository is now running at version') . " " . $version->version . "</a>',
-    showHideTransition: 'plain',
-    icon: 'warning',
-    hideAfter: 20000
-});";
-}
- * 
- */
 if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }

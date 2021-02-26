@@ -34,7 +34,7 @@ AVideoPlugin::getEmbed($video['id']);
 if (empty($video)) {
     forbiddenPage("Video not found");
 }
-if(empty($video['users_id'])){
+if (empty($video['users_id'])) {
     $video['users_id'] = User::getId();
 }
 if (empty($customizedAdvanced)) {
@@ -53,32 +53,22 @@ if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && !isAV
     }
 }
 
+$source = array();
+$poster = $img = "";
 $imgw = 1280;
 $imgh = 720;
 
 if ($video['type'] !== "pdf") {
-    if(!empty($video['filename'])){
+    if (!empty($video['filename'])) {
         $source = Video::getSourceFile($video['filename']);
-        $img = $source['url'];
+        $poster = $img = $source['url'];
         $data = getimgsize($source['path']);
         $imgw = $data[0];
         $imgh = $data[1];
-    }else{
-        $source = array();
-        $img = "";
-        $imgw = 0;
-        $imgh = 0;
     }
-} else if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
-    $source = Video::getSourceFile($video['filename']);
-    $img = $source['url'];
-    $data = getimgsize($source['path']);
-    $imgw = $data[0];
-    $imgh = $data[1];
-} else {
-    $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
 }
-if(!empty($video['filename'])){
+
+if (!empty($video['filename'])) {
     $images = Video::getImageFromFilename($video['filename']);
     $poster = $images->poster;
     if (!empty($images->posterPortrait)) {
@@ -87,12 +77,21 @@ if(!empty($video['filename'])){
         $imgw = $data[0];
         $imgh = $data[1];
     }
-}else{
+} else {
     $images = array();
     $poster = "";
     $imgw = 0;
     $imgh = 0;
 }
+
+if (empty($poster) && !empty($video['filename'])) {
+    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
+        $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
+    } else {
+        $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    }
+}
+
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 /*
  * Swap aspect ratio for rotated (vvs) videos
@@ -107,13 +106,6 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 $vjsClass = "";
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
-if(!empty($video['filename'])){
-    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
-        $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
-    } else {
-        $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-    }
-}
 
 //https://.../vEmbed/527?modestbranding=1&showinfo=0&autoplay=1&controls=0&loop=1&mute=1&t=0
 $modestbranding = false;
@@ -153,7 +145,7 @@ if (!empty($_GET['t'])) {
 $playerSkinsO = AVideoPlugin::getObjectData("PlayerSkins");
 $disableEmbedTopInfo = $playerSkinsO->disableEmbedTopInfo;
 
-if(isset($_REQUEST['showinfo']) && empty($_REQUEST['showinfo'])){
+if (isset($_REQUEST['showinfo']) && empty($_REQUEST['showinfo'])) {
     $disableEmbedTopInfo = true;
     $modestbranding = true;
 }
@@ -391,7 +383,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
         $url = parseVideos($video['videoLink']);
         if ($autoplay) {
-            $url = addQueryStringParameter($url, 'autoplay',1);
+            $url = addQueryStringParameter($url, 'autoplay', 1);
         }
         echo $url;
         ?>"></iframe>
@@ -405,7 +397,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         $isAudio = 1;
         ?>
         <audio style="width: 100%; height: 100%;"  id="mainVideo" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainVideo"  data-setup='{ "fluid": true }'
-                poster="<?php echo $poster; ?>">
+               poster="<?php echo $poster; ?>">
                    <?php
                    $ext = "";
                    if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
@@ -424,9 +416,9 @@ if (User::hasBlockedUser($video['users_id'])) {
             ?>
         </audio>
         <script>
-            $(document).ready(function () {
-                addView(<?php echo $video['id']; ?>, this.currentTime());
-            });
+    <?php
+    PlayerSkins::playerJSCodeOnLoad($video['id']);
+    ?>
         </script>
         <?php
     } else if ($video['type'] == "linkVideo") {

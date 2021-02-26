@@ -62,8 +62,8 @@ class BootGrid {
             $like = array();
             foreach ($searchFieldsNames as $value) {                
                 if(preg_match('/description/', $value)){
-                    $like[] = " {$value} regexp '\\b{$search}\\b' ";
-                    //$like[] = " {$value} LIKE '%{$search}%' ";
+                    //$like[] = " {$value} regexp '\\b{$search}\\b' ";// not sure why was using regexp
+                    $like[] = " {$value} LIKE '%{$search}%' ";
                 }else{
                     $like[] = " {$value} LIKE '%{$search}%' ";
                 }
