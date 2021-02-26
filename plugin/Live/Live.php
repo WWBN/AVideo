@@ -581,7 +581,10 @@ class Live extends PluginAbstract {
         }
 
         global $getStatsObject;
-        if (!empty($getStatsObject[$live_servers_id])) {
+        if (!isset($getStatsObject)) {
+            return $getStatsObject = array();
+        }
+        if (isset($getStatsObject[$live_servers_id])) {
             return $getStatsObject[$live_servers_id];
         }
         $o = $this->getDataObject();
@@ -589,6 +592,7 @@ class Live extends PluginAbstract {
             $xml = new stdClass();
             $xml->server = new stdClass();
             $xml->server->application = array();
+            $getStatsObject[$live_servers_id] = $xml;
             return $xml;
         }
         if (empty($o->requestStatsTimout)) {
