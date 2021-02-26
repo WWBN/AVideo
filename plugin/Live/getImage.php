@@ -69,7 +69,7 @@ if($lt->userCanSeeTransmition()){
     }
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
         header('Content-Type: image/jpg');
-        echo file_get_contents($uploadedPoster);
+        echo file_get_contents($filename);
         outputAndContinueInBackground();
         $content = url_get_contents($url, '', 5);
         _session_start();
