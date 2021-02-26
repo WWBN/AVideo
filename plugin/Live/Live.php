@@ -1149,11 +1149,20 @@ class Live extends PluginAbstract {
     }
 
     static function isLive($users_id, $live_servers_id = 0, $force_recreate = false) {
+        global $_live_is_live;
         if (empty($users_id)) {
             return false;
         }
+        if(!isset($_live_is_live)){
+            $_live_is_live = array();
+        }
+        $name = "{$users_id}_{$live_servers_id}";
+        if(!empty($_live_is_live[$name])){
+            return $_live_is_live[$name];
+        }
         $key = self::getLiveKey($users_id);
-        return self::isLiveAndIsReadyFromKey($key, $live_servers_id, $force_recreate = false);
+        $_live_is_live[$name] = self::isLiveAndIsReadyFromKey($key, $live_servers_id, $force_recreate = false);
+        return $_live_is_live[$name];
     }
 
     static function isLiveFromKey($key, $live_servers_id = 0, $force_recreate = false) {
