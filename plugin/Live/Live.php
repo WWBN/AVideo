@@ -198,7 +198,7 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('requestStatsInterval', 'Stats Request Interval', 'how many seconds until request the stats again');
         $obj->streamDeniedMsg = "You can not stream live videos";
         self::addDataObjectHelper('streamDeniedMsg', 'Denied Message', 'We will show this message when a user is not allowed so watch a livestream');
-        
+
         return $obj;
     }
 
@@ -228,12 +228,12 @@ class Live extends PluginAbstract {
         if (!empty($obj->playLiveInFullScreen)) {
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'.liveVideo a.galleryLink\'); } });</script>';
-        }else
+        } else
         if (!empty($obj->playLiveInFullScreenOnIframe)) {
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'.liveVideo a.galleryLink\'); } });</script>';
         }
-        include $global['systemRootPath'].'plugin/Live/view/footer.php';
+        include $global['systemRootPath'] . 'plugin/Live/view/footer.php';
         return $js;
     }
 
@@ -611,8 +611,8 @@ class Live extends PluginAbstract {
             if (empty($_SESSION['getStatsObjectRequestStatsTimout'])) {
                 $_SESSION['getStatsObjectRequestStatsTimout'] = array();
             }
-            $_SESSION['getStatsObjectRequestStatsTimout'][$url] = $o->requestStatsTimout-1;
-            if($_SESSION['getStatsObjectRequestStatsTimout'][$url]<1){
+            $_SESSION['getStatsObjectRequestStatsTimout'][$url] = $o->requestStatsTimout - 1;
+            if ($_SESSION['getStatsObjectRequestStatsTimout'][$url] < 1) {
                 $_SESSION['getStatsObjectRequestStatsTimout'][$url] = 2;
             }
             _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE, timeout=({$o->requestStatsTimout}) we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
@@ -633,10 +633,10 @@ class Live extends PluginAbstract {
 
     function get_data($url, $timeout) {
         global $Live_get_data;
-        if(!isset($Live_get_data)){
+        if (!isset($Live_get_data)) {
             $Live_get_data = array();
         }
-        if(isset($Live_get_data[$url])){
+        if (isset($Live_get_data[$url])) {
             return $Live_get_data[$url];
         }
         try {
@@ -818,9 +818,9 @@ class Live extends PluginAbstract {
         return '<a href="plugin/Live/view/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> ' . __('Edit Live Servers') . '</a>';
     }
 
-    static function getStats($force_recreate=false) {
+    static function getStats($force_recreate = false) {
         global $getStatsLive, $_getStats, $getStatsObject;
-        if(!empty($force_recreate)){
+        if (!empty($force_recreate)) {
             unset($getStatsLive);
             $_getStats = array();
             $getStatsObject = array();
@@ -851,7 +851,7 @@ class Live extends PluginAbstract {
                 $server->live_servers_id = $value['id'];
                 $server->playerServer = $value['playerServer'];
                 foreach ($server->applications as $key => $app) {
-                    if(self::isAdaptive($app['key'])){
+                    if (self::isAdaptive($app['key'])) {
                         continue;
                     }
                     $_REQUEST['live_servers_id'] = $value['id'];
@@ -871,12 +871,12 @@ class Live extends PluginAbstract {
         $getStatsLive = $liveServers;
         return $liveServers;
     }
-    
-    static function isAdaptive($key){
+
+    static function isAdaptive($key) {
         $parts = explode("_", $key);
-        if(!empty($parts[1])){
+        if (!empty($parts[1])) {
             $adaptive = array('hi', 'low', 'mid');
-            if(in_array($parts[1], $adaptive)){
+            if (in_array($parts[1], $adaptive)) {
                 return true;
             }
         }
@@ -894,7 +894,7 @@ class Live extends PluginAbstract {
 
     static function getAvailableLiveServer() {
         global $_getAvailableLiveServer;
-        if(isset($_getAvailableLiveServer)){
+        if (isset($_getAvailableLiveServer)) {
             return $_getAvailableLiveServer;
         }
         // create 1 min cache
@@ -911,7 +911,8 @@ class Live extends PluginAbstract {
                         $_getAvailableLiveServer = 0;
                         return 0;
                     }
-                    $_getAvailableLiveServer = ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;;
+                    $_getAvailableLiveServer = ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;
+                    ;
                     return $_getAvailableLiveServer;
                 });
                 if (empty($liveServers[0])) {
@@ -943,11 +944,11 @@ class Live extends PluginAbstract {
         return $lt->isAPrivateLive();
     }
 
-    static function getTitleFromUsers_Id($users_id){
+    static function getTitleFromUsers_Id($users_id) {
         $lt = self::getLiveTransmitionObjectFromUsers_id($users_id);
         return $lt->getTitle();
     }
-    
+
     static function getLiveTransmitionObjectFromUsers_id($users_id) {
         $key = self::getLiveKey($users_id);
         return self::getLiveTransmitionObjectFromKey($key);
@@ -1002,35 +1003,39 @@ class Live extends PluginAbstract {
 
         $stream = false;
         $lifeStream = array();
-        //$obj->server = $xml->server;
-        if (!empty($xml->server->application) && !is_array($xml->server->application)) {
-            $application = $xml->server->application;
-            $xml->server->application = array();
-            $xml->server->application[] = $application;
-        }
-        foreach ($xml->server->application as $key => $application) {
-            if (!empty($application->live->stream)) {
-                if (empty($lifeStream)) {
-                    $lifeStream = array();
-                }
 
-                $stream = $application->live->stream;
-                if (empty($application->live->stream->name) && !empty($application->live->stream[0]->name)) {
-                    foreach ($application->live->stream as $stream) {
-                        if(Live::isAdaptive($stream->name)){
+        if (empty($xml) || !is_object($xml)) {
+            _error_log("_getStats XML is not an object live_servers_id=$live_servers_id");
+        } else {
+            //$obj->server = $xml->server;
+            if (!empty($xml->server->application) && !is_array($xml->server->application)) {
+                $application = $xml->server->application;
+                $xml->server->application = array();
+                $xml->server->application[] = $application;
+            }
+            foreach ($xml->server->application as $key => $application) {
+                if (!empty($application->live->stream)) {
+                    if (empty($lifeStream)) {
+                        $lifeStream = array();
+                    }
+
+                    $stream = $application->live->stream;
+                    if (empty($application->live->stream->name) && !empty($application->live->stream[0]->name)) {
+                        foreach ($application->live->stream as $stream) {
+                            if (Live::isAdaptive($stream->name)) {
+                                continue;
+                            }
+                            $lifeStream[] = $stream;
+                        }
+                    } else {
+                        if (Live::isAdaptive($stream->name)) {
                             continue;
                         }
-                        $lifeStream[] = $stream;
+                        $lifeStream[] = $application->live->stream;
                     }
-                } else {
-                    if(Live::isAdaptive($stream->name)){
-                        continue;
-                    }
-                    $lifeStream[] = $application->live->stream;
                 }
             }
         }
-
         $obj->disableGif = $p->getDisableGifThumbs();
         $obj->countLiveStream = count($lifeStream);
         foreach ($lifeStream as $value) {
@@ -1146,16 +1151,16 @@ class Live extends PluginAbstract {
         return $url;
     }
 
-    static function isLive($users_id, $live_servers_id = 0, $force_recreate=false) {
-        if(empty($users_id)){
+    static function isLive($users_id, $live_servers_id = 0, $force_recreate = false) {
+        if (empty($users_id)) {
             return false;
         }
         $key = self::getLiveKey($users_id);
-        return self::isLiveAndIsReadyFromKey($key, $live_servers_id, $force_recreate=false);
+        return self::isLiveAndIsReadyFromKey($key, $live_servers_id, $force_recreate = false);
     }
-    
-    static function isLiveFromKey($key, $live_servers_id = 0, $force_recreate=false) {
-        if(empty($key)){
+
+    static function isLiveFromKey($key, $live_servers_id = 0, $force_recreate = false) {
+        if (empty($key)) {
             return false;
         }
         $json = self::getStats($force_recreate);
@@ -1174,15 +1179,15 @@ class Live extends PluginAbstract {
         }
         return false;
     }
-    
-    static function isLiveAndIsReadyFromKey($key, $live_servers_id = 0, $force_recreate=false) {
+
+    static function isLiveAndIsReadyFromKey($key, $live_servers_id = 0, $force_recreate = false) {
         $m3u8 = self::getM3U8File($key);
         $isLiveFromKey = self::isLiveFromKey($key, $live_servers_id, $force_recreate);
         $is200 = isURL200($m3u8);
         _error_log("isLiveFromKey: {$isLiveFromKey}");
         _error_log("m3u8: {$m3u8}");
         _error_log("is200: {$is200}");
-        return  $isLiveFromKey && $is200;
+        return $isLiveFromKey && $is200;
     }
 
     static function getOnlineLivesFromUser($users_id) {
@@ -1226,7 +1231,7 @@ class Live extends PluginAbstract {
         return $url;
     }
 
-    public static function  getPosterImage($users_id, $live_servers_id) {
+    public static function getPosterImage($users_id, $live_servers_id) {
         global $global;
         $file = self::_getPosterImage($users_id, $live_servers_id);
 
@@ -1274,7 +1279,7 @@ class Live extends PluginAbstract {
     public function getPosterThumbsImage($users_id, $live_servers_id) {
         global $global;
         $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
-        
+
         if (!file_exists($global['systemRootPath'] . $file)) {
             $file = self::getOnAirImage(false);
         }
@@ -1462,7 +1467,7 @@ class Live extends PluginAbstract {
             if (!empty($_GET['limitOnceToOne'])) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);
-            }else{
+            } else {
                 $_REQUEST['rowCount'] = getRowCount();
                 if (!empty($_REQUEST['rowCount'])) {
                     $sql .= " LIMIT {$_REQUEST['rowCount']}";
@@ -1522,8 +1527,8 @@ class Live extends PluginAbstract {
         }
         return $videos;
     }
-    
-    static function finishLive($key){
+
+    static function finishLive($key) {
         $lh = LiveTransmitionHistory::finish($key);
     }
 
