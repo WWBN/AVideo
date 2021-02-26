@@ -5727,23 +5727,39 @@ function isURL200($url, $forceRecheck = false) {
     if (empty($forceRecheck) && isset($_isURL200[$url])) {
         return $_isURL200[$url];
     }
+    
+    $name = "isURL200".md5($url);
+    $result = ObjectYPT::getCache($name, 30);
+    if(!empty($result)){
+        $object = json_decode($result);
+        return $object->result;
+    }
+    
+    $object = new stdClass();
+    $object->url = $url;
+    $object->forceRecheck = $forceRecheck;
+    
     //error_log("isURL200 checking URL {$url}");
     $headers = @get_headers($url);
     if (!is_array($headers)) {
         $headers = array($headers);
     }
+    
+    $object->result = $_isURL200[$url] = false;
     foreach ($headers as $value) {
         if (
                 strpos($value, '200') ||
                 strpos($value, '302') ||
                 strpos($value, '304')
         ) {
-            $_isURL200[$url] = true;
-            return true;
+            $object->result = $_isURL200[$url] = true;
+            break;
         }
     }
-    $_isURL200[$url] = false;
-    return false;
+    
+    ObjectYPT::setCache($name, json_encode($object));
+    
+    return $object->result;
 }
 
 function getStatsNotifications() {
