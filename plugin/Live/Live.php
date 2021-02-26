@@ -628,9 +628,16 @@ class Live extends PluginAbstract {
     }
 
     function get_data($url, $timeout) {
+        global $Live_get_data;
+        if(!isset($Live_get_data)){
+            $Live_get_data = array();
+        }
+        if(isset($Live_get_data[$url])){
+            return $Live_get_data[$url];
+        }
         try {
-            $content = url_get_contents($url, "", $timeout);
-            return $content;
+            $Live_get_data[$url] = url_get_contents($url, "", $timeout);
+            return $Live_get_data[$url];
         } catch (Exception $exc) {
             _error_log($exc->getTraceAsString());
         }
