@@ -274,7 +274,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $insert_row = sqlDAL::writeSql($sql);
 
-        return $row;
+        return $insert_row;
     }
 
     static function getLatestFromUser($users_id) {
