@@ -1183,6 +1183,7 @@ class Live extends PluginAbstract {
         $json = self::getStats($force_recreate);
         if (!empty($json) && is_object($json) && !empty($json->applications)) {
             foreach ($json->applications as $value) {
+                object_to_array($value);
                 if (preg_match("/{$key}.*/", $value['key'])) {
                     if (empty($live_servers_id)) {
                         return true;
