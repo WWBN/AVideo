@@ -67,10 +67,8 @@ if($lt->userCanSeeTransmition()){
         _session_start();
         unset($_SESSION[$url]);
     }
+    
     if (empty($_SESSION[$url]['expire']) || $_SESSION[$url]['expire'] < time()) {
-        header('Content-Type: image/jpg');
-        echo file_get_contents($filename);
-        outputAndContinueInBackground();
         $content = url_get_contents($url, '', 5);
         _session_start();
         _error_log("Live:getImage  Image Expired in ".  date("d/m/Y H:i:s", @$_SESSION[$url]['expire'])." NOW is ".  date("d/m/Y H:i:s"));
