@@ -632,9 +632,9 @@ class Live extends PluginAbstract {
     }
 
     function get_data($url, $timeout) {
-        $name = "get_data_".md5($url);
+        $name = "get_data_" . md5($url);
         $result = ObjectYPT::getCache($name, 30);
-        if(empty($result)){
+        if (empty($result)) {
             $result = ObjectYPT::getCache($name, 0);
             ObjectYPT::setCache($name, $result);
             try {
@@ -986,13 +986,13 @@ class Live extends PluginAbstract {
             //_error_log("Live::_getStats cached result {$_REQUEST['name']} " . json_encode($_getStats[$live_servers_id][$_REQUEST['name']]));
             return $_getStats[$live_servers_id][$_REQUEST['name']];
         }
-        
-        $cacneName = "_getStats[$live_servers_id][{$_REQUEST['name']}]".User::getId();
+
+        $cacneName = "_getStats[$live_servers_id][{$_REQUEST['name']}]" . User::getId();
         $result = ObjectYPT::getCache($cacneName, 30);
-        if(!empty($result)){
-            return json_decode($result); 
+        if (!empty($result)) {
+            return json_decode($result);
         }
-        
+
         session_write_close();
         $obj = new stdClass();
         $obj->error = true;
@@ -1164,11 +1164,11 @@ class Live extends PluginAbstract {
         if (empty($users_id)) {
             return false;
         }
-        if(!isset($_live_is_live)){
+        if (!isset($_live_is_live)) {
             $_live_is_live = array();
         }
         $name = "{$users_id}_{$live_servers_id}";
-        if(!empty($_live_is_live[$name])){
+        if (!empty($_live_is_live[$name])) {
             return $_live_is_live[$name];
         }
         $key = self::getLiveKey($users_id);
@@ -1177,39 +1177,52 @@ class Live extends PluginAbstract {
     }
 
     static function isLiveFromKey($key, $live_servers_id = 0, $force_recreate = false) {
+        global $_isLiveFromKey;
         if (empty($key)) {
             return false;
         }
+        $index = "$key, $live_servers_id";
+        if (!isset($_isLiveFromKey)) {
+            $_isLiveFromKey = array();
+        }
+
+        if (isset($_isLiveFromKey[$index])) {
+            return $_isLiveFromKey[$index];
+        }
+
         $json = self::getStats($force_recreate);
         if (!empty($json) && is_object($json) && !empty($json->applications)) {
             foreach ($json->applications as $value) {
                 object_to_array($value);
                 if (preg_match("/{$key}.*/", $value['key'])) {
                     if (empty($live_servers_id)) {
-                        return true;
+                        $_isLiveFromKey[$index] = true;
+                        return $_isLiveFromKey[$index];
                     } else {
                         if (intval(@$value['live_servers_id']) == $live_servers_id) {
-                            return true;
+                            $_isLiveFromKey[$index] = true;
+                            return $_isLiveFromKey[$index];
                         }
                     }
                 }
             }
         }
-        return false;
+        $_isLiveFromKey[$index] = false;
+        return $_isLiveFromKey[$index];
     }
 
     static function isLiveAndIsReadyFromKey($key, $live_servers_id = 0, $force_recreate = false) {
         global $_isLiveAndIsReadyFromKey;
-        
-        if(!isset($_isLiveAndIsReadyFromKey)){
+
+        if (!isset($_isLiveAndIsReadyFromKey)) {
             $_isLiveAndIsReadyFromKey = array();
         }
-        
+
         $name = "{$key}_{$live_servers_id}";
-        if(isset($_isLiveAndIsReadyFromKey[$name])){
+        if (isset($_isLiveAndIsReadyFromKey[$name])) {
             return $_isLiveAndIsReadyFromKey[$name];
         }
-        
+
         $m3u8 = self::getM3U8File($key);
         $isLiveFromKey = self::isLiveFromKey($key, $live_servers_id, $force_recreate);
         $is200 = isURL200($m3u8);
