@@ -858,6 +858,7 @@ class Live extends PluginAbstract {
             if (!empty($server) && is_object($server)) {
                 $server->live_servers_id = $value['id'];
                 $server->playerServer = $value['playerServer'];
+                $server->applications = object_to_array($server->applications);
                 foreach ($server->applications as $key => $app) {
                     if (self::isAdaptive($app['key'])) {
                         continue;
