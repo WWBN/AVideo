@@ -992,6 +992,7 @@ class Live extends PluginAbstract {
         $obj->applications = array();
         $obj->hidden_applications = array();
         $obj->name = $_REQUEST['name'];
+        $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         $p = AVideoPlugin::loadPlugin("Live");
         $xml = $p->getStatsObject($live_servers_id);
