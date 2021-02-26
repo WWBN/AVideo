@@ -1199,19 +1199,26 @@ class Live extends PluginAbstract {
         if (isset($_isLiveFromKey[$index])) {
             return $_isLiveFromKey[$index];
         }
-
+               
         $json = self::getStats($force_recreate);
-        if (!empty($json) && is_object($json) && !empty($json->applications)) {
-            foreach ($json->applications as $value) {
-                $value = object_to_array($value);
-                if (preg_match("/{$key}.*/", $value['key'])) {
-                    if (empty($live_servers_id)) {
-                        $_isLiveFromKey[$index] = true;
-                        return $_isLiveFromKey[$index];
-                    } else {
-                        if (intval(@$value['live_servers_id']) == $live_servers_id) {
-                            $_isLiveFromKey[$index] = true;
-                            return $_isLiveFromKey[$index];
+        if(!empty($json)){
+            if(!is_array($json)){
+                $json = array($json);
+            }
+            foreach ($json as $item) {
+                if (is_object($item) && !empty($item->applications)) {
+                    foreach ($item->applications as $value) {
+                        $value = object_to_array($value); 
+                        if (preg_match("/{$key}.*/", $value['key'])) {
+                            if (empty($live_servers_id)) {
+                                $_isLiveFromKey[$index] = true;
+                                return $_isLiveFromKey[$index];
+                            } else {
+                                if (intval(@$value['live_servers_id']) == $live_servers_id) {
+                                    $_isLiveFromKey[$index] = true;
+                                    return $_isLiveFromKey[$index];
+                                }
+                            }
                         }
                     }
                 }
@@ -1239,7 +1246,7 @@ class Live extends PluginAbstract {
         _error_log("isLiveFromKey: {$isLiveFromKey}");
         _error_log("m3u8: {$m3u8}");
         _error_log("is200: {$is200}");
-        $_isLiveAndIsReadyFromKey[$name] = $isLiveFromKey && $is200;
+        $_isLiveAndIsReadyFromKey[$name] = $isLiveFromKey && $is200; 
         return $_isLiveAndIsReadyFromKey[$name];
     }
 

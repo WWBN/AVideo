@@ -15,8 +15,8 @@ if (!empty($_GET['c'])) {
         $_GET['u'] = $user['user'];
     }
 }
-
 $livet = LiveTransmition::getFromDbByUserName($_GET['u']);
+
 if (empty($livet) || !Live::isLive($livet['users_id'])) {
     $uploadedPoster = $global['systemRootPath'] . Live::getOfflineImage(false);
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
