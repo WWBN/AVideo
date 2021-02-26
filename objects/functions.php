@@ -2142,7 +2142,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
         _error_log("url_get_contents: try wget fail {$url}");
     }
 
-    return remove_utf8_bom($result);
+    return false;
 }
 
 function getUpdatesFilesArray() {
