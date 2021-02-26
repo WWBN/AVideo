@@ -2057,7 +2057,7 @@ function getSelfUserAgent() {
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if ($debug) {
-        _error_log("url_get_contents: Start $url, $ctx, $timeout ". getSelfURI()." ". getRealIpAddr());
+        _error_log("url_get_contents: Start $url, $ctx, $timeout ". getSelfURI()." ". getRealIpAddr()." ". json_encode(debug_backtrace()));
     }
     $agent = getSelfUserAgent();
 
