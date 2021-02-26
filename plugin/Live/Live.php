@@ -638,7 +638,7 @@ class Live extends PluginAbstract {
             $result = ObjectYPT::getCache($name, 0);
             ObjectYPT::setCache($name, $result);
             try {
-                $result = url_get_contents($url, "", $timeout);
+                $result = url_get_contents($url, "", $timeout, true);
             } catch (Exception $exc) {
                 _error_log($exc->getTraceAsString());
             }
