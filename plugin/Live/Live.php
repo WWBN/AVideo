@@ -632,20 +632,17 @@ class Live extends PluginAbstract {
     }
 
     function get_data($url, $timeout) {
-        global $Live_get_data;
-        if (!isset($Live_get_data)) {
-            $Live_get_data = array();
+        $name = "get_data_".md5($url);
+        $result = ObjectYPT::getCache($name, 15);
+        if(empty($result)){
+            try {
+                $result = url_get_contents($url, "", $timeout);
+            } catch (Exception $exc) {
+                _error_log($exc->getTraceAsString());
+            }
+            ObjectYPT::setCache($name, $result);
         }
-        if (isset($Live_get_data[$url])) {
-            return $Live_get_data[$url];
-        }
-        try {
-            $Live_get_data[$url] = url_get_contents($url, "", $timeout);
-            return $Live_get_data[$url];
-        } catch (Exception $exc) {
-            _error_log($exc->getTraceAsString());
-        }
-        return false;
+        return $result;
     }
 
     public function getChartTabs() {
