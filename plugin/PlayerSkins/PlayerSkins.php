@@ -82,8 +82,8 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showLoopButton && !isLive()) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.css\" rel=\"stylesheet\" type=\"text/css\"/>";
-            $css .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.js\"></script>";
+            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.css?". filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.css")."\" rel=\"stylesheet\" type=\"text/css\"/>";
+            $css .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.js?". filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.js")."\"></script>";
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"
