@@ -1187,13 +1187,25 @@ class Live extends PluginAbstract {
     }
 
     static function isLiveAndIsReadyFromKey($key, $live_servers_id = 0, $force_recreate = false) {
+        global $_isLiveAndIsReadyFromKey;
+        
+        if(!isset($_isLiveAndIsReadyFromKey)){
+            $_isLiveAndIsReadyFromKey = array();
+        }
+        
+        $name = "{$key}_{$live_servers_id}";
+        if(isset($_isLiveAndIsReadyFromKey[$name])){
+            return $_isLiveAndIsReadyFromKey[$name];
+        }
+        
         $m3u8 = self::getM3U8File($key);
         $isLiveFromKey = self::isLiveFromKey($key, $live_servers_id, $force_recreate);
         $is200 = isURL200($m3u8);
         _error_log("isLiveFromKey: {$isLiveFromKey}");
         _error_log("m3u8: {$m3u8}");
         _error_log("is200: {$is200}");
-        return $isLiveFromKey && $is200;
+        $_isLiveAndIsReadyFromKey[$name] = $isLiveFromKey && $is200;
+        return $_isLiveAndIsReadyFromKey[$name];
     }
 
     static function getOnlineLivesFromUser($users_id) {
