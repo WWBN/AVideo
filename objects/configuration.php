@@ -465,7 +465,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
     
     function shouldUseEncodernetwork(){
-        global $advancedCustom;
+        global $advancedCustom, $global;
         if(empty($advancedCustom->useEncoderNetworkRecomendation) || empty($advancedCustom->encoderNetwork)){
            return false; 
         }
