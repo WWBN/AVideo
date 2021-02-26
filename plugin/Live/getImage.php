@@ -55,7 +55,7 @@ if (Live::isLiveThumbsDisabled()) {
 }
 
 $name = "getLiveImage_{$livet['key']}_{$_GET['format']}";
-$result = ObjectYPT::getCache($name, 120);
+$result = ObjectYPT::getCache($name, 600);
 if (!empty($result)) {
     echo $result;
 } else {
