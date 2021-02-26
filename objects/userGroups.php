@@ -199,13 +199,23 @@ class UserGroups {
 
     // for users
 
-    static function updateUserGroups($users_id, $array_groups_id, $byPassAdmin=false){
+    static function updateUserGroups($users_id, $array_groups_id, $byPassAdmin=false, $mergeWithCurrentUserGroups=false){
         if (!$byPassAdmin && !Permissions::canAdminUsers()) {
             return false;
         }
         if (!is_array($array_groups_id)) {
             return false;
         }
+        
+        if($mergeWithCurrentUserGroups){
+            $current_user_groups = self::getUserGroups($users_id);
+            foreach ($current_user_groups as $value) {
+                if(!in_array($value['id'], $array_groups_id)){
+                    $array_groups_id[] = $value['id'];
+                }
+            }
+        }
+        
         self::deleteGroupsFromUser($users_id, true);
         global $global;
         $array_groups_id = array_unique($array_groups_id);
