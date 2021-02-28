@@ -641,6 +641,7 @@ class Live extends PluginAbstract {
     }
 
     function get_data($url, $timeout) {
+        global $global;
         if(!IsValidURL($url)){
             return false;
         }
