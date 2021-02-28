@@ -1235,18 +1235,28 @@ class Live extends PluginAbstract {
             $_isLiveAndIsReadyFromKey = array();
         }
 
-        $name = "{$key}_{$live_servers_id}";
+        $name = "isLiveAndIsReadyFromKey{$key}_{$live_servers_id}";
         if (isset($_isLiveAndIsReadyFromKey[$name])) {
             return $_isLiveAndIsReadyFromKey[$name];
         }
-
-        $m3u8 = self::getM3U8File($key);
-        $isLiveFromKey = self::isLiveFromKey($key, $live_servers_id, $force_recreate);
-        $is200 = isURL200($m3u8);
-        _error_log("isLiveFromKey: {$isLiveFromKey}");
-        _error_log("m3u8: {$m3u8}");
-        _error_log("is200: {$is200}");
-        $_isLiveAndIsReadyFromKey[$name] = $isLiveFromKey && $is200; 
+        
+        $cache = ObjectYPT::getCache($name, 30);
+        if(!empty($cache)){
+            $json = json_decode($cache);
+            $_isLiveAndIsReadyFromKey[$name] = $json->result;
+        }else{
+            $json = new stdClass();
+            $m3u8 = self::getM3U8File($key);
+            $isLiveFromKey = self::isLiveFromKey($key, $live_servers_id, $force_recreate);
+            $is200 = isURL200($m3u8);
+            _error_log("isLiveFromKey: {$isLiveFromKey}");
+            _error_log("m3u8: {$m3u8}");
+            _error_log("is200: {$is200}");
+            $_isLiveAndIsReadyFromKey[$name] = $isLiveFromKey && $is200;
+            $json->result = $_isLiveAndIsReadyFromKey[$name];
+            ObjectYPT::setCache($name, json_encode($json));
+        }
+             
         return $_isLiveAndIsReadyFromKey[$name];
     }
 
