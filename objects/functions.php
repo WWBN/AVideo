@@ -4353,7 +4353,6 @@ function wgetLockFile($url) {
 
 function wgetLock($url) {
     $file = wgetLockFile($url);
-    make_path($file);
     return file_put_contents($file, time() . PHP_EOL, FILE_APPEND | LOCK_EX);
 }
 
