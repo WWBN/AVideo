@@ -7,11 +7,12 @@ if (!isset($global['systemRootPath'])) {
     }
     require_once $configFile;
 }
+session_write_close();
+_mysql_close();
 if (!isCommandLineInterface()) {
     die('Command Line only');
 }
 $url = $argv[1];
-
 $name = "get_data_" . md5($url);
 $lockFile = getTmpDir() . $name;
 
