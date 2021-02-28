@@ -641,17 +641,16 @@ class Live extends PluginAbstract {
     }
 
     function get_data($url, $timeout) {
+        if(!IsValidURL($url)){
+            return false;
+        }
         $name = "get_data_" . md5($url);
         $result = ObjectYPT::getCache($name, 30);
         if (empty($result)) {
             $result = ObjectYPT::getCache($name, 0);
-            ObjectYPT::setCache($name, $result);
-            try {
-                $result = url_get_contents($url, "", $timeout, true);
-            } catch (Exception $exc) {
-                _error_log($exc->getTraceAsString());
-            }
-            ObjectYPT::setCache($name, $result);
+            $command = "php {$global['systemRootPath']}plugin/Live/asyncGetStats.php \"$url\"";
+            execAsync($command);
+            return $result;
         }
         return $result;
     }
