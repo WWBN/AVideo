@@ -64,7 +64,11 @@ if (!empty($result)) {
     $uuid = LiveTransmition::keyNameFix($livet['key']);
     $p = AVideoPlugin::loadPlugin("Live");
     $video = Live::getM3U8File($uuid);
-    $url = $config->getEncoderURL() . "getImage/" . base64_encode($video) . "/{$_GET['format']}";
+    
+    $encoderURL = $config->_getEncoderURL();
+    //$encoderURL = $config->getEncoderURL();
+    
+    $url = "{$encoderURL}getImage/" . base64_encode($video) . "/{$_GET['format']}";
     _error_log("Live:getImage $url");
     session_write_close();
     _mysql_close();
