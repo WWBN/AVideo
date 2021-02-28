@@ -15,7 +15,7 @@ $name = "get_data_" . md5($url);
 $lockFile = getTmpDir() . $name;
 
 _error_log("Live:asyncGetStats: {$url} Lockfile={$lockFile}");
-
+file_put_contents($lockFile, time());
 
 if (!file_exists($lockFile)) {
     _error_log("Live:asyncGetStats: {$url} start");
