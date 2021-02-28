@@ -646,7 +646,7 @@ class Live extends PluginAbstract {
             return false;
         }
         $name = "get_data_" . md5($url);
-        $result = ObjectYPT::getCache($name, 30);
+        $result = ObjectYPT::getCache($name, 10);
         if (empty($result)) {
             $result = ObjectYPT::getCache($name, 0);
             $command = "php {$global['systemRootPath']}plugin/Live/asyncGetStats.php \"$url\"";
