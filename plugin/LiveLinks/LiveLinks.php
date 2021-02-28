@@ -71,6 +71,7 @@ class LiveLinks extends PluginAbstract {
 
     static function getAllActive() {
         global $global;
+        _mysql_connect();
         $sql = "SELECT * FROM  LiveLinks WHERE status='a' AND start_date <= now() AND end_date >= now() ORDER BY start_date ";
         $res = $global['mysqli']->query($sql);
         $rows = array();
