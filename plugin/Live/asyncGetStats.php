@@ -9,9 +9,10 @@ if (!isset($global['systemRootPath'])) {
 }
 session_write_close();
 _mysql_close();
-if (!isCommandLineInterface()) {
+if (!isCommandLineInterface() && empty($byPassCommandLine)) {
     die('Command Line only');
 }
+$result = '';
 $url = $argv[1];
 $name = "get_data_" . md5($url);
 $lockFile = getTmpDir() . $name;

@@ -589,7 +589,7 @@ class Live extends PluginAbstract {
         }
         
         $name = "getStatsObject_{$live_servers_id}";
-        $result = ObjectYPT::getCache($name, 30);
+        //$result = ObjectYPT::getCache($name, 30);
         if(!empty($result)){
             return json_decode($result);
         }
@@ -646,11 +646,18 @@ class Live extends PluginAbstract {
             return false;
         }
         $name = "get_data_" . md5($url);
-        $result = ObjectYPT::getCache($name, 10);
+        $result = ObjectYPT::getCache($name, 10);        
         if (empty($result)) {
             $result = ObjectYPT::getCache($name, 0);
-            $command = "php {$global['systemRootPath']}plugin/Live/asyncGetStats.php \"$url\"";
-            execAsync($command);
+            $file = "{$global['systemRootPath']}plugin/Live/asyncGetStats.php";
+            if(empty($result)){
+                $byPassCommandLine = 1;
+                $argv[1] = $url;
+                include $file;
+            }else{
+                $command = "php {$file} \"$url\"";
+                execAsync($command);
+            }
             return $result;
         }
         return $result;
