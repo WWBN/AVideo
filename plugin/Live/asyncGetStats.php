@@ -22,6 +22,7 @@ if (!file_exists($lockFile)) {
     _error_log("Live:asyncGetStats: {$url} start");
     try {
         $result = url_get_contents($url);
+        _error_log("Live:asyncGetStats: {$url} complete");
         ObjectYPT::setCache($name, $result);
     } catch (Exception $exc) {
         _error_log($exc->getTraceAsString());

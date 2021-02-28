@@ -1240,7 +1240,7 @@ class Live extends PluginAbstract {
             return $_isLiveAndIsReadyFromKey[$name];
         }
         
-        $cache = ObjectYPT::getCache($name, 30);
+        $cache = ObjectYPT::getCache($name, 10);
         if(!empty($cache)){
             $json = json_decode($cache);
             $_isLiveAndIsReadyFromKey[$name] = $json->result;
