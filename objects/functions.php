@@ -5217,13 +5217,21 @@ function globVideosDir($filename, $filesOnly = false) {
         return array();
     }
     $cleanfilename = Video::getCleanFilenameFromFile($filename);
+    $dir = getVideosDir();
+    
+    if(is_dir($dir.$filename)){
+        $dir = $dir.$filename;
+        $cleanfilename = '';
+    }
+    
     $pattern = "/{$cleanfilename}.*";
     if (!empty($filesOnly)) {
         $formats = getValidFormats();
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
-    return _glob(getVideosDir() . "", $pattern);
+    
+    return _glob($dir, $pattern);
 }
 
 function getValidFormats() {
