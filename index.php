@@ -46,7 +46,7 @@
                 -moz-border-radius: 4px;
                 -webkit-border-radius: 4px;
                 border-radius: 4px;
-                background: #fff url(http://www.ebpaidrev.com/systemerror/block.gif) no-repeat 0 51px;
+                background: #fff url(https://tutorials.avideo.com/view/img/transparent1px.png) no-repeat 0 51px;
             }
             #block_error div {
                 padding: 10px 40px 0 186px;
