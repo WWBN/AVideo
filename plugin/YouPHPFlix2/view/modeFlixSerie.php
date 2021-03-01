@@ -37,7 +37,7 @@ if (empty($_REQUEST['uid'])) {
  */
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 
-if ($obj->PlayList) {
+//if ($obj->PlayList) {
     $dataFlickirty = new stdClass();
     $dataFlickirty->wrapAround = true;
     $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -71,7 +71,7 @@ if ($obj->PlayList) {
     <?php
     $rowlink = false;
     $rowlinkEmbed = false;
-}
+//}
 /*
   $cache = ob_get_clean();
 
