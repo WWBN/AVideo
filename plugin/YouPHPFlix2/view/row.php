@@ -101,10 +101,11 @@ TimeLogStart($timeLog3);
 TimeLogEnd($timeLog3, __LINE__);
 foreach ($videos as $_index => $value) {
     $uid = "{$uidOriginal}_{$value['id']}";
+    $images = Video::getImageFromFilename($value['filename'], $value['type']);
     if (!empty($value['serie_playlists_id'])) {
-        $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
-    } else {
-        $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        if(empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)){
+            $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
+        }
     }
     $imgGif = $images->thumbsGif;
     $img = $images->thumbsJpg;
