@@ -26,7 +26,7 @@ $playListData = array();
 $videoStartSeconds = array();
 $users_id = User::getId();
 foreach ($playList as $key => $value) {
-    if(!Video::userGroupAndVideoGroupMatch($users_id, $value['id'])){
+    if(!Video::userGroupAndVideoGroupMatch($users_id, $value['videos_id'])){
         unset($playList[$key]);
         continue;
     }
