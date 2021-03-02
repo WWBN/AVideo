@@ -1604,10 +1604,8 @@ echo AVideoPlugin::getManagerVideosReset();
                                                         type: 'post',
                                                         success: function (response) {
                                                             modal.hidePleaseWait();
-                                                            if (!response.success) {
-                                                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                                                            } else {
-                                                                avideoAlert("<?php echo __("Success!"); ?>", response.msg, "success");
+                                                            if (response.msg) {
+                                                                avideoAlertInfo(response.msg);
                                                             }
                                                         }
                                                     });
@@ -2096,12 +2094,9 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                         type: 'post',
                                                         success: function (response) {
                                                             modal.hidePleaseWait();
-                                                            if (!response.success) {
-                                                                avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
-                                                            } else {
-                                                                avideoAlert("<?php echo __("Success!"); ?>", response.error, "success");
-                                                                $("#grid").bootgrid("reload");
-                                                            }
+                                                            if (response.msg) {
+                                                                avideoAlertInfo(response.msg);
+                                                            } 
                                                         }
                                                     });
                                                 });
