@@ -27,8 +27,17 @@ $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 $playListData = array();
 $collectionsList = PlayList::showPlayListSelector($playList);
 $videoStartSeconds = array();
-foreach ($playList as $value) {
+
+$users_id = User::getId();
+
+foreach ($playList as $key => $value) {
     $oldValue = $value;
+    
+    if(!Video::userGroupAndVideoGroupMatch($users_id, $value['id'])){
+        unset($playList[$key]);
+        continue;
+    }
+    
     if ($oldValue['type'] === 'serie' && !empty($oldValue['serie_playlists_id'])) {
         $subPlayList = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
         foreach ($subPlayList as $value) {

@@ -24,7 +24,12 @@ $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 
 $playListData = array();
 $videoStartSeconds = array();
-foreach ($playList as $value) {
+$users_id = User::getId();
+foreach ($playList as $key => $value) {
+    if(!Video::userGroupAndVideoGroupMatch($users_id, $value['id'])){
+        unset($playList[$key]);
+        continue;
+    }
     if ($value['type'] === 'embed') {
         $sources[0]['type'] = 'video';
         $sources[0]['url'] = $value["videoLink"];
