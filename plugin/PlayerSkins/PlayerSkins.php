@@ -216,7 +216,7 @@ class PlayerSkins extends PluginAbstract {
         if (empty($noReadyFunction)) {
             $js .= "var originalVideo;
                 var adTagOptions;
-            var _adTagUrl = '{$IMAADTag}'; "
+            var _adTagUrl = '{$IMAADTag}'; var player; "
                     . "$(document).ready(function () {";
         }
         $js .= "
