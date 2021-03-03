@@ -241,7 +241,7 @@ function reloadAds() {
     console.log('reloadAds');
     if (player) {
         if (typeof player.ima != 'undefined') {
-            if (player.isReady_) {
+            if (player.isReady_ && player.readyState() > 2) {
                 console.log('reloadAds is ready');
                 try {
                     var adTagUrl;
