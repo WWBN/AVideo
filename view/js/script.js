@@ -249,7 +249,7 @@ function reloadAdsIfIsReady() {
     console.log('reloadAdsIfIsReady');
     clearTimeout(_reloadAdsTimeout);
     if (player.ima) {
-        if (player.isReady_ && player.readyState() > 2) {
+        if (player.readyState() > 2) {
             console.log('reloadAdsIfIsReady is ready');
             try {
                 var adTagUrl;
