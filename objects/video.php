@@ -3095,7 +3095,11 @@ if (!class_exists('Video')) {
 
         public static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false)
         {
+            global $global;
             $types = array('', '_HD', '_SD', '_Low');
+            foreach ($global['avideo_resolutions'] as $value) {
+                $types[] = "_{$value}";
+            }
             foreach ($types as $value) {
                 $source = self::getSourceFile($filename, $value . ".mp4", $includeS3);
                 if (!empty($source['url'])) {
