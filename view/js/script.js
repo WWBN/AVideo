@@ -246,7 +246,7 @@ function reloadAds() {
 }
 
 function reloadAdsIfIsReady() {
-    console.log('reloadAdsIfIsReady');
+    console.log('reloadAdsIfIsReady player.readyState() = '+player.readyState());
     clearTimeout(_reloadAdsTimeout);
     if (player.ima) {
         if (player.readyState() > 2) {
