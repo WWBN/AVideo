@@ -1204,7 +1204,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     if (file_exists($pdf)) {
         return getVideosURLPDF($fileName);
     } elseif (file_exists($mp3)) {
-        return getVideosURLAudio($fileName, true);
+        return getVideosURLAudio($mp3, true);
     }
     $cacheName = "getVideosURL_V2$fileName";
     if (empty($recreateCache)) {
