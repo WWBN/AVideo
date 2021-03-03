@@ -266,9 +266,9 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                 if (typeof player.updateSrc == 'function' && typeof player.videoJsResolutionSwitcher != 'undefined' && typeof embed_playerPlaylist[_index] != 'undefined' && typeof embed_playerPlaylist[_index].sources != 'undefined') {
                     console.log('updatePLSources', _index);
                     
-    //player.src(embed_playerPlaylist[_index].sources);
-    player.updateSrc(embed_playerPlaylist[_index].sources);
-    //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
+                    //player.src(embed_playerPlaylist[_index].sources);
+                    player.updateSrc(embed_playerPlaylist[_index].sources);
+                    //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
                     //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
                     //player.updateSrc(embed_playerPlaylist[_index].sources);
                     userIsControling = false;
