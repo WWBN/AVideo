@@ -269,7 +269,7 @@ function reloadAdsIfIsReady() {
             }
         } else {
             _reloadAdsTimeout = setTimeout(function () {
-                reloadAds();
+                reloadAdsIfIsReady();
             }, 100);
         }
     }
