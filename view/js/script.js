@@ -672,7 +672,9 @@ function playNext(url) {
                         }
                         $('video, #mainVideo').attr('poster', response.poster);
                         history.pushState(null, null, url);
-                        $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src', response.sprits);
+                        $('.topInfoTitle, title').text('src', response.title);
+                        $('#topInfo img').attr('src', response.userPhoto);
+                        $('#topInfo a').attr('href', response.url);
                         modal.hidePleaseWait();
                         if ($('#modeYoutubeBottom').length) {
                             $.ajax({
