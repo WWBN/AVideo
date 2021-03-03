@@ -252,6 +252,7 @@ function reloadAds() {
                 player.ima.initializeAdDisplayContainer();
                 player.ima.requestAds();
                 player.on('adsready', function () {
+                    console.log('reloadAds adisready ');
                     player.pause();
                 });
             }, 1000);
