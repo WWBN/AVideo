@@ -57,6 +57,8 @@ $obj->embed = Video::getURLFriendly($obj->videos_id, true);
 $obj->sources = getSources($video['filename'], true);
 $obj->poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
 $obj->sprits = "{$global['webSiteRootURL']}videos/{$video['filename']}_thumbsSprit.jpg";
+$obj->title = $video['title'];
+$obj->userPhoto = User::getPhoto($video['users_id']);
 
 if (!empty($video['next_videos_id'])) {
     $obj->nextURL = Video::getURLFriendly($video['next_videos_id']);
