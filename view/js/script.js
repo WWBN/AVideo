@@ -246,32 +246,30 @@ function reloadAds() {
 }
 
 function reloadAdsIfIsReady() {
-    console.log('reloadAdsIfIsReady player.readyState() = '+player.readyState());
+    console.log('reloadAdsIfIsReady player.readyState() = ' + player.readyState());
     clearTimeout(_reloadAdsTimeout);
     if (player.ima) {
-        if (player.readyState() > 2) {
-            console.log('reloadAdsIfIsReady is ready');
-            try {
-                var adTagUrl;
-                if (_adTagUrl) {
-                    console.log('reloadAdsIfIsReady _adTagUrl', _adTagUrl);
-                    adTagUrl = _adTagUrl;
-                } else if (player.ima && player.ima.getAdsManager().M) {
-                    console.log('reloadAdsIfIsReady player.ima.getAdsManager().M', player.ima.getAdsManager().M);
-                    adTagUrl = player.ima.getAdsManager().M;
-                }
-                //player.ima.setContentWithAdTag(null, adTagUrl, true);
-                //player.ima.initializeAdDisplayContainer();
-                player.ima.changeAdTag(adTagUrl);
-                player.ima.requestAds();
-            } catch (e) {
-                console.log('reloadAdsIfIsReady ERROR', e.message);
+        console.log('reloadAdsIfIsReady is ready');
+        try {
+            var adTagUrl;
+            if (_adTagUrl) {
+                console.log('reloadAdsIfIsReady _adTagUrl', _adTagUrl);
+                adTagUrl = _adTagUrl;
+            } else if (player.ima && player.ima.getAdsManager().M) {
+                console.log('reloadAdsIfIsReady player.ima.getAdsManager().M', player.ima.getAdsManager().M);
+                adTagUrl = player.ima.getAdsManager().M;
             }
-        } else {
-            _reloadAdsTimeout = setTimeout(function () {
-                reloadAdsIfIsReady();
-            }, 100);
+            //player.ima.setContentWithAdTag(null, adTagUrl, true);
+            //player.ima.initializeAdDisplayContainer();
+            player.ima.changeAdTag(adTagUrl);
+            player.ima.requestAds();
+        } catch (e) {
+            console.log('reloadAdsIfIsReady ERROR', e.message);
         }
+    } else {
+        _reloadAdsTimeout = setTimeout(function () {
+            reloadAdsIfIsReady();
+        }, 100);
     }
 }
 
