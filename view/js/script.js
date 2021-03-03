@@ -166,7 +166,9 @@ function setPlayerListners() {
             clearTimeout(promisePlayTimeout);
             console.log("setPlayerListners: play");
             //userIsControling = true;
-            pauseIfIsPlayinAdsInterval = setInterval(function(){pauseIfIsPlayinAds();},500);
+            pauseIfIsPlayinAdsInterval = setInterval(function () {
+                pauseIfIsPlayinAds();
+            }, 500);
         });
 
         $("#mainVideo .vjs-mute-control").click(function () {
@@ -233,7 +235,32 @@ function changeVideoSrcLoad() {
         }
     });
 }
-
+var _reloadAdsTimeout;
+function reloadAds() {
+    clearTimeout(_reloadAdsTimeout);
+    console.log('reloadAds');
+    if (player) {
+        if (player.isReady_) {
+            console.log('reloadAds is ready');
+            try {
+                if (_adTagUrl) {
+                    console.log('player.ima.changeAdTag _adTagUrl', _adTagUrl);
+                    player.ima.changeAdTag(_adTagUrl);
+                } else if (player.ima && player.ima.getAdsManager().M) {
+                    console.log('player.ima.getAdsManager().M', player.ima.getAdsManager().M);
+                    player.ima.changeAdTag(player.ima.getAdsManager().M);
+                }
+                player.ima.requestAds();
+            } catch (e) {
+                console.log('player.ima.requestAds ERROR', e.message);
+            }
+        } else {
+            _reloadAdsTimeout = setTimeout(function () {
+                reloadAds();
+            }, 500);
+        }
+    }
+}
 
 /**
  *
@@ -424,7 +451,7 @@ var browserPreventShowed = false;
 var playerPlayTimeout;
 function playerPlay(currentTime) {
     clearTimeout(playerPlayTimeout);
-    if(playerIsPlayingAds()){
+    if (playerIsPlayingAds()) {
         return false;
     }
     if (currentTime) {
@@ -867,7 +894,7 @@ function isPlayNextEnabled() {
 }
 
 function avideoAlert(title, msg, type) {
-    if(typeof msg == 'undefined'){
+    if (typeof msg == 'undefined') {
         return false;
     }
     if (msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
@@ -988,8 +1015,8 @@ function playerHasAds() {
     return ($("#mainVideo_ima-ad-container").length > 0);
 }
 
-function pauseIfIsPlayinAds(){
-    if(!player.paused() && playerHasAds() && playerIsPlayingAds()){
+function pauseIfIsPlayinAds() {
+    if (!player.paused() && playerHasAds() && playerIsPlayingAds()) {
         player.pause();
     }
 }
