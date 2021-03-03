@@ -2623,6 +2623,10 @@ if (!class_exists('Video')) {
         public function getExistingVideoFile()
         {
             $source = self::getHigestResolutionVideoMP4Source($this->getFilename(), true);
+            if(empty($source)){
+                _error_log("getExistingVideoFile:: resources are empty ". $this->getFilename());
+                return false;
+            }
             $size = filesize($source['path']);
             if ($size <= 20) {// it is a dummy file
                 $url = $source['url'];
