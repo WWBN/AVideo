@@ -237,37 +237,41 @@ function changeVideoSrcLoad() {
 }
 var _reloadAdsTimeout;
 function reloadAds() {
-    clearTimeout(_reloadAdsTimeout);
     console.log('reloadAds');
     if (player) {
-        if (typeof player.ima != 'undefined') {
-            if (player.isReady_ && player.readyState() > 2) {
-                console.log('reloadAds is ready');
-                try {
-                    var adTagUrl;
-                    if (_adTagUrl) {
-                        console.log('_adTagUrl', _adTagUrl);
-                        adTagUrl = _adTagUrl;
-                    } else if (player.ima && player.ima.getAdsManager().M) {
-                        console.log('player.ima.getAdsManager().M', player.ima.getAdsManager().M);
-                        adTagUrl = player.ima.getAdsManager().M;
-                    }
-                    player.ima.setContentWithAdTag(null, adTagUrl, true);
-                    player.ima.initializeAdDisplayContainer();
-                    player.ima.changeAdTag(adTagUrl);
-                    player.ima.requestAds();
-                } catch (e) {
-                    console.log('player.ima.requestAds ERROR', e.message);
+        player.ready(function () {
+            reloadAdsIfIsReady();
+        });
+    }
+}
+
+function reloadAdsIfIsReady() {
+    console.log('reloadAdsIfIsReady');
+    clearTimeout(_reloadAdsTimeout);
+    if (player.ima) {
+        if (player.isReady_ && player.readyState() > 2) {
+            console.log('reloadAdsIfIsReady is ready');
+            try {
+                var adTagUrl;
+                if (_adTagUrl) {
+                    console.log('reloadAdsIfIsReady _adTagUrl', _adTagUrl);
+                    adTagUrl = _adTagUrl;
+                } else if (player.ima && player.ima.getAdsManager().M) {
+                    console.log('reloadAdsIfIsReady player.ima.getAdsManager().M', player.ima.getAdsManager().M);
+                    adTagUrl = player.ima.getAdsManager().M;
                 }
-            } else {
-                _reloadAdsTimeout = setTimeout(function () {
-                    reloadAds();
-                }, 100);
+                //player.ima.setContentWithAdTag(null, adTagUrl, true);
+                //player.ima.initializeAdDisplayContainer();
+                player.ima.changeAdTag(adTagUrl);
+                player.ima.requestAds();
+            } catch (e) {
+                console.log('reloadAdsIfIsReady ERROR', e.message);
             }
         } else {
-            console.log('updatePLSources player.ima is undefined');
+            _reloadAdsTimeout = setTimeout(function () {
+                reloadAds();
+            }, 100);
         }
-
     }
 }
 
