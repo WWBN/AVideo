@@ -241,28 +241,21 @@ function reloadAds() {
     console.log('reloadAds ');
     if (playerIsReady() && player.ima) {
         try {
-            setTimeout(function () {
-                if (!player.ima.getAdsManager()) {
-                    console.log('reloadAds 1 ');
-                } else {
-                    console.log('reloadAds 2 change to ', _adTagUrl);
-                    player.ima.changeAdTag(_adTagUrl);
-                    _reloadAdsTimeout = setTimeout(function () {
-                        player.ima.pauseAd();
-                    }, 1000);
-                }
-                console.log('reloadAds ready state ', player.readyState());
-                player.ima.requestAds();
-            }, 1000);
+            if (player.ima.getAdsManager()) {
+                console.log('reloadAds 1 change to ', _adTagUrl);
+                player.ima.changeAdTag(_adTagUrl);
+            } 
         } catch (e) {
             console.log('reloadAds ERROR', e.message);
         }
+        player.ima.requestAds();
     } else {
         _reloadAdsTimeout = setTimeout(function () {
             reloadAds();
         }, 1000);
     }
 }
+
 
 /**
  *
