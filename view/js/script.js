@@ -241,7 +241,7 @@ function reloadAds() {
     console.log('reloadAds');
     if (player) {
         if (typeof player.ima != 'undefined') {
-            if (player.isReady_ && player.readyState() > 3) {
+            if (player.isReady_ && player.readyState() > 2) {
                 console.log('reloadAds is ready');
                 try {
                     var adTagUrl;
@@ -262,7 +262,7 @@ function reloadAds() {
             } else {
                 _reloadAdsTimeout = setTimeout(function () {
                     reloadAds();
-                }, 500);
+                }, 100);
             }
         } else {
             console.log('updatePLSources player.ima is undefined');
