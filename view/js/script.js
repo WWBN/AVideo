@@ -240,11 +240,13 @@ function reloadAds() {
     clearTimeout(_reloadAdsTimeout);
     console.log('reloadAds');
     if (player && player.ima) {
-        reloadAdsIfIsReady();
+        setTimeout(function () {
+             reloadAdsIfIsReady();
+        }, 1000);
     } else {
         _reloadAdsTimeout = setTimeout(function () {
             reloadAds();
-        }, 100);
+        }, 1000);
     }
 }
 
