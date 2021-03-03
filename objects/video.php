@@ -2626,7 +2626,7 @@ if (!class_exists('Video')) {
             $size = filesize($source['path']);
             if ($size <= 20) {// it is a dummy file
                 $url = $source['url'];
-                _error_log("getExistingVideoFile:: dummy file, download it {$url}");
+                _error_log("getExistingVideoFile:: dummy file, download it ". json_encode($source));
                 $filename = getTmpDir("getExistingVideoFile") . md5($url);
                 copyfile_chunked($url, $filename);
                 wget($url, $filename);
