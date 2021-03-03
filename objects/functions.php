@@ -1076,7 +1076,7 @@ function getVideosURLArticle($fileName) {
     return $files;
 }
 
-function getVideosURLAudio($fileName) {
+function getVideosURLAudio($fileName, $fileNameisThePath=false) {
     global $global;
     if (empty($fileName)) {
         return array();
@@ -1085,15 +1085,25 @@ function getVideosURLAudio($fileName) {
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-
-    $source = Video::getSourceFile($fileName, ".mp3");
-    $file = $source['path'];
-    $files["mp3"] = array(
-        'filename' => "{$fileName}.mp3",
-        'path' => $file,
-        'url' => $source['url'],
-        'type' => 'audio',
-    );
+    if($fileNameisThePath){
+        $filename = str_replace(getVideosDir(), '', $fileName);
+        $url = "{$global['webSiteRootURL']}videos/{$filename}";
+        $files["mp3"] = array(
+            'filename' => $filename,
+            'path' => $fileName,
+            'url' => $url,
+            'type' => 'audio',
+        );
+    }else{
+        $source = Video::getSourceFile($fileName, ".mp3");
+        $file = $source['path'];
+        $files["mp3"] = array(
+            'filename' => "{$fileName}.mp3",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'audio',
+        );
+    }
 
     $files = array_merge($files, _getImagesURL($fileName, 'audio_wave'));
     $time = microtime();
@@ -1194,7 +1204,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     if (file_exists($pdf)) {
         return getVideosURLPDF($fileName);
     } elseif (file_exists($mp3)) {
-        return getVideosURLAudio($fileName);
+        return getVideosURLAudio($fileName, true);
     }
     $cacheName = "getVideosURL_V2$fileName";
     if (empty($recreateCache)) {
