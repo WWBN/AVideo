@@ -660,7 +660,13 @@ function playNext(url) {
                         $('topInfo').hide();
                         playNextURL = isEmbed ? response.nextURLEmbed : response.nextURL;
                         console.log("New playNextURL", playNextURL);
-                        if (!changeVideoSrc(player, response.sources)) {
+                        var cSource = false;
+                        try {
+                            cSource = changeVideoSrc(player, response.sources);
+                        } catch (e) {
+                            console.log('changeVideoSrc', e.message);
+                        }
+                        if (!cSource) {
                             document.location = url;
                             return false;
                         }
