@@ -269,7 +269,6 @@ function reloadAdsIfIsReady() {
             player.ima.requestAds();
         }, 500);
     }
-
 }
 
 /**
