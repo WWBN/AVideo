@@ -248,7 +248,9 @@ function reloadAds() {
                 }else{
                     console.log('reloadAdsIfIsReady 2 change to ', _adTagUrl);
                     player.ima.changeAdTag(_adTagUrl);
-                    player.ima.requestAds();
+                    setTimeout(function () {
+                        player.ima.requestAds();
+                    }, 1000);
                 }
                 
             }, 1000);
