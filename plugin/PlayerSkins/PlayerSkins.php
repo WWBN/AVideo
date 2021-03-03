@@ -310,9 +310,16 @@ class PlayerSkins extends PluginAbstract {
         }
         $video = new Video("", "", $videos_id);
         if (empty($nextURL)) {
-            $next_video = Video::getVideo($video->getNext_videos_id());
-            if (!empty($next_video['id'])) {
-                $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
+            if(!empty($video->getNext_videos_id())){
+                $next_video = Video::getVideo($video->getNext_videos_id());
+                if (!empty($next_video['id'])) {
+                    $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
+                }
+            }else{
+                $next_video = Video::getVideo('', 'viewable', false, true);
+                if (!empty($next_video['id'])) {
+                    $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
+                }
             }
         }
         $url = Video::getURLFriendly($videos_id);
@@ -340,7 +347,7 @@ class PlayerSkins extends PluginAbstract {
 
         if (!empty($nextURL)) {
             $js .= "playNextURL = '{$nextURL}';";
-            $js .= "player.on('ended', function () {setTimeout(function(){playNext(playNextURL);},playerHasAds()?2000:500);});";
+            $js .= "player.on('ended', function () {setTimeout(function(){if(playNextURL){playNext(playNextURL);}},playerHasAds()?2000:500);});";
         }
         self::getStartPlayerJS($js);
         return true;
