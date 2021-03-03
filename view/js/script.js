@@ -242,9 +242,15 @@ function reloadAds() {
     if (playerIsReady() && player.ima) {
         try {
             setTimeout(function () {
-                console.log('reloadAdsIfIsReady change to ', _adTagUrl);
-                player.ima.changeAdTag(_adTagUrl);
-                player.ima.requestAds();
+                if (!player.ima.getAdsManager()) {
+                    console.log('reloadAdsIfIsReady 1 change to ', _adTagUrl);
+                    player.ima.requestAds();
+                }else{
+                    console.log('reloadAdsIfIsReady 1 change to ', _adTagUrl);
+                    player.ima.changeAdTag(_adTagUrl);
+                    player.ima.requestAds();
+                }
+                
             }, 1000);
         } catch (e) {
             console.log('reloadAdsIfIsReady ERROR', e.message);
