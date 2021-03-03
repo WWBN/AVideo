@@ -253,7 +253,7 @@ function reloadAds() {
 function reloadAdsIfIsReady() {
     clearTimeout(_reloadAdsTimeout);
     console.log('reloadAdsIfIsReady player.readyState() = ' + player.readyState());
-    if (!player.pause) {
+    if (!player.paused()) {
         try {
             setTimeout(function () {
                 //player.ima.initializeAdDisplayContainer();
