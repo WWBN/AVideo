@@ -248,9 +248,10 @@ function reloadAds() {
                     console.log('reloadAds 2 change to ', _adTagUrl);
                     player.ima.changeAdTag(_adTagUrl);
                 }
+                console.log('reloadAds ready state ', player.readyState());
+                player.ima.initializeAdDisplayContainer();
+                player.ima.requestAds();
                 player.on('adsready', function () {
-                    console.log('reloadAds ready state ', player.readyState());
-                    player.ima.requestAds();
                     player.pause();
                 });
             }, 1000);
