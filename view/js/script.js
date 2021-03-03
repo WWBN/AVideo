@@ -263,7 +263,7 @@ function reloadAdsIfIsReady() {
         console.log('reloadAdsIfIsReady change to ', _adTagUrl);
         setTimeout(function () {
             //player.ima.setContentWithAdTag(null, adTagUrl, true);
-            //player.ima.changeAdTag(adTagUrl);
+            player.ima.changeAdTag(adTagUrl);
         }, 500);
         setTimeout(function () {
             //player.ima.initializeAdDisplayContainer();
