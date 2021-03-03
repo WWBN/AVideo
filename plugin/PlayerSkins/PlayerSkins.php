@@ -214,11 +214,12 @@ class PlayerSkins extends PluginAbstract {
             $currentTime = self::getCurrentTime();
         }
         if (empty($noReadyFunction)) {
-            $js .= "var originalVideo; "
+            $js .= "var originalVideo;
+                var adTagOptions;
+            var _adTagUrl = '{$IMAADTag}'; "
                     . "$(document).ready(function () {";
         }
-        $js .= "var adTagOptions;
-            var _adTagUrl = '{$IMAADTag}';
+        $js .= "
         originalVideo = $('#mainVideo').clone();
         /* prepareStartPlayerJS_onPlayerReady = " . count($prepareStartPlayerJS_onPlayerReady) . ", prepareStartPlayerJS_getDataSetup = " . count($prepareStartPlayerJS_getDataSetup) . " */
         if (typeof player === 'undefined') {
