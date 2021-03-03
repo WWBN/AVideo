@@ -239,9 +239,7 @@ var _reloadAdsTimeout;
 function reloadAds() {
     console.log('reloadAds');
     if (player) {
-        player.ready(function () {
-            reloadAdsIfIsReady();
-        });
+        reloadAdsIfIsReady();
     }
 }
 
