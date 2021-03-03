@@ -3097,7 +3097,9 @@ if (!class_exists('Video')) {
         {
             global $global;
             $types = array('', '_HD', '_SD', '_Low');
-            foreach ($global['avideo_resolutions'] as $value) {
+            $resolutions = $global['avideo_resolutions'];
+            rsort($resolutions);
+            foreach ($resolutions as $value) {
                 $types[] = "_{$value}";
             }
             foreach ($types as $value) {
