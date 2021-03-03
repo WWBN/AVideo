@@ -239,36 +239,18 @@ var _reloadAdsTimeout;
 function reloadAds() {
     clearTimeout(_reloadAdsTimeout);
     console.log('reloadAds');
-    if (player && player.ima) {
-        reloadAdsIfIsReady();
-    } else {
-        _reloadAdsTimeout = setTimeout(function () {
-            reloadAds();
-        }, 1000);
-    }
-}
-
-function reloadAdsIfIsReady() {
-    clearTimeout(_reloadAdsTimeout);
-    console.log('reloadAdsIfIsReady player.readyState() = ' + player.readyState());
-    if (!player.paused()) {
+    if (playerIsReady() && player.ima) {
         try {
-            setTimeout(function () {
-                console.log('reloadAdsIfIsReady change to ', _adTagUrl);
-                player.ima.changeAdTag(_adTagUrl);
-            }, 500);
-            setTimeout(function () {
-                //player.ima.initializeAdDisplayContainer();
-                player.ima.requestAds();
-            }, 1000);
+            console.log('reloadAdsIfIsReady change to ', _adTagUrl);
+            player.ima.changeAdTag(_adTagUrl);
+            player.ima.requestAds();
         } catch (e) {
             console.log('reloadAdsIfIsReady ERROR', e.message);
         }
     } else {
         _reloadAdsTimeout = setTimeout(function () {
-            //player.ima.initializeAdDisplayContainer();
-            reloadAdsIfIsReady();
-        }, 500);
+            reloadAds();
+        }, 1000);
     }
 }
 
