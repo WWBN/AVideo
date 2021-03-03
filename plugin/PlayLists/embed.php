@@ -275,6 +275,9 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                     if (typeof player.ima != 'undefined') {
                         console.log('updatePLSources ADs reloaded');
                         try {
+                            if(adTagOptions && adTagOptions.adTagUrl){
+                                player.ima.changeAdTag(adTagOptions.adTagUrl);
+                            }
                             player.ima.requestAds();
                         } catch (e) {
                             console.log('player.ima.requestAds ERROR', e.message);
