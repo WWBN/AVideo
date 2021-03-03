@@ -244,13 +244,17 @@ function reloadAds() {
             if (player.isReady_) {
                 console.log('reloadAds is ready');
                 try {
+                    var adTagUrl;
                     if (_adTagUrl) {
-                        console.log('player.ima.changeAdTag _adTagUrl', _adTagUrl);
-                        player.ima.changeAdTag(_adTagUrl);
+                        console.log('_adTagUrl', _adTagUrl);
+                        adTagUrl = _adTagUrl;
                     } else if (player.ima && player.ima.getAdsManager().M) {
                         console.log('player.ima.getAdsManager().M', player.ima.getAdsManager().M);
-                        player.ima.changeAdTag(player.ima.getAdsManager().M);
+                        adTagUrl = player.ima.getAdsManager().M;
                     }
+                    player.ima.setContentWithAdTag(null, adTagUrl, true);
+                    player.ima.initializeAdDisplayContainer();
+                    player.ima.changeAdTag(adTagUrl);
                     player.ima.requestAds();
                 } catch (e) {
                     console.log('player.ima.requestAds ERROR', e.message);
