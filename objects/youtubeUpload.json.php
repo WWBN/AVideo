@@ -88,6 +88,11 @@ foreach ($_POST['id'] as $value) {
             // Create a request for the API's videos.insert method to create and upload the video.
             $insertRequest = $youtube->videos->insert("status,snippet", $video);
             // Create a MediaFileUpload object for resumable uploads.
+            
+            _error_log("youtubeUpload: videoPath:: ". json_encode($videoPath));
+            _error_log("youtubeUpload: title:: ".$v->getTitle());
+            _error_log("youtubeUpload: videoPath:: {$videoPath}");
+            
             $media = new Google_Http_MediaFileUpload(
                 $client,
                 $insertRequest,
@@ -115,9 +120,9 @@ foreach ($_POST['id'] as $value) {
             $v->setYoutubeId($obj->id);
             $v->save();
         } catch (Google_Service_Exception $e) {
-            $obj->msg = sprintf(__("A service error occurred: %s"), $e->getMessage());
+            $obj->msg = sprintf(__("A service error occurred [1]: %s"), $e->getMessage());
         } catch (Google_Exception $e) {
-            $obj->msg = sprintf(__("An client error occurred: %s"), $e->getMessage());
+            $obj->msg = sprintf(__("An client error occurred [2]: %s"), $e->getMessage());
         }
         $_SESSION[$tokenSessionKey] = $client->getAccessToken();
     } elseif ($OAUTH2_CLIENT_ID == 'REPLACE_ME') {
