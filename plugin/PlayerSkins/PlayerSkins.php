@@ -218,6 +218,7 @@ class PlayerSkins extends PluginAbstract {
                     . "$(document).ready(function () {";
         }
         $js .= "var adTagOptions;
+            var _adTagUrl = '{$IMAADTag}';
         originalVideo = $('#mainVideo').clone();
         /* prepareStartPlayerJS_onPlayerReady = " . count($prepareStartPlayerJS_onPlayerReady) . ", prepareStartPlayerJS_getDataSetup = " . count($prepareStartPlayerJS_getDataSetup) . " */
         if (typeof player === 'undefined') {
