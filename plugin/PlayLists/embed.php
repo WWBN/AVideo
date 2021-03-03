@@ -277,7 +277,7 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                         try {
                             player.ima.requestAds();
                         } catch (e) {
-                            
+                            console.log('player.ima.requestAds ERROR', e.message);
                         }
                         
                     } else {
