@@ -224,7 +224,7 @@ class PlayerSkins extends PluginAbstract {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
             ";
         if (!empty($IMAADTag) && !isLive()) {
-            $js .= "var adTagOptions = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(adTagOptions);";
+            $js .= "adTagOptions = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(adTagOptions);";
             $js .= "setInterval(function(){ fixAdSize(); }, 300);
                 // first time it's clicked.
                 var startEvent = 'click';";
