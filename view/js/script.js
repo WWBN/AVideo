@@ -243,10 +243,10 @@ function reloadAds() {
         try {
             setTimeout(function () {
                 if (!player.ima.getAdsManager()) {
-                    console.log('reloadAdsIfIsReady 1 change to ', _adTagUrl);
+                    console.log('reloadAdsIfIsReady 1 ');
                     player.ima.requestAds();
                 }else{
-                    console.log('reloadAdsIfIsReady 1 change to ', _adTagUrl);
+                    console.log('reloadAdsIfIsReady 2 change to ', _adTagUrl);
                     player.ima.changeAdTag(_adTagUrl);
                     player.ima.requestAds();
                 }
