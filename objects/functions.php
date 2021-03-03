@@ -4030,6 +4030,7 @@ function URLsAreSameVideo($url1, $url2) {
 
 function getVideos_id() {
     global $_getVideos_id;
+    $videos_id = false;
     if (isset($_getVideos_id)) {
         return $_getVideos_id;
     }
@@ -4042,9 +4043,14 @@ function getVideos_id() {
             }
         }
         setVideos_id($videos_id);
-        return $videos_id;
     }
-    return false;
+    if(empty($videos_id) && !empty($_REQUEST['playlists_id'])){
+        $video = PlayLists::isPlayListASerie($_REQUEST['playlists_id']);
+        if(!empty($video)){
+            $videos_id = $video['id'];
+        }
+    }
+    return $videos_id;
 }
 
 function setVideos_id($videos_id) {
