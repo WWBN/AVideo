@@ -45,8 +45,8 @@ if (empty($video['filename'])) {
     $obj->msg = "Video Not found";
     die(json_encode($obj));
 }
-if ($video['type'] !== 'video' || video['type'] !== 'audio') {
-    $obj->msg = "Must be a video {$video['type']}";
+if ($video['type'] !== 'video' && video['type'] !== 'audio') {
+    $obj->msg = "Must be a video [{$video['type']}]";
     die(json_encode($obj));
 }
 
