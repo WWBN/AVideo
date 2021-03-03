@@ -242,7 +242,6 @@ function reloadAds() {
     if (player && player.ima) {
         player.ima.changeAdTag(_adTagUrl);
         reloadAdsIfIsReady();
-
     } else {
         _reloadAdsTimeout = setTimeout(function () {
             reloadAds();
@@ -253,7 +252,7 @@ function reloadAds() {
 function reloadAdsIfIsReady() {
     clearTimeout(_reloadAdsTimeout);
     console.log('reloadAdsIfIsReady player.readyState() = ' + player.readyState());
-    if (player.readyState() > 3) {
+    if (player.pause) {
         try {
             console.log('reloadAdsIfIsReady change to ', _adTagUrl);
             setTimeout(function () {
@@ -266,7 +265,7 @@ function reloadAdsIfIsReady() {
     } else {
         _reloadAdsTimeout = setTimeout(function () {
             //player.ima.initializeAdDisplayContainer();
-            player.ima.requestAds();
+            reloadAdsIfIsReady();
         }, 500);
     }
 }
