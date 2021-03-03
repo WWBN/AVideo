@@ -240,25 +240,30 @@ function reloadAds() {
     clearTimeout(_reloadAdsTimeout);
     console.log('reloadAds');
     if (player) {
-        if (player.isReady_) {
-            console.log('reloadAds is ready');
-            try {
-                if (_adTagUrl) {
-                    console.log('player.ima.changeAdTag _adTagUrl', _adTagUrl);
-                    player.ima.changeAdTag(_adTagUrl);
-                } else if (player.ima && player.ima.getAdsManager().M) {
-                    console.log('player.ima.getAdsManager().M', player.ima.getAdsManager().M);
-                    player.ima.changeAdTag(player.ima.getAdsManager().M);
+        if (typeof player.ima != 'undefined') {
+            if (player.isReady_) {
+                console.log('reloadAds is ready');
+                try {
+                    if (_adTagUrl) {
+                        console.log('player.ima.changeAdTag _adTagUrl', _adTagUrl);
+                        player.ima.changeAdTag(_adTagUrl);
+                    } else if (player.ima && player.ima.getAdsManager().M) {
+                        console.log('player.ima.getAdsManager().M', player.ima.getAdsManager().M);
+                        player.ima.changeAdTag(player.ima.getAdsManager().M);
+                    }
+                    player.ima.requestAds();
+                } catch (e) {
+                    console.log('player.ima.requestAds ERROR', e.message);
                 }
-                player.ima.requestAds();
-            } catch (e) {
-                console.log('player.ima.requestAds ERROR', e.message);
+            } else {
+                _reloadAdsTimeout = setTimeout(function () {
+                    reloadAds();
+                }, 500);
             }
         } else {
-            _reloadAdsTimeout = setTimeout(function () {
-                reloadAds();
-            }, 500);
+            console.log('updatePLSources player.ima is undefined');
         }
+
     }
 }
 
