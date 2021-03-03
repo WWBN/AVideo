@@ -248,7 +248,12 @@ class PlayerSkins extends PluginAbstract {
                 }";
             }
 
-            $js .= "player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
+            $js .= "
+                player.on('adsready', function () {
+                    console.log('reloadAds adisready ');
+                    player.ima.resumeAd();
+                    player.pause();
+                });player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
         }
 
         $js .= "}
