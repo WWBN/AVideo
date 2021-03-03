@@ -272,25 +272,8 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                     //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
                     //player.updateSrc(embed_playerPlaylist[_index].sources);
                     userIsControling = false;
-                    if (typeof player.ima != 'undefined') {
-                        console.log('updatePLSources ADs reloaded');
-                        setTimeout(function(){
-                            try {
-                                if(_adTagUrl){
-                                    console.log('player.ima.changeAdTag _adTagUrl', _adTagUrl);
-                                     player.ima.changeAdTag(_adTagUrl);
-                                } else if(player.ima && player.ima.getAdsManager().M){
-                                    console.log('player.ima.getAdsManager().M', player.ima.getAdsManager().M);
-                                    player.ima.changeAdTag(player.ima.getAdsManager().M);
-                                }
-                                player.ima.requestAds();
-                            } catch (e) {
-                                console.log('player.ima.requestAds ERROR', e.message);
-                            }
-                        },500);
-                    } else {
-                        console.log('updatePLSources player.ima is undefined');
-                    }
+                    reloadAds();
+                    
                     if (typeof embed_playerPlaylist[_index] !== 'undefined') {
                         playerPlay(embed_playerPlaylist[_index].videoStartSeconds);
                     }
