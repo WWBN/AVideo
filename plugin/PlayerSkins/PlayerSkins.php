@@ -217,14 +217,14 @@ class PlayerSkins extends PluginAbstract {
             $js .= "var originalVideo; "
                     . "$(document).ready(function () {";
         }
-        $js .= "
+        $js .= "var adTagOptions;
         originalVideo = $('#mainVideo').clone();
         /* prepareStartPlayerJS_onPlayerReady = " . count($prepareStartPlayerJS_onPlayerReady) . ", prepareStartPlayerJS_getDataSetup = " . count($prepareStartPlayerJS_getDataSetup) . " */
         if (typeof player === 'undefined') {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
             ";
         if (!empty($IMAADTag) && !isLive()) {
-            $js .= "var options = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(options);";
+            $js .= "var adTagOptions = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(adTagOptions);";
             $js .= "setInterval(function(){ fixAdSize(); }, 300);
                 // first time it's clicked.
                 var startEvent = 'click';";
