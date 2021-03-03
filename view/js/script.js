@@ -237,37 +237,35 @@ function changeVideoSrcLoad() {
 }
 var _reloadAdsTimeout;
 function reloadAds() {
+    clearTimeout(_reloadAdsTimeout);
     console.log('reloadAds');
-    if (player) {
+    if (player && player.ima) {
         reloadAdsIfIsReady();
+    } else {
+        _reloadAdsTimeout = setTimeout(function () {
+            reloadAds();
+        }, 100);
     }
 }
 
 function reloadAdsIfIsReady() {
     console.log('reloadAdsIfIsReady player.readyState() = ' + player.readyState());
-    clearTimeout(_reloadAdsTimeout);
-    if (player.ima) {
-        console.log('reloadAdsIfIsReady is ready');
-        try {
-            var adTagUrl;
-            if (_adTagUrl) {
-                console.log('reloadAdsIfIsReady _adTagUrl', _adTagUrl);
-                adTagUrl = _adTagUrl;
-            } else if (player.ima && player.ima.getAdsManager().M) {
-                console.log('reloadAdsIfIsReady player.ima.getAdsManager().M', player.ima.getAdsManager().M);
-                adTagUrl = player.ima.getAdsManager().M;
-            }
-            //player.ima.setContentWithAdTag(null, adTagUrl, true);
-            //player.ima.initializeAdDisplayContainer();
-            player.ima.changeAdTag(adTagUrl);
-            player.ima.requestAds();
-        } catch (e) {
-            console.log('reloadAdsIfIsReady ERROR', e.message);
+    try {
+        var adTagUrl;
+        if (_adTagUrl) {
+            console.log('reloadAdsIfIsReady _adTagUrl', _adTagUrl);
+            adTagUrl = _adTagUrl;
+        } else if (player.ima && player.ima.getAdsManager().M) {
+            console.log('reloadAdsIfIsReady player.ima.getAdsManager().M', player.ima.getAdsManager().M);
+            adTagUrl = player.ima.getAdsManager().M;
         }
-    } else {
-        _reloadAdsTimeout = setTimeout(function () {
-            reloadAdsIfIsReady();
-        }, 100);
+        console.log('reloadAdsIfIsReady change to ', _adTagUrl);
+        //player.ima.setContentWithAdTag(null, adTagUrl, true);
+        //player.ima.initializeAdDisplayContainer();
+        player.ima.changeAdTag(adTagUrl);
+        player.ima.requestAds();
+    } catch (e) {
+        console.log('reloadAdsIfIsReady ERROR', e.message);
     }
 }
 
