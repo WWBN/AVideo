@@ -5841,10 +5841,15 @@ function getStatsNotifications() {
 function getSocketConnectionLabel() {
     $html = '<span class="socketStatus">
             <span class="socket_disconnected">
-                <i class="fas fa-times"></i> ' . __('Disconnected') . '
+                <span class="fa-stack">
+  <i class="fas fa-slash fa-stack-1x"></i>
+  <i class="fas fa-plug fa-stack-1x"></i>
+</span> ' . __('Disconnected') . '
             </span>
             <span class="socket_connected">
-                <i class="fas fa-check"></i> ' . __('Connected') . '
+                <span class="fa-stack">
+  <i class="fas fa-plug fa-stack-1x"></i>
+</span>  ' . __('Connected') . '
             </span>
         </span>';
     return $html;
