@@ -672,7 +672,7 @@ function playNext(url) {
                         }
                         $('video, #mainVideo').attr('poster', response.poster);
                         history.pushState(null, null, url);
-                        $('.topInfoTitle, title').text('src', response.title);
+                        $('.topInfoTitle, title').text(response.title);
                         $('#topInfo img').attr('src', response.userPhoto);
                         $('#topInfo a').attr('href', response.url);
                         modal.hidePleaseWait();
