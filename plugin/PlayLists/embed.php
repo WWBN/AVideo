@@ -274,7 +274,12 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                     userIsControling = false;
                     if (typeof player.ima != 'undefined') {
                         console.log('updatePLSources ADs reloaded');
-                        player.ima.requestAds();
+                        try {
+                            player.ima.requestAds();
+                        } catch (e) {
+                            
+                        }
+                        
                     } else {
                         console.log('updatePLSources player.ima is undefined');
                     }
