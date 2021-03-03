@@ -238,22 +238,23 @@ function changeVideoSrcLoad() {
 var _reloadAdsTimeout;
 function reloadAds() {
     clearTimeout(_reloadAdsTimeout);
-    console.log('reloadAds');
+    console.log('reloadAds ');
     if (playerIsReady() && player.ima) {
         try {
             setTimeout(function () {
                 if (!player.ima.getAdsManager()) {
-                    console.log('reloadAdsIfIsReady 1 ');
+                    console.log('reloadAds 1 ');
                 } else {
-                    console.log('reloadAdsIfIsReady 2 change to ', _adTagUrl);
+                    console.log('reloadAds 2 change to ', _adTagUrl);
                     player.ima.changeAdTag(_adTagUrl);
                 }
                 setTimeout(function () {
+                    console.log('reloadAds ready state ', player.readyState());
                     player.ima.requestAds();
                 }, 1000);
             }, 1000);
         } catch (e) {
-            console.log('reloadAdsIfIsReady ERROR', e.message);
+            console.log('reloadAds ERROR', e.message);
         }
     } else {
         _reloadAdsTimeout = setTimeout(function () {
