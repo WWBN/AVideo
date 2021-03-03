@@ -39,12 +39,12 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         }
         #socket_info_container{
             border-radius: 5px;
-            border: 2px solid #777;
+            border: 2px solid transparent;
             position: fixed; 
             top: <?php echo $socket_info_container_top; ?>px; 
             left: <?php echo $socket_info_container_left; ?>px; 
 
-            background-color: rgba(255,255,255,0.7);
+            background-color: transparent;
             color: #000;
 
             -webkit-transition: background  0.5s ease-in-out;
@@ -54,15 +54,16 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             transition: background  0.5s ease-in-out;
             opacity: 1;
 
-            -moz-box-shadow:    0 0 10px #000000;
-            -webkit-box-shadow: 0 0 10px #000000;
-            box-shadow:         0 0 10px #000000;
             z-index: 1000;
 
         }
         #socket_info_container:hover{
             opacity: 1;
             background-color: rgba(255,255,255,1);
+            -moz-box-shadow:    0 0 10px #000000;
+            -webkit-box-shadow: 0 0 10px #000000;
+            box-shadow:         0 0 10px #000000;
+            border: 2px solid #777;
         }
 
         #socket_info_container.disconnected div{
@@ -75,11 +76,15 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         #socketBtnMaximize{
             display: none;
         }
-        #socket_info_container.socketMinimized .socketItem, #socket_info_container.socketMinimized #socketBtnMinimize{
+        #socket_info_container.socketMinimized .socketItem{
             display: none;
         }
         #socket_info_container.socketMinimized #socketBtnMaximize{
             display: block;
+        }
+
+        #socket_info_container .socketItem {
+            background-color: rgba(255,255,255,0.8);
         }
         .socketTitle, .socketTitle span{
             text-align: center;
@@ -87,7 +92,10 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             width: 100%;
             cursor: move;
         }
-        .socketUserName{
+        #socket_info_container > div.socketHeader{
+            padding: 2px 15px 2px 5px;
+        }
+        .socketHeader, .socketUserName{
             cursor: pointer;
         }
         #socket_info_container > div.clearfix{
@@ -129,9 +137,6 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         .socketUserDiv.visible .socketUserPages{
             display: block;
         }
-        .socketButtons{
-            margin-left: 10px;
-        }
         .socket_disconnected{
             display: none;
         }
@@ -169,22 +174,11 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         }
     </style>
     <div id="socket_info_container" class="socketStatus disconnected <?php echo $socket_info_container_class; ?>" >
-        <div class=" ">
-            <div class="pull-left">
-                <?php
-                echo getSocketConnectionLabel();
-                ?>
-            </div>
-            <div class="pull-right socketButtons">
-                <button class="btn btn-default btn-xs" id="socketBtnMinimize">
-                    <i class="fas fa-window-minimize"></i>
-                </button>
-                <button class="btn btn-default btn-xs maximize" id="socketBtnMaximize">
-                    <i class="far fa-window-maximize"></i>
-                </button>
-            </div>
+        <div class="socketHeader">
+            <?php
+            echo getSocketConnectionLabel();
+            ?>
         </div>
-        <div class="clearfix"></div>
         <div class="socketItem" ><i class="fas fa-user"></i> Your User ID <span class="socket_users_id">0</span></div>
         <div class="socketItem" ><i class="fas fa-id-card"></i> Socket ResourceId <span class="socket_resourceId">0</span></div>
         <div class="socketItem" ><i class="fas fa-network-wired"></i> Total Different Devices <span class="total_devices_online">0</span></div>
@@ -211,11 +205,8 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             } else {
                 $("#socket_info_container").hide();
             }
-            $("#socketBtnMinimize").click(function () {
-                socketInfoMinimize();
-            });
-            $("#socketBtnMaximize").click(function () {
-                socketInfoMaximize();
+            $(".socketHeader").click(function () {
+                socketInfoToogle()
             });
             checkSocketInfoPosition();
         });
@@ -234,6 +225,13 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
                 path: '/',
                 expires: 365
             });
+        }
+        function socketInfoToogle() {
+            if ($("#socket_info_container").hasClass('socketMinimized')) {
+                socketInfoMaximize();
+            } else {
+                socketInfoMinimize();
+            }
         }
 
         function checkSocketInfoPosition() {
@@ -276,7 +274,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
 
     function onUserSocketConnect(response) {
         try {
-            <?php echo AVideoPlugin::onUserSocketConnect(); ?>
+<?php echo AVideoPlugin::onUserSocketConnect(); ?>
         } catch (e) {
             console.log('onUserSocketConnect:error', e.message);
         }
@@ -284,7 +282,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
 
     function onUserSocketDisconnect(response) {
         try {
-            <?php echo AVideoPlugin::onUserSocketDisconnect(); ?>
+<?php echo AVideoPlugin::onUserSocketDisconnect(); ?>
         } catch (e) {
             console.log('onUserSocketConnect:error', e.message);
         }
