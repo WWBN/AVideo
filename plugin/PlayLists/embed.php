@@ -274,19 +274,20 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                     userIsControling = false;
                     if (typeof player.ima != 'undefined') {
                         console.log('updatePLSources ADs reloaded');
-                        try {
-                            if(_adTagUrl){
-                                console.log('player.ima.changeAdTag', _adTagUrl);
-                                 player.ima.changeAdTag(_adTagUrl);
-                            } else if(player.ima && player.ima.getAdsManager().M){
-                                console.log('player.ima.getAdsManager().M', player.ima.getAdsManager().M);
-                                player.ima.changeAdTag(player.ima.getAdsManager().M);
+                        setTimeout(function(){
+                            try {
+                                if(_adTagUrl){
+                                    console.log('player.ima.changeAdTag _adTagUrl', _adTagUrl);
+                                     player.ima.changeAdTag(_adTagUrl);
+                                } else if(player.ima && player.ima.getAdsManager().M){
+                                    console.log('player.ima.getAdsManager().M', player.ima.getAdsManager().M);
+                                    player.ima.changeAdTag(player.ima.getAdsManager().M);
+                                }
+                                player.ima.requestAds();
+                            } catch (e) {
+                                console.log('player.ima.requestAds ERROR', e.message);
                             }
-                            player.ima.requestAds();
-                        } catch (e) {
-                            console.log('player.ima.requestAds ERROR', e.message);
-                        }
-                        
+                        },500);
                     } else {
                         console.log('updatePLSources player.ima is undefined');
                     }
