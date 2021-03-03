@@ -2625,6 +2625,7 @@ if (!class_exists('Video')) {
             $source = self::getHigestResolutionVideoMP4Source($this->getFilename(), true);
             $size = filesize($source['path']);
             if ($size <= 20) {// it is a dummy file
+                _error_log("getExistingVideoFile:: dummy file, download it {$url}");
                 $url = $source['url'];
                 $filename = getTmpDir("getExistingVideoFile") . md5($url);
                 copyfile_chunked($url, $filename);
