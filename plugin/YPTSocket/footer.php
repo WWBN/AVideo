@@ -181,10 +181,15 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         </div>
     </div>
     <script>
+        var socket_info_container_draging = false;
         $(document).ready(function () {
             if (typeof $("#socket_info_container").draggable === 'function') {
                 $("#socket_info_container").draggable({
+                    start: function (event, ui) {
+                        socket_info_container_draging = true;
+                    },
                     stop: function (event, ui) {
+                        setTimeout(function(){socket_info_container_draging = false;},500);
                         var currentPos = $(this).position();
                         Cookies.set('socketInfoPositionTop', currentPos.top, {
                             path: '/',
@@ -221,6 +226,9 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             });
         }
         function socketInfoToogle() {
+            if(socket_info_container_draging){
+                return false;
+            }
             if ($("#socket_info_container").hasClass('socketMinimized')) {
                 socketInfoMaximize();
             } else {
