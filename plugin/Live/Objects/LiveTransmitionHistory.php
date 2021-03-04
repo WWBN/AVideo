@@ -195,7 +195,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $key = $lth->getKey();
         foreach ($stats['applications'] as $k => $value) {
             $value = object_to_array($value);
-            if($value['key']==$key){ // application is already in the list
+            if(empty($value['key']) || $value['key']==$key){ // application is already in the list
                 unset($stats['applications'][$k]);
                 $stats['countLiveStream']--;
             }
@@ -274,7 +274,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $insert_row = sqlDAL::writeSql($sql);
 
-        return $row;
+        return $insert_row;
     }
 
     static function getLatestFromUser($users_id) {

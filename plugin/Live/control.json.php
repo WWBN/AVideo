@@ -3,9 +3,10 @@
 header('Content-Type: application/json');
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
-    if (file_exists($configFile)) {
-        require_once $configFile;
+    if (!file_exists($configFile)) {
+        $configFile = '../videos/configuration.php';
     }
+    require_once $configFile;
 }
 
 $obj = new stdClass();

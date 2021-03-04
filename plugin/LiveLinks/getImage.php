@@ -44,10 +44,16 @@ if(LiveLinks::isLiveThumbsDisabled()){
 $video = $liveLink->getLink();
 
 if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $video)) {
-    $url = $config->getEncoderURL() . "getImage/" . base64_encode($video) . "/{$_GET['format']}";
+    
+    $encoderURL = $config->_getEncoderURL();
+    //$encoderURL = $config->getEncoderURL();
+    
+    $url = "{$encoderURL}getImage/" . base64_encode($video) . "/{$_GET['format']}";
     $name = "liveLinks_getImage_".md5($url);
     $content = ObjectYPT::getCache($name, 600);
     if(empty($content)){
+        session_write_close();
+        _mysql_close();
         $content = url_get_contents($url, "", 2);
         if(!empty($content)){
             ObjectYPT::setCache($name, $content);

@@ -59,6 +59,7 @@ if ($video['type'] != "audio") {
                 </button>
             </div>
             <div id="main-video" class="embed-responsive <?php echo $embedResponsiveClass; ?>">
+                <!-- <?php echo $video['filename']; ?> [<?php echo $video['type']; ?>] -->
                 <audio playsinline webkit-playsinline="webkit-playsinline" 
                        preload="auto"
                        poster="<?php echo $poster; ?>" controls class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" id="mainVideo">

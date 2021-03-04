@@ -233,18 +233,22 @@ class PlayLists extends PluginAbstract {
 
     public function getStart() {
         global $global;
-        if (!empty($_GET['videoName'])) {
-            $obj = $this->getDataObject();
-            if ($obj->usePlaylistPlayerForSeries) {
-                $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-                if ($video['type'] == 'serie' && !empty($video['serie_playlists_id'])) {
-                    if (basename($_SERVER["SCRIPT_FILENAME"]) == "videoEmbeded.php") {
-                        $link = PlayLists::getLink($video['serie_playlists_id'], true);
-                    } else {
-                        $link = PlayLists::getLink($video['serie_playlists_id']);
+        $whitelistedFiles = array('VMAP.php');
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+        if (!in_array($baseName, $whitelistedFiles)) {
+            if (!empty($_GET['videoName'])) {
+                $obj = $this->getDataObject();
+                if ($obj->usePlaylistPlayerForSeries) {
+                    $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+                    if ($video['type'] == 'serie' && !empty($video['serie_playlists_id'])) {
+                        if (basename($_SERVER["SCRIPT_FILENAME"]) == "videoEmbeded.php") {
+                            $link = PlayLists::getLink($video['serie_playlists_id'], true);
+                        } else {
+                            $link = PlayLists::getLink($video['serie_playlists_id']);
+                        }
+                        header("Location: {$link}");
+                        exit;
                     }
-                    header("Location: {$link}");
-                    exit;
                 }
             }
         }

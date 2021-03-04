@@ -373,14 +373,23 @@ class AVideoPlugin {
     }
 
     static function getDataObjectIfEnabled($name) {
+        global $_getDataObjectIfEnabled;
+        if(!isset($_getDataObjectIfEnabled)){
+            $_getDataObjectIfEnabled = array();
+        }
+        if(isset($_getDataObjectIfEnabled[$name])){
+            return $_getDataObjectIfEnabled[$name];
+        }
         $p = static::loadPlugin($name);
         if ($p) {
             $uuid = $p->getUUID();
             if (static::isEnabled($uuid)) {
-                return static::getObjectData($name);
+                $_getDataObjectIfEnabled[$name] = static::getObjectData($name);
+                return $_getDataObjectIfEnabled[$name];
             }
         }
-        return false;
+        $_getDataObjectIfEnabled[$name] = false;
+        return $_getDataObjectIfEnabled[$name];
     }
 
     static function xsendfilePreVideoPlay() {

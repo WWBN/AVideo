@@ -27,8 +27,17 @@ $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 $playListData = array();
 $collectionsList = PlayList::showPlayListSelector($playList);
 $videoStartSeconds = array();
-foreach ($playList as $value) {
+
+$users_id = User::getId();
+
+foreach ($playList as $key => $value) {
     $oldValue = $value;
+    
+    if(!User::isAdmin() && !Video::userGroupAndVideoGroupMatch($users_id, $value['videos_id'])){
+        unset($playList[$key]);
+        continue;
+    }
+    
     if ($oldValue['type'] === 'serie' && !empty($oldValue['serie_playlists_id'])) {
         $subPlayList = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
         foreach ($subPlayList as $value) {
@@ -257,18 +266,14 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                 if (typeof player.updateSrc == 'function' && typeof player.videoJsResolutionSwitcher != 'undefined' && typeof embed_playerPlaylist[_index] != 'undefined' && typeof embed_playerPlaylist[_index].sources != 'undefined') {
                     console.log('updatePLSources', _index);
                     
-    //player.src(embed_playerPlaylist[_index].sources);
-    player.updateSrc(embed_playerPlaylist[_index].sources);
-    //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
+                    //player.src(embed_playerPlaylist[_index].sources);
+                    player.updateSrc(embed_playerPlaylist[_index].sources);
+                    //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
                     //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
                     //player.updateSrc(embed_playerPlaylist[_index].sources);
                     userIsControling = false;
-                    if (typeof player.ima != 'undefined') {
-                        console.log('updatePLSources ADs reloaded');
-                        player.ima.requestAds();
-                    } else {
-                        console.log('updatePLSources player.ima is undefined');
-                    }
+                    reloadAds();
+                    
                     if (typeof embed_playerPlaylist[_index] !== 'undefined') {
                         playerPlay(embed_playerPlaylist[_index].videoStartSeconds);
                     }

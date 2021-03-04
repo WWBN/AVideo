@@ -2623,10 +2623,16 @@ if (!class_exists('Video')) {
         public function getExistingVideoFile()
         {
             $source = self::getHigestResolutionVideoMP4Source($this->getFilename(), true);
+            if(empty($source)){
+                _error_log("getExistingVideoFile:: resources are empty ". $this->getFilename());
+                return false;
+            }
             $size = filesize($source['path']);
             if ($size <= 20) {// it is a dummy file
                 $url = $source['url'];
+                _error_log("getExistingVideoFile:: dummy file, download it ". json_encode($source));
                 $filename = getTmpDir("getExistingVideoFile") . md5($url);
+                copyfile_chunked($url, $filename);
                 wget($url, $filename);
                 return $filename;
             }
@@ -2828,7 +2834,7 @@ if (!class_exists('Video')) {
             //return array();
             //}
             $cacheName = md5($filename . $type . $includeS3);
-            if (isset($VideoGetSourceFile[$cacheName])) {
+            if (isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName])) {
                 if (!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])) {
                     return $VideoGetSourceFile[$cacheName];
                 }
@@ -3089,7 +3095,13 @@ if (!class_exists('Video')) {
 
         public static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false)
         {
+            global $global;
             $types = array('', '_HD', '_SD', '_Low');
+            $resolutions = $global['avideo_resolutions'];
+            rsort($resolutions);
+            foreach ($resolutions as $value) {
+                $types[] = "_{$value}";
+            }
             foreach ($types as $value) {
                 $source = self::getSourceFile($filename, $value . ".mp4", $includeS3);
                 if (!empty($source['url'])) {
@@ -3918,8 +3930,7 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        public static function userGroupAndVideoGroupMatch($users_id, $videos_id)
-        {
+        public static function userGroupAndVideoGroupMatch($users_id, $videos_id){
             if (empty($videos_id)) {
                 return false;
             }

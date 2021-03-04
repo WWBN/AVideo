@@ -198,7 +198,7 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('requestStatsInterval', 'Stats Request Interval', 'how many seconds until request the stats again');
         $obj->streamDeniedMsg = "You can not stream live videos";
         self::addDataObjectHelper('streamDeniedMsg', 'Denied Message', 'We will show this message when a user is not allowed so watch a livestream');
-        
+
         return $obj;
     }
 
@@ -228,12 +228,12 @@ class Live extends PluginAbstract {
         if (!empty($obj->playLiveInFullScreen)) {
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'.liveVideo a.galleryLink\'); } });</script>';
-        }else
+        } else
         if (!empty($obj->playLiveInFullScreenOnIframe)) {
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'.liveVideo a.galleryLink\'); } });</script>';
         }
-        include $global['systemRootPath'].'plugin/Live/view/footer.php';
+        include $global['systemRootPath'] . 'plugin/Live/view/footer.php';
         return $js;
     }
 
@@ -581,14 +581,26 @@ class Live extends PluginAbstract {
         }
 
         global $getStatsObject;
-        if (!empty($getStatsObject[$live_servers_id])) {
+        if (!isset($getStatsObject)) {
+            $getStatsObject = array();
+        }
+        if (isset($getStatsObject[$live_servers_id])) {
             return $getStatsObject[$live_servers_id];
         }
+        
+        $name = "getStatsObject_{$live_servers_id}";
+        //$result = ObjectYPT::getCache($name, 30);
+        if(!empty($result)){
+            return json_decode($result);
+        }
+        
         $o = $this->getDataObject();
         if ($o->doNotProcessNotifications) {
             $xml = new stdClass();
             $xml->server = new stdClass();
             $xml->server->application = array();
+            $getStatsObject[$live_servers_id] = $xml;
+            ObjectYPT::setCache($name, json_encode($xml));
             return $xml;
         }
         if (empty($o->requestStatsTimout)) {
@@ -607,8 +619,8 @@ class Live extends PluginAbstract {
             if (empty($_SESSION['getStatsObjectRequestStatsTimout'])) {
                 $_SESSION['getStatsObjectRequestStatsTimout'] = array();
             }
-            $_SESSION['getStatsObjectRequestStatsTimout'][$url] = $o->requestStatsTimout-1;
-            if($_SESSION['getStatsObjectRequestStatsTimout'][$url]<1){
+            $_SESSION['getStatsObjectRequestStatsTimout'][$url] = $o->requestStatsTimout - 1;
+            if ($_SESSION['getStatsObjectRequestStatsTimout'][$url] < 1) {
                 $_SESSION['getStatsObjectRequestStatsTimout'][$url] = 2;
             }
             _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE, timeout=({$o->requestStatsTimout}) we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
@@ -624,17 +636,31 @@ class Live extends PluginAbstract {
         }
         $xml = simplexml_load_string($data);
         $getStatsObject[$live_servers_id] = $xml;
+        ObjectYPT::setCache($name, json_encode($xml));
         return $xml;
     }
 
     function get_data($url, $timeout) {
-        try {
-            $content = url_get_contents($url, "", $timeout);
-            return $content;
-        } catch (Exception $exc) {
-            _error_log($exc->getTraceAsString());
+        global $global;
+        if(!IsValidURL($url)){
+            return false;
         }
-        return false;
+        $name = "get_data_" . md5($url);
+        $result = ObjectYPT::getCache($name, 10);        
+        if (empty($result)) {
+            $result = ObjectYPT::getCache($name, 0);
+            $file = "{$global['systemRootPath']}plugin/Live/asyncGetStats.php";
+            if(empty($result)){
+                $byPassCommandLine = 1;
+                $argv[1] = $url;
+                include $file;
+            }else{
+                $command = "php {$file} \"$url\"";
+                execAsync($command);
+            }
+            return $result;
+        }
+        return $result;
     }
 
     public function getChartTabs() {
@@ -807,9 +833,9 @@ class Live extends PluginAbstract {
         return '<a href="plugin/Live/view/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> ' . __('Edit Live Servers') . '</a>';
     }
 
-    static function getStats($force_recreate=false) {
+    static function getStats($force_recreate = false) {
         global $getStatsLive, $_getStats, $getStatsObject;
-        if(!empty($force_recreate)){
+        if (!empty($force_recreate)) {
             unset($getStatsLive);
             $_getStats = array();
             $getStatsObject = array();
@@ -839,8 +865,9 @@ class Live extends PluginAbstract {
             if (!empty($server) && is_object($server)) {
                 $server->live_servers_id = $value['id'];
                 $server->playerServer = $value['playerServer'];
+                $server->applications = object_to_array($server->applications);
                 foreach ($server->applications as $key => $app) {
-                    if(self::isAdaptive($app['key'])){
+                    if (self::isAdaptive($app['key'])) {
                         continue;
                     }
                     $_REQUEST['live_servers_id'] = $value['id'];
@@ -860,12 +887,12 @@ class Live extends PluginAbstract {
         $getStatsLive = $liveServers;
         return $liveServers;
     }
-    
-    static function isAdaptive($key){
+
+    static function isAdaptive($key) {
         $parts = explode("_", $key);
-        if(!empty($parts[1])){
+        if (!empty($parts[1])) {
             $adaptive = array('hi', 'low', 'mid');
-            if(in_array($parts[1], $adaptive)){
+            if (in_array($parts[1], $adaptive)) {
                 return true;
             }
         }
@@ -883,7 +910,7 @@ class Live extends PluginAbstract {
 
     static function getAvailableLiveServer() {
         global $_getAvailableLiveServer;
-        if(isset($_getAvailableLiveServer)){
+        if (isset($_getAvailableLiveServer)) {
             return $_getAvailableLiveServer;
         }
         // create 1 min cache
@@ -900,7 +927,8 @@ class Live extends PluginAbstract {
                         $_getAvailableLiveServer = 0;
                         return 0;
                     }
-                    $_getAvailableLiveServer = ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;;
+                    $_getAvailableLiveServer = ($a->countLiveStream < $b->countLiveStream) ? -1 : 1;
+                    ;
                     return $_getAvailableLiveServer;
                 });
                 if (empty($liveServers[0])) {
@@ -932,11 +960,11 @@ class Live extends PluginAbstract {
         return $lt->isAPrivateLive();
     }
 
-    static function getTitleFromUsers_Id($users_id){
+    static function getTitleFromUsers_Id($users_id) {
         $lt = self::getLiveTransmitionObjectFromUsers_id($users_id);
         return $lt->getTitle();
     }
-    
+
     static function getLiveTransmitionObjectFromUsers_id($users_id) {
         $key = self::getLiveKey($users_id);
         return self::getLiveTransmitionObjectFromKey($key);
@@ -975,6 +1003,13 @@ class Live extends PluginAbstract {
             //_error_log("Live::_getStats cached result {$_REQUEST['name']} " . json_encode($_getStats[$live_servers_id][$_REQUEST['name']]));
             return $_getStats[$live_servers_id][$_REQUEST['name']];
         }
+
+        $cacneName = "_getStats[$live_servers_id][{$_REQUEST['name']}]" . User::getId();
+        $result = ObjectYPT::getCache($cacneName, 30);
+        if (!empty($result)) {
+            return json_decode($result);
+        }
+
         session_write_close();
         $obj = new stdClass();
         $obj->error = true;
@@ -983,6 +1018,7 @@ class Live extends PluginAbstract {
         $obj->applications = array();
         $obj->hidden_applications = array();
         $obj->name = $_REQUEST['name'];
+        $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         $p = AVideoPlugin::loadPlugin("Live");
         $xml = $p->getStatsObject($live_servers_id);
@@ -991,35 +1027,39 @@ class Live extends PluginAbstract {
 
         $stream = false;
         $lifeStream = array();
-        //$obj->server = $xml->server;
-        if (!empty($xml->server->application) && !is_array($xml->server->application)) {
-            $application = $xml->server->application;
-            $xml->server->application = array();
-            $xml->server->application[] = $application;
-        }
-        foreach ($xml->server->application as $key => $application) {
-            if (!empty($application->live->stream)) {
-                if (empty($lifeStream)) {
-                    $lifeStream = array();
-                }
 
-                $stream = $application->live->stream;
-                if (empty($application->live->stream->name) && !empty($application->live->stream[0]->name)) {
-                    foreach ($application->live->stream as $stream) {
-                        if(Live::isAdaptive($stream->name)){
+        if (empty($xml) || !is_object($xml)) {
+            _error_log("_getStats XML is not an object live_servers_id=$live_servers_id");
+        } else {
+            //$obj->server = $xml->server;
+            if (!empty($xml->server->application) && !is_array($xml->server->application)) {
+                $application = $xml->server->application;
+                $xml->server->application = array();
+                $xml->server->application[] = $application;
+            }
+            foreach ($xml->server->application as $key => $application) {
+                if (!empty($application->live->stream)) {
+                    if (empty($lifeStream)) {
+                        $lifeStream = array();
+                    }
+
+                    $stream = $application->live->stream;
+                    if (empty($application->live->stream->name) && !empty($application->live->stream[0]->name)) {
+                        foreach ($application->live->stream as $stream) {
+                            if (Live::isAdaptive($stream->name)) {
+                                continue;
+                            }
+                            $lifeStream[] = $stream;
+                        }
+                    } else {
+                        if (Live::isAdaptive($stream->name)) {
                             continue;
                         }
-                        $lifeStream[] = $stream;
+                        $lifeStream[] = $application->live->stream;
                     }
-                } else {
-                    if(Live::isAdaptive($stream->name)){
-                        continue;
-                    }
-                    $lifeStream[] = $application->live->stream;
                 }
             }
         }
-
         $obj->disableGif = $p->getDisableGifThumbs();
         $obj->countLiveStream = count($lifeStream);
         foreach ($lifeStream as $value) {
@@ -1121,6 +1161,7 @@ class Live extends PluginAbstract {
         $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
+        ObjectYPT::setCache($cacneName, json_encode($obj));
         return $obj;
     }
 
@@ -1135,43 +1176,95 @@ class Live extends PluginAbstract {
         return $url;
     }
 
-    static function isLive($users_id, $live_servers_id = 0, $force_recreate=false) {
-        if(empty($users_id)){
+    static function isLive($users_id, $live_servers_id = 0, $force_recreate = false) {
+        global $_live_is_live;
+        if (empty($users_id)) {
             return false;
+        }
+        if (!isset($_live_is_live)) {
+            $_live_is_live = array();
+        }
+        $name = "{$users_id}_{$live_servers_id}";
+        if (!empty($_live_is_live[$name])) {
+            return $_live_is_live[$name];
         }
         $key = self::getLiveKey($users_id);
-        return self::isLiveAndIsReadyFromKey($key, $live_servers_id, $force_recreate=false);
+        $_live_is_live[$name] = self::isLiveAndIsReadyFromKey($key, $live_servers_id, $force_recreate = false);
+        return $_live_is_live[$name];
     }
-    
-    static function isLiveFromKey($key, $live_servers_id = 0, $force_recreate=false) {
-        if(empty($key)){
+
+    static function isLiveFromKey($key, $live_servers_id = 0, $force_recreate = false) {
+        global $_isLiveFromKey;
+        if (empty($key)) {
             return false;
         }
+        $index = "$key, $live_servers_id";
+        if (!isset($_isLiveFromKey)) {
+            $_isLiveFromKey = array();
+        }
+
+        if (isset($_isLiveFromKey[$index])) {
+            return $_isLiveFromKey[$index];
+        }
+               
         $json = self::getStats($force_recreate);
-        if (!empty($json) && is_object($json) && !empty($json->applications)) {
-            foreach ($json->applications as $value) {
-                if (preg_match("/{$key}.*/", $value['key'])) {
-                    if (empty($live_servers_id)) {
-                        return true;
-                    } else {
-                        if (intval(@$value['live_servers_id']) == $live_servers_id) {
-                            return true;
+        if(!empty($json)){
+            if(!is_array($json)){
+                $json = array($json);
+            }
+            foreach ($json as $item) {
+                if (is_object($item) && !empty($item->applications)) {
+                    foreach ($item->applications as $value) {
+                        $value = object_to_array($value); 
+                        if (preg_match("/{$key}.*/", $value['key'])) {
+                            if (empty($live_servers_id)) {
+                                $_isLiveFromKey[$index] = true;
+                                return $_isLiveFromKey[$index];
+                            } else {
+                                if (intval(@$value['live_servers_id']) == $live_servers_id) {
+                                    $_isLiveFromKey[$index] = true;
+                                    return $_isLiveFromKey[$index];
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-        return false;
+        $_isLiveFromKey[$index] = false;
+        return $_isLiveFromKey[$index];
     }
-    
-    static function isLiveAndIsReadyFromKey($key, $live_servers_id = 0, $force_recreate=false) {
-        $m3u8 = self::getM3U8File($key);
-        $isLiveFromKey = self::isLiveFromKey($key, $live_servers_id, $force_recreate);
-        $is200 = isURL200($m3u8);
-        _error_log("isLiveFromKey: {$isLiveFromKey}");
-        _error_log("m3u8: {$m3u8}");
-        _error_log("is200: {$is200}");
-        return  $isLiveFromKey && $is200;
+
+    static function isLiveAndIsReadyFromKey($key, $live_servers_id = 0, $force_recreate = false) {
+        global $_isLiveAndIsReadyFromKey;
+
+        if (!isset($_isLiveAndIsReadyFromKey)) {
+            $_isLiveAndIsReadyFromKey = array();
+        }
+
+        $name = "isLiveAndIsReadyFromKey{$key}_{$live_servers_id}";
+        if (isset($_isLiveAndIsReadyFromKey[$name])) {
+            return $_isLiveAndIsReadyFromKey[$name];
+        }
+        
+        $cache = ObjectYPT::getCache($name, 10);
+        if(!empty($cache)){
+            $json = json_decode($cache);
+            $_isLiveAndIsReadyFromKey[$name] = $json->result;
+        }else{
+            $json = new stdClass();
+            $m3u8 = self::getM3U8File($key);
+            $isLiveFromKey = self::isLiveFromKey($key, $live_servers_id, $force_recreate);
+            $is200 = isURL200($m3u8);
+            _error_log("isLiveFromKey: {$isLiveFromKey}");
+            _error_log("m3u8: {$m3u8}");
+            _error_log("is200: {$is200}");
+            $_isLiveAndIsReadyFromKey[$name] = $isLiveFromKey && $is200;
+            $json->result = $_isLiveAndIsReadyFromKey[$name];
+            ObjectYPT::setCache($name, json_encode($json));
+        }
+             
+        return $_isLiveAndIsReadyFromKey[$name];
     }
 
     static function getOnlineLivesFromUser($users_id) {
@@ -1215,7 +1308,7 @@ class Live extends PluginAbstract {
         return $url;
     }
 
-    public static function  getPosterImage($users_id, $live_servers_id) {
+    public static function getPosterImage($users_id, $live_servers_id) {
         global $global;
         $file = self::_getPosterImage($users_id, $live_servers_id);
 
@@ -1263,7 +1356,7 @@ class Live extends PluginAbstract {
     public function getPosterThumbsImage($users_id, $live_servers_id) {
         global $global;
         $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
-        
+
         if (!file_exists($global['systemRootPath'] . $file)) {
             $file = self::getOnAirImage(false);
         }
@@ -1451,7 +1544,7 @@ class Live extends PluginAbstract {
             if (!empty($_GET['limitOnceToOne'])) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);
-            }else{
+            } else {
                 $_REQUEST['rowCount'] = getRowCount();
                 if (!empty($_REQUEST['rowCount'])) {
                     $sql .= " LIMIT {$_REQUEST['rowCount']}";
@@ -1511,8 +1604,8 @@ class Live extends PluginAbstract {
         }
         return $videos;
     }
-    
-    static function finishLive($key){
+
+    static function finishLive($key) {
         $lh = LiveTransmitionHistory::finish($key);
     }
 

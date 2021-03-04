@@ -12,7 +12,7 @@ if (!PlayList::canSee($_GET['playlists_id'], User::getId())) {
 }
 
 $video = PlayLists::isPlayListASerie($_GET['playlists_id']);
-if(!empty($video)){
+if (!empty($video)) {
     $video = Video::getVideo($video['id']);
     include $global['systemRootPath'] . 'view/modeYoutube.php';
     exit;
@@ -24,7 +24,12 @@ $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 
 $playListData = array();
 $videoStartSeconds = array();
-foreach ($playList as $value) {
+$users_id = User::getId();
+foreach ($playList as $key => $value) {
+    if(!User::isAdmin() && !Video::userGroupAndVideoGroupMatch($users_id, $value['videos_id'])){
+        unset($playList[$key]);
+        continue;
+    }
     if ($value['type'] === 'embed') {
         $sources[0]['type'] = 'video';
         $sources[0]['url'] = $value["videoLink"];
@@ -52,9 +57,15 @@ foreach ($playList as $value) {
 }
 
 $video = PlayLists::isPlayListASerie($_GET['playlists_id']);
+
 if (!empty($video['id'])) {
     AVideoPlugin::getEmbed($video['id']);
+    setVideos_id($video['id']);
+} else if (!empty($playListData[$playlist_index])) {
+    setVideos_id($playListData[$playlist_index]['id']);
 }
+
+$playlist_index = intval(@$_REQUEST['playlist_index']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -141,7 +152,7 @@ if (!empty($video['id'])) {
                             <div id="main-video" class="embed-responsive embed-responsive-16by9">
 
                                 <video playsinline
-                                <?php if ($config->getAutoplay() && false) { // disable it for now    ?>
+                                <?php if ($config->getAutoplay() && false) { // disable it for now     ?>
                                            autoplay="true"
                                            muted="muted"
                                        <?php } ?>
@@ -228,139 +239,141 @@ if (!empty($video['id'])) {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-youtube/Youtube.js"></script>
         <script>
 
-                                        var playerPlaylist = <?php echo json_encode($playListData); ?>;
-                                        var originalPlayerPlaylist = playerPlaylist;
+                                            var playerPlaylist = <?php echo json_encode($playListData); ?>;
+                                            var originalPlayerPlaylist = playerPlaylist;
 
-                                        if (typeof player === 'undefined') {
-                                            player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                                        }
-
-                                        var videos_id = playerPlaylist[0].videos_id;
-
-                                        player.on('play', function () {
-                                            addView(videos_id, this.currentTime());
-                                        });
-
-                                        player.on('timeupdate', function () {
-                                            var time = Math.round(this.currentTime());
-                                            if (time >= 5 && time % 5 === 0) {
-                                                addView(videos_id, time);
+                                            if (typeof player === 'undefined') {
+                                                player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                             }
-                                        });
 
-                                        player.on('ended', function () {
-                                            var time = Math.round(this.currentTime());
-                                            addView(videos_id, time);
-                                        });
+                                            var videos_id = playerPlaylist[0].videos_id;
 
-                                        player.playlist(playerPlaylist);
-                                        player.playlist.autoadvance(0);
-                                        player.playlist.repeat(true);
-                                        // Initialize the playlist-ui plugin with no option (i.e. the defaults).
-                                        player.playlistUi();
-                                        var timeout;
-                                        $(document).ready(function () {
-
-                                            $("#playListSearch").keyup(function () {
-                                                var filter = $(this).val();
-                                                $(".vjs-playlist-item-list li").each(function () {
-                                                    if ($(this).find('.vjs-playlist-name').text().search(new RegExp(filter, "i")) < 0) {
-                                                        $(this).slideUp();
-                                                    } else {
-                                                        $(this).slideDown();
-                                                    }
-                                                });
+                                            player.on('play', function () {
+                                                addView(videos_id, this.currentTime());
                                             });
 
-                                            $('#embededSortBy').click(function () {
-                                                setTimeout(function () {
-                                                    clearTimeout(timeout);
-                                                }, 2000);
-                                            });
-
-                                            $('#embededSortBy').change(function () {
-                                                var value = $(this).val();
-                                                playerPlaylist.sort(function (a, b) {
-                                                    return compare(a, b, value);
-                                                });
-                                                player.playlist.sort(function (a, b) {
-                                                    return compare(a, b, value);
-                                                });
-                                            });
-
-                                            //Prevent HTML5 video from being downloaded (right-click saved)?
-                                            $('#mainVideo').bind('contextmenu', function () {
-                                                return false;
-                                            });
-
-                                            player.currentTime(playerPlaylist[0].videoStartSeconds);
-                                            $("#modeYoutubeBottomContent").load("<?php echo $global['webSiteRootURL']; ?>view/modeYoutubeBottom.php?videos_id=" + playerPlaylist[0].videos_id);
-                                            $(".vjs-playlist-item ").click(function () {
-
-
-                                            });
-
-                                            player.on('playlistitem', function () {
-                                                index = player.playlist.currentIndex();
-                                                videos_id = playerPlaylist[index].videos_id;
-                                                $("#modeYoutubeBottomContent").load("<?php echo $global['webSiteRootURL']; ?>view/modeYoutubeBottom.php?videos_id=" + playerPlaylist[index].videos_id);
-                                                setTimeout(function () {
-                                                    player.currentTime(playerPlaylist[index].videoStartSeconds);
-                                                }, 500);
-                                                if (typeof enableDownloadProtection === 'function') {
-                                                    enableDownloadProtection();
+                                            player.on('timeupdate', function () {
+                                                var time = Math.round(this.currentTime());
+                                                if (time >= 5 && time % 5 === 0) {
+                                                    addView(videos_id, time);
                                                 }
                                             });
-                                            setTimeout(function () {
-                                                var Button = videojs.getComponent('Button');
-                                                var nextButton = videojs.extend(Button, {
-                                                    //constructor: function(player, options) {
-                                                    constructor: function () {
-                                                        Button.apply(this, arguments);
-                                                        //this.addClass('vjs-chapters-button');
-                                                        this.addClass('next-button');
-                                                        this.addClass('vjs-button-fa-size');
-                                                        this.controlText("Next");
-                                                    },
-                                                    handleClick: function () {
-                                                        player.playlist.next();
-                                                    }
+
+                                            player.on('ended', function () {
+                                                var time = Math.round(this.currentTime());
+                                                addView(videos_id, time);
+                                            });
+
+                                            player.playlist(playerPlaylist);
+                                            player.playlist.autoadvance(0);
+                                            player.playlist.repeat(true);
+                                            // Initialize the playlist-ui plugin with no option (i.e. the defaults).
+                                            player.playlistUi();
+                                            player.playlist.currentItem(<?php echo $playlist_index; ?>);
+
+                                            var timeout;
+                                            $(document).ready(function () {
+
+                                                $("#playListSearch").keyup(function () {
+                                                    var filter = $(this).val();
+                                                    $(".vjs-playlist-item-list li").each(function () {
+                                                        if ($(this).find('.vjs-playlist-name').text().search(new RegExp(filter, "i")) < 0) {
+                                                            $(this).slideUp();
+                                                        } else {
+                                                            $(this).slideDown();
+                                                        }
+                                                    });
                                                 });
 
-// Register the new component
-                                                videojs.registerComponent('nextButton', nextButton);
-                                                player.getChild('controlBar').addChild('nextButton', {}, getPlayerButtonIndex('PlayToggle') + 1);
-                                            }, 30);
+                                                $('#embededSortBy').click(function () {
+                                                    setTimeout(function () {
+                                                        clearTimeout(timeout);
+                                                    }, 2000);
+                                                });
 
-                                        });
-                                        function compare(a, b, type) {
-                                            console.log(type);
-                                            switch (type) {
-                                                case "titleAZ":
-                                                    return strcasecmp(a.name, b.name);
-                                                    break;
-                                                case "titleZA":
-                                                    return strcasecmp(b.name, a.name);
-                                                    break;
-                                                case "newest":
-                                                    return a.created > b.created ? 1 : (a.created < b.created ? -1 : 0);
-                                                    break;
-                                                case "oldest":
-                                                    return b.created > a.created ? 1 : (b.created < a.created ? -1 : 0);
-                                                    break;
-                                                case "popular":
-                                                    return a.likes > b.likes ? 1 : (a.likes < b.likes ? -1 : 0);
-                                                    break;
-                                                default:
-                                                    return 0;
-                                                    break;
+                                                $('#embededSortBy').change(function () {
+                                                    var value = $(this).val();
+                                                    playerPlaylist.sort(function (a, b) {
+                                                        return compare(a, b, value);
+                                                    });
+                                                    player.playlist.sort(function (a, b) {
+                                                        return compare(a, b, value);
+                                                    });
+                                                });
+
+                                                //Prevent HTML5 video from being downloaded (right-click saved)?
+                                                $('#mainVideo').bind('contextmenu', function () {
+                                                    return false;
+                                                });
+
+                                                player.currentTime(playerPlaylist[0].videoStartSeconds);
+                                                $("#modeYoutubeBottomContent").load("<?php echo $global['webSiteRootURL']; ?>view/modeYoutubeBottom.php?videos_id=" + playerPlaylist[0].videos_id);
+                                                $(".vjs-playlist-item ").click(function () {
+
+
+                                                });
+
+                                                player.on('playlistitem', function () {
+                                                    index = player.playlist.currentIndex();
+                                                    videos_id = playerPlaylist[index].videos_id;
+                                                    $("#modeYoutubeBottomContent").load("<?php echo $global['webSiteRootURL']; ?>view/modeYoutubeBottom.php?videos_id=" + playerPlaylist[index].videos_id);
+                                                    setTimeout(function () {
+                                                        player.currentTime(playerPlaylist[index].videoStartSeconds);
+                                                    }, 500);
+                                                    if (typeof enableDownloadProtection === 'function') {
+                                                        enableDownloadProtection();
+                                                    }
+                                                });
+                                                setTimeout(function () {
+                                                    var Button = videojs.getComponent('Button');
+                                                    var nextButton = videojs.extend(Button, {
+                                                        //constructor: function(player, options) {
+                                                        constructor: function () {
+                                                            Button.apply(this, arguments);
+                                                            //this.addClass('vjs-chapters-button');
+                                                            this.addClass('next-button');
+                                                            this.addClass('vjs-button-fa-size');
+                                                            this.controlText("Next");
+                                                        },
+                                                        handleClick: function () {
+                                                            player.playlist.next();
+                                                        }
+                                                    });
+
+// Register the new component
+                                                    videojs.registerComponent('nextButton', nextButton);
+                                                    player.getChild('controlBar').addChild('nextButton', {}, getPlayerButtonIndex('PlayToggle') + 1);
+                                                }, 30);
+
+                                            });
+                                            function compare(a, b, type) {
+                                                console.log(type);
+                                                switch (type) {
+                                                    case "titleAZ":
+                                                        return strcasecmp(a.name, b.name);
+                                                        break;
+                                                    case "titleZA":
+                                                        return strcasecmp(b.name, a.name);
+                                                        break;
+                                                    case "newest":
+                                                        return a.created > b.created ? 1 : (a.created < b.created ? -1 : 0);
+                                                        break;
+                                                    case "oldest":
+                                                        return b.created > a.created ? 1 : (b.created < a.created ? -1 : 0);
+                                                        break;
+                                                    case "popular":
+                                                        return a.likes > b.likes ? 1 : (a.likes < b.likes ? -1 : 0);
+                                                        break;
+                                                    default:
+                                                        return 0;
+                                                        break;
+                                                }
                                             }
-                                        }
-                                        function strcasecmp(s1, s2) {
-                                            s1 = (s1 + '').toLowerCase();
-                                            s2 = (s2 + '').toLowerCase();
-                                            return s1 > s2 ? 1 : (s1 < s2 ? -1 : 0);
-                                        }
+                                            function strcasecmp(s1, s2) {
+                                                s1 = (s1 + '').toLowerCase();
+                                                s2 = (s2 + '').toLowerCase();
+                                                return s1 > s2 ? 1 : (s1 < s2 ? -1 : 0);
+                                            }
         </script>
     </body>
 </html>

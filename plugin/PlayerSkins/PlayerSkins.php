@@ -82,8 +82,8 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showLoopButton && !isLive()) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.css\" rel=\"stylesheet\" type=\"text/css\"/>";
-            $css .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.js\"></script>";
+            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.css?". filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.css")."\" rel=\"stylesheet\" type=\"text/css\"/>";
+            $css .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.js?". filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.js")."\"></script>";
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"
@@ -214,7 +214,9 @@ class PlayerSkins extends PluginAbstract {
             $currentTime = self::getCurrentTime();
         }
         if (empty($noReadyFunction)) {
-            $js .= "var originalVideo; "
+            $js .= "var originalVideo;
+                var adTagOptions;
+            var _adTagUrl = '{$IMAADTag}'; var player; "
                     . "$(document).ready(function () {";
         }
         $js .= "
@@ -224,7 +226,7 @@ class PlayerSkins extends PluginAbstract {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
             ";
         if (!empty($IMAADTag) && !isLive()) {
-            $js .= "var options = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(options);";
+            $js .= "adTagOptions = {id: 'mainVideo', adTagUrl: '{$IMAADTag}', autoPlayAdBreaks:false}; player.ima(adTagOptions);";
             $js .= "setInterval(function(){ fixAdSize(); }, 300);
                 // first time it's clicked.
                 var startEvent = 'click';";
@@ -246,7 +248,19 @@ class PlayerSkins extends PluginAbstract {
                 }";
             }
 
-            $js .= "player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
+            $js .= "
+                player.on('adsready', function () {
+                    console.log('reloadAds adIsReady ');
+                    player.ima.setAdBreakReadyListener(function() {console.log('Ads playAdBreak()');player.ima.playAdBreak();});
+                });player.on('ads-ad-started', function () {
+                    console.log('ads-ad-started');
+                });player.on('ads-manager', function (a) {
+                    console.log('ads-manager', a);
+                });player.on('ads-manager', function (a) {
+                    console.log('ads-loader', a);
+                });player.on('ads-manager', function (a) {
+                    console.log('ads-request', a);
+                });player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
         }
 
         $js .= "}
@@ -309,10 +323,21 @@ class PlayerSkins extends PluginAbstract {
             return false;
         }
         $video = new Video("", "", $videos_id);
-        if (empty($nextURL)) {
-            $next_video = Video::getVideo($video->getNext_videos_id());
-            if (!empty($next_video['id'])) {
-                $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
+        if (!empty($video) && empty($nextURL)) {
+            if(!empty($video->getNext_videos_id())){
+                $next_video = Video::getVideo($video->getNext_videos_id());
+                if (!empty($next_video['id'])) {
+                    $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
+                }
+            }else{
+                $catName = @$_GET['catName'];
+                $cat = new Category($video->getCategories_id());
+                $_GET['catName'] = $cat->getClean_name();
+                $next_video = Video::getVideo('', 'viewable', false, true);
+                $_GET['catName'] = $catName;
+                if (!empty($next_video['id'])) {
+                    $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
+                }
             }
         }
         $url = Video::getURLFriendly($videos_id);
@@ -340,7 +365,7 @@ class PlayerSkins extends PluginAbstract {
 
         if (!empty($nextURL)) {
             $js .= "playNextURL = '{$nextURL}';";
-            $js .= "player.on('ended', function () {setTimeout(function(){playNext(playNextURL);},playerHasAds()?2000:500);});";
+            $js .= "player.on('ended', function () {setTimeout(function(){if(playNextURL){playNext(playNextURL);}},playerHasAds()?2000:500);});";
         }
         self::getStartPlayerJS($js);
         return true;

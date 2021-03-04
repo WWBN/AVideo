@@ -166,7 +166,9 @@ function setPlayerListners() {
             clearTimeout(promisePlayTimeout);
             console.log("setPlayerListners: play");
             //userIsControling = true;
-            pauseIfIsPlayinAdsInterval = setInterval(function(){pauseIfIsPlayinAds();},500);
+            pauseIfIsPlayinAdsInterval = setInterval(function () {
+                pauseIfIsPlayinAds();
+            }, 500);
         });
 
         $("#mainVideo .vjs-mute-control").click(function () {
@@ -232,6 +234,42 @@ function changeVideoSrcLoad() {
             }, 1000);
         }
     });
+}
+var _reloadAdsTimeout;
+var isReloadingAds = false;
+function reloadAds() {
+    if (isReloadingAds) {
+        return false;
+    }
+    isReloadingAds = true;
+    setTimeout(function () {
+        isReloadingAds = false;
+    }, 500);
+    clearTimeout(_reloadAdsTimeout);
+    console.log('reloadAds ');
+    if (playerIsReady() && player.ima) {
+        try {
+            console.log('reloadAds player.ima.getAdsManager()', player.ima.getAdsManager());
+            if (player.ima.getAdsManager()) {
+                player.ima.requestAds();
+            }
+            player.ima.changeAdTag(null);
+            player.ima.setContentWithAdTag(null, _adTagUrl, false);
+            player.ima.changeAdTag(_adTagUrl);
+            setTimeout(function () {
+                player.ima.requestAds();
+                console.log('reloadAds done');
+            }, 2000);
+                player.ima.requestAds();
+        } catch (e) {
+            console.log('reloadAds ERROR', e.message);
+
+        }
+    } else {
+        _reloadAdsTimeout = setTimeout(function () {
+            reloadAds();
+        }, 200);
+    }
 }
 
 
@@ -424,7 +462,7 @@ var browserPreventShowed = false;
 var playerPlayTimeout;
 function playerPlay(currentTime) {
     clearTimeout(playerPlayTimeout);
-    if(playerIsPlayingAds()){
+    if (playerIsPlayingAds()) {
         return false;
     }
     if (currentTime) {
@@ -660,13 +698,21 @@ function playNext(url) {
                         $('topInfo').hide();
                         playNextURL = isEmbed ? response.nextURLEmbed : response.nextURL;
                         console.log("New playNextURL", playNextURL);
-                        if (!changeVideoSrc(player, response.sources)) {
+                        var cSource = false;
+                        try {
+                            cSource = changeVideoSrc(player, response.sources);
+                        } catch (e) {
+                            console.log('changeVideoSrc', e.message);
+                        }
+                        if (!cSource) {
                             document.location = url;
                             return false;
                         }
                         $('video, #mainVideo').attr('poster', response.poster);
                         history.pushState(null, null, url);
-                        $('.vjs-thumbnail-holder, .vjs-thumbnail-holder img').attr('src', response.sprits);
+                        $('.topInfoTitle, title').text(response.title);
+                        $('#topInfo img').attr('src', response.userPhoto);
+                        $('#topInfo a').attr('href', response.url);
                         modal.hidePleaseWait();
                         if ($('#modeYoutubeBottom').length) {
                             $.ajax({
@@ -859,7 +905,7 @@ function isPlayNextEnabled() {
 }
 
 function avideoAlert(title, msg, type) {
-    if(typeof msg == 'undefined'){
+    if (typeof msg == 'undefined') {
         return false;
     }
     if (msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
@@ -980,8 +1026,8 @@ function playerHasAds() {
     return ($("#mainVideo_ima-ad-container").length > 0);
 }
 
-function pauseIfIsPlayinAds(){
-    if(!player.paused() && playerHasAds() && playerIsPlayingAds()){
+function pauseIfIsPlayinAds() {
+    if (!player.paused() && playerHasAds() && playerIsPlayingAds()) {
         player.pause();
     }
 }

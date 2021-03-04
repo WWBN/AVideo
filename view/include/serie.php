@@ -1,6 +1,12 @@
 <?php
 global $isSerie;
 $isSerie = 1;
+
+$link = "{$global['webSiteRootURL']}plugin/PlayLists/embed.php";
+$link = addQueryStringParameter($link, 'playlists_id', $video['serie_playlists_id']);
+$link = addQueryStringParameter($link, 'autoplay', $config->getAutoplay());
+$link = addQueryStringParameter($link, 'playlist_index', @$_REQUEST['playlist_index']);
+
 ?>
 <!-- serie -->
 <div class="row main-video" id="mvideo">
@@ -18,12 +24,7 @@ $isSerie = 1;
 
             <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <div id="main-video" class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php
-                echo $video['serie_playlists_id'];
-                if ($config->getAutoplay()) {
-                    echo "&autoplay=1";
-                }
-                ?>"></iframe>
+                <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php echo $link; ?>"></iframe>
                 <script>
                     $(document).ready(function () {
                         addView(<?php echo $video['id']; ?>, 0);

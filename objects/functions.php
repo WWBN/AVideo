@@ -1076,7 +1076,7 @@ function getVideosURLArticle($fileName) {
     return $files;
 }
 
-function getVideosURLAudio($fileName) {
+function getVideosURLAudio($fileName, $fileNameisThePath=false) {
     global $global;
     if (empty($fileName)) {
         return array();
@@ -1085,15 +1085,25 @@ function getVideosURLAudio($fileName) {
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-
-    $source = Video::getSourceFile($fileName, ".mp3");
-    $file = $source['path'];
-    $files["mp3"] = array(
-        'filename' => "{$fileName}.mp3",
-        'path' => $file,
-        'url' => $source['url'],
-        'type' => 'audio',
-    );
+    if($fileNameisThePath){
+        $filename = str_replace(getVideosDir(), '', $fileName);
+        $url = "{$global['webSiteRootURL']}videos/{$filename}";
+        $files["mp3"] = array(
+            'filename' => $filename,
+            'path' => $fileName,
+            'url' => $url,
+            'type' => 'audio',
+        );
+    }else{
+        $source = Video::getSourceFile($fileName, ".mp3");
+        $file = $source['path'];
+        $files["mp3"] = array(
+            'filename' => "{$fileName}.mp3",
+            'path' => $file,
+            'url' => $source['url'],
+            'type' => 'audio',
+        );
+    }
 
     $files = array_merge($files, _getImagesURL($fileName, 'audio_wave'));
     $time = microtime();
@@ -1194,7 +1204,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     if (file_exists($pdf)) {
         return getVideosURLPDF($fileName);
     } elseif (file_exists($mp3)) {
-        return getVideosURLAudio($fileName);
+        return getVideosURLAudio($mp3, true);
     }
     $cacheName = "getVideosURL_V2$fileName";
     if (empty($recreateCache)) {
@@ -2057,7 +2067,7 @@ function getSelfUserAgent() {
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if ($debug) {
-        _error_log("url_get_contents: Start $url, $ctx, $timeout");
+        _error_log("url_get_contents: Start $url, $ctx, $timeout ". getSelfURI()." ". getRealIpAddr()." ". json_encode(debug_backtrace()));
     }
     $agent = getSelfUserAgent();
 
@@ -2142,11 +2152,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
         _error_log("url_get_contents: try wget fail {$url}");
     }
 
-    $result = @file_get_contents($url, false, $context);
-    if ($debug) {
-        _error_log("url_get_contents: Last try  {$url}");
-    }
-    return remove_utf8_bom($result);
+    return false;
 }
 
 function getUpdatesFilesArray() {
@@ -4024,6 +4030,7 @@ function URLsAreSameVideo($url1, $url2) {
 
 function getVideos_id() {
     global $_getVideos_id;
+    $videos_id = false;
     if (isset($_getVideos_id)) {
         return $_getVideos_id;
     }
@@ -4036,9 +4043,14 @@ function getVideos_id() {
             }
         }
         setVideos_id($videos_id);
-        return $videos_id;
     }
-    return false;
+    if(empty($videos_id) && !empty($_REQUEST['playlists_id'])){
+        $video = PlayLists::isPlayListASerie($_REQUEST['playlists_id']);
+        if(!empty($video)){
+            $videos_id = $video['id'];
+        }
+    }
+    return $videos_id;
 }
 
 function setVideos_id($videos_id) {
@@ -4349,6 +4361,89 @@ function wget($url, $filename, $debug = false) {
         return true;
     }
     return false;
+}
+
+/**
+ * Copy remote file over HTTP one small chunk at a time.
+ *
+ * @param $infile The full URL to the remote file
+ * @param $outfile The path where to save the file
+ */
+function copyfile_chunked($infile, $outfile) {
+    $chunksize = 10 * (1024 * 1024); // 10 Megs
+
+    /**
+     * parse_url breaks a part a URL into it's parts, i.e. host, path,
+     * query string, etc.
+     */
+    $parts = parse_url($infile);
+    $i_handle = fsockopen($parts['host'], 80, $errstr, $errcode, 5);
+    $o_handle = fopen($outfile, 'wb');
+
+    if ($i_handle == false || $o_handle == false) {
+        return false;
+    }
+
+    if (!empty($parts['query'])) {
+        $parts['path'] .= '?' . $parts['query'];
+    }
+
+    /**
+     * Send the request to the server for the file
+     */
+    $request = "GET {$parts['path']} HTTP/1.1\r\n";
+    $request .= "Host: {$parts['host']}\r\n";
+    $request .= "User-Agent: Mozilla/5.0\r\n";
+    $request .= "Keep-Alive: 115\r\n";
+    $request .= "Connection: keep-alive\r\n\r\n";
+    fwrite($i_handle, $request);
+
+    /**
+     * Now read the headers from the remote server. We'll need
+     * to get the content length.
+     */
+    $headers = array();
+    while(!feof($i_handle)) {
+        $line = fgets($i_handle);
+        if ($line == "\r\n") break;
+        $headers[] = $line;
+    }
+
+    /**
+     * Look for the Content-Length header, and get the size
+     * of the remote file.
+     */
+    $length = 0;
+    foreach($headers as $header) {
+        if (stripos($header, 'Content-Length:') === 0) {
+            $length = (int)str_replace('Content-Length: ', '', $header);
+            break;
+        }
+    }
+
+    /**
+     * Start reading in the remote file, and writing it to the
+     * local file one chunk at a time.
+     */
+    $cnt = 0;
+    while(!feof($i_handle)) {
+        $buf = '';
+        $buf = fread($i_handle, $chunksize);
+        $bytes = fwrite($o_handle, $buf);
+        if ($bytes == false) {
+            return false;
+        }
+        $cnt += $bytes;
+
+        /**
+         * We're done reading when we've reached the conent length
+         */
+        if ($cnt >= $length) break;
+    }
+
+    fclose($i_handle);
+    fclose($o_handle);
+    return $cnt;
 }
 
 function wgetLockFile($url) {
@@ -5221,13 +5316,21 @@ function globVideosDir($filename, $filesOnly = false) {
         return array();
     }
     $cleanfilename = Video::getCleanFilenameFromFile($filename);
+    $dir = getVideosDir();
+    
+    if(is_dir($dir.$filename)){
+        $dir = $dir.$filename;
+        $cleanfilename = '';
+    }
+    
     $pattern = "/{$cleanfilename}.*";
     if (!empty($filesOnly)) {
         $formats = getValidFormats();
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
-    return _glob(getVideosDir() . "", $pattern);
+    
+    return _glob($dir, $pattern);
 }
 
 function getValidFormats() {
@@ -5731,26 +5834,52 @@ function isURL200($url, $forceRecheck = false) {
     if (empty($forceRecheck) && isset($_isURL200[$url])) {
         return $_isURL200[$url];
     }
+    
+    $name = "isURL200".md5($url);
+    $result = ObjectYPT::getCache($name, 30);
+    if(!empty($result)){
+        $object = json_decode($result);
+        return $object->result;
+    }
+    
+    $object = new stdClass();
+    $object->url = $url;
+    $object->forceRecheck = $forceRecheck;
+    
     //error_log("isURL200 checking URL {$url}");
     $headers = @get_headers($url);
     if (!is_array($headers)) {
         $headers = array($headers);
     }
+    
+    $object->result = $_isURL200[$url] = false;
     foreach ($headers as $value) {
         if (
                 strpos($value, '200') ||
                 strpos($value, '302') ||
                 strpos($value, '304')
         ) {
-            $_isURL200[$url] = true;
-            return true;
+            $object->result = $_isURL200[$url] = true;
+            break;
         }
     }
-    $_isURL200[$url] = false;
-    return false;
+    
+    ObjectYPT::setCache($name, json_encode($object));
+    
+    return $object->result;
 }
 
 function getStatsNotifications() {
+    global $_getStatsNotifications;
+    
+    if(!isset($_getStatsNotifications)){
+        $_getStatsNotifications = array();
+    }
+    $key = md5(json_encode($_REQUEST));
+    if(isset($_getStatsNotifications[$key])){
+        return $_getStatsNotifications[$key];
+    }
+    
     $json = Live::getStats();
     $json = object_to_array($json);
 
@@ -5804,16 +5933,22 @@ function getStatsNotifications() {
             }
         }
     }
+    $_getStatsNotifications[$key] = $json;
     return $json;
 }
 
 function getSocketConnectionLabel() {
     $html = '<span class="socketStatus">
             <span class="socket_disconnected">
-                <i class="fas fa-times"></i> ' . __('Disconnected') . '
+                <span class="fa-stack">
+  <i class="fas fa-slash fa-stack-1x"></i>
+  <i class="fas fa-plug fa-stack-1x"></i>
+</span> ' . __('Disconnected') . '
             </span>
             <span class="socket_connected">
-                <i class="fas fa-check"></i> ' . __('Connected') . '
+                <span class="fa-stack">
+  <i class="fas fa-plug fa-stack-1x"></i>
+</span>  ' . __('Connected') . '
             </span>
         </span>';
     return $html;

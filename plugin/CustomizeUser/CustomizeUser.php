@@ -122,8 +122,9 @@ class CustomizeUser extends PluginAbstract {
         $obj->afterLogoffGoToMyChannel = false;
         $obj->afterLogoffGoToURL = "";
         $obj->allowDonationLink = false;
-        $obj->allowWalletDirectTransferDonation = false;
         $obj->donationButtonLabel = __('Donation');
+        $obj->allowWalletDirectTransferDonation = false;
+        $obj->donationWalletButtonLabel = __('Donatate from your wallet');
 
         $obj->showEmailVerifiedMark = true;
 

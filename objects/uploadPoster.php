@@ -20,7 +20,7 @@ $obj->videos_id = intval($_GET['video_id']);
 
 header('Content-Type: application/json');
 // A list of permitted file extensions
-$allowed = array('jpg', 'gif', 'pjpg', 'pgif', 'webp');
+$allowed = array('jpg', 'jpeg', 'gif', 'pjpg', 'pgif', 'webp');
 if (!in_array(strtolower($_GET['type']), $allowed)) {
     $obj->msg = "UploadPoster FIle extension not allowed";
     _error_log($obj->msg );

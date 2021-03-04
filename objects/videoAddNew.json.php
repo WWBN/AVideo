@@ -118,7 +118,7 @@ $obj->setExternalOptions(@$_POST['externalOptions']);
 TimeLogEnd(__FILE__, __LINE__);
 $resp = $obj->save(true);
 // if is a new embed video
-if (empty($_POST['id']) && $obj->getType() == 'embed') {
+if (empty($_POST['id']) && ($obj->getType() == 'embed' || $obj->getType() == 'linkVideo' )) {
     AVideoPlugin::afterNewVideo($resp);
 }
 

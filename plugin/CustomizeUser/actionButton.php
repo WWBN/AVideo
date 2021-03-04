@@ -23,7 +23,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
         $captcha = User::getCaptchaForm($uid);
         ?>
         <button class="btn btn-success no-outline" onclick="$('#donationModal<?php echo $uid; ?>').modal();"">
-            <i class="fas fa-donate"></i> <small><?php echo __($obj->donationButtonLabel); ?></small>
+            <i class="fas fa-donate"></i> <small><?php echo __($obj->donationWalletButtonLabel); ?></small>
         </button>   
         <div id="donationModal<?php echo $uid; ?>" class="modal fade" tabindex="-1" role="dialog" >
             <div class="modal-dialog" role="document">

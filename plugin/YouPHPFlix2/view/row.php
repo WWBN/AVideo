@@ -24,15 +24,16 @@ TimeLogStart($timeLog3);
     foreach ($videos as $_index => $value) {
         $uid = "{$uidOriginal}_{$value['id']}";
         $videosCounter++;
+        $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        $ajaxLoad = '';
         if (!empty($value['serie_playlists_id'])) {
-            $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
+            if(empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)){
+                $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
+            }
             $ajaxLoad = $global['webSiteRootURL'].'plugin/YouPHPFlix2/view/modeFlixSerie.php?playlists_id='.$value['serie_playlists_id'];
             $link = PlayLists::getLink($value['serie_playlists_id']);
             $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
             $value['title'] = "<a href='{$link}' embed='{$linkEmbed}'>{$value['title']}</a>";
-        } else {
-            $images = Video::getImageFromFilename($value['filename'], $value['type']);
-            $ajaxLoad = '';
         }
         $imgGif = $images->thumbsGif;
         $img = $images->thumbsJpg;
@@ -100,10 +101,11 @@ TimeLogStart($timeLog3);
 TimeLogEnd($timeLog3, __LINE__);
 foreach ($videos as $_index => $value) {
     $uid = "{$uidOriginal}_{$value['id']}";
+    $images = Video::getImageFromFilename($value['filename'], $value['type']);
     if (!empty($value['serie_playlists_id'])) {
-        $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
-    } else {
-        $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        if(empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)){
+            $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
+        }
     }
     $imgGif = $images->thumbsGif;
     $img = $images->thumbsJpg;
