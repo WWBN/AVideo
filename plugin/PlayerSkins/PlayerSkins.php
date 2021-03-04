@@ -226,7 +226,7 @@ class PlayerSkins extends PluginAbstract {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
             ";
         if (!empty($IMAADTag) && !isLive()) {
-            $js .= "adTagOptions = {id: 'mainVideo', adTagUrl: '{$IMAADTag}'}; player.ima(adTagOptions);";
+            $js .= "adTagOptions = {id: 'mainVideo', adTagUrl: '{$IMAADTag}', autoPlayAdBreaks:false}; player.ima(adTagOptions);";
             $js .= "setInterval(function(){ fixAdSize(); }, 300);
                 // first time it's clicked.
                 var startEvent = 'click';";
@@ -250,9 +250,8 @@ class PlayerSkins extends PluginAbstract {
 
             $js .= "
                 player.on('adsready', function () {
-                    console.log('reloadAds adisready ');
-                    player.ima.resumeAd();
-                    player.pause();
+                    console.log('reloadAds adIsReady ');
+                    player.ima.setAdBreakReadyListener(function() {console.log('Ads playAdBreak()');player.ima.playAdBreak();});
                 });player.on('ads-ad-started', function () {
                     console.log('ads-ad-started');
                 });player.on('ads-manager', function (a) {
