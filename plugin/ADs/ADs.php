@@ -59,14 +59,20 @@ class ADs extends PluginAbstract {
             $o->type = "textarea";
             $o->value = empty($adsense) ? "<center><img src='{$global['webSiteRootURL']}plugin/ADs/sample{$size}.jpg'></center>" : $adsense;
             eval("\$obj->$value[0] = \$o;");
+
+            $width = 728;
+            $height = 90;
+            if (!empty($value[1])) {
+                $width = 300;
+                $height = 250;
+            }
+
+            eval("\$obj->$value[0]Width = {$width};");
+            eval("\$obj->$value[0]Height = {$height};");
         }
 
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
 
-        $obj->rectangleAdsWidth = 728;
-        $obj->rectangleAdsHeight = 90;
-        $obj->squareAdsWidth = 300;
-        $obj->squareAdsHeight = 250;
 
         return $obj;
     }
@@ -182,13 +188,9 @@ class ADs extends PluginAbstract {
         $obj = AVideoPlugin::getObjectData("ADs");
         foreach (ADs::$AdsPositions as $key => $value) {
             if ($type == $value[0]) {
-                $width = $obj->rectangleAdsWidth;
-                $height = $obj->rectangleAdsHeight;
-                if (!empty($value[1])) {
-                    $width = $obj->squareAdsWidth;
-                    $height = $obj->squareAdsHeight;
-                }
-                return array('width' => $width, 'height' => $height);
+                eval("\$width = \$obj->$value[0]Width;");
+                eval("\$height = \$obj->$value[0]Height;");
+                return array('width' => $width, 'height' => $height, 'isMobile'=>preg_match('/mobile/i', $value[0]), 'isSquare'=>$value[1]);
             }
         }
         return array('width' => null, 'height' => null);
@@ -206,10 +208,15 @@ class ADs extends PluginAbstract {
 
         $size = self::getSize($type);
 
-        $width = $size['width'];
-        $height = $size['height'];
+        $style = '';
+        if($size['isSquare']){
+            $width = $size['width'];
+            $height = $size['height'];
+            $style = "width: {$width}px; heigth: {$height}px;";
+        }
+        
 
-        $html = "<center><div id=\"{$id}\" class=\"carousel slide\" data-ride=\"carousel{$id}\" style=\"width: {$width}px; height: {$height}px;\">"
+        $html = "<center><div id=\"{$id}\" class=\"carousel slide\" data-ride=\"carousel{$id}\" style=\"{$style}\">"
                 . "<div class=\"carousel-inner\">";
 
         $active = 'active';
@@ -217,10 +224,10 @@ class ADs extends PluginAbstract {
             $html .= "<div class=\"item {$active}\">";
             if (isValidURL($value['url'])) {
                 $html .= "<a href=\"{$value['url']}\" target=\"_blank\">";
-                $html .= "<img src=\"{$value['imageURL']}\" >";
+                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\" >";
                 $html .= "</a>";
             } else {
-                $html .= "<img src=\"{$value['imageURL']}\" >";
+                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\"  >";
             }
             $html .= "</div>";
             $active = '';
