@@ -1,4 +1,11 @@
+<?php
+CustomizeUser::autoIncludeBGAnimationFile();
+?>
 <br>
+<style>
+    .loginPage{
+    }
+</style>
 <?php
 if (empty($_COOKIE) && empty($_GET['cookieLogin'])) {
     // TODO implement a popup login for cross domain cookie block
@@ -45,7 +52,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     return false;
 }
 ?>
-<div class="row">
+<div class="row loginPage">
     <div class="hidden-xs col-sm-2 col-md-3 "></div>
     <div class="col-xs-12 col-sm-8  col-md-6 addWidthOnMenuOpen">
 
@@ -104,10 +111,10 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                             <div class="col-xs-4 text-right">
                                 <label for="inputRememberMe" ><?php echo __("Remember me"); ?></label>
                             </div>
-                            <div class="col-xs-8">
-                                <div class="material-switch">
+                            <div class="col-xs-8" >
+                                <div class="material-switch" >
                                     <input  id="inputRememberMe" class="form-control"  type="checkbox">
-                                    <label for="inputRememberMe" class="label-success"></label>
+                                    <label for="inputRememberMe" class="label-success"  data-toggle="tooltip" title="<?php echo __("Check this to stay signed in"); ?>"></label>
                                 </div>
                             </div>
                         </div>
@@ -122,7 +129,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                                 <?php
                                 if (empty($advancedCustomUser->disableNativeSignUp)) {
                                     ?>
-                                    <a href="#" class="btn btn-default btn-xs" id="forgotPassword"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></a>
+                                    <a href="#" class="btn btn-default btn-xs" id="forgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></a>
                                     <?php
                                 }
                                 ?>
@@ -138,10 +145,10 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                 <?php
                 if (empty($advancedCustomUser->disableNativeSignUp)) {
                     ?>
-                    <div class="row">
+                    <div class="row" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
                         <div class="col-md-12">
                             <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" 
-                               class="btn btn-default btn-block" ><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
+                               class="btn btn-default btn-block"><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
                         </div>
                     </div>
                     <?php
@@ -153,7 +160,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
 
         <?php
         $login = AVideoPlugin::getLogin();
-        
+
         $totalLogins = 0;
         foreach ($login as $value) {
             if (is_string($value) && file_exists($value)) { // it is a include path for a form
@@ -162,9 +169,9 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                 $totalLogins++;
             }
         }
-        
+
         $columSize = 12;
-        if($totalLogins>1){
+        if ($totalLogins > 1) {
             switch ($totalLogins) {
                 case 2:
                 case 4:
@@ -183,7 +190,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                     break;
             }
         }
-        
+
         foreach ($login as $value) {
             if (is_string($value) && file_exists($value)) {
                 //include $value;
@@ -217,7 +224,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
             }
         }
         ?>
-        <?php 
+        <?php
         if (!empty($advancedCustomUser->messageToAppearBelowLoginBox->value)) {
             echo "<div class='alert alert-info'> <i class=\"fas fa-info-circle\"></i> ";
             echo $advancedCustomUser->messageToAppearBelowLoginBox->value;
@@ -228,6 +235,13 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     <div class="hidden-xs col-sm-2 col-md-3"></div>
 </div>
 <script>
+
+    function loginFormActive() {
+        
+    }
+    function loginFormReset() {
+
+    }
     $(document).ready(function () {
 <?php
 if (!empty($_GET['error'])) {
@@ -260,6 +274,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
 }
 ?>
             modal.showPleaseWait();
+            loginFormActive();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
                 data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": $('#captchaText').val(), "redirectUri": "<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>"},
@@ -276,6 +291,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                             $("#btnReloadCapcha").trigger('click');
                             $('#captchaForm').slideDown();
                         }
+                        loginFormReset();
                     } else {
 
                         document.location = response.redirectUri;

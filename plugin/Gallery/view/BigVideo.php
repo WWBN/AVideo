@@ -14,6 +14,12 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($videoRows)) {
         $videoRows = array($video);
     }
+    $class = '';
+    $classInner = '';
+    if (count($videoRows) > 1) {
+        $class = 'carousel slide';
+        $classInner = 'carousel-inner';
+    }
     ?>
     <style>
         #bigVideoCarousel .carousel-indicators .active {
@@ -22,7 +28,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     </style>
     <div class="row">
         <div class="col-sm-12 fixPadding">
-            <div id="bigVideoCarousel" class="carousel slide" data-ride="carousel">
+            <div id="bigVideoCarousel" class="<?php echo $class; ?> " data-ride="carousel">
                 <?php
                 if (count($videoRows) > 1) {
                     ?>
@@ -38,7 +44,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 }
                 ?>
                 <!-- Wrapper for slides -->
-                <div class="carousel-inner">
+                <div class="<?php echo $classInner; ?>">
                     <?php
                     $count = 0;
                     $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');

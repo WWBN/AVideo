@@ -62,6 +62,8 @@ if (file_exists($path)) {
         if (empty($advancedCustom->doNotUseXsendFile)) {
             //_error_log("X-Sendfile: {$path}");
             header("X-Sendfile: {$path}");
+        }else{
+            _error_log("Careful, we recomend you to use the X-Sendfile and it is disabled on AdvancedCustom plugin -> doNotUseXsendFile, you may have an error 'Allowed Memory Size Exhausted' if your video file is too big", AVideoLog::$WARNING);
         }
     } else {
         $advancedCustom->doNotUseXsendFile = true;

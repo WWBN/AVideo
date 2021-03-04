@@ -14,8 +14,8 @@ if (!empty($advancedCustomUser->disableNativeSignUp)) {
 
 $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
 
-$signInLink = "{$global['webSiteRootURL']}user?redirectUri=".urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : "");
-if(!empty($_GET['siteRedirectUri'])){
+$signInLink = "{$global['webSiteRootURL']}user?redirectUri=" . urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : "");
+if (!empty($_GET['siteRedirectUri'])) {
     $signInLink = $_GET['siteRedirectUri'];
 }
 ?>
@@ -29,9 +29,11 @@ if(!empty($_GET['siteRedirectUri'])){
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
+        CustomizeUser::autoIncludeBGAnimationFile();
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container">
+            <br>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-2"></div>
                 <div class="col-xs-12 col-sm-12 col-lg-8">
@@ -152,51 +154,51 @@ if(!empty($_GET['siteRedirectUri'])){
                         } else {
                             $.ajax({
                                 url: '<?php echo $global['webSiteRootURL']; ?>objects/userCreate.json.php?PHPSESSID=<?php echo session_id(); ?>',
-                                data: {
-                                    "user": $('#inputUser').val(),
-                                    "pass": $('#inputPassword').val(),
-                                    "email": $('#inputEmail').val(),
-                                    "name": $('#inputName').val(),
-                                    "captcha": $('#captchaText').val()
-                                },
-                                type: 'post',
-                                success: function (response) {
-                                    if (response.status > 0) {
-                                        var span = document.createElement("span");
-                                        span.innerHTML = "<?php echo __("Your user account has been created!"); ?><br><?php echo!empty($advancedCustomUser->unverifiedEmailsCanNOTLogin) ? __("Sign in to your email to verify your account!") : ""; ?>";
-                                        swal({
-                                            title: "<?php echo __("Congratulations!"); ?>",
-                                            content: span,
-                                            icon: "success",
-                                        }).then(function () {
-                                            <?php
-                                            if(!empty($_GET['siteRedirectUri'])){
-                                                ?>
-                                                 window.location.href = '<?php echo $_GET['siteRedirectUri']; ?>';    
-                                                <?php
-                                            }else{
-                                                ?>
-                                                window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php echo urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""); ?>';
-                                                <?php
-                                            }
-                                            ?>
-                                             
-                                        });
+                                                    data: {
+                                                        "user": $('#inputUser').val(),
+                                                        "pass": $('#inputPassword').val(),
+                                                        "email": $('#inputEmail').val(),
+                                                        "name": $('#inputName').val(),
+                                                        "captcha": $('#captchaText').val()
+                                                    },
+                                                    type: 'post',
+                                                    success: function (response) {
+                                                        if (response.status > 0) {
+                                                            var span = document.createElement("span");
+                                                            span.innerHTML = "<?php echo __("Your user account has been created!"); ?><br><?php echo!empty($advancedCustomUser->unverifiedEmailsCanNOTLogin) ? __("Sign in to your email to verify your account!") : ""; ?>";
+                                                                                        swal({
+                                                                                            title: "<?php echo __("Congratulations!"); ?>",
+                                                                                            content: span,
+                                                                                            icon: "success",
+                                                                                        }).then(function () {
+<?php
+if (!empty($_GET['siteRedirectUri'])) {
+    ?>
+                                                                                                window.location.href = '<?php echo $_GET['siteRedirectUri']; ?>';
+    <?php
+} else {
+    ?>
+                                                                                                window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php echo urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""); ?>';
+    <?php
+}
+?>
 
-                                    } else {
-                                        if (response.error) {
-                                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
-                                        } else {
-                                            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been created!"); ?>", "error");
-                                        }
-                                    }
-                                    modal.hidePleaseWait();
-                                }
-                            });
-                            return false;
-                        }
-                    });
-                });
+                                                                                                                        });
+
+                                                                                                                    } else {
+                                                                                                                        if (response.error) {
+                                                                                                                            avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
+                                                                                                                        } else {
+                                                                                                                            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been created!"); ?>", "error");
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                    modal.hidePleaseWait();
+                                                                                                                }
+                                                                                                            });
+                                                                                                            return false;
+                                                                                                        }
+                                                                                                    });
+                                                                                                });
             </script>
         </div><!--/.container-->
 

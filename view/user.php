@@ -31,9 +31,6 @@ foreach ($tags as $value) {
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        CustomizeUser::autoIncludeBGAnimationFile();
-        ?>
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container-fluid">

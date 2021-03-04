@@ -260,7 +260,7 @@ function reloadAds() {
                 player.ima.requestAds();
                 console.log('reloadAds done');
             }, 2000);
-                player.ima.requestAds();
+            player.ima.requestAds();
         } catch (e) {
             console.log('reloadAds ERROR', e.message);
 
@@ -1057,13 +1057,14 @@ function countTo(selector, total) {
     }, timeout);
 }
 
-
-
+if (typeof showPleaseWaitTimeOut == 'undefined') {
+    var showPleaseWaitTimeOut = 0;
+}
 $(document).ready(function () {
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
         if (pleaseWaitDiv.length === 0) {
-            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"><h2>Processing...</h2><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div></div></div></div></div></div>').appendTo('body');
+            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
         }
 
         return {
@@ -1071,18 +1072,41 @@ $(document).ready(function () {
                 if (pleaseWaitIsINUse) {
                     return false;
                 }
+                $('#pleaseWaitDialog').removeClass('loaded');
+                $('#pleaseWaitDialog').find('.progress').hide();
+                this.setText('Processing...');
+                $('#pleaseWaitDialog').find('h2').hide();
+                this.setProgress(0);
+                $('#pleaseWaitDialog').find('.progress').hide();
                 pleaseWaitIsINUse = true;
                 pleaseWaitDiv.modal();
             },
             hidePleaseWait: function () {
-                pleaseWaitDiv.modal('hide');
+                setTimeout(function () {
+                    $('#pleaseWaitDialog').addClass('loaded');;
+                }, showPleaseWaitTimeOut/2); 
+                setTimeout(function () {
+                    setTimeout(function () {
+                        this.setText('Processing...');
+                        $('#pleaseWaitDialog').find('h2').hide();
+                        this.setProgress(0);
+                        $('#pleaseWaitDialog').find('.progress').hide();
+                    }, 500);
+                    pleaseWaitDiv.modal('hide');
+                }, showPleaseWaitTimeOut); // wait for loader animation
                 pleaseWaitIsINUse = false;
             },
             setProgress: function (valeur) {
-                pleaseWaitDiv.find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
+                var element = $('#pleaseWaitDialog').find('.progress');
+                console.log(element);
+                element.slideDown();
+                $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
             },
             setText: function (text) {
-                pleaseWaitDiv.find('h2').html(text);
+                var element = $('#pleaseWaitDialog').find('h2');
+                console.log(element);
+                element.slideDown();
+                element.html(text);
             },
         };
     })();
@@ -1135,7 +1159,7 @@ $(document).ready(function () {
             url: webSiteRootURL + 'objects/configurationClearCache.json.php',
             success: function (response) {
                 if (!response.error) {
-                    avideoAlert("Congratulations!", "Your cache has been cleared!", "success");
+                    avideoToastSuccess("Your cache has been cleared!");
                 } else {
                     avideoAlert("Sorry!", "Your cache has NOT been cleared!", "error");
                 }
@@ -1150,7 +1174,7 @@ $(document).ready(function () {
             url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=1',
             success: function (response) {
                 if (!response.error) {
-                    avideoAlert("Congratulations!", "Your First Page cache has been cleared!", "success");
+                    avideoToastSuccess("Your First Page cache has been cleared!");
                 } else {
                     avideoAlert("Sorry!", "Your First Page cache has NOT been cleared!", "error");
                 }
