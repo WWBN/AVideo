@@ -1,3 +1,4 @@
+<br>
 <?php
 if (empty($_COOKIE) && empty($_GET['cookieLogin'])) {
     // TODO implement a popup login for cross domain cookie block
@@ -46,10 +47,13 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
 ?>
 <div class="row">
     <div class="hidden-xs col-sm-2 col-md-3 "></div>
-    <div class="col-xs-12 col-sm-8  col-md-6 list-group-item addWidthOnMenuOpen">
+    <div class="col-xs-12 col-sm-8  col-md-6 addWidthOnMenuOpen">
 
         <div class="panel panel-default">
             <div class="panel-heading">
+                <h2>
+                    <?php echo __('Welcome back!'); ?>
+                </h2>
                 <div class="">
                     <?php
                     if (!empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
@@ -136,7 +140,8 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                     ?>
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" class="btn btn-primary btn-block" ><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" 
+                               class="btn btn-default btn-block" ><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
                         </div>
                     </div>
                     <?php
