@@ -1,0 +1,26 @@
+body {
+    -webkit-animation: fadeIn 1 1s ease-out;
+    -moz-animation: fadeIn 1 1s ease-out;
+    -o-animation: fadeIn 1 1s ease-out;
+    animation: fadeIn 1 1s ease-out;
+}
+
+@-webkit-keyframes fadeIn{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
+
+@-moz-keyframes fadeIn{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
+
+@-o-keyframes fadeIn{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
+
+@keyframes fadeIn{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
