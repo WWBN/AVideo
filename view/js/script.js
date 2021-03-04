@@ -236,27 +236,39 @@ function changeVideoSrcLoad() {
     });
 }
 var _reloadAdsTimeout;
+var isReloadingAds = false;
 function reloadAds() {
+    if (isReloadingAds) {
+        return false;
+    }
+    isReloadingAds = true;
+    setTimeout(function () {
+        isReloadingAds = false;
+    }, 500);
     clearTimeout(_reloadAdsTimeout);
     console.log('reloadAds ');
     if (playerIsReady() && player.ima) {
-        console.log('reloadAds player.ima.getAdsManager', player.ima.getAdsManager());
         try {
+            console.log('reloadAds player.ima.getAdsManager()', player.ima.getAdsManager());
             if (player.ima.getAdsManager()) {
-                console.log('reloadAds player.ima.getAdsManager 1');
-                //player.ima.changeAdTag(_adTagUrl);
-            } else{
-                console.log('reloadAds player.ima.getAdsManager 2');
+                player.ima.requestAds();
             }
-            player.ima.requestAds();
+            player.ima.changeAdTag(null);
+            player.ima.setContentWithAdTag(null, _adTagUrl, false);
+            player.ima.changeAdTag(_adTagUrl);
+            setTimeout(function () {
+                player.ima.requestAds();
+                console.log('reloadAds done');
+            }, 2000);
+                player.ima.requestAds();
         } catch (e) {
             console.log('reloadAds ERROR', e.message);
-            
+
         }
     } else {
         _reloadAdsTimeout = setTimeout(function () {
             reloadAds();
-        }, 1000);
+        }, 200);
     }
 }
 
