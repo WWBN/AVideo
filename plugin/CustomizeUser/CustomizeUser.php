@@ -89,7 +89,7 @@ class CustomizeUser extends PluginAbstract {
 
         
         $o = new stdClass();
-        $o->type = array(0 => '-- ' . __("None"), 1 => '-- ' . __("Random")) + self::getBGAnimationFiles();
+        $o->type = array(0 => '-- ' . __("None"), 1 => '-- ' . __("Random")) + self::getBGAnimationArray();
         $o->value = 1;
         $obj->loginBackgroundAnimation = $o;
 
@@ -149,40 +149,10 @@ class CustomizeUser extends PluginAbstract {
 
         return $obj;
     }
-
-    static function getBGAnimationFiles() {
-        global $global;
-        $files = _glob($global['systemRootPath'] . 'view/css/animatedBackGrounds/', '/.*php/');
-        $response = array();
-        foreach ($files as $key => $value) {
-            $name = str_replace('.php', '', basename($value));
-            $response[$name] = array('path' => $value, 'name' => $name);
-        }
-        return $response;
-    }
-
-    static function includeBGAnimationFile($file) {
-        if (empty($file)) {
-            return false;
-        }
-        $files = self::getBGAnimationFiles();
-        if ($file == 1) {
-            $f = $files[array_rand($files)];
-            echo '<!-- ' . $f['name'] . ' -->';
-            include $f['path'];
-        }
-        foreach ($files as $key => $value) {
-            if($file==$value['name']){
-                include $value['path'];
-                break;
-            }
-        }
-        return true;
-    }
     
-    static function autoIncludeBGAnimationFile() {
+    static function autoIncludeBGAnimationFile() {$baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         $obj = AVideoPlugin::getObjectData('CustomizeUser');
-        self::includeBGAnimationFile($obj->loginBackgroundAnimation->value);
+        Layout::includeBGAnimationFile($obj->loginBackgroundAnimation->value);
     }
 
     public function getUserOptions() {
@@ -198,6 +168,15 @@ class CustomizeUser extends PluginAbstract {
             $userOptions["Checkmark 3"] = "checkmark3";
         }
         return $userOptions;
+    }
+    
+    static function getBGAnimationArray() {
+        $files = Layout::getBGAnimationFiles();
+        $response = array();
+        foreach ($files as $key => $value) {
+            $response[$value['name']] = ucfirst($value['name']);
+        }
+        return $response;
     }
 
     static function canDownloadVideosFromUser($users_id) {
