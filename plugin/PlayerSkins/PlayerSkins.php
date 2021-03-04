@@ -253,6 +253,14 @@ class PlayerSkins extends PluginAbstract {
                     console.log('reloadAds adisready ');
                     player.ima.resumeAd();
                     player.pause();
+                });player.on('ads-ad-started', function () {
+                    console.log('ads-ad-started');
+                });player.on('ads-manager', function (a) {
+                    console.log('ads-manager', a);
+                });player.on('ads-manager', function (a) {
+                    console.log('ads-loader', a);
+                });player.on('ads-manager', function (a) {
+                    console.log('ads-request', a);
                 });player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
         }
 
