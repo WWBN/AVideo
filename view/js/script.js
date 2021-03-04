@@ -240,15 +240,19 @@ function reloadAds() {
     clearTimeout(_reloadAdsTimeout);
     console.log('reloadAds ');
     if (playerIsReady() && player.ima) {
+        console.log('reloadAds player.ima.getAdsManager', player.ima.getAdsManager());
         try {
             if (player.ima.getAdsManager()) {
-                console.log('reloadAds 1 change to ', _adTagUrl);
-                player.ima.changeAdTag(_adTagUrl);
-            } 
+                console.log('reloadAds player.ima.getAdsManager 1');
+                //player.ima.changeAdTag(_adTagUrl);
+            } else{
+                console.log('reloadAds player.ima.getAdsManager 2');
+            }
+            player.ima.requestAds();
         } catch (e) {
             console.log('reloadAds ERROR', e.message);
+            
         }
-        player.ima.requestAds();
     } else {
         _reloadAdsTimeout = setTimeout(function () {
             reloadAds();
