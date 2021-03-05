@@ -52,6 +52,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             -ms-transition: background-color  0.5s linear;
             -o-transition: background-color  0.5s linear;
             transition: background-color  0.5s linear;
+            transition: box-shadow 0.5s ease-in-out;
             z-index: 1000;
             -moz-box-shadow:    0 0 0 #00000000;
             -webkit-box-shadow: 0 0 0 #00000000;
@@ -189,7 +190,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
                         socket_info_container_draging = true;
                     },
                     stop: function (event, ui) {
-                        setTimeout(function(){socket_info_container_draging = false;},500);
+                        setTimeout(function(){socket_info_container_draging = false;},100);
                         var currentPos = $(this).position();
                         Cookies.set('socketInfoPositionTop', currentPos.top, {
                             path: '/',

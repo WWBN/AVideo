@@ -41,23 +41,22 @@ foreach ($tags as $value) {
                 ?>
                 <div class="row">
                     <div>
-                        <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
-                            <div class="panel panel-default">
-                                <div class="panel-heading tabbable-line">
-                                    <div class="pull-right">
-                                        <?php echo $tagsStr; ?>
-                                    </div>
-                                    <ul class="nav nav-tabs">
-                                        <li class="active"><a data-toggle="tab" href="#basicInfo" id="aBasicInfo"><?php echo __("Basic Info") ?></a></li>
-
-                                        <?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>
-                                            <li><a data-toggle="tab" href="#personalInfo" id="aPersonalInfo"><?php echo __("Personal Info") ?></a></li>
-                                        <?php } ?>
-                                        <?php echo AVideoPlugin::profileTabName($user->getId()); ?>
-                                    </ul>
+                        <div class="panel panel-default">
+                            <div class="panel-heading tabbable-line">
+                                <div class="pull-right">
+                                    <?php echo $tagsStr; ?>
                                 </div>
-                                <div class="panel-body">
-                                    <div class="tab-content">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#basicInfo" id="aBasicInfo"><?php echo __("Basic Info") ?></a></li>
+
+                                    <?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>
+                                        <li><a data-toggle="tab" href="#personalInfo" id="aPersonalInfo"><?php echo __("Personal Info") ?></a></li>
+                                    <?php } ?>
+                                    <?php echo AVideoPlugin::profileTabName($user->getId()); ?>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="tab-content">
                                         <div id="basicInfo" class="tab-pane fade in active" style="padding: 10px 0;">
                                             <?php
                                             include $global['systemRootPath'] . './view/userBasicInfo.php';
@@ -71,11 +70,10 @@ foreach ($tags as $value) {
                                                 ?>
                                             </div>
                                         <?php } ?>
-                                        <?php echo AVideoPlugin::profileTabContent($user->getId()); ?>
-                                    </div>
+                                    <?php echo AVideoPlugin::profileTabContent($user->getId()); ?>
                                 </div>
                             </div>
-                        </form>
+                        </div>
 
                     </div>
                 </div>

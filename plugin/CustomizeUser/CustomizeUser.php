@@ -171,6 +171,9 @@ class CustomizeUser extends PluginAbstract {
     }
     
     static function getBGAnimationArray() {
+        if(!class_exists('Layout')){
+            $avideoLayout = AVideoPlugin::getObjectData('Layout');
+        }
         $files = Layout::getBGAnimationFiles();
         $response = array();
         foreach ($files as $key => $value) {

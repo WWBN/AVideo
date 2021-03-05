@@ -15,7 +15,7 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     $msgObj->ip = getRealIpAddr();
     $msgObj->send_to_uri_pattern = $send_to_uri_pattern;
     $msgObj->autoEvalCodeOnHTML = array();
-
+    //var_dump($msgObj);exit;
     if (!empty($_REQUEST['webSocketSelfURI'])) {
         $msgObj->selfURI = $_REQUEST['webSocketSelfURI'];
     } else {

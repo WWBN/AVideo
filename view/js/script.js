@@ -1086,12 +1086,6 @@ $(document).ready(function () {
                     $('#pleaseWaitDialog').addClass('loaded');;
                 }, showPleaseWaitTimeOut/2); 
                 setTimeout(function () {
-                    setTimeout(function () {
-                        this.setText('Processing...');
-                        $('#pleaseWaitDialog').find('h2').hide();
-                        this.setProgress(0);
-                        $('#pleaseWaitDialog').find('.progress').hide();
-                    }, 500);
                     pleaseWaitDiv.modal('hide');
                 }, showPleaseWaitTimeOut); // wait for loader animation
                 pleaseWaitIsINUse = false;

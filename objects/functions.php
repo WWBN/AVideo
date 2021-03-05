@@ -4980,7 +4980,7 @@ function getDomain() {
  * @return string
  */
 function getDeviceID($useRandomString = true) {
-    $ip = getRealIpAddr();
+    $ip = md5(getRealIpAddr());
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         $device = "unknowDevice-{$ip}";
         $device .= '-' . intval(User::getId());
