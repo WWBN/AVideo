@@ -3457,13 +3457,15 @@ function _mysql_close() {
     if (_mysql_is_open()) {
         $mysql_connect_was_closed = 1;
         @$global['mysqli']->close();
+        $global['mysqli'] = false;
     }
 }
 
 function _mysql_is_open() {
     global $global, $mysql_connect_was_closed;
     try {
-        if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
+        //if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
+        if (is_object($global['mysqli']) && empty($mysql_connect_was_closed)) {
             return true;
         }
     } catch (Exception $exc) {
