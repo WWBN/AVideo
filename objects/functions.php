@@ -1265,6 +1265,11 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         TimeLogStart($timeName);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
+            
+            if($parts['filename'] == 'index'){
+                $parts['filename'] = str_replace(getVideosDir(), '', $parts['dirname']);
+            }
+            
             $timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             TimeLogStart($timeName2);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
