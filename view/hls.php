@@ -3,7 +3,7 @@
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     $configFile = '../videos/configuration.php';
-    if(!file_exists($configFile)){
+    if (!file_exists($configFile)) {
         $configFile = '../../videos/configuration.php';
     }
     require_once $configFile;
@@ -18,17 +18,17 @@ if (empty($_GET['videoDirectory'])) {
 
 $video = Video::getVideoFromFileName($_GET['videoDirectory'], true);
 
-$filename = Video::getStoragePath()."{$_GET['videoDirectory']}/index.m3u8";
+$filename = Video::getStoragePath() . "{$_GET['videoDirectory']}/index.m3u8";
 
-if(empty($video) || !file_exists($filename)){
+if (empty($video) || !file_exists($filename)) {
     header("Content-Type: text/plain");
-    if(empty($video)){
+    if (empty($video)) {
         _error_log("HLS.php: Video Not found videoDirectory=({$_GET['videoDirectory']})");
     }
-    if(!file_exists($filename)){
+    if (!file_exists($filename)) {
         _error_log("HLS.php: Video file do not exists ({$filename})");
     }
-    
+
     echo "#EXTM3U
 #EXT-X-VERSION:3
 #EXT-X-STREAM-INF:BANDWIDTH=300000
@@ -40,9 +40,14 @@ if(empty($video) || !file_exists($filename)){
 #EXT-X-STREAM-INF:BANDWIDTH=2000000
 {$global['webSiteRootURL']}plugin/Live/view/loopBGHLS/res720/index.m3u8";
     exit;
+} else {
+
+    if (filesize($filename) < 20) {
+        Video::clearCache($video['id']);
+    }
 }
 
-$_GET['file'] = Video::getStoragePath()."{$_GET['videoDirectory']}/index.m3u8";
+$_GET['file'] = Video::getStoragePath() . "{$_GET['videoDirectory']}/index.m3u8";
 //var_dump($_GET['file']);exit;
 $cachedPath = explode("/", $_GET['videoDirectory']);
 if (empty($_SESSION['user']['sessionCache']['hls'][$cachedPath[0]]) && empty($_GET['download'])) {
@@ -62,10 +67,10 @@ if (!empty($_GET['token'])) {
 $newContent = "";
 // if is using a CDN I can not check if the user is logged
 if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id'])) {
-    
+
     if (!empty($_GET['download'])) {
         downloadHLS($_GET['file']);
-    }else if (!empty($_GET['playHLSasMP4'])) {
+    } else if (!empty($_GET['playHLSasMP4'])) {
         playHLSasMP4($_GET['file']);
     } else {
         $filename = pathToRemoteURL($filename);
