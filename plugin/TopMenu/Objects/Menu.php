@@ -59,7 +59,7 @@ class Menu extends ObjectYPT {
             $sql .= " AND type = $type ";
         }
         $sql .= " ORDER BY menu_order ";
-        
+        _mysql_connect();
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
