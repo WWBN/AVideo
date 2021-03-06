@@ -3762,10 +3762,10 @@ if (!class_exists('Video')) {
             ObjectYPT::deleteCache($filename . "article");
             ObjectYPT::deleteCache($filename . "pdf");
             ObjectYPT::deleteCache($filename . "video");
-            ObjectYPT::deleteCache($filename . ".m3u8");
-            ObjectYPT::deleteCache($filename . ".mp4");
-            ObjectYPT::deleteCache($filename . ".m3u81");
-            ObjectYPT::deleteCache($filename . ".mp41");
+            ObjectYPT::deleteCache(md5($filename . ".m3u8"));
+            ObjectYPT::deleteCache(md5($filename . ".mp4"));
+            ObjectYPT::deleteCache(md5($filename . ".m3u81"));
+            ObjectYPT::deleteCache(md5($filename . ".mp41"));
             Video::clearImageCache($filename);
             Video::clearImageCache($filename, "article");
             Video::clearImageCache($filename, "pdf");
