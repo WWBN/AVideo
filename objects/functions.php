@@ -5307,6 +5307,9 @@ function _glob($dir, $pattern) {
     if ($handle = opendir($dir)) {
         $count = 0;
         while (false !== ($file_name = readdir($handle))) {
+            if($file_name == '.' || $file_name == '..'){
+                continue;
+            }
             if (preg_match($pattern, $file_name)) {
                 $array[] = "{$dir}{$file_name}";
             }
