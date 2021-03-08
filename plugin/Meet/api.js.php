@@ -82,7 +82,7 @@ if (empty($meet_schedule_id)) {
             ConfigOverwrite: {
                 disableDeepLinking: true,
                 disableInviteFunctions: true,
-                openBridgeChannel: 'datachannel'
+                //openBridgeChannel: 'datachannel'
             },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,
