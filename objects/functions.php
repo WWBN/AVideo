@@ -1265,6 +1265,11 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         TimeLogStart($timeName);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
+            
+            if($parts['filename'] == 'index'){
+                $parts['filename'] = str_replace(getVideosDir(), '', $parts['dirname']);
+            }
+            
             $timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             TimeLogStart($timeName2);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
@@ -3457,13 +3462,15 @@ function _mysql_close() {
     if (_mysql_is_open()) {
         $mysql_connect_was_closed = 1;
         @$global['mysqli']->close();
+        $global['mysqli'] = false;
     }
 }
 
 function _mysql_is_open() {
     global $global, $mysql_connect_was_closed;
     try {
-        if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
+        //if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
+        if (is_object($global['mysqli']) && empty($mysql_connect_was_closed)) {
             return true;
         }
     } catch (Exception $exc) {
@@ -4980,7 +4987,7 @@ function getDomain() {
  * @return string
  */
 function getDeviceID($useRandomString = true) {
-    $ip = getRealIpAddr();
+    $ip = md5(getRealIpAddr());
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         $device = "unknowDevice-{$ip}";
         $device .= '-' . intval(User::getId());
@@ -5300,6 +5307,9 @@ function _glob($dir, $pattern) {
     if ($handle = opendir($dir)) {
         $count = 0;
         while (false !== ($file_name = readdir($handle))) {
+            if($file_name == '.' || $file_name == '..'){
+                continue;
+            }
             if (preg_match($pattern, $file_name)) {
                 $array[] = "{$dir}{$file_name}";
             }

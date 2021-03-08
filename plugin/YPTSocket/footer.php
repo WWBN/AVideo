@@ -44,21 +44,22 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             top: <?php echo $socket_info_container_top; ?>px; 
             left: <?php echo $socket_info_container_left; ?>px; 
 
-            background-color: transparent;
+            background-color: rgba(255,255,255,0);
             color: #000;
 
-            -webkit-transition: background  0.5s ease-in-out;
-            -moz-transition: background  0.5s ease-in-out;
-            -ms-transition: background  0.5s ease-in-out;
-            -o-transition: background  0.5s ease-in-out;
-            transition: background  0.5s ease-in-out;
-            opacity: 1;
-
+            -webkit-transition: background-color  0.5s linear;
+            -moz-transition: background-color  0.5s linear;
+            -ms-transition: background-color  0.5s linear;
+            -o-transition: background-color  0.5s linear;
+            transition: background-color  0.5s linear;
+            transition: box-shadow 0.5s ease-in-out;
             z-index: 1000;
+            -moz-box-shadow:    0 0 0 #00000000;
+            -webkit-box-shadow: 0 0 0 #00000000;
+            box-shadow:         0 0 0 #00000000;
 
         }
         #socket_info_container:hover{
-            opacity: 1;
             background-color: rgba(255,255,255,1);
             -moz-box-shadow:    0 0 10px #000000;
             -webkit-box-shadow: 0 0 10px #000000;
@@ -73,14 +74,8 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             opacity: 0.5;
         }
 
-        #socketBtnMaximize{
-            display: none;
-        }
         #socket_info_container.socketMinimized .socketItem{
             display: none;
-        }
-        #socket_info_container.socketMinimized #socketBtnMaximize{
-            display: block;
         }
 
         #socket_info_container .socketItem {
@@ -187,10 +182,15 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         </div>
     </div>
     <script>
+        var socket_info_container_draging = false;
         $(document).ready(function () {
             if (typeof $("#socket_info_container").draggable === 'function') {
                 $("#socket_info_container").draggable({
+                    start: function (event, ui) {
+                        socket_info_container_draging = true;
+                    },
                     stop: function (event, ui) {
+                        setTimeout(function(){socket_info_container_draging = false;},100);
                         var currentPos = $(this).position();
                         Cookies.set('socketInfoPositionTop', currentPos.top, {
                             path: '/',
@@ -227,6 +227,9 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             });
         }
         function socketInfoToogle() {
+            if(socket_info_container_draging){
+                return false;
+            }
             if ($("#socket_info_container").hasClass('socketMinimized')) {
                 socketInfoMaximize();
             } else {

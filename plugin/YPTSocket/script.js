@@ -2,15 +2,18 @@ var socketConnectRequested = 0;
 var totalDevicesOnline = 0;
 var yptSocketResponse;
 
+var socketConnectTimeout;
 function socketConnect() {
     if (socketConnectRequested) {
         return false;
     }
+    clearTimeout(socketConnectTimeout);
     socketConnectRequested = 1;
     var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
     console.log('Trying to reconnect on socket... ');
     conn = new WebSocket(url);
     conn.onopen = function (e) {
+        clearTimeout(socketConnectTimeout);
         console.log("Socket onopen");
         return false;
     };
@@ -57,10 +60,10 @@ function socketConnect() {
     };
     conn.onclose = function (e) {
         socketConnectRequested = 0;
-        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
-        setTimeout(function () {
+        console.log('Socket is closed. Reconnect will be attempted in 15 seconds.', e.reason);
+        socketConnectTimeout = setTimeout(function () {
             socketConnect();
-        }, 1000);
+        }, 15000);
     };
 
     conn.onerror = function (err) {

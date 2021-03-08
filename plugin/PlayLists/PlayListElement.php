@@ -89,7 +89,9 @@ class playListSource {
         if($this->type=="application/x-mpegURL"){
             $obj = AVideoPlugin::getDataObject('VideoHLS');
             if(!empty($obj->downloadProtection)){
-                $this->src .= "?token=".VideoHLS::getToken();
+                if(!preg_match('/token=/', $this->src)){
+                    $this->src = addQueryStringParameter($this->src, token, VideoHLS::getToken());
+                }
             }
         }
     }

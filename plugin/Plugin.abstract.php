@@ -519,6 +519,21 @@ abstract class PluginAbstract {
     function onUserSocketDisconnect(){
         
     }
+
+    function updateParameter($parameterName, $newValue) {
+        $pluginDO = $this->getDataObject();
+        $pluginDB = Plugin::getPluginByName($this->getName());
+
+        foreach ($pluginDO as $key => $value) {
+            if ($key == $parameterName) {
+                $pluginDO->$key = $newValue;
+            }
+        }
+
+        $p = new Plugin($pluginDB['id']);
+        $p->setObject_data(json_encode($pluginDO));
+        return $p->save();
+    }
 }
 
 

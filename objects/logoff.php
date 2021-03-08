@@ -16,3 +16,4 @@ if (!empty($advancedCustomUser->afterLogoffGoToMyChannel)) {
 User::logoff();
 Category::clearCacheCount();
 header("location: {$redirectUri}");
+exit;

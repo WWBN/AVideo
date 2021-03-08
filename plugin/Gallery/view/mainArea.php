@@ -100,8 +100,9 @@
             </div>
             <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
             <script>
+                var $categoriesContainer;
                 $(document).ready(function () {
-                    $container = $('#categoriesContainer').infiniteScroll({
+                    $categoriesContainer = $('#categoriesContainer').infiniteScroll({
                         path: '.pagination__next',
                         append: '.categoriesContainerItem',
                         status: '.scroller-status',
@@ -109,10 +110,10 @@
                         prefill: true,
                         history: false
                     });
-                    $container.on('request.infiniteScroll', function (event, path) {
+                    $categoriesContainer.on('request.infiniteScroll', function (event, path) {
                         //console.log('Loading page: ' + path);
                     });
-                    $container.on('append.infiniteScroll', function (event, response, path, items) {
+                    $categoriesContainer.on('append.infiniteScroll', function (event, response, path, items) {
                         //console.log('Append page: ' + path);
                         lazyImage();
                         avideoSocket();

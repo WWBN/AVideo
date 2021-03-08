@@ -60,13 +60,13 @@ class Message implements MessageComponentInterface {
         $client['ip'] = $json->ip;
         $client['location'] = $json->location;
 
-        _log_message("New connection ($conn->resourceId) {$json->yptDeviceId}");
+        _log_message("New connection ($conn->resourceId) {$json->yptDeviceId} {$client['selfURI']}");
 
         $this->clients[$conn->resourceId] = $client;
 
         if ($this->shouldPropagateInfo($client)) {
             //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
-            $this->msgToAll($conn, array('users_id'=>$client['users_id']), \SocketMessageType::NEW_CONNECTION, true);
+            $this->msgToAll($conn, array('users_id'=>$client['users_id'], 'yptDeviceId'=>$client['yptDeviceId']), \SocketMessageType::NEW_CONNECTION, true);
         } else {
             //_log_message("NOT shouldPropagateInfo ");
         }
