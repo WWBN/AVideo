@@ -120,7 +120,7 @@ foreach ($videos as $_index => $value) {
         $rowLinkEmbed = addQueryStringParameter($rowPlayListLinkEmbed,'playlist_index',$_index);
     }else{
         $rowLink = YouPHPFlix2::getLinkToVideo($value['id'], true);
-        $rowLinkEmbed = YouPHPFlix2::getLinkToVideo($value['id']);
+        $rowLinkEmbed = Video::getLinkToVideo($value['id'], $value['clean_title'], true);
     }
     
     if (empty($value['serie_playlists_id'])) {
