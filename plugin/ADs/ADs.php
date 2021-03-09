@@ -253,7 +253,7 @@ class ADs extends PluginAbstract {
         global $global;
         $js = "<script>$(function(){
             $('.carousel').carousel({
-              interval: 3000
+              interval: 5000
             });
         });</script>";
         return $js;
