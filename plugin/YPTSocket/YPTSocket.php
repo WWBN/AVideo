@@ -62,6 +62,8 @@ class YPTSocket extends PluginAbstract {
         
         $host = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
         
+        $obj->forceNonSecure = false;
+        self::addDataObjectHelper('forceNonSecure', 'Force not to use wss (non secure)');
         $obj->port = "2053";
         self::addDataObjectHelper('port', 'Server Port', 'You also MUST open this port on the firewall');
         $obj->host = $host;
