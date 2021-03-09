@@ -19,26 +19,31 @@ $SocketSendObj->webSocketToken = _test_getEncryptedInfo();
 $url = "://{$address}:{$port}?webSocketToken={$SocketSendObj->webSocketToken}";
 $SocketURL = 'ws' . $url;
 _test_send($SocketURL, 'ws');
-$SocketURL = 'wss' . $url;
-_test_send($SocketURL, 'wss');
-
+if (empty($socketobj->forceNonSecure)) {
+    $SocketURL = 'wss' . $url;
+    _test_send($SocketURL, 'wss');
+}
 $url = "://localhost:{$port}?webSocketToken={$SocketSendObj->webSocketToken}";
 $SocketURL = 'ws' . $url;
 _test_send($SocketURL, 'ws');
-$SocketURL = 'wss' . $url;
-_test_send($SocketURL, 'wss');
+if (empty($socketobj->forceNonSecure)) {
+    $SocketURL = 'wss' . $url;
+    _test_send($SocketURL, 'wss');
+}
 
 $url = "://127.0.0.1:{$port}?webSocketToken={$SocketSendObj->webSocketToken}";
 $SocketURL = 'ws' . $url;
 _test_send($SocketURL, 'ws');
-$SocketURL = 'wss' . $url;
-_test_send($SocketURL, 'wss');
+if (empty($socketobj->forceNonSecure)) {
+    $SocketURL = 'wss' . $url;
+    _test_send($SocketURL, 'wss');
+}
 
 function _test_send($SocketURL, $msg) {
     global $SocketSendObj;
     echo PHP_EOL . "** Testing {$SocketURL} [$msg]" . PHP_EOL;
     $SocketSendObj->msg = "Testing [$msg] " . date('Y/m/d H:i:s');
-    
+
     \Ratchet\Client\connect($SocketURL)->then(function($conn) {
         global $SocketSendObj;
         $conn->on('message', function($msg) use ($conn) {
