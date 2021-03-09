@@ -64,8 +64,6 @@ class YPTSocket extends PluginAbstract {
         
         $obj->forceNonSecure = false;
         self::addDataObjectHelper('forceNonSecure', 'Force not to use wss (non secure)', 'This is good if a reverse proxy is giving you a SSL');
-        $obj->forceLocalhost = false;
-        self::addDataObjectHelper('forceLocalhost', 'Force use 127.0.0.1 as a local server', 'This is good for a reverse proxy');
         $obj->port = "2053";
         self::addDataObjectHelper('port', 'Server Port', 'You also MUST open this port on the firewall');
         $obj->host = $host;
