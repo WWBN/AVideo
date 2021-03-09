@@ -12,6 +12,7 @@ class ADs extends PluginAbstract {
         , array('leaderBoardMiddle', 0)
         , array('sideRectangle', 1)
         , array('leaderBoardBigVideoMobile', 1)
+        , array('leaderBoardTopMobile', 1)
         , array('leaderBoardTopMobile2', 1)
         , array('channelLeaderBoardTopMobile', 1)
         , array('leaderBoardMiddleMobile', 1));
