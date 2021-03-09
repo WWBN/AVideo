@@ -26,7 +26,7 @@ $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
 
 echo "Starting AVideo Socket server version {$SocketDataObj->serverVersion} on port {$SocketDataObj->port}".PHP_EOL;
 
-if(strtolower($scheme)!=='https'){
+if(strtolower($scheme)!=='https' || !empty($SocketDataObj->forceNonSecure)){
     echo "Your socket server does NOT use a secure connection".PHP_EOL;
     $server = IoServer::factory(
                     new HttpServer(
