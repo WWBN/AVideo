@@ -22,8 +22,11 @@ session_write_close();
 $SocketDataObj->port = intval($SocketDataObj->port);
 _error_log("Starting Socket server at port {$SocketDataObj->port}");
 killProcessOnPort();
-$scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
-
+if(!empty($SocketDataObj->forceLocalhost)){
+    $scheme = '127.0.0.1';
+}else{
+    $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
+}
 echo "Starting AVideo Socket server version {$SocketDataObj->serverVersion} on port {$SocketDataObj->port}".PHP_EOL;
 
 if(strtolower($scheme)!=='https' || !empty($SocketDataObj->forceNonSecure)){
