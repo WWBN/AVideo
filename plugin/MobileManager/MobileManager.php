@@ -46,6 +46,7 @@ class MobileManager extends PluginAbstract {
         $obj->hideTabTrending = false;
         $obj->hideTabLive = false;
         $obj->hideTabSubscription = false;
+        $obj->hideTabChat2 = false;
         $obj->hideTabPlayLists = false;
         $obj->hideViewsCounter = false;
         $obj->hideLikes = false;

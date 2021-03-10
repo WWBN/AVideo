@@ -118,11 +118,24 @@ function humanTiming($time, $precision = 0) {
     return secondsToHumanTiming($time, $precision);
 }
 
-function humanTimingAgo($time, $precision = 0) {
+/**
+ * 
+ * @param type $time
+ * @param type $precision
+ * @param type $useDatabaseTime good if you are checking the created time
+ * @return type
+ */
+function humanTimingAgo($time, $precision = 0, $useDatabaseTime = true) {
     if (!is_int($time)) {
         $time = strtotime($time);
     }
-    $time = time() - $time; // to get the time since that moment
+
+    if ($useDatabaseTime) {
+        $time = getDatabaseTime() - $time; // to get the time since that moment
+    } else {
+        $time = time() - $time; // to get the time since that moment
+    }
+
     if (empty($time)) {
         return __("Now");
     }
@@ -1076,7 +1089,7 @@ function getVideosURLArticle($fileName) {
     return $files;
 }
 
-function getVideosURLAudio($fileName, $fileNameisThePath=false) {
+function getVideosURLAudio($fileName, $fileNameisThePath = false) {
     global $global;
     if (empty($fileName)) {
         return array();
@@ -1085,7 +1098,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath=false) {
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-    if($fileNameisThePath){
+    if ($fileNameisThePath) {
         $filename = str_replace(getVideosDir(), '', $fileName);
         $url = "{$global['webSiteRootURL']}videos/{$filename}";
         $files["mp3"] = array(
@@ -1094,7 +1107,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath=false) {
             'url' => $url,
             'type' => 'audio',
         );
-    }else{
+    } else {
         $source = Video::getSourceFile($fileName, ".mp3");
         $file = $source['path'];
         $files["mp3"] = array(
@@ -1265,11 +1278,11 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         TimeLogStart($timeName);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
-            
-            if($parts['filename'] == 'index'){
+
+            if ($parts['filename'] == 'index') {
                 $parts['filename'] = str_replace(getVideosDir(), '', $parts['dirname']);
             }
-            
+
             $timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             TimeLogStart($timeName2);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
@@ -2072,7 +2085,7 @@ function getSelfUserAgent() {
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if ($debug) {
-        _error_log("url_get_contents: Start $url, $ctx, $timeout ". getSelfURI()." ". getRealIpAddr()." ". json_encode(debug_backtrace()));
+        _error_log("url_get_contents: Start $url, $ctx, $timeout " . getSelfURI() . " " . getRealIpAddr() . " " . json_encode(debug_backtrace()));
     }
     $agent = getSelfUserAgent();
 
@@ -4051,9 +4064,9 @@ function getVideos_id() {
         }
         setVideos_id($videos_id);
     }
-    if(empty($videos_id) && !empty($_REQUEST['playlists_id'])){
+    if (empty($videos_id) && !empty($_REQUEST['playlists_id'])) {
         $video = PlayLists::isPlayListASerie($_REQUEST['playlists_id']);
-        if(!empty($video)){
+        if (!empty($video)) {
             $videos_id = $video['id'];
         }
     }
@@ -4410,9 +4423,10 @@ function copyfile_chunked($infile, $outfile) {
      * to get the content length.
      */
     $headers = array();
-    while(!feof($i_handle)) {
+    while (!feof($i_handle)) {
         $line = fgets($i_handle);
-        if ($line == "\r\n") break;
+        if ($line == "\r\n")
+            break;
         $headers[] = $line;
     }
 
@@ -4421,9 +4435,9 @@ function copyfile_chunked($infile, $outfile) {
      * of the remote file.
      */
     $length = 0;
-    foreach($headers as $header) {
+    foreach ($headers as $header) {
         if (stripos($header, 'Content-Length:') === 0) {
-            $length = (int)str_replace('Content-Length: ', '', $header);
+            $length = (int) str_replace('Content-Length: ', '', $header);
             break;
         }
     }
@@ -4433,7 +4447,7 @@ function copyfile_chunked($infile, $outfile) {
      * local file one chunk at a time.
      */
     $cnt = 0;
-    while(!feof($i_handle)) {
+    while (!feof($i_handle)) {
         $buf = '';
         $buf = fread($i_handle, $chunksize);
         $bytes = fwrite($o_handle, $buf);
@@ -4445,7 +4459,8 @@ function copyfile_chunked($infile, $outfile) {
         /**
          * We're done reading when we've reached the conent length
          */
-        if ($cnt >= $length) break;
+        if ($cnt >= $length)
+            break;
     }
 
     fclose($i_handle);
@@ -5307,7 +5322,7 @@ function _glob($dir, $pattern) {
     if ($handle = opendir($dir)) {
         $count = 0;
         while (false !== ($file_name = readdir($handle))) {
-            if($file_name == '.' || $file_name == '..'){
+            if ($file_name == '.' || $file_name == '..') {
                 continue;
             }
             if (preg_match($pattern, $file_name)) {
@@ -5327,19 +5342,19 @@ function globVideosDir($filename, $filesOnly = false) {
     }
     $cleanfilename = Video::getCleanFilenameFromFile($filename);
     $dir = getVideosDir();
-    
-    if(is_dir($dir.$filename)){
-        $dir = $dir.$filename;
+
+    if (is_dir($dir . $filename)) {
+        $dir = $dir . $filename;
         $cleanfilename = '';
     }
-    
+
     $pattern = "/{$cleanfilename}.*";
     if (!empty($filesOnly)) {
         $formats = getValidFormats();
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
-    
+
     return _glob($dir, $pattern);
 }
 
@@ -5513,7 +5528,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -5844,24 +5859,24 @@ function isURL200($url, $forceRecheck = false) {
     if (empty($forceRecheck) && isset($_isURL200[$url])) {
         return $_isURL200[$url];
     }
-    
-    $name = "isURL200".md5($url);
+
+    $name = "isURL200" . md5($url);
     $result = ObjectYPT::getCache($name, 30);
-    if(!empty($result)){
+    if (!empty($result)) {
         $object = json_decode($result);
         return $object->result;
     }
-    
+
     $object = new stdClass();
     $object->url = $url;
     $object->forceRecheck = $forceRecheck;
-    
+
     //error_log("isURL200 checking URL {$url}");
     $headers = @get_headers($url);
     if (!is_array($headers)) {
         $headers = array($headers);
     }
-    
+
     $object->result = $_isURL200[$url] = false;
     foreach ($headers as $value) {
         if (
@@ -5873,23 +5888,23 @@ function isURL200($url, $forceRecheck = false) {
             break;
         }
     }
-    
+
     ObjectYPT::setCache($name, json_encode($object));
-    
+
     return $object->result;
 }
 
 function getStatsNotifications() {
     global $_getStatsNotifications;
-    
-    if(!isset($_getStatsNotifications)){
+
+    if (!isset($_getStatsNotifications)) {
         $_getStatsNotifications = array();
     }
     $key = md5(json_encode($_REQUEST));
-    if(isset($_getStatsNotifications[$key])){
+    if (isset($_getStatsNotifications[$key])) {
         return $_getStatsNotifications[$key];
     }
-    
+
     $json = Live::getStats();
     $json = object_to_array($json);
 
@@ -6120,4 +6135,22 @@ function cleanUpRowFromDatabase($row) {
 function getImageTransparent1pxURL() {
     global $global;
     return "{$global['webSiteRootURL']}view/img/transparent1px.png";
+}
+
+function getDatabaseTime() {
+    global $global, $_getDatabaseTime;
+    if(isset($_getDatabaseTime)){
+        return $_getDatabaseTime;
+    }
+    $sql = "SELECT CURRENT_TIMESTAMP";
+    $res = sqlDAL::readSql($sql);
+    $data = sqlDAL::fetchAssoc($res);
+    sqlDAL::close($res);
+    if ($res) {
+        $row = $data;
+    } else {
+        $row = false;
+    }
+    $_getDatabaseTime = strtotime($row['CURRENT_TIMESTAMP']);
+    return $_getDatabaseTime;
 }

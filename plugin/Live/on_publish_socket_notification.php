@@ -8,7 +8,7 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-if(empty($liveTransmitionHistory_id) || empty($users_id) || empty($m3u8)){
+if (empty($liveTransmitionHistory_id) || empty($users_id) || empty($m3u8)) {
     _error_log("NGINX Live::on_publish_socket_notification start");
     if (!isCommandLineInterface()) {
         $obj->msg = "NGINX Live::on_publish_socket_notification Command line only";
@@ -39,6 +39,8 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         }
     }
     $array['live_transmitions_history_id'] = $liveTransmitionHistory_id;
+    $array['users_id'] = $users_id;
+    
     if ($is200) {
         $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($liveTransmitionHistory_id);
     } else {

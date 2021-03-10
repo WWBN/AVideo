@@ -814,6 +814,10 @@ class Live extends PluginAbstract {
             return intval($last['live_servers_id']);
         }
     }
+    
+    static function getLastsLiveHistoriesFromUser($users_id, $count=10) {
+        return LiveTransmitionHistory::getLastsLiveHistoriesFromUser($users_id, $count);
+    }
 
     static function getLinkToLiveFromUsers_idWithLastServersId($users_id) {
         $live_servers_id = self::getLastServersIdFromUser($users_id);
