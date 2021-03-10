@@ -163,6 +163,7 @@ function setPlayerListners() {
         });
 
         player.on('play', function () {
+            isTryingToPlay = false;
             clearTimeout(promisePlayTimeout);
             console.log("setPlayerListners: play");
             //userIsControling = true;
@@ -399,8 +400,15 @@ function addView(videos_id, currentTime) {
     if (last_videos_id == videos_id && last_currentTime == currentTime) {
         return false;
     }
+    if (currentTime > 5 && currentTime % 30 !== 0) { // only update each 30 seconds
+        return false;
+    }
     last_videos_id = videos_id;
     last_currentTime = currentTime;
+    _addView(videos_id, currentTime);
+}
+
+function _addView(videos_id, currentTime) {
     $.ajax({
         url: webSiteRootURL + 'objects/videoAddViewCount.json.php',
         method: 'POST',
@@ -460,7 +468,9 @@ var promisePlayTimeout;
 var promisePlay;
 var browserPreventShowed = false;
 var playerPlayTimeout;
+var isTryingToPlay = false;
 function playerPlay(currentTime) {
+    isTryingToPlay = true;
     clearTimeout(playerPlayTimeout);
     if (playerIsPlayingAds()) {
         return false;
@@ -489,16 +499,16 @@ function playerPlay(currentTime) {
     promisePlaytry--;
     if (typeof player !== 'undefined') {
         if (currentTime) {
-            player.currentTime(currentTime);
+            setCurrentTime(currentTime);
         }
         try {
             console.log("playerPlay: Trying to play", player);
             promisePlay = player.play();
             if (promisePlay !== undefined) {
                 tryToPlay(currentTime);
-                console.log("playerPlay: promise found");
+                console.log("playerPlay: promise found", currentTime);
                 promisePlay.then(function () {
-                    console.log("playerPlay: Autoplay started");
+                    console.log("playerPlay: Autoplay started", currentTime);
                     userIsControling = true;
                     if (player.paused()) {
                         console.log("The video still paused, trying to mute and play");
@@ -665,11 +675,15 @@ function showMuteTooltip() {
 function playerPlayIfAutoPlay(currentTime) {
     if (isAutoplayEnabled()) {
         playerPlayTimeout = setTimeout(function () {
+            console.log('playerPlayIfAutoPlay true', currentTime);
             playerPlay(currentTime);
         }, 200);
         return true;
     }
-    setCurrentTime(currentTime);
+    console.log('playerPlayIfAutoPlay false', currentTime);
+    if (currentTime) {
+        setCurrentTime(currentTime);
+    }
     //$.toast("Autoplay disabled");
     return false;
 }
@@ -823,7 +837,14 @@ function reloadVideoJS() {
 
 var initdone = false;
 function setCurrentTime(currentTime) {
+    console.log('setCurrentTime', currentTime);
     if (typeof player !== 'undefined') {
+        if (isTryingToPlay) {
+            if (currentTime <= player.currentTime()) {
+                console.log('setCurrentTime is trying to play', currentTime);
+                return false; // if is trying to play, only update if the time is greater
+            }
+        }
         player.currentTime(currentTime);
         initdone = false;
         // wait for video metadata to load, then set time 
@@ -976,8 +997,16 @@ function avideoModalIframe(url) {
     }, 1000);
 }
 
-function avideoModalIframeRemove() {
+function avideoModalIframeIsVisible() {
     if ($('.swal-modal-iframe').parent().hasClass('swal-overlay--show-modal')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function avideoModalIframeRemove() {
+    if (avideoModalIframeIsVisible()) {
         setTimeout(function () {
             avideoModalIframeRemove();
         }, 1000);
@@ -1064,7 +1093,7 @@ $(document).ready(function () {
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
         if (pleaseWaitDiv.length === 0) {
-            if(typeof avideoLoader ==  'undefined'){
+            if (typeof avideoLoader == 'undefined') {
                 avideoLoader = '';
             }
             pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
@@ -1086,8 +1115,9 @@ $(document).ready(function () {
             },
             hidePleaseWait: function () {
                 setTimeout(function () {
-                    $('#pleaseWaitDialog').addClass('loaded');;
-                }, showPleaseWaitTimeOut/2); 
+                    $('#pleaseWaitDialog').addClass('loaded');
+                    ;
+                }, showPleaseWaitTimeOut / 2);
                 setTimeout(function () {
                     pleaseWaitDiv.modal('hide');
                 }, showPleaseWaitTimeOut); // wait for loader animation

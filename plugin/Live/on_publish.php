@@ -17,7 +17,14 @@ if (empty($url)) {
     $url = $_POST['swfurl'];
 }
 $parts = parse_url($url);
-parse_str($parts["query"], $_GET);
+if(!empty($parts["query"])){
+    parse_str($parts["query"], $_GET);
+}
+
+if(empty($_GET['p']) && !empty($_POST['p'])){
+    $_GET['p'] = $_POST['p'];
+}
+
 _error_log("NGINX ON Publish parse_url: " . json_encode($parts));
 _error_log("NGINX ON Publish parse_str: " . json_encode($_GET));
 
@@ -51,7 +58,7 @@ if (!empty($_GET['p'])) {
     $_GET['p'] = str_replace("/", "", $_GET['p']);
     _error_log("NGINX ON Publish check if key exists ({$_POST['name']})");
     $obj->row = LiveTransmition::keyExists($_POST['name']);
-    _error_log("NGINX ON Publish key exists return " . json_encode($obj->row));
+    //_error_log("NGINX ON Publish key exists return " . json_encode($obj->row));
     if (!empty($obj->row)) {
         _error_log("NGINX ON Publish new User({$obj->row['users_id']})");
         $user = new User($obj->row['users_id']);
@@ -85,6 +92,7 @@ if (!empty($obj) && empty($obj->error)) {
     _error_log("NGINX ON Publish success");
     http_response_code(200);
     header("HTTP/1.1 200 OK");
+    
     outputAndContinueInBackground();
     _error_log("NGINX Live::on_publish start");
     Live::on_publish($obj->liveTransmitionHistory_id);

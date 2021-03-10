@@ -200,6 +200,9 @@ class LiveTransmitionHistory extends ObjectYPT {
                 $stats['countLiveStream']--;
             }
         }
+        if(empty($stats['hidden_applications'])){
+            $stats['hidden_applications'] = array();
+        }
         foreach ($stats['hidden_applications'] as $k => $value) {
             $value = object_to_array($value);
             if($value['key']==$key){ // application is already in the list

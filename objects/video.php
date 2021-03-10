@@ -3800,6 +3800,10 @@ if (!class_exists('Video')) {
 
             return VideoStatistic::getLastVideoTimeFromVideo($videos_id, $users_id);
         }
+        
+        public static function getLastVideoTimePosition($videos_id, $users_id = 0){
+            return self::getVideoPogress($videos_id, $users_id);
+        }
 
         public static function getVideoPogressPercent($videos_id, $users_id = 0)
         {

@@ -19,4 +19,4 @@ if (json_last_error()) {
     });
     $json = json_encode($rows);
 }
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. $json.'}';
+echo '{  "current": '. getCurrentPage().',"rowCount": '. getRowCount().', "total": '.$total.', "rows":'. $json.'}';

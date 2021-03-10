@@ -198,6 +198,8 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('requestStatsInterval', 'Stats Request Interval', 'how many seconds until request the stats again');
         $obj->streamDeniedMsg = "You can not stream live videos";
         self::addDataObjectHelper('streamDeniedMsg', 'Denied Message', 'We will show this message when a user is not allowed so watch a livestream');
+        $obj->allowMultipleLivesPerUser = true;
+        self::addDataObjectHelper('allowMultipleLivesPerUser', 'Allow Multiple Lives Per User', 'Your users will be able to make unlimited livestreams');
 
         return $obj;
     }
@@ -779,12 +781,20 @@ class Live extends PluginAbstract {
         if (empty($channelName)) {
             return false;
         }
-        $playlists_id_live = "";
-        if (!empty($_REQUEST['playlists_id_live'])) {
-            $playlists_id_live = "?playlists_id_live=" . $_REQUEST['playlists_id_live'];
+        
+        $url = "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName);
+        
+        if (!empty($_REQUEST['live_index'])) {
+            $url .= '/'.urlencode($_REQUEST['live_index']);
         }
+        
+        if (!empty($_REQUEST['playlists_id_live'])) {
+            $url = addQueryStringParameter($url, 'playlists_id_live', $_REQUEST['playlists_id_live']);
+        }
+        
+        
         //return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
-        return "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName) . $playlists_id_live;
+        return $url;
     }
 
     static function getAvailableLiveServersId() {
@@ -1024,7 +1034,7 @@ class Live extends PluginAbstract {
         $xml = $p->getStatsObject($live_servers_id);
         $xml = json_encode($xml);
         $xml = json_decode($xml);
-
+        
         $stream = false;
         $lifeStream = array();
 
@@ -1038,6 +1048,9 @@ class Live extends PluginAbstract {
                 $xml->server->application[] = $application;
             }
             foreach ($xml->server->application as $key => $application) {
+                if($application->name !== 'live' && $application->name !== 'adaptive'){
+                    continue;
+                }
                 if (!empty($application->live->stream)) {
                     if (empty($lifeStream)) {
                         $lifeStream = array();
@@ -1116,20 +1129,28 @@ class Live extends PluginAbstract {
                 $photo = $u->getPhotoDB();
                 $poster = $global['webSiteRootURL'] . $p->getPosterImage($row['users_id'], $live_servers_id);
 
-                $playlists_id_live = 0;
-                if (preg_match("/.*_([0-9]+)/", $value->name, $matches)) {
-                    if (!empty($matches[1])) {
-                        $_REQUEST['playlists_id_live'] = intval($matches[1]);
-                        $playlists_id_live = $_REQUEST['playlists_id_live'];
-                        $photo = PlayLists::getImage($_REQUEST['playlists_id_live']);
-                        $title = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
-                    }
+                //return array('key'=>$key, 'cleanKey'=>$cleanKey, 'live_index'=>$live_index, 'playlists_id_live'=>$playlists_id_live);
+                $parameters = self::getLiveParametersFromKey($value->name);
+                $playlists_id_live = $parameters['playlists_id_live'];
+                $live_index = $parameters['live_index'];
+                if (!empty($playlists_id_live)) {
+                    $_REQUEST['playlists_id_live'] = $playlists_id_live;
+                    $playlists_id_live = $_REQUEST['playlists_id_live'];
+                    $photo = PlayLists::getImage($_REQUEST['playlists_id_live']);
+                    $title = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
+                }
+                if (!empty($live_index)) {
+                    $_REQUEST['live_index'] = $live_index;
+                }
+                
+                if(!empty($live_index)){
+                    $title .= " ({$live_index})";
                 }
 
-                $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id);
                 // this variable is to keep it compatible for Mobile app
                 $UserPhoto = $photo;
                 $key = LiveTransmition::keyNameFix($value->name);
+                $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id);
                 $m3u8 = self::getM3U8File($key);
                 $obj->applications[] = array(
                     "key" => $key,
@@ -1145,6 +1166,7 @@ class Live extends PluginAbstract {
                     'link' => addQueryStringParameter($link, 'embed', 1),
                     'href' => $link,
                     'playlists_id_live' => $playlists_id_live,
+                    'live_index' => $live_index,
                     'm3u8' => $m3u8,
                     'isURL200' => isURL200($m3u8),
                     'users_id' => $row['users_id']
@@ -1165,6 +1187,69 @@ class Live extends PluginAbstract {
         return $obj;
     }
 
+    static function getLiveParametersFromKey($key){
+        $obj = AVideoPlugin::getObjectData('Live');
+        $playlists_id_live = false;
+        if (preg_match("/.*_([0-9]+)/", $key, $matches)) {
+            if (!empty($matches[1])) {
+                $playlists_id_live = intval($matches[1]);
+            }
+        }
+        $live_index = false;
+        
+        if ($obj->allowMultipleLivesPerUser && preg_match("/.*-([0-9a-zA-Z]+)/", $key, $matches)) {
+            if (!empty($matches[1])) {
+                $live_index = strip_tags($matches[1]);
+            }
+        }
+        $cleanKey = self::cleanUpKey($key);
+        return array('key'=>$key, 'cleanKey'=>$cleanKey, 'live_index'=>$live_index, 'playlists_id_live'=>$playlists_id_live);
+    }
+    
+    static function cleanUpKey($key){
+        if($adapKey = self::isAdaptiveTransmition($key)){
+            $key = $adapKey;
+        }
+        if($plKey = self::isPlayListTransmition($key)){
+            $key = $plKey;
+        }
+        if($subKey = self::isSubTransmition($key)){
+            $key = $subKey;
+        }
+        return $key;
+    }
+    
+    static function isAdaptiveTransmition($key){
+        // check if is a subtransmition
+        $parts = explode("_", $key);
+        if(!empty($parts[1])){
+            $adaptive = array('hi', 'low', 'mid');
+            if(in_array($parts[1], $adaptive)){
+                return $parts[0];;
+            }
+        }
+        return false;
+    }
+    static function isPlayListTransmition($key){
+        // check if is a subtransmition
+        $parts = explode("_", $key);
+        if(!empty($parts[1])){
+            return $parts[0];
+        }else{
+            return false;
+        }
+    }
+    
+    static function isSubTransmition($key){
+        // check if is a subtransmition
+        $parts = explode("-", $key);
+        if(!empty($parts[1])){
+            return $parts[0];
+        }else{
+            return false;
+        }
+    }
+    
     static function getImage($users_id, $live_servers_id, $playlists_id_live = 0) {
         $p = AVideoPlugin::loadPlugin("Live");
         if (self::isLive($users_id)) {
@@ -1295,16 +1380,20 @@ class Live extends PluginAbstract {
         return $lt->getKey();
     }
 
-    public function getImageGif($users_id, $live_servers_id = 0, $playlists_id_live = 0) {
+    public function getImageGif($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = 0) {
         global $global;
         if (empty($live_servers_id)) {
             $live_servers_id = self::getCurrentLiveServersId();
         }
         $u = new User($users_id);
         $username = $u->getUser();
-        $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&u={$username}&format=gif";
+        $file = "plugin/Live/getImage.php";
         $url = $global['webSiteRootURL'] . $file;
+        $url = addQueryStringParameter($url, "live_servers_id", $live_servers_id);
         $url = addQueryStringParameter($url, "playlists_id_live", $playlists_id_live);
+        $url = addQueryStringParameter($url, "live_index", $live_index);
+        $url = addQueryStringParameter($url, "u", $username);
+        $url = addQueryStringParameter($url, "format", 'gif');
         return $url;
     }
 
@@ -1325,7 +1414,7 @@ class Live extends PluginAbstract {
         return $global['webSiteRootURL'] . self::getLivePosterImageRelativePath($users_id, $live_servers_id);
     }
 
-    public function getLivePosterImageRelativePath($users_id, $live_servers_id = 0) {
+    public function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = 0) {
         global $global;
         if (empty($live_servers_id)) {
             $live_servers_id = self::getCurrentLiveServersId();
@@ -1339,7 +1428,8 @@ class Live extends PluginAbstract {
         } else {
             $u = new User($users_id);
             $username = $u->getUser();
-            $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&u={$username}&format=jpg";
+            $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&playlists_id_live={$playlists_id_live}&live_index={$live_index}&u={$username}&format=jpg";
+            
         }
 
         return $file;

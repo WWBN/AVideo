@@ -32,12 +32,12 @@ $users_id = User::getId();
 
 foreach ($playList as $key => $value) {
     $oldValue = $value;
-    
-    if(!User::isAdmin() && !Video::userGroupAndVideoGroupMatch($users_id, $value['videos_id'])){
+
+    if (!User::isAdmin() && !Video::userGroupAndVideoGroupMatch($users_id, $value['videos_id'])) {
         unset($playList[$key]);
         continue;
     }
-    
+
     if ($oldValue['type'] === 'serie' && !empty($oldValue['serie_playlists_id'])) {
         $subPlayList = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
         foreach ($subPlayList as $value) {
@@ -60,7 +60,15 @@ foreach ($playList as $key => $value) {
             if (empty($playListSources)) {
                 continue;
             }
-            $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList subPlaylistCollection-{$oldValue['serie_playlists_id']}");
+            if (User::isLogged()) {
+                $videoStartSeconds = Video::getLastVideoTimePosition($value['videos_id']);
+            }
+
+            if (empty($videoStartSeconds)) {
+                $videoStartSeconds = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
+            }
+
+            $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList subPlaylistCollection-{$oldValue['serie_playlists_id']}");
         }
     } else {
         $sources = getVideosURL($value['filename']);
@@ -82,7 +90,15 @@ foreach ($playList as $key => $value) {
         if (empty($playListSources)) {
             continue;
         }
-        $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList ");
+
+        if (User::isLogged()) {
+            $videoStartSeconds = Video::getLastVideoTimePosition($value['videos_id']);
+        }
+
+        if (empty($videoStartSeconds)) {
+            $videoStartSeconds = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
+        }
+        $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList ");
     }
 }
 
@@ -254,28 +270,29 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js"></script>
         <script>
-
             var embed_playerPlaylist = <?php echo json_encode($playListData); ?>;
             var originalPlayerPlaylist = embed_playerPlaylist;
             var updatePLSourcesTimeout;
             function updatePLSources(_index) {
-                if(_index<0){
+                if (_index < 0) {
                     _index = 0;
                 }
                 clearTimeout(updatePLSourcesTimeout);
                 if (typeof player.updateSrc == 'function' && typeof player.videoJsResolutionSwitcher != 'undefined' && typeof embed_playerPlaylist[_index] != 'undefined' && typeof embed_playerPlaylist[_index].sources != 'undefined') {
                     console.log('updatePLSources', _index);
-                    
                     //player.src(embed_playerPlaylist[_index].sources);
                     player.updateSrc(embed_playerPlaylist[_index].sources);
+                    player.currentTime(embed_playerPlaylist[_index].videoStartSeconds);
                     //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
                     //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
                     //player.updateSrc(embed_playerPlaylist[_index].sources);
                     userIsControling = false;
                     reloadAds();
-                    
+
                     if (typeof embed_playerPlaylist[_index] !== 'undefined') {
-                        playerPlay(embed_playerPlaylist[_index].videoStartSeconds);
+                        updatePLSourcesTimeout = setTimeout(function () {
+                            playerPlay(embed_playerPlaylist[_index].videoStartSeconds);
+                        }, 1000);
                     }
                 } else {
                     updatePLSourcesTimeout = setTimeout(function () {
@@ -286,10 +303,24 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
             }
 
 <?php
-$str = "player.playlist(embed_playerPlaylist);
+$str = "
+            player.playlist(embed_playerPlaylist);
             player.playlist.autoadvance(0);
             player.on('play', function () {
                 addView(embed_playerPlaylist[player.playlist.currentIndex()].videos_id, 0);
+            });
+            player.on('ended', function(){ 
+                embed_playerPlaylist[player.playlist.currentIndex()].videoStartSeconds = 0;
+            });
+            player.on('timeupdate', function () {
+                var time = Math.round(player.currentTime());
+                if (time >= 5) {
+                    embed_playerPlaylist[player.playlist.currentIndex()].videoStartSeconds = time;
+                    if (time % 5 === 0) {
+                        addView(embed_playerPlaylist[player.playlist.currentIndex()].videos_id, time);
+                    }
+                }
+                
             });
             player.on('playlistchange', function() {
                 console.log('event playlistchange');

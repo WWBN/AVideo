@@ -173,14 +173,12 @@ class LiveTransmition extends ObjectYPT {
         if (!is_string($key)) {
             return false;
         }
-        $parts = explode("_", $key);
-        if(!empty($parts[1])){
-            $adaptive = array('hi', 'low', 'mid');
-            if(in_array($parts[1], $adaptive)){
-                return false;
-            }
+        if(Live::isAdaptiveTransmition($key)){
+            return false;
         }
-        $key = $parts[0];
+        $key = Live::cleanUpKey($key);
+        
+        
         $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
@@ -194,7 +192,7 @@ class LiveTransmition extends ObjectYPT {
             $row = false;
         }
         return $row;
-    }
+    }    
 
     function save() {
         $this->public = intval($this->public);
@@ -292,6 +290,10 @@ class LiveTransmition extends ObjectYPT {
     }
     
     static function keyNameFix($key){
+        $key = str_replace('/', '', $key);
+        if(!empty($_REQUEST['live_index']) && !preg_match("/.*-([0-9a-zA-Z]+)/", $key)){
+            $key .= "-{$_REQUEST['live_index']}";
+        }
         if(!empty($_REQUEST['playlists_id_live']) && !preg_match("/.*_([0-9]+)/", $key)){
             $key .= "_{$_REQUEST['playlists_id_live']}";
         }
