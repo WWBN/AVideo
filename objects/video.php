@@ -172,6 +172,7 @@ if (!class_exists('Video')) {
         }
 
         function setLive_transmitions_history_id($live_transmitions_history_id) {
+            AVideoPlugin::onVideoSetLive_transmitions_history_id($this->id, $this->live_transmitions_history_id, intval($live_transmitions_history_id));
             $this->live_transmitions_history_id = intval($live_transmitions_history_id);
         }
                 
@@ -193,22 +194,26 @@ if (!class_exists('Video')) {
         public function setEncoderURL($encoderURL)
         {
             if (filter_var($encoderURL, FILTER_VALIDATE_URL) !== false) {
+                AVideoPlugin::onVideoSetEncoderURL($this->id, $this->encoderURL, $encoderURL);
                 $this->encoderURL = $encoderURL;
             }
         }
 
         public function setFilepath($filepath)
         {
+            AVideoPlugin::onVideoSetFilepath($this->id, $this->filepath, $filepath);
             $this->filepath = $filepath;
         }
 
         public function setFilesize($filesize)
         {
+            AVideoPlugin::onVideoSetFilesize($this->id, $this->filesize, $filesize);
             $this->filesize = intval($filesize);
         }
 
         public function setUsers_id($users_id)
         {
+            AVideoPlugin::onVideoSetUsers_id($this->id, $this->users_id, $users_id);
             $this->users_id = $users_id;
         }
 
@@ -219,6 +224,7 @@ if (!class_exists('Video')) {
 
         public function setSites_id($sites_id)
         {
+            AVideoPlugin::onVideoSetSites_id($this->id, $this->sites_id, $sites_id);
             $this->sites_id = $sites_id;
         }
 
@@ -229,6 +235,7 @@ if (!class_exists('Video')) {
 
         public function setVideo_password($video_password)
         {
+            AVideoPlugin::onVideoSetVideo_password($this->id, $this->video_password, $video_password);
             $this->video_password = trim($video_password);
         }
 
@@ -576,10 +583,13 @@ if (!class_exists('Video')) {
             if (preg_match("/video-automatically-booked/i", $clean_title) && !empty($this->clean_title)) {
                 return false;
             }
-            $this->clean_title = cleanURLName($clean_title);
+            $clean_title = cleanURLName($clean_title);
+            AVideoPlugin::onVideoSetClean_title($this->id, $this->clean_title, $clean_title);
+            $this->clean_title = $clean_title;
         }
 
         public function setDuration($duration){
+            AVideoPlugin::onVideoSetDuration($this->id, $this->duration, $duration);
             $this->duration = $duration;
         }
 
@@ -596,10 +606,12 @@ if (!class_exists('Video')) {
         public function setIsSuggested($isSuggested)
         {
             if (empty($isSuggested) || $isSuggested === "false") {
-                $this->isSuggested = 0;
+                $new_isSuggested = 0;
             } else {
-                $this->isSuggested = 1;
+                $new_isSuggested = 1;
             }
+            AVideoPlugin::onVideoSetIsSuggested($this->id, $this->isSuggested, $new_isSuggested);
+            $this->isSuggested = $new_isSuggested;
         }
 
         public function setStatus($status)
@@ -613,12 +625,14 @@ if (!class_exists('Video')) {
                 }
                 self::deleteTagsAsync($this->id);
             }
+            AVideoPlugin::onVideoSetStatus($this->id, $this->status, $status);
             $this->status = $status;
         }
 
         public function setType($type, $force = true)
         {
             if ($force || empty($this->type)) {
+                AVideoPlugin::onVideoSetType($this->id, $this->type, $type, $force);
                 $this->type = $type;
             }
         }
@@ -626,6 +640,7 @@ if (!class_exists('Video')) {
         public function setRotation($rotation)
         {
             $saneRotation = intval($rotation) % 360;
+            AVideoPlugin::onVideoSetRotation($this->id, $this->rotation, $saneRotation);
 
             if (!empty($this->id)) {
                 global $global;
@@ -665,6 +680,7 @@ if (!class_exists('Video')) {
                 }
             }
 
+            AVideoPlugin::onVideoSetZoom($this->id, $this->zoom, $saneZoom);
             $this->zoom = $saneZoom;
         }
 
@@ -1911,10 +1927,12 @@ if (!class_exists('Video')) {
                 if (!empty($parts[1])) {
                     $parts = explode("</body>", $parts[1]);
                 }
-                $this->description = $parts[0];
+                $new_description = $parts[0];
             } else {
-                $this->description = strip_tags(br2nl($description));
+                $new_description = strip_tags(br2nl($description));
             }
+            AVideoPlugin::onVideoSetDescription($this->id, $this->description, $new_description);
+            $this->description = $new_description;
             //var_dump($this->description, $description, $parts);exit;
         }
 
@@ -1928,6 +1946,7 @@ if (!class_exists('Video')) {
             if (!empty($this->categories_id)) {
                 $this->old_categories_id = $this->categories_id;
             }
+            AVideoPlugin::onVideoSetCategories_id($this->id, $this->categories_id, $categories_id);
             $this->categories_id = $categories_id;
         }
 
@@ -2088,6 +2107,7 @@ if (!class_exists('Video')) {
 
         public function setVideoDownloadedLink($videoDownloadedLink)
         {
+            AVideoPlugin::onVideoSetVideoDownloadedLink($this->id, $this->videoDownloadedLink, $videoDownloadedLink);
             $this->videoDownloadedLink = $videoDownloadedLink;
         }
 
@@ -2169,6 +2189,7 @@ if (!class_exists('Video')) {
         public function setVideoGroups($userGroups)
         {
             if (is_array($userGroups)) {
+                AVideoPlugin::onVideoSetVideoGroups($this->id, $this->videoGroups, $userGroups);
                 $this->videoGroups = $userGroups;
             }
         }
@@ -2662,32 +2683,39 @@ if (!class_exists('Video')) {
         public function setTrailer1($trailer1)
         {
             if (filter_var($trailer1, FILTER_VALIDATE_URL)) {
-                $this->trailer1 = $trailer1;
+                $new_trailer1 = $trailer1;
             } else {
-                $this->trailer1 = "";
+                $new_trailer1 = "";
             }
+            AVideoPlugin::onVideoSetTrailer1($this->id, $this->trailer1, $new_trailer1);
+            $this->trailer1 = $new_trailer1;
         }
 
         public function setTrailer2($trailer2)
         {
             if (filter_var($trailer2, FILTER_VALIDATE_URL)) {
-                $this->trailer2 = $trailer2;
+                $new_trailer2 = $trailer2;
             } else {
-                $this->trailer2 = "";
+                $new_trailer2 = "";
             }
+            AVideoPlugin::onVideoSetTrailer2($this->id, $this->trailer2, $new_trailer2);
+            $this->trailer2 = $new_trailer2;
         }
 
         public function setTrailer3($trailer3)
         {
             if (filter_var($trailer3, FILTER_VALIDATE_URL)) {
-                $this->trailer3 = $trailer3;
+                $new_trailer3 = $trailer3;
             } else {
-                $this->trailer3 = "";
+                $new_trailer3 = "";
             }
+            AVideoPlugin::onVideoSetTrailer3($this->id, $this->trailer3, $new_trailer3);
+            $this->trailer3 = $new_trailer3;
         }
 
         public function setRate($rate)
         {
+            AVideoPlugin::onVideoSetRate($this->id, $this->rate, floatval($rate));
             $this->rate = floatval($rate);
         }
 
@@ -2698,6 +2726,7 @@ if (!class_exists('Video')) {
 
         public function setYoutubeId($youtubeId)
         {
+            AVideoPlugin::onVideoSetYoutubeId($this->id, $this->youtubeId, $youtubeId);
             $this->youtubeId = $youtubeId;
         }
 
@@ -2706,15 +2735,18 @@ if (!class_exists('Video')) {
             if ($title === "Video automatically booked" && !empty($this->title)) {
                 return false;
             }
-            $this->title = strip_tags($title);
-            if (strlen($this->title) > 190) {
-                $this->title = substr($this->title, 0, 187) . '...';
+            $new_title = strip_tags($title);
+            if (strlen($new_title) > 190) {
+                $new_title = substr($new_title, 0, 187) . '...';
             }
+            AVideoPlugin::onVideoSetTitle($this->id, $this->title, $new_title);
+            $this->title = $new_title;
         }
 
         public function setFilename($filename, $force = false)
         {
             if ($force || empty($this->filename)) {
+                AVideoPlugin::onVideoSetFilename($this->id, $this->filename, $filename, $force);
                 $this->filename = $filename;
             }
             return $this->filename;
@@ -2727,6 +2759,7 @@ if (!class_exists('Video')) {
 
         public function setNext_videos_id($next_videos_id)
         {
+            AVideoPlugin::onVideoSetNext_videos_id($this->id, $this->next_videos_id, $next_videos_id);
             $this->next_videos_id = $next_videos_id;
         }
 
@@ -2788,6 +2821,7 @@ if (!class_exists('Video')) {
 
         public function setVideoLink($videoLink)
         {
+            AVideoPlugin::onVideoSetVideoLink($this->id, $this->videoLink, $videoLink);
             $this->videoLink = $videoLink;
         }
 
@@ -2803,12 +2837,16 @@ if (!class_exists('Video')) {
 
         public function setCan_download($can_download)
         {
-            $this->can_download = (empty($can_download) || $can_download === "false") ? 0 : 1;
+            $new_can_download = (empty($can_download) || $can_download === "false") ? 0 : 1;
+            AVideoPlugin::onVideoSetCan_download($this->id, $this->can_download, $new_can_download);
+            $this->can_download = $new_can_download;
         }
 
         public function setCan_share($can_share)
         {
-            $this->can_share = (empty($can_share) || $can_share === "false") ? 0 : 1;
+            $new_can_share = (empty($can_share) || $can_share === "false") ? 0 : 1;
+            AVideoPlugin::onVideoSetCan_share($this->id, $this->can_share, $new_can_share);
+            $this->can_share = $new_can_share;
         }
 
         public function getOnly_for_paid()
@@ -2818,7 +2856,9 @@ if (!class_exists('Video')) {
 
         public function setOnly_for_paid($only_for_paid)
         {
-            $this->only_for_paid = (empty($only_for_paid) || $only_for_paid === "false") ? 0 : 1;
+            $new_only_for_paid = (empty($only_for_paid) || $only_for_paid === "false") ? 0 : 1;
+            AVideoPlugin::onVideoSetOnly_for_paid($this->id, $this->only_for_paid, $new_only_for_paid);
+            $this->only_for_paid = $new_only_for_paid;
         }
 
         /**
@@ -2834,7 +2874,7 @@ if (!class_exists('Video')) {
             //return array();
             //}
             $cacheName = md5($filename . $type . $includeS3);
-            if (isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName])) {
+            if (0 && isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName])) {
                 if (!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])) {
                     return $VideoGetSourceFile[$cacheName];
                 }
@@ -3847,6 +3887,7 @@ if (!class_exists('Video')) {
             if (!in_array($rrating, self::$rratingOptions)) {
                 $rrating = '';
             }
+            AVideoPlugin::onVideoSetRrating($this->id, $this->rrating, $rrating);
             $this->rrating = $rrating;
         }
 
@@ -3981,12 +4022,14 @@ if (!class_exists('Video')) {
 
         public function setExternalOptions($externalOptions)
         {
+            AVideoPlugin::onVideoSetExternalOptions($this->id, $this->externalOptions, $externalOptions);
             $this->externalOptions = $externalOptions;
         }
 
         public function setVideoStartSeconds($videoStartSeconds)
         {
             $externalOptions = json_decode($this->getExternalOptions());
+            AVideoPlugin::onVideoSetVideoStartSeconds($this->id, $this->videoStartSeconds, $videoStartSeconds);
             $externalOptions->videoStartSeconds = $videoStartSeconds;
             $this->setExternalOptions(json_encode($externalOptions));
         }
@@ -3998,6 +4041,7 @@ if (!class_exists('Video')) {
 
         public function setSerie_playlists_id($serie_playlists_id)
         {
+            AVideoPlugin::onVideoSetSerie_playlists_id($this->id, $this->serie_playlists_id, $serie_playlists_id);
             $this->serie_playlists_id = $serie_playlists_id;
         }
 
