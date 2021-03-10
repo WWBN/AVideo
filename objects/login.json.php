@@ -269,7 +269,11 @@ if ($object->isLogged) {
         if (!empty($trasnmition)) {
             $object->streamServerURL = $p->getServer() . "?p=" . User::getUserPass();
             $object->streamKey = $trasnmition['key'];
+        }else{
+            _error_log('login.json.php transmissionKey is empty ['. User::getId().']');
         }
+    }else{
+        _error_log('login.json.php live plugin is disabled');
     }
     TimeLogEnd($timeLog2, __LINE__);
     //_error_log("login.json.php get MobileManager");
@@ -298,6 +302,8 @@ if ($object->isLogged) {
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
     }
     TimeLogEnd($timeLog2, __LINE__);
+}else{
+    _error_log('login.json.php is not logged');
 }
 TimeLogEnd($timeLog, __LINE__);
 //_error_log("login.json.php almost complete");

@@ -18,6 +18,7 @@ class YPTSocket extends PluginAbstract {
         $desc = getSocketConnectionLabel();
         $desc .= "Socket Plugin, WebSockets allow for a higher amount of efficiency compared to REST because they do not require the HTTP request/response overhead for each message sent and received<br>";
         $desc .= "<code>sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &</code>";
+        $desc .= "<br>To test use <code>php {$global['systemRootPath']}plugin/YPTSocket/test.php</code>";
         $help = "<br>run this command start the server <small><a href='https://github.com/WWBN/AVideo/wiki/Socket-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
 
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
@@ -61,6 +62,8 @@ class YPTSocket extends PluginAbstract {
         
         $host = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
         
+        $obj->forceNonSecure = false;
+        self::addDataObjectHelper('forceNonSecure', 'Force not to use wss (non secure)', 'This is good if a reverse proxy is giving you a SSL');
         $obj->port = "2053";
         self::addDataObjectHelper('port', 'Server Port', 'You also MUST open this port on the firewall');
         $obj->host = $host;

@@ -31,7 +31,7 @@ $photo = User::getPhoto($meet->getUsers_id());
                 position: fixed;
                 width: 100%;
                 height: 100%;
-                background-image: url('<?php echo $img; ?>');
+                background-image: url('<?php echo $global['webSiteRootURL'], $img; ?>');
                 background-size: cover;
                 opacity: 0.3;
                 filter: alpha(opacity=30); /* For IE8 and earlier */

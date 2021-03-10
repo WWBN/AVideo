@@ -12,6 +12,7 @@ class ADs extends PluginAbstract {
         , array('leaderBoardMiddle', 0)
         , array('sideRectangle', 1)
         , array('leaderBoardBigVideoMobile', 1)
+        , array('leaderBoardTopMobile', 1)
         , array('leaderBoardTopMobile2', 1)
         , array('channelLeaderBoardTopMobile', 1)
         , array('leaderBoardMiddleMobile', 1));
@@ -190,7 +191,7 @@ class ADs extends PluginAbstract {
             if ($type == $value[0]) {
                 eval("\$width = \$obj->$value[0]Width;");
                 eval("\$height = \$obj->$value[0]Height;");
-                return array('width' => $width, 'height' => $height, 'isMobile'=>preg_match('/mobile/i', $value[0]), 'isSquare'=>$value[1]);
+                return array('width' => $width, 'height' => $height, 'isMobile' => preg_match('/mobile/i', $value[0]), 'isSquare' => $value[1]);
             }
         }
         return array('width' => null, 'height' => null);
@@ -209,12 +210,12 @@ class ADs extends PluginAbstract {
         $size = self::getSize($type);
 
         $style = '';
-        if($size['isSquare']){
+        if ($size['isSquare']) {
             $width = $size['width'];
             $height = $size['height'];
             $style = "width: {$width}px; heigth: {$height}px;";
         }
-        
+
 
         $html = "<center><div id=\"{$id}\" class=\"carousel slide\" data-ride=\"carousel{$id}\" style=\"{$style}\">"
                 . "<div class=\"carousel-inner\">";
@@ -246,6 +247,16 @@ class ADs extends PluginAbstract {
         }
         $html .= "</div></div></center>";
         return $html;
+    }
+
+    public function getFooterCode() {
+        global $global;
+        $js = "<script>$(function(){
+            $('.carousel').carousel({
+              interval: 5000
+            });
+        });</script>";
+        return $js;
     }
 
     static function saveAdsHTML($type) {

@@ -102,11 +102,11 @@ class YouPHPFlix2 extends PluginAbstract {
         return $css;
     }
 
-    static function getLinkToVideo($videos_id){
+    static function getLinkToVideo($videos_id, $ignoreEmbed = false){
         $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
         $link = Video::getLinkToVideo($videos_id);
         if(!empty($obj->playVideoOnFullscreen)){
-            if(!Video::isSerie($videos_id)){
+            if(!Video::isSerie($videos_id) && empty($ignoreEmbed)){
                 $link = parseVideos($link, 1, 0, 0, 0, 1);
             }
         }
