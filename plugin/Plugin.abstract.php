@@ -520,6 +520,142 @@ abstract class PluginAbstract {
         
     }
 
+    function onVideoSetLive_transmitions_history_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetEncoderURL($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetFilepath($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetFilesize($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetUsers_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetSites_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideo_password($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetClean_title($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetDuration($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetIsSuggested($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetStatus($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetType($video_id, $oldValue, $newValue, $force) {
+
+    }
+
+    function onVideoSetRotation($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetZoom($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetDescription($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetCategories_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideoDownloadedLink($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideoGroups($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetTrailer1($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetTrailer2($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetTrailer3($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetRate($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetYoutubeId($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetTitle($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetFilename($video_id, $oldValue, $newValue, $force) {
+
+    }
+
+    function onVideoSetNext_videos_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideoLink($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetCan_download($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetCan_share($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetOnly_for_paid($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetRrating($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetExternalOptions($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideoStartSeconds($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetSerie_playlists_id($video_id, $oldValue, $newValue) {
+
+    }
+
     function updateParameter($parameterName, $newValue) {
         $pluginDO = $this->getDataObject();
         $pluginDB = Plugin::getPluginByName($this->getName());
