@@ -2,17 +2,8 @@
     body {
         background: radial-gradient(#FFF,#555);
     }
-    
-    #lightAnimated{
-        position: fixed;
-        width: 100vw;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        z-index: -1;
-    }
 
-    #lightAnimated .light {
+    .AnimatedLight {
         position: absolute;
         width: 0px;
         opacity: .75;
@@ -24,6 +15,7 @@
         left: 0px;
         right: 0px;
         margin: auto;
+        z-index: -1;
     }
 
     .x1{
@@ -220,14 +212,12 @@
 
 
 </style>
-<div id="lightAnimated">
-    <div class='light x1'></div>
-    <div class='light x2'></div>
-    <div class='light x3'></div>
-    <div class='light x4'></div>
-    <div class='light x5'></div>
-    <div class='light x6'></div>
-    <div class='light x7'></div>
-    <div class='light x8'></div>
-    <div class='light x9'></div>
-</div>
+<div class='AnimatedLight x1'></div>
+<div class='AnimatedLight x2'></div>
+<div class='AnimatedLight x3'></div>
+<div class='AnimatedLight x4'></div>
+<div class='AnimatedLight x5'></div>
+<div class='AnimatedLight x6'></div>
+<div class='AnimatedLight x7'></div>
+<div class='AnimatedLight x8'></div>
+<div class='AnimatedLight x9'></div>
