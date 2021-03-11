@@ -18,7 +18,7 @@ if (empty($pobj)) {
 $live_servers_id = Live::getLiveServersIdRequest();
 $cacheName = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."_statsCache_".md5($global['systemRootPath']. json_encode($_REQUEST));
         
-//$json = ObjectYPT::getSessionCache($cacheName, $pobj->cacheStatsTimout);
+$json = ObjectYPT::getSessionCache($cacheName, $pobj->cacheStatsTimout);
 if(empty($json)){
     $json = getStatsNotifications();
     ObjectYPT::setSessionCache($cacheName, $json);
