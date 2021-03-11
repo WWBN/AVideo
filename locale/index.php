@@ -15,7 +15,7 @@ $vars = array();
 require_once '../videos/configuration.php';
 require_once '../objects/functions.php';
 
-if(User::isAdmin() || !empty($global['disableAdvancedConfigurations'])){
+if(!User::isAdmin() || !empty($global['disableAdvancedConfigurations'])){
     forbiddenPage('');
 }
 
