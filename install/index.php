@@ -26,7 +26,7 @@ require_once '../locale/function.php';
         </style>
     </head>
 
-    <body class="<?php echo $global['bodyClass']; ?>">
+    <body>
         <?php
         if (file_exists('../videos/configuration.php')) {
             require_once '../videos/configuration.php';
