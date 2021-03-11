@@ -5941,7 +5941,7 @@ function getStatsNotifications() {
     if (isset($_getStatsNotifications[$key])) {
         return $_getStatsNotifications[$key];
     }
-
+    
     $json = Live::getStats();
     $json = object_to_array($json);
 
