@@ -656,6 +656,7 @@ class Live extends PluginAbstract {
         if(!IsValidURL($url)){
             return false;
         }
+        _error_log('Live::get_data($url, $timeout)');
         return url_get_contents($url, $timeout);
     }
 
@@ -1166,7 +1167,8 @@ class Live extends PluginAbstract {
                     'live_index' => $live_index,
                     'm3u8' => $m3u8,
                     'isURL200' => isURL200($m3u8),
-                    'users_id' => $row['users_id']
+                    'users_id' => $row['users_id'],
+                    'live_servers_id' => $live_servers_id
                 );
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;
