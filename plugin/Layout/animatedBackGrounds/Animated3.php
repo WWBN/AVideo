@@ -13,6 +13,7 @@
         height: 100vh;
         left: 0;
         top: 0;
+        z-index: -1;
     }
 </style>
 <div id="aminated3Container"></div>
