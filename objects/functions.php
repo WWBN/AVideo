@@ -1692,10 +1692,14 @@ function convertImage($originalImage, $outputImage, $quality) {
     if (function_exists('exif_imagetype')) {
         $imagetype = exif_imagetype($originalImage);
     }
-
-    // jpg, png, gif or bmp?
-    $exploded = explode('.', $originalImage);
-    $ext = $exploded[count($exploded) - 1];
+    
+    $ext = strtolower(pathinfo($originalImage, PATHINFO_EXTENSION));
+    $extOutput = strtolower(pathinfo($outputImage, PATHINFO_EXTENSION));
+    
+    if($ext == $extOutput){
+        return copy($originalImage, $outputImage);
+    }
+    
     try {
         if ($imagetype == IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext)) {
             $imageTmp = @imagecreatefromjpeg($originalImage);
@@ -1720,10 +1724,36 @@ function convertImage($originalImage, $outputImage, $quality) {
         return 0;
     }
     // quality is a value from 0 (worst) to 100 (best)
-    imagejpeg($imageTmp, $outputImage, $quality);
+    $response = 0;
+    if($extOutput === 'jpg'){
+        if(function_exists('imagejpeg')){
+            $response = imagejpeg($imageTmp, $outputImage, $quality);
+        }else{
+            _error_log("convertImage ERROR: function imagejpeg does not exists");
+        }
+    }else if($extOutput === 'png'){
+        if(function_exists('imagepng')){
+            $response = imagepng($imageTmp, $outputImage, $quality/10);
+        }else{
+            _error_log("convertImage ERROR: function imagepng does not exists");
+        }
+    }else if($extOutput === 'webp'){
+        if(function_exists('imagewebp')){
+            $response = imagewebp($imageTmp, $outputImage, $quality);
+        }else{
+            _error_log("convertImage ERROR: function imagewebp does not exists");
+        }
+    }else if($extOutput === 'gif'){
+        if(function_exists('imagegif')){
+            $response = imagegif($imageTmp, $outputImage);
+        }else{
+            _error_log("convertImage ERROR: function imagegif does not exists");
+        }
+    }
+    
     imagedestroy($imageTmp);
 
-    return 1;
+    return $response;
 }
 
 function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {

@@ -424,6 +424,7 @@ class PlayerSkins extends PluginAbstract {
                 $obj->label = 'Plugin';
                 $obj->type = "danger";
                 $obj->text = $resolution['resolution_text'];
+                $obj->tooltip = $resolution['resolution'].'p';
             }
             $tags = $obj;
             ObjectYPT::setCache($name, $tags);

@@ -346,8 +346,8 @@
                             </div>
                             <div id="pimages" class="tab-pane fade">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#jpg"><?php echo __("Poster (JPG)"); ?></a></li>
-                                    <li><a data-toggle="tab" href="#pjpg"><?php echo __("Portrait Poster (JPG)"); ?></a></li>
+                                    <li class="active"><a data-toggle="tab" href="#jpg"><?php echo __("Poster"); ?></a></li>
+                                    <li><a data-toggle="tab" href="#pjpg"><?php echo __("Portrait Poster"); ?></a></li>
                                     <li><a data-toggle="tab" href="#webp"><?php echo __("Mouse Over Poster (WebP)"); ?></a></li>
                                     <li><a data-toggle="tab" href="#gif"><?php echo __("Mouse Over Poster (GIF)"); ?></a></li>
                                     <li><a data-toggle="tab" href="#pgif"><?php echo __("Mouse Over Portrait Poster (GIF)"); ?></a></li>
