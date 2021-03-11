@@ -4950,6 +4950,8 @@ function avidoeShutdown() {
     $error = error_get_last();
     if ($error && ($error['type'] & E_FATAL)) {
         _error_log($error, AVideoLog::$ERROR);
+        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+        echo '<!-- This page means an error 500 Internal Server Error, check your log file -->'.PHP_EOL;
         include $global['systemRootPath'] . 'view/maintanance.html';
         exit;
     }
