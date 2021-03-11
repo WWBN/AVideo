@@ -656,7 +656,7 @@ class Live extends PluginAbstract {
         if(!IsValidURL($url)){
             return false;
         }
-        _error_log('Live::get_data($url, $timeout)');
+        _error_log("Live::get_data($url, $timeout)");
         return url_get_contents($url, $timeout);
     }
 
