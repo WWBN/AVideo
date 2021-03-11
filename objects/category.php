@@ -249,6 +249,7 @@ class Category {
         } else {
             return false;
         }
+        ObjectYPT::deleteALLCache();
         self::clearCacheCount();
         self::deleteAssets($this->id);
         return sqlDAL::writeSql($sql, "i", array($this->id));

@@ -7,7 +7,15 @@
         border-radius: 100%;
         opacity: 0.7;
     }
+    #aminated3Container{
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        left: 0;
+        top: 0;
+    }
 </style>
+<div id="aminated3Container"></div>
 <script>
 // Some random colors
     const colors = ["#3CC157", "#2AA7FF", "#1B1B1B", "#FCBC0F", "#F85F36"];
@@ -26,7 +34,8 @@
         ball.style.height = ball.style.width;
 
         balls.push(ball);
-        document.body.append(ball);
+        //document.body.append(ball);
+        document.getElementById("aminated3Container").appendChild(ball);
     }
 
 // Keyframes

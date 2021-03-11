@@ -5172,6 +5172,10 @@ function getCredentialsURL() {
 
 function gotToLoginAndComeBackHere($msg) {
     global $global;
+    if(User::isLogged()){
+        forbiddenPage($msg);
+        exit;
+    }
     if (!empty($_GET['comebackhere'])) {
         return false;
     }
