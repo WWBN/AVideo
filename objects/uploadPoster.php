@@ -41,13 +41,13 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             case "jpeg":
                 $ext = ".jpg";
                 if($extension == 'png' || $extension == 'bmp'){
-                    $ext = "_convertToJPG.jpg";
+                    $ext = "_convertToJPG.{$extension}";
                 }
                 break;
             case "pjpg":
                 $ext = "_portrait.jpg";
                 if($extension == 'png' || $extension == 'bmp'){
-                    $ext = "_portrait_convertToJPG.jpg";
+                    $ext = "_portrait_convertToJPG.{$extension}";
                 }
                 break;
             case "gif":
@@ -70,7 +70,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             die(json_encode($obj));
         } else {
             if(preg_match('/_convertToJPG/', $ext)){
-                $new_destination = str_replace('_convertToJPG', '', $destination);
+                $new_destination = str_replace('_convertToJPG.'.$extension, '.jpg', $destination);
                 if(convertImage($destination, $new_destination, 100)){
                     unlink($destination);
                 }
