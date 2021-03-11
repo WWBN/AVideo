@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 $obj = new stdClass();
 $obj->status = "1";
 $obj->error = "";
-if (!User::isAdmin()) {
+if (!User::isAdmin() || !empty($global['disableAdvancedConfigurations'])) {
     $obj->status = 0;
     $obj->error = __("Permission denied");
     die(json_encode($obj));
