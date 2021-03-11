@@ -657,7 +657,7 @@ class Live extends PluginAbstract {
             return false;
         }
         _error_log("Live::get_data($url, $timeout)");
-        return url_get_contents($url, $timeout);
+        return url_get_contents($url, '', $timeout, true);
     }
 
     public function getChartTabs() {
