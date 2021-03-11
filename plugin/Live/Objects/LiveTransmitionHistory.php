@@ -195,18 +195,19 @@ class LiveTransmitionHistory extends ObjectYPT {
         $key = $lth->getKey();
         foreach ($stats['applications'] as $k => $value) {
             $value = object_to_array($value);
-            if(empty($value['key']) || $value['key']==$key){ // application is already in the list
+            if(!empty($value['key']) && $value['key']==$key){ // application is already in the list
                 unset($stats['applications'][$k]);
                 $stats['countLiveStream']--;
             }
         }
         if(empty($stats['hidden_applications'])){
             $stats['hidden_applications'] = array();
-        }
-        foreach ($stats['hidden_applications'] as $k => $value) {
-            $value = object_to_array($value);
-            if($value['key']==$key){ // application is already in the list
-                unset($stats['hidden_applications'][$k]);
+        }else{
+            foreach ($stats['hidden_applications'] as $k => $value) {
+                $value = object_to_array($value);
+                if($value['key']==$key){ // application is already in the list
+                    unset($stats['hidden_applications'][$k]);
+                }
             }
         }
         

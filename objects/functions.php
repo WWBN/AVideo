@@ -4590,11 +4590,11 @@ function getTmpDir($subdir = "") {
     if (empty($_SESSION['getTmpDir'][$subdir . "_"])) {
         $tmpDir = sys_get_temp_dir();
         if (empty($tmpDir) || !_isWritable($tmpDir)) {
-            $tmpDir = getVideosDir() . "cache/";
+            $tmpDir = getVideosDir() . "cache".DIRECTORY_SEPARATOR;
         }
-        $tmpDir = rtrim($tmpDir, '/') . '/';
+        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir = "{$tmpDir}{$subdir}";
-        $tmpDir = rtrim($tmpDir, '/') . '/';
+        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         if (!is_dir($tmpDir)) {
             mkdir($tmpDir, 0755, true);
         }
@@ -5353,7 +5353,7 @@ function _glob($dir, $pattern) {
     if (isset($_glob[$name])) {
         return $_glob[$name];
     }
-    $dir = rtrim($dir, '/') . '/';
+    $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR; 
     $array = array();
     if ($handle = opendir($dir)) {
         $count = 0;
@@ -5361,6 +5361,7 @@ function _glob($dir, $pattern) {
             if ($file_name == '.' || $file_name == '..') {
                 continue;
             }
+            //_error_log("_glob: {$dir}{$file_name} [$pattern]");
             if (preg_match($pattern, $file_name)) {
                 $array[] = "{$dir}{$file_name}";
             }
@@ -5956,7 +5957,6 @@ function getStatsNotifications() {
     }
 
     $appArray = AVideoPlugin::getLiveApplicationArray();
-
     if (!empty($appArray)) {
         if (empty($json)) {
             $json = array();
@@ -5994,6 +5994,7 @@ function getStatsNotifications() {
             }
         }
     }
+    
     $_getStatsNotifications[$key] = $json;
     return $json;
 }

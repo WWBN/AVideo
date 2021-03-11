@@ -1,4 +1,25 @@
-
+<?php
+$objLive = AVideoPlugin::getDataObject("Live");
+if ($objLive->allowMultipleLivesPerUser) {
+    $stats = getStatsNotifications();
+    $onliveApplications = array();
+    foreach ($stats["applications"] as $value) {
+        if (empty($value['key'])) {
+            continue;
+        }
+        if (preg_match('/' . $key . '/', $value['key'])) {
+            $onliveApplications[] = '<a class="btn btn-default btn-block" href="' . $value['href'] . '" target="_blank"><span class="label label-danger liveNow faa-flash faa-slow animated">' . __('LIVE NOW') . '</span> ' . $value['title'] . '</a>';
+        }
+    }
+}
+$key = Live::getDynamicKey($trasnmition['key']);
+?>
+<style>
+    #streamkey{
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+</style>
 <div class="panel panel-default">
     <div class="panel-heading"><i class="fas fa-hdd"></i> <?php echo __("Devices Stream Info"); ?> (<?php echo $channelName; ?>)</div>
     <div class="panel-body" style="overflow: hidden;">
@@ -17,13 +38,26 @@
                     <a class="btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?resetKey=1" data-toggle="tooltip" title="<?php echo __("This also reset the Chat and views counter"); ?>"><i class="fa fa-refresh"></i> <?php echo __("Reset Key"); ?></a>
                 </span>
                 <?php
-                getInputCopyToClipboard('streamkey', $trasnmition['key']);
+                getInputCopyToClipboard('streamkey', $key);
                 ?>
             </div>
         </div>
-        <div class="myUsedKeys<?php echo $trasnmition['key']; ?> ">
-            
-        </div>
+        <?php
+        if (!empty($onliveApplications)) {
+            ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <?php echo __('Active Livestreams'); ?>
+                </div>
+                <div class="panel-body myUsedKeys<?php echo $key; ?>">
+                    <?php
+                    echo implode('', $onliveApplications);
+                    ?>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
     </div>
 </div>
 <div class="panel panel-default">
@@ -32,9 +66,9 @@
         <div class="form-group">
             <label for="serverAndStreamkey"><i class="fa fa-key"></i> <?php echo __("Server URL"); ?> + <?php echo __("Stream name/key"); ?>:</label>
             <?php
-            getInputCopyToClipboard('serverAndStreamkey', Live::getServer() . "?p=" . User::getUserPass() . "/" . $trasnmition['key']);
+            getInputCopyToClipboard('serverAndStreamkey', Live::getServer() . "?p=" . User::getUserPass() . "/" . $key);
             ?>
-            </div>
+        </div>
         <div class="form-group">
             <label for="destinationApplication"><i class="fa fa-cog"></i> <?php echo __("Destination Application Name"); ?>:</label>
             <?php

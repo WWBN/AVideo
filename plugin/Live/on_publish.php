@@ -89,6 +89,18 @@ if (!empty($_GET['p'])) {
 }
 _error_log("NGINX ON Publish deciding ...");
 if (!empty($obj) && empty($obj->error)) {
+    /*
+    if(strpos($_POST['name'], '-')===false){
+        _error_log("NGINX ON Publish redirect");
+        http_response_code(302);
+        header("HTTP/1.0 302 Publish Here");
+        $newKey = $_POST['name'].'-'. uniqid();
+        header("Location: rtmp://192.168.1.18/live/$newKey/?p={$_GET['p']}");
+        exit;
+    }
+     * 
+     */
+    
     _error_log("NGINX ON Publish success");
     http_response_code(200);
     header("HTTP/1.1 200 OK");
@@ -96,6 +108,7 @@ if (!empty($obj) && empty($obj->error)) {
     outputAndContinueInBackground();
     _error_log("NGINX Live::on_publish start");
     Live::on_publish($obj->liveTransmitionHistory_id);
+    Live::deleteStatsCache($lth->getLive_servers_id());
     _error_log("NGINX Live::on_publish end");
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());

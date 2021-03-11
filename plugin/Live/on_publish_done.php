@@ -47,6 +47,7 @@ if (strpos($_GET['p'], '/') !== false) {
 
 $row = LiveTransmitionHistory::getLatest($_POST['name']);
 LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
+Live::deleteStatsCache($row['live_servers_id']);
 $array = setLiveKey($row['key'], $row['live_servers_id']);
 $array['stats'] = LiveTransmitionHistory::getStatsAndRemoveApplication($row['id']);
 $socketObj = sendSocketMessageToAll($array, "socketLiveOFFCallback");

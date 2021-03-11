@@ -474,7 +474,16 @@ class Live extends PluginAbstract {
         }
         $user = new User($users_id);
         $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
-        return self::getServer() . "?p=" . $user->getPassword() . "/" . $trasnmition['key'];
+        
+        return self::getServer() . "?p=" . $user->getPassword() . "/" . self::getDynamicKey($trasnmition['key']);
+    }
+    
+    static function getDynamicKey($key){
+        $objLive = AVideoPlugin::getDataObject("Live");
+        if ($objLive->allowMultipleLivesPerUser) {
+            $key .= '-'.date('His');
+        }
+        return $key;
     }
 
     static function getPlayerServer() {
@@ -590,8 +599,8 @@ class Live extends PluginAbstract {
             return $getStatsObject[$live_servers_id];
         }
         
-        $name = "getStatsObject_{$live_servers_id}";
-        //$result = ObjectYPT::getCache($name, 30);
+        $name = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."getStatsObject";
+        $result = ObjectYPT::getCache($name, 0);
         if(!empty($result)){
             return json_decode($result);
         }
@@ -647,22 +656,7 @@ class Live extends PluginAbstract {
         if(!IsValidURL($url)){
             return false;
         }
-        $name = "get_data_" . md5($url);
-        $result = ObjectYPT::getCache($name, 10);        
-        if (empty($result)) {
-            $result = ObjectYPT::getCache($name, 0);
-            $file = "{$global['systemRootPath']}plugin/Live/asyncGetStats.php";
-            if(empty($result)){
-                $byPassCommandLine = 1;
-                $argv[1] = $url;
-                include $file;
-            }else{
-                $command = "php {$file} \"$url\"";
-                execAsync($command);
-            }
-            return $result;
-        }
-        return $result;
+        return url_get_contents($url, $timeout);
     }
 
     public function getChartTabs() {
@@ -1018,8 +1012,8 @@ class Live extends PluginAbstract {
             return $_getStats[$live_servers_id][$_REQUEST['name']];
         }
 
-        $cacneName = "_getStats[$live_servers_id][{$_REQUEST['name']}]" . User::getId();
-        $result = ObjectYPT::getCache($cacneName, 30);
+        $cacheName = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."{$_REQUEST['name']}_" . User::getId();
+        $result = ObjectYPT::getCache($cacheName, 0);
         if (!empty($result)) {
             return json_decode($result);
         }
@@ -1187,7 +1181,7 @@ class Live extends PluginAbstract {
         $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
-        ObjectYPT::setCache($cacneName, json_encode($obj));
+        ObjectYPT::setCache($cacheName, json_encode($obj));
         return $obj;
     }
 
@@ -1491,6 +1485,14 @@ class Live extends PluginAbstract {
         if (empty($obj->disableRestream)) {
             self::restream($liveTransmitionHistory_id);
         }
+    }
+    
+    public static function deleteStatsCache($live_servers_id) {
+        $tmpDir = ObjectYPT::getCacheDir();
+        $cacheDir = $tmpDir."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}";
+        rrmdir($cacheDir);
+        $pattern = "/.getStats.{$live_servers_id}.*/";
+        ObjectYPT::deleteCachePattern($pattern);
     }
 
     public static function getRestreamObject($liveTransmitionHistory_id) {

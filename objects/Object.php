@@ -413,6 +413,24 @@ abstract class ObjectYPT implements ObjectInterface
         self::deleteSessionCache($name);
         ObjectYPT::deleteCacheFromPattern($name);
     }
+    
+    static function deleteCachePattern($pattern) {
+        $tmpDir = self::getCacheDir();        
+        $array = _glob($tmpDir, $pattern);        
+        foreach ($array as $value) {
+            _error_log("Object::deleteCachePattern file [{$value}]");
+            @unlink($value);
+        }
+        _session_start();
+        foreach ($_SESSION['user']['sessionCache'] as $key => $value) {
+            if (preg_match($pattern, $key)) {
+                _error_log("Object::deleteCachePattern session [{$key}]");
+                $_SESSION['user']['sessionCache'][$key] = null;
+                unset($_SESSION['user']['sessionCache'][$key]);
+            }
+        }
+    }
+    
 
     public static function deleteALLCache()
     {
@@ -425,13 +443,13 @@ abstract class ObjectYPT implements ObjectInterface
     public static function getCacheDir()
     {
         $tmpDir = getTmpDir();
-        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . "/";
-        $tmpDir .= "YPTObjectCache" . "/";
+        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
 
         if (class_exists("User_Location")) {
             $loc = User_Location::getThisUserLocation();
             if (!empty($loc) && !empty($loc['country_code'])) {
-                $tmpDir .= $loc['country_code'] . "/";
+                $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
             }
         }
 
