@@ -106,9 +106,9 @@ if (!empty($obj) && empty($obj->error)) {
     header("HTTP/1.1 200 OK");
     
     outputAndContinueInBackground();
+    Live::deleteStatsCache($lth->getLive_servers_id());
     _error_log("NGINX Live::on_publish start");
     Live::on_publish($obj->liveTransmitionHistory_id);
-    Live::deleteStatsCache($lth->getLive_servers_id());
     _error_log("NGINX Live::on_publish end");
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());

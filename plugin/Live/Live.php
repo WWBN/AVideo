@@ -600,7 +600,7 @@ class Live extends PluginAbstract {
         }
         
         $name = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."getStatsObject";
-        $result = ObjectYPT::getCache($name, 0);
+        //$result = ObjectYPT::getCache($name, 0, false); // if enable this cache it starts to not update
         if(!empty($result)){
             return json_decode($result);
         }
@@ -624,7 +624,7 @@ class Live extends PluginAbstract {
             // if the server already fail, do not wait mutch for it next time, just wait 0.5 seconds
             $o->requestStatsTimout = $_SESSION['getStatsObjectRequestStatsTimout'][$url];
         }
-        $data = $this->get_data($url, $o->requestStatsTimout);
+        $data = $this->get_data($url, $o->requestStatsTimout);        
         if (empty($data)) {
             _session_start();
             if (empty($_SESSION['getStatsObjectRequestStatsTimout'])) {
@@ -1013,7 +1013,7 @@ class Live extends PluginAbstract {
         }
 
         $cacheName = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."{$_REQUEST['name']}_" . User::getId();
-        $result = ObjectYPT::getCache($cacheName, 0);
+        $result = ObjectYPT::getCache($cacheName, 0, false);
         if (!empty($result)) {
             return json_decode($result);
         }
@@ -1032,7 +1032,6 @@ class Live extends PluginAbstract {
         $xml = $p->getStatsObject($live_servers_id);
         $xml = json_encode($xml);
         $xml = json_decode($xml);
-        
         $stream = false;
         $lifeStream = array();
 
@@ -1488,11 +1487,15 @@ class Live extends PluginAbstract {
     }
     
     public static function deleteStatsCache($live_servers_id) {
+        global $getStatsLive, $_getStats, $getStatsObject;
         $tmpDir = ObjectYPT::getCacheDir();
         $cacheDir = $tmpDir."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}";
         rrmdir($cacheDir);
         $pattern = "/.getStats.{$live_servers_id}.*/";
         ObjectYPT::deleteCachePattern($pattern);
+        unset($getStatsLive);
+        unset($getStatsObject);
+        unset($_getStats);
     }
 
     public static function getRestreamObject($liveTransmitionHistory_id) {
