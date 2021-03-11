@@ -6160,3 +6160,11 @@ function getDatabaseTime() {
     $_getDatabaseTime = strtotime($row['CURRENT_TIMESTAMP']);
     return $_getDatabaseTime;
 }
+
+function get_js_availableLangs(){
+    global $global;
+    if(empty($global['js_availableLangs'])){
+        include_once $global['systemRootPath'].'objects/bcp47.php';
+    }
+    return $global['js_availableLangs'];
+}
