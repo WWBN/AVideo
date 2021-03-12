@@ -1476,7 +1476,7 @@ class Live extends PluginAbstract {
         return $file;
     }
 
-    public function _getPosterThumbsImage($users_id, $live_servers_id) {
+    public static function _getPosterThumbsImage($users_id, $live_servers_id) {
         $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}.jpg";
         return $file;
     }
