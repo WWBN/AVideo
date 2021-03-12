@@ -4971,7 +4971,7 @@ function forbiddenPage($message, $logMessage = false) {
 
 define('E_FATAL', E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR |
         E_COMPILE_ERROR | E_RECOVERABLE_ERROR);
-if (!isCommandLineInterface()) {
+if (!isCommandLineInterface() && !isAVideoEncoder()) {
     register_shutdown_function('avidoeShutdown');
 }
 
