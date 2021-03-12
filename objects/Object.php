@@ -463,7 +463,7 @@ abstract class ObjectYPT implements ObjectInterface
     public static function getCacheFileName($name)
     {
         $name = self::cleanCacheName($name);
-        $ignoreLocationDirectoryName = strpos($name, DIRECTORY_SEPARATOR);
+        $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR)!==false);
         $tmpDir = self::getCacheDir($ignoreLocationDirectoryName);
         $uniqueHash = md5(__FILE__);
         return $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash;
@@ -472,7 +472,7 @@ abstract class ObjectYPT implements ObjectInterface
     public static function deleteCacheFromPattern($name)
     {
         $name = self::cleanCacheName($name);
-        $ignoreLocationDirectoryName = strpos($name, DIRECTORY_SEPARATOR);
+        $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR)!==false);
         $tmpDir = self::getCacheDir($ignoreLocationDirectoryName);
         $filePattern = $tmpDir . DIRECTORY_SEPARATOR . $name;
         foreach (glob("{$filePattern}*") as $filename) {
