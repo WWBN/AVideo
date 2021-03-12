@@ -434,19 +434,19 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function deleteALLCache()
     {
-        $tmpDir = self::getCacheDir();
+        $tmpDir = self::getCacheDir(true);
         rrmdir($tmpDir);
         self::deleteAllSessionCache();
         self::setLastDeleteALLCacheTime();
     }
 
-    public static function getCacheDir()
+    public static function getCacheDir($ignoreLocationDirectoryName=false)
     {
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
 
-        if (class_exists("User_Location")) {
+        if (!$ignoreLocationDirectoryName && class_exists("User_Location")) {
             $loc = User_Location::getThisUserLocation();
             if (!empty($loc) && !empty($loc['country_code'])) {
                 $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
@@ -463,7 +463,8 @@ abstract class ObjectYPT implements ObjectInterface
     public static function getCacheFileName($name)
     {
         $name = self::cleanCacheName($name);
-        $tmpDir = self::getCacheDir();
+        $ignoreLocationDirectoryName = strpos($name, DIRECTORY_SEPARATOR);
+        $tmpDir = self::getCacheDir($ignoreLocationDirectoryName);
         $uniqueHash = md5(__FILE__);
         return $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash;
     }
@@ -471,7 +472,8 @@ abstract class ObjectYPT implements ObjectInterface
     public static function deleteCacheFromPattern($name)
     {
         $name = self::cleanCacheName($name);
-        $tmpDir = self::getCacheDir();
+        $ignoreLocationDirectoryName = strpos($name, DIRECTORY_SEPARATOR);
+        $tmpDir = self::getCacheDir($ignoreLocationDirectoryName);
         $filePattern = $tmpDir . DIRECTORY_SEPARATOR . $name;
         foreach (glob("{$filePattern}*") as $filename) {
             unlink($filename);
