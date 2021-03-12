@@ -52,7 +52,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 $_GET['parentsOnly'] = "1";
 if (empty($_SESSION['language'])) {
-    $lang = 'us';
+    $lang = 'us_EN';
 } else {
     $lang = $_SESSION['language'];
 }
@@ -514,7 +514,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                 $objFlag->$value = $value;
                             }
                             if ($lang == 'en') {
-                                $lang = 'us';
+                                $lang = 'en_US';
                             }
                             echo Layout::getLangsSelect('navBarFlag', $lang, 'navBarFlag', '', true);
                             ?>
