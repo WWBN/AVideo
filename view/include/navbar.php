@@ -516,7 +516,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             if ($lang == 'en') {
                                 $lang = 'us';
                             }
-                            echo Layout::getLangsSelect('navBarFlag', $config->getLanguage(), 'navBarFlag', '', true);
+                            echo Layout::getLangsSelect('navBarFlag', $lang, 'navBarFlag', '', true);
                             ?>
                                 
                             </div>
