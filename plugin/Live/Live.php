@@ -1489,7 +1489,7 @@ class Live extends PluginAbstract {
     }
     
     public static function deleteStatsCache($live_servers_id) {
-        global $getStatsLive, $_getStats, $getStatsObject;
+        global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications;
         $tmpDir = ObjectYPT::getCacheDir();
         $cacheDir = $tmpDir."getStats".DIRECTORY_SEPARATOR;
         if(isset($live_servers_id)){
@@ -1507,6 +1507,8 @@ class Live extends PluginAbstract {
         unset($getStatsLive);
         unset($getStatsObject);
         unset($_getStats);
+        unset($_getStatsNotifications);
+        
     }
 
     public static function getRestreamObject($liveTransmitionHistory_id) {
