@@ -5943,7 +5943,7 @@ function getStatsNotifications() {
         return $_getStatsNotifications[$key];
     }
     $cacheName = DIRECTORY_SEPARATOR . "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
-    $json = ObjectYPT::getCache($cacheName, 0);
+    $json = ObjectYPT::getCache($cacheName, 0, false);
     if (empty($json)) {
         $json = Live::getStats();
         $json = object_to_array($json);
