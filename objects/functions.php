@@ -5934,7 +5934,7 @@ function isURL200($url, $forceRecheck = false) {
 
 function getStatsNotifications() {
     global $_getStatsNotifications;
-
+    
     if (!isset($_getStatsNotifications)) {
         $_getStatsNotifications = array();
     }
@@ -5945,6 +5945,7 @@ function getStatsNotifications() {
     $cacheName = DIRECTORY_SEPARATOR . "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     $json = ObjectYPT::getCache($cacheName, 0, false);
     if (empty($json)) {
+        //_error_log('getStatsNotifications: '. json_encode(debug_backtrace()));
         $json = Live::getStats();
         $json = object_to_array($json);
 
