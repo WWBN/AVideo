@@ -409,6 +409,8 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function deleteCache($name)
     {
+        global $__getAVideoCache;
+        unset($__getAVideoCache);
         $cachefile = self::getCacheFileName($name);
         @unlink($cachefile);
         self::deleteSessionCache($name);
@@ -416,6 +418,8 @@ abstract class ObjectYPT implements ObjectInterface
     }
     
     static function deleteCachePattern($pattern) {
+        global $__getAVideoCache;
+        unset($__getAVideoCache);
         $tmpDir = self::getCacheDir();        
         $array = _glob($tmpDir, $pattern);        
         foreach ($array as $value) {
@@ -435,6 +439,8 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function deleteALLCache()
     {
+        global $__getAVideoCache;
+        unset($__getAVideoCache);
         $tmpDir = self::getCacheDir(true);
         rrmdir($tmpDir);
         self::deleteAllSessionCache();
