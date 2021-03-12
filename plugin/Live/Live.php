@@ -1491,10 +1491,13 @@ class Live extends PluginAbstract {
     public static function deleteStatsCache($live_servers_id) {
         global $getStatsLive, $_getStats, $getStatsObject;
         $tmpDir = ObjectYPT::getCacheDir();
-        $cacheDir = $tmpDir."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}";
+        $cacheDir = $tmpDir."getStats".DIRECTORY_SEPARATOR;
+        if(isset($live_servers_id)){
+            $cacheDir .= "live_servers_id_{$live_servers_id}";
+            $pattern = "/.getStats.{$live_servers_id}.*/";
+            ObjectYPT::deleteCachePattern($pattern);
+        }
         rrmdir($cacheDir);
-        $pattern = "/.getStats.{$live_servers_id}.*/";
-        ObjectYPT::deleteCachePattern($pattern);
         unset($getStatsLive);
         unset($getStatsObject);
         unset($_getStats);
