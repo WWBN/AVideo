@@ -1692,14 +1692,14 @@ function convertImage($originalImage, $outputImage, $quality) {
     if (function_exists('exif_imagetype')) {
         $imagetype = exif_imagetype($originalImage);
     }
-    
+
     $ext = strtolower(pathinfo($originalImage, PATHINFO_EXTENSION));
     $extOutput = strtolower(pathinfo($outputImage, PATHINFO_EXTENSION));
-    
-    if($ext == $extOutput){
+
+    if ($ext == $extOutput) {
         return copy($originalImage, $outputImage);
     }
-    
+
     try {
         if ($imagetype == IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext)) {
             $imageTmp = @imagecreatefromjpeg($originalImage);
@@ -1725,32 +1725,32 @@ function convertImage($originalImage, $outputImage, $quality) {
     }
     // quality is a value from 0 (worst) to 100 (best)
     $response = 0;
-    if($extOutput === 'jpg'){
-        if(function_exists('imagejpeg')){
+    if ($extOutput === 'jpg') {
+        if (function_exists('imagejpeg')) {
             $response = imagejpeg($imageTmp, $outputImage, $quality);
-        }else{
+        } else {
             _error_log("convertImage ERROR: function imagejpeg does not exists");
         }
-    }else if($extOutput === 'png'){
-        if(function_exists('imagepng')){
-            $response = imagepng($imageTmp, $outputImage, $quality/10);
-        }else{
+    } else if ($extOutput === 'png') {
+        if (function_exists('imagepng')) {
+            $response = imagepng($imageTmp, $outputImage, $quality / 10);
+        } else {
             _error_log("convertImage ERROR: function imagepng does not exists");
         }
-    }else if($extOutput === 'webp'){
-        if(function_exists('imagewebp')){
+    } else if ($extOutput === 'webp') {
+        if (function_exists('imagewebp')) {
             $response = imagewebp($imageTmp, $outputImage, $quality);
-        }else{
+        } else {
             _error_log("convertImage ERROR: function imagewebp does not exists");
         }
-    }else if($extOutput === 'gif'){
-        if(function_exists('imagegif')){
+    } else if ($extOutput === 'gif') {
+        if (function_exists('imagegif')) {
             $response = imagegif($imageTmp, $outputImage);
-        }else{
+        } else {
             _error_log("convertImage ERROR: function imagegif does not exists");
         }
     }
-    
+
     imagedestroy($imageTmp);
 
     return $response;
@@ -4590,7 +4590,7 @@ function getTmpDir($subdir = "") {
     if (empty($_SESSION['getTmpDir'][$subdir . "_"])) {
         $tmpDir = sys_get_temp_dir();
         if (empty($tmpDir) || !_isWritable($tmpDir)) {
-            $tmpDir = getVideosDir() . "cache".DIRECTORY_SEPARATOR;
+            $tmpDir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
         }
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir = "{$tmpDir}{$subdir}";
@@ -4981,7 +4981,7 @@ function avidoeShutdown() {
     if ($error && ($error['type'] & E_FATAL)) {
         _error_log($error, AVideoLog::$ERROR);
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-        echo '<!-- This page means an error 500 Internal Server Error, check your log file -->'.PHP_EOL;
+        echo '<!-- This page means an error 500 Internal Server Error, check your log file -->' . PHP_EOL;
         include $global['systemRootPath'] . 'view/maintanance.html';
         exit;
     }
@@ -5204,7 +5204,7 @@ function getCredentialsURL() {
 
 function gotToLoginAndComeBackHere($msg) {
     global $global;
-    if(User::isLogged()){
+    if (User::isLogged()) {
         forbiddenPage($msg);
         exit;
     }
@@ -5353,7 +5353,7 @@ function _glob($dir, $pattern) {
     if (isset($_glob[$name])) {
         return $_glob[$name];
     }
-    $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR; 
+    $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     $array = array();
     if ($handle = opendir($dir)) {
         $count = 0;
@@ -5566,7 +5566,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -5942,61 +5942,64 @@ function getStatsNotifications() {
     if (isset($_getStatsNotifications[$key])) {
         return $_getStatsNotifications[$key];
     }
-    
-    $json = Live::getStats();
-    $json = object_to_array($json);
+    $cacheName = DIRECTORY_SEPARATOR . "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
+    $json = ObjectYPT::getCache($cacheName, 0);
+    if (empty($json)) {
+        $json = Live::getStats();
+        $json = object_to_array($json);
 
-    if (empty($json['applications']) && is_array($json)) {
-        $json['applications'] = array();
-        foreach ($json as $key => $value) {
-            if (empty($value['applications'])) {
-                continue;
-            }
-            $json['applications'] = array_merge($json['applications'], $value['applications']);
-            unset($json[$key]);
-        }
-    }
-
-    $appArray = AVideoPlugin::getLiveApplicationArray();
-    if (!empty($appArray)) {
-        if (empty($json)) {
-            $json = array();
-        }
-        $json['error'] = false;
-        if (empty($json['msg'])) {
-            $json['msg'] = "OFFLINE";
-        }
-        $json['nclients'] = count($appArray);
-        if (empty($json['applications'])) {
+        if (empty($json['applications']) && is_array($json)) {
             $json['applications'] = array();
+            foreach ($json as $key => $value) {
+                if (empty($value['applications'])) {
+                    continue;
+                }
+                $json['applications'] = array_merge($json['applications'], $value['applications']);
+                unset($json[$key]);
+            }
         }
-        $json['applications'] = array_merge($json['applications'], $appArray);
-    }
 
-    $count = 0;
-    if (!isset($json['total'])) {
-        $json['total'] = 0;
-    }
-    if (!empty($json['applications'])) {
-        $json['total'] += count($json['applications']);
-    }
-    while (!empty($json[$count])) {
-        $json['total'] += count($json[$count]['applications']);
-        $count++;
-    }
-    if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
-        $json['countLiveStream'] = $json['total'];
-    }
-    if (!empty($json['applications'])) {
-        foreach ($json['applications'] as $key => $value) {
-            if (empty($value['users_id']) && !empty($value['user'])) {
-                $u = User::getFromUsername($value['user']);
-                $json['applications'][$key]['users_id'] = $u['id'];
+        $appArray = AVideoPlugin::getLiveApplicationArray();
+        if (!empty($appArray)) {
+            if (empty($json)) {
+                $json = array();
+            }
+            $json['error'] = false;
+            if (empty($json['msg'])) {
+                $json['msg'] = "OFFLINE";
+            }
+            $json['nclients'] = count($appArray);
+            if (empty($json['applications'])) {
+                $json['applications'] = array();
+            }
+            $json['applications'] = array_merge($json['applications'], $appArray);
+        }
+
+        $count = 0;
+        if (!isset($json['total'])) {
+            $json['total'] = 0;
+        }
+        if (!empty($json['applications'])) {
+            $json['total'] += count($json['applications']);
+        }
+        while (!empty($json[$count])) {
+            $json['total'] += count($json[$count]['applications']);
+            $count++;
+        }
+        if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
+            $json['countLiveStream'] = $json['total'];
+        }
+        if (!empty($json['applications'])) {
+            foreach ($json['applications'] as $key => $value) {
+                if (empty($value['users_id']) && !empty($value['user'])) {
+                    $u = User::getFromUsername($value['user']);
+                    $json['applications'][$key]['users_id'] = $u['id'];
+                }
             }
         }
     }
-    
     $_getStatsNotifications[$key] = $json;
+    ObjectYPT::setCache($cacheName, $json);
     return $json;
 }
 
@@ -6177,7 +6180,7 @@ function getImageTransparent1pxURL() {
 
 function getDatabaseTime() {
     global $global, $_getDatabaseTime;
-    if(isset($_getDatabaseTime)){
+    if (isset($_getDatabaseTime)) {
         return $_getDatabaseTime;
     }
     $sql = "SELECT CURRENT_TIMESTAMP";
@@ -6193,10 +6196,10 @@ function getDatabaseTime() {
     return $_getDatabaseTime;
 }
 
-function get_js_availableLangs(){
+function get_js_availableLangs() {
     global $global;
-    if(empty($global['js_availableLangs'])){
-        include_once $global['systemRootPath'].'objects/bcp47.php';
+    if (empty($global['js_availableLangs'])) {
+        include_once $global['systemRootPath'] . 'objects/bcp47.php';
     }
     return $global['js_availableLangs'];
 }
