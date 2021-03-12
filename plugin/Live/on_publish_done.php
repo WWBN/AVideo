@@ -51,3 +51,4 @@ Live::deleteStatsCache(null);
 $array = setLiveKey($row['key'], $row['live_servers_id']);
 $array['stats'] = LiveTransmitionHistory::getStatsAndRemoveApplication($row['id']);
 $socketObj = sendSocketMessageToAll($array, "socketLiveOFFCallback");
+Live::deleteStatsCache(null);
