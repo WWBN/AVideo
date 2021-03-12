@@ -53,6 +53,11 @@ function getAllFlags() {
     return $flags;
 }
 
+/**
+ * Deprecated replaced by Layout::getAvilableFlags()
+ * @global type $global
+ * @return type
+ */
 function getEnabledLangs() {
     global $global;
     $dir = "{$global['systemRootPath']}locale";

@@ -5362,6 +5362,7 @@ function _glob($dir, $pattern) {
                 continue;
             }
             //_error_log("_glob: {$dir}{$file_name} [$pattern]");
+            //var_dump($pattern, $file_name, preg_match($pattern, $file_name));
             if (preg_match($pattern, $file_name)) {
                 $array[] = "{$dir}{$file_name}";
             }
