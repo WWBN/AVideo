@@ -472,6 +472,7 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function deleteCacheFromPattern($name)
     {
+        $tmpDir = getTmpDir();
         $name = self::cleanCacheName($name);
         $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR)!==false);
         $filePattern = $tmpDir . DIRECTORY_SEPARATOR . $name;
