@@ -1497,7 +1497,13 @@ class Live extends PluginAbstract {
             $pattern = "/.getStats.{$live_servers_id}.*/";
             ObjectYPT::deleteCachePattern($pattern);
         }
+        _error_log("Live::deleteStatsCache [{$cacheDir}]");
         rrmdir($cacheDir);
+        if(is_dir($cacheDir)){
+            _error_log("Live::deleteStatsCache [{$cacheDir}] looks like the cache was not deleted", AVideoLog::$ERROR);
+        }else{
+            _error_log("Live::deleteStatsCache [{$cacheDir}] Success");
+        }
         unset($getStatsLive);
         unset($getStatsObject);
         unset($_getStats);
