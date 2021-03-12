@@ -199,9 +199,9 @@ class Layout extends PluginAbstract {
         if (empty($class)) {
             $class = "js-select-search";
         }
-        $html .= '<select class="form-control ' . $class . '" name="' . $name . '" id="' . $id . '">';
+        $html .= '<select class="form-control ' . $class . '" name="' . $name . '" id="' . $id . '" style="display:none;">';
         if ($placeholder) {
-            $html .= '<option value="" style="display:none;"> -- </option>';
+            $html .= '<option value="" > -- </option>';
         }
         foreach ($optionsArray as $key => $value) {
             $selectedString = "";
@@ -220,6 +220,10 @@ class Layout extends PluginAbstract {
                     $_text . '</option>';
         }
         $html .= '</select>';
+        // this is just to display something before load the select2
+        $html .= '<select class="form-control" id="deleteSelect_' . $id . '" ><option></option></select>';
+        $html .= '<script>$(document).ready(function() {$(\'#deleteSelect_' . $id . '\').remove();});</script>';
+        
         $global['getSelectSearchable'] = 1;
         return $html;
     }

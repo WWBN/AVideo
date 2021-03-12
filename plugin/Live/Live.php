@@ -1709,5 +1709,16 @@ class Live extends PluginAbstract {
     static function finishLive($key) {
         $lh = LiveTransmitionHistory::finish($key);
     }
+    
+    static function updateVideosUserGroup($videos_id, $key){
+        $lt = LiveTransmition::keyExists($key);
+        if(!empty($lt)){
+            $lt = new LiveTransmition($lt['id']);
+            $groups = $lt->getGroups();
+            if(!empty($groups)){
+                UserGroups::updateVideoGroups($videos_id, $groups);
+            }
+        }
+    }
 
 }

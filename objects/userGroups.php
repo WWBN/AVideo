@@ -339,13 +339,23 @@ class UserGroups {
         return $response;
     }
 
-    static function updateVideoGroups($videos_id, $array_groups_id) {
+    static function updateVideoGroups($videos_id, $array_groups_id, $mergeWithCurrentUserGroups=false) {
         if (!User::canUpload()) {
             return false;
         }
         if (!is_array($array_groups_id)) {
             return false;
         }
+        
+        if($mergeWithCurrentUserGroups){
+            $current_user_groups = self::getVideoGroups($videos_id);
+            foreach ($current_user_groups as $value) {
+                if(!in_array($value['id'], $array_groups_id)){
+                    $array_groups_id[] = $value['id'];
+                }
+            }
+        }
+        
         self::deleteGroupsFromVideo($videos_id);
         global $global;
 
