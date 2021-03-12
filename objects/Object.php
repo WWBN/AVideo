@@ -405,6 +405,7 @@ abstract class ObjectYPT implements ObjectInterface
         } elseif (file_exists($cachefile)) {
             self::deleteCache($name);
         }
+        return null;
     }
 
     public static function deleteCache($name)
@@ -473,7 +474,7 @@ abstract class ObjectYPT implements ObjectInterface
         $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR)!==false);
         $tmpDir = self::getCacheDir($ignoreLocationDirectoryName);
         $uniqueHash = md5(__FILE__);
-        return $tmpDir . DIRECTORY_SEPARATOR . $name . $uniqueHash;
+        return $tmpDir . $name . $uniqueHash;
     }
 
     public static function deleteCacheFromPattern($name)
