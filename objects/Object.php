@@ -396,6 +396,7 @@ abstract class ObjectYPT implements ObjectInterface
         }
 
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
+            //if(preg_match('/getStats/', $cachefile)){echo $cachefile,'<br>';}
             $c = @url_get_contents($cachefile);
             $json = json_decode($c);
             self::setSessionCache($name, $json);
