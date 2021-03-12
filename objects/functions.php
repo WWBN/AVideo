@@ -5998,6 +5998,9 @@ function getStatsNotifications() {
             }
         }
     }
+    else{
+        $json = object_to_array($json);
+    }
     $_getStatsNotifications[$key] = $json;
     ObjectYPT::setCache($cacheName, $json);
     return $json;
