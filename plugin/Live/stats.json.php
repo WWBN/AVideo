@@ -16,10 +16,11 @@ if (empty($pobj)) {
     die(json_encode("Plugin disabled"));
 }
 $live_servers_id = Live::getLiveServersIdRequest();
-$cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']. json_encode($_REQUEST));
-$json = ObjectYPT::getSessionCache($cacheName, $pobj->cacheStatsTimout);
+$cacheName = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."_statsCache_".md5($global['systemRootPath']. json_encode($_REQUEST));
+        
+$json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout);
 if(empty($json)){
     $json = getStatsNotifications();
-    ObjectYPT::setSessionCache($cacheName, $json);
+    ObjectYPT::setCache($cacheName, $json);
 }
 echo json_encode($json);

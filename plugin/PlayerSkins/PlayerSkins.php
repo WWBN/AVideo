@@ -82,8 +82,8 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showLoopButton && !isLive()) {
                 $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.css?". filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.css")."\" rel=\"stylesheet\" type=\"text/css\"/>";
-            $css .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.js?". filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.js")."\"></script>";
+            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.css?" . filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.css") . "\" rel=\"stylesheet\" type=\"text/css\"/>";
+            $css .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.js?" . filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.js") . "\"></script>";
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"
@@ -150,7 +150,7 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             $video = Video::getVideoLight($videos_id);
             $spectrumSource = Video::getSourceFile($video['filename'], "_spectrum.jpg");
-            if(!empty($spectrumSource["path"])){
+            if (!empty($spectrumSource["path"])) {
                 $onPlayerReady = "startAudioSpectrumProgress('{$spectrumSource["url"]}');";
                 self::prepareStartPlayerJS($onPlayerReady);
             }
@@ -324,12 +324,12 @@ class PlayerSkins extends PluginAbstract {
         }
         $video = new Video("", "", $videos_id);
         if (!empty($video) && empty($nextURL)) {
-            if(!empty($video->getNext_videos_id())){
+            if (!empty($video->getNext_videos_id())) {
                 $next_video = Video::getVideo($video->getNext_videos_id());
                 if (!empty($next_video['id'])) {
                     $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
                 }
-            }else{
+            } else {
                 $catName = @$_GET['catName'];
                 $cat = new Category($video->getCategories_id());
                 $_GET['catName'] = $cat->getClean_name();
@@ -354,7 +354,7 @@ class PlayerSkins extends PluginAbstract {
             url += '?t=' + time;
             }
             $('#linkCurrentTime, .linkCurrentTime').val(url);
-            if (time >= 5 && time % 5 === 0) {
+            if (time >= 5 && time % 30 === 0) {
                 addView({$videos_id}, time);
             }
         });
@@ -424,6 +424,7 @@ class PlayerSkins extends PluginAbstract {
                 $obj->label = 'Plugin';
                 $obj->type = "danger";
                 $obj->text = $resolution['resolution_text'];
+                $obj->tooltip = $resolution['resolution'].'p';
             }
             $tags = $obj;
             ObjectYPT::setCache($name, $tags);

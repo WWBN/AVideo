@@ -195,15 +195,19 @@ class LiveTransmitionHistory extends ObjectYPT {
         $key = $lth->getKey();
         foreach ($stats['applications'] as $k => $value) {
             $value = object_to_array($value);
-            if(empty($value['key']) || $value['key']==$key){ // application is already in the list
+            if(!empty($value['key']) && $value['key']==$key){ // application is already in the list
                 unset($stats['applications'][$k]);
                 $stats['countLiveStream']--;
             }
         }
-        foreach ($stats['hidden_applications'] as $k => $value) {
-            $value = object_to_array($value);
-            if($value['key']==$key){ // application is already in the list
-                unset($stats['hidden_applications'][$k]);
+        if(empty($stats['hidden_applications'])){
+            $stats['hidden_applications'] = array();
+        }else{
+            foreach ($stats['hidden_applications'] as $k => $value) {
+                $value = object_to_array($value);
+                if($value['key']==$key){ // application is already in the list
+                    unset($stats['hidden_applications'][$k]);
+                }
             }
         }
         
@@ -278,19 +282,28 @@ class LiveTransmitionHistory extends ObjectYPT {
     }
 
     static function getLatestFromUser($users_id) {
+        $rows = self::getLastsLiveHistoriesFromUser($users_id, 1);
+        return @$rows[0];
+    }
+    
+    static function getLastsLiveHistoriesFromUser($users_id, $count=10) {
         global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `users_id` = ? ORDER BY created DESC LIMIT 1";
-        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-
-        $res = sqlDAL::readSql($sql, "i", array($users_id));
-        $data = sqlDAL::fetchAssoc($res);
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `users_id` = ? ORDER BY created DESC LIMIT ?";
+        
+        $res = sqlDAL::readSql($sql, "ii", array($users_id, $count));
+        $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        if ($res) {
-            $row = $data;
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $log = LiveTransmitionHistoryLog::getAllFromHistory($row['id']);
+                $row['totalUsers'] = count($log);
+                $rows[] = $row;
+            }
         } else {
-            $row = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        return $row;
+        return $rows;
     }
 
     public function save() {

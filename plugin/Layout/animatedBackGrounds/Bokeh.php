@@ -2,6 +2,14 @@
     body{
         background: radial-gradient(#AAA, #333);
     }
+    .BokehBackground{
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
     .BokehBackground span {
         width: 20vmin;
         height: 20vmin;

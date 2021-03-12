@@ -346,8 +346,8 @@
                             </div>
                             <div id="pimages" class="tab-pane fade">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#jpg"><?php echo __("Poster (JPG)"); ?></a></li>
-                                    <li><a data-toggle="tab" href="#pjpg"><?php echo __("Portrait Poster (JPG)"); ?></a></li>
+                                    <li class="active"><a data-toggle="tab" href="#jpg"><?php echo __("Poster"); ?></a></li>
+                                    <li><a data-toggle="tab" href="#pjpg"><?php echo __("Portrait Poster"); ?></a></li>
                                     <li><a data-toggle="tab" href="#webp"><?php echo __("Mouse Over Poster (WebP)"); ?></a></li>
                                     <li><a data-toggle="tab" href="#gif"><?php echo __("Mouse Over Poster (GIF)"); ?></a></li>
                                     <li><a data-toggle="tab" href="#pgif"><?php echo __("Mouse Over Portrait Poster (GIF)"); ?></a></li>
@@ -355,10 +355,10 @@
 
                                 <div class="tab-content">
                                     <div id="jpg" class="tab-pane fade in active">
-                                        <input id="input-jpg" type="file" class="file-loading" accept="image/jpg, .jpeg, .jpg">
+                                        <input id="input-jpg" type="file" class="file-loading" accept="image/jpg, .jpeg, .jpg, .png, .bmp">
                                     </div>
                                     <div id="pjpg" class="tab-pane fade">
-                                        <input id="input-pjpg" type="file" class="file-loading" accept="image/jpg, .jpeg, .jpg">
+                                        <input id="input-pjpg" type="file" class="file-loading" accept="image/jpg, .jpeg, .jpg, .png, .bmp">
                                     </div>
                                     <div id="webp" class="tab-pane fade">
                                         <input id="input-webp" type="file" class="file-loading" accept="image/webp, .webp">
@@ -1066,7 +1066,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                                 showRemove: false,
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                                                allowedFileExtensions: ["jpg", "jpeg"],
+                                                allowedFileExtensions: ["jpg", "jpeg", "png", "bmp"],
                                                 dropZone: null,
                                                 pasteZone: null
                                             });
@@ -1084,7 +1084,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                                 showRemove: false,
                                                 showClose: false,
                                                 layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                                                allowedFileExtensions: ["jpg", "jpeg"],
+                                                allowedFileExtensions: ["jpg", "jpeg", "png", "bmp"],
                                                 dropZone: null,
                                                 pasteZone: null
                                             });

@@ -260,36 +260,28 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
 
             <div class="text-muted galeryDetails" style="overflow: hidden;">
                 <div class="galleryTags">
-                    <?php if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) { ?>
-                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>">
-                            <?php
-                            if (!empty($value['iconClass'])) {
-                                ?>
-                                <i class="<?php echo $value['iconClass']; ?>"></i>
-                                <?php
-                            }
-                            ?>
-                            <?php echo $value['category']; ?>
+                    <!-- category tags -->
+                    <?php
+                    if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) {
+                        $iconClass = 'fas fa-folder';
+                        if (!empty($value['iconClass'])) {
+                            $iconClass = $value['iconClass'];
+                        }
+                        $icon = '<i class="' . $iconClass . '"></i>';
+                        ?>
+                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>" 
+                           data-toggle="tooltip" title="<?php echo htmlentities($icon . ' ' . $value['category']); ?>"  data-html="true">
+                               <?php
+                               echo $icon;
+                               ?>
                         </a>
                     <?php } ?>
+                    <!-- plugins tags -->
                     <?php
                     @$timesG[__LINE__] += microtime(true) - $startG;
                     $startG = microtime(true);
                     if (!empty($obj->showTags)) {
-                        $value['tags'] = Video::getTags($value['id']);
-                        foreach ($value['tags'] as $value2) {
-                            if (!empty($value2->label) && $value2->label === __("Paid Content")) {
-                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
-                            }
-                            if (!empty($value2->label) && $value2->label === __("Group")) {
-                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
-                            }
-                            if (!empty($value2->label) && $value2->label === __("Plugin")) {
-                                ?>
-                                <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                <?php
-                            }
-                        }
+                        echo implode('', Video::getTagsHTMLLabelArray($value['id']));
                     }
                     @$timesG[__LINE__] += microtime(true) - $startG;
                     $startG = microtime(true);

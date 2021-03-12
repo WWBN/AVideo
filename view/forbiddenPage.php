@@ -14,6 +14,7 @@ $global['isForbidden'] = true;
     <body>
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
+        CustomizeUser::autoIncludeBGAnimationFile();
         ?>
         <div class="container">
             <?php

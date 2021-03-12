@@ -14,6 +14,11 @@ if (isset($_GET['getLanguage'])) {
 $vars = array();
 require_once '../videos/configuration.php';
 require_once '../objects/functions.php';
+
+if(!User::isAdmin() || !empty($global['disableAdvancedConfigurations'])){
+    forbiddenPage('');
+}
+
 ini_set('max_execution_time', 300);
 function listAll($dir) {
     global $vars;

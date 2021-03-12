@@ -446,7 +446,7 @@ Best regards,
 
     function onUserSocketConnect() {
         $obj = $this->getDataObject();
-        if ($obj->singleDeviceLogin) {
+        if ($obj->singleDeviceLogin && !preg_match('/Chat2/', $_SERVER["SCRIPT_FILENAME"])) {
             echo ' if(response.msg.users_id && response.msg.users_id == "' . User::getId() . '" && response.msg.yptDeviceId  && response.msg.yptDeviceId !== "' . getDeviceID(false) . '"){
                 $.ajax({
                     url: webSiteRootURL + "logoff",

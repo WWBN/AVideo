@@ -115,7 +115,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         }
     }
     var limitLiveOnVideosListCount = 0;
-    function createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id) {
+    function createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id, live_index) {
         if (typeof key !== 'string') {
             return false;
         }
@@ -156,9 +156,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
                 $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_" + key);
                 $liveLi.find('.liveUsersViews').addClass("liveUsersViews_" + key);
             }
-            $liveLi.find('.thumbsJPG').attr("src", webSiteRootURL+"plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=jpg" + playlists_id_live + '&' + Math.random());
+            $liveLi.find('.thumbsJPG').attr("src", webSiteRootURL+"plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&live_index=" + live_index + "&u=" + user + "&format=jpg" + playlists_id_live + '&' + Math.random());
             if (!disableGif) {
-                $liveLi.find('.thumbsGIF').attr("src", webSiteRootURL+"plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&u=" + user + "&format=gif" + playlists_id_live + '&' + Math.random());
+                $liveLi.find('.thumbsGIF').attr("src", webSiteRootURL+"plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&live_index=" + live_index + "&u=" + user + "&format=gif" + playlists_id_live + '&' + Math.random());
             } else {
                 $liveLi.find('.thumbsGIF').remove();
             }
@@ -230,7 +230,11 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             if (response.applications.length) {
                 disableGif = response.disableGif;
                 for (i = 0; i < response.applications.length; i++) {
-                    processApplication(response.applications[i], disableGif, 0);
+                    var live_index = 0;
+                    if(response.applications[i].live_index){
+                        live_index = response.applications[i].live_index;
+                    }
+                    processApplication(response.applications[i], disableGif, 0, live_index);
                 }
                 mouseEffect();
             }
@@ -240,7 +244,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         while (typeof response[count] !== 'undefined') {
             for (i = 0; i < response[count].applications.length; i++) {
                 disableGif = response[count].disableGif;
-                processApplication(response[count].applications[i], disableGif, response[count].live_servers_id);
+                processApplication(response[count].applications[i], disableGif, response[count].live_servers_id, response[count].live_index);
             }
             count++;
         }
@@ -262,7 +266,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         $('#availableLiveStream').find('.liveLink div').attr('style', '');
     }
 
-    function processApplication(application, disableGif, live_servers_id) {
+    function processApplication(application, disableGif, live_servers_id, live_index) {
 
         href = application.href;
         title = application.title;
@@ -270,7 +274,6 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         user = application.user;
         photo = application.photo;
         key = application.key;
-        live_servers_id = live_servers_id;
         isPrivate = application.isPrivate;
         if (application.type === 'Live') {
             online = application.users.online;
@@ -306,7 +309,7 @@ if (isLive()) {
 <?php
 if (empty($obj->doNotShowLiveOnVideosList)) {
     ?>
-                createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id);
+                createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id, live_index);
     <?php
 }
 ?>

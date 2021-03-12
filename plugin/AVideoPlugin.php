@@ -1468,6 +1468,485 @@ class AVideoPlugin {
         return implode(",", $r);
     }
 
+    /* Video properties hooks */
+
+    public static function onVideoSetLive_transmitions_history_id($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetLive_transmitions_history_id($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetEncoderURL($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetEncoderURL($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetFilepath($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetFilepath($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetFilesize($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetFilesize($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetUsers_id($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetUsers_id($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetSites_id($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetSites_id($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetVideo_password($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetVideo_password($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetClean_title($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetClean_title($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetDuration($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetDuration($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetIsSuggested($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetIsSuggested($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetStatus($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetStatus($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetType($video_id, $oldValue, $newValue, $force) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetType($video_id, $oldValue, $newValue, $force);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetRotation($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetRotation($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetZoom($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetZoom($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetDescription($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetDescription($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetCategories_id($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetCategories_id($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetVideoDownloadedLink($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetVideoDownloadedLink($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetVideoGroups($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetVideoGroups($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetTrailer1($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetTrailer1($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetTrailer2($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetTrailer2($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetTrailer3($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetTrailer3($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetRate($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetRate($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetYoutubeId($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetYoutubeId($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetTitle($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetTitle($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetFilename($video_id, $oldValue, $newValue, $force) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetFilename($video_id, $oldValue, $newValue, $force);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetNext_videos_id($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetNext_videos_id($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetVideoLink($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetVideoLink($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetCan_download($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetCan_download($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetCan_share($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetCan_share($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetOnly_for_paid($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetOnly_for_paid($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetRrating($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetRrating($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetExternalOptions($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetExternalOptions($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetVideoStartSeconds($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetVideoStartSeconds($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+    public static function onVideoSetSerie_playlists_id($video_id, $oldValue, $newValue) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoSetSerie_playlists_id($video_id, $oldValue, $newValue);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return;
+    }
+
+
+
     public static function getPluginsOnByDefault($getUUID = true) {
         if (empty($getUUID)) {
             return array(

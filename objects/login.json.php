@@ -50,8 +50,8 @@ if (!empty($_GET['type'])) {
     }
     if ($_GET['type'] === "Apple") {
         $obj = AVideoPlugin::getDataObjectIfEnabled('LoginApple');
-        if(empty($obj)){
-           die('Apple Login is disabled'); 
+        if (empty($obj)) {
+            die('Apple Login is disabled');
         }
         $config = [
             'callback' => HttpClient\Util::getCurrentUrl() . "?type={$_GET['type']}",
@@ -230,8 +230,18 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->canCreateCategory = Category::canCreateCategory();
+$object->theme = getCurrentTheme();
 $object->canStream = User::canStream();
 $object->redirectUri = @$_POST['redirectUri'];
+$object->embedChatUrl = '';
+$object->embedChatUrlMobile = '';
+if (AVideoPlugin::isEnabledByName('Chat2')) {
+    $object->embedChatUrl = Chat2::getChatRoomLink(User::getId(), 1, 1, 0, true);
+    $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrl, 'mobileMode', 1);
+    $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrlMobile, 'user', $object->user);
+    $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrlMobile, 'pass', $object->pass);
+}
 //_error_log("login.json.php setup object done");
 
 if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRootURL'])) {
@@ -269,10 +279,10 @@ if ($object->isLogged) {
         if (!empty($trasnmition)) {
             $object->streamServerURL = $p->getServer() . "?p=" . User::getUserPass();
             $object->streamKey = $trasnmition['key'];
-        }else{
-            _error_log('login.json.php transmissionKey is empty ['. User::getId().']');
+        } else {
+            _error_log('login.json.php transmissionKey is empty [' . User::getId() . ']');
         }
-    }else{
+    } else {
         _error_log('login.json.php live plugin is disabled');
     }
     TimeLogEnd($timeLog2, __LINE__);
@@ -302,7 +312,7 @@ if ($object->isLogged) {
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
     }
     TimeLogEnd($timeLog2, __LINE__);
-}else{
+} else {
     _error_log('login.json.php is not logged');
 }
 TimeLogEnd($timeLog, __LINE__);

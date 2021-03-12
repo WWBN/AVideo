@@ -93,6 +93,10 @@ class Message implements MessageComponentInterface {
         unset($_getStats);
         // The connection is closed, remove it, as we can no longer send it messages
         //$this->clients->detach($conn);
+        if(empty($this->clients[$conn->resourceId])){
+            _log_message("onClose Connection {$conn->resourceId} not found");
+            return false;
+        }
         $client = $this->clients[$conn->resourceId];
         unset($this->clients[$conn->resourceId]);
         $users_id = $client['users_id'];

@@ -203,6 +203,7 @@ a.h6{
 }
 .galleryTags .label{
    display: table-cell;
+   font-size: 0.9em;
 }
 .galleryTags{
    margin: 1px;

@@ -153,6 +153,7 @@ class CustomizeUser extends PluginAbstract {
     static function autoIncludeBGAnimationFile() {$baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         $obj = AVideoPlugin::getObjectData('CustomizeUser');
         Layout::includeBGAnimationFile($obj->loginBackgroundAnimation->value);
+        //Layout::includeBGAnimationFile('Animated3');
     }
 
     public function getUserOptions() {
