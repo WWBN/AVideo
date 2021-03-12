@@ -1442,7 +1442,7 @@ class Live extends PluginAbstract {
         return false;
     }
 
-    public function getPosterThumbsImage($users_id, $live_servers_id) {
+    public static function getPosterThumbsImage($users_id, $live_servers_id) {
         global $global;
         $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
 
