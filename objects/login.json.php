@@ -236,7 +236,7 @@ $object->canStream = User::canStream();
 $object->redirectUri = @$_POST['redirectUri'];
 $object->embedChatUrl = '';
 $object->embedChatUrlMobile = '';
-if ($c = AVideoPlugin::loadPluginIfEnabled('Chat2') && method_exists($c, 'getChatRoomLink')) {
+if (AVideoPlugin::isEnabled('Chat2') && method_exists('Chat2', 'getChatRoomLink')) {
     $object->embedChatUrl = Chat2::getChatRoomLink(User::getId(), 1, 1, 0, true);
     $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrl, 'mobileMode', 1);
     $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrlMobile, 'user', $object->user);
