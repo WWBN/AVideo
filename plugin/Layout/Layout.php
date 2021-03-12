@@ -259,7 +259,6 @@ class Layout extends PluginAbstract {
         foreach ($files as $filename) {
             $filename = basename($filename);
             $fileEx = basename($filename, ".php");
-            $name = 'undefined';
             
             $name = $global['bcp47'][$fileEx]['label'];
             $flag = $global['bcp47'][$fileEx]['flag'];
