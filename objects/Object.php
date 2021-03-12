@@ -473,7 +473,6 @@ abstract class ObjectYPT implements ObjectInterface
     {
         $name = self::cleanCacheName($name);
         $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR)!==false);
-        $tmpDir = self::getCacheDir($ignoreLocationDirectoryName);
         $filePattern = $tmpDir . DIRECTORY_SEPARATOR . $name;
         foreach (glob("{$filePattern}*") as $filename) {
             unlink($filename);
