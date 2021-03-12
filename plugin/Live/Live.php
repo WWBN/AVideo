@@ -1014,7 +1014,7 @@ class Live extends PluginAbstract {
         }
 
         $cacheName = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."{$_REQUEST['name']}_" . User::getId();
-        $result = ObjectYPT::getCache($cacheName, 0, false);
+        //$result = ObjectYPT::getCache($cacheName, 0, false); for some reason this also did not update
         if (!empty($result)) {
             return json_decode($result);
         }
