@@ -75,6 +75,9 @@ class BlockonomicsYPT extends PluginAbstract {
         $context = stream_context_create($options);
         $contents = file_get_contents(self::getNEW_ADDRESS_URL(), false, $context);
         $new_address = json_decode($contents);
+        if(empty($new_address)){
+            _error_log('Blockonomics ERROR: '.$contents.' '. json_last_error_msg(), AVideoLog::$ERROR);
+        }
         //Getting price
         $options = array('http' => array('method' => 'GET'));
         $context = stream_context_create($options);
