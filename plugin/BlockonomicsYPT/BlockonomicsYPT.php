@@ -65,6 +65,7 @@ class BlockonomicsYPT extends PluginAbstract {
         
         if (empty($new_address)) {
             _error_log('Blockonomics ERROR 1: ' . $contents . ' ' . json_last_error_msg(), AVideoLog::$ERROR);
+            return false;
         }
         
         //Getting price
@@ -77,7 +78,7 @@ class BlockonomicsYPT extends PluginAbstract {
 
         // save on database
         $b = new BlockonomicsOrder(0);
-        $b->setAddr($new_address->address);
+        $b->setAddr($new_address);
         $b->setBits($bits);
         $b->setBits_payed(0);
         $b->setStatus("-1");
