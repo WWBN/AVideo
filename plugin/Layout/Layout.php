@@ -194,7 +194,13 @@ class Layout extends PluginAbstract {
         $html = "";
         if (empty($global['getSelectSearchable'])) {
             $html .= '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />';
-            $html .= '<style>.select2-selection__rendered {line-height: 36px !important;}.select2-selection {height: 38px !important;}</style>';
+            $html .= '<style>
+                .select2-selection__rendered {line-height: 36px !important;}
+                .select2-selection {height: 38px !important;}
+                .select2-container--default .select2-selection--single {
+                    background-color: transparent !important;
+                    border: 0 !important;
+                }</style>';
         }
         if (empty($class)) {
             $class = "js-select-search";
