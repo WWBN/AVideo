@@ -73,7 +73,7 @@ class BlockonomicsYPT extends PluginAbstract {
         );
         //Generate new address for this invoice
         $context = stream_context_create($options);
-        $contents = file_get_contents(self::getNEW_ADDRESS_URL(), false, $context);
+        $contents = url_get_contents(self::getNEW_ADDRESS_URL(), $context, 0, true);
         $new_address = json_decode($contents);
         if(empty($new_address) || !is_object($new_address)){
             _error_log('Blockonomics ERROR: '.$contents.' '. json_last_error_msg(), AVideoLog::$ERROR);
