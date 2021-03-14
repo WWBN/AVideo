@@ -117,6 +117,7 @@ class BlockonomicsYPT extends PluginAbstract {
         if ($status == 200) {
             return $responseObj->address;
         } else {
+            echo "<div class='alert alert-danger'>{$responseObj->message}</div>";
             _error_log("Blockonomics Error 3: [{$status}] {$responseObj->message}");
         }
         return false;
