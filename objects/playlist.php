@@ -464,7 +464,7 @@ class PlayList extends ObjectYPT {
         if ($NOTSubPlaylists) {
             $sql .= ' AND serie_playlists_id IS NULL ';
         } else {
-            $sql .= ' AND serie_playlists_id IS NOT NULL ';
+            $sql .= ' AND serie_playlists_id IS NOT NULL && serie_playlists_id != playlists_id ';
         }
 
         $res = sqlDAL::readSql($sql, "i", array($playlists_id));
