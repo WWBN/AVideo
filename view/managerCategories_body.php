@@ -92,7 +92,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label><?php echo __("Privacy"); ?></label>                        
+                                            <label><?php echo __("Privacy"); ?> <i class="fas fa-question-circle" data-toggle="tooltip" title="<?php echo htmlentities(__('This option will not make your videos private, this option is for other users not to be able to include their videos in this category. to make your videos private use the user groups feature')); ?>" ></i></label>                        
                                             <select class="form-control" id="inputPrivate">
                                                 <option value="0"><?php echo __("Public"); ?></option>
                                                 <option value="1"><?php echo __("Private"); ?></option>
