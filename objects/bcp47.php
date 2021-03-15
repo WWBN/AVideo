@@ -123,7 +123,7 @@ $global['langs_codes'] = array(
     array('value'=>'en_GB','label'=>'English (United Kingdom)', 'flag'=>'gb'),
     array('value'=>'en_US','label'=>'English (United States)', 'flag'=>'us'),
     array('value'=>'en_ZW','label'=>'English (Zimbabwe)', 'flag'=>'zw'),
-    array('value'=>'en','label'=>'English', 'flag'=>'en'),
+    array('value'=>'en','label'=>'English', 'flag'=>'us'),
     array('value'=>'eo','label'=>'Esperanto', 'flag'=>'eo'),
     array('value'=>'et_EE','label'=>'Estonian (Estonia)', 'flag'=>'ee'),
     array('value'=>'et','label'=>'Estonian', 'flag'=>'et'),
