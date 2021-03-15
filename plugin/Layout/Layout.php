@@ -276,11 +276,29 @@ class Layout extends PluginAbstract {
         }
         return $flags;
     }
+    
+    static function getAllFlags() {
+        global $global;
+        $flags = array();
+        include_once $global['systemRootPath'].'objects/bcp47.php'; 
+        foreach ($global['bcp47'] as $key => $filename) {
+            
+            $name = $filename['label'];
+            $flag = $filename['flag'];
+            
+            $flags[$key] = array(json_encode(array('text'=>$name, 'icon'=>"flagstrap-icon flagstrap-{$flag}")), $key, 'val3-'.$name);
+        }
+        return $flags;
+    }
 
-    static function getLangsSelect($name, $selected = "", $id = "", $class = "", $flagsOnly=false) {
+    static function getLangsSelect($name, $selected = "", $id = "", $class = "", $flagsOnly=false, $getAll=false) {
         global $getLangsSelect;
         $getLangsSelect = 1;
-        $flags = self::getAvilableFlags();
+        if($getAll){
+            $flags = self::getAllFlags();
+        }else{
+            $flags = self::getAvilableFlags();
+        }
         if (empty($id)) {
             $id = uniqid();
         }
@@ -288,8 +306,12 @@ class Layout extends PluginAbstract {
             $selected = 'en_US';
         }
         
-        $selectedJson = json_decode($flags[$selected][0]);
-        
+        if(!empty($flags[$selected])){
+            $selectedJson = json_decode($flags[$selected][0]);
+            $selectedJsonIcon = $selectedJson->icon;
+        }else{
+            $selectedJsonIcon = '';
+        }
         $code = "<script>function getLangSelectformatStateResult (state) {
                                     if (!state.id) {
                                       return state.text;
@@ -331,7 +353,7 @@ class Layout extends PluginAbstract {
                 . '<span class="selection">'
                 . '<span class="select2-selection select2-selection--single">'
                 . '<span class="select2-selection__rendered" id="select2-navBarFlag-container" >'
-                . '<span><i class="'.$selectedJson->icon.'"></i></span>'
+                . '<span><i class="'.$selectedJsonIcon.'"></i></span>'
                 . '</span>'
                 . '<span class="select2-selection__arrow" >'
                 . '<b></b>'
