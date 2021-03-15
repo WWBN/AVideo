@@ -354,7 +354,7 @@ class PlayList extends ObjectYPT {
                 . " FROM  playlists_has_videos p "
                 . " LEFT JOIN videos as v ON videos_id = v.id "
                 . " LEFT JOIN users u ON u.id = v.users_id "
-                . " WHERE playlists_id = ? AND serie_playlists_id != playlists_id AND v.status != 'i' ";
+                . " WHERE playlists_id = ? AND v.status != 'i' ";
         cleanSearchVar();
         $sort = @$_POST['sort'];
         $_POST['sort'] = array();
@@ -464,7 +464,7 @@ class PlayList extends ObjectYPT {
         if ($NOTSubPlaylists) {
             $sql .= ' AND serie_playlists_id IS NULL ';
         } else {
-            $sql .= ' AND serie_playlists_id IS NOT NULL && serie_playlists_id != playlists_id ';
+            $sql .= ' AND serie_playlists_id IS NOT NULL ';
         }
 
         $res = sqlDAL::readSql($sql, "i", array($playlists_id));
