@@ -199,7 +199,6 @@ class Layout extends PluginAbstract {
                 .select2-selection {height: 38px !important;}
                 .select2-container--default .select2-selection--single {
                     background-color: transparent !important;
-                    border: 0 !important;
                 }</style>';
         }
         if (empty($class)) {
