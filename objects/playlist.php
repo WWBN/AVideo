@@ -629,7 +629,8 @@ class PlayList extends ObjectYPT {
 
     public function addVideo($videos_id, $add, $order = 0) {
         global $global;
-        if($this->id == $videos_id){
+        $serie_playlists_id = Video::isSerie($videos_id);
+        if($this->id == $serie_playlists_id){
             return false;
         }
         $formats = "";
