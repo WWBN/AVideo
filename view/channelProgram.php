@@ -712,7 +712,7 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                             if (typeof rows[i] !== 'object') {
                                 continue;
                             }
-                            if(rows[i].id == <?php echo $program['serie_playlists_id']; ?>){
+                            if(rows[i].id == '<?php echo $program['id']; ?>'){
                                 continue;
                             }
                             var html = '<button type="button" class="btn btn-default btn-block"  data-toggle="tooltip" title="<?php echo __('Add To Serie'); ?>" onclick="addToSerie(<?php echo $program['id']; ?>, ' + rows[i].id + ');" id="videos_id_' + rows[i].id + '_playlists_id_<?php echo $program['id']; ?>" ><i class="fas fa-plus"></i> ' + rows[i].title + '</button>';
