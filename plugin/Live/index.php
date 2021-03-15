@@ -102,6 +102,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container-fluid">
+            <br>
             <div class="panel panel-default">
                 <div class="panel-heading tabbable-line">
                     <ul class="nav nav-tabs">

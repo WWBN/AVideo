@@ -1014,7 +1014,7 @@ class Live extends PluginAbstract {
         }
 
         $cacheName = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."{$_REQUEST['name']}_" . User::getId();
-        $result = ObjectYPT::getCache($cacheName, 0, false);
+        //$result = ObjectYPT::getCache($cacheName, 0, false); for some reason this also did not update
         if (!empty($result)) {
             return json_decode($result);
         }
@@ -1442,7 +1442,7 @@ class Live extends PluginAbstract {
         return false;
     }
 
-    public function getPosterThumbsImage($users_id, $live_servers_id) {
+    public static function getPosterThumbsImage($users_id, $live_servers_id) {
         global $global;
         $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
 
@@ -1476,7 +1476,7 @@ class Live extends PluginAbstract {
         return $file;
     }
 
-    public function _getPosterThumbsImage($users_id, $live_servers_id) {
+    public static function _getPosterThumbsImage($users_id, $live_servers_id) {
         $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}.jpg";
         return $file;
     }
@@ -1489,15 +1489,28 @@ class Live extends PluginAbstract {
     }
     
     public static function deleteStatsCache($live_servers_id) {
-        global $getStatsLive, $_getStats, $getStatsObject;
+        global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache;
         $tmpDir = ObjectYPT::getCacheDir();
-        $cacheDir = $tmpDir."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}";
+        $cacheDir = $tmpDir."getstats".DIRECTORY_SEPARATOR;
+        if(isset($live_servers_id)){
+            $cacheDir .= "live_servers_id_{$live_servers_id}";
+            $pattern = "/.getStats.{$live_servers_id}.*/";
+            ObjectYPT::deleteCachePattern($pattern);
+        }
+        _error_log("Live::deleteStatsCache [{$cacheDir}]");
         rrmdir($cacheDir);
-        $pattern = "/.getStats.{$live_servers_id}.*/";
-        ObjectYPT::deleteCachePattern($pattern);
+        if(is_dir($cacheDir)){
+            _error_log("Live::deleteStatsCache [{$cacheDir}] looks like the cache was not deleted", AVideoLog::$ERROR);
+            exec('rm -R '.$cacheDir);
+        }else{
+            _error_log("Live::deleteStatsCache [{$cacheDir}] Success");
+        }
+        unset($__getAVideoCache);
         unset($getStatsLive);
         unset($getStatsObject);
         unset($_getStats);
+        unset($_getStatsNotifications);
+        
     }
 
     public static function getRestreamObject($liveTransmitionHistory_id) {
@@ -1708,6 +1721,17 @@ class Live extends PluginAbstract {
 
     static function finishLive($key) {
         $lh = LiveTransmitionHistory::finish($key);
+    }
+    
+    static function updateVideosUserGroup($videos_id, $key){
+        $lt = LiveTransmition::keyExists($key);
+        if(!empty($lt)){
+            $lt = new LiveTransmition($lt['id']);
+            $groups = $lt->getGroups();
+            if(!empty($groups)){
+                UserGroups::updateVideoGroups($videos_id, $groups);
+            }
+        }
     }
 
 }

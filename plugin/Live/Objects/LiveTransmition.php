@@ -200,6 +200,10 @@ class LiveTransmition extends ObjectYPT {
         $this->showOnTV = intval($this->showOnTV);
         $id = parent::save();
         Category::clearCacheCount();
+        Live::deleteStatsCache(null);
+        
+        $socketObj = sendSocketMessageToAll(array('stats'=>getStatsNotifications()), "socketLiveONCallback");
+        
         return $id;
     }
 

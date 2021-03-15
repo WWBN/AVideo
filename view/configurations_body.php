@@ -278,15 +278,9 @@ if (User::isAdmin()) {
                                             <div class="col-md-8 inputGroupContainer">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                                                    <select class="form-control" id="inputLanguage" >
-                                                        <?php
-                                                        foreach (glob("{$global['systemRootPath']}locale/??.php") as $filename) {
-                                                            $filename = basename($filename);
-                                                            $fileEx = basename($filename, ".php");
-                                                            echo "<option value=\"" . $fileEx . "\"" . (($config->getLanguage() == $fileEx) ? " selected" : "") . ">" . $fileEx . "</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
+                                                    <?php
+                                                    echo Layout::getLangsSelect('inputLanguage', $config->getLanguage(), 'inputLanguage');
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
