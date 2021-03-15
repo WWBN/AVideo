@@ -392,7 +392,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                             <form id="serieSearch-form" name="search-form" action="<?php echo $global['webSiteRootURL'] . ''; ?>" method="get">
                                                 <div id="custom-search-input">
                                                     <div class="input-group col-md-12">
-                                                        <input type="search" name="searchPhrase" id="videoSearch-input" class="form-control input-lg" placeholder="<?php echo __('Search Serie'); ?>" value="">
+                                                        <input type="search" name="searchPhrase" id="serieSearch-input" class="form-control input-lg" placeholder="<?php echo __('Search Serie'); ?>" value="">
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-info btn-lg" type="submit">
                                                                 <i class="fas fa-search"></i>
@@ -695,6 +695,9 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
             function videoSearch(is_serie) {
                 modal.showPleaseWait();
                 var searchPhrase = $('#videoSearch-input').val();
+                if(is_serie){
+                    searchPhrase = $('#serieSearch-input').val();
+                }
                 $.ajax({
                     url: webSiteRootURL + 'plugin/API/get.json.php?APIName=video&rowCount=10&is_serie=' + is_serie + '&searchPhrase=' + searchPhrase,
                     success: function (response) {
