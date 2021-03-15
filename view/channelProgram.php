@@ -96,6 +96,13 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                 $playListButtons = AVideoPlugin::getPlayListButtons($program['id']);
                 @$timesC[__LINE__] += microtime(true) - $startC;
                 $startC = microtime(true);
+                
+                $isASerie = PlayLists::isPlayListASerie($program['id']);
+                if(empty($isASerie)){
+                    $currentSerieVideos_id = 0;
+                }else{
+                    $currentSerieVideos_id = $isASerie['id'];
+                }
                 ?>
                 <br>
                 <div class="panel panel-default program" playListId="<?php echo $program['id']; ?>">
@@ -179,7 +186,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
 
                                     <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Delete'); ?>" ><i class="fas fa-trash"></i> <span class="hidden-xs hidden-sm"><?php echo __("Delete"); ?></span></button>
                                     <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Rename'); ?>" ><i class="fas fa-edit"></i> <span class="hidden-xs hidden-sm"><?php echo __("Rename"); ?></span></button>
-                                    <button class="btn btn-xs btn-success addToPlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Add to Program'); ?>" ><i class="fas fa-plus"></i> <span class="hidden-xs hidden-sm"><?php echo __("Add"); ?></span></button>
+                                    <button class="btn btn-xs btn-success" onclick="openVideoSearch(<?php echo $currentSerieVideos_id; ?>)" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Add to Program'); ?>" ><i class="fas fa-plus"></i> <span class="hidden-xs hidden-sm"><?php echo __("Add"); ?></span></button>
                                     <button class="btn btn-xs btn-default statusPlaylist statusPlaylist<?php echo $program['id']; ?>" playlist_id="<?php echo $program['id']; ?>" style="" >
                                         <span class="fa fa-lock" id="statusPrivate<?php echo $program['id']; ?>" style="color: red; <?php
                                         if ($program['status'] !== 'private') {
@@ -661,12 +668,16 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
         ?>
 
         <script>
-            
+            var currentSerieVideos_id = 0;
             var videoWasAdded = false;
+            
+            function openVideoSearch(videos_id){
+                currentSerieVideos_id = videos_id;
+            }
             
             $(document).ready(function () {
                 $('.addToPlaylist').click(function () {
-                    openVideoSearch();
+                    
                 });
 
                 $('#videoSearch-form').submit(function (event) {
@@ -712,7 +723,7 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                             if (typeof rows[i] !== 'object') {
                                 continue;
                             }
-                            if(rows[i].id == '<?php echo $program['id']; ?>'){
+                            if(rows[i].id == currentSerieVideos_id){
                                 continue;
                             }
                             var html = '<button type="button" class="btn btn-default btn-block"  data-toggle="tooltip" title="<?php echo __('Add To Serie'); ?>" onclick="addToSerie(<?php echo $program['id']; ?>, ' + rows[i].id + ');" id="videos_id_' + rows[i].id + '_playlists_id_<?php echo $program['id']; ?>" ><i class="fas fa-plus"></i> ' + rows[i].title + '</button>';
