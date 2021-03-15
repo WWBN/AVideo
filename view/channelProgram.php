@@ -673,12 +673,10 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
             
             function openVideoSearch(videos_id){
                 currentSerieVideos_id = videos_id;
+                $('#videoSearchModal').modal();
             }
             
             $(document).ready(function () {
-                $('.addToPlaylist').click(function () {
-                    
-                });
 
                 $('#videoSearch-form').submit(function (event) {
                     event.preventDefault();
@@ -698,10 +696,6 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                 });
 
             });
-
-            function openVideoSearch() {
-                $('#videoSearchModal').modal();
-            }
 
             function videoSearch(is_serie) {
                 modal.showPleaseWait();
