@@ -1044,4 +1044,7 @@ li.dropdown-submenu > ul > li > a{
     .playerFullHeight .floatVideo video, .playerFullHeight .floatVideo audio, .playerFullHeight .floatVideo iframe, .playerFullHeight .floatVideo #mainVideo, .playerFullHeight .floatVideo #main-video{
         height: 300px;
     }
+    .playerFullHeight .mainVideo{
+        padding: 0;
+    }
 }
