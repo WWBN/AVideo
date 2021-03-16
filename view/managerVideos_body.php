@@ -317,7 +317,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title"><?php echo __("Upload Form"); ?></h4>
+                    <h4 class="modal-title">
+                        <?php echo __("Upload Form"); ?>
+                    </h4>
                 </div>
                 <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
                     <div id="postersImage">
@@ -328,6 +330,7 @@
                             <?php
                             echo AVideoPlugin::getManagerVideosTab();
                             ?>
+                            <li class="pull-right"><button type="button" class="btn btn-danger" onclick="confirmDeleteVideo($('#inputVideoId').val());"><i class="fas fa-trash"></i> <?php echo __("Delete"); ?></button></li>
                         </ul>
 
                         <div class="tab-content">
@@ -881,6 +884,21 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                                             });
                                         }
 
+                                        function confirmDeleteVideo(videos_id) {
+                                            swal({
+                                                title: "<?php echo __("Are you sure?"); ?>",
+                                                text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                                                icon: "warning",
+                                                buttons: true,
+                                                dangerMode: true,
+                                            })
+                                                    .then(function (willDelete) {
+                                                        if (willDelete) {
+                                                            deleteVideo(videos_id);
+                                                        }
+                                                    });
+                                        }
+
                                         function deleteVideo(videos_id) {
                                             modal.showPleaseWait();
                                             $.ajax({
@@ -890,8 +908,10 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                                                 success: function (response) {
                                                     if (response.status === "1") {
                                                         $("#grid").bootgrid("reload");
+                                                        $('#videoFormModal').modal('hide');
                                                     } else if (response.status === "") {
                                                         $("#grid").bootgrid("reload");
+                                                        $('#videoFormModal').modal('hide');
                                                     } else {
                                                         avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been deleted!"); ?>", "error");
                                                     }
@@ -1774,7 +1794,7 @@ if (User::isAdmin()) {
 
                                                         if (row.status == "i") {
                                                             status = inactiveBtn;
-                                                        } else if (row.status == "a"  || row.status == "k") {
+                                                        } else if (row.status == "a" || row.status == "k") {
                                                             status = activeBtn;
                                                         } else if (row.status == "u") {
                                                             status = unlistedBtn;
@@ -1932,7 +1952,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
     <?php
 }
 ?>
-                                                        img = img+'<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> '+row.duration+'</div>';
+                                                        img = img + '<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> ' + row.duration + '</div>';
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
                                                         var buttonTitleLink = '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.id + '/' + row.clean_title + '" class="btn btn-default btn-xs titleBtn" style="overflow: hidden;">' + type + row.title + '</a>';
                                                         return img + '<div class="clearfix hidden-md hidden-lg"></div>' + buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList;
@@ -1949,30 +1969,30 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                     return ret;
                                                 },
                                             }).on("loaded.rs.jquery.bootgrid", function () {
-                                                if($('.videoPlaylist').length>50){
+                                                if ($('.videoPlaylist').length > 50) {
                                                     console.log("You are listing too many videos we will not process the playlist");
-                                                }else{
+                                                } else {
                                                     $('.videoPlaylist').each(function (i, obj) {
-                                                    var $this = this;
-                                                    var videos_id = $($this).attr('videos_id');
-                                                    //$(this).html($(this).attr('videos_id'));
-                                                    $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistsFromUserVideos.json.php',
-                                                        data: {"users_id": <?php echo User::getId(); ?>, "videos_id": videos_id},
-                                                        type: 'post',
-                                                        success: function (response) {
-                                                            var lists = "";
-                                                            for (var x in response) {
-                                                                if (typeof response[x] !== 'object') {
-                                                                    continue;
-                                                                }
+                                                        var $this = this;
+                                                        var videos_id = $($this).attr('videos_id');
+                                                        //$(this).html($(this).attr('videos_id'));
+                                                        $.ajax({
+                                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistsFromUserVideos.json.php',
+                                                            data: {"users_id": <?php echo User::getId(); ?>, "videos_id": videos_id},
+                                                            type: 'post',
+                                                            success: function (response) {
+                                                                var lists = "";
+                                                                for (var x in response) {
+                                                                    if (typeof response[x] !== 'object') {
+                                                                        continue;
+                                                                    }
 
-                                                                lists += '<div class="material-small material-switch"><input onchange="saveVideoOnPlaylist(' + videos_id + ', $(this).is(\':checked\'), ' + response[x].id + ')" data-toggle="toggle" type="checkbox" id="playlistVideo' + videos_id + "_" + response[x].id + '" value="1" ' + (response[x].isOnPlaylist ? "checked" : "") + ' videos_id="' + videos_id + '" ><label for="playlistVideo' + videos_id + "_" + response[x].id + '" class="label-primary"></label>  ' + response[x].name_translated + '</div>';
+                                                                    lists += '<div class="material-small material-switch"><input onchange="saveVideoOnPlaylist(' + videos_id + ', $(this).is(\':checked\'), ' + response[x].id + ')" data-toggle="toggle" type="checkbox" id="playlistVideo' + videos_id + "_" + response[x].id + '" value="1" ' + (response[x].isOnPlaylist ? "checked" : "") + ' videos_id="' + videos_id + '" ><label for="playlistVideo' + videos_id + "_" + response[x].id + '" class="label-primary"></label>  ' + response[x].name_translated + '</div>';
+                                                                }
+                                                                $($this).html(lists);
                                                             }
-                                                            $($this).html(lists);
-                                                        }
+                                                        });
                                                     });
-                                                });
                                                 }
                                                 /* Executes after data is loaded and rendered */
                                                 grid.find(".command-edit").on("click", function (e) {
@@ -1983,18 +2003,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                 }).end().find(".command-delete").on("click", function (e) {
                                                     var row_index = $(this).closest('tr').index();
                                                     var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                                                    swal({
-                                                        title: "<?php echo __("Are you sure?"); ?>",
-                                                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                                                        icon: "warning",
-                                                        buttons: true,
-                                                        dangerMode: true,
-                                                    })
-                                                            .then(function (willDelete) {
-                                                                if (willDelete) {
-                                                                    deleteVideo(row.id);
-                                                                }
-                                                            });
+                                                    confirmDeleteVideo(row.id);
                                                 })
                                                         .end().find(".command-refresh").on("click", function (e) {
                                                     var row_index = $(this).closest('tr').index();
@@ -2096,7 +2105,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                             modal.hidePleaseWait();
                                                             if (response.msg) {
                                                                 avideoAlertInfo(response.msg);
-                                                            } 
+                                                            }
                                                         }
                                                     });
                                                 });

@@ -5934,7 +5934,7 @@ function isURL200($url, $forceRecheck = false) {
 
 function getStatsNotifications() {
     global $_getStatsNotifications;
-    
+
     if (!isset($_getStatsNotifications)) {
         $_getStatsNotifications = array();
     }
@@ -5945,7 +5945,7 @@ function getStatsNotifications() {
     $cacheName = DIRECTORY_SEPARATOR . "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     $json = ObjectYPT::getCache($cacheName, 0, false);
     if (empty($json)) {
-        //_error_log('getStatsNotifications: '. json_encode(debug_backtrace()));
+        //_error_log('getStatsNotifications: 1'. json_encode(debug_backtrace()));
         $json = Live::getStats();
         $json = object_to_array($json);
 
@@ -5998,8 +5998,7 @@ function getStatsNotifications() {
                 }
             }
         }
-    }
-    else{
+    } else {
         $json = object_to_array($json);
     }
     $_getStatsNotifications[$key] = $json;
@@ -6206,4 +6205,48 @@ function get_js_availableLangs() {
         include_once $global['systemRootPath'] . 'objects/bcp47.php';
     }
     return $global['js_availableLangs'];
+}
+
+function listAllWordsToTranslate() {
+    global $global;
+    $cacheName = 'listAllWordsToTranslate';
+    $cache = ObjectYPT::getCache($cacheName, 0);
+    if (!empty($cache)) {
+        return object_to_array($cache);
+    }
+    ini_set('max_execution_time', 300);
+
+    function listAll($dir) {
+        $vars = array();
+        if ($handle = opendir($dir)) {
+            while (false !== ($entry = readdir($handle))) {
+                if ($entry != "." && $entry != "..") {
+                    $filename = $dir . "/" . $entry;
+                    if (is_dir($filename)) {
+                        $vars = listAll($filename);
+                    } elseif (preg_match("/\.php$/", $entry)) {
+                        $data = file_get_contents($filename);
+                        $regex = '/__\(["\']{1}(.*)["\']{1}\)/U';
+                        preg_match_all(
+                                $regex,
+                                $data,
+                                $matches
+                        );
+
+                        foreach ($matches[0] as $key => $value) {
+                            $vars[$matches[1][$key]] = $matches[1][$key];
+                        }
+                    }
+                }
+            }
+
+            closedir($handle);
+        }
+        return $vars;
+    }
+
+    $vars = listAll($global['systemRootPath']);
+    sort($vars);
+    ObjectYPT::setCache($cacheName, $vars);
+    return $vars;
 }

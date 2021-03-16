@@ -189,7 +189,7 @@ class Layout extends PluginAbstract {
         return $fonts_list;
     }
 
-    static function getSelectSearchable($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false) {
+    static function getSelectSearchable($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder='') {
         global $global;
         $html = "";
         if (empty($global['getSelectSearchable'])) {
@@ -199,7 +199,6 @@ class Layout extends PluginAbstract {
                 .select2-selection {height: 38px !important;}
                 .select2-container--default .select2-selection--single {
                     background-color: transparent !important;
-                    border: 0 !important;
                 }</style>';
         }
         if (empty($class)) {
@@ -227,7 +226,11 @@ class Layout extends PluginAbstract {
         }
         $html .= '</select>';
         // this is just to display something before load the select2
-        $html .= '<select class="form-control" id="deleteSelect_' . $id . '" ><option></option></select>';
+        if(empty($templatePlaceholder)){
+            $html .= '<select class="form-control" id="deleteSelect_' . $id . '" ><option></option></select>';
+        }else{
+            $html .= $templatePlaceholder;
+        }
         $html .= '<script>$(document).ready(function() {$(\'#deleteSelect_' . $id . '\').remove();});</script>';
         
         $global['getSelectSearchable'] = 1;
@@ -273,16 +276,41 @@ class Layout extends PluginAbstract {
         }
         return $flags;
     }
+    
+    static function getAllFlags() {
+        global $global;
+        $flags = array();
+        include_once $global['systemRootPath'].'objects/bcp47.php'; 
+        foreach ($global['bcp47'] as $key => $filename) {
+            
+            $name = $filename['label'];
+            $flag = $filename['flag'];
+            
+            $flags[$key] = array(json_encode(array('text'=>$name, 'icon'=>"flagstrap-icon flagstrap-{$flag}")), $key, 'val3-'.$name);
+        }
+        return $flags;
+    }
 
-    static function getLangsSelect($name, $selected = "", $id = "", $class = "", $flagsOnly=false) {
+    static function getLangsSelect($name, $selected = "", $id = "", $class = "", $flagsOnly=false, $getAll=false) {
         global $getLangsSelect;
         $getLangsSelect = 1;
-        $flags = self::getAvilableFlags();
+        if($getAll){
+            $flags = self::getAllFlags();
+        }else{
+            $flags = self::getAvilableFlags();
+        }
         if (empty($id)) {
             $id = uniqid();
         }
         if($selected=='us'){
             $selected = 'en_US';
+        }
+        
+        if(!empty($flags[$selected])){
+            $selectedJson = json_decode($flags[$selected][0]);
+            $selectedJsonIcon = $selectedJson->icon;
+        }else{
+            $selectedJsonIcon = '';
         }
         $code = "<script>function getLangSelectformatStateResult (state) {
                                     if (!state.id) {
@@ -320,7 +348,23 @@ class Layout extends PluginAbstract {
         }
         
         self::addFooterCode($code);
-        return self::getSelectSearchable($flags, $name, $selected, $id, $class . " flagSelect", true);
+        
+        $templatePlaceholder = '<span class="select2 select2-container select2-container--default select2-container--focus" style="width: 100%;"  id="deleteSelect_' . $id . '">'
+                . '<span class="selection">'
+                . '<span class="select2-selection select2-selection--single">'
+                . '<span class="select2-selection__rendered" id="select2-navBarFlag-container" >'
+                . '<span><i class="'.$selectedJsonIcon.'"></i></span>'
+                . '</span>'
+                . '<span class="select2-selection__arrow" >'
+                . '<b></b>'
+                . '</span>'
+                . '</span>'
+                . '</span>'
+                . '<span class="dropdown-wrapper" aria-hidden="true"></span>'
+                . '</span>';
+        
+        
+        return self::getSelectSearchable($flags, $name, $selected, $id, $class . " flagSelect", true, $templatePlaceholder);
     }
 
     static function getCategorySelect($name, $selected = "", $id = "", $class = "") {

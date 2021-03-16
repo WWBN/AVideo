@@ -36,6 +36,10 @@ $user->setAnalyticsCode($_POST['analyticsCode']);
 
 _error_log("userAddNew.json.php: set channel name = ({$_POST['channelName']})");
 
+if(empty($_POST['channelName'])){
+    $_POST['channelName'] = $_POST['user'];
+}
+
 $unique = $user->setChannelName($_POST['channelName']);
 
 //identify what variables come from external plugins
