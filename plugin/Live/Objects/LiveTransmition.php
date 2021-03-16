@@ -152,6 +152,7 @@ class LiveTransmition extends ObjectYPT {
 
     static function getFromDbByUserName($userName) {
         global $global;
+        _mysql_connect();
         $userName = $global['mysqli']->real_escape_string($userName);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($userName), true);
