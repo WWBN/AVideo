@@ -95,7 +95,7 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid principalContainer" id="modeYoutubePrincipal">
+        <div class="container-fluid principalContainer" style="padding: 0;" id="modeYoutubePrincipal">
             <?php
             if (!$isCompressed) {
                 ?>

@@ -1,5 +1,11 @@
 <?php
-$live_servers_id = Live::getCurrentLiveServersId();
+if(empty($streamName)){
+    $live = isLive();
+    $streamName = $live['key'];
+    $live_servers_id = $live['live_servers_id'];
+}else{
+    $live_servers_id = Live::getCurrentLiveServersId();
+}
 $liveViewStatusID = str_replace('-', '_', "liveViewStatusID_{$streamName}_{$live_servers_id}");
 $liveViewStatusClass = "liveViewStatusClass liveViewStatusClass_{$streamName} liveViewStatusClass_{$streamName}_{$live_servers_id}";
 

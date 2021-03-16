@@ -58,7 +58,133 @@ class PlayerSkins extends PluginAbstract {
         $obj->contextMenuCopyVideoURLCurrentTime = true;
         $obj->contextMenuCopyEmbedCode = true;
         $obj->contextMenuShare = true;
+        $obj->playerFullHeight = false;
         return $obj;
+    }
+
+    function getMediaTag($filename, $htmlMediaTag = false) {
+        global $autoPlayURL, $global, $config;
+        $obj = AVideoPlugin::getObjectData('PlayerSkins');
+        $html = '';
+        if (empty($htmlMediaTag)) {
+            $video = Video::getVideoFromFileName($filename, true);
+            $vType = Video::getIncludeType($video);
+            $_GET['isMediaPlaySite'] = $video['id'];
+            if (!empty($video['externalOptions']->videoStartSeconds)) {
+                $video['externalOptions']->videoStartSeconds = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
+            } else {
+                $video['externalOptions']->videoStartSeconds = 0;
+            }
+            $images = Video::getImageFromFilename($filename);
+            if ($vType == 'video') {
+                $htmlMediaTag = '<video playsinline webkit-playsinline="webkit-playsinline" '
+                        . 'preload="auto" poster="' . $images->poster . '" controls 
+                        class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered vjs-16-9" id="mainVideo">';
+                if ($video['type'] == "video") {
+                    $htmlMediaTag .= "<!-- Video {$video['title']} {$video['filename']} -->" . getSources($video['filename']);
+                } else { // video link
+                    $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$video['videoLink']}' type='" . ((strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4") . "' >";
+                    $html .= "<script>$(document).ready(function () {\$('time.duration').hide();});</script>";
+                }
+                if (function_exists('getVTTTracks')) {
+                    $htmlMediaTag .= "<!-- getVTTTracks 1 -->";
+                    $htmlMediaTag .= getVTTTracks($video['filename']);
+                }
+                $htmlMediaTag .= '<p>' . __("If you can't view this video, your browser does not support HTML5 videos") . '</p><p class="vjs-no-js">' . __("To view this video please enable JavaScript, and consider upgrading to a web browser that") . '<a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a></p></video>';
+            } else if ($vType == 'audio') {
+                $htmlMediaTag = '<audio playsinline webkit-playsinline="webkit-playsinline" 
+                       preload="auto"
+                       poster="' . $images->poster . '" controls class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo">';
+                if ($video['type'] == "audio") {
+                    $htmlMediaTag .= "<!-- Audio {$video['title']} {$video['filename']} -->" . getSources($video['filename']);
+                } else { // audio link
+                    if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
+                        $type = "audio/ogg";
+                    } else {
+                        $type = "audio/mpeg";
+                    }
+                    $htmlMediaTag .= "<!-- Audio Link {$video['title']} {$video['filename']} --><source src='{$video['audioLink']}' type='" . $type . "' >";
+                    $html .= "<script>$(document).ready(function () {\$('time.duration').hide();});</script>";
+                }
+                $htmlMediaTag .= '</audio>';
+            } else if ($vType == 'embed') {
+                $disableYoutubeIntegration = false;
+                if (!empty($advancedCustom->disableYoutubePlayerIntegration)) {
+                    $disableYoutubeIntegration = true;
+                }
+                $_GET['isEmbedded'] = "";
+                if (((strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
+                    $_GET['isEmbedded'] = "e";
+                    $url = parseVideos($video['videoLink']);
+                    if ($config->getAutoplay()) {
+                        $url = addQueryStringParameter($url, 'autoplay', 1);
+                    }
+                    $htmlMediaTag = "<!-- Embed Link {$video['title']} {$video['filename']} -->";
+                    $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
+                    $htmlMediaTag .= '<div id="main-video" class="embed-responsive embed-responsive-16by9">';
+                    $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="' . $url . '"></iframe>';
+                    $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
+                    $htmlMediaTag .= '</div>';
+                } else {
+                    // youtube!
+                    if ((stripos($video['videoLink'], "youtube.com") != false) || (stripos($video['videoLink'], "youtu.be") != false)) {
+                        $_GET['isEmbedded'] = "y";
+                    } else if ((stripos($video['videoLink'], "vimeo.com") != false)) {
+                        $_GET['isEmbedded'] = "v";
+                    }
+                    $_GET['isMediaPlaySite'] = $video['id'];
+                    PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
+                    $htmlMediaTag = "<!-- Embed Link YoutubeIntegration {$video['title']} {$video['filename']} -->";
+                    $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
+                    $htmlMediaTag .= '<script>var player;var mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
+                }
+            } else if ($vType == 'serie') {
+                $link = "{$global['webSiteRootURL']}plugin/PlayLists/embed.php";
+                $link = addQueryStringParameter($link, 'playlists_id', $video['serie_playlists_id']);
+                $link = addQueryStringParameter($link, 'autoplay', $config->getAutoplay());
+                $link = addQueryStringParameter($link, 'playlist_index', @$_REQUEST['playlist_index']);
+
+                $htmlMediaTag = "<!-- Serie {$video['title']} {$video['filename']} -->";
+                $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
+                $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="' . $link . '"></iframe>';
+                $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
+            }
+            
+            $html .= "<script>var mediaId = '{$video['id']}';var player;" . self::playerJSCodeOnLoad($video['id'], @$autoPlayURL) . '</script>';
+        }
+        
+        $col1Classes = 'col-md-2 firstC';
+        $col2Classes = 'col-md-8 secC';
+        $col3Classes = 'col-md-2 thirdC';
+        if($obj->playerFullHeight){
+            $col2Classes .= ' text-center playerFullHeight';
+        }
+        
+        $html .= '
+<div class="row main-video" id="mvideo">
+    <div class="'.$col1Classes.'"></div>
+    <div class="'.$col2Classes.'">
+        <div id="videoContainer">
+            <div id="floatButtons" style="display: none;">
+                <p class="btn btn-outline btn-xs move">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </p>
+                <button type="button" class="btn btn-outline btn-xs"
+                        onclick="closeFloatVideo(); floatClosed = 1;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="main-video" class="embed-responsive embed-responsive-16by9">' . $htmlMediaTag . '</div>';
+
+        if (AVideoPlugin::isEnabledByName('VideoLogoOverlay')) {
+            $style = VideoLogoOverlay::getStyle();
+            $url = VideoLogoOverlay::getLink();
+            $html .= '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $global['webSiteRootURL'] . 'videos/logoOverlay.png" alt="Logo"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a></div>';
+        }
+
+        $html .= showCloseButton() . '</div></div><div class="'.$col3Classes.'"></div></div>';
+
+        return $html;
     }
 
     public function getHeadCode() {
@@ -424,7 +550,7 @@ class PlayerSkins extends PluginAbstract {
                 $obj->label = 'Plugin';
                 $obj->type = "danger";
                 $obj->text = $resolution['resolution_text'];
-                $obj->tooltip = $resolution['resolution'].'p';
+                $obj->tooltip = $resolution['resolution'] . 'p';
             }
             $tags = $obj;
             ObjectYPT::setCache($name, $tags);

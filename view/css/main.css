@@ -1034,3 +1034,14 @@ li.dropdown-submenu > ul > li > a{
     color: #FFF;
     font-weight: bold;
 }
+
+@media (min-width: 1200px) {
+    .playerFullHeight, .playerFullHeight video, .playerFullHeight audio, .playerFullHeight iframe, .playerFullHeight #mainVideo, .playerFullHeight #main-video{
+        height: calc(100vh - 60px);
+        width: 100%;
+        padding: 0;
+    }
+    .playerFullHeight .floatVideo video, .playerFullHeight .floatVideo audio, .playerFullHeight .floatVideo iframe, .playerFullHeight .floatVideo #mainVideo, .playerFullHeight .floatVideo #main-video{
+        height: 300px;
+    }
+}

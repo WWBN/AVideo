@@ -6075,6 +6075,18 @@ function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = 
     return "";
 }
 
+function getLiveUsersLabelHTML($viewsClass = "label label-default", $counterClass = "label label-primary") {
+    global $global;
+    ob_start();
+    include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
+    $htmlMediaTag = '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">';
+    $htmlMediaTag .= ob_get_contents();
+    ob_end_clean();
+    $htmlMediaTag .= getLiveUsersLabel($viewsClass, $counterClass);
+    $htmlMediaTag .= '</div>';
+    return $htmlMediaTag;
+}
+
 function getHTMLTitle($titleArray) {
     global $config, $global;
 
