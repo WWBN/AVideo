@@ -86,9 +86,16 @@ class PlayerSkins extends PluginAbstract {
                     $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$video['videoLink']}' type='" . ((strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4") . "' >";
                     $html .= "<script>$(document).ready(function () {\$('time.duration').hide();});</script>";
                 }
-                if (AVideoPlugin::isEnabled('SubtitleSwitcher') && function_exists('getVTTTracks')) {
+                if (AVideoPlugin::isEnabledByName('SubtitleSwitcher') && function_exists('getVTTTracks')) {
                     $htmlMediaTag .= "<!-- getVTTTracks 1 -->";
                     $htmlMediaTag .= getVTTTracks($video['filename']);
+                }else{
+                    if(!AVideoPlugin::isEnabledByName('SubtitleSwitcher')){
+                        $htmlMediaTag .= "<!-- SubtitleSwitcher disabled -->";
+                    }
+                    if(!function_exists('getVTTTracks')){
+                        $htmlMediaTag .= "<!-- getVTTTracks not found -->";
+                    }
                 }
                 $htmlMediaTag .= '<p>' . __("If you can't view this video, your browser does not support HTML5 videos") . '</p><p class="vjs-no-js">' . __("To view this video please enable JavaScript, and consider upgrading to a web browser that") . '<a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a></p></video>';
             } else if ($vType == 'audio') {
