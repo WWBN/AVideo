@@ -86,7 +86,7 @@ class PlayerSkins extends PluginAbstract {
                     $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$video['videoLink']}' type='" . ((strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4") . "' >";
                     $html .= "<script>$(document).ready(function () {\$('time.duration').hide();});</script>";
                 }
-                if (function_exists('getVTTTracks')) {
+                if (AVideoPlugin::isEnabled('SubtitleSwitcher') && function_exists('getVTTTracks')) {
                     $htmlMediaTag .= "<!-- getVTTTracks 1 -->";
                     $htmlMediaTag .= getVTTTracks($video['filename']);
                 }
