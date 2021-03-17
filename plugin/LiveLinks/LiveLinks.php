@@ -106,6 +106,7 @@ class LiveLinks extends PluginAbstract {
         $filename = $global['systemRootPath'] . 'plugin/LiveLinks/view/menuItem.html';
         $filenameExtra = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItem.html';
         $filenameExtraVideoPage = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItemVideoPage.html';
+        $filenameListItem = $global['systemRootPath'] . 'plugin/LiveLinks/view/videoListItem.html';
         $row = LiveLinks::getAllActive();
         $array = array();
         $search = array(
@@ -123,6 +124,7 @@ class LiveLinks extends PluginAbstract {
         $content = file_get_contents($filename);
         $contentExtra = file_get_contents($filenameExtra);
         $contentExtraVideoPage = file_get_contents($filenameExtraVideoPage);
+        $contentListem = file_get_contents($filenameListItem);
         
         $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');
         
@@ -147,18 +149,20 @@ class LiveLinks extends PluginAbstract {
                 self::getLink($value['id']),
                 '<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg".'" class="thumbsJPG img-responsive" height="130">',
                 empty($obj->disableGifThumbs)?('<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif".'" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">'):"",
-                (isAVideoPlayer())?"col-xs-6":"col-lg-2 col-md-4 col-sm-4 col-xs-6",
+                "col-lg-2 col-md-4 col-sm-4 col-xs-6",
                 ($liveUsers?getLiveUsersLabelLiveLinks($value['id']):'')
             );
 
             $newContent = str_replace($search, $replace, $content);
             $newContentExtra = str_replace($search, $replace, $contentExtra);
             $newContentExtraVideoPage = str_replace($search, $replace, $contentExtraVideoPage);
+            $newContentVideoListItem = str_replace($search, $replace, $contentListem);
             $array[] = array(
                 "type" => "LiveLink",
                 "html" => $newContent,
                 "htmlExtra" => $newContentExtra,
                 "htmlExtraVideoPage" => $newContentExtraVideoPage,
+                "htmlExtraVideoListItem" => $newContentVideoListItem,
                 "UserPhoto" => $UserPhoto,
                 "title" => $value['title'],
                 "users_id" => $value['users_id'],

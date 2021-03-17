@@ -289,7 +289,11 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
                 if (loadedExtraVideos.indexOf(id) == -1) {
                     loadedExtraVideos.push(id)
 <?php
-if (isLive()) {
+if (isVideo()) {
+    ?>
+                        $('.extraVideos').append(application.htmlExtraVideoListItem);
+    <?php
+}else if (isLive()) {
     ?>
                         $('.extraVideos').append(application.htmlExtraVideoPage);
     <?php

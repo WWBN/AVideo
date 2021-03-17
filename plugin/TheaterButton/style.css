@@ -30,3 +30,12 @@
 #modeYoutubeBottomContent .main-video .secC{
     width: 100% !important;
 }
+@media (min-width: 1200px) {
+    #modeYoutubeBottomContent .embed-responsive-16by9{
+        padding-bottom: 56.25% !important;
+        height: 100% !important;
+    }
+}
+#modeYoutubeBottomContent .embed-responsive-16by9,#modeYoutubeBottomContent #mainVideo, #modeYoutubeBottomContent .playerFullHeight {
+    height: 100% !important;
+}

@@ -68,19 +68,6 @@ $jsFiles[] = "view/js/webui-popover/jquery.webui-popover.min.js";
 $jsFiles[] = "view/js/bootstrap-list-filter/bootstrap-list-filter.min.js";
 $jsFiles[] = "view/js/js-cookie/js.cookie.js";
 $jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
-if (!empty($video['type'])) {
-
-    $waveSurferEnabled = AVideoPlugin::getObjectDataIfEnabled("CustomizeAdvanced");
-    if ($waveSurferEnabled == false) {
-        $waveSurferEnabled = true;
-    } else {
-        $waveSurferEnabled = $waveSurferEnabled->EnableWavesurfer;
-    }
-    if ((($video['type'] == "audio") || ($video['type'] == "linkAudio")) && ($waveSurferEnabled)) {
-        $jsFiles[] = "view/js/videojs-wavesurfer/wavesurfer.min.js";
-        $jsFiles[] = "view/js/videojs-wavesurfer/dist/videojs.wavesurfer.min.js";
-    }
-}
 $jsFiles = array_merge($jsFiles, AVideoPlugin::getJSFiles());
 $jsURL = combineFiles($jsFiles, "js");
 ?>
