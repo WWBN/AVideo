@@ -18,6 +18,6 @@ $user_id = User::getId();
 if (User::isAdmin()) {
     $user_id = "";
 }
-$Subscribes = Subscribe::getAllSubscribes($user_id);
-$total = Subscribe::getTotalSubscribes($user_id);
+$Subscribes = Subscribe::getSubscribedChannels($user_id);
+$total = Subscribe::getTotalSubscribedChannels($user_id);
 echo '{  "current": '. getCurrentPage().',"rowCount": '.getRowCount().', "total": '.$total.', "rows":'. json_encode($Subscribes).'}';
