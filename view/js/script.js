@@ -710,7 +710,7 @@ function playNext(url) {
                     } else {
                         console.log("playNext ajax success");
                         $('topInfo').hide();
-                        playNextURL = isEmbed ? response.nextURLEmbed : response.nextURL;
+                        playNextURL =(typeof isEmbed !== 'undefined' && isEmbed) ? response.nextURLEmbed : response.nextURL;
                         console.log("New playNextURL", playNextURL);
                         var cSource = false;
                         try {
