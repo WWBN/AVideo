@@ -136,6 +136,33 @@ class API extends PluginAbstract {
         }
         return new ApiObject("", false, $obj);
     }
+    
+    /**
+     * @param type $parameters 
+     * This will check if the provided UserAgent/Headers comes from a mobile
+     * Returns true if any type of mobile device detected, including special ones
+     * PHP Sample code: "plugin/API/{getOrSet}.json.php?APIName={APIName}&userAgent=".urlencode($_SERVER["HTTP_USER_AGENT"])."&httpHeaders=".urlencode(json_encode(getallheaders()))
+     * ['userAgent' usually is the variable $_SERVER["HTTP_USER_AGENT"]]
+     * ['httpHeaders' usually is the variable $_SERVER['HTTP_X_REQUESTED_WITH']]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&userAgent=Mozilla%2F5.0+%28Windows+NT+10.0%3B+Win64%3B+x64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F89.0.4389.82+Safari%2F537.36
+     * @return \ApiObject
+     */
+    public function get_api_is_mobile($parameters) {
+        global $global;
+        $obj = $this->startResponseObject($parameters);
+        if(!empty($_REQUEST['httpHeaders'])){
+            $json = json_decode($_REQUEST['httpHeaders']);
+            if(!empty($json)){
+                $_REQUEST['httpHeaders'] = $json;
+            }else{
+                $_REQUEST['httpHeaders'] = array($_REQUEST['httpHeaders']);
+            }
+        }
+        $obj->userAgent = @$_REQUEST['userAgent'];
+        $obj->httpHeaders = @$_REQUEST['httpHeaders'];
+        $obj->isMobile = isMobile(@$obj->userAgent, @$obj->httpHeaders);
+        return new ApiObject("", false, $obj);
+    }
 
     /**
      * @param type $parameters 
