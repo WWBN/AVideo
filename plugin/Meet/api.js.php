@@ -82,7 +82,7 @@ if (empty($meet_schedule_id)) {
         }).then(function (displayName) {
             if (!displayName){
                 avideoAlertError('<?php echo __("You must provide a name"); ?>');
-                return getMeetDisplayName();
+                return getMeetDisplayName(domain, roomName, jwt, email, TOOLBAR_BUTTONS);
             }else{
                 return aVideoMeetStart(domain, roomName, jwt, email, displayName, TOOLBAR_BUTTONS);
             }
