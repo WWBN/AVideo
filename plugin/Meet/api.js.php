@@ -80,7 +80,8 @@ if (empty($meet_schedule_id)) {
                 closeModal: true,
             },
         }).then(function (displayName) {
-            if (!displayName){
+            displayName = displayName.trim();
+            if (!displayName || /^$|^\s+$/.test(displayName)){
                 //avideoAlertError('<?php echo __("You must provide a name"); ?>');
                 return getMeetDisplayName(domain, roomName, jwt, email, TOOLBAR_BUTTONS);
             }else{
