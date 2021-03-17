@@ -73,7 +73,7 @@ if (empty($meet_schedule_id)) {
     function getMeetDisplayName(domain, roomName, jwt, email, TOOLBAR_BUTTONS) {
         console.log('getMeetDisplayName');
         swal({
-            text: "<?php echo __("What is your name?"); ?>",
+            text: "<?php echo __("Please, enter your name"); ?>",
             content: "input",
             button: {
                 text: "<?php echo __("Start Now"); ?>",
