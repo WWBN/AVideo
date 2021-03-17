@@ -35,5 +35,10 @@ class FirstPageChannelList extends PluginAbstract {
         }
     }   
     
+    public function getHeadCode() {
+        global $global;
+        echo "<link href='{$global['webSiteRootURL ']}view/css/custom/default.css' rel='stylesheet' type='text/css'/>";
+        return false;
+    }
     
 }
