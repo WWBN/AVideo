@@ -20,6 +20,7 @@ if (empty($meet_schedule_id)) {
 }
 ?>
 <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
+<script src="<?php echo $global['webSiteRootURL']; ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
 <script>
     var webSiteRootURL = "<?php echo $global['webSiteRootURL']; ?>";
     var webSiteTitle = "<?php echo $config->getWebSiteTitle(); ?>";
@@ -69,8 +70,34 @@ if (empty($meet_schedule_id)) {
         }
     });
 
+    function getMeetDisplayName(domain, roomName, jwt, email, TOOLBAR_BUTTONS) {
+        console.log('getMeetDisplayName');
+        swal({
+            text: "<?php echo __("What is your name?"); ?>",
+            content: "input",
+            button: {
+                text: "<?php echo __("Start Now"); ?>",
+                closeModal: true,
+            },
+        }).then(function (displayName) {
+            if (!displayName){
+                avideoAlertError('<?php echo __("You must provide a name"); ?>');
+                return getMeetDisplayName();
+            }else{
+                return aVideoMeetStart(domain, roomName, jwt, email, displayName, TOOLBAR_BUTTONS);
+            }
+        });
+        return false;
+    }
+
     var api;
     function aVideoMeetStart(domain, roomName, jwt, email, displayName, TOOLBAR_BUTTONS) {
+    
+        if(!displayName || displayName == ''){
+            displayName = getMeetDisplayName();
+            return getMeetDisplayName(domain, roomName, jwt, email, TOOLBAR_BUTTONS);
+        }
+    
         const options = {
             roomName: roomName,
             jwt: jwt,
@@ -96,13 +123,13 @@ if (empty($meet_schedule_id)) {
                 startVideoMuted: 10,
                 startAudioMuted: 10,
                 disableInviteFunctions: true,
-                DEFAULT_LOGO_URL: webSiteRootURL+"videos/userPhoto/logo.png",
-                DEFAULT_REMOTE_DISPLAY_NAME:webSiteTitle,
-                JITSI_WATERMARK_LINK:webSiteRootURL,
-                LIVE_STREAMING_HELP_LINK:webSiteRootURL,
-                PROVIDER_NAME:webSiteTitle,
-                SUPPORT_URL:webSiteRootURL,
-                BRAND_WATERMARK_LINK:webSiteRootURL,
+                DEFAULT_LOGO_URL: webSiteRootURL + "videos/userPhoto/logo.png",
+                DEFAULT_REMOTE_DISPLAY_NAME: webSiteTitle,
+                JITSI_WATERMARK_LINK: webSiteRootURL,
+                LIVE_STREAMING_HELP_LINK: webSiteRootURL,
+                PROVIDER_NAME: webSiteTitle,
+                SUPPORT_URL: webSiteRootURL,
+                BRAND_WATERMARK_LINK: webSiteRootURL,
                 NATIVE_APP_NAME: webSiteTitle,
                 APP_NAME: webSiteTitle
 
@@ -115,9 +142,9 @@ if (empty($meet_schedule_id)) {
 
         var src = $(iframe).attr('src');
         var srcParts = src.split("#");
-        var newSRC = srcParts[0]+"&getRTMPLink=<?php echo urlencode($rtmpLink); ?>#"+srcParts[1];
+        var newSRC = srcParts[0] + "&getRTMPLink=<?php echo urlencode($rtmpLink); ?>#" + srcParts[1];
 
-        $(iframe).attr('src',newSRC);
+        $(iframe).attr('src', newSRC);
 
         api.addEventListeners({
             readyToClose: readyToClose,
