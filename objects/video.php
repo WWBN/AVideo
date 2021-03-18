@@ -986,7 +986,7 @@ if (!class_exists('Video')) {
                     . " FROM videos as v "
                     . " LEFT JOIN categories c ON categories_id = c.id "
                     . " LEFT JOIN users u ON v.users_id = u.id "
-                    . " WHERE 1=1 ";
+                    . " WHERE 2=2 ";
 
             $blockedUsers = self::getBlockedUsersIdsArray();
             if (!empty($blockedUsers)) {
