@@ -45,7 +45,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         <div class="pull-left">
             <img src="" class="img img-circle img-responsive" style="max-width: 38px;">
         </div>
-        <div style="margin-left: 40px;">
+        <div style="margin-left: 40px;white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;">
             <i class="fas fa-video"></i> <strong class="liveTitle"><?php echo __("Title"); ?></strong> <br>
             <span class="label label-success liveUser"><?php echo __("User"); ?></span> <span class="label label-danger liveNow faa-flash faa-slow animated hidden"><?php echo __("LIVE NOW"); ?></span>
         </div>
