@@ -62,7 +62,7 @@ class PlayerSkins extends PluginAbstract {
         return $obj;
     }
 
-    function getMediaTag($filename, $htmlMediaTag = false) {
+    static function getMediaTag($filename, $htmlMediaTag = false) {
         global $autoPlayURL, $global, $config;
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         $html = '';
