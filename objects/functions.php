@@ -6273,9 +6273,9 @@ function secondsInterval($time1, $time2){
 function secondsIntervalHuman($time, $useDatabaseTime=true){
     $dif = secondsIntervalFromNow($time, $useDatabaseTime);
     if($dif<0){
-        return humanTimingAgo($time);
-    }else{
         return humanTimingAfterwards($time);
+    }else{
+        return humanTimingAgo($time);
     }
 }
 
