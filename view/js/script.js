@@ -1269,14 +1269,26 @@ function startTimer(duration, selector) {
     var startTimerInterval = setInterval(function () {
 
         // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(duration / (60 * 60 * 24));
+        var years = Math.floor(duration / (60 * 60 * 24 * 365));
+        var days = Math.floor((duration / (60 * 60 * 24 * 365)) / (60 * 60 * 24));
         var hours = Math.floor((duration % (60 * 60 * 24)) / (60 * 60));
         var minutes = Math.floor((duration % (60 * 60)) / (60));
         var seconds = Math.floor((duration % (60)));
 
         // Display the result in the element with id="demo"
-        var text = days + "d " + hours + "h "
-                + minutes + "m " + seconds + "s ";
+        var text = '';
+        if(years){
+            text += years+'y ';
+        }
+        if(days || text){
+            text += days+'d ';
+        }
+        if(minutes || text){
+            text += minutes+'m ';
+        }
+        if(seconds || text){
+            text += seconds+'s ';
+        }
         $(selector).text(text);
         duration--;
         // If the count down is finished, write some text
