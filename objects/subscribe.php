@@ -253,6 +253,19 @@ class Subscribe {
         return $numRows;
     }
 
+    static function getTotalSubscribedChannels($user_id = "") {
+        global $global;
+        $sql = "SELECT id FROM subscribes WHERE status = 'a' AND subscriber_users_id = ? ";
+
+        $sql .= BootGrid::getSqlSearchFromPost(array('email'));
+        $res = sqlDAL::readSql($sql, "i", array($user_id));
+        $numRows = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+
+
+        return $numRows;
+    }
+
     function toggle() {
         if (empty($this->status) || $this->status == "i") {
             $this->status = 'a';

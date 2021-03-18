@@ -40,13 +40,10 @@ if(empty($rows)){
     $rows = object_to_array($rows);
 }
 if(!empty($_REQUEST['roku'])){
-    header('Content-Type: application/json');
     include $global['systemRootPath'] . 'feed/roku.json.php';
 }else if(empty($_REQUEST['mrss'])){
-    header('Content-Type: text/xml; charset=UTF8');
     include $global['systemRootPath'] . 'feed/rss.php';
 }else{
-    header('Content-Type: text/xml; charset=UTF8');
     include $global['systemRootPath'] . 'feed/mrss.php';
 }
 

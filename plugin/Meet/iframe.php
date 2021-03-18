@@ -32,6 +32,12 @@ if (Meet::isModerator($meet_schedule_id)) {
 }
 
 $domain = Meet::getDomainURL();
+
+$nameIdentification = '';
+if(User::isLogged()){
+    $nameIdentification = User::getNameIdentification();
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -101,7 +107,7 @@ $domain = Meet::getDomainURL();
     <body>
         <div id="divMeetToIFrame"></div>
         <script>
-            aVideoMeetStart('<?php echo $domain; ?>', '<?php echo preg_replace('/[^\00-\255]+/u', '', $meet->getCleanName()); ?>', '<?php echo Meet::getToken($meet_schedule_id, User::getId()); ?>', '<?php echo User::getEmail_(); ?>', '<?php echo User::getNameIdentification(); ?>', <?php echo json_encode(Meet::getButtons($meet_schedule_id)); ?>);
+            aVideoMeetStart('<?php echo $domain; ?>', '<?php echo preg_replace('/[^\00-\255]+/u', '', $meet->getCleanName()); ?>', '<?php echo Meet::getToken($meet_schedule_id, User::getId()); ?>', '<?php echo User::getEmail_(); ?>', '<?php echo $nameIdentification; ?>', <?php echo json_encode(Meet::getButtons($meet_schedule_id)); ?>);
 
 <?php
 echo implode(PHP_EOL, $apiExecute);

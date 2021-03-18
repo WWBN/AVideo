@@ -2396,15 +2396,15 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
     return $passwordSalted === $hash || $passwordUnSalted === $hash || $password === $hash;
 }
 
-function isMobile() {
-    if (empty($_SERVER["HTTP_USER_AGENT"])) {
+function isMobile($userAgent = null, $httpHeaders = null) {
+    if (empty($userAgent) && empty($_SERVER["HTTP_USER_AGENT"])) {
         return false;
     }
     global $global;
     require_once $global['systemRootPath'] . 'objects/Mobile_Detect.php';
     $detect = new Mobile_Detect;
 
-    return $detect->isMobile();
+    return $detect->isMobile($userAgent, $httpHeaders);
 }
 
 function isAVideoMobileApp($user_agent = "") {
