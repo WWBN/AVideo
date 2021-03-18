@@ -170,6 +170,8 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('experimentalWebcam', 'Experimental Webcam', 'Requires flash and it is deprecated, will be removed. not recommend to enable it.');
         $obj->doNotShowLiveOnVideosList = false;
         self::addDataObjectHelper('doNotShowLiveOnVideosList', 'Do not show live on videos list', 'We will not show the live thumbs on the main Gallery page');
+        $obj->doNotShowOnlineOfflineLabel = false;
+        self::addDataObjectHelper('doNotShowOnlineOfflineLabel', 'Hide the Online/Offline Badge on live streams');
         $obj->doNotShowLiveOnCategoryList = false;
         self::addDataObjectHelper('doNotShowLiveOnCategoryList', 'Do not show live on site category list', 'We will not show the live thumbs on the main Gallery page');
         $obj->doNotShowOfflineLiveOnCategoryList = false;

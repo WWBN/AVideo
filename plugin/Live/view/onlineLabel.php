@@ -9,6 +9,11 @@ if(empty($streamName)){
 $liveViewStatusID = str_replace('-', '_', "liveViewStatusID_{$streamName}_{$live_servers_id}");
 $liveViewStatusClass = "liveViewStatusClass liveViewStatusClass_{$streamName} liveViewStatusClass_{$streamName}_{$live_servers_id}";
 
+$liveObj = AVideoPlugin::getObjectData('Live');
+if($liveObj->doNotShowOnlineOfflineLabel){
+    $liveViewStatusClass .= ' hidden';
+}
+
 if (Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id)) {
     echo "<span class='label label-success liveOnlineLabel {$liveViewStatusClass}' id='{$liveViewStatusID}'>ONLINE</span>";
 } else {
