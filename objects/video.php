@@ -1106,7 +1106,7 @@ if (!class_exists('Video')) {
                 }
                 $_POST['sort'] = $sort;
             } elseif (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
-                if(!empty($_POST['sort']['created'])){
+                if(!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])){
                     $_POST['sort']['v.created'] = $_POST['sort']['created'];
                     unset($_POST['sort']['created']);
                 }
