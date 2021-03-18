@@ -14,10 +14,7 @@ if (!User::isLogged()) {
 header('Content-Type: application/json');
 
 $user_id = User::getId();
-// if admin bring all subscribers
-if (User::isAdmin()) {
-    $user_id = "";
-}
+
 $Subscribes = Subscribe::getSubscribedChannels($user_id);
 $total = Subscribe::getTotalSubscribedChannels($user_id);
 echo '{  "current": '. getCurrentPage().',"rowCount": '.getRowCount().', "total": '.$total.', "rows":'. json_encode($Subscribes).'}';

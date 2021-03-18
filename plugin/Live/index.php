@@ -45,7 +45,7 @@ if (!empty($_GET['users_id']) && User::isAdmin()) {
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
-$getLiveKey = array('key'=>$trasnmition['key'], 'live_servers_id'=> Live::getLiveServersIdRequest());
+$getLiveKey = array('key' => $trasnmition['key'], 'live_servers_id' => Live::getLiveServersIdRequest());
 if (!empty($_GET['resetKey'])) {
     LiveTransmition::resetTransmitionKey($users_id);
     header("Location: {$global['webSiteRootURL']}plugin/Live/");
@@ -147,10 +147,10 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                 <?php
                             }
                         }
-                        if (empty($activeServerFound)) {                            
-                            if(!empty($servers[0])){
+                        if (empty($activeServerFound)) {
+                            if (!empty($servers[0])) {
                                 $_REQUEST['live_servers_id'] = $servers[0]['id'];
-                            }else{
+                            } else {
                                 ?>
                                 <li>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/editor.php" class="btn btn-danger">
@@ -195,7 +195,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script>            
+        <script>
             var flashvars = {server: "<?php echo Live::getServer(); ?>?p=<?php echo User::getUserPass(); ?>", stream: "<?php echo $trasnmition['key']; ?>"};
                 var params = {};
                 var attributes = {};
@@ -251,58 +251,58 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                 }
                 $(document).ready(function () {
                     $("#input-jpg").fileinput({
-                        uploadUrl: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/uploadPoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>",
-                                    autoReplace: true,
-                                    overwriteInitial: true,
-                                    showUploadedThumbs: false,
-                                    showPreview: true,
-                                    maxFileCount: 1,
-                                    initialPreview: [
-                                        "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>'>",
-                                    ],
-                                    initialCaption: 'LiveBG.jpg',
-                                    initialPreviewShowDelete: false,
-                                    showRemove: false,
-                                    showClose: false,
-                                    layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                                    allowedFileExtensions: ["jpg", "jpeg", "png"],
-                                    //minImageWidth: 2048,
-                                    //minImageHeight: 1152,
-                                    //maxImageWidth: 2560,
-                                    //maxImageHeight: 1440
-                                }).on('fileuploaded', function (event, previewId, index, fileId) {
-                                    var poster = webSiteRootURL + '<?php echo Live::_getPosterImage(User::getId(), $_REQUEST['live_servers_id']); ?>?' + Math.random();
-                                    $('#mainVideo video').attr('poster', poster);
-                                    $('#mainVideo .vjs-poster').css('background-image', 'url("' + poster + '"');
-                                });
+                        uploadUrl: webSiteRootURL + "plugin/Live/uploadPoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>",
+                        autoReplace: true,
+                        overwriteInitial: true,
+                        showUploadedThumbs: false,
+                        showPreview: true,
+                        maxFileCount: 1,
+                        initialPreview: [
+                            "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>'>",
+                        ],
+                        initialCaption: 'LiveBG.jpg',
+                        initialPreviewShowDelete: false,
+                        showRemove: false,
+                        showClose: false,
+                        layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
+                        allowedFileExtensions: ["jpg", "jpeg", "png"],
+                        //minImageWidth: 2048,
+                        //minImageHeight: 1152,
+                        //maxImageWidth: 2560,
+                        //maxImageHeight: 1440
+                    }).on('fileuploaded', function (event, previewId, index, fileId) {
+                        var poster = webSiteRootURL + '<?php echo Live::_getPosterImage(User::getId(), $_REQUEST['live_servers_id']); ?>?' + Math.random();
+                        $('#mainVideo video').attr('poster', poster);
+                        $('#mainVideo .vjs-poster').css('background-image', 'url("' + poster + '"');
+                    });
 
-                                $('#removePoster').click(function () {
-                                    modal.showPleaseWait();
-                                    $.ajax({
-                                        url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/removePoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>",
-                                                        success: function (response) {
-                                                            modal.hidePleaseWait();
-                                                            if (response.error) {
-                                                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                                                            } else {
-                                                                $('#mainVideo video').attr('poster', webSiteRootURL + response.newPoster);
-                                                                $('#mainVideo .vjs-poster').css('background-image', 'url("' + webSiteRootURL + response.newPoster + '")');
-                                                                $('.kv-file-content img').attr('src', '<?php echo $global['webSiteRootURL']; ?>' + response.newPoster);
-                                                            }
-                                                        }
-                                                    });
-                                                });
-                                                $('.btnSaveStream').click(function () {
-                                                    saveStream();
-                                                });
-                                                $('#enableWebCam').click(function () {
-                                                    amIOnline();
-                                                });
-                                                
-                                                <?php
-                                                echo PlayerSkins::getStartPlayerJS("", "", true);
-                                                ?>
-                                            });
+                    $('#removePoster').click(function () {
+                        modal.showPleaseWait();
+                        $.ajax({
+                            url: webSiteRootURL + "plugin/Live/removePoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>",
+                            success: function (response) {
+                                modal.hidePleaseWait();
+                                if (response.error) {
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                } else {
+                                    $('#mainVideo video').attr('poster', webSiteRootURL + response.newPoster);
+                                    $('#mainVideo .vjs-poster').css('background-image', 'url("' + webSiteRootURL + response.newPoster + '")');
+                                    $('.kv-file-content img').attr('src', '<?php echo $global['webSiteRootURL']; ?>' + response.newPoster);
+                                }
+                            }
+                        });
+                    });
+                    $('.btnSaveStream').click(function () {
+                        saveStream();
+                    });
+                    $('#enableWebCam').click(function () {
+                        amIOnline();
+                    });
+
+<?php
+echo PlayerSkins::getStartPlayerJS("", "", true);
+?>
+                });
         </script>
     </body>
 </html>

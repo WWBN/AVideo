@@ -110,11 +110,8 @@ function get_max_file_size() {
     return humanFileSize(file_upload_max_size());
 }
 
-function humanTiming($time, $precision = 0) {
-    if (!is_int($time)) {
-        $time = strtotime($time);
-    }
-    $time = time() - $time; // to get the time since that moment
+function humanTiming($time, $precision = 0, $useDatabaseTime = true) {
+    $time = secondsIntervalFromNow($time, $useDatabaseTime);
     return secondsToHumanTiming($time, $precision);
 }
 
@@ -126,20 +123,18 @@ function humanTiming($time, $precision = 0) {
  * @return type
  */
 function humanTimingAgo($time, $precision = 0, $useDatabaseTime = true) {
-    if (!is_int($time)) {
-        $time = strtotime($time);
-    }
-
-    if ($useDatabaseTime) {
-        $time = getDatabaseTime() - $time; // to get the time since that moment
-    } else {
-        $time = time() - $time; // to get the time since that moment
-    }
-
+    $time = secondsIntervalFromNow($time, $useDatabaseTime);
     if (empty($time)) {
         return __("Now");
     }
     return secondsToHumanTiming($time, $precision) . " " . __("ago");
+}
+function humanTimingAfterwards($time, $precision = 0, $useDatabaseTime = true) {
+    $time = secondsIntervalFromNow($time, $useDatabaseTime);
+    if (empty($time)) {
+        return __("Now");
+    }
+    return __('Coming in').' '.secondsToHumanTiming($time, $precision);
 }
 
 function secondsToHumanTiming($time, $precision = 0) {
@@ -6261,4 +6256,33 @@ function listAllWordsToTranslate() {
     sort($vars);
     ObjectYPT::setCache($cacheName, $vars);
     return $vars;
+}
+
+function secondsInterval($time1, $time2){
+    
+    if(!is_int($time1)){
+        $time1 = strtotime($time1);
+    }
+    if(!is_int($time2)){
+        $time2 = strtotime($time2);
+    }
+    
+    return $time1 - $time2;
+}
+
+function secondsIntervalHuman($time, $useDatabaseTime=true){
+    $dif = secondsIntervalFromNow($time, $useDatabaseTime);
+    if($dif<0){
+        return humanTimingAgo($time);
+    }else{
+        return humanTimingAfterwards($time);
+    }
+}
+
+function secondsIntervalFromNow($time, $useDatabaseTime=true){
+    if ($useDatabaseTime) {
+        return secondsInterval(getDatabaseTime(), $time);
+    } else {
+        return secondsInterval(time(), $time);
+    }
 }

@@ -1490,7 +1490,7 @@ class Live extends PluginAbstract {
         }
     }
     
-    public static function deleteStatsCache($live_servers_id) {
+    public static function deleteStatsCache($live_servers_id=null) {
         global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache;
         $tmpDir = ObjectYPT::getCacheDir();
         $cacheDir = $tmpDir."getstats".DIRECTORY_SEPARATOR;
@@ -1734,6 +1734,16 @@ class Live extends PluginAbstract {
                 UserGroups::updateVideoGroups($videos_id, $groups);
             }
         }
+    }
+    
+    static function notifySocketStats($callBack = 'socketLiveONCallback', $array = array()){
+        if(empty($array['stats'])){
+            $array['stats'] = getStatsNotifications();
+        }
+        _error_log("NGINX Live::on_publish_socket_notification sendSocketMessageToAll Start");
+        $socketObj = sendSocketMessageToAll($array, $callBack);
+        _error_log("NGINX Live::on_publish_socket_notification SocketMessageToAll END");
+        return $socketObj;
     }
 
 }

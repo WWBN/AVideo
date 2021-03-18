@@ -66,6 +66,13 @@ AVideoPlugin::navBar();
 if (!$includeDefaultNavBar) {
     return false;
 }
+
+if(!empty($_GET['avideoIframe'])){ // comes from avideoModalIframe(url) javascript
+    ?>
+        <style>body{padding: 0;}#mainFooter{display: none !important;}</style>
+    <?php
+    return false;
+}
 ?>
 <style>
     /* if it is IE */

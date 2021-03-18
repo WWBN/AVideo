@@ -350,7 +350,7 @@ abstract class ObjectYPT implements ObjectInterface
         $name = preg_replace('/[!#$&\'()*+,:;=?@[\\]% -]+/', '_', trim(strtolower(cleanString($name))));
         $name = preg_replace('/\/{2,}/', '/', trim(strtolower(cleanString($name))));
         if(function_exists('mb_ereg_replace')){
-            $name = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).\\/])", '', $name);
+            $name = mb_ereg_replace("([^\w\s\d\-_~,;\[\]\(\).\\/\\\])", '', $name);
             // Remove any runs of periods (thanks falstro!)
             $name = mb_ereg_replace("([\.]{2,})", '', $name);
         }

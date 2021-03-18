@@ -15,6 +15,11 @@ var videoContainerDragged = false;
 var youTubeMenuIsOpened = false;
 var userIsControling = false;
 
+var _serverTime;
+var _serverDBTime;
+var _serverTimeString;
+var _serverDBTimeString;
+
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
@@ -984,6 +989,7 @@ function avideoAlertHTMLText(title, msg, type) {
 
 function avideoModalIframe(url) {
     var span = document.createElement("span");
+    url = addGetParam(url, 'avideoIframe', 1);
     span.innerHTML = '<iframe src="' + url + '" />';
     swal({
         content: span,
@@ -1280,6 +1286,61 @@ function startTimer(duration, selector) {
         }
 
     }, 1000);
+}
+
+function startTimerToDate(toDate, selector, useDBDate) {
+    if(typeof _serverTime === 'undefined'){
+        console.log('startTimerToDate _serverTime is undefined');
+        getServerTime();
+        setTimeout(function(){startTimerToDate(toDate, selector, useDBDate)}, 1000);
+        return false;
+    }
+    if(typeof toDate === 'string'){
+        toDate = new Date(toDate);
+    }
+    if(useDBDate){
+        if(typeof _serverDBTimeString !== 'undefined'){
+            date2 = new Date(_serverDBTimeString);
+        }
+    }else{
+        if(typeof _serverTimeString !== 'undefined'){
+            date2 = new Date(_serverTimeString);
+        }
+    }
+    if(typeof date2 === 'undefined'){
+        date2 = new Date();
+    }
+    
+    var seconds = (toDate.getTime() - date2.getTime()) / 1000;
+    console.log('startTimerToDate toDate', toDate);
+    console.log('startTimerToDate selector', selector);
+    console.log('startTimerToDate seconds', seconds);
+    return startTimer(seconds, selector);
+}
+
+var getServerTimeActive = 0;
+function getServerTime(){
+    if(getServerTimeActive || _serverTime){
+        return false;
+    }
+    getServerTimeActive = 1;
+    $.ajax({
+        url: webSiteRootURL + 'objects/getTimes.json.php',
+        success: function (response) {
+            _serverTime = response._serverTime;
+            _serverDBTime = response._serverDBTime;
+            _serverTimeString = response._serverTimeString;
+            _serverDBTimeString = response._serverDBTimeString;
+            setTimeout(function(){clearServerTime();getServerTimeActive = 0;},1000);
+        }
+    });
+}
+
+function clearServerTime(){
+    _serverTime = null;
+    _serverDBTime = null;
+    _serverTimeString = null;
+    _serverDBTimeString = null;
 }
 
 function addGetParam(_url, _key, _value) {
