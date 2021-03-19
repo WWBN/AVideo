@@ -36,18 +36,7 @@ class LoginControl extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
-    }
-
-    public function updateScript() {
-        global $global;
-        /*
-          if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
-          sqlDal::executeFile($global['systemRootPath'] . 'plugin/PayPerView/install/updateV2.0.sql');
-          }
-         * 
-         */
-        return true;
+        return "2.0";
     }
 
     public function getEmptyDataObject() {
@@ -460,5 +449,19 @@ Best regards,
             }';
         }
     }
+    
+    public function updateScript() {
+        global $global;
+        //update version 2.0
+        if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/LoginControl/install/updateV2.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        return true;
+    }
+
 
 }

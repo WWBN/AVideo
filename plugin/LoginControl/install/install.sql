@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `logincontrol_history` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `users_id` INT NOT NULL,
-  `uniqidV4` VARCHAR(45) NOT NULL,
+  `uniqidV4` VARCHAR(255) NOT NULL,
   `ip` VARCHAR(45) NULL,
   `user_agent` VARCHAR(255) NULL,
   `confirmation_code` VARCHAR(45) NULL,
