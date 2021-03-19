@@ -1349,10 +1349,17 @@ function getServerTime(){
             _serverDBTime = response._serverDBTime;
             _serverTimeString = response._serverTimeString;
             _serverDBTimeString = response._serverDBTimeString;
-            setTimeout(function(){clearServerTime();getServerTimeActive = 0;},1000);
+            setInterval(function(){
+                _serverTime++;
+                _serverDBTime++;
+                _serverTimeString = new Date(_serverTime * 1000).toISOString().slice(0, 19).replace('T', ' ');
+                _serverDBTimeString = new Date(_serverDBTime * 1000).toISOString().slice(0, 19).replace('T', ' ');
+            },1000);
         }
     });
 }
+
+
 
 function clearServerTime(){
     _serverTime = null;
