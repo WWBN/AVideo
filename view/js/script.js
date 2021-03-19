@@ -1270,7 +1270,7 @@ function startTimer(duration, selector) {
 
         // Time calculations for days, hours, minutes and seconds
         var years = Math.floor(duration / (60 * 60 * 24 * 365));
-        var days = Math.floor((duration / (60 * 60 * 24 * 365)) / (60 * 60 * 24));
+        var days = Math.floor((duration % (60 * 60 * 24 * 365)) / (60 * 60 * 24));
         var hours = Math.floor((duration % (60 * 60 * 24)) / (60 * 60));
         var minutes = Math.floor((duration % (60 * 60)) / (60));
         var seconds = Math.floor((duration % (60)));
