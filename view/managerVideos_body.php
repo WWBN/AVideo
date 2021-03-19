@@ -1851,7 +1851,11 @@ if (Permissions::canAdminVideos()) {
                                                             if (typeof row.tags[i].type == "undefined" || row.tags[i].label.length === 0) {
                                                                 continue;
                                                             }
-                                                            tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + row.tags[i].text + "</span>";
+                                                            var text = row.tags[i].text;
+                                                            if (typeof row.tags[i].tooltip !== "undefined") {
+                                                                text += ' '+row.tags[i].tooltip;
+                                                            }
+                                                            tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + text + "</span>";
                                                         }
                                                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default \">" + row.type + "</span>";
                                                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default \">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span>";
