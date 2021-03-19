@@ -1283,6 +1283,9 @@ function startTimer(duration, selector) {
         if(days || text){
             text += days+'d ';
         }
+        if(hours || text){
+            text += hours+'h ';
+        }
         if(minutes || text){
             text += minutes+'m ';
         }
