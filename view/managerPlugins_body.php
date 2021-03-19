@@ -153,7 +153,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                 <div id="menu1" class="tab-pane fade">
                     <div class="list-group-item">
                         <div class="panel panel-default">
-                            <div class="panel-heading"><a href="https://plugins.avideo.com/" class="btn btn-default btn-xs"><i class="fa fa-plug"></i> Plugin Store </a></div>
+                            <div class="panel-heading"><a href="https://youphp.tube/marketplace/" class="btn btn-default btn-xs"><i class="fa fa-plug"></i> Plugin Store </a></div>
                             <div class="panel-body">
                                 <ul class="list-group" id="pluginStoreList">
                                 </ul>
@@ -615,7 +615,7 @@ $uuidJSCondition = implode(" && ", $rowId);
             $("#grid").bootgrid('reload');
         });
         $.ajax({
-            url: 'https://plugins.avideo.com/plugins.json?jsonp=1',
+            url: 'https://youphp.tube/marketplace/plugins.json?jsonp=1',
             dataType: 'jsonp',
             success: function (response) {
                 for (i = 0; i < response.rows.length; i++) {
