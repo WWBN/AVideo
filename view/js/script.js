@@ -1303,11 +1303,13 @@ function startTimer(duration, selector) {
     }, 1000);
 }
 
+var startTimerToDateTimeOut = [];
 function startTimerToDate(toDate, selector, useDBDate) {
+    clearTimeout(startTimerToDateTimeOut[selector]);
     if(typeof _serverTime === 'undefined'){
         console.log('startTimerToDate _serverTime is undefined');
         getServerTime();
-        setTimeout(function(){startTimerToDate(toDate, selector, useDBDate)}, 1000);
+        startTimerToDateTimeOut[selector] = setTimeout(function(){startTimerToDate(toDate, selector, useDBDate)}, 1000);
         return false;
     }
     if(typeof toDate === 'string'){
