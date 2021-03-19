@@ -1263,10 +1263,11 @@ function validURL(str) {
 function isURL(url) {
     return validURL(url);
 }
-
+var startTimerInterval = [];
 function startTimer(duration, selector) {
+    clearInterval(startTimerInterval[selector]);
     var timer = duration;
-    var startTimerInterval = setInterval(function () {
+    startTimerInterval[selector] = setInterval(function () {
 
         // Time calculations for days, hours, minutes and seconds
         var years = Math.floor(duration / (60 * 60 * 24 * 365));
