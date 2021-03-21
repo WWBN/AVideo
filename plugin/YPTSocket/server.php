@@ -19,7 +19,7 @@ $SocketDataObj->serverVersion = YPTSocket::getServerVersion();
 ob_end_flush();
 _mysql_close();
 session_write_close();
-exec('ulimit -S -n 10240'); // to handle over 1 k connections
+exec('ulimit -n 20480'); // to handle over 1 k connections
 $SocketDataObj->port = intval($SocketDataObj->port);
 _error_log("Starting Socket server at port {$SocketDataObj->port}");
 killProcessOnPort();
