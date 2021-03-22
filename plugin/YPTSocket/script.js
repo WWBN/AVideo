@@ -158,7 +158,11 @@ function parseSocketResponse() {
                     if (!$('#' + socketUserDivID).length) {
                         var html = '<div class="socketUserDiv" id="' + socketUserDivID + '" >';
                         html += '<div class="socketUserName" onclick="socketUserNameToggle(\'#' + socketUserDivID + '\');">';
-                        html += '<i class="fas fa-caret-down"></i><i class="fas fa-caret-up"></i> <img src="' + webSiteRootURL + 'user/' + json.users_uri[prop][prop2][prop3].users_id + '/foto.png" class="img img-circle img-responsive">' + json.users_uri[prop][prop2][prop3].user_name + '</div>';
+                        html += '<i class="fas fa-caret-down"></i><i class="fas fa-caret-up"></i>';
+                        if(json.users_uri[prop][prop2].length < 50){
+                            html += '<img src="' + webSiteRootURL + 'user/' + json.users_uri[prop][prop2][prop3].users_id + '/foto.png" class="img img-circle img-responsive">';
+                        }
+                        html += json.users_uri[prop][prop2][prop3].user_name + '</div>';
                         html += '<div class="socketUserPages"></div></div>';
                         $('#socketUsersURI').append(html);
                     }

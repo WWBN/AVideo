@@ -192,6 +192,8 @@ TimeLogEnd($timeLog, __LINE__);
                                 <div class="tab-pane  <?php echo $active; ?>" id="channelHome" style="min-height: 800px; background-color: rgb(<?php echo $obj->backgroundRGB; ?>);position: relative; overflow: hidden;">
                                     <?php
                                     $obj->BigVideo = true;
+                                    $obj->PlayList = false;
+                                    $obj->Channels = false;
                                     $obj->Trending = true;
                                     $obj->pageDots = false;
                                     $obj->TrendingAutoPlay = true;

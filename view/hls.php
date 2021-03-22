@@ -59,7 +59,9 @@ $tokenIsValid = false;
 if (!empty($_GET['token'])) {
     $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
     if ($secure) {
-        $tokenIsValid = $secure->isTokenValid($_GET['token'], $_GET['videoDirectory'], $_GET['videoDirectory']);
+        $filenameParts = explode('/', $_GET['videoDirectory']); 
+        $fname = $filenameParts[0];
+        $tokenIsValid = $secure->isTokenValid($_GET['token'], $fname, $_GET['videoDirectory']);
     }
 } else if (!empty($_GET['globalToken'])) {
     $tokenIsValid = verifyToken($_GET['globalToken']);

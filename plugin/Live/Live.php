@@ -170,6 +170,8 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('experimentalWebcam', 'Experimental Webcam', 'Requires flash and it is deprecated, will be removed. not recommend to enable it.');
         $obj->doNotShowLiveOnVideosList = false;
         self::addDataObjectHelper('doNotShowLiveOnVideosList', 'Do not show live on videos list', 'We will not show the live thumbs on the main Gallery page');
+        $obj->doNotShowOnlineOfflineLabel = false;
+        self::addDataObjectHelper('doNotShowOnlineOfflineLabel', 'Hide the Online/Offline Badge on live streams');
         $obj->doNotShowLiveOnCategoryList = false;
         self::addDataObjectHelper('doNotShowLiveOnCategoryList', 'Do not show live on site category list', 'We will not show the live thumbs on the main Gallery page');
         $obj->doNotShowOfflineLiveOnCategoryList = false;
@@ -1488,9 +1490,9 @@ class Live extends PluginAbstract {
         }
     }
     
-    public static function deleteStatsCache($live_servers_id) {
+    public static function deleteStatsCache($live_servers_id=null) {
         global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache;
-        $tmpDir = ObjectYPT::getCacheDir();
+        $tmpDir = ObjectYPT::getCacheDir(true);
         $cacheDir = $tmpDir."getstats".DIRECTORY_SEPARATOR;
         if(isset($live_servers_id)){
             $cacheDir .= "live_servers_id_{$live_servers_id}";
@@ -1732,6 +1734,16 @@ class Live extends PluginAbstract {
                 UserGroups::updateVideoGroups($videos_id, $groups);
             }
         }
+    }
+    
+    static function notifySocketStats($callBack = 'socketLiveONCallback', $array = array()){
+        if(empty($array['stats'])){
+            $array['stats'] = getStatsNotifications();
+        }
+        _error_log("NGINX Live::on_publish_socket_notification sendSocketMessageToAll Start");
+        $socketObj = sendSocketMessageToAll($array, $callBack);
+        _error_log("NGINX Live::on_publish_socket_notification SocketMessageToAll END");
+        return $socketObj;
     }
 
 }

@@ -986,7 +986,7 @@ if (!class_exists('Video')) {
                     . " FROM videos as v "
                     . " LEFT JOIN categories c ON categories_id = c.id "
                     . " LEFT JOIN users u ON v.users_id = u.id "
-                    . " WHERE 1=1 ";
+                    . " WHERE 2=2 ";
 
             $blockedUsers = self::getBlockedUsersIdsArray();
             if (!empty($blockedUsers)) {
@@ -1106,6 +1106,10 @@ if (!class_exists('Video')) {
                 }
                 $_POST['sort'] = $sort;
             } elseif (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
+                if(!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])){
+                    $_POST['sort']['v.created'] = $_POST['sort']['created'];
+                    unset($_POST['sort']['created']);
+                }
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
             } else {
                 unset($_POST['sort']['trending']);

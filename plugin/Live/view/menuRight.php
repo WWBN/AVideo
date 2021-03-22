@@ -45,7 +45,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         <div class="pull-left">
             <img src="" class="img img-circle img-responsive" style="max-width: 38px;">
         </div>
-        <div style="margin-left: 40px;">
+        <div style="margin-left: 40px;white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;">
             <i class="fas fa-video"></i> <strong class="liveTitle"><?php echo __("Title"); ?></strong> <br>
             <span class="label label-success liveUser"><?php echo __("User"); ?></span> <span class="label label-danger liveNow faa-flash faa-slow animated hidden"><?php echo __("LIVE NOW"); ?></span>
         </div>
@@ -85,7 +87,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         return $liveLi
     }
 
-    function createLiveItem(href, title, name, photo, offline, online, views, key, isPrivate) {
+    function createLiveItem(href, title, name, photo, offline, online, views, key, isPrivate, callback) {
         var $liveLi = $('.liveModel').clone();
         $($liveLi).find('a').removeClass('linksToFullscreen');
         if (offline) {
@@ -104,6 +106,11 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         $liveLi.find('.liveTitle').text(title);
         $liveLi.find('.liveUser').text(name);
         $liveLi.find('.img').attr("src", photo);
+        
+        if(typeof callback == 'string' && callback){
+            eval("try {console.log('createLiveItem application.callback');$liveLi = "+callback+";} catch (e) {console.log('createLiveItem application.callback error',e.message);}");
+        }
+
         $('#availableLiveStream').append($liveLi);
 
         if (href != "#") {
@@ -113,6 +120,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             $('.liveUsersOnline_' + key).text(online);
             $('.liveUsersViews_' + key).text(views);
         }
+        
     }
     var limitLiveOnVideosListCount = 0;
     function createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id, live_index) {
@@ -253,7 +261,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     function availableLiveStreamIsLoading() {
         if ($('#availableLiveStream').hasClass('notfound')) {
             $('#availableLiveStream').empty();
-            createLiveItem("#", "<?php echo __("Please Wait, we are checking the lives"); ?>", "", "", true, false);
+            createLiveItem("#", "<?php echo __("Please Wait, we are checking the lives"); ?>", "", "", true, false, '');
             $('#availableLiveStream').find('.fa-ban').removeClass("fa-ban").addClass("fa-sync fa-spin");
             $('#availableLiveStream').find('.liveLink div').attr('style', '');
         }
@@ -262,7 +270,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     function availableLiveStreamNotFound() {
         $('#availableLiveStream').addClass('notfound');
         $('#availableLiveStream').empty();
-        createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true, false);
+        createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true, false, '');
         $('#availableLiveStream').find('.liveLink div').attr('style', '');
     }
 
@@ -274,6 +282,10 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         user = application.user;
         photo = application.photo;
         key = application.key;
+        callback = '';
+        if(typeof application.callback === 'string'){
+            callback = application.callback;
+        }
         isPrivate = application.isPrivate;
         if (application.type === 'Live') {
             online = application.users.online;
@@ -309,7 +321,7 @@ if (isVideo()) {
             $('#liveVideos').slideDown();
         } else {
 
-            createLiveItem(href, title, name, photo, false, online, views, key, isPrivate);
+            createLiveItem(href, title, name, photo, false, online, views, key, isPrivate, callback);
 <?php
 if (empty($obj->doNotShowLiveOnVideosList)) {
     ?>

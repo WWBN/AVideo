@@ -15,6 +15,11 @@ var videoContainerDragged = false;
 var youTubeMenuIsOpened = false;
 var userIsControling = false;
 
+var _serverTime;
+var _serverDBTime;
+var _serverTimeString;
+var _serverDBTimeString;
+
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
@@ -984,6 +989,7 @@ function avideoAlertHTMLText(title, msg, type) {
 
 function avideoModalIframe(url) {
     var span = document.createElement("span");
+    url = addGetParam(url, 'avideoIframe', 1);
     span.innerHTML = '<iframe src="' + url + '" />';
     swal({
         content: span,
@@ -1257,20 +1263,36 @@ function validURL(str) {
 function isURL(url) {
     return validURL(url);
 }
-
+var startTimerInterval = [];
 function startTimer(duration, selector) {
+    clearInterval(startTimerInterval[selector]);
     var timer = duration;
-    var startTimerInterval = setInterval(function () {
+    startTimerInterval[selector] = setInterval(function () {
 
         // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(duration / (60 * 60 * 24));
+        var years = Math.floor(duration / (60 * 60 * 24 * 365));
+        var days = Math.floor((duration % (60 * 60 * 24 * 365)) / (60 * 60 * 24));
         var hours = Math.floor((duration % (60 * 60 * 24)) / (60 * 60));
         var minutes = Math.floor((duration % (60 * 60)) / (60));
         var seconds = Math.floor((duration % (60)));
 
         // Display the result in the element with id="demo"
-        var text = days + "d " + hours + "h "
-                + minutes + "m " + seconds + "s ";
+        var text = '';
+        if(years){
+            text += years+'y ';
+        }
+        if(days || text){
+            text += days+'d ';
+        }
+        if(hours || text){
+            text += hours+'h ';
+        }
+        if(minutes || text){
+            text += minutes+'m ';
+        }
+        if(seconds || text){
+            text += seconds+'s ';
+        }
         $(selector).text(text);
         duration--;
         // If the count down is finished, write some text
@@ -1280,6 +1302,70 @@ function startTimer(duration, selector) {
         }
 
     }, 1000);
+}
+
+var startTimerToDateTimeOut = [];
+function startTimerToDate(toDate, selector, useDBDate) {
+    clearTimeout(startTimerToDateTimeOut[selector]);
+    if(typeof _serverTime === 'undefined'){
+        console.log('startTimerToDate _serverTime is undefined');
+        getServerTime();
+        startTimerToDateTimeOut[selector] = setTimeout(function(){startTimerToDate(toDate, selector, useDBDate)}, 1000);
+        return false;
+    }
+    if(typeof toDate === 'string'){
+        toDate = new Date(toDate);
+    }
+    if(useDBDate){
+        if(typeof _serverDBTimeString !== 'undefined'){
+            date2 = new Date(_serverDBTimeString);
+        }
+    }else{
+        if(typeof _serverTimeString !== 'undefined'){
+            date2 = new Date(_serverTimeString);
+        }
+    }
+    if(typeof date2 === 'undefined'){
+        date2 = new Date();
+    }
+    
+    var seconds = (toDate.getTime() - date2.getTime()) / 1000;
+    console.log('startTimerToDate toDate', toDate);
+    console.log('startTimerToDate selector', selector);
+    console.log('startTimerToDate seconds', seconds);
+    return startTimer(seconds, selector);
+}
+
+var getServerTimeActive = 0;
+function getServerTime(){
+    if(getServerTimeActive || _serverTime){
+        return false;
+    }
+    getServerTimeActive = 1;
+    $.ajax({
+        url: webSiteRootURL + 'objects/getTimes.json.php',
+        success: function (response) {
+            _serverTime = response._serverTime;
+            _serverDBTime = response._serverDBTime;
+            _serverTimeString = response._serverTimeString;
+            _serverDBTimeString = response._serverDBTimeString;
+            setInterval(function(){
+                _serverTime++;
+                _serverDBTime++;
+                _serverTimeString = new Date(_serverTime * 1000).toISOString().slice(0, 19).replace('T', ' ');
+                _serverDBTimeString = new Date(_serverDBTime * 1000).toISOString().slice(0, 19).replace('T', ' ');
+            },1000);
+        }
+    });
+}
+
+
+
+function clearServerTime(){
+    _serverTime = null;
+    _serverDBTime = null;
+    _serverTimeString = null;
+    _serverDBTimeString = null;
 }
 
 function addGetParam(_url, _key, _value) {
