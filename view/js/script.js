@@ -1359,8 +1359,6 @@ function getServerTime(){
     });
 }
 
-
-
 function clearServerTime(){
     _serverTime = null;
     _serverDBTime = null;
