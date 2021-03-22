@@ -5010,14 +5010,21 @@ function diskUsageBars() {
 }
 
 function getDomain() {
-    global $global;
+    global $global, $_getDomain;
+    
+    if(isset($_getDomain)){
+        return $_getDomain;
+    }
+    
     if (empty($_SERVER['HTTP_HOST'])) {
         $parse = parse_url($global['webSiteRootURL']);
-        return $parse['host'];
+        $domain = $parse['host'];
+    }else{
+        $domain = $_SERVER['HTTP_HOST'];
     }
-    $domain = $_SERVER['HTTP_HOST'];
     $domain = str_replace("www.", "", $domain);
     $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
+    $_getDomain = $domain;
     return $domain;
 }
 
