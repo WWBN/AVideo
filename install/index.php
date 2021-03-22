@@ -194,10 +194,24 @@ require_once '../locale/function.php';
                                             <label for="mainLanguage">Language</label><br>
                                             <select class="selectpicker" id="mainLanguage">
                                                 <?php
-                                                foreach (glob("../locale/??.php") as $filename) {
-                                                    $filename = basename($filename);
-                                                    $fileEx = basename($filename, ".php");
-                                                    echo "<option data-content='<span class=\"flagstrap-icon flagstrap-$fileEx\"></span> $fileEx' value=\"$fileEx\" " . (('us' == $fileEx) ? " selected" : "") . ">$fileEx</option>";
+                                                global $global;
+                                                include_once '../objects/bcp47.php'; 
+                                                $dir = "../locale/";
+                                                $flags = array();
+                                                if ($handle = opendir($dir)) {
+                                                    while (false !== ($entry = readdir($handle))) {
+                                                        if ($entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'function.php' && $entry != 'save.php') {
+                                                            $flags[] = str_replace('.php', '', $entry);
+                                                        }
+                                                    }
+                                                    closedir($handle);
+                                                }
+                                                sort($flags);
+
+                                                foreach ($flags as $flag) {
+                                                    //var_dump($global['bcp47'][$flag]);
+                                                    $fileEx = $global['bcp47'][$flag]['flag'];
+                                                    echo "<option data-content='<span class=\"flagstrap-icon flagstrap-$fileEx\"></span> {$global['bcp47'][$flag]['label']}' value=\"$fileEx\" " . (('us' == $fileEx) ? " selected" : "") . ">{$global['bcp47'][$flag]['label']}</option>";
                                                 }
                                                 ?>
                                             </select>
