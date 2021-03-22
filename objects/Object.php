@@ -453,11 +453,13 @@ abstract class ObjectYPT implements ObjectInterface
         self::setLastDeleteALLCacheTime();
     }
 
-    public static function getCacheDir($ignoreLocationDirectoryName=false)
-    {
+    public static function getCacheDir($ignoreLocationDirectoryName=false){
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
+        
+        $domain = getDomain();
+        $tmpDir .= $domain . DIRECTORY_SEPARATOR;
 
         if (!$ignoreLocationDirectoryName && class_exists("User_Location")) {
             $loc = User_Location::getThisUserLocation();
