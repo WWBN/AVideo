@@ -103,7 +103,7 @@ foreach ($playList as $key => $value) {
         if (empty($videoStartSeconds)) {
             $videoStartSeconds = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
         }
-        $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList ");
+        $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList ", $subtitleTracks);
     }
 }
 
@@ -301,7 +301,7 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                                 setTimeout(function () {
                                     player.addRemoteTextTrack({kind: 'captions',label:'OFF',src: '' }, false);
                                     for (let j = 0; j < tracks.length; i++) {
-                                        player.addRemoteTextTrack(player.addRemoteTextTrack({kind: 'captions',label:tracks[j].label,src: tracks[j].src }, false);, false);;
+                                        player.addRemoteTextTrack({kind: 'captions',label:tracks[j].label,src: tracks[j].src }, false);
                                     }
                                 }, 1000);
                             }
