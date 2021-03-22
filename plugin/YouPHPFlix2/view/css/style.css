@@ -398,5 +398,5 @@ body.fullscreen{
 }
 
 .rowSerie{
-    display: inline-block;
+    display: inline-table;
 }
