@@ -460,6 +460,10 @@ abstract class ObjectYPT implements ObjectInterface
         
         $domain = getDomain();
         $tmpDir .= $domain . DIRECTORY_SEPARATOR;
+        
+        // make sure you separete http and https cache 
+        $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
+        $tmpDir .= $protocol . DIRECTORY_SEPARATOR;
 
         if (!$ignoreLocationDirectoryName && class_exists("User_Location")) {
             $loc = User_Location::getThisUserLocation();
