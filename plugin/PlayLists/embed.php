@@ -347,7 +347,7 @@ PlayerSkins::getStartPlayerJS($str);
 ?>
         </script>
         <?php
-        echo AVideoPlugin::afterVideoJS();
+        //echo AVideoPlugin::afterVideoJS();
         ?>
         <script>
             $(document).ready(function () {
