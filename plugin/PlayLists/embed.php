@@ -301,7 +301,8 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                                 setTimeout(function () {
                                     player.addRemoteTextTrack({kind: 'captions',label:'OFF',src: '' }, false);
                                     for (let j = 0; j < tracks.length; i++) {
-                                        player.addRemoteTextTrack({kind: 'captions',label:tracks[j].label,src: tracks[j].src }, false);
+                                        console.log('tracks ', tracks[j]);
+                                        //player.addRemoteTextTrack({kind: 'captions',label:tracks[j].label,src: tracks[j].src }, false);
                                     }
                                 }, 1000);
                             }
