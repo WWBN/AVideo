@@ -299,7 +299,6 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                             if(embed_playerPlaylist[_index].tracks && embed_playerPlaylist[_index].tracks.length){
                                 var _tracks = embed_playerPlaylist[_index].tracks;
                                 setTimeout(function () {
-                                    player.addRemoteTextTrack({kind: 'captions',label:'OFF',src: '' }, false);
                                     for (let j = 0; j < _tracks.length; j++) {
                                         console.log('tracks ',_tracks[j]);
                                         player.addRemoteTextTrack({kind: 'captions',label:_tracks[j].label,src: _tracks[j].src }, false);
