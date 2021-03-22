@@ -5,6 +5,7 @@
 </div>
 <script src="$webSiteRootURLview/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
 <script>
+    var $container$uid;
     $(function () {
         $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
             path: '.pagination__next$uid',
@@ -21,3 +22,6 @@
 
     });
 </script>
+<center>
+    <button class="btn btn-xs btn-primary" onclick="$container$uid.infinitescroll('retrieve');"><?php echo __('More'); ?></button>
+</center>
