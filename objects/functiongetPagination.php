@@ -7,10 +7,10 @@
 <script>
     var $container$uid;
     $(function () {
-        loadInfiniteScrool$uid();
+        loadInfiniteScrool$uid(false);
     });
     
-    function loadInfiniteScrool$uid(){
+    function loadInfiniteScrool$uid(retrieve){
         if(typeof $('$infinityScrollAppendIntoSelector').infiniteScroll !== 'funciton'){
             $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
                 path: '.pagination__next$uid',
@@ -24,10 +24,13 @@
                 lazyImage();
                 avideoSocket();
             });
+            if(retrieve){
+                $container$uid.infinitescroll('retrieve');
+            }
         }
     }
     
 </script>
 <center>
-    <button class="btn btn-xs btn-default" onclick="loadInfiniteScrool$uid();$container$uid.infinitescroll('retrieve');"> ... </button>
+    <button class="btn btn-xs btn-default" onclick="loadInfiniteScrool$uid(true);"> ... </button>
 </center>
