@@ -1,3 +1,9 @@
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty("--vh", `${vh}px`);
+window.addEventListener("resize", () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+});
 $(document).ready(function () {
     transformLinksToEmbed('a.canWatchPlayButton');
     $(document).on('keyup', function (evt) {
@@ -6,12 +12,6 @@ $(document).ready(function () {
         }
     });
     $("body").addClass("Chat2StaticRight");
-    let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-    window.addEventListener("resize", () => {
-        let vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty("--vh", `${vh}px`);
-    });
 });
 
 function transformLinksToEmbed(selector){

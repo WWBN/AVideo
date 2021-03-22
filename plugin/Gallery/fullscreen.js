@@ -1,10 +1,16 @@
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty("--vh", `${vh}px`);
+window.addEventListener("resize", () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+});
 $(document).ready(function () {
     $('a.galleryLink').click(function (event) {
         event.preventDefault();
         var id = $(this).attr('videos_id');
         startFullScreen(webSiteRootURL + 'v/' + id);
     });
-    
+
     $('a.evideo').click(function (event) {
         event.preventDefault();
         var href = $(this).attr('href');
