@@ -11,18 +11,20 @@
     });
     
     function loadInfiniteScrool$uid(){
-        $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
-            path: '.pagination__next$uid',
-            append: '$infinityScrollGetFromSelector',
-            status: '.scroller-status$uid',
-            hideNav: '.infiniteScrollPagination$uid',
-            prefill: false,
-            history: false
-        });
-        $container$uid.on('append.infiniteScroll', function (event, response, path, items) {
-            lazyImage();
-            avideoSocket();
-        });
+        if(typeof $('$infinityScrollAppendIntoSelector').infiniteScroll !== 'funciton'){
+            $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
+                path: '.pagination__next$uid',
+                append: '$infinityScrollGetFromSelector',
+                status: '.scroller-status$uid',
+                hideNav: '.infiniteScrollPagination$uid',
+                prefill: false,
+                history: false
+            });
+            $container$uid.on('append.infiniteScroll', function (event, response, path, items) {
+                lazyImage();
+                avideoSocket();
+            });
+        }
     }
     
 </script>
