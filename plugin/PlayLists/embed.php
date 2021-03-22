@@ -87,6 +87,11 @@ foreach ($playList as $key => $value) {
             }
             $playListSources[] = new playListSource($value2['url']);
         }
+
+        if (function_exists('getVTTTracks')) {
+            $subtitleTracks = getVTTTracks($value['filename'], true);
+        }
+
         if (empty($playListSources)) {
             continue;
         }
@@ -291,6 +296,16 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                     if (typeof embed_playerPlaylist[_index] !== 'undefined') {
                         updatePLSourcesTimeout = setTimeout(function () {
                             playerPlay(embed_playerPlaylist[_index].videoStartSeconds);
+                            if(embed_playerPlaylist[_index].tracks && embed_playerPlaylist[_index].tracks.length){
+                                var tracks = embed_playerPlaylist[_index].tracks;
+                                setTimeout(function () {
+                                    player.addRemoteTextTrack({kind: 'captions',label:'OFF',src: '' }, false);
+                                    for (let j = 0; j < tracks.length; i++) {
+                                        player.addRemoteTextTrack(player.addRemoteTextTrack({kind: 'captions',label:tracks[j].label,src: tracks[j].src }, false);, false);;
+                                    }
+                                }, 1000);
+                            }
+
                         }, 1000);
                     }
                 } else {

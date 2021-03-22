@@ -4,7 +4,7 @@ class PlayListElement {
 
     public $name, $description, $duration, $sources, $thumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id;
 
-    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id, $className='') {
+    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id, $className='', $tracks=array()) {
         $this->name = $name;
         $this->description = $description;
         $this->setDuration($duration);
@@ -17,6 +17,7 @@ class PlayListElement {
         $this->views = $views;
         $this->videos_id = $videos_id;
         $this->className = $className;
+        $this->tracks = $tracks;
     }
 
     
