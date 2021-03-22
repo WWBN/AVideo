@@ -299,7 +299,7 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                             if(embed_playerPlaylist[_index].tracks && embed_playerPlaylist[_index].tracks.length){
                                 var tracks = embed_playerPlaylist[_index].tracks;
                                 setTimeout(function () {
-                                    player.addRemoteTextTrack({kind: 'captions',label:'OFF',src: '' }, false);
+                                    //player.addRemoteTextTrack({kind: 'captions',label:'OFF',src: '' }, false);
                                     for (let j = 0; j < tracks.length; i++) {
                                         console.log('tracks ', tracks[j]);
                                         //player.addRemoteTextTrack({kind: 'captions',label:tracks[j].label,src: tracks[j].src }, false);
