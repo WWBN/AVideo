@@ -25,7 +25,7 @@
                 avideoSocket();
             });
             if(retrieve){
-                $container$uid.infinitescroll('retrieve');
+                $('$infinityScrollAppendIntoSelector').infinitescroll('retrieve');
             }
         }
     }
