@@ -7,7 +7,7 @@
 <script>
     var $container$uid;
     $(function () {
-        loadInfiniteScrool$uid(false);
+        loadInfiniteScrool$uid();
     });
     
     function loadInfiniteScrool$uid(retrieve){
@@ -24,13 +24,10 @@
                 lazyImage();
                 avideoSocket();
             });
-            if(retrieve){
-                $('$infinityScrollAppendIntoSelector').infinitescroll('retrieve');
-            }
         }
     }
     
 </script>
 <center>
-    <button class="btn btn-xs btn-default" onclick="loadInfiniteScrool$uid(true);"> ... </button>
+    <button class="btn btn-xs btn-default" onclick="loadInfiniteScrool$uid();"> ... </button>
 </center>
