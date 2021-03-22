@@ -296,13 +296,15 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                     if (typeof embed_playerPlaylist[_index] !== 'undefined') {
                         updatePLSourcesTimeout = setTimeout(function () {
                             playerPlay(embed_playerPlaylist[_index].videoStartSeconds);
-                            if (embed_playerPlaylist[_index].tracks && embed_playerPlaylist[_index].tracks.length) {
+                            if(embed_playerPlaylist[_index].tracks && embed_playerPlaylist[_index].tracks.length){
                                 var _tracks = embed_playerPlaylist[_index].tracks;
-                                player.addRemoteTextTrack({kind: 'captions', label: 'OFF', src: ''}, false);
-                                for (let j = 0; j < _tracks.length; i++) {
-                                    console.log('tracks ', _tracks[j]);
-                                    player.addRemoteTextTrack({kind: 'captions', label: _tracks[j].label, src: _tracks[j].src}, false);
-                                }
+                                setTimeout(function () {
+                                    player.addRemoteTextTrack({kind: 'captions',label:'OFF',src: '' }, false);
+                                    for (let j = 0; j < _tracks.length; j++) {
+                                        console.log('tracks ',_tracks[j]);
+                                        player.addRemoteTextTrack({kind: 'captions',label:_tracks[j].label,src: _tracks[j].src }, false);
+                                    }
+                                }, 1000);
                             }
 
                         }, 1000);
