@@ -29,5 +29,5 @@
     
 </script>
 <center>
-    <button class="btn btn-xs btn-default" onclick="loadInfiniteScrool$uid();"> ... </button>
+    <button class="btn btn-xs btn-default" style="border: none; background: transparent;" onclick="loadInfiniteScrool$uid();"> More </button>
 </center>
