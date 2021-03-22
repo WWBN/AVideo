@@ -396,3 +396,7 @@ body.fullscreen{
     background: transparent;
     border-color: transparent;
 }
+
+.rowSerie{
+    display: inline-block;
+}
