@@ -23,5 +23,5 @@
     });
 </script>
 <center>
-    <button class="btn btn-xs btn-primary" onclick="$container$uid.infinitescroll('retrieve');"><?php echo __('More'); ?></button>
+    <button class="btn btn-xs btn-primary" onclick="$container$uid.infinitescroll('retrieve');"> ... </button>
 </center>
