@@ -68,7 +68,6 @@ if (!empty($result)) {
     $p = AVideoPlugin::loadPlugin("Live");
     $video = Live::getM3U8File($uuid);
     
-    //header('Content-Type: text/plain');var_dump($livet, $video);exit;
     $encoderURL = $config->_getEncoderURL();
     //$encoderURL = $config->getEncoderURL();
     
