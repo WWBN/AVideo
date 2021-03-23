@@ -1204,7 +1204,7 @@ class Live extends PluginAbstract {
         }
         $live_index = '';
         
-        if ($obj->allowMultipleLivesPerUser && preg_match("/.*-([0-9a-zA-Z]+)/", $key, $matches)) {
+        if (preg_match("/.*-([0-9a-zA-Z]+)/", $key, $matches)) {
             if (!empty($matches[1])) {
                 $live_index = strip_tags($matches[1]);
                 if($live_index === 'false'){
