@@ -1157,7 +1157,9 @@ class Live extends PluginAbstract {
                 $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id);
                 $m3u8 = self::getM3U8File($key);
                 $obj->applications[] = array(
-                    "key" => $key,
+                    "live_index" => $parameters['live_index'],
+                    "live_cleanKey" => $parameters['cleanKey'],
+                    "key" => $value->name,
                     "isPrivate" => self::isAPrivateLiveFromLiveKey($value->name),
                     "users" => $users,
                     "name" => $userName,
