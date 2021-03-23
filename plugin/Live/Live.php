@@ -981,7 +981,12 @@ class Live extends PluginAbstract {
     }
 
     static function getLiveTransmitionObjectFromUsers_id($users_id) {
-        $key = self::getLiveKey($users_id);
+        $latest = LiveTransmitionHistory::getLatestFromUser($users_id);
+        if(!empty($latest)){
+            $key = $latest['key'];
+        }else{
+            $key = self::getLiveKey($users_id);
+        }
         return self::getLiveTransmitionObjectFromKey($key);
     }
 
@@ -1283,7 +1288,12 @@ class Live extends PluginAbstract {
         if (!empty($_live_is_live[$name])) {
             return $_live_is_live[$name];
         }
-        $key = self::getLiveKey($users_id);
+        $latest = LiveTransmitionHistory::getLatestFromUser($users_id);
+        if(!empty($latest)){
+            $key = $latest['key'];
+        }else{
+            $key = self::getLiveKey($users_id);
+        }
         $_live_is_live[$name] = self::isLiveAndIsReadyFromKey($key, $live_servers_id, $force_recreate = false);
         return $_live_is_live[$name];
     }
@@ -1350,7 +1360,7 @@ class Live extends PluginAbstract {
             $json = new stdClass();
             $m3u8 = self::getM3U8File($key);
             $isLiveFromKey = self::isLiveFromKey($key, $live_servers_id, $force_recreate);
-            $is200 = isURL200($m3u8);
+            $is200 = isURL200($m3u8); 
             _error_log("isLiveFromKey: {$isLiveFromKey}");
             _error_log("m3u8: {$m3u8}");
             _error_log("is200: {$is200}");
