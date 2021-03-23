@@ -23,7 +23,7 @@ if(empty($json)){
     $json = getStatsNotifications();
     ObjectYPT::setCache($cacheName, $json);
 }
-
+$json = object_to_array($json);
 // check if application is online
 if(!empty($_REQUEST['name'])){
     $json['msg'] = 'OFFLINE';
