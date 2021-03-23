@@ -244,6 +244,13 @@ if(!empty($_GET['avideoIframe'])){ // comes from avideoModalIframe(url) javascri
     li.navsub-toggle a + ul {
         padding-left: 15px;
     }
+    
+    .navbar-lang-btn .select2-container{
+        margin: 8px 0;
+    }
+    .navbar-lang-btn .select2-selection{
+        border-color: #00000077 !important;
+    }
     <?php
     if (AVideoPlugin::isEnabledByName("Gallery") || AVideoPlugin::isEnabledByName("YouPHPFlix2")) {
         ?>
@@ -512,14 +519,8 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         }
                         ?>
                         <li>
-                            <div class="navbar-btn">
+                            <div class="navbar-lang-btn">
                             <?php
-                            $flags = getEnabledLangs();
-                            $objFlag = new stdClass();
-                            foreach ($flags as $key => $value) {
-                                //$value = strtoupper($value);
-                                $objFlag->$value = $value;
-                            }
                             if ($lang == 'en') {
                                 $lang = 'en_US';
                             }

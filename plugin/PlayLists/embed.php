@@ -87,6 +87,11 @@ foreach ($playList as $key => $value) {
             }
             $playListSources[] = new playListSource($value2['url']);
         }
+
+        if (function_exists('getVTTTracks')) {
+            $subtitleTracks = getVTTTracks($value['filename'], true);
+        }
+
         if (empty($playListSources)) {
             continue;
         }
@@ -98,7 +103,7 @@ foreach ($playList as $key => $value) {
         if (empty($videoStartSeconds)) {
             $videoStartSeconds = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
         }
-        $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList ");
+        $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList ", $subtitleTracks);
     }
 }
 
@@ -124,10 +129,6 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
         </script>
-        <?php
-        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-        echo AVideoPlugin::getHeadCode();
-        ?>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -145,6 +146,9 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
         <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
+        <?php
+        echo AVideoPlugin::getHeadCode();
+        ?>
         <style>
             body {
                 padding: 0 !important;
@@ -292,6 +296,16 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
                     if (typeof embed_playerPlaylist[_index] !== 'undefined') {
                         updatePLSourcesTimeout = setTimeout(function () {
                             playerPlay(embed_playerPlaylist[_index].videoStartSeconds);
+                            if(embed_playerPlaylist[_index].tracks && embed_playerPlaylist[_index].tracks.length){
+                                var _tracks = embed_playerPlaylist[_index].tracks;
+                                setTimeout(function () {
+                                    for (let j = 0; j < _tracks.length; j++) {
+                                        console.log('tracks ',_tracks[j]);
+                                        player.addRemoteTextTrack({kind: 'captions',label:_tracks[j].label,src: _tracks[j].src }, false);
+                                    }
+                                }, 1000);
+                            }
+
                         }, 1000);
                     }
                 } else {

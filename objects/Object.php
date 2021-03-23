@@ -453,11 +453,28 @@ abstract class ObjectYPT implements ObjectInterface
         self::setLastDeleteALLCacheTime();
     }
 
-    public static function getCacheDir($ignoreLocationDirectoryName=false)
-    {
+    public static function getCacheDir($ignoreLocationDirectoryName=false){
+        global $_getCacheDir;        
+        $ignoreLocationDirectoryName = intval($ignoreLocationDirectoryName);
+        
+        if(!isset($_getCacheDir)){
+            $_getCacheDir = array();
+        }
+        
+        if(!empty($_getCacheDir[$ignoreLocationDirectoryName])){
+            return $_getCacheDir[$ignoreLocationDirectoryName];
+        }
+        
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
+        
+        $domain = getDomain();
+        $tmpDir .= $domain . DIRECTORY_SEPARATOR;
+        
+        // make sure you separete http and https cache 
+        $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
+        $tmpDir .= $protocol . DIRECTORY_SEPARATOR;
 
         if (!$ignoreLocationDirectoryName && class_exists("User_Location")) {
             $loc = User_Location::getThisUserLocation();
@@ -470,6 +487,8 @@ abstract class ObjectYPT implements ObjectInterface
         if (!file_exists($tmpDir . "index.html") && is_writable($tmpDir)) {// to avoid search into the directory
             file_put_contents($tmpDir . "index.html", time());
         }
+        
+        $_getCacheDir[$ignoreLocationDirectoryName] = $tmpDir;
         return $tmpDir;
     }
 

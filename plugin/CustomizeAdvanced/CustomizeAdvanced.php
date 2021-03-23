@@ -225,6 +225,10 @@ class CustomizeAdvanced extends PluginAbstract {
             }
         }
     }
+    
+    public function getEmbed($videos_id) {
+        return $this->getModeYouTube($videos_id);
+    }
 
     public function getFooterCode() {
         global $global;
