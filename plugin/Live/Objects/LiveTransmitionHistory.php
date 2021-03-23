@@ -91,6 +91,14 @@ class LiveTransmitionHistory extends ObjectYPT {
         $parameters = Live::getLiveParametersFromKey($this->key);
         return $parameters['live_index'];
     }
+    
+    function getLive_cleanKey() {
+        if(empty($this->key)){
+            return '';
+        }
+        $parameters = Live::getLiveParametersFromKey($this->key);
+        return $parameters['cleanKey'];
+    }
 
     static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
@@ -123,6 +131,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $obj->photo = $photo;
         $obj->channelName = $u->getChannelName();
         $obj->live_index = $lth->getLive_index();
+        $obj->live_cleanKey = $lth->getLive_cleanKey();
         $obj->live_servers_id = $live_servers_id;
         $obj->href = Live::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id, $obj->live_index);
         $obj->key = $key;

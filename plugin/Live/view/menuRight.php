@@ -248,6 +248,8 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
                         live_servers_id = response.applications[i].live_servers_id;
                     }
                     processApplication(response.applications[i], disableGif, live_servers_id, live_index);
+                    var selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
+                    onlineLabelOnline(selector);
                 }
                 mouseEffect();
             }
@@ -350,10 +352,11 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     function socketLiveONCallback(json) {
         console.log('socketLiveONCallback', json);
         processLiveStats(json.stats);
-        $('.live_' + json.live_servers_id + "_" + json.key).slideDown();
+        var selector = '.live_' + json.live_servers_id + "_" + json.key;
+        $(selector).slideDown();
         
         if(typeof onlineLabelOnline == 'function'){
-            var selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
+            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
             onlineLabelOnline(selector);
             selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
             onlineLabelOnline(selector);
@@ -381,6 +384,9 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             //console.log('socketLiveOFFCallback 2', selector);
             onlineLabelOffline(selector);
             selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+            //console.log('socketLiveOFFCallback 3', selector);
+            onlineLabelOffline(selector);
+            selector = '.liveViewStatusClass_' + json.cleanKey;
             //console.log('socketLiveOFFCallback 3', selector);
             onlineLabelOffline(selector);
         }

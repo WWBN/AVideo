@@ -48,6 +48,8 @@ Live::deleteStatsCache(null);
 $row = LiveTransmitionHistory::getLatest($_POST['name']);
 LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
 $array = setLiveKey($row['key'], $row['live_servers_id']);
+$parameters = Live::getLiveParametersFromKey($array['key']);
+$array['cleanKey'] = $parameters['cleanKey'];
 $array['stats'] = LiveTransmitionHistory::getStatsAndRemoveApplication($row['id']);
 $socketObj = Live::notifySocketStats("socketLiveOFFCallback", $array);
 
