@@ -235,9 +235,6 @@ class CustomizeAdvanced extends PluginAbstract {
 
         $obj = $this->getDataObject();
         $content = '';
-        if ($obj->disableNavBarInsideIframe) {
-            $content .= '<script>$(function () {if(inIframe()){$("#mainNavBar").fadeOut();}});</script>';
-        }
         if ($obj->autoHideNavbar && !isEmbed()) {
             $content .= '<script>$(function () {setTimeout(function(){$("#mainNavBar").autoHidingNavbar();},5000);});</script>';
             $content .= '<script>'. file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideNavbar.js').'</script>';
