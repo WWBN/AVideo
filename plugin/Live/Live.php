@@ -1147,7 +1147,7 @@ class Live extends PluginAbstract {
                     $_REQUEST['live_index'] = $live_index;
                 }
                 
-                if(!empty($live_index)){
+                if(!empty($live_index) || $live_index==='false'){
                     $title .= " ({$live_index})";
                 }
 
@@ -1200,11 +1200,14 @@ class Live extends PluginAbstract {
                 $playlists_id_live = intval($matches[1]);
             }
         }
-        $live_index = false;
+        $live_index = '';
         
         if ($obj->allowMultipleLivesPerUser && preg_match("/.*-([0-9a-zA-Z]+)/", $key, $matches)) {
             if (!empty($matches[1])) {
                 $live_index = strip_tags($matches[1]);
+                if($live_index === 'false'){
+                    $live_index = '';
+                }
             }
         }
         $cleanKey = self::cleanUpKey($key);
@@ -1390,6 +1393,9 @@ class Live extends PluginAbstract {
         if (empty($live_servers_id)) {
             $live_servers_id = self::getCurrentLiveServersId();
         }
+        if($live_index === 'false'){
+            $live_index = '';
+        }
         $u = new User($users_id);
         $username = $u->getUser();
         $file = "plugin/Live/getImage.php";
@@ -1404,6 +1410,9 @@ class Live extends PluginAbstract {
 
     public static function getPosterImage($users_id, $live_servers_id, $live_index = null) {
         global $global;
+        if($live_index === 'false'){
+            $live_index = '';
+        }
         $file = self::_getPosterImage($users_id, $live_servers_id, $live_index);
 
         if (!file_exists($global['systemRootPath'] . $file)) {
@@ -1498,7 +1507,7 @@ class Live extends PluginAbstract {
     
     public static function deleteStatsCache($live_servers_id=null) {
         global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache;
-        $tmpDir = ObjectYPT::getCacheDir(true);
+        $tmpDir = ObjectYPT::getCacheDir();
         $cacheDir = $tmpDir."getStats".DIRECTORY_SEPARATOR;
         if(isset($live_servers_id)){
             $cacheDir .= "live_servers_id_{$live_servers_id}";

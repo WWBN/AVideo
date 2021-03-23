@@ -297,7 +297,9 @@ class LiveTransmition extends ObjectYPT {
     static function keyNameFix($key){
         $key = str_replace('/', '', $key);
         if(!empty($_REQUEST['live_index']) && !preg_match("/.*-([0-9a-zA-Z]+)/", $key)){
-            $key .= "-{$_REQUEST['live_index']}";
+            if(!empty($_REQUEST['live_index']) && $_REQUEST['live_index']!=='false'){
+                $key .= "-{$_REQUEST['live_index']}";
+            }
         }
         if(!empty($_REQUEST['playlists_id_live']) && !preg_match("/.*_([0-9]+)/", $key)){
             $key .= "_{$_REQUEST['playlists_id_live']}";
