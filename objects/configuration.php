@@ -461,6 +461,9 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function _getEncoderURL() {
+        if (substr($this->encoderURL, -1) !== '/') {
+            $this->encoderURL .= "/";
+        }
         return $this->encoderURL;
     }
     
