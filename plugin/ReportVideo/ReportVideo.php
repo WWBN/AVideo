@@ -163,8 +163,8 @@ class ReportVideo extends PluginAbstract
             $reportObj->setUsers_id($users_id);
             $reportObj->setVideos_id($videos_id);
             if ($reportObj->save()) {
-                $body = $this->getTemplateText($videos_id, $this->replaceText($users_id, $videos_id, "The <a href='{videoLink}'>{videoName}</a> video was reported as inapropriate from {user} "));
-                $subject = $this->replaceText($users_id, $videos_id, "The {videoName} video was reported as inapropriate");
+                $body = $this->getTemplateText($videos_id, $this->replaceText($users_id, $videos_id, __("The <a href='{videoLink}'>{videoName}</a> video was reported as inapropriate from {user} ")));
+                $subject = $this->replaceText($users_id, $videos_id, __("The {videoName} video was reported as inapropriate"));
                 // notify video owner from user id
                 $user = new User($users_id);
                 $email = $user->getEmail();
