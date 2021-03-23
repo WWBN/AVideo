@@ -5,7 +5,6 @@ require_once $global['systemRootPath'] . 'plugin/AD_Overlay/Objects/AD_Overlay_C
 
 class AD_Overlay extends PluginAbstract {
 
-
     public function getTags() {
         return array(
             PluginTags::$MONETIZATION,
@@ -14,7 +13,7 @@ class AD_Overlay extends PluginAbstract {
             PluginTags::$PLAYER,
         );
     }
-    
+
     public function getDescription() {
         $txt = "Display simple overlays - similar to YouTube's \"Annotations\" feature in appearance - during video playback.";
         $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
@@ -31,7 +30,7 @@ class AD_Overlay extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "2.0";
     }
 
     public function getEmptyDataObject() {
@@ -96,6 +95,11 @@ class AD_Overlay extends PluginAbstract {
         if (empty($_GET['videoName']) && empty($_GET['u']) && empty($_GET['link'])) {
             return false;
         }
+        $videos_id = getVideos_id();
+        $showAds = AVideoPlugin::showAds($videos_id);
+        if (!$showAds) {
+            return "";
+        }
         $obj = $this->getDataObject();
         global $global;
         $style = "width: 100%;";
@@ -118,6 +122,11 @@ class AD_Overlay extends PluginAbstract {
     public function getFooterCode() {
 
         global $global, $video;
+        $videos_id = getVideos_id();
+        $showAds = AVideoPlugin::showAds($videos_id);
+        if (!$showAds) {
+            return "";
+        }
         if (basename($_SERVER["SCRIPT_FILENAME"]) === 'managerUsers.php') {
             include $global['systemRootPath'] . 'plugin/AD_Overlay/footer.php';
         }
@@ -155,7 +164,7 @@ class AD_Overlay extends PluginAbstract {
         if (empty(trim($adText))) {
             return '<!-- AD_Overlay adText not detected -->';
         }
-        
+
         $ad = AVideoPlugin::getObjectData('ADs');
 
         $js = '<div id="adOverlay" style="display:none;"><button class="pull-right btn" onclick="$(\'.vjs-overlay\').fadeOut();"><i class="fa fa-times"></i></button>'

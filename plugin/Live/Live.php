@@ -601,7 +601,7 @@ class Live extends PluginAbstract {
             return $getStatsObject[$live_servers_id];
         }
         
-        $name = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."getStatsObject";
+        $name = "getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."getStatsObject";
         //$result = ObjectYPT::getCache($name, 0, false); // if enable this cache it starts to not update
         if(!empty($result)){
             return json_decode($result);
@@ -759,7 +759,7 @@ class Live extends PluginAbstract {
         return self::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id);
     }
 
-    static function getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id) {
+    static function getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id, $live_index=null) {
         if (empty($users_id)) {
             return false;
         }
@@ -768,10 +768,10 @@ class Live extends PluginAbstract {
         if (empty($user->getChannelName())) {
             return false;
         }
-        return self::getLinkToLiveFromChannelNameAndLiveServer($user->getChannelName(), $live_servers_id);
+        return self::getLinkToLiveFromChannelNameAndLiveServer($user->getChannelName(), $live_servers_id, $live_index);
     }
 
-    static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id) {
+    static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id, $live_index=null) {
         global $global;
         $live_servers_id = intval($live_servers_id);
         $channelName = trim($channelName);
@@ -781,7 +781,9 @@ class Live extends PluginAbstract {
         
         $url = "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName);
         
-        if (!empty($_REQUEST['live_index'])) {
+        if(!empty($live_index)){
+            $url .= '/'.urlencode($live_index);
+        }else if (!empty($_REQUEST['live_index'])) {
             $url .= '/'.urlencode($_REQUEST['live_index']);
         }
         
@@ -857,6 +859,7 @@ class Live extends PluginAbstract {
         $obj = AVideoPlugin::getObjectData("Live");
         if (empty($obj->useLiveServers)) {
             $getStatsLive = self::_getStats(0);
+            _error_log('Live::getStats(0) 1');
             return $getStatsLive;
         } else if (!empty(Live::getLiveServersIdRequest())) {
             $ls = new Live_servers(Live::getLiveServersIdRequest());
@@ -865,6 +868,7 @@ class Live extends PluginAbstract {
                 $server->live_servers_id = $ls->getId();
                 $server->playerServer = $ls->getPlayerServer();
                 $getStatsLive = $server;
+                _error_log('Live::getStats('.$ls->getId().') 2');
                 return $server;
             }
         }
@@ -1015,7 +1019,7 @@ class Live extends PluginAbstract {
             return $_getStats[$live_servers_id][$_REQUEST['name']];
         }
 
-        $cacheName = DIRECTORY_SEPARATOR."getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."{$_REQUEST['name']}_" . User::getId();
+        $cacheName = "getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."{$_REQUEST['name']}_" . User::getId();
         //$result = ObjectYPT::getCache($cacheName, 0, false); for some reason this also did not update
         if (!empty($result)) {
             return json_decode($result);
@@ -1302,7 +1306,7 @@ class Live extends PluginAbstract {
                 if (is_object($item) && !empty($item->applications)) {
                     foreach ($item->applications as $value) {
                         $value = object_to_array($value); 
-                        if (preg_match("/{$key}.*/", $value['key'])) {
+                        if (preg_match("/{$key}.*/", $value['key'])) {                     
                             if (empty($live_servers_id)) {
                                 $_isLiveFromKey[$index] = true;
                                 return $_isLiveFromKey[$index];
@@ -1328,12 +1332,12 @@ class Live extends PluginAbstract {
             $_isLiveAndIsReadyFromKey = array();
         }
 
-        $name = "isLiveAndIsReadyFromKey{$key}_{$live_servers_id}";
+        $name = "getStats".DIRECTORY_SEPARATOR."isLiveAndIsReadyFromKey{$key}_{$live_servers_id}";
         if (isset($_isLiveAndIsReadyFromKey[$name])) {
             return $_isLiveAndIsReadyFromKey[$name];
         }
         
-        $cache = ObjectYPT::getCache($name, 10);
+        $cache = ObjectYPT::getCache($name, 60,false);
         if(!empty($cache)){
             $json = json_decode($cache);
             $_isLiveAndIsReadyFromKey[$name] = $json->result;
@@ -1381,7 +1385,7 @@ class Live extends PluginAbstract {
         return $lt->getKey();
     }
 
-    public function getImageGif($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = 0) {
+    public function getImageGif($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = null) {
         global $global;
         if (empty($live_servers_id)) {
             $live_servers_id = self::getCurrentLiveServersId();
@@ -1398,9 +1402,9 @@ class Live extends PluginAbstract {
         return $url;
     }
 
-    public static function getPosterImage($users_id, $live_servers_id) {
+    public static function getPosterImage($users_id, $live_servers_id, $live_index = null) {
         global $global;
-        $file = self::_getPosterImage($users_id, $live_servers_id);
+        $file = self::_getPosterImage($users_id, $live_servers_id, $live_index);
 
         if (!file_exists($global['systemRootPath'] . $file)) {
             $file = "plugin/Live/view/OnAir.jpg";
@@ -1415,13 +1419,13 @@ class Live extends PluginAbstract {
         return $global['webSiteRootURL'] . self::getLivePosterImageRelativePath($users_id, $live_servers_id);
     }
 
-    public function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = 0) {
+    public function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '') {
         global $global;
         if (empty($live_servers_id)) {
             $live_servers_id = self::getCurrentLiveServersId();
         }
         if (self::isLiveThumbsDisabled()) {
-            $file = self::_getPosterImage($users_id, $live_servers_id);
+            $file = self::_getPosterImage($users_id, $live_servers_id, $live_index);
 
             if (!file_exists($global['systemRootPath'] . $file)) {
                 $file = "plugin/Live/view/OnAir.jpg";
@@ -1444,9 +1448,9 @@ class Live extends PluginAbstract {
         return false;
     }
 
-    public static function getPosterThumbsImage($users_id, $live_servers_id) {
+    public static function getPosterThumbsImage($users_id, $live_servers_id, $live_index = '') {
         global $global;
-        $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
+        $file = self::_getPosterThumbsImage($users_id, $live_servers_id, $live_index);
 
         if (!file_exists($global['systemRootPath'] . $file)) {
             $file = self::getOnAirImage(false);
@@ -1473,13 +1477,15 @@ class Live extends PluginAbstract {
         return $img;
     }
 
-    public static function _getPosterImage($users_id, $live_servers_id) {
-        $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}.jpg";
+    public static function _getPosterImage($users_id, $live_servers_id, $live_index='') {
+        $live_index = str_replace('/[^a-zA-z0-9]/', '', $live_index);
+        $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}_{$live_index}.jpg";
         return $file;
     }
 
-    public static function _getPosterThumbsImage($users_id, $live_servers_id) {
-        $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}.jpg";
+    public static function _getPosterThumbsImage($users_id, $live_servers_id, $live_index='') {
+        $live_index = str_replace('/[^a-zA-z0-9]/', '', $live_index);
+        $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}_{$live_index}.jpg";
         return $file;
     }
 
@@ -1493,7 +1499,7 @@ class Live extends PluginAbstract {
     public static function deleteStatsCache($live_servers_id=null) {
         global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache;
         $tmpDir = ObjectYPT::getCacheDir(true);
-        $cacheDir = $tmpDir."getstats".DIRECTORY_SEPARATOR;
+        $cacheDir = $tmpDir."getStats".DIRECTORY_SEPARATOR;
         if(isset($live_servers_id)){
             $cacheDir .= "live_servers_id_{$live_servers_id}";
             $pattern = "/.getStats.{$live_servers_id}.*/";

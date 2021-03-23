@@ -4004,9 +4004,17 @@ function getLiveKey() {
     return $getLiveKey;
 }
 
-function setLiveKey($key, $live_servers_id) {
+function setLiveKey($key, $live_servers_id, $live_index='') {
     global $getLiveKey;
-    $getLiveKey = array('key' => $key, 'live_servers_id' => intval($live_servers_id));
+    
+    
+    $parameters = Live::getLiveParametersFromKey($key);
+    $key = $parameters['key'];
+    if(empty($live_index)){
+        $live_index = $parameters['live_index'];
+    }
+    
+    $getLiveKey = array('key' => $key, 'live_servers_id' => intval($live_servers_id), 'live_index' => $live_index);
     return $getLiveKey;
 }
 
@@ -5944,7 +5952,7 @@ function getStatsNotifications() {
     if (isset($_getStatsNotifications[$key])) {
         return $_getStatsNotifications[$key];
     }
-    $cacheName = DIRECTORY_SEPARATOR . "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
+    $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     $json = ObjectYPT::getCache($cacheName, 0, false);
     if (empty($json)) {
         //_error_log('getStatsNotifications: 1'. json_encode(debug_backtrace()));
@@ -6004,7 +6012,8 @@ function getStatsNotifications() {
         $json = object_to_array($json);
     }
     $_getStatsNotifications[$key] = $json;
-    ObjectYPT::setCache($cacheName, $json);
+    $cache = ObjectYPT::setCache($cacheName, $json);
+    //_error_log('Live::createStatsCache '.json_encode($cache));
     return $json;
 }
 

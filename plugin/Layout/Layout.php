@@ -195,8 +195,8 @@ class Layout extends PluginAbstract {
         if (empty($global['getSelectSearchable'])) {
             $html .= '<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />';
             $html .= '<style>
-                .select2-selection__rendered {line-height: 36px !important;}
-                .select2-selection {height: 38px !important;}
+                .select2-selection__rendered {line-height: 32px !important;}
+                .select2-selection {min-height: 34px !important;}
                 .select2-container--default .select2-selection--single {
                     background-color: transparent !important;
                 }</style>';
@@ -421,7 +421,7 @@ class Layout extends PluginAbstract {
         $content = '';
         if (!empty($global['getSelectSearchable'])) {
             $content .= '<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>';
-            $content .= '<script>$(document).ready(function() {$(\'.js-select-search\').select2();});</script>';
+           // $content .= '<script>$(document).ready(function() {$(\'.js-select-search\').select2();});</script>';
         }
 
         $content .= self::_getFooterCode();

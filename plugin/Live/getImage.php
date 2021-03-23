@@ -27,7 +27,7 @@ if (empty($livet) || !Live::isLive($livet['users_id'])) {
     }
 }
 
-$filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id']);
+$filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id'], $_REQUEST['live_index']);
 
 if (empty($_GET['format'])) {
     $_GET['format'] = "png";

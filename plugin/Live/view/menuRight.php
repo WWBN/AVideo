@@ -238,11 +238,16 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             if (response.applications.length) {
                 disableGif = response.disableGif;
                 for (i = 0; i < response.applications.length; i++) {
+                    console.log('processApplicationLive', response.applications[i]);
                     var live_index = 0;
-                    if(response.applications[i].live_index){
+                    if(typeof response.applications[i].live_index !== 'undefined'){
                         live_index = response.applications[i].live_index;
                     }
-                    processApplication(response.applications[i], disableGif, 0, live_index);
+                    var live_servers_id = 0;
+                    if(typeof response.applications[i].live_servers_id !== 'undefined'){
+                        live_servers_id = response.applications[i].live_servers_id;
+                    }
+                    processApplication(response.applications[i], disableGif, live_servers_id, live_index);
                 }
                 mouseEffect();
             }
@@ -346,8 +351,13 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         console.log('socketLiveONCallback', json);
         processLiveStats(json.stats);
         $('.live_' + json.live_servers_id + "_" + json.key).slideDown();
-        var selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
-        onlineLabelOnline(selector);
+        
+        if(typeof onlineLabelOnline == 'function'){
+            var selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
+            onlineLabelOnline(selector);
+            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+            onlineLabelOnline(selector);
+        }
         
         // update the chat if the history changes
         var IframeClass = ".yptchat2IframeClass_"+json.key+"_"+json.live_servers_id;
@@ -363,9 +373,17 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     function socketLiveOFFCallback(json) {
         console.log('socketLiveOFFCallback', json);
         processLiveStats(json.stats);
-        $('.live_' + json.live_servers_id + "_" + json.key).slideUp();
-        var selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
-        onlineLabelOffline(selector);
+        var selector = '.live_' + json.live_servers_id + "_" + json.key;
+        //console.log('socketLiveOFFCallback 1', selector);
+        $(selector).slideUp();
+        if(typeof onlineLabelOffline == 'function'){
+            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
+            //console.log('socketLiveOFFCallback 2', selector);
+            onlineLabelOffline(selector);
+            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+            //console.log('socketLiveOFFCallback 3', selector);
+            onlineLabelOffline(selector);
+        }
     }
 
     $(document).ready(function () {

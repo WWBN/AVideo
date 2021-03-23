@@ -341,7 +341,7 @@ abstract class ObjectYPT implements ObjectInterface
         make_path($cachefile);
         $bytes = @file_put_contents($cachefile, json_encode($value));
         self::setSessionCache($name, $value);
-        return $bytes;
+        return array('bytes'=>$bytes, 'cachefile'=>$cachefile);
     }
 
     public static function cleanCacheName($name)
@@ -399,7 +399,7 @@ abstract class ObjectYPT implements ObjectInterface
                 return $session;
             }
         }
-
+        ;
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
             //if(preg_match('/getStats/', $cachefile)){echo $cachefile,'<br>';}
             $c = @url_get_contents($cachefile);
@@ -453,7 +453,7 @@ abstract class ObjectYPT implements ObjectInterface
         self::setLastDeleteALLCacheTime();
     }
 
-    public static function getCacheDir($ignoreLocationDirectoryName=false){
+    public static function getCacheDir($ignoreLocationDirectoryName=false, $ignoreDomain=false){
         global $_getCacheDir;        
         $ignoreLocationDirectoryName = intval($ignoreLocationDirectoryName);
         
@@ -469,13 +469,14 @@ abstract class ObjectYPT implements ObjectInterface
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
         
-        $domain = getDomain();
-        $tmpDir .= $domain . DIRECTORY_SEPARATOR;
-        
-        // make sure you separete http and https cache 
-        $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
-        $tmpDir .= $protocol . DIRECTORY_SEPARATOR;
+        if(empty($ignoreDomain)){
+            $domain = getDomain();
+            $tmpDir .= $domain . DIRECTORY_SEPARATOR;
 
+            // make sure you separete http and https cache 
+            $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
+            $tmpDir .= $protocol . DIRECTORY_SEPARATOR;
+        }
         if (!$ignoreLocationDirectoryName && class_exists("User_Location")) {
             $loc = User_Location::getThisUserLocation();
             if (!empty($loc) && !empty($loc['country_code'])) {
@@ -492,13 +493,13 @@ abstract class ObjectYPT implements ObjectInterface
         return $tmpDir;
     }
 
-    public static function getCacheFileName($name)
-    {
+    public static function getCacheFileName($name){
+        global $global;
         $name = self::cleanCacheName($name);
         $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR)!==false);
         $tmpDir = self::getCacheDir($ignoreLocationDirectoryName);
-        $uniqueHash = md5(__FILE__);
-        return $tmpDir . $name . $uniqueHash;
+        $uniqueHash = md5(__FILE__.$global['salt']);// add salt for security reasons
+        return $tmpDir . $name . $uniqueHash.'.cache';
     }
 
     public static function deleteCacheFromPattern($name)
