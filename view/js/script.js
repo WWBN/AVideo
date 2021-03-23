@@ -1265,6 +1265,7 @@ function isURL(url) {
 }
 var startTimerInterval = [];
 function startTimer(duration, selector) {
+    console.log('startTimer 1', duration);
     clearInterval(startTimerInterval[selector]);
     var timer = duration;
     startTimerInterval[selector] = setInterval(function () {
@@ -1293,13 +1294,50 @@ function startTimer(duration, selector) {
         if(seconds || text){
             text += seconds+'s ';
         }
-        $(selector).text(text);
-        duration--;
         // If the count down is finished, write some text
         if (duration < 0) {
-            clearInterval(startTimerInterval);
-            $(selector).text("EXPIRED");
+            clearInterval(startTimerInterval[selector]);
+            //$(selector).text("EXPIRED");
+            startTimerTo(duration*-1, selector);
+        }else{
+            $(selector).text(text);
+            duration--;
         }
+
+    }, 1000);
+}
+
+var startTimerToInterval = [];
+function startTimerTo(durationTo, selector) {
+    clearInterval(startTimerToInterval[selector]);
+    startTimerToInterval[selector] = setInterval(function () {
+
+        // Time calculations for days, hours, minutes and seconds
+        var years = Math.floor(durationTo / (60 * 60 * 24 * 365));
+        var days = Math.floor((durationTo % (60 * 60 * 24 * 365)) / (60 * 60 * 24));
+        var hours = Math.floor((durationTo % (60 * 60 * 24)) / (60 * 60));
+        var minutes = Math.floor((durationTo % (60 * 60)) / (60));
+        var seconds = Math.floor((durationTo % (60)));
+
+        // Display the result in the element with id="demo"
+        var text = '';
+        if(years){
+            text += years+'y ';
+        }
+        if(days || text){
+            text += days+'d ';
+        }
+        if(hours || text){
+            text += hours+'h ';
+        }
+        if(minutes || text){
+            text += minutes+'m ';
+        }
+        if(seconds || text){
+            text += seconds+'s ';
+        }
+        $(selector).text(text);
+        durationTo++;
 
     }, 1000);
 }
@@ -1334,6 +1372,19 @@ function startTimerToDate(toDate, selector, useDBDate) {
     console.log('startTimerToDate selector', selector);
     console.log('startTimerToDate seconds', seconds);
     return startTimer(seconds, selector);
+}
+
+var _timerIndex = 0;
+function createTimer(selector){
+    var toDate = $(selector).text();
+    var id = $(selector).attr('id');
+    if(!id){
+        _timerIndex++;
+        id = 'timer_'+_timerIndex;
+        $(selector).attr('id', id);
+    }
+    
+    startTimerToDate(toDate, '#'+id, true);
 }
 
 var getServerTimeActive = 0;
