@@ -1154,7 +1154,7 @@ class Live extends PluginAbstract {
                 // this variable is to keep it compatible for Mobile app
                 $UserPhoto = $photo;
                 $key = LiveTransmition::keyNameFix($value->name);
-                $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id);
+                $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id, $parameters['live_index']);
                 $m3u8 = self::getM3U8File($key);
                 $obj->applications[] = array(
                     "live_index" => $parameters['live_index'],
