@@ -904,12 +904,8 @@ class Live extends PluginAbstract {
     }
 
     static function isAdaptive($key) {
-        $parts = explode("_", $key);
-        if (!empty($parts[1])) {
-            $adaptive = array('hi', 'low', 'mid');
-            if (in_array($parts[1], $adaptive)) {
-                return true;
-            }
+        if (preg_match('/_(hi|low|mid)$/i',$key)) {
+            return true;
         }
         return false;
     }
@@ -1165,6 +1161,7 @@ class Live extends PluginAbstract {
                     "live_index" => $live_index,
                     "live_cleanKey" => $parameters['cleanKey'],
                     "key" => $value->name,
+                    "isAdaptive" => self::isAdaptive($value->name),
                     "isPrivate" => self::isAPrivateLiveFromLiveKey($value->name),
                     "users" => $users,
                     "name" => $userName,
