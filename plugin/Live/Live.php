@@ -549,7 +549,7 @@ class Live extends PluginAbstract {
             $o->useAadaptiveMode = $liveServer->getUseAadaptiveMode();
         }
 
-        $uuid = LiveTransmition::keyNameFix($uuid);
+        //$uuid = LiveTransmition::keyNameFix($uuid);
 
         if ($o->protectLive && empty($doNotProtect)) {
             return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$live_servers_id}&uuid=" . encryptString($uuid);
