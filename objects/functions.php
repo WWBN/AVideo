@@ -4886,7 +4886,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         return "";
     }
     
-    $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
+    $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector) && empty($page);
     
     $uid = md5($link);
     
