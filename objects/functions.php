@@ -2222,10 +2222,13 @@ function thereIsAnyUpdate() {
     }
     $name = 'thereIsAnyUpdate';
     if (!isset($_SESSION['sessionCache'][$name])) {
-        _session_start();
-        $_SESSION['sessionCache'][$name] = !empty(getUpdatesFilesArray());
+        $files = getUpdatesFilesArray();
+        if(!empty($files)){
+            _session_start();
+            $_SESSION['sessionCache'][$name] = $files;
+        }
     }
-    return $_SESSION['sessionCache'][$name];
+    return @$_SESSION['sessionCache'][$name];
 }
 
 function thereIsAnyRemoteUpdate() {
