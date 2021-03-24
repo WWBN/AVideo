@@ -175,8 +175,8 @@
                 <?php
                 $total = Video::getTotalVideos("viewable");
                 $totalPages = ceil($total / getRowCount());
-                $page = $_GET['page'];
-                if ($totalPages < $_GET['page']) {
+                $page = getCurrentPage();
+                if ($totalPages < $page) {
                     $page = $totalPages;
                 }
                 ?>
