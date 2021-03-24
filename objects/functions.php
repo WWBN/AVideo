@@ -2221,11 +2221,11 @@ function thereIsAnyUpdate() {
         return false;
     }
     $name = 'thereIsAnyUpdate';
-    if (!isset($_SESSION['user'][$name])) {
+    if (!isset($_SESSION['sessionCache'][$name])) {
         _session_start();
-        $_SESSION['user'][$name] = !empty(getUpdatesFilesArray());
+        $_SESSION['sessionCache'][$name] = !empty(getUpdatesFilesArray());
     }
-    return $_SESSION['user'][$name];
+    return $_SESSION['sessionCache'][$name];
 }
 
 function thereIsAnyRemoteUpdate() {
@@ -2235,7 +2235,7 @@ function thereIsAnyRemoteUpdate() {
     global $config;
     
     $cacheName = '_thereIsAnyRemoteUpdate';
-    $cache = ObjectYPT::getCache($cacheName, 600); // 10 minutes
+    $cache = ObjectYPT::getCache($cacheName, 86400); // 24 hours
     if(!empty($cache)){
         return $cache;
     }
@@ -2246,18 +2246,18 @@ function thereIsAnyRemoteUpdate() {
         return false;
     }
     $name = 'thereIsAnyRemoteUpdate';
-    if (!isset($_SESSION['user'][$name])) {
+    if (!isset($_SESSION['sessionCache'][$name])) {
         if (!empty($version)) {
             _session_start();
             if (version_compare($config->getVersion(), $version->version) === -1) {
-                $_SESSION['user'][$name] = $version;
+                $_SESSION['sessionCache'][$name] = $version;
             } else {
-                $_SESSION['user'][$name] = false;
+                $_SESSION['sessionCache'][$name] = false;
             }
         }
     }
-    ObjectYPT::setCache($cacheName, $_SESSION['user'][$name]);
-    return $_SESSION['user'][$name];
+    ObjectYPT::setCache($cacheName, $_SESSION['sessionCache'][$name]);
+    return $_SESSION['sessionCache'][$name];
 }
 
 function UTF8encode($data) {
@@ -4906,7 +4906,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         $class = "infiniteScrollPagination{$uid} hidden";
     }
 
-    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination">';
+    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page '.$page.' -->';
     $start = 1;
     $end = $maxVisible;
 
