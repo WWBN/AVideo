@@ -4885,6 +4885,9 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if ($total < 2) {
         return "";
     }
+    
+    $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
+    
     $uid = md5($link);
     if ($total < $maxVisible) {
         $maxVisible = $total;
@@ -4909,6 +4912,9 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page '.$page.' -->';
     $start = 1;
     $end = $maxVisible;
+    if($isInfiniteScroll){
+        $end = $total;
+    }
 
     if ($page > $maxVisible - 2) {
         $start = $page - ($maxVisible - 2);
@@ -4948,7 +4954,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     }
     $pag .= '</ul></nav> ';
 
-    if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
+    if ($isInfiniteScroll) {
         $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
         $pag .= str_replace(
                 array('$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector'),
