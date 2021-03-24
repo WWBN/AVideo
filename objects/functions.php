@@ -6036,12 +6036,12 @@ function getStatsNotifications() {
                 }
             }
         }
+        $cache = ObjectYPT::setCache($cacheName, $json);
+        _error_log('Live::createStatsCache '.json_encode($cache));
     } else {
         $json = object_to_array($json);
     }
     $_getStatsNotifications[$__key] = $json;
-    $cache = ObjectYPT::setCache($cacheName, $json);
-    _error_log('Live::createStatsCache '.json_encode($cache));
     return $json;
 }
 
