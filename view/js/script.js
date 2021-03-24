@@ -694,6 +694,9 @@ function playerPlayIfAutoPlay(currentTime) {
 }
 
 function playNext(url) {
+    if(!player.paused()){
+        return false;
+    }
     if (playerIsPlayingAds()) {
         setTimeout(function () {
             playNext(url);
