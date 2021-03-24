@@ -4907,7 +4907,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     }
     if($isInfiniteScroll && $page > 1){
         $pageForwardLink = str_replace("{page}", $page + 1, $link);
-        return "<nav class=\"{$class}\"><ul class=\"pagination\"><li class=\"page-item\"><a class=\"page-link pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
+        return "<nav class=\"{$class}\"><ul class=\"pagination\"><li class=\"page-item\"><a class=\"page-link pagination__next pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
     }
 
     $class = "";
