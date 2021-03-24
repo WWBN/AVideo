@@ -171,6 +171,14 @@
                     createGallerySection($videos, "", array(), true);
                     ?>
                     </div>
+                    <?php
+                    $total = Video::getTotalVideos("viewable");
+                    $totalPages = ceil($total / getRowCount());
+                    $page = $_GET['page'];
+                    if ($totalPages < $_GET['page']) {
+                        $page = $totalPages;
+                    }
+                    ?>
                     <div class="col-sm-12" style="z-index: 1;">
                         <?php
                         //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
@@ -179,12 +187,6 @@
                     </div>
                 </div>
                 <?php
-                $total = Video::getTotalVideos("viewable");
-                $totalPages = ceil($total / getRowCount());
-                $page = $_GET['page'];
-                if ($totalPages < $_GET['page']) {
-                    $page = $totalPages;
-                }
             }
         }
         ?>
