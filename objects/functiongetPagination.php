@@ -36,7 +36,7 @@
             });
             $container$uid.on('append.infiniteScroll', function (event, body, path, items, response) {
                 console.log(`infiniteScroll 1 Appended ${items.length} items on ${path}`, items);
-                console.log(`infiniteScroll 2 Appended `, response);
+                console.log(`infiniteScroll 2 Appended $container$uid = $('$infinityScrollAppendIntoSelector') `, response);
                 lazyImage();
                 avideoSocket();
             });
