@@ -4889,7 +4889,14 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
     
     $uid = md5($link);
+    
+    if (empty($page)) {
+        $page = getCurrentPage();
+    }
+    
     if ($total < $maxVisible) {
+        $maxVisible = $total;
+    }else if($isInfiniteScroll && $page<2){
         $maxVisible = $total;
     }
     if (empty($link)) {
@@ -4900,9 +4907,6 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
             $link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
         }
     }
-    if (empty($page)) {
-        $page = getCurrentPage();
-    }
 
     $class = "";
     if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
@@ -4912,9 +4916,6 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page '.$page.' -->';
     $start = 1;
     $end = $maxVisible;
-    if($isInfiniteScroll && $page==1){
-        $end = $total;
-    }
 
     if ($page > $maxVisible - 2) {
         $start = $page - ($maxVisible - 2);
