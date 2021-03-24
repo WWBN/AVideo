@@ -4912,7 +4912,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page '.$page.' -->';
     $start = 1;
     $end = $maxVisible;
-    if($isInfiniteScroll){
+    if($isInfiniteScroll && $page==1){
         $end = $total;
     }
 
