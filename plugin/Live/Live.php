@@ -1341,6 +1341,9 @@ class Live extends PluginAbstract {
 
                 foreach ($applications as $value) {
                     $value = object_to_array($value);
+                    if(!is_array($value) || empty($value) || empty($value['key'])){
+                        continue;
+                    }
                     if (preg_match("/{$key}.*/", $value['key'])) {
                         if (empty($live_servers_id)) {
                             $_isLiveFromKey[$index] = true;
