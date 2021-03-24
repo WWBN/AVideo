@@ -4,8 +4,13 @@ header('Content-Type: application/json');
 $cachedFile = '../videos/cache/version.cache';
 
 if(file_exists($cachedFile)){
-    echo file_get_contents($cachedFile);
-    exit;
+    $content = file_get_contents($cachedFile);
+    $json = json_decode($content);
+    if(!empty($json)){
+        $json->cache = filectime($cachedFile);
+        echo json_encode($json);
+        exit;
+    }
 }
 
 global $global, $config;
