@@ -4886,18 +4886,18 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         return "";
     }
     
-    $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector) && $page<2;
-    
-    $uid = md5($link);
-    
     if (empty($page)) {
         $page = getCurrentPage();
     }
     
+    $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
+    
+    $uid = md5($link);
+    
     if ($total < $maxVisible) {
         $maxVisible = $total;
-    }else if($isInfiniteScroll){
-        $maxVisible = $total;
+    }else if($isInfiniteScroll && $page > 1){
+        return '';
     }
     if (empty($link)) {
         $link = getSelfURI();
