@@ -27,6 +27,9 @@ class LiveLinksTable extends ObjectYPT {
             $this->categories_id = 'NULL';
         }
         Category::clearCacheCount();
+        if(class_exists('Live')){
+            Live::deleteStatsCache();
+        }
         return parent::save();
     }
 
