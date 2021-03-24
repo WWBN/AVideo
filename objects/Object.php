@@ -447,40 +447,42 @@ abstract class ObjectYPT implements ObjectInterface
     {
         global $__getAVideoCache;
         unset($__getAVideoCache);
-        $tmpDir = self::getCacheDir(true);
+        $tmpDir = self::getCacheDir();
         rrmdir($tmpDir);
         self::deleteAllSessionCache();
         self::setLastDeleteALLCacheTime();
     }
 
-    public static function getCacheDir($ignoreLocationDirectoryName=false, $ignoreDomain=false){
+    public static function getCacheDir($filename=''){
         global $_getCacheDir;        
-        $ignoreLocationDirectoryName = intval($ignoreLocationDirectoryName);
         
         if(!isset($_getCacheDir)){
             $_getCacheDir = array();
         }
         
-        if(!empty($_getCacheDir[$ignoreLocationDirectoryName])){
-            return $_getCacheDir[$ignoreLocationDirectoryName];
+        if(!empty($_getCacheDir[$filename])){
+            return $_getCacheDir[$filename];
         }
         
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
         
-        if(empty($ignoreDomain)){
+        $filename = self::cleanCacheName($filename);
+        if(!empty($filename)){
+            $tmpDir .= $filename . DIRECTORY_SEPARATOR;
+            
             $domain = getDomain();
             $tmpDir .= $domain . DIRECTORY_SEPARATOR;
 
             // make sure you separete http and https cache 
             $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
             $tmpDir .= $protocol . DIRECTORY_SEPARATOR;
-        }
-        if (!$ignoreLocationDirectoryName && class_exists("User_Location")) {
-            $loc = User_Location::getThisUserLocation();
-            if (!empty($loc) && !empty($loc['country_code'])) {
-                $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
+            if (class_exists("User_Location")) {
+                $loc = User_Location::getThisUserLocation();
+                if (!empty($loc) && !empty($loc['country_code'])) {
+                    $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
+                }
             }
         }
 
@@ -489,15 +491,13 @@ abstract class ObjectYPT implements ObjectInterface
             file_put_contents($tmpDir . "index.html", time());
         }
         
-        $_getCacheDir[$ignoreLocationDirectoryName] = $tmpDir;
+        $_getCacheDir[$filename] = $tmpDir;
         return $tmpDir;
     }
 
     public static function getCacheFileName($name){
         global $global;
-        $name = self::cleanCacheName($name);
-        $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR)!==false);
-        $tmpDir = self::getCacheDir($ignoreLocationDirectoryName);
+        $tmpDir = self::getCacheDir($name);
         $uniqueHash = md5(__FILE__.$global['salt']);// add salt for security reasons
         return $tmpDir . $name . $uniqueHash.'.cache';
     }
