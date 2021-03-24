@@ -17,7 +17,8 @@
                 append: '$infinityScrollGetFromSelector',
                 status: '.scroller-status$uid',
                 hideNav: '.infiniteScrollPagination$uid',
-                //prefill: false,
+                debug: true,
+                prefill: true,
                 history: false
             });
             $container$uid.on('scrollThreshold.infiniteScroll', function (event) {
