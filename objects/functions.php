@@ -5980,7 +5980,7 @@ function getStatsNotifications() {
     if (isset($_getStatsNotifications[$__key])) {
         return $_getStatsNotifications[$__key];
     }
-    $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
+    $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications_{$__key}";
     $json = ObjectYPT::getCache($cacheName, 0, false);
     if (empty($json)) {
         //_error_log('getStatsNotifications: 1'. json_encode(debug_backtrace()));
