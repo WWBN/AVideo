@@ -1525,6 +1525,7 @@ class Live extends PluginAbstract {
         }
         _error_log("Live::deleteStatsCache [{$cacheDir}]");
         rrmdir($cacheDir);
+        exec('rm -R '.$cacheDir);
         if(is_dir($cacheDir)){
             _error_log("Live::deleteStatsCache [{$cacheDir}] looks like the cache was not deleted", AVideoLog::$ERROR);
             exec('rm -R '.$cacheDir);
