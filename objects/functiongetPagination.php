@@ -9,7 +9,7 @@
     $(function () {
         loadInfiniteScrool$uid();
     });
-
+    var append_infiniteScroll_timout;
     function loadInfiniteScrool$uid() {
         if (typeof $('$infinityScrollAppendIntoSelector').infiniteScroll !== 'funciton') {
             $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
@@ -28,17 +28,16 @@
             });
             let infScroll = $container$uid.data('infiniteScroll');
             $container$uid.on('load.infiniteScroll', function (event, body, path, response) {
-                console.log(`infiniteScroll Loaded: ${path}`,
-                        `Status: ${response.status}`,
-                        `Current page: ${infScroll.pageIndex}`,
-                        `${infScroll.loadCount} pages loaded`
-                        );
+                console.log(`infiniteScroll Loaded: ${path}`,`Status: ${response.status}`,`Current page: ${infScroll.pageIndex}`,`${infScroll.loadCount} pages loaded`);
             });
             $container$uid.on('append.infiniteScroll', function (event, body, path, items, response) {
                 console.log(`infiniteScroll 1 Appended ${items.length} items on ${path}`, items);
                 console.log(`infiniteScroll 2 Appended $container$uid = $('$infinityScrollAppendIntoSelector') `, response);
-                //lazyImage();
-                //avideoSocket();
+                clearTimeout(append_infiniteScroll_timout);
+                append_infiniteScroll_timout = setTimeout(function(){
+                    lazyImage();
+                    avideoSocket();
+                },1000);
             });
             $container$uid.on('error.infiniteScroll', function (event, error, path, response) {
                 console.error(`infiniteScroll Could not load: ${path}. ${error}`);
@@ -53,6 +52,3 @@
     }
 
 </script>
-<center>
-    <button class="btn btn-xs btn-default" style="border: none; background: transparent;" onclick="loadInfiniteScrool$uid();"> More </button>
-</center>
