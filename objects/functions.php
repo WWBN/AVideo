@@ -2138,10 +2138,11 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
         try {
             $tmp = @file_get_contents($url, false, $context);
             if ($tmp != false) {
+                $response = remove_utf8_bom($tmp);
                 if ($debug) {
-                    _error_log("url_get_contents: SUCCESS file_get_contents($url) ");
+                    _error_log("url_get_contents: SUCCESS file_get_contents($url) {$response}");
                 }
-                return remove_utf8_bom($tmp);
+                return $response;
             }
             if ($debug) {
                 _error_log("url_get_contents: ERROR file_get_contents($url) ");
@@ -4910,7 +4911,9 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     }
     if($isInfiniteScroll && $page > 1){
         $pageForwardLink = str_replace("{page}", $page + 1, $link);
-        return "<nav class=\"{$class}\"><ul class=\"pagination\"><li class=\"page-item\"><a class=\"page-link pagination__next pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
+        return "<nav class=\"{$class}\">"
+        . "<ul class=\"pagination\">"
+                . "<li class=\"page-item\"><a class=\"page-link pagination__next pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
     }
 
     $class = "";
