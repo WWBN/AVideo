@@ -42,7 +42,7 @@
                 }
             </script>
             <?php
-        }else{
+        } else {
             ?>
             <script>
                 function afterExtraVideos($liveLi) {
@@ -117,23 +117,23 @@
                         //console.log('Append page: ' + path);
                         lazyImage();
                         avideoSocket();
-                        <?php
-                        if($obj->playVideoOnFullscreenOnIframe){
-                            echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
-                        }else if(!empty($obj->playVideoOnFullscreen)){
-                            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
-                        }
-                        ?>
+        <?php
+        if ($obj->playVideoOnFullscreenOnIframe) {
+            echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
+        } else if (!empty($obj->playVideoOnFullscreen)) {
+            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
+        }
+        ?>
                     });
                     setTimeout(function () {
                         lazyImage();
-                        <?php
-                        if($obj->playVideoOnFullscreenOnIframe){
-                            echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
-                        }else if(!empty($obj->playVideoOnFullscreen)){
-                            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
-                        }
-                        ?>
+        <?php
+        if ($obj->playVideoOnFullscreenOnIframe) {
+            echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
+        } else if (!empty($obj->playVideoOnFullscreen)) {
+            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
+        }
+        ?>
                     }, 500);
                 });
             </script>
@@ -146,7 +146,7 @@
             }
             $_REQUEST['current'] = $_GET['page'];
 
-            
+
             include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
@@ -157,69 +157,70 @@
             if (!empty($videos)) {
                 ?>
                 <div class="row clear clearfix" id="Div<?php echo $currentCat['clean_name']; ?>">
-                    <?php 
-                    if(canPrintCategoryTitle($currentCat['name'])){
-                    ?>
-                    <h3 class="galleryTitle">
-                        <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $currentCat['clean_name']; ?>">
-                            <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name'] ; ?>
-                        </a>
-                    </h3>
-                    <div class="Div<?php echo $currentCat['clean_name']; ?>Section">
                     <?php
-                    }
-                    createGallerySection($videos, "", array(), true);
-                    ?>
+                    if (canPrintCategoryTitle($currentCat['name'])) {
+                        ?>
+                        <h3 class="galleryTitle">
+                            <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $currentCat['clean_name']; ?>">
+                                <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name']; ?>
+                            </a>
+                        </h3>
+                        <div class="Div<?php echo $currentCat['clean_name']; ?>Section">
+                            <?php
+                        }
+                        createGallerySection($videos, "", array(), true);
+                        ?>
                     </div>
-                </div>
-                <?php
-                $total = Video::getTotalVideos("viewable");
-                $totalPages = ceil($total / getRowCount());
-                $page = $_GET['page'];
-                if ($totalPages < $_GET['page']) {
-                    $page = $totalPages;
-                }
-                ?>
-                <div class="col-sm-12" style="z-index: 1;">
+
                     <?php
-                    //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
-                    echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, ".Div{$currentCat['clean_name']}Section","#Div{$currentCat['clean_name']}");
+                    $total = Video::getTotalVideos("viewable");
+                    $totalPages = ceil($total / getRowCount());
+                    $page = $_GET['page'];
+                    if ($totalPages < $_GET['page']) {
+                        $page = $totalPages;
+                    }
                     ?>
-                </div>
-                <?php
+                    <div class="col-sm-12" style="z-index: 1;">
+                        <?php
+                        //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
+                        echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, ".Div{$currentCat['clean_name']}Section", "#Div{$currentCat['clean_name']}");
+                        ?>
+                    </div>
+                    <?php
+                    </div>
+                }
+            }
+            ?>
+
+            <?php
+        } else {
+            include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
+            $ob = ob_get_clean();
+            ob_start();
+            echo AVideoPlugin::getGallerySection();
+            $ob2 = ob_get_clean();
+            echo $ob;
+            if (empty($contentSearchFound) && empty($ob2)) {
+                $contentSearchFound = false;
+            } else {
+                $contentSearchFound = true;
             }
         }
-        ?>
 
-        <?php
-    } else {
-        include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
-        $ob = ob_get_clean();
-        ob_start();
-        echo AVideoPlugin::getGallerySection();
-        $ob2 = ob_get_clean();
-        echo $ob;
-        if (empty($contentSearchFound) && empty($ob2)) {
-            $contentSearchFound = false;
-        } else {
-            $contentSearchFound = true;
+
+        if (!$contentSearchFound) {
+            _session_start();
+            unset($_SESSION['type']);
+            ?>
+            <div class="alert alert-warning">
+                <h1>
+                    <span class="glyphicon glyphicon-facetime-video"></span>
+                    <?php echo __("Warning"); ?>!
+                </h1>
+                <?php echo __("We have not found any videos or audios to show"); ?>.
+            </div>
+            <?php
+            include $global['systemRootPath'] . 'view/include/notfound.php';
         }
-    }
-    
-    
-    if (!$contentSearchFound) {
-        _session_start();
-        unset($_SESSION['type']);
         ?>
-        <div class="alert alert-warning">
-            <h1>
-                <span class="glyphicon glyphicon-facetime-video"></span>
-                <?php echo __("Warning"); ?>!
-            </h1>
-            <?php echo __("We have not found any videos or audios to show"); ?>.
-        </div>
-        <?php
-        include $global['systemRootPath'] . 'view/include/notfound.php';
-    }
-    ?>
-</div>
+    </div>
