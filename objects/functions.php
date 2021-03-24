@@ -5976,9 +5976,9 @@ function getStatsNotifications() {
     if (!isset($_getStatsNotifications)) {
         $_getStatsNotifications = array();
     }
-    $key = md5(json_encode($_REQUEST));
-    if (isset($_getStatsNotifications[$key])) {
-        return $_getStatsNotifications[$key];
+    $__key = md5(json_encode($_REQUEST));
+    if (isset($_getStatsNotifications[$__key])) {
+        return $_getStatsNotifications[$__key];
     }
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     $json = ObjectYPT::getCache($cacheName, 0, false);
@@ -6039,7 +6039,7 @@ function getStatsNotifications() {
     } else {
         $json = object_to_array($json);
     }
-    $_getStatsNotifications[$key] = $json;
+    $_getStatsNotifications[$__key] = $json;
     $cache = ObjectYPT::setCache($cacheName, $json);
     _error_log('Live::createStatsCache '.json_encode($cache));
     return $json;
