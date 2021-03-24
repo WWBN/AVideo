@@ -128,7 +128,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
 
         $obj->UserPhoto = $u->getPhotoDB();
-        $obj->isAdaptive = self::isAdaptive($value->name);
+        $obj->isAdaptive = Live::isAdaptive($value->name);
         $obj->photo = $photo;
         $obj->channelName = $u->getChannelName();
         $obj->live_index = $lth->getLive_index();

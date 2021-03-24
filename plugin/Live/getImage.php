@@ -19,7 +19,7 @@ $livet = LiveTransmition::getFromDbByUserName($_GET['u']);
 
 if (empty($livet) || !Live::isLive($livet['users_id'])) { 
     $uploadedPoster = $global['systemRootPath'] . Live::getOfflineImage(false);
-    //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
+    //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
     if (file_exists($uploadedPoster)) {
         header('Content-Type: image/jpg');
         echo file_get_contents($uploadedPoster);
