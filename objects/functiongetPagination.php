@@ -19,7 +19,10 @@
                 hideNav: '.infiniteScrollPagination$uid',
                 debug: true,
                 prefill: true,
-                history: false
+                history: false,
+                checkLastPage: false,
+                button: '#loadInfiniteScrollButton$uid',
+                negativeMargin: 500,
             });
             $container$uid.on('scrollThreshold.infiniteScroll', function (event) {
                 console.log('infiniteScroll Scroll at bottom');
@@ -32,8 +35,7 @@
                 console.log(`infiniteScroll Loaded: ${path}`,`Status: ${response.status}`,`Current page: ${infScroll.pageIndex}`,`${infScroll.loadCount} pages loaded`);
             });
             $container$uid.on('append.infiniteScroll', function (event, body, path, items, response) {
-                console.log(`infiniteScroll 1 Appended ${items.length} items on ${path}`, items);
-                console.log(`infiniteScroll 2 Appended $container$uid = $('$infinityScrollAppendIntoSelector') `, response);
+                console.log(`infiniteScroll Appended ${items.length} items on ${path}`, body);
                 clearTimeout(append_infiniteScroll_timout);
                 append_infiniteScroll_timout = setTimeout(function(){
                     lazyImage();
@@ -44,7 +46,7 @@
                 console.error(`infiniteScroll Could not load: ${path}. ${error}`);
             });
             $container$uid.on('last.infiniteScroll', function (event, body, path) {
-                console.log(`infiniteScroll Last page hit on ${path}`);
+                console.log(`infiniteScroll Last page hit on ${path}`, body, event);
             });
             $container$uid.on('history.infiniteScroll', function (event, title, path) {
                 console.log(`infiniteScroll History changed to: ${path}`);
@@ -53,3 +55,6 @@
     }
 
 </script>
+<center>
+    <button class="btn btn-xs btn-default" style="border: none; background: transparent;" id="loadInfiniteScrollButton$uid"> More </button>
+</center>
