@@ -2140,7 +2140,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
             if ($tmp != false) {
                 $response = remove_utf8_bom($tmp);
                 if ($debug) {
-                    _error_log("url_get_contents: SUCCESS file_get_contents($url) {$response}");
+                    //_error_log("url_get_contents: SUCCESS file_get_contents($url) {$response}");
+                    _error_log("url_get_contents: SUCCESS file_get_contents($url)");
                 }
                 return $response;
             }
@@ -6040,7 +6041,7 @@ function getStatsNotifications() {
     }
     $_getStatsNotifications[$key] = $json;
     $cache = ObjectYPT::setCache($cacheName, $json);
-    //_error_log('Live::createStatsCache '.json_encode($cache));
+    _error_log('Live::createStatsCache '.json_encode($cache));
     return $json;
 }
 
