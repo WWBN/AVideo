@@ -2233,7 +2233,11 @@ function thereIsAnyRemoteUpdate() {
         return false;
     }
     global $config;
-    $version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
+    //$version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
+    $version = json_decode(url_get_contents("https://tutorialsavideo.b-cdn.net/version", "", 4));
+    if(empty($version)){
+        return false;
+    }
     $name = 'thereIsAnyRemoteUpdate';
     if (!isset($_SESSION['user'][$name])) {
         if (!empty($version)) {
