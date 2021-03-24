@@ -10,7 +10,7 @@
         loadInfiniteScrool$uid();
     });
 
-    function loadInfiniteScrool$uid(retrieve) {
+    function loadInfiniteScrool$uid() {
         if (typeof $('$infinityScrollAppendIntoSelector').infiniteScroll !== 'funciton') {
             $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
                 path: '.pagination__next$uid',
@@ -20,17 +20,12 @@
                 //prefill: false,
                 history: false
             });
-            $container$uid.on('append.infiniteScroll', function (event, response, path, items) {
-                lazyImage();
-                avideoSocket();
-            });
             $container$uid.on('scrollThreshold.infiniteScroll', function (event) {
                 console.log('infiniteScroll Scroll at bottom');
             });
             $container$uid.on('request.infiniteScroll', function (event, path, fetchPromise) {
                 console.log(`infiniteScroll Loading page: ${path}`);
             });
-
             let infScroll = $container$uid.data('infiniteScroll');
             $container$uid.on('load.infiniteScroll', function (event, body, path, response) {
                 console.log(`infiniteScroll Loaded: ${path}`,
@@ -38,16 +33,16 @@
                         `Current page: ${infScroll.pageIndex}`,
                         `${infScroll.loadCount} pages loaded`
                         );
-
-                $container$uid.on('append.infiniteScroll', function (event, body, path, items, response) {
-                    console.log(`infiniteScroll 1 Appended ${items.length} items on ${path}`, items);
-                    console.log(`infiniteScroll 2 Appended `, response);
-                });
-                $container$uid.on('error.infiniteScroll', function (event, error, path, response) {
-                    console.error(`infiniteScroll Could not load: ${path}. ${error}`);
-                })
             });
-
+            $container$uid.on('append.infiniteScroll', function (event, body, path, items, response) {
+                console.log(`infiniteScroll 1 Appended ${items.length} items on ${path}`, items);
+                console.log(`infiniteScroll 2 Appended `, response);
+                lazyImage();
+                avideoSocket();
+            });
+            $container$uid.on('error.infiniteScroll', function (event, error, path, response) {
+                console.error(`infiniteScroll Could not load: ${path}. ${error}`);
+            });
             $container$uid.on('last.infiniteScroll', function (event, body, path) {
                 console.log(`infiniteScroll Last page hit on ${path}`);
             });
