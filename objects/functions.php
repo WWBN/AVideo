@@ -4883,7 +4883,7 @@ function _substr($string, $start, $length = null) {
 function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "") {
     global $global, $advancedCustom;
     if ($total < 2) {
-        return "";
+        return '';
     }
     
     if (empty($page)) {
@@ -4896,8 +4896,6 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     
     if ($total < $maxVisible) {
         $maxVisible = $total;
-    }else if($isInfiniteScroll && $page > 1){
-        return '';
     }
     if (empty($link)) {
         $link = getSelfURI();
@@ -4906,6 +4904,10 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         } else {
             $link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
         }
+    }
+    if($isInfiniteScroll && $page > 1){
+        $pageForwardLink = str_replace("{page}", $page + 1, $link);
+        return "<nav class=\"{$class}\"><ul class=\"pagination\"><li class=\"page-item\"><a class=\"page-link pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
     }
 
     $class = "";
