@@ -5971,15 +5971,6 @@ function isURL200($url, $forceRecheck = false) {
 }
 
 function getStatsNotifications() {
-    global $_getStatsNotifications;
-
-    if (!isset($_getStatsNotifications)) {
-        $_getStatsNotifications = array();
-    }
-    $__key = md5(json_encode($_REQUEST));
-    if (isset($_getStatsNotifications[$__key])) {
-        return $_getStatsNotifications[$__key];
-    }
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     $json = ObjectYPT::getCache($cacheName, 0, false);
     if (empty($json)) {
@@ -6041,7 +6032,6 @@ function getStatsNotifications() {
     } else {
         $json = object_to_array($json);
     }
-    $_getStatsNotifications[$__key] = $json;
     return $json;
 }
 
