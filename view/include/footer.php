@@ -9,7 +9,7 @@ if (!empty($fileUpdates)) {
     icon: 'error',
     hideAfter: 20000
 });";
-    $footerjs .= 'var filesToUpdate='.json_encode($fileUpdates).';';
+    //$footerjs .= 'var filesToUpdate='.json_encode($fileUpdates).';';
 }
 if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");

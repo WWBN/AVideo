@@ -3549,10 +3549,10 @@ function getCacheDir() {
     return $p->getCacheDir();
 }
 
-function clearCache() {
+function clearCache($firstPageOnly=false) {
     global $global;
     $dir = getVideosDir() . "cache/";
-    if (!empty($_GET['FirstPage'])) {
+    if ($firstPageOnly || !empty($_GET['FirstPage'])) {
         $dir .= "firstPage/";
     }
     rrmdir($dir);

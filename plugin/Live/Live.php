@@ -1532,6 +1532,7 @@ class Live extends PluginAbstract {
         }else{
             _error_log("Live::deleteStatsCache [{$cacheDir}] Success");
         }
+        //clearCache(true); // clear first page cache
         unset($__getAVideoCache);
         unset($getStatsLive);
         unset($getStatsObject);

@@ -6,7 +6,7 @@ if (!isCommandLineInterface()) {
     die('Command Line only');
 }
 
-$cacheDir = ObjectYPT::getCacheDir(true, true);
+$cacheDir = ObjectYPT::getCacheDir();
 
 if(empty($cacheDir) || !preg_match('/YPTObjectCache/', $cacheDir)){
     die('Wrong dir: '.$cacheDir);
