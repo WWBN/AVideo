@@ -37,8 +37,8 @@
             $container$uid.on('append.infiniteScroll', function (event, body, path, items, response) {
                 console.log(`infiniteScroll 1 Appended ${items.length} items on ${path}`, items);
                 console.log(`infiniteScroll 2 Appended $container$uid = $('$infinityScrollAppendIntoSelector') `, response);
-                //lazyImage();
-                //avideoSocket();
+                lazyImage();
+                avideoSocket();
             });
             $container$uid.on('error.infiniteScroll', function (event, error, path, response) {
                 console.error(`infiniteScroll Could not load: ${path}. ${error}`);
