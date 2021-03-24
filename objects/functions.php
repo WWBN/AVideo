@@ -2233,6 +2233,13 @@ function thereIsAnyRemoteUpdate() {
         return false;
     }
     global $config;
+    
+    $cacheName = '_thereIsAnyRemoteUpdate';
+    $cache = ObjectYPT::getCache($cacheName, 600); // 10 minutes
+    if(!empty($cache)){
+        return $cache;
+    }
+    
     //$version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
     $version = json_decode(url_get_contents("https://tutorialsavideo.b-cdn.net/version", "", 4));
     if(empty($version)){
@@ -2249,6 +2256,7 @@ function thereIsAnyRemoteUpdate() {
             }
         }
     }
+    ObjectYPT::setCache($cacheName, $_SESSION['user'][$name]);
     return $_SESSION['user'][$name];
 }
 
