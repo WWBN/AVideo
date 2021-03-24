@@ -13,7 +13,7 @@
     function loadInfiniteScrool$uid(retrieve) {
         if (typeof $('$infinityScrollAppendIntoSelector').infiniteScroll !== 'funciton') {
             $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
-                path: '.pagination__next$uid:last',
+                path: '.pagination__next$uid',
                 append: '$infinityScrollGetFromSelector',
                 status: '.scroller-status$uid',
                 hideNav: '.infiniteScrollPagination$uid',
