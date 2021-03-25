@@ -3,35 +3,31 @@
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/YPTSocket/Message.php';
 require_once $global['systemRootPath'] . 'objects/autoload.php';
-
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 if (!isCommandLineInterface()) {
     die();
 }
+
+$count = 0;
+$responses = array();
+
+_log('** Starting socket test **');
 
 $_SERVER["HTTP_USER_AGENT"] = $AVideoStreamer_UA;
 $socketobj = AVideoPlugin::getDataObject("YPTSocket");
 $address = $socketobj->host;
 $port = $socketobj->port;
 
-$SocketSendObj = new stdClass();
-$SocketSendObj->webSocketToken = _test_getEncryptedInfo();
-
-$url = "://{$address}:{$port}?webSocketToken={$SocketSendObj->webSocketToken}";
+$url = "://{$address}:{$port}";
 $SocketURL = 'ws' . $url;
 _test_send($SocketURL, 'ws');
 if (empty($socketobj->forceNonSecure)) {
     $SocketURL = 'wss' . $url;
     _test_send($SocketURL, 'wss');
 }
-$url = "://localhost:{$port}?webSocketToken={$SocketSendObj->webSocketToken}";
-$SocketURL = 'ws' . $url;
-_test_send($SocketURL, 'ws');
-if (empty($socketobj->forceNonSecure)) {
-    $SocketURL = 'wss' . $url;
-    _test_send($SocketURL, 'wss');
-}
-
-$url = "://127.0.0.1:{$port}?webSocketToken={$SocketSendObj->webSocketToken}";
+$url = "://localhost:{$port}";
 $SocketURL = 'ws' . $url;
 _test_send($SocketURL, 'ws');
 if (empty($socketobj->forceNonSecure)) {
@@ -39,42 +35,134 @@ if (empty($socketobj->forceNonSecure)) {
     _test_send($SocketURL, 'wss');
 }
 
+$url = "://127.0.0.1:{$port}";
+$SocketURL = 'ws' . $url;
+_test_send($SocketURL, 'ws');
+if (empty($socketobj->forceNonSecure)) {
+    $SocketURL = 'wss' . $url;
+    _test_send($SocketURL, 'wss');
+}
 function _test_send($SocketURL, $msg) {
-    global $SocketSendObj;
-    echo PHP_EOL . "** Testing {$SocketURL} [$msg]" . PHP_EOL;
-    $SocketSendObj->msg = "Testing [$msg] " . date('Y/m/d H:i:s');
+    global $SocketSendObj, $count;
+    $_count = $count;
+    $_msg = "{$SocketURL} on " . date('Y/m/d H:i:s');
+    _log("Testing connection with [{$_count}]: " . $_msg);
 
-    \Ratchet\Client\connect($SocketURL)->then(function($conn) {
+    $SocketSendObj = new stdClass();
+    $SocketSendObj->webSocketToken = _test_getEncryptedInfo($_msg);
+    $SocketSendObj->msg = $_msg;
+    $SocketURL .= "?webSocketToken={$SocketSendObj->webSocketToken}";
+    \Ratchet\Client\connect($SocketURL)->then(function($conn)  use ($_count) {
         global $SocketSendObj;
-        $conn->on('message', function($msg) use ($conn) {
-            echo "Message received " . json_encode($msg) . PHP_EOL;
+        $conn->on('message', function($msg) use ($conn, $_count) {
+            global $responses;
+            $json = json_decode($msg->getPayload());
+            //var_dump($json);
+            $parts = explode(':', $json->msg->test_msg);
+            $c = new AVideoSocketConfiguration($parts[0], $parts[2], $parts[1], true);
+            $responses[] = $c;
+            $c->log();
+            printIfComplete();
         });
 
         $conn->send(json_encode($SocketSendObj));
-
+        
         $conn->close();
     }, function ($e) {
-        echo ("Could not connect: {$e->getMessage()}" . PHP_EOL);
+        global $responses;
+        preg_match('/(tcp|tls):\/\/([^:]+):([0-9]+)/i', $e->getMessage(), $matches);
+        $c = new AVideoSocketConfiguration($matches[1], $matches[3], $matches[2], false, $e->getMessage());
+        $responses[] = $c;
+        $c->log();
+        printIfComplete();
     });
+        
+    $count++;
 }
 
-function _test_getEncryptedInfo() {
+function _test_getEncryptedInfo($msg) {
     $timeOut = 43200; // valid for 12 hours
     $msgObj = new stdClass();
     $msgObj->from_users_id = 0;
     $msgObj->isAdmin = 1;
-    $msgObj->user_name = "Testing code";
-    $msgObj->browser = "Testing terminal";
-    $msgObj->yptDeviceId = "testing-device-" . uniqid();
+    $msgObj->test_msg = $msg;
+    $msgObj->user_name = SocketMessageType::TESTING;
+    $msgObj->browser = SocketMessageType::TESTING;
+    $msgObj->yptDeviceId = SocketMessageType::TESTING . "-" . uniqid();
     $msgObj->token = getToken($timeOut);
     $msgObj->time = time();
     $msgObj->ip = '127.0.0.1';
     $msgObj->send_to_uri_pattern = '';
     $msgObj->autoEvalCodeOnHTML = array();
-    $msgObj->selfURI = 'terminal';
+    $msgObj->selfURI = SocketMessageType::TESTING . '-terminal';
     $msgObj->videos_id = 0;
     $msgObj->live_key = '';
     $msgObj->location = false;
 
     return encryptString(json_encode($msgObj));
+}
+
+function _log($msg) {
+    echo '[' . date('Y-m-d H:i:s') . '] ' . $msg . PHP_EOL;
+    ob_flush();
+}
+
+class AVideoSocketConfiguration{
+    public $wss;
+    public $port;
+    public $host;
+    public $success;
+    public $message;
+    
+    function __construct($wss, $port, $host, $success, $message='') {
+        if($wss == 'tls'){
+            $wss = 'wss';
+        }else if($wss == 'tcp'){
+            $wss = 'ws';
+        }
+        $this->wss = $wss;
+        $this->port = intval(preg_replace('/([0-9]+).*/', '$1', $port));
+        $this->host = preg_replace('/[^0-9a-z_.-]/i', '', $host);
+        $this->success = $success;
+        $this->message = $message;
+        
+    }
+    
+    function log(){
+        if($this->success){
+            $msg = "\e[1;32;40m";
+            $msg .= 'SUCCESS ';
+        }else{
+            $msg = "\e[1;31;40m";
+            $msg .= 'FAIL ';
+        }
+        $msg .= $this->toURL();
+        $msg .= "\e[0m ";
+        $msg .= $this->message;
+        
+        _log($msg);
+    }
+    
+    function toURL(){
+        return "{$this->wss}://$this->host:$this->port";
+    }
+}
+
+function printIfComplete(){
+    global $count, $responses;
+    if(count($responses) == $count){
+        foreach ($responses as $key => $value) {
+            if(empty($value) || empty($value->success)){
+                unset($responses[$key]);
+            }
+        }
+        $msg = 'We found '.count($responses).' possible configurations:' . PHP_EOL;
+        foreach ($responses as $value) {
+            $msg .= '*** Force not to use wss (non secure): ' . ($value->wss == 'ws' ? 'Checked' : 'Unchecked') . PHP_EOL;
+            $msg .= '*** Server Port: ' . ($value->port) . PHP_EOL;
+            $msg .= '*** Server host: ' . ($value->host) . PHP_EOL . PHP_EOL;
+        }
+        _log($msg);
+    }
+    
 }

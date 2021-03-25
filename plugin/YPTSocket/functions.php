@@ -80,6 +80,7 @@ class SocketMessageType {
     const DEFAULT_MESSAGE = "DEFAULT_MESSAGE";
     const ON_VIDEO_MSG = "ON_VIDEO_MSG";
     const ON_LIVE_MSG = "ON_LIVE_MSG";
+    const TESTING = "TESTING";
 
 }
 
