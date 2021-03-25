@@ -3559,7 +3559,7 @@ function clearCache($firstPageOnly = false) {
     rrmdir($dir);
     $dir = getCacheDir();
     if (!empty($_GET['FirstPage'])) {
-        $dir .= "firstPage/";
+        $dir .= "firstPage".DIRECTORY_SEPARATOR;
     }
     rrmdir($dir);
     ObjectYPT::deleteCache("getEncoderURL");

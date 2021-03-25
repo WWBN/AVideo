@@ -73,6 +73,7 @@ class ADs extends PluginAbstract {
         }
 
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
+        $obj->doNotShowAdsForPaidUsers = true;
 
 
         return $obj;
@@ -133,6 +134,14 @@ class ADs extends PluginAbstract {
             $adCode = "<div style='min-width:250px;min-height:90px;'>{$adCode}</div>";
         }
         return $adCode;
+    }
+    
+    function showAds($videos_id){
+        $obj = AVideoPlugin::getDataObject('ADs');
+        if($obj->doNotShowAdsForPaidUsers && User::isLogged()){
+            return !AVideoPlugin::isPaidUser(User::getId());
+        }
+        return true;
     }
 
     static function getAdsPath($type) {

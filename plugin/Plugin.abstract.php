@@ -415,6 +415,10 @@ abstract class PluginAbstract {
     function showAds($videos_id) {
         return true;
     }
+    
+    function isPaidUser($users_id) {
+        return false;
+    }
 
     function getVideo() {
         return null;
