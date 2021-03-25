@@ -44,7 +44,7 @@ if (strpos($_GET['p'], '/') !== false) {
     }
 }
 
-Live::deleteStatsCache(null);
+Live::deleteStatsCache(true);
 $row = LiveTransmitionHistory::getLatest($_POST['name']);
 LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
 $array = setLiveKey($row['key'], $row['live_servers_id']);

@@ -1398,6 +1398,9 @@ class Live extends PluginAbstract {
 
     static function getOnlineLivesFromUser($users_id) {
         $key = self::getLiveKey($users_id);
+        return self::getOnlineLivesFromKey($key);
+    }
+    static function getOnlineLivesFromKey($key) {
         $json = getStatsNotifications();
         $lives = array();
         if (!empty($json) && is_object($json) && !empty($json->applications)) {
@@ -1540,7 +1543,7 @@ class Live extends PluginAbstract {
         }
     }
 
-    public static function deleteStatsCache($live_servers_id = null) {
+    public static function deleteStatsCache($clearFirstPage = false) {
         global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache;
         $tmpDir = ObjectYPT::getCacheDir();
         $cacheDir = $tmpDir . "getstats" . DIRECTORY_SEPARATOR;
@@ -1558,7 +1561,9 @@ class Live extends PluginAbstract {
         } else {
             _error_log("Live::deleteStatsCache [{$cacheDir}] Success");
         }
-        //clearCache(true); // clear first page cache
+        if($clearFirstPage){
+            clearCache(true);
+        }
         unset($__getAVideoCache);
         unset($getStatsLive);
         unset($getStatsObject);
