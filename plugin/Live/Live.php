@@ -1093,8 +1093,8 @@ class Live extends PluginAbstract {
                 }
             }
         }
-        $obj->disableGif = $p->getDisableGifThumbs();
-        $obj->countLiveStream = count($lifeStream);
+        $obj->disableGif = $p->getDisableGifThumbs();        
+        
         foreach ($lifeStream as $value) {
             if (!empty($value->name)) {
                 $row = LiveTransmition::keyExists($value->name);
@@ -1204,6 +1204,8 @@ class Live extends PluginAbstract {
                 }
             }
         }
+        
+        $obj->countLiveStream = count($obj->applications);
         $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
