@@ -520,6 +520,8 @@ $t['Test Email'] = "Otestovat E-mail";
 $t['Test your email'] = "Otestujte si e-mail";
 $t['Thank you'] = "Děkujeme";
 $t['Thanks'] = "Děkujeme";
+$t['The {videoName} video was reported as inapropriate'] = 'Video {videoName} bylo nahlášeno jako nevhodné';
+$t['The <a href=\'{videoLink}\'>{videoName}</a> video was reported as inapropriate from {user} '] = 'Video, od {user}, <a href=\'{videoLink}\'>{videoName}</a> bylo nahlášeno jako nevhodné ';
 $t['The captcha is empty'] = "Captcha je prázdná";
 $t['The captcha is wrong'] = "Captcha je špatně";
 $t['The default'] = "Výchozí";
@@ -647,7 +649,7 @@ $t['Via encoder or direct upload'] = "Pomocí enkodéru, nebo přímé odeslán�
 $t['Via encoder, most formats are possible, but you need to enable the Extract audio-option. With direct upload, only MP3 and OGG is allowed'] = "Pomocí enkodéru je podporováno mnoho formátů, je ale nutno povolit extrahování audia. S přímím odesláním je podporováno pouze MP3, nebo OGG.";
 $t['Via encoder, most formats are possible. With direct upload, only MP4 is allowed'] = "Pomocí enkodéru je podporováno mnoho formátů. S přímím odesláním je podporováno pouze MP4.";
 $t['Video Advertising'] = "Video reklamy";
-$t['Video Chart'] = "Video Chart";
+$t['Video Chart'] = "Video žebříček";
 $t['Video Form'] = "Video Form";
 $t['Video Link'] = "Video Link";
 $t['Video Title'] = "Video Title";
