@@ -336,6 +336,41 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         return $rows;
     }
+    
+    static function getActiveLiveFromUser($users_id, $live_servers_id, $key) {
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";
+        
+        $formats = ""; 
+        $values = array();
+        
+        if(!empty($users_id)){
+            $sql .= ' AND `users_id` = ? ';
+            $formats .= "i"; 
+            $values[] = $users_id;
+        }
+        if(!empty($live_servers_id)){
+            $sql .= ' AND `live_servers_id` = ? ';
+            $formats .= "i"; 
+            $values[] = $live_servers_id;
+        }
+        if(!empty($key)){
+            $sql .= ' AND `key` = ? ';
+            $formats .= "s"; 
+            $values[] = $key;
+        }
+        
+        $sql .= " ORDER BY created DESC LIMIT 1";
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
+    }
 
     public function save() {
         if (empty($this->live_servers_id)) {

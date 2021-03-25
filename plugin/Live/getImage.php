@@ -16,17 +16,31 @@ if (!empty($_GET['c'])) {
     }
 }
 $livet = LiveTransmition::getFromDbByUserName($_GET['u']);
-
-if (empty($livet) || !Live::isLive($livet['users_id'])) { 
+//_error_log('getImage: start');
+if (empty($livet)) { 
     $uploadedPoster = $global['systemRootPath'] . Live::getOfflineImage(false);
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
     if (file_exists($uploadedPoster)) {
         header('Content-Type: image/jpg');
         echo file_get_contents($uploadedPoster);
+        _error_log('getImage: showing offline poster');
         exit;
+    }else{
+        _error_log('getImage: File NOT exists 1 '.$uploadedPoster);
+    }
+}else if (!Live::isLive($livet['users_id'])) { 
+    $uploadedPoster = $global['systemRootPath'] . Live::getPoster($livet['users_id'], $_REQUEST['live_servers_id']);
+    //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
+    if (file_exists($uploadedPoster)) {
+        //_error_log('getImage: File NOT exists 2 '.$uploadedPoster);
+        header('Content-Type: image/jpg');
+        echo file_get_contents($uploadedPoster);
+        exit;
+    }else{
+        _error_log('getImage: File NOT exists 3 '.$uploadedPoster);
     }
 }
-
+//_error_log('getImage: continue');
 $filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id'], $_REQUEST['live_index']);
 
 if (empty($_GET['format'])) {
