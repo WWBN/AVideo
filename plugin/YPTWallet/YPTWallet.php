@@ -37,7 +37,7 @@ class YPTWallet extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "3.2";
+        return "4.0";
     }
 
     public function getEmptyDataObject()
@@ -93,6 +93,18 @@ class YPTWallet extends PluginAbstract
         return $obj;
     }
 
+    public function updateScript() {
+        global $global;
+        if (AVideoPlugin::compareVersion($this->getName(), "4.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/YPTWallet/install/updateV4.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        return true;
+    }
+    
     public function getBalance($users_id)
     {
         $wallet = self::getWallet($users_id);

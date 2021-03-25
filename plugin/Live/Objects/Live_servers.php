@@ -162,12 +162,16 @@ class Live_servers extends ObjectYPT {
     }
 
     static function getServerFromRTMPHost($rtmpHostURI) {
+        $obj = AVideoPlugin::getObjectData('Live');
+        if(empty($obj->useLiveServers)){
+            return 0;
+        }
         global $global;
         $host = trim($rtmpHostURI);
         $parts = parse_url($host);
         $host = "rtmp://{$parts["host"]}{$parts["path"]}";
         $host = $global['mysqli']->real_escape_string($host);
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE rtmp_server LIKE '%{$host}%' ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE rtmp_server LIKE '%{$host}%' AND status = 'a' ";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

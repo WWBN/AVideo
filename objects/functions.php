@@ -2138,10 +2138,12 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
         try {
             $tmp = @file_get_contents($url, false, $context);
             if ($tmp != false) {
+                $response = remove_utf8_bom($tmp);
                 if ($debug) {
-                    _error_log("url_get_contents: SUCCESS file_get_contents($url) ");
+                    //_error_log("url_get_contents: SUCCESS file_get_contents($url) {$response}");
+                    _error_log("url_get_contents: SUCCESS file_get_contents($url)");
                 }
-                return remove_utf8_bom($tmp);
+                return $response;
             }
             if ($debug) {
                 _error_log("url_get_contents: ERROR file_get_contents($url) ");
@@ -2221,11 +2223,14 @@ function thereIsAnyUpdate() {
         return false;
     }
     $name = 'thereIsAnyUpdate';
-    if (!isset($_SESSION['user'][$name])) {
-        _session_start();
-        $_SESSION['user'][$name] = !empty(getUpdatesFilesArray());
+    if (!isset($_SESSION['sessionCache'][$name])) {
+        $files = getUpdatesFilesArray();
+        if(!empty($files)){
+            _session_start();
+            $_SESSION['sessionCache'][$name] = $files;
+        }
     }
-    return $_SESSION['user'][$name];
+    return @$_SESSION['sessionCache'][$name];
 }
 
 function thereIsAnyRemoteUpdate() {
@@ -2233,19 +2238,31 @@ function thereIsAnyRemoteUpdate() {
         return false;
     }
     global $config;
-    $version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
+    
+    $cacheName = '_thereIsAnyRemoteUpdate';
+    $cache = ObjectYPT::getCache($cacheName, 86400); // 24 hours
+    if(!empty($cache)){
+        return $cache;
+    }
+    
+    //$version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
+    $version = json_decode(url_get_contents("https://tutorialsavideo.b-cdn.net/version", "", 4));
+    if(empty($version)){
+        return false;
+    }
     $name = 'thereIsAnyRemoteUpdate';
-    if (!isset($_SESSION['user'][$name])) {
+    if (!isset($_SESSION['sessionCache'][$name])) {
         if (!empty($version)) {
             _session_start();
             if (version_compare($config->getVersion(), $version->version) === -1) {
-                $_SESSION['user'][$name] = $version;
+                $_SESSION['sessionCache'][$name] = $version;
             } else {
-                $_SESSION['user'][$name] = false;
+                $_SESSION['sessionCache'][$name] = false;
             }
         }
     }
-    return $_SESSION['user'][$name];
+    ObjectYPT::setCache($cacheName, $_SESSION['sessionCache'][$name]);
+    return $_SESSION['sessionCache'][$name];
 }
 
 function UTF8encode($data) {
@@ -3532,10 +3549,10 @@ function getCacheDir() {
     return $p->getCacheDir();
 }
 
-function clearCache() {
+function clearCache($firstPageOnly=false) {
     global $global;
     $dir = getVideosDir() . "cache/";
-    if (!empty($_GET['FirstPage'])) {
+    if ($firstPageOnly || !empty($_GET['FirstPage'])) {
         $dir .= "firstPage/";
     }
     rrmdir($dir);
@@ -4004,9 +4021,17 @@ function getLiveKey() {
     return $getLiveKey;
 }
 
-function setLiveKey($key, $live_servers_id) {
+function setLiveKey($key, $live_servers_id, $live_index='') {
     global $getLiveKey;
-    $getLiveKey = array('key' => $key, 'live_servers_id' => intval($live_servers_id));
+    
+    
+    $parameters = Live::getLiveParametersFromKey($key);
+    $key = $parameters['key'];
+    if(empty($live_index)){
+        $live_index = $parameters['live_index'];
+    }
+    
+    $getLiveKey = array('key' => $key, 'live_servers_id' => intval($live_servers_id), 'live_index' => $live_index);
     return $getLiveKey;
 }
 
@@ -4863,9 +4888,17 @@ function _substr($string, $start, $length = null) {
 function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "") {
     global $global, $advancedCustom;
     if ($total < 2) {
-        return "";
+        return '';
     }
+    
+    if (empty($page)) {
+        $page = getCurrentPage();
+    }
+    
+    $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
+    
     $uid = md5($link);
+    
     if ($total < $maxVisible) {
         $maxVisible = $total;
     }
@@ -4877,8 +4910,11 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
             $link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
         }
     }
-    if (empty($page)) {
-        $page = getCurrentPage();
+    if($isInfiniteScroll && $page > 1){
+        $pageForwardLink = str_replace("{page}", $page + 1, $link);
+        return "<nav class=\"{$class}\">"
+        . "<ul class=\"pagination\">"
+                . "<li class=\"page-item\"><a class=\"page-link pagination__next pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
     }
 
     $class = "";
@@ -4886,7 +4922,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         $class = "infiniteScrollPagination{$uid} hidden";
     }
 
-    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination">';
+    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page '.$page.' maxVisible = '.$maxVisible.' -->';
     $start = 1;
     $end = $maxVisible;
 
@@ -4906,29 +4942,29 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         $pageLink = str_replace("{page}", 1, $link);
         $pageBackLink = str_replace("{page}", $page - 1, $link);
         if ($start > ($page - 1)) {
-            $pag .= '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
+            $pag .= PHP_EOL.'<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
         }
-        $pag .= '<li class="page-item"><a class="page-link" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
+        $pag .= PHP_EOL.'<li class="page-item"><a class="page-link" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
     }
     for ($i = $start; $i <= $end; $i++) {
         if ($i == $page) {
-            $pag .= ' <li class="page-item active"><span class="page-link"> ' . $i . ' <span class="sr-only">(current)</span></span></li>';
+            $pag .= PHP_EOL.' <li class="page-item active"><span class="page-link"> ' . $i . ' <span class="sr-only">(current)</span></span></li>';
         } else {
             $pageLink = str_replace("{page}", $i, $link);
-            $pag .= ' <li class="page-item"><a class="page-link" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
+            $pag .= PHP_EOL.' <li class="page-item"><a class="page-link" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
         }
     }
     if ($page < $total) {
         $pageLink = str_replace("{page}", $total, $link);
         $pageForwardLink = str_replace("{page}", $page + 1, $link);
-        $pag .= '<li class="page-item"><a class="page-link pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
+        $pag .= PHP_EOL.'<li class="page-item"><a class="page-link pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
         if ($total > ($end + 1)) {
-            $pag .= '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
+            $pag .= PHP_EOL.'<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
         }
     }
-    $pag .= '</ul></nav> ';
+    $pag .= PHP_EOL.'</ul></nav> ';
 
-    if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
+    if ($isInfiniteScroll) {
         $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
         $pag .= str_replace(
                 array('$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector'),
@@ -5935,16 +5971,7 @@ function isURL200($url, $forceRecheck = false) {
 }
 
 function getStatsNotifications() {
-    global $_getStatsNotifications;
-
-    if (!isset($_getStatsNotifications)) {
-        $_getStatsNotifications = array();
-    }
-    $key = md5(json_encode($_REQUEST));
-    if (isset($_getStatsNotifications[$key])) {
-        return $_getStatsNotifications[$key];
-    }
-    $cacheName = DIRECTORY_SEPARATOR . "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
+    $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     $json = ObjectYPT::getCache($cacheName, 0, false);
     if (empty($json)) {
         //_error_log('getStatsNotifications: 1'. json_encode(debug_backtrace()));
@@ -6000,11 +6027,11 @@ function getStatsNotifications() {
                 }
             }
         }
+        $cache = ObjectYPT::setCache($cacheName, $json);
+        _error_log('Live::createStatsCache '.json_encode($cache));
     } else {
         $json = object_to_array($json);
     }
-    $_getStatsNotifications[$key] = $json;
-    ObjectYPT::setCache($cacheName, $json);
     return $json;
 }
 

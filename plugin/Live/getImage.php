@@ -17,9 +17,9 @@ if (!empty($_GET['c'])) {
 }
 $livet = LiveTransmition::getFromDbByUserName($_GET['u']);
 
-if (empty($livet) || !Live::isLive($livet['users_id'])) {
+if (empty($livet) || !Live::isLive($livet['users_id'])) { 
     $uploadedPoster = $global['systemRootPath'] . Live::getOfflineImage(false);
-    //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
+    //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
     if (file_exists($uploadedPoster)) {
         header('Content-Type: image/jpg');
         echo file_get_contents($uploadedPoster);
@@ -27,7 +27,7 @@ if (empty($livet) || !Live::isLive($livet['users_id'])) {
     }
 }
 
-$filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id']);
+$filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id'], $_REQUEST['live_index']);
 
 if (empty($_GET['format'])) {
     $_GET['format'] = "png";
@@ -59,9 +59,12 @@ $result = ObjectYPT::getCache($name, 600);
 if (!empty($result)) {
     echo $result;
 } else {
-    $lt = new LiveTransmition($livet['id']);
-
-    $uuid = LiveTransmition::keyNameFix($livet['key']);
+    $uuid = $livet['key'];
+    if(!empty($_REQUEST['live_index']) && $_REQUEST['live_index']!=='false'){
+        $uuid = "{$uuid}-{$_REQUEST['live_index']}";
+    }
+    
+    //$uuid = LiveTransmition::keyNameFix($livet['key']);
     $p = AVideoPlugin::loadPlugin("Live");
     $video = Live::getM3U8File($uuid);
     

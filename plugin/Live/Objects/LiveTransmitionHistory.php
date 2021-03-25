@@ -83,6 +83,22 @@ class LiveTransmitionHistory extends ObjectYPT {
     function getLive_servers_id() {
         return intval($this->live_servers_id);
     }
+    
+    function getLive_index() {
+        if(empty($this->key)){
+            return '';
+        }
+        $parameters = Live::getLiveParametersFromKey($this->key);
+        return $parameters['live_index'];
+    }
+    
+    function getLive_cleanKey() {
+        if(empty($this->key)){
+            return '';
+        }
+        $parameters = Live::getLiveParametersFromKey($this->key);
+        return $parameters['cleanKey'];
+    }
 
     static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
@@ -93,11 +109,14 @@ class LiveTransmitionHistory extends ObjectYPT {
         $users_id = $lth->getUsers_id();
         $u = new User($users_id);
         $live_servers_id = $lth->getLive_servers_id();
+        if(empty($live_servers_id) && !empty($_REQUEST['live_servers_id'])){
+            $live_servers_id = $_REQUEST['live_servers_id'];
+        }
         $key = $lth->getKey();
         $title = $lth->getTitle();
         $photo = $u->getPhotoDB();
         $m3u8 = Live::getM3U8File($key);
-        $poster = $global['webSiteRootURL'] . $p->getPosterImage($users_id, $live_servers_id);
+        $poster = $global['webSiteRootURL'] . $p->getPosterImage($users_id, $live_servers_id, $lth->getLive_index());
         $playlists_id_live = 0;
         if (preg_match("/.*_([0-9]+)/", $key, $matches)) {
             if (!empty($matches[1])) {
@@ -109,9 +128,13 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
 
         $obj->UserPhoto = $u->getPhotoDB();
+        $obj->isAdaptive = Live::isAdaptive($value->name);
         $obj->photo = $photo;
         $obj->channelName = $u->getChannelName();
-        $obj->href = Live::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id);
+        $obj->live_index = $lth->getLive_index();
+        $obj->live_cleanKey = $lth->getLive_cleanKey();
+        $obj->live_servers_id = $live_servers_id;
+        $obj->href = Live::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id, $obj->live_index);
         $obj->key = $key;
         $obj->isPrivate = Live::isAPrivateLiveFromLiveKey($obj->key);
         $obj->link = addQueryStringParameter($obj->href, 'embed', 1);
@@ -174,6 +197,12 @@ class LiveTransmitionHistory extends ObjectYPT {
             $stats['applications'][] = $application;
         }
         $stats['countLiveStream']++;
+        
+        $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
+        $cache = ObjectYPT::setCache($cacheName, $stats); // update the cache
+        //_error_log("NGINX getStatsAndAddApplication ". json_encode($stats));
+        //_error_log("NGINX getStatsAndAddApplication ". json_encode($cache));
+        
         return $stats;
     }
     
@@ -211,6 +240,8 @@ class LiveTransmitionHistory extends ObjectYPT {
             }
         }
         
+        $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
+        $cache = ObjectYPT::setCache($cacheName, $stats); // update the cache
         return $stats;
     }
 

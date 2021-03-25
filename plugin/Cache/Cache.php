@@ -12,8 +12,9 @@ class Cache extends PluginAbstract {
     }
 
     public function getDescription() {
+        global $global;
         $txt = "AVideo application accelerator to cache pages.<br>Your website has 10,000 visitors who are online, and your dynamic page has to send 10,000 times the same queries to database on every page load. With this plugin, your page only sends 1 query to your DB, and uses the cache to serve the 9,999 other visitors.";
-        //$txt .= "<br>To auto delete the old cache files you can use this crontab command <code>find /path/to/ -type f -mtime +7 -name '*.gz' -execdir rm -- '{}' +</code> this will delete cache files that are 7 days old";
+        $txt .= "<br>To auto delete the old cache files you can use this crontab command <code>0 2 * * * php {$global['systemRootPath']}plugin/cache/crontab.php</code> this will delete cache files that are 3 days old everyday at 2 AM";
         $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Cache-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $txt . $help;
     }
@@ -179,7 +180,8 @@ class Cache extends PluginAbstract {
             '/info?version=',
             'Meet',
             '/roku.json',
-            'mrss');
+            'mrss',
+            'plugin/Live/verifyToken.json.php');
         foreach ($cacheBotWhitelist as $value) {
             if (strpos($_SERVER['REQUEST_URI'], $value) !== false) {
                 _error_log("Cache::isREQUEST_URIWhitelisted: ($value) is whitelisted");

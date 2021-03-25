@@ -42,8 +42,10 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     $array['users_id'] = $users_id;
     
     if ($is200) {
+        _error_log("NGINX Live::on_publish_socket_notification is200");
         $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($liveTransmitionHistory_id);
     } else {
+        _error_log("NGINX Live::on_publish_socket_notification isNOT200");
         $array['stats'] = getStatsNotifications();
     }
     $obj->error = false;

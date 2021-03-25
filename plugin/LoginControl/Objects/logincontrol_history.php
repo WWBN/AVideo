@@ -19,7 +19,7 @@ class logincontrol_history extends ObjectYPT {
         $table = "users";
         $sql = "SELECT * FROM {$table} WHERE 1=1 ";
 
-        $sql .= self::getSqlFromPost();
+        //$sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);

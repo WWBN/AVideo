@@ -1,5 +1,18 @@
 <?php
 
+header('Content-Type: application/json');
+$cachedFile = '../videos/cache/version.cache';
+
+if(file_exists($cachedFile)){
+    $content = file_get_contents($cachedFile);
+    $json = json_decode($content);
+    if(!empty($json)){
+        $json->cache = filectime($cachedFile);
+        echo json_encode($json);
+        exit;
+    }
+}
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -39,5 +52,6 @@ if (empty($_GET['version'])) {
         $obj->videos[] = $vid;
     }
 }
-header('Content-Type: application/json');
-echo json_encode($obj);
+$json = json_encode($obj);
+file_put_contents($cachedFile, $json);
+echo $json;

@@ -162,6 +162,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                         }
                         $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
                         $getLiveKey['live_servers_id'] = $_REQUEST['live_servers_id'];
+                        $getLiveKey['live_index'] = @$_REQUEST['live_index'];
                         $poster = Live::getPosterImage(User::getId(), $_REQUEST['live_servers_id']);
                         ?>
                     </ul>

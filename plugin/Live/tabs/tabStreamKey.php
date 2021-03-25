@@ -1,5 +1,6 @@
 <?php
 $objLive = AVideoPlugin::getDataObject("Live");
+Live::deleteStatsCache();
 if ($objLive->allowMultipleLivesPerUser) {
     $stats = getStatsNotifications();
     $onliveApplications = array();
@@ -7,7 +8,7 @@ if ($objLive->allowMultipleLivesPerUser) {
         if (empty($value['key'])) {
             continue;
         }
-        if (preg_match('/' . $key . '/', $value['key'])) {
+        if (preg_match('/' . $trasnmition['key'] . '/', $value['key'])) {
             $onliveApplications[] = '<a class="btn btn-default btn-block live_'.$value['live_servers_id'].'_'.$value['key'].'" href="' . $value['href'] . '" target="_blank"><span class="label label-danger liveNow faa-flash faa-slow animated">' . __('LIVE NOW') . '</span> ' . $value['title'] . '</a>';
         }
     }

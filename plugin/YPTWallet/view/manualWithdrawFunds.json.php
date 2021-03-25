@@ -32,12 +32,13 @@ if(YPTWallet::transferBalance(User::getId(),$dataObj->manualWithdrawFundsTransfe
     $wallet_id = $wallet->getId();
     $url = "{$global['webSiteRootURL']}plugin/YPTWallet/view/history.php?users_id=".User::getId();
     $message = "<strong style='color:#A00;'>".YPTWallet::MANUAL_WITHDRAW."</strong> user <strong><a href='{$url}'>[". User::getId()."]". User::getUserName()."</a></strong> value of {$value}";
+    $_POST['information'] = strip_tags($_POST['information']);
     $emailMessage = "The user <a href='{$url}'>[". User::getId()."]<strong>". User::getUserName()."</strong></a> request a <strong style='color:#A00;'>".YPTWallet::MANUAL_WITHDRAW."</strong> value of <strong>{$value}</strong>"
     . "<hr><strong>Date: </strong>".  date("Y-m-d h:i:s")
     . "<br><strong>Information: </strong>".  nl2br($_POST['information'])
     . "<br><strong>{$dataObj->CryptoWalletName}: </strong>".  $wallet->getCrypto_wallet_address();
 
-    if(WalletLog::addLog($wallet_id, $value, $message, "{}", "pending", YPTWallet::MANUAL_WITHDRAW)){
+    if(WalletLog::addLog($wallet_id, $value, $message, "{}", "pending", YPTWallet::MANUAL_WITHDRAW,$emailMessage)){
         $plugin->sendEmails($emailsArray, $subject, $emailMessage."");
         $obj->error = false;
     }else{

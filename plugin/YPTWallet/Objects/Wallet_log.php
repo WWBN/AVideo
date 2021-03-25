@@ -8,7 +8,7 @@ require_once $global['systemRootPath'].'plugin/YPTWallet/Objects/Wallet.php';
 
 class WalletLog extends ObjectYPT {
 
-    protected $id, $value, $description, $wallet_id, $json_data, $status, $type;
+    protected $id, $value, $description, $wallet_id, $json_data, $status, $type, $information;
 
 
     static function getSearchFieldsNames() {
@@ -66,7 +66,15 @@ class WalletLog extends ObjectYPT {
     function setType($type) {
         $this->type = $type;
     }
+    
+    function getInformation() {
+        return $this->information;
+    }
 
+    function setInformation($information) {
+        $this->information = $information;
+    }
+    
     static function getAllFromWallet($wallet_id, $dontReturnEmpty = true, $status="") {
         global $global;
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
@@ -146,7 +154,7 @@ class WalletLog extends ObjectYPT {
         return self::getTotalFromWallet($wallet['id'], $dontReturnEmpty);
     }
 
-    static function addLog($wallet_id, $value, $description="", $json_data="{}", $status="success", $type=""){
+    static function addLog($wallet_id, $value, $description="", $json_data="{}", $status="success", $type="", $information=''){
         $log = new WalletLog(0);
         $log->setWallet_id($wallet_id);
         $log->setValue($value);
@@ -154,12 +162,14 @@ class WalletLog extends ObjectYPT {
         $log->setJson_data($json_data);
         $log->setStatus($status);
         $log->setType($type);
+        $log->setInformation($information);
         return $log->save();
     }
 
     function save() {
         global $global;
         $this->description = $global['mysqli']->real_escape_string($this->description);
+        $this->information = $global['mysqli']->real_escape_string($this->information);
         return parent::save();
     }
 

@@ -29,7 +29,7 @@ if (!User::isAdmin()) {
                                         <?php
                                         $options = logincontrol_history::getAllUsers();
                                         foreach ($options as $value) {
-                                            echo '<option value="' . $value['id'] . '">' . $value['id'] . '</option>';
+                                            echo '<option value="' . $value['id'] . '">[' . $value['id'] . ']' . $value['user'] . '</option>';
                                         }
                                         ?>
                                     </select>
@@ -143,7 +143,7 @@ if (!User::isAdmin()) {
             });
         });
         var logincontrol_historytableVar = $('#logincontrol_historyTable').DataTable({
-            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/View/logincontrol_history/list.json.php",
+            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/View/Users_login_history/list.json.php",
             "columns": [
                 {"data": "id"},
                 {"data": "uniqidV4"},
@@ -168,7 +168,7 @@ if (!User::isAdmin()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/View/logincontrol_history/add.json.php',
+                url: '<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/View/Users_login_history/add.json.php',
                 data: $('#panellogincontrol_historyForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -200,7 +200,7 @@ if (!User::isAdmin()) {
                             modal.showPleaseWait();
                             $.ajax({
                                 type: "POST",
-                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/View/logincontrol_history/delete.json.php",
+                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/View/Users_login_history/delete.json.php",
                                 data: data
 
                             }).done(function (resposta) {

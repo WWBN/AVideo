@@ -1,6 +1,7 @@
 <?php
 $footerjs = "";
-if (thereIsAnyUpdate()) {
+$fileUpdates = thereIsAnyUpdate();
+if (!empty($fileUpdates)) {
     $footerjs .= "$.toast({
     heading: 'Update required',
     text: '<a href=\"" . $global['webSiteRootURL'] . "update\">" . __('You have a new version to install') . "</a>',
@@ -8,6 +9,7 @@ if (thereIsAnyUpdate()) {
     icon: 'error',
     hideAfter: 20000
 });";
+    //$footerjs .= 'var filesToUpdate='.json_encode($fileUpdates).';';
 }
 if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
