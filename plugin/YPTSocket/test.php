@@ -20,13 +20,6 @@ $socketobj = AVideoPlugin::getDataObject("YPTSocket");
 $address = $socketobj->host;
 $port = $socketobj->port;
 
-$url = "://{$address}:{$port}";
-$SocketURL = 'ws' . $url;
-_test_send($SocketURL, 'ws');
-if (empty($socketobj->forceNonSecure)) {
-    $SocketURL = 'wss' . $url;
-    _test_send($SocketURL, 'wss');
-}
 $url = "://localhost:{$port}";
 $SocketURL = 'ws' . $url;
 _test_send($SocketURL, 'ws');
@@ -36,6 +29,14 @@ if (empty($socketobj->forceNonSecure)) {
 }
 
 $url = "://127.0.0.1:{$port}";
+$SocketURL = 'ws' . $url;
+_test_send($SocketURL, 'ws');
+if (empty($socketobj->forceNonSecure)) {
+    $SocketURL = 'wss' . $url;
+    _test_send($SocketURL, 'wss');
+}
+
+$url = "://{$address}:{$port}";
 $SocketURL = 'ws' . $url;
 _test_send($SocketURL, 'ws');
 if (empty($socketobj->forceNonSecure)) {
@@ -129,12 +130,18 @@ class AVideoSocketConfiguration{
     }
     
     function log(){
+        $msg = $this->getSecureText();
         if($this->success){
-            $msg = "\e[1;32;40m";
-            $msg .= 'SUCCESS ';
+            if($this->isLocalhost()){
+                $msg .= "\e[1;33;40m";
+                $msg .= "Good news, your localhost connects, that means your port [{$this->port}] is open ";
+            }else{
+                $msg .= "\e[1;32;40m";
+                $msg .= 'CONNECTION SUCCESS ';
+            }
         }else{
-            $msg = "\e[1;31;40m";
-            $msg .= 'FAIL ';
+            $msg .= "\e[1;31;40m";
+            $msg .= 'CONNECTION FAIL ';
         }
         $msg .= $this->toURL();
         $msg .= "\e[0m ";
@@ -143,8 +150,30 @@ class AVideoSocketConfiguration{
         _log($msg);
     }
     
+    function getSecureText(){
+        $msg = "";
+        if($this->isSecure()){
+            $msg .= "\e[1;47;42m";
+            $msg .= "   SECURE CONNECTION   \e[0m   ";
+        }else{
+            $msg .= "\e[1;37;43m";
+            $msg .= " NOT SECURE CONNECTION \e[0m ";
+        }
+        return $msg;
+    }
+    
     function toURL(){
         return "{$this->wss}://$this->host:$this->port";
+    }
+    
+    function isLocalhost(){
+        if(preg_match('/localhost/i', $this->host) || preg_match('/127.0.0.1/i', $this->host)){
+            return true;
+        }
+        return false;
+    }
+    function isSecure(){
+        return $this->wss == 'wss';
     }
 }
 
@@ -152,13 +181,13 @@ function printIfComplete(){
     global $count, $responses;
     if(count($responses) == $count){
         foreach ($responses as $key => $value) {
-            if(empty($value) || empty($value->success)){
+            if(empty($value) || empty($value->success) || $value->isLocalhost()){
                 unset($responses[$key]);
             }
         }
-        $msg = 'We found '.count($responses).' possible configurations:' . PHP_EOL;
+        $msg = ' We found '.count($responses).' possible configurations:' . PHP_EOL;
         foreach ($responses as $value) {
-            $msg .= '*** Force not to use wss (non secure): ' . ($value->wss == 'ws' ? 'Checked' : 'Unchecked') . PHP_EOL;
+            $msg .= '*** Force not to use wss (non secure): ' . ($value->wss == 'ws' ? 'Checked' : 'Unchecked') . ' ' .$value->getSecureText(). PHP_EOL;
             $msg .= '*** Server Port: ' . ($value->port) . PHP_EOL;
             $msg .= '*** Server host: ' . ($value->host) . PHP_EOL . PHP_EOL;
         }
