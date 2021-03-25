@@ -43,6 +43,7 @@ if (empty($socketobj->forceNonSecure)) {
     $SocketURL = 'wss' . $url;
     _test_send($SocketURL, 'wss');
 }
+
 function _test_send($SocketURL, $msg) {
     global $SocketSendObj, $count;
     $_count = $count;
@@ -53,7 +54,7 @@ function _test_send($SocketURL, $msg) {
     $SocketSendObj->webSocketToken = _test_getEncryptedInfo($_msg);
     $SocketSendObj->msg = $_msg;
     $SocketURL .= "?webSocketToken={$SocketSendObj->webSocketToken}";
-    \Ratchet\Client\connect($SocketURL)->then(function($conn)  use ($_count) {
+    \Ratchet\Client\connect($SocketURL)->then(function($conn) use ($_count) {
         global $SocketSendObj;
         $conn->on('message', function($msg) use ($conn, $_count) {
             global $responses;
@@ -67,7 +68,7 @@ function _test_send($SocketURL, $msg) {
         });
 
         $conn->send(json_encode($SocketSendObj));
-        
+
         $conn->close();
     }, function ($e) {
         global $responses;
@@ -77,7 +78,7 @@ function _test_send($SocketURL, $msg) {
         $c->log();
         printIfComplete();
     });
-        
+
     $count++;
 }
 
@@ -108,17 +109,18 @@ function _log($msg) {
     ob_flush();
 }
 
-class AVideoSocketConfiguration{
+class AVideoSocketConfiguration {
+
     public $wss;
     public $port;
     public $host;
     public $success;
     public $message;
-    
-    function __construct($wss, $port, $host, $success, $message='') {
-        if($wss == 'tls'){
+
+    function __construct($wss, $port, $host, $success, $message = '') {
+        if ($wss == 'tls') {
             $wss = 'wss';
-        }else if($wss == 'tcp'){
+        } else if ($wss == 'tcp') {
             $wss = 'ws';
         }
         $this->wss = $wss;
@@ -126,72 +128,74 @@ class AVideoSocketConfiguration{
         $this->host = preg_replace('/[^0-9a-z_.-]/i', '', $host);
         $this->success = $success;
         $this->message = $message;
-        
     }
-    
-    function log(){
+
+    function log() {
         $msg = $this->getSecureText();
-        if($this->success){
-            if($this->isLocalhost()){
+        if ($this->success) {
+            if ($this->isLocalhost()) {
                 $msg .= "\e[1;33;40m";
                 $msg .= "Good news, your localhost connects, that means your port [{$this->port}] is open ";
-            }else{
+            } else {
                 $msg .= "\e[1;32;40m";
                 $msg .= 'CONNECTION SUCCESS ';
             }
-        }else{
+        } else {
             $msg .= "\e[1;31;40m";
             $msg .= 'CONNECTION FAIL ';
         }
         $msg .= $this->toURL();
         $msg .= "\e[0m ";
         $msg .= $this->message;
-        
+
         _log($msg);
     }
-    
-    function getSecureText(){
+
+    function getSecureText() {
         $msg = "";
-        if($this->isSecure()){
+        if ($this->isSecure()) {
             $msg .= "\e[1;47;42m";
             $msg .= "   SECURE CONNECTION   \e[0m   ";
-        }else{
+        } else {
             $msg .= "\e[1;37;43m";
             $msg .= " NOT SECURE CONNECTION \e[0m ";
         }
         return $msg;
     }
-    
-    function toURL(){
+
+    function toURL() {
         return "{$this->wss}://$this->host:$this->port";
     }
-    
-    function isLocalhost(){
-        if(preg_match('/localhost/i', $this->host) || preg_match('/127.0.0.1/i', $this->host)){
+
+    function isLocalhost() {
+        if (preg_match('/localhost/i', $this->host) || preg_match('/127.0.0.1/i', $this->host)) {
             return true;
         }
         return false;
     }
-    function isSecure(){
+
+    function isSecure() {
         return $this->wss == 'wss';
     }
+
 }
 
-function printIfComplete(){
+function printIfComplete() {
     global $count, $responses;
-    if(count($responses) == $count){
+    if (count($responses) == $count) {
         foreach ($responses as $key => $value) {
-            if(empty($value) || empty($value->success) || $value->isLocalhost()){
+            if (empty($value) || empty($value->success) || $value->isLocalhost()) {
                 unset($responses[$key]);
             }
         }
-        $msg = ' We found '.count($responses).' possible configurations:' . PHP_EOL;
+        $msg = ' We found ' . count($responses) . ' possible configurations:' . PHP_EOL;
         foreach ($responses as $value) {
-            $msg .= '*** Force not to use wss (non secure): ' . ($value->wss == 'ws' ? 'Checked' : 'Unchecked') . ' ' .$value->getSecureText(). PHP_EOL;
+            $msg .= '-------------------------------------------------------' . PHP_EOL;
+            $msg .= '*** Force not to use wss (non secure): ' . ($value->wss == 'ws' ? 'Checked' : 'Unchecked') . ' ' . $value->getSecureText() . PHP_EOL;
             $msg .= '*** Server Port: ' . ($value->port) . PHP_EOL;
-            $msg .= '*** Server host: ' . ($value->host) . PHP_EOL . PHP_EOL;
+            $msg .= '*** Server host: ' . ($value->host) . PHP_EOL;
+            $msg .= '-------------------------------------------------------' . PHP_EOL . PHP_EOL;
         }
         _log($msg);
     }
-    
 }

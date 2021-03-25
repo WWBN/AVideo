@@ -64,12 +64,12 @@ class Message implements MessageComponentInterface {
 
         $this->clients[$conn->resourceId] = $client;
 
-        if($client['browser'] == \SocketMessageType::TESTING){
-            _log_message("Test detected and received from ($conn->resourceId) ".PHP_EOL."\e[1;32;40m*** SUCCESS TEST CONNECION {$json->test_msg} ***\e[0m");
+        if ($client['browser'] == \SocketMessageType::TESTING) {
+            _log_message("Test detected and received from ($conn->resourceId) " . PHP_EOL . "\e[1;32;40m*** SUCCESS TEST CONNECION {$json->test_msg} ***\e[0m");
             $this->msgToResourceId($json, $conn->resourceId, \SocketMessageType::TESTING);
-        }else if ($this->shouldPropagateInfo($client)) {
+        } else if ($this->shouldPropagateInfo($client)) {
             //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
-            $this->msgToAll($conn, array('users_id'=>$client['users_id'], 'yptDeviceId'=>$client['yptDeviceId']), \SocketMessageType::NEW_CONNECTION, true);
+            $this->msgToAll($conn, array('users_id' => $client['users_id'], 'yptDeviceId' => $client['yptDeviceId']), \SocketMessageType::NEW_CONNECTION, true);
         } else {
             //_log_message("NOT shouldPropagateInfo ");
         }
@@ -96,7 +96,7 @@ class Message implements MessageComponentInterface {
         unset($_getStats);
         // The connection is closed, remove it, as we can no longer send it messages
         //$this->clients->detach($conn);
-        if(empty($this->clients[$conn->resourceId])){
+        if (empty($this->clients[$conn->resourceId])) {
             _log_message("onClose Connection {$conn->resourceId} not found");
             return false;
         }
@@ -106,7 +106,7 @@ class Message implements MessageComponentInterface {
         $videos_id = $client['videos_id'];
         $live_key = $client['live_key'];
         if ($this->shouldPropagateInfo($client)) {
-            $this->msgToAll($conn, array('users_id'=>$client['users_id']), \SocketMessageType::NEW_DISCONNECTION);
+            $this->msgToAll($conn, array('users_id' => $client['users_id']), \SocketMessageType::NEW_DISCONNECTION);
             //\AVideoPlugin::onUserSocketDisconnect($users_id, $this->clients[$conn->resourceId]);
             if (!empty($videos_id)) {
                 $this->msgToAllSameVideo($videos_id, "");
@@ -178,11 +178,11 @@ class Message implements MessageComponentInterface {
         if (in_array($resourceId, $onMessageSentTo)) {
             return false;
         }
-        if(empty($this->clients[$resourceId]) || empty($this->clients[$resourceId]['conn'])){
+        if (empty($this->clients[$resourceId]) || empty($this->clients[$resourceId]['conn'])) {
             _log_message("msgToResourceId: we wil NOT send the message to resourceId=({$resourceId}) {$type} because it does not exists anymore");
-           return false; 
+            return false;
         }
-        
+
         // do not sent duplicated messages
         $onMessageSentTo[] = $resourceId;
 
@@ -229,7 +229,7 @@ class Message implements MessageComponentInterface {
         $obj['live_key'] = $live_key;
         $obj['webSocketServerVersion'] = $SocketDataObj->serverVersion;
         $obj['isAdmin'] = $this->clients[$resourceId]['isAdmin'];
-        
+
         $return = $this->getTotals($this->clients[$resourceId]);
 
         $totals = array(
@@ -313,14 +313,14 @@ class Message implements MessageComponentInterface {
         );
 
         $users_id_array = $devices = $list = array();
-        
+
         foreach ($this->clients as $key => $client) {
             if (empty($client['yptDeviceId'])) {
                 continue;
                 _log_message("getTotals: yptDeviceId is empty ");
             }
             unset($client['conn']);
-            
+
             if ($isAdmin) {
                 $index = md5($client['selfURI']);
                 if (!isset($return['users_uri'][$index])) {
@@ -365,7 +365,7 @@ class Message implements MessageComponentInterface {
                 }
             }
         }
-        if(!$isAdmin){
+        if (!$isAdmin) {
             $SocketGetTotals = $return;
         }
         return $return;
@@ -472,6 +472,6 @@ function _log_message($msg, $type = "") {
         echo date('Y-m-d H:i:s') . ' ' . $msg . PHP_EOL;
     } else if ($type == \AVideoLog::$ERROR) {
         _error_log($msg, \AVideoLog::$SOCKET);
-        echo date('Y-m-d H:i:s') . ' ' . $msg . PHP_EOL;
+        echo "\e[1;31;40m" . date('Y-m-d H:i:s') . ' ' . $msg . "\e[0m" . PHP_EOL;
     }
 }
