@@ -190,8 +190,9 @@ function printIfComplete() {
         }
         $msg = ' We found ' . count($responses) . ' possible configurations:' . PHP_EOL;
         foreach ($responses as $value) {
+            $msg .= PHP_EOL.'              '.$value->getSecureText() . PHP_EOL;
             $msg .= '-------------------------------------------------------' . PHP_EOL;
-            $msg .= '*** Force not to use wss (non secure): ' . ($value->wss == 'ws' ? 'Checked' : 'Unchecked') . ' ' . $value->getSecureText() . PHP_EOL;
+            $msg .= '*** Force not to use wss (non secure): ' . ($value->wss == 'ws' ? 'Checked' : 'Unchecked') . ' ' . PHP_EOL;
             $msg .= '*** Server Port: ' . ($value->port) . PHP_EOL;
             $msg .= '*** Server host: ' . ($value->host) . PHP_EOL;
             $msg .= '-------------------------------------------------------' . PHP_EOL . PHP_EOL;
