@@ -155,7 +155,7 @@ class AVideoSocketConfiguration {
         $msg = "";
         if ($this->isSecure()) {
             $msg .= "\e[1;47;42m";
-            $msg .= "   SECURE CONNECTION   \e[0m   ";
+            $msg .= "   SECURE CONNECTION   \e[0m ";
         } else {
             $msg .= "\e[1;37;43m";
             $msg .= " NOT SECURE CONNECTION \e[0m ";
