@@ -349,6 +349,14 @@ class PlayerSkins extends PluginAbstract {
         if (empty($currentTime) && !isLive()) {
             $currentTime = self::getCurrentTime();
         }
+        
+        if(empty($prepareStartPlayerJS_onPlayerReady)){
+            $prepareStartPlayerJS_onPlayerReady = array();
+        }
+        if(empty($prepareStartPlayerJS_getDataSetup)){
+            $prepareStartPlayerJS_getDataSetup = array();
+        }
+        
         if (empty($noReadyFunction)) {
             $js .= "var originalVideo;
                 var adTagOptions;
