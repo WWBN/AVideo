@@ -14,6 +14,7 @@ if(empty($cacheDir) || !preg_match('/YPTObjectCache/', $cacheDir)){
 echo "deleting {$cacheDir}".PHP_EOL;
 // delete caches 3 days old
 $cmd = "find {$cacheDir}* -mtime +3 -type f -name \"*.cache\" -exec rm {} \;";
+echo "Command: {$cmd}";
 exec($cmd);
 
 $cacheDir = getCacheDir();
@@ -23,4 +24,5 @@ if(empty($cacheDir) || !preg_match('/cache/', $cacheDir)){
 echo "deleting {$cacheDir}".PHP_EOL;
 // delete caches 3 days old
 $cmd = "find {$cacheDir}* -mtime +3 -type f -name \"*.cache\" -exec rm {} \;";
+echo "Command: {$cmd}";
 exec($cmd);
