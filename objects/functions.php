@@ -2855,7 +2855,7 @@ function rrmdir($dir) {
     $pattern = '/videos[\/\\\]?$/i';
     $dir = fixPath($dir, true);
     if ($dir == getVideosDir() || $dir == "{$global['systemRootPath']}videos".DIRECTORY_SEPARATOR || preg_match($pattern, $dir)) {
-        _error_log('rrmdir: A script ties to delete the videos Directory '. json_encode($_SERVER), AVideoLog::$SECURITY);
+        _error_log('rrmdir: A script ties to delete the videos Directory ['.$dir.'] '. json_encode($_SERVER));
         return false;
     }
     if (is_dir($dir)) {
