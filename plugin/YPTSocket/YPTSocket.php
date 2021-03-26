@@ -119,20 +119,21 @@ class YPTSocket extends PluginAbstract {
         }
         
         $SocketSendObj = new stdClass();
-        $SocketSendObj->webSocketToken = getEncryptedInfo(0,$send_to_uri_pattern);
         $SocketSendObj->msg = $msg;
         $SocketSendObj->json = json_decode($msg);
+        
+        $SocketSendObj->webSocketToken = getEncryptedInfo(0,$send_to_uri_pattern);
         $SocketSendObj->callback = $callbackJSFunction;
         
         $SocketSendResponseObj = new stdClass();
         $SocketSendResponseObj->error = true;
         $SocketSendResponseObj->msg = "";
         $SocketSendResponseObj->msgObj = $SocketSendObj;
-        $SocketSendResponseObj->callbackJSFunction = $callbackJSFunction;        
+        $SocketSendResponseObj->callbackJSFunction = $callbackJSFunction;  
         
         require_once $global['systemRootPath'] . 'objects/autoload.php';
 
-        $SocketURL = self::getWebSocketURL(true);
+        $SocketURL = self::getWebSocketURL(true, $SocketSendObj->webSocketToken);
         _error_log("Socket Send: {$SocketURL}");
         \Ratchet\Client\connect($SocketURL)->then(function($conn) {
             global $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
@@ -159,7 +160,7 @@ class YPTSocket extends PluginAbstract {
         return $SocketSendResponseObj;
     }
 
-    public static function getWebSocketURL($isCommandLine=false) {
+    public static function getWebSocketURL($isCommandLine=false, $webSocketToken='') {
         global $global;
         $socketobj = AVideoPlugin::getDataObject("YPTSocket");
         $address = $socketobj->host;
@@ -169,7 +170,10 @@ class YPTSocket extends PluginAbstract {
         if(strtolower($scheme)==='https'){
             $protocol = "wss";
         }
-        return "{$protocol}://{$address}:{$port}?webSocketToken=".getEncryptedInfo(0)."&isCommandLine=".intval($isCommandLine);
+        if(empty($webSocketToken)){
+            $webSocketToken = getEncryptedInfo(0);
+        }
+        return "{$protocol}://{$address}:{$port}?webSocketToken={$webSocketToken}&isCommandLine=".intval($isCommandLine);
     }
 
 }

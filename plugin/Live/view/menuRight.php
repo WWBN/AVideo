@@ -335,6 +335,8 @@ if (isVideo()) {
 }
 ?>
 
+                }else{
+                    $('#'+id).slideDown();
                 }
             }
             $('#liveVideos').slideDown();

@@ -375,5 +375,13 @@ class LiveLinks extends PluginAbstract {
         return $videos;
     }
 
+    static function notifySocketToRemoveLiveLinks($liveLinks_id) {
+        $array = array();
+        $array['stats'] = getStatsNotifications();
+        $array['autoEvalCodeOnHTML'] = '$(".liveLink_'.$liveLinks_id.'").slideUp();';
+        $socketObj = sendSocketMessageToAll($array, 'socketRemoveLiveLinks');
+        return $socketObj;
+    }
 
+    
 }

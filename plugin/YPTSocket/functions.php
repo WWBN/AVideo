@@ -14,7 +14,6 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     $msgObj->time = time();
     $msgObj->ip = getRealIpAddr();
     $msgObj->send_to_uri_pattern = $send_to_uri_pattern;
-    $msgObj->autoEvalCodeOnHTML = array();
     //var_dump($msgObj);exit;
     if (!empty($_REQUEST['webSocketSelfURI'])) {
         $msgObj->selfURI = $_REQUEST['webSocketSelfURI'];
@@ -41,20 +40,6 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     } else {
         $msgObj->location = false;
     }
-
-    /*
-      if (!empty($msgObj->live_key)) {
-      $msgObj->is_live = Live::isLiveAndIsReadyFromKey($msgObj->live_key['key'], $msgObj->live_key['live_servers_id'], true);
-      if($msgObj->is_live){
-      $code = "onlineLabelOnline('.liveOnlineLabel');";
-      }else{
-      $code = "onlineLabelOffline('.liveOnlineLabel');";
-      }
-      $msgObj->autoEvalCodeOnHTML[] = $code;
-      }
-     * 
-     */
-
     return encryptString(json_encode($msgObj));
 }
 
