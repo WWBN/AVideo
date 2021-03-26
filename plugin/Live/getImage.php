@@ -2,11 +2,6 @@
 
 require_once '../../videos/configuration.php';
 session_write_close();
-$filename = $global['systemRootPath'] . 'plugin/Live/view/OnAir.jpg';
-
-require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'objects/subscribe.php';
-require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
 if (!empty($_GET['c'])) {
@@ -32,7 +27,7 @@ if (empty($livet)) {
     $uploadedPoster = $global['systemRootPath'] . Live::getPoster($livet['users_id'], $_REQUEST['live_servers_id']);
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
     if (file_exists($uploadedPoster)) {
-        //_error_log('getImage: File NOT exists 2 '.$uploadedPoster);
+        _error_log('getImage: File NOT exists 2 '.$uploadedPoster);
         header('Content-Type: image/jpg');
         echo file_get_contents($uploadedPoster);
         exit;
@@ -40,7 +35,7 @@ if (empty($livet)) {
         _error_log('getImage: File NOT exists 3 '.$uploadedPoster);
     }
 }
-//_error_log('getImage: continue');
+//_error_log('getImage: continue '. getSelfURI());
 $filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id'], $_REQUEST['live_index']);
 
 if (empty($_GET['format'])) {
@@ -69,7 +64,7 @@ if (Live::isLiveThumbsDisabled()) {
 }
 
 $name = "getLiveImage_{$livet['key']}_{$_GET['format']}";
-$result = ObjectYPT::getCache($name, 600);
+$result = ObjectYPT::getCache($name, 600, true);
 if (!empty($result)) {
     echo $result;
 } else {
@@ -86,10 +81,10 @@ if (!empty($result)) {
     //$encoderURL = $config->getEncoderURL();
     
     $url = "{$encoderURL}getImage/" . base64_encode($video) . "/{$_GET['format']}";
-    _error_log("Live:getImage $url");
+    //_error_log("Live:getImage $url");
     session_write_close();
     _mysql_close();
-    $content = url_get_contents($url, '', 2, true);
+    $content = url_get_contents($url, '', 2);
 
     if (empty($content)) {
         echo file_get_contents($filename);
@@ -101,7 +96,7 @@ if (!empty($result)) {
 
     if (!empty($content)) {
         if (strlen($content) === 70808) {
-            _error_log("Live:getImage  It is the default image, try to show the poster ");
+            //_error_log("Live:getImage  It is the default image, try to show the poster ");
             echo file_get_contents($filename);
         } else {
             ObjectYPT::setCache($name, $content);
@@ -109,6 +104,6 @@ if (!empty($result)) {
         }
     } else {
         echo file_get_contents($filename);
-        _error_log("Live:getImage  Get default image ");
+        //_error_log("Live:getImage  Get default image ");
     }
 }

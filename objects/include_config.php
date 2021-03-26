@@ -1,4 +1,6 @@
 <?php
+$global['avideoStartMicrotime'] = microtime(true);
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 $global['webSiteRootURL'] .= (substr($global['webSiteRootURL'], -1) == '/' ? '' : '/');
@@ -112,6 +114,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+fixSystemPath();
 ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime();
 getDeviceID();
 allowOrigin();

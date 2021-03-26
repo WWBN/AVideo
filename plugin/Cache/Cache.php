@@ -48,12 +48,11 @@ class Cache extends PluginAbstract {
         $obj = $this->getDataObject();
         $firstPage = "";
         if (!$ignoreFirstPage && $this->isFirstPage()) {
-            $firstPage = "firstPage/";
+            $firstPage = "firstPage".DIRECTORY_SEPARATOR;
         }
-
-        $obj->cacheDir = rtrim($obj->cacheDir, '/') . '/';
+        $obj->cacheDir = fixPath($obj->cacheDir, true);
         if (!file_exists($obj->cacheDir)) {
-            $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
+            $obj->cacheDir = $global['systemRootPath'] . 'videos'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR;
             $this->setDataObject($obj);
             if (!file_exists($obj->cacheDir)) {
                 mkdir($obj->cacheDir, 0777, true);
@@ -125,33 +124,28 @@ class Cache extends PluginAbstract {
         $whitelistedFiles = array('user.php', 'status.php', 'canWatchVideo.json.php', '/login', '/status');
         $blacklistedFiles = array('videosAndroid.json.php');
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
-        if (!empty($_GET["videoName"]) || in_array($baseName, $whitelistedFiles) || in_array($_SERVER['REQUEST_URI'], $whitelistedFiles)) {
+        if (isVideo() || in_array($baseName, $whitelistedFiles) || in_array($_SERVER['REQUEST_URI'], $whitelistedFiles)) {
             return true;
         }
 
         $isBot = isBot();
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
-            $cachefile = $this->getCacheDir(false) . $this->getFileName(); // e.g. cache/index.php.
+            $cacheName = 'firstPage'.DIRECTORY_SEPARATOR.$this->getFileName();
             $lifetime = $obj->cacheTimeInSeconds;
-            if (!empty($_GET['lifetime'])) {
-                $lifetime = intval($_GET['lifetime']);
-            }
-            // if is a bot always show a cache
-            if (file_exists($cachefile) && (((time() - $lifetime) <= filemtime($cachefile)) || $isBot)) {
+            $firstPageCache = ObjectYPT::getCache($cacheName, $lifetime, true);
+            if(!empty($firstPageCache)){
                 if ($isBot && $_SERVER['REQUEST_URI'] !== '/login') {
                     //_error_log("Bot Detected, showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
                 }
-                $c = @local_get_contents($cachefile);
+                //$c = @local_get_contents($cachefile);
                 if (preg_match("/\.json\.?/", $baseName)) {
                     header('Content-Type: application/json');
                 }
-                echo $c;
+                echo $firstPageCache.PHP_EOL.'<!-- Cached Page Generated in '.getScriptRunMicrotimeInSeconds().' Seconds -->';
                 if ($obj->logPageLoadTime) {
                     $this->end("Cache");
                 }
                 exit;
-            } else if (file_exists($cachefile)) {
-                unlink($cachefile);
             }
         }
 
@@ -167,6 +161,30 @@ class Cache extends PluginAbstract {
         }
         //ob_start('sanitize_output');
         ob_start();
+    }
+    
+    public function getEnd() {
+        global $global;
+        $obj = $this->getDataObject();
+        echo PHP_EOL.'<!--        Page Generated in '.getScriptRunMicrotimeInSeconds().' Seconds -->';
+        $c = ob_get_contents();
+        if (!headers_sent()) {
+            header_remove('Set-Cookie');
+        }
+        /*
+          if (!file_exists($this->getCacheDir())) {
+          mkdir($this->getCacheDir(), 0777, true);
+          }
+         * 
+         */
+
+        if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
+            $cacheName = 'firstPage'.DIRECTORY_SEPARATOR.$this->getFileName();
+            ObjectYPT::setCache($cacheName, $c);
+        }
+        if ($obj->logPageLoadTime) {
+            $this->end();
+        }
     }
 
     private function isREQUEST_URIWhitelisted() {
@@ -197,30 +215,6 @@ class Cache extends PluginAbstract {
         return in_array($baseName, $blacklistedFiles);
     }
 
-    public function getEnd() {
-        global $global;
-        $obj = $this->getDataObject();
-        $cachefile = $this->getCacheDir(false) . $this->getFileName();
-        $c = ob_get_contents();
-        if (!headers_sent()) {
-            header_remove('Set-Cookie');
-        }
-        /*
-          if (!file_exists($this->getCacheDir())) {
-          mkdir($this->getCacheDir(), 0777, true);
-          }
-         * 
-         */
-
-        make_path($cachefile);
-
-        if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
-            file_put_contents($cachefile, $c);
-        }
-        if ($obj->logPageLoadTime) {
-            $this->end();
-        }
-    }
 
     private function start() {
         global $global;
@@ -235,7 +229,6 @@ class Cache extends PluginAbstract {
         if (empty($global['cachePluginStart'])) {
             return false;
         }
-        require_once $global['systemRootPath'] . 'objects/user.php';
         $time = microtime();
         $time = explode(' ', $time);
         $time = $time[1] + $time[0];
