@@ -128,7 +128,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
 
         $obj->UserPhoto = $u->getPhotoDB();
-        $obj->isAdaptive = Live::isAdaptive($value->name);
+        $obj->isAdaptive = Live::isAdaptive($key);
         $obj->photo = $photo;
         $obj->channelName = $u->getChannelName();
         $obj->live_index = $lth->getLive_index();
@@ -335,6 +335,41 @@ class LiveTransmitionHistory extends ObjectYPT {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+    
+    static function getActiveLiveFromUser($users_id, $live_servers_id, $key) {
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";
+        
+        $formats = ""; 
+        $values = array();
+        
+        if(!empty($users_id)){
+            $sql .= ' AND `users_id` = ? ';
+            $formats .= "i"; 
+            $values[] = $users_id;
+        }
+        if(!empty($live_servers_id)){
+            $sql .= ' AND `live_servers_id` = ? ';
+            $formats .= "i"; 
+            $values[] = $live_servers_id;
+        }
+        if(!empty($key)){
+            $sql .= ' AND `key` = ? ';
+            $formats .= "s"; 
+            $values[] = $key;
+        }
+        
+        $sql .= " ORDER BY created DESC LIMIT 1";
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
     }
 
     public function save() {

@@ -28,7 +28,7 @@ class LiveLinksTable extends ObjectYPT {
         }
         Category::clearCacheCount();
         if(class_exists('Live')){
-            Live::deleteStatsCache();
+            Live::deleteStatsCache(true);
         }
         return parent::save();
     }

@@ -1119,6 +1119,34 @@ class AVideoPlugin {
         return $resp;
     }
 
+
+    public static function isPaidUser($users_id) {
+        global $_isPaidUser;
+        if(!isset($_isPaidUser)){
+            $_isPaidUser = array();
+        }
+        if(isset($_isPaidUser[$users_id])){
+            return $_isPaidUser[$users_id];
+        }
+        $plugins = Plugin::getAllEnabled();
+        $resp = false;
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $isPaidUser = $p->isPaidUser($users_id);
+                if ($isPaidUser) {
+                    _error_log("isPaidUser: {$value['dirName']} said {$users_id} is a paid user");
+                    $_isPaidUser[$users_id] = true;
+                    return true;
+                }
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        $_isPaidUser[$users_id] = $resp;
+        return $resp;
+    }
+
     /**
      * In case some plugin needs to play a video that is not allowed for some reason.
      * A plugin can replace the getVideo method from the youtubeMode page

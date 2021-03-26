@@ -106,13 +106,14 @@ if (!empty($obj) && empty($obj->error)) {
     header("HTTP/1.1 200 OK");
     
     outputAndContinueInBackground();
-    Live::deleteStatsCache(null);
+    Live::deleteStatsCache(true);
     _error_log("NGINX Live::on_publish start");
     Live::on_publish($obj->liveTransmitionHistory_id);
     _error_log("NGINX Live::on_publish end");
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
         ob_end_flush();
+        ob_start();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey());                
         $users_id = $obj->row['users_id'];

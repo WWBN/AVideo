@@ -7,22 +7,22 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-if (empty($_POST['stripe_costumer_id'])) {
-    $obj->msg = "Empty Stripe Costumer ID";
+if (empty($_POST['stripe_costumer'])) {
+    $obj->msg = "Empty Stripe Costumer ID 1";
     die(json_encode($obj));
 }
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("StripeYPT");
 
 
-$subs = SubscriptionTable::getFromStripeCostumerId($_POST['stripe_costumer_id']);
+$subs = SubscriptionTable::getFromStripeCostumerId($_POST['stripe_costumer']);
 if(empty($subs)){
     $obj->msg = "Subscription row not found";
     die(json_encode($obj));
 }
 $plans_id = $subs['subscriptions_plans_id'];
 
-$subscription = StripeYPT::getSubscriptions($_POST['stripe_costumer_id'], $plans_id);
+$subscription = StripeYPT::getSubscriptions($_POST['stripe_costumer'], $plans_id);
 
 if(empty($subscription)){
     $obj->msg = "Subscription not found";

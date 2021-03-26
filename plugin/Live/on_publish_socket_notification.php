@@ -29,12 +29,13 @@ if (empty($liveTransmitionHistory_id) || empty($users_id) || empty($m3u8)) {
 if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     _error_log("NGINX Live::on_publish_socket_notification ($m3u8)");
     $is200 = false;
-    for ($itt = 5; $itt > 0; $itt--) {
-        if (!$is200 = isURL200($m3u8)) {
-            _error_log("live is not ready request again in {$itt} seconds");
+    for ($itt = 7; $itt > 0; $itt--) {
+        if (!$is200 = isURL200($m3u8, true)) {
+            _error_log("live is not ready request again in {$itt} seconds ($m3u8)");
             //live is not ready request again
             sleep($itt);
         } else {
+            _error_log("live is ready ($m3u8)");
             break;
         }
     }

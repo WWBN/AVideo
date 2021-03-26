@@ -129,12 +129,13 @@ function humanTimingAgo($time, $precision = 0, $useDatabaseTime = true) {
     }
     return secondsToHumanTiming($time, $precision) . " " . __("ago");
 }
+
 function humanTimingAfterwards($time, $precision = 0, $useDatabaseTime = true) {
     $time = secondsIntervalFromNow($time, $useDatabaseTime);
     if (empty($time)) {
         return __("Now");
     }
-    return __('Coming in').' '.secondsToHumanTiming($time, $precision);
+    return __('Coming in') . ' ' . secondsToHumanTiming($time, $precision);
 }
 
 function secondsToHumanTiming($time, $precision = 0) {
@@ -2225,7 +2226,7 @@ function thereIsAnyUpdate() {
     $name = 'thereIsAnyUpdate';
     if (!isset($_SESSION['sessionCache'][$name])) {
         $files = getUpdatesFilesArray();
-        if(!empty($files)){
+        if (!empty($files)) {
             _session_start();
             $_SESSION['sessionCache'][$name] = $files;
         }
@@ -2238,16 +2239,16 @@ function thereIsAnyRemoteUpdate() {
         return false;
     }
     global $config;
-    
+
     $cacheName = '_thereIsAnyRemoteUpdate';
     $cache = ObjectYPT::getCache($cacheName, 86400); // 24 hours
-    if(!empty($cache)){
+    if (!empty($cache)) {
         return $cache;
     }
-    
+
     //$version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
     $version = json_decode(url_get_contents("https://tutorialsavideo.b-cdn.net/version", "", 4));
-    if(empty($version)){
+    if (empty($version)) {
         return false;
     }
     $name = 'thereIsAnyRemoteUpdate';
@@ -3549,7 +3550,7 @@ function getCacheDir() {
     return $p->getCacheDir();
 }
 
-function clearCache($firstPageOnly=false) {
+function clearCache($firstPageOnly = false) {
     global $global;
     $dir = getVideosDir() . "cache/";
     if ($firstPageOnly || !empty($_GET['FirstPage'])) {
@@ -3558,7 +3559,7 @@ function clearCache($firstPageOnly=false) {
     rrmdir($dir);
     $dir = getCacheDir();
     if (!empty($_GET['FirstPage'])) {
-        $dir .= "firstPage/";
+        $dir .= "firstPage".DIRECTORY_SEPARATOR;
     }
     rrmdir($dir);
     ObjectYPT::deleteCache("getEncoderURL");
@@ -4021,16 +4022,16 @@ function getLiveKey() {
     return $getLiveKey;
 }
 
-function setLiveKey($key, $live_servers_id, $live_index='') {
+function setLiveKey($key, $live_servers_id, $live_index = '') {
     global $getLiveKey;
-    
-    
+
+
     $parameters = Live::getLiveParametersFromKey($key);
     $key = $parameters['key'];
-    if(empty($live_index)){
+    if (empty($live_index)) {
         $live_index = $parameters['live_index'];
     }
-    
+
     $getLiveKey = array('key' => $key, 'live_servers_id' => intval($live_servers_id), 'live_index' => $live_index);
     return $getLiveKey;
 }
@@ -4890,15 +4891,15 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if ($total < 2) {
         return '';
     }
-    
+
     if (empty($page)) {
         $page = getCurrentPage();
     }
-    
+
     $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
-    
+
     $uid = md5($link);
-    
+
     if ($total < $maxVisible) {
         $maxVisible = $total;
     }
@@ -4910,10 +4911,10 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
             $link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
         }
     }
-    if($isInfiniteScroll && $page > 1){
+    if ($isInfiniteScroll && $page > 1) {
         $pageForwardLink = str_replace("{page}", $page + 1, $link);
         return "<nav class=\"{$class}\">"
-        . "<ul class=\"pagination\">"
+                . "<ul class=\"pagination\">"
                 . "<li class=\"page-item\"><a class=\"page-link pagination__next pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
     }
 
@@ -4922,7 +4923,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         $class = "infiniteScrollPagination{$uid} hidden";
     }
 
-    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page '.$page.' maxVisible = '.$maxVisible.' -->';
+    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page ' . $page . ' maxVisible = ' . $maxVisible . ' -->';
     $start = 1;
     $end = $maxVisible;
 
@@ -4942,27 +4943,27 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         $pageLink = str_replace("{page}", 1, $link);
         $pageBackLink = str_replace("{page}", $page - 1, $link);
         if ($start > ($page - 1)) {
-            $pag .= PHP_EOL.'<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
+            $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
         }
-        $pag .= PHP_EOL.'<li class="page-item"><a class="page-link" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
+        $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
     }
     for ($i = $start; $i <= $end; $i++) {
         if ($i == $page) {
-            $pag .= PHP_EOL.' <li class="page-item active"><span class="page-link"> ' . $i . ' <span class="sr-only">(current)</span></span></li>';
+            $pag .= PHP_EOL . ' <li class="page-item active"><span class="page-link"> ' . $i . ' <span class="sr-only">(current)</span></span></li>';
         } else {
             $pageLink = str_replace("{page}", $i, $link);
-            $pag .= PHP_EOL.' <li class="page-item"><a class="page-link" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
+            $pag .= PHP_EOL . ' <li class="page-item"><a class="page-link" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
         }
     }
     if ($page < $total) {
         $pageLink = str_replace("{page}", $total, $link);
         $pageForwardLink = str_replace("{page}", $page + 1, $link);
-        $pag .= PHP_EOL.'<li class="page-item"><a class="page-link pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
+        $pag .= PHP_EOL . '<li class="page-item"><a class="page-link pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
         if ($total > ($end + 1)) {
-            $pag .= PHP_EOL.'<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
+            $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
         }
     }
-    $pag .= PHP_EOL.'</ul></nav> ';
+    $pag .= PHP_EOL . '</ul></nav> ';
 
     if ($isInfiniteScroll) {
         $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
@@ -5047,15 +5048,15 @@ function diskUsageBars() {
 
 function getDomain() {
     global $global, $_getDomain;
-    
-    if(isset($_getDomain)){
+
+    if (isset($_getDomain)) {
         return $_getDomain;
     }
-    
+
     if (empty($_SERVER['HTTP_HOST'])) {
         $parse = parse_url($global['webSiteRootURL']);
         $domain = $parse['host'];
-    }else{
+    } else {
         $domain = $_SERVER['HTTP_HOST'];
     }
     $domain = str_replace("www.", "", $domain);
@@ -5604,7 +5605,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -5929,19 +5930,15 @@ function getPIDUsingPort($port) {
 
 function isURL200($url, $forceRecheck = false) {
     global $_isURL200;
-    if (!isset($_isURL200)) {
-        $_isURL200 = array();
+    $name = "isURL200" . DIRECTORY_SEPARATOR . md5($url);
+    if (empty($forceRecheck)) {        
+        $result = ObjectYPT::getCache($name, 30);
+        if (!empty($result)) {
+            $object = json_decode($result);
+            return $object->result;
+        }
     }
-    if (empty($forceRecheck) && isset($_isURL200[$url])) {
-        return $_isURL200[$url];
-    }
-
-    $name = "isURL200" . md5($url);
-    $result = ObjectYPT::getCache($name, 30);
-    if (!empty($result)) {
-        $object = json_decode($result);
-        return $object->result;
-    }
+    
 
     $object = new stdClass();
     $object->url = $url;
@@ -5953,21 +5950,31 @@ function isURL200($url, $forceRecheck = false) {
         $headers = array($headers);
     }
 
-    $object->result = $_isURL200[$url] = false;
+    $object->result = false;
     foreach ($headers as $value) {
         if (
                 strpos($value, '200') ||
                 strpos($value, '302') ||
                 strpos($value, '304')
         ) {
-            $object->result = $_isURL200[$url] = true;
+            $object->result = true;
             break;
+        }else{
+            //_error_log('isURL200: '.$value);
         }
     }
 
     ObjectYPT::setCache($name, json_encode($object));
 
     return $object->result;
+}
+
+function isURL200Clear() {
+    $tmpDir = ObjectYPT::getCacheDir();
+    $cacheDir = $tmpDir . "isURL200" . DIRECTORY_SEPARATOR;
+    _error_log("Live::isURL200Clear [{$cacheDir}]");
+    rrmdir($cacheDir);
+    exec('rm -R ' . $cacheDir);
 }
 
 function getStatsNotifications() {
@@ -6028,7 +6035,7 @@ function getStatsNotifications() {
             }
         }
         $cache = ObjectYPT::setCache($cacheName, $json);
-        _error_log('Live::createStatsCache '.json_encode($cache));
+        _error_log('Live::createStatsCache ' . json_encode($cache));
     } else {
         $json = object_to_array($json);
     }
@@ -6292,28 +6299,28 @@ function listAllWordsToTranslate() {
     return $vars;
 }
 
-function secondsInterval($time1, $time2){
-    
-    if(!is_int($time1)){
+function secondsInterval($time1, $time2) {
+
+    if (!is_int($time1)) {
         $time1 = strtotime($time1);
     }
-    if(!is_int($time2)){
+    if (!is_int($time2)) {
         $time2 = strtotime($time2);
     }
-    
+
     return $time1 - $time2;
 }
 
-function secondsIntervalHuman($time, $useDatabaseTime=true){
+function secondsIntervalHuman($time, $useDatabaseTime = true) {
     $dif = secondsIntervalFromNow($time, $useDatabaseTime);
-    if($dif<0){
+    if ($dif < 0) {
         return humanTimingAfterwards($time);
-    }else{
+    } else {
         return humanTimingAgo($time);
     }
 }
 
-function secondsIntervalFromNow($time, $useDatabaseTime=true){
+function secondsIntervalFromNow($time, $useDatabaseTime = true) {
     if ($useDatabaseTime) {
         return secondsInterval(getDatabaseTime(), $time);
     } else {

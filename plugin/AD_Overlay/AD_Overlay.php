@@ -30,7 +30,7 @@ class AD_Overlay extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "2.1";
     }
 
     public function getEmptyDataObject() {
