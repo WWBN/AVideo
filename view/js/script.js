@@ -1064,8 +1064,8 @@ function playerHasAds() {
     return ($("#mainVideo_ima-ad-container").length > 0);
 }
 
-function pauseIfIsPlayinAds() {
-    if (!player.paused() && playerHasAds() && playerIsPlayingAds()) {
+function pauseIfIsPlayinAds() { // look like the mobile does not know if is playing ads
+    if (!isMobile() && !player.paused() && playerHasAds() && playerIsPlayingAds()) {
         player.pause();
     }
 }
