@@ -460,69 +460,33 @@ function createGalleryLiveSection($videos) {
             $obj->screenColsXSmall = $screenColsXSmall;
         }
         $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
-
-
+        
+        if(!empty($video['className'])){
+            $colsClass .= " {$video['className']}";
+        }
+        
         $liveNow = '<span class="label label-danger liveNow faa-flash faa-slow animated" style="position: absolute;
     bottom: 5px;
     right: 5px;">' . __("LIVE NOW") . '</span>';
-        if ($video['type'] == 'live') {
-            $lives = Live::getOnlineLivesFromUser($video['users_id']);
-            foreach ($lives as $key => $liveOnlineItem) {
-                $lives[$key] = array(
-                    'title' => $liveOnlineItem['title'],
-                    'poster' => Live::getImage($video['users_id'], @$liveOnlineItem['live_servers_id']),
-                    'href' => $liveOnlineItem['href'],
-                    'link' => $liveOnlineItem['link'],
-                    'imgGif' => Live::getImageGif($video['users_id'], $video['live_servers_id'], @$liveOnlineItem['live_servers_id'])
-                );
-            }
-
-            if (empty($lives) && empty($liveobj->doNotShowOfflineLiveOnCategoryList)) {
-                $url = addQueryStringParameter(Live::getLinkToLiveFromUsers_id($video['users_id']), 'playlists_id_live', 0);
-                $lives = array(
-                    array(
-                        'title' => $video['title'],
-                        'poster' => Live::getOfflineImage(),
-                        'href' => $url,
-                        'link' => addQueryStringParameter($url, 'embed', 1),
-                        'imgGif' => false
-                    )
-                );
-                $liveNow = '<span class="label label-default liveNow faa-flash faa-slow animated" style="position: absolute;
-    bottom: 5px;
-    right: 5px;">' . __("OFFLINE") . '</span>';
-            }
-        } else {
-            $lives = array(
-                array(
-                    'title' => $video['title'],
-                    'poster' => LiveLinks::getImage($video['id']),
-                    'href' => LiveLinks::getLink($video['id']),
-                    'link' => LiveLinks::getLink($video['id'], true),
-                    'imgGif' => LiveLinks::getImageGif($video['id'])
-                )
-            );
-        }
-        foreach ($lives as $liveOnlineItem) {
-            ?>
-            <div class=" <?php echo $colsClass; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
+        ?>
+        <div class=" <?php echo $colsClass; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
                 <a class="galleryLink" videos_id="<?php echo $video['id']; ?>" 
-                   href="<?php echo $liveOnlineItem['href']; ?>"  
-                   embed="<?php echo $liveOnlineItem['link']; ?>" title="<?php echo $liveOnlineItem['title']; ?>">
+                   href="<?php echo $video['href']; ?>"  
+                   embed="<?php echo $video['link']; ?>" title="<?php echo $video['title']; ?>">
                     <div class="aspectRatio16_9">
-                        <img src="<?php echo $liveOnlineItem['poster']; ?>" alt="<?php echo $liveOnlineItem['title'] ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $video['id']; ?>" />
-                        <?php if (!empty($liveOnlineItem['imgGif'])) { ?>
-                            <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $liveOnlineItem['imgGif']; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive " height="130" />
+                        <img src="<?php echo $video['poster']; ?>" alt="<?php echo $video['title'] ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $video['id']; ?>" />
+                        <?php if (!empty($video['imgGif'])) { ?>
+                            <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $video['imgGif']; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive " height="130" />
                             <?php
                         }
                         echo $liveNow;
                         ?>
                     </div>
                 </a>
-                <a class="h6 galleryLink" videos_id="<?php echo $liveOnlineItem['title']; ?>" 
-                   href="<?php echo $liveOnlineItem['href']; ?>"  
-                   embed="<?php echo $liveOnlineItem['link']; ?>" title="<?php echo $liveOnlineItem['title']; ?>">
-                    <h2><?php echo $liveOnlineItem['title'] ?></h2>
+                <a class="h6 galleryLink" videos_id="<?php echo $video['title']; ?>" 
+                   href="<?php echo $video['href']; ?>"  
+                   embed="<?php echo $video['link']; ?>" title="<?php echo $video['title']; ?>">
+                    <h2><?php echo $video['title'] ?></h2>
                 </a>
 
                 <div class="text-muted galeryDetails" style="overflow: hidden;">
@@ -575,7 +539,6 @@ function createGalleryLiveSection($videos) {
                     echo "<div class='clearfix hidden-lg hidden-md hidden-sm'></div>";
                 }
             }
-        }
     }
     ?>
     <div class="col-xs-12  text-center clear clearfix" style="padding: 10px;">

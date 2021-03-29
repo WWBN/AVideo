@@ -1345,11 +1345,12 @@ if (typeof gtag !== \"function\") {
         global $global;
         $sql = "SELECT * FROM users u WHERE 1=1 ";
         $sql .= " AND id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
+        
         if (!empty($status)) {
             if (strtolower($status) === 'i') {
-                $sql .= " AND status = 'i' ";
+                $sql .= " AND u.status = 'i' ";
             } else {
-                $sql .= " AND status = 'a' ";
+                $sql .= " AND u.status = 'a' ";
             }
         }
         $sql .= BootGrid::getSqlFromPost($searchFields);

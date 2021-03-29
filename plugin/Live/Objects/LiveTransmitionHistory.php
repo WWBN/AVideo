@@ -103,6 +103,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
+        $lt = LiveTransmition::getFromDbByUser($lth->getUsers_id());
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         $p = AVideoPlugin::loadPlugin("Live");
         $obj = new stdClass();
@@ -116,7 +117,6 @@ class LiveTransmitionHistory extends ObjectYPT {
         $title = $lth->getTitle();
         $photo = $u->getPhotoDB();
         $m3u8 = Live::getM3U8File($key);
-        $poster = $global['webSiteRootURL'] . $p->getPosterImage($users_id, $live_servers_id, $lth->getLive_index());
         $playlists_id_live = 0;
         if (preg_match("/.*_([0-9]+)/", $key, $matches)) {
             if (!empty($matches[1])) {
@@ -140,9 +140,12 @@ class LiveTransmitionHistory extends ObjectYPT {
         $obj->link = addQueryStringParameter($obj->href, 'embed', 1);
         $obj->name = $u->getNameIdentificationBd();
         $obj->playlists_id_live = $playlists_id_live;
-        $obj->poster = $poster;
+        $obj->poster = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index());
+        $obj->imgGif = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index(), 'gif');
         $obj->title = $title;
         $obj->user = $u->getUser();
+        $obj->categories_id = intval($lt['categories_id']);
+        $obj->className = "live_{$obj->live_servers_id}_{$obj->key}";
         $users = false;
         if ($liveUsersEnabled) {
             $filename = $global['systemRootPath'] . 'plugin/LiveUsers/Objects/LiveOnlineUsers.php';
@@ -337,7 +340,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $rows;
     }
     
-    static function getActiveLiveFromUser($users_id, $live_servers_id, $key) {
+    static function getActiveLiveFromUser($users_id, $live_servers_id='', $key='') {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";
         

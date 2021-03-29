@@ -1171,7 +1171,6 @@ class Live extends PluginAbstract {
                 $user = $u->getUser();
                 $channelName = $u->getChannelName();
                 $photo = $u->getPhotoDB();
-                $poster = $global['webSiteRootURL'] . $p->getPosterImage($row['users_id'], $live_servers_id);
 
                 //return array('key'=>$key, 'cleanKey'=>$cleanKey, 'live_index'=>$live_index, 'playlists_id_live'=>$playlists_id_live);
                 $parameters = self::getLiveParametersFromKey($value->name);
@@ -1183,6 +1182,7 @@ class Live extends PluginAbstract {
                     $photo = PlayLists::getImage($_REQUEST['playlists_id_live']);
                     $title = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
                 }
+                $poster = $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index);
                 if (!empty($live_index)) {
                     $_REQUEST['live_index'] = $live_index;
                 }
@@ -1210,6 +1210,7 @@ class Live extends PluginAbstract {
                     "title" => $title,
                     'channelName' => $channelName,
                     'poster' => $poster,
+                    'imgGif' => $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'gif'),
                     'link' => addQueryStringParameter($link, 'embed', 1),
                     'href' => $link,
                     'playlists_id_live' => $playlists_id_live,
@@ -1217,7 +1218,9 @@ class Live extends PluginAbstract {
                     'm3u8' => $m3u8,
                     'isURL200' => isURL200($m3u8),
                     'users_id' => $row['users_id'],
-                    'live_servers_id' => $live_servers_id
+                    'live_servers_id' => $live_servers_id,
+                    'categories_id' => intval($row['categories_id']),
+                    'className' => "live_{$live_servers_id}_{$value->name}"
                 );
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;
@@ -1310,10 +1313,10 @@ class Live extends PluginAbstract {
         }
     }
 
-    static function getImage($users_id, $live_servers_id, $playlists_id_live = 0) {
+    static function getImage($users_id, $live_servers_id, $playlists_id_live = 0, $live_index = '') {
         $p = AVideoPlugin::loadPlugin("Live");
-        if (self::isLive($users_id)) {
-            $url = $p->getLivePosterImage($users_id, $live_servers_id);
+        if (self::isLive($users_id, $live_servers_id, $live_index)) {
+            $url = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $live_index);
             $url = addQueryStringParameter($url, "playlists_id_live", $playlists_id_live);
         } else {
             $url = self::getOfflineImage(false);
@@ -1538,7 +1541,7 @@ class Live extends PluginAbstract {
         return $key;
     }
 
-    public function getImageGif($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = null) {
+    public function getImageGif($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '') {
         global $global;
         if (empty($live_servers_id)) {
             $live_servers_id = self::getCurrentLiveServersId();
@@ -1558,12 +1561,9 @@ class Live extends PluginAbstract {
         return $url;
     }
 
-    public static function getPosterImage($users_id, $live_servers_id, $live_index = null) {
+    public static function getPosterImage($users_id, $live_servers_id) {
         global $global;
-        if ($live_index === 'false') {
-            $live_index = '';
-        }
-        $file = self::_getPosterImage($users_id, $live_servers_id, $live_index);
+        $file = self::_getPosterImage($users_id, $live_servers_id);
 
         if (!file_exists($global['systemRootPath'] . $file)) {
             $file = self::getOnAirImage(false);
@@ -1572,19 +1572,19 @@ class Live extends PluginAbstract {
         return $file;
     }
 
-    public function getLivePosterImage($users_id, $live_servers_id = 0) {
+    public function getLivePosterImage($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format='jpg') {
         global $global;
 
-        return $global['webSiteRootURL'] . self::getLivePosterImageRelativePath($users_id, $live_servers_id);
+        return $global['webSiteRootURL'] . self::getLivePosterImageRelativePath($users_id, $live_servers_id, $playlists_id_live, $live_index, $format);
     }
 
-    public function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '') {
+    public function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format='jpg') {
         global $global;
         if (empty($live_servers_id)) {
             $live_servers_id = self::getCurrentLiveServersId();
         }
         if (self::isLiveThumbsDisabled()) {
-            $file = self::_getPosterImage($users_id, $live_servers_id, $live_index);
+            $file = self::_getPosterImage($users_id, $live_servers_id);
 
             if (!file_exists($global['systemRootPath'] . $file)) {
                 $file = self::getOnAirImage(false);
@@ -1592,7 +1592,7 @@ class Live extends PluginAbstract {
         } else {
             $u = new User($users_id);
             $username = $u->getUser();
-            $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&playlists_id_live={$playlists_id_live}&live_index={$live_index}&u={$username}&format=jpg";
+            $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&playlists_id_live={$playlists_id_live}&live_index={$live_index}&u={$username}&format={$format}";
         }
 
         return $file;
@@ -1606,9 +1606,9 @@ class Live extends PluginAbstract {
         return false;
     }
 
-    public static function getPosterThumbsImage($users_id, $live_servers_id, $live_index = '') {
+    public static function getPosterThumbsImage($users_id, $live_servers_id) {
         global $global;
-        $file = self::_getPosterThumbsImage($users_id, $live_servers_id, $live_index);
+        $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
 
         if (!file_exists($global['systemRootPath'] . $file)) {
             $file = self::getOnAirImage(false);
@@ -1663,15 +1663,13 @@ class Live extends PluginAbstract {
         return $img;
     }
 
-    public static function _getPosterImage($users_id, $live_servers_id, $live_index = '') {
-        $live_index = str_replace('/[^a-zA-z0-9]/', '', $live_index);
-        $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}_{$live_index}.jpg";
+    public static function _getPosterImage($users_id, $live_servers_id) {
+        $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}.jpg";
         return $file;
     }
 
-    public static function _getPosterThumbsImage($users_id, $live_servers_id, $live_index = '') {
-        $live_index = str_replace('/[^a-zA-z0-9]/', '', $live_index);
-        $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}_{$live_index}.jpg";
+    public static function _getPosterThumbsImage($users_id, $live_servers_id) {
+        $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}.jpg";
         return $file;
     }
 

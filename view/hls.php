@@ -18,7 +18,7 @@ if (empty($_GET['videoDirectory'])) {
 
 $video = Video::getVideoFromFileName($_GET['videoDirectory'], true);
 
-$filename = Video::getStoragePath() . "{$_GET['videoDirectory']}/index.m3u8";
+$filename = Video::getStoragePath() . "{$_GET['videoDirectory']}".DIRECTORY_SEPARATOR."index.m3u8";
 
 if (empty($video) || !file_exists($filename)) {
     header("Content-Type: text/plain");
@@ -47,9 +47,9 @@ if (empty($video) || !file_exists($filename)) {
     }
 }
 
-$_GET['file'] = Video::getStoragePath() . "{$_GET['videoDirectory']}/index.m3u8";
+$_GET['file'] = Video::getStoragePath() . "{$_GET['videoDirectory']}".DIRECTORY_SEPARATOR."index.m3u8";
 //var_dump($_GET['file']);exit;
-$cachedPath = explode("/", $_GET['videoDirectory']);
+$cachedPath = explode(DIRECTORY_SEPARATOR, $_GET['videoDirectory']);
 if (empty($_SESSION['user']['sessionCache']['hls'][$cachedPath[0]]) && empty($_GET['download'])) {
     AVideoPlugin::xsendfilePreVideoPlay();
     $_SESSION['user']['sessionCache']['hls'][$cachedPath[0]] = 1;
@@ -59,7 +59,7 @@ $tokenIsValid = false;
 if (!empty($_GET['token'])) {
     $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
     if ($secure) {
-        $filenameParts = explode('/', $_GET['videoDirectory']); 
+        $filenameParts = explode(".DIRECTORY_SEPARATOR.", $_GET['videoDirectory']); 
         $fname = $filenameParts[0];
         $tokenIsValid = $secure->isTokenValid($_GET['token'], $fname, $_GET['videoDirectory']);
     }

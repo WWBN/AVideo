@@ -45,7 +45,7 @@ $videoFileName = $video->getFilename();
 $destination_local = Video::getStoragePath()."{$videoFileName}";
 
 $obj->jpgDest = "{$destination_local}.jpg";
-if (!empty($_FILES['image']['tmp_name']) && (!file_exists($obj->jpgDest) || filesize($obj->jpgDest)===42342)) {
+if (!empty($_FILES['image']['tmp_name']) && ( !empty($_REQUEST['update_video_id']) || !file_exists($obj->jpgDest) || filesize($obj->jpgDest)===42342)) {
     if (!move_uploaded_file($_FILES['image']['tmp_name'], $obj->jpgDest)) {
         $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
         _error_log("ReceiveImage: ".$obj->msg);
@@ -67,7 +67,7 @@ if (!empty($_FILES['image']['tmp_name']) && (!file_exists($obj->jpgDest) || file
 
 if(!empty($_FILES['spectrumimage']['tmp_name'])){
     $obj->jpgSpectrumDest = "{$destination_local}_spectrum.jpg";
-    if ((!file_exists($obj->jpgSpectrumDest) || filesize($obj->jpgSpectrumDest)===42342)) {
+    if ((!empty($_REQUEST['update_video_id']) || !file_exists($obj->jpgSpectrumDest) || filesize($obj->jpgSpectrumDest)===42342)) {
         if (!move_uploaded_file($_FILES['spectrumimage']['tmp_name'], $obj->jpgSpectrumDest)) {
             $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
             _error_log("ReceiveImage: ".$obj->msg);
@@ -89,7 +89,7 @@ if(!empty($_FILES['spectrumimage']['tmp_name'])){
 }
 
 $obj->gifDest = "{$destination_local}.gif";
-if (!empty($_FILES['gifimage']['tmp_name']) && (!file_exists($obj->gifDest) || filesize($obj->gifDest)===2095341)) {
+if (!empty($_FILES['gifimage']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->gifDest) || filesize($obj->gifDest)===2095341)) {
     if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], $obj->gifDest)) {
         $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination_local), true);
         _error_log("ReceiveImage: ".$obj->msg);
@@ -109,7 +109,7 @@ if (!empty($_FILES['gifimage']['tmp_name']) && (!file_exists($obj->gifDest) || f
     }
 }
 $obj->webpDest = "{$destination_local}.webp";
-if (!empty($_FILES['webpimage']['tmp_name']) && (!file_exists($obj->webpDest) || filesize($obj->webpDest)===2095341)) {
+if (!empty($_FILES['webpimage']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->webpDest) || filesize($obj->webpDest)===2095341)) {
     if (!move_uploaded_file($_FILES['webpimage']['tmp_name'], $obj->webpDest)) {
         $obj->msg = print_r(sprintf(__("Could not move webp image file [%s.webp]"), $destination_local), true);
         _error_log("ReceiveImage: ".$obj->msg);

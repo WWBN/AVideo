@@ -169,7 +169,11 @@ class LiveLinks extends PluginAbstract {
                 "name" => $name,
                 "source" => $value['link'],
                 "poster" => self::getPosterToLiveFromId($value['id']),
-                "link" => self::getLinkToLiveFromId($value['id'], true)
+                "imgGif" => self::getPosterToLiveFromId($value['id'], 'gif'),
+                "link" => self::getLinkToLiveFromId($value['id'], true),
+                "href" => self::getLinkToLiveFromId($value['id']),
+                "categories_id" => intval($value['categories_id']),
+                "className" => 'liveLink_'.$value['id']
             );
         }
 
@@ -226,9 +230,9 @@ class LiveLinks extends PluginAbstract {
         }
     }
 
-    public function getPosterToLiveFromId($id){
+    public function getPosterToLiveFromId($id, $format='jpg'){
         global $global;
-        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=jpg";
+        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format={$format}";
     }
     
     public static function isLiveThumbsDisabled(){
@@ -296,9 +300,9 @@ class LiveLinks extends PluginAbstract {
         }
 
         if ($status == "publicOnly") {
-            $sql .= " AND v.`type` = 1 ";
+            $sql .= " AND v.`type` = 'public' ";
         } elseif (!empty($status)) {
-            $sql .= " AND v.`type` = '{$status}'";
+            $sql .= " AND v.`status` = '{$status}'";
         }
 
         if (!empty($_GET['catName'])) {

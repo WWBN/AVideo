@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 global $global, $config, $videosPaths;
 
@@ -1106,7 +1107,7 @@ if (!class_exists('Video')) {
                 }
                 $_POST['sort'] = $sort;
             } elseif (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
-                if(!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])){
+                if (!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])) {
                     $_POST['sort']['v.created'] = $_POST['sort']['created'];
                     unset($_POST['sort']['created']);
                 }
@@ -1737,26 +1738,30 @@ if (!class_exists('Video')) {
                 _error_log('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 return false;
             } else {
-                $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
-                $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
-                $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-                $YPTStorage = AVideoPlugin::loadPluginIfEnabled('YPTStorage');
-                if (!empty($aws_s3)) {
-                    $aws_s3->removeFiles($video['filename']);
-                }
-                if (!empty($bb_b2)) {
-                    $bb_b2->removeFiles($video['filename']);
-                }
-                if (!empty($ftp)) {
-                    $ftp->removeFiles($video['filename']);
-                }
-                if (!empty($YPTStorage)) {
-                    $YPTStorage->removeFiles($video['filename'], $video['sites_id']);
-                }
-                $this->removeFiles($video['filename']);
-                self::deleteThumbs($video['filename']);
+                $this->removeVideoFiles();
             }
             return $resp;
+        }
+
+        public function removeVideoFiles() {
+            $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
+            $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
+            $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
+            $YPTStorage = AVideoPlugin::loadPluginIfEnabled('YPTStorage');
+            if (!empty($aws_s3)) {
+                $aws_s3->removeFiles($this->getFilename());
+            }
+            if (!empty($bb_b2)) {
+                $bb_b2->removeFiles($this->getFilename());
+            }
+            if (!empty($ftp)) {
+                $ftp->removeFiles($this->getFilename());
+            }
+            if (!empty($YPTStorage) && !empty($this->getSites_id())) {
+                $YPTStorage->removeFiles($this->getFilename(), $this->getSites_id());
+            }
+            $this->removeFiles($this->getFilename());
+            self::deleteThumbs($this->getFilename());
         }
 
         private function removeNextVideos($videos_id) {
@@ -2153,32 +2158,32 @@ if (!class_exists('Video')) {
 
         public static function getTagsHTMLLabelArray($video_id) {
             global $_getTagsHTMLLabelArray;
-            
-            if(!isset($_getTagsHTMLLabelArray)){
+
+            if (!isset($_getTagsHTMLLabelArray)) {
                 $_getTagsHTMLLabelArray = array();
             }
-            
-            if(isset($_getTagsHTMLLabelArray[$video_id])){
+
+            if (isset($_getTagsHTMLLabelArray[$video_id])) {
                 return $_getTagsHTMLLabelArray[$video_id];
             }
-            
+
             $tags = Video::getTags($video_id);
             $_getTagsHTMLLabelArray[$video_id] = array();
             foreach ($tags as $value2) {
-                if(empty($value2->label) || ($value2->label !== __("Paid Content") && $value2->label !== __("Group") && $value2->label !== __("Plugin"))){
+                if (empty($value2->label) || ($value2->label !== __("Paid Content") && $value2->label !== __("Group") && $value2->label !== __("Plugin"))) {
                     continue;
                 }
-                
+
                 $tooltip = '';
-                if(!empty($value2->tooltip)){
+                if (!empty($value2->tooltip)) {
                     $icon = $value2->text;
-                    if(!empty($value2->tooltipIcon)){
+                    if (!empty($value2->tooltipIcon)) {
                         $icon = $value2->tooltipIcon;
                     }
-                    $tooltip = '  data-toggle="tooltip" title="'. htmlentities($icon.' '.$value2->tooltip).'" data-html="true"';
+                    $tooltip = '  data-toggle="tooltip" title="' . htmlentities($icon . ' ' . $value2->tooltip) . '" data-html="true"';
                 }
-                
-                $_getTagsHTMLLabelArray[$video_id][] = '<span class="label label-'.$value2->type.'" '.$tooltip.'>'.$value2->text.'</span>';
+
+                $_getTagsHTMLLabelArray[$video_id][] = '<span class="label label-' . $value2->type . '" ' . $tooltip . '>' . $value2->text . '</span>';
             }
             return $_getTagsHTMLLabelArray[$video_id];
         }
@@ -2917,7 +2922,7 @@ if (!class_exists('Video')) {
             if (empty($filename)) {
                 return "";
             }
-
+            $filename = fixPath($filename);
             $search = array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2');
             $replace = array('', '', '', '', '', '', '', '', '', '');
 
@@ -2928,11 +2933,14 @@ if (!class_exists('Video')) {
             foreach ($global['avideo_resolutions'] as $value) {
                 $search[] = "_{$value}";
                 $replace[] = '';
+                
+                $search[] = "res{$value}";
+                $replace[] = '';
             }
 
             $cleanName = str_replace($search, $replace, $filename);
             $path_parts = pathinfo($cleanName);
-
+            
             if (!empty($path_parts["extension"]) && $path_parts["extension"] === "m3u8") {
                 preg_match('/videos\/([^\/]+)/', $path_parts["dirname"], $matches);
                 if (!empty($matches[1])) {
@@ -2946,8 +2954,10 @@ if (!class_exists('Video')) {
                 } else {
                     return $filename;
                 }
-            } elseif (strlen($path_parts['extension']) > 4) {
+            } else if (strlen($path_parts['extension']) > 4) {
                 return $cleanName;
+            } else if ($path_parts['filename'] == 'index' && $path_parts['extension'] == 'm3u8') {
+                return str_replace(array(getVideosDir(), DIRECTORY_SEPARATOR), '', $path_parts['dirname']);
             } else {
                 return $path_parts['filename'];
             }
@@ -3174,7 +3184,7 @@ if (!class_exists('Video')) {
 
         public static function getStoragePath() {
             global $global;
-            $path = "{$global['systemRootPath']}videos".DIRECTORY_SEPARATOR;
+            $path = "{$global['systemRootPath']}videos" . DIRECTORY_SEPARATOR;
             return $path;
         }
 

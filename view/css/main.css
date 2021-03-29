@@ -202,17 +202,9 @@ footer ul.list-inline li {
     border: none;
     margin: 0px;
 }
-.tabbable-line > .nav-tabs > li {
-    margin-right: 2px;
-    border-bottom: 4px solid #DDD;
-}
 .tabbable-line > .nav-tabs > li > a {
     border: 0;
     margin-right: 0;
-}
-.tabbable-line > .nav-tabs > li.open,
-.tabbable-line > .nav-tabs > li:hover {
-    border-bottom: 4px solid #fbcdcf;
 }
 .tabbable-line > .nav-tabs > li.open > a,
 .tabbable-line > .nav-tabs > li:hover > a {
@@ -227,10 +219,6 @@ footer ul.list-inline li {
 .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
     margin-top: 0px;
 }
-.tabbable-line > .nav-tabs > li.active {
-    border-bottom: 4px solid #f3565d;
-    position: relative;
-}
 .tabbable-line > .nav-tabs > li.active > a {
     border: 0;
     background: none !important;
@@ -244,6 +232,40 @@ footer ul.list-inline li {
     border-top: 1px solid #eee;
     padding: 15px 0;
 }
+
+.tabbable-line > .nav-tabs>li:after {
+    content: "";
+    background: #DDD;
+    height: 4px;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: 1px;
+}
+.tabbable-line > .nav-tabs>li>a::after {
+    content: "";
+    background: #f3565d;
+    height: 4px;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: 1px;
+    transition: all 250ms ease 0s;
+    transform: scale(0);
+    z-index: 1;
+}
+.tabbable-line > .nav-tabs>li:hover>a::after {
+    background: #F99;
+}
+.tabbable-line > .nav-tabs>li.active>a::after {
+    background: #f3565d;
+}
+.tabbable-line > .nav-tabs > li.open,
+.tabbable-line > .nav-tabs>li.active>a::after,
+.tabbable-line > .nav-tabs>li:hover>a::after {
+    transform: scale(1);
+}
+
 .portlet .tabbable-line > .tab-content {
     padding-bottom: 0;
 }
