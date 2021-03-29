@@ -790,6 +790,21 @@ class AVideoPlugin {
         }
         return $array;
     }
+    
+    public static function getDynamicUsersId($users_groups_id) {
+        $plugins = Plugin::getAllEnabled();
+        $array = array();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $appArray = $p->getDynamicUsersId($users_groups_id);
+                $array = array_merge($array, $appArray);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return $array;
+    }
 
     public static function getUserOptions() {
         $userOptions = static::getPluginUserOptions();
