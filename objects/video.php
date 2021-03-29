@@ -661,7 +661,7 @@ if (!class_exists('Video')) {
             return $this->zoom;
         }
 
-        public static function getUserGroupsCanSeeSQL() {
+        public static function getUserGroupsCanSeeSQL($tableAlias = '') {
             global $global;
 
             if (Permissions::canModerateVideos()) {
@@ -670,7 +670,7 @@ if (!class_exists('Video')) {
             
             $obj = AVideoPlugin::getDataObject('Subscription');
             if ($obj && $obj->allowFreePlayWithAds) {
-                $sql = ' AND only_for_paid = 0 ';
+                $sql = " AND {$tableAlias}only_for_paid = 0 ";
                 return $sql;
             }else{
                 $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
@@ -730,7 +730,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
-                $sql .= self::getUserGroupsCanSeeSQL();
+                $sql .= self::getUserGroupsCanSeeSQL('v.');
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video' || $_SESSION['type'] == 'linkVideo') {
@@ -1043,7 +1043,7 @@ if (!class_exists('Video')) {
                 TimeLogEnd("video::getAllVideos::getAllVideosExcludeVideosIDArray", __LINE__);
             }
             if (!$ignoreGroup) {
-                $sql .= self::getUserGroupsCanSeeSQL();
+                $sql .= self::getUserGroupsCanSeeSQL('v.');
             }
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video' || $_SESSION['type'] == 'linkVideo') {
@@ -1471,7 +1471,7 @@ if (!class_exists('Video')) {
             }
             $sql .= static::getVideoQueryFileter();
             if (!$ignoreGroup) {
-                $sql .= self::getUserGroupsCanSeeSQL();
+                $sql .= self::getUserGroupsCanSeeSQL('v.');
             }
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
