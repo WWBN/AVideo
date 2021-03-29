@@ -670,7 +670,7 @@ if (!class_exists('Video')) {
             
             $obj = AVideoPlugin::getDataObject('Subscription');
             if ($obj && $obj->allowFreePlayWithAds) {
-                $sql = 'only_for_paid = 0 ';
+                $sql = ' AND only_for_paid = 0 ';
                 return $sql;
             }else{
                 $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
