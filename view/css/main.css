@@ -1003,14 +1003,24 @@ li.dropdown-submenu > ul > li > a{
     width: calc(100% - 150px);
     height: calc(100% - 150px);
 }
-.swal-modal.swal-modal-iframe .swal-content {
+.swal-modal.swal-modal-iframe .swal-content,
+.swal-modal.swal-modal-iframe-small .swal-content{
     width: calc(100%);
     height: calc(100% - 50px);
 }
-.swal-modal.swal-modal-iframe iframe{
+.swal-modal.swal-modal-iframe iframe,
+.swal-modal.swal-modal-iframe-small iframe{
     width: 100%;
     height: 100%;
 }
+
+.swal-modal-iframe-small {
+    width: 800px;
+    height: 600px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
 
 .getChangeVideoStatusButton button{
     display: none;

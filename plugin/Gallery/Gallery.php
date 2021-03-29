@@ -67,28 +67,42 @@ class Gallery extends PluginAbstract {
         $obj->Suggested = true;
         $obj->SuggestedCustomTitle = "";
         $obj->SuggestedRowCount = 12;
+        $obj->SuggestedOrder = 1;
 
         $obj->Trending = true;
         $obj->TrendingCustomTitle = "";
         $obj->TrendingRowCount = 12;
+        $obj->TrendingOrder = 2;
 
         $obj->DateAdded = true;
         $obj->DateAddedCustomTitle = "";
         $obj->DateAddedRowCount = 12;
+        $obj->DateAddedOrder = 3;
+        
         $obj->MostWatched = true;
         $obj->MostWatchedCustomTitle = "";
         $obj->MostWatchedRowCount = 12;
+        $obj->MostWatchedOrder = 4;
+        
         $obj->MostPopular = true;
         $obj->MostPopularCustomTitle = "";
         $obj->MostPopularRowCount = 12;
+        $obj->MostPopularOrder = 5;
+        
         $obj->SortByName = false;
         $obj->SortByNameCustomTitle = "";
         $obj->SortByNameRowCount = 12;
+        $obj->SortByNameOrder = 6;
+        
         $obj->SubscribedChannels = true;
         $obj->SubscribedChannelsRowCount = 12;
+        $obj->SubscribedChannelsOrder = 7;
+        
         $obj->Categories = true;
         $obj->CategoriesCustomTitle = "";
         $obj->CategoriesRowCount = 12;
+        $obj->CategoriesOrder = 7;
+        
         $obj->sortReverseable = false;
         $obj->SubCategorys = false;
         $obj->showTags = true;
@@ -188,6 +202,28 @@ class Gallery extends PluginAbstract {
             }
         }
         return $selectedThemes;
+    }
+    
+    static function getSectionsOrder(){
+        $obj = AVideoPlugin::getObjectData('Gallery');
+        $sections = array();
+        foreach ($obj as $key => $value) {
+            if(preg_match('/(.*)Order$/', $key, $matches)){
+                $index = $value;
+                while(isset($sections[$index])){
+                    $index++;
+                }
+                $sections[$index] = array('name'=>$matches[1], 'active'=>$obj->{$matches[1]});
+            }
+        }
+        ksort($sections);
+        return $sections;
+        
+    }
+    
+    public function getPluginMenu() {
+        global $global;
+        return '<button onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/Gallery/view/sections.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-sort-numeric-down"></i> ' . __('Sort Sections') . '</button>';
     }
 
 }

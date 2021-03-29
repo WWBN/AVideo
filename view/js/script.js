@@ -1006,6 +1006,22 @@ function avideoModalIframe(url) {
     }, 1000);
 }
 
+function avideoModalIframeSmall(url) {
+    var span = document.createElement("span");
+    url = addGetParam(url, 'avideoIframe', 1);
+    span.innerHTML = '<iframe src="' + url + '" />';
+    swal({
+        content: span,
+        closeModal: true,
+        buttons: false,
+        className: 'swal-modal-iframe-small',
+        onClose: avideoModalIframeRemove
+    });
+    setTimeout(function () {
+        avideoModalIframeRemove();
+    }, 1000);
+}
+
 function avideoModalIframeIsVisible() {
     if ($('.swal-modal-iframe').parent().hasClass('swal-overlay--show-modal')) {
         return true;

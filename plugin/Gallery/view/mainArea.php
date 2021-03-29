@@ -19,11 +19,7 @@
         if (empty($_GET['search'])) {
             include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
         }
-        ?>
-        <center style="margin:5px;">
-            <?php echo getAdsLeaderBoardTop2(); ?>
-        </center>
-        <?php
+        echo '<center style="margin:5px;">' . getAdsLeaderBoardTop2() . '</center>';
         if (empty($_GET['catName'])) {
             ?>
             <!-- For Live Videos -->
@@ -41,157 +37,44 @@
                     return $liveLi;
                 }
             </script>
+            <!-- For Live Videos End -->
             <?php
         } else {
-            ?>
-            <script>
-                function afterExtraVideos($liveLi) {
-                    return false;
-                }
-            </script>
-            <?php
+            echo '<script>function afterExtraVideos($liveLi) {return false;}</script>';
         }
         echo AVideoPlugin::getGallerySection();
-        ?>
-        <!-- For Live Videos End -->
-        <?php
-        $countSections = 0;
-        if ($obj->Suggested) {
-            $countSections++;
-            createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
-        }
-        if ($obj->Trending) {
-            $countSections++;
-            createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line");
-        }
-        if ($obj->SortByName) {
-            $countSections++;
-            createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
-        }
-        if ($obj->DateAdded && empty($_GET['catName'])) {
-            $countSections++;
-            createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
-        }
-        if ($obj->MostWatched) {
-            $countSections++;
-            createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-eye");
-        }
-        if ($obj->MostPopular) {
-            $countSections++;
-            createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "fas fa-fire");
-        }
-        if ($obj->SubscribedChannels && User::isLogged() && empty($_GET['showOnly'])) {
-            $channels = Subscribe::getSubscribedChannels(User::getId());
-            foreach ($channels as $value) {
-                $_POST['disableAddTo'] = 0;
-                createChannelItem($value['users_id'], $value['photoURL'], $value['identification'], $obj->SubscribedChannelsRowCount);
+
+        $sections = Gallery::getSectionsOrder();
+
+        foreach ($sections as $value) {
+            if(empty($value['active'])){
+                continue;
+            }
+            if ($value['name'] == 'Suggested') {
+                createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
+            } else
+            if ($value['name'] == 'Trending') {
+                createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line");
+            } else
+            if ($value['name'] == 'SortByName') {
+                createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
+            } else
+            if ($value['name'] == 'DateAdded' && empty($_GET['catName'])) {
+                createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
+            } else
+            if ($value['name'] == 'MostWatched') {
+                createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-eye");
+            } else
+            if ($value['name'] == 'MostPopular') {
+                createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "fas fa-fire");
+            } else
+            if ($value['name'] == 'SubscribedChannels' && User::isLogged() && empty($_GET['showOnly'])) {
+                include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
+            } else
+            if ($value['name'] == 'Categories' && empty($_GET['catName']) && empty($_GET['showOnly'])) {
+                include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
             }
         }
-        if ($obj->Categories && empty($_GET['catName']) && empty($_GET['showOnly'])) {
-            ?>
-            <div id="categoriesContainer"></div>
-            <p class="pagination infiniteScrollPagination">
-                <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?tags_id=<?php echo intval(@$_GET['tags_id']); ?>&search=<?php echo getSearchVar(); ?>&current=1"></a>
-            </p>
-            <div class="scroller-status">
-                <div class="infinite-scroll-request loader-ellips text-center">
-                    <i class="fas fa-spinner fa-pulse text-muted"></i>
-                </div>
-            </div>
-            <script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
-            <script>
-                var $categoriesContainer;
-                $(document).ready(function () {
-                    $categoriesContainer = $('#categoriesContainer').infiniteScroll({
-                        path: '.pagination__next',
-                        append: '.categoriesContainerItem',
-                        status: '.scroller-status',
-                        hideNav: '.infiniteScrollPagination',
-                        prefill: true,
-                        history: false
-                    });
-                    $categoriesContainer.on('request.infiniteScroll', function (event, path) {
-                        //console.log('Loading page: ' + path);
-                    });
-                    $categoriesContainer.on('append.infiniteScroll', function (event, response, path, items) {
-                        //console.log('Append page: ' + path);
-                        lazyImage();
-                        avideoSocket();
-        <?php
-        if ($obj->playVideoOnFullscreenOnIframe) {
-            echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
-        } else if (!empty($obj->playVideoOnFullscreen)) {
-            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
-        }
-        ?>
-                    });
-                    setTimeout(function () {
-                        lazyImage();
-        <?php
-        if ($obj->playVideoOnFullscreenOnIframe) {
-            echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
-        } else if (!empty($obj->playVideoOnFullscreen)) {
-            echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
-        }
-        ?>
-                    }, 500);
-                });
-            </script>
-            <?php
-        }
-        // if there is no section display only the dateAdded row for the selected category
-        if (!empty($currentCat) && empty($_GET['showOnly'])) {
-            if (empty($_GET['page'])) {
-                $_GET['page'] = 1;
-            }
-            $_REQUEST['current'] = $_GET['page'];
-
-
-            include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
-            unset($_POST['sort']);
-            $_POST['sort']['v.created'] = "DESC";
-            $_POST['sort']['likes'] = "DESC";
-            $_GET['catName'] = $currentCat['clean_name'];
-            $_REQUEST['rowCount'] = $obj->CategoriesRowCount * 3;
-            $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
-            if (!empty($videos)) {
-                ?>
-                <div class="row clear clearfix" id="Div<?php echo $currentCat['clean_name']; ?>">
-                    <?php
-                    if (canPrintCategoryTitle($currentCat['name'])) {
-                        ?>
-                        <h3 class="galleryTitle">
-                            <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $currentCat['clean_name']; ?>">
-                                <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name']; ?>
-                            </a>
-                        </h3>
-                        <div class="Div<?php echo $currentCat['clean_name']; ?>Section">
-                            <?php
-                        }
-                        createGallerySection($videos, "", array(), true);
-                        ?>
-                    </div>
-                </div>
-                <?php
-                $total = Video::getTotalVideos("viewable");
-                $totalPages = ceil($total / getRowCount());
-                $page = getCurrentPage();
-                if ($totalPages < $page) {
-                    $page = $totalPages;
-                }
-                ?>
-                <div class="col-sm-12" style="z-index: 1;">
-                    <?php
-                    //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
-                    echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, ".Div{$currentCat['clean_name']}Section", "#Div{$currentCat['clean_name']}");
-                    ?>
-                </div>
-                <?php
-            }
-        }
-        ?>
-
-        <?php
     } else {
         include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
         $ob = ob_get_clean();
@@ -214,9 +97,9 @@
         <div class="alert alert-warning">
             <h1>
                 <span class="glyphicon glyphicon-facetime-video"></span>
-                <?php echo __("Warning"); ?>!
+            <?php echo __("Warning"); ?>!
             </h1>
-            <?php echo __("We have not found any videos or audios to show"); ?>.
+        <?php echo __("We have not found any videos or audios to show"); ?>.
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/notfound.php';
