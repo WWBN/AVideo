@@ -11,6 +11,8 @@ AVideoPlugin::loadPlugin("Gallery");
         ?>
         <style>
             #sortable { list-style-type: none; margin: 0; padding: 0; }
+            #sortable li{ cursor: n-resize; }
+            
         </style>
     </head>
     <body>
@@ -19,7 +21,7 @@ AVideoPlugin::loadPlugin("Gallery");
         ?>
         <div class="container-fluid">
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __('Sort Gallery') ?> </div>
+                <div class="panel-heading"><?php echo __('Sort Gallery Sections') ?> </div>
                 <div class="panel-body">
                     <ul class="list-group" id="sortable">
                         <?php
