@@ -291,7 +291,7 @@ if (!empty($evideo)) {
     if(!empty($_GET['videoName'])){
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
-    if (empty($v)) {
+    if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
         videoNotFound("");
     } else {
         $modeYouTubeTimeLog['Code part 4'] = microtime(true) - $modeYouTubeTime;
