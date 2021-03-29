@@ -667,19 +667,26 @@ if (!class_exists('Video')) {
             if (Permissions::canModerateVideos()) {
                 return "";
             }
-            $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
-            if (User::isLogged()) {
-                require_once $global['systemRootPath'] . 'objects/userGroups.php';
-                $userGroups = UserGroups::getUserGroups(User::getId());
-                $groups_id = array();
-                foreach ($userGroups as $value) {
-                    $groups_id[] = $value['id'];
+            
+            $obj = AVideoPlugin::getDataObject('Subscription');
+            if ($obj && $obj->allowFreePlayWithAds) {
+                $sql = 'only_for_paid = 0 ';
+                return $sql;
+            }else{
+                $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
+                if (User::isLogged()) {
+                    require_once $global['systemRootPath'] . 'objects/userGroups.php';
+                    $userGroups = UserGroups::getUserGroups(User::getId());
+                    $groups_id = array();
+                    foreach ($userGroups as $value) {
+                        $groups_id[] = $value['id'];
+                    }
+                    if (!empty($groups_id)) {
+                        $sql = " (({$sql}) OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)) ";
+                    }
                 }
-                if (!empty($groups_id)) {
-                    $sql = " (({$sql}) OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)) ";
-                }
+                return " AND " . $sql;
             }
-            return " AND " . $sql;
         }
 
         public static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true) {
