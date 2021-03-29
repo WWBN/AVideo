@@ -27,10 +27,16 @@ class LiveLinksTable extends ObjectYPT {
             $this->categories_id = 'NULL';
         }
         Category::clearCacheCount();
-        if(class_exists('Live')){
+        $id = parent::save();
+        if(class_exists('Live') && $id){
             Live::deleteStatsCache(true);
+            if($this->status=='a'){
+                Live::notifySocketStats();
+            }else{
+                LiveLinks::notifySocketToRemoveLiveLinks($id);
+            }
         }
-        return parent::save();
+        return $id;
     }
 
     function getId() {

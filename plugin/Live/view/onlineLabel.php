@@ -2,9 +2,6 @@
 if(empty($streamName)){
     $live = isLive();
     $streamName = $live['key'];
-    if(!empty($live['live_index'])){
-        $streamName .= '-'.$live['live_index'];
-    }
     $live_servers_id = $live['live_servers_id'];
 }else{
     $live_servers_id = Live::getCurrentLiveServersId();

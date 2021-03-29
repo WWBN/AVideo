@@ -56,7 +56,6 @@ class Message implements MessageComponentInterface {
         $client['page_title'] = utf8_encode(@$wsocketGetVars['page_title']);
         $client['videos_id'] = $json->videos_id;
         $client['live_key'] = object_to_array(@$json->live_key);
-        $client['autoEvalCodeOnHTML'] = $json->autoEvalCodeOnHTML;
         $client['ip'] = $json->ip;
         $client['location'] = $json->location;
 
@@ -243,8 +242,6 @@ class Message implements MessageComponentInterface {
         $obj['autoUpdateOnHTML'] = array_merge($totals, $return['class_to_update']);
 
         $obj['users_uri'] = $return['users_uri'];
-
-        $obj['autoEvalCodeOnHTML'] = $this->clients[$resourceId]['autoEvalCodeOnHTML'];
 
         $msgToSend = json_encode($obj);
         //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");

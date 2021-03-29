@@ -167,6 +167,7 @@ class LiveLinks extends PluginAbstract {
                 "title" => $value['title'],
                 "users_id" => $value['users_id'],
                 "name" => $name,
+                "source" => $value['link'],
                 "poster" => self::getPosterToLiveFromId($value['id']),
                 "link" => self::getLinkToLiveFromId($value['id'], true)
             );
@@ -374,5 +375,13 @@ class LiveLinks extends PluginAbstract {
         return $videos;
     }
 
+    static function notifySocketToRemoveLiveLinks($liveLinks_id) {
+        $array = array();
+        $array['stats'] = getStatsNotifications();
+        $array['autoEvalCodeOnHTML'] = '$(".liveLink_'.$liveLinks_id.'").slideUp();';
+        $socketObj = sendSocketMessageToAll($array, 'socketRemoveLiveLinks');
+        return $socketObj;
+    }
 
+    
 }

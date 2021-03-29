@@ -137,6 +137,7 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
 </script>
 <!--
 <?php
+/*
 if (User::isAdmin() && !empty($getCachesProcessed) && is_array($getCachesProcessed)) {
     arsort($getCachesProcessed);
     echo "Total cached methods " . PHP_EOL;
@@ -144,6 +145,8 @@ if (User::isAdmin() && !empty($getCachesProcessed) && is_array($getCachesProcess
         echo "$key => $value" . PHP_EOL;
     }
 }
+ * 
+ */
 if(!empty($config) && is_object($config)){
     echo PHP_EOL.'v:'.$config->getVersion().PHP_EOL;
 }

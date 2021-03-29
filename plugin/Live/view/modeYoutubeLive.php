@@ -21,7 +21,7 @@ if (!empty($_GET['c'])) {
 }
 
 $livet = LiveTransmition::getFromDbByUserName($_GET['u']);
-$getLiveKey = array('key'=>$livet['key'], 'live_servers_id'=> Live::getLiveServersIdRequest(), 'live_index'=>@$_REQUEST['live_index']);
+setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 $lt = new LiveTransmition($livet['id']);
 if (!$lt->userCanSeeTransmition()) {
     forbiddenPage("You are not allowed see this streaming");

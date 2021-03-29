@@ -127,14 +127,9 @@ function parseSocketResponse() {
         }
     }
 
-    if (json && typeof json.autoEvalCodeOnHTML !== 'undefined') {
-        for (var prop in json.autoEvalCodeOnHTML) {
-            if (json.autoEvalCodeOnHTML[prop] === false) {
-                continue;
-            }
-            //console.log("autoEvalCodeOnHTML", json.autoEvalCodeOnHTML[prop]);
-            eval(json.autoEvalCodeOnHTML[prop]);
-        }
+    if (json && typeof json.msg.autoEvalCodeOnHTML !== 'undefined') {
+        //console.log("autoEvalCodeOnHTML", json.msg.autoEvalCodeOnHTML);
+        eval(json.msg.autoEvalCodeOnHTML);
     }
 
     $('#socketUsersURI').empty();

@@ -3174,7 +3174,7 @@ if (!class_exists('Video')) {
 
         public static function getStoragePath() {
             global $global;
-            $path = "{$global['systemRootPath']}videos/";
+            $path = "{$global['systemRootPath']}videos".DIRECTORY_SEPARATOR;
             return $path;
         }
 

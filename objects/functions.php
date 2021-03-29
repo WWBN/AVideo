@@ -2847,8 +2847,15 @@ function allowOrigin() {
 }
 
 function rrmdir($dir) {
+    if(empty($dir)){
+        _error_log('rrmdir: the dir was empty');
+        return false;
+    }
     global $global;
-    if ($dir == getVideosDir() . "" || $dir == "{$global['systemRootPath']}videos") {
+    $pattern = '/videos[\/\\\]?$/i';
+    $dir = fixPath($dir, true);
+    if ($dir == getVideosDir() || $dir == "{$global['systemRootPath']}videos".DIRECTORY_SEPARATOR || preg_match($pattern, $dir)) {
+        _error_log('rrmdir: A script ties to delete the videos Directory ['.$dir.'] '. json_encode($_SERVER));
         return false;
     }
     if (is_dir($dir)) {
@@ -2863,6 +2870,12 @@ function rrmdir($dir) {
             }
         }
         rmdir($dir);
+        if (is_dir($dir)) {
+            _error_log('rrmdir: The Directory was not deleted, trying again '.$dir);
+            exec('rm -R '.$dir);
+        }
+    }else{
+        //_error_log('rrmdir: The Directory does not exists '.$dir);
     }
 }
 
@@ -3424,7 +3437,17 @@ class AVideoLog {
     public static $SOCKET = 4;
 
 }
-
+function _error_log_debug($message, $show_args=false) {
+    $array = debug_backtrace();
+    $message .= PHP_EOL;
+    foreach ($array as $value) {
+        $message .= "function: {$value['function']} Line: {{$value['line']}} File: {{$value['file']}}".PHP_EOL;
+        if($show_args){
+            $message .= print_r($value['args'], true).PHP_EOL;
+        }
+    }
+    _error_log(PHP_EOL.'***'.PHP_EOL.$message.'***');
+}
 function _error_log($message, $type = 0, $doNotRepeat = false) {
     if (empty($doNotRepeat)) {
         // do not log it too many times when you are using HLS format, other wise it will fill the log file with the same error
@@ -3552,16 +3575,28 @@ function getCacheDir() {
 
 function clearCache($firstPageOnly = false) {
     global $global;
-    $dir = getVideosDir() . "cache/";
+    
+    $dir = getVideosDir() . "cache".DIRECTORY_SEPARATOR;
     if ($firstPageOnly || !empty($_GET['FirstPage'])) {
-        $dir .= "firstPage/";
-    }
-    rrmdir($dir);
-    $dir = getCacheDir();
-    if (!empty($_GET['FirstPage'])) {
         $dir .= "firstPage".DIRECTORY_SEPARATOR;
     }
+    //_error_log('clearCache 1: '.$dir);
     rrmdir($dir);
+    
+    $dir = getCacheDir();
+    if ($firstPageOnly || !empty($_GET['FirstPage'])) {
+        $dir .= "firstPage".DIRECTORY_SEPARATOR;
+    }
+    //_error_log('clearCache 2: '.$dir);
+    rrmdir($dir);
+    
+    $dir = getTmpDir().'YPTObjectCache'.DIRECTORY_SEPARATOR;
+    if ($firstPageOnly || !empty($_GET['FirstPage'])) {
+        $dir .= "firstPage".DIRECTORY_SEPARATOR;
+    }
+    //_error_log('clearCache 3: '.$dir);
+    rrmdir($dir);
+    
     ObjectYPT::deleteCache("getEncoderURL");
 }
 
@@ -3996,7 +4031,7 @@ function isLive() {
     if (!empty($isLive)) {
         $live = getLiveKey();
         if (empty($live)) {
-            $live = array('key' => false, 'live_servers_id' => false);
+            $live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
         }
         $live['liveLink'] = isLiveLink();
         return $live;
@@ -4024,15 +4059,15 @@ function getLiveKey() {
 
 function setLiveKey($key, $live_servers_id, $live_index = '') {
     global $getLiveKey;
-
-
     $parameters = Live::getLiveParametersFromKey($key);
     $key = $parameters['key'];
+    $cleanKey = $parameters['cleanKey'];
     if (empty($live_index)) {
         $live_index = $parameters['live_index'];
     }
+    $key = Live::getLiveKeyFromRequest($key, $live_index, $parameters['playlists_id_live']);
 
-    $getLiveKey = array('key' => $key, 'live_servers_id' => intval($live_servers_id), 'live_index' => $live_index);
+    $getLiveKey = array('key' => $key, 'live_servers_id' => intval($live_servers_id), 'live_index' => $live_index, 'cleanKey' => $cleanKey);
     return $getLiveKey;
 }
 
@@ -5972,16 +6007,20 @@ function isURL200($url, $forceRecheck = false) {
 function isURL200Clear() {
     $tmpDir = ObjectYPT::getCacheDir();
     $cacheDir = $tmpDir . "isURL200" . DIRECTORY_SEPARATOR;
-    _error_log("Live::isURL200Clear [{$cacheDir}]");
+    //_error_log("Live::isURL200Clear [{$cacheDir}]");
     rrmdir($cacheDir);
     exec('rm -R ' . $cacheDir);
 }
 
-function getStatsNotifications() {
+function getStatsNotifications($force_recreate=false) {
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
-    $json = ObjectYPT::getCache($cacheName, 0, false);
+    if($force_recreate){
+        Live::deleteStatsCache();
+    }else{
+        $json = ObjectYPT::getCache($cacheName, 0, true);
+    }
     if (empty($json)) {
-        //_error_log('getStatsNotifications: 1'. json_encode(debug_backtrace()));
+        _error_log('getStatsNotifications: 1 '. json_encode(debug_backtrace()));
         $json = Live::getStats();
         $json = object_to_array($json);
 
@@ -6037,6 +6076,7 @@ function getStatsNotifications() {
         $cache = ObjectYPT::setCache($cacheName, $json);
         _error_log('Live::createStatsCache ' . json_encode($cache));
     } else {
+        //_error_log('getStatsNotifications: 2 cached result');
         $json = object_to_array($json);
     }
     return $json;
@@ -6326,4 +6366,30 @@ function secondsIntervalFromNow($time, $useDatabaseTime = true) {
     } else {
         return secondsInterval(time(), $time);
     }
+}
+
+function getScriptRunMicrotimeInSeconds(){
+    global $global;
+    $time_now = microtime(true);
+    return ($time_now - $global['avideoStartMicrotime']);
+}
+
+function fixSystemPath(){
+    global $global;
+    $global['systemRootPath'] = fixPath($global['systemRootPath']);
+}
+
+function fixPath($path, $addLastSlash = false){
+    if(empty($path)){
+        return false;
+    }
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
+    } else {
+        $path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
+    }
+    if($addLastSlash){
+        $path = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    }
+    return $path;
 }

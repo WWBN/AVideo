@@ -1,6 +1,6 @@
 <?php
 $objLive = AVideoPlugin::getDataObject("Live");
-Live::deleteStatsCache();
+//Live::deleteStatsCache();
 if ($objLive->allowMultipleLivesPerUser) {
     $stats = getStatsNotifications();
     $onliveApplications = array();
