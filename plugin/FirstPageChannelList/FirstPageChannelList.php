@@ -37,7 +37,7 @@ class FirstPageChannelList extends PluginAbstract {
     
     public function getHeadCode() {
         global $global;
-        echo "<link href='{$global['webSiteRootURL ']}plugin/Gallery/style.css?". filectime("{$global['systemRootPath ']}plugin/Gallery/style.css")."' rel='stylesheet' type='text/css'/>";
+        echo "<link href='{$global['webSiteRootURL']}plugin/Gallery/style.css?". filectime("{$global['systemRootPath']}plugin/Gallery/style.css")."' rel='stylesheet' type='text/css'/>";
         return false;
     }
     
