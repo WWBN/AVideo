@@ -24,10 +24,10 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 ?>
 <div class="categoriesContainerItem">
 <?php
-foreach ($categories as $value) {
-    $_GET['catName'] = $value['clean_name'];
+foreach ($categories as $_cat) {
+    $_GET['catName'] = $_cat['clean_name'];
     if (empty($liveobj->doNotShowLiveOnCategoryList)) {
-        $currentCat = $value;
+        $currentCat = $_cat;
         include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
     }
     unset($_POST['sort']);
@@ -37,14 +37,17 @@ foreach ($categories as $value) {
     if (empty($videos)) {
         continue;
     }
+    if(empty($_cat['clean_name'])){
+        continue;
+    }
     ?>
     <div class="row clear clearfix">
         <?php 
-        if(canPrintCategoryTitle($value['name'])){
+        if(canPrintCategoryTitle($_cat['name'])){
         ?>
         <h3 class="galleryTitle">
-            <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_name']; ?>">
-                <i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?>
+            <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $_cat['clean_name']; ?>">
+                <i class="<?php echo $_cat['iconClass']; ?>"></i> <?php echo $_cat['name']; ?>
             </a>
         </h3>
         <?php

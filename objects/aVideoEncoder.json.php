@@ -42,6 +42,12 @@ _error_log("aVideoEncoder.json: start to receive: " . json_encode($_POST));
 
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", @$_POST['videos_id']);
+
+if(!empty($video->getId()) && !empty($_REQUEST['first_request'])){
+    _error_log("aVideoEncoder.json: There is a new video to replace the existing one, we will delete the current files videos_id = ".$video->getId());
+    $video->removeVideoFiles();
+}
+
 $obj->video_id = @$_POST['videos_id'];
 $title = $video->getTitle();
 $description = $video->getDescription();

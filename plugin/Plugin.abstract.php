@@ -329,6 +329,10 @@ abstract class PluginAbstract {
     public function getDynamicUserGroupsId($users_id) {
         return array();
     }
+    
+    public function getDynamicUsersId($users_groups_id) {
+        return array();
+    }
 
     public function navBarButtons() {
         return "";

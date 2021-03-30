@@ -17,7 +17,7 @@
                 <i class="fas fa-users"></i> <span class="totalDevicesOnline">0</span>
             </a>
         </div>
-
+        <div class="clearfix"></div>
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#usersTab"><?php echo __('Active Users'); ?></a></li>
             <li><a data-toggle="tab" href="#inactiveUsersTab" onclick="startUserGrid('#gridInactive', '?status=i');"><?php echo __('Inactive Users'); ?></a></li>
