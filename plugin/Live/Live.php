@@ -1141,19 +1141,19 @@ class Live extends PluginAbstract {
                     }
                 } else
                 if (empty($row) || empty($row['public'])) {
-                    $obj->hidden_applications[] = "{$row['channelName']} ($hiddenName} is set to not be listed";
+                    $obj->hidden_applications[] = "{$row['channelName']} ($hiddenName} " . __("is set to not be listed");
                     if (!User::isAdmin()) {
                         continue;
                     } else {
-                        $title .= " (set to not be listed)";
+                        $title .= __(" (set to not be listed)");
                     }
                 } else
                 if ($u->getStatus() !== 'a') {
-                    $obj->hidden_applications[] = "{$row['channelName']} {$hiddenName} the user is inactive";
+                    $obj->hidden_applications[] = "{$row['channelName']} {$hiddenName} " .__("the user is inactive");
                     if (!User::isAdmin()) {
                         continue;
                     } else {
-                        $title .= " (user is inactive)";
+                        $title .= __(" (user is inactive)");
                     }
                 }
 
