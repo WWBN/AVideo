@@ -1033,6 +1033,87 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'objects/playListAddVideo.json.php';
         exit;
     }
+    
+    /**
+     * Return all watch_later from a user
+     * @param type $parameters
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function get_api_watch_later($parameters) {
+        $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
+        if (empty($plugin)) {
+            return new ApiObject("Plugin disabled");
+        }
+        if (!User::isLogged()) {
+            return new ApiObject("User must be logged");
+        }
+        $row = PlayList::getAllFromUser(User::getId(), false, 'watch_later');
+        foreach ($row as $key => $value) {
+            unset($row[$key]['password']);
+            unset($row[$key]['recoverPass']);
+            foreach ($value['videos'] as $key2 => $value2) {
+                //$row[$key]['videos'][$key2] = Video::getVideo($value2['id']);
+                unset($row[$key]['videos'][$key2]['password']);
+                unset($row[$key]['videos'][$key2]['recoverPass']);
+                if (!empty($row[$key]['videos'][$key2]['next_videos_id'])) {
+                    unset($_POST['searchPhrase']);
+                    $row[$key]['videos'][$key2]['next_video'] = Video::getVideo($row[$key]['videos'][$key2]['next_videos_id']);
+                }
+                $row[$key]['videos'][$key2]['videosURL'] = getVideosURL($row[$key]['videos'][$key2]['filename']);
+                unset($row[$key]['videos'][$key2]['password']);
+                unset($row[$key]['videos'][$key2]['recoverPass']);
+            }
+        }
+        echo json_encode($row);
+        exit;
+    }
+
+    /**
+     * add a video into a user watch_later play list
+     * @param type $parameters
+     * 'videos_id' the video id that you want to add
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function set_api_watch_later($parameters) {
+        $this->watch_later($parameters, true);
+    }
+
+    /**
+     * @param type $parameters
+     * 'videos_id' the video id that you want to remove
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function set_api_removeWatch_later($parameters) {
+        $this->watch_later($parameters, false);
+    }
+
+    private function watch_later($parameters, $add) {
+        global $global;
+        $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
+        if (empty($plugin)) {
+            return new ApiObject("Plugin disabled");
+        }
+        if (!User::isLogged()) {
+            return new ApiObject("Wrong user or password");
+        }
+        $_POST['videos_id'] = $parameters['videos_id'];
+        $_POST['add'] = $add;
+        $_POST['playlists_id'] = PlayLists::getWatchLaterIdFromUser(User::getId());
+        require_once $global['systemRootPath'] . 'objects/playListAddVideo.json.php';
+        exit;
+    }
 
     /**
      * @param type $parameters
