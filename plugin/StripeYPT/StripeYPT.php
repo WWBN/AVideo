@@ -311,6 +311,8 @@ class StripeYPT extends PluginAbstract {
         $users_id = User::getId();
         $obj = AVideoPlugin::getObjectData('StripeYPT');
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
+        
+        /*
         $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
         if(!empty($costumer->subscriptions)){
             foreach ($costumer->subscriptions->data as $value) {
@@ -337,7 +339,8 @@ class StripeYPT extends PluginAbstract {
         
         _error_log("StripeYPT::getSubscriptions We could not find the subscription trying to list from subscription $stripe_costumer_id, $plans_id " . json_encode($costumer));
         
-        
+        */
+        // I guess only this is enought 
         $subscriptions = \Stripe\Subscription::all(['customer'=>$stripe_costumer_id, 'status'=>'active']);
         if(!empty($subscriptions)){
             foreach ($subscriptions->data as $value) {
@@ -543,8 +546,8 @@ class StripeYPT extends PluginAbstract {
         try {
             $this->start();
             $sub = \Stripe\Subscription::retrieve($id);
-            $sub->cancel();
-            return true;
+            $response = $sub->cancel();
+            return $response;
         } catch (Exception $exc) {
             return false;
         }

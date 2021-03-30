@@ -7,7 +7,16 @@ if (!User::isAdmin()) {
 $stripe = AVideoPlugin::loadPlugin("StripeYPT");
 
 if (!empty($_GET['subscription_id'])) {
-    $stripe->cancelSubscriptions($_GET['subscription_id']);
+    $response = $stripe->cancelSubscriptions($_GET['subscription_id']);
+    _error_log('listSubscription::cancel subscritpion canceled '. json_encode($response));
+    if(!empty($_REQUEST['plans_id']) && !empty($_REQUEST['users_id'])){
+        $row = SubscriptionTable::getSubscription($_REQUEST['users_id'], $_REQUEST['plans_id']);
+        if(!empty($response)){
+            SubscriptionTable::updateStripeCostumerId($row['id'], "canceled");
+        }
+    }else{
+        _error_log('listSubscription::cancel plans_id or user not found');
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -73,7 +82,9 @@ if (!empty($_GET['subscription_id'])) {
                                 <div class="panel panel-default">
                                     <div class="panel-heading"><?php echo $title; ?></div>
                                     <div class="panel-body"><?php echo $body; ?></div>
-                                    <div class="panel-footer"> <a class="btn btn-sm btn-xs btn-<?php echo $buttonClass; ?> btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_id=<?php echo $value->id; ?>" >Cancel</a></div>
+                                    <div class="panel-footer"> 
+                                        <a class="btn btn-sm btn-xs btn-<?php echo $buttonClass; ?> btn-block" 
+                                        href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_id=<?php echo $value->id; ?>&plans_id=<?php echo $plans_id; ?>&users_id=<?php echo $users_id; ?>" >Cancel</a></div>
                                 </div>
                             </div>    
                             <?php
