@@ -319,6 +319,19 @@ class StripeYPT extends PluginAbstract {
                 return $subscription;
             }
         }
+        
+        _error_log("StripeYPT::getSubscriptions We could not find the subscription trying to expand $stripe_costumer_id, $plans_id " . json_encode($costumer));
+        
+        $costumer = \Stripe\Customer::retrieve($stripe_costumer_id,
+            ['expand' => ['subscriptions']]);
+        foreach ($costumer->subscriptions->data as $value) {
+            $subscription = \Stripe\Subscription::retrieve($value->id);
+            if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
+                //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
+                return $subscription;
+            }
+        }        
+        
         _error_log("StripeYPT::getSubscriptions ERROR $stripe_costumer_id, $plans_id " . json_encode($costumer));
         return false;
     }
