@@ -8,7 +8,6 @@ $obj->error = true;
 $obj->msg = '';
 $obj->public = '';
 $obj->private = '';
-$obj->downloadButton = '';
 
 
 $pass = @$_REQUEST['keyPassword'];
@@ -22,7 +21,6 @@ if (!empty($keys['public']) && !empty($keys['private'])) {
     $obj->error = false;
     $obj->public = $keys['public'];
     $obj->private = $keys['private'];
-    $obj->downloadButton = '<a class="btn btn-default" href="data:text/plain;charset=UTF-8;base64,'. base64_encode($obj->public).'">text file</a>';
     
     
 }

@@ -21,27 +21,27 @@ require_once $global['systemRootPath'] . 'plugin/LoginControl/pgp/functions.php'
                 <div class="panel-heading tabbable-line">
                     <ul class="nav nav-tabs">
                         <li class="nav-item active">
-                            <a class="nav-link " href="#generateKeys" data-toggle="tab">
-                                <i class="fas fa-key"></i> <?php echo __('Generate Keys') ?>
+                            <a class="nav-link " href="#decryptMessage" data-toggle="tab">
+                                <i class="fas fa-unlock"></i> <?php echo __('Decrypt Message') ?>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link " href="#encryptMessage" data-toggle="tab">
-                                <i class="fas fa-key"></i> <?php echo __('Encrypt Message') ?>
+                                <i class="fas fa-lock"></i> <?php echo __('Encrypt Message') ?>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="#decryptMessage" data-toggle="tab">
-                                <i class="fas fa-key"></i> <?php echo __('Decrypt Message') ?>
+                        <li class="nav-item ">
+                            <a class="nav-link " href="#generateKeys" data-toggle="tab">
+                                <i class="fas fa-key"></i> <?php echo __('Generate Keys') ?>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div class="panel-body">
                     <div class="tab-content clearfix">
-                        <div class="tab-pane active" id="generateKeys">
+                        <div class="tab-pane active" id="decryptMessage">
                             <?php
-                            include $global['systemRootPath'] . 'plugin/LoginControl/pgp/generateKeys.php';
+                            include $global['systemRootPath'] . 'plugin/LoginControl/pgp/decryptMessage.php';
                             ?>
                         </div>
                         <div class="tab-pane" id="encryptMessage">
@@ -49,9 +49,9 @@ require_once $global['systemRootPath'] . 'plugin/LoginControl/pgp/functions.php'
                             include $global['systemRootPath'] . 'plugin/LoginControl/pgp/encryptMessage.php';
                             ?>
                         </div>
-                        <div class="tab-pane" id="decryptMessage">
+                        <div class="tab-pane " id="generateKeys">
                             <?php
-                            include $global['systemRootPath'] . 'plugin/LoginControl/pgp/decryptMessage.php';
+                            include $global['systemRootPath'] . 'plugin/LoginControl/pgp/generateKeys.php';
                             ?>
                         </div>
                     </div>

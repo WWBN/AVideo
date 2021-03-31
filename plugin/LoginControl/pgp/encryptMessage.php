@@ -4,7 +4,6 @@ $keys = createKeys('Test <test@example.com>', $pass);
 ?>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><i class="fas fa-key"></i> <?php echo __('Generate Keys') ?> </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-6">
@@ -12,16 +11,16 @@ $keys = createKeys('Test <test@example.com>', $pass);
                     <?php echo __('Public Key') ?>
                     <button class="btn btn-default pull-right btn-xs" onclick="$('#publicKeyToEncryptMsg').val($('#publicKey').val())"><i class="fas fa-copy"></i> <?php echo __('Copy from generated') ?></button>
                 </h3>
-                <textarea class="form-control" rows="10" id="publicKeyToEncryptMsg" placeholder="<?php echo $keys['public']; ?>"><?php echo LoginControl::getPGPKey(User::getId()); ?></textarea>
-                <h3><i class="fas fa-key"></i> <?php echo __('Text to Encrypt') ?></h3>
-                <textarea class="form-control" rows="10" id="textToEncrypt"></textarea>
+                <textarea class="form-control" rows="5" id="publicKeyToEncryptMsg" placeholder="<?php echo $keys['public']; ?>"><?php echo LoginControl::getPGPKey(User::getId()); ?></textarea>
+                <h3><i class="fas fa-envelope-open-text"></i> <?php echo __('Text to Encrypt') ?></h3>
+                <textarea class="form-control" rows="5" id="textToEncrypt"></textarea>
             </div>
             <div class="col-md-6">
                 <h3>
-                    <i class="fas fa-key"></i> <?php echo __('Encrypted Text') ?>
+                    <i class="fas fa-lock"></i> <?php echo __('Encrypted Text') ?>
                     <button class="btn btn-default pull-right btn-xs" onclick="copyToClipboard($('#textEncrypted').val());"><i class="fas fa-copy"></i> <?php echo __('Copy to clipboard') ?></button>
                 </h3>
-                <textarea class="form-control" rows="21" id="textEncrypted"></textarea>
+                <textarea class="form-control" rows="12" id="textEncrypted"></textarea>
             </div>
         </div>
     </div>
@@ -47,7 +46,7 @@ $keys = createKeys('Test <test@example.com>', $pass);
                 if (response.error) {
                     avideoAlertError(response.msg);
                 } else {
-                    $('#textEncrypted').text(response.textEncrypted);
+                    $('#textEncrypted, #textToDecrypt').val(response.textEncrypted);
                 }
                 modal.hidePleaseWait();
             }

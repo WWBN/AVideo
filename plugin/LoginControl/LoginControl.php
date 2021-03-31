@@ -72,15 +72,15 @@ Best regards,
          */
 
         $obj->enablePGP2FA = false;
-        self::addDataObjectHelper('enablePGP2FA', 'Enable PGP 2FA', '2-Factor-Authentication with a Pretty Good Privacy (PGP) challenge');
+        self::addDataObjectHelper('enablePGP2FA', 'Enable PGP 2FA, please <a target=\'_blank\' href=\'https://github.com/WWBN/AVideo/wiki/PGP-2FA-Login\'>read this</a>', '2-Factor-Authentication with a Pretty Good Privacy (PGP) challenge');
 
         return $obj;
     }
 
     public function getPluginMenu() {
         global $global;
-        $menu = '<a href="plugin/LoginControl/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</a>';
-        $menu .= '<a href="plugin/LoginControl/pgp/keys.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-key"></i> PGP</a>';
+        $menu = '<button onclick="avideoModalIframe(webSiteRootURL+\'plugin/LoginControl/View/editor.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
+        $menu .= '<button onclick="avideoModalIframe(webSiteRootURL+\'plugin/LoginControl/pgp/keys.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-key"></i> PGP Tools</button>';
         return $menu;
     }
 

@@ -4,7 +4,6 @@ $keys = createKeys('Test <test@example.com>', $pass);
 ?>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><i class="fas fa-key"></i> <?php echo __('Generate Keys') ?> </div>
     <div class="panel-body">
         <div class="row">
             <div class="col-md-6">
@@ -12,21 +11,21 @@ $keys = createKeys('Test <test@example.com>', $pass);
                     <i class="fas fa-key"></i> <?php echo __('Private Key') ?>
                     <button class="btn btn-default pull-right btn-xs" onclick="$('#privateKeyToDecryptMsg').val($('#privateKey').val())"><i class="fas fa-copy"></i> <?php echo __('Copy from generated') ?></button>
                 </h3>
-                <textarea class="form-control" rows="10" id="privateKeyToDecryptMsg" placeholder="<?php echo $keys['public']; ?>"></textarea>
+                <textarea class="form-control" rows="5" id="privateKeyToDecryptMsg" placeholder="<?php echo $keys['public']; ?>"></textarea>
                 <h3>
-                    <i class="fas fa-key"></i> <?php echo __('Text to Decrypt') ?>
+                    <i class="fas fa-lock"></i> <?php echo __('Text to Decrypt') ?>
                     <button class="btn btn-default pull-right btn-xs" onclick="$('#textToDecrypt').val($('#textEncrypted').val())"><i class="fas fa-copy"></i> <?php echo __('Copy from encripted message') ?></button>
                 </h3>
-                <textarea class="form-control" rows="10" id="textToDecrypt"></textarea>
-                <h3><i class="fas fa-key"></i> <?php echo __('Key Password'); ?></h3>
-                <input type="password" class="form-control" id="keyPasswordToDecrypt" placeholder="<?php echo __('Key Password'); ?>"/>
+                <textarea class="form-control" rows="5" id="textToDecrypt"></textarea>
             </div>
             <div class="col-md-6">
+                <h3><i class="fas fa-key"></i> <?php echo __('Key Password'); ?></h3>
+                <input type="password" class="form-control" id="keyPasswordToDecrypt" placeholder="<?php echo __('Key Password'); ?>"/>
                 <h3>
-                    <i class="fas fa-key"></i> <?php echo __('Decrypted Text') ?>
+                    <i class="fas fa-envelope-open-text"></i> <?php echo __('Decrypted Text') ?>
                     <button class="btn btn-default pull-right btn-xs" onclick="copyToClipboard($('#textDecrypted').text());"><i class="fas fa-copy"></i> <?php echo __('Copy to clipboard') ?></button>
                 </h3>
-                <textarea class="form-control" rows="21" id="textDecrypted"></textarea>
+                <textarea class="form-control" rows="5" id="textDecrypted" style="font-size: 1.5em;" readonly="readonly"></textarea>
             </div>
         </div>
     </div>

@@ -39,7 +39,9 @@ if($obj->enablePGP2FA){
     <div class="panel panel-default">
         <div class="panel-heading">
             <?php echo __("PGP Public Key"); ?>
-            <button class="btn btn-default btn-xs pull-right" onclick="avideoModalIframe(webSiteRootURL + 'plugin/LoginControl/pgp/keys.php')"><i class="fas fa-key"></i> <?php echo __('Generate Keys'); ?>/<?php echo __('Tools'); ?></button>
+            <button class="btn btn-default btn-xs pull-right" onclick="avideoModalIframe(webSiteRootURL + 'plugin/LoginControl/pgp/keys.php')">
+                <i class="fas fa-key"></i> <?php echo __('Generate Keys'); ?>/<?php echo __('Tools'); ?>
+            </button>
         </div>
         <div class="panel-body">
             <div class="alert alert-info">
