@@ -505,25 +505,25 @@ Best regards,
             return false;
         }
         _session_start();
-        if (empty($_SESSION['login']['challenge']['text'])) {
-            $_SESSION['login']['challenge']['text'] = uniqid();
-            $_SESSION['login']['challenge']['isComplete'] = false;
+        if (empty($_SESSION['user']['challenge']['text'])) {
+            $_SESSION['user']['challenge']['text'] = uniqid();
+            $_SESSION['user']['challenge']['isComplete'] = false;
         }
-        $encMessage = self::encryptPGPMessage(User::getId(), $_SESSION['login']['challenge']['text']);
+        $encMessage = self::encryptPGPMessage(User::getId(), $_SESSION['user']['challenge']['text']);
         return $encMessage["encryptedMessage"];
     }
 
     static function verifyChallenge($response) {
-        if ($response == $_SESSION['login']['challenge']['text']) {
+        if ($response == $_SESSION['user']['challenge']['text']) {
             _session_start();
-            $_SESSION['login']['challenge']['isComplete'] = true;
+            $_SESSION['user']['challenge']['isComplete'] = true;
             return true;
         }
         return false;
     }
 
     static function isChallengeComplete() {
-        return !empty($_SESSION['login']['challenge']['isComplete']);
+        return !empty($_SESSION['user']['challenge']['isComplete']);
     }
 
     static function userHasPGPActive($users_id) {
