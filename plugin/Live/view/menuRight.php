@@ -186,6 +186,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         $(selector).find('.thumbsImage img').each(function (index) {
             $(this).attr('src', $(this).attr('src') + ('&' + Math.random()));
         });
+        setTimeout(function(){$(selector).slideDown();},1000); // give some time to load the new images
     }
 
     function processLiveStats(response) {
