@@ -556,6 +556,7 @@ Best regards,
             $pattersToWhitelist[] = '/.json/i';
             $pattersToWhitelist[] = '/WebSocket/i';
             $pattersToWhitelist[] = '/LoginControl\/pgp/i';
+            $pattersToWhitelist[] = '/plugin\/API/';
             
             foreach ($pattersToWhitelist as $value) {
                 if(preg_match($value, $_SERVER["REQUEST_URI"])){
