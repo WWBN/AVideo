@@ -13,6 +13,7 @@ if (!empty($_GET['evideo'])) {
     $v = Video::decodeEvideo();
     $evideo = $v['evideo'];
 }
+$playlist_index = 0;
 if (!empty($evideo)) {
     $video = $v['video'];
     $img = $evideo->thumbnails;
@@ -68,8 +69,6 @@ if (!empty($evideo)) {
 
         if (!empty($_GET['playlist_index'])) {
             $playlist_index = $_GET['playlist_index'];
-        } else {
-            $playlist_index = 0;
         }
 
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist_id);
