@@ -1943,5 +1943,48 @@ class Live extends PluginAbstract {
         _error_log("NGINX Live::on_publish_socket_notification SocketMessageToAll END");
         return $socketObj;
     }
+    
+    static public function getImageType($content){
+        global $global;
+        if(empty($content)){
+            return LiveImageType::$UNKNOWN;
+        }
+        $contentLen = strlen($content);
+        if($contentLen<255){
+            // check if it is a file
+            if(file_exists($content)){
+                $contentLen = strlen(file_get_contents($content));
+            }
+        }
+        if($contentLen === 2095341){
+            return LiveImageType::$DEFAULTGIF;
+        }
+        $filesize = file_get_contents($global['systemRootPath'].self::getOnAirImage(false));
+        if($contentLen === $filesize){
+            return LiveImageType::$ONAIR;
+        }
+        $filesize = file_get_contents($global['systemRootPath'].self::getOfflineImage(false));
+        if($contentLen === $filesize){
+            return LiveImageType::$OFFLINE;
+        }
+        return LiveImageType::$LIVE;
+    }
+    
+    static function isLiveImage($content){
+        return self::getImageType($content) === LiveImageType::$LIVE;
+    }
+    
+    static function isDefaultImage($content){
+        $type = self::getImageType($content);
+        return $type === LiveImageType::$ONAIR || $type === LiveImageType::$OFFLINE || $type === LiveImageType::$DEFAULTGIF;
+    }
 
+}
+
+class LiveImageType{
+    static $UNKNOWN = 'unknown';
+    static $OFFLINE = 'offline';
+    static $ONAIR = 'onair';
+    static $DEFAULTGIF = 'defaultgif';
+    static $LIVE = 'live';
 }

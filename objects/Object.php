@@ -326,7 +326,13 @@ abstract class ObjectYPT implements ObjectInterface {
     public static function setCache($name, $value) {
         $cachefile = self::getCacheFileName($name);
         make_path($cachefile);
-        $bytes = @file_put_contents($cachefile, json_encode($value));
+        
+        $content = json_encode($value);
+        if(empty($content)){
+            $content = $value;
+        }
+        
+        $bytes = @file_put_contents($cachefile, $content);
         self::setSessionCache($name, $value);
         return array('bytes' => $bytes, 'cachefile' => $cachefile);
     }
@@ -399,6 +405,11 @@ abstract class ObjectYPT implements ObjectInterface {
             //if(preg_match('/getStats/', $cachefile)){echo $cachefile,'<br>';}
             $c = @url_get_contents($cachefile);
             $json = json_decode($c);
+            
+            if(empty($json)){
+                $json = $c;
+            }
+            
             self::setSessionCache($name, $json);
             $_getCache[$name] = $json;
             return $json;

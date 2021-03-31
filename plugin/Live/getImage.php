@@ -3,7 +3,7 @@
 require_once '../../videos/configuration.php';
 session_write_close();
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
-
+$_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
 if (!empty($_GET['c'])) {
     $user = User::getChannelOwner($_GET['c']);
     if (!empty($user)) {
@@ -53,7 +53,6 @@ if (empty($_GET['format'])) {
 }
 
 if (Live::isLiveThumbsDisabled()) {
-    $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
     $uploadedPoster = $filename;
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
     if (file_exists($uploadedPoster)) {
@@ -63,15 +62,28 @@ if (Live::isLiveThumbsDisabled()) {
     }
 }
 
-$name = "getLiveImage_{$livet['key']}_{$_GET['format']}";
+$uuid = $livet['key'];
+
+if(!empty($_REQUEST['live_index']) && $_REQUEST['live_index']!=='false'){
+    $uuid = "{$uuid}-{$_REQUEST['live_index']}";
+}
+
+$name = "getLiveImage_{$uuid}_{$_GET['format']}";
 $result = ObjectYPT::getCache($name, 600, true);
-if (!empty($result)) {
+
+$socketMessage = array();
+$socketMessage['cacheName1'] = $name;
+$socketMessage['iscache'] = !empty($result);
+$socketMessage['src'] = getSelfURI();
+//$socketMessage['src'] = addQueryStringParameter(getSelfURI(), 'cache', time());
+$socketMessage['live'] = $livet;
+$socketMessage['live_servers_id'] = $_REQUEST['live_servers_id'];
+
+if (!empty($result) && !Live::isDefaultImage($result)) {
     echo $result;
 } else {
-    $uuid = $livet['key'];
-    if(!empty($_REQUEST['live_index']) && $_REQUEST['live_index']!=='false'){
-        $uuid = "{$uuid}-{$_REQUEST['live_index']}";
-    }
+    $socketMessage['key'] = $uuid;
+    $socketMessage['autoEvalCodeOnHTML'] = "refreshGetLiveImage('.live_{$socketMessage['live_servers_id']}_{$socketMessage['key']}');";  
     
     //$uuid = LiveTransmition::keyNameFix($livet['key']);
     $p = AVideoPlugin::loadPlugin("Live");
@@ -95,12 +107,15 @@ if (!empty($result)) {
     ob_end_clean();
 
     if (!empty($content)) {
-        if (strlen($content) === 70808) {
+        if (Live::isDefaultImage($content)) {
             //_error_log("Live:getImage  It is the default image, try to show the poster ");
             echo file_get_contents($filename);
         } else {
-            ObjectYPT::setCache($name, $content);
-            echo $content;
+            $socketMessage['cacheName2'] = $name;
+            $socketMessage['cacheName3'] = ObjectYPT::setCache($name, $content);
+            $socketMessage['cacheName4'] = strlen($content);
+            echo $content;          
+            $socketObj = sendSocketMessageToAll($socketMessage, 'socketLiveImageUpdateCallback');
         }
     } else {
         echo file_get_contents($filename);
