@@ -127,6 +127,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         if (typeof key !== 'string') {
             return false;
         }
+        $('#liveVideos').slideDown();
         limitLiveOnVideosListCount++;
         if (limitLiveOnVideosListCount ><?php echo intval($obj->limitLiveOnVideosList); ?>) {
             console.log("Max live videos on first page reached");
@@ -176,7 +177,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             $liveLi = afterExtraVideos($liveLi);
             $('.extraVideos').append($liveLi);
             $liveLi.slideDown();
-            setTimeout(function(){refreshGetLiveImage("#" + id)}, 5000);
+            setTimeout(function () {
+                refreshGetLiveImage("#" + id)
+            }, 5000);
         } else if ($("#" + id).length) {
             refreshGetLiveImage("#" + id);
         }
@@ -186,7 +189,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         $(selector).find('.thumbsImage img').each(function (index) {
             $(this).attr('src', $(this).attr('src') + ('&' + Math.random()));
         });
-        setTimeout(function(){$(selector).slideDown();},1000); // give some time to load the new images
+        setTimeout(function () {
+            $(selector).slideDown();
+        }, 1000); // give some time to load the new images
     }
 
     function processLiveStats(response) {
@@ -336,8 +341,8 @@ if (isVideo()) {
 }
 ?>
 
-                }else{
-                    $('#'+id).slideDown();
+                } else {
+                    $('#' + id).slideDown();
                 }
             }
             $('#liveVideos').slideDown();
@@ -405,6 +410,22 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             //console.log('socketLiveOFFCallback 3', selector);
             onlineLabelOffline(selector);
         }
+        setTimeout(function(){hideExtraVideosIfEmpty();},500);
+    }
+
+    function hideExtraVideosIfEmpty() {
+        $('.extraVideos').each(function (index, currentElement) {
+            var somethingIsVisible = false;
+            $(this).children('div').each(function (index2, currentElement2) {
+                if($(this).is(":visible")){
+                    somethingIsVisible = true;
+                    return false;
+                }
+            });
+            if(!somethingIsVisible){
+                $('#liveVideos').slideUp();
+            }
+        });
     }
 
     $(document).ready(function () {

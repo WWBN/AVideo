@@ -406,7 +406,7 @@ abstract class ObjectYPT implements ObjectInterface {
             $c = @url_get_contents($cachefile);
             $json = json_decode($c);
             
-            if(empty($json)){
+            if(empty($json) && !is_object($json) && !is_array($json)){
                 $json = $c;
             }
             

@@ -1316,9 +1316,10 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         TimeLogEnd($timeName, __LINE__);
         ObjectYPT::setCache($cacheName, $files);
     }
-
-    // sort by resolution
-    uasort($files, "sortVideosURL");
+    if(is_array($files)){
+        // sort by resolution
+        uasort($files, "sortVideosURL");
+    }
 
     $getVideosURL_V2Array[$cleanfilename] = $files;
     return $getVideosURL_V2Array[$cleanfilename];
