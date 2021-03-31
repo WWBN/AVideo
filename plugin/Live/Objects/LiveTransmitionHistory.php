@@ -372,6 +372,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         } else {
             $row = false;
         }
+        if(empty($row)){
+            _error_log('LiveTransmitionHistory::getActiveLiveFromUser: '.$sql);
+        }
         return $row;
     }
 
