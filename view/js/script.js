@@ -1559,3 +1559,20 @@ function changeVideoStatus(videos_id, status) {
         }
     });
 }
+
+function avideoAjax(url, data){
+    modal.showPleaseWait();
+    $.ajax({
+        url: url,
+        data: data,
+        type: 'post',
+        success: function (response) {
+            modal.hidePleaseWait();
+            if (response.error) {
+                avideoAlertError(response.msg);
+            } else {
+                avideoToastSuccess(response.msg);
+            }
+        }
+    });
+}

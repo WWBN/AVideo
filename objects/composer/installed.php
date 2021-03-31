@@ -1,16 +1,25 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'a9377ccb8df8dea7f0e764166faa4314cfb56bb3',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
   array (
+    'cboden/ratchet' => 
+    array (
+      'pretty_version' => 'v0.4.3',
+      'version' => '0.4.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '466a0ecc83209c75b76645eb823401b5c52e5f21',
+    ),
     'chrisjean/php-ico' => 
     array (
       'pretty_version' => '1.0.4',
@@ -19,6 +28,15 @@
       array (
       ),
       'reference' => 'ccd5c0d56554f3ddcd7a823e695be83e0d1e43b6',
+    ),
+    'evenement/evenement' => 
+    array (
+      'pretty_version' => 'v2.1.0',
+      'version' => '2.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '6ba9a777870ab49f417e703229d53931ed40fd7a',
     ),
     'ezyang/htmlpurifier' => 
     array (
@@ -196,6 +214,105 @@
       ),
       'reference' => '120b605dfeb996808c31b6477290a714d356e822',
     ),
+    'ratchet/pawl' => 
+    array (
+      'pretty_version' => 'v0.3.5',
+      'version' => '0.3.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '89ec703c76dc893484a2a0ed44b48a37d445abd5',
+    ),
+    'ratchet/rfc6455' => 
+    array (
+      'pretty_version' => 'v0.3',
+      'version' => '0.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c8651c7938651c2d55f5d8c2422ac5e57a183341',
+    ),
+    'react/cache' => 
+    array (
+      'pretty_version' => 'v1.1.0',
+      'version' => '1.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '44a568925556b0bd8cacc7b49fb0f1cf0d706a0c',
+    ),
+    'react/dns' => 
+    array (
+      'pretty_version' => 'v1.4.0',
+      'version' => '1.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '665260757171e2ab17485b44e7ffffa7acb6ca1f',
+    ),
+    'react/event-loop' => 
+    array (
+      'pretty_version' => 'v1.1.1',
+      'version' => '1.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '6d24de090cd59cfc830263cfba965be77b563c13',
+    ),
+    'react/promise' => 
+    array (
+      'pretty_version' => 'v2.8.0',
+      'version' => '2.8.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f3cff96a19736714524ca0dd1d4130de73dbbbc4',
+    ),
+    'react/promise-timer' => 
+    array (
+      'pretty_version' => 'v1.6.0',
+      'version' => '1.6.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'daee9baf6ef30c43ea4c86399f828bb5f558f6e6',
+    ),
+    'react/socket' => 
+    array (
+      'pretty_version' => 'v1.6.0',
+      'version' => '1.6.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e2b96b23a13ca9b41ab343268dbce3f8ef4d524a',
+    ),
+    'react/stream' => 
+    array (
+      'pretty_version' => 'v1.1.1',
+      'version' => '1.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7c02b510ee3f582c810aeccd3a197b9c2f52ff1a',
+    ),
+    'singpolyma/openpgp-php' => 
+    array (
+      'pretty_version' => '0.4.0',
+      'version' => '0.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '67aba786991e3cb3e555025b6d357779ab32a0ab',
+    ),
+    'symfony/http-foundation' => 
+    array (
+      'pretty_version' => 'v3.4.47',
+      'version' => '3.4.47.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b9885fcce6fe494201da4f70a9309770e9d13dc8',
+    ),
     'symfony/polyfill-intl-idn' => 
     array (
       'pretty_version' => 'v1.19.0',
@@ -213,6 +330,15 @@
       array (
       ),
       'reference' => '8db0ae7936b42feb370840cf24de1a144fb0ef27',
+    ),
+    'symfony/polyfill-mbstring' => 
+    array (
+      'pretty_version' => 'v1.19.0',
+      'version' => '1.19.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'b5f7b932ee6fa802fc792eabd77c4c88084517ce',
     ),
     'symfony/polyfill-php70' => 
     array (
@@ -232,14 +358,23 @@
       ),
       'reference' => 'beecef6b463b06954638f02378f52496cb84bacc',
     ),
-    'wwbn/avideo' => 
+    'symfony/routing' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'v3.4.47',
+      'version' => '3.4.47.0',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '3e522ac69cadffd8131cc2b22157fa7662331a6c',
+    ),
+    'wwbn/avideo' => 
+    array (
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a9377ccb8df8dea7f0e764166faa4314cfb56bb3',
     ),
   ),
 );

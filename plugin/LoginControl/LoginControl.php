@@ -4,6 +4,7 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/logincontrol_history.php';
+require_once $global['systemRootPath'] . 'plugin/LoginControl/pgp/functions.php';
 
 class LoginControl extends PluginAbstract {
 
@@ -36,7 +37,7 @@ class LoginControl extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "3.0";
     }
 
     public function getEmptyDataObject() {
@@ -69,12 +70,18 @@ Best regards,
           $obj->selectBoxSample = $o;
 
          */
+
+        $obj->enablePGP2FA = false;
+        self::addDataObjectHelper('enablePGP2FA', 'Enable PGP 2FA', '2-Factor-Authentication with a Pretty Good Privacy (PGP) challenge');
+
         return $obj;
     }
 
     public function getPluginMenu() {
         global $global;
-        return '<a href="plugin/LoginControl/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</a>';
+        $menu = '<a href="plugin/LoginControl/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</a>';
+        $menu .= '<a href="plugin/LoginControl/pgp/keys.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-key"></i> PGP</a>';
+        return $menu;
     }
 
     public function onUserSignIn($users_id) {
@@ -281,6 +288,7 @@ Best regards,
     }
 
     public function getStart() {
+        global $global;
         if (isAVideoEncoder()) {
             _error_log("Login_control::getStart Login from encoder, do not do anything");
             return false;
@@ -326,6 +334,11 @@ Best regards,
                      */
                 }
             }
+        }
+        if (self::challengeThisPage()) {
+            include_once $global['systemRootPath'].'plugin/LoginControl/pgp/challenge.php';exit;
+            header("Loation: {$global['webSiteRootURL']}plugin/LoginControl/pgp/challenge.php?redirectUri=" . urlencode(getRedirectUri()));
+            exit;
         }
     }
 
@@ -449,7 +462,7 @@ Best regards,
             }';
         }
     }
-    
+
     public function updateScript() {
         global $global;
         //update version 2.0
@@ -463,5 +476,110 @@ Best regards,
         return true;
     }
 
+    static function setPGPKey($users_id, $key) {
+        if (empty($users_id)) {
+            return false;
+        }
+        $user = new User($users_id);
+        return $user->addExternalOptions('PGPKey', $key);
+    }
+
+    static function getPGPKey($users_id) {
+        if (empty($users_id)) {
+            return false;
+        }
+        $user = new User($users_id);
+        return $user->getExternalOption('PGPKey');
+    }
+
+    static function encryptPGPMessage($users_id, $message) {
+        if (empty($users_id)) {
+            return false;
+        }
+        $key = self::getPGPKey($users_id);
+        return encryptMessage($message, $key);
+    }
+
+    static function getChallenge() {
+        if (!User::isLogged()) {
+            return false;
+        }
+        _session_start();
+        if (empty($_SESSION['login']['challenge']['text'])) {
+            $_SESSION['login']['challenge']['text'] = uniqid();
+            $_SESSION['login']['challenge']['isComplete'] = false;
+        }
+        $encMessage = self::encryptPGPMessage(User::getId(), $_SESSION['login']['challenge']['text']);
+        return $encMessage["encryptedMessage"];
+    }
+
+    static function verifyChallenge($response) {
+        if ($response == $_SESSION['login']['challenge']['text']) {
+            _session_start();
+            $_SESSION['login']['challenge']['isComplete'] = true;
+            return true;
+        }
+        return false;
+    }
+
+    static function isChallengeComplete() {
+        return !empty($_SESSION['login']['challenge']['isComplete']);
+    }
+
+    static function userHasPGPActive($users_id) {
+        $obj = AVideoPlugin::getObjectData("LoginControl");
+        if (!$obj->enablePGP2FA) {
+            return false;
+        }
+
+        $key = self::getPGPKey($users_id);
+        return !empty($key);
+    }
+
+    static function userNeedsToChallengePGP() {
+        if (User::isLogged()) {
+            if (self::userHasPGPActive(User::getId())) {
+                if (!self::isChallengeComplete()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    static function challengeThisPage() {
+        if(self::userNeedsToChallengePGP()){
+            if(isVideo()){
+                return true;
+            }
+            $pattersToWhitelist = array();
+            $pattersToWhitelist[] = '/.json/i';
+            $pattersToWhitelist[] = '/WebSocket/i';
+            $pattersToWhitelist[] = '/LoginControl\/pgp/i';
+            
+            foreach ($pattersToWhitelist as $value) {
+                if(preg_match($value, $_SERVER["REQUEST_URI"])){
+                    return false;
+                }
+            }
+            
+            //var_dump($_SERVER["REQUEST_URI"]);
+            return true;
+        }
+        return false;
+    }
+    
+    public function getUsersManagerListButton() {
+        global $global;
+        $p = AVideoPlugin::loadPlugin("LoginControl");
+        $obj = $p->getDataObject();
+        if (empty($obj->enablePGP2FA)) {
+            return "";
+        }
+        if (User::isAdmin()) {
+            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoAjax(webSiteRootURL+\\\'plugin/LoginControl/pgp/deletePublicKey.json.php?users_id=\'+ row.id + \'\\\', {});" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('This will disable the PGP 2FA') . '"><i class="fas fa-trash"></i> ' . __('Remove PGP Key') . '</button>';
+        }
+        return $btn;
+    }
 
 }
