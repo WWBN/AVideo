@@ -1470,7 +1470,10 @@ class Live extends PluginAbstract {
                 _error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats");
                 $_isLiveAndIsReadyFromKey[$name] = false;
             } else {
+                $ls = $_REQUEST['live_servers_id'];
+                $_REQUEST['live_servers_id'] = $live_servers_id;
                 $m3u8 = self::getM3U8File($key);
+                $_REQUEST['live_servers_id'] = $ls;
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
                 $is200 = isURL200($m3u8, $force_recreate);
                 if (empty($is200)) {
