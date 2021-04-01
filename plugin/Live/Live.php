@@ -1959,6 +1959,9 @@ class Live extends PluginAbstract {
         if($contentLen === 2095341){
             return LiveImageType::$DEFAULTGIF;
         }
+        if($contentLen === 70808){
+            return LiveImageType::$ONAIRENCODER;
+        }
         $filesize = file_get_contents($global['systemRootPath'].self::getOnAirImage(false));
         if($contentLen === $filesize){
             return LiveImageType::$ONAIR;
@@ -1976,7 +1979,7 @@ class Live extends PluginAbstract {
     
     static function isDefaultImage($content){
         $type = self::getImageType($content);
-        return $type === LiveImageType::$ONAIR || $type === LiveImageType::$OFFLINE || $type === LiveImageType::$DEFAULTGIF;
+        return $type === LiveImageType::$ONAIRENCODER || $type === LiveImageType::$ONAIR || $type === LiveImageType::$OFFLINE || $type === LiveImageType::$DEFAULTGIF;
     }
 
 }
@@ -1985,6 +1988,7 @@ class LiveImageType{
     static $UNKNOWN = 'unknown';
     static $OFFLINE = 'offline';
     static $ONAIR = 'onair';
+    static $ONAIRENCODER = 'onair_encoder';
     static $DEFAULTGIF = 'defaultgif';
     static $LIVE = 'live';
 }
