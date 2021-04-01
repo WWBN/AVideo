@@ -17,13 +17,13 @@
                     <button class="btn btn-default pull-right btn-xs" onclick="copyToClipboard($('#publicKey').val());"><i class="fas fa-copy"></i> <?php echo __('Copy to clipboard') ?></button>
                     <button class="btn btn-default pull-right btn-xs" onclick="download('public.pgp.key.txt', $('#publicKey').val());"><i class="fas fa-download"></i> <?php echo __('Download') ?></button>
                 </h3>
-                <textarea class="form-control" rows="5" id="publicKey"></textarea>
+                <textarea class="form-control monospacedKey" rows="5" id="publicKey"></textarea>
                 <h3>
                     <i class="fas fa-key"></i> <?php echo __('Private Key') ?>
                     <button class="btn btn-default pull-right btn-xs" onclick="copyToClipboard($('#privateKey').val());"><i class="fas fa-copy"></i> <?php echo __('Copy to clipboard') ?></button>
                     <button class="btn btn-default pull-right btn-xs" onclick="download('private.pgp.key.txt', $('#privateKey').val());"><i class="fas fa-download"></i> <?php echo __('Download') ?></button>
                 </h3>
-                <textarea class="form-control" rows="5" id="privateKey"></textarea>
+                <textarea class="form-control monospacedKey" rows="5" id="privateKey"></textarea>
             </div>
             <div class="col-md-12" id="keyDownloadButton">
 

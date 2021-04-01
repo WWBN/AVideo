@@ -10,6 +10,12 @@ require_once $global['systemRootPath'] . 'plugin/LoginControl/pgp/functions.php'
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <style>
+            .monospacedKey{
+                font-family: 'Courier New', monospace;
+                font-size: 0.8em;
+            }
+        </style>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php

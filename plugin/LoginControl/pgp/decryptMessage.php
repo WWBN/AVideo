@@ -11,12 +11,12 @@ $keys = createKeys('Test <test@example.com>', $pass);
                     <i class="fas fa-key"></i> <?php echo __('Private Key') ?>
                     <button class="btn btn-default pull-right btn-xs" onclick="$('#privateKeyToDecryptMsg').val($('#privateKey').val())"><i class="fas fa-copy"></i> <?php echo __('Copy from generated') ?></button>
                 </h3>
-                <textarea class="form-control" rows="5" id="privateKeyToDecryptMsg" placeholder="<?php echo $keys['public']; ?>"></textarea>
+                <textarea class="form-control monospacedKey" rows="5" id="privateKeyToDecryptMsg" placeholder="<?php echo $keys['public']; ?>"></textarea>
                 <h3>
                     <i class="fas fa-lock"></i> <?php echo __('Text to Decrypt') ?>
                     <button class="btn btn-default pull-right btn-xs" onclick="$('#textToDecrypt').val($('#textEncrypted').val())"><i class="fas fa-copy"></i> <?php echo __('Copy from encripted message') ?></button>
                 </h3>
-                <textarea class="form-control" rows="5" id="textToDecrypt"></textarea>
+                <textarea class="form-control monospacedKey" rows="5" id="textToDecrypt"><?php echo LoginControl::getChallenge(); ?></textarea>
             </div>
             <div class="col-md-6">
                 <h3><i class="fas fa-key"></i> <?php echo __('Key Password'); ?></h3>
