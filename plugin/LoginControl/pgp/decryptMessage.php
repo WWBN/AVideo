@@ -52,7 +52,7 @@ $keys = createKeys('Test <test@example.com>', $pass);
                 if (response.error) {
                     avideoAlertError(response.msg);
                 } else {
-                    $('#textDecrypted').text(response.textDecrypted);
+                    $('#textDecrypted').val(response.textDecrypted);
                 }
                 modal.hidePleaseWait();
             }
