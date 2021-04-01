@@ -3,9 +3,8 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+User::loginFromRequest();
 session_write_close();
-require_once $global['systemRootPath'] . 'objects/video.php';
-require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
 $showOnlyLoggedUserVideos = true;
 if (Permissions::canModerateVideos()) {
