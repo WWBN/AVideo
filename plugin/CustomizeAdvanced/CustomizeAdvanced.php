@@ -192,6 +192,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->footerStyle = "position: fixed;bottom: 0;width: 100%;";
         $obj->disableVideoTags = false;
         $obj->doNotAllowEncoderOverwriteStatus = false;
+        $obj->doNotAllowUpdateVideoId = false;
         
         
         $o = new stdClass();
