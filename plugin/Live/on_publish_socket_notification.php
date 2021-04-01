@@ -30,7 +30,7 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
     _error_log("NGINX Live::on_publish_socket_notification ($m3u8)");
     $isLive = false;
-    
+    $_REQUEST['live_servers_id'] = $lth->getLive_servers_id();
     $max_execution_time = 60;
     ini_set('max_execution_time', $max_execution_time);
     for ($itt = ($max_execution_time/5)-1; $itt > 0; $itt--) {
