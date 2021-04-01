@@ -10,12 +10,11 @@ require_once '../locale/function.php';
 <html lang="en">
     <head>
         <title>Install AVideo</title>
+        <script src="../view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
         <link rel="icon" href="../view/img/favicon.png">
         <link href="../view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
         <link href="../view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
-        <link href="../view/js/seetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
-        <script src="../view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
         <link href="../view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
         <link href="../view/css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
         <style>
@@ -26,7 +25,7 @@ require_once '../locale/function.php';
         </style>
     </head>
 
-    <body class="<?php echo $global['bodyClass']; ?>">
+    <body>
         <?php
         if (file_exists('../videos/configuration.php')) {
             require_once '../videos/configuration.php';
@@ -111,7 +110,7 @@ require_once '../locale/function.php';
                                             <br>
                                             Then you can set the permissions (www-data means apache user).
                                             <br>
-                                            <pre><code>chown www-data:www-data <?php echo $dir; ?> && chmod 755 <?php echo $dir; ?> </code></pre>
+                                            <pre><code>sudo chown www-data:www-data <?php echo $dir; ?> && sudo chmod 755 <?php echo $dir; ?> </code></pre>
                                         </details>
                                     </div>
                                     <?php
@@ -195,10 +194,24 @@ require_once '../locale/function.php';
                                             <label for="mainLanguage">Language</label><br>
                                             <select class="selectpicker" id="mainLanguage">
                                                 <?php
-                                                foreach (glob("../locale/??.php") as $filename) {
-                                                    $filename = basename($filename);
-                                                    $fileEx = basename($filename, ".php");
-                                                    echo "<option data-content='<span class=\"flagstrap-icon flagstrap-$fileEx\"></span> $fileEx' value=\"$fileEx\" " . (('us' == $fileEx) ? " selected" : "") . ">$fileEx</option>";
+                                                global $global;
+                                                include_once '../objects/bcp47.php'; 
+                                                $dir = "../locale/";
+                                                $flags = array();
+                                                if ($handle = opendir($dir)) {
+                                                    while (false !== ($entry = readdir($handle))) {
+                                                        if ($entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'function.php' && $entry != 'save.php') {
+                                                            $flags[] = str_replace('.php', '', $entry);
+                                                        }
+                                                    }
+                                                    closedir($handle);
+                                                }
+                                                sort($flags);
+
+                                                foreach ($flags as $flag) {
+                                                    //var_dump($global['bcp47'][$flag]);
+                                                    $fileEx = $global['bcp47'][$flag]['flag'];
+                                                    echo "<option data-content='<span class=\"flagstrap-icon flagstrap-$fileEx\"></span> {$global['bcp47'][$flag]['label']}' value=\"$fileEx\" " . (('us' == $fileEx) ? " selected" : "") . ">{$global['bcp47'][$flag]['label']}</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -243,7 +256,7 @@ require_once '../locale/function.php';
                                     <div class="form-group">
                                         <label for="databasePass">Database Password</label>
                                         <?php
-                                        getInputPassword("databasePass", 'class="form-control" required="required"', __("Enter Database Password"));
+                                        getInputPassword("databasePass", 'class="form-control"', __("Enter Database Password"));
                                         ?>
                                     </div>
                                     <div class="form-group">

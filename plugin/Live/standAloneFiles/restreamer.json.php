@@ -137,24 +137,6 @@ function clearCommandURL($url) {
     return preg_replace('/[^0-9a-z:.\/_&?=-]/i', "", $url);
 }
 
-function isURL200($url) {
-    error_log("Restreamer.json.php checking URL {$url}");
-    //open connection
-    $ch = curl_init();
-
-    //set the url, number of POST vars, POST data
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-    curl_setopt($ch, CURLOPT_HEADER, true);    // we want headers
-    $output = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    error_log("Restreamer.json.php URL {$url} return code {$httpcode}");
-    return $httpcode == 200;
-}
-
 function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     global $ffmpegBinary;
     if (empty($restreamsDestinations)) {
@@ -164,13 +146,15 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     $m3u8 = clearCommandURL($m3u8);
 
     killIfIsRunning($m3u8);
-    
-    if (!isURL200($m3u8)) {
-        if ($tries > 10) {
+    if($tries === 1){
+        sleep(3);
+    }
+    if (!isURL200($m3u8, true)) {
+        if ($tries > 20) {
             error_log("Restreamer.json.php tried too many times, we could not find your stream URL");
             return false;
         }
-        error_log("Restreamer.json.php URL is not ready. trying again ({$tries})");
+        error_log("Restreamer.json.php URL ($m3u8) is NOT ready. trying again ({$tries})");
         sleep($tries);
         return startRestream($m3u8, $restreamsDestinations, $logFile, $tries + 1);
     }
@@ -202,8 +186,9 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     if(empty($command) || !preg_match("/-f flv/i", $command)){
         error_log("Restreamer.json.php ERROR command is empty ");
     }else{
-        error_log("Restreamer.json.php startRestream {$command}, check the file ($logFile) for the log");
-        exec('echo \'' . $command . PHP_EOL . '\'  > ' . $logFile);
+        error_log("Restreamer.json.php startRestream, check the file ($logFile) for the log");
+        make_path($logFile);
+        file_put_contents($logFile, $command . PHP_EOL);
         exec('nohup ' . $command . '  2>> ' . $logFile . ' > /dev/null &');
         error_log("Restreamer.json.php startRestream finish");
     }

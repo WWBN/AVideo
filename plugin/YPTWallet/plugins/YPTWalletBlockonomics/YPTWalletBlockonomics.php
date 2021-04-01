@@ -10,15 +10,15 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/YPTWallet/YPTWalletPlugin.php';
 
 class YPTWalletBlockonomics extends YPTWalletPlugin{
-    
+
     public function getAprovalLink() {
         global $global;
         $plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
         $payment = $plugin->setUpPayment(
-                $this->getInvoiceNumber(), 
-                $this->getRedirectURL(), 
-                $this->getCancelURL(), 
-                $this->getValue(), 
+                $this->getInvoiceNumber(),
+                $this->getRedirectURL(),
+                $this->getCancelURL(),
+                $this->getValue(),
                 $this->getCurrency());
         if (!empty($payment)) {
             return $payment->getApprovalLink();

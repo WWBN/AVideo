@@ -20,7 +20,9 @@ $reflector = new ReflectionClass('API');
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: API</title>
+        <?php
+        echo getHTMLTitle(__("API"));
+        ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -91,7 +93,7 @@ $reflector = new ReflectionClass('API');
                                 preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $comment, $match2);
                                 //var_dump($match2[0]);
                                 $link = "<a target='_blank' href='{$match2[0][0]}'>" . htmlentities($match2[0][0]) . "</a>";
-                                $comment = str_replace(array($match2[0][0],"     *"), array($link,"*"), $comment);
+                                $comment = str_replace(array($match2[0][0], "     *"), array($link, "*"), $comment);
 
                                 echo ($comment);
                                 //{webSiteRootURL}plugin/API/{getOrSet}.json.php?name={name}

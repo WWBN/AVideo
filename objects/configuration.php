@@ -246,7 +246,7 @@ class Configuration {
 
     static function getOGImage() {
         global $global;
-        $destination = "{$global['systemRootPath']}videos/cache/og_200X200.jpg";
+        $destination = Video::getStoragePath()."cache/og_200X200.jpg";
         $return = self::_getFavicon(true);
         convertImageToOG($return['file'], $destination);
         return $global['webSiteRootURL'] . "videos/cache/og_200X200.jpg";
@@ -350,7 +350,7 @@ class Configuration {
 \$global['videoStorageLimitMinutes'] = {$global['videoStorageLimitMinutes']};
 \$global['disableTimeFix'] = {$global['disableTimeFix']};
 \$global['logfile'] = '{$global['logfile']}';
-if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) { 
+if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) {
     // get the subdirectory, if exists
     \$file = str_replace(\"\\\\\", \"/\", __FILE__);
     \$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), \$file);
@@ -461,17 +461,47 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function _getEncoderURL() {
+        if (substr($this->encoderURL, -1) !== '/') {
+            $this->encoderURL .= "/";
+        }
         return $this->encoderURL;
+    }
+    
+    function shouldUseEncodernetwork(){
+        global $advancedCustom, $global;
+        if(empty($advancedCustom->useEncoderNetworkRecomendation) || empty($advancedCustom->encoderNetwork)){
+           return false; 
+        }
+        if($advancedCustom->encoderNetwork === 'https://network.avideo.com/'){   
+            // check if you have your own encoder
+            $encoderConfigFile = "{$global['systemRootPath']}Encoder/videos/configuration.php";
+            if(file_exists($encoderConfigFile)){ // you have an encoder do not use the public one
+                _error_log("Configuration:shouldUseEncodernetwork 1 You checked the Encoder Network but you have your own encoder, we will ignore this option");
+                return false;
+            }
+            
+            if (substr($this->encoderURL, -1) !== '/') {
+                $this->encoderURL .= "/";
+            }
+            
+            if(!preg_match('/encoder[1-9].avideo.com/i', $this->encoderURL)){
+                $creatingImages = "{$this->encoderURL}view/img/creatingImages.jpg";
+                if(isURL200($creatingImages)){
+                    _error_log("Configuration:shouldUseEncodernetwork 2 You checked the Encoder Network but you have your own encoder, we will ignore this option");
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     function getEncoderURL() {
-        global $getEncoderURL;
+        global $getEncoderURL, $advancedCustom;
 
         if (empty($getEncoderURL)) {
             $getEncoderURL = ObjectYPT::getCache("getEncoderURL", 60);
             if (empty($getEncoderURL)) {
-                global $advancedCustom;
-                if (!empty($advancedCustom->useEncoderNetworkRecomendation) && !empty($advancedCustom->encoderNetwork)) {
+                if ($this->shouldUseEncodernetwork()) {
                     if (substr($advancedCustom->encoderNetwork, -1) !== '/') {
                         $advancedCustom->encoderNetwork .= "/";
                     }
@@ -498,6 +528,13 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
 
     function setEncoderURL($encoderURL) {
         $this->encoderURL = $encoderURL;
+    }
+
+    function getPageTitleSeparator() {
+        if(!defined('PAGE_TITLE_SEPARATOR')){
+            define("PAGE_TITLE_SEPARATOR", "&middot;"); // This is ready to be configurable, if needed
+        }
+        return " " . PAGE_TITLE_SEPARATOR . " ";
     }
 
 }

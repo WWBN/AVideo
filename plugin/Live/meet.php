@@ -67,7 +67,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
     }
     ?>
 </span>
-
+<div class="clearfix"></div>
 <script>
     var meetPassword;
     var meetLink;
@@ -122,7 +122,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
                     on_meetStop();
                     modal.hidePleaseWait();
                 } else {
-                    aVideoMeetStart('<?php echo $domain; ?>', response.roomName, response.jwt, '<?php echo User::getEmail_(); ?>', '<?php echo User::getNameIdentification(); ?>', <?php echo json_encode(Meet::getButtons(0)); ?>);
+                    aVideoMeetStart('<?php echo $domain; ?>', response.roomName, response.jwt, '<?php echo User::getEmail_(); ?>', '<?php echo addcslashes(User::getNameIdentification(), "'"); ?>', <?php echo json_encode(Meet::getButtons(0)); ?>);
                     
                     meetPassword = response.password;
                     $('#meetPassword').val(meetPassword);

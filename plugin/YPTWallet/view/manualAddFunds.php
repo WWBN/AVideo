@@ -14,7 +14,7 @@ $options = json_decode($obj->addFundsOptions);
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Add Funds</title>
+        <title><?php echo __("Add Funds") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -58,7 +58,7 @@ $options = json_decode($obj->addFundsOptions);
                             }
                             ?>
                             <div class="form-group">
-                                <label for="value"><?php echo __("Specify Ammount"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
+                                <label for="value"><?php echo __("Specify Amount"); ?> <?php echo $obj->currency_symbol; ?> <?php echo $obj->currency; ?></label>
                                 <select class="form-control" id="value" >
                                     <?php
                                     foreach ($options as $value) {
@@ -76,7 +76,7 @@ $options = json_decode($obj->addFundsOptions);
                             <button class="btn btn-primary" id="manualAddFundsPageButton">
                                 <?php echo $obj->manualAddFundsPageButton; ?>
                             </button>
-                        </div>  
+                        </div>
                     </div>
                 </div>
 

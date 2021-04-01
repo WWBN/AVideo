@@ -1,4 +1,5 @@
 <?php
+global $videos_id;
 echo "<!-- OpenGraph for the Site -->";
 if ($users_id = isChannel()) {
     $imgw = 200;
@@ -10,7 +11,7 @@ if ($users_id = isChannel()) {
     <meta property="og:type" content="profile" />
     <meta property="profile:username" content="<?php echo $title; ?>" />
     <?php
-} else if (!isVideo()) {
+} else if (!isVideo() && empty($videos_id)) {
     $imgw = 200;
     $imgh = 200;
     $img = Configuration::getOGImage();
@@ -40,11 +41,11 @@ if ($users_id = isChannel()) {
 <?php
 if (!empty($advancedCustom->twitter_summary_large_image)) {
     ?>
-    <meta name="twitter:card" content="summary_large_image" />   
+    <meta name="twitter:card" content="summary_large_image" />
     <?php
 } else {
     ?>
-    <meta name="twitter:card" content="summary" />   
+    <meta name="twitter:card" content="summary" />
     <?php
 }
 ?>

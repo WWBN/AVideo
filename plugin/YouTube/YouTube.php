@@ -22,7 +22,7 @@ class YouTube extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";   
+        return "1.0";
     }
 
     public function getHeadCode() {
@@ -37,15 +37,15 @@ class YouTube extends PluginAbstract {
         if(!empty($obj->playVideoOnFullscreen)){
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
         }
-        
+
         $sidebarStyle = ($this->menuIsOpen())?"/**/":"display: none;";
-        
+
         return $js.$css;
     }
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        
+
         $obj->hidePrivateVideos = false;
         $obj->BigVideo = true;
         $obj->Description = false;
@@ -79,22 +79,22 @@ class YouTube extends PluginAbstract {
         $obj->filterUserChannel = false;
         return $obj;
     }
-  
+
     public function getHelp(){
         if(User::isAdmin()){
-            return "<h2 id='YouTube help'>YouTube options (admin)</h2><table class='table'><thead><th>Option-name</th><th>Default</th><th>Description</th></thead><tbody><tr><td>BigVideo</td><td>checked</td><td>Create a big preview with a direct description on top</td></tr><tr><td>DateAdded,MostPopular,MostWatched,SortByName</td><td>checked,checked,checked,unchecked</td><td>Metacategories</td></tr><tr><td>SubCategorys</td><td>unchecked</td> <td>Enable a view for subcategories on top</td></tr><tr><td>Description</td><td>unchecked</td><td>Enable a small button for show the description</td></tr></tbody></table>";   
+            return "<h2 id='YouTube help'>YouTube options (admin)</h2><table class='table'><thead><th>Option-name</th><th>Default</th><th>Description</th></thead><tbody><tr><td>BigVideo</td><td>checked</td><td>Create a big preview with a direct description on top</td></tr><tr><td>DateAdded,MostPopular,MostWatched,SortByName</td><td>checked,checked,checked,unchecked</td><td>Metacategories</td></tr><tr><td>SubCategorys</td><td>unchecked</td> <td>Enable a view for subcategories on top</td></tr><tr><td>Description</td><td>unchecked</td><td>Enable a small button for show the description</td></tr></tbody></table>";
         }
         return "";
     }
     public function getFirstPage(){
         global $global;
         return $global['systemRootPath'].'plugin/YouTube/view/modeYouTube.php';
-    }   
-    
+    }
+
     public function getFooterCode() {
         $obj = $this->getDataObject();
         global $global;
-        
+
         $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouTube/script.js"></script>';
         if(!empty($obj->playVideoOnFullscreen)){
             $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
@@ -104,19 +104,19 @@ class YouTube extends PluginAbstract {
         }
         return $js;
     }
-    
+
     public function navBar() {
         global $global,$includeDefaultNavBar;
         //include $global['systemRootPath'] . 'plugin/YouTube/view/navbar.php';
         //$includeDefaultNavBar = false;
     }
-    
+
     public function getStart() {
         global $global;
-        $global['bodyClass'] = ($this->menuIsOpen())?"youtube":""; 
-        
+        $global['bodyClass'] = ($this->menuIsOpen())?"youtube":"";
+
     }
-    
+
     private function menuIsOpen(){
         return (empty($_COOKIE['youTubeMenuIsOpened']) || $_COOKIE['youTubeMenuIsOpened']==="false")?false:true;
     }

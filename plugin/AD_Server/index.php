@@ -12,7 +12,9 @@ if (!User::isAdmin()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: VAST</title>
+        <?php 
+        echo getHTMLTitle( __("VAST"));
+        ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         include $global['systemRootPath'] . 'plugin/AD_Server/index_head.php';

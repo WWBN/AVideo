@@ -1,5 +1,7 @@
 <?php
-require_once '../videos/configuration.php';
+if(empty($global['systemRootPath'])){
+    require_once '../videos/configuration.php';
+}
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 if (empty($video) && !empty($_GET['videos_id'])) {
     $video = Video::getVideo(intval($_GET['videos_id']), "viewable", true, false, true, true);
@@ -66,7 +68,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                 echo $video['title'];
                 if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                     ?>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>" class="btn btn-primary btn-xs" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                    <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $video['id']; ?>');return false;" class="btn btn-primary btn-xs" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                 <?php } ?>
                 <small>
                     <?php
@@ -118,7 +120,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                         </a>
                         <?php
                     }
-                    $filesToDownload = array();
+                    $filesToDownload = array(); 
                     if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                         if ($video['type'] == "zip") {
                             $files = getVideosURLZIP($video['filename']);
@@ -143,7 +145,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                             }
 
                             $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
-                            $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_.mp4");
+                            $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_.".($video['type']==='audio'?'mp3':'mp4'));
 
                             $parts = explode("_", $key);
                             $name = $key;
@@ -164,7 +166,11 @@ if (User::hasBlockedUser($video['users_id'])) {
                                 <span class="fa fa-download"></span> <?php echo __("Download"); ?>
                             </a>
                             <?php
+                        }else{
+                            echo '<!-- files to download are empty -->';
                         }
+                    }else{
+                        echo '<!-- CustomizeUser::canDownloadVideosFromVideo said NO -->';
                     }
                     ?>
                 <?php } echo AVideoPlugin::getWatchActionButton($video['id']); ?>

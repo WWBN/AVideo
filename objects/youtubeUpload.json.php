@@ -1,14 +1,15 @@
 <?php
 error_reporting(0);
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 $obj = new stdClass();
 $obj->success = false;
 require_once $global['systemRootPath'] . 'objects/functions.php';
-require_once $global['systemRootPath'] . 'google/autoload.php';
 header('Content-Type: application/json');
 
 $obj = AVideoPlugin::getObjectData("LoginGoogle");
@@ -53,7 +54,7 @@ foreach ($_POST['id'] as $value) {
     if (isset($_SESSION[$tokenSessionKey])) {
         $client->setAccessToken($_SESSION[$tokenSessionKey]);
     }
-// Check to ensure that the access token was successfully acquired.
+    // Check to ensure that the access token was successfully acquired.
     if ($client->getAccessToken()) {
         try {
             // REPLACE this value with the path to the file you are uploading.
@@ -87,8 +88,18 @@ foreach ($_POST['id'] as $value) {
             // Create a request for the API's videos.insert method to create and upload the video.
             $insertRequest = $youtube->videos->insert("status,snippet", $video);
             // Create a MediaFileUpload object for resumable uploads.
+            
+            _error_log("youtubeUpload: videoPath:: ". json_encode($videoPath));
+            _error_log("youtubeUpload: title:: ".$v->getTitle());
+            _error_log("youtubeUpload: videoPath:: {$videoPath}");
+            
             $media = new Google_Http_MediaFileUpload(
-                    $client, $insertRequest, 'video/*', null, true, $chunkSizeBytes
+                $client,
+                $insertRequest,
+                'video/*',
+                null,
+                true,
+                $chunkSizeBytes
             );
             $media->setFileSize(filesize($videoPath));
             // Read the media file and upload it chunk by chunk.
@@ -109,9 +120,9 @@ foreach ($_POST['id'] as $value) {
             $v->setYoutubeId($obj->id);
             $v->save();
         } catch (Google_Service_Exception $e) {
-            $obj->msg = sprintf(__("A service error occurred: %s"), $e->getMessage());
+            $obj->msg = sprintf(__("A service error occurred [1]: %s"), $e->getMessage());
         } catch (Google_Exception $e) {
-            $obj->msg = sprintf(__("An client error occurred: %s"), $e->getMessage());
+            $obj->msg = sprintf(__("An client error occurred [2]: %s"), $e->getMessage());
         }
         $_SESSION[$tokenSessionKey] = $client->getAccessToken();
     } elseif ($OAUTH2_CLIENT_ID == 'REPLACE_ME') {

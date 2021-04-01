@@ -98,6 +98,10 @@ class PlayLists extends PluginAbstract {
 
         $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/PlayLists/style.css" rel="stylesheet" type="text/css"/>';
         $css .= '<style>.epgProgress.progress-bar-primary{opacity: 0.5;}.epgProgress:hover{opacity: 1.0;}.epgProgressText{border-right: 1px solid #FFF; height:100%;}</style>';
+        
+        if(!empty(getPlaylists_id())){
+            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayLists/playerButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+        }
 
         return $css;
     }
@@ -121,6 +125,10 @@ class PlayLists extends PluginAbstract {
                 $liveLink = PlayLists::getLiveLink($_REQUEST['playlists_id_live']);
                 $js .= '<script>var liveLink = "'.$liveLink.'";'. file_get_contents("{$global['systemRootPath']}plugin/PlayLists/goLiveNow.js").'</script>';
             }
+        }
+        
+        if(!empty(getPlaylists_id())){
+            PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayLists/playerButton.js"));
         }
         
         return $js;
@@ -194,8 +202,9 @@ class PlayLists extends PluginAbstract {
         $video = self::isPlayListASerie($serie_playlists_id);
         if (!empty($video)) {
             $video = new Video("", "", $video['id']);
-            $video->delete();
+            return $video->delete();
         }
+        return false;
     }
 
     static function saveSerie($serie_playlists_id) {
@@ -224,18 +233,22 @@ class PlayLists extends PluginAbstract {
 
     public function getStart() {
         global $global;
-        if (!empty($_GET['videoName'])) {
-            $obj = $this->getDataObject();
-            if ($obj->usePlaylistPlayerForSeries) {
-                $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-                if ($video['type'] == 'serie' && !empty($video['serie_playlists_id'])) {
-                    if (basename($_SERVER["SCRIPT_FILENAME"]) == "videoEmbeded.php") {
-                        $link = PlayLists::getLink($video['serie_playlists_id'], true);
-                    } else {
-                        $link = PlayLists::getLink($video['serie_playlists_id']);
+        $whitelistedFiles = array('VMAP.php');
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+        if (!in_array($baseName, $whitelistedFiles)) {
+            if (!empty($_GET['videoName'])) {
+                $obj = $this->getDataObject();
+                if ($obj->usePlaylistPlayerForSeries) {
+                    $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+                    if ($video['type'] == 'serie' && !empty($video['serie_playlists_id'])) {
+                        if (basename($_SERVER["SCRIPT_FILENAME"]) == "videoEmbeded.php") {
+                            $link = PlayLists::getLink($video['serie_playlists_id'], true);
+                        } else {
+                            $link = PlayLists::getLink($video['serie_playlists_id']);
+                        }
+                        header("Location: {$link}");
+                        exit;
                     }
-                    header("Location: {$link}");
-                    exit;
                 }
             }
         }
@@ -281,6 +294,14 @@ class PlayLists extends PluginAbstract {
                         </div>
                     </li>';
         }
+        $str .= '<li>
+                    <div>
+                        <a href="' . "{$global['webSiteRootURL']}plugin/PlayLists/managerPlaylists.php" . '" class="btn btn-default btn-block" style="border-radius: 0;">
+                            <i class="fas fa-list"></i>
+                            ' . __("Organize") . ' ' .$obj->name . '
+                        </a>
+                    </div>
+                </li>';
         return $str;
     }
 
@@ -311,11 +332,13 @@ class PlayLists extends PluginAbstract {
     static function getLiveLink($playlists_id) {
         global $global;
         if (!self::canPlayProgramsLive()) {
+            _error_log("PlayLists:getLiveLink canPlayProgramsLive() said no");
             return false;
         }
         // does it has videos?
         $videosArrayId = PlayLists::getOnlyVideosAndAudioIDFromPlaylistLight($playlists_id);
         if (empty($videosArrayId)) {
+            _error_log("PlayLists:getLiveLink getOnlyVideosAndAudioIDFromPlaylistLight($playlists_id) said no");
             return false;
         }
 
@@ -332,10 +355,12 @@ class PlayLists extends PluginAbstract {
     static function canPlayProgramsLive() {
         // can the user live?
         if (!User::canStream()) {
+            _error_log("Playlists:canPlayProgramsLive this user cannon stream");
             return false;
         }
         // Is API enabled
         if (!AVideoPlugin::isEnabledByName("API")) {
+            _error_log("Playlists:canPlayProgramsLive you need to enable the API plugin to be able to play live programs", AVideoLog::$WARNING);
             return false;
         }
         return true;
@@ -476,10 +501,10 @@ class PlayLists extends PluginAbstract {
         if (!self::canManagePlaylist($playlists_id)) {
             return "";
         }
-        $input = __('Show on TV') . '<div class="material-switch" style="margin:0 10px;">
+        $input = '<i class="fas fa-tv" style="margin:2px 5px;"></i> <span class="hidden-xs hidden-sm">'.__('Show on TV') . '</span> <div class="material-switch material-small" style="margin:0 10px;">
                                 <input class="ShowOnTVSwitch" data-toggle="toggle" type="checkbox" id="ShowOnTVSwitch' . $playlists_id . '" name="ShowOnTVSwitch' . $playlists_id . '" value="1" ' . (self::showOnTV($playlists_id) ? "checked" : "") . ' onchange="saveShowOnTV(' . $playlists_id . ', $(this).is(\':checked\'))" >
-                                <label for="ShowOnTVSwitch' . $playlists_id . '" class="label-primary"></label>
-                            </div> ';
+                                <label for="ShowOnTVSwitch' . $playlists_id . '" class="label-primary" data-toggle="tooltip" title="'.__('Show on TV').'"></label>
+                            </div>';
         return $input;
     }
 
@@ -541,6 +566,9 @@ class PlayLists extends PluginAbstract {
         //}
 
         $json = json_decode($content);
+        if(!is_object($json)){
+            return array();
+        }
         $getSiteEPGs = object_to_array($json->sites);
         $getSiteEPGs['generated'] = $json->generated;
         //ObjectYPT::setCache($name, $getSiteEPGs);
@@ -638,9 +666,11 @@ class PlayLists extends PluginAbstract {
 
     static function getPlayLiveButton($playlists_id) {
         if (!self::showPlayLiveButton()) {
+            _error_log("getPlayLiveButton: showPlayLiveButton said no");
             return "";
         }
         if (!self::canManagePlaylist($playlists_id)) {
+            _error_log("getPlayLiveButton: canManagePlaylist($playlists_id) said no");
             return "";
         }
         global $global;
@@ -657,6 +687,8 @@ class PlayLists extends PluginAbstract {
         if (!empty($liveLink)) {
             $template = file_get_contents("{$global['systemRootPath']}plugin/PlayLists/playLiveButton.html");
             return str_replace(array('{isLive}','{liveLink}', '{btnId}', '{label}','{labelLive}', '{tooltip}', '{tooltipLive}'), array($isLive, $liveLink, $btnId, $label, $labelLive, $tooltip, $tooltipLive), $template);
+        }else{
+            _error_log("getPlayLiveButton: liveLink is empty");
         }
         return '';
     }

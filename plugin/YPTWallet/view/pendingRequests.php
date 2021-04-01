@@ -11,7 +11,7 @@ if (!User::isAdmin()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Support Author</title>
+        <title><?php echo __("Pending Requests") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -35,9 +35,9 @@ if (!User::isAdmin()) {
                                 <tr>
                                     <th data-column-id="user"  data-width="150px"><?php echo __("User"); ?></th>
                                     <th data-column-id="valueText"  data-width="150px"><?php echo __("Value"); ?></th>
-                                    <th data-column-id="description" ><?php echo __("Description"); ?></th>
+                                    <th data-column-id="description" data-formatter="description"   ><?php echo __("Description"); ?></th>
                                     <th data-column-id="status" data-formatter="status"  data-width="150px"><?php echo __("Status"); ?></th>
-                                    <th data-column-id="created" data-order="desc" data-width="150px"><?php echo __("Date"); ?></th>
+                                    <th data-column-id="created" data-order="desc" data-formatter="created"  data-width="150px"><?php echo __("Date"); ?></th>
                                 </tr>
                             </thead>
                         </table>
@@ -69,6 +69,16 @@ if (!User::isAdmin()) {
                             status = "<div class=\"btn-group\"><button class='btn btn-success btn-xs command-status-success'>Confirm</button>";
                             status += "<button class='btn btn-danger btn-xs command-status-canceled'>Cancel</button><div>";
                             return status;
+                        },
+                        "description": function (column, row) {
+                            if(row.information){
+                                return row.information;
+                            }else{
+                                return row.description;
+                            }
+                        },
+                        "created": function (column, row) {
+                            return '<span class="pendingTimers">'+row.created+'</span>';
                         }
                     }
                 }).on("loaded.rs.jquery.bootgrid", function () {
@@ -85,7 +95,7 @@ if (!User::isAdmin()) {
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         setStatus("canceled", row.id);
                     });
-
+                    createTimer('.pendingTimers');
                 });
             });
             function setStatus(status, wallet_log_id) {

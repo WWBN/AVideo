@@ -14,6 +14,12 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($videoRows)) {
         $videoRows = array($video);
     }
+    $class = '';
+    $classInner = '';
+    if (count($videoRows) > 1) {
+        $class = 'carousel slide';
+        $classInner = 'carousel-inner';
+    }
     ?>
     <style>
         #bigVideoCarousel .carousel-indicators .active {
@@ -22,7 +28,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     </style>
     <div class="row">
         <div class="col-sm-12 fixPadding">
-            <div id="bigVideoCarousel" class="carousel slide" data-ride="carousel">
+            <div id="bigVideoCarousel" class="<?php echo $class; ?> " data-ride="carousel">
                 <?php
                 if (count($videoRows) > 1) {
                     ?>
@@ -38,7 +44,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 }
                 ?>
                 <!-- Wrapper for slides -->
-                <div class="carousel-inner">
+                <div class="<?php echo $classInner; ?>">
                     <?php
                     $count = 0;
                     $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
@@ -62,20 +68,26 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             $colClass2 = "col-sm-8";
                             $colClass3 = "col-sm-6";
                         }
+                        $isserie = Video::isSerie($videoRow['id']);
+
+                        $isserieClass = "";
+                        if ($isserie) {
+                            $isserieClass = "isserie";
+                        }
                         ?>
                         <div class="item <?php echo $count === 1 ? "active" : ""; ?>">
                             <div class="clear clearfix">
                                 <div class="row thumbsImage">
                                     <div class="<?php echo $colClass1; ?> galleryVideo">
-                                        <a class="galleryLink" videos_id="<?php echo $videoRow['id']; ?>" 
+                                        <a class="galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $videoRow['id']; ?>" 
                                            href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
                                            embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
                                            title="<?php echo $videoRow['title']; ?>" style="">
-                                            <?php
-                                            $images = Video::getImageFromFilename($videoRow['filename'], $videoRow['type']);
-                                            $imgGif = $images->thumbsGif;
-                                            $poster = isMobile() ? $images->thumbsJpg : $images->poster;
-                                            ?>
+                                               <?php
+                                               $images = Video::getImageFromFilename($videoRow['filename'], $videoRow['type']);
+                                               $imgGif = $images->thumbsGif;
+                                               $poster = isMobile() ? $images->thumbsJpg : $images->poster;
+                                               ?>
                                             <div class="aspectRatio16_9">
                                                 <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $videoRow['title']; ?>" class="thumbsJPG img img-responsive <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" style="height: auto; width: 100%;" id="thumbsJPG<?php echo $videoRow['id']; ?>" />
                                                 <?php if (!empty($obj->GifOnBigVideo) && !empty($imgGif)) { ?>
@@ -144,7 +156,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     </div>
                                     <div class="<?php echo $colClass2; ?>">
                                         <div class="<?php echo $colClass3; ?>">
-                                            <a class="h6 galleryLink" videos_id="<?php echo $videoRow['id']; ?>" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" title="<?php echo $videoRow['title']; ?>">
+                                            <a class="h6 galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $videoRow['id']; ?>" 
+                                               href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
+                                               embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
+                                               title="<?php echo $videoRow['title']; ?>">
                                                 <h1><?php echo $videoRow['title']; ?></h1>
                                             </a>
                                             <div class="mainAreaDescriptionContainer">
@@ -186,12 +201,20 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
 
                                                 <?php
                                                 if (empty($advancedCustom->doNotDisplayViews)) {
-                                                    ?>
-                                                    <div>
-                                                        <i class="fa fa-eye"></i>
-                                                        <span itemprop="interactionCount"><?php echo number_format($videoRow['views_count'], 0); ?> <?php echo __("Views"); ?></span>
-                                                    </div>
-                                                <?php } ?>
+                                                    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+                                                        echo getLiveUsersLabelVideo($videoRow['id'], $videoRow['views_count'], "", "");
+                                                    } else {
+                                                        ?>
+                                                        <div>
+                                                            <i class="fa fa-eye"></i>
+                                                            <span itemprop="interactionCount">
+                                                                <?php echo number_format($videoRow['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                                            </span>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
                                                 <div>
                                                     <i class="far fa-clock"></i>
                                                     <?php echo humanTiming(strtotime($videoRow['videoCreation'])), " ", __('ago'); ?>
@@ -204,7 +227,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                 </div>
                                                 <?php if (Video::canEdit($videoRow['id'])) { ?>
                                                     <div>
-                                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $videoRow['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                        <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $videoRow['id']; ?>');return false;" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if (!empty($videoRow['trailer1'])) { ?>

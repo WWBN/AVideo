@@ -136,13 +136,16 @@ class Live_servers extends ObjectYPT {
     }
 
     static function getAllActive() {
-        global $global;
+        global $global, $liveServersgetAllActive;
+        if(isset($liveServersgetAllActive)){
+            return $liveServersgetAllActive;
+        }
         if (!static::isTableInstalled()) {
             return false;
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' ";
 
-        $sql .= self::getSqlFromPost();
+        //$sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -154,16 +157,21 @@ class Live_servers extends ObjectYPT {
         } else {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
+        $liveServersgetAllActive = $rows;
         return $rows;
     }
 
     static function getServerFromRTMPHost($rtmpHostURI) {
+        $obj = AVideoPlugin::getObjectData('Live');
+        if(empty($obj->useLiveServers)){
+            return 0;
+        }
         global $global;
         $host = trim($rtmpHostURI);
         $parts = parse_url($host);
         $host = "rtmp://{$parts["host"]}{$parts["path"]}";
         $host = $global['mysqli']->real_escape_string($host);
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE rtmp_server LIKE '%{$host}%' ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE rtmp_server LIKE '%{$host}%' AND status = 'a' ";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

@@ -7,6 +7,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/Channel.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
+require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 
 if (isset($_SESSION['channelName'])) {
     _session_start();
@@ -33,7 +34,7 @@ $metaDescription = __("Channels");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Channels") . getSEOComplement(); ?></title>
+        <title><?php echo __("Channels") . getSEOComplement() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -84,7 +85,7 @@ $metaDescription = __("Channels");
                         <div id="custom-search-input">
                             <div class="input-group col-md-12">
                                 <input type="search" name="searchPhrase" class="form-control input-lg" placeholder="<?php echo __("Search Channels"); ?>" value="<?php
-                                echo @$_GET['searchPhrase'];
+                                echo htmlentities(@$_GET['searchPhrase']);
                                 unsetSearch();
                                 ?>" />
                                 <span class="input-group-btn">
@@ -120,31 +121,20 @@ $metaDescription = __("Channels");
     <?php echo Subscribe::getButton($value['id']); ?>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body gallery ">
                                 <div>
     <?php echo stripslashes(str_replace('\\\\\\\n', '<br/>', $value['about'])); ?>
                                 </div>
                                 
                                 <div class="clearfix" style="margin-bottom: 10px;"></div>
-                                <div class="row">
+                                <div class="row clear clearfix galeryRowElement">
                                     <?php
                                     $_POST['current'] = 1;
                                     $_REQUEST['rowCount'] = 6;
                                     $_POST['sort']['created'] = "DESC";
                                     $uploadedVideos = Video::getAllVideosAsync("viewable", $value['id']);
-                                    foreach ($uploadedVideos as $value2) {
-                                        $imgs = Video::getImageFromFilename($value2['filename'], "video", true);
-                                        $poster = $imgs->thumbsJpg;
-                                        ?>
-                                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 ">
-                                            <a href="<?php echo Video::getLink($value2['id'], $value2['clean_title'], false, $get); ?>" title="<?php echo $value2['title']; ?>" >
-                                                <img src="<?php echo $poster; ?>" alt="<?php echo $value2['title']; ?>" class="img img-responsive img-thumbnail" />
-                                            </a>
-                                            <div class="text-muted" style="font-size: 0.8em;"><?php echo $value2['title']; ?></div>
-
-                                        </div>
-                                        <?php
-                                    }
+                                    
+                                    createGallerySection($uploadedVideos, dechex(crc32($value['channelName'])));
                                     ?>
                                 </div>
                             </div>

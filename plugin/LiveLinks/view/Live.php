@@ -19,11 +19,13 @@ if (empty($_GET['link'])) {
 $_GET['link'] = intval($_GET['link']);
 $liveLink = new LiveLinksTable($_GET['link']);
 
+$isLiveLink = $liveLink->getId();
 if ($liveLink->getType() == 'logged_only' && !User::isLogged()) {
     die('Link for logged only');
 }
 
 $uuid = $_GET['link'];
+$t['id'] = $uuid;
 $t['users_id'] = $liveLink->getUsers_id();
 $t['title'] = $liveLink->getTitle();
 $t['link'] = $liveLink->getLink();
@@ -60,7 +62,7 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $t['title']; ?> - <?php echo __("Live Video"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $t['title'] . $config->getPageTitleSeparator() . __("Live Links") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
@@ -83,7 +85,7 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid principalContainer" id="modeYoutubePrincipal">
+        <div class="container-fluid principalContainer" style="padding: 0;" id="modeYoutubePrincipal">
             <?php
             if (!$isCompressed) {
                 ?>

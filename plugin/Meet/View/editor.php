@@ -5,7 +5,7 @@ AVideoPlugin::loadPlugin("Meet");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Meet</title>
+        <title><?php echo __("Meet") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -18,7 +18,7 @@ AVideoPlugin::loadPlugin("Meet");
         ?>
         <div class="container-fluid">
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __('Meet') ?> 
+                <div class="panel-heading"><?php echo __('Meet') ?>
                     <div class="pull-right">
                         <?php echo AVideoPlugin::getSwitchButton("Meet"); ?>
                     </div>

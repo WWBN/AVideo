@@ -18,7 +18,7 @@ if (!empty($_GET['users_id'])) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Support Author</title>
+        <title><?php echo __("History") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -40,7 +40,7 @@ if (!empty($_GET['users_id'])) {
                             <thead>
                                 <tr>
                                     <th data-column-id="valueText"  data-width="150px"><?php echo __("Value"); ?></th>
-                                    <th data-column-id="description" ><?php echo __("Description"); ?></th>
+                                    <th data-column-id="description" data-formatter="description" ><?php echo __("Description"); ?></th>
                                     <th data-column-id="status" data-formatter="status"  data-width="250px"><?php echo __("Status"); ?></th>
                                     <th data-column-id="created" data-order="desc" data-width="150px"><?php echo __("Date"); ?></th>
                                 </tr>
@@ -69,6 +69,13 @@ if (!empty($_GET['users_id'])) {
                     ajax: true,
                     url: "<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/log.json.php?users_id=<?php echo $users_id; ?>",
                                 formatters: {
+                                    "description": function (column, row) {
+                                        if(row.information){
+                                            return row.information;
+                                        }else{
+                                            return row.description;
+                                        }
+                                    },
                                     "status": function (column, row) {
                                         var status = "";
                                         if (row.type == "<?php echo YPTWallet::MANUAL_ADD; ?>" || row.type == "<?php echo YPTWallet::MANUAL_WITHDRAW; ?>") {

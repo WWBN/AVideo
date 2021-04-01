@@ -16,7 +16,7 @@ $wallet->setUsers_id(User::getId());
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Add Funds</title>
+        <title><?php echo __("Configuration") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -37,7 +37,7 @@ $wallet->setUsers_id(User::getId());
                                 <input type="text" class="form-control" name="CryptoWallet" value="<?php echo $wallet->getCrypto_wallet_address(); ?>">
                             </div>
                             <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> <?php echo __("Save"); ?></button>
-                        </form> 
+                        </form>
                     </div>
                 </div>
             </div>

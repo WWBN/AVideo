@@ -1,0 +1,14 @@
+.playListProgram-button{
+  outline: none;
+}
+.playListProgram-button:before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    content: "\f5fd";
+    font-size: 1.2em;
+    line-height: 1.0em;
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
+}

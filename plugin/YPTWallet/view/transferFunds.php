@@ -12,7 +12,7 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title>Transfer Funds</title>
+        <title><?php echo __("Transfer Funds") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -98,7 +98,7 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                                     </div>
                                 </div>
 
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -126,10 +126,10 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                 });
 
                 $('#transferNow').click(function () {
-                            
+
                             swal({
                 title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>", 
+                text: "<?php echo __("You will not be able to recover this action!"); ?>",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -160,7 +160,7 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                                         }
                                     }
                                 });
-              } 
+              }
             });
                 });
 

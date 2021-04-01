@@ -1,4 +1,12 @@
 <?php
+CustomizeUser::autoIncludeBGAnimationFile();
+?>
+<br>
+<style>
+    .loginPage{
+    }
+</style>
+<?php
 if (empty($_COOKIE) && empty($_GET['cookieLogin'])) {
     // TODO implement a popup login for cross domain cookie block
 }
@@ -10,7 +18,7 @@ if (empty($_GET['redirectUri'])) {
         }
     }
 }
-if (empty($_COOKIE) && get_browser_name()!=='Other (Unknown)') {
+if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     ?>
     <div style="padding: 10px;">
         <div class="alert alert-warning">
@@ -44,149 +52,196 @@ if (empty($_COOKIE) && get_browser_name()!=='Other (Unknown)') {
     return false;
 }
 ?>
-<div class="row">
-    <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
-    <div class="col-xs-12 col-sm-8  col-md-6 col-lg-4 list-group-item addWidthOnMenuOpen">
-        <fieldset>
-            <legend class=" hidden-xs">
-                <?php
-                echo __("Please sign in");
-                if (!empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
+<div class="row loginPage">
+    <div class="hidden-xs col-sm-2 col-md-3 "></div>
+    <div class="col-xs-12 col-sm-8  col-md-6 addWidthOnMenuOpen">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2>
+                    <?php echo __('Welcome back!'); ?>
+                </h2>
+                <div class="">
+                    <?php
+                    if (!empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
+                        ?>
+                        <div class="pull-right">
+                            <a id="buttonMyNavbar" class=" btn btn-default navbar-btn" style="padding: 6px 12px; margin-right: 40px;" href="<?php echo $advancedCustomUser->userMustBeLoggedInCloseButtonURL; ?>">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </div>
+                        <?php
+                    }
                     ?>
-                    <div class="pull-right">
-                        <a id="buttonMyNavbar" class=" btn btn-default navbar-btn" style="padding: 6px 12px; margin-right: 40px;" href="<?php echo $advancedCustomUser->userMustBeLoggedInCloseButtonURL; ?>">
-                            <i class="fas fa-times"></i>
-                        </a>
-                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <?php
+                if (empty($advancedCustomUser->disableNativeSignIn)) {
+                    ?>
+                    <form class="form-horizontal"  id="loginForm">
+                        <input type="hidden" name="redirectUri" value=""/>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"><?php echo __("User"); ?></label>
+                            <div class="col-sm-8 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input  id="inputUser" placeholder="<?php echo!empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="text" value="" required >
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label"><?php echo __("Password"); ?></label>
+                            <div class="col-sm-8 inputGroupContainer">
+                                <?php
+                                getInputPassword("inputPassword");
+                                ?>
+                            </div>
+                        </div>
+
+                        <?php
+                        $captcha = User::getCaptchaForm();
+                        ?>
+                        <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
+                            <?php echo $captcha; ?>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-4 text-right">
+                                <label for="inputRememberMe" ><?php echo __("Remember me"); ?></label>
+                            </div>
+                            <div class="col-xs-8" >
+                                <div class="material-switch" >
+                                    <input  id="inputRememberMe" class="form-control"  type="checkbox">
+                                    <label for="inputRememberMe" class="label-success"  data-toggle="tooltip" title="<?php echo __("Check this to stay signed in"); ?>"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Button -->
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fas fa-sign-in-alt"></span> <?php echo __("Sign in"); ?></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12 inputGroupContainer text-center">
+                                <?php
+                                if (empty($advancedCustomUser->disableNativeSignUp)) {
+                                    ?>
+                                    <a href="#" class="btn btn-default btn-xs" id="forgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></a>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </div>
+
+                    </form>
                     <?php
                 }
                 ?>
-            </legend>
-
-
-            <?php
-            if (empty($advancedCustomUser->disableNativeSignIn)) {
-                ?>
-                <form class="form-compact well form-horizontal"  id="loginForm">
-                    <input type="hidden" name="redirectUri" value=""/>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label hidden-xs"><?php echo __("User"); ?></label>
-                        <div class="col-sm-8 inputGroupContainer">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input  id="inputUser" placeholder="<?php echo!empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="text" value="" required >
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label hidden-xs"><?php echo __("Password"); ?></label>
-                        <div class="col-sm-8 inputGroupContainer">
-                            <?php
-                            getInputPassword("inputPassword");
-                            ?>
-                        </div>
-                    </div>
-
-                    <?php
-                    $captcha = User::getCaptchaForm();
-                    ?>
-                    <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
-                        <?php echo $captcha; ?>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-8">
-                            <div class="pull-left" style="margin-right: 10px;">
-                                <div class="material-switch">
-                                    <input  id="inputRememberMe" class="form-control"  type="checkbox">
-                                    <label for="inputRememberMe" class="label-success"></label>
-                                </div>
-                            </div>
-                            <label class="pull-left"><?php echo __("Remember me"); ?></label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12 inputGroupContainer">
-                            <?php
-                            if (empty($advancedCustomUser->disableNativeSignUp)) {
-                                ?>
-                                <small><a href="#" class="btn btn-block" id="forgotPassword"><?php echo __("I forgot my password"); ?></a></small>
-                                <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
-                    <!-- Button -->
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fas fa-sign-in-alt"></span> <?php echo __("Sign in"); ?></button>
-                        </div>
-                    </div>
-
-                </form>
+            </div>
+            <div class="panel-footer">
                 <?php
                 if (empty($advancedCustomUser->disableNativeSignUp)) {
                     ?>
-                    <div class="row">
+                    <div class="row" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
                         <div class="col-md-12">
-                            <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" class="btn btn-primary btn-block" ><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
+                            <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" 
+                               class="btn btn-default btn-block"><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
                         </div>
                     </div>
                     <?php
                 }
+                ?>
+            </div>
+        </div>
+
+
+        <?php
+        $login = AVideoPlugin::getLogin();
+
+        $totalLogins = 0;
+        foreach ($login as $value) {
+            if (is_string($value) && file_exists($value)) { // it is a include path for a form
+                include $value;
+            } else if (is_array($value)) {
+                $totalLogins++;
             }
-            ?>
-            <hr>
-            <?php
-            $login = AVideoPlugin::getLogin();
-            foreach ($login as $value) {
-                if (is_string($value) && file_exists($value)) { // it is a include path for a form
-                    include $value;
-                } else if (is_array($value)) {
-                    $uid = uniqid();
-                    $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=".(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : "");
-                    ?>
-                    <div class="col-md-6">
-                        <button id="login<?php echo $uid; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></button>
-                    </div>
-                    <script>
-                        $(document).ready(function () {
-                            $('#login<?php echo $uid; ?>').click(function () {
-                                modal.showPleaseWait();
-                                if (typeof inIframe !== 'undefined' && inIframe()) {
-                                    var popup = window.open('<?php echo $oauthURL; ?>', 'loginYPT');
-                                    var popupTick = setInterval(function() {
-                                      if (popup.closed) {
+        }
+
+        $columSize = 12;
+        if ($totalLogins > 1) {
+            switch ($totalLogins) {
+                case 2:
+                case 4:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 11:
+                    $columSize = 6;
+                    break;
+                case 3:
+                case 6:
+                case 9:
+                case 12:
+                    $columSize = 4;
+                    break;
+            }
+        }
+
+        foreach ($login as $value) {
+            if (is_string($value) && file_exists($value)) {
+                //include $value;
+            } else if (is_array($value)) {
+                $uid = uniqid();
+                $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=" . (isset($_GET['redirectUri']) ? $_GET['redirectUri'] : "");
+                ?>
+                <div class="col-md-<?php echo $columSize; ?>">
+                    <button id="login<?php echo $uid; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></button>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        $('#login<?php echo $uid; ?>').click(function () {
+                            modal.showPleaseWait();
+                            if (typeof inIframe !== 'undefined' && inIframe()) {
+                                var popup = window.open('<?php echo $oauthURL; ?>', 'loginYPT');
+                                var popupTick = setInterval(function () {
+                                    if (popup.closed) {
                                         clearInterval(popupTick);
                                         console.log('window closed!');
                                         location.reload();
-                                      }
-                                    }, 500);
-                                } else {
-                                    document.location = "<?php echo $oauthURL; ?>";
-                                }
-                            });
+                                    }
+                                }, 500);
+                            } else {
+                                document.location = "<?php echo $oauthURL; ?>";
+                            }
                         });
-                    </script>
-                    <?php
-                }
+                    });
+                </script>
+                <?php
             }
-            ?>
-            <hr>
-        </fieldset>
+        }
+        ?>
         <?php
         if (!empty($advancedCustomUser->messageToAppearBelowLoginBox->value)) {
-            echo "<div class='alert alert-info'>";
+            echo "<div class='alert alert-info'> <i class=\"fas fa-info-circle\"></i> ";
             echo $advancedCustomUser->messageToAppearBelowLoginBox->value;
             echo "</div>";
         }
         ?>
     </div>
-    <div class="hidden-xs col-sm-2 col-md-3 col-lg-4"></div>
+    <div class="hidden-xs col-sm-2 col-md-3"></div>
 </div>
 <script>
+
+    function loginFormActive() {
+        
+    }
+    function loginFormReset() {
+
+    }
     $(document).ready(function () {
 <?php
 if (!empty($_GET['error'])) {
@@ -197,7 +252,12 @@ if (!empty($_GET['error'])) {
 ?>
         $('#loginForm').submit(function (evt) {
             evt.preventDefault();
-            if (!$('#inputUser').val() || !$('#inputPassword').val()) {
+            if (!$('#inputUser').val()) {
+                avideoAlertError('<?php echo __('Please type your username'); ?>');
+                return false;
+            }
+            if (!$('#inputPassword').val()) {
+                avideoAlertError('<?php echo __('Please type your password'); ?>');
                 return false;
             }
 <?php
@@ -208,11 +268,13 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                     // if the user is admin, let it go
                     //avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("The username must be an email"); ?>", "error");
                     //return false;
+                    avideoToastWarning('<?php echo __('This is not a valid email'); ?>');
                 }
     <?php
 }
 ?>
             modal.showPleaseWait();
+            loginFormActive();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
                 data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": $('#captchaText').val(), "redirectUri": "<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>"},
@@ -229,6 +291,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                             $("#btnReloadCapcha").trigger('click');
                             $('#captchaForm').slideDown();
                         }
+                        loginFormReset();
                     } else {
 
                         document.location = response.redirectUri;
@@ -252,7 +315,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                 buttons: true,
                 dangerMode: true,
             })
-                    .then(function(willDelete) {
+                    .then(function (willDelete) {
                         if (willDelete) {
 
                             modal.showPleaseWait();

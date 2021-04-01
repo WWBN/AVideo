@@ -47,10 +47,10 @@ $sources = getVideosURLPDF($video['filename']);
                 <?php
             }
             ?>
-            
-            <a href="<?php echo $global["HTTP_REFERER"]; ?>" class="btn btn-outline btn-xs" style="position: absolute; top: 5px; right: 5px; display: none;" id="youtubeModeOnFullscreenCloseButton">
-                <i class="fas fa-times"></i>
-            </a>
+
+            <?php
+            showCloseButton();
+            ?>
         </div>
     </div>
     <script>

@@ -14,8 +14,13 @@ if (empty($_POST['current'])) {
 if (empty($_REQUEST['rowCount'])) {
     $_REQUEST['rowCount'] = 10;
 }
-$users = User::getAllUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, array('name', 'email', 'user', 'channelName', 'about'), @$_GET['status']);
-$total = User::getTotalUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, @$_GET['status']);
+if(empty($_REQUEST['user_groups_id'])){
+    $users = User::getAllUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, array('name', 'email', 'user', 'channelName', 'about'), @$_GET['status']);
+    $total = User::getTotalUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, @$_GET['status']);
+}else{
+    $users = User::getAllUsersFromUsergroup($_REQUEST['user_groups_id'], $advancedCustomUser->userCanChangeVideoOwner ? true : false, array('name', 'email', 'user', 'channelName', 'about'), @$_GET['status']);
+    $total = User::getTotalUsersFromUsergroup($_REQUEST['user_groups_id'], $advancedCustomUser->userCanChangeVideoOwner ? true : false, @$_GET['status']);
+}
 //echo examineJSONError($users);exit;
 $json = json_encode($users);
 if (json_last_error()) {

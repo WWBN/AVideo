@@ -1,19 +1,23 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
-class Comment {
+
+class Comment
+{
     protected $id;
     protected $comment;
     protected $videos_id;
     protected $users_id;
     protected $comments_id_pai;
 
-    function __construct($comment, $videos_id, $id = 0) {
+    public function __construct($comment, $videos_id, $id = 0)
+    {
         if (empty($id)) {
             // get the comment data from comment
             $this->comment = xss_esc($comment);
@@ -23,80 +27,88 @@ class Comment {
             // get data from id
             $this->load($id);
         }
-
     }
 
-    function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
 
-    function setComments_id_pai($comments_id_pai) {
+    public function setComments_id_pai($comments_id_pai)
+    {
         $this->comments_id_pai = $comments_id_pai;
     }
 
-    function getComments_id_pai() {
+    public function getComments_id_pai()
+    {
         return $this->comments_id_pai;
     }
 
-    function getUsers_id() {
+    public function getUsers_id()
+    {
         return $this->users_id;
     }
 
-    function setComment($comment) {
+    public function setComment($comment)
+    {
         $this->comment = xss_esc($comment);
     }
 
-    function getVideos_id() {
+    public function getVideos_id()
+    {
         return $this->videos_id;
     }
 
-    private function load($id) {
+    private function load($id)
+    {
         $row = $this->getComment($id);
-        if (empty($row))
+        if (empty($row)) {
             return false;
+        }
         foreach ($row as $key => $value) {
             $this->$key = $value;
         }
         return true;
     }
 
-    function save() {
+    public function save()
+    {
         global $global;
-        if(!User::isLogged()){
+        if (!User::isLogged()) {
             header('Content-Type: application/json');
             die('{"error":"'.__("Permission denied").'"}');
         }
         //$this->comment = htmlentities($this->comment);
         $this->comment = $global['mysqli']->real_escape_string($this->comment);
 
-        if(empty($this->comment)){
+        if (empty($this->comment)) {
             return false;
         }
 
-        if(empty($this->comments_id_pai)){
+        if (empty($this->comments_id_pai)) {
             $this->comments_id_pai = 'NULL';
         }
 
-        if(empty($this->videos_id) && !empty($this->comments_id_pai)){
+        if (empty($this->videos_id) && !empty($this->comments_id_pai)) {
             $comment = new Comment("", 0, $this->comments_id_pai);
             $this->videos_id = $comment->getVideos_id();
         }
 
-        if (!empty($this->id) ) {
-            if(!self::userCanAdminComment($this->id)){
+        if (!empty($this->id)) {
+            if (!self::userCanAdminComment($this->id)) {
                 return false;
             }
             $sql = "UPDATE comments SET "
                     . " comment = ?, modified = now() WHERE id = ?";
-            $resp = sqlDAL::writeSql($sql,"si",array(xss_esc($this->comment),$this->id));
+            $resp = sqlDAL::writeSql($sql, "si", array(xss_esc($this->comment),$this->id));
         } else {
             $id = User::getId();
             $sql = "INSERT INTO comments ( comment,users_id, videos_id, comments_id_pai, created, modified) VALUES "
                     . " (?, ?, ?, {$this->comments_id_pai}, now(), now())";
-            $resp = sqlDAL::writeSql($sql,"sii",array(xss_esc($this->comment),$id,$this->videos_id));
+            $resp = sqlDAL::writeSql($sql, "sii", array(xss_esc($this->comment),$id,$this->videos_id));
         }
-        if((empty($resp))&&($global['mysqli']->errno!=0)){
+        if ((empty($resp))&&($global['mysqli']->errno!=0)) {
             die('Error (comment save) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         if (empty($this->id)) {
@@ -106,17 +118,17 @@ class Comment {
         } else {
             $id = $this->id;
         }
-        if(empty($this->comments_id_pai) || $this->comments_id_pai== 'NULL'){
+        if (empty($this->comments_id_pai) || $this->comments_id_pai== 'NULL') {
             AVideoPlugin::afterNewComment($this->id);
-        }else{
+        } else {
             AVideoPlugin::afterNewResponse($this->id);
         }
         return $resp;
     }
 
-
-    function delete() {
-        if(!self::userCanAdminComment($this->id)){
+    public function delete()
+    {
+        if (!self::userCanAdminComment($this->id)) {
             return false;
         }
 
@@ -126,20 +138,22 @@ class Comment {
         } else {
             return false;
         }
-        return sqlDAL::writeSql($sql,"i",array($this->id));
+        return sqlDAL::writeSql($sql, "i", array($this->id));
     }
 
-    private function getComment($id) {
+    private function getComment($id)
+    {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM comments WHERE  id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"i",array($id));
+        $res = sqlDAL::readSql($sql, "i", array($id));
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return ($res!=false) ? $result : false;
     }
 
-    static function getAllComments($videoId = 0, $comments_id_pai = 'NULL') {
+    public static function getAllComments($videoId = 0, $comments_id_pai = 'NULL')
+    {
         global $global;
         $format = "";
         $values = array();
@@ -161,8 +175,8 @@ class Comment {
             $sql .= " AND videos_id = ? ";
             $format .= "i";
             $values[] = $videoId;
-        }else if(!Permissions::canAdminComment() && empty ($comments_id_pai)){
-            if(!User::isLogged()){
+        } elseif (!Permissions::canAdminComment() && empty($comments_id_pai)) {
+            if (!User::isLogged()) {
                 die("can not see comments");
             }
             $users_id = User::getId();
@@ -172,28 +186,29 @@ class Comment {
             $values[]=$users_id;
         }
 
-        if($comments_id_pai==='NULL' || empty ($comments_id_pai)){
+        if ($comments_id_pai==='NULL' || empty($comments_id_pai)) {
             $sql .= " AND (comments_id_pai IS NULL ";
-            if(empty($videoId) && User::isLogged()){
+            if (empty($videoId) && User::isLogged()) {
                 $users_id = User::getId();
                 $sql .= " OR c.users_id = ? ";
                 $format .= "i";
                 $values[]=$users_id;
             }
             $sql .= ") ";
-        }else{
+        } else {
             $sql .= " AND comments_id_pai = ? ";
             $format .= "s";
             $values[]=$comments_id_pai;
         }
 
         $sql .= BootGrid::getSqlFromPost(array('name'));
-        $res = sqlDAL::readSql($sql,$format,$values);
+        $res = sqlDAL::readSql($sql, $format, $values);
         $allData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $comment = array();
         if ($res!=false) {
             foreach ($allData as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $row['comment'] = str_replace('\n', "\n", $row['comment']);
                 $row['commentPlain'] = xss_esc_back($row['comment']);
                 $row['commentHTML'] = nl2br($row['commentPlain']);
@@ -207,7 +222,8 @@ class Comment {
         return $comment;
     }
 
-    static function getTotalComments($videoId = 0, $comments_id_pai = 'NULL', $video_owner_users_id=0) {
+    public static function getTotalComments($videoId = 0, $comments_id_pai = 'NULL', $video_owner_users_id=0)
+    {
         global $global;
         $format = "";
         $values = array();
@@ -217,8 +233,8 @@ class Comment {
             $sql .= " AND videos_id = ? ";
             $format .= "i";
             $values[] = $videoId;
-        }else if(!Permissions::canAdminComment() && empty ($comments_id_pai)){
-            if(!User::isLogged()){
+        } elseif (!Permissions::canAdminComment() && empty($comments_id_pai)) {
+            if (!User::isLogged()) {
                 die("can not see comments");
             }
             $users_id = User::getId();
@@ -228,22 +244,22 @@ class Comment {
             $values[] = $users_id;
         }
 
-        if($comments_id_pai==='NULL' || empty ($comments_id_pai)){
+        if ($comments_id_pai==='NULL' || empty($comments_id_pai)) {
             $sql .= " AND (comments_id_pai IS NULL ";
-            if(empty($videoId) && User::isLogged()){
+            if (empty($videoId) && User::isLogged()) {
                 $users_id = User::getId();
                 $sql .= " OR c.users_id = ? ";
                 $format .= "i";
                 $values[] = $users_id;
             }
             $sql .= ") ";
-        }else{
+        } else {
             $sql .= " AND comments_id_pai = ? ";
             $format .= "s";
             $values[] = $comments_id_pai;
         }
 
-        if(!empty($video_owner_users_id)){
+        if (!empty($video_owner_users_id)) {
             $sql .= " AND v.users_id = ? ";
             $format .= "i";
             $values[] = $video_owner_users_id;
@@ -251,49 +267,52 @@ class Comment {
 
         $sql .= BootGrid::getSqlSearchFromPost(array('name'));
 
-        $res = sqlDAL::readSql($sql,$format,$values);
+        $res = sqlDAL::readSql($sql, $format, $values);
         $countRow = sqlDAL::num_rows($res);
         sqlDAL::close($res);
 
         return $countRow;
     }
 
-    static function userCanAdminComment($comments_id){
-        if(!User::isLogged()){
+    public static function userCanAdminComment($comments_id)
+    {
+        if (!User::isLogged()) {
             return false;
         }
-        if(Permissions::canAdminComment()){
+        if (Permissions::canAdminComment()) {
             return true;
         }
         $obj = new Comment("", 0, $comments_id);
-        if($obj->users_id == User::getId()){
+        if ($obj->users_id == User::getId()) {
             return true;
         }
         $video = new Video("", "", $obj->videos_id);
-        if($video->getUsers_id() == User::getId()){
-            return true;
-        }
-        return false;
-    }
-    
-    static function userCanEditComment($comments_id){
-        if(!User::isLogged()){
-            return false;
-        }
-        if(Permissions::canAdminComment()){
-            return true;
-        }
-        $obj = new Comment("", 0, $comments_id);
-        if($obj->users_id == User::getId()){
+        if ($video->getUsers_id() == User::getId()) {
             return true;
         }
         return false;
     }
 
-    static function getTotalCommentsThumbsUpFromUser($users_id, $startDate, $endDate) {
+    public static function userCanEditComment($comments_id)
+    {
+        if (!User::isLogged()) {
+            return false;
+        }
+        if (Permissions::canAdminComment()) {
+            return true;
+        }
+        $obj = new Comment("", 0, $comments_id);
+        if ($obj->users_id == User::getId()) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function getTotalCommentsThumbsUpFromUser($users_id, $startDate, $endDate)
+    {
         global $global;
         $sql = "SELECT id from comments  WHERE users_id = ?";
-        $res = sqlDAL::readSql($sql,"i",array($users_id));
+        $res = sqlDAL::readSql($sql, "i", array($users_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $r = array('thumbsUp'=>0, 'thumbsDown'=>0 );
@@ -307,17 +326,15 @@ class Comment {
                     $format .= "s";
                     $values[] = $startDate;
                 }
-
                 if (!empty($endDate)) {
                     $sql .= " AND `created` <= ? ";
                     $format .= "s";
                     $values[] = $endDate;
                 }
-                $res = sqlDAL::readSql($sql,$format,$values);
+                $res = sqlDAL::readSql($sql, $format, $values);
                 $countRow = sqlDAL::num_rows($res);
                 sqlDAL::close($res);
                 $r['thumbsUp']+=$countRow;
-
                 $format = "i";
                 $values = array($row['id']);
                 $sql = "SELECT id from comments_likes WHERE comments_id = ? AND `like` = -1  ";
@@ -326,22 +343,17 @@ class Comment {
                     $format .= "s";
                     $values[] = $startDate;
                 }
-
                 if (!empty($endDate)) {
                     $sql .= " AND `created` <= ? ";
                     $format .= "s";
                     $values[] = $endDate;
                 }
-                $res = sqlDAL::readSql($sql,$format,$values);
+                $res = sqlDAL::readSql($sql, $format, $values);
                 $countRow = sqlDAL::num_rows($res);
                 sqlDAL::close($res);
                 $r['thumbsDown']+=$countRow;
             }
         }
-
         return $r;
     }
-
-
-
 }

@@ -22,13 +22,19 @@ CREATE TABLE IF NOT EXISTS `LiveLinks` (
   `modified` DATETIME NULL,
   `status` ENUM('a', 'i') NULL DEFAULT 'a',
   `users_id` INT NOT NULL,
+  `categories_id` INT NULL ,
   PRIMARY KEY (`id`),
   INDEX `fk_LiveLinks_users_idx` (`users_id` ASC),
-  CONSTRAINT `fk_LiveLinks_users`
-    FOREIGN KEY (`users_id`)
-    REFERENCES `users` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  CONSTRAINT `fk_LiveLinks_users2`
+      FOREIGN KEY (`users_id`)
+      REFERENCES `users` (`id`)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE,
+  CONSTRAINT `fk_livelinks_categories1`
+      FOREIGN KEY (`categories_id`)
+      REFERENCES `categories` (`id`)
+      ON DELETE CASCADE
+      ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 

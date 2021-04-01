@@ -1,11 +1,11 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'plugin/MobileManager/MobileManager.php';
-require_once 'functions.php';
+header('Access-Control-Allow-Origin: *');
+allowOrigin();
+AVideoPlugin::loadPlugin('MobileManager');
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->max_file_size = get_max_file_size();
@@ -23,6 +23,7 @@ $obj->oauthLogin[] = array('type'=>'Facebook', 'status'=> !empty(AVideoPlugin::l
 $obj->oauthLogin[] = array('type'=>'Google', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginGoogle')));
 $obj->oauthLogin[] = array('type'=>'Twitter', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginTwitter')));
 $obj->oauthLogin[] = array('type'=>'LinkedIn', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginLinkedin')));
+$obj->oauthLogin[] = array('type'=>'Apple', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginApple')));
 
 $obj->plugins = array();
 $plugins = Plugin::getAllEnabled();

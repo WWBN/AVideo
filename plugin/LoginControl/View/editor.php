@@ -5,7 +5,7 @@ AVideoPlugin::loadPlugin("LoginControl");
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: LoginControl</title>
+        <title><?php echo __("Login Control") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -30,7 +30,7 @@ AVideoPlugin::loadPlugin("LoginControl");
                     <div class="tab-content">
                         <div id="logincontrol_history" class="tab-pane fade in active" style="padding: 10px;">
                             <?php
-                            include $global['systemRootPath'] . 'plugin/LoginControl/View/logincontrol_history/index_body.php';
+                            include $global['systemRootPath'] . 'plugin/LoginControl/View/Users_login_history/index_body.php';
                             ?>
                         </div>
                     </div>

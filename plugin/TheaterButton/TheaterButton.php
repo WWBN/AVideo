@@ -86,7 +86,7 @@ class TheaterButton extends PluginAbstract {
         if (isMobile() || isEmbed()) {
             return false;
         }
-        if (isVideo() || isLive()) {
+        if (isVideo() || isLive() || isAudio()) {
             return true;
         }
         return false;

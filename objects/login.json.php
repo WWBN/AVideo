@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 global $global, $config;
@@ -7,12 +9,12 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
-$timeLog = __FILE__."::Login ";
+$timeLog = __FILE__ . "::Login ";
 TimeLogStart($timeLog);
 
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
-$input = json_decode($inputJSON, TRUE); //convert JSON into array
+$input = json_decode($inputJSON, true); //convert JSON into array
 if (!empty($input)) {
     foreach ($input as $key => $value) {
         $_POST[$key] = $value;
@@ -22,7 +24,6 @@ if (!empty($input)) {
 TimeLogEnd($timeLog, __LINE__);
 
 require_once $global['systemRootPath'] . 'videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/hybridauth/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
@@ -32,62 +33,88 @@ _error_log("Start Login Request");
 
 _error_log("redirectUri: " . $_POST['redirectUri']);
 
-if (!preg_match("|^" . $global['webSiteRootURL'] . "|", $_POST['redirectUri']))
+if (!preg_match("|^" . $global['webSiteRootURL'] . "|", $_POST['redirectUri'])) {
     $_POST['redirectUri'] = $global['webSiteRootURL'];
+}
 
 _error_log("same redirectUri: " . $_POST['redirectUri']);
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
+
 TimeLogEnd($timeLog, __LINE__);
 if (!empty($_GET['type'])) {
     if (!empty($_GET['redirectUri'])) {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
+        _session_start();
+        $_SESSION['redirectUri'] = getRedirectUri();
+    }
+    if ($_GET['type'] === "Apple") {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('LoginApple');
+        if (empty($obj)) {
+            die('Apple Login is disabled');
         }
-        $_SESSION['redirectUri'] = $_GET['redirectUri'];
-    }
-    $login = AVideoPlugin::getLogin();
-    foreach ($login as $value) {
-        $obj = $value['loginObject']->getDataObject();
-        if ($value['parameters']->type === $_GET['type']) {
-            $id = $obj->id;
-            $key = $obj->key;
-            break;
+        $config = [
+            'callback' => HttpClient\Util::getCurrentUrl() . "?type={$_GET['type']}",
+            'providers' => [
+                $_GET['type'] => [
+                    "enabled" => true,
+                    "keys" => [
+                        "id" => trim($obj->id),
+                        "team_id" => trim($obj->team_id),
+                        "key_id" => trim($obj->key_id),
+                        "key_content" => trim($obj->key_content->value)
+                    ],
+                    "scope" => "name email",
+                    "verifyTokenSignature" => true
+                ]
+            ],
+                /* optional : set debug mode
+                  'debug_mode' => true,
+                  // Path to file writeable by the web server. Required if 'debug_mode' is not false
+                  'debug_file' => __FILE__ . '.log', */
+        ];
+    } else {
+        $login = AVideoPlugin::getLogin();
+        foreach ($login as $value) {
+            $obj = $value['loginObject']->getDataObject();
+            if ($value['parameters']->type === $_GET['type']) {
+                $id = $obj->id;
+                $key = $obj->key;
+                break;
+            }
         }
-    }
-    if (empty($id)) {
-        die(sprintf(__("%s ERROR: You must set a ID on config"), $_GET['type']));
-    }
+        if (empty($id)) {
+            die(sprintf(__("%s ERROR: You must set a ID on config"), $_GET['type']));
+        }
 
-    if (empty($key)) {
-        die(sprintf(__("%s ERROR: You must set a KEY on config"), $_GET['type']));
-    }
+        if (empty($key)) {
+            die(sprintf(__("%s ERROR: You must set a KEY on config"), $_GET['type']));
+        }
+        $scope = 'email';
+        if ($_GET['type'] === "Yahoo") {
+            $scope = 'sdpp-w';
+        }
+        if ($_GET['type'] === 'LinkedIn') {
+            $scope = ("r_liteprofile r_emailaddress w_member_social");
+        }
 
-    $scope = 'email';
-    if ($_GET['type'] === "Yahoo") {
-        $scope = 'sdpp-w';
+        $config = [
+            'callback' => HttpClient\Util::getCurrentUrl() . "?type={$_GET['type']}",
+            'providers' => [
+                $_GET['type'] => [
+                    'enabled' => true,
+                    'keys' => ['id' => $id, 'secret' => $key, 'key' => $id],
+                    "includeEmail" => true,
+                    'scope' => $scope,
+                    'trustForwarded' => false
+                ]
+            ],
+                /* optional : set debug mode
+                  'debug_mode' => true,
+                  // Path to file writeable by the web server. Required if 'debug_mode' is not false
+                  'debug_file' => __FILE__ . '.log', */
+        ];
     }
-    if ($_GET['type'] === 'LinkedIn') {
-        $scope = ("r_liteprofile r_emailaddress w_member_social");
-    }
-
-    $config = [
-        'callback' => HttpClient\Util::getCurrentUrl() . "?type={$_GET['type']}",
-        'providers' => [
-            $_GET['type'] => [
-                'enabled' => true,
-                'keys' => ['id' => $id, 'secret' => $key, 'key' => $id],
-                "includeEmail" => true,
-                'scope' => $scope,
-                'trustForwarded' => false
-            ]
-        ],
-            /* optional : set debug mode
-              'debug_mode' => true,
-              // Path to file writeable by the web server. Required if 'debug_mode' is not false
-              'debug_file' => __FILE__ . '.log', */
-    ];
     try {
         $hybridauth = new Hybridauth($config);
 
@@ -114,9 +141,7 @@ if (!empty($_GET['type'])) {
         $adapter->disconnect();
 
         if (!empty($_SESSION['redirectUri'])) {
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }
+            _session_start();
             $location = $_SESSION['redirectUri'];
             //header("Location: {$_SESSION['redirectUri']}");
             $_SESSION['redirectUri'] = "";
@@ -132,14 +157,14 @@ if (!empty($_GET['type'])) {
     }
     header('Content-Type: text/html');
     ?>
-<script>
-    window.opener = self;
-    if(window.name == 'loginYPT'){
-        window.close();
-    }else{
-        document.location = "<?php echo $location; ?>";
-    }
-</script>    
+    <script>
+        window.opener = self;
+        if (window.name == 'loginYPT') {
+            window.close();
+        } else {
+            document.location = "<?php echo $location; ?>";
+        }
+    </script>
     <?php
     return;
 }
@@ -205,14 +230,24 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->canCreateCategory = Category::canCreateCategory();
+$object->theme = getCurrentTheme();
 $object->canStream = User::canStream();
 $object->redirectUri = @$_POST['redirectUri'];
+$object->embedChatUrl = '';
+$object->embedChatUrlMobile = '';
+if (AVideoPlugin::isEnabledByName('Chat2') && method_exists('Chat2', 'getChatRoomLink')) {
+    $object->embedChatUrl = Chat2::getChatRoomLink(User::getId(), 1, 1, 0, true);
+    $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrl, 'mobileMode', 1);
+    $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrlMobile, 'user', $object->user);
+    $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrlMobile, 'pass', $object->pass);
+}
 //_error_log("login.json.php setup object done");
 
 if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRootURL'])) {
     if (!empty($advancedCustomUser->afterLoginGoToMyChannel)) {
         $object->redirectUri = User::getChannelLink();
-    } else if (!empty($advancedCustomUser->afterLoginGoToURL)) {
+    } elseif (!empty($advancedCustomUser->afterLoginGoToURL)) {
         $object->redirectUri = $advancedCustomUser->afterLoginGoToURL;
     }
 }
@@ -220,7 +255,7 @@ if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRoo
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     //_error_log("login.json.php get categories");
     $object->categories = Category::getAllCategories(true);
-    if(is_array($object->categories)){
+    if (is_array($object->categories)) {
         array_multisort(array_column($object->categories, 'hierarchyAndName'), SORT_ASC, $object->categories);
     }
 } else {
@@ -233,18 +268,22 @@ TimeLogEnd($timeLog, __LINE__);
 $object->streamServerURL = "";
 $object->streamKey = "";
 if ($object->isLogged) {
-    $timeLog2 = __FILE__."::Is Logged ";
+    $timeLog2 = __FILE__ . "::Is Logged ";
     TimeLogStart($timeLog2);
-    
+
     //_error_log("login.json.php get Live");
     $p = AVideoPlugin::loadPluginIfEnabled("Live");
     if (!empty($p)) {
         require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
         $trasnmition = LiveTransmition::createTransmitionIfNeed(User::getId());
-        if(!empty($trasnmition)){
+        if (!empty($trasnmition)) {
             $object->streamServerURL = $p->getServer() . "?p=" . User::getUserPass();
             $object->streamKey = $trasnmition['key'];
+        } else {
+            _error_log('login.json.php transmissionKey is empty [' . User::getId() . ']');
         }
+    } else {
+        _error_log('login.json.php live plugin is disabled');
     }
     TimeLogEnd($timeLog2, __LINE__);
     //_error_log("login.json.php get MobileManager");
@@ -273,6 +312,8 @@ if ($object->isLogged) {
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
     }
     TimeLogEnd($timeLog2, __LINE__);
+} else {
+    _error_log('login.json.php is not logged');
 }
 TimeLogEnd($timeLog, __LINE__);
 //_error_log("login.json.php almost complete");

@@ -13,21 +13,21 @@ class Meet_schedule_has_users_groups extends ObjectYPT {
     static function getTableName() {
         return 'meet_schedule_has_users_groups';
     }
-    
+
     static function getAllFromSchedule($meet_schedule_id) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         $meet_schedule_id = intval($meet_schedule_id);
-                
+
         if(empty($meet_schedule_id)){
             return false;
         }
         $sql = "SELECT u.*, ml.* FROM  " . static::getTableName() . " ml "
                 . " LEFT JOIN users_groups u ON u.id = ml.users_groups_id "
                 . "WHERE meet_schedule_id=$meet_schedule_id ";
-        
+
         $sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
@@ -35,6 +35,7 @@ class Meet_schedule_has_users_groups extends ObjectYPT {
         $rows = array();
         if ($res != false) {
             foreach ($fullData as $row) {
+                $row = cleanUpRowFromDatabase($row);
                 $rows[] = $row;
             }
         } else {
@@ -106,7 +107,7 @@ class Meet_schedule_has_users_groups extends ObjectYPT {
     function getUsers_groups_id() {
         return intval($this->users_groups_id);
     }
-    
+
     static function saveUsergroupsToMeet($meet_schedule_id, $user_groups_ids){
         self::deleteAllFromMeet($meet_schedule_id);
         if(!is_array($user_groups_ids)){
@@ -120,7 +121,7 @@ class Meet_schedule_has_users_groups extends ObjectYPT {
         }
         return true;
     }
-    
+
     static function deleteAllFromMeet($meet_schedule_id) {
         global $global;
         if (!empty($meet_schedule_id)) {

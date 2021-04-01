@@ -1,5 +1,5 @@
 <?php
-require_once '../videos/configuration.php';
+require_once dirname(__FILE__) . '/../../videos/configuration.php';
 
 $images = Video::getImageFromFilename($video['filename']);
 $img = $images->poster;
@@ -12,7 +12,7 @@ $imgh = 720;
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Confirm Rating</title>
+        <title><?php echo __("Confirm Rating") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

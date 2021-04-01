@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 session_write_close();
@@ -13,14 +13,14 @@ if (Permissions::canModerateVideos()) {
 }
 $showUnlisted = false;
 $activeUsersOnly = true;
-if(!empty($_REQUEST['showAll'])){
+if (!empty($_REQUEST['showAll'])) {
     $showUnlisted = true;
-    if(Permissions::canModerateVideos()){
+    if (Permissions::canModerateVideos()) {
         $activeUsersOnly = false;
     }
 }
 
-if(empty($_REQUEST['current'])){
+if (empty($_REQUEST['current'])) {
     $_REQUEST['current'] = getCurrentPage();
 }
 
@@ -38,22 +38,21 @@ foreach ($videos as $key => $value) {
     $videos[$key]['clean_title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['clean_title']);
     $videos[$key]['typeLabels'] = Video::getVideoTypeLabels($videos[$key]['filename']);
     $videos[$key]['maxResolution'] = Video::getHigestResolution($videos[$key]['filename']);
-    if(!empty($videos[$key]['next_videos_id'])){
+    if (!empty($videos[$key]['next_videos_id'])) {
         unset($_POST['searchPhrase']);
         $videos[$key]['next_video'] = Video::getVideo($videos[$key]['next_videos_id']);
     }
-    if($videos[$key]['type']=='article'){
+    if ($videos[$key]['type'] == 'article') {
         $videos[$key]['videosURL'] = getVideosURLArticle($videos[$key]['filename']);
-    }else if($videos[$key]['type']=='image'){
+    } elseif ($videos[$key]['type'] == 'image') {
         $videos[$key]['videosURL'] = getVideosURLIMAGE($videos[$key]['filename']);
-    }else if($videos[$key]['type']=='zip'){
+    } elseif ($videos[$key]['type'] == 'zip') {
         $videos[$key]['videosURL'] = getVideosURLZIP($videos[$key]['filename']);
-    }else 
-    if($videos[$key]['type']=='pdf'){
+    } elseif ($videos[$key]['type'] == 'pdf') {
         $videos[$key]['videosURL'] = getVideosURLPDF($videos[$key]['filename']);
-    }else if($videos[$key]['type']=='audio'){
+    } elseif ($videos[$key]['type'] == 'audio') {
         $videos[$key]['videosURL'] = getVideosURLAudio($videos[$key]['filename']);
-    }else{
+    } else {
         $videos[$key]['videosURL'] = getVideosURL($videos[$key]['filename']);
     }
     unset($videos[$key]['password']);

@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -12,18 +14,13 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     $obj = new stdClass();
     header('Content-Type: application/json');
     if (!empty($user->getEmail())) {
-        $recoverPass = md5(rand());
-        $recoverPass = $user->setRecoverPass($recoverPass);
+        $recoverPass = $user->setRecoverPass();
         if (!empty($_POST['captcha']) && $user->save()) {
             require_once 'captcha.php';
             $valid = Captcha::validation($_POST['captcha']);
             if ($valid) {
-                require_once $global['systemRootPath'] . 'objects/PHPMailer/src/PHPMailer.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/SMTP.php';
-    require_once $global['systemRootPath'] . 'objects/PHPMailer/src/Exception.php';
-
                 //Create a new PHPMailer instance
-                $mail = new PHPMailer\PHPMailer\PHPMailer;
+                $mail = new \PHPMailer\PHPMailer\PHPMailer;
                 setSiteSendMessage($mail);
                 //Set who the message is to be sent from
                 $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
@@ -57,21 +54,19 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     <!DOCTYPE html>
     <html lang="<?php echo $_SESSION['language']; ?>">
         <head>
-            <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo __("Recover Password"); ?></title>
             <?php
-            include $global['systemRootPath'] . 'view/include/head.php';
+            echo getHTMLTitle(__("Recover Password"));
             ?>
+            <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         </head>
 
         <body class="<?php echo $global['bodyClass']; ?>">
-            <?php
-            include $global['systemRootPath'] . 'view/include/navbar.php';
-            ?>
+            <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
             <div class="container">
-                <?php
-                if ($user->getRecoverPass() != $_GET['recoverpass']) {
-                    ?>
+    <?php
+    if ($user->getRecoverPass() != $_GET['recoverpass']) {
+        ?>
                     <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
                     <?php
                 } else {
@@ -104,18 +99,14 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
-                                    <?php
-                                    getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password"));
-                                    ?>
+        <?php getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password")); ?>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
-                                    <?php
-                                    getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password"));
-                                    ?>
+        <?php getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password")); ?>
                                 </div>
                             </div>
 
@@ -130,16 +121,13 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
                         </fieldset>
                     </form>
-                    <?php
-                }
-                ?>
+        <?php }
+    ?>
             </div>
 
         </div><!--/.container-->
 
-        <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
+    <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
 
         <script>
             $(document).ready(function () {

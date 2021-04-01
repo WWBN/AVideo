@@ -3,6 +3,9 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 $head = AVideoPlugin::getHeadCode();
 $custom = "The Best YouTube Clone Ever - AVideo";
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
+if(empty($advancedCustom)){
+    $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+}
 
 $custom = array();
 
@@ -39,8 +42,13 @@ if(!empty($metaDescription)){
     $metaDescription = implode(" - ", $custom);
 }
 // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
-$metaDescription .= getSEOComplement();
-$theme = $config->getTheme();
+$metaDescription .= getSEOComplement(array("addAutoPrefix" => false));
+$theme = getCurrentTheme();
+
+if(empty($config)){
+    $config = new Configuration();
+}
+
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -73,13 +81,14 @@ $cssFiles = array();
 $cssFiles[] = "view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
 $cssFiles[] = "view/js/bootgrid/jquery.bootgrid.css";
 $cssFiles[] = "view/js/jquery-toast/jquery.toast.min.css";
-$cssFiles[] = "view/css/custom/{$theme}.css";
+//$cssFiles[] = "view/css/custom/{$theme}.css";
 $cssFiles = array_merge($cssFiles);
 $cssURL = combineFiles($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo $global['webSiteRootURL']; ?>view/css/custom/<?php echo $theme; ?>.css" rel="stylesheet" type="text/css" id="customCSS"/>
 <?php
-$filename = "{$global['systemRootPath']}videos/cache/custom.css";
+$filename = Video::getStoragePath()."cache/custom.css";
 if($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exists($filename)){
     echo '<link href="'.$global['webSiteRootURL'].'videos/cache/custom.css?'.  filectime($filename) .'" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 }else{

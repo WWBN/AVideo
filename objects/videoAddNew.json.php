@@ -21,9 +21,8 @@ if (!empty($_POST['id'])) {
     }
 }
 
-if (!is_writable("{$global['systemRootPath']}objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer")) {
-    //Directory /home/daniel/danielneto.com@gmail.com/htdocs/AVideo/objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 
-    die('{"error":"Directory ' . $global['systemRootPath'] . 'objects/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 "}');
+if (!is_writable("{$global['systemRootPath']}objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer")) {
+    die('{"error":"Directory ' . $global['systemRootPath'] . 'objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 "}');
 }
 
 TimeLogStart(__FILE__);
@@ -81,7 +80,7 @@ if (!empty($_POST['videoLink'])) {
 }else if(!empty($obj->getType()) && ($obj->getType() == 'video' || $obj->getType() == 'serie' || $obj->getType() == 'audio')){
     $obj->setVideoLink("");
 }
-    
+
 TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['isArticle'])) {
     $obj->setType("article");
@@ -119,8 +118,12 @@ $obj->setExternalOptions(@$_POST['externalOptions']);
 TimeLogEnd(__FILE__, __LINE__);
 $resp = $obj->save(true);
 // if is a new embed video
-if (empty($_POST['id']) && $obj->getType() == 'embed') {
+if (empty($_POST['id']) && ($obj->getType() == 'embed' || $obj->getType() == 'linkVideo' )) {
     AVideoPlugin::afterNewVideo($resp);
+}
+
+if(User::isAdmin()){
+    $obj->updateViewsCount($_REQUEST['views_count']);
 }
 
 AVideoPlugin::saveVideosAddNew($_POST, $resp);
@@ -132,5 +135,7 @@ $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
 $obj->video = Video::getVideo($obj->videos_id, false, true);
+
+
 TimeLogEnd(__FILE__, __LINE__);
 echo json_encode($obj);

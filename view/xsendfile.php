@@ -16,7 +16,7 @@ if (empty($_GET['file'])) {
 
 $path_parts = pathinfo($_GET['file']);
 $file = $path_parts['basename'];
-$path = "{$global['systemRootPath']}videos/{$file}";
+$path = Video::getStoragePath()."{$file}";
 
 if ($file == "X-Sendfile.mp4") {
     $path = "{$global['systemRootPath']}plugin/SecureVideosDirectory/test.json";
@@ -38,6 +38,10 @@ if ($file == "configuration.php") {
 
 if (file_exists($path)) {
     if (!empty($_GET['download'])) {
+        if(!CustomizeUser::canDownloadVideos()){
+            _error_log("downloadHLS: CustomizeUser::canDownloadVideos said NO");
+            forbiddenPage("Cant download this");
+        }
         if (!empty($_GET['title'])) {
             $quoted = sprintf('"%s"', addcslashes(basename($_GET['title']), '"\\'));
         } else {
@@ -58,6 +62,8 @@ if (file_exists($path)) {
         if (empty($advancedCustom->doNotUseXsendFile)) {
             //_error_log("X-Sendfile: {$path}");
             header("X-Sendfile: {$path}");
+        }else{
+            _error_log("Careful, we recomend you to use the X-Sendfile and it is disabled on AdvancedCustom plugin -> doNotUseXsendFile, you may have an error 'Allowed Memory Size Exhausted' if your video file is too big", AVideoLog::$WARNING);
         }
     } else {
         $advancedCustom->doNotUseXsendFile = true;

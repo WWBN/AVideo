@@ -21,7 +21,7 @@ foreach ($videos as $value) {
     echo "\nStart: " . $value['title'];
     ob_flush();
     $videoFileName = $value['filename'];
-    $destination = "{$global['systemRootPath']}videos/{$videoFileName}.webp";
+    $destination = Video::getStoragePath()."{$videoFileName}.webp";
     if (!file_exists($destination)) {
         echo "\nGet webp";
         ob_flush();

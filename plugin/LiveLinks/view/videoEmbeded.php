@@ -1,6 +1,7 @@
 <?php
 global $isLive;
 $isLive = 1;
+$isLiveLink = $t['id'];
 $isEmbed = 1;
 $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
@@ -77,6 +78,7 @@ if (!empty($objSecure)) {
         <?php
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         echo AVideoPlugin::getFooterCode();
+        showCloseButton();
         ?>
     </body>
 </html>

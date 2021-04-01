@@ -76,11 +76,9 @@ if (User::isAdmin()) {
 
                                     </div>
                                     <?php
-                                    foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
-                                        //echo "$filename size " . filesize($filename) . "\n";
-                                        $file = basename($filename);         // $file is set to "index.php"
-                                        $fileEx = basename($filename, ".css"); // $file is set to "index"
-                                        $savedTheme = $config->getTheme();
+                                    $themes = getThemes();
+                                    $savedTheme = $config->getTheme();
+                                    foreach ($themes as $fileEx) {
                                         if ($fileEx == $savedTheme) {
                                             ?>
                                             <script>
@@ -280,15 +278,9 @@ if (User::isAdmin()) {
                                             <div class="col-md-8 inputGroupContainer">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
-                                                    <select class="form-control" id="inputLanguage" >
-                                                        <?php
-                                                        foreach (glob("{$global['systemRootPath']}locale/??.php") as $filename) {
-                                                            $filename = basename($filename);
-                                                            $fileEx = basename($filename, ".php");
-                                                            echo "<option value=\"" . $fileEx . "\"" . (($config->getLanguage() == $fileEx) ? " selected" : "") . ">" . $fileEx . "</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
+                                                    <?php
+                                                    echo Layout::getLangsSelect('inputLanguage', $config->getLanguage(), 'inputLanguage');
+                                                    ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -423,16 +415,6 @@ if (User::isAdmin()) {
                                                     <button class="btn btn-primary" id="generateSiteMap">
                                                         <i class="fa fa-sitemap"></i> <?php echo __("Generate Sitemap"); ?>
                                                     </button>
-                                                    <?php
-                                                    if (!is_writable($sitemapFile)) {
-                                                        ?>
-                                                        <div class="alert alert-danger">
-                                                            the sitemap file must be writable
-                                                            <code>sudo chmod 777 <?php echo $sitemapFile; ?></code>
-                                                        </div>    
-                                                        <?php
-                                                    }
-                                                    ?>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -608,6 +590,36 @@ if (User::isAdmin()) {
                         <div class="form-group">
                             <label class="col-md-2 control-label"><?php echo __("Head Code"); ?></label>
                             <div class="col-md-10">
+                                <link rel="stylesheet" href="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.css">
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/xml/xml.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/css/css.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/javascript/javascript.js"></script>
+                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+                                <script>
+                                    (function($) {
+										$(document).ready(function() {
+
+											var editor,
+											    head = document.getElementById("head");
+
+											$("li a[href='#tabHead']").on("click", function() {
+												if (!editor && head) {
+													setTimeout(function() {
+														editor = CodeMirror.fromTextArea(head, {
+															lineNumbers: true,
+															mode: "htmlmixed"
+														});																											
+														editor.on('change', function() {
+															editor.save();
+														});
+													}, 10);
+												}
+											});
+
+										});
+                                    })(jQuery);
+                                </script>
                                 <textarea id="head" class="form-control" type="text" rows="20" ><?php echo $config->getHead(); ?></textarea>
                                 <small><?php echo __('For Google Analytics code'); ?>: <a href='https://analytics.google.com'  target="_blank" rel="noopener noreferrer">https://analytics.google.com</a></small><br>
                                 <small><?php echo __('Leave blank for native code'); ?></small>

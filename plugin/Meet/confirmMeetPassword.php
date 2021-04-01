@@ -16,7 +16,7 @@ $photo = User::getPhoto($meet->getUsers_id());
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Confirm Meet Password</title>
+        <title><?php echo __("Confirm Meet Password") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -25,13 +25,13 @@ $photo = User::getPhoto($meet->getUsers_id());
                 padding-top: 0;
             }
             footer{
-                display: none;   
+                display: none;
             }
             #bg{
                 position: fixed;
                 width: 100%;
                 height: 100%;
-                background-image: url('<?php echo $img; ?>');
+                background-image: url('<?php echo $global['webSiteRootURL'], $img; ?>');
                 background-size: cover;
                 opacity: 0.3;
                 filter: alpha(opacity=30); /* For IE8 and earlier */
@@ -68,7 +68,7 @@ $photo = User::getPhoto($meet->getUsers_id());
                                         <?php
                                         if (!empty($_POST['meet_password'])) {
                                             ?>
-                                            <div class="alert alert-danger"><?php echo __("Your password does not match!"); ?></div>    
+                                            <div class="alert alert-danger"><?php echo __("Your password does not match!"); ?></div>
                                             <?php
                                         }
                                         ?>
@@ -76,7 +76,7 @@ $photo = User::getPhoto($meet->getUsers_id());
                                             <label for="meet_password"><?php echo __("This Meet Requires a Password"); ?></label>
                                             <input type="text" class="form-control" id="meet_password" name="meet_password" placeholder="<?php echo __("Password"); ?>" required>
                                         </div>
-                                        <div class="row"> 
+                                        <div class="row">
                                             <div class="col-md-6">
                                                 <button type="submit" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></button>
                                             </div>

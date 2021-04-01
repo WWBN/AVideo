@@ -69,6 +69,8 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderAutomaticMP4 = false;
         $obj->doNotShowEncoderAutomaticWebm = false;
         $obj->doNotShowEncoderAutomaticAudio = false;
+        $obj->doNotShowExtractAudio = false;
+        $obj->doNotShowCreateVideoSpectrum = false;
         $obj->doNotShowLeftMenuAudioAndVideoButtons = false;
         $obj->doNotShowWebsiteOnContactForm = false;
         $obj->doNotUseXsendFile = false;
@@ -78,7 +80,6 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->useVideoIDOnSEOLinks = true;
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
-        $obj->EnableWavesurfer = false;
         $obj->EnableMinifyJS = false;
         $obj->disableShareAndPlaylist = false;
         $obj->disableShareOnly = false;
@@ -103,6 +104,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->signInOnRight = true;
         $obj->signInOnLeft = true;
         $obj->forceCategory = false;
+        $obj->showCategoryTopImages = true;
         $obj->autoPlayAjax = false;
 
         $plugins = Plugin::getAllEnabled();
@@ -118,6 +120,7 @@ class CustomizeAdvanced extends PluginAbstract {
             }
         }
 
+        $obj->disablePlayLink = false;
         $obj->disableHelpLeftMenu = false;
         $obj->disableAboutLeftMenu = false;
         $obj->disableContactLeftMenu = false;
@@ -170,6 +173,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $o->value = "";
         $obj->videoNotFoundText = $o;
         $obj->siteMapRowsLimit = 100;
+        $obj->siteMapUTF8Fix = false;
         $obj->showPrivateVideosOnSitemap = false;
         $obj->enableOldPassHashCheck = true;
         $obj->disableHTMLDescription = false;
@@ -187,6 +191,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->twitter_summary_large_image = false;
         $obj->footerStyle = "position: fixed;bottom: 0;width: 100%;";
         $obj->disableVideoTags = false;
+        $obj->doNotAllowEncoderOverwriteStatus = false;
         
         
         $o = new stdClass();
@@ -202,7 +207,7 @@ class CustomizeAdvanced extends PluginAbstract {
 
     public function getHelp() {
         if (User::isAdmin()) {
-            return "<h2 id='CustomizeAdvanced help'>CustomizeAdvanced (admin)</h2><p>" . $this->getDescription() . "</p><table class='table'><tbody><tr><td>EnableWavesurfer</td><td>Enables the visualisation for audio. This will always download full audio first, so with big audio-files, you might better disable it.</td></tr><tr><td>commentsMaxLength</td><td>Maximum lenght for comments in videos</td></tr><tr><td>disableYoutubePlayerIntegration</td> <td>Disables the integrating of youtube-videos and just embed them.</td></tr><tr><td>EnableMinifyJS</td><td>Minify your JS. Clear videos/cache after changing this option.</td></tr></tbody></table>";
+            return "<h2 id='CustomizeAdvanced help'>CustomizeAdvanced (admin)</h2><p>" . $this->getDescription() . "</p>";
         }
         return "";
     }
@@ -220,15 +225,16 @@ class CustomizeAdvanced extends PluginAbstract {
             }
         }
     }
+    
+    public function getEmbed($videos_id) {
+        return $this->getModeYouTube($videos_id);
+    }
 
     public function getFooterCode() {
         global $global;
 
         $obj = $this->getDataObject();
         $content = '';
-        if ($obj->disableNavBarInsideIframe) {
-            $content .= '<script>$(function () {if(inIframe()){$("#mainNavBar").fadeOut();}});</script>';
-        }
         if ($obj->autoHideNavbar && !isEmbed()) {
             $content .= '<script>$(function () {setTimeout(function(){$("#mainNavBar").autoHidingNavbar();},5000);});</script>';
             $content .= '<script>'. file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideNavbar.js').'</script>';
@@ -274,8 +280,8 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getVideosManagerListButton() {
         $btn = "";
         if (User::isAdmin()) {
-            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="updateDiskUsage(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="Update Disk usage"><i class="fas fa-chart-line"></i> Update Disk Usage</button>';
-            $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="removeThumbs(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="RemoveThumbs"><i class="fas fa-images"></i> Remove Thumbs</button>';
+            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="updateDiskUsage(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="'. __("Update disk usage for this media") .'"><i class="fas fa-chart-line"></i> '. __("Update Disk Usage") .'</button>';
+            $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="removeThumbs(\' + row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="'. __("Remove thumbs for this media") .'"><i class="fas fa-images"></i> '. __("Remove Thumbs") .'</button>';
         }
         return $btn;
     }

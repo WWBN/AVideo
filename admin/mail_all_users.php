@@ -4,12 +4,26 @@
     <div class="panel-body">
 
         <div class="row">
-            <label class="col-md-4">
+            <label class="col-md-4" style="text-align: right;">
                 <?php echo __('Sent only to this email'); ?>:
             </label>
             <div class="col-md-8">
                 <input class="form-control" type="email" id="email" placeholder="test@email.com">
-                <small><?php echo __('Leave it blank to send to all users'); ?></small>
+                <small><?php echo __('Leave it blank to send to all users'); ?> <?php echo __('or user group selected below'); ?></small>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-4" style="text-align: right;">
+                <?php echo __('Filter users'); ?>:
+            </label>
+            <div class="col-md-8">
+                <label class="radio-inline"><input type="radio" name="userGroup" value="0" checked><?php echo __("All"); ?></label>
+                <?php
+                $userGroups = UserGroups::getAllUsersGroupsArray();
+                foreach ($userGroups as $key => $value) {
+                    echo '<label class="radio-inline"><input type="radio" name="userGroup" value="' . $key . '">' . $value . '</label>';
+                }
+                ?>
             </div>
         </div>
         <hr>
@@ -37,13 +51,17 @@
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>objects/emailAllUsers.json.php',
             method: 'POST',
-            data: {'message': $('#emailMessage').val(), 'email': $('#email').val()},
+            data: {
+                'message': $('#emailMessage').val(),
+                'email': $('#email').val(),
+                'users_groups_id': $('input[name="userGroup"]:checked').val()
+            },
             success: function (response) {
                 console.log(response);
                 if (response.error) {
                     avideoAlert("<?php echo __("Sorry!"); ?>", response.msg[0], "error");
                 } else {
-                    avideoAlert("<?php echo __("Success"); ?>", "You have sent "+response.count+" emails", "success");
+                    avideoAlert("<?php echo __("Success"); ?>", "You have sent " + response.count + " emails", "success");
                 }
                 modal.hidePleaseWait();
             }

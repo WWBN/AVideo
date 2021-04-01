@@ -17,14 +17,14 @@ class Wallet extends ObjectYPT {
     static function getTableName() {
         return 'wallet';
     }
-    
+
     function getBalance() {
         if(empty($this->balance)){
             return 0.0;
         }
         return floatval($this->balance);
     }
-    
+
     function getId() {
         return $this->id;
     }
@@ -32,7 +32,7 @@ class Wallet extends ObjectYPT {
     function setId($id) {
         $this->id = $id;
     }
-    
+
     function getUsers_id() {
         return $this->users_id;
     }
@@ -45,7 +45,7 @@ class Wallet extends ObjectYPT {
         $this->loadFromUser($users_id);
         $this->users_id = $users_id;
     }
-    
+
     // base64 is used to save hexa values as string in some databases
     function getCrypto_wallet_address() {
         return base64_decode($this->crypto_wallet_address);
@@ -54,7 +54,7 @@ class Wallet extends ObjectYPT {
     function setCrypto_wallet_address($crypto_wallet_address) {
         $this->crypto_wallet_address = base64_encode($crypto_wallet_address);
     }
-    
+
     protected function loadFromUser($users_id) {
         $row = self::getFromUser($users_id);
         if (empty($row))
@@ -64,7 +64,7 @@ class Wallet extends ObjectYPT {
         }
         return true;
     }
-    
+
     static function getFromUser($users_id) {
         global $global;
         $users_id = intval($users_id);
@@ -78,7 +78,7 @@ class Wallet extends ObjectYPT {
         }
         return $row;
     }
-    
+
     static function getFromWalletId($wallet_id) {
         global $global;
         $wallet_id = intval($wallet_id);
@@ -88,12 +88,13 @@ class Wallet extends ObjectYPT {
         $res = $global['mysqli']->query($sql);
         if ($res) {
             $row = $res->fetch_assoc();
+            $row = cleanUpRowFromDatabase($row);
         } else {
             $row = false;
         }
         return $row;
     }
-    
+
     public function save() {
         global $global;
         $this->balance = floatval($this->balance);
@@ -101,7 +102,7 @@ class Wallet extends ObjectYPT {
         ObjectYPT::clearSessionCache();
         return parent::save();
     }
-    
+
     static function getOrCreateFromUser($users_id) {
         $wallet = self::getFromUser($users_id);
         if(empty($wallet)){

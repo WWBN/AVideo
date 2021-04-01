@@ -15,7 +15,9 @@
                         <th data-column-id="name" data-order="desc"  data-formatter="name"  data-width="40%"><?php echo __("Name"); ?></th>
                         <th data-column-id="private" data-formatter="private"><?php echo __("Private"); ?></th>
                         <th data-column-id="owner"><?php echo __("Owner"); ?></th>
-                        <th data-column-id="fullTotal" data-sortable="false"><?php echo __("Videos"); ?></th>
+                        <th data-column-id="fullTotal_videos" data-sortable="false"><?php echo __("Videos"); ?></th>
+                        <th data-column-id="fullTotal_lives" data-sortable="false"><?php echo __("Lives"); ?></th>
+                        <th data-column-id="fullTotal_livelinks" data-sortable="false"><?php echo __("Live Links"); ?></th>
                         <th data-column-id="allow_download" ><?php echo __("Download"); ?></th>
                         <th data-column-id="order" ><?php echo __("Order"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="130px"></th>
@@ -54,7 +56,7 @@
                                         <div class="form-group">
                                             <label><?php echo __("Background"); ?></label>                        
                                             <?php
-                                            $croppie2 = getCroppie(__("Upload Image"), "setImage2", 1280, 180, 500);
+                                            $croppie2 = getCroppie(__("Upload Image"), "setImage2", 1280, 180, 400);
                                             echo $croppie2['html'];
                                             ?>
                                         </div>
@@ -90,7 +92,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label><?php echo __("Privacy"); ?></label>                        
+                                            <label><?php echo __("Privacy"); ?> <i class="fas fa-question-circle" data-toggle="tooltip" title="<?php echo htmlentities(__('This option will not make your videos private, this option is for other users not to be able to include their videos in this category. to make your videos private use the user groups feature')); ?>" ></i></label>                        
                                             <select class="form-control" id="inputPrivate">
                                                 <option value="0"><?php echo __("Public"); ?></option>
                                                 <option value="1"><?php echo __("Private"); ?></option>
@@ -321,9 +323,6 @@ echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(row.id));";
                             }
                         });
             });
-            setTimeout(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            }, 1000);
         });
 
 
@@ -357,10 +356,16 @@ echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(0));";
         });
 
         $('#updateCategoryForm').submit(function (evt) {
+            //$('#updateCategoryForm a[href="#images"]').trigger("click");
+            
             evt.preventDefault();
-<?php
+            setTimeout(function(){
+                <?php
 echo $croppie1['getCroppieFunction'];
 ?>
+                
+            },500);
+
             return false;
         });
     });

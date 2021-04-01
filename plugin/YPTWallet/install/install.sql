@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `wallet` (
   `modified` DATETIME NULL,
   `users_id` INT NOT NULL,
   `crypto_wallet_address` VARCHAR(255) NULL DEFAULT NULL,
+  `information` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_wallet_users_idx` (`users_id` ASC),
   CONSTRAINT `fk_wallet_users`

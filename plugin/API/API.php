@@ -136,6 +136,33 @@ class API extends PluginAbstract {
         }
         return new ApiObject("", false, $obj);
     }
+    
+    /**
+     * @param type $parameters 
+     * This will check if the provided UserAgent/Headers comes from a mobile
+     * Returns true if any type of mobile device detected, including special ones
+     * PHP Sample code: "plugin/API/{getOrSet}.json.php?APIName={APIName}&userAgent=".urlencode($_SERVER["HTTP_USER_AGENT"])."&httpHeaders=".urlencode(json_encode(getallheaders()))
+     * ['userAgent' usually is the variable $_SERVER["HTTP_USER_AGENT"]]
+     * ['httpHeaders' usually is the variable $_SERVER['HTTP_X_REQUESTED_WITH']]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&userAgent=Mozilla%2F5.0+%28Windows+NT+10.0%3B+Win64%3B+x64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F89.0.4389.82+Safari%2F537.36
+     * @return \ApiObject
+     */
+    public function get_api_is_mobile($parameters) {
+        global $global;
+        $obj = $this->startResponseObject($parameters);
+        if(!empty($_REQUEST['httpHeaders'])){
+            $json = json_decode($_REQUEST['httpHeaders']);
+            if(!empty($json)){
+                $_REQUEST['httpHeaders'] = $json;
+            }else{
+                $_REQUEST['httpHeaders'] = array($_REQUEST['httpHeaders']);
+            }
+        }
+        $obj->userAgent = @$_REQUEST['userAgent'];
+        $obj->httpHeaders = @$_REQUEST['httpHeaders'];
+        $obj->isMobile = isMobile(@$obj->userAgent, @$obj->httpHeaders);
+        return new ApiObject("", false, $obj);
+    }
 
     /**
      * @param type $parameters 
@@ -261,6 +288,7 @@ class API extends PluginAbstract {
      * ['tags_id' the ID of the tag you want to filter]
      * ['catName' the clean_APIName of the category you want to filter]
      * ['channelName' the channelName of the videos you want to filter]
+     * ['is_serie' if is 0 return only videos, if is 1 return only series, if is not set, return all]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&catName=default&rowCount=10
      * @return \ApiObject
      */
@@ -1002,6 +1030,87 @@ class API extends PluginAbstract {
         $_POST['videos_id'] = $parameters['videos_id'];
         $_POST['add'] = $add;
         $_POST['playlists_id'] = PlayLists::getFavoriteIdFromUser(User::getId());
+        require_once $global['systemRootPath'] . 'objects/playListAddVideo.json.php';
+        exit;
+    }
+    
+    /**
+     * Return all watch_later from a user
+     * @param type $parameters
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function get_api_watch_later($parameters) {
+        $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
+        if (empty($plugin)) {
+            return new ApiObject("Plugin disabled");
+        }
+        if (!User::isLogged()) {
+            return new ApiObject("User must be logged");
+        }
+        $row = PlayList::getAllFromUser(User::getId(), false, 'watch_later');
+        foreach ($row as $key => $value) {
+            unset($row[$key]['password']);
+            unset($row[$key]['recoverPass']);
+            foreach ($value['videos'] as $key2 => $value2) {
+                //$row[$key]['videos'][$key2] = Video::getVideo($value2['id']);
+                unset($row[$key]['videos'][$key2]['password']);
+                unset($row[$key]['videos'][$key2]['recoverPass']);
+                if (!empty($row[$key]['videos'][$key2]['next_videos_id'])) {
+                    unset($_POST['searchPhrase']);
+                    $row[$key]['videos'][$key2]['next_video'] = Video::getVideo($row[$key]['videos'][$key2]['next_videos_id']);
+                }
+                $row[$key]['videos'][$key2]['videosURL'] = getVideosURL($row[$key]['videos'][$key2]['filename']);
+                unset($row[$key]['videos'][$key2]['password']);
+                unset($row[$key]['videos'][$key2]['recoverPass']);
+            }
+        }
+        echo json_encode($row);
+        exit;
+    }
+
+    /**
+     * add a video into a user watch_later play list
+     * @param type $parameters
+     * 'videos_id' the video id that you want to add
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function set_api_watch_later($parameters) {
+        $this->watch_later($parameters, true);
+    }
+
+    /**
+     * @param type $parameters
+     * 'videos_id' the video id that you want to remove
+     * 'user' usename of the user
+     * 'pass' password  of the user
+     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return type
+     */
+    public function set_api_removeWatch_later($parameters) {
+        $this->watch_later($parameters, false);
+    }
+
+    private function watch_later($parameters, $add) {
+        global $global;
+        $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
+        if (empty($plugin)) {
+            return new ApiObject("Plugin disabled");
+        }
+        if (!User::isLogged()) {
+            return new ApiObject("Wrong user or password");
+        }
+        $_POST['videos_id'] = $parameters['videos_id'];
+        $_POST['add'] = $add;
+        $_POST['playlists_id'] = PlayLists::getWatchLaterIdFromUser(User::getId());
         require_once $global['systemRootPath'] . 'objects/playListAddVideo.json.php';
         exit;
     }

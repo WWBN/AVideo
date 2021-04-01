@@ -1,5 +1,7 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+global $isSerie;
+$isSerie = 1;
 $playlist = new PlayList($playlist_id);
 
 $rowCount = getRowCount();
@@ -21,16 +23,21 @@ if (!empty($videoSerie)) {
     }
 }
 ?>
+<style>
+    .playlistList .videoLink {
+        display: inline-flex;
+    }
+</style>
 <div class="playlist-nav">
     <nav class="navbar navbar-inverse">
         <ul class="nav navbar-nav">
             <li class="navbar-header">
                 <a>
-                <div class="pull-right">
-                    <?php
-                    echo PlayLists::getPlayLiveButton($playlist_id);
-                    ?>
-                </div>
+                    <div class="pull-right">
+                        <?php
+                        echo PlayLists::getPlayLiveButton($playlist_id);
+                        ?>
+                    </div>
                     <h3 class="nopadding">
                         <?php
                         echo $playlist->getName();
@@ -50,6 +57,7 @@ if (!empty($videoSerie)) {
             <?php
             $count = 0;
             foreach ($playlistVideos as $value) {
+                $value = object_to_array($value);
                 $class = "";
                 $indicator = $count + 1;
                 if ($count == $playlist_index) {
@@ -58,14 +66,14 @@ if (!empty($videoSerie)) {
                 }
                 ?>
                 <li class="<?php echo $class; ?>">
-                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count . "/{$value["channelName"]}/" . urlencode($playlist->getName()) . "/{$value['clean_title']}"; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count . "/" . urlencode(cleanURLName($value["channelName"])) . "/" . urlencode(cleanURLName($playlist->getName())) . "/{$value['clean_title']}"; ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
                         <div class="col-md-1 col-sm-1 col-xs-1">
                             <?php echo $indicator; ?>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3 nopadding">
                             <?php
                             if (($value['type'] !== "audio") && ($value['type'] !== "linkAudio")) {
-                                $img = "{$global['webSiteRootURL']}videos/{$value['filename']}.jpg";
+                                $img = $value['images']['poster'];
                                 $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                             } else {
                                 $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
@@ -73,11 +81,6 @@ if (!empty($videoSerie)) {
                             }
                             ?>
                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" itemprop="thumbnail" />
-
-                            <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-                            <span itemprop="contentURL" content="<?php echo $global['webSiteRootURL'], @$catLink, "video/", $value['clean_title']; ?>" />
-                            <span itemprop="embedURL" content="<?php echo $global['webSiteRootURL'], "videoEmbeded/", $value['clean_title']; ?>" />
-                            <span itemprop="uploadDate" content="<?php echo $value['created']; ?>" />
 
                             <?php
                             if ($value['type'] !== 'pdf' && $value['type'] !== 'article' && $value['type'] !== 'serie') {

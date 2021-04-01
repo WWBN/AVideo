@@ -2,15 +2,31 @@
     "name": "wwbn/avideo",
     "description": "Audio Video Platform",
     "type": "project",
+    "config": {
+        "vendor-dir": "objects",
+        "platform": {
+            "php": "5.6.0"
+        }
+    },
     "require": {
-		"php": ">=5.6.0",
+        "php": ">=5.6.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "ext-mysqli": "*",
         "chrisjean/php-ico": "^1.0",
-        "phpmailer/phpmailer": "^6.1",
+        "ezyang/htmlpurifier": "^4.13",
+        "google/apiclient": "^2.1.2",
+        "google/apiclient-services": "^0.156",
+        "google/auth": "^1.14.3",
+        "guzzlehttp/guzzle": "^6.5",
+        "guzzlehttp/psr7": "^1.7",
         "hybridauth/hybridauth": "^3.3",
         "james-heinrich/getid3": "^1.9",
-        "ezyang/htmlpurifier": "^4.13"
+        "monolog/monolog": "^1.17",
+        "phpmailer/phpmailer": "^6.2",
+        "psr/cache": "^1.0",
+        "psr/http-message": "^1.0",
+        "cboden/ratchet": "^0.4.3",
+        "ratchet/pawl": "^0.3.5",
+        "singpolyma/openpgp-php": "^0.4.0"
     }
 }

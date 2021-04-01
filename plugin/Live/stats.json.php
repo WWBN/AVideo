@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 
@@ -16,40 +15,34 @@ $pobj = AVideoPlugin::getDataObjectIfEnabled("Live");
 if (empty($pobj)) {
     die(json_encode("Plugin disabled"));
 }
-$live_servers_id = Live::getCurrentLiveServersId();
-$cacheName = "statsCache_{$live_servers_id}_".md5($global['systemRootPath']. json_encode($_REQUEST));
-$json = ObjectYPT::getSessionCache($cacheName, $pobj->cacheStatsTimout);
+$live_servers_id = Live::getLiveServersIdRequest();
+$cacheName = "getStats".DIRECTORY_SEPARATOR."live_servers_id_{$live_servers_id}".DIRECTORY_SEPARATOR."_statsCache_".md5($global['systemRootPath']. json_encode($_REQUEST));
+
+$json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout, true);
 if(empty($json)){
-    $json = Live::getStats();
-    if(!is_array($json) && is_object($json)){
-        $json = object_to_array($json);
-    }
-    $appArray = AVideoPlugin::getLiveApplicationArray();
-    if(!empty($appArray)){
-        if(empty($json)){
-            $json = new stdClass();
-        }
-        $json['error'] = false;
-        if(empty($json['msg'])){
-            $json['msg'] = "OFFLINE";
-        }
-        $json['nclients'] = count($appArray);
-        if(empty($json['applications'])){
-            $json['applications'] = array();
-        }
-        $json['applications'] = array_merge($json['applications'] , $appArray);
-    }
-    
-    $count = 0;
-    $json['total'] = 0;
-    if(!empty($json['applications'])){
-        $json['total'] += count($json['applications']);
-    }
-    while (!empty($json[$count])) {
-        $json['total'] += count($json[$count]->applications);
-        $count++;
-    }    
-    
-    ObjectYPT::setSessionCache($cacheName, $json);
+    $json = getStatsNotifications();
+    ObjectYPT::setCache($cacheName, $json);
 }
+$json = object_to_array($json);
+// check if application is online
+if(!empty($_REQUEST['name'])){
+    $json['msg'] = 'OFFLINE';
+    if(!empty($json['applications'])){
+        foreach ($json['applications'] as $value) {
+            if(!empty($value['key']) && $value['key']==$_REQUEST['name']){
+                $json['msg'] = 'ONLINE';
+                break;
+            }
+        }
+    }
+    if(!empty($json['hidden_applications'])){
+        foreach ($json['hidden_applications'] as $value) {
+            if(!empty($value['key']) && $value['key']==$_REQUEST['name']){
+                $json['msg'] = 'ONLINE';
+                break;
+            }
+        }
+    }
+}
+
 echo json_encode($json);

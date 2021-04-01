@@ -40,7 +40,7 @@ ob_start();
 
 if ($_REQUEST['meet_scheduled'] !== "past") {
     $invitation = Meet::getInvitation($obj->meet_schedule_id);
-    
+
     ?>
     <div class="row">
         <div class="form-group col-sm-9">
@@ -53,7 +53,7 @@ if ($_REQUEST['meet_scheduled'] !== "past") {
             <label for="RoomInvitation"><?php echo __("Invitation"); ?>:</label>
             <textarea id="RoomInvitation" name="RoomInvitation" class="form-control input-sm hidden" placeholder="<?php echo __("Meet Invitation"); ?>" readonly><?php echo $invitation; ?></textarea>
             <?php
-            echo getButtontCopyToClipboard("RoomInvitation", 'class="btn btn-default btn-block "', __("Copy"));
+            getButtontCopyToClipboard("RoomInvitation", 'class="btn btn-default btn-block "', __("Copy"));
             ?>
         </div>
     </div>

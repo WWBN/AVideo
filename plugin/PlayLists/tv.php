@@ -126,19 +126,19 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
                     </button>
                 </li>
                 <li class="list-group-item" nabBarIndex="2">
-                    <a href="http://192.168.1.4/YouPHPTube/epg" target="_blank" class="btn btn-primary btn-block ">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>epg" target="_blank" class="btn btn-primary btn-block ">
                         <i class="fas fa-stream"></i>
                         <span class="listLabel">EPG</span>              
                     </a>
                 </li>
                 <li class="list-group-item" nabBarIndex="3">
-                    <a href="http://192.168.1.4/YouPHPTube/iptv" target="_blank" class="btn btn-primary btn-block ">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>iptv" target="_blank" class="btn btn-primary btn-block ">
                         <i class="fas fa-stream"></i>
                         <span class="listLabel">IPTV m3u</span>                                         
                     </a>
                 </li>
                 <li class="list-group-item" nabBarIndex="4">
-                    <a href="http://192.168.1.4/YouPHPTube/epg.xml" target="_blank" class="btn btn-primary btn-block ">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>epg.xml" target="_blank" class="btn btn-primary btn-block ">
                         <i class="fas fa-stream"></i>
                         <span class="listLabel">EPG XMLTV</span>                                      
                     </a>

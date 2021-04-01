@@ -14,3 +14,14 @@
         display: none !important;
     }
 }
+#avideo-audio-progress{
+    background-color: #00000099;
+    height: 100%;
+    width: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0;
+    transition: width .1s;
+    border-right: solid 2px #FF000099;
+}

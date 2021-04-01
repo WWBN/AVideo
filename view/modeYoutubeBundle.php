@@ -36,7 +36,7 @@ if(!empty($video['id'])){
         $modeYouTubeTime = microtime(true);
         ?>
     </div>
-    <div class="col-sm-5 col-md-5 col-lg-4 rightBar" id="yptRightBar" >
+    <div class="col-sm-5 col-md-5 col-lg-4 rightBar clearfix" id="yptRightBar" >
         <div class="list-group-item ">
             <?php
             require "{$global['systemRootPath']}view/modeYoutubeBottomRight.php";
@@ -77,7 +77,7 @@ if(!empty($video['id'])){
             </div>
         </div>
     </div>
-    <div class="col-sm-5 col-md-5 col-lg-4 rightBar" id="yptRightBar" >
+    <div class="col-sm-5 col-md-5 col-lg-4 rightBar clearfix" id="yptRightBar" >
         <div class="list-group-item ">
             <?php
             require "{$global['systemRootPath']}view/modeYoutubeBottomRight.php";

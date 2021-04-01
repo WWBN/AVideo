@@ -20,7 +20,7 @@ $obj->videos_id = intval($_GET['video_id']);
 
 header('Content-Type: application/json');
 // A list of permitted file extensions
-$allowed = array('jpg', 'gif', 'pjpg', 'pgif', 'webp');
+$allowed = array('jpg', 'jpeg', 'gif', 'pjpg', 'pgif', 'webp', 'png', 'bmp');
 if (!in_array(strtolower($_GET['type']), $allowed)) {
     $obj->msg = "UploadPoster FIle extension not allowed";
     _error_log($obj->msg );
@@ -40,9 +40,15 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             case "jpg":
             case "jpeg":
                 $ext = ".jpg";
+                if($extension == 'png' || $extension == 'bmp'){
+                    $ext = "_convertToJPG.{$extension}";
+                }
                 break;
             case "pjpg":
                 $ext = "_portrait.jpg";
+                if($extension == 'png' || $extension == 'bmp'){
+                    $ext = "_portrait_convertToJPG.{$extension}";
+                }
                 break;
             case "gif":
                 $ext = ".gif";
@@ -57,12 +63,18 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         /**
          * This is when is using in a non file_dataoaded movie
          */
-        $destination = "{$global['systemRootPath']}videos/" . $video->getFilename() . $ext;
+        $destination = Video::getStoragePath()."" . $video->getFilename() . $ext;
         _error_log("Try to move " . $destination . " \n " . print_r($video, true));
         if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $destination)) {
-            $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . "{$global['systemRootPath']}videos/" . $filename . $ext;
+            $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . Video::getStoragePath()."" . $filename . $ext;
             die(json_encode($obj));
         } else {
+            if(preg_match('/_convertToJPG/', $ext)){
+                $new_destination = str_replace('_convertToJPG.'.$extension, '.jpg', $destination);
+                if(convertImage($destination, $new_destination, 100)){
+                    unlink($destination);
+                }
+            }
             // delete thumbs from poster
             Video::deleteThumbs($video->getFilename());
         }

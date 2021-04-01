@@ -13,7 +13,7 @@ if(empty($obj)){
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: WWBN</title>
+        <title><?php echo __("WWBN") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -23,7 +23,7 @@ if(empty($obj)){
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid"> 
+        <div class="container-fluid">
             <iframe src="https://beta.wwbn.com/platform/?section=signup&webSiteRootURL=<?php echo urlencode($global['webSiteRootURL']); ?>&token=<?php echo WWBN::getToken(); ?>" style="width: 100%; height: calc(100vh - 60px);" frameBorder="0"></iframe>
         </div>
         <?php
@@ -31,7 +31,7 @@ if(empty($obj)){
         ?>
         <script>
             $(document).ready(function () {
-                
+
             });
         </script>
     </body>

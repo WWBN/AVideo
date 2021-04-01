@@ -70,7 +70,7 @@ class Hotkeys extends PluginAbstract {
         $obj = $this->getDataObject();
 
         if(isVideo()){
-            $tmp = "";
+            $tmp = "if(typeof player.hotkeys == 'function'){";
             $tmp .= "player.hotkeys({ seekStep: 5,";
             if($obj->Volume){
                 $tmp .= "enableVolumeScroll: true,";
@@ -100,7 +100,7 @@ class Hotkeys extends PluginAbstract {
             }
             
             $tmp .= "enableModifiersForNumbers: false
-            });";
+            });}";
 
             
             PlayerSkins::getStartPlayerJS($tmp);

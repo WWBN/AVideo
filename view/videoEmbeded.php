@@ -34,48 +34,62 @@ AVideoPlugin::getEmbed($video['id']);
 if (empty($video)) {
     forbiddenPage("Video not found");
 }
-
+if (empty($video['users_id'])) {
+    $video['users_id'] = User::getId();
+}
 if (empty($customizedAdvanced)) {
     $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 }
 
 if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && !isAVideoMobileApp()) {
     if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($video['id'])) {
-        if(!empty($advancedCustomUser->blockEmbedFromSharedVideos)){
+        if (!empty($advancedCustomUser->blockEmbedFromSharedVideos)) {
             error_log("Embed is forbidden: \$advancedCustomUser->blockEmbedFromSharedVideos");
         }
-        if(!CustomizeUser::canShareVideosFromVideo($video['id'])){
+        if (!CustomizeUser::canShareVideosFromVideo($video['id'])) {
             error_log("Embed is forbidden: !CustomizeUser::canShareVideosFromVideo(\$video['id'])");
         }
         forbiddenPage("Embed is forbidden");
     }
 }
 
+$source = array();
+$poster = $img = "";
 $imgw = 1280;
 $imgh = 720;
 
 if ($video['type'] !== "pdf") {
-    $source = Video::getSourceFile($video['filename']);
-    $img = $source['url'];
-    $data = getimgsize($source['path']);
-    $imgw = $data[0];
-    $imgh = $data[1];
-} else if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
-    $source = Video::getSourceFile($video['filename']);
-    $img = $source['url'];
-    $data = getimgsize($source['path']);
-    $imgw = $data[0];
-    $imgh = $data[1];
-} else {
-    $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    if (!empty($video['filename'])) {
+        $source = Video::getSourceFile($video['filename']);
+        $poster = $img = $source['url'];
+        $data = getimgsize($source['path']);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    }
 }
-$images = Video::getImageFromFilename($video['filename']);
-$poster = $images->poster;
-if (!empty($images->posterPortrait)) {
-    $img = $images->posterPortrait;
-    $data = getimgsize($source['path']);
-    $imgw = $data[0];
-    $imgh = $data[1];
+
+if (!empty($video['filename'])) {
+    $images = Video::getImageFromFilename($video['filename']);
+    $poster = $images->poster;
+    if (!empty($images->posterPortrait)) {
+        $img = $images->posterPortrait;
+        $data = getimgsize($source['path']);
+        $imgw = $data[0];
+        $imgh = $data[1];
+    }
+} else {
+    $images = array();
+    $poster = "";
+    $imgw = 0;
+    $imgh = 0;
+}
+
+if (empty($poster) && !empty($video['filename'])) {
+    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
+        $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
+    } else {
+        $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    }
 }
 
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
@@ -92,11 +106,6 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 $vjsClass = "";
 $obj = new Video("", "", $video['id']);
 $resp = $obj->addView();
-if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
-    $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
-} else {
-    $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-}
 
 //https://.../vEmbed/527?modestbranding=1&showinfo=0&autoplay=1&controls=0&loop=1&mute=1&t=0
 $modestbranding = false;
@@ -136,6 +145,11 @@ if (!empty($_GET['t'])) {
 $playerSkinsO = AVideoPlugin::getObjectData("PlayerSkins");
 $disableEmbedTopInfo = $playerSkinsO->disableEmbedTopInfo;
 
+if (isset($_REQUEST['showinfo']) && empty($_REQUEST['showinfo'])) {
+    $disableEmbedTopInfo = true;
+    $modestbranding = true;
+}
+
 $url = Video::getLink($video['id'], $video['clean_title'], false);
 $title = str_replace('"', '', $video['title']) . ' - ' . $config->getWebSiteTitle();
 $photo = User::getPhoto($video['users_id']);
@@ -166,7 +180,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="<?php echo $config->getFavicon(); ?>">
-        <title><?php echo $config->getWebSiteTitle(); ?> :: <?php echo $video['title']; ?></title>
+        <title><?php echo $video['title'] . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
@@ -244,14 +258,14 @@ if (User::hasBlockedUser($video['users_id'])) {
                 background-color: rgba(255,255,255,0.8);
                 border-color:  rgba(255,255,255,1);
             }
-            
-            
+
+
             <?php
             if (empty($controls)) {
                 ?>
-                    #topInfo, .vjs-big-play-button, .vjs-control-bar{
-                        display: none;
-                    }
+                #topInfo, .vjs-big-play-button, .vjs-control-bar{
+                    display: none;
+                }
                 <?php
             }
             ?>
@@ -367,10 +381,11 @@ if (User::hasBlockedUser($video['users_id'])) {
         ?>
         <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
-        echo parseVideos($video['videoLink']);
+        $url = parseVideos($video['videoLink']);
         if ($autoplay) {
-            echo "?autoplay=1";
+            $url = addQueryStringParameter($url, 'autoplay', 1);
         }
+        echo $url;
         ?>"></iframe>
         <script>
             $(document).ready(function () {
@@ -378,11 +393,11 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
         </script>
         <?php
-    } else if ($video['type'] == "audio" && !file_exists("{$global['systemRootPath']}videos/{$video['filename']}.mp4")) {
+    } else if ($video['type'] == "audio" && !file_exists(Video::getStoragePath() . "{$video['filename']}.mp4")) {
         $isAudio = 1;
         ?>
         <audio style="width: 100%; height: 100%;"  id="mainVideo" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainVideo"  data-setup='{ "fluid": true }'
-               poster="<?php echo $global['webSiteRootURL']; ?>view/img/recorder.gif">
+               poster="<?php echo $poster; ?>">
                    <?php
                    $ext = "";
                    if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
@@ -401,9 +416,9 @@ if (User::hasBlockedUser($video['users_id'])) {
             ?>
         </audio>
         <script>
-            $(document).ready(function () {
-                addView(<?php echo $video['id']; ?>, this.currentTime());
-            });
+    <?php
+    PlayerSkins::playerJSCodeOnLoad($video['id']);
+    ?>
         </script>
         <?php
     } else if ($video['type'] == "linkVideo") {
@@ -520,45 +535,38 @@ if (User::hasBlockedUser($video['users_id'])) {
     echo AVideoPlugin::getFooterCode();
     include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
     ?>
-    <textarea id="elementToCopy" style="
-              filter: alpha(opacity=0);
-              -moz-opacity: 0;
-              -khtml-opacity: 0;
-              opacity: 0;
-              position: absolute;
-              z-index: -9999;
-              top: 0;
-              left: 0;
-              pointer-events: none;"></textarea>
     <script>
-        var topInfoTimeout;
-        $(document).ready(function () {
-            setInterval(function () {
-                if (typeof player !== 'undefined') {
-                    if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                        $('#topInfo').fadeOut();
-                    } else {
-                        $('#topInfo').fadeIn();
+            var topInfoTimeout;
+            $(document).ready(function () {
+                setInterval(function () {
+                    if (typeof player !== 'undefined') {
+                        if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                            $('#topInfo').fadeOut();
+                        } else {
+                            $('#topInfo').fadeIn();
+                        }
                     }
-                }
-            }, 200);
+                }, 200);
 
-            $("iframe, #topInfo").mouseover(function (e) {
-                clearTimeout(topInfoTimeout);
-                $('#mainVideo').addClass("vjs-user-active");
-                topInfoTimeout = setTimeout(function () {
-                    $('#mainVideo').removeClass("vjs-user-active");
-                }, 5000);
+                $("iframe, #topInfo").mouseover(function (e) {
+                    clearTimeout(topInfoTimeout);
+                    $('#mainVideo').addClass("vjs-user-active");
+                    topInfoTimeout = setTimeout(function () {
+                        $('#mainVideo').removeClass("vjs-user-active");
+                    }, 5000);
+                });
+
+                $("iframe").mouseout(function (e) {
+                    topInfoTimeout = setTimeout(function () {
+                        $('#mainVideo').removeClass("vjs-user-active");
+                    }, 500);
+                });
+
             });
-
-            $("iframe").mouseout(function (e) {
-                topInfoTimeout = setTimeout(function () {
-                    $('#mainVideo').removeClass("vjs-user-active");
-                }, 500);
-            });
-
-        });
     </script>
+    <?php
+    showCloseButton();
+    ?>
 </body>
 </html>
 

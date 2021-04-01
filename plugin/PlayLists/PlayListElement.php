@@ -4,7 +4,7 @@ class PlayListElement {
 
     public $name, $description, $duration, $sources, $thumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id;
 
-    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id) {
+    function __construct($name, $description, $duration, $playListSource, $playListThumbnail, $poster, $videoStartSeconds, $created, $likes, $views, $videos_id, $className='', $tracks=array()) {
         $this->name = $name;
         $this->description = $description;
         $this->setDuration($duration);
@@ -16,6 +16,8 @@ class PlayListElement {
         $this->likes = $likes;
         $this->views = $views;
         $this->videos_id = $videos_id;
+        $this->className = $className;
+        $this->tracks = $tracks;
     }
 
     
@@ -74,6 +76,12 @@ class playListSource {
     
     function __construct($src, $youtube = false) {
         $this->src = $src;
+        $this->label = getResolutionFromFilename($src);
+        if(empty($this->label)){
+            $this->label = 'Auto';
+        }else{
+            $this->label .= 'p';
+        }
         if($youtube){
             $this->type = "video/youtube";
         }else{
@@ -82,7 +90,9 @@ class playListSource {
         if($this->type=="application/x-mpegURL"){
             $obj = AVideoPlugin::getDataObject('VideoHLS');
             if(!empty($obj->downloadProtection)){
-                $this->src .= "?token=".VideoHLS::getToken();
+                if(!preg_match('/token=/', $this->src)){
+                    $this->src = addQueryStringParameter($this->src, token, VideoHLS::getToken());
+                }
             }
         }
     }

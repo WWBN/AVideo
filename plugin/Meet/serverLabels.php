@@ -31,11 +31,11 @@ if (User::isAdmin() && empty($serverStatus->error)) {
             foreach ($serverStatus->jibrisInfo->jibris as $jibriObj) {
                 if ($jibriObj->isOnline) {
                     ?>
-                    <i class="fas fa-circle-notch fa-spin" data-toggle="tooltip" data-placement="bottom" title="Instance <?php echo $jibriObj->instance; ?> is busy"></i>   
+                    <i class="fas fa-circle-notch fa-spin" data-toggle="tooltip" data-placement="bottom" title="Instance <?php echo $jibriObj->instance; ?> is busy"></i>
                     <?php
                 } else {
                     ?>
-                    <i class="fas fa-circle-notch" data-toggle="tooltip" data-placement="bottom" title="Instance <?php echo $jibriObj->instance; ?> is available"></i>  
+                    <i class="fas fa-circle-notch" data-toggle="tooltip" data-placement="bottom" title="Instance <?php echo $jibriObj->instance; ?> is available"></i>
                     <?php
                 }
             }
@@ -54,8 +54,8 @@ if (User::isAdmin() && empty($serverStatus->error)) {
 ?>
 <span class="label label-<?php echo $serverStatus->error ? "danger" : ($serverStatus->isInstalled ? "success" : "warning") ?>" >
     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo User::isAdmin() ? $serverStatus->msg : "Meet Server Status"; ?>">
-        <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "<i class=\"fas fa-exclamation-triangle\"></i>" : "<i class=\"fas fa-check-square\"></i>" ?> 
-        <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "offline" : "online" ?> 
+        <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "<i class=\"fas fa-exclamation-triangle\"></i>" : "<i class=\"fas fa-check-square\"></i>" ?>
+        <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "offline" : "online" ?>
         <span class="hidden-sm hidden-xs">(<?php
             echo Meet::getServer()['name'];
             ?>)</span></span> <a class="fas fa-random" data-toggle="tooltip" data-placement="bottom" title="Change Server" href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/checkServers.php" style="color: white;"></a>
@@ -65,11 +65,9 @@ if (!empty($serverStatus->nextUpdate)) {
     ?>
     <script>
         $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
             setTimeout(function () {
                 serverLabels()
             }, <?php echo $serverStatus->nextUpdate * 1000; ?> + serverLabelsStartTime);
-
 
             var si = 100;
             var counterBack = setInterval(function () {
@@ -90,7 +88,6 @@ if (!empty($serverStatus->nextUpdate)) {
     ?>
     <script>
         $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
     <?php

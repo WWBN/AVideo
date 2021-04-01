@@ -8,8 +8,6 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 
 
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
-$timeLog = __FILE__ . " - modeFlix";
-TimeLogStart($timeLog);
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,7 +25,7 @@ TimeLogStart($timeLog);
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
-        <div class="container-fluid nopadding" id="mainContainer" style="display: none;"> 
+        <div class="container-fluid nopadding flickity-area" id="mainContainer" style="display:none;">
             <?php
             include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/modeFlixBody.php';
             ?>

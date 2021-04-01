@@ -168,8 +168,9 @@
           li.dataset[key] = value;
         });
       }
-
-      li.className = 'vjs-playlist-item';
+      
+      /* AVideo add classname on item */
+      li.className = 'vjs-playlist-item '+item.className;
       li.setAttribute('tabIndex', 0); // Thumbnail image
 
       this.thumbnail = createThumbnail(item.thumbnail);

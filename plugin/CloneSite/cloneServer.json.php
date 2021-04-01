@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/CloneSite/Objects/Clones.php';
 require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
 header('Content-Type: application/json');
 
-$videosDir = "{$global['systemRootPath']}videos/";
+$videosDir = Video::getStoragePath()."";
 $clonesDir = "{$videosDir}cache/clones/";
 $photosDir = "{$videosDir}userPhoto/";
 
@@ -17,7 +17,7 @@ $resp->msg = "";
 $resp->url = $_GET['url'];
 $resp->key = $_GET['key'];
 $resp->useRsync = intval($_GET['useRsync']);
-$resp->videosDir = "{$global['systemRootPath']}videos/";
+$resp->videosDir = Video::getStoragePath()."";
 $resp->sqlFile = "";
 $resp->videoFiles = array();
 $resp->photoFiles = array();

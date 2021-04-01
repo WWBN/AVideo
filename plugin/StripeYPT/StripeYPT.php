@@ -311,15 +311,48 @@ class StripeYPT extends PluginAbstract {
         $users_id = User::getId();
         $obj = AVideoPlugin::getObjectData('StripeYPT');
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
+        
+        /*
         $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
-        foreach ($costumer->subscriptions->data as $value) {
-            $subscription = \Stripe\Subscription::retrieve($value->id);
-            if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
-                //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
-                return $subscription;
+        if(!empty($costumer->subscriptions)){
+            foreach ($costumer->subscriptions->data as $value) {
+                $subscription = \Stripe\Subscription::retrieve($value->id);
+                if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
+                    //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
+                    return $subscription;
+                }
             }
         }
-        _error_log("StripeYPT::getSubscriptions ERROR $stripe_costumer_id, $plans_id " . json_encode($costumer));
+        
+        _error_log("StripeYPT::getSubscriptions We could not find the subscription trying to expand $stripe_costumer_id, $plans_id " . json_encode($costumer));
+        
+        $costumer = \Stripe\Customer::retrieve($stripe_costumer_id,['expand' => ['subscriptions']]);
+        if(!empty($costumer->subscriptions)){
+            foreach ($costumer->subscriptions->data as $value) {
+                $subscription = \Stripe\Subscription::retrieve($value->id);
+                if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
+                    //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
+                    return $subscription;
+                }
+            }      
+        }
+        
+        _error_log("StripeYPT::getSubscriptions We could not find the subscription trying to list from subscription $stripe_costumer_id, $plans_id " . json_encode($costumer));
+        
+        */
+        // I guess only this is enought 
+        $subscriptions = \Stripe\Subscription::all(['customer'=>$stripe_costumer_id, 'status'=>'active']);
+        if(!empty($subscriptions)){
+            foreach ($subscriptions->data as $value) {
+                $subscription = \Stripe\Subscription::retrieve($value->id);
+                if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
+                    //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
+                    return $subscription;
+                }
+            }    
+        }
+        
+        _error_log("StripeYPT::getSubscriptions ERROR $stripe_costumer_id, $plans_id " . json_encode($subscriptions));
         return false;
     }
 
@@ -513,8 +546,8 @@ class StripeYPT extends PluginAbstract {
         try {
             $this->start();
             $sub = \Stripe\Subscription::retrieve($id);
-            $sub->cancel();
-            return true;
+            $response = $sub->cancel();
+            return $response;
         } catch (Exception $exc) {
             return false;
         }

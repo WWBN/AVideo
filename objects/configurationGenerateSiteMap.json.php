@@ -24,10 +24,9 @@ if(empty($sitemap)){
     die(json_encode($obj));
 }
 
-if(!file_put_contents($sitemapFile, $sitemap)){
-    $obj->msg = "We could not save the sitemap";
-    die(json_encode($obj));
-}
+
+$name = "sitemap.xml";
+ObjectYPT::setCache($name, $sitemap);
 
 $obj->error = false;
 die(json_encode($obj));

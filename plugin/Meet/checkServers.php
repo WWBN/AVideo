@@ -31,7 +31,7 @@ $timeouts = 2000;
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Check Meet Servers"); ?> - <?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Check Meet Servers") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -44,11 +44,11 @@ $timeouts = 2000;
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/"  class="btn btn-default" data-toggle="tooltip" title="<?php echo __("Create a Meet"); ?> " data-placement="bottom" >
-                        <i class="fas fa-comments"></i> <?php echo __("Create a Meet"); ?> 
+                        <i class="fas fa-comments"></i> <?php echo __("Create a Meet"); ?>
                     </a>
                 </div>
                 <div class="panel-body tabbable-line">
-                    <div class="row"> 
+                    <div class="row">
                         <?php
                         foreach ($emptyObject->server->type as $key => $value) {
                             if ($key == "custom") {
@@ -74,12 +74,9 @@ $timeouts = 2000;
                                             ?>
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
                                 <?php
                             } else {
-
-
-
                                 $newKey = str_replace(".", "_", $key);
                                 ?>
                                 <div class="col-xs-6">
@@ -146,7 +143,7 @@ $timeouts = 2000;
                                             </ul>
                                         </div>
                                     </div>
-                                </div>  
+                                </div>
                                 <?php
                             }
                         }
@@ -238,7 +235,6 @@ $timeouts = 2000;
                         $('#gradetotalSitesActive' + serverId).html("-" + (response.totalSitesActive).toFixed(2));
                         $('#gradeStreamersServices' + serverId).html("-" + ((response.totalOnlineLiveStreamersServices * 10) + (response.totalLiveStreamersServices)).toFixed(2));
 
-
                         // Here I want to get the how long it took to load some.php and use it further
                     }).fail(function (jqXHR, textStatus) {
                         tries++;
@@ -270,7 +266,6 @@ $timeouts = 2000;
                     $('#grade' + serverId).addClass('label-success');
                     $('#grade' + serverId).removeClass('label-primary');
                 }
-
 
                 function checkUploadSpeed(server, iterations, update) {
                     var average = 0,
@@ -393,4 +388,3 @@ foreach ($emptyObject->server->type as $key => $value) {
         </div>
     </body>
 </html>
-

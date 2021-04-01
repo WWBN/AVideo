@@ -88,7 +88,7 @@ class Subscribe {
 
     static function getSubscribeFromEmail($email, $user_id, $status = "a") {
         global $global;
-        $status = str_replace("'","", $status);
+        $status = str_replace("'", "", $status);
         $sql = "SELECT * FROM subscribes WHERE  email = '$email' AND users_id = {$user_id} ";
         if (!empty($status)) {
             $sql .= " AND status = '{$status}' ";
@@ -107,7 +107,7 @@ class Subscribe {
 
     static function getSubscribeFromID($subscriber_users_id, $user_id, $status = "a") {
         global $global;
-        $status = str_replace("'","", $status);
+        $status = str_replace("'", "", $status);
         $sql = "SELECT * FROM subscribes WHERE  subscriber_users_id = '$subscriber_users_id' AND users_id = {$user_id} ";
         if (!empty($status)) {
             $sql .= " AND status = '{$status}' ";
@@ -123,12 +123,12 @@ class Subscribe {
         }
         return $subscribe;
     }
-    
-    static function isSubscribed($subscribed_to_user_id, $user_id=0) {
-        if(empty($user_id)){
-            if(User::isLogged()){
+
+    static function isSubscribed($subscribed_to_user_id, $user_id = 0) {
+        if (empty($user_id)) {
+            if (User::isLogged()) {
                 $user_id = User::getId();
-            }else{
+            } else {
                 return false;
             }
         }
@@ -144,10 +144,10 @@ class Subscribe {
      */
     static function getAllSubscribes($user_id = "", $status = "a") {
         global $global;
-        $cacheName = "getAllSubscribes_{$user_id}_{$status}_". getCurrentPage()."_". getRowCount();
-        $subscribe = ObjectYPT::getCache($cacheName, 300);// 5 minutes
-        if(empty($subscribe)){
-            $status = str_replace("'","", $status);
+        $cacheName = "getAllSubscribes_{$user_id}_{$status}_" . getCurrentPage() . "_" . getRowCount();
+        $subscribe = ObjectYPT::getCache($cacheName, 300); // 5 minutes
+        if (empty($subscribe)) {
+            $status = str_replace("'", "", $status);
             $sql = "SELECT subscriber_users_id as subscriber_id, s.id, s.status, s.ip, s.users_id, s.notify, "
                     . " s.subscriber_users_id , s.created , s.modified, suId.email as email, suId.emailVerified as emailVerified FROM subscribes as s "
                     //. " LEFT JOIN users as su ON s.email = su.email   "
@@ -174,6 +174,7 @@ class Subscribe {
             if ($res != false) {
                 $emails = array();
                 foreach ($fullData as $row) {
+                    $row = cleanUpRowFromDatabase($row);
                     if (in_array($row['email'], $emails)) {
                         //continue;
                     }
@@ -193,7 +194,7 @@ class Subscribe {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             ObjectYPT::setCache($cacheName, $subscribe);
-        }else{
+        } else {
             $subscribe = object_to_array($subscribe);
         }
         return $subscribe;
@@ -216,15 +217,35 @@ class Subscribe {
         $subscribe = array();
         if ($res != false) {
             foreach ($fullData as $row) {
-                if($row['users_id']==$user_id){
-                    continue;
-                }
                 $row['identification'] = User::getNameIdentificationById($row['users_id']);
                 if ($row['identification'] === __("Unknown User")) {
                     $row['identification'] = $row['email'];
                 }
+                $row['channelName'] = User::_getChannelName($row['users_id']);
                 $row['backgroundURL'] = User::getBackground($row['users_id']);
                 $row['photoURL'] = User::getPhoto($row['users_id']);
+
+                $current = getCurrentPage();
+                $rowCount = getRowCount();
+                $sort = @$_POST['sort'];
+
+                $_POST['current'] = 1;
+                $_REQUEST['rowCount'] = 6;
+                $_POST['sort']['created'] = "DESC";
+                $row['latestVideos'] = Video::getAllVideos("viewable", $row['users_id']);
+                foreach ($row['latestVideos'] as $key => $video) {
+                    $images = Video::getImageFromFilename($video['filename'], $video['type']);
+                    $row['latestVideos'][$key]['Thumbnail'] = $images->thumbsJpg;
+                    $row['latestVideos'][$key]['createdHumanTiming'] = humanTiming(strtotime($video['created']));
+                    $row['latestVideos'][$key]['pageUrl'] = Video::getLink($video['id'], $video['clean_title'], false);
+                    $row['latestVideos'][$key]['embedUrl'] = Video::getLink($video['id'], $video['clean_title'], true);
+                    $row['latestVideos'][$key]['UserPhoto'] = User::getPhoto($video['users_id']);
+                }
+                $_POST['current'] = $current;
+                $_REQUEST['rowCount'] = $rowCount;
+                $_POST['sort'] = $sort;
+
+                $row['totalViewsIn30Days'] = VideoStatistic::getChannelsTotalViews($row['users_id']);
 
                 $subscribe[] = $row;
             }
@@ -245,6 +266,19 @@ class Subscribe {
 
         $sql .= BootGrid::getSqlSearchFromPost(array('email'));
         $res = sqlDAL::readSql($sql);
+        $numRows = sqlDAL::num_rows($res);
+        sqlDAL::close($res);
+
+
+        return $numRows;
+    }
+
+    static function getTotalSubscribedChannels($user_id = "") {
+        global $global;
+        $sql = "SELECT id FROM subscribes WHERE status = 'a' AND subscriber_users_id = ? ";
+
+        $sql .= BootGrid::getSqlSearchFromPost(array('email'));
+        $res = sqlDAL::readSql($sql, "i", array($user_id));
         $numRows = sqlDAL::num_rows($res);
         sqlDAL::close($res);
 
@@ -284,11 +318,11 @@ class Subscribe {
 
     static function getButton($user_id) {
         global $global, $advancedCustom;
-        
-        if(!empty($advancedCustom->removeSubscribeButton)){
+
+        if (!empty($advancedCustom->removeSubscribeButton)) {
             return "";
         }
-        
+
         $total = static::getTotalSubscribes($user_id);
 
         $subscribe = "<div class=\"btn-group\" >"
@@ -309,12 +343,12 @@ class Subscribe {
             $popover = "<input type=\"hidden\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail{$user_id}\" value=\"{$email}\">";
             // show unsubscribe Button
             $subscribe = "<div class=\"btn-group\">";
-            if(!empty($subs) && $subs['status']==='a'){
+            if (!empty($subs) && $subs['status'] === 'a') {
                 $subscribe .= "<button class='btn btn-xs subsB subscribeButton{$user_id} subscribed subs{$user_id}'><i class='fas fa-play-circle'></i> <b class='text'>" . __("Subscribed") . "</b></button>";
                 $subscribe .= "<button class='btn btn-xs subsB subscribed subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>";
-            }else{
+            } else {
                 $subscribe .= "<button class='btn btn-xs subsB subscribeButton{$user_id} subs{$user_id}'><i class='fas fa-play-circle'></i> <b class='text'>" . __("Subscribe") . "</b></button>";
-                    $subscribe .= "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>";
+                $subscribe .= "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>";
             }
             $subscribe .= "</div>";
 
@@ -325,10 +359,10 @@ class Subscribe {
                 $notify = 'hidden';
                 $notNotify = '';
             }
-            $subscribe .= '<span class=" notify' . $user_id . ' ' . $notify . '"><button onclick="toogleNotify' . $user_id . '();" class="btn btn-default btn-xs " data-toggle="tooltip" 
+            $subscribe .= '<span class=" notify' . $user_id . ' ' . $notify . '"><button onclick="toogleNotify' . $user_id . '();" class="btn btn-default btn-xs " data-toggle="tooltip"
                                    title="' . __("Stop getting notified for every new video") . '">
                                 <i class="fa fa-bell" ></i>
-                            </button></span><span class=" notNotify' . $user_id . ' ' . $notNotify . '"><button onclick="toogleNotify' . $user_id . '();" class="btn btn-default btn-xs "  data-toggle="tooltip" 
+                            </button></span><span class=" notNotify' . $user_id . ' ' . $notNotify . '"><button onclick="toogleNotify' . $user_id . '();" class="btn btn-default btn-xs "  data-toggle="tooltip"
                                    title="' . __("Get notified for every new video") . '">
                                 <i class="fa fa-bell-slash"></i>
                             </button></span>';
@@ -343,11 +377,10 @@ class Subscribe {
                             email = $('#subscribeEmail{$user_id}').val();
                             subscribe(email, '{$user_id}');
                         });
-                        $('[data-toggle=\"tooltip\"]').tooltip(); 
                     });
                 </script>";
         }
-        
+
         return $subscribe . $popover . $script;
     }
 

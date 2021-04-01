@@ -24,6 +24,6 @@ $getDiskUsage = getDiskUsage();
     </div>
 </div>
 <?php
-if ($getDiskUsage->disk_free_space_percentage < 15) {
+if ($getDiskUsage->disk_free_space_percentage < 15 && $getDiskUsage->disk_free_space < 53687091200) { // 53687091200 = 50 GB
     echo "<script>$(document).ready(function () {avideoAlertHTMLText('Danger','Your Disk is almost Full, you have only <strong>{$getDiskUsage->disk_free_space_percentage}%</strong> free <br> ({$getDiskUsage->disk_free_space_human})', 'error');});</script>";
 }

@@ -140,6 +140,12 @@ abstract class PluginAbstract {
                 }
             }
             $eo = $this->getEmptyDataObject();
+            // check if the plugin define any array for the select option, if does, overwrite it
+            foreach ($eo as $key => $value) {
+                if(isset($value->type) && is_array($value->type) && isset($o->$key) && isset($o->$key->type)){
+                    $o->$key->type = $value->type;
+                }
+            }
             $wholeObjects = array_merge((array) $eo, (array) $o);
             $disabledPlugins = plugin::getAllDisabled();
             foreach ($disabledPlugins as $value) {
@@ -323,6 +329,10 @@ abstract class PluginAbstract {
     public function getDynamicUserGroupsId($users_id) {
         return array();
     }
+    
+    public function getDynamicUsersId($users_groups_id) {
+        return array();
+    }
 
     public function navBarButtons() {
         return "";
@@ -408,6 +418,10 @@ abstract class PluginAbstract {
 
     function showAds($videos_id) {
         return true;
+    }
+    
+    function isPaidUser($users_id) {
+        return false;
     }
 
     function getVideo() {
@@ -504,6 +518,165 @@ abstract class PluginAbstract {
     
     function getDataObjectHelper(){
         return $this->dataObjectHelper;
+    }
+    
+    function onUserSocketConnect(){
+        
+    }
+    
+    function onUserSocketDisconnect(){
+        
+    }
+
+    function onVideoSetLive_transmitions_history_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetEncoderURL($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetFilepath($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetFilesize($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetUsers_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetSites_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideo_password($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetClean_title($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetDuration($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetIsSuggested($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetStatus($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetType($video_id, $oldValue, $newValue, $force) {
+
+    }
+
+    function onVideoSetRotation($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetZoom($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetDescription($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetCategories_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideoDownloadedLink($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideoGroups($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetTrailer1($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetTrailer2($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetTrailer3($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetRate($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetYoutubeId($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetTitle($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetFilename($video_id, $oldValue, $newValue, $force) {
+
+    }
+
+    function onVideoSetNext_videos_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideoLink($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetCan_download($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetCan_share($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetOnly_for_paid($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetRrating($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetExternalOptions($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetVideoStartSeconds($video_id, $oldValue, $newValue) {
+
+    }
+
+    function onVideoSetSerie_playlists_id($video_id, $oldValue, $newValue) {
+
+    }
+
+    function updateParameter($parameterName, $newValue) {
+        $pluginDO = $this->getDataObject();
+        $pluginDB = Plugin::getPluginByName($this->getName());
+
+        foreach ($pluginDO as $key => $value) {
+            if ($key == $parameterName) {
+                $pluginDO->$key = $newValue;
+            }
+        }
+
+        $p = new Plugin($pluginDB['id']);
+        $p->setObject_data(json_encode($pluginDO));
+        return $p->save();
     }
 }
 

@@ -1,23 +1,26 @@
 <?php
 
 header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Content-Type");
+header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
 global $global, $config;
+
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-if(!empty($_GET['PHPSESSID'])){
+if (!empty($_GET['PHPSESSID'])) {
     session_write_close();
     session_id($_GET['PHPSESSID']);
     _error_log("userCreate.json: session_id changed to ". $_GET['PHPSESSID']);
     session_start();
 }
+
 require_once $global['systemRootPath'] . 'objects/user.php';
-// gettig the mobile submited value
+
+// Getting the mobile submitted value
 $inputJSON = url_get_contents('php://input');
-$input = json_decode($inputJSON, TRUE); //convert JSON into array
+$input = json_decode($inputJSON, true); //convert JSON into array
 if (!empty($input)) {
     foreach ($input as $key => $value) {
         $_POST[$key] = $value;
@@ -64,7 +67,6 @@ if (empty($_POST['user']) || empty($_POST['pass']) || empty($_POST['email']) || 
     $obj->error = __("You must fill all fields");
     die(json_encode($obj));
 }
-
 
 if (!empty($_POST['email']) && !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
     $obj->error = __("Invalid Email");

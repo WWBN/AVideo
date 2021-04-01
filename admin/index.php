@@ -173,7 +173,9 @@ switch ($_GET['page']) {
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $config->getWebSiteTitle(); ?></title>
+        <?php 
+        echo getHTMLTitle(__("Administration"));
+        ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         if (!empty($includeHead) && file_exists($includeHead)) {
@@ -199,6 +201,7 @@ switch ($_GET['page']) {
         ?>
 
         <div class="container-fluid">
+            <br>
             <div class="row">
                 <div class="col-sm-3 col-md-3 fixed affix leftMenu">
                     <div class="panel-group" id="accordion">

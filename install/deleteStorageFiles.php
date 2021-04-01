@@ -101,7 +101,7 @@ foreach ($files as $key => $value) {
                 echo "******   File size is the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
                 //exit;
             } else if($source_sizee > 5000000){
-                echo "----- ERROR File size is NOT the same videos_id and it suppose to be on the storage = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
+                echo "----- ERROR File size is NOT the same videos_id and it's supposed to be on the storage = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
             } else if($source_sizee > 5000000){
                 echo "+++++ All seems fine with video {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
             }

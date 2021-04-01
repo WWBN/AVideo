@@ -20,4 +20,4 @@ if (User::isAdmin()) {
 }
 $Subscribes = Subscribe::getAllSubscribes($user_id);
 $total = Subscribe::getTotalSubscribes($user_id);
-echo '{  "current": '.$_POST['current'].',"rowCount": '.$_POST['rowCount'].', "total": '.$total.', "rows":'. json_encode($Subscribes).'}';
+echo '{  "current": '. getCurrentPage().',"rowCount": '.getRowCount().', "total": '.$total.', "rows":'. json_encode($Subscribes).'}';

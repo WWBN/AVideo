@@ -48,9 +48,6 @@ ul.social-network li {
 .social-network a.icoPinboard:hover {
     background-color: red;
 }
-.social-network a.icoParler:hover {
-    background-color: #be1e2d;
-}
 .social-network a.icoCopy:hover {
     background-color: #333;
 }

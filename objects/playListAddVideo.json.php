@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -16,20 +16,19 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 
-
 $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
-if(empty($plugin)){
+if (empty($plugin)) {
     $obj->msg = "Plugin not enabled";
     die(json_encode($obj));
 }
 
-if(!PlayLists::canAddVideoOnPlaylist($_POST['videos_id'])){
+if (!PlayLists::canAddVideoOnPlaylist($_POST['videos_id'])) {
     $obj->msg = "You can not add this video on playlist";
     die(json_encode($obj));
 }
 
 $playList = new PlayList($_POST['playlists_id']);
-if(empty($playList || User::getId()!=$playList->getUsers_id()) || empty($_POST['videos_id'])){
+if (empty($playList || User::getId()!=$playList->getUsers_id()) || empty($_POST['videos_id'])) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }
