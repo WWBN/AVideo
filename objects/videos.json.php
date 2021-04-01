@@ -58,4 +58,12 @@ foreach ($videos as $key => $value) {
     unset($videos[$key]['recoverPass']);
 }
 
-echo '{  "current": '.$_REQUEST['current'].',"rowCount": '.$_REQUEST['rowCount'].', "total": '.$total.', "rows":'. json_encode($videos).'}';
+$obj = new stdClass();
+$obj->users_id = User::getId();
+$obj->current = getCurrentPage();
+$obj->rowCount = getRowCount();
+$obj->total = $total;
+$obj->rows = $videos;
+
+die(json_encode($obj));
+exit;
