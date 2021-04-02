@@ -2698,6 +2698,8 @@ if (!class_exists('Video')) {
             if ($force || empty($this->filename)) {
                 AVideoPlugin::onVideoSetFilename($this->id, $this->filename, $filename, $force);
                 $this->filename = $filename;
+            }else{
+                _error_log('setFilename: fail '.$filename." {$this->id}");
             }
             return $this->filename;
         }
