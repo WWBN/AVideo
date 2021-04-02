@@ -555,6 +555,7 @@ class AVideoPlugin {
 
     public static function getEnd() {
         $plugins = Plugin::getAllEnabled();
+        $plugins = array_reverse($plugins);
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
