@@ -1,4 +1,10 @@
 # BEGIN Expires Don't forget to enable mod_headers and mod_expires, you can do so by running a2enmod rewrite and a2enmod headers
+
+#Block Bad Website Bots and Spiders.
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} ^.*(SCspider|BLEXBot|Textbot|s2bot|MJ12bot|CCBot|SemrushBot|SeznamBot|GrapeshotCrawler|Adsbot|PetalBot|Bytespider|ZoominfoBot|Nuclei|Barkrowler|Barkrowler|AhrefsBot|MegaIndex|CriteoBot|NetSystemsResearch|CensysInspect).*$ [NC]
+RewriteRule .* - [F,L]
+
 <ifModule mod_expires.c>
     ExpiresActive On
     ExpiresDefault "access plus 1 seconds"
