@@ -118,7 +118,7 @@
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/MaintenanceMode/vendor/bootstrap/js/popper.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <!--===============================================================================================-->
-        <script src="vendor/select2/select2.min.js"></script>
+        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/select2/select2.min.js"></script>
         <!--===============================================================================================-->
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/MaintenanceMode/vendor/countdowntime/moment.min.js"></script>
         <script src="<?php echo $global['webSiteRootURL']; ?>plugin/MaintenanceMode/vendor/countdowntime/moment-timezone.min.js"></script>

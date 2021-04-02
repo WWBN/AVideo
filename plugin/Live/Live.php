@@ -1470,7 +1470,10 @@ class Live extends PluginAbstract {
                 _error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats");
                 $_isLiveAndIsReadyFromKey[$name] = false;
             } else {
+                $ls = $_REQUEST['live_servers_id'];
+                $_REQUEST['live_servers_id'] = $live_servers_id;
                 $m3u8 = self::getM3U8File($key);
+                $_REQUEST['live_servers_id'] = $ls;
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
                 $is200 = isURL200($m3u8, $force_recreate);
                 if (empty($is200)) {
@@ -1959,6 +1962,9 @@ class Live extends PluginAbstract {
         if($contentLen === 2095341){
             return LiveImageType::$DEFAULTGIF;
         }
+        if($contentLen === 70808){
+            return LiveImageType::$ONAIRENCODER;
+        }
         $filesize = file_get_contents($global['systemRootPath'].self::getOnAirImage(false));
         if($contentLen === $filesize){
             return LiveImageType::$ONAIR;
@@ -1967,6 +1973,7 @@ class Live extends PluginAbstract {
         if($contentLen === $filesize){
             return LiveImageType::$OFFLINE;
         }
+        _error_log('getImageType: is not defined yet ('.$contentLen.')');
         return LiveImageType::$LIVE;
     }
     
@@ -1976,7 +1983,7 @@ class Live extends PluginAbstract {
     
     static function isDefaultImage($content){
         $type = self::getImageType($content);
-        return $type === LiveImageType::$ONAIR || $type === LiveImageType::$OFFLINE || $type === LiveImageType::$DEFAULTGIF;
+        return $type === LiveImageType::$ONAIRENCODER || $type === LiveImageType::$ONAIR || $type === LiveImageType::$OFFLINE || $type === LiveImageType::$DEFAULTGIF;
     }
 
 }
@@ -1985,6 +1992,7 @@ class LiveImageType{
     static $UNKNOWN = 'unknown';
     static $OFFLINE = 'offline';
     static $ONAIR = 'onair';
+    static $ONAIRENCODER = 'onair_encoder';
     static $DEFAULTGIF = 'defaultgif';
     static $LIVE = 'live';
 }

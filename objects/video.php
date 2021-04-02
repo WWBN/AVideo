@@ -2698,6 +2698,8 @@ if (!class_exists('Video')) {
             if ($force || empty($this->filename)) {
                 AVideoPlugin::onVideoSetFilename($this->id, $this->filename, $filename, $force);
                 $this->filename = $filename;
+            }else{
+                _error_log('setFilename: fail '.$filename." {$this->id}");
             }
             return $this->filename;
         }
@@ -3570,7 +3572,10 @@ if (!class_exists('Video')) {
                     $subDir = "article";
                     $subEmbedDir = "articleEmbed";
                 }
-
+                if(!empty($advancedCustom->makeVideosIDHarderToGuess)){
+                    $encryptedVideos_id = '.'.idToHash($videos_id);
+                    $videos_id = $encryptedVideos_id;
+                }
                 if ($embed) {
                     if (empty($advancedCustom->useVideoIDOnSEOLinks)) {
                         return "{$global['webSiteRootURL']}{$subEmbedDir}/{$clean_title}{$get_http}";
@@ -3585,6 +3590,10 @@ if (!class_exists('Video')) {
                     }
                 }
             } else {
+                if(!empty($advancedCustom->makeVideosIDHarderToGuess)){
+                    $encryptedVideos_id = '.'.idToHash($videos_id);
+                    $videos_id = $encryptedVideos_id;
+                }
                 if ($embed) {
                     return "{$global['webSiteRootURL']}vEmbed/{$videos_id}{$get_http}";
                 } else {

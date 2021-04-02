@@ -1,4 +1,5 @@
 <?php
+$isFirstPage = 1;
 include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
 ?>
 <!DOCTYPE html>

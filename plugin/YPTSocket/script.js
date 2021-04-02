@@ -36,12 +36,12 @@ function socketConnect() {
         }
         if (json.type == webSocketTypes.NEW_CONNECTION) {
             //console.log("Socket onmessage NEW_CONNECTION", json);
-            if(typeof onUserSocketConnect === 'function'){
+            if (typeof onUserSocketConnect === 'function') {
                 onUserSocketConnect(json);
             }
         } else if (json.type == webSocketTypes.NEW_DISCONNECTION) {
             //console.log("Socket onmessage NEW_DISCONNECTION", json);
-            if(typeof onUserSocketDisconnect === 'function'){
+            if (typeof onUserSocketDisconnect === 'function') {
                 onUserSocketDisconnect(json);
             }
         } else {
@@ -100,9 +100,29 @@ function defaultCallback(json) {
     //console.log('defaultCallback', json);
 }
 
+var socketAutoUpdateOnHTMLTimout;
+function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
+    clearTimeout(socketAutoUpdateOnHTMLTimout);
+    socketAutoUpdateOnHTMLTimout = setTimeout(function(){
+        $('.total_on').text(0);
+        $('.total_on').parent().removeClass('text-success');
+        //console.log("parseSocketResponse", json.autoUpdateOnHTML);
+        for (var prop in autoUpdateOnHTML) {
+            if (autoUpdateOnHTML[prop] === false) {
+                continue;
+            }
+            var val = autoUpdateOnHTML[prop];
+            $('.' + prop).text(val);
+            if (parseInt(val) > 0) {
+                $('.' + prop).parent().addClass('text-success');
+            }
+        }
+    },500);
+}
+
 function parseSocketResponse() {
     json = yptSocketResponse;
-    if(typeof json === 'undefined'){
+    if (typeof json === 'undefined') {
         return false;
     }
     console.log("parseSocketResponse", json);
@@ -112,19 +132,7 @@ function parseSocketResponse() {
         }
     }
     if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
-        $('.total_on').text(0);
-        $('.total_on').parent().removeClass('text-success');
-        //console.log("parseSocketResponse", json.autoUpdateOnHTML);
-        for (var prop in json.autoUpdateOnHTML) {
-            if (json.autoUpdateOnHTML[prop] === false) {
-                continue;
-            }
-            var val = json.autoUpdateOnHTML[prop];
-            $('.' + prop).text(val);
-            if (parseInt(val) > 0) {
-                $('.' + prop).parent().addClass('text-success');
-            }
-        }
+        socketAutoUpdateOnHTML(json.autoUpdateOnHTML);
     }
 
     if (json && typeof json.msg.autoEvalCodeOnHTML !== 'undefined') {
@@ -154,7 +162,7 @@ function parseSocketResponse() {
                         var html = '<div class="socketUserDiv" id="' + socketUserDivID + '" >';
                         html += '<div class="socketUserName" onclick="socketUserNameToggle(\'#' + socketUserDivID + '\');">';
                         html += '<i class="fas fa-caret-down"></i><i class="fas fa-caret-up"></i>';
-                        if(json.users_uri[prop][prop2].length < 50){
+                        if (json.users_uri[prop][prop2].length < 50) {
                             html += '<img src="' + webSiteRootURL + 'user/' + json.users_uri[prop][prop2][prop3].users_id + '/foto.png" class="img img-circle img-responsive">';
                         }
                         html += json.users_uri[prop][prop2][prop3].user_name + '</div>';
@@ -207,7 +215,7 @@ $(function () {
             }
         }
     });
-    if(inIframe()){
+    if (inIframe()) {
         $('#socket_info_container').hide();
     }
 });

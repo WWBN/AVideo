@@ -131,23 +131,23 @@ Options All -Indexes
     #for the video name
     RewriteRule    ^video/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?videoName=$1    [QSA]
     RewriteRule    ^video/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?videoName=$1&page=$2    [QSA]
-    RewriteRule    ^v/([0-9]+)/?$ view/?v=$1    [QSA]
-    RewriteRule    ^v/([0-9]+)/page/([0-9]+)/??$ view/?v=$1&page=$2     [QSA]
-    RewriteRule    ^video/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?v=$1    [QSA]
-    RewriteRule    ^video/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?v=$1&page=$3     [QSA]
+    RewriteRule    ^v/([0-9a-zA-Z_.-]+)/?$ view/?v=$1    [QSA]
+    RewriteRule    ^v/([0-9a-zA-Z_.-]+)/page/([0-9]+)/??$ view/?v=$1&page=$2     [QSA]
+    RewriteRule    ^video/([0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?v=$1    [QSA]
+    RewriteRule    ^video/([0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?v=$1&page=$3     [QSA]
     RewriteRule    ^evideo/([a-zA-z0-9=]+)/?$ view/?evideo=$1    [QSA]
 
     #for the video name
     RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/video/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/?catName=$1&videoName=$2    [QSA]
     RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/video/([^!#$&'()*+,\/:;=?@[\]]+)/page/([0-9]+)/?$ view/?catName=$1&videoName=$2&page=$3   [QSA]
     #for the embeded video name
-    RewriteRule    ^videoEmbeded/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^videoEmbeded/([0-9a-zA-Z_.-]+)/? view/videoEmbeded.php?v=$1    [QSA]
     RewriteRule    ^videoEmbeded/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
     RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/videoEmbeded/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?catName=$1&videoName=$2    [QSA]
-    RewriteRule    ^videoEmbed/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^videoEmbed/([0-9a-zA-Z_.-]+)/? view/videoEmbeded.php?v=$1    [QSA]
     RewriteRule    ^videoEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
-    RewriteRule    ^vEmbed/([0-9]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
-    RewriteRule    ^videoEmbed/([0-9]+)/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^vEmbed/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^videoEmbed/([0-9a-zA-Z_.-]+)/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
     RewriteRule    ^evideoEmbed/([a-zA-z0-9=]+)/?$ view/videoEmbeded.php?evideo=$1    [QSA]
 
     RewriteRule    ^plugin/([^!#$&'()*+,\/:;=?@[\]]+)/(.*)?$ plugin/$1/$2    [NC,L]
@@ -159,16 +159,16 @@ Options All -Indexes
     #for the Article name
     RewriteRule    ^article/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?videoName=$1    [QSA]
     RewriteRule    ^article/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?videoName=$1&page=$2    [QSA]
-    RewriteRule    ^article/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?v=$1    [QSA]
-    RewriteRule    ^article/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?v=$1&page=$3     [QSA]
+    RewriteRule    ^article/([0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?v=$1    [QSA]
+    RewriteRule    ^article/([0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?v=$1&page=$3     [QSA]
 
     #for the embeded article name
-    RewriteRule    ^articleEmbed/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^articleEmbed/([0-9a-zA-Z_.-]+)/? view/videoEmbeded.php?v=$1    [QSA]
     RewriteRule    ^articleEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
     RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/articleEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?catName=$1&videoName=$2    [QSA]
-    RewriteRule    ^articleEmbed/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^articleEmbed/([0-9a-zA-Z_.-]+)/? view/videoEmbeded.php?v=$1    [QSA]
     RewriteRule    ^articleEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
-    RewriteRule    ^articleEmbed/([0-9]+)/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^articleEmbed/([0-9a-zA-Z_.-]+)/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
 
     #edit your own user
     RewriteRule    ^user$ view/user.php    [NC,L]

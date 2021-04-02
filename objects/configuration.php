@@ -496,8 +496,10 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
     }
 
     function getEncoderURL() {
-        global $getEncoderURL, $advancedCustom;
-
+        global $global, $getEncoderURL, $advancedCustom;
+        if(!empty($global['forceEncoderURL'])){
+            return $global['forceEncoderURL'];
+        }
         if (empty($getEncoderURL)) {
             $getEncoderURL = ObjectYPT::getCache("getEncoderURL", 60);
             if (empty($getEncoderURL)) {

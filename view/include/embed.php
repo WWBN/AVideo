@@ -1,6 +1,6 @@
 <?php
 $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
-$isEmbed = 1;
+$isVideoTypeEmbed = 1;
 ?>
 <!-- Embed -->
 <?php

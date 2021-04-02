@@ -14,7 +14,7 @@ if($liveObj->doNotShowOnlineOfflineLabel){
     $liveViewStatusClass .= ' hidden';
 }
 
-if (Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id, @$live['live_index'])) {
+if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id, @$live['live_index'])) {
     echo "<span class='label label-success liveOnlineLabel {$liveViewStatusClass}' id='{$liveViewStatusID}'>ONLINE</span>";
 } else {
     echo "<span class='label label-danger liveOnlineLabel {$liveViewStatusClass}' id='{$liveViewStatusID}'>OFFLINE</span>";

@@ -3,9 +3,8 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+User::loginFromRequest();
 session_write_close();
-require_once $global['systemRootPath'] . 'objects/video.php';
-require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
 $showOnlyLoggedUserVideos = true;
 if (Permissions::canModerateVideos()) {
@@ -59,4 +58,12 @@ foreach ($videos as $key => $value) {
     unset($videos[$key]['recoverPass']);
 }
 
-echo '{  "current": '.$_REQUEST['current'].',"rowCount": '.$_REQUEST['rowCount'].', "total": '.$total.', "rows":'. json_encode($videos).'}';
+$obj = new stdClass();
+$obj->users_id = User::getId();
+$obj->current = getCurrentPage();
+$obj->rowCount = getRowCount();
+$obj->total = $total;
+$obj->rows = $videos;
+
+die(json_encode($obj));
+exit;

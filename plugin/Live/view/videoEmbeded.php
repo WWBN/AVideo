@@ -84,7 +84,7 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
             <?php } ?>
         </div>
 
-        <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
+        <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveEmbed">
             <?php
             $streamName = $uuid;
             include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';

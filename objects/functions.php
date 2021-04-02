@@ -784,6 +784,11 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
 
         $id = $matches[2];
         return '//player.twitch.tv/?channel=' . $id . '&parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+    } elseif (strpos($link, 'bitchute.com/video') !== false) {
+        //extract the ID
+        preg_match('/\/\/(www\.)?bitchute.com\/video\/([^\/]+)/', $link, $matches);
+        $id = $matches[2];
+        return 'https://www.bitchute.com/embed/' . $id . '/?parent=' . parse_url($global['webSiteRootURL'], PHP_URL_HOST);
     } elseif (strpos($link, '/evideo/') !== false) {
         //extract the ID
         preg_match('/(http.+)\/evideo\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
@@ -3979,9 +3984,24 @@ function isAVideoPlayer() {
     return false;
 }
 
+function isFirstPage(){
+   global $isFirstPage;
+   return !empty($isFirstPage);
+}
+
 function isVideo() {
     global $isModeYouTube;
     return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();
+}
+
+function isVideoTypeEmbed() {
+    global $isVideoTypeEmbed;
+    
+    if(isVideo() && !empty($isVideoTypeEmbed) && $videos_id = getVideos_id()){
+        return $videos_id;
+    }
+    
+    return false;
 }
 
 function isAudio() {
@@ -4157,6 +4177,9 @@ function getVideos_id() {
             $videos_id = $video['id'];
         }
     }
+    
+    $videos_id = videosHashToID($videos_id);
+    
     return $videos_id;
 }
 
@@ -6156,7 +6179,7 @@ function getLiveUsersLabelHTML($viewsClass = "label label-default", $counterClas
     global $global;
     ob_start();
     include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
-    $htmlMediaTag = '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">';
+    $htmlMediaTag = '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveUsersLabel">';
     $htmlMediaTag .= ob_get_contents();
     ob_end_clean();
     $htmlMediaTag .= getLiveUsersLabel($viewsClass, $counterClass);
@@ -6393,4 +6416,32 @@ function fixPath($path, $addLastSlash = false){
         $path = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
     return $path;
+}
+
+function idToHash($id){
+    global $global;
+    $id = base_convert($id, 10, 32);
+    $hash = (openssl_encrypt($id, 'rc4', $global['salt']));
+    //$hash = preg_replace('/^([+]+)/', '', $hash);
+    $hash = preg_replace('/(=+)$/', '', $hash);
+    $hash = str_replace(array('/','+','='), array('_','-','.'), $hash);
+    //return base64_encode($hash);
+    return $hash;
+}
+
+function hashToID($hash){
+    global $global;
+    //$hash = str_pad($hash,  4, "=");
+    $hash = str_replace(array('_','-','.'), array('/','+','='), $hash);
+    //$hash = base64_decode($hash);
+    $decrypt = openssl_decrypt(($hash), 'rc4', $global['salt']);
+    $decrypt = base_convert($decrypt, 32, 10);
+    return intval($decrypt);
+}
+
+function videosHashToID($hash_of_videos_id){
+    if(preg_match('/^\.([0-9a-z._-]+)/i', $hash_of_videos_id, $matches)){
+        $hash_of_videos_id = hashToID($matches[1]);
+    }
+    return $hash_of_videos_id;
 }

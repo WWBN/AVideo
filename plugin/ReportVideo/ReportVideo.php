@@ -141,6 +141,7 @@ class ReportVideo extends PluginAbstract
         $logo = "<img src='{$obj->emailLogo}'/>";
         $siteTitle = $config->getWebSiteTitle();
         $footer = "";
+        $message = html_entity_decode($message);
 
         $words = array($logo, $videoName, $videoThumbs, $videoLink, $siteTitle, $footer, $message);
         $replace = array('{logo}', '{videoName}', '{videoThumbs}', '{videoLink}', '{siteTitle}', '{footer}', '{message}');
