@@ -3984,6 +3984,11 @@ function isAVideoPlayer() {
     return false;
 }
 
+function isFirstPage(){
+   global $isFirstPage;
+   return !empty($isFirstPage);
+}
+
 function isVideo() {
     global $isModeYouTube;
     return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();

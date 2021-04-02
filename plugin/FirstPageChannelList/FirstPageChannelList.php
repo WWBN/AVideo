@@ -1,5 +1,6 @@
 <?php
 
+$isFirstPage = 1;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 class FirstPageChannelList extends PluginAbstract {

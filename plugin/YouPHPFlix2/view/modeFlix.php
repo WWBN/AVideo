@@ -1,11 +1,11 @@
 <?php
+$isFirstPage = 1;
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
-
 
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 ?>

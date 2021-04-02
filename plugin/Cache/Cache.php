@@ -88,24 +88,7 @@ class Cache extends PluginAbstract {
     }
 
     private function isFirstPage() {
-        // can not process
-        if (empty($_SERVER['HTTP_HOST'])) {
-            //$str = "isFirstPage: Empty HTTP_HOST, IP: ". getRealIpAddr()." SERVER: ".  json_encode($_SERVER);
-            //_error_log($str);
-            die();
-        }
-        global $global;
-        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $actual_link = rtrim($actual_link, '/') . '/';
-        if ($global['webSiteRootURL'] === $actual_link) {
-            return true;
-        }
-        $regExp = "/" . str_replace("/", '\/', $global['webSiteRootURL']) . "\?showOnly=/";
-        //echo $regExp;
-        if (preg_match($regExp, $actual_link)) {
-            return true;
-        }
-        return false;
+        return isFirstPage();
     }
 
     public function getStart() {
@@ -168,6 +151,7 @@ class Cache extends PluginAbstract {
         $obj = $this->getDataObject();
         echo PHP_EOL.'<!--        Page Generated in '.getScriptRunMicrotimeInSeconds().' Seconds -->';
         $c = ob_get_contents();
+        ob_start();
         if (!headers_sent()) {
             header_remove('Set-Cookie');
         }
