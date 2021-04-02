@@ -38,7 +38,7 @@ AVideoPlugin::loadPlugin("LoginControl");
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <?php echo __('Challenge Decryptor'); ?>
-                            <i class="far fa-info-circle" data-toggle="tooltip" title="<?php echo __('To increase your security, we recommend that you use your own PGP tools (offsite)'); ?>"></i>
+                            <i class="fas fa-info-circle" data-toggle="tooltip" title="<?php echo __('To increase your security, we recommend that you use your own PGP tools (offsite)'); ?>"></i>
                         </div>
                         <div class="panel-body">
                             <textarea class="form-control" rows="10" id="privateKeyToDecryptMsg" placeholder="<?php echo __('Private Key'); ?>"></textarea>
