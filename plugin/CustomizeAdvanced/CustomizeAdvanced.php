@@ -193,6 +193,9 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->disableVideoTags = false;
         $obj->doNotAllowEncoderOverwriteStatus = false;
         $obj->doNotAllowUpdateVideoId = false;
+        $obj->makeVideosIDHarderToGuess = false;
+        self::addDataObjectHelper('makeVideosIDHarderToGuess', 'Make the videos ID harder to guess', 'This will change the videos_id on the URL to a crypted value. this crypt user your $global[salt] (configuration.php), so make sure you keep it save in case you need to restore your site, otherwise all the shared links will be lost');
+        
         
         
         $o = new stdClass();

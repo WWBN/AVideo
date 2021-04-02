@@ -3570,9 +3570,10 @@ if (!class_exists('Video')) {
                     $subDir = "article";
                     $subEmbedDir = "articleEmbed";
                 }
-                
-                $encryptedVideos_id = '.'.idToHash($videos_id);
-                $videos_id = $encryptedVideos_id;
+                if(!empty($advancedCustom->makeVideosIDHarderToGuess)){
+                    $encryptedVideos_id = '.'.idToHash($videos_id);
+                    $videos_id = $encryptedVideos_id;
+                }
                 if ($embed) {
                     if (empty($advancedCustom->useVideoIDOnSEOLinks)) {
                         return "{$global['webSiteRootURL']}{$subEmbedDir}/{$clean_title}{$get_http}";
@@ -3587,8 +3588,10 @@ if (!class_exists('Video')) {
                     }
                 }
             } else {
-                $encryptedVideos_id = '.'.idToHash($videos_id);
-                $videos_id = $encryptedVideos_id;
+                if(!empty($advancedCustom->makeVideosIDHarderToGuess)){
+                    $encryptedVideos_id = '.'.idToHash($videos_id);
+                    $videos_id = $encryptedVideos_id;
+                }
                 if ($embed) {
                     return "{$global['webSiteRootURL']}vEmbed/{$videos_id}{$get_http}";
                 } else {
