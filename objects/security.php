@@ -9,6 +9,8 @@ $securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName', 'data
 $securityRemoveNonChars = array('resolution', 'format', 'videoDirectory');
 $filterURL = array('videoURL', 'siteURL', 'redirectUri', 'encoderURL');
 
+
+
 if (!empty($_FILES)) {
     foreach ($_FILES as $key => $value) {
         $_FILES[$key]['name'] = preg_replace('/[^a-z0-9.,()+& #-]/i', '', cleanString($_FILES[$key]['name']));
@@ -24,6 +26,12 @@ foreach ($scanVars as $value) {
             _error_log('base64Url attack ' . json_encode($_SERVER), AVideoLog::$SECURITY);
             exit;
         }
+    }
+    if(!empty($scanThis['videos_id'])){
+        $scanThis['videos_id'] = videosHashToID($scanThis['videos_id']);
+    }
+    if(!empty($scanThis['v'])){
+        $scanThis['v'] = videosHashToID($scanThis['v']);
     }
 
     foreach ($filterURL as $key => $value) {

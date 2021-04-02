@@ -4157,6 +4157,9 @@ function getVideos_id() {
             $videos_id = $video['id'];
         }
     }
+    
+    $videos_id = videosHashToID($videos_id);
+    
     return $videos_id;
 }
 
@@ -6393,4 +6396,32 @@ function fixPath($path, $addLastSlash = false){
         $path = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     }
     return $path;
+}
+
+function idToHash($id){
+    global $global;
+    $id = base_convert($id, 10, 32);
+    $hash = (openssl_encrypt($id, 'rc4', $global['salt']));
+    //$hash = preg_replace('/^([+]+)/', '', $hash);
+    $hash = preg_replace('/(=+)$/', '', $hash);
+    $hash = str_replace(array('/','+','='), array('_','-','.'), $hash);
+    //return base64_encode($hash);
+    return $hash;
+}
+
+function hashToID($hash){
+    global $global;
+    //$hash = str_pad($hash,  4, "=");
+    $hash = str_replace(array('_','-','.'), array('/','+','='), $hash);
+    //$hash = base64_decode($hash);
+    $decrypt = openssl_decrypt(($hash), 'rc4', $global['salt']);
+    $decrypt = base_convert($decrypt, 32, 10);
+    return intval($decrypt);
+}
+
+function videosHashToID($hash_of_videos_id){
+    if(preg_match('/^\.([0-9a-z._-]+)/i', $hash_of_videos_id, $matches)){
+        $hash_of_videos_id = hashToID($matches[1]);
+    }
+    return $hash_of_videos_id;
 }
