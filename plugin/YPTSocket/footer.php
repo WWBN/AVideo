@@ -17,6 +17,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     if (isset($_COOKIE['socketInfoPositionLeft'])) {
         $socket_info_container_left = $_COOKIE['socketInfoPositionLeft'];
     }
+    $command = "sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &";
     ?>
     <style>
         #socket_info_container>div{
@@ -123,26 +124,24 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         .socketUserDiv.visible .fa-caret-up{
             display: inline-block;
         }
-        .socketUserDiv.visible .fa-caret-down{
-            display: none;
-        }
-        .socketUserDiv .socketUserPages{
+        .socketUserDiv.visible .fa-caret-down,
+        .socketUserDiv .socketUserPages,
+        .hideConected,
+        .socket_disconnected,
+        .disconnected .socket_connected{
             display: none;
         }
         .socketUserDiv.visible .socketUserPages{
             display: block;
-        }
-        .socket_disconnected{
-            display: none;
-        }
-        .disconnected .socket_connected{
-            display: none;
         }
         .disconnected .socket_disconnected{
             display: block;
         }
         .socket_connected, .socket_disconnected{
             font-weight: bold;
+        }
+        .disconnected .hideConected{
+            display: block;
         }
         .socket_connected{
             color: #FFF;
@@ -174,6 +173,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             echo getSocketConnectionLabel();
             ?>
         </div>
+        <div class="socketItem hideConected" ><button class="btn btn-xs btn-block btn-default" onclick="copyToClipboard('<?php echo addcslashes($command,'\\'); ?>')">Copy code to run on terminal</button></div>
         <div class="socketItem" ><i class="fas fa-user"></i> Your User ID <span class="socket_users_id">0</span></div>
         <div class="socketItem" ><i class="fas fa-id-card"></i> Socket ResourceId <span class="socket_resourceId">0</span></div>
         <div class="socketItem" ><i class="fas fa-network-wired"></i> Total Different Devices <span class="total_devices_online">0</span></div>
