@@ -392,5 +392,5 @@ if (!empty($videoName) && !empty($video['id'])) {
                             });
 </script>
 <?php
-include $global['systemRootPath'] . 'objects/include_end.php';
+//include $global['systemRootPath'] . 'objects/include_end.php';
 ?>
