@@ -3984,6 +3984,16 @@ function isVideo() {
     return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();
 }
 
+function isVideoTypeEmbed() {
+    global $isVideoTypeEmbed;
+    
+    if(isVideo() && !empty($isVideoTypeEmbed) && $videos_id = getVideos_id()){
+        return $videos_id;
+    }
+    
+    return false;
+}
+
 function isAudio() {
     global $isAudio;
     return !empty($isAudio);
@@ -6159,7 +6169,7 @@ function getLiveUsersLabelHTML($viewsClass = "label label-default", $counterClas
     global $global;
     ob_start();
     include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
-    $htmlMediaTag = '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">';
+    $htmlMediaTag = '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveUsersLabel">';
     $htmlMediaTag .= ob_get_contents();
     ob_end_clean();
     $htmlMediaTag .= getLiveUsersLabel($viewsClass, $counterClass);

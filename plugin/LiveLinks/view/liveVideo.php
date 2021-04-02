@@ -1,14 +1,6 @@
 <?php
-$liveLink = "Invalid link";
-if (filter_var($t['link'], FILTER_VALIDATE_URL)) {
-    $url = parse_url($t['link']);
-    if ($url['scheme'] == 'https') {
-        $liveLink = $t['link'];
-    } else {
-        $liveLink = "{$global['webSiteRootURL']}plugin/LiveLinks/proxy.php?livelink=" . urlencode($t['link']);
-    }
-}
-$posterURL = "{$global['webSiteRootURL']}plugin/Live/view/OnAir.jpg";
+$liveLink = LiveLinks::getSourceLink($t['id']);
+$posterURL = LiveLinks::getImage($t['id']);
 ?>
 <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/live.css" rel="stylesheet" type="text/css"/>
 

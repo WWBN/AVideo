@@ -54,7 +54,7 @@ if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL']) && !isAV
 }
 
 $source = array();
-$poster = $img = "";
+$img = "";
 $imgw = 1280;
 $imgh = 720;
 
@@ -68,27 +68,29 @@ if ($video['type'] !== "pdf") {
     }
 }
 
-if (!empty($video['filename'])) {
-    $images = Video::getImageFromFilename($video['filename']);
-    $poster = $images->poster;
-    if (!empty($images->posterPortrait)) {
-        $img = $images->posterPortrait;
-        $data = getimgsize($source['path']);
-        $imgw = $data[0];
-        $imgh = $data[1];
-    }
-} else {
-    $images = array();
+if(empty($poster)){
     $poster = "";
-    $imgw = 0;
-    $imgh = 0;
-}
-
-if (empty($poster) && !empty($video['filename'])) {
-    if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
-        $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
+    if (!empty($video['filename'])) {
+        $images = Video::getImageFromFilename($video['filename']);
+        $poster = $images->poster;
+        if (!empty($images->posterPortrait)) {
+            $img = $images->posterPortrait;
+            $data = getimgsize($source['path']);
+            $imgw = $data[0];
+            $imgh = $data[1];
+        }
     } else {
-        $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        $images = array();
+        $poster = "";
+        $imgw = 0;
+        $imgh = 0;
+    }
+    if (empty($poster) && !empty($video['filename'])) {
+        if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
+            $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
+        } else {
+            $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        }
     }
 }
 
@@ -281,6 +283,8 @@ if (User::hasBlockedUser($video['users_id'])) {
         <?php
         if ($video['type'] == "blockedUser") {
             ?>
+
+            <!-- blockedUser -->
             <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <center style="height: 100%;">
             <br>
@@ -296,6 +300,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <?php
     } else if ($video['type'] == "serie") {
         ?>
+        <!-- serie -->
         <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php
         echo $video['serie_playlists_id'];
@@ -311,6 +316,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <?php
     } else if ($video['type'] == "article") {
         ?>
+        <!-- article -->
         <div id="main-video" class="bgWhite list-group-item ypt-article" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
             <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
                 <?php
@@ -331,6 +337,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     } else if ($video['type'] == "pdf") {
         $sources = getVideosURLPDF($video['filename']);
         ?>
+        <!-- pdf -->
         <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
         echo $sources["pdf"]['url'];
@@ -344,6 +351,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     } else if ($video['type'] == "image") {
         $sources = getVideosURLIMAGE($video['filename']);
         ?>
+        <!-- image -->
         <center style="height: 100%;">
             <img src="<?php
             echo $sources["image"]['url']
@@ -358,6 +366,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     } else if ($video['type'] == "zip") {
         $sources = getVideosURLZIP($video['filename']);
         ?>
+        <!-- zip -->
         <div class="panel panel-default">
             <div class="panel-heading"><i class="far fa-file-archive"></i> <?php echo $video['title']; ?></div>
             <div class="panel-body">
@@ -378,6 +387,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         </div>
         <?php
     } else if ($video['type'] == "embed") {
+        $isVideoTypeEmbed = 1;
         ?>
         <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
@@ -396,6 +406,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     } else if ($video['type'] == "audio" && !file_exists(Video::getStoragePath() . "{$video['filename']}.mp4")) {
         $isAudio = 1;
         ?>
+        <!-- audio -->
         <audio style="width: 100%; height: 100%;"  id="mainVideo" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainVideo"  data-setup='{ "fluid": true }'
                poster="<?php echo $poster; ?>">
                    <?php
@@ -421,13 +432,14 @@ if (User::hasBlockedUser($video['users_id'])) {
     ?>
         </script>
         <?php
-    } else if ($video['type'] == "linkVideo") {
+    } else if ($video['type'] == "linkVideo" || $video['type'] == "liveLink" ) {
         ?>
+        <!-- videoLink -->
         <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
                class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
             <source src="<?php echo $video['videoLink']; ?>" type="<?php echo (strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
             <?php
-            if (function_exists('getVTTTracks')) {
+            if ($video['type'] !== "liveLink" && function_exists('getVTTTracks')) {
                 echo "<!-- getVTTTracks 2 -->";
                 echo getVTTTracks($video['filename']);
             }
@@ -436,6 +448,9 @@ if (User::hasBlockedUser($video['users_id'])) {
         </video>
 
         <?php
+        if($video['type'] == "liveLink"){
+            echo getLiveUsersLabelHTML();
+        }
         // the live users plugin
         if (empty($modestbranding) && AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
 
@@ -459,6 +474,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <?php
     } else {
         ?>
+        <!-- else -->
         <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
                class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
                    <?php
@@ -536,33 +552,33 @@ if (User::hasBlockedUser($video['users_id'])) {
     include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
     ?>
     <script>
-            var topInfoTimeout;
-            $(document).ready(function () {
-                setInterval(function () {
-                    if (typeof player !== 'undefined') {
-                        if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                            $('#topInfo').fadeOut();
-                        } else {
-                            $('#topInfo').fadeIn();
-                        }
+        var topInfoTimeout;
+        $(document).ready(function () {
+            setInterval(function () {
+                if (typeof player !== 'undefined') {
+                    if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                        $('#topInfo').fadeOut();
+                    } else {
+                        $('#topInfo').fadeIn();
                     }
-                }, 200);
+                }
+            }, 200);
 
-                $("iframe, #topInfo").mouseover(function (e) {
-                    clearTimeout(topInfoTimeout);
-                    $('#mainVideo').addClass("vjs-user-active");
-                    topInfoTimeout = setTimeout(function () {
-                        $('#mainVideo').removeClass("vjs-user-active");
-                    }, 5000);
-                });
-
-                $("iframe").mouseout(function (e) {
-                    topInfoTimeout = setTimeout(function () {
-                        $('#mainVideo').removeClass("vjs-user-active");
-                    }, 500);
-                });
-
+            $("iframe, #topInfo").mouseover(function (e) {
+                clearTimeout(topInfoTimeout);
+                $('#mainVideo').addClass("vjs-user-active");
+                topInfoTimeout = setTimeout(function () {
+                    $('#mainVideo').removeClass("vjs-user-active");
+                }, 5000);
             });
+
+            $("iframe").mouseout(function (e) {
+                topInfoTimeout = setTimeout(function () {
+                    $('#mainVideo').removeClass("vjs-user-active");
+                }, 500);
+            });
+
+        });
     </script>
     <?php
     showCloseButton();

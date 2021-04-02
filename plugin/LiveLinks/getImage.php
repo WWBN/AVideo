@@ -51,6 +51,9 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
     $url = "{$encoderURL}getImage/" . base64_encode($video) . "/{$_GET['format']}";
     $name = "liveLinks_getImage_".md5($url);
     $content = ObjectYPT::getCache($name, 600);
+    if(Live::isDefaultImage($content)){
+        $content = '';
+    }
     if(empty($content)){
         session_write_close();
         _mysql_close();

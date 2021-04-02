@@ -63,7 +63,7 @@ class PlayerSkins extends PluginAbstract {
     }
 
     static function getMediaTag($filename, $htmlMediaTag = false) {
-        global $autoPlayURL, $global, $config;
+        global $autoPlayURL, $global, $config, $isVideoTypeEmbed;
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         $html = '';
         if (empty($htmlMediaTag)) {
@@ -125,6 +125,7 @@ class PlayerSkins extends PluginAbstract {
                 $_GET['isEmbedded'] = "";
                 if (((strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
                     $_GET['isEmbedded'] = "e";
+                    $isVideoTypeEmbed = 1;
                     $url = parseVideos($video['videoLink']);
                     if ($config->getAutoplay()) {
                         $url = addQueryStringParameter($url, 'autoplay', 1);
@@ -149,6 +150,7 @@ class PlayerSkins extends PluginAbstract {
                     $htmlMediaTag .= '<script>var player;var mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
                 }
             } else if ($vType == 'serie') {
+                $isVideoTypeEmbed = 1;
                 $link = "{$global['webSiteRootURL']}plugin/PlayLists/embed.php";
                 $link = addQueryStringParameter($link, 'playlists_id', $video['serie_playlists_id']);
                 $link = addQueryStringParameter($link, 'autoplay', $config->getAutoplay());
@@ -340,6 +342,10 @@ class PlayerSkins extends PluginAbstract {
         $getStartPlayerJSWasRequested = true;
         //return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "' . count($prepareStartPlayerJS_onPlayerReady) . '", $prepareStartPlayerJS_getDataSetup = "' . count($prepareStartPlayerJS_getDataSetup) . '", $onPlayerReady = "' . $onPlayerReady . '", $getDataSetup = "' . $getDataSetup . '" */';
         return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "' . count($prepareStartPlayerJS_onPlayerReady) . '", $prepareStartPlayerJS_getDataSetup = "' . count($prepareStartPlayerJS_getDataSetup) . '" */';
+    }
+    
+    static function addOnPlayerReady($onPlayerReady){
+        return self::getStartPlayerJS($onPlayerReady);
     }
 
     static function getStartPlayerJSCode($noReadyFunction = false, $currentTime = 0) {
