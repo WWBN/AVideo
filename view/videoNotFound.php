@@ -4,8 +4,8 @@ if (!isset($global['systemRootPath'])) {
 }
 
 header('HTTP/1.0 404 Not Found', true, 404);
-$img = "{$global['webSiteRootURL']}view/img/this-video-is-not-available.jpg";
-$poster = "{$global['webSiteRootURL']}view/img/this-video-is-not-available.jpg";
+$img = "".getCDN()."view/img/this-video-is-not-available.jpg";
+$poster = "".getCDN()."view/img/this-video-is-not-available.jpg";
 $imgw = 1280;
 $imgh = 720;
 unset($_SESSION['type']);

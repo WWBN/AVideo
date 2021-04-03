@@ -16,7 +16,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         $imgw = $data[0];
         $imgh = $data[1];
     } else if ($video['type'] == "audio") {
-        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        $img = "".getCDN()."view/img/audio_wave.jpg";
     }
     $type = 'video';
     if ($video['type'] === 'pdf') {

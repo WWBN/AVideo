@@ -61,7 +61,7 @@ if (!empty($playlist_id)) {
                     $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
                     $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
                 } else {
-                    $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                    $img = "".getCDN()."view/img/audio_wave.jpg";
                     $img_portrait = "";
                 }
                 ?>

@@ -89,7 +89,7 @@ if(empty($poster)){
         if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
         } else {
-            $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+            $poster = "".getCDN()."view/img/audio_wave.jpg";
         }
     }
 }

@@ -76,7 +76,7 @@ if (!empty($videoSerie)) {
                                 $img = $value['images']['poster'];
                                 $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                             } else {
-                                $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+                                $img = "".getCDN()."view/img/audio_wave.jpg";
                                 $img_portrait = "";
                             }
                             ?>

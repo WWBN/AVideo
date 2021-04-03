@@ -125,7 +125,7 @@ if (empty($obj)) {
                                         }
 
                                         function restartForm<?php echo $value[0]; ?>() {
-    <?php echo $croppie1['restartCroppie'] . "('{$global['webSiteRootURL']}view/img/transparent1px.png');"; ?>
+    <?php echo $croppie1['restartCroppie'] . "('".getCDN()."view/img/transparent1px.png');"; ?>
                                             $('#inputAdsURL<?php echo $value[0]; ?>').val('');
                                         }
 

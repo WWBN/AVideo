@@ -3245,7 +3245,7 @@ if (!class_exists('Video')) {
             if (convertImageToRoku($images->posterLandscapePath, $rokuImage)) {
                 return str_replace($global['systemRootPath'], $global['webSiteRootURL'], $rokuImage);
             }
-            return "{$global['webSiteRootURL']}view/img/notfound.jpg";
+            return "".getCDN()."view/img/notfound.jpg";
         }
 
         public static function clearImageCache($filename, $type = "video") {
@@ -3332,30 +3332,30 @@ if (!class_exists('Video')) {
                     }
                 } else {
                     if ($type == "article") {
-                        $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/article_portrait.png";
+                        $obj->posterPortrait = "".getCDN()."view/img/article_portrait.png";
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/article_portrait.png";
-                        $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/article_portrait.png";
-                        $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/article_portrait.png";
+                        $obj->posterPortraitThumbs = "".getCDN()."view/img/article_portrait.png";
+                        $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/article_portrait.png";
                     } elseif ($type == "pdf") {
-                        $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
+                        $obj->posterPortrait = "".getCDN()."view/img/pdf_portrait.png";
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
-                        $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
-                        $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/pdf_portrait.png";
+                        $obj->posterPortraitThumbs = "".getCDN()."view/img/pdf_portrait.png";
+                        $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/pdf_portrait.png";
                     } /* else if ($type == "image") {
-                      $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/image_portrait.png";
+                      $obj->posterPortrait = "".getCDN()."view/img/image_portrait.png";
                       $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/image_portrait.png";
-                      $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/image_portrait.png";
-                      $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/image_portrait.png";
+                      $obj->posterPortraitThumbs = "".getCDN()."view/img/image_portrait.png";
+                      $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/image_portrait.png";
                       } */ elseif ($type == "zip") {
-                        $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
+                        $obj->posterPortrait = "".getCDN()."view/img/zip_portrait.png";
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/zip_portrait.png";
-                        $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
-                        $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/zip_portrait.png";
+                        $obj->posterPortraitThumbs = "".getCDN()."view/img/zip_portrait.png";
+                        $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/zip_portrait.png";
                     } else {
-                        $obj->posterPortrait = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                        $obj->posterPortrait = "".getCDN()."view/img/notfound_portrait.jpg";
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/notfound_portrait.png";
-                        $obj->posterPortraitThumbs = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
-                        $obj->posterPortraitThumbsSmall = "{$global['webSiteRootURL']}view/img/notfound_portrait.jpg";
+                        $obj->posterPortraitThumbs = "".getCDN()."view/img/notfound_portrait.jpg";
+                        $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/notfound_portrait.jpg";
                     }
                 }
 
@@ -3382,35 +3382,35 @@ if (!class_exists('Video')) {
                     }
                 } else {
                     if ($type == "article") {
-                        $obj->poster = "{$global['webSiteRootURL']}view/img/article.png";
-                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/article.png";
-                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/article.png";
+                        $obj->poster = "".getCDN()."view/img/article.png";
+                        $obj->thumbsJpg = "".getCDN()."view/img/article.png";
+                        $obj->thumbsJpgSmall = "".getCDN()."view/img/article.png";
                     } elseif ($type == "pdf") {
-                        $obj->poster = "{$global['webSiteRootURL']}view/img/pdf.png";
-                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/pdf.png";
-                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/pdf.png";
+                        $obj->poster = "".getCDN()."view/img/pdf.png";
+                        $obj->thumbsJpg = "".getCDN()."view/img/pdf.png";
+                        $obj->thumbsJpgSmall = "".getCDN()."view/img/pdf.png";
                     } elseif ($type == "image") {
-                        $obj->poster = "{$global['webSiteRootURL']}view/img/image.png";
-                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/image.png";
-                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/image.png";
+                        $obj->poster = "".getCDN()."view/img/image.png";
+                        $obj->thumbsJpg = "".getCDN()."view/img/image.png";
+                        $obj->thumbsJpgSmall = "".getCDN()."view/img/image.png";
                     } elseif ($type == "zip") {
-                        $obj->poster = "{$global['webSiteRootURL']}view/img/zip.png";
-                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/zip.png";
-                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/zip.png";
+                        $obj->poster = "".getCDN()."view/img/zip.png";
+                        $obj->thumbsJpg = "".getCDN()."view/img/zip.png";
+                        $obj->thumbsJpgSmall = "".getCDN()."view/img/zip.png";
                     } elseif (($type !== "audio") && ($type !== "linkAudio")) {
                         if (file_exists($spectrumSource['path'])) {
                             $obj->poster = $spectrumSource['url'];
                             $obj->thumbsJpg = $spectrumSource['url'];
                             $obj->thumbsJpgSmall = $spectrumSource['url'];
                         } else {
-                            $obj->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
-                            $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
-                            $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
+                            $obj->poster = "".getCDN()."view/img/notfound.jpg";
+                            $obj->thumbsJpg = "".getCDN()."view/img/notfoundThumbs.jpg";
+                            $obj->thumbsJpgSmall = "".getCDN()."view/img/notfoundThumbsSmall.jpg";
                         }
                     } else {
-                        $obj->poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
-                        $obj->thumbsJpg = "{$global['webSiteRootURL']}view/img/audio_waveThumbs.jpg";
-                        $obj->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/audio_waveThumbsSmall.jpg";
+                        $obj->poster = "".getCDN()."view/img/audio_wave.jpg";
+                        $obj->thumbsJpg = "".getCDN()."view/img/audio_waveThumbs.jpg";
+                        $obj->thumbsJpgSmall = "".getCDN()."view/img/audio_waveThumbsSmall.jpg";
                     }
                 }
 

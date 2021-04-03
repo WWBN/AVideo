@@ -28,7 +28,7 @@ if(preg_match('/videos\/(.*)_thumbs(V2)?.jpg/',$imageURL, $matches)){
 }
 
 if(empty($_GET['notFound'])){
-    header("Location: {$global['webSiteRootURL']}view/img/image404.php?notFound=1");
+    header("Location: ".getCDN()."view/img/image404.php?notFound=1");
     exit;
 }
 

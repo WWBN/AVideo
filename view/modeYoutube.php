@@ -30,8 +30,8 @@ if (!empty($evideo)) {
     require_once $global['systemRootPath'] . 'objects/subscribe.php';
     require_once $global['systemRootPath'] . 'objects/functions.php';
 
-    $img = "{$global['webSiteRootURL']}view/img/notfound.jpg";
-    $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+    $img = "".getCDN()."view/img/notfound.jpg";
+    $poster = "".getCDN()."view/img/notfound.jpg";
     $imgw = 1280;
     $imgh = 720;
 
@@ -235,7 +235,7 @@ if (!empty($evideo)) {
     if (!empty($video) && $video['type'] == "video") {
         $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
     } else {
-        $poster = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        $poster = "".getCDN()."view/img/audio_wave.jpg";
     }
 
     if (!empty($video)) {
@@ -246,7 +246,7 @@ if (!empty($evideo)) {
             $imgw = $data[0];
             $imgh = $data[1];
         } else if ($video['type'] == "audio") {
-            $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+            $img = "".getCDN()."view/img/audio_wave.jpg";
         }
         $type = 'video';
         if ($video['type'] === 'pdf') {
@@ -267,7 +267,7 @@ if (!empty($evideo)) {
             $img = isMobile() ? $images->thumbsJpg : $images->poster;
         }
     } else {
-        $poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
+        $poster = "".getCDN()."view/img/notfound.jpg";
     }
     $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
     $modeYouTubeTimeLog['Code part 3'] = microtime(true) - $modeYouTubeTime;
@@ -308,8 +308,8 @@ if (!empty($evideo)) {
 
 // video not found
 if (empty($video)) {
-    $img = "{$global['webSiteRootURL']}view/img/this-video-is-not-available.jpg";
-    $poster = "{$global['webSiteRootURL']}view/img/this-video-is-not-available.jpg";
+    $img = "".getCDN()."view/img/this-video-is-not-available.jpg";
+    $poster = "".getCDN()."view/img/this-video-is-not-available.jpg";
     $imgw = 1280;
     $imgh = 720;
     unset($_SESSION['type']);

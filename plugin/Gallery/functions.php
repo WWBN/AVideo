@@ -172,9 +172,9 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                    if (!is_object($images)) {
                        $images = new stdClass();
                        $images->thumbsGif = "";
-                       $images->poster = "{$global['webSiteRootURL']}view/img/notfound.jpg";
-                       $images->thumbsJpg = "{$global['webSiteRootURL']}view/img/notfoundThumbs.jpg";
-                       $images->thumbsJpgSmall = "{$global['webSiteRootURL']}view/img/notfoundThumbsSmall.jpg";
+                       $images->poster = "".getCDN()."view/img/notfound.jpg";
+                       $images->thumbsJpg = "".getCDN()."view/img/notfoundThumbs.jpg";
+                       $images->thumbsJpgSmall = "".getCDN()."view/img/notfoundThumbsSmall.jpg";
                    }
                    if ($value['type'] === 'serie' && !empty($value['serie_playlists_id']) && stripos($images->thumbsJpg, 'notfound') !== false) {
                        $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
