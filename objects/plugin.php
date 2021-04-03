@@ -201,7 +201,9 @@ class Plugin extends ObjectYPT {
             $pluginsMarketplace = ObjectYPT::getSessionCache('getAvailablePlugins', 600); // 10 min cache
             if (empty($pluginsMarketplace)) {
                 $pluginsMarketplace = json_decode(url_get_contents("https://tutorials.avideo.com/info?version=1", "", 2));
-                ObjectYPT::setSessionCache('getAvailablePlugins', $pluginsMarketplace);
+                if(!empty($pluginsMarketplace)){
+                    ObjectYPT::setSessionCache('getAvailablePlugins', $pluginsMarketplace);
+                }
             }
         }
         if (empty($getAvailablePlugins)) {
