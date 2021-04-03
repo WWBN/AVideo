@@ -136,16 +136,27 @@ function lazyImage() {
                 visibleOnly: true,
                 // called after an element was successfully handled
                 afterLoad: function (element) {
+
+                    element.addClass('gifNotLoaded');
                     element.removeClass('blur');
-                    var gif = element.parent().find('.thumbsGIF');
-                    gif.lazy({
-                        effect: 'fadeIn'
+                    
+                    element.mouseover(function () {
+                        
+                        if($(this).hasClass('gifNotLoaded')){
+                            var element = $(this);
+                            element.removeClass('gifNotLoaded');
+                            var gif = element.parent().find('.thumbsGIF');
+                            gif.lazy({
+                                effect: 'fadeIn'
+                            });
+                            gif.height(element.height());
+                            gif.width(element.width());
+                            console.log('lazyImage', gif);
+                        }
+                        
+                        $("#log").append("<div>Handler for .mouseover() called.</div>");
                     });
-                    setTimeout(function () {
-                        gif.hide();
-                        gif.height(element.height());
-                        gif.width(element.width());
-                    }, 100);
+
                 }
             });
             mouseEffect();
@@ -694,7 +705,7 @@ function playerPlayIfAutoPlay(currentTime) {
 }
 
 function playNext(url) {
-    if(!player.paused()){
+    if (!player.paused()) {
         return false;
     }
     if (playerIsPlayingAds()) {
@@ -718,7 +729,7 @@ function playNext(url) {
                     } else {
                         console.log("playNext ajax success");
                         $('topInfo').hide();
-                        playNextURL =(typeof isEmbed !== 'undefined' && isEmbed) ? response.nextURLEmbed : response.nextURL;
+                        playNextURL = (typeof isEmbed !== 'undefined' && isEmbed) ? response.nextURLEmbed : response.nextURL;
                         console.log("New playNextURL", playNextURL);
                         var cSource = false;
                         try {
@@ -1298,27 +1309,27 @@ function startTimer(duration, selector) {
 
         // Display the result in the element with id="demo"
         var text = '';
-        if(years){
-            text += years+'y ';
+        if (years) {
+            text += years + 'y ';
         }
-        if(days || text){
-            text += days+'d ';
+        if (days || text) {
+            text += days + 'd ';
         }
-        if(hours || text){
-            text += hours+'h ';
+        if (hours || text) {
+            text += hours + 'h ';
         }
-        if(minutes || text){
-            text += minutes+'m ';
+        if (minutes || text) {
+            text += minutes + 'm ';
         }
-        if(seconds || text){
-            text += seconds+'s ';
+        if (seconds || text) {
+            text += seconds + 's ';
         }
         // If the count down is finished, write some text
         if (duration < 0) {
             clearInterval(startTimerInterval[selector]);
             //$(selector).text("EXPIRED");
-            startTimerTo(duration*-1, selector);
-        }else{
+            startTimerTo(duration * -1, selector);
+        } else {
             $(selector).text(text);
             duration--;
         }
@@ -1340,20 +1351,20 @@ function startTimerTo(durationTo, selector) {
 
         // Display the result in the element with id="demo"
         var text = '';
-        if(years){
-            text += years+'y ';
+        if (years) {
+            text += years + 'y ';
         }
-        if(days || text){
-            text += days+'d ';
+        if (days || text) {
+            text += days + 'd ';
         }
-        if(hours || text){
-            text += hours+'h ';
+        if (hours || text) {
+            text += hours + 'h ';
         }
-        if(minutes || text){
-            text += minutes+'m ';
+        if (minutes || text) {
+            text += minutes + 'm ';
         }
-        if(seconds || text){
-            text += seconds+'s ';
+        if (seconds || text) {
+            text += seconds + 's ';
         }
         $(selector).text(text);
         durationTo++;
@@ -1364,28 +1375,30 @@ function startTimerTo(durationTo, selector) {
 var startTimerToDateTimeOut = [];
 function startTimerToDate(toDate, selector, useDBDate) {
     clearTimeout(startTimerToDateTimeOut[selector]);
-    if(typeof _serverTime === 'undefined'){
+    if (typeof _serverTime === 'undefined') {
         console.log('startTimerToDate _serverTime is undefined');
         getServerTime();
-        startTimerToDateTimeOut[selector] = setTimeout(function(){startTimerToDate(toDate, selector, useDBDate)}, 1000);
+        startTimerToDateTimeOut[selector] = setTimeout(function () {
+            startTimerToDate(toDate, selector, useDBDate)
+        }, 1000);
         return false;
     }
-    if(typeof toDate === 'string'){
+    if (typeof toDate === 'string') {
         toDate = new Date(toDate);
     }
-    if(useDBDate){
-        if(typeof _serverDBTimeString !== 'undefined'){
+    if (useDBDate) {
+        if (typeof _serverDBTimeString !== 'undefined') {
             date2 = new Date(_serverDBTimeString);
         }
-    }else{
-        if(typeof _serverTimeString !== 'undefined'){
+    } else {
+        if (typeof _serverTimeString !== 'undefined') {
             date2 = new Date(_serverTimeString);
         }
     }
-    if(typeof date2 === 'undefined'){
+    if (typeof date2 === 'undefined') {
         date2 = new Date();
     }
-    
+
     var seconds = (toDate.getTime() - date2.getTime()) / 1000;
     console.log('startTimerToDate toDate', toDate);
     console.log('startTimerToDate selector', selector);
@@ -1394,21 +1407,21 @@ function startTimerToDate(toDate, selector, useDBDate) {
 }
 
 var _timerIndex = 0;
-function createTimer(selector){
+function createTimer(selector) {
     var toDate = $(selector).text();
     var id = $(selector).attr('id');
-    if(!id){
+    if (!id) {
         _timerIndex++;
-        id = 'timer_'+_timerIndex;
+        id = 'timer_' + _timerIndex;
         $(selector).attr('id', id);
     }
-    
-    startTimerToDate(toDate, '#'+id, true);
+
+    startTimerToDate(toDate, '#' + id, true);
 }
 
 var getServerTimeActive = 0;
-function getServerTime(){
-    if(getServerTimeActive || _serverTime){
+function getServerTime() {
+    if (getServerTimeActive || _serverTime) {
         return false;
     }
     getServerTimeActive = 1;
@@ -1419,17 +1432,17 @@ function getServerTime(){
             _serverDBTime = response._serverDBTime;
             _serverTimeString = response._serverTimeString;
             _serverDBTimeString = response._serverDBTimeString;
-            setInterval(function(){
+            setInterval(function () {
                 _serverTime++;
                 _serverDBTime++;
                 _serverTimeString = new Date(_serverTime * 1000).toISOString().slice(0, 19).replace('T', ' ');
                 _serverDBTimeString = new Date(_serverDBTime * 1000).toISOString().slice(0, 19).replace('T', ' ');
-            },1000);
+            }, 1000);
         }
     });
 }
 
-function clearServerTime(){
+function clearServerTime() {
     _serverTime = null;
     _serverDBTime = null;
     _serverTimeString = null;
@@ -1560,7 +1573,7 @@ function changeVideoStatus(videos_id, status) {
     });
 }
 
-function avideoAjax(url, data){
+function avideoAjax(url, data) {
     modal.showPleaseWait();
     $.ajax({
         url: url,
