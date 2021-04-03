@@ -606,7 +606,7 @@ function createEmailMessageFromTemplate($message) {
     global $global, $config;
     $text = file_get_contents("{$global['systemRootPath']}view/include/emailTemplate.html");
     $siteTitle = $config->getWebSiteTitle();
-    $logo = "<img src=\"{$global['webSiteRootURL']}" . $config->getLogo(true) . "\" alt=\"{$siteTitle}\">";
+    $logo = "<img src=\"" . getCDN().$config->getLogo(true) . "\" alt=\"{$siteTitle}\">";
 
     $words = array($logo, $message, $siteTitle);
     $replace = array('{logo}', '{message}', '{siteTitle}');
@@ -941,8 +941,8 @@ function _getImagesURL($fileName, $type) {
         unset($file1);
         $files["jpg"] = array(
             'filename' => "{$type}.png",
-            'path' => "{$global['systemRootPath']}view/img/{$type}.png",
-            'url' => "{$global['webSiteRootURL']}view/img/{$type}.png",
+            'path' => getCDN()."view/img/{$type}.png",
+            'url' => getCDN()."view/img/{$type}.png",
             'type' => 'image',
         );
     }
@@ -961,8 +961,8 @@ function _getImagesURL($fileName, $type) {
         } else {
             $files["pjpg"] = array(
                 'filename' => "{$type}_portrait.png",
-                'path' => "{$global['systemRootPath']}view/img/{$type}_portrait.png",
-                'url' => "{$global['webSiteRootURL']}view/img/{$type}_portrait.png",
+                'path' => getCDN()."view/img/{$type}_portrait.png",
+                'url' => getCDN()."view/img/{$type}_portrait.png",
                 'type' => 'image',
             );
         }
@@ -1101,7 +1101,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false) {
     $start = $time;
     if ($fileNameisThePath) {
         $filename = str_replace(getVideosDir(), '', $fileName);
-        $url = "{$global['webSiteRootURL']}videos/{$filename}";
+        $url = getCDN()."videos/{$filename}";
         $files["mp3"] = array(
             'filename' => $filename,
             'path' => $fileName,
@@ -1229,7 +1229,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         $files = object_to_array(ObjectYPT::getCache($cacheName, $lifetime, true));
         if (is_array($files)) {
             //_error_log("getVideosURL_V2: do NOT recreate lifetime = {$lifetime}");
-            $preg_match_url = addcslashes($global['webSiteRootURL'], "/") . "videos";
+            $preg_match_url = addcslashes(getCDN(), "/") . "videos";
             foreach ($files as $value) {
                 // check if is a dummy file and the URL still wrong
                 if (
@@ -2095,7 +2095,7 @@ function combineFiles($filesArray, $extension = "js") {
         }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
-    return $global['webSiteRootURL'] . 'videos/cache/' . $extension . "/" . $md5FileName . "?" . filectime($cacheDir . $md5FileName);
+    return getCDN() . 'videos/cache/' . $extension . "/" . $md5FileName . "?" . filectime($cacheDir . $md5FileName);
 }
 
 function local_get_contents($path) {
@@ -2494,7 +2494,7 @@ function isSameDomainAsMyAVideo($url) {
     if (empty($url)) {
         return false;
     }
-    return isSameDomain($url, $global['webSiteRootURL']);
+    return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN());
 }
 
 function requestComesFromSameDomainAsMyAVideo() {
@@ -2508,7 +2508,7 @@ function requestComesFromSameDomainAsMyAVideo() {
         $url = "https://{$_SERVER['SERVER_NAME']}";
     }
     //_error_log("requestComesFromSameDomainAsMyAVideo: ({$url}) == ({$global['webSiteRootURL']})");
-    return isSameDomain($url, $global['webSiteRootURL']);
+    return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN());
 }
 
 function requestComesFromSafePlace() {
@@ -2745,7 +2745,7 @@ function siteMap() {
             $imgw = $data[0];
             $imgh = $data[1];
         } elseif ($video['type'] == "audio") {
-            $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+            $img = getCDN()."view/img/audio_wave.jpg";
         }
         $type = 'video';
         if ($video['type'] === 'pdf') {
@@ -3115,7 +3115,7 @@ function getLdJson($videos_id) {
         $imgw = $data[0];
         $imgh = $data[1];
     } elseif ($video['type'] == "audio") {
-        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        $img = getCDN()."view/img/audio_wave.jpg";
     }
     $type = 'video';
     if ($video['type'] === 'pdf') {
@@ -3208,7 +3208,7 @@ function getItemprop($videos_id) {
         $imgw = $data[0];
         $imgh = $data[1];
     } elseif ($video['type'] == "audio") {
-        $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+        $img = getCDN()."view/img/audio_wave.jpg";
     }
     $type = 'video';
     if ($video['type'] === 'pdf') {
@@ -6290,7 +6290,7 @@ function cleanUpRowFromDatabase($row) {
 
 function getImageTransparent1pxURL() {
     global $global;
-    return "{$global['webSiteRootURL']}view/img/transparent1px.png";
+    return getCDN()."view/img/transparent1px.png";
 }
 
 function getDatabaseTime() {
@@ -6444,4 +6444,16 @@ function videosHashToID($hash_of_videos_id){
         $hash_of_videos_id = hashToID($matches[1]);
     }
     return $hash_of_videos_id;
+}
+
+function getCDN(){
+    global $advancedCustom, $global, $_getCDNURL;
+    if(empty($_getCDNURL)){
+        if(isValidURL($advancedCustom->videosCDN)){
+            $_getCDNURL = addLastSlash($advancedCustom->videosCDN);
+        }else{
+            $_getCDNURL = $global['webSiteRootURL'];
+        }
+    }
+    return $_getCDNURL;
 }

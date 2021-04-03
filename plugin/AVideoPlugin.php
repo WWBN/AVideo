@@ -555,7 +555,14 @@ class AVideoPlugin {
 
     public static function getEnd() {
         $plugins = Plugin::getAllEnabled();
-        $plugins = array_reverse($plugins);
+        usort($plugins, function($a, $b) {
+            if($a['name'] == 'Cache'){
+                return 1;
+            }else if($b['name'] == 'Cache'){
+                return -1;
+            }
+            return 0;
+        });
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);

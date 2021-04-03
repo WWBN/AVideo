@@ -2884,9 +2884,9 @@ if (!class_exists('Video')) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}{$token}";
                     }
                 } else {
-                    $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}{$type}{$token}";
+                    $source['url'] = getCDN()."videos/{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
-                        $source['url'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
+                        $source['url'] = getCDN()."videos/{$filename}/index{$type}{$token}";
                     }
                 }
                 /* need it because getDurationFromFile */
