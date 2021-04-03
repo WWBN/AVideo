@@ -184,7 +184,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                    $poster = $images->thumbsJpg;
                    ?>
                 <div class="aspectRatio16_9">
-                    <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
+                    <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($poster != $images->thumbsJpgSmall && !empty($advancedCustom->usePreloadLowResolutionImages)) ? "blur" : ""; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                     <?php if (!empty($imgGif)) { ?>
                         <img src="<?php echo getCDN(); ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                     <?php } ?>
