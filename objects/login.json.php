@@ -191,7 +191,10 @@ if (empty($_POST['user']) || empty($_POST['pass'])) {
     die(json_encode($object));
 }
 $user = new User(0, $_POST['user'], $_POST['pass']);
+
+_error_log("login.json.php trying to login");
 $resp = $user->login(false, @$_POST['encodedPass']);
+_error_log("login.json.php login respond something");
 TimeLogEnd($timeLog, __LINE__);
 $object->isCaptchaNeed = User::isCaptchaNeed();
 if ($resp === User::USER_NOT_VERIFIED) {
@@ -320,4 +323,5 @@ TimeLogEnd($timeLog, __LINE__);
 $json = _json_encode($object);
 //_error_log("login.json.php complete");
 //header("Content-length: " . strlen($json));
+_error_log('login.json.php is done');
 echo $json;
