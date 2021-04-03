@@ -16,7 +16,7 @@ if(!User::isAdmin()){
         }
     }
 }
-$json = json_encode($row);
+$json = _json_encode($row);
 
 if(empty($json)){
     _error_log(print_r($row, true));
@@ -24,7 +24,7 @@ if(empty($json)){
     foreach ($row as $key => $value) {
         $row[$key]->installedPlugin['object_data'] = "";
     }
-    $json = json_encode($row);
+    $json = _json_encode($row);
 }
 
 echo '{  "current": 1,"rowCount": '.$total.', "total": '.$total.', "rows":'. $json.'}';
