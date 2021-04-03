@@ -19,8 +19,8 @@ if (empty($meet_schedule_id)) {
     $meet_schedule_id = intval($meet_schedule_id);
 }
 ?>
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/external_api.js" type="text/javascript"></script>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>plugin/Meet/external_api.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
 <script>
     var webSiteRootURL = "<?php echo $global['webSiteRootURL']; ?>";
     var webSiteTitle = "<?php echo $config->getWebSiteTitle(); ?>";

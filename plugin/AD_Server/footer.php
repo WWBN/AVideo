@@ -1,5 +1,5 @@
-<script src="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>
-<script src="<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>
 <script>
     if (typeof player === 'undefined') {
         player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);

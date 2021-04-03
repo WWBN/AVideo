@@ -4,7 +4,7 @@ $obj = AVideoPlugin::getObjectData("LoginControl");
 $pass = time();
 $keys = createKeys('Test <test@example.com>', $pass);
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
 <div id="loginHistory" class="tab-pane fade"  style="padding: 10px 0;">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -57,7 +57,7 @@ if($obj->enablePGP2FA){
 <?php
 }
 ?>
-<script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
+<script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
 <script>
                 $(document).ready(function () {
                     var logincontrol_historytableVar = $('#logincontrol_historyTable').DataTable({

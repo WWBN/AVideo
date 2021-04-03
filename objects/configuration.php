@@ -218,18 +218,18 @@ class Configuration {
         $url = false;
         if (!$getPNG) {
             $file = $global['systemRootPath'] . "videos/favicon.ico";
-            $url = "{$global['webSiteRootURL']}videos/favicon.ico";
+            $url = getCDN()."videos/favicon.ico";
             if (!file_exists($file)) {
                 $file = $global['systemRootPath'] . "view/img/favicon.ico";
-                $url = "{$global['webSiteRootURL']}view/img/favicon.ico";
+                $url = getCDN()."view/img/favicon.ico";
             }
         }
         if (empty($url) || !file_exists($file)) {
             $file = $global['systemRootPath'] . "videos/favicon.png";
-            $url = "{$global['webSiteRootURL']}videos/favicon.png";
+            $url = getCDN()."videos/favicon.png";
             if (!file_exists($file)) {
                 $file = $global['systemRootPath'] . "view/img/favicon.png";
-                $url = "{$global['webSiteRootURL']}view/img/favicon.png";
+                $url = getCDN()."view/img/favicon.png";
             }
         }
         return array('file' => $file, 'url' => $url);
@@ -249,7 +249,7 @@ class Configuration {
         $destination = Video::getStoragePath()."cache/og_200X200.jpg";
         $return = self::_getFavicon(true);
         convertImageToOG($return['file'], $destination);
-        return $global['webSiteRootURL'] . "videos/cache/og_200X200.jpg";
+        return getCDN() . "videos/cache/og_200X200.jpg";
     }
 
     function setHead($head) {

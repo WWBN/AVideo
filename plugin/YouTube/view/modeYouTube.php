@@ -209,7 +209,7 @@ $contentSearchFound = false;
                 </div>
             </div>
         </div>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>plugin/Gallery/script.js" type="text/javascript"></script>
         <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
     </body>
 </html>

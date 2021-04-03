@@ -20,17 +20,17 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
         <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
         <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
 
-        <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $global['webSiteRootURL']; ?>videos/favicon.png?1602260237">
-        <link rel="icon" type="image/png" href="<?php echo $global['webSiteRootURL']; ?>videos/favicon.png?1602260237">
-        <link rel="shortcut icon" href="<?php echo $global['webSiteRootURL']; ?>videos/favicon.ico?1601872356" sizes="16x16,24x24,32x32,48x48,144x144">
-        <meta name="msapplication-TileImage" content="<?php echo $global['webSiteRootURL']; ?>videos/favicon.png?1602260237">
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/custom/cyborg.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js"></script>
+        <link rel="apple-touch-icon" sizes="180x180" href="<?php echo getCDN(); ?>videos/favicon.png?1602260237">
+        <link rel="icon" type="image/png" href="<?php echo getCDN(); ?>videos/favicon.png?1602260237">
+        <link rel="shortcut icon" href="<?php echo getCDN(); ?>videos/favicon.ico?1601872356" sizes="16x16,24x24,32x32,48x48,144x144">
+        <meta name="msapplication-TileImage" content="<?php echo getCDN(); ?>videos/favicon.png?1602260237">
+        <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>view/css/custom/cyborg.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js"></script>
         <script>
-            var loopBGHLS = '<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/loopBGHLS/index.m3u8';
+            var loopBGHLS = '<?php echo getCDN(); ?>plugin/Live/view/loopBGHLS/index.m3u8';
         </script>
         <style>
             .playListIsLive .fas{

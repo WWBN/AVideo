@@ -114,11 +114,11 @@ class AD_Server extends PluginAbstract {
         global $global;
         $_GET['vmap_id'] = session_id();
 
-        $css = '<link href="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>'
-                . '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' . getCDN() . 'js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>'
+                . '<link href="' . getCDN() . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->showMarkers)) {
-            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';
+            $css .= '<link href="' . getCDN() . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';
             
         }
         $css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
@@ -176,11 +176,11 @@ class AD_Server extends PluginAbstract {
         PlayerSkins::getStartPlayerJS($onPlayerReady);
         $js = '';
         $js .= '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>';
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
+        $js .= '<script src="' . getCDN() . 'js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>';
+        $js .= '<script src="' . getCDN() . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
         
         if (!empty($obj->showMarkers)) {
-            $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-markers/videojs-markers.js"></script>';
+            $js .= '<script src="' . getCDN() . 'plugin/AD_Server/videojs-markers/videojs-markers.js"></script>';
         }
         return $js;
     }

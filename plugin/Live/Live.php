@@ -215,7 +215,7 @@ class Live extends PluginAbstract {
 
         if (!empty($obj->playLiveInFullScreen)) {
             if ((isLive() || isEmbed()) && canFullScreen()) {
-                $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
+                $css .= '<link href="' .getCDN() . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
                 $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
             }
             $js .= '<script>var playLiveInFullScreen = true</script>';
@@ -230,11 +230,11 @@ class Live extends PluginAbstract {
 
         $js = '';
         if (!empty($obj->playLiveInFullScreen)) {
-            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'.liveVideo a.galleryLink\'); } });</script>';
         } else
         if (!empty($obj->playLiveInFullScreenOnIframe)) {
-            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'.liveVideo a.galleryLink\'); } });</script>';
         }
         include $global['systemRootPath'] . 'plugin/Live/view/footer.php';

@@ -590,12 +590,12 @@ if (User::isAdmin()) {
                         <div class="form-group">
                             <label class="col-md-2 control-label"><?php echo __("Head Code"); ?></label>
                             <div class="col-md-10">
-                                <link rel="stylesheet" href="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.css">
-                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/lib/codemirror.js"></script>
-                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/xml/xml.js"></script>
-                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/css/css.js"></script>
-                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/javascript/javascript.js"></script>
-                                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+                                <link rel="stylesheet" href="<?php echo getCDN(); ?>view/js/codemirror/lib/codemirror.css">
+                                <script src="<?php echo getCDN(); ?>view/js/codemirror/lib/codemirror.js"></script>
+                                <script src="<?php echo getCDN(); ?>view/js/codemirror/mode/xml/xml.js"></script>
+                                <script src="<?php echo getCDN(); ?>view/js/codemirror/mode/css/css.js"></script>
+                                <script src="<?php echo getCDN(); ?>view/js/codemirror/mode/javascript/javascript.js"></script>
+                                <script src="<?php echo getCDN(); ?>view/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
                                 <script>
                                     (function($) {
 										$(document).ready(function() {

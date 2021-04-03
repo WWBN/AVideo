@@ -30,7 +30,7 @@ $video['filename'] = "";
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo __('Video Not Found'); ?></title>
-        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

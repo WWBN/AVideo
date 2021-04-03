@@ -130,7 +130,7 @@ $outputText .= $collapsibleClose;
 <html>
     <head>
         <title><?php echo __("Logs") . " " . date("Y-M-d H:i:s") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link rel="stylesheet" href="<?php echo $global['webSiteRootURL']; ?>view/css/terminal.min.css" />
+        <link rel="stylesheet" href="<?php echo getCDN(); ?>view/css/terminal.min.css" />
         <style>
             html {
                 scroll-behavior: smooth;
@@ -208,7 +208,7 @@ $outputText .= $collapsibleClose;
                 font-size: 0.8em;
             }
         </style>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js"></script>
+        <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js"></script>
     </head>
 
     <body  class="terminal">

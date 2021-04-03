@@ -23,7 +23,7 @@ $wordpress = "http://wordpress.com/press-this.php?u=$url&quote=$title&s=";
 $pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=";
 if (empty($socialAdded)) { // do not add the CSS more then once
     ?>     
-    <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo getCDN(); ?>view/css/social.css" rel="stylesheet" type="text/css"/>
     <?php
 }
 $socialAdded = 1;

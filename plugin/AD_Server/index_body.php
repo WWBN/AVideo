@@ -228,9 +228,9 @@ if (!User::isAdmin()) {
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
-<script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
+<script src="<?php echo getCDN(); ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>view/js/Chart.bundle.min.js"></script>
 
 <script type="text/javascript">
     function clearVideoForm() {

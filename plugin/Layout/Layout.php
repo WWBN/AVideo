@@ -193,7 +193,7 @@ class Layout extends PluginAbstract {
         global $global;
         $html = "";
         if (empty($global['getSelectSearchable'])) {
-            $html .= '<link href="'.$global['webSiteRootURL'].'view/js/select2/select2.min.css" rel="stylesheet" />';
+            $html .= '<link href="'.getCDN().'view/js/select2/select2.min.css" rel="stylesheet" />';
             $html .= '<style>
                 .select2-selection__rendered {line-height: 32px !important;}
                 .select2-selection {min-height: 34px !important;}
@@ -420,7 +420,7 @@ class Layout extends PluginAbstract {
         $obj = $this->getDataObject();
         $content = '';
         if (!empty($global['getSelectSearchable'])) {
-            $content .= '<script src="'.$global['webSiteRootURL'].'view/js/select2/select2.min.js"></script>';
+            $content .= '<script src="'.getCDN().'view/js/select2/select2.min.js"></script>';
            // $content .= '<script>$(document).ready(function() {$(\'.js-select-search\').select2();});</script>';
         }
 

@@ -24,6 +24,6 @@ if (!User::isAdmin()) {
         include $global['systemRootPath'] . 'plugin/Live/View/{$classname}/index_body.php';
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
+        <script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
     </body>
 </html>

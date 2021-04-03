@@ -348,9 +348,9 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $titleTag; ?></title>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>view/css/player.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
 
@@ -446,11 +446,11 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         if ((isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false)) {
             if ($_GET['isEmbedded'] == "y") {
                 ?>
-                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-youtube/Youtube.js" type="text/javascript"></script>
+                <script src="<?php echo getCDN(); ?>view/js/videojs-youtube/Youtube.js" type="text/javascript"></script>
                 <?php
             } else if ($_GET['isEmbedded'] == "v") {
                 ?>
-                <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-vimeo/videojs-vimeo.js" type="text/javascript"></script>
+                <script src="<?php echo getCDN(); ?>view/js/videojs-vimeo/videojs-vimeo.js" type="text/javascript"></script>
                 <?php
             }
         }

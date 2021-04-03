@@ -712,15 +712,15 @@
     ?>
 </div><!--/.container-->
 
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 
 <!-- JavaScript Includes -->
-<script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.knob.js"></script>
+<script src="<?php echo getCDN(); ?>view/mini-upload-form/assets/js/jquery.knob.js"></script>
 
 <!-- jQuery File Upload Dependencies -->
-<script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.ui.widget.js"></script>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.iframe-transport.js"></script>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/mini-upload-form/assets/js/jquery.fileupload.js"></script>
+<script src="<?php echo getCDN(); ?>view/mini-upload-form/assets/js/jquery.ui.widget.js"></script>
+<script src="<?php echo getCDN(); ?>view/mini-upload-form/assets/js/jquery.iframe-transport.js"></script>
+<script src="<?php echo getCDN(); ?>view/mini-upload-form/assets/js/jquery.fileupload.js"></script>
 <?php
 echo AVideoPlugin::getManagerVideosJavaScripts();
 if (empty($advancedCustom->disableHTMLDescription)) {

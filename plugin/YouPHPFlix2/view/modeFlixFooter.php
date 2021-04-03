@@ -15,6 +15,6 @@
     $jsURL = combineFiles($jsFiles, "js");
     ?>
 </div>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/script.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>plugin/Gallery/script.js" type="text/javascript"></script>
 <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>

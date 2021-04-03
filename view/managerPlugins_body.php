@@ -203,7 +203,7 @@ $uuidJSCondition = implode(" && ", $rowId);
         </div>
     </div>
 </div>
-<script src="<?php echo $global['webSiteRootURL']; ?>js/form2JSON.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>js/form2JSON.js" type="text/javascript"></script>
 <script>
 
     function createPluginStoreList(src, name, price, description) {

@@ -4,7 +4,7 @@
         preloadWebComponents: true,
     };
 </script>
-<script src="<?php echo $global['webSiteRootURL'] ?>plugin/Chromecast/videojs-chromecast/silvermine-videojs-chromecast.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>plugin/Chromecast/videojs-chromecast/silvermine-videojs-chromecast.js" type="text/javascript"></script>
 <script>
     <?php
     echo PlayerSkins::getStartPlayerJS('player.chromecast();',",controls: true,techOrder: ['chromecast', 'html5'], plugins: {chromecast: {}}");

@@ -243,7 +243,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
     
     public static function getManagerVideosJavaScripts(){
         global $global;
-        return "<script src=\"{$global['webSiteRootURL']}plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.min.js\" type=\"text/javascript\"></script><script src=\"{$global['webSiteRootURL']}plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js\" type=\"text/javascript\"></script>";
+        return "<script src=\"".getCDN()."plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.min.js\" type=\"text/javascript\"></script><script src=\"".getCDN()."plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js\" type=\"text/javascript\"></script>";
     }
     
     public static function saveVideosAddNew($post, $videos_id){

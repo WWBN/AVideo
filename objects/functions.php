@@ -5814,7 +5814,7 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
     }
     if (empty($url)) {
         if ($forceHTTP) {
-            $url = str_replace(getVideosDir(), "{$global['webSiteRootURL']}videos/", $filename);
+            $url = str_replace(getVideosDir(), getCDN()."videos/", $filename);
         } else {
             $url = $filename;
         }

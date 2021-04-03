@@ -43,7 +43,7 @@ class VideoLandscapeFullscreen extends PluginAbstract {
         }
         global $global;
        $obj3 = AVideoPlugin::getObjectData('VideoLandscapeFullscreen');
-       $js = '<script src="'.$global['webSiteRootURL'].'plugin/VideoLandscapeFullscreen/videojs-landscape-fullscreen.js" type="text/javascript"></script>';
+       $js = '<script src="'.getCDN().'plugin/VideoLandscapeFullscreen/videojs-landscape-fullscreen.js" type="text/javascript"></script>';
         $js .= '<script>'
                . 'if(typeof player == \'undefined\'){player = videojs(\'mainVideo\'' . PlayerSkins::getDataSetup() . ');}player = videojs(\'mainVideo\').landscapeFullscreen({fullscreen: {enterOnRotate: ' . ($obj3->enterOnRotate?"true":"false") .', alwaysInLandscapeMode: ' . ($obj3->alwaysInLandscapeMode?"true":"false") .', iOS: ' . ($obj3->iOS?"true":"false") .'}});'
                 . '</script>';

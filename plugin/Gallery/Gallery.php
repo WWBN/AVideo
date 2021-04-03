@@ -34,18 +34,18 @@ class Gallery extends PluginAbstract {
         global $global;
         $obj = $this->getDataObject();
         // preload image
-        $js = "<script>var img1 = new Image();img1.src=\"{$global['webSiteRootURL']}view/img/video-placeholder-gray.png\";</script>";
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/style.css?' . (filemtime($global['systemRootPath'] . 'plugin/Gallery/style.css')) . '" rel="stylesheet" type="text/css"/>';
+        $js = "<script>var img1 = new Image();img1.src=\"".getCDN()."view/img/video-placeholder-gray.png\";</script>";
+        $css = '<link href="' . getCDN() . 'plugin/Gallery/style.css?' . (filemtime($global['systemRootPath'] . 'plugin/Gallery/style.css')) . '" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->playVideoOnFullscreenOnIframe)) {
             if (canFullScreen()) {
-                $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
+                $css .= '<link href="' . getCDN() . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
                 $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
                 $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
             }
             $js .= '<script>var playVideoOnFullscreen = true</script>';
         } else if (!empty($obj->playVideoOnFullscreen) && canFullScreen()) {
-            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.css" rel="stylesheet" type="text/css"/>';
+            $css .= '<link href="' . getCDN() . 'plugin/Gallery/fullscreen.css" rel="stylesheet" type="text/css"/>';
         }
         if (!empty($obj->playVideoOnFullscreen)) {
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
@@ -170,17 +170,17 @@ class Gallery extends PluginAbstract {
 
         $js = '';
         if (!empty($obj->playVideoOnFullscreenOnIframe)) {
-            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'a.galleryLink\'); } });</script>';
         } else
         if (!empty($obj->playVideoOnFullscreen)) {
-            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
         } else
         if (!empty($obj->playVideoOnBrowserFullscreen)) {
-            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
-            $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/Gallery/fullscreen.js"></script>';
+            $js .= '<script src="' . getCDN() . 'plugin/Gallery/fullscreen.js"></script>';
             $js .= '<script>var playVideoOnBrowserFullscreen = 1;</script>';
         }
         return $js;

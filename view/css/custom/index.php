@@ -30,7 +30,7 @@ $metaDescription = "Themes Page";
                         <div class="panel panel-default">
                             <div class="panel-body" style="padding: 5px;">
                                 <iframe frameBorder="0" width="100%" height="250px" 
-                                        src="<?php echo $global['webSiteRootURL']; ?>view/css/custom/theme.php?theme=<?php echo $value; ?>" ></iframe>
+                                        src="<?php echo getCDN(); ?>view/css/custom/theme.php?theme=<?php echo $value; ?>" ></iframe>
                             </div>
                         </div>
 

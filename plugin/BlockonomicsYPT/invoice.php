@@ -92,7 +92,7 @@ $order = new BlockonomicsOrder($order_id);
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/BlockonomicsYPT/jquery.qrcode.min.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>plugin/BlockonomicsYPT/jquery.qrcode.min.js" type="text/javascript"></script>
         <script>
                                     var totalSeconds = <?php echo $obj->ExpireInSeconds; ?>;
                                     var totalSecondsPassed = <?php echo time() - strtotime($order->getCreated()); ?>;

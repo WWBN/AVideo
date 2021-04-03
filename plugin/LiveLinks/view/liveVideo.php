@@ -2,7 +2,7 @@
 $liveLink = LiveLinks::getSourceLink($t['id']);
 $posterURL = LiveLinks::getImage($t['id']);
 ?>
-<link href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/live.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getCDN(); ?>plugin/Live/view/live.css" rel="stylesheet" type="text/css"/>
 
 <!-- Live Link -->
 <?php

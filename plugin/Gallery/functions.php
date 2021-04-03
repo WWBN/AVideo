@@ -627,7 +627,7 @@ function getTrendingVideos($rowCount = 12, $screenColsLarge = 0, $screenColsMedi
     $_REQUEST['rowCount'] = $rowCount;
     $videos = Video::getAllVideos("viewableNotUnlisted");
     // need to add dechex because some times it return an negative value and make it fails on javascript playlists
-    echo "<link href=\"{$global['webSiteRootURL']}plugin/Gallery/style.css\" rel=\"stylesheet\" type=\"text/css\"/><div class='row gallery '>";
+    echo "<link href=\"".getCDN()."plugin/Gallery/style.css\" rel=\"stylesheet\" type=\"text/css\"/><div class='row gallery '>";
     $countCols = createGallerySection($videos, "", array(), false, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
     echo "</div>";
     return $countCols;

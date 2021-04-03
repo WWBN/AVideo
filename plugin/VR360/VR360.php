@@ -49,7 +49,7 @@ class VR360 extends PluginAbstract {
         if (empty($_GET['videoName']) || !VideosVR360::isVR360EnabledByVideoCleanTitle($_GET['videoName'])) {
             return "";
         }
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/VR360/videojs-panorama/videojs-panorama.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' .getCDN() . 'plugin/VR360/videojs-panorama/videojs-panorama.css" rel="stylesheet" type="text/css"/>';
         $css .= '<style></style>';
         return $css;
     }
@@ -60,8 +60,8 @@ class VR360 extends PluginAbstract {
         if (empty($_GET['videoName']) || !VideosVR360::isVR360EnabledByVideoCleanTitle($_GET['videoName'])) {
             return "";
         }
-        $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/VR360/videojs-panorama/videojs-panorama.v5.js" type="text/javascript"></script>';
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/VR360/videojs-panorama/three.min.js" type="text/javascript"></script>';
+        $js = '<script src="' .getCDN() . 'plugin/VR360/videojs-panorama/videojs-panorama.v5.js" type="text/javascript"></script>';
+        $js .= '<script src="' .getCDN() . 'plugin/VR360/videojs-panorama/three.min.js" type="text/javascript"></script>';
         $js .= '<script>
     (function(window, videojs) {
         var player;

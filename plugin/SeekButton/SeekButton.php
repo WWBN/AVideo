@@ -39,8 +39,8 @@ class SeekButton extends PluginAbstract {
         global $global;
         $css = "";
         if (isVideoPlayerHasProgressBar()) {
-            $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css?'. filectime($global['systemRootPath'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css').'" rel="stylesheet" type="text/css"/>';
-            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/SeekButton/seek.css?'. filectime($global['systemRootPath'] . 'plugin/SeekButton/seek.css').'" rel="stylesheet" type="text/css"/>';
+            $css = '<link href="' .getCDN() . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css?'. filectime($global['systemRootPath'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.css').'" rel="stylesheet" type="text/css"/>';
+            $css .= '<link href="' .getCDN() . 'plugin/SeekButton/seek.css?'. filectime($global['systemRootPath'] . 'plugin/SeekButton/seek.css').'" rel="stylesheet" type="text/css"/>';
             $css .= '<style>.video-js .vjs-seek-button {font-size: 25px;width: 2em !important;}</style>';
             if(isMobile()){
                 $css .= '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">';
@@ -55,7 +55,7 @@ class SeekButton extends PluginAbstract {
             $obj = $this->getDataObject();
             $js = "";
             if (isVideoPlayerHasProgressBar()) {
-                $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.min.js" type="text/javascript"></script>';
+                $js .= '<script src="' .getCDN() . 'plugin/SeekButton/videojs-seek-buttons/videojs-seek-buttons.min.js" type="text/javascript"></script>';
                 $js .= '<script>'
                         . 'var playerSeekForward = ' . $obj->forward . '; '
                         . 'var playerSeekBack = ' . $obj->back . ';'

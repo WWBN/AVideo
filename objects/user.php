@@ -426,13 +426,13 @@ if (typeof gtag !== \"function\") {
         }
         if (!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)) {
             if (file_exists($global['systemRootPath'] . $photo)) {
-                $photo = $global['webSiteRootURL'] . $photo . "?" . filemtime($global['systemRootPath'] . $photo);
+                $photo = getCDN() . $photo . "?" . filemtime($global['systemRootPath'] . $photo);
             } else {
                 $photo = "";
             }
         }
         if (empty($photo)) {
-            $photo = $global['webSiteRootURL'] . "view/img/userSilhouette.jpg";
+            $photo = getCDN() . "view/img/userSilhouette.jpg";
         }
         return $photo;
     }
@@ -451,7 +451,7 @@ if (typeof gtag !== \"function\") {
         global $global;
         $photo = self::_getPhoto($users_id);
         if ($photo == "view/img/userSilhouette.jpg") {
-            return "{$global['webSiteRootURL']}view/img/userSilhouette.jpg";
+            return getCDN() . "view/img/userSilhouette.jpg";
         }
         if (empty($photo)) {
             return false;
@@ -461,8 +461,7 @@ if (typeof gtag !== \"function\") {
 
         convertImageToOG($source, $destination);
 
-        return $global['webSiteRootURL'] . self::_getOGImage($users_id);
-        ;
+        return getCDN() . self::_getOGImage($users_id);
     }
 
     public static function getEmailVerifiedIcon($id = "") {
@@ -520,13 +519,13 @@ if (typeof gtag !== \"function\") {
         }
         if (!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)) {
             if (file_exists($global['systemRootPath'] . $photo)) {
-                $photo = $global['webSiteRootURL'] . $photo;
+                $photo = getCDN() . $photo;
             } else {
                 $photo = "";
             }
         }
         if (empty($photo)) {
-            $photo = $global['webSiteRootURL'] . "view/img/background.png";
+            $photo = getCDN() . "view/img/background.png";
         }
         return $photo;
     }

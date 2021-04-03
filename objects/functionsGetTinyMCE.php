@@ -2,7 +2,7 @@
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
     
-    <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="<?php echo getCDN(); ?>view/js/tinymce/tinymce.min.js"></script>
     <script>
         tinymce.init({
             language: "<?php echo $_SESSION['language']; ?>",

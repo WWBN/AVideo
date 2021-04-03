@@ -29,10 +29,10 @@ class YouTube extends PluginAbstract {
         global $global, $sidebarStyle;
         $obj = $this->getDataObject();
         // preload image
-        $js = "<script>var img1 = new Image();img1.src=\"{$global['webSiteRootURL']}view/img/video-placeholder-gray.png\";</script>";
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/YouTube/style.css" rel="stylesheet" type="text/css"/>';
+        $js = "<script>var img1 = new Image();img1.src=\"". getCDN()."view/img/video-placeholder-gray.png\";</script>";
+        $css = '<link href="' .getCDN() . 'plugin/YouTube/style.css" rel="stylesheet" type="text/css"/>';
         if(!empty($obj->playVideoOnFullscreen) && !empty($_GET['videoName'])){
-            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
+            $css .= '<link href="' .getCDN() . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
         }
         if(!empty($obj->playVideoOnFullscreen)){
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
@@ -95,9 +95,9 @@ class YouTube extends PluginAbstract {
         $obj = $this->getDataObject();
         global $global;
 
-        $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouTube/script.js"></script>';
+        $js = '<script src="' .getCDN() . 'plugin/YouTube/script.js"></script>';
         if(!empty($obj->playVideoOnFullscreen)){
-            $js = '<script src="' . $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' .getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
         }
         if(!empty($obj->playVideoOnBrowserFullscreen)){
             $js = '<script>var playVideoOnBrowserFullscreen = 1;</script>';

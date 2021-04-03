@@ -215,13 +215,13 @@ class PlayerSkins extends PluginAbstract {
             }
             $js .= "<script>var playNextURL = '';</script>";
             if (!empty($obj->skin)) {
-                $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+                $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
             if ($obj->showLoopButton && !isLive()) {
-                $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+                $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.css?" . filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.css") . "\" rel=\"stylesheet\" type=\"text/css\"/>";
-            $css .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/player.js?" . filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.js") . "\"></script>";
+            $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/player.css?" . filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.css") . "\" rel=\"stylesheet\" type=\"text/css\"/>";
+            $css .= "<script src=\"".getCDN()."plugin/PlayerSkins/player.js?" . filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.js") . "\"></script>";
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"
@@ -248,13 +248,13 @@ class PlayerSkins extends PluginAbstract {
             }
 
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
-                $css .= "<link href=\"{$global['webSiteRootURL']}plugin/PlayerSkins/shareButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+                $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/shareButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
         }
 
         $url = urlencode(getSelfURI());
-        $oembed = '<link href="' . $global['webSiteRootURL'] . 'oembed/?format=json&url=' . $url . '" rel="alternate" type="application/json+oembed" />';
-        $oembed .= '<link href="' . $global['webSiteRootURL'] . 'oembed/?format=xml&url=' . $url . '" rel="alternate" type="application/xml+oembed" />';
+        $oembed = '<link href="' .getCDN() . 'oembed/?format=json&url=' . $url . '" rel="alternate" type="application/json+oembed" />';
+        $oembed .= '<link href="' .getCDN() . 'oembed/?format=xml&url=' . $url . '" rel="alternate" type="application/xml+oembed" />';
 
 
         return $js . $css . $oembed;
@@ -273,13 +273,13 @@ class PlayerSkins extends PluginAbstract {
                 $url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
                 $js .= "<script>var PlayerSkinLogoTitle = '{$title}';</script>";
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/logo.js"));
-                //$js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/logo.js\"></script>";
+                //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/logo.js\"></script>";
             }
 
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $social = getSocialModal(@$video['id'], @$url, @$title);
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
-                //$js .= "<script src=\"{$global['webSiteRootURL']}plugin/PlayerSkins/shareButton.js\"></script>";
+                //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/shareButton.js\"></script>";
                 $js .= $social['html'];
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
             }
@@ -294,7 +294,7 @@ class PlayerSkins extends PluginAbstract {
             }
         }
         if (!empty($getStartPlayerJSWasRequested) || isVideo()) {
-            $js .= "<script src=\"{$global['webSiteRootURL']}view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
+            $js .= "<script src=\"".getCDN()."view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
             $js .= "<script>" . self::getStartPlayerJSCode() . "</script>";
         }
 

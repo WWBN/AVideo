@@ -1,4 +1,4 @@
-<link href="<?php echo $global['webSiteRootURL']; ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getCDN(); ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
 
 <div class="panel panel-default">
     <div class="panel-heading"><?php echo __('Customize Footer, About and Meta Description'); ?> <div class="pull-right"><?php echo getPluginSwitch('Customize'); ?></div></div>
@@ -48,7 +48,7 @@
         ?>
     </div>
 </div>
-<script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.js" type="text/javascript"></script>
 <script>
     $(document).ready(function () {
         $('#about, #footer').wysihtml5({toolbar: {

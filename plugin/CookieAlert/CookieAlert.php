@@ -26,7 +26,7 @@ class CookieAlert extends PluginAbstract {
         }
         $obj = $this->getDataObject();
         global $global;
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/CookieAlert/cookiealert.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' . getCDN() . 'plugin/CookieAlert/cookiealert.css" rel="stylesheet" type="text/css"/>';
         $css .= '<style></style>';
         return $css;
     }

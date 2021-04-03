@@ -8,7 +8,7 @@ if (!User::canStream()) {
     exit;
 }
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fas fa-sync"></i> <?php echo __("Restream"); ?>
@@ -88,7 +88,7 @@ if (!User::canStream()) {
         </button>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
+<script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
 <script type="text/javascript">
     function clearLive_restreamsForm() {
         $('#Live_restreamsid').val('');

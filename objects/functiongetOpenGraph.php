@@ -24,7 +24,7 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($
     $imgw = $data[0];
     $imgh = $data[1];
 } else if ($video['type'] == "audio") {
-    $img = "{$global['webSiteRootURL']}view/img/audio_wave.jpg";
+    $img = getCDN()."view/img/audio_wave.jpg";
 }
 $type = 'video';
 if ($video['type'] === 'pdf') {

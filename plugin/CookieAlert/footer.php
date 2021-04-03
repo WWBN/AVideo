@@ -8,4 +8,4 @@
     </div>
 </div>
 <!-- /COOKIES -->
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/CookieAlert/cookiealert-standalone.js"></script>
+<script src="<?php echo getCDN(); ?>plugin/CookieAlert/cookiealert-standalone.js"></script>

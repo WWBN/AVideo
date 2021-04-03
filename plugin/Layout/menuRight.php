@@ -1,4 +1,4 @@
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/Layout/notifications.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>plugin/Layout/notifications.js" type="text/javascript"></script>
 <style>
     #LayoutNotification .navbar-btn .LayoutNotificationCount{
         background: rgba(255,0,0,1); color: #FFF;

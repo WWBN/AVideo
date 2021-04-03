@@ -1,4 +1,4 @@
-<link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getCDN(); ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
 <div class="panel panel-default">
     <div class="panel-heading"><?php echo __("Email All Users"); ?></div>
     <div class="panel-body">
@@ -44,7 +44,7 @@
     </div>
 </div>
 
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
 <script>
     function notify() {
         modal.showPleaseWait();

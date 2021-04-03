@@ -106,7 +106,7 @@ class AD_Overlay extends PluginAbstract {
         if (!empty($obj->adWidth) && !empty($obj->adHeight)) {
             $style = "width: $obj->adWidth; height: width: $obj->adHeight;";
         }
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' .getCDN() . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.css" rel="stylesheet" type="text/css"/>';
 
         $css .= '<style>#adOverlay{min-width: 640px;}.video-js .vjs-overlay-background, .video-js .vjs-overlay-no-background {
     max-height: 50%;
@@ -171,7 +171,7 @@ class AD_Overlay extends PluginAbstract {
                 . '<center>' . ADs::giveGoogleATimeout($adText) . '</center>'
                 . '</div>';
 
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.js" type="text/javascript"></script>';
+        $js .= '<script src="' .getCDN() . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.js" type="text/javascript"></script>';
 
         $onPlayerReady = "setTimeout(function(){
                         \$('#cbb').click(function() {

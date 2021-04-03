@@ -7,7 +7,7 @@
         <i class="fas fa-spinner fa-pulse text-muted"></i>
     </div>
 </div>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
 <script>
     var $categoriesContainer;
     $(document).ready(function () {
