@@ -3423,6 +3423,9 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
     if (!empty($global['noDebug']) || empty($global['start'][$name])) {
         return false;
     }
+    if(!empty($global['TimeLogLimit'])){
+        $TimeLogLimit = $global['TimeLogLimit'];
+    }
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
