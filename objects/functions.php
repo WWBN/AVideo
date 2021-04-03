@@ -3428,7 +3428,7 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $global['start'][$name]), 4);
-    if ($total_time > $TimeLogLimit) {
+    if (empty($global['noDebugSlowProcess']) && $total_time > $TimeLogLimit) {
         _error_log("Warning: Slow process detected [{$name}] On  Line {$line} takes {$total_time} seconds to complete, Limit ({$TimeLogLimit}). {$_SERVER["SCRIPT_FILENAME"]}");
     }
     TimeLogStart($name);
