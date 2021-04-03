@@ -51,7 +51,6 @@ h3.galleryTitle{
     height: 0;
     padding-bottom: 56.25%;
     overflow: hidden;
-    background-image: url(../../view/img/video-placeholder.png);
     background-size: cover; 
 }
 
