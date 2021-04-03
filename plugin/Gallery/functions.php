@@ -186,7 +186,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 <div class="aspectRatio16_9">
                     <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                     <?php if (!empty($imgGif)) { ?>
-                        <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
+                        <img src="<?php echo getCDN(); ?>img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" height="130" />
                     <?php } ?>
                     <?php
                     echo AVideoPlugin::thumbsOverlay($value['id']);
@@ -476,7 +476,7 @@ function createGalleryLiveSection($videos) {
                     <div class="aspectRatio16_9">
                         <img src="<?php echo $video['poster']; ?>" alt="<?php echo $video['title'] ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $video['id']; ?>" />
                         <?php if (!empty($video['imgGif'])) { ?>
-                            <img src="<?php echo $global['webSiteRootURL']; ?>img/loading-gif.png" data-src="<?php echo $video['imgGif']; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive " height="130" />
+                            <img src="<?php echo getCDN(); ?>img/loading-gif.png" data-src="<?php echo $video['imgGif']; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $video['title']; ?>" id="thumbsGIF<?php echo $video['id']; ?>" class="thumbsGIF img-responsive " height="130" />
                             <?php
                         }
                         echo $liveNow;

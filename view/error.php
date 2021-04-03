@@ -496,7 +496,7 @@ header("HTTP/1.0 404 Not Found");
             </div>
 
             <div id="main-content">
-                <center><img src="<?php echo $global['webSiteRootURL']; ?>videos/userPhoto/logo.png?1570636830"> </center>
+                <center><img src="<?php echo getCDN(); ?>videos/userPhoto/logo.png?1570636830"> </center>
                 <h1>We couldn't find what you were looking for.</h1>
 
                 <p>Unfortunately the page you were looking for could not be found. It may be

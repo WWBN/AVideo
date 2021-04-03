@@ -12,7 +12,7 @@ $_REQUEST['rowCount'] = getRowCount();
 $showOnlyLoggedUserVideos = false;
 $title = $config->getWebSiteTitle();
 $link = $global['webSiteRootURL'];
-$logo = "{$global['webSiteRootURL']}videos/userPhoto/logo.png";
+$logo = getCDN()."videos/userPhoto/logo.png";
 $description = "";
 
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
