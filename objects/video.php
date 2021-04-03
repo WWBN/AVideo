@@ -2813,6 +2813,11 @@ if (!class_exists('Video')) {
             //if(!isValidFormats($type)){
             //return array();
             //}
+            
+            if($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)){
+                return array('path'=>$global['systemRootPath'].'view/img/loading-gif.png', 'url'=>getCDN().'view/img/loading-gif.png');
+            }
+            
             $cacheName = md5($filename . $type . $includeS3);
             if (0 && isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName])) {
                 if (!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])) {

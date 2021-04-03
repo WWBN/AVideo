@@ -134,6 +134,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->thumbsHeightPortrait = 250;
         $obj->thumbsWidthLandscape = 640;
         $obj->thumbsHeightLandscape = 360;
+        $obj->usePreloadLowResolutionImages = false;
         $obj->showImageDownloadOption = false;
         $obj->doNotDisplayViews = false;
         $obj->doNotDisplayLikes = false;
