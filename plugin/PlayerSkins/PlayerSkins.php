@@ -339,6 +339,7 @@ class PlayerSkins extends PluginAbstract {
         global $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup;
         global $getStartPlayerJSWasRequested;
         self::prepareStartPlayerJS($onPlayerReady, $getDataSetup);
+        //var_dump('getStartPlayerJSWasRequested', debug_backtrace());
         $getStartPlayerJSWasRequested = true;
         //return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "' . count($prepareStartPlayerJS_onPlayerReady) . '", $prepareStartPlayerJS_getDataSetup = "' . count($prepareStartPlayerJS_getDataSetup) . '", $onPlayerReady = "' . $onPlayerReady . '", $getDataSetup = "' . $getDataSetup . '" */';
         return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "' . count($prepareStartPlayerJS_onPlayerReady) . '", $prepareStartPlayerJS_getDataSetup = "' . count($prepareStartPlayerJS_getDataSetup) . '" */';
@@ -436,6 +437,7 @@ class PlayerSkins extends PluginAbstract {
         if (empty($noReadyFunction)) {
             $js .= "});";
         }
+        //var_dump('getStartPlayerJSWasRequested', debug_backtrace());
         $getStartPlayerJSWasRequested = true;
         return $js;
     }
