@@ -6448,7 +6448,9 @@ function videosHashToID($hash_of_videos_id){
 
 function getCDN(){
     global $advancedCustom, $global, $_getCDNURL;
-    if(empty($_getCDNURL)){
+    if($global['ignoreCDN']){
+        return $global['webSiteRootURL'];
+    }else if(empty($_getCDNURL)){
         if(isValidURL($advancedCustom->videosCDN)){
             $_getCDNURL = addLastSlash($advancedCustom->videosCDN);
         }else{
