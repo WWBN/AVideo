@@ -3020,6 +3020,7 @@ if (!class_exists('Video')) {
         }
 
         public static function getHigestResolution($filename) {
+            global $global;
             $filename = self::getCleanFilenameFromFile($filename);
             $cacheName = "getHigestResolution($filename)";
             $return = ObjectYPT::getCache($cacheName, 0);
@@ -3045,7 +3046,7 @@ if (!class_exists('Video')) {
                         $name2 = "Video:::getHigestResolution::getResolution({$value["path"]})";
                         TimeLogStart($name2);
                         $resolution = self::getResolutionFromFilename($value["path"]); // this is faster
-                        if ($resolution) {
+                        if ($resolution && empty($global['onlyGetResolutionFromFilename'])) {
                             _error_log("Video:::getHigestResolution:: could not get the resolution from file name, trying a slower method");
                             $resolution = self::getResolution($value["path"]);
                         }
