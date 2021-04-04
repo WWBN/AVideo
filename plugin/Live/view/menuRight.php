@@ -55,7 +55,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
 </li>
 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border hidden extraVideosModel liveVideo">
     <a href="" class="h6 videoLink">
-        <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage aspectRatio16_9" style="min-height: 70px; position:relative;" >
+        <div class="col-lg-5 col-sm-5 col-xs-5 thumbsImage aspectRatio16_9" style="min-height: 70px; position:relative;" >
             <img src="<?php echo getCDN(); ?>videos/userPhoto/logo.png" class="thumbsJPG img-responsive" height="130" itemprop="thumbnailUrl" alt="Logo" />
             <span itemprop="uploadDate" content="<?php echo date("Y-m-d h:i:s"); ?>" />
             <img src="" style="position: absolute; top: 0; display: none;" class="thumbsGIF img-responsive" height="130" />
