@@ -83,7 +83,7 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     echo $result;
 } else {
     $socketMessage['key'] = $uuid;
-    $socketMessage['autoEvalCodeOnHTML'] = "refreshGetLiveImage('.live_{$socketMessage['live_servers_id']}_{$socketMessage['key']}');";  
+    $socketMessage['autoEvalCodeOnHTML'] = "if(typeof refreshGetLiveImage == 'function'){refreshGetLiveImage('.live_{$socketMessage['live_servers_id']}_{$socketMessage['key']}');}";  
     
     //$uuid = LiveTransmition::keyNameFix($livet['key']);
     $p = AVideoPlugin::loadPlugin("Live");
