@@ -1973,7 +1973,7 @@ class Live extends PluginAbstract {
         if($contentLen === $filesize){
             return LiveImageType::$OFFLINE;
         }
-        _error_log('getImageType: is not defined yet ('.$contentLen.')');
+        //_error_log('getImageType: is not defined yet ('.$contentLen.')');
         return LiveImageType::$LIVE;
     }
     
