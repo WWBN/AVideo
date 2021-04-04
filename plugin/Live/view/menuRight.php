@@ -367,6 +367,9 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             }, 200);
 
         }
+        if(application.users && typeof application.users.views !== 'undefined'){
+            $('.views_on_total_on_live_'+application.users.transmition_key+'_'+application.users.live_servers_id).text(application.users.views);
+        }
     }
 
     function socketLiveONCallback(json) {
