@@ -6155,10 +6155,7 @@ function getLiveUsersLabelLive($key, $live_servers_id, $viewsClass = "label labe
 }
 
 function getLiveUsersLabelLiveLinks($liveLinks_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary") {
-    if (AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")) {
-        return '';
-        //return LiveUsers::getLabels(getSocketLiveLinksClassName($liveLinks_id), $totalViews, $viewsClass, $counterClass);
-    }
+    return Live::getWatchingNowLabel(getSocketLiveLinksClassName($liveLinks_id), $viewsClass);
 }
 
 function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = "label label-primary") {
