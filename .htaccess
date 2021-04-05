@@ -243,8 +243,8 @@ Options All -Indexes
     RewriteRule    ^program/([0-9]+)/([0-9]+)(/.*)?$ view/?playlist_id=$1&playlist_index=$2    [QSA]
     RewriteRule    ^program/([0-9]+)(/.*)?$ view/?playlist_id=$1    [QSA]
     RewriteRule    ^viewProgram/([0-9]+).*?$ view/channelProgram.php?program_id=$1    [QSA]
-    RewriteRule    ^favorite/?$ view/?playlist_id=favorite    [QSA]
-    RewriteRule    ^watch-later/?$ view/?playlist_id=watch-later    [QSA]
+    RewriteRule    ^favorite/?$ view/?playlist_name=favorite    [QSA]
+    RewriteRule    ^watch-later/?$ view/?playlist_name=watch-later    [QSA]
 
     #manager videos
     RewriteRule    ^orphanFiles$ view/orphanFiles.php    [NC,L]

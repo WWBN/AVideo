@@ -22,6 +22,14 @@ if (!empty($global['systemRootPath']) && empty($config)) {
     error_log(json_encode($global));
 }
 
+    
+if(!empty($_GET['playlist_name']) && empty($_GET['playlist_id'])){
+    if ($_GET['playlist_name'] == "favorite") {
+        $_GET['playlist_id'] = 'favorite';
+    } else {
+        $_GET['playlist_id'] = 'watch-later';
+    }
+}
 require_once $global['systemRootPath'].'plugin/AVideoPlugin.php';
 $firstPage = AVideoPlugin::getFirstPage();
 if (empty($firstPage) || !empty($_GET['videoName']) || !empty($_GET['v']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName']) || !empty($_GET['evideo'])) {
