@@ -690,7 +690,7 @@ if (!class_exists('Video')) {
         }
 
         public static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true) {
-            global $global, $config, $advancedCustom;
+            global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
@@ -771,6 +771,9 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
+                if($advancedCustomUser->videosSearchAlsoSearchesOnChannelName){
+                    $searchFieldsNames[] = 'u.channelName';
+                }
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
@@ -972,7 +975,7 @@ if (!class_exists('Video')) {
          * @return boolean
          */
         public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null) {
-            global $global, $config, $advancedCustom;
+            global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
@@ -1087,6 +1090,9 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
+                if($advancedCustomUser->videosSearchAlsoSearchesOnChannelName){
+                    $searchFieldsNames[] = 'u.channelName';
+                }
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
@@ -1436,7 +1442,7 @@ if (!class_exists('Video')) {
         }
 
         public static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false) {
-            global $global, $config;
+            global $global, $config, $advancedCustomUser;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
@@ -1528,6 +1534,9 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
+                if($advancedCustomUser->videosSearchAlsoSearchesOnChannelName){
+                    $searchFieldsNames[] = 'u.channelName';
+                }
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";

@@ -146,6 +146,8 @@ class CustomizeUser extends PluginAbstract {
         self::addDataObjectHelper('autoSaveUsersOnCategorySelectedGroups', 'Auto save new videos on category selected User Groups', 'Edit this plugin to select the user groups per category');
         $obj->enableExtraInfo = false;
         self::addDataObjectHelper('enableExtraInfo', 'Enable user extra info', 'You can add custom fields on user´s profile, Edit this plugin to tell what fields should be saved');
+        $obj->videosSearchAlsoSearchesOnChannelName = false;
+        self::addDataObjectHelper('videosSearchAlsoSearchesOnChannelName', 'Videos search also searches on ChannelName', 'With this checked when you searc a video we will also return the results that matches with the channel name');
 
         return $obj;
     }
