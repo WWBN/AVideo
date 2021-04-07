@@ -1,6 +1,6 @@
 <div id="categoriesContainer"></div>
 <p class="pagination infiniteScrollPagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?tags_id=<?php echo intval(@$_GET['tags_id']); ?>&search=<?php echo getSearchVar(); ?>&current=1"></a>
+    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/Gallery/view/modeGalleryCategory.php?tags_id=<?php echo intval(@$_GET['tags_id']); ?>&catName=<?php echo @$_GET['catName']; ?>&search=<?php echo getSearchVar(); ?>&current=1"></a>
 </p>
 <div class="scroller-status">
     <div class="infinite-scroll-request loader-ellips text-center">
