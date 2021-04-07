@@ -59,7 +59,7 @@
             if ($value['name'] == 'SortByName') {
                 createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
             } else
-            if ($value['name'] == 'DateAdded') {
+            if ($value['name'] == 'DateAdded' && empty($_GET['catName'])) {
                 createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
             } else
             if ($value['name'] == 'MostWatched') {
@@ -72,10 +72,12 @@
                 include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
             } else
             if ($value['name'] == 'Categories' && empty($_GET['showOnly'])) {
-                if(!empty($_GET['catName'])){
-                    $currentCat = $_GET['catName'];
+                if(empty($_GET['catName'])){
+                    include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
+                }else{
+                    $category = Category::getCategoryByName($_GET['catName']);
+                    createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
                 }
-                include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
             }
         }
     } else {
