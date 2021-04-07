@@ -59,7 +59,7 @@
             if ($value['name'] == 'SortByName') {
                 createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
             } else
-            if ($value['name'] == 'DateAdded' && empty($_GET['catName'])) {
+            if ($value['name'] == 'DateAdded') {
                 createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
             } else
             if ($value['name'] == 'MostWatched') {
