@@ -72,6 +72,9 @@
                 include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
             } else
             if ($value['name'] == 'Categories' && empty($_GET['showOnly'])) {
+                if(!empty($_GET['catName'])){
+                    $currentCat = $_GET['catName'];
+                }
                 include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
             }
         }
