@@ -99,6 +99,7 @@
                     }
                     ?>
                     <?php
+                    unset($_GET['parentsOnly']);
                     $categories = Category::getAllCategories(User::isAdmin() ? false : true);
                     array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
                     if (User::canUpload()) {
