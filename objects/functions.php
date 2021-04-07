@@ -5841,10 +5841,10 @@ function getFilenameFromPath($path) {
 function showCloseButton() {
     global $global, $showCloseButtonIncluded;
     if (!empty($showCloseButtonIncluded)) {
-        return false;
+        return '';
     }
     if (isSerie()) {
-        return false;
+        return '';
     }
 
     if (!isLive() && $obj = AVideoPlugin::getDataObjectIfEnabled("Gallery")) {
@@ -5860,9 +5860,7 @@ function showCloseButton() {
     if (!empty($_REQUEST['showCloseButton'])) {
         $showCloseButtonIncluded = 1;
         include $global['systemRootPath'] . 'view/include/youtubeModeOnFullscreenCloseButton.php';
-        return true;
     }
-    return false;
 }
 
 function getThemes() {
