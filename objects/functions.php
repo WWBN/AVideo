@@ -4973,16 +4973,17 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
             $link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
         }
     }
+    
+    $class = "";
+    if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
+        $class = "infiniteScrollPagination{$uid} hidden";
+    }
+    
     if ($isInfiniteScroll && $page > 1) {
         $pageForwardLink = str_replace("{page}", $page + 1, $link);
         return "<nav class=\"{$class}\">"
                 . "<ul class=\"pagination\">"
                 . "<li class=\"page-item\"><a class=\"page-link pagination__next pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
-    }
-
-    $class = "";
-    if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
-        $class = "infiniteScrollPagination{$uid} hidden";
     }
 
     $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page ' . $page . ' maxVisible = ' . $maxVisible . ' -->';
