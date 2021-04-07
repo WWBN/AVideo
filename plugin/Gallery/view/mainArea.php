@@ -45,11 +45,12 @@
         echo AVideoPlugin::getGallerySection();
 
         $sections = Gallery::getSectionsOrder();
-
+        $countSections = 0;
         foreach ($sections as $value) {
-            if(empty($value['active'])){
+            if (empty($value['active'])) {
                 continue;
             }
+            $countSections++;
             if ($value['name'] == 'Suggested') {
                 createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
             } else
@@ -72,13 +73,18 @@
                 include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
             } else
             if ($value['name'] == 'Categories' && empty($_GET['showOnly'])) {
-                if(empty($_GET['catName'])){
+                if (empty($_GET['catName'])) {
                     include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
-                }else{
+                } else {
                     $category = Category::getCategoryByName($_GET['catName']);
                     createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
                 }
             }
+        }
+
+        if (empty($countSections) && !empty($_GET['catName'])) {
+            $category = Category::getCategoryByName($_GET['catName']);
+            createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
         }
     } else {
         include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
@@ -102,9 +108,9 @@
         <div class="alert alert-warning">
             <h1>
                 <span class="glyphicon glyphicon-facetime-video"></span>
-            <?php echo __("Warning"); ?>!
+                <?php echo __("Warning"); ?>!
             </h1>
-        <?php echo __("We have not found any videos or audios to show"); ?>.
+            <?php echo __("We have not found any videos or audios to show"); ?>.
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/notfound.php';
