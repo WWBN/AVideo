@@ -71,7 +71,7 @@
             if ($value['name'] == 'SubscribedChannels' && User::isLogged() && empty($_GET['showOnly'])) {
                 include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
             } else
-            if ($value['name'] == 'Categories' && empty($_GET['catName']) && empty($_GET['showOnly'])) {
+            if ($value['name'] == 'Categories' && empty($_GET['showOnly'])) {
                 include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
             }
         }
