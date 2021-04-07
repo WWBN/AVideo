@@ -76,7 +76,7 @@
                     include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
                 }else{
                     $category = Category::getCategoryByName($_GET['catName']);
-                    createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
+                    createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $_cat['iconClass'], true);
                 }
             }
         }
