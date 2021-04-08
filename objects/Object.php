@@ -491,12 +491,12 @@ abstract class ObjectYPT implements ObjectInterface {
         
         if (User::isLogged()) {
             if(User::isAdmin()){
-                $obj->cacheDir .= 'admin_'.md5("admin".$global['salt']).DIRECTORY_SEPARATOR;
+                $tmpDir .= 'admin_'.md5("admin".$global['salt']).DIRECTORY_SEPARATOR;
             }else{
-                $obj->cacheDir .= 'user_'.md5("user".$global['salt']).DIRECTORY_SEPARATOR;
+                $tmpDir .= 'user_'.md5("user".$global['salt']).DIRECTORY_SEPARATOR;
             }
         }else{
-            $obj->cacheDir .= 'notlogged_'.md5("notlogged".$global['salt']).DIRECTORY_SEPARATOR;
+            $tmpDir .= 'notlogged_'.md5("notlogged".$global['salt']).DIRECTORY_SEPARATOR;
         }
 
         make_path($tmpDir);
