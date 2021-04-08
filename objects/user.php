@@ -702,6 +702,7 @@ if (typeof gtag !== \"function\") {
         if (isset($cache)) {
             //_error_log("User::canWatchVideo cache said [{$cache}]");
             if($cache == 'false'){
+                ObjectYPT::deleteSessionCache($cacheName);
                 $cache = false;
             }
             return $cache;
