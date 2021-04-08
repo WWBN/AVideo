@@ -46,10 +46,19 @@ class Cache extends PluginAbstract {
     public function getCacheDir($ignoreFirstPage = true) {
         global $global;
         $obj = $this->getDataObject();
-        $firstPage = "";
         if (!$ignoreFirstPage && $this->isFirstPage()) {
-            $firstPage = "firstPage".DIRECTORY_SEPARATOR;
+            $obj->cacheDir .= "firstPage".DIRECTORY_SEPARATOR;
         }
+        if (User::isLogged()) {
+            if(User::isAdmin()){
+                $obj->cacheDir .= 'admin_'.md5("admin".$global['salt']).DIRECTORY_SEPARATOR;
+            }else{
+                $obj->cacheDir .= 'user_'.md5("user".$global['salt']).DIRECTORY_SEPARATOR;
+            }
+        }else{
+            $obj->cacheDir .= 'notlogged_'.md5("notlogged".$global['salt']).DIRECTORY_SEPARATOR;
+        }
+        
         $obj->cacheDir = fixPath($obj->cacheDir, true);
         if (!file_exists($obj->cacheDir)) {
             $obj->cacheDir = $global['systemRootPath'] . 'videos'.DIRECTORY_SEPARATOR.'cache'.DIRECTORY_SEPARATOR;
@@ -58,7 +67,9 @@ class Cache extends PluginAbstract {
                 mkdir($obj->cacheDir, 0777, true);
             }
         }
-        return $obj->cacheDir . $firstPage;
+        
+        
+        return $obj->cacheDir;
     }
 
     private function getFileName() {

@@ -457,7 +457,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     public static function getCacheDir($filename = '') {
-        global $_getCacheDir;
+        global $_getCacheDir, $global;
 
         if (!isset($_getCacheDir)) {
             $_getCacheDir = array();
@@ -487,6 +487,16 @@ abstract class ObjectYPT implements ObjectInterface {
                     $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
                 }
             }
+        }
+        
+        if (User::isLogged()) {
+            if(User::isAdmin()){
+                $obj->cacheDir .= 'admin_'.md5("admin".$global['salt']).DIRECTORY_SEPARATOR;
+            }else{
+                $obj->cacheDir .= 'user_'.md5("user".$global['salt']).DIRECTORY_SEPARATOR;
+            }
+        }else{
+            $obj->cacheDir .= 'notlogged_'.md5("notlogged".$global['salt']).DIRECTORY_SEPARATOR;
         }
 
         make_path($tmpDir);
