@@ -673,9 +673,6 @@ class AVideoPlugin {
 
     public static function getModeYouTube($videos_id) {
         $plugins = Plugin::getAllEnabled();
-        //$cacheName = "canWatchVideo$videos_id";
-        //ObjectYPT::deleteSessionCache($cacheName);
-        ObjectYPT::deleteAllSessionCache();
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
