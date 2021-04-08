@@ -555,7 +555,11 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_SESSION['user']['sessionCache'][$name])) {
             if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
                 $c = $_SESSION['user']['sessionCache'][$name]['value'];
-                return json_decode($c);
+                $json = json_decode($c);
+                if(is_string($json) && strtolower($json) === 'false'){
+                    $json = false;
+                }
+                return $json;
             }
             _session_start();
             unset($_SESSION['user']['sessionCache'][$name]);
