@@ -694,6 +694,7 @@ if (typeof gtag !== \"function\") {
     public static function canWatchVideo($videos_id) {
         $cacheName = "canWatchVideo$videos_id";
         if (!User::isLogged()) {
+            $cacheName = "canWatchVideoNOTLOGED$videos_id";
             $cache = ObjectYPT::getCache($cacheName, 3600);
         } else {
             $cache = ObjectYPT::getSessionCache($cacheName, 600);
