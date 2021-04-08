@@ -700,6 +700,9 @@ if (typeof gtag !== \"function\") {
             $cache = ObjectYPT::getSessionCache($cacheName, 600);
         }
         if (isset($cache)) {
+            if($cache == 'false'){
+                $cache = false;
+            }
             return $cache;
         }
 
