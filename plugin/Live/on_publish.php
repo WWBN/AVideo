@@ -50,7 +50,9 @@ if (strpos($_GET['p'], '/') !== false) {
     $parts = explode("/", $_GET['p']);
     if (!empty($parts[1])) {
         $_GET['p'] = $parts[0];
-        $_POST['name'] = $parts[1];
+        if(empty($_POST['name'])){
+            $_POST['name'] = $parts[1];
+        }
     }
 }
 
