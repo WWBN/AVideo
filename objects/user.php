@@ -700,9 +700,7 @@ if (typeof gtag !== \"function\") {
             $cache = ObjectYPT::getSessionCache($cacheName, 600);
         }
         if (isset($cache)) {
-            //_error_log("User::canWatchVideo cache said [{$cache}]");
-            if($cache == 'false'){
-                ObjectYPT::deleteSessionCache($cacheName);
+            if($cache === 'false'){
                 $cache = false;
             }
             return $cache;
