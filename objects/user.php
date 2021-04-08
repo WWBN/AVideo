@@ -781,13 +781,13 @@ if (typeof gtag !== \"function\") {
         }
 
         if (AVideoPlugin::userCanWatchVideoWithAds(User::getId(), $videos_id)) {
-            //_error_log("User::userCanWatchVideoWithAds (No can not) " . User::getId() . " " . $videos_id);
+            //_error_log("User::userCanWatchVideoWithAds (can) " . User::getId() . " " . $videos_id);
             return true;
         }
         _error_log("User::userCanWatchVideoWithAds (No can not) " . User::getId() . " " . $videos_id);
 
         if (self::canWatchVideo($videos_id)) {
-            //_error_log("User::canWatchVideo (No can not) " . $videos_id);
+            //_error_log("User::canWatchVideo (can) " . $videos_id);
             return true;
         }
         _error_log("User::canWatchVideo (No can not) " . $videos_id);
