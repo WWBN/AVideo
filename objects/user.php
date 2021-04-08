@@ -768,7 +768,6 @@ if (typeof gtag !== \"function\") {
 
         _error_log("User::canWatchVideo The user " . User::getId() . " is not on any of the user groups ({$videos_id}) " . json_encode($rows));
         self::setCacheWatchVideo($cacheName, false);
-        ;
         return false;
     }
 
@@ -782,11 +781,13 @@ if (typeof gtag !== \"function\") {
         }
 
         if (AVideoPlugin::userCanWatchVideoWithAds(User::getId(), $videos_id)) {
+            //_error_log("User::userCanWatchVideoWithAds (No can not) " . User::getId() . " " . $videos_id);
             return true;
         }
         _error_log("User::userCanWatchVideoWithAds (No can not) " . User::getId() . " " . $videos_id);
 
         if (self::canWatchVideo($videos_id)) {
+            //_error_log("User::canWatchVideo (No can not) " . $videos_id);
             return true;
         }
         _error_log("User::canWatchVideo (No can not) " . $videos_id);

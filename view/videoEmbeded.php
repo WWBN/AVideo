@@ -27,10 +27,6 @@ if (!empty($evideo)) {
     $video = Video::getVideoFromCleanTitle($_GET['videoName']);
 }
 
-if(!Video::userGroupAndVideoGroupMatch(User::getId(), $video['id'])){
-    forbiddenPage(__('You can not watch this video'));
-}
-
 Video::unsetAddView($video['id']);
 
 AVideoPlugin::getEmbed($video['id']);
