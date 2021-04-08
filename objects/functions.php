@@ -2504,8 +2504,6 @@ function requestComesFromSameDomainAsMyAVideo() {
         $url = $_SERVER['HTTP_REFERER'];
     } elseif (!empty($_SERVER['HTTP_ORIGIN'])) {
         $url = $_SERVER['HTTP_ORIGIN'];
-    } elseif (!empty($_SERVER['SERVER_NAME'])) {
-        $url = "https://{$_SERVER['SERVER_NAME']}";
     }
     //_error_log("requestComesFromSameDomainAsMyAVideo: ({$url}) == ({$global['webSiteRootURL']})");
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN());
