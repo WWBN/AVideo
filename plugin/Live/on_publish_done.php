@@ -40,12 +40,15 @@ if (strpos($_GET['p'], '/') !== false) {
     $parts = explode("/", $_GET['p']);
     if (!empty($parts[1])) {
         $_GET['p'] = $parts[0];
-        $_POST['name'] = $parts[1];
+        if(empty($_POST['name'])){
+            $_POST['name'] = $parts[1];
+        }
     }
 }
 
 Live::deleteStatsCache(true);
 $row = LiveTransmitionHistory::getLatest($_POST['name']);
+_error_log("NGINX ON Publish Done finishFromTransmitionHistoryId {$_POST['name']} {$row['id']} {$row['key']} {$row['live_servers_id']}");
 LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
 $array = setLiveKey($row['key'], $row['live_servers_id']);
 $parameters = Live::getLiveParametersFromKey($array['key']);
