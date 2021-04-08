@@ -806,7 +806,7 @@ class Live extends PluginAbstract {
 
         if (!empty($live_index)) {
             $url .= '/' . urlencode($live_index);
-        } else if (!empty($_REQUEST['live_index'])) {
+        } else if (!isset($live_index) && !empty($_REQUEST['live_index'])) {
             $url .= '/' . urlencode($_REQUEST['live_index']);
         }
 
