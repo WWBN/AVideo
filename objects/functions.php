@@ -3140,7 +3140,7 @@ function getLdJson($videos_id) {
         $duration = "PT0H0M1S";
     }
     $output = '
-    <script type="application/ld+json">
+    <script type="application/ld+json" id="application_ld_json">
         {
         "@context": "http://schema.org/",
         "@type": "VideoObject",
