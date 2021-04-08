@@ -2963,7 +2963,6 @@ if (!class_exists('Video')) {
 
             $cleanName = str_replace($search, $replace, $filename);
             $path_parts = pathinfo($cleanName);
-            
             if (!empty($path_parts["extension"]) && $path_parts["extension"] === "m3u8") {
                 preg_match('/videos\/([^\/]+)/', $path_parts["dirname"], $matches);
                 if (!empty($matches[1])) {
@@ -2980,7 +2979,9 @@ if (!class_exists('Video')) {
             } else if (strlen($path_parts['extension']) > 4) {
                 return $cleanName;
             } else if ($path_parts['filename'] == 'index' && $path_parts['extension'] == 'm3u8') {
-                return str_replace(array(getVideosDir(), DIRECTORY_SEPARATOR), '', $path_parts['dirname']);
+                $clanFileName = str_replace(getVideosDir(), '', $path_parts['dirname']);
+                $parts = explode(DIRECTORY_SEPARATOR, $clanFileName);
+                return $parts[0];
             } else {
                 return $path_parts['filename'];
             }
