@@ -268,6 +268,8 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
                     processApplication(response.applications[i], disableGif, live_servers_id, live_index);
                     var selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
                     onlineLabelOnline(selector);
+                    selector = '.liveViewStatusClass_' + response.applications[i].key;
+                    onlineLabelOnline(selector);
                 }
                 mouseEffect();
             }
