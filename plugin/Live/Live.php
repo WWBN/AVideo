@@ -882,17 +882,17 @@ class Live extends PluginAbstract {
             $getStatsLive = self::_getStats(0, $force_recreate);
             //_error_log('Live::getStats(0) 1');
             return $getStatsLive;
-        } else if (!empty(Live::getLiveServersIdRequest())) {
-            $ls = new Live_servers(Live::getLiveServersIdRequest());
-            if (!empty($ls->getPlayerServer())) {
-                $sid = $ls->getId();
-                //_error_log('Live::getStats('.$sid.') 2');
-                $server = self::_getStats($sid, $force_recreate);
-                // _error_log('Live::getStats('.$sid.') 3');
-                $server->live_servers_id = $ls->getId();
-                $server->playerServer = $ls->getPlayerServer();
-                $getStatsLive = $server;
-                return $server;
+        } else {
+            $rows = Live_servers::getAllActive();
+            foreach ($rows as $key => $value) {
+                $ls = new Live_servers(Live::getLiveServersIdRequest());
+                if (!empty($row['playerServer'])) {
+                    $server = self::_getStats($row['id'], $force_recreate);
+                    $server->live_servers_id = $row['id'];
+                    $server->playerServer = $row['playerServer'];
+                    $getStatsLive = $server;
+                    return $server;
+                }
             }
         }
         $ls = Live_servers::getAllActive();
