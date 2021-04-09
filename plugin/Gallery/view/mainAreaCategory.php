@@ -93,7 +93,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
         <div class="col-sm-12" style="z-index: 1;">
             <?php
             //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
-            echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, ".Div{$currentCat['clean_name']}Section", "#Div{$currentCat['clean_name']}");
+            echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, ".Div{$currentCat['clean_name']}Section", "#Div{$currentCat['clean_name']} .Div{$currentCat['clean_name']}Section");
             ?>
         </div>
         <?php
