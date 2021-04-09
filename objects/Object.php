@@ -487,16 +487,16 @@ abstract class ObjectYPT implements ObjectInterface {
                     $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
                 }
             }
-        }
         
-        if (User::isLogged()) {
-            if(User::isAdmin()){
-                $tmpDir .= 'admin_'.md5("admin".$global['salt']).DIRECTORY_SEPARATOR;
+            if (User::isLogged()) {
+                if(User::isAdmin()){
+                    $tmpDir .= 'admin_'.md5("admin".$global['salt']).DIRECTORY_SEPARATOR;
+                }else{
+                    $tmpDir .= 'user_'.md5("user".$global['salt']).DIRECTORY_SEPARATOR;
+                }
             }else{
-                $tmpDir .= 'user_'.md5("user".$global['salt']).DIRECTORY_SEPARATOR;
+                $tmpDir .= 'notlogged_'.md5("notlogged".$global['salt']).DIRECTORY_SEPARATOR;
             }
-        }else{
-            $tmpDir .= 'notlogged_'.md5("notlogged".$global['salt']).DIRECTORY_SEPARATOR;
         }
 
         make_path($tmpDir);
