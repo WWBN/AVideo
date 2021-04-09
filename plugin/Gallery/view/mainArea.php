@@ -79,7 +79,7 @@
                     include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
                 } else
                 if ($value['name'] == 'Categories' && empty($_GET['showOnly'])) {
-                    include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
+                    include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategory.php';
                 }
             }
             if (empty($countSections) && !empty($_GET['catName'])) {
