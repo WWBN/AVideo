@@ -78,7 +78,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $infinityScrollAppendIntoSelector = "";
             if ($infinityScroll) {
                 $infinityScrollGetFromSelector = ".gallerySectionContent";
-                $infinityScrollAppendIntoSelector = "#{$uid}";
+                $infinityScrollAppendIntoSelector = ".gallerySectionContent";
             }
 
             echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector);
