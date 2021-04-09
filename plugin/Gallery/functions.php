@@ -57,9 +57,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $totalPages = ceil($total / $_REQUEST['rowCount']);
         $page = $_GET['page'];
         if ($totalPages < $_GET['page']) {
-            if($infinityScroll){
+            if ($infinityScroll) {
                 echo '</div>';
-                return 0;    
+                return 0;
             }
             $page = $totalPages;
             $_REQUEST['current'] = $totalPages;
@@ -72,19 +72,25 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $countCols = createGallerySection($videos, dechex(crc32($getName)));
             ?>
         </div>
-        <!-- createGallery -->
-        <div class="col-sm-12" style="z-index: 1;">
-            <?php
-            $infinityScrollGetFromSelector = "";
-            $infinityScrollAppendIntoSelector = "";
-            if ($infinityScroll) {
-                $infinityScrollGetFromSelector = ".gallerySectionContent";
-                $infinityScrollAppendIntoSelector = ".gallerySectionContent";
-            }
-
-            echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector);
+        <?php
+        if ($countCols) {
             ?>
-        </div>
+            <!-- createGallery -->
+            <div class="col-sm-12" style="z-index: 1;">
+                <?php
+                $infinityScrollGetFromSelector = "";
+                $infinityScrollAppendIntoSelector = "";
+                if ($infinityScroll) {
+                    $infinityScrollGetFromSelector = ".gallerySectionContent";
+                    $infinityScrollAppendIntoSelector = ".gallerySectionContent";
+                }
+
+                echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector);
+                ?>
+            </div>
+            <?php
+        }
+        ?>
     </div>
     <?php
     if (empty($countCols)) {
