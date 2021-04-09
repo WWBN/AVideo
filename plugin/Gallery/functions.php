@@ -72,6 +72,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $countCols = createGallerySection($videos, dechex(crc32($getName)));
             ?>
         </div>
+        <!-- createGallery -->
         <div class="col-sm-12" style="z-index: 1;">
             <?php
             $infinityScrollGetFromSelector = "";
