@@ -738,13 +738,13 @@ class Category {
         //session_write_close();
     }
 
-    static function getTotalCategories($filterCanAddVideoOnly = false) {
+    static function getTotalCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false) {
         global $global, $config;
 
         if ($config->currentVersionLowerThen('5.01')) {
             return false;
         }
-        $sql = "SELECT id, parentId FROM categories WHERE 1=1 ";
+        $sql = "SELECT id, parentId FROM categories c WHERE 1=1 ";
         if ($filterCanAddVideoOnly && !User::isAdmin()) {
             if (is_int($filterCanAddVideoOnly)) {
                 $users_id = $filterCanAddVideoOnly;
@@ -759,7 +759,27 @@ class Category {
         if (!empty($_GET['parentsOnly'])) {
             $sql .= "AND parentId = 0 OR parentId = -1 ";
         }
+        if ($onlyWithVideos) {
+            $sql .= " AND ((SELECT count(*) FROM videos v where v.categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id)) > 0  ";
+            if (AVideoPlugin::isEnabledByName("Live")) {
+                $sql .= " OR "
+                        . " ("
+                        . " SELECT count(*) FROM live_transmitions lt where "
+                        . " (lt.categories_id = c.id OR lt.categories_id IN (SELECT id from categories where parentId = c.id))"
+                        //. " AND lt.id = (select id FROM live_transmitions lt2 WHERE lt.users_id = lt2.users_id ORDER BY CREATED DESC LIMIT 1 )"
+                        . " ) > 0  ";
+            }
+            if (AVideoPlugin::isEnabledByName("LiveLinks")) {
+                $sql .= " OR "
+                        . " ("
+                        . " SELECT count(*) FROM LiveLinks ll where "
+                        . " (ll.categories_id = c.id OR ll.categories_id IN (SELECT id from categories where parentId = c.id))"
+                        . " ) > 0  ";
+            }
+            $sql .= ")";
+        }
         $sql .= BootGrid::getSqlSearchFromPost(array('name'));
+        //echo $sql;exit;
         $res = sqlDAL::readSql($sql);
         $numRows = sqlDal::num_rows($res);
         sqlDAL::close($res);
