@@ -34,7 +34,7 @@
                 status: '.scroller-status$uid',
                 hideNav: '.infiniteScrollPagination$uid',
                 debug: true,
-                prefill: true,
+                prefill: false,
                 history: false,
                 checkLastPage: false,
                 button: '#loadInfiniteScrollButton$uid'
