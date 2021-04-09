@@ -33,7 +33,7 @@ class PayPalYPT extends PluginAbstract {
     }
     public function getDescription() {
         return "Paypal module for several purposes<br>
-            Go to Paypal developer Site here https://developer.paypal.com/developer/applications (you must have Paypal account, of course)
+            Go to Paypal developer <a href='https://developer.paypal.com/developer/applications' target='_blank'>Site here</a> (you must have Paypal account, of course)
     <br>Click on Create App on right side of page
     <br>Choose name of your app and click Create App
     <br>Now you can see and manage everything include client ID and secret.";
