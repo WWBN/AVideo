@@ -3,6 +3,9 @@
         <i class="fas fa-spinner fa-pulse text-muted"></i>
     </div>
 </div>
+<center>
+    <button class="btn btn-xs btn-default" style="border: none; background: transparent;" id="loadInfiniteScrollButton$uid"> More </button>
+</center>
 <script src="$webSiteRootURLview/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
 <script>
     var $container$uid;
@@ -67,6 +70,3 @@
     }
 
 </script>
-<center>
-    <button class="btn btn-xs btn-default" style="border: none; background: transparent;" id="loadInfiniteScrollButton$uid"> More </button>
-</center>
