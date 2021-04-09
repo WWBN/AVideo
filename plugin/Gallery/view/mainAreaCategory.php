@@ -42,6 +42,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
             $page = $totalPages;
         }
         ?>
+        <!-- mainAreaCategory -->
         <div class="col-sm-12" style="z-index: 1;">
             <?php
             //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
