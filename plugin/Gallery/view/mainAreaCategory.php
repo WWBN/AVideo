@@ -73,10 +73,10 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
                         <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name']; ?>
                     </a>
                 </h3>
-                    <?php
-                }
-                ?>
-                <div class="Div<?php echo $currentCat['clean_name']; ?>Section">
+                <?php
+            }
+            ?>
+            <div class="Div<?php echo $currentCat['clean_name']; ?>Section">
                 <?php
                 createGallerySection($videos, "", array(), true);
                 ?>
