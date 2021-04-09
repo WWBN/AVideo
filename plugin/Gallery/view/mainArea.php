@@ -46,43 +46,46 @@
 
         $sections = Gallery::getSectionsOrder();
         $countSections = 0;
-        foreach ($sections as $value) {
-            if (empty($value['active'])) {
-                continue;
+        if (!empty($_GET['catName'])) {
+            $currentCat = Category::getCategoryByName($_GET['catName']);
+            //createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
+
+            include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
+        } else {
+            foreach ($sections as $value) {
+                if (empty($value['active'])) {
+                    continue;
+                }
+                $countSections++;
+                if ($value['name'] == 'Suggested') {
+                    createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
+                } else
+                if ($value['name'] == 'Trending') {
+                    createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line");
+                } else
+                if ($value['name'] == 'SortByName') {
+                    createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
+                } else
+                if ($value['name'] == 'DateAdded' && empty($_GET['catName'])) {
+                    createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
+                } else
+                if ($value['name'] == 'MostWatched') {
+                    createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-eye");
+                } else
+                if ($value['name'] == 'MostPopular') {
+                    createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "fas fa-fire");
+                } else
+                if ($value['name'] == 'SubscribedChannels' && User::isLogged() && empty($_GET['showOnly'])) {
+                    include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
+                } else
+                if ($value['name'] == 'Categories' && empty($_GET['showOnly'])) {
+                    include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
+                }
             }
-            $countSections++;
-            if (!empty($_GET['catName'])) {
+            if (empty($countSections) && !empty($_GET['catName'])) {
                 $category = Category::getCategoryByName($_GET['catName']);
                 createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
-            } else if ($value['name'] == 'Suggested') {
-                createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
-            } else
-            if ($value['name'] == 'Trending') {
-                createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line");
-            } else
-            if ($value['name'] == 'SortByName') {
-                createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
-            } else
-            if ($value['name'] == 'DateAdded' && empty($_GET['catName'])) {
-                createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
-            } else
-            if ($value['name'] == 'MostWatched') {
-                createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-eye");
-            } else
-            if ($value['name'] == 'MostPopular') {
-                createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "fas fa-fire");
-            } else
-            if ($value['name'] == 'SubscribedChannels' && User::isLogged() && empty($_GET['showOnly'])) {
-                include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
-            } else
-            if ($value['name'] == 'Categories' && empty($_GET['showOnly'])) {
-                include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
             }
-        }
-
-        if (empty($countSections) && !empty($_GET['catName'])) {
-            $category = Category::getCategoryByName($_GET['catName']);
-            createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
         }
     } else {
         include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
