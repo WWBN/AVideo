@@ -56,6 +56,13 @@
                     lazyImage();
                     avideoSocket();
                 }, 1000);
+                <?php
+                if ($obj->playVideoOnFullscreenOnIframe) {
+                    echo "if(typeof linksToFullscreen === 'function'){ linksToFullscreen('a.galleryLink');}";
+                } else if (!empty($obj->playVideoOnFullscreen)) {
+                    echo "if(typeof linksToEmbed === 'function'){ linksToEmbed('a.galleryLink');}";
+                }
+                ?>
             });
             $container$uid.on('error.infiniteScroll', function (event, error, path, response) {
                 console.error(`infiniteScroll Could not load: ${path}. ${error}`);
@@ -65,7 +72,7 @@
             });
             $container$uid.on('history.infiniteScroll', function (event, title, path) {
                 console.log(`infiniteScroll History changed to: ${path}`);
-            });
+            });            
         }
     }
 
