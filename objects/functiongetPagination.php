@@ -13,6 +13,8 @@
         loadInfiniteScrool$uid();
     });
     /*
+     * 
+     */
     document.addEventListener('scroll', function (e) {
         var scrollPosition = window.pageYOffset;
         var windowSize = window.innerHeight;
@@ -23,8 +25,6 @@
             $container$uid.infiniteScroll('loadNextPage');
         }
     });
-     * 
-     */
     var append_infiniteScroll_timout;
     function loadInfiniteScrool$uid() {
         if (typeof $('$infinityScrollAppendIntoSelector').infiniteScroll !== 'funciton') {
@@ -34,7 +34,7 @@
                 status: '.scroller-status$uid',
                 hideNav: '.infiniteScrollPagination$uid',
                 debug: true,
-                prefill: false,
+                prefill: true,
                 history: false,
                 checkLastPage: false,
                 button: '#loadInfiniteScrollButton$uid'
