@@ -511,7 +511,7 @@ abstract class ObjectYPT implements ObjectInterface {
     public static function getCacheFileName($name) {
         global $global;
         $tmpDir = self::getCacheDir($name);
-        $uniqueHash = md5(__FILE__ . $global['salt']); // add salt for security reasons
+        $uniqueHash = md5($name . $global['salt']); // add salt for security reasons
         return $tmpDir . $uniqueHash . '.cache';
     }
 
