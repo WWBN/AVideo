@@ -14,7 +14,7 @@
     });
     /*
      * 
-     */
+     
     document.addEventListener('scroll', function (e) {
         var scrollPosition = window.pageYOffset;
         var windowSize = window.innerHeight;
@@ -24,7 +24,7 @@
         if (distance < windowSize) {
             $container$uid.infiniteScroll('loadNextPage');
         }
-    });
+    });*/
     var append_infiniteScroll_timout;
     function loadInfiniteScrool$uid() {
         if (typeof $('$infinityScrollAppendIntoSelector').infiniteScroll !== 'funciton') {
