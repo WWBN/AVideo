@@ -5000,20 +5000,22 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if ($start <= 0) {
         $start = 1;
     }
-    if ($page > 1) {
-        $pageLink = str_replace("{page}", 1, $link);
-        $pageBackLink = str_replace("{page}", $page - 1, $link);
-        if ($start > ($page - 1)) {
-            $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
+    if(!$isInfiniteScroll){
+        if ($page > 1) {
+            $pageLink = str_replace("{page}", 1, $link);
+            $pageBackLink = str_replace("{page}", $page - 1, $link);
+            if ($start > ($page - 1)) {
+                $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
+            }
+            $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
         }
-        $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
-    }
-    for ($i = $start; $i <= $end; $i++) {
-        if ($i == $page) {
-            $pag .= PHP_EOL . ' <li class="page-item active"><span class="page-link"> ' . $i . ' <span class="sr-only">(current)</span></span></li>';
-        } else {
-            $pageLink = str_replace("{page}", $i, $link);
-            $pag .= PHP_EOL . ' <li class="page-item"><a class="page-link" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
+        for ($i = $start; $i <= $end; $i++) {
+            if ($i == $page) {
+                $pag .= PHP_EOL . ' <li class="page-item active"><span class="page-link"> ' . $i . ' <span class="sr-only">(current)</span></span></li>';
+            } else {
+                $pageLink = str_replace("{page}", $i, $link);
+                $pag .= PHP_EOL . ' <li class="page-item"><a class="page-link" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
+            }
         }
     }
     if ($page < $total) {
