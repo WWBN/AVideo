@@ -390,6 +390,9 @@ class Category {
         if (isset($_POST['sort']['title'])) {
             unset($_POST['sort']['title']);
         }
+        if (isset($_POST['sort']['likes'])) {
+            unset($_POST['sort']['likes']);
+        }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY `order`, name ASC ");
 
         $cacheName = md5($sql);
