@@ -4487,7 +4487,7 @@ function wget($url, $filename, $debug = false) {
         _error_log("wget: ERROR the url does not download $url, $filename");
         return false;
     }
-    if (empty(filesize($filename))) {
+    if ($_SERVER['SCRIPT_NAME'] !== '/plugin/Live/m3u8.php' && empty(filesize($filename))) {
         _error_log("wget: ERROR the url download but is empty $url, $filename");
         return true;
     }
