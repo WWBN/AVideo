@@ -2,6 +2,8 @@
 
 namespace React\Dns\Query;
 
+use React\Dns\Model\Message;
+
 /**
  * This class represents a single question in a query/response message
  *
@@ -38,5 +40,30 @@ final class Query
         $this->name = $name;
         $this->type = $type;
         $this->class = $class;
+    }
+
+    /**
+     * Describes the hostname and query type/class for this query
+     *
+     * The output format is supposed to be human readable and is subject to change.
+     * The format is inspired by RFC 3597 when handling unkown types/classes.
+     *
+     * @return string "example.com (A)" or "example.com (CLASS0 TYPE1234)"
+     * @link https://tools.ietf.org/html/rfc3597
+     */
+    public function describe()
+    {
+        $class = $this->class !== Message::CLASS_IN ? 'CLASS' . $this->class . ' ' : '';
+
+        $type = 'TYPE' . $this->type;
+        $ref = new \ReflectionClass('React\Dns\Model\Message');
+        foreach ($ref->getConstants() as $name => $value) {
+            if ($value === $this->type && \strpos($name, 'TYPE_') === 0) {
+                $type = \substr($name, 5);
+                break;
+            }
+        }
+
+        return $this->name . ' (' . $class . $type . ')';
     }
 }

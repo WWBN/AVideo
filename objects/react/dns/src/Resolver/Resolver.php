@@ -72,7 +72,7 @@ final class Resolver implements ResolverInterface
                     $message = 'Unknown error response code ' . $code;
             }
             throw new RecordNotFoundException(
-                'DNS query for ' . $query->name . ' returned an error response (' . $message . ')',
+                'DNS query for ' . $query->describe() . ' returned an error response (' . $message . ')',
                 $code
             );
         }
@@ -83,7 +83,7 @@ final class Resolver implements ResolverInterface
         // reject if we did not receive a valid answer (domain is valid, but no record for this type could be found)
         if (0 === count($addresses)) {
             throw new RecordNotFoundException(
-                'DNS query for ' . $query->name . ' did not return a valid answer (NOERROR / NODATA)'
+                'DNS query for ' . $query->describe() . ' did not return a valid answer (NOERROR / NODATA)'
             );
         }
 

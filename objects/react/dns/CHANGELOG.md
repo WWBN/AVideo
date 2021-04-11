@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.5.0 (2021-03-05)
+
+*   Feature: Improve error reporting when query fails, include domain and query type and DNS server address where applicable.
+    (#174 by @clue)
+
+*   Feature: Improve error handling when sending data to DNS server fails (macOS).
+    (#171 and #172 by @clue)
+
+*   Fix: Improve DNS response parser to limit recursion for compressed labels.
+    (#169 by @clue)
+
+*   Improve test suite, use GitHub actions for continuous integration (CI).
+    (#170 by @SimonFrings)
+
 ## 1.4.0 (2020-09-18)
 
 *   Feature: Support upcoming PHP 8.

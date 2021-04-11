@@ -81,7 +81,7 @@ final class CoopExecutor implements ExecutorInterface
                 $promise->cancel();
                 $promise = null;
             }
-            throw new \RuntimeException('DNS query for ' . $query->name . ' has been cancelled');
+            throw new \RuntimeException('DNS query for ' . $query->describe() . ' has been cancelled');
         });
     }
 

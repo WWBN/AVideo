@@ -158,7 +158,7 @@ class Apple extends OAuth2
         $id_token = $this->getStoredData('id_token');
 
         $verifyTokenSignature =
-            ($this->config->exists('verifyTokenSignature')) ? $this->config->get('verifyTokenSignature') : true;
+            $this->config->exists('verifyTokenSignature') ? $this->config->get('verifyTokenSignature') : true;
 
         if (!$verifyTokenSignature) {
             // payload extraction by https://github.com/omidborjian
@@ -171,6 +171,9 @@ class Apple extends OAuth2
             $publicKeys = $this->apiRequest('keys');
 
             \Firebase\JWT\JWT::$leeway = 120;
+
+            $error = false;
+            $payload = null;
 
             foreach ($publicKeys->keys as $publicKey) {
                 try {
@@ -186,7 +189,6 @@ class Apple extends OAuth2
                     $pem = $rsa->getPublicKey();
 
                     $payload = JWT::decode($id_token, $pem, ['RS256']);
-                    $error = false;
                     break;
                 } catch (\Exception $e) {
                     $error = $e->getMessage();
@@ -195,7 +197,8 @@ class Apple extends OAuth2
                     }
                 }
             }
-            if ($error) {
+
+            if ($error && !$payload) {
                 throw new \Exception($error);
             }
         }
