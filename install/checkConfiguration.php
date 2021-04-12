@@ -207,6 +207,8 @@ if(empty(\$global['webSiteRootPath'])){
 \$mysqlUser = '{$_POST['databaseUser']}';
 \$mysqlPass = '{$_POST['databasePass']}';
 \$mysqlDatabase = '{$_POST['databaseName']}';
+    
+//\$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
 
 /**
  * Do NOT change from here
