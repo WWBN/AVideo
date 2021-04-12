@@ -564,7 +564,9 @@ CREATE TABLE IF NOT EXISTS `users_extra_info` (
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   `status` CHAR(1) NOT NULL DEFAULT 'a',
-  PRIMARY KEY (`id`))
+  `order` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `ordersortusers_extra_info` USING BTREE (`order`))
 ENGINE = InnoDB;
 
 ALTER TABLE `category_type_cache`
