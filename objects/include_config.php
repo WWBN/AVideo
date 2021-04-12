@@ -3,7 +3,7 @@
 if(!empty($global['stopBotsList']) && is_array($global['stopBotsList'])){
     foreach ($global['stopBotsList'] as $value) {
         if(stripos($_SERVER['HTTP_USER_AGENT'],$value) !== false){ 
-            die('Bot Found');
+            die('Bot Found '.$_SERVER['HTTP_USER_AGENT']);
         }
     }
 }
