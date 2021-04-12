@@ -1,4 +1,13 @@
 <?php
+//$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect');
+if(!empty($global['stopBotsList']) && is_array($global['stopBotsList'])){
+    foreach ($global['stopBotsList'] as $value) {
+        if(stripos($_SERVER['HTTP_USER_AGENT'],$value) !== false){ 
+            die('Bot Found');
+        }
+    }
+}
+
 $global['avideoStartMicrotime'] = microtime(true);
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
