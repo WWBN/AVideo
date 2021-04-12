@@ -92,8 +92,12 @@ class Facebook extends OAuth2
     /**
      * {@inheritdoc}
      */
-    public function apiRequest($url, $method = 'GET', $parameters = [], $headers = [], $multipart = false)
+    public function maintainToken()
     {
+        if (!$this->isConnected()) {
+            return;
+        }
+
         // Handle token exchange prior to the standard handler for an API request
         $exchange_by_expiry_days = $this->config->get('exchange_by_expiry_days') ?: 45;
         if ($exchange_by_expiry_days !== null) {
@@ -102,8 +106,6 @@ class Facebook extends OAuth2
                 $this->exchangeAccessToken();
             }
         }
-
-        return parent::apiRequest($url, $method, $parameters, $headers, $multipart);
     }
 
     /**
@@ -112,7 +114,7 @@ class Facebook extends OAuth2
      * @return string Raw Provider API response
      * @throws \Hybridauth\Exception\HttpClientFailureException
      * @throws \Hybridauth\Exception\HttpRequestFailedException
-     * @throws InvalidAccessTokenException
+     * @throws \Hybridauth\Exception\InvalidAccessTokenException
      */
     public function exchangeAccessToken()
     {

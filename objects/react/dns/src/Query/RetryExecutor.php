@@ -43,7 +43,7 @@ final class RetryExecutor implements ExecutorInterface
             } elseif ($retries <= 0) {
                 $errorback = null;
                 $deferred->reject($e = new \RuntimeException(
-                    'DNS query for ' . $query->name . ' failed: too many retries',
+                    'DNS query for ' . $query->describe() . ' failed: too many retries',
                     0,
                     $e
                 ));

@@ -22,7 +22,7 @@ final class TimeoutExecutor implements ExecutorInterface
     {
         return Timer\timeout($this->executor->query($query), $this->timeout, $this->loop)->then(null, function ($e) use ($query) {
             if ($e instanceof Timer\TimeoutException) {
-                $e = new TimeoutException(sprintf("DNS query for %s timed out", $query->name), 0, $e);
+                $e = new TimeoutException(sprintf("DNS query for %s timed out", $query->describe()), 0, $e);
             }
             throw $e;
         });

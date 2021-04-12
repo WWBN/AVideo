@@ -26,7 +26,7 @@ interface CacheInterface
      *
      * @param string $key
      * @param mixed  $default Default value to return for cache miss or null if not given.
-     * @return PromiseInterface
+     * @return PromiseInterface<mixed>
      */
     public function get($key, $default = null);
 
@@ -72,7 +72,7 @@ interface CacheInterface
      * @param string $key
      * @param mixed  $value
      * @param ?float $ttl
-     * @return PromiseInterface Returns a promise which resolves to `true` on success or `false` on error
+     * @return PromiseInterface<bool> Returns a promise which resolves to `true` on success or `false` on error
      */
     public function set($key, $value, $ttl = null);
 
@@ -93,7 +93,7 @@ interface CacheInterface
      * provide guarantees whether or not the item has been removed from cache.
      *
      * @param string $key
-     * @return PromiseInterface Returns a promise which resolves to `true` on success or `false` on error
+     * @return PromiseInterface<bool> Returns a promise which resolves to `true` on success or `false` on error
      */
     public function delete($key);
 
