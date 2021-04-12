@@ -2856,10 +2856,10 @@ function rrmdir($dir) {
         return false;
     }
     global $global;
-    $pattern = '/videos[\/\\\]?$/i';
     $dir = fixPath($dir, true);
+    $pattern = '/'.addcslashes($dir,DIRECTORY_SEPARATOR).'videos[\/\\\]?$/i';
     if ($dir == getVideosDir() || $dir == "{$global['systemRootPath']}videos".DIRECTORY_SEPARATOR || preg_match($pattern, $dir)) {
-        _error_log('rrmdir: A script ties to delete the videos Directory ['.$dir.'] '. json_encode($_SERVER));
+        _error_log('rrmdir: A script ties to delete the videos Directory ['.$dir.'] '. json_encode(array($dir == getVideosDir(), $dir == "{$global['systemRootPath']}videos".DIRECTORY_SEPARATOR, preg_match($pattern, $dir))));
         return false;
     }
     if (is_dir($dir)) {

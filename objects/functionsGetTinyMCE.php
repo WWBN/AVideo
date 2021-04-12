@@ -1,8 +1,13 @@
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
+    global $tinyMCELibs;
+    if(empty($tinyMCELibs)){
+        $tinyMCELibs = 1;
+        ?>
+            <script type="text/javascript" src="<?php echo getCDN(); ?>view/js/tinymce/tinymce.min.js"></script>
+        <?php
+    }
     ?>
-    
-    <script type="text/javascript" src="<?php echo getCDN(); ?>view/js/tinymce/tinymce.min.js"></script>
     <script>
         tinymce.init({
             language: "<?php echo $_SESSION['language']; ?>",
