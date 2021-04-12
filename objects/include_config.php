@@ -1,5 +1,5 @@
 <?php
-//$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect');
+//$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
 if(!empty($global['stopBotsList']) && is_array($global['stopBotsList'])){
     foreach ($global['stopBotsList'] as $value) {
         if(stripos($_SERVER['HTTP_USER_AGENT'],$value) !== false){ 
