@@ -1234,7 +1234,14 @@ if (!class_exists('Video')) {
                     TimeLogEnd("video::getAllVideos getAllVideosArray", __LINE__);
                     $videos[] = $row;
                 }
-                TimeLogEnd("video::getAllVideos foreach", __LINE__);
+                $rowCount = getRowCount();
+                $tolerance = $rowCount/100;
+                if($tolerance<0.2){
+                    $tolerance=0.2;
+                }else if($tolerance>2){
+                    $tolerance=2;
+                }
+                TimeLogEnd("video::getAllVideos foreach", __LINE__, $tolerance);
                 //$videos = $res->fetch_all(MYSQLI_ASSOC);
             } else {
                 $videos = false;
