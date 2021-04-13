@@ -1,9 +1,19 @@
 <?php
+
 //$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
-if(!empty($global['stopBotsList']) && is_array($global['stopBotsList'])){
+//$global['stopBotsWhiteList'] = array('google','bing','yahoo','yandex');
+if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
     foreach ($global['stopBotsList'] as $value) {
-        if(stripos($_SERVER['HTTP_USER_AGENT'],$value) !== false){ 
-            die('Bot Found '.$_SERVER['HTTP_USER_AGENT']);
+        if (stripos($_SERVER['HTTP_USER_AGENT'], $value) !== false) {
+            if (!empty($global['stopBotsWhiteList']) && is_array($global['stopBotsWhiteList'])) {
+                // check if it is whitelisted
+                foreach ($global['stopBotsWhiteList'] as $key => $value2) {
+                    if (stripos($_SERVER['HTTP_USER_AGENT'], $value2) !== false) {
+                        break 2;
+                    }
+                }
+            }
+            die('Bot Found ' . $_SERVER['HTTP_USER_AGENT']);
         }
     }
 }
@@ -78,8 +88,8 @@ $url1['host'] = '';
 $global['HTTP_REFERER'] = '';
 if (!empty($_SERVER['HTTP_REFERER'])) {
     if ((
-        strpos($_SERVER['HTTP_REFERER'], '/video/') !== false || strpos($_SERVER['HTTP_REFERER'], '/v/') !== false
-    ) &&
+            strpos($_SERVER['HTTP_REFERER'], '/video/') !== false || strpos($_SERVER['HTTP_REFERER'], '/v/') !== false
+            ) &&
             !empty($_SESSION['LAST_HTTP_REFERER'])) {
         if (strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/css/') !== false ||
                 strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/js/') !== false ||
@@ -139,7 +149,7 @@ if (empty($global['bodyClass'])) {
 }
 $global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3', 'm4a', 'ogg', 'zip', 'm3u8');
 
-if(empty($global['avideo_resolutions'])){
+if (empty($global['avideo_resolutions'])) {
     $global['avideo_resolutions'] = array(240, 360, 480, 540, 720, 1080, 1440, 2160);
 }
 
@@ -149,14 +159,14 @@ $advancedCustom = AVideoPlugin::getObjectData('CustomizeAdvanced');
 
 if (empty($global['disableTimeFix'])) {
     /*
-    $now = new DateTime();
-    $mins = $now->getOffset() / 60;
-    $sgn = ($mins < 0 ? -1 : 1);
-    $mins = abs($mins);
-    $hrs = floor($mins / 60);
-    $mins -= $hrs * 60;
-    $offset = sprintf('%+d:%02d', $hrs * $sgn, $mins);
-    $global['mysqli']->query("SET time_zone='$offset';");
+      $now = new DateTime();
+      $mins = $now->getOffset() / 60;
+      $sgn = ($mins < 0 ? -1 : 1);
+      $mins = abs($mins);
+      $hrs = floor($mins / 60);
+      $mins -= $hrs * 60;
+      $offset = sprintf('%+d:%02d', $hrs * $sgn, $mins);
+      $global['mysqli']->query("SET time_zone='$offset';");
      */
     ObjectYPT::setTimeZone();
 }
