@@ -2869,7 +2869,7 @@ function rrmdir($dir) {
                 if (is_dir($dir . "/" . $object)) {
                     rrmdir($dir . "/" . $object);
                 } else {
-                    unlink($dir . "/" . $object);
+                    @unlink($dir . "/" . $object);
                 }
             }
         }
