@@ -374,7 +374,6 @@ $t['We will send you a link, to your e-mail, to recover your password!'] = "Envi
 $t['We would like to thanks http://bootswatch.com/'] = "Agradecemos http://bootswatch.com";
 $t['Web site title'] = "Título do site";
 $t['Website'] = "Seu site";
-$t['Welcome back!'] = "Bem-vindo novamente!";
 $t['What is User Groups'] = "O que são grupos de usuários";
 $t['What is the new name?'] = "Qual o novo nome?";
 $t['What is this'] = "O que é isso";
@@ -501,3 +500,10 @@ $t['weeks'] = "semanas";
 $t['year'] = "ano";
 $t['years'] = "anos";
 $t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = "Youtube-dl usa Python e alguns servidores não tem python instalado como padrão. Para instalar Python, digite:";
+//--- added 13 april 2021 by Julian Romero
+//---- login page missing translation phrases
+$t['Check this to stay signed in'] = 'Permanecer logado';
+$t['Welcome back!'] = "Bem-vindo novamente!";
+$t['Show/Hide Password'] = 'Mostrar/esconder senha';
+$t['Use this to recover your password'] = 'Clique aqui para recuperar sua senha';
+$t['Are you new here?'] = 'Novo por aqui? Registre-se';
