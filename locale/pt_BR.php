@@ -374,6 +374,7 @@ $t['We will send you a link, to your e-mail, to recover your password!'] = "Envi
 $t['We would like to thanks http://bootswatch.com/'] = "Agradecemos http://bootswatch.com";
 $t['Web site title'] = "Título do site";
 $t['Website'] = "Seu site";
+$t['Welcome back!'] = "Bem-vindo novamente!";
 $t['What is User Groups'] = "O que são grupos de usuários";
 $t['What is the new name?'] = "Qual o novo nome?";
 $t['What is this'] = "O que é isso";
