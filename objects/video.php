@@ -1201,7 +1201,7 @@ if (!class_exists('Video')) {
                         $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsWeek, $today);
                         $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsMonth, $today);
                         $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
-                        TimeLogEnd("video::getAllVideos getStatistcs", __LINE__);
+                        TimeLogEnd("video::getAllVideos getStatistcs", __LINE__, 0.3);
                     }
                     TimeLogStart("video::getAllVideos otherInfo");
                     $otherInfocachename = "otherInfo{$row['id']}";
@@ -1227,7 +1227,7 @@ if (!class_exists('Video')) {
                     $row['isWatchLater'] = self::isWatchLater($row['id']);
                     $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
                     $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
-                    TimeLogEnd("video::getAllVideos otherInfo", __LINE__);
+                    TimeLogEnd("video::getAllVideos otherInfo", __LINE__, 0.3);
 
                     TimeLogStart("video::getAllVideos getAllVideosArray");
                     $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
