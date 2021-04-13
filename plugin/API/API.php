@@ -300,7 +300,7 @@ class API extends PluginAbstract {
             $cacheName = 'get_api_video'.md5(json_encode($parameters).json_encode($_GET));
             $obj = ObjectYPT::getCache($cacheName, 3600);
             if(!empty($obj)){
-                return new ApiObject("", false, $obj);
+                return new ApiObject("Cached response", false, $obj);
             }
         }
         
