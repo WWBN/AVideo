@@ -69,7 +69,7 @@ class User_Location extends PluginAbstract {
     }
     
     public function getStart() {
-        global $global;
+        global $global, $config;
         $obj = $this->getDataObject();
         $User_Location = self::getThisUserLocation();
         if (session_status() == PHP_SESSION_NONE) {
@@ -83,7 +83,7 @@ class User_Location extends PluginAbstract {
                 if(file_exists($file)){
                     include_once $file;
                 }else{
-                    $_SESSION['language'] = 'us';
+                    $_SESSION['language'] = $config->getLanguage();
                 }
             }
         }
