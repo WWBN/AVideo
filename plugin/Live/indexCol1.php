@@ -1,4 +1,4 @@
-
+<script>autoplay = false;</script>
 <div class="panel panel-default">
     <div class="panel-heading">
         <?php
@@ -45,7 +45,7 @@
             <video poster="<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>" controls 
                    class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
                    id="mainVideo" >
-                <source src="<?php echo Live::getM3U8File($trasnmition['key']); ?>" type='application/x-mpegURL'>
+                <source src="<?php echo $liveStreamObject->getM3U8(); ?>" type='application/x-mpegURL'>
             </video>
         </div>
     </div>

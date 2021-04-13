@@ -53,6 +53,8 @@ if (!empty($_GET['resetKey'])) {
     exit;
 }
 
+$liveStreamObject = new LiveStreamObject($trasnmition['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index'], 0);
+
 $aspectRatio = "16:9";
 $vjsClass = "vjs-16-9";
 

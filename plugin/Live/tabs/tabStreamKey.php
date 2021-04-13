@@ -13,7 +13,7 @@ if ($objLive->allowMultipleLivesPerUser) {
         }
     }
 }
-$key = Live::getDynamicKey($trasnmition['key']);
+$key = $liveStreamObject->getKeyWithIndex();
 ?>
 <style>
     #streamkey{
