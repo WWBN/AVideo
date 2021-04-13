@@ -293,6 +293,17 @@ class API extends PluginAbstract {
      * @return \ApiObject
      */
     public function get_api_video($parameters) {
+        
+        $rowCount = getRowCount();
+        if($rowCount > 100){
+            // use 10 min cache
+            $cacheName = 'get_api_video'.md5(json_encode($parameters).json_encode($_GET));
+            $obj = ObjectYPT::getCache($cacheName, 600);
+            if(!empty($obj)){
+                return new ApiObject("", false, $obj);
+            }
+        }
+        
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
@@ -354,9 +365,7 @@ class API extends PluginAbstract {
                 foreach ($rows[$key]['subtitles'] as $key2 => $value) {
                     $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
                 }
-            }
-
-            
+            }            
             require_once $global['systemRootPath'] . 'objects/comment.php';
             require_once $global['systemRootPath'] . 'objects/subscribe.php';
             unset($_POST['sort']);
