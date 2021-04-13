@@ -327,7 +327,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $cachefile = self::getCacheFileName($name);
         make_path($cachefile);
         
-        $content = json_encode($value);
+        $content = _json_encode($value);
         if(empty($content)){
             $content = $value;
         }
