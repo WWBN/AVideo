@@ -53,6 +53,9 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 $_GET['parentsOnly'] = "1";
 if (empty($_SESSION['language'])) {
     $lang = $config->getLanguage();
+    if(empty($lang)){
+        $lang = 'us_EN';
+    }
 } else {
     $lang = $_SESSION['language'];
 }
