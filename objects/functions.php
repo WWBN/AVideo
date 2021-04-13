@@ -2873,7 +2873,7 @@ function rrmdir($dir) {
                 }
             }
         }
-        rmdir($dir);
+        @rmdir($dir);
         if (is_dir($dir)) {
             _error_log('rrmdir: The Directory was not deleted, trying again '.$dir);
             exec('rm -R '.$dir);
@@ -6155,7 +6155,7 @@ function getLiveUsersLabelLive($key, $live_servers_id, $viewsClass = "label labe
 }
 
 function getLiveUsersLabelLiveLinks($liveLinks_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary") {
-    if (AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")) {
+    if (AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getWatchingNowLabel")) {
         return LiveUsers::getWatchingNowLabel(getSocketLiveLinksClassName($liveLinks_id), "label label-primary", '', $viewsClass, 'livelinks');
     }
 }
