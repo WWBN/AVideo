@@ -209,6 +209,7 @@ if(empty(\$global['webSiteRootPath'])){
 \$mysqlDatabase = '{$_POST['databaseName']}';
     
 //\$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
+//\$global['stopBotsWhiteList'] = array('google','bing','yahoo','yandex');
 
 /**
  * Do NOT change from here
