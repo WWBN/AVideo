@@ -1,8 +1,5 @@
 
-var avideoNotifications = [
-    {title: 'test 1', text: 'text 1', image: 'http://192.168.1.4/YouPHPTube/videos/userPhoto/photo1.png', link: 'https://google.com'},
-    {title: 'test 2', text: 'text 2', image: 'http://192.168.1.4/YouPHPTube/videos/userPhoto/photo2.png', link: 'https://yahoo.com'}
-];
+var avideoNotifications = [];
 
 $(document).ready(function () {
     var avideoNotificationsCookie = Cookies.get('avideoNotifications');
