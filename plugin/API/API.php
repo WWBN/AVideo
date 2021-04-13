@@ -400,6 +400,7 @@ class API extends PluginAbstract {
         }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
+        ObjectYPT::setCache($cacheName, $obj);
         return new ApiObject("", false, $obj);
     }
 
