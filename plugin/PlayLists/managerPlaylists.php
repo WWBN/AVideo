@@ -80,7 +80,7 @@ if (!User::isLogged()) {
                 <div class="panel-body">
                     <div class="row">
                         <?php
-                        $pl = PlayList::getAllFromUser(User::getId());
+                        $pl = PlayList::getAllFromUser(User::getId(), false);
                         $count = 0;
                         foreach ($pl as $value) {
                             $count++;
