@@ -387,11 +387,15 @@ class Category {
             }
             $sql .= ")";
         }
-        if (isset($_POST['sort']['title'])) {
-            unset($_POST['sort']['title']);
-        }
-        if (isset($_POST['sort']['likes'])) {
-            unset($_POST['sort']['likes']);
+        
+        $sortWhitelist = array('id', 'name', 'clean_name', 'description', 'iconClass', 'nextVideoOrder', 'parentId', 'type', 'users_id', 'private', 'allow_download', 'order');
+        
+        if(!empty($_POST['sort']) && is_array($_POST['sort'])){
+            foreach ($_POST['sort'] as $key => $value) {
+                if(!in_array($key, $sortWhitelist)){
+                    unset($_POST['sort'][$key]);
+                }
+            }
         }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY `order`, name ASC ");
 
