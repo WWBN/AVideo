@@ -500,3 +500,10 @@ $t['weeks'] = "semanas";
 $t['year'] = "ano";
 $t['years'] = "anos";
 $t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = "Youtube-dl usa Python e alguns servidores não tem python instalado como padrão. Para instalar Python, digite:";
+//--- added 13 april 2021 by Julian Romero
+//---- login page missing translation phrases
+$t['Check this to stay signed in'] = 'Permanecer logado';
+$t['Welcome back!'] = "Bem-vindo novamente!";
+$t['Show/Hide Password'] = 'Mostrar/esconder senha';
+$t['Use this to recover your password'] = 'Clique aqui para recuperar sua senha';
+$t['Are you new here?'] = 'Novo por aqui? Registre-se';
