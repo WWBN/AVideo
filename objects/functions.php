@@ -4892,6 +4892,9 @@ function _json_encode($object) {
     if (empty($object)) {
         return false;
     }
+    if(is_string($object)){
+        return $object;
+    }
     $json = json_encode($object);
     if (json_last_error()) {
         _error_log("_json_encode: Error 1 Found: " . json_last_error_msg());
