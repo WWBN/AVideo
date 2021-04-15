@@ -646,6 +646,40 @@ class API extends PluginAbstract {
             return new ApiObject("API Secret is not valid");
         }
     }
+    
+    /**
+     * Return a users list
+     * @param type $parameters 
+     * 'APISecret' is required for this call
+     * ['rowCount' max numbers of rows]
+     * ['current' current page]
+     * ['searchPhrase' to search on the user and name columns]
+     * ['status' if passed will filter active or inactive users]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&status=a&rowCount=3&searchPhrase=test
+     * @return \ApiObject
+     */
+    public function get_api_users_list($parameters) {
+        global $global;
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret === $_GET['APISecret']) {
+            
+            $status = '';
+            if(!empty($_GET['status'])){
+                if($_GET['status'] === 'i'){
+                    $status = 'i';
+                }else {
+                    $status = 'a';
+                }
+            }
+            
+            $rows = User::getAllUsers(true, array('user', 'name'), $status);
+            
+            return new ApiObject("", false, $rows);
+        } else {
+            return new ApiObject("API Secret is not valid");
+        }
+    }
 
     /**
      * @param type $parameters 
