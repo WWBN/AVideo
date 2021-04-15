@@ -26,3 +26,8 @@
 #myNavbar .select2-selection{
     height: 40px;
 }
+#rightProfileButton > img{
+    width: 40px !important;
+    height: 40px !important;
+    max-width: 40px !important;
+}
