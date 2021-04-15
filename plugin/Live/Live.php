@@ -866,7 +866,21 @@ class Live extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        return '<a href="plugin/Live/view/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> ' . __('Edit Live Servers') . '</a>';
+        
+        $obj = $this->getDataObject();
+        
+        $btn = '<button onclick="avideoModalIframeLarge(\''.$global['webSiteRootURL'].'plugin/Live/view/editor.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> ' . __('Edit Live Servers') . '</button>';
+        
+        if($obj->useLiveServers){
+            $servers = Live_servers::getAll();
+            foreach ($servers as $value) {
+                $btn .= '<button onclick="avideoModalIframeSmall(\''.$global['webSiteRootURL'].'plugin/Live/test.php?statsURL='. urlencode($value['stats_url']).'\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Server') . ' '.$value['id'].'</button>';
+            }
+        }else{
+            $btn .= '<button onclick="avideoModalIframeSmall(\''.$global['webSiteRootURL'].'plugin/Live/test.php?statsURL='. urlencode($obj->stats).'\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Stats') . '</button>';
+        }
+        
+        return $btn;
     }
 
     static function getStats($force_recreate = false) {
