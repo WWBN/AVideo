@@ -565,7 +565,7 @@ class PlayLists extends PluginAbstract {
         //    return object_to_array($cache);
         //}
 
-        $json = json_decode($content);
+        $json = _json_decode($content);
         if(!is_object($json)){
             return array();
         }

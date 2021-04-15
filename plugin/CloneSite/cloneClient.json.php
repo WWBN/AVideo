@@ -73,7 +73,7 @@ $log->add("Clone (1 of {$totalSteps}): Asking the Server the database and the fi
 $content = url_get_contents($url, "", 3600, true);
 _error_log("Clone: url_get_contents($url) respond: ($content)");
 //var_dump($url, $content);exit;
-$json = json_decode($content);
+$json = _json_decode($content);
 
 if (empty($json)) {
     $resp->msg = "Clone Server Unknow ERROR";
@@ -180,7 +180,7 @@ $url = $url . "&deleteDump={$json->sqlFile}";
 $log->add("Clone (6 of {$totalSteps}): Notify Server to Delete Dump");
 $content2 = url_get_contents($url);
 //var_dump($url, $content);exit;
-$json2 = json_decode($content);
+$json2 = _json_decode($content);
 if (!empty($json2->error)) {
     $log->add("Clone: Dump NOT deleted");
 } else {

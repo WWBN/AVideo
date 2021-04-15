@@ -112,9 +112,9 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                                 <label for="inputRememberMe" ><?php echo __("Remember me"); ?></label>
                             </div>
                             <div class="col-xs-8" >
-                                <div class="material-switch" >
+                                <div class="material-switch" data-toggle="tooltip" title="<?php echo __("Check this to stay signed in"); ?>">
                                     <input  id="inputRememberMe" class="form-control"  type="checkbox">
-                                    <label for="inputRememberMe" class="label-success"  data-toggle="tooltip" title="<?php echo __("Check this to stay signed in"); ?>"></label>
+                                    <label for="inputRememberMe" class="label-success" ></label>
                                 </div>
                             </div>
                         </div>

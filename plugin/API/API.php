@@ -151,7 +151,7 @@ class API extends PluginAbstract {
         global $global;
         $obj = $this->startResponseObject($parameters);
         if(!empty($_REQUEST['httpHeaders'])){
-            $json = json_decode($_REQUEST['httpHeaders']);
+            $json = _json_decode($_REQUEST['httpHeaders']);
             if(!empty($json)){
                 $_REQUEST['httpHeaders'] = $json;
             }else{

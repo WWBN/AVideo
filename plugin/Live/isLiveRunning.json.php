@@ -21,7 +21,7 @@ if(empty($p)){
 }
 $xml = $p->getStatsObject();
 $xml = json_encode($xml);
-$xml = json_decode($xml);
+$xml = _json_decode($xml);
 
 $stream = false;
 $lifeStream = array();

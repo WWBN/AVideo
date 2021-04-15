@@ -404,7 +404,7 @@ abstract class ObjectYPT implements ObjectInterface {
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
             //if(preg_match('/getStats/', $cachefile)){echo $cachefile,'<br>';}
             $c = @url_get_contents($cachefile);
-            $json = json_decode($c);
+            $json = _json_decode($c);
             
             if(empty($json) && !is_object($json) && !is_array($json)){
                 $json = $c;
@@ -555,7 +555,7 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_SESSION['user']['sessionCache'][$name])) {
             if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
                 $c = $_SESSION['user']['sessionCache'][$name]['value'];
-                $json = json_decode($c);
+                $json = _json_decode($c);
                 if(is_string($json) && strtolower($json) === 'false'){
                     $json = false;
                 }

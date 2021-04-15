@@ -194,12 +194,12 @@ Passcode: {password}
         $json = new stdClass();
         $json->content = ObjectYPT::getCache($name, $cache);
         if (!empty($json->content) && !empty($json->time)) {
-            $json = json_decode($json->content);
+            $json = _json_decode($json->content);
             $json->msg = "From Cache";
         } else {
             $url = $meetServer . "api/checkMeet.json.php?webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&secret=" . $secret;
             $content = url_get_contents($url);
-            $json = json_decode($content);
+            $json = _json_decode($content);
             if (!empty($json)) {
                 $json->time = time();
                 $json->url = $url;

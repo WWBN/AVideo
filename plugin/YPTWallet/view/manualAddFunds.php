@@ -9,7 +9,7 @@ if (!User::isLogged()) {
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
-$options = json_decode($obj->addFundsOptions);
+$options = _json_decode($obj->addFundsOptions);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

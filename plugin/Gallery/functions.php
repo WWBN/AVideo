@@ -406,8 +406,8 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
             }
             @$timesG[__LINE__] += microtime(true) - $startG;
             $startG = microtime(true);
-            getLdJson($value['id']);
-            getItemprop($value['id']);
+            //getLdJson($value['id']);
+            //getItemprop($value['id']);
             ?>
         </div>
 

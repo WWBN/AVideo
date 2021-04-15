@@ -50,7 +50,7 @@ if ($oIMDB->isReady) {
         _error_log("IMDB encoder URL {$encoderURL}");
         $json = url_get_contents($encoderURL);
         _error_log("IMDB encoder answer {$json}");
-        $json = json_decode($json);
+        $json = _json_decode($json);
         if (!empty($json->videos_id)) {
             $trailerVideo = new Video('', '', $json->videos_id);
             $trailerVideo->setStatus('u');

@@ -29,7 +29,7 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     }
     if (empty($msgObj->live_key)) {
         if (!empty($_REQUEST['webSocketLiveKey'])) {
-            $msgObj->live_key = json_decode($_REQUEST['webSocketLiveKey']);
+            $msgObj->live_key = _json_decode($_REQUEST['webSocketLiveKey']);
         } else {
             $msgObj->live_key = isLive();
         }
@@ -45,7 +45,7 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
 
 function getDecryptedInfo($string) {
     $decriptedString = decryptString($string);
-    $json = json_decode($decriptedString);
+    $json = _json_decode($decriptedString);
     if (!empty($json) && !empty($json->token)) {
         if (isTokenValid($json->token)) {
             return $json;

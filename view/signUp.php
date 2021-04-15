@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 //$json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
 // convert the string to a json object
-//$advancedCustom = json_decode($json_file);
+//$advancedCustom = _json_decode($json_file);
 if (!empty($advancedCustomUser->disableNativeSignUp)) {
     die(__("Sign Up Disabled"));
 }

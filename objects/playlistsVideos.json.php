@@ -14,7 +14,7 @@ require_once 'comment.php';
 require_once 'subscribe.php';
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
-$input = json_decode($inputJSON, TRUE); //convert JSON into array
+$input = _json_decode($inputJSON, TRUE); //convert JSON into array
 if(!empty($input) && empty($_POST)){
     foreach ($input as $key => $value) {
         $_POST[$key]=$value;

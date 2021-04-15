@@ -43,7 +43,7 @@ foreach ($playList as $key => $value) {
         foreach ($subPlayList as $value) {
             $sources = getVideosURL($value['filename']);
             $images = Video::getImageFromFilename($value['filename'], $value['type']);
-            $externalOptions = json_decode($value['externalOptions']);
+            $externalOptions = _json_decode($value['externalOptions']);
 
             $src = new stdClass();
             $src->src = $images->thumbsJpg;
@@ -73,7 +73,7 @@ foreach ($playList as $key => $value) {
     } else {
         $sources = getVideosURL($value['filename']);
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
-        $externalOptions = json_decode($value['externalOptions']);
+        $externalOptions = _json_decode($value['externalOptions']);
 
         $src = new stdClass();
         $src->src = $images->thumbsJpg;

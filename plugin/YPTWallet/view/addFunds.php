@@ -10,7 +10,7 @@ $obj = $plugin->getDataObject();
 if (!empty($paypal)) {
     $paypalObj = $paypal->getDataObject();
 }
-$options = json_decode($obj->addFundsOptions);
+$options = _json_decode($obj->addFundsOptions);
 unset($_SESSION['addFunds_Success']);
 unset($_SESSION['addFunds_Fail']);
 ?>

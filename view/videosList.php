@@ -102,7 +102,7 @@ if (empty($video['id'])) {
 <div class="col-md-4 col-sm-12" style="position: relative; z-index: 2;">
     <select class="form-control" id="rowCount">
         <?php
-        $jsonArray = json_decode($advancedCustom->videosListRowCount);
+        $jsonArray = _json_decode($advancedCustom->videosListRowCount);
         foreach ($jsonArray as $item) {
             if ($item == -1) {
                 ?>

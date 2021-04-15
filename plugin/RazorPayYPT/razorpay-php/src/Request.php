@@ -57,7 +57,7 @@ class Request
 
         $this->checkErrors($response);
 
-        return json_decode($response->body, true);
+        return _json_decode($response->body, true);
     }
 
     public function setCurlSslOpts($curl)
@@ -96,7 +96,7 @@ class Request
 
         try
         {
-            $body = json_decode($response->body, true);
+            $body = _json_decode($response->body, true);
         }
         catch (Exception $e)
         {

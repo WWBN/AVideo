@@ -14,7 +14,7 @@ foreach ($tags as $value) {
 }
 //$json_file = url_get_contents("{$global['webSiteRootURL']}plugin/CustomizeAdvanced/advancedCustom.json.php");
 // convert the string to a json object
-//$advancedCustom = json_decode($json_file);
+//$advancedCustom = _json_decode($json_file);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

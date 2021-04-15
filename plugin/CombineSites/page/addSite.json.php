@@ -73,6 +73,6 @@ if ($o->save()) {
     // request access to my site
     $url = "{$_REQUEST['site_url']}plugin/CombineSites/page/addSite.json.php?site_url=".urlencode($global['webSiteRootURL'])."&get_token={$token}&give_token={$_REQUEST['get_token']}";
     _error_log("CombineSites::addsite: requesting {$url} ");
-    $obj->response = json_decode(url_get_contents($url));
+    $obj->response = _json_decode(url_get_contents($url));
 }
 _dieAndLogObject($obj, "CombineSites::addsite: ");

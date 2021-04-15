@@ -307,7 +307,7 @@ class Layout extends PluginAbstract {
         }
         
         if(!empty($flags[$selected])){
-            $selectedJson = json_decode($flags[$selected][0]);
+            $selectedJson = _json_decode($flags[$selected][0]);
             $selectedJsonIcon = $selectedJson->icon;
         }else{
             $selectedJsonIcon = '';

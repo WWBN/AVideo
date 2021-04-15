@@ -23,7 +23,7 @@ use Razorpay\Api\Errors\SignatureVerificationError;
 
 $success = true;
 $json = file_get_contents('php://input');
-$body = json_decode($json);
+$body = _json_decode($json);
 
 if (!empty($json) && empty($body)) {
     parse_str($json, $body);

@@ -507,7 +507,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
                     if (substr($advancedCustom->encoderNetwork, -1) !== '/') {
                         $advancedCustom->encoderNetwork .= "/";
                     }
-                    $bestEncoder = json_decode(url_get_contents($advancedCustom->encoderNetwork . "view/getBestEncoder.php", "", 10));
+                    $bestEncoder = _json_decode(url_get_contents($advancedCustom->encoderNetwork . "view/getBestEncoder.php", "", 10));
                     if (!empty($bestEncoder->siteURL)) {
                         $this->encoderURL = $bestEncoder->siteURL;
                     } else {

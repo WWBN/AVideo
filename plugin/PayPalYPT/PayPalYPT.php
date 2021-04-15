@@ -447,7 +447,7 @@ class PayPalYPT extends PluginAbstract {
             $patch1 = new Patch();
             $patch1->setOp('replace')
                     ->setPath('/')
-                    ->setValue(json_decode('{"name": "' . $name . '"}'));
+                    ->setValue(_json_decode('{"name": "' . $name . '"}'));
 
             $paymentDefinitions = $createdPlan->getPaymentDefinitions();
             $paymentDefinition = $paymentDefinitions[0];
@@ -456,7 +456,7 @@ class PayPalYPT extends PluginAbstract {
             $patch2 = new Patch();
             $patch2->setOp('replace')
                     ->setPath('/payment-definitions/' . $paymentDefinitionId)
-                    ->setValue(json_decode('{
+                    ->setValue(_json_decode('{
                                                 "amount": {
                                                     "currency": "' . $currency . '",
                                                     "value": "' . $total . '"

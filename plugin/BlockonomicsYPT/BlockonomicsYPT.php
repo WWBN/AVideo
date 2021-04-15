@@ -72,7 +72,7 @@ class BlockonomicsYPT extends PluginAbstract {
         $options = array('http' => array('method' => 'GET'));
         $context = stream_context_create($options);
         $contents = url_get_contents(self::getPRICE_URL(), $context, 0, true);
-        $price = json_decode($contents);
+        $price = _json_decode($contents);
         //Total Cart value in bits
         $bits = intval(1.0e8 * $total_cost / $price->price);
 
@@ -110,7 +110,7 @@ class BlockonomicsYPT extends PluginAbstract {
             return false;
         }
 
-        $responseObj = json_decode($contents);
+        $responseObj = _json_decode($contents);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 

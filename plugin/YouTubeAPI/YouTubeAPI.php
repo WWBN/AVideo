@@ -165,9 +165,9 @@ class YouTubeAPI extends PluginAbstract {
                     }
                 }
             } catch (Google_Service_Exception $e) {
-                $object->msg = json_decode($e->getMessage());
+                $object->msg = _json_decode($e->getMessage());
             } catch (Google_Exception $e) {
-                $object->msg = json_decode($e->getMessage());
+                $object->msg = _json_decode($e->getMessage());
             }
             if($try<10){
                 _error_log("YouTubeAPI Error: ".json_encode($object));

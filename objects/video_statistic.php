@@ -178,7 +178,7 @@ class VideoStatistic extends ObjectYPT
             file_put_contents($cacheFileName, json_encode($total));
             return $total;
         }
-        $return = json_decode(file_get_contents($cacheFileName));
+        $return = _json_decode(file_get_contents($cacheFileName));
         if (time() - filemtime($cacheFileName) > 60) {
             // file older than 1 min
             $command = ("php '{$global['systemRootPath']}objects/getTotalLastDaysAsync.php' '$video_id' '$numberOfDays' '$cacheFileName'");
@@ -223,7 +223,7 @@ class VideoStatistic extends ObjectYPT
             file_put_contents($cacheFileName, json_encode($total));
             return $total;
         }
-        $return = json_decode(file_get_contents($cacheFileName));
+        $return = _json_decode(file_get_contents($cacheFileName));
         if (time() - filemtime($cacheFileName) > 60) {
             // file older than 1 min
             $command = ("php '{$global['systemRootPath']}objects/getTotalTodayAsync.php' '$video_id' '$cacheFileName'");

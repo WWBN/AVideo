@@ -278,7 +278,7 @@ Best regards,
             return false;
         }
 
-        $json = json_decode($decryptedCode);
+        $json = _json_decode($decryptedCode);
         if (empty($json)) {
             _error_log("LoginControl::validateConfirmationCodeHash we could not decrypt json {$json}");
             return false;
@@ -557,6 +557,7 @@ Best regards,
             $pattersToWhitelist[] = '/WebSocket/i';
             $pattersToWhitelist[] = '/LoginControl\/pgp/i';
             $pattersToWhitelist[] = '/plugin\/API/';
+            $pattersToWhitelist[] = '/plugin\/Live/on_';
             
             foreach ($pattersToWhitelist as $value) {
                 if(preg_match($value, $_SERVER["REQUEST_URI"])){

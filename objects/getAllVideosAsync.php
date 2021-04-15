@@ -11,8 +11,8 @@ $videosArrayId = $argv[4];
 $getStatistcs = $argv[5];
 $showUnlisted = $argv[6];
 $activeUsersOnly = $argv[7];
-$_GET = object_to_array(json_decode($argv[8]));
-$_POST = object_to_array(json_decode($argv[9]));
+$_GET = object_to_array(_json_decode($argv[8]));
+$_POST = object_to_array(_json_decode($argv[9]));
 $cacheFileName = $argv[10];
 $lockFile = $cacheFileName.".lock";
 if(file_exists($lockFile) && (time() - filemtime($lockFile) < 300)){ // 5 min limit

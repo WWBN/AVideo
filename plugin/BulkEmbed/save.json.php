@@ -71,7 +71,7 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
             $value[$key] = xss_esc($value2);
         }
         //$info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($value));
-        //$infoObj = json_decode($info);
+        //$infoObj = _json_decode($info);
         $filename = uniqid("_YPTuniqid_", true);
         $videos = new Video();
         $videos->setFilename($filename);

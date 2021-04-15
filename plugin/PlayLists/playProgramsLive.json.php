@@ -72,7 +72,7 @@ $encoder = $config->_getEncoderURL();
 $obj->encoder = $encoder;
 
 
-$status = json_decode(url_get_contents($encoder."status"));
+$status = _json_decode(url_get_contents($encoder."status"));
 if(empty($status->version) || version_compare($status->version, "3.2") < 0){
     $obj->msg = __("Your Encoder MUST be version 3.2 or greater");
     _error_log("playProgramsLive:: {$obj->msg}");

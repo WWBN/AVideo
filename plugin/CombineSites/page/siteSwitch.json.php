@@ -41,7 +41,7 @@ $status = ($_REQUEST['status']==='a'?'a':'i');
 // check the site
 if($status==='a'){
     $urlInfo = $o->getSite_url().'plugin/API/status.json.php';
-    $info = json_decode(url_get_contents($urlInfo));
+    $info = _json_decode(url_get_contents($urlInfo));
     if(empty($info)){
         $obj->msg = "It is not a valid Streamer site";
         die(json_encode($obj));

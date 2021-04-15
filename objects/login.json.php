@@ -14,7 +14,7 @@ TimeLogStart($timeLog);
 
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
-$input = json_decode($inputJSON, true); //convert JSON into array
+$input = _json_decode($inputJSON, true); //convert JSON into array
 if (!empty($input)) {
     foreach ($input as $key => $value) {
         $_POST[$key] = $value;
@@ -292,7 +292,7 @@ if ($object->isLogged) {
     //_error_log("login.json.php get MobileManager");
     $p = AVideoPlugin::loadPluginIfEnabled("MobileManager");
     if (!empty($p)) {
-        $object->streamer = json_decode(url_get_contents($global['webSiteRootURL'] . "objects/status.json.php"));
+        $object->streamer = _json_decode(url_get_contents($global['webSiteRootURL'] . "objects/status.json.php"));
         $object->plugin = $p->getDataObject();
         $object->encoder = $config->getEncoderURL();
     }

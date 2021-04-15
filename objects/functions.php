@@ -2252,8 +2252,8 @@ function thereIsAnyRemoteUpdate() {
         return $cache;
     }
 
-    //$version = json_decode(url_get_contents("https://tutorials.avideo.com/version"));
-    $version = json_decode(url_get_contents("https://tutorialsavideo.b-cdn.net/version", "", 4));
+    //$version = _json_decode(url_get_contents("https://tutorials.avideo.com/version"));
+    $version = _json_decode(url_get_contents("https://tutorialsavideo.b-cdn.net/version", "", 4));
     if (empty($version)) {
         return false;
     }
@@ -3926,7 +3926,7 @@ function isTokenValid($token, $salt = "") {
 
 function verifyToken($token, $salt = "") {
     global $global;
-    $obj = json_decode(decryptString($token));
+    $obj = _json_decode(decryptString($token));
     if (empty($obj)) {
         _error_log("verifyToken invalid token");
         return false;
@@ -4937,6 +4937,16 @@ function _json_encode($object) {
         }
     }
     return $json;
+}
+
+function _json_decode($object) {
+    if (empty($object)) {
+        return false;
+    }
+    if(!is_string($object)){
+        return $object;
+    }
+    return json_decode($object);
 }
 
 // this will make sure the strring will fits in the database field
@@ -5999,7 +6009,7 @@ function isURL200($url, $forceRecheck = false) {
     if (empty($forceRecheck)) {        
         $result = ObjectYPT::getCache($name, 30);
         if (!empty($result)) {
-            $object = json_decode($result);
+            $object = _json_decode($result);
             return $object->result;
         }
     }

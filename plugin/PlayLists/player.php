@@ -37,7 +37,7 @@ foreach ($playList as $key => $value) {
         $sources = getVideosURL($value['filename']);
     }
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
-    $externalOptions = json_decode($value['externalOptions']);
+    $externalOptions = _json_decode($value['externalOptions']);
 
     $src = new stdClass();
     $src->src = $images->thumbsJpg;

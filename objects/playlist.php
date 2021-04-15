@@ -718,7 +718,7 @@ class PlayList extends ObjectYPT {
         $url = "{$encoder}view/videosListEPG.php?date_default_timezone=" . urlencode(date_default_timezone_get());
 
         $content = url_get_contents($url);
-        return json_decode($content);
+        return _json_decode($content);
     }
 
     public function getShowOnTV() {

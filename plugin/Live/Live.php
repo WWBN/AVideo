@@ -610,7 +610,7 @@ class Live extends PluginAbstract {
 
             if (!empty($result)) {
                 _error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
-                return json_decode($result);
+                return _json_decode($result);
             }
             _error_log("Live::getStatsObject[$live_servers_id] 4: cache not found");
         } else {
@@ -1062,7 +1062,7 @@ class Live extends PluginAbstract {
             $result = ObjectYPT::getCache($cacheName, maxLifetime() + 60, true);
             if (!empty($result)) {
                 _error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
-                return json_decode($result);
+                return _json_decode($result);
             }
         }
         session_write_close();
@@ -1078,7 +1078,7 @@ class Live extends PluginAbstract {
         $p = AVideoPlugin::loadPlugin("Live");
         $xml = $p->getStatsObject($live_servers_id, $force_recreate);
         $xml = json_encode($xml);
-        $xml = json_decode($xml);
+        $xml = _json_decode($xml);
         $stream = false;
         $lifeStream = array();
 
@@ -1456,7 +1456,7 @@ class Live extends PluginAbstract {
             $cache = ObjectYPT::getCache($name, 60, true);
         }
         if (!empty($cache)) {
-            $json = json_decode($cache);
+            $json = __json_decode($cache);
         }
         
         if (!empty($json) && is_object($json)) {
@@ -1768,7 +1768,7 @@ class Live extends PluginAbstract {
             );
             $output = curl_exec($ch);
             curl_close($ch);
-            return json_decode($output);
+            return _json_decode($output);
         } catch (Exception $exc) {
             _error_log("Live:restream " . $exc->getTraceAsString());
         }

@@ -80,7 +80,7 @@ class SlackBot extends PluginAbstract
                 curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
                 curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
                 $result = curl_exec($c);
-                $userSlackInformation = json_decode($result);
+                $userSlackInformation = _json_decode($result);
                 if ($userSlackInformation->ok == true) {
                     $slackChannel = $userSlackInformation->user->id;
                 } else {

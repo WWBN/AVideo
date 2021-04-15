@@ -1002,22 +1002,18 @@ function avideoAlertHTMLText(title, msg, type) {
 }
 
 function avideoModalIframe(url) {
-    var span = document.createElement("span");
-    url = addGetParam(url, 'avideoIframe', 1);
-    span.innerHTML = '<iframe src="' + url + '" />';
-    swal({
-        content: span,
-        closeModal: true,
-        buttons: false,
-        className: 'swal-modal-iframe',
-        onClose: avideoModalIframeRemove
-    });
-    setTimeout(function () {
-        avideoModalIframeRemove();
-    }, 1000);
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe');
 }
 
 function avideoModalIframeSmall(url) {
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-small');
+}
+
+function avideoModalIframeLarge(url) {
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-large');
+}
+
+function avideoModalIframeWithClassName(url, className) {
     var span = document.createElement("span");
     url = addGetParam(url, 'avideoIframe', 1);
     span.innerHTML = '<iframe src="' + url + '" />';
@@ -1025,7 +1021,7 @@ function avideoModalIframeSmall(url) {
         content: span,
         closeModal: true,
         buttons: false,
-        className: 'swal-modal-iframe-small',
+        className: className,
         onClose: avideoModalIframeRemove
     });
     setTimeout(function () {

@@ -136,7 +136,7 @@ class Vimeo
 
         $response = $this->_request($curl_url, $curl_opts);
 
-        $response['body'] = json_decode($response['body'], true);
+        $response['body'] = _json_decode($response['body'], true);
 
         return $response;
     }

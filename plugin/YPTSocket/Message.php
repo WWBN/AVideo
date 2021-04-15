@@ -122,7 +122,7 @@ class Message implements MessageComponentInterface {
         $SocketGetTotals = null;
         $onMessageSentTo = array();
         //_log_message("onMessage: {$msg}");
-        $json = json_decode($msg);
+        $json = _json_decode($msg);
         if (empty($json)) {
             _log_message("onMessage ERROR: JSON is empty ");
             return false;
@@ -444,7 +444,7 @@ class Message implements MessageComponentInterface {
             return array();
         }
         if (is_string($msg)) {
-            $decoded = json_decode($msg);
+            $decoded = _json_decode($msg);
         } else {
             $decoded = object_to_array($msg);
         }

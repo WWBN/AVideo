@@ -12,7 +12,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 // Getting the mobile submitted value
 $inputJSON = url_get_contents('php://input');
-$input = json_decode($inputJSON, true); //convert JSON into array
+$input = _json_decode($inputJSON, true); //convert JSON into array
 if (!empty($input) && empty($_POST)) {
     foreach ($input as $key => $value) {
         $_POST[$key]=$value;

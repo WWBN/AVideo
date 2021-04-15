@@ -120,7 +120,7 @@ class YPTSocket extends PluginAbstract {
         
         $SocketSendObj = new stdClass();
         $SocketSendObj->msg = $msg;
-        $SocketSendObj->json = json_decode($msg);
+        $SocketSendObj->json = _json_decode($msg);
         
         $SocketSendObj->webSocketToken = getEncryptedInfo(0,$send_to_uri_pattern);
         $SocketSendObj->callback = $callbackJSFunction;

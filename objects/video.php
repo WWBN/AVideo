@@ -854,7 +854,7 @@ if (!class_exists('Video')) {
                         $video['tags'] = self::getTags($video['id']);
                     }
                     if (!empty($video['externalOptions'])) {
-                        $video['externalOptions'] = json_decode($video['externalOptions']);
+                        $video['externalOptions'] = _json_decode($video['externalOptions']);
                     } else {
                         $video['externalOptions'] = new stdClass();
                     }
@@ -1353,7 +1353,7 @@ if (!class_exists('Video')) {
                 unlink($cacheFileName . ".lock");
                 return $total;
             }
-            $return = json_decode(file_get_contents($cacheFileName));
+            $return = _json_decode(file_get_contents($cacheFileName));
             if (time() - filemtime($cacheFileName) > cacheExpirationTime()) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup' '" . json_encode($videosArrayId) . "' '$getStatistcs' '$showUnlisted' '$activeUsersOnly' '{$get}' '{$post}' '{$cacheFileName}'");
@@ -1612,7 +1612,7 @@ if (!class_exists('Video')) {
                 unlink($cacheFileName . ".lock");
                 return $total;
             }
-            $return = json_decode(file_get_contents($cacheFileName));
+            $return = _json_decode(file_get_contents($cacheFileName));
             if (time() - filemtime($cacheFileName) > cacheExpirationTime()) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getTotalVideosInfoAsync.php' "
@@ -2465,7 +2465,7 @@ if (!class_exists('Video')) {
                 unlink($cacheFileName . ".lock");
                 return $total;
             }
-            $return = json_decode(file_get_contents($cacheFileName));
+            $return = _json_decode(file_get_contents($cacheFileName));
             if (time() - filemtime($cacheFileName) > 300) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getTags.php' '$video_id' '$type' '{$cacheFileName}'");
@@ -3472,7 +3472,7 @@ if (!class_exists('Video')) {
                 unlink($cacheFileName . ".lock");
                 return $total;
             }
-            $return = json_decode(file_get_contents($cacheFileName));
+            $return = _json_decode(file_get_contents($cacheFileName));
             if (time() - filemtime($cacheFileName) > cacheExpirationTime()) {
                 // file older than 1 min
                 $command = ("php '{$global['systemRootPath']}objects/getImageFromFilenameAsync.php' '$filename' '$type' '{$cacheFileName}'");
@@ -3966,7 +3966,7 @@ if (!class_exists('Video')) {
         }
 
         public function setVideoStartSeconds($videoStartSeconds) {
-            $externalOptions = json_decode($this->getExternalOptions());
+            $externalOptions = _json_decode($this->getExternalOptions());
             AVideoPlugin::onVideoSetVideoStartSeconds($this->id, $this->videoStartSeconds, $videoStartSeconds);
             $externalOptions->videoStartSeconds = $videoStartSeconds;
             $this->setExternalOptions(json_encode($externalOptions));
@@ -4014,7 +4014,7 @@ if (!class_exists('Video')) {
         public static function decodeEvideo() {
             $evideo = false;
             if (!empty($_GET['evideo'])) {
-                $evideo = json_decode(decryptString($_GET['evideo']));
+                $evideo = _json_decode(decryptString($_GET['evideo']));
             }
             $video = array();
             if (!empty($evideo)) {

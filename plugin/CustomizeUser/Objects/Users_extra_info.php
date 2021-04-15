@@ -149,7 +149,7 @@ class Users_extra_info extends ObjectYPT {
 
     public static function getFromUser($users_id) {
         $u = new User($users_id);
-        return object_to_array(json_decode($u->getExtra_info()));
+        return object_to_array(_json_decode($u->getExtra_info()));
     }
 
 }

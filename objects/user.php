@@ -1631,7 +1631,7 @@ if (typeof gtag !== \"function\") {
     function isRecoverPassExpired($recoverPass) {
         $string = decryptString($recoverPass);
         if ($string) {
-            $json = json_decode($string);
+            $json = _json_decode($string);
             if (is_object($json)) {
                 if (time() < $json->valid) {
                     return false;
@@ -1981,7 +1981,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function decodeVerificationCode($code) {
-        $obj = json_decode(base64_decode($code));
+        $obj = _json_decode(base64_decode($code));
         return $obj;
     }
 
@@ -2126,7 +2126,7 @@ if (typeof gtag !== \"function\") {
 
     public static function loginFromRequest() {
         $inputJSON = url_get_contents('php://input');
-        $input = json_decode($inputJSON, true); //convert JSON into array
+        $input = _json_decode($inputJSON, true); //convert JSON into array
         if (is_array($input)) {
             foreach ($input as $key => $value) {
                 if (empty($_REQUEST[$key])) {

@@ -78,7 +78,7 @@ $arrContextOptions=array(
 $content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
 
 error_log("Control.json.php verification respond content {$content}");
-$json = json_decode($content);
+$json = _json_decode($content);
 
 if (empty($json)) {
     $obj->msg = "Could not verify token";

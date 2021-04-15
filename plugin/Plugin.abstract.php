@@ -102,12 +102,12 @@ abstract class PluginAbstract {
             //echo $obj['object_data'];
             $o = array();
             if (!empty($obj['object_data'])) {
-                $o = json_decode(stripslashes($obj['object_data']));
+                $o = _json_decode(stripslashes($obj['object_data']));
                 $json_last_error = json_last_error();
                 if ($json_last_error !== JSON_ERROR_NONE) {
                     //var_dump($this->getName(), $json_last_error, $o, $obj['object_data']);
                     //_error_log('getDataObject - JSON error (' . $json_last_error . ') ' . $this->getName()." ".$this->getUUID());
-                    $o = json_decode($obj['object_data']);
+                    $o = _json_decode($obj['object_data']);
                     $json_last_error = json_last_error();
                 }
                 switch ($json_last_error) {

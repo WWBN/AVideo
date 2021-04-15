@@ -111,7 +111,7 @@ class IP2Location extends ObjectYPT {
             $content = file_get_contents($cachefile);
         }
 
-        return json_decode($content);
+        return _json_decode($content);
     }
 
     static function getRegions($country_name) {
@@ -146,7 +146,7 @@ class IP2Location extends ObjectYPT {
             $content = file_get_contents($cachefile);
         }
 
-        return json_decode($content);
+        return _json_decode($content);
     }
 
     static function getCities($country_name, $region_name) {
@@ -182,7 +182,7 @@ class IP2Location extends ObjectYPT {
             $content = file_get_contents($cachefile);
         }
 
-        return json_decode($content);
+        return _json_decode($content);
     }
 
 }

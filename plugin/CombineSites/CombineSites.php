@@ -78,7 +78,7 @@ class CombineSites extends PluginAbstract {
         $result = ObjectYPT::getCache($cacheName,$obj->cacheTimeInSeconds);
         if(empty($result)){
             $result = url_get_contents($url);
-            $result = json_decode($result);
+            $result = _json_decode($result);
             ObjectYPT::setCache($cacheName, $result);
         }
         if(empty($result)){

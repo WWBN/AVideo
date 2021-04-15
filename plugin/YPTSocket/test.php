@@ -58,7 +58,7 @@ function _test_send($SocketURL, $msg) {
         global $SocketSendObj;
         $conn->on('message', function($msg) use ($conn, $_count) {
             global $responses;
-            $json = json_decode($msg->getPayload());
+            $json = _json_decode($msg->getPayload());
             //var_dump($json);
             $parts = explode(':', $json->msg->test_msg);
             $c = new AVideoSocketConfiguration($parts[0], $parts[2], $parts[1], true);

@@ -21,7 +21,7 @@ if(empty($plugin)){
 
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
-$input = json_decode($inputJSON, TRUE); //convert JSON into array
+$input = _json_decode($inputJSON, TRUE); //convert JSON into array
 if(empty($input)){
     $input = array();
 }

@@ -20,7 +20,7 @@ $obj->error = true;
 $api = $razorpay->start();
 
 $json = file_get_contents('php://input');
-$webhookBody = json_decode($json);
+$webhookBody = _json_decode($json);
 
 //_error_log("RazorPayIPN header - " . json_encode($_SERVER));
 _error_log("RazorPayIPN Body - {$json}");
