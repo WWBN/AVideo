@@ -1456,7 +1456,7 @@ class Live extends PluginAbstract {
             $cache = ObjectYPT::getCache($name, 60, true);
         }
         if (!empty($cache)) {
-            $json = __json_decode($cache);
+            $json = _json_decode($cache);
         }
         
         if (!empty($json) && is_object($json)) {
