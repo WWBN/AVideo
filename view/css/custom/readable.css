@@ -18,3 +18,11 @@
 #sidebar {
     margin-top: 65px  !important;
 }
+
+#myNavbar .select2-container{
+    margin-top: 12.5px;
+    margin-bottom: 12.5px;
+}
+#myNavbar .select2-selection{
+    height: 40px;
+}
