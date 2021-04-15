@@ -1397,8 +1397,14 @@ if (typeof gtag !== \"function\") {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT id FROM users WHERE 1=1  ";
-        $sql .= " AND id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
+        $sql .= " AND (id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
 
+        $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
+        if(!empty($ids) && is_array($ids)){
+            $ids = array_unique($ids);
+            $sql .= " OR id IN ('". implode("','", $ids)."') ";
+        }
+        $sql .= " ) ";
         if (!empty($status)) {
             if (strtolower($status) === 'i') {
                 $sql .= " AND status = 'i' ";
