@@ -6465,16 +6465,33 @@ function videosHashToID($hash_of_videos_id){
     return $hash_of_videos_id;
 }
 
-function getCDN(){
+/**
+ * 
+ * @global type $advancedCustom
+ * @global type $global
+ * @global type $_getCDNURL
+ * @param type $type enum(CDN, CDN_S3,CDN_B2,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
+ * @param type $id the ID of the URL in case the CDN is an array 
+ * @return \type
+ */
+function getCDN($type='', $id = 0){
     global $advancedCustom, $global, $_getCDNURL;
+    if(!isset($_getCDNURL)){
+        $_getCDNURL = array();
+    }
     if(!empty($global['ignoreCDN'])){
         return $global['webSiteRootURL'];
-    }else if(empty($_getCDNURL)){
-        if(isValidURL($advancedCustom->videosCDN)){
-            $_getCDNURL = addLastSlash($advancedCustom->videosCDN);
+    }else if(empty($_getCDNURL[$type])){
+        if(!empty($type) && AVideoPlugin::isEnabledByName('CDN')){
+            $_getCDNURL[$type] = CDN::getURL($type);
+            if(empty($_getCDNURL[$type])){
+                $_getCDNURL[$type] = $global['webSiteRootURL'];
+            }
+        }else if(isValidURL($advancedCustom->videosCDN)){
+            $_getCDNURL[$type] = addLastSlash($advancedCustom->videosCDN);
         }else{
-            $_getCDNURL = $global['webSiteRootURL'];
+            $_getCDNURL[$type] = $global['webSiteRootURL'];
         }
     }
-    return $_getCDNURL;
+    return $_getCDNURL[$type];
 }
