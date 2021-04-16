@@ -86,8 +86,8 @@ class CDN extends PluginAbstract {
                     //var_dump(!empty($json), is_object($json), is_array($json));exit;
                     if (!empty($json) && (is_object($json) || is_array($json))) {
                         foreach ($json as $value) {
-                            if ($json->id == $id) {
-                                $url = $json->URLToCDN;
+                            if ($value->id == $id) {
+                                $url = $value->URLToCDN;
                                 break;
                             }
                         }
