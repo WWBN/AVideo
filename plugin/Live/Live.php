@@ -2021,7 +2021,7 @@ class LiveStreamObject {
                 $this->live_index = $_REQUEST['live_index'];
             }
 
-            if (empty($this->live_index) && !empty($objLive->allowMultipleLivesPerUser)) {
+            if (empty($this->live_index) && !empty($objLive->allowMultipleLivesPerUser) && !isLive()) {
                 $this->live_index = date('His');
             }
         }
