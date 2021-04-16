@@ -2093,13 +2093,13 @@ class LiveStreamObject {
         }
         
         $uuid = $this->getKeyWithIndex();
-        
+        $playerServer = addLastSlash($playerServer);
         if ($o->protectLive && empty($doNotProtect)) {
             return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$this->live_servers_id}&uuid=" . encryptString($uuid);
         } else if ($o->useAadaptiveMode) {
-            return $playerServer . "/{$uuid}.m3u8";
+            return $playerServer . "{$uuid}.m3u8";
         } else {
-            return $playerServer . "/{$uuid}/index.m3u8";
+            return $playerServer . "{$uuid}/index.m3u8";
         }
     }
 
