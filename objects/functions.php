@@ -6474,7 +6474,7 @@ function videosHashToID($hash_of_videos_id){
  * @param type $id the ID of the URL in case the CDN is an array 
  * @return \type
  */
-function getCDN($type='', $id = 0){
+function getCDN($type='CDN', $id = 0){
     global $advancedCustom, $global, $_getCDNURL;
     if(!isset($_getCDNURL)){
         $_getCDNURL = array();
