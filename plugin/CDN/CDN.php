@@ -83,7 +83,7 @@ class CDN extends PluginAbstract {
             case 'CDN_YPTStorage':
                 if (!empty($id)) {
                     $json = _json_decode($obj->{$type});
-                    //var_dump(!empty($json), is_object($json), is_array($json));
+                    //var_dump(!empty($json), is_object($json), is_array($json));exit;
                     if (!empty($json) && (is_object($json) || is_array($json))) {
                         foreach ($json as $value) {
                             if ($json->id == $id) {
