@@ -59,6 +59,13 @@ if (!empty($plugin)) {
     }
 }
 
+// Update FTP CDN
+$resp->CDN_FTP = '';
+$plugin = AVideoPlugin::getDataObjectIfEnabled('FTP_Storage');
+if (!empty($plugin)) {
+    $resp->CDN_FTP = addLastSlash($plugin->endpoint);
+}
+
 // Update YPT Storage CDN
 $resp->CDN_YPTStorage = array();
 $plugin = AVideoPlugin::getDataObjectIfEnabled('YPTStorage');

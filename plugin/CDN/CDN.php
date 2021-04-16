@@ -37,6 +37,7 @@ class CDN extends PluginAbstract {
         $obj->CDN = "";
         $obj->CDN_S3 = "";
         $obj->CDN_B2 = "";
+        $obj->CDN_FTP = "";
         // this is a JSON with site_id + URL
         $obj->CDN_YPTStorage = ""; // array
         $obj->CDN_Live = "";
@@ -74,6 +75,7 @@ class CDN extends PluginAbstract {
             case 'CDN':
             case 'CDN_S3':
             case 'CDN_B2':
+            case 'CDN_FTP':
             case 'CDN_Live':
                 $url = $obj->{$type};
                 break;
