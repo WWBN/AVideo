@@ -6508,6 +6508,9 @@ function getCDNOrURL($url, $type = 'CDN', $id = 0) {
 }
 
 function isIPPrivate($ip) {    
+    if(!filter_var($ip, FILTER_VALIDATE_IP)){
+        return false;
+    }
     $result = filter_var(
             $ip,
             FILTER_VALIDATE_IP,
