@@ -2022,7 +2022,7 @@ class LiveStreamObject {
             }
 
             if (empty($this->live_index) && !empty($objLive->allowMultipleLivesPerUser) && !isLive()) {
-                $this->live_index = date('His');
+                //$this->live_index = date('His');
             }
         }
         $this->key = $parts['cleanKey'];
