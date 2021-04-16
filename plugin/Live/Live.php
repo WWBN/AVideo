@@ -1,5 +1,4 @@
 <?php
-
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
@@ -491,10 +490,12 @@ class Live extends PluginAbstract {
     static function getPlayerServer() {
         $obj = AVideoPlugin::getObjectData("Live");
         $url = $obj->playerServer;
+        $url = getCDNOrURL($url, 'CDN_Live');
         if (!empty($obj->useLiveServers)) {
             $ls = new Live_servers(self::getLiveServersIdRequest());
             if (!empty($ls->getPlayerServer())) {
                 $url = $ls->getPlayerServer();
+                $url = getCDNOrURL($url, 'CDN_LiveServers', $ls->getId());
             }
         }
         $url = str_replace("encoder.gdrive.local", "192.168.1.18", $url);
@@ -539,25 +540,8 @@ class Live extends PluginAbstract {
     }
 
     static function getM3U8File($uuid, $doNotProtect = false) {
-        global $global;
-        $o = AVideoPlugin::getObjectData("Live");
-        $playerServer = self::getPlayerServer();
-        $live_servers_id = self::getLiveServersIdRequest();
-        $liveServer = new Live_servers($live_servers_id);
-        if ($liveServer->getStats_url()) {
-            $o->protectLive = $liveServer->getProtectLive();
-            $o->useAadaptiveMode = $liveServer->getUseAadaptiveMode();
-        }
-
-//$uuid = LiveTransmition::keyNameFix($uuid);
-
-        if ($o->protectLive && empty($doNotProtect)) {
-            return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$live_servers_id}&uuid=" . encryptString($uuid);
-        } else if ($o->useAadaptiveMode) {
-            return $playerServer . "/{$uuid}.m3u8";
-        } else {
-            return $playerServer . "/{$uuid}/index.m3u8";
-        }
+        $lso = new LiveStreamObject($uuid, $live_servers_id, false, false);
+        return $lso->getM3U8($doNotProtect);
     }
 
     public function getDisableGifThumbs() {

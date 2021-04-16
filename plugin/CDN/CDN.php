@@ -65,7 +65,10 @@ class CDN extends PluginAbstract {
         if (empty($obj->{$type})) {
             return false;
         }
-
+        if(isIPPrivate(getDomain())){
+            _error_log('The CDN will not work under a private network $type='.$type);
+            return false;
+        }
         $url = '';
         switch ($type) {
             case 'CDN':
