@@ -13,7 +13,7 @@ if ($objLive->allowMultipleLivesPerUser) {
         }
     }
 }
-$key = $liveStreamObject->getKeyWithIndex();
+$key = $liveStreamObject->getKeyWithIndex(true);
 ?>
 <style>
     #streamkey{

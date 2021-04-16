@@ -1,4 +1,5 @@
 <?php
+
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
@@ -850,20 +851,20 @@ class Live extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        
+
         $obj = $this->getDataObject();
-        
-        $btn = '<button onclick="avideoModalIframeLarge(\''.$global['webSiteRootURL'].'plugin/Live/view/editor.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> ' . __('Edit Live Servers') . '</button>';
-        
-        if($obj->useLiveServers){
+
+        $btn = '<button onclick="avideoModalIframeLarge(\'' . $global['webSiteRootURL'] . 'plugin/Live/view/editor.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> ' . __('Edit Live Servers') . '</button>';
+
+        if ($obj->useLiveServers) {
             $servers = Live_servers::getAll();
             foreach ($servers as $value) {
-                $btn .= '<button onclick="avideoModalIframeSmall(\''.$global['webSiteRootURL'].'plugin/Live/test.php?statsURL='. urlencode($value['stats_url']).'\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Server') . ' '.$value['id'].'</button>';
+                $btn .= '<button onclick="avideoModalIframeSmall(\'' . $global['webSiteRootURL'] . 'plugin/Live/test.php?statsURL=' . urlencode($value['stats_url']) . '\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Server') . ' ' . $value['id'] . '</button>';
             }
-        }else{
-            $btn .= '<button onclick="avideoModalIframeSmall(\''.$global['webSiteRootURL'].'plugin/Live/test.php?statsURL='. urlencode($obj->stats).'\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Stats') . '</button>';
+        } else {
+            $btn .= '<button onclick="avideoModalIframeSmall(\'' . $global['webSiteRootURL'] . 'plugin/Live/test.php?statsURL=' . urlencode($obj->stats) . '\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Stats') . '</button>';
         }
-        
+
         return $btn;
     }
 
@@ -1456,7 +1457,7 @@ class Live extends PluginAbstract {
         if (!empty($cache)) {
             $json = _json_decode($cache);
         }
-        
+
         if (!empty($json) && is_object($json)) {
             $_isLiveAndIsReadyFromKey[$name] = $json->result;
         } else {
@@ -2010,7 +2011,7 @@ class LiveStreamObject {
         $this->playlists_id_live = intval($playlists_id_live);
         $parts = Live::getLiveParametersFromKey($this->key);
         $objLive = AVideoPlugin::getDataObject("Live");
-        if(empty($live_servers_id) && !empty($objLive->useLiveServers)){
+        if (empty($live_servers_id) && !empty($objLive->useLiveServers)) {
             $live_servers_id = Live::getLiveServersIdRequest();
         }
         if (empty($this->live_index)) {
@@ -2020,10 +2021,6 @@ class LiveStreamObject {
             } else if (!empty($_REQUEST['live_index'])) {
                 $this->live_index = $_REQUEST['live_index'];
             }
-
-            if (empty($this->live_index) && !empty($objLive->allowMultipleLivesPerUser) && !isLive()) {
-                //$this->live_index = date('His');
-            }
         }
         $this->key = $parts['cleanKey'];
         $this->live_index = preg_replace('/[^0-9a-z]/i', '', $this->live_index);
@@ -2032,8 +2029,14 @@ class LiveStreamObject {
     function getKey() {
         return $this->key;
     }
-    
-    function getKeyWithIndex() {
+
+    function getKeyWithIndex($forceIndexIfEnabled = false) {
+        if ($forceIndexIfEnabled) {
+            $objLive = AVideoPlugin::getDataObject("Live");
+            if (empty($this->live_index) && !empty($objLive->allowMultipleLivesPerUser)) {
+                $this->live_index = date('His');
+            }
+        }
         return Live::getLiveKeyFromRequest($this->key, $this->live_index, $this->playlists_id_live);
     }
 
@@ -2044,15 +2047,15 @@ class LiveStreamObject {
     function getLive_index() {
         return $this->live_index;
     }
-    
+
     function getPlaylists_id_live() {
         return $this->playlists_id_live;
     }
-    
+
     function getURL() {
         global $global;
         $lt = LiveTransmition::getFromKey($this->key);
-        if(empty($lt)){
+        if (empty($lt)) {
             return false;
         }
         $user = new User($lt['users_id']);
@@ -2079,19 +2082,19 @@ class LiveStreamObject {
         return addQueryStringParameter($url, 'embed', 1);
     }
 
-    function getM3U8($doNotProtect=false) {
+    function getM3U8($doNotProtect = false) {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
         $playerServer = Live::getPlayerServer();
         $live_servers_id = Live::getLiveServersIdRequest();
-        if(!empty($this->live_servers_id)){
+        if (!empty($this->live_servers_id)) {
             $liveServer = new Live_servers($this->live_servers_id);
             if ($liveServer->getStats_url()) {
                 $o->protectLive = $liveServer->getProtectLive();
                 $o->useAadaptiveMode = $liveServer->getUseAadaptiveMode();
             }
         }
-        
+
         $uuid = $this->getKeyWithIndex();
         $playerServer = addLastSlash($playerServer);
         if ($o->protectLive && empty($doNotProtect)) {
