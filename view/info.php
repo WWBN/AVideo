@@ -5,7 +5,7 @@ $cachedFile = '../videos/cache/version.cache';
 
 if(file_exists($cachedFile)){
     $content = file_get_contents($cachedFile);
-    $json = _json_decode($content);
+    $json = json_decode($content);
     if(!empty($json)){
         $json->cache = filectime($cachedFile);
         echo json_encode($json);
