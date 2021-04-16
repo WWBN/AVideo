@@ -37,10 +37,11 @@ class CDN extends PluginAbstract {
         $obj->CDN = "";
         $obj->CDN_S3 = "";
         $obj->CDN_B2 = "";
-        $obj->CDN_YPTStorage = "";
+        // this is a JSON with site_id + URL
+        $obj->CDN_YPTStorage = ""; // array
         $obj->CDN_Live = "";
         // this is a JSON with servers_id + URL
-        $obj->CDN_LiveServers = "";
+        $obj->CDN_LiveServers = ""; // array
 
         return $obj;
     }
@@ -49,6 +50,51 @@ class CDN extends PluginAbstract {
         global $global;
         $fileAPIName = $global['systemRootPath'] . 'plugin/CDN/pluginMenu.html';
         return file_get_contents($fileAPIName);
+    }
+
+    /**
+     * 
+     * @param type $type enum(CDN, CDN_S3,CDN_B2,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
+     * @param type $id the ID of the URL in case the CDN is an array 
+     * @return boolean
+     */
+    static public function getURL($type = 'CDN', $id = 0) {
+
+        $obj = AVideoPlugin::getObjectData('CDN');
+
+        if (empty($obj->{$type})) {
+            return false;
+        }
+
+        $url = '';
+        switch ($type) {
+            case 'CDN':
+            case 'CDN_S3':
+            case 'CDN_B2':
+            case 'CDN_Live':
+                $url = $obj->{$type};
+                break;
+            case 'CDN_LiveServers':
+            case 'CDN_YPTStorage':
+                if (!empty($id)) {
+                    $json = _json_decode($obj->{$type});
+                    if (!empty($json) && is_object($json)) {
+                        foreach ($json as $value) {
+                            if ($json->id == $id) {
+                                $url = $json->URLToCDN;
+                                break;
+                            }
+                        }
+                    }
+                }
+                break;
+        }
+
+        if (!empty($url) && isValidURL($url)) {
+            return addLastSlash($url);
+        }
+
+        return false;
     }
 
 }
