@@ -6487,9 +6487,6 @@ function getCDN($type = 'CDN', $id = 0) {
     } else if (empty($_getCDNURL[$index])) {
         if (!empty($type) && AVideoPlugin::isEnabledByName('CDN')) {
             $_getCDNURL[$index] = CDN::getURL($type);
-            if (empty($_getCDNURL[$index])) {
-                $_getCDNURL[$index] = $global['webSiteRootURL'];
-            }
         } else if (isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
         } else {
