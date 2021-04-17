@@ -59,7 +59,7 @@ if($whichffmpeg!==$ffmpegBinary){
 
 $request = file_get_contents("php://input");
 error_log("Restreamer.json.php php://input {$request}");
-$robj = json_decode($request);
+$robj = _json_decode($request);
 
 $obj = new stdClass();
 $obj->error = true;
@@ -98,7 +98,7 @@ $arrContextOptions=array(
 $content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
 
 error_log("Restreamer.json.php verification respond content {$content}");
-$json = json_decode($content);
+$json = _json_decode($content);
 
 if (empty($json)) {
     $obj->msg = "Could not verify token";
