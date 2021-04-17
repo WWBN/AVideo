@@ -6489,10 +6489,12 @@ function getCDN($type = 'CDN', $id = 0) {
             $_getCDNURL[$index] = CDN::getURL($type, $id);
         } else if (isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
-        } else {
-            $_getCDNURL[$index] = $global['webSiteRootURL'];
         }
     }
+    if(empty($_getCDNURL[$index]) && $type=='CDN'){
+        $_getCDNURL[$index] = $global['webSiteRootURL'];
+    }
+    //var_dump($type, $id, $_getCDNURL[$index]);
     return $_getCDNURL[$index];
 }
 

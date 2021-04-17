@@ -490,7 +490,7 @@ class Live extends PluginAbstract {
 
     static function getPlayerServer() {
         $obj = AVideoPlugin::getObjectData("Live");
-        $url = $obj->playerServer;
+        $url = $obj->playerServer;var_dump($url);
         $url = getCDNOrURL($url, 'CDN_Live');
         if (!empty($obj->useLiveServers)) {
             $ls = new Live_servers(self::getLiveServersIdRequest());
