@@ -541,6 +541,7 @@ class Live extends PluginAbstract {
     }
 
     static function getM3U8File($uuid, $doNotProtect = false) {
+        $live_servers_id = self::getLiveServersIdRequest();
         $lso = new LiveStreamObject($uuid, $live_servers_id, false, false);
         return $lso->getM3U8($doNotProtect);
     }
