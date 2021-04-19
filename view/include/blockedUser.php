@@ -9,8 +9,8 @@
                         <br>
                         <br>
                         <i class="fas fa-user-slash fa-3x"></i><hr>
-                        You've blocked user (<?php echo User::getNameIdentificationById($video['users_id'])?>)<br>
-                        You won't see any comments or videos from this user<hr>
+                        <?php echo __("You've blocked user ").User::getNameIdentificationById($video['users_id']); ?><br>
+                        <?php echo __("You won't see any comments or videos from this user"); ?><hr>
                         <?php
                         echo User::getblockUserButton($video['users_id']);
                         ?>
