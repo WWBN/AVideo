@@ -549,4 +549,9 @@ $t["Encoder Network"] = "Encoder Network";
 $t["Upload a file or download it from the Internet"] = "Envie um vídeo ou baixe";
 $t["Encode video and audio"] = "Codificar vídeo e áudio";
 $t["Configure an Encoder URL"] = "Configurar uma URL de encoder";
+//---- view/include/footer.php
+$t['You have a new version to install'] = "Uma nova versão está disponível para atualização";
+//---- view/include/blockedUser.php
+$t["You've blocked user "] = "Você bloqueou o usuário ";
+$t["You won't see any comments or videos from this user"] = "Você não poderá ver comentários ou vídeos deste usuário";
 
