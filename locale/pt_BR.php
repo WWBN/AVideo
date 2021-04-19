@@ -533,3 +533,14 @@ $t["Extra Permissions"] = "Permissões extras";
 $t["Channels"] = "Canais";
 $t["Browse Channels"] = "Procurar canais";
 $t["Play a Link"] = "Assistir um link";
+//---- view/include/updateCheck.php
+$t["Database-update needed"] = "Atualização de banco de dados requerida";
+$t['You have version '] = "Você está com a versão ";
+$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "instalada, mas o banco de dados não está atualizado. Isto pode causar erros. Atualize sua versão do banco de dados.";
+$t['Copy to Clipboard'] = "Copiar para a área de transferência";
+//---- view/include/offlinePage.php
+$t["Site Maintenance"] = "Manutenção do site";
+$t["We&rsquo;ll be back soon!"] = "Volte mais tarde!";
+$t["Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment."] = "Desculpem-nos pela inconveniência, mas estamos realizando manutenção no site neste momento";
+$t["&mdash; The Team"] = "Equipe de desenvolvimento do site";
+
