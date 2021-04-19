@@ -222,6 +222,9 @@ class UserGroups {
         $sql = "INSERT INTO users_has_users_groups ( users_id, users_groups_id) VALUES (?,?)";
         foreach ($array_groups_id as $value) {
             $value = intval($value);
+            if(empty($value)){
+                continue;
+            }
             sqlDAL::writeSql($sql,"ii",array($users_id,$value));
         }
 
