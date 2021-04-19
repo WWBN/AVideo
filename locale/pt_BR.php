@@ -529,4 +529,7 @@ $t"Clear First Page Cache"] = "Limpar cache da página inicial";
 $t["Clear Cache Directory"] = "Limpar cache geral";
 $t["Log file"] = "Auditoria";
 $t["Generate Sitemap"] = "Gerar sitemap";
-
+$t["Extra Permissions"] = "Permissões extras";
+$t["Channels"] = "Canais";
+$t["Browse Channels"] = "Procurar canais";
+$t["Play a Link"] = "Assistir um link";
