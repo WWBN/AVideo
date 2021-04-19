@@ -543,4 +543,10 @@ $t["Site Maintenance"] = "Manutenção do site";
 $t["We&rsquo;ll be back soon!"] = "Volte mais tarde!";
 $t["Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment."] = "Desculpem-nos pela inconveniência, mas estamos realizando manutenção no site neste momento";
 $t["&mdash; The Team"] = "Equipe de desenvolvimento do site";
+//---- view/include/navbarEncoder.php
+$t["Choose one of our encoders to upload a file or download it from the Internet"] = 'Escolha um dos encoders para enviar um vídeo ou crie seu próprio encoder';
+$t["Encoder Network"] = "Encoder Network";
+$t["Upload a file or download it from the Internet"] = "Envie um vídeo ou baixe";
+$t["Encode video and audio"] = "Codificar vídeo e áudio";
+$t["Configure an Encoder URL"] = "Configurar uma URL de encoder";
 
