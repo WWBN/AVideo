@@ -525,7 +525,7 @@ $t["Dashboard"] = "Painel de controle";
 $t["My Subscribers"] = "Meus assinantes";
 $t["Admin Panel"] = "Painel administrativo";
 $t["Site Configurations"] = "Configurações do site";
-$t"Clear First Page Cache"] = "Limpar cache da página inicial";
+$t["Clear First Page Cache"] = "Limpar cache da página inicial";
 $t["Clear Cache Directory"] = "Limpar cache geral";
 $t["Log file"] = "Auditoria";
 $t["Generate Sitemap"] = "Gerar sitemap";
@@ -554,4 +554,54 @@ $t['You have a new version to install'] = "Uma nova versão está disponível pa
 //---- view/include/blockedUser.php
 $t["You've blocked user "] = "Você bloqueou o usuário ";
 $t["You won't see any comments or videos from this user"] = "Você não poderá ver comentários ou vídeos deste usuário";
-
+//---- view/about.php
+$t["I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible."] = "Agradeço humildemente a Deus por me dar o conhecimento, a motivação, os recursos e a ideia necessária para poder executar este projeto. Sem a permissão de Deus isso nunca seria possível.";
+$t["For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen."] = "Porque Dele, e por Ele, e para Ele são todas as coisas; a quem seja glória para sempre. Amém.";
+$t["Apostle Paul in"] = "Apóstolo Paulo em";
+$t["Romans 11:36"] = "Romanos 11:36";
+$t["Main Site"] = "Site principal";
+$t["Demo Site"] = "Site de demonstração";
+$t["Tutorials Site"] = "Site de tutoriais";
+$t["Issues and requests Site"] = "Site de problemas e requisições";
+$t["You are running AVideo version %s!"] = "Você tem a versão %s do AVideo!";
+$t["You can upload max of %s!"] = "Você pode enviar arquivos no máximo de %s!";
+$t["You have %s minutes of videos!"] = "Você tem %s minutos de vídeos!";
+$t["You are using"] = "Você está usando";
+$t["on"] = "em";
+//---- view/channel.php
+$t["This user is inactive"] = "Este usuário está inativo";
+//---- view/channelBody.php
+$t["Show More"] = "Mostrar mais";
+$t["Show Less"] = "Mostrar menos";
+$t['Organize'] = "Organizar";
+//---- view/channelPlaylist.php
+$t["Copied!"] = "Copiado!";
+$t["Copy embed code"] = "Copiar código para embutir";
+//---- view/channelPlaylistItems.php
+$t['Sorry you do not have anything available'] = "Desculpe, você não tem nada para listar disponível";
+$t["Play All"] = "Reproduzir tudo";
+$t["Serie"] = "Série";
+$t['ago'] = "atrás";
+$t["Trailer"] = "Trailer";
+$t["Added On Watch Later"] = "Adicionado para assistir depois";
+$t["Watch Later"] = "Assistir depois";
+$t["Added On Favorite"] = "Adicionado em favoritos";
+$t["Favorite"] = "Favorito";
+$t["Edit Video"] = "Editar";
+$t["Change Playlist Name"] = "Renomear playlist";
+$t["Confirm Playlist name"] = "Confirmar nome da playlist";
+//----- view/channelProgram.php
+$t['Add To Serie'] = "Adicionar à série";
+$t["Program"] = "Programa";
+$t["Auto Sort"] = "Auto-ordenar";
+$t["Alphabetical"] = "Alfabética";
+$t["Created Date"] = "Data de criação";
+$t['Add this playlist in your video library'] = "Adicionar esta playlist em sua biblioteca";
+$t['Add to Program'] = "Adicionar ao programa";
+$t['This playlist is private, click to make it public'] = "Esta playlist é privada, clique aqui para torná-la pública";
+$t['This playlist is public, click to make it unlisted'] = "Esta playlist é pública, clique aqui para torná-la não-listada";
+$t['This playlist is unlisted, click to make it private'] = "Esta playlist é não-listada, clique aqui para torná-la privada";
+$t["Sort"] = "Ordenar";
+$t["Drag and drop to sort"] = "Arraste e solte para ordenar";
+$t["Series"] = "Séries";
+$t['Search Serie'] = "Procurar série";
