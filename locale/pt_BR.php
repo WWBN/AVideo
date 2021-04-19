@@ -256,6 +256,7 @@ $t['Sign in now!'] = "Registre-se agora mesmo!";
 $t['Sign in to add this video to a playlist.'] = "Efetue login para adicionar esse vídeo a uma lista.";
 $t['Sign in'] = "Fazer Login";
 $t['Sign out'] = "Sair";
+$t['Sign Out'] = "Sair"; // adicionado 19-apr-2021
 $t['Sign up'] = "Registrar-se";
 $t['Site Configurations'] = "Configurações do site";
 $t['Skip Ad'] = "Pular anúncio";
@@ -507,3 +508,50 @@ $t['Welcome back!'] = "Bem-vindo novamente!";
 $t['Show/Hide Password'] = 'Mostrar/esconder senha';
 $t['Use this to recover your password'] = 'Clique aqui para recuperar sua senha';
 $t['Are you new here?'] = 'Novo por aqui? Registre-se';
+//--- added 19 april 2021 by Julian Romero
+//---- navbar and header missing translations
+$t['Main Menu'] = "Menu Principal";
+$t["Submit your videos"] = "Enviar vídeos";
+$t["Upload files without encode"] = "Enviar vídeos sem codificar";
+$t["Direct upload"] = "Upload direto";
+$t["Search for videos in your local disk"] = "Procurar vídeos na máquina local";
+$t["Direct Import Local Videos"] = "Importar vídeos locais diretamente";
+$t["Embed videos/files in your site"] = "Embutir vídeos/arquivos no site";
+$t["Embed a video link"] = "Embutir um link de vídeo";
+$t["Write an article"] = "Escrever um artigo";
+$t["Add Article"] = "Adicionar artigo";
+$t["Only verified users can upload"] = "Apenas usuários verificados podem enviar vídeos"];
+$t["Dashboard"] = "Painel de controle";
+$t["My Subscribers"] = "Meus assinantes";
+$t["Admin Panel"] = "Painel administrativo";
+$t["Site Configurations"] = "Configurações do site";
+$t"Clear First Page Cache"] = "Limpar cache da página inicial";
+$t["Clear Cache Directory"] = "Limpar cache geral";
+$t["Log file"] = "Auditoria";
+$t["Generate Sitemap"] = "Gerar sitemap";
+$t["Extra Permissions"] = "Permissões extras";
+$t["Channels"] = "Canais";
+$t["Browse Channels"] = "Procurar canais";
+$t["Play a Link"] = "Assistir um link";
+//---- view/include/updateCheck.php
+$t["Database-update needed"] = "Atualização de banco de dados requerida";
+$t['You have version '] = "Você está com a versão ";
+$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "instalada, mas o banco de dados não está atualizado. Isto pode causar erros. Atualize sua versão do banco de dados.";
+$t['Copy to Clipboard'] = "Copiar para a área de transferência";
+//---- view/include/offlinePage.php
+$t["Site Maintenance"] = "Manutenção do site";
+$t["We&rsquo;ll be back soon!"] = "Volte mais tarde!";
+$t["Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment."] = "Desculpem-nos pela inconveniência, mas estamos realizando manutenção no site neste momento";
+$t["&mdash; The Team"] = "Equipe de desenvolvimento do site";
+//---- view/include/navbarEncoder.php
+$t["Choose one of our encoders to upload a file or download it from the Internet"] = 'Escolha um dos encoders para enviar um vídeo ou crie seu próprio encoder';
+$t["Encoder Network"] = "Encoder Network";
+$t["Upload a file or download it from the Internet"] = "Envie um vídeo ou baixe";
+$t["Encode video and audio"] = "Codificar vídeo e áudio";
+$t["Configure an Encoder URL"] = "Configurar uma URL de encoder";
+//---- view/include/footer.php
+$t['You have a new version to install'] = "Uma nova versão está disponível para atualização";
+//---- view/include/blockedUser.php
+$t["You've blocked user "] = "Você bloqueou o usuário ";
+$t["You won't see any comments or videos from this user"] = "Você não poderá ver comentários ou vídeos deste usuário";
+
