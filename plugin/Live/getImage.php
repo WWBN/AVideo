@@ -24,7 +24,7 @@ if (empty($livet)) {
         _error_log('getImage: File NOT exists 1 '.$uploadedPoster);
     }
 }else if (!Live::isLive($livet['users_id'])) { 
-    $uploadedPoster = $global['systemRootPath'] . Live::getPoster($livet['users_id'], $_REQUEST['live_servers_id']);
+    $uploadedPoster = $global['systemRootPath'] . Live::getPoster($livet['users_id'], $_REQUEST['live_servers_id']); 
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
     if (file_exists($uploadedPoster)) {
         _error_log('getImage: File NOT exists 2 '.$uploadedPoster);

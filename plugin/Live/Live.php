@@ -1576,6 +1576,15 @@ class Live extends PluginAbstract {
 
         return $file;
     }
+    
+    public static function getPosterImageOrFalse($users_id, $live_servers_id) {
+        $poster = self::getPosterImage($users_id, $live_servers_id); 
+        if(preg_match('/OnAir.jpg$/', $poster)){
+            return false;
+        }
+
+        return $poster;
+    }
 
     public function getLivePosterImage($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format = 'jpg') {
         global $global;
@@ -1625,9 +1634,13 @@ class Live extends PluginAbstract {
     public static function getPoster($users_id, $live_servers_id, $key = '') {
         _error_log("getPoster($users_id, $live_servers_id, $key)");
         $lh = LiveTransmitionHistory::getActiveLiveFromUser($users_id, $live_servers_id, $key);
+        $poster = self::getPosterImageOrFalse($users_id, $live_servers_id, $live_index);
+        if(empty($poster)){
+            $poster = self::getOfflineImage(false);
+        }
         if (empty($lh)) {
             _error_log("getPoster empty activity");
-            return self::getOfflineImage(false);
+            return $poster;
         }
         $parameters = self::getLiveParametersFromKey($lh['key']);
         $live_index = $parameters['live_index'];
@@ -1641,7 +1654,7 @@ class Live extends PluginAbstract {
                 return self::getPosterImage($users_id, $live_servers_id, $live_index);
             } else {
                 _error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' key is NOT in the stats');
-                return self::getOfflineImage(false);
+                return $poster;
             }
         }
     }
