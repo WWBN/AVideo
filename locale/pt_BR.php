@@ -256,6 +256,7 @@ $t['Sign in now!'] = "Registre-se agora mesmo!";
 $t['Sign in to add this video to a playlist.'] = "Efetue login para adicionar esse vídeo a uma lista.";
 $t['Sign in'] = "Fazer Login";
 $t['Sign out'] = "Sair";
+$t['Sign Out'] = "Sair"; // adicionado 19-apr-2021
 $t['Sign up'] = "Registrar-se";
 $t['Site Configurations'] = "Configurações do site";
 $t['Skip Ad'] = "Pular anúncio";
@@ -507,3 +508,25 @@ $t['Welcome back!'] = "Bem-vindo novamente!";
 $t['Show/Hide Password'] = 'Mostrar/esconder senha';
 $t['Use this to recover your password'] = 'Clique aqui para recuperar sua senha';
 $t['Are you new here?'] = 'Novo por aqui? Registre-se';
+//--- added 19 april 2021 by Julian Romero
+//---- navbar and header missing translations
+$t['Main Menu'] = "Menu Principal";
+$t["Submit your videos"] = "Enviar vídeos";
+$t["Upload files without encode"] = "Enviar vídeos sem codificar";
+$t["Direct upload"] = "Upload direto";
+$t["Search for videos in your local disk"] = "Procurar vídeos na máquina local";
+$t["Direct Import Local Videos"] = "Importar vídeos locais diretamente";
+$t["Embed videos/files in your site"] = "Embutir vídeos/arquivos no site";
+$t["Embed a video link"] = "Embutir um link de vídeo";
+$t["Write an article"] = "Escrever um artigo";
+$t["Add Article"] = "Adicionar artigo";
+$t["Only verified users can upload"] = "Apenas usuários verificados podem enviar vídeos"];
+$t["Dashboard"] = "Painel de controle";
+$t["My Subscribers"] = "Meus assinantes";
+$t["Admin Panel"] = "Painel administrativo";
+$t["Site Configurations"] = "Configurações do site";
+$t"Clear First Page Cache"] = "Limpar cache da página inicial";
+$t["Clear Cache Directory"] = "Limpar cache geral";
+$t["Log file"] = "Auditoria";
+$t["Generate Sitemap"] = "Gerar sitemap";
+
