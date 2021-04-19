@@ -336,11 +336,14 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                     </a>
                     <?php
                     if ((!empty($value['description'])) && !empty($obj->Description)) {
-                        $desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($value['description']))));
+                        //$desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($value['description']))));
+                        $desc = nl2br(trim($value['description']));
                         if (!empty($desc)) {
+                            $duid = uniqid();
                             $titleAlert = str_replace(array('"', "'"), array('``', "`"), $value['title']);
                             ?>
-                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>", "info");return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
+                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
+                            <div id="videoDescription<?php echo $duid; ?>" style="display: none;"><?php echo $desc; ?></div>
                             <?php
                         }
                     }
