@@ -1265,6 +1265,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function getUserFromEmail($email) {
+        $email = trim($email);
         $sql = "SELECT * FROM users WHERE email = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($email));
         $user = sqlDAL::fetchAssoc($res);
