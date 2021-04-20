@@ -76,12 +76,12 @@
                     <?php echo __("It appears that either something went wrong or the mod rewrite configration is not correct."); ?><br />
                 </p>
                 <p><b><?php echo __("If you don't use apache, just let .htaccess stay or create a empty file - then this check will pass."); ?></b></p>
-                <p><?php echo __("We need to allow Apache to read .htaccess files located under the ".getcwd()." directory."); ?>
+                <p><?php echo __("We need to allow Apache to read .htaccess files located under the "); echo getcwd(); echo __(" directory."); ?>
 
                     <?php echo __("You can do this by editing the Apache configuration file:"); ?></p>
 
                 <p>
-                    <?php echo __("Find the section <code>".htmlentities("<directory /var/www/html>")."</code> and change <b>AllowOverride None</b> to <b>AllowOverride All</b>"); ?>
+                    <?php echo __("Find the section <code>"); echo htmlentities("<directory /var/www/html>"); echo __("</code> and change <b>AllowOverride None</b> to <b>AllowOverride All</b>"); ?>
                 </p>
                 <p><pre><code>sudo nano /etc/apache2/apache2.conf</code></pre></p>
 
