@@ -823,7 +823,7 @@ if (typeof gtag !== \"function\") {
     const CAPTCHA_ERROR = 3;
     const REQUIRE2FA = 4;
 
-    public function login($noPass = false, $encodedPass = false) {
+    public function login($noPass = false, $encodedPass = false, $ignoreEmailVerification = false) {
         if (User::isLogged()) {
             return false;
         }
@@ -846,7 +846,7 @@ if (typeof gtag !== \"function\") {
 
         // check for multiple logins attempts to prevent hacking end
         // if user is not verified
-        if (!empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
+        if (empty($ignoreEmailVerification) && !empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
             unset($_SESSION['user']);
             self::sendVerificationLink($user['id']);
             return self::USER_NOT_VERIFIED;
@@ -1448,6 +1448,34 @@ if (typeof gtag !== \"function\") {
             foreach ($downloadedArray as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $user[] = self::getUserInfoFromRow($row);
+            }
+        } else {
+            $user = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+
+        return $user;
+    }
+    
+    
+
+    public static function getAllActiveUsersThatCanUpload() {
+        if (!Permissions::canAdminUsers()) {
+            return false;
+        }
+        //will receive
+        //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
+        global $global;
+        $sql = "SELECT * FROM users WHERE 1=1 AND status = 'a' AND (canUpload = 1 OR isAdmin = 1) ";
+
+        $user = array();
+        $res = sqlDAL::readSql($sql . ";");
+        $downloadedArray = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        if ($res != false) {
+            foreach ($downloadedArray as $row) {
+                $row = cleanUpRowFromDatabase($row);
+                $user[] = $row;
             }
         } else {
             $user = false;
