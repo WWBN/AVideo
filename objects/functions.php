@@ -6482,15 +6482,15 @@ function getCDN($type = 'CDN', $id = 0) {
     if (!isset($_getCDNURL)) {
         $_getCDNURL = array();
     }
-    if (!empty($global['ignoreCDN'])) {
-        return $global['webSiteRootURL'];
-    } else if (empty($_getCDNURL[$index])) {
+    if (empty($_getCDNURL[$index])) {
         if (!empty($type) && AVideoPlugin::isEnabledByName('CDN')) {
             $_getCDNURL[$index] = CDN::getURL($type, $id);
         }
     }
     if($type=='CDN'){
-        if (isValidURL($advancedCustom->videosCDN)) {
+        if (!empty($global['ignoreCDN'])) {
+            return $global['webSiteRootURL'];
+        } else if (isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
         }else if(empty($_getCDNURL[$index])){
             $_getCDNURL[$index] = $global['webSiteRootURL'];
