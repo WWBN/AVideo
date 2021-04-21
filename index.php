@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Error Page</title>
+        <title><?php echo __("Error Page"); ?></title>
         <link href="view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
         <style>
             body {
@@ -71,22 +71,22 @@
         <div id="block_error">
             <img src="view/img/logo.png" class="img img-responsive center-block"/>
             <div>
-                <h2>Error. Oops you've encountered an error</h2>
+                <h2><?php echo __("Error. Oops you've encountered an error"); ?></h2>
                 <p>
-                    It appears that either something went wrong or the mod rewrite configration is not correct.<br />
+                    <?php echo __("It appears that either something went wrong or the mod rewrite configration is not correct."); ?><br />
                 </p>
-                <p><b>If you don't use apache, just let .htaccess stay or create a empty file - then this check will pass.</b></p>
-                <p>We need to allow Apache to read .htaccess files located under the <?php echo getcwd(); ?> directory.
+                <p><b><?php echo __("If you don't use apache, just let .htaccess stay or create a empty file - then this check will pass."); ?></b></p>
+                <p><?php echo __("We need to allow Apache to read .htaccess files located under the "); echo getcwd(); echo __(" directory."); ?>
 
-                    You can do this by editing the Apache configuration file:</p>
+                    <?php echo __("You can do this by editing the Apache configuration file:"); ?></p>
 
                 <p>
-                    Find the section <code><?php echo htmlentities("<directory /var/www/html>"); ?></code> and change <b>AllowOverride None</b> to <b>AllowOverride All</b>
+                    <?php echo __("Find the section <code>"); echo htmlentities("<directory /var/www/html>"); echo __("</code> and change <b>AllowOverride None</b> to <b>AllowOverride All</b>"); ?>
                 </p>
                 <p><pre><code>sudo nano /etc/apache2/apache2.conf</code></pre></p>
 
                 <p>
-                    After editing the above file your code should be like this:
+                    <?php echo __("After editing the above file your code should be like this:"); ?>
                 </p>
                 <p><pre><code><?php echo htmlentities("<Directory /var/www/>
           Options Indexes FollowSymLinks
@@ -94,14 +94,14 @@
           Require all granted
   </Directory>"); ?></code></pre></p>
 
-                <p>In order to use mod_rewrite you can type the following command in the terminal:</p>
+                <p><?php echo __("In order to use mod_rewrite you can type the following command in the terminal:</p>"); ?>
                 <p><pre><code>sudo a2enmod rewrite</code></pre></p>
 
-                <p>Restart apache2 after</p>
+                <p><?php echo __("Restart apache2 after"); ?></p>
 
                 <p><pre><code>sudo /etc/init.d/apache2 restart</code></pre></p>
 
-                <p>or</p>
+                <p><?php echo __("or"); ?></p>
 
                 <p><pre><code>sudo service apache2 restart</code></pre></p>
 

@@ -605,3 +605,17 @@ $t["Sort"] = "Ordenar";
 $t["Drag and drop to sort"] = "Arraste e solte para ordenar";
 $t["Series"] = "Séries";
 $t['Search Serie'] = "Procurar série";
+//----- index.php
+$t["Error Page"] = "Página de erro";
+$t["Error. Oops you've encountered an error"] = "Erro. Ooops, um erro foi encontrado";
+$t["It appears that either something went wrong or the mod rewrite configration is not correct."] = "Parece que existe algo de errado no site ou na configuração do mod rewrite.";
+$t["If you don't use apache, just let .htaccess stay or create a empty file - then this check will pass."] = "Se você não usa Apache Server, mantenha o .htaccess ou crie um .htaccess vazio - esta checagem de erro será validada.";
+$t["We need to allow Apache to read .htaccess files located under the "] = "É preciso dar permissão ao Apache para ler o arquivo .htaccess localizado em ";
+$t[" directory."] = " diretório.";
+$t["You can do this by editing the Apache configuration file:"] = "Você também pode editar o arquivo de configuração do Apache:";
+$t["Find the section <code>"] = "Localize a seção <code>";
+$t["</code> and change <b>AllowOverride None</b> to <b>AllowOverride All</b>"] = "</code> e mudar <b>AllowOverride None</b> para <b>AllowOverride All</b>";
+$t["After editing the above file your code should be like this:"] = "Depois de editar o arquivo, seu código deve ficar como abaixo:";
+$t["In order to use mod_rewrite you can type the following command in the terminal:</p>"] = "Para usar o mod_rewrite, você pode digitar o seguinte comando em seu terminal:";
+$t["Restart apache2 after"] = "Reinicie o serviço apache2 depois";
+$t["or"] = "ou";
