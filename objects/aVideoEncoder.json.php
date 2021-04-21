@@ -26,14 +26,14 @@ $user = new User("", @$_POST['user'], @$_POST['password']);
 $user->login(false, true);
 if (!User::canUpload()) {
     _error_log("aVideoEncoder.json: Permission denied to receive a file: " . json_encode($_POST));
-    $obj->msg = __("Permission denied to receive a file: " . json_encode($_POST));
+    $obj->msg = __("Permission denied to receive a file: ") . json_encode($_POST);
     _error_log($obj->msg);
     die(json_encode($obj));
 }
 
 if (!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])) {
     _error_log("aVideoEncoder.json: Permission denied to edit a video: " . json_encode($_POST));
-    $obj->msg = __("Permission denied to edit a video: " . json_encode($_POST));
+    $obj->msg = __("Permission denied to edit a video: ") . json_encode($_POST);
     _error_log($obj->msg);
     die(json_encode($obj));
 }
