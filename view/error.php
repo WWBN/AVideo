@@ -497,27 +497,25 @@ header("HTTP/1.0 404 Not Found");
 
             <div id="main-content">
                 <center><img src="<?php echo getCDN(); ?>videos/userPhoto/logo.png?1570636830"> </center>
-                <h1>We couldn't find what you were looking for.</h1>
+                <h1><?php echo __("We couldn't find what you were looking for."); ?></h1>
 
-                <p>Unfortunately the page you were looking for could not be found. It may be
-                    temporarily unavailable, moved or no longer exist.</p>
+                <p><?php echo __("Unfortunately the page you were looking for could not be found. It may be temporarily unavailable, moved or no longer exist."); ?></p>
 
-                <p>Check the URL you entered for any mistakes and try again. Alternatively, search
-                    for whatever is missing or take a look around the rest of our site.</p>
+                <p><?php echo __("Check the URL you entered for any mistakes and try again. Alternatively, search for whatever is missing or take a look around the rest of our site."); ?></p>
 
                 <div id="search">
                     <form action="<?php echo $global['webSiteRootURL']; ?>">
-                        <input type="text" placeholder="Search" name="search" />
+                        <input type="text" placeholder="<? echo __("Search"); ?>" name="search" />
                     </form>
                 </div>
 
                 <div id="navigation">
-                    <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>">Home</a>
-                    <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>about">About Us</a>
-                    <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>sitemap.xml">Site Map</a>
-                    <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>contact">Contact</a>
+                    <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Home"); ?></a>
+                    <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>about"><?php echo __("About Us"); ?></a>
+                    <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>sitemap.xml"><?php echo __("Site Map"); ?></a>
+                    <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>contact"><?php echo __("Contact"); ?></a>
                 </div>
             </div>
         </div>
     </body>
-</html> 
+</html>
