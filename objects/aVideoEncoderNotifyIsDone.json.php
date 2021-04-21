@@ -15,7 +15,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 $_POST['videos_id'] = intval($_POST['videos_id']);
 
 if (empty($_POST)) {
-    $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
+    $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
     _error_log($obj->msg);
     die(json_encode($obj));
 }
