@@ -12,7 +12,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 if (empty($_POST)) {
-    $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
+    $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
     _error_log($obj->msg);
     die(json_encode($obj));
 }
@@ -26,14 +26,14 @@ $user = new User("", @$_POST['user'], @$_POST['password']);
 $user->login(false, true);
 if (!User::canUpload()) {
     _error_log("aVideoEncoder.json: Permission denied to receive a file: " . json_encode($_POST));
-    $obj->msg = __("Permission denied to receive a file: " . json_encode($_POST));
+    $obj->msg = __("Permission denied to receive a file: ") . json_encode($_POST);
     _error_log($obj->msg);
     die(json_encode($obj));
 }
 
 if (!empty($_POST['videos_id']) && !Video::canEdit($_POST['videos_id'])) {
     _error_log("aVideoEncoder.json: Permission denied to edit a video: " . json_encode($_POST));
-    $obj->msg = __("Permission denied to edit a video: " . json_encode($_POST));
+    $obj->msg = __("Permission denied to edit a video: ") . json_encode($_POST);
     _error_log($obj->msg);
     die(json_encode($obj));
 }

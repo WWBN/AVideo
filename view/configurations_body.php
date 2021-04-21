@@ -404,7 +404,7 @@ if (User::isAdmin()) {
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
-                                        <div class="panel-heading"><h2><?php echo __("Advanced configuration"); ?></h2></div>
+                                        <div class="panel-heading"><h2><?php echo __("Advanced Configuration"); ?></h2></div>
                                         <div class="panel-body">
 
                                             <div class="form-group">
@@ -494,7 +494,7 @@ if (User::isAdmin()) {
                                             <div class="alert alert-warning">
                                                 <h3>
                                                     <i class="fas fa-info-circle"></i>
-                                                    <?php echo __('If you are not sure how to configure your email'); ?>, 
+                                                    <?php echo __('If you are not sure how to configure your email'); ?>,
                                                     <?php echo __('please try'); ?> <a href="https://github.com/WWBN/AVideo/wiki/Setting-up-AVideo-Platform-to-send-emails" target="_blank" rel="noopener noreferrer" ><?php echo __('this help'); ?></a>
                                                 </h3>
                                             </div>
@@ -609,7 +609,7 @@ if (User::isAdmin()) {
 														editor = CodeMirror.fromTextArea(head, {
 															lineNumbers: true,
 															mode: "htmlmixed"
-														});																											
+														});
 														editor.on('change', function() {
 															editor.save();
 														});

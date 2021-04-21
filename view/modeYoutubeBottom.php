@@ -96,7 +96,7 @@ if (User::hasBlockedUser($video['users_id'])) {
 
             <?php
             if (Video::showYoutubeModeOptions() && empty($advancedCustom->doNotDisplayViews)) {
-                ?> 
+                ?>
                 <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
                 <?php
             }
@@ -120,7 +120,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                         </a>
                         <?php
                     }
-                    $filesToDownload = array(); 
+                    $filesToDownload = array();
                     if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                         if ($video['type'] == "zip") {
                             $files = getVideosURLZIP($video['filename']);
@@ -177,7 +177,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                 <?php
                 if (!empty($video['id']) && empty($advancedCustom->removeThumbsUpAndDown)) {
                     ?>
-                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("DonÂ´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
+                    <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Don´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                         <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
                     </a>
                     <a href="#" class="btn btn-default no-outline pull-right <?php echo ($video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
