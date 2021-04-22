@@ -1016,19 +1016,14 @@ class API extends PluginAbstract {
         }
         $row = PlayList::getAllFromUser(User::getId(), false, 'favorite');
         foreach ($row as $key => $value) {
-            unset($row[$key]['password']);
-            unset($row[$key]['recoverPass']);
+            $row[$key] = cleanUpRowFromDatabase($row[$key]);
             foreach ($value['videos'] as $key2 => $value2) {
-                //$row[$key]['videos'][$key2] = Video::getVideo($value2['id']);
-                unset($row[$key]['videos'][$key2]['password']);
-                unset($row[$key]['videos'][$key2]['recoverPass']);
                 if (!empty($row[$key]['videos'][$key2]['next_videos_id'])) {
                     unset($_POST['searchPhrase']);
                     $row[$key]['videos'][$key2]['next_video'] = Video::getVideo($row[$key]['videos'][$key2]['next_videos_id']);
                 }
                 $row[$key]['videos'][$key2]['videosURL'] = getVideosURL($row[$key]['videos'][$key2]['filename']);
-                unset($row[$key]['videos'][$key2]['password']);
-                unset($row[$key]['videos'][$key2]['recoverPass']);
+                $row['videos'][$key2] = cleanUpRowFromDatabase($row['videos'][$key2]);
             }
         }
         echo json_encode($row);
