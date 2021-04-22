@@ -657,7 +657,11 @@ class PlayList extends ObjectYPT {
         global $global;
         $sql = "DELETE FROM playlists WHERE id = ? ";
         //echo $sql;
-        return sqlDAL::writeSql($sql, "i", array($this->id));
+        $result = sqlDAL::writeSql($sql, "i", array($this->id));
+        
+        self::deleteCache("getVideosFromPlaylist{$this->id}");
+        self::removeCache($videos_id);
+        return $result;
     }
 
     public function getId() {
