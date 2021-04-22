@@ -359,7 +359,7 @@ class PlayList extends ObjectYPT {
         reloadSearchVar();
         $_POST['sort'] = $sort;
         $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . md5($sql);
-        $rows = self::getCache($cacheName, 0);
+        $rows = self::getCache($cacheName, 0, true);
         if (empty($rows)) {
             global $global;
 
