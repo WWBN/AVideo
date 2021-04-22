@@ -15,7 +15,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 $_POST['videos_id'] = intval($_POST['videos_id']);
 
 if (empty($_POST)) {
-    $obj->msg = __("Your POST data is empty may be your vide file is too big for the host");
+    $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
     _error_log($obj->msg);
     die(json_encode($obj));
 }
@@ -24,13 +24,13 @@ if (empty($_POST)) {
 $user = new User("", @$_POST['user'], @$_POST['password']);
 $user->login(false, true);
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to Notify Done: " . print_r($_POST, true));
+    $obj->msg = __("Permission denied to Notify Done: ") . print_r($_POST, true);
     _error_log($obj->msg);
     die(json_encode($obj));
 }
 
 if(!Video::canEdit($_POST['videos_id'])){
-    $obj->msg = __("Permission denied to edit a video: " . print_r($_POST, true));
+    $obj->msg = __("Permission denied to edit a video: ") . print_r($_POST, true);
     _error_log($obj->msg);
     die(json_encode($obj));
 }

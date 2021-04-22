@@ -13,7 +13,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 if (empty($_POST)) {
-    $obj->msg = __("Your POST data is empty may be your video file too big for the host");
+    $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
     _error_log("ReceiveImage: ".$obj->msg);
     die(json_encode($obj));
 }
