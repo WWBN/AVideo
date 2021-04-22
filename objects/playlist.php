@@ -344,10 +344,6 @@ class PlayList extends ObjectYPT {
         return $rows;
     }
 
-    public static function setCache($name, $value) {
-        parent::setCache($name, $value);
-    }
-
     public static function getVideosFromPlaylist($playlists_id) {
         $sql = "SELECT *,v.created as cre, p.`order` as video_order, v.externalOptions as externalOptions "
                 . ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
@@ -403,7 +399,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
 
-                self::setCache($cacheName, $rows);
+                $cache = self::setCache($cacheName, $rows);
             } else {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
@@ -612,7 +608,7 @@ class PlayList extends ObjectYPT {
         $this->showOnTV = intval($this->showOnTV);
         $playlists_id = parent::save();
         if (!empty($playlists_id)) {
-            self::deleteCache("getVideosFromPlaylist{$playlists_id}");
+            self::deleteCacheDir($playlists_id);
         }
         return $playlists_id;
     }
@@ -654,18 +650,19 @@ class PlayList extends ObjectYPT {
         $tmpDir = ObjectYPT::getCacheDir();
         $cacheDir = $tmpDir . "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR;
         rrmdir($cacheDir);
+        exec('rm -R ' . $cacheDir);
     }
     
     public function delete() {
         if (empty($this->id)) {
             return false;
         }
-        self::deleteCache("getVideosFromPlaylist{$this->id}");
         global $global;
         $sql = "DELETE FROM playlists WHERE id = ? ";
         //echo $sql;
         $result = sqlDAL::writeSql($sql, "i", array($this->id));
 
+        self::deleteCacheDir($this->id);
         return $result;
     }
 
