@@ -47,7 +47,7 @@ function getDecryptedInfo($string) {
     $decriptedString = decryptString($string);
     $json = _json_decode($decriptedString);
     if (!empty($json) && !empty($json->token)) {
-        if (isTokenValid($json->token)) {
+        if (verifyTokenSocket($json->token)) {
             return $json;
         } else {
             _error_log("socket:getDecryptedInfo: token is invalid ");
@@ -56,6 +56,25 @@ function getDecryptedInfo($string) {
         _error_log("socket:getDecryptedInfo: json->token is empty ({$decriptedString})");
     }
     return false;
+}
+
+function verifyTokenSocket($token) {
+    global $global;
+    $obj = _json_decode(decryptString($token));
+    if (empty($obj)) {
+        _error_log("verifyToken invalid token");
+        return false;
+    }
+    if ($obj->salt !== $global['salt']) {
+        _error_log("verifyToken salt fail");
+        return false;
+    }
+    $time = time();
+    if (!($time >= $obj->time && $time <= $obj->timeout)) {
+        _error_log("verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout");
+        //return false;
+    }
+    return true;
 }
 
 class SocketMessageType {
