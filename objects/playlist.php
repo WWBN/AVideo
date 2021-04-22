@@ -176,7 +176,7 @@ class PlayList extends ObjectYPT {
         }
         return $rows;
     }
-    
+
     /**
      *
      * @global type $global
@@ -199,7 +199,7 @@ class PlayList extends ObjectYPT {
             $status = str_replace("'", "", $status);
             $sql .= " AND pl.status = '{$status}' ";
         } elseif ($publicOnly) {
-            if(User::getId() != $userId){
+            if (User::getId() != $userId) {
                 $sql .= " AND pl.status = 'public' ";
             }
         }
@@ -217,9 +217,9 @@ class PlayList extends ObjectYPT {
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
-                if($onlyWithVideos){
+                if ($onlyWithVideos) {
                     $videos = self::getVideosIDFromPlaylistLight($row['id']);
-                    if(empty($videos)){
+                    if (empty($videos)) {
                         continue;
                     }
                 }
@@ -310,15 +310,15 @@ class PlayList extends ObjectYPT {
 
     public static function getVideosIDFromPlaylistLight($playlists_id) {
         global $global, $getVideosIDFromPlaylistLight;
-        
-        if(!isset($getVideosIDFromPlaylistLight)){
+
+        if (!isset($getVideosIDFromPlaylistLight)) {
             $getVideosIDFromPlaylistLight = array();
         }
-        
-        if(isset($getVideosIDFromPlaylistLight[$playlists_id])){
+
+        if (isset($getVideosIDFromPlaylistLight[$playlists_id])) {
             return $getVideosIDFromPlaylistLight[$playlists_id];
         }
-        
+
         $sql = "SELECT * FROM playlists_has_videos p WHERE playlists_id = ?  ORDER BY `order` ";
         /*
           cleanSearchVar();
@@ -362,7 +362,7 @@ class PlayList extends ObjectYPT {
         $sql .= self::getSqlFromPost();
         reloadSearchVar();
         $_POST['sort'] = $sort;
-        $cacheName = "getVideosFromPlaylist{$playlists_id}_" . md5($sql);
+        $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . md5($sql);
         $rows = self::getCache($cacheName, 0);
         if (empty($rows)) {
             global $global;
@@ -645,11 +645,17 @@ class PlayList extends ObjectYPT {
             $values[] = $order;
         }
         $result = sqlDAL::writeSql($sql, $formats, $values);
-        self::deleteCachePattern("/getVideosFromPlaylist{$this->id}_.*/");
+        self::deleteCacheDir($this->id);
         self::removeCache($videos_id);
         return $result;
     }
 
+    private static function deleteCacheDir($playlists_id){
+        $tmpDir = ObjectYPT::getCacheDir();
+        $cacheDir = $tmpDir . "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR;
+        rrmdir($cacheDir);
+    }
+    
     public function delete() {
         if (empty($this->id)) {
             return false;
@@ -659,7 +665,7 @@ class PlayList extends ObjectYPT {
         $sql = "DELETE FROM playlists WHERE id = ? ";
         //echo $sql;
         $result = sqlDAL::writeSql($sql, "i", array($this->id));
-        
+
         return $result;
     }
 
@@ -775,8 +781,8 @@ class PlayList extends ObjectYPT {
         }
         $countCollections = count($collections);
         $countVideos = count($videos);
-        if(!empty($countCollections)){
-            if($countCollections===1 && empty($countVideos)){
+        if (!empty($countCollections)) {
+            if ($countCollections === 1 && empty($countVideos)) {
                 return false;
             }
             return $collections;
