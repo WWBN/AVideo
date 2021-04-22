@@ -362,7 +362,7 @@ class PlayList extends ObjectYPT {
         $sql .= self::getSqlFromPost();
         reloadSearchVar();
         $_POST['sort'] = $sort;
-        $cacheName = "getVideosFromPlaylist{$playlists_id}" . md5($sql);
+        $cacheName = "getVideosFromPlaylist{$playlists_id}_" . md5($sql);
         $rows = self::getCache($cacheName, 0);
         if (empty($rows)) {
             global $global;
@@ -645,7 +645,7 @@ class PlayList extends ObjectYPT {
             $values[] = $order;
         }
         $result = sqlDAL::writeSql($sql, $formats, $values);
-        self::deleteCache("getVideosFromPlaylist{$this->id}");
+        self::deleteCachePattern("/getVideosFromPlaylist{$this->id}_.*/");
         self::removeCache($videos_id);
         return $result;
     }
