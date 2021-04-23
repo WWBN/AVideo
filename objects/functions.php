@@ -5912,7 +5912,7 @@ function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $se
         }
         $obj = YPTSocket::send($msg, $callbackJSFunction, $users_id, $send_to_uri_pattern);
         if ($obj->error) {
-            _error_log("sendSocketMessage " . $obj->msg, AVideoLog::$ERROR);
+            _error_log("sendSocketMessage " . $obj->msg);
         }
         return $obj;
     }
