@@ -132,6 +132,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->donationButtonLabel = __('Donation');
         $obj->allowWalletDirectTransferDonation = false;
         $obj->donationWalletButtonLabel = __('Donatate from your wallet');
+        $obj->disableCaptchaOnWalletDirectTransferDonation = false;
 
         $obj->showEmailVerifiedMark = true;
 
@@ -444,7 +445,7 @@ class CustomizeUser extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        return '<a href="plugin/CustomizeUser/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</a>';
+        return '<button onclick="avideoModalIframe(webSiteRootURL +\'plugin/CustomizeUser/View/editor.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
     }
 
     public static function profileTabName($users_id) {

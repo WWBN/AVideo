@@ -18,7 +18,7 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 
-$cu = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
+$cu = AVideoPlugin::getDataObjectIfEnabled('CustomizeUser');
 
 if (empty($cu)) {
     $obj->msg = "Plugin not enabled";
@@ -32,11 +32,13 @@ if (empty($wallet)) {
     die(json_encode($obj));
 }
 
-$valid = Captcha::validation(@$_POST['captcha']);
+if(empty($cu->disableCaptchaOnWalletDirectTransferDonation)){
+    $valid = Captcha::validation(@$_POST['captcha']);
 
-if (empty($valid)) {
-    $obj->msg = "Invalid captcha";
-    die(json_encode($obj));
+    if (empty($valid)) {
+        $obj->msg = "Invalid captcha";
+        die(json_encode($obj));
+    }
 }
 
 if (!empty($_POST['videos_id'])) {
