@@ -1023,7 +1023,7 @@ class API extends PluginAbstract {
                     $row[$key]['videos'][$key2]['next_video'] = Video::getVideo($row[$key]['videos'][$key2]['next_videos_id']);
                 }
                 $row[$key]['videos'][$key2]['videosURL'] = getVideosURL($row[$key]['videos'][$key2]['filename']);
-                $row['videos'][$key2] = cleanUpRowFromDatabase($row['videos'][$key2]);
+                $row[$key]['videos'][$key2] = cleanUpRowFromDatabase($row[$key]['videos'][$key2]);
             }
         }
         echo json_encode($row);
