@@ -1634,6 +1634,7 @@ class Live extends PluginAbstract {
     public static function getPoster($users_id, $live_servers_id, $key = '') {
         _error_log("getPoster($users_id, $live_servers_id, $key)");
         $lh = LiveTransmitionHistory::getActiveLiveFromUser($users_id, $live_servers_id, $key);
+        $live_index = self::getLiveIndexFromKey($key);
         $poster = self::getPosterImageOrFalse($users_id, $live_servers_id, $live_index);
         if(empty($poster)){
             $poster = self::getOfflineImage(false);
