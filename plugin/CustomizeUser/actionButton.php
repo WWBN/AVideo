@@ -17,7 +17,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
             <i class="fas fa-donate"></i> <small><?php echo __("Please login to donate"); ?></small>
         </a>    
         <?php
-    } else if(class_exists("YPTWallet")){
+    } else if (class_exists("YPTWallet")) {
         $u = new User($video['users_id']);
         $uid = uniqid();
         $captcha = User::getCaptchaForm($uid);
@@ -44,14 +44,14 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                 </div>
                             </div>
                             <?php
-                            if(empty($obj->disableCaptchaOnWalletDirectTransferDonation)){
-                            ?>
-                            <div class="form-group" id="donationCaptcha<?php echo $uid; ?>">
-                                <div class="col-md-12 ">
-                                    <?php echo $captcha; ?>
+                            if (empty($obj->disableCaptchaOnWalletDirectTransferDonation)) {
+                                ?>
+                                <div class="form-group" id="donationCaptcha<?php echo $uid; ?>">
+                                    <div class="col-md-12 ">
+                                        <?php echo $captcha; ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <?php
+                                <?php
                             }
                             ?>
                         </form>
@@ -87,7 +87,13 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                     }
                 });
             }
-
+            $(document).ready(function () {
+                $("#donationForm<?php echo $uid; ?>").submit(function (e) {
+                    e.preventDefault();
+                    submitDonation<?php echo $uid; ?>();
+                    return false;
+                });
+            });
         </script>
         <?php
     }
