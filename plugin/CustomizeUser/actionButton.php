@@ -44,7 +44,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                 </div>
                             </div>
                             <?php
-                            if($obj->disableCaptchaOnWalletDirectTransferDonation){
+                            if(empty($obj->disableCaptchaOnWalletDirectTransferDonation)){
                             ?>
                             <div class="form-group" id="donationCaptcha<?php echo $uid; ?>">
                                 <div class="col-md-12 ">
