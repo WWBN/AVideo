@@ -22,7 +22,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
         $uid = uniqid();
         $captcha = User::getCaptchaForm($uid);
         ?>
-        <button class="btn btn-success no-outline" onclick="$('#btnReloadCapcha<?php echo $uid; ?>').trigger('click');$('#donationModal<?php echo $uid; ?>').modal();"">
+        <button class="btn btn-success no-outline" onclick="openDonationMoodal<?php echo $uid; ?>();">
             <i class="fas fa-donate"></i> <small><?php echo __($obj->donationWalletButtonLabel); ?></small>
         </button>   
         <div id="donationModal<?php echo $uid; ?>" class="modal fade" tabindex="-1" role="dialog" >
@@ -63,6 +63,13 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         <script>
+            
+            function openDonationMoodal<?php echo $uid; ?>() {
+                $('#btnReloadCapcha<?php echo $uid; ?>').trigger('click');
+                $('#donationModal<?php echo $uid; ?>').modal();
+                $('#donationValue<?php echo $uid; ?>').focus();
+            }
+            
             function submitDonation<?php echo $uid; ?>() {
                 modal.showPleaseWait();
                 $.ajax({
@@ -80,7 +87,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         if (response.error) {
                             avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                         } else {
-                            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Thank you!"); ?>", "success");
+                            avideoToastSuccess("<?php echo __("Thank you!"); ?>");
                             $('#donationModal<?php echo $uid; ?>').modal('hide');
                             $(".walletBalance").text(response.walletBalance);
                         }
