@@ -6498,7 +6498,7 @@ function getCDN($type = 'CDN', $id = 0) {
     }
     
     //var_dump($type, $id, $_getCDNURL[$index]);
-    return $_getCDNURL[$index];
+    return empty($_getCDNURL[$index])?false:$_getCDNURL[$index];
 }
 
 function getCDNOrURL($url, $type = 'CDN', $id = 0) {
