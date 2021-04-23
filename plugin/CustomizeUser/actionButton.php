@@ -68,6 +68,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                 $('#btnReloadCapcha<?php echo $uid; ?>').trigger('click');
                 $('#donationModal<?php echo $uid; ?>').modal();
                 $('#donationValue<?php echo $uid; ?>').focus();
+                setTimeout(function(){$('#donationValue<?php echo $uid; ?>').focus();}, 500);
             }
             
             function submitDonation<?php echo $uid; ?>() {
