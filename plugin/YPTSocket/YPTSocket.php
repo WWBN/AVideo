@@ -137,7 +137,7 @@ class YPTSocket extends PluginAbstract {
         _error_log("Socket Send: {$SocketURL}");
         \Ratchet\Client\connect($SocketURL)->then(function($conn) {
             global $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
-            $conn->on('message', function($msg) use ($conn) {
+            $conn->on('message', function($msg) use ($conn, $SocketSendResponseObj) {
                 //echo "Received: {$msg}\n";
                 //$conn->close();
                 $SocketSendResponseObj->error = false;
