@@ -20,17 +20,17 @@ if (!empty($_FILES)) {
 $scanVars = array('GET', 'POST', 'REQUEST');
 
 foreach ($scanVars as $value) {
-    eval('$scanThis = &$_' . $value.';');
+    eval('$scanThis = &$_' . $value . ';');
     if (!empty($scanThis['base64Url'])) {
         if (!filter_var(base64_decode($scanThis['base64Url']), FILTER_VALIDATE_URL)) {
             _error_log('base64Url attack ' . json_encode($_SERVER), AVideoLog::$SECURITY);
             exit;
         }
     }
-    if(!empty($scanThis['videos_id'])){
+    if (!empty($scanThis['videos_id'])) {
         $scanThis['videos_id'] = videosHashToID($scanThis['videos_id']);
     }
-    if(!empty($scanThis['v'])){
+    if (!empty($scanThis['v'])) {
         $scanThis['v'] = videosHashToID($scanThis['v']);
     }
 
@@ -77,8 +77,20 @@ foreach ($scanVars as $value) {
 
     // all variables with _id at the end will be forced to be interger
     foreach ($scanThis as $key => $value) {
-        if(preg_match('/_id$/i', $key)){
-            $scanThis[$key] = intval($value);
+        if (preg_match('/_id$/i', $key)) {
+            if (is_numeric($value)) {
+                $scanThis[$key] = intval($value);
+            } else {
+                $json = json_decode($value);
+                if (is_array($json)) {
+                    foreach ($json as $key => $value) {
+                        $json[$key] = intval($value);
+                    }
+                    $scanThis[$key] = json_encode($json);
+                }else{
+                    $scanThis[$key] = intval($value);
+                }
+            }
         }
     }
 
