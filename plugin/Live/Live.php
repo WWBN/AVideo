@@ -1241,6 +1241,7 @@ class Live extends PluginAbstract {
     }
 
     static function getLiveParametersFromKey($key) {
+        $key = preg_replace('/[^a-z0-9_-]/i', '', $key);
         $obj = AVideoPlugin::getObjectData('Live');
         $playlists_id_live = false;
         if (preg_match("/.*_([0-9]+)/", $key, $matches)) {
@@ -1576,10 +1577,10 @@ class Live extends PluginAbstract {
 
         return $file;
     }
-    
+
     public static function getPosterImageOrFalse($users_id, $live_servers_id) {
-        $poster = self::getPosterImage($users_id, $live_servers_id); 
-        if(preg_match('/OnAir.jpg$/', $poster)){
+        $poster = self::getPosterImage($users_id, $live_servers_id);
+        if (preg_match('/OnAir.jpg$/', $poster)) {
             return false;
         }
 
@@ -1636,7 +1637,7 @@ class Live extends PluginAbstract {
         $lh = LiveTransmitionHistory::getActiveLiveFromUser($users_id, $live_servers_id, $key);
         $live_index = self::getLiveIndexFromKey($lh['key']);
         $poster = self::getPosterImageOrFalse($users_id, $live_servers_id, $live_index);
-        if(empty($poster)){
+        if (empty($poster)) {
             $poster = self::getOfflineImage(false);
         }
         if (empty($lh)) {
@@ -2002,6 +2003,40 @@ class Live extends PluginAbstract {
         return $type === LiveImageType::$ONAIRENCODER || $type === LiveImageType::$ONAIR || $type === LiveImageType::$OFFLINE || $type === LiveImageType::$DEFAULTGIF;
     }
 
+    function iskeyOnline($key) {
+        $stats = getStatsNotifications();
+        foreach ($stats["applications"] as $value) {
+            if (empty($value['key'])) {
+                continue;
+            }
+            if (preg_match('/' . $key . '/', $value['key'])) {
+                return true;
+            }
+        }
+        return false;
+    }    
+
+    static function getValidNotOnlineLiveIndex($key, $live_index) {
+        if(empty($live_index)){
+            return 1;
+        }
+        if (!Live::iskeyOnline("{$key}-{$live_index}")) {
+            return $live_index;
+        }else{
+            if(is_numeric($live_index)){
+                return self::getValidNotOnlineLiveIndex($key, ++$live_index);
+            }else{
+                return self::getValidNotOnlineLiveIndex($key, $live_index.'New');
+            }
+        }
+    }
+    
+    static function getLatestValidNotOnlineLiveIndex($key) {
+        $live_index = LiveTransmitionHistory::getLatestIndexFromKey($key);
+        $live_index = self::getValidNotOnlineLiveIndex($key, $live_index);
+        return $live_index;
+    }
+
 }
 
 class LiveImageType {
@@ -2048,8 +2083,8 @@ class LiveStreamObject {
     function getKeyWithIndex($forceIndexIfEnabled = false) {
         if ($forceIndexIfEnabled) {
             $objLive = AVideoPlugin::getDataObject("Live");
-            if (empty($this->live_index) && !empty($objLive->allowMultipleLivesPerUser)) {
-                $this->live_index = date('His');
+            if (!empty($objLive->allowMultipleLivesPerUser)) {
+                $this->live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
             }
         }
         return Live::getLiveKeyFromRequest($this->key, $this->live_index, $this->playlists_id_live);
