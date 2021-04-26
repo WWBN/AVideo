@@ -70,7 +70,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEncoderAutomaticWebm = false;
         $obj->doNotShowEncoderAutomaticAudio = false;
         $obj->saveOriginalVideoResolution = false;
-        self::addDataObjectHelper('saveOriginalVideoResolution', 'Do not save original video', 'This option will make your encoder at the end trancode the video into the original fomrmat resolution');
+        self::addDataObjectHelper('saveOriginalVideoResolution', 'Do not save original video', 'This option will make your encoder at the end trancode the video into the original format resolution');
         $obj->doNotShowExtractAudio = false;
         $obj->doNotShowCreateVideoSpectrum = false;
         $obj->doNotShowLeftMenuAudioAndVideoButtons = false;
