@@ -20,7 +20,7 @@ _error_log("NGINX ON Publish Done  parse_str: " . json_encode($_GET));
 
 $_GET = object_to_array($_GET);
 
-if(!empty($_REQUEST['e']) && empty($_GET['p'])){
+if(!empty($_GET['e']) && empty($_GET['p'])){
     $obj = json_decode(decryptString($_REQUEST['e']));
     if(!empty($obj->users_id)){
         $user = new User($obj->users_id);
