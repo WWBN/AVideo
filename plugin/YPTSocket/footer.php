@@ -68,10 +68,10 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             border: 2px solid #777;
         }
 
-        #socket_info_container.disconnected div{
+        #socket_info_container div{
             color: #00000077;
         }
-        #socket_info_container.disconnected .socketItem span{
+        #socket_info_container .socketItem span{
             opacity: 0.5;
         }
 
@@ -116,69 +116,28 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             margin-top: 5px;
             border-top: solid 1px #000;
         }
-
-        .socketUserDiv .fa-caret-up{
+        .hideNotConected, .hideNotDisconnected{
             display: none;
         }
-
-        .socketUserDiv.visible .fa-caret-up{
-            display: inline-block;
-        }
-        .socketUserDiv.visible .fa-caret-down,
-        .socketUserDiv .socketUserPages,
-        .hideConected,
-        .socket_disconnected,
-        .disconnected .socket_connected{
-            display: none;
-        }
-        .socketUserDiv.visible .socketUserPages{
+        .socket_connected .hideNotConected{
             display: block;
         }
-        .disconnected .socket_disconnected{
+        .socket_disconnected .hideNotDisconnected{
             display: block;
-        }
-        .socket_connected, .socket_disconnected{
-            font-weight: bold;
-        }
-        .disconnected .hideConected{
-            display: block;
-        }
-        .socket_connected{
-            color: #FFF;
-            animation: socketGlow 1s infinite alternate;
-        }
-        @keyframes socketGlow {
-            from {
-                color: #DFD;
-                text-shadow: 
-                    0 0 1px #050, 
-                    0 0 2px #070, 
-                    0 0 3px #670, 
-                    0 0 4px #670;
-            }
-            to {
-                color: #FFF;
-                text-shadow: 
-                    0 0 2px #020,
-                    0 0 5px #090, 
-                    0 0 10px #0F0, 
-                    0 0 15px #BF0, 
-                    0 0 20px #B6FF00;
-            }
         }
     </style>
-    <div id="socket_info_container" class="socketStatus disconnected <?php echo $socket_info_container_class; ?>" >
+    <div id="socket_info_container" class="socket_info <?php echo $socket_info_container_class; ?>" >
         <div class="socketHeader">
             <?php
             echo getSocketConnectionLabel();
             ?>
         </div>
-        <div class="socketItem hideConected" ><button class="btn btn-xs btn-block btn-default" onclick="copyToClipboard('<?php echo addcslashes($command,'\\'); ?>')">Copy code to run on terminal</button></div>
-        <div class="socketItem" ><i class="fas fa-user"></i> Your User ID <span class="socket_users_id">0</span></div>
-        <div class="socketItem" ><i class="fas fa-id-card"></i> Socket ResourceId <span class="socket_resourceId">0</span></div>
-        <div class="socketItem" ><i class="fas fa-network-wired"></i> Total Different Devices <span class="total_devices_online">0</span></div>
-        <div class="socketItem" ><i class="fas fa-users"></i> Total Users Online <span class="total_users_online">0</span></div>
-        <div class="socketItem" id="socketUsersURI">    
+        <div class="socketItem hideNotDisconnected" ><button class="btn btn-xs btn-block btn-default" onclick="copyToClipboard('<?php echo addcslashes($command,'\\'); ?>')">Copy code to run on terminal</button></div>
+        <div class="socketItem hideNotConected" ><i class="fas fa-user"></i> Your User ID <span class="socket_users_id">0</span></div>
+        <div class="socketItem hideNotConected" ><i class="fas fa-id-card"></i> Socket ResourceId <span class="socket_resourceId">0</span></div>
+        <div class="socketItem hideNotConected" ><i class="fas fa-network-wired"></i> Total Different Devices <span class="total_devices_online">0</span></div>
+        <div class="socketItem hideNotConected" ><i class="fas fa-users"></i> Total Users Online <span class="total_users_online">0</span></div>
+        <div class="socketItem hideNotConected" id="socketUsersURI">    
         </div>
     </div>
     <script>

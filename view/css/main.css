@@ -931,21 +931,32 @@ li.dropdown-submenu > ul > li > a{
 }
 
 
-.socket_disconnected{
+.socket_not_loading{
     display: none;
 }
-.disconnected .socket_connected{
+.socket_connected .socket_loading_icon, .socket_disconnected .socket_loading_icon{
     display: none;
 }
-.disconnected .socket_disconnected{
+.socket_connected .socket_connected_icon{
     display: block;
 }
-.socket_connected, .socket_disconnected{
+.socket_disconnected .socket_disconnected_icon{
+    display: block;
+}
+.socket_icon{
     font-weight: bold;
 }
 .socket_connected{
     color: #FFF;
     animation: socketGlow 1s infinite alternate;
+}
+.socket_connected_icon{
+    color: #FFF;
+    animation: socketGlow 1s infinite alternate;
+}
+.socket_loading_icon{
+    color: #FFF;
+    animation: socketGlowBlue 1s infinite alternate;
 }
 @keyframes socketGlow {
     from {
@@ -964,6 +975,25 @@ li.dropdown-submenu > ul > li > a{
             0 0 10px #0F0, 
             0 0 15px #BF0, 
             0 0 20px #B6FF00;
+    }
+}
+@keyframes socketGlowBlue {
+    from {
+        color: #DDF;
+        text-shadow: 
+            0 0 1px #005, 
+            0 0 2px #007, 
+            0 0 3px #067, 
+            0 0 4px #067;
+    }
+    to {
+        color: #FFF;
+        text-shadow: 
+            0 0 2px #002,
+            0 0 5px #009, 
+            0 0 10px #00F, 
+            0 0 15px #0BF, 
+            0 0 20px #00B6FF;
     }
 }
 

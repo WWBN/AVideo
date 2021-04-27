@@ -139,10 +139,10 @@ function lazyImage() {
 
                     element.addClass('gifNotLoaded');
                     element.removeClass('blur');
-                    
+
                     element.mouseover(function () {
-                        
-                        if($(this).hasClass('gifNotLoaded')){
+
+                        if ($(this).hasClass('gifNotLoaded')) {
                             var element = $(this);
                             element.removeClass('gifNotLoaded');
                             var gif = element.parent().find('.thumbsGIF');
@@ -153,7 +153,7 @@ function lazyImage() {
                             gif.width(element.width());
                             console.log('lazyImage', gif);
                         }
-                        
+
                         $("#log").append("<div>Handler for .mouseover() called.</div>");
                     });
 
@@ -1122,6 +1122,10 @@ if (typeof showPleaseWaitTimeOut == 'undefined') {
     var showPleaseWaitTimeOut = 0;
 }
 $(document).ready(function () {
+    Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone, {
+        path: '/',
+        expires: 365
+    });
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
         if (pleaseWaitDiv.length === 0) {
@@ -1372,7 +1376,7 @@ var startTimerToDateTimeOut = [];
 function startTimerToDate(toDate, selector, useDBDate) {
     clearTimeout(startTimerToDateTimeOut[selector]);
     if (typeof _serverTime === 'undefined') {
-        console.log('startTimerToDate _serverTime is undefined');
+        //console.log('startTimerToDate _serverTime is undefined');
         getServerTime();
         startTimerToDateTimeOut[selector] = setTimeout(function () {
             startTimerToDate(toDate, selector, useDBDate)
@@ -1380,25 +1384,29 @@ function startTimerToDate(toDate, selector, useDBDate) {
         return false;
     }
     if (typeof toDate === 'string') {
+        //console.log('startTimerToDate 1 '+toDate);
         toDate = new Date(toDate);
     }
     if (useDBDate) {
         if (typeof _serverDBTimeString !== 'undefined') {
             date2 = new Date(_serverDBTimeString);
+            //console.log('startTimerToDate 2 '+date2);
         }
     } else {
         if (typeof _serverTimeString !== 'undefined') {
             date2 = new Date(_serverTimeString);
+            //console.log('startTimerToDate 3 '+date2);
         }
     }
     if (typeof date2 === 'undefined') {
         date2 = new Date();
+        //console.log('startTimerToDate 4 '+date2);
     }
 
     var seconds = (toDate.getTime() - date2.getTime()) / 1000;
-    console.log('startTimerToDate toDate', toDate);
-    console.log('startTimerToDate selector', selector);
-    console.log('startTimerToDate seconds', seconds);
+    //console.log('startTimerToDate toDate', toDate);
+    //console.log('startTimerToDate selector', selector);
+    //console.log('startTimerToDate seconds', seconds);
     return startTimer(seconds, selector);
 }
 
@@ -1421,6 +1429,8 @@ function getServerTime() {
         return false;
     }
     getServerTimeActive = 1;
+    var d = new Date();
+
     $.ajax({
         url: webSiteRootURL + 'objects/getTimes.json.php',
         success: function (response) {

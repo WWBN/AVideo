@@ -11,10 +11,12 @@ function socketConnect() {
     socketConnectRequested = 1;
     var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
     console.log('Trying to reconnect on socket... ');
-    conn = new WebSocket(url);
+    conn = new WebSocket(url);    
+    setSocketIconStatus('loading');
     conn.onopen = function (e) {
         clearTimeout(socketConnectTimeout);
         console.log("Socket onopen");
+        onSocketOpen();
         return false;
     };
     conn.onmessage = function (e) {
@@ -64,6 +66,7 @@ function socketConnect() {
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
         }, 15000);
+        onSocketClose();
     };
 
     conn.onerror = function (err) {
@@ -71,6 +74,31 @@ function socketConnect() {
         console.error('Socket encountered error: ', err, 'Closing socket');
         conn.close();
     };
+}
+
+function onSocketOpen() {
+    setSocketIconStatus('connected');
+}
+
+function onSocketClose() {
+    setSocketIconStatus('disconnected');
+}
+
+function setSocketIconStatus(status){
+    var selector = '.socket_info';
+    if(status=='connected'){
+        $(selector).removeClass('socket_loading');
+        $(selector).removeClass('socket_disconnected');
+        $(selector).addClass('socket_connected');
+    }else if(status=='disconnected'){
+        $(selector).removeClass('socket_loading');
+        $(selector).addClass('socket_disconnected');
+        $(selector).removeClass('socket_connected');
+    }else{
+        $(selector).addClass('socket_loading');
+        $(selector).removeClass('socket_disconnected');
+        $(selector).removeClass('socket_connected');
+    }
 }
 
 function sendSocketMessageToAll(msg, callback) {
@@ -103,7 +131,7 @@ function defaultCallback(json) {
 var socketAutoUpdateOnHTMLTimout;
 function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
     clearTimeout(socketAutoUpdateOnHTMLTimout);
-    socketAutoUpdateOnHTMLTimout = setTimeout(function(){
+    socketAutoUpdateOnHTMLTimout = setTimeout(function () {
         $('.total_on').text(0);
         $('.total_on').parent().removeClass('text-success');
         //console.log("parseSocketResponse", json.autoUpdateOnHTML);
@@ -117,7 +145,7 @@ function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
                 $('.' + prop).parent().addClass('text-success');
             }
         }
-    },500);
+    }, 500);
 }
 
 function parseSocketResponse() {
