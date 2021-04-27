@@ -471,13 +471,34 @@ class Live extends PluginAbstract {
     }
 
     static function getRTMPLink($users_id) {
+        return self::getRTMPLinkFromKey(self::getKeyFromUser($users_id));
+    }
+
+    static function getRTMPLinkFromKey($key) {
+        $lso = new LiveStreamObject($key);
+        
+        return $lso->getRTMPLink();
+    }
+    
+    static function getRTMPLinkWithOutKey($users_id) {
+        $lso = new LiveStreamObject(self::getKeyFromUser($users_id));
+        
+        return $lso->getRTMPLinkWithOutKey();
+    }
+
+    static function getRTMPLinkWithOutKeyFromKey($key) {
+        $lso = new LiveStreamObject($key);
+        
+        return $lso->getRTMPLinkWithOutKey();
+    }
+    
+    static function getKeyFromUser($users_id) {
         if (!User::isLogged() || ($users_id !== User::getId() && !User::isAdmin())) {
             return false;
         }
         $user = new User($users_id);
         $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
-
-        return self::getServer() . "?p=" . $user->getPassword() . "/" . self::getDynamicKey($trasnmition['key']);
+        return $trasnmition['key'];
     }
 
     static function getDynamicKey($key) {
@@ -2054,7 +2075,7 @@ class LiveStreamObject {
 
     private $key, $live_servers_id, $live_index, $playlists_id_live;
 
-    function __construct($key, $live_servers_id, $live_index, $playlists_id_live) {
+    function __construct($key, $live_servers_id=0, $live_index=0, $playlists_id_live=0) {
         $this->key = $key;
         $this->live_servers_id = intval($live_servers_id);
         $this->live_index = $live_index;
@@ -2154,6 +2175,22 @@ class LiveStreamObject {
         } else {
             return $playerServer . "{$uuid}/index.m3u8";
         }
+    }
+    
+    function getRTMPLink() {
+        return $this->getRTMPLinkWithOutKey() . $this->getKeyWithIndex(true);
+    }
+    
+    function getRTMPLinkWithOutKey() {
+        $lt = LiveTransmition::getFromKey($this->key);
+        $user = new User($lt['users_id']);
+        
+        $obj = new stdClass();
+        $obj->users_id = $lt['users_id'];
+        $obj->key = $this->key;
+        $encrypt = encryptString($obj);
+        
+        return Live::getServer() . "?e={$encrypt}/";
     }
 
 }

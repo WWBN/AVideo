@@ -200,7 +200,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>
-            var flashvars = {server: "<?php echo Live::getServer(); ?>?p=<?php echo User::getUserPass(); ?>", stream: "<?php echo $trasnmition['key']; ?>"};
+            var flashvars = {server: "<?php echo Live::getRTMPLinkWithOutKeyFromKey($trasnmition['key']); ?>", stream: "<?php echo $trasnmition['key']; ?>"};
                 var params = {};
                 var attributes = {};
                 function amIOnline() {

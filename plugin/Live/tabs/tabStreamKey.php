@@ -27,7 +27,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
         <div class="form-group">
             <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
             <?php
-            getInputCopyToClipboard('server', Live::getServer() . "?p=" . User::getUserPass());
+            getInputCopyToClipboard('server', Live::getRTMPLinkWithOutKey(User::getId()));
             ?>
             <small class="label label-info"><i class="fa fa-warning"></i> <?php echo __("If you change your password the Server URL parameters will be changed too."); ?></small>
             <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Keep Key Private, Anyone with key can broadcast on your account"); ?></span>
@@ -67,7 +67,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
         <div class="form-group">
             <label for="serverAndStreamkey"><i class="fa fa-key"></i> <?php echo __("Server URL"); ?> + <?php echo __("Stream name/key"); ?>:</label>
             <?php
-            getInputCopyToClipboard('serverAndStreamkey', Live::getServer() . "?p=" . User::getUserPass() . "/" . $key);
+            getInputCopyToClipboard('serverAndStreamkey', Live::getRTMPLink(User::getId()));
             ?>
         </div>
         <div class="form-group">

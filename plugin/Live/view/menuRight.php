@@ -348,6 +348,9 @@ if (isVideo()) {
                 }
             }
             $('#liveVideos').slideDown();
+            if (callback) {
+                eval("try {console.log('processApplication application.callback');$liveLi = " + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
+            }
         } else {
 
             createLiveItem(href, title, name, photo, false, online, views, key, isPrivate, callback);
