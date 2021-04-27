@@ -78,11 +78,19 @@ foreach ($scanVars as $value) {
     // all variables with _id at the end will be forced to be interger
     foreach ($scanThis as $key => $value) {
         if (preg_match('/_id$/i', $key)) {
+            if(empty($value)){
+                $scanThis[$key] = 0;
+            }else 
             if (is_numeric($value)) {
                 $scanThis[$key] = intval($value);
             } else {
                 if(is_string($value)){
                     $json = json_decode($value);
+                    if(empty($json)){
+                        $json = json_decode("[$value]");
+                    }
+                }else{
+                    $json = $value;
                 }
                 if (is_array($json)) {
                     foreach ($json as $key => $value) {
