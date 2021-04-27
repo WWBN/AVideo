@@ -14,7 +14,7 @@ if (!empty($_FILES)) {
     }
 }
 
-$scanVars = array('GET', 'POST', 'REQUEST');
+$scanVars = array('_GET', '_POST', '_REQUEST');
 
 foreach ($scanVars as $value) {
     $scanThis = &$$value;
