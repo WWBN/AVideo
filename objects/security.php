@@ -1,5 +1,4 @@
 <?php
-
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 // filter some security here
@@ -8,8 +7,6 @@ $securityFilterInt = array('isAdmin', 'priority', 'totalClips', 'rowCount');
 $securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password');
 $securityRemoveNonChars = array('resolution', 'format', 'videoDirectory');
 $filterURL = array('videoURL', 'siteURL', 'redirectUri', 'encoderURL');
-
-
 
 if (!empty($_FILES)) {
     foreach ($_FILES as $key => $value) {
@@ -20,7 +17,7 @@ if (!empty($_FILES)) {
 $scanVars = array('GET', 'POST', 'REQUEST');
 
 foreach ($scanVars as $value) {
-    eval('$scanThis = &$_' . $value . ';');
+    $scanThis = &$$value;
     if (!empty($scanThis['base64Url'])) {
         if (!filter_var(base64_decode($scanThis['base64Url']), FILTER_VALIDATE_URL)) {
             _error_log('base64Url attack ' . json_encode($_SERVER), AVideoLog::$SECURITY);
@@ -45,7 +42,6 @@ foreach ($scanVars as $value) {
         }
     }
 
-
     foreach ($securityRemoveNonChars as $value) {
         if (!empty($scanThis[$value])) {
             if (is_string($scanThis[$value])) {
@@ -59,7 +55,6 @@ foreach ($scanVars as $value) {
             }
         }
     }
-
 
     foreach ($securityRemoveSingleQuotes as $value) {
         if (!empty($scanThis[$value])) {
@@ -97,7 +92,7 @@ foreach ($scanVars as $value) {
                         $json[$key] = intval($value);
                     }
                     $scanThis[$key] = json_encode($json);
-                }else{
+                } else {
                     $scanThis[$key] = intval($value);
                 }
             }
