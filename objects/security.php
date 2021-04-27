@@ -81,7 +81,9 @@ foreach ($scanVars as $value) {
             if (is_numeric($value)) {
                 $scanThis[$key] = intval($value);
             } else {
-                $json = json_decode($value);
+                if(is_string($value)){
+                    $json = json_decode($value);
+                }
                 if (is_array($json)) {
                     foreach ($json as $key => $value) {
                         $json[$key] = intval($value);
