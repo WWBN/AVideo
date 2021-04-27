@@ -757,8 +757,8 @@ class Live extends PluginAbstract {
     }
 
     static function getApplicationName() {
-        $obj = AVideoPlugin::getObjectData('Live');
-        $parts = explode("/", $obj->playerServer);
+        $rtmpServer = self::getServer();
+        $parts = explode('/', $rtmpServer);
         $live = end($parts);
 
         if (empty($live)) {
@@ -1064,12 +1064,6 @@ class Live extends PluginAbstract {
             }
         }
         return $getLiveTransmitionObjectFromKey[$parts[0]];
-    }
-
-    static function getApplicationName(){
-        $rtmpServer = self::getServer();
-        $parts = explode('/', $rtmpServer);
-        return end($parts);
     }
     
     static function _getStats($live_servers_id = 0, $force_recreate = false) {
