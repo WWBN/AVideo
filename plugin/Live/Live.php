@@ -1066,6 +1066,12 @@ class Live extends PluginAbstract {
         return $getLiveTransmitionObjectFromKey[$parts[0]];
     }
 
+    static function getApplicationName(){
+        $rtmpServer = self::getServer();
+        $parts = explode('/', $rtmpServer);
+        return end($parts);
+    }
+    
     static function _getStats($live_servers_id = 0, $force_recreate = false) {
         global $global, $_getStats;
         if (empty($_REQUEST['name'])) {
@@ -1102,7 +1108,7 @@ class Live extends PluginAbstract {
         $xml = _json_decode($xml);
         $stream = false;
         $lifeStream = array();
-
+        $applicationName = self::getApplicationName();
         if (empty($xml) || !is_object($xml)) {
             _error_log("_getStats XML is not an object live_servers_id=$live_servers_id");
         } else {
@@ -1113,7 +1119,7 @@ class Live extends PluginAbstract {
                 $xml->server->application[] = $application;
             }
             foreach ($xml->server->application as $key => $application) {
-                if ($application->name !== 'live' && $application->name !== 'adaptive') {
+                if ($application->name !== $applicationName && $application->name !== 'adaptive') {
                     continue;
                 }
                 if (!empty($application->live->stream)) {
