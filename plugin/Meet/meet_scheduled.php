@@ -68,14 +68,26 @@ if (!User::canCreateMeet()) {
 <div id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinksJoinOnly" style="display:none;">
     <div class="btn-group pull-right">
         <?php
-        if ($meet_scheduled == "today") {
+        if ($meet_scheduled == "today" || $meet_scheduled == "upcoming") {
+            if ($meet_scheduled == "today") {
+                ?>
+                <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success btn-xs"
+                        data-toggle="tooltip" title="<?php echo __("Join"); ?>">
+                    <i class="fa fa-check"></i>
+                </button>
+                <?php
+            }
             ?>
-            <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success btn-xs"
-                    data-toggle="tooltip" title="<?php echo __("Join"); ?>">
-                <i class="fa fa-check"></i>
+            <button href="" class="copyInvitation_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs"
+                    data-toggle="tooltip" title="<?php echo __("Copy Invitation"); ?>">
+                <i class="fa fa-copy"></i>
+            </button>
+            <button href="" class="copyLink_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-default btn-xs"
+                    data-toggle="tooltip" title="<?php echo __("Copy Link"); ?>">
+                <i class="fa fa-link"></i>
             </button>
             <?php
-        }else{
+        } else {
             echo __("Comming Soon");
         }
         ?>
@@ -171,9 +183,9 @@ if (!User::canCreateMeet()) {
                                 data: null,
                                 "render": function (data, type, row) {
 
-                                    if(row.isModerator){
+                                    if (row.isModerator) {
                                         return $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinks').html()
-                                    }else{
+                                    } else {
                                         return $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinksJoinOnly').html()
 
                                     }
