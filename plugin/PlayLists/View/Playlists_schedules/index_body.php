@@ -31,7 +31,7 @@ if (!User::isAdmin()) {
                                     <label for="Playlists_schedulesdescription"><?php echo __("Description"); ?>:</label>
                                     <textarea id="Playlists_schedulesdescription" name="description" class="form-control input-sm" placeholder="<?php echo __("Description"); ?>" required="true"></textarea>
                                 </div>
-                                
+
                                 <div class="form-group col-sm-6">
                                     <label for="Playlists_schedulesplaylists_id"><?php echo __("Program"); ?>:</label>
                                     <select class="form-control input-sm" name="playlists_id" id="Playlists_schedulesplaylists_id">
@@ -70,11 +70,11 @@ if (!User::isAdmin()) {
                                     <label for="Playlists_schedulesrepeat"><?php echo __("Repeat"); ?>:</label>
                                     <select class="form-control input-sm" name="repeat" id="Playlists_schedulesrepeat">
                                         <option value="<?php echo Playlists_schedules::$REPEAT_NEVER; ?>"><?php echo __("Never"); ?></option>
-                                        <option value="<?php echo Playlists_schedules::$REPEAT_DAYLY; ?>"><?php echo __("Dayly"); ?></option>
+                                        <option value="<?php echo Playlists_schedules::$REPEAT_DAILY; ?>"><?php echo __("Daily"); ?></option>
                                         <option value="<?php echo Playlists_schedules::$REPEAT_WEEKLY; ?>"><?php echo __("Weekly"); ?></option>
                                         <option value="<?php echo Playlists_schedules::$REPEAT_MONTHLY; ?>"><?php echo __("Monthly"); ?></option>
                                     </select>
-                                    
+
                                 </div>
                                 <div class="form-group col-sm-12" style="display: none;">
                                     <label for="Playlists_schedulesparameters"><?php echo __("Parameters"); ?>:</label>
