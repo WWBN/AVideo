@@ -124,11 +124,12 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         }
         .socket_connected .hideNotConected,
         .socketUserDiv.visible .socketUserPages,
-        .socketUserDiv.visible .fa-caret-up{
-            display: block;
-        }
         .socket_disconnected .hideNotDisconnected{
             display: block;
+        }
+        
+        .socketUserDiv.visible .fa-caret-up{
+            display: inline-block;
         }
     </style>
     <div id="socket_info_container" class="socket_info <?php echo $socket_info_container_class; ?>" >
