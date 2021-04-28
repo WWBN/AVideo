@@ -448,7 +448,7 @@ if (User::isAdmin()) {
                                                         ?>  aria-describedby="disable_analyticsHelp">
                                                         <label for="disable_analytics" class="label-success"></label>
                                                     </div>
-                                                    <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and dettect errors"); ?></small>
+                                                    <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and detect errors"); ?></small>
                                                 </div>
                                             </div>
 
