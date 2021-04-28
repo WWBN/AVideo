@@ -118,12 +118,13 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         }
         .hideNotConected, .hideNotDisconnected,
         .socketUserDiv .socketUserPages,
-        .socketUserDiv .fa-caret-down,
-        .socketUserDiv.visible .fa-caret-up{
+        .socketUserDiv .fa-caret-up,
+        .socketUserDiv.visible .fa-caret-down{
             display: none;
         }
         .socket_connected .hideNotConected,
-        .socketUserDiv.visible .socketUserPages{
+        .socketUserDiv.visible .socketUserPages,
+        .socketUserDiv.visible .fa-caret-up{
             display: block;
         }
         .socket_disconnected .hideNotDisconnected{
