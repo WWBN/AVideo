@@ -3993,7 +3993,10 @@ function isFirstPage() {
 }
 
 function isVideo() {
-    global $isModeYouTube;
+    global $isModeYouTube, $global;
+    if(!empty($global['doNotLoadPlayer'])){
+        return false;
+    }
     return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();
 }
 
@@ -4046,12 +4049,18 @@ function isChannel() {
 }
 
 function isEmbed() {
-    global $isEmbed;
+    global $isEmbed, $global;
+    if(!empty($global['doNotLoadPlayer'])){
+        return false;
+    }
     return !empty($isEmbed);
 }
 
 function isLive() {
-    global $isLive;
+    global $isLive, $global;
+    if(!empty($global['doNotLoadPlayer'])){
+        return false;
+    }
     if (!empty($isLive)) {
         $live = getLiveKey();
         if (empty($live)) {
@@ -6126,13 +6135,16 @@ function getStatsNotifications($force_recreate = false) {
 
 function getSocketConnectionLabel() {
     $html = '<span class="socketStatus">
-            <span class="socket_disconnected">
+            <span class="socket_icon socket_loading_icon">
+                <i class="fas fa-sync fa-spin"></i>
+            </span>
+            <span class="socket_icon socket_not_loading socket_disconnected_icon">
                 <span class="fa-stack">
   <i class="fas fa-slash fa-stack-1x"></i>
   <i class="fas fa-plug fa-stack-1x"></i>
 </span> ' . __('Disconnected') . '
             </span>
-            <span class="socket_connected">
+            <span class="socket_icon socket_not_loading socket_connected_icon">
                 <span class="fa-stack">
   <i class="fas fa-plug fa-stack-1x"></i>
 </span>  ' . __('Connected') . '
@@ -6521,4 +6533,10 @@ function isIPPrivate($ip) {
         return true;
     }
     return false;
+}
+
+function countDownPage($toTime, $message, $image, $bgImage){
+    global $global;
+    include $global['systemRootPath'] . 'objects/functionCountDownPage.php';
+    exit;
 }
