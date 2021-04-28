@@ -117,7 +117,9 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             border-top: solid 1px #000;
         }
         .hideNotConected, .hideNotDisconnected,
-        .socketUserDiv .socketUserPages{
+        .socketUserDiv .socketUserPages,
+        .socketUserDiv .fa-caret-down,
+        .socketUserDiv.visible .fa-caret-up{
             display: none;
         }
         .socket_connected .hideNotConected,
