@@ -611,1490 +611,1468 @@ $t["After editing the above file your code should be like this:"] = "Depois de e
 $t["In order to use mod_rewrite you can type the following command in the terminal:</p>"] = "Para usar o mod_rewrite, você pode digitar o seguinte comando em seu terminal:";
 $t["Restart apache2 after"] = "Reinicie o serviço apache2 depois";
 $t["or"] = "ou";
+//----- translation strings for view/error.php
+$t["We couldn't find what you were looking for."] = "Não encontramos o que está procurando.";
+$t["Unfortunately the page you were looking for could not be found. It may be temporarily unavailable, moved or no longer exist."] = "Infelizmente a página que você está tentando acessar não foi encontrada. Ela pode estar temporariamente indisponível, alterada ou removida.";
+$t["Check the URL you entered for any mistakes and try again. Alternatively, search for whatever is missing or take a look around the rest of our site."] = "Cheque o endereço digitado por algum erro de digitação e tente novamente. Alternativamente, você pode pesquisar pelo termo ou navegar pelo nosso site.";
+$t["About Us"] = "Sobre nós";
+$t["Site Map"] = "Mapa do site";
 //----------------------------------------------------------------------------------------------------------
 //------ |||
 //------ vvv automatically translations strings retrieval using simple script by Julian Romero in 21 april 2021
 //----------------------------------------------------------------------------------------------------------
 //----- translation strings from admin/backup.php
 $t['Backup Files and Database'] = 'Cópia de segurança dos arquivos e banco de dados';
-$t['As a database increases in size full database backups take more time to complete, and require more storage space. please be patience'] = 'As a database increases in size full database backups take more time to complete, and require more storage space. please be patience';
-$t['Prevent Data Loss'] = 'Prevent Data Loss';
-$t['Backing up your video files and databases, running test restores procedures on your backups, and storing copies of backups in a safe, off-site location protects you from potentially catastrophic data loss. Backing up is the only way to protect your data.'] = 'Backing up your video files and databases, running test restores procedures on your backups, and storing copies of backups in a safe, off-site location protects you from potentially catastrophic data loss. Backing up is the only way to protect your data.';
-$t['We can help you with this task,'] = 'We can help you with this task,';
-$t['Buy our Backup Plugin Now'] = 'Buy our Backup Plugin Now';
-$t['This Plugin helps you to clone your video site, it is really helpful for backup routines, load balance, etc.'] = 'This Plugin helps you to clone your video site, it is really helpful for backup routines, load balance, etc.';
-$t['You May find some help how to use Clone Plugin'] = 'You May find some help how to use Clone Plugin';
-$t['Place here the URL of the site you want to clone'] = 'Place here the URL of the site you want to clone';
+$t['As a database increases in size full database backups take more time to complete, and require more storage space. please be patience'] = 'Como o banco de dados crescendo as cópias de segurança levam mais tempo para completar, e necessitam de mais espaço em disco. por favor, seja paciente';
+$t['Prevent Data Loss'] = 'Previna perda de dados';
+$t['Backing up your video files and databases, running test restores procedures on your backups, and storing copies of backups in a safe, off-site location protects you from potentially catastrophic data loss. Backing up is the only way to protect your data.'] = 'Fazer cópia de segurança de seus vídeos e banco de dados, executando procedimentos de teste para restauração, e armazenando as cópias de segurança em um local seguro, diferente do site atual, ajuda na proteção de potenciais perda de dados catastróficas. Realizar a cópia de segurança é o único jeito de proteger os dados do seu site.';
+$t['We can help you with this task,'] = 'Nós podemos ajudá-lo nesta tarefa,';
+$t['Buy our Backup Plugin Now'] = 'Compre nosso Backup Plugin agora';
+$t['This Plugin helps you to clone your video site, it is really helpful for backup routines, load balance, etc.'] = 'Este plugin ajuda a clonar seu site, e é muito útil em rotinas de cópias de segurança, load balance, etc.';
+$t['You May find some help how to use Clone Plugin'] = 'Você poderá encontrar ajuda em como usar o Clone Plugin';
+$t['Place here the URL of the site you want to clone'] = 'Coloque aqui a URL do site que deseja clonar';
 //----- translation strings from admin/customize_settings_native.php
-$t['Title and Logo'] = 'Title and Logo';
-$t["Web site title"] = "Web site title";
-$t["Your Logo"] = "Your Logo";
-$t["Upload a logo"] = "Upload a logo";
-$t["Save"] = "Save";
-$t["Congratulations!"] = "Congratulations!";
-$t["Sorry!"] = "Sorry!";
+$t['Title and Logo'] = 'Título e logo';
+$t["Web site title"] = "Título do site";
+$t["Your Logo"] = "Sua logo";
+$t["Upload a logo"] = "Enviar logo";
+$t["Save"] = "Gravar";
+$t["Congratulations!"] = "Parabéns!";
+$t["Sorry!"] = "Desculpe!";
 //----- translation strings from admin/customize_settings_nativeUpdate.json.php
-$t["Permission denied"] = "Permission denied";
+$t["Permission denied"] = "Acesso negado";
 //----- translation strings from admin/customize_settings_plugin.php
-$t['Customize Footer, About and Meta Description'] = 'Customize Footer, About and Meta Description';
-$t['Truly customize your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.'] = 'Truly customize your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.';
-$t['Buy the Customize plugin now'] = 'Buy the Customize plugin now';
+$t['Customize Footer, About and Meta Description'] = 'Personalize rodapé, página "Sobre" e descrições meta';
+$t['Truly customize your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.'] = 'Personalize seu AVideo e crie um site de vídeo mais profissional e com melhor experiência para os visitantes removendo ou trocando o rodapé, criando uma página "Sobre" e adicionando descrições meta para auxiliar as máquinas de busca.';
+$t['Buy the Customize plugin now'] = 'Compre o Customize Plugin agora';
 //----- translation strings from admin/design_colors.php
-$t['Customize Your site colors'] = 'Customize Your site colors';
+$t['Customize Your site colors'] = 'Personalize as cores do site';
 //----- translation strings from admin/functions.php
-$t['Sorry you do not have the plugin'] = 'Sorry you do not have the plugin';
-$t['Buy this plugin now'] = 'Buy this plugin now';
+$t['Sorry you do not have the plugin'] = 'Desculpe, você não tem o plugin';
+$t['Buy this plugin now'] = 'Compre esse plugin agora';
 //----- translation strings from admin/general_settings.php
-$t['Upload'] = 'Upload';
-$t['Encoder'] = 'Encoder';
-$t['Sign In/Up'] = 'Sign In/Up';
+$t['Upload'] = 'Enviar';
+$t['Encoder'] = 'Codificador';
+$t['Sign In/Up'] = 'Entrar/Registrar';
 //----- translation strings from admin/general_settings_encoder.php
-$t['Let the encoder network (If configured) choose what is the best encoder to use'] = 'Let the encoder network (If configured) choose what is the best encoder to use';
-$t['Do not allow encode in Low resolution'] = 'Do not allow encode in Low resolution';
-$t['Do not allow encode in SD resolution'] = 'Do not allow encode in SD resolution';
-$t['Do not allow encode in HD resolution'] = 'Do not allow encode in HD resolution';
-$t['Maybe you need to approve or check something on your video before make it public'] = 'Maybe you need to approve or check something on your video before make it public';
+$t['Let the encoder network (If configured) choose what is the best encoder to use'] = 'Deixe o encoder network (se configurado) escolher qual o melhor codificador para usar';
+$t['Do not allow encode in Low resolution'] = 'Não permitir codificar em resolução baixa (Low)';
+$t['Do not allow encode in SD resolution'] = 'Não permitir codificar em resolução padrão (SD)';
+$t['Do not allow encode in HD resolution'] = 'Não permitir codificar em alta resolução (HD)';
+$t['Maybe you need to approve or check something on your video before make it public'] = 'Talvez você precise aprovar ou checar algo no seu vídeo antes de torná-lo público';
 //----- translation strings from admin/general_settings_upload.php
-$t['Users will not be able to directly upload, only use the encoder'] = 'Users will not be able to directly upload, only use the encoder';
-$t['Disable the option to import MP4 videos from your local (Server) storage'] = 'Disable the option to import MP4 videos from your local (Server) storage';
-$t['Do not show the button to the encoder'] = 'Do not show the button to the encoder';
-$t['Check this if you will not use embed videos on your site'] = 'Check this if you will not use embed videos on your site';
+$t['Users will not be able to directly upload, only use the encoder'] = 'Usuários não poderão enviar vídeos diretamente, somente poderão usar o codificador';
+$t['Disable the option to import MP4 videos from your local (Server) storage'] = 'Desative a opção para importar vídeos MP4 do seu servidor de armazenamento';
+$t['Do not show the button to the encoder'] = 'Não mostrar o botão para o codificador.';
+$t['Check this if you will not use embed videos on your site'] = 'Selecione isso se você não irá incorporar vídeos no site';
 //----- translation strings from admin/general_settings_user.php
-$t['This is useful if you want to use our LDAP plugin or maybe only allow authentication from Social Networks'] = 'This is useful if you want to use our LDAP plugin or maybe only allow authentication from Social Networks';
-$t['Disable the My Account personal info like: First and Last Name and address'] = 'Disable the My Account personal info like: First and Last Name and address';
-$t['Automatic allow new users to use your Livestream Platform'] = 'Automatic allow new users to use your Livestream Platform';
-$t['Do not show user\'s email on the site'] = 'Do not show user\'s email on the site';
-$t['Do not show user\'s name on the site'] = 'Do not show user\'s name on the site';
-$t['Do not show user\'s username on the site'] = 'Do not show user\'s username on the site';
-$t['Users must verify their emails before login'] = 'Users must verify their emails before login';
-$t['Users must verify their emails before upload/submit videos'] = 'Users must verify their emails before upload/submit videos';
-$t['After sign up we will automatic send a verification email'] = 'After sign up we will automatic send a verification email';
-$t['Hide the website to non logged users'] = 'Hide the website to non logged users';
+$t['This is useful if you want to use our LDAP plugin or maybe only allow authentication from Social Networks'] = 'Isso é útil se quiser usar nosso plugin LDAP ou somente permitir autenticação por rede social';
+$t['Disable the My Account personal info like: First and Last Name and address'] = 'Desative informações da conta pessoal como nome, sobrenome e endereço';
+$t['Automatic allow new users to use your Livestream Platform'] = 'Permitir que novos usuários usem automaticamente a plataforma de transmissão';
+$t['Do not show user\'s email on the site'] = 'Não mostrar o e-mail do usuário';
+$t['Do not show user\'s name on the site'] = 'Não mostrar o nome do usuário';
+$t['Do not show user\'s username on the site'] = 'Não mostrar o nome de usuário no site';
+$t['Users must verify their emails before login'] = 'Usuários devem confirmar seus e-mails antes do login';
+$t['Users must verify their emails before upload/submit videos'] = 'Usuários devem confirmar seus e-mails antes de enviar vídeos';
+$t['After sign up we will automatic send a verification email'] = 'Após registro enviar mensagem de verificação de e-mail';
+$t['Hide the website to non logged users'] = 'Esconder o site para usuários não logados';
 //----- translation strings from admin/index.php
-$t["Settings"] = "Settings";
-$t["Remove Branding"] = "Remove Branding";
-$t["General Settings"] = "General Settings";
-$t["Site Settings"] = "Site Settings";
-$t["Social Login Settings"] = "Social Login Settings";
-$t["S3, B2, FTP settings"] = "S3, B2, FTP settings";
-$t["Payments Settings"] = "Payments Settings";
-$t["Contents"] = "Contents";
-$t["Videos"] = "Videos";
-$t["Live Stuff"] = "Live Stuff";
-$t["Users"] = "Users";
-$t["Users Groups"] = "Users Groups";
-$t["Categories"] = "Categories";
+$t["Settings"] = "Configurações";
+$t["Remove Branding"] = "Remover marca";
+$t["General Settings"] = "Configurações gerais";
+$t["Site Settings"] = "Configurações do site";
+$t["Social Login Settings"] = "Configurações de login por rede social";
+$t["S3, B2, FTP settings"] = "Configurações S3, B2 e FTP";
+$t["Payments Settings"] = "Configurações de pagamento";
+$t["Contents"] = "Conteúdo";
+$t["Videos"] = "Vídeos";
+$t["Live Stuff"] = "Itens ao vivo";
+$t["Users"] = "Usuário";
+$t["Users Groups"] = "Grupos de usuários";
+$t["Categories"] = "Categorias";
 $t["Backup"] = "Backup";
 $t["Design"] = "Design";
-$t["First Page Style"] = "First Page Style";
+$t["First Page Style"] = "Estilo da página inicial";
 $t["Player Skin"] = "Player Skin";
-$t["Themes"] = "Themes";
-$t["Colors"] = "Colors";
-$t["Custom CSS"] = "Custom CSS";
-$t["Monetize"] = "Monetize";
-$t["Site Advertisement with VAST Video ads"] = "Site Advertisement with VAST Video ads";
-$t["Pay User per Video View"] = "Pay User per Video View";
-$t["Create Subscription Plans"] = "Create Subscription Plans";
-$t["Banner Script code"] = "Banner Script code";
-$t["Update Version"] = "Update Version";
-$t["Miscellaneous"] = "Miscellaneous";
+$t["Themes"] = "Temas";
+$t["Colors"] = "Cores";
+$t["Custom CSS"] = "CSS Personalizado";
+$t["Monetize"] = "Monetizar";
+$t["Site Advertisement with VAST Video ads"] = "Publicidade com anúncios em vídeo VAST";
+$t["Pay User per Video View"] = "Pagar usuário por visualização do vídeo";
+$t["Create Subscription Plans"] = "Criar planos de assinaturas";
+$t["Banner Script code"] = "Código script de banner";
+$t["Update Version"] = "Atualizar versão";
+$t["Miscellaneous"] = "Outras opções";
 $t["Plugins"] = "Plugins";
-$t["Email All Users"] = "Email All Users";
-$t["Administration"] = "Administration";
-$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store';
+$t["Email All Users"] = "Enviar mensagem a todos os usuários";
+$t["Administration"] = "Administração";
+$t['Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'] = 'Perdoe-nos pela intromissão mas infelizmente você ainda não tem este plugin. Mas não hesite em comprá-lo em nossa loja online';
 $t['Plugin Store'] = 'Plugin Store';
 //----- translation strings from admin/live.php
 $t['Live'] = 'Live';
 $t['Live Chat'] = 'Live Chat';
-$t['Live Users'] = 'Live Users';
+$t['Live Users'] = 'Live Usuários';
 $t['Live Links'] = 'Live Links';
 //----- translation strings from admin/mail_all_users.php
-$t['Sent only to this email'] = 'Sent only to this email';
-$t['Leave it blank to send to all users'] = 'Leave it blank to send to all users';
-$t['Filter users'] = 'Filter users';
-$t["All"] = "All";
-$t["Enter text"] = "Enter text";
-$t["Send Email"] = "Send Email";
-$t["Success"] = "Success";
+$t['Sent only to this email'] = 'Enviar apenas para este e-mail';
+$t['Leave it blank to send to all users'] = 'Deixe em branco para enviar a todos os usuários';
+$t['Filter users'] = 'Filtrar usuários';
+$t["All"] = "Tudo";
+$t["Enter text"] = "Digite o texto";
+$t["Send Email"] = "Enviar mensagem";
+$t["Success"] = "Sucesso";
 //----- translation strings from admin/monetize_user.php
-$t['Monetize User'] = 'Monetize User';
+$t['Monetize User'] = 'Monetizar usuário';
 $t['Wallet'] = 'Wallet';
 //----- translation strings from admin/payments_settings.php
-$t['Usually for USD we use 2, for cryptocurrencies we use more the 2'] = 'Usually for USD we use 2, for cryptocurrencies we use more the 2';
-$t['Australian Dollar = AUD, Brazilian Real = BRL, Canadian Dollar = CAD, Euro = EUR, U.S. Dollar = USD, etc'] = 'Australian Dollar = AUD, Brazilian Real = BRL, Canadian Dollar = CAD, Euro = EUR, U.S. Dollar = USD, etc';
-$t['$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)';
-$t['When some one buy something on your web site, the wallet balance will be transferred to this user ID'] = 'When some one buy something on your web site, the wallet balance will be transferred to this user ID';
-$t['You need to enable it to be able to use PayPal to add funds on your wallet'] = 'You need to enable it to be able to use PayPal to add funds on your wallet';
-$t['Let users request withdraws from his wallet. the withdraw mus be done manually'] = 'Let users request withdraws from his wallet. the withdraw mus be done manually';
+$t['Usually for USD we use 2, for cryptocurrencies we use more the 2'] = 'Normalmente para USD usamos 2, para criptomoeda usamos mais que 2';
+$t['Australian Dollar = AUD, Brazilian Real = BRL, Canadian Dollar = CAD, Euro = EUR, U.S. Dollar = USD, etc'] = 'Dólar australiano = AUD, Real brasileiro = BRL, Dólar canadense = CAD, Euro = EUR, Dólar americano = USD, etc';
+$t['$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R$, etc, o formato será {currency} {value} {currency_symbol} por exemplo ($ 10.00 USD) ou (R$ 10.00 BRL)';
+$t['When some one buy something on your web site, the wallet balance will be transferred to this user ID'] = 'Quando alguém compra algo no site, o balanço será transferido para sua carteira (wallet)';
+$t['You need to enable it to be able to use PayPal to add funds on your wallet'] = 'Você precisa ativá-lo para usar PayPal e adicionar fundos em sua carteira (wallet)';
+$t['Let users request withdraws from his wallet. the withdraw mus be done manually'] = 'Deixar usuários solicitar saques da carteira (wallet). O saque deve ser feito manualmente';
 //----- translation strings from admin/socialLogin_settings.php
-$t['Customize options'] = 'Customize options';
-$t['The form to signup will not exists'] = 'The form to signup will not exists';
-$t['The regular form to signin will not exist, if you check this will only have social login or LDAP option'] = 'The regular form to signin will not exist, if you check this will only have social login or LDAP option';
-$t['The site will display only a login form to un authenticated users'] = 'The site will display only a login form to un authenticated users';
-$t['Get Facebook ID and Key'] = 'Get Facebook ID and Key';
-$t['Valid OAuth redirect URIs'] = 'Valid OAuth redirect URIs';
-$t['For mobile a Valid OAuth redirect URIs'] = 'For mobile a Valid OAuth redirect URIs';
-$t['Get Google ID and Key'] = 'Get Google ID and Key';
-$t['Get Linkedin ID and Key'] = 'Get Linkedin ID and Key';
-$t['Get Twitter ID and Key'] = 'Get Twitter ID and Key';
-$t['Get Yahoo ID and Key'] = 'Get Yahoo ID and Key';
-$t['Help Page'] = 'Help Page';
+$t['Customize options'] = 'Opções de personalização';
+$t['The form to signup will not exists'] = 'O formulário para registro não será exibido';
+$t['The regular form to signin will not exist, if you check this will only have social login or LDAP option'] = 'O formulário normal para registro não existirá, se você selecionar essa opção apenas serão exibidos login por rede social ou LDAP';
+$t['The site will display only a login form to un authenticated users'] = 'O site só irá mostrar formulário de registro para usuários não-autenticados';
+$t['Get Facebook ID and Key'] = 'Obter o Facebook ID e Key';
+$t['Valid OAuth redirect URIs'] = 'URIs válidas para redirecionamento OAuth';
+$t['For mobile a Valid OAuth redirect URIs'] = 'URIs mobile válidas para redirecionamento OAuth';
+$t['Get Google ID and Key'] = 'Obter Google ID e Key';
+$t['Get Linkedin ID and Key'] = 'Obter Linkedin ID e Key';
+$t['Get Twitter ID and Key'] = 'Obter Twitter ID e Key';
+$t['Get Yahoo ID and Key'] = 'Obter Yahoo ID e Key';
+$t['Help Page'] = 'Página de ajuda';
 //----- translation strings from install/index.php
-$t["Enter System Admin password"] = "Enter System Admin password";
-$t["Confirm System Admin password"] = "Confirm System Admin password";
-$t["Enter Database Password"] = "Enter Database Password";
+$t["Enter System Admin password"] = "Digite a senha do administrador do sistema";
+$t["Confirm System Admin password"] = "Confirme a senha do administrador do sistema";
+$t["Enter Database Password"] = "Digite a senha do banco de dados";
 //----- translation strings from locale/index.php
-$t["Translate AVideo"] = "Translate AVideo";
-$t["Save File"] = "Save File";
-$t["Original words found"] = "Original words found";
-$t["Word Translations"] = "Word Translations";
-$t["Paste here the translated words, one each line"] = "Paste here the translated words, one each line";
-$t["Translated Array"] = "Translated Array";
-$t["You need to make your locale folder writable"] = "You need to make your locale folder writable";
+$t["Translate AVideo"] = "Traduza o AVideo";
+$t["Save File"] = "Salvar arquivo";
+$t["Original words found"] = "Palavras originais encontradas";
+$t["Word Translations"] = "Traduções de palavras";
+$t["Paste here the translated words, one each line"] = "Cole aqui as palavras traduzidas, uma por linha";
+$t["Translated Array"] = "Matriz de tradução";
+$t["You need to make your locale folder writable"] = "O diretório locale deve ter permissão de gravação";
 //----- translation strings from locale/save.php
-$t["Your %slocale dir is not writable"] = "Your %slocale dir is not writable";
-$t["Unable to open file!"] = "Unable to open file!";
+$t["Your %slocale dir is not writable"] = "Seu %slocale diretório não tem permissão de gravação";
+$t["Unable to open file!"] = "Não é possível abrir o arquivo!";
 //----- translation strings from objects/aVideoEncoder.json.php
-$t["Your POST data is empty may be your vide file is too big for the host"] = "Your POST data is empty may be your vide file is too big for the host";
-$t["Permission denied to receive a file: "] = "Permission denied to receive a file: ";
-$t["Permission denied to edit a video: "] = "Permission denied to edit a video: ";
-$t["Could not move image file [%s.jpg]"] = "Could not move image file [%s.jpg]";
-$t["Could not move gif image file [%s.gif]"] = "Could not move gif image file [%s.gif]";
+$t["Permission denied to receive a file: "] = "Permissão negada para receber arquivo: ";
+$t["Permission denied to edit a video: "] = "Permissão negada para editar vídeo: ";
+$t["Could not move image file [%s.jpg]"] = "Não é possível mover o arquivo de imagem JPG [%s.jpg]";
+$t["Could not move gif image file [%s.gif]"] = "Não é possível mover o arquivo de imagem GIF [%s.gif]";
 //----- translation strings from objects/aVideoEncoderNotifyIsDone.json.php
-$t["Permission denied to Notify Done: "] = "Permission denied to Notify Done: ";
+$t["Permission denied to Notify Done: "] = "Permissão negada para notificação: ";
 //----- translation strings from objects/aVideoEncoderReceiveImage.json.php
-$t["Your POST data is empty may be your video file too big for the host"] = "Your POST data is empty may be your video file too big for the host";
-$t["Could not move webp image file [%s.webp]"] = "Could not move webp image file [%s.webp]";
+$t["Your POST data is empty may be your video file too big for the host"] = "Os dados POST estão vazios, talvez o tamanho do arquivo enviado não é suportado pelo servidor";
+$t["Could not move webp image file [%s.webp]"] = "Não foi possível moder o arquivo de imagem WEBP [%s.webp]";
 //----- translation strings from objects/commentDelete.json.php
-$t["ID can not be empty"] = "ID can not be empty";
+$t["ID can not be empty"] = "O ID não pode ser vazio";
 //----- translation strings from objects/emailAllUsers.json.php
-$t["You can not do this"] = "You can not do this";
-$t["Message could not be sent"] = "Message could not be sent";
+$t["You can not do this"] = "Ação não permitida";
+$t["Message could not be sent"] = "A mensagem não pode ser enviada";
 //----- translation strings from objects/functiondiskUsageBars.php
-$t["Videos Directory"] = "Videos Directory";
-$t["Other Files"] = "Other Files";
-$t["Free Space"] = "Free Space";
+$t["Videos Directory"] = "Diretório de vídeos";
+$t["Other Files"] = "Outros arquivos";
+$t["Free Space"] = "Espaço disponível";
 //----- translation strings from objects/functiongetShareMenu.php
-$t["Share"] = "Share";
-$t["Share Code"] = "Share Code";
+$t["Share"] = "Compartilhar";
+$t["Share Code"] = "Código de compartilhamento";
 $t["E-mail"] = "E-mail";
-$t["Permanent Link"] = "Permanent Link";
-$t["Embed"] = "Embed";
+$t["Permanent Link"] = "Link permanente";
+$t["Embed"] = "Embutir";
 $t["Link"] = "Link";
-$t["Sign in now!"] = "Sign in now!";
-$t["E-mail Address"] = "E-mail Address";
-$t["Message"] = "Message";
-$t["Type the code"] = "Type the code";
-$t["Send"] = "Send";
-$t["Your message could not be sent!"] = "Your message could not be sent!";
-$t["URL Friendly"] = "URL Friendly";
-$t["Current Time"] = "Current Time";
+$t["Sign in now!"] = "Registre-se agora!";
+$t["E-mail Address"] = "E-mail";
+$t["Message"] = "Mensagem";
+$t["Type the code"] = "Digite o código";
+$t["Send"] = "Enviar";
+$t["Your message could not be sent!"] = "A mensagem não pôde ser enviada!";
+$t["URL Friendly"] = "URL amigável";
+$t["Current Time"] = "Hora atual";
 //----- translation strings from objects/functions.php
-$t["Now"] = "Now";
-$t["ago"] = "ago";
-$t['Coming in'] = 'Coming in';
-$t["Error"] = "Error";
-$t["Page %d"] = "Page %d";
-$t["Password"] = "Password";
-$t['Disconnected'] = 'Disconnected';
-$t['Connected'] = 'Connected';
-$t["Sign Up"] = "Sign Up";
-$t["Sign In"] = "Sign In";
+$t["Now"] = "Agora";
+$t["ago"] = "atrás";
+$t['Coming in'] = 'Entrando em';
+$t["Error"] = "Erro";
+$t["Page %d"] = "Página %d";
+$t["Password"] = "Senha";
+$t['Disconnected'] = 'Desconectado';
+$t['Connected'] = 'Conectado';
+$t["Sign Up"] = "Entrar";
+$t["Sign In"] = "Registrar";
 $t['Plugin'] = 'Plugin';
 //----- translation strings from objects/functionsGetTinyMCE.php
-$t["Unknown Error!"] = "Unknown Error!";
+$t["Unknown Error!"] = "Erro desconhecido!";
 //----- translation strings from objects/login.json.php
-$t["%s ERROR: You must set a ID on config"] = "%s ERROR: You must set a ID on config";
-$t["%s ERROR: You must set a KEY on config"] = "%s ERROR: You must set a KEY on config";
-$t["User and Password can not be blank"] = "User and Password can not be blank";
-$t["Your user is not verified, we sent you a new e-mail"] = "Your user is not verified, we sent you a new e-mail";
-$t["Invalid Captcha"] = "Invalid Captcha";
-$t["2FA login is required"] = "2FA login is required";
+$t["%s ERROR: You must set a ID on config"] = "%s ERROR: Você deve configurar o ID";
+$t["%s ERROR: You must set a KEY on config"] = "%s ERROR: Você deve configurar a chave (KEY)";
+$t["User and Password can not be blank"] = "Nome de usuário e senha não podem ser vazias";
+$t["Your user is not verified, we sent you a new e-mail"] = "Seu usuário não está verificado, enviamos uma nova mensagem de verificação para seu e-mail";
+$t["Invalid Captcha"] = "Captcha inválido";
+$t["2FA login is required"] = "Login 2FA é obrigatório";
 //----- translation strings from objects/notifySubscribers.json.php
-$t["You can not notify"] = "You can not notify";
-$t["Message sent"] = "Message sent";
+$t["You can not notify"] = "Você não pode notificar";
+$t["Message sent"] = "Mensagem enviada";
 //----- translation strings from objects/playlistAddNew.json.php
-$t["Name can't be blank"] = "Name can't be blank";
+$t["Name can't be blank"] = "Nome não pode ser vazio";
 //----- translation strings from objects/pluginAddDataObject.json.php
-$t["ID can't be blank"] = "ID can't be blank";
+$t["ID can't be blank"] = "ID não pode ser vazio";
 //----- translation strings from objects/pluginSwitch.json.php
-$t["UUID can't be blank"] = "UUID can't be blank";
+$t["UUID can't be blank"] = "UUID não pode ser vazio";
 //----- translation strings from objects/sendEmail.json.php
-$t["The email is invalid"] = "The email is invalid";
-$t["Your code is not valid"] = "Your code is not valid";
+$t["The email is invalid"] = "O e-mail é inválido";
+$t["Your code is not valid"] = "O código não é válido";
 //----- translation strings from objects/subscribe.json.php
-$t["User can not be blank"] = "User can not be blank";
+$t["User can not be blank"] = "Usuário não pode ser vazio";
 //----- translation strings from objects/subscribe.php
-$t["Unknown User"] = "Unknown User";
-$t["Want to subscribe to this channel?"] = "Want to subscribe to this channel?";
-$t["Sign in to subscribe to this channel"] = "Sign in to subscribe to this channel";
-$t["Subscribe"] = "Subscribe";
-$t["Subscribed"] = "Subscribed";
-$t["Stop getting notified for every new video"] = "Stop getting notified for every new video";
-$t["Get notified for every new video"] = "Get notified for every new video";
+$t["Unknown User"] = "Usuário desconhecido";
+$t["Want to subscribe to this channel?"] = "Quer assinar este canal?";
+$t["Sign in to subscribe to this channel"] = "Registre-se e assine este canal";
+$t["Subscribe"] = "Assine";
+$t["Subscribed"] = "Assinante";
+$t["Stop getting notified for every new video"] = "Pare de receber notificação para cada novo vídeo";
+$t["Get notified for every new video"] = "Receba notificação para cada novo vídeo";
 //----- translation strings from objects/user.php
-$t["E-mail Verified"] = "E-mail Verified";
-$t["You need a user and passsword to register"] = "You need a user and passsword to register";
-$t["Admin"] = "Admin";
-$t["Regular User"] = "Regular User";
-$t["Active"] = "Active";
-$t["Inactive"] = "Inactive";
-$t["E-mail Not Verified"] = "E-mail Not Verified";
-$t['Please Verify Your E-mail '] = 'Please Verify Your E-mail ';
-$t["Hi %s"] = "Hi %s";
-$t["Verify"] = "Verify";
+$t["E-mail Verified"] = "E-mail verificado";
+$t["You need a user and passsword to register"] = "Você precisa de um nome de usuário e senha para registrar-se";
+$t["Admin"] = "Administrador";
+$t["Regular User"] = "Usuário padrão";
+$t["Active"] = "Ativo";
+$t["Inactive"] = "Inativo";
+$t["E-mail Not Verified"] = "E-mail não-verificado";
+$t['Please Verify Your E-mail '] = 'Favor verificar seu e-mail ';
+$t["Hi %s"] = "Olá %s";
+$t["Verify"] = "Verificar";
 //----- translation strings from objects/userCreate.json.php
-$t["The captcha is empty"] = "The captcha is empty";
-$t["The captcha is wrong"] = "The captcha is wrong";
-$t["User already exists"] = "User already exists";
-$t["You must specify an valid email"] = "You must specify an valid email";
-$t["Email already exists"] = "Email already exists";
-$t["You must fill all fields"] = "You must fill all fields";
-$t["Invalid Email"] = "Invalid Email";
+$t["The captcha is empty"] = "O captcha está vazio";
+$t["The captcha is wrong"] = "O captcha está errado";
+$t["User already exists"] = "Nome de usuário já existe";
+$t["You must specify an valid email"] = "Você deve informar um e-mail válido";
+$t["Email already exists"] = "E-mail já existe";
+$t["You must fill all fields"] = "Você deve preencher todos os campos";
+$t["Invalid Email"] = "E-mail inválido";
 //----- translation strings from objects/userGroupSave.json.php
-$t["You can not Manage This Video"] = "You can not Manage This Video";
+$t["You can not Manage This Video"] = "Você não pode gerenciar este vídeo";
 //----- translation strings from objects/userRecoverPass.php
-$t["You asked for a recover link, click on the provided link"] = "You asked for a recover link, click on the provided link";
-$t["Recover password could not be saved!"] = "Recover password could not be saved!";
-$t["You do not have an e-mail"] = "You do not have an e-mail";
-$t["Recover Password"] = "Recover Password";
-$t["The recover pass does not match!"] = "The recover pass does not match!";
-$t["Recover password!"] = "Recover password!";
-$t["User"] = "User";
-$t["New Password"] = "New Password";
-$t["Confirm New Password"] = "Confirm New Password";
-$t["Your new password could not be set!"] = "Your new password could not be set!";
+$t["You asked for a recover link, click on the provided link"] = "Você solicitou um link de recuperação de senha, acesse ou clique no link";
+$t["Recover password could not be saved!"] = "A senha de recuperação não pôde ser salva!";
+$t["You do not have an e-mail"] = "Você não tem um e-mail cadastrado";
+$t["Recover Password"] = "Recuperar senha";
+$t["The recover pass does not match!"] = "A senha de recuperação não confere!";
+$t["Recover password!"] = "Recuperar senha!";
+$t["User"] = "Usuário";
+$t["New Password"] = "Nova senha";
+$t["Confirm New Password"] = "Confirmar nova senha";
+$t["Your new password could not be set!"] = "A nova senha não pôde ser registrada!";
 //----- translation strings from objects/userRecoverPassSave.json.php
-$t["There is missing data to recover your password"] = "There is missing data to recover your password";
-$t["User not found"] = "User not found";
-$t["Recover password does not match"] = "Recover password does not match";
-$t["Confirmation password does not match"] = "Confirmation password does not match";
-$t["Your Password has been set"] = "Your Password has been set";
+$t["There is missing data to recover your password"] = "Há dados incompletos para recuperação de sua senha";
+$t["User not found"] = "Usuário não localizado";
+$t["Recover password does not match"] = "Senha de recuperação não confere";
+$t["Confirmation password does not match"] = "Senha de confirmação não confere";
+$t["Your Password has been set"] = "Sua senha foi registrada";
 //----- translation strings from objects/userSaveBackground.php
-$t["You must be logged"] = "You must be logged";
+$t["You must be logged"] = "Você deve estar logado";
 //----- translation strings from objects/userUpdate.json.php
-$t["Is not logged"] = "Is not logged";
-$t["Channel name already exists"] = "Channel name already exists";
+$t["Is not logged"] = "não está logado";
+$t["Channel name already exists"] = "Nome de canal já existe";
 //----- translation strings from objects/userVerifyEmail.php
-$t["Verification Sent"] = "Verification Sent";
-$t["Already verified"] = "Already verified";
-$t["Email Verified"] = "Email Verified";
-$t["Email verification error"] = "Email verification error";
+$t["Verification Sent"] = "Verificação enviada";
+$t["Already verified"] = "Já verificado";
+$t["Email Verified"] = "E-mail verificado";
+$t["Email verification error"] = "Erro na verificação do e-mail";
 //----- translation strings from objects/video.php
-$t["Paid Content"] = "Paid Content";
-$t["Password Protected"] = "Password Protected";
+$t["Paid Content"] = "Conteúdo pago";
+$t["Password Protected"] = "Protegido por senha";
 $t["Pay Per View"] = "Pay Per View";
-$t["Private"] = "Private";
+$t["Private"] = "Privado";
 $t["Status"] = "Status";
-$t["Active and encoding"] = "Active and encoding";
-$t["Encoding"] = "Encoding";
-$t["Downloading"] = "Downloading";
-$t["Unlisted"] = "Unlisted";
-$t["Encoding mp4 error"] = "Encoding mp4 error";
-$t["Encoding xwebm error"] = "Encoding xwebm error";
-$t["Encoding xmp3 error"] = "Encoding xmp3 error";
-$t["Encoding xogg error"] = "Encoding xogg error";
-$t["Get imgage error"] = "Get imgage error";
-$t["Status not found"] = "Status not found";
-$t["Group"] = "Group";
-$t["Public"] = "Public";
-$t["Category"] = "Category";
-$t["Source"] = "Source";
-$t["Local File"] = "Local File";
-$t['Other'] = 'Other';
-$t["This video is Active and Listed, click here to unlist it"] = "This video is Active and Listed, click here to unlist it";
-$t["This video is inactive, click here to activate it"] = "This video is inactive, click here to activate it";
-$t["This video is unlisted, click here to inactivate it"] = "This video is unlisted, click here to inactivate it";
+$t["Active and encoding"] = "Ativo e codificando";
+$t["Encoding"] = "Codificando";
+$t["Downloading"] = "Baixando";
+$t["Unlisted"] = "Não-listado";
+$t["Encoding mp4 error"] = "Erro na codificação mp4";
+$t["Encoding xwebm error"] = "Erro na codificação xwebm";
+$t["Encoding xmp3 error"] = "Erro na codificação xmp3";
+$t["Encoding xogg error"] = "Erro na codificação xogg";
+$t["Get imgage error"] = "Erro imgage";
+$t["Status not found"] = "Status não encontrado";
+$t["Group"] = "Grupo";
+$t["Public"] = "Público";
+$t["Category"] = "Categoria";
+$t["Source"] = "Fonte";
+$t["Local File"] = "Arquivo local";
+$t['Other'] = 'Outro';
+$t["This video is Active and Listed, click here to unlist it"] = "Este vídeo está ativo e listado, clique para deixá-lo não-listado";
+$t["This video is inactive, click here to activate it"] = "Este vídeo está inativo, clique aqui para ativá-lo";
+$t["This video is unlisted, click here to inactivate it"] = "Este vídeo está como não-listado, clique aqui para inativá-lo";
 //----- translation strings from objects/videoStatus.json.php
-$t["Video NOT Found"] = "Video NOT Found";
+$t["Video NOT Found"] = "Vídeo não encontrado";
 //----- translation strings from objects/videoSwap.json.php
-$t["Swap Disabled"] = "Swap Disabled";
-$t["Mou MUST select 2 videos to swap"] = "Mou MUST select 2 videos to swap";
-$t["You can not Manage This Video 1"] = "You can not Manage This Video 1";
-$t["You can not Manage This Video 2"] = "You can not Manage This Video 2";
-$t["Error on save video 1"] = "Error on save video 1";
-$t["Error on save video 2"] = "Error on save video 2";
+$t["Swap Disabled"] = "Troca (Swap) desativado";
+$t["Mou MUST select 2 videos to swap"] = "Você deve selecionar 2 vídeos para trocar";
+$t["You can not Manage This Video 1"] = "Você não tem permissão para gerenciar o vídeo 1";
+$t["You can not Manage This Video 2"] = "Você não tem permissão para gerenciar o vídeo 2";
+$t["Error on save video 1"] = "Erro ao salvar o vídeo 1";
+$t["Error on save video 2"] = "Erro ao salvar o vídeo 2";
 //----- translation strings from objects/video_statistic.php
-$t["You need a video to generate statistics"] = "You need a video to generate statistics";
+$t["You need a video to generate statistics"] = "Você precisa de um vídeo para gerar estatísticas";
 //----- translation strings from objects/youtubeUpload.json.php
-$t["Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> "] = "Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> ";
-$t["A service error occurred [1]: %s"] = "A service error occurred [1]: %s";
-$t["An client error occurred [2]: %s"] = "An client error occurred [2]: %s";
+$t["Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> "] = "Seu vídeo <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> foi enviado para sua <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> conta do YouTube</a><br> ";
+$t["A service error occurred [1]: %s"] = "Um erro de serviço ocorreu [1]: %s";
+$t["An client error occurred [2]: %s"] = "Um erro do cliente ocorreu [2]: %s";
 //----- translation strings from plugin/AVideoPlugin.php
-$t["Table of content"] = "Table of content";
+$t["Table of content"] = "Índice";
 //----- translation strings from plugin/AD_Overlay/footer.php
-$t["Ad Overlay Code"] = "Ad Overlay Code";
-$t["Close"] = "Close";
-$t["Approve Ad Code"] = "Approve Ad Code";
-$t["Disapprove Ad Code"] = "Disapprove Ad Code";
-$t["Disapprove and Delete Ad Code"] = "Disapprove and Delete Ad Code";
+$t["Ad Overlay Code"] = "Código do anúncio (ad overlay)";
+$t["Close"] = "Fechar";
+$t["Approve Ad Code"] = "Código de aprovação do anúncio (approve ad)";
+$t["Disapprove Ad Code"] = "Código de rejeição do anúncio (disapprove ad)";
+$t["Disapprove and Delete Ad Code"] = "Código de rejeição e remoção do anúncio (disapprove e delete ad)";
 //----- translation strings from plugin/AD_Overlay/profileTabContent.php
-$t["Save Ad Code"] = "Save Ad Code";
+$t["Save Ad Code"] = "Código de gravação do anúncio (save ad)";
 //----- translation strings from plugin/AD_Overlay/profileTabName.php
-$t["Ad Overlay"] = "Ad Overlay";
+$t["Ad Overlay"] = "Sobreposição de anúncio (ad overlay)";
 //----- translation strings from plugin/AD_Server/index.php
 $t["VAST"] = "VAST";
 //----- translation strings from plugin/AD_Server/index_body.php
-$t["Configure your Ads"] = "Configure your Ads";
-$t["Enable Ads Plugin"] = "Enable Ads Plugin";
-$t["Create Campaign"] = "Create Campaign";
-$t["Name"] = "Name";
-$t["Starts on"] = "Starts on";
-$t["End on"] = "End on";
-$t["Max Prints"] = "Max Prints";
-$t["Visibility"] = "Visibility";
-$t["Listed"] = "Listed";
-$t["New"] = "New";
+$t["Configure your Ads"] = "Configure seus anúncios";
+$t["Enable Ads Plugin"] = "Ativar Ads plugin";
+$t["Create Campaign"] = "Criar campanha";
+$t["Name"] = "Nome";
+$t["Starts on"] = "Começa em";
+$t["End on"] = "Termina em";
+$t["Max Prints"] = "Máximo de impressões";
+$t["Visibility"] = "Visibilidade";
+$t["Listed"] = "Listado";
+$t["New"] = "Novo";
 $t["VMAP Link"] = "VMAP Link";
-$t["Edit Campaigns"] = "Edit Campaigns";
-$t["Start"] = "Start";
-$t["End"] = "End";
-$t["Prints Left"] = "Prints Left";
-$t["Video Form"] = "Video Form";
-$t["Add Videos into Campaign"] = "Add Videos into Campaign";
-$t["Video"] = "Video";
-$t["Video URL"] = "Video URL";
-$t["Ad Title"] = "Ad Title";
-$t["Video Redirect URI"] = "Video Redirect URI";
-$t["Save Video"] = "Save Video";
-$t["Charts"] = "Charts";
-$t["Uploaded By"] = "Uploaded By";
-$t["Are you sure?"] = "Are you sure?";
-$t["You will not be able to recover this action!"] = "You will not be able to recover this action!";
+$t["Edit Campaigns"] = "Editar campanhas";
+$t["Start"] = "Início";
+$t["End"] = "Fim";
+$t["Prints Left"] = "Impressões restantes";
+$t["Video Form"] = "Formulário de vídeo";
+$t["Add Videos into Campaign"] = "Adicionar vídeos nesta campanha";
+$t["Video"] = "Vídeo";
+$t["Video URL"] = "URL do vídeo";
+$t["Ad Title"] = "Título do anúncio";
+$t["Video Redirect URI"] = "URI de redirecionamento do vídeo";
+$t["Save Video"] = "Gravar vídeo";
+$t["Charts"] = "Gráficos";
+$t["Uploaded By"] = "Enviado por";
+$t["Are you sure?"] = "Tem certeza?";
+$t["You will not be able to recover this action!"] = "Não será possível recuperar esta ação!";
 //----- translation strings from plugin/AD_Server_Location/campaignPanel.php
-$t["Country"] = "Country";
-$t["Region"] = "Region";
-$t["City"] = "City";
-$t["Add Location Restriction"] = "Add Location Restriction";
+$t["Country"] = "País";
+$t["Region"] = "Região";
+$t["City"] = "Cidade";
+$t["Add Location Restriction"] = "Adicionar restrição de localidade";
 //----- translation strings from plugin/ADs/deleteImage.json.php
-$t["The plugin is disabled"] = "The plugin is disabled";
-$t["Type is not defined"] = "Type is not defined";
-$t["Type NOT found"] = "Type NOT found";
-$t["Invalid filename"] = "Invalid filename";
+$t["The plugin is disabled"] = "O plugin está desativado";
+$t["Type is not defined"] = "Tipo não está definido";
+$t["Type NOT found"] = "Tipo não foi encontrado";
+$t["Invalid filename"] = "Nome de arquivo inválido";
 //----- translation strings from plugin/ADs/editor.php
-$t["ADs Editor"] = "ADs Editor";
-$t['Edit Ads'] = 'Edit Ads';
-$t["Image"] = "Image";
-$t["Upload Image"] = "Upload Image";
+$t["ADs Editor"] = "Editor de anúncios";
+$t['Edit Ads'] = 'Editar anúncios';
+$t["Image"] = "Imagem";
+$t["Upload Image"] = "Enviar imagem";
 $t["URL"] = "URL";
-$t["Ads Saved!"] = "Ads Saved!";
-$t["Ads deleted!"] = "Ads deleted!";
+$t["Ads Saved!"] = "Anúncio gravado!";
+$t["Ads deleted!"] = "Anúncio removido!";
 //----- translation strings from plugin/API/info.php
 $t["API"] = "API";
 //----- translation strings from plugin/Articles/Articles.php
-$t['Update Old Descriptions'] = 'Update Old Descriptions';
-$t['Revert Descriptions to NON-HTML'] = 'Revert Descriptions to NON-HTML';
+$t['Update Old Descriptions'] = 'Atualizar descrições antigas';
+$t['Revert Descriptions to NON-HTML'] = 'Reverter descrições para não-HTML';
 //----- translation strings from plugin/Audit/page/audits.json.php
-$t["You can not manager plugin Audit"] = "You can not manager plugin Audit";
+$t["You can not manager plugin Audit"] = "Você não pode usar o plugin Audit";
 //----- translation strings from plugin/Audit/page/editor.php
-$t["Audit"] = "Audit";
+$t["Audit"] = "Auditoria";
 //----- translation strings from plugin/BlockonomicsYPT/invoice.php
-$t["Invoice"] = "Invoice";
-$t["Seconds Left"] = "Seconds Left";
+$t["Invoice"] = "Fatura";
+$t["Seconds Left"] = "Segundos restantes";
 //----- translation strings from plugin/BulkEmbed/BulkEmbed.php
-$t["Bulk Embed"] = "Bulk Embed";
+$t["Bulk Embed"] = "Inclusão em massa";
 //----- translation strings from plugin/BulkEmbed/search.php
-$t["Search"] = "Search";
-$t['Embed All'] = 'Embed All';
-$t['Embed Selected'] = 'Embed Selected';
+$t["Search"] = "Procurar";
+$t['Embed All'] = 'Incluir tudo';
+$t['Embed Selected'] = 'Inclusão selecionada';
 //----- translation strings from plugin/CloneSite/index.php
-$t["Clone Site"] = "Clone Site";
-$t["Manage Clones"] = "Manage Clones";
-$t["Key"] = "Key";
-$t["Last Clone"] = "Last Clone";
+$t["Clone Site"] = "Clonar site";
+$t["Manage Clones"] = "Gerenciar clones";
+$t["Key"] = "Chave";
+$t["Last Clone"] = "Último clone";
 //----- translation strings from plugin/CombineSites/page/editor.php
-$t["You can not manage this plugin"] = "You can not manage this plugin";
-$t["Combine Sites"] = "Combine Sites";
-$t["Waiting connection approval"] = "Waiting connection approval";
-$t["Connected"] = "Connected";
-$t["Connection pre approved"] = "Connection pre approved";
-$t["Request to approve connection"] = "Request to approve connection";
-$t["Pre approved connection"] = "Pre approved connection";
+$t["You can not manage this plugin"] = "Você não tem permissão para acessar este plugin";
+$t["Combine Sites"] = "Combinar sites";
+$t["Waiting connection approval"] = "Aguardando aprovação de conexão";
+$t["Connected"] = "Conectado";
+$t["Connection pre approved"] = "Conexão pré-aprovada";
+$t["Request to approve connection"] = "Solicitar aprovação de conexão";
+$t["Pre approved connection"] = "Conexão pré-aprovada";
 //----- translation strings from plugin/CombineSites/page/get/index.php
-$t["Views"] = "Views";
+$t["Views"] = "Visualizações";
 //----- translation strings from plugin/CombineSites/page/modeGallery.php
-$t["Home"] = "Home";
+$t["Home"] = "Início";
 //----- translation strings from plugin/CustomizeAdvanced/CustomizeAdvanced.php
-$t["Update disk usage for this media"] = "Update disk usage for this media";
-$t["Remove thumbs for this media"] = "Remove thumbs for this media";
-$t["Success!"] = "Success!";
+$t["Update disk usage for this media"] = "Atualizar uso do armazenamento para esta mídia";
+$t["Remove thumbs for this media"] = "Remover miniaturas para esta mídia";
+$t["Success!"] = "Sucesso!";
 //----- translation strings from plugin/CustomizeAdvanced/confirmRating.php
-$t["Confirm Rating"] = "Confirm Rating";
-$t["Confirm"] = "Confirm";
-$t["Cancel"] = "Cancel";
+$t["Confirm Rating"] = "Confirmar classificação";
+$t["Confirm"] = "Confirmar";
+$t["Cancel"] = "Cancelar";
 //----- translation strings from plugin/CustomizeAdvanced/deleteThumbs.php
-$t["Video Not found"] = "Video Not found";
+$t["Video Not found"] = "Vídeo não encontrado";
 //----- translation strings from plugin/CustomizeAdvanced/menuLeft.php
-$t["R Rating"] = "R Rating";
-$t["Not Rated"] = "Not Rated";
+$t["R Rating"] = "Classificação R";
+$t["Not Rated"] = "Não classificado";
 //----- translation strings from plugin/CustomizeUser/CustomizeUser.php
-$t["Default"] = "Default";
-$t["None"] = "None";
-$t['Donation'] = 'Donation';
-$t['Donatate from your wallet'] = 'Donatate from your wallet';
-$t["Allow Download My Videos"] = "Allow Download My Videos";
-$t["Allow Share My Videos"] = "Allow Share My Videos";
-$t["Sorry, this video is private"] = "Sorry, this video is private";
-$t['Extra Info'] = 'Extra Info';
-$t['Show Extra Info'] = 'Show Extra Info';
+$t["Default"] = "Padrão";
+$t["None"] = "Nenhum";
+$t['Donation'] = 'Doação';
+$t['Donatate from your wallet'] = 'Doar usando sua carteira (wallet)';
+$t["Allow Download My Videos"] = "Permitir que seus vídeos sejam baixados";
+$t["Allow Share My Videos"] = "Permitir que seus vídeos sejam compartilhados";
+$t["Sorry, this video is private"] = "Desculpe, este vídeo é privado";
+$t['Extra Info'] = 'Informação extra';
+$t['Show Extra Info'] = 'Mostrar informação extra';
 //----- translation strings from plugin/CustomizeUser/View/Categories_has_users_groups/index_body.php
-$t["Configurations"] = "Configurations";
-$t["Create"] = "Create";
-$t["Edit"] = "Edit";
-$t["User Group"] = "User Group";
-$t["Your register has been saved!"] = "Your register has been saved!";
+$t["Configurations"] = "Configurações";
+$t["Create"] = "Criar";
+$t["Edit"] = "Editar";
+$t["User Group"] = "Grupo de usuário";
+$t["Your register has been saved!"] = "Seu registro foi gravado!";
 //----- translation strings from plugin/CustomizeUser/View/Users_extra_info/index_body.php
-$t["Field Name"] = "Field Name";
-$t["order"] = "order";
-$t["Field Type"] = "Field Type";
-$t["Field Options"] = "Field Options";
-$t["Field Default Value"] = "Field Default Value";
-$t["Parameters"] = "Parameters";
+$t["Field Name"] = "Nome do campo";
+$t["order"] = "ordem";
+$t["Field Type"] = "Tipo do campo";
+$t["Field Options"] = "Opções do campo";
+$t["Field Default Value"] = "Valor padrão do campo";
+$t["Parameters"] = "Parâmetros";
 //----- translation strings from plugin/CustomizeUser/View/editor.php
 $t['CustomizeUser'] = 'CustomizeUser';
-$t["Users Extra Info"] = "Users Extra Info";
+$t["Users Extra Info"] = "Informações extras de usuários";
 //----- translation strings from plugin/CustomizeUser/View/extraInfo.php
-$t['Add more fields'] = 'Add more fields';
+$t['Add more fields'] = 'Adicionar mais campos';
 //----- translation strings from plugin/CustomizeUser/View/tabExtraInfo.php
-$t["Save Extra Info"] = "Save Extra Info";
-$t['Extra info saved'] = 'Extra info saved';
+$t["Save Extra Info"] = "Gravar informações extras";
+$t['Extra info saved'] = 'Informações extras gravadas';
 //----- translation strings from plugin/CustomizeUser/actionButton.php
-$t["Please login to donate"] = "Please login to donate";
-$t["Value to donate"] = "Value to donate";
-$t["Confirm Donation"] = "Confirm Donation";
+$t["Please login to donate"] = "Por favor, faça login para doar";
+$t["Value to donate"] = "Valor a doar";
+$t["Confirm Donation"] = "Confirmar doação";
 //----- translation strings from plugin/CustomizeUser/channelMenuRight.php
-$t["Leave Channel"] = "Leave Channel";
+$t["Leave Channel"] = "Deixar o canal";
 //----- translation strings from plugin/CustomizeUser/confirmVideoPassword.php
-$t["Confirm Password"] = "Confirm Password";
-$t["is Private"] = "is Private";
-$t["Your password does not match!"] = "Your password does not match!";
-$t["This Video Requires a Password"] = "This Video Requires a Password";
+$t["Confirm Password"] = "Confirmar senha";
+$t["is Private"] = "é privado";
+$t["Your password does not match!"] = "Sua senha não confere!";
+$t["This Video Requires a Password"] = "Este vídeo exige senha para assistir";
 //----- translation strings from plugin/Gallery/Gallery.php
-$t['Gallery options (admin)'] = 'Gallery options (admin)';
-$t['Sort Sections'] = 'Sort Sections';
+$t['Gallery options (admin)'] = 'Opções de galeria (admin)';
+$t['Sort Sections'] = 'Ordenar seções';
 //----- translation strings from plugin/Gallery/functions.php
 $t["Up"] = "Up";
 $t["Down"] = "Down";
-$t["Description"] = "Description";
-$t["Download"] = "Download";
-$t["LIVE NOW"] = "LIVE NOW";
+$t["Description"] = "Descrição";
+$t["Download"] = "Baixar";
+$t["LIVE NOW"] = "LIVE AGORA";
 //----- translation strings from plugin/Gallery/view/BigVideo.php
-$t["Go Back"] = "Go Back";
+$t["Go Back"] = "Voltar";
 //----- translation strings from plugin/Gallery/view/Category.php
-$t["Back to startpage"] = "Back to startpage";
-$t["Back to"] = "Back to";
-$t["Back"] = "Back";
-$t["Sub-Category-Gallery"] = "Sub-Category-Gallery";
+$t["Back to startpage"] = "Voltar ao início";
+$t["Back to"] = "Voltar para";
+$t["Back"] = "Voltar";
+$t["Sub-Category-Gallery"] = "Sub categoria da galeria";
 //----- translation strings from plugin/Gallery/view/mainArea.php
 $t["Live"] = "Live";
-$t["newest"] = "newest";
-$t["Suggested"] = "Suggested";
-$t["Trending"] = "Trending";
-$t["Sort by name"] = "Sort by name";
-$t["Date added"] = "Date added";
-$t["Most watched"] = "Most watched";
-$t["Most popular"] = "Most popular";
-$t["Warning"] = "Warning";
-$t["We have not found any videos or audios to show"] = "We have not found any videos or audios to show";
+$t["newest"] = "mais novo";
+$t["Suggested"] = "Sugerido";
+$t["Trending"] = "Em alta";
+$t["Sort by name"] = "Ordenar por nome";
+$t["Date added"] = "Data de inclusão";
+$t["Most watched"] = "Mais assistidos";
+$t["Most popular"] = "Mais populares";
+$t["Warning"] = "Aviso";
+$t["We have not found any videos or audios to show"] = "Não foi localizado nenhum vídeo ou áudio para mostrar";
 //----- translation strings from plugin/Gallery/view/sections.php
-$t["Gallery"] = "Gallery";
-$t['Sort Gallery Sections'] = 'Sort Gallery Sections';
+$t["Gallery"] = "Galeria";
+$t['Sort Gallery Sections'] = 'Ordenar as seções da galeria';
 //----- translation strings from plugin/Gallery/view/themeSwitcher.php
-$t["Change theme"] = "Change theme";
+$t["Change theme"] = "Mudar tema";
 //----- translation strings from plugin/Gallery/view/topLogic.php
-$t["Video Not Available"] = "Video Not Available";
+$t["Video Not Available"] = "Vídeo indisponível";
 //----- translation strings from plugin/Hotkeys/Hotkeys.php
 $t['Hotkeys'] = 'Hotkeys';
-$t["Seek"] = "Seek";
+$t["Seek"] = "Buscar";
 $t["Volume"] = "Volume";
-$t["Fullscreen"] = "Fullscreen";
-$t["Play"] = "Play";
+$t["Fullscreen"] = "Tela cheia";
+$t["Play"] = "Reproduzir";
 //----- translation strings from plugin/Layout/Layout.php
-$t["Random"] = "Random";
+$t["Random"] = "Aleatório";
 //----- translation strings from plugin/Live/Live.php
-$t["Start Record"] = "Start Record";
-$t["Stop Record"] = "Stop Record";
-$t["Disconnect Livestream"] = "Disconnect Livestream";
-$t['Live videos'] = 'Live videos';
-$t["Live Info"] = "Live Info";
-$t['Edit Live Servers'] = 'Edit Live Servers';
-$t['Test Server'] = 'Test Server';
-$t['Test Stats'] = 'Test Stats';
-$t["is set to not be listed"] = "is set to not be listed";
-$t[" (set to not be listed)"] = " (set to not be listed)";
-$t["the user is inactive"] = "the user is inactive";
-$t[" (user is inactive)"] = " (user is inactive)";
+$t["Start Record"] = "Iniciar gravação";
+$t["Stop Record"] = "Parar gravação";
+$t["Disconnect Livestream"] = "Desconectar transmissão";
+$t['Live videos'] = 'Live vídeos';
+$t["Live Info"] = "Live info";
+$t['Edit Live Servers'] = 'Editar servidores Live';
+$t['Test Server'] = 'Testar servidor';
+$t['Test Stats'] = 'Testar stats';
+$t["is set to not be listed"] = "está configurado para não ser listado";
+$t[" (set to not be listed)"] = " (configurado para não ser listado)";
+$t["the user is inactive"] = "o usuário está inativo";
+$t[" (user is inactive)"] = " (usuário está inativo)";
 //----- translation strings from plugin/Live/control.json.php
-$t["empty command"] = "empty command";
-$t["Permition denied"] = "Permition denied";
-$t["empty live_transmition_id"] = "empty live_transmition_id";
-$t["Plugin disabled"] = "Plugin disabled";
-$t["Transmission not found"] = "Transmission not found";
-$t["You cannot drop this live"] = "You cannot drop this live";
-$t["key cannot be empty"] = "key cannot be empty";
+$t["empty command"] = "comando vazio";
+$t["Permition denied"] = "Permissão negada";
+$t["empty live_transmition_id"] = "live_transmition_id vazio";
+$t["Plugin disabled"] = "Plugin desativado";
+$t["Transmission not found"] = "Transmissão não encontrada";
+$t["You cannot drop this live"] = "Você não pode apagar esta transmissão";
+$t["key cannot be empty"] = "chave não pode ser vazia";
 //----- translation strings from plugin/Live/getUploadMenuButton.php
-$t["Broadcast a Live Stream"] = "Broadcast a Live Stream";
+$t["Broadcast a Live Stream"] = "Transmitir um vídeo ao vivo";
 //----- translation strings from plugin/Live/index.php
-$t["Local Server"] = "Local Server";
-$t["Server not found or inactive"] = "Server not found or inactive";
-$t["You are online now, web cam is disabled"] = "You are online now, web cam is disabled";
-$t["You are not online, loading webcam..."] = "You are not online, loading webcam...";
+$t["Local Server"] = "Servidor local";
+$t["Server not found or inactive"] = "Servidor não encontrado ou inativo";
+$t["You are online now, web cam is disabled"] = "Você está online agora, webcam está desativada";
+$t["You are not online, loading webcam..."] = "Você ainda não está online, carregando webcam...";
 //----- translation strings from plugin/Live/indexCol1.php
-$t["Toogle view"] = "Toogle view";
+$t["Toogle view"] = "Alternar visualização";
 //----- translation strings from plugin/Live/indexCol3.php
-$t["Use streaming software or hardware"] = "Use streaming software or hardware";
-$t["Share information about your live"] = "Share information about your live";
-$t["Live stream to other platforms simultaneously"] = "Live stream to other platforms simultaneously";
+$t["Use streaming software or hardware"] = "Usar software ou hardware de streaming";
+$t["Share information about your live"] = "Compartilhar informação sobre sua transmissão";
+$t["Live stream to other platforms simultaneously"] = "Transmitir para outras plataformas simultaneamente";
 //----- translation strings from plugin/Live/isLiveRunning.json.php
-$t["Key is empty"] = "Key is empty";
-$t["Live plugin is not enabled"] = "Live plugin is not enabled";
+$t["Key is empty"] = "Chave está vazia";
+$t["Live plugin is not enabled"] = "Plugin Live está desativado";
 //----- translation strings from plugin/Live/meet.php
-$t["The server is not ready"] = "The server is not ready";
-$t["Stop"] = "Stop";
-$t["Start Live Now"] = "Start Live Now";
-$t["Go Live"] = "Go Live";
-$t["Please Wait"] = "Please Wait";
-$t["Use your webcam"] = "Use your webcam";
+$t["The server is not ready"] = "O servidor não está pronto";
+$t["Stop"] = "Parar";
+$t["Start Live Now"] = "Iniciar transmissão agora";
+$t["Go Live"] = "Entrar ao vivo";
+$t["Please Wait"] = "Por favor, aguarde";
+$t["Use your webcam"] = "Use sua webcam";
 $t["Webcam"] = "Webcam";
-$t["Copy Meet Link"] = "Copy Meet Link";
-$t["Copy Meet Password"] = "Copy Meet Password";
-$t["Copy Live Link"] = "Copy Live Link";
+$t["Copy Meet Link"] = "Copiar link do meet";
+$t["Copy Meet Password"] = "Copiar senha do meet";
+$t["Copy Live Link"] = "Copiar link da transmissão";
 //----- translation strings from plugin/Live/report.php
-$t["Timelive"] = "Timelive";
-$t["Total Views (90 Days)"] = "Total Views (90 Days)";
+$t["Timelive"] = "Tempo de transmissão";
+$t["Total Views (90 Days)"] = "Total Visualizações (90 dias)";
 //----- translation strings from plugin/Live/tabs/experimentalWebCam.php
-$t["WebCam Streaming"] = "WebCam Streaming";
-$t["Enable WebCam Stream"] = "Enable WebCam Stream";
-$t["We will check if there is a stream conflict before stream"] = "We will check if there is a stream conflict before stream";
-$t["This is an experimental resource"] = "This is an experimental resource";
+$t["WebCam Streaming"] = "Transmissão por webcam";
+$t["Enable WebCam Stream"] = "Ativar transmissão por webcam";
+$t["We will check if there is a stream conflict before stream"] = "Vamos verificar se existe um conflito na transmissão antes de começar";
+$t["This is an experimental resource"] = "Este é um recurso experimental";
 //----- translation strings from plugin/Live/tabs/tabShare.php
-$t["Share Info"] = "Share Info";
+$t["Share Info"] = "Compartilhar informação";
 $t["Player URL"] = "Player URL";
-$t["Live URL"] = "Live URL";
-$t["Embed Stream"] = "Embed Stream";
+$t["Live URL"] = "URL ao vivo";
+$t["Embed Stream"] = "Embutir transmissão";
 //----- translation strings from plugin/Live/tabs/tabStreamKey.php
-$t['LIVE NOW'] = 'LIVE NOW';
-$t["Devices Stream Info"] = "Devices Stream Info";
-$t["Server URL"] = "Server URL";
-$t["If you change your password the Server URL parameters will be changed too."] = "If you change your password the Server URL parameters will be changed too.";
-$t["Keep Key Private, Anyone with key can broadcast on your account"] = "Keep Key Private, Anyone with key can broadcast on your account";
-$t["Stream name/key"] = "Stream name/key";
-$t["This also reset the Chat and views counter"] = "This also reset the Chat and views counter";
-$t['Active Livestreams'] = 'Active Livestreams';
-$t["Advanced"] = "Advanced";
-$t["Destination Application Name"] = "Destination Application Name";
-$t["Destination Host"] = "Destination Host";
-$t["Destination Port"] = "Destination Port";
+$t['LIVE NOW'] = 'AO VIVO AGORA';
+$t["Devices Stream Info"] = "Informação de dispositivos de transmissão";
+$t["Server URL"] = "URL do servidor";
+$t["If you change your password the Server URL parameters will be changed too."] = "Se você trocar sua senha, os parâmetros da URL do servidor também serão alterados.";
+$t["Keep Key Private, Anyone with key can broadcast on your account"] = "Mantenha a chave privada: qualquer um com essa chave poderá transmitir ao vivo em sua conta";
+$t["Stream name/key"] = "Nome/chave de transmissão";
+$t["This also reset the Chat and views counter"] = "Isto também irá zerar o chat e o contador de visualizações";
+$t['Active Livestreams'] = 'Transmissões ativas';
+$t["Advanced"] = "Avançado";
+$t["Destination Application Name"] = "Nome da aplicação de destino";
+$t["Destination Host"] = "Host de destino";
+$t["Destination Port"] = "Porta de destino";
 //----- translation strings from plugin/Live/tabs/tabStreamSettings.php
-$t["Stream Meta Data"] = "Stream Meta Data";
-$t["Poster Image"] = "Poster Image";
-$t["User Groups"] = "User Groups";
-$t["Stream Settings"] = "Stream Settings";
-$t["Title"] = "Title";
-$t["Make Stream Publicly Listed"] = "Make Stream Publicly Listed";
-$t["Save Stream"] = "Save Stream";
-$t["Upload Poster Image"] = "Upload Poster Image";
-$t["Remove Poster"] = "Remove Poster";
-$t["Groups That Can See This Stream"] = "Groups That Can See This Stream";
-$t["Add more user Groups"] = "Add more user Groups";
+$t["Stream Meta Data"] = "Meta data da transmissão";
+$t["Poster Image"] = "Imagem do pôster";
+$t["User Groups"] = "Grupos de usuários";
+$t["Stream Settings"] = "Configurações de transmissões";
+$t["Title"] = "Título";
+$t["Make Stream Publicly Listed"] = "Deixar transmissão publicamente listada";
+$t["Save Stream"] = "Salvar transmissão";
+$t["Upload Poster Image"] = "Enviar imagem de pôster";
+$t["Remove Poster"] = "Remover pôster";
+$t["Groups That Can See This Stream"] = "Grupos que podem ver esta transmissão";
+$t["Add more user Groups"] = "Adicionais mais grupos";
 //----- translation strings from plugin/Live/view/Live_restreams/index_body.php
-$t["Stream Url"] = "Stream Url";
-$t["Stream Key"] = "Stream Key";
+$t["Stream Url"] = "URL da transmissão";
+$t["Stream Key"] = "Chave da transmissão";
 //----- translation strings from plugin/Live/view/Live_restreams/livePanel.php
-$t["Restream"] = "Restream";
-$t["It allows users to simultaneously stream video content to multiple platforms and social networks"] = "It allows users to simultaneously stream video content to multiple platforms and social networks";
+$t["Restream"] = "Retransmitir";
+$t["It allows users to simultaneously stream video content to multiple platforms and social networks"] = "Isto permite transmissões simultâneas para múltiplas plataformas e redes sociais";
 //----- translation strings from plugin/Live/view/Live_servers/index_body.php
-$t["Rtmp Server"] = "Rtmp Server";
-$t["Player Server"] = "Player Server";
+$t["Rtmp Server"] = "Servidor RTMP";
+$t["Player Server"] = "Servidor de reprodução";
 $t["PlayerServer"] = "PlayerServer";
-$t["Stats Url"] = "Stats Url";
-$t["Get Remote File URL"] = "Get Remote File URL";
-$t["GetRemoteFile"] = "GetRemoteFile";
-$t["Restreamer URL"] = "Restreamer URL";
-$t["Control URL"] = "Control URL";
-$t["DisableDVR"] = "DisableDVR";
-$t["No"] = "No";
-$t["Yes"] = "Yes";
-$t["DisableGifThumbs"] = "DisableGifThumbs";
-$t["UseAadaptiveMode"] = "UseAadaptiveMode";
-$t["ProtectLive"] = "ProtectLive";
+$t["Stats Url"] = "URL stats";
+$t["Get Remote File URL"] = "Pegar URL do arquivo remoto";
+$t["GetRemoteFile"] = "PegarArquivoRemoto";
+$t["Restreamer URL"] = "URL de retransmissão";
+$t["Control URL"] = "URL de controle";
+$t["DisableDVR"] = "DesativarDVR";
+$t["No"] = "Não";
+$t["Yes"] = "Sim";
+$t["DisableGifThumbs"] = "DesativarMiniaturasGIF";
+$t["UseAadaptiveMode"] = "UsarModoAdaptativo";
+$t["ProtectLive"] = "ProtegerTransmissão";
 $t["RTMP"] = "RTMP";
 //----- translation strings from plugin/Live/view/editor.php
-$t["Live Servers"] = "Live Servers";
-$t["Live Restreams"] = "Live Restreams";
+$t["Live Servers"] = "Servidores de transmissão";
+$t["Live Restreams"] = "Servidores de retransmissão";
 //----- translation strings from plugin/Live/view/footer.php
 $t["ONLINE"] = "ONLINE";
-$t["Please Wait ..."] = "Please Wait ...";
+$t["Please Wait ..."] = "Favor aguardar ...";
 $t["OFFLINE"] = "OFFLINE";
-$t["Finishing Live..."] = "Finishing Live...";
+$t["Finishing Live..."] = "Finalizando transmissão...";
 //----- translation strings from plugin/Live/view/menuRight.php
-$t["Please Wait, we are checking the lives"] = "Please Wait, we are checking the lives";
-$t["There is no streaming now"] = "There is no streaming now";
+$t["Please Wait, we are checking the lives"] = "Por favor aguarde, estamos checando as transmissões";
+$t["There is no streaming now"] = "Não há transmissão agora";
 //----- translation strings from plugin/LiveLinks/getUploadMenuButton.php
-$t["Add an External a Live Streaming"] = "Add an External a Live Streaming";
+$t["Add an External a Live Streaming"] = "Adicionar uma transmissão ao vivo externa";
 //----- translation strings from plugin/LiveLinks/index.php
-$t["Live Links"] = "Live Links";
+$t["Live Links"] = "Links ao vivo";
 //----- translation strings from plugin/LiveLinks/view/panel.php
-$t["Add an external Live Link"] = "Add an external Live Link";
-$t["Type"] = "Type";
-$t["Logged Users Only"] = "Logged Users Only";
-$t["Live Events"] = "Live Events";
+$t["Add an external Live Link"] = "Adicionar um link de transmissão ao vivo externa";
+$t["Type"] = "Tipo";
+$t["Logged Users Only"] = "Apenas usuários logados";
+$t["Live Events"] = "Eventos ao vivo";
 //----- translation strings from plugin/LoginControl/LoginControl.php
-$t["Please check your email for 2FA confirmation "] = "Please check your email for 2FA confirmation ";
-$t["2FA email not sent"] = "2FA email not sent";
-$t["Last login was on "] = "Last login was on ";
-$t["Your email is invalid"] = "Your email is invalid";
-$t["Here"] = "Here";
-$t["Enable 2FA Login"] = "Enable 2FA Login";
-$t['This will disable the PGP 2FA'] = 'This will disable the PGP 2FA';
+$t["Please check your email for 2FA confirmation "] = "Cheque seu e-mail para a confirmação 2FA";
+$t["2FA email not sent"] = "E-mail 2FA não foi enviado";
+$t["Last login was on "] = "Último login foi em ";
+$t["Your email is invalid"] = "Seu e-mail é inválido";
+$t["Here"] = "Aqui";
+$t["Enable 2FA Login"] = "Ativar login com 2FA";
+$t['This will disable the PGP 2FA'] = 'Isto irá desativar o PGP 2FA';
 //----- translation strings from plugin/LoginControl/Objects/logincontrol_history.php
-$t["Failed login attempt"] = "Failed login attempt";
+$t["Failed login attempt"] = "Falha em tentativa de login";
 //----- translation strings from plugin/LoginControl/View/Users_login_history/index.php
-$t["Login Control"] = "Login Control";
+$t["Login Control"] = "Controle de login";
 //----- translation strings from plugin/LoginControl/View/Users_login_history/index_body.php
-$t["Users Id"] = "Users Id";
+$t["Users Id"] = "ID usuários";
 $t["UniqidV4"] = "UniqidV4";
-$t["Ip"] = "Ip";
+$t["Ip"] = "IP";
 $t["User Agent"] = "User Agent";
-$t["Confirmation Code"] = "Confirmation Code";
+$t["Confirmation Code"] = "Código de confirmação";
 //----- translation strings from plugin/LoginControl/View/editor.php
-$t['LoginControl'] = 'LoginControl';
-$t["Users Login History"] = "Users Login History";
+$t['LoginControl'] = 'ControleLogin';
+$t["Users Login History"] = "Histórico de login de usuários";
 //----- translation strings from plugin/LoginControl/confirm.php
-$t["Your device is confirmed"] = "Your device is confirmed";
+$t["Your device is confirmed"] = "Seu dispositivo está confirmado";
 //----- translation strings from plugin/LoginControl/pgp/challenge.php
-$t["PGP Challenge"] = "PGP Challenge";
-$t['Two-Factor Challenge'] = 'Two-Factor Challenge';
-$t['Generate Keys'] = 'Generate Keys';
-$t['Two-Factor Response'] = 'Two-Factor Response';
-$t['Enter Code'] = 'Enter Code';
-$t['Check Code'] = 'Check Code';
-$t['Challenge Decryptor'] = 'Challenge Decryptor';
-$t['To increase your security, we recommend that you use your own PGP tools (offsite)'] = 'To increase your security, we recommend that you use your own PGP tools (offsite)';
-$t['Private Key'] = 'Private Key';
-$t['Key Password'] = 'Key Password';
-$t['Decrypt'] = 'Decrypt';
+$t["PGP Challenge"] = "Desafio PGP";
+$t['Two-Factor Challenge'] = 'Desafio 2-fatores';
+$t['Generate Keys'] = 'Gerar chaves';
+$t['Two-Factor Response'] = 'Resposta 2-fatores';
+$t['Enter Code'] = 'Digite o código';
+$t['Check Code'] = 'Checar o código';
+$t['Challenge Decryptor'] = 'Decifrador de desafio';
+$t['To increase your security, we recommend that you use your own PGP tools (offsite)'] = 'Para aumentar sua segurança, recomendamos que use sua própria ferramenta PGP (offsite)';
+$t['Private Key'] = 'Chave privada';
+$t['Key Password'] = 'Senha da chave';
+$t['Decrypt'] = 'Decifrar';
 //----- translation strings from plugin/LoginControl/pgp/decryptMessage.php
-$t['Copy from generated'] = 'Copy from generated';
-$t['Text to Decrypt'] = 'Text to Decrypt';
-$t['Copy from encripted message'] = 'Copy from encripted message';
-$t['Decrypted Text'] = 'Decrypted Text';
+$t['Copy from generated'] = 'Copiar do gerado';
+$t['Text to Decrypt'] = 'Texto para decifrar';
+$t['Copy from encripted message'] = 'Copiar da mensagem criptografada';
+$t['Decrypted Text'] = 'Texto decifrado';
 //----- translation strings from plugin/LoginControl/pgp/deletePublicKey.json.php
-$t['PGP Key removed'] = 'PGP Key removed';
+$t['PGP Key removed'] = 'Chave PGP removida';
 //----- translation strings from plugin/LoginControl/pgp/encryptMessage.php
-$t['Public Key'] = 'Public Key';
-$t['Text to Encrypt'] = 'Text to Encrypt';
-$t['Encrypted Text'] = 'Encrypted Text';
-$t['Encrypt'] = 'Encrypt';
+$t['Public Key'] = 'Chave pública';
+$t['Text to Encrypt'] = 'Texto para criptografar';
+$t['Encrypted Text'] = 'Texto criptogrado';
+$t['Encrypt'] = 'Criptografar';
 //----- translation strings from plugin/LoginControl/pgp/generateKeys.php
-$t['Your Name'] = 'Your Name';
-$t['Your Email'] = 'Your Email';
-$t['Download'] = 'Download';
-$t['Generate'] = 'Generate';
-$t['Download private and public keys'] = 'Download private and public keys';
-$t['Would you like to download the keys?'] = 'Would you like to download the keys?';
-$t["Key cannot be empty"] = "Key cannot be empty";
+$t['Your Name'] = 'Seu nome';
+$t['Your Email'] = 'Seu e-mail';
+$t['Download'] = 'Baixar';
+$t['Generate'] = 'Gerar';
+$t['Download private and public keys'] = 'Baixar chaves pública e privada';
+$t['Would you like to download the keys?'] = 'Você deseja baixar as chaves?';
+$t["Key cannot be empty"] = "Chave não pode ser vazia";
 //----- translation strings from plugin/LoginControl/pgp/keys.php
-$t["PGP Keys"] = "PGP Keys";
-$t['Decrypt Message'] = 'Decrypt Message';
-$t['Encrypt Message'] = 'Encrypt Message';
+$t["PGP Keys"] = "Chaves PGP";
+$t['Decrypt Message'] = 'Decifrar mensagem';
+$t['Encrypt Message'] = 'Criptografar mensagem';
 //----- translation strings from plugin/LoginControl/profileTabContent.php
-$t["Login History"] = "Login History";
-$t["When"] = "When";
+$t["Login History"] = "Histórico de login";
+$t["When"] = "Quando";
 $t["IP"] = "IP";
-$t["Device"] = "Device";
-$t["PGP Public Key"] = "PGP Public Key";
-$t['If the system finds a valid public key we will challenge you to decrypt a message so that you can log into the system. so make sure you have the private key equivalent to this public key'] = 'If the system finds a valid public key we will challenge you to decrypt a message so that you can log into the system. so make sure you have the private key equivalent to this public key';
-$t['Save PGP Key'] = 'Save PGP Key';
-$t['Saved'] = 'Saved';
+$t["Device"] = "Dispositivo";
+$t["PGP Public Key"] = "Chave PGP pública";
+$t['If the system finds a valid public key we will challenge you to decrypt a message so that you can log into the system. so make sure you have the private key equivalent to this public key'] = 'Se o sistema encontrar uma chave pública válida, você será desafiado para decifrar a mensagem para que possa logar no sistema. Tenha certeza de ter a chave privada para esta chave pública.';
+$t['Save PGP Key'] = 'Salvar Chave PGP';
+$t['Saved'] = 'Gravado';
 //----- translation strings from plugin/LoginControl/profileTabName.php
 $t["PGP 2FA"] = "PGP 2FA";
 //----- translation strings from plugin/Meet/Meet.php
 $t['Meet'] = 'Meet';
-$t["Stop Live"] = "Stop Live";
+$t["Stop Live"] = "Parar transmissão";
 //----- translation strings from plugin/Meet/View/Meet_join_log/index.php
 $t["Meet"] = "Meet";
 //----- translation strings from plugin/Meet/View/Meet_join_log/index_body.php
-$t["Meet Schedule Id"] = "Meet Schedule Id";
+$t["Meet Schedule Id"] = "ID do meet agendado";
 //----- translation strings from plugin/Meet/View/Meet_schedule/index_body.php
-$t["Live Stream"] = "Live Stream";
-$t["Topic"] = "Topic";
-$t["Starts"] = "Starts";
-$t["Finish"] = "Finish";
-$t["Meet Code"] = "Meet Code";
+$t["Live Stream"] = "Transmissão ao vivo";
+$t["Topic"] = "Tópico";
+$t["Starts"] = "Início";
+$t["Finish"] = "Término";
+$t["Meet Code"] = "Código do meet";
 //----- translation strings from plugin/Meet/View/Meet_schedule_has_users_groups/index_body.php
-$t["Users Groups Id"] = "Users Groups Id";
+$t["Users Groups Id"] = "ID dos grupos de usuários";
 //----- translation strings from plugin/Meet/View/editor.php
-$t["Meet Schedule"] = "Meet Schedule";
-$t["Meet Schedule Has Users Groups"] = "Meet Schedule Has Users Groups";
-$t["Meet Join Log"] = "Meet Join Log";
+$t["Meet Schedule"] = "Programação do meet";
+$t["Meet Schedule Has Users Groups"] = "Programação do meet tem grupos de usuários";
+$t["Meet Join Log"] = "Log de entrada do meet";
 //----- translation strings from plugin/Meet/api.js.php
-$t["Please, enter your name"] = "Please, enter your name";
-$t["Start Now"] = "Start Now";
-$t["You must provide a name"] = "You must provide a name";
+$t["Please, enter your name"] = "Por favor, digite seu nome";
+$t["Start Now"] = "Começar agora";
+$t["You must provide a name"] = "Você deve fornecer um nome";
 //----- translation strings from plugin/Meet/checkServers.php
-$t["Check Meet Servers"] = "Check Meet Servers";
-$t["Create a Meet"] = "Create a Meet";
+$t["Check Meet Servers"] = "Checar os servidores de meet";
+$t["Create a Meet"] = "Criar um meet";
 //----- translation strings from plugin/Meet/confirmMeetPassword.php
-$t["Confirm Meet Password"] = "Confirm Meet Password";
-$t["This Meet Requires a Password"] = "This Meet Requires a Password";
+$t["Confirm Meet Password"] = "Confirmar senha do meet";
+$t["This Meet Requires a Password"] = "Para acessar este meet é necessário senha";
 //----- translation strings from plugin/Meet/getMeetInfo.json.php
-$t["Meet Link"] = "Meet Link";
-$t["Invitation"] = "Invitation";
-$t["Meet Invitation"] = "Meet Invitation";
-$t["Copy"] = "Copy";
-$t["Participants"] = "Participants";
+$t["Meet Link"] = "Link do meet";
+$t["Invitation"] = "Convite";
+$t["Meet Invitation"] = "Convite do meet";
+$t["Copy"] = "Copiar";
+$t["Participants"] = "Participantes";
 //----- translation strings from plugin/Meet/index.php
 $t["Meeting"] = "Meeting";
-$t["Loading Server Info"] = "Loading Server Info";
+$t["Loading Server Info"] = "Carregar informação do servidor";
 $t["Meetings"] = "Meetings";
-$t["Schedule"] = "Schedule";
-$t["New Meet"] = "New Meet";
-$t["Meet Topic"] = "Meet Topic";
+$t["Schedule"] = "Programação";
+$t["New Meet"] = "Novo meet";
+$t["Meet Topic"] = "Tópico do meet";
 //----- translation strings from plugin/Meet/meet_log.php
-$t["Last 10 Attends"] = "Last 10 Attends";
-$t["Meetings you can attend"] = "Meetings you can attend";
-$t["Today"] = "Today";
-$t["Upcoming"] = "Upcoming";
-$t["Past"] = "Past";
+$t["Last 10 Attends"] = "Últimos 10 participantes";
+$t["Meetings you can attend"] = "Meetings que você pode participar";
+$t["Today"] = "Hoje";
+$t["Upcoming"] = "Próximos";
+$t["Past"] = "Anteriores";
 //----- translation strings from plugin/Meet/meet_manager.php
-$t["Create Room"] = "Create Room";
-$t["Meet Password"] = "Meet Password";
-$t["Auto Transmit Live"] = "Auto Transmit Live";
+$t["Create Room"] = "Criar sala";
+$t["Meet Password"] = "Senha do meet";
+$t["Auto Transmit Live"] = "Transmitir ao vivo automaticamente";
 //----- translation strings from plugin/Meet/meet_scheduled.php
-$t["Delete All Selected"] = "Delete All Selected";
-$t["Owner"] = "Owner";
-$t["Join"] = "Join";
-$t["Comming Soon"] = "Comming Soon";
-$t["Copy Invitation"] = "Copy Invitation";
-$t["Copy Link"] = "Copy Link";
-$t["Meet Log"] = "Meet Log";
-$t["Delete"] = "Delete";
-$t["Specific User Groups"] = "Specific User Groups";
+$t["Delete All Selected"] = "Remover selecionados";
+$t["Owner"] = "Proprietário";
+$t["Join"] = "Entrar";
+$t["Comming Soon"] = "Em breve";
+$t["Copy Invitation"] = "Copiar convite";
+$t["Copy Link"] = "Copiar link";
+$t["Meet Log"] = "Log de meet";
+$t["Delete"] = "Remover";
+$t["Specific User Groups"] = "Grupos de usuários específico";
 //----- translation strings from plugin/Meet/serverLabels.php
-$t["Unlimited"] = "Unlimited";
+$t["Unlimited"] = "Ilimitado";
 //----- translation strings from plugin/Meet/validateMeet.php
-$t["Please, login before join a meeting"] = "Please, login before join a meeting";
+$t["Please, login before join a meeting"] = "Por favor, faça o login antes de entrar num meeting";
 //----- translation strings from plugin/MobileManager/oauth2.php
-$t["%s ERROR: You must set a ID on config"] = "%s ERROR: You must set a ID on config";
-$t["%s ERROR: You must set a KEY on config"] = "%s ERROR: You must set a KEY on config";
+$t["%s ERROR: You must set a ID on config"] = "ERRO %s: Você deve definir um ID na configuração";
+$t["%s ERROR: You must set a KEY on config"] = "ERRO %s: Você deve definir uma CHAVE na configuração";
 //----- translation strings from plugin/Permissions/Permissions.php
-$t["The Permissions Plugin is not installed. Please install it if you want to customize the permissions."] = "The Permissions Plugin is not installed. Please install it if you want to customize the permissions.";
-$t["Comments Admin"] = "Comments Admin";
-$t["Videos Admin"] = "Videos Admin";
-$t["Videos Moderator"] = "Videos Moderator";
-$t["Users Admin"] = "Users Admin";
-$t["Users Groups Admin"] = "Users Groups Admin";
-$t["Cache Manager"] = "Cache Manager";
+$t["The Permissions Plugin is not installed. Please install it if you want to customize the permissions."] = "O Plugin Permissions não está instalado. É preciso instalá-lo para trabalhar com permissões.";
+$t["Comments Admin"] = "Administração de comentários";
+$t["Videos Admin"] = "Administração de vídeos";
+$t["Videos Moderator"] = "Moderação de vídeos";
+$t["Users Admin"] = "Administração de usuários";
+$t["Users Groups Admin"] = "Administração de grupos de usuários";
+$t["Cache Manager"] = "Gerência de cache";
 $t["Sitemap"] = "Sitemap";
 $t["Log"] = "Log";
 //----- translation strings from plugin/Permissions/View/Users_groups_permissions/index.php
-$t["Permissions"] = "Permissions";
+$t["Permissions"] = "Permissões";
 //----- translation strings from plugin/Permissions/View/Users_groups_permissions/index_body.php
-$t["Users Groups Id1"] = "Users Groups Id1";
-$t["Plugins Id"] = "Plugins Id";
+$t["Users Groups Id1"] = "ID1 de grupos de usuários";
+$t["Plugins Id"] = "ID do plugin";
 //----- translation strings from plugin/Permissions/View/editor.php
-$t['Permissions'] = 'Permissions';
-$t["Users Groups Permissions"] = "Users Groups Permissions";
+$t["Users Groups Permissions"] = "Permissões de grupos de usuários";
 //----- translation strings from plugin/PlayLists/PlayLists.php
-$t["Organize"] = "Organize";
-$t['Show on TV'] = 'Show on TV';
-$t["Watch Live"] = "Watch Live";
-$t["Play Live"] = "Play Live";
-$t["Play this Program live now"] = "Play this Program live now";
-$t["Is Live"] = "Is Live";
-$t["Stop this Program and start over again"] = "Stop this Program and start over again";
+$t["Organize"] = "Organizar";
+$t['Show on TV'] = 'Mostrar na TV';
+$t["Watch Live"] = "Assistir ao vivo";
+$t["Play Live"] = "Reproduzir ao vivo";
+$t["Play this Program live now"] = "Reproduzir este programa ao vivo agora";
+$t["Is Live"] = "está ao vivo";
+$t["Stop this Program and start over again"] = "Parar este programa e recomeçar";
 //----- translation strings from plugin/PlayLists/View/Playlists_schedules/index.php
 $t["PlayLists"] = "PlayLists";
 //----- translation strings from plugin/PlayLists/View/Playlists_schedules/index_body.php
-$t["Start Datetime"] = "Start Datetime";
-$t["Finish Datetime"] = "Finish Datetime";
+$t["Start Datetime"] = "Data e hora inicial";
+$t["Finish Datetime"] = "Data e hora final";
 $t["Loop"] = "Loop";
-$t["Repeat"] = "Repeat";
-$t["Never"] = "Never";
-$t["Dayly"] = "Dayly";
-$t["Weekly"] = "Weekly";
-$t["Monthly"] = "Monthly";
+$t["Repeat"] = "Repetir";
+$t["Never"] = "Nunca";
+$t["Daily"] = "Diariamente";
+$t["Weekly"] = "Semanalmente";
+$t["Monthly"] = "Mensalmente";
 //----- translation strings from plugin/PlayLists/View/editor.php
 $t['PlayLists'] = 'PlayLists';
-$t["Playlists Schedules"] = "Playlists Schedules";
+$t["Playlists Schedules"] = "Programação de Playlists";
 //----- translation strings from plugin/PlayLists/actionButton.php
-$t["Add to"] = "Add to";
-$t["Create a New"] = "Create a New";
-$t["Make it public"] = "Make it public";
-$t["Want to watch this again later?"] = "Want to watch this again later?";
-$t["Sign in to add this video to a playlist."] = "Sign in to add this video to a playlist.";
+$t["Add to"] = "Adicionar em";
+$t["Create a New"] = "Criar novo";
+$t["Make it public"] = "Tornar público";
+$t["Want to watch this again later?"] = "Quer assistir novamente depois?";
+$t["Sign in to add this video to a playlist."] = "Registre-se para adicionar este vídeo em uma playlist.";
 $t["Login"] = "Login";
 //----- translation strings from plugin/PlayLists/embed.php
-$t["The program is empty"] = "The program is empty";
-$t["Show all"] = "Show all";
-$t["Title (A-Z)"] = "Title (A-Z)";
-$t["Title (Z-A)"] = "Title (Z-A)";
-$t["Date added (newest)"] = "Date added (newest)";
-$t["Date added (oldest)"] = "Date added (oldest)";
+$t["The program is empty"] = "Este programa está vazio";
+$t["Show all"] = "Mostrar tudo";
+$t["Title (A-Z)"] = "Título (A-Z)";
+$t["Title (Z-A)"] = "Título (Z-A)";
+$t["Date added (newest)"] = "Data adicionado (mais novos)";
+$t["Date added (oldest)"] = "Data adicionado (mais antigos)";
 //----- translation strings from plugin/PlayLists/epg.day.php
-$t['Now'] = 'Now';
+$t['Now'] = 'Agora';
 //----- translation strings from plugin/PlayLists/epg.php
 $t["EPG"] = "EPG";
-$t["Now Playing"] = "Now Playing";
+$t["Now Playing"] = "Reproduzindo agora";
 //----- translation strings from plugin/PlayLists/managerPlaylists.php
-$t['Show all types'] = 'Show all types';
-$t['All'] = 'All';
-$t['Show all programs that are listed in your video library'] = 'Show all programs that are listed in your video library';
-$t['Series'] = 'Series';
-$t['Show all that is a collection of programs'] = 'Show all that is a collection of programs';
-$t['Collections'] = 'Collections';
-$t['Show all that include a list of videos'] = 'Show all that include a list of videos';
-$t['New'] = 'New';
-$t['Play'] = 'Play';
-$t['Seasons'] = 'Seasons';
-$t['Remove Serie'] = 'Remove Serie';
-$t['Play Video'] = 'Play Video';
-$t['Edit Video'] = 'Edit Video';
-$t['Remove Video'] = 'Remove Video';
-$t['Sorry you do not have any playlist yet'] = 'Sorry you do not have any playlist yet';
-$t['Deleted'] = 'Deleted';
-$t['New program'] = 'New program';
-$t['Type your program title'] = 'Type your program title';
-$t['Program title'] = 'Program title';
-$t['Please provide a title'] = 'Please provide a title';
+$t['Show all types'] = 'Mostrar todos os tipos';
+$t['All'] = 'Tudo';
+$t['Show all programs that are listed in your video library'] = 'Mostrar todos os programas que estão listados em seu arquivo de vídeos';
+$t['Series'] = 'Séries';
+$t['Show all that is a collection of programs'] = 'Mostrar tudo que faz parte de uma coleção de programas';
+$t['Collections'] = 'Coleções';
+$t['Show all that include a list of videos'] = 'Mostrar tudo que inclui uma lista de vídeos';
+$t['New'] = 'Novo';
+$t['Play'] = 'Reproduzir';
+$t['Seasons'] = 'Temporadas';
+$t['Remove Serie'] = 'Remover série';
+$t['Play Video'] = 'Reproduzir vídeo';
+$t['Edit Video'] = 'Editar vídeo';
+$t['Remove Video'] = 'Remover vídeo';
+$t['Sorry you do not have any playlist yet'] = 'Desculpe, você não tem nenhuma playlist ainda';
+$t['Deleted'] = 'Removido';
+$t['New program'] = 'Novo programa';
+$t['Type your program title'] = 'Escreva o título do programa';
+$t['Program title'] = 'Título do programa';
+$t['Please provide a title'] = 'Favor fornecer um título';
 //----- translation strings from plugin/PlayLists/managerPlaylistsSearchVideo.php
-$t['Search Videos'] = 'Search Videos';
-$t['Search Video'] = 'Search Video';
+$t['Search Videos'] = 'Procurar vídeos';
+$t['Search Video'] = 'Procurar vídeo';
 //----- translation strings from plugin/PlayLists/playListToSerie.php
-$t['Create'] = 'Create';
+$t['Create'] = 'Criar';
 //----- translation strings from plugin/PlayLists/playProgramsLive.json.php
-$t["User cannot stream"] = "User cannot stream";
-$t["Programs plugin not enabled"] = "Programs plugin not enabled";
-$t["API plugin not enabled"] = "API plugin not enabled";
-$t["Live Plugin is not enabled"] = "Live Plugin is not enabled";
-$t["Programs id error"] = "Programs id error";
-$t["Programs does not belong to you"] = "Programs does not belong to you";
-$t["Your Encoder MUST be version 3.2 or greater"] = "Your Encoder MUST be version 3.2 or greater";
-$t["Your stream will start soon"] = "Your stream will start soon";
+$t["User cannot stream"] = "Usuário não pode transmitir";
+$t["Programs plugin not enabled"] = "Plugin Programs não está ativo";
+$t["API plugin not enabled"] = "Plugin API não está ativo";
+$t["Live Plugin is not enabled"] = "Plugin Live não está ativo";
+$t["Programs id error"] = "Erro no ID do programa";
+$t["Programs does not belong to you"] = "Programas não pertencem a este usuário";
+$t["Your Encoder MUST be version 3.2 or greater"] = "Seu codificador DEVE ter versão 3.2 ou maior";
+$t["Your stream will start soon"] = "Sua transmissão começará em breve";
 //----- translation strings from plugin/PlayLists/player.php
-$t["Attention"] = "Attention";
+$t["Attention"] = "Atenção";
 //----- translation strings from plugin/PlayLists/saveShowOnTV.json.php
-$t["showOnTV is OFF"] = "showOnTV is OFF";
-$t["showOnTV is ON"] = "showOnTV is ON";
+$t["showOnTV is OFF"] = "mostrarNaTV está DESLIGADO";
+$t["showOnTV is ON"] = "mostrarNaTV está LIGADO";
 //----- translation strings from plugin/PlayerSkins/PlayerSkins.php
-$t["If you can't view this video, your browser does not support HTML5 videos"] = "If you can't view this video, your browser does not support HTML5 videos";
+$t["If you can't view this video, your browser does not support HTML5 videos"] = "Se você não consegue assistir este vídeo, seu navegador não tem suporte a vídeos HTML5";
 //----- translation strings from plugin/PlayerSkins/contextMenu.php
-$t["Copy video URL"] = "Copy video URL";
-$t["Copy video URL at current time"] = "Copy video URL at current time";
-$t["Download video"] = "Download video";
+$t["Copy video URL"] = "Copiar URL do vídeo";
+$t["Copy video URL at current time"] = "Copiar URL do vídeo no tempo indicado";
+$t["Download video"] = "Baixar vídeo";
 //----- translation strings from plugin/PlayerSkins/playerSample.php
-$t["Player Sample"] = "Player Sample";
+$t["Player Sample"] = "Amostra de reprodutor";
 //----- translation strings from plugin/PredefinedCategory/page/editor.php
-$t["You can not manager plugin add logo"] = "You can not manager plugin add logo";
-$t["Predefined Category"] = "Predefined Category";
+$t["You can not manager plugin add logo"] = "Você não pode gerenciar adicionar logo no plugin";
+$t["Predefined Category"] = "Categoria pré-definida";
 //----- translation strings from plugin/PredefinedCategory/page/editorSave.php
-$t["You can not manager plugin logo overlay"] = "You can not manager plugin logo overlay";
+$t["You can not manager plugin logo overlay"] = "Você não pode gerenciar sobreposição de logo no plugin";
 //----- translation strings from plugin/ReportVideo/ReportVideo.php
-$t["The <a href='{videoLink}'>{videoName}</a> video was reported as inapropriate from {user} "] = "The <a href='{videoLink}'>{videoName}</a> video was reported as inapropriate from {user} ";
-$t["The {videoName} video was reported as inapropriate"] = "The {videoName} video was reported as inapropriate";
-$t["We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as a inapropriated"] = "We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as a inapropriated";
-$t["We could not notify the video owner {$email}, but we marked it as a inapropriated"] = "We could not notify the video owner {$email}, but we marked it as a inapropriated";
-$t["We could not notify the video owner {$siteOwnerEmail}, but we marked it as a inapropriated"] = "We could not notify the video owner {$siteOwnerEmail}, but we marked it as a inapropriated";
-$t["This video was reported to our team, we will review it soon"] = "This video was reported to our team, we will review it soon";
-$t["Error on report this video"] = "Error on report this video";
-$t["You already report this video"] = "You already report this video";
-$t["Error on block this user"] = "Error on block this user";
-$t["User Already blocked"] = "User Already blocked";
-$t["Error on unblock this user"] = "Error on unblock this user";
-$t["User Already unblocked"] = "User Already unblocked";
+$t["The <a href='{videoLink}'>{videoName}</a> video was reported as inapropriate from {user} "] = "O vídeo <a href='{videoLink}'>{videoName}</a> foi reportado como inapropriado pelo usuário {user} ";
+$t["The {videoName} video was reported as inapropriate"] = "O vídeo {videoName} foi reportado como inapropriado";
+$t["We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as a inapropriated"] = "Não foi possível notificar o proprietário do vídeo ({$email}, {$siteOwnerEmail}), mas o vídeo foi marcado como inapropriado";
+$t["We could not notify the video owner {$email}, but we marked it as a inapropriated"] = "Não foi possível notificar o proprietário do vídeo {$email}, mas o vídeo foi marcado como inapropriado";
+$t["We could not notify the video owner {$siteOwnerEmail}, but we marked it as a inapropriated"] = "Não foi possível notificar o proprietário do vídeo {$siteOwnerEmail}, mas o vídeo foi marcado como inapropriado";
+$t["This video was reported to our team, we will review it soon"] = "Este vídeo foi reportado à equipe, revisaremos a notificação em breve";
+$t["Error on report this video"] = "Erro ao reportar este vídeo";
+$t["You already report this video"] = "Você já reportou este vídeo";
+$t["Error on block this user"] = "Erro ao bloquear usuário";
+$t["User Already blocked"] = "Usuário já bloqueado";
+$t["Error on unblock this user"] = "Erro ao desbloquear este usuário";
+$t["User Already unblocked"] = "Usuário já desbloqueado";
 //----- translation strings from plugin/ReportVideo/actionButton.php
-$t["Do you want to report this video? Sign in to make your opinion count."] = "Do you want to report this video? Sign in to make your opinion count.";
-$t['Report'] = 'Report';
-$t["Do you want to report this video as inapropriate?"] = "Do you want to report this video as inapropriate?";
-$t["Thanks"] = "Thanks";
+$t["Do you want to report this video? Sign in to make your opinion count."] = "Você quer reportar este vídeo? Registre-se e faça sua opinião valer.";
+$t['Report'] = 'Reportar';
+$t["Do you want to report this video as inapropriate?"] = "Você quer reportar este vídeo como inapropriado?";
+$t["Thanks"] = "Obrigado";
 //----- translation strings from plugin/ReportVideo/actionButtonBlockUser.php
-$t["You need to sign in to block this user"] = "You need to sign in to block this user";
-$t['Block User'] = 'Block User';
-$t['Unblock User'] = 'Unblock User';
-$t["Do you want to unblock this user?"] = "Do you want to unblock this user?";
-$t["Do you want to block this user?"] = "Do you want to block this user?";
+$t["You need to sign in to block this user"] = "Você precisa estar logado para bloquear este usuário";
+$t['Block User'] = 'Bloquear usuário';
+$t['Unblock User'] = 'Desbloquear usuário';
+$t["Do you want to unblock this user?"] = "Deseja desbloquear este usuário?";
+$t["Do you want to block this user?"] = "Deseja bloquear este usuário?";
 //----- translation strings from plugin/StripeYPT/listSubscriptions.php
-$t["Stripe Subscription"] = "Stripe Subscription";
+$t["Stripe Subscription"] = "Assinatura Stripe";
 //----- translation strings from plugin/TopMenu/TopMenu.php
 $t["TopMenu"] = "TopMenu";
 //----- translation strings from plugin/TopMenu/menuDelete.json.php
-$t["You can not manager plugins"] = "You can not manager plugins";
+$t["You can not manager plugins"] = "Você não tem permissão para gerenciar plugins";
 //----- translation strings from plugin/TopMenu/page/editor.php
-$t["Top Menu"] = "Top Menu";
-$t['Default'] = 'Default';
-$t['Left Menu'] = 'Left Menu';
-$t["Select an icon for the menu"] = "Select an icon for the menu";
+$t["Top Menu"] = "Menu Top";
+$t['Default'] = 'Padrão';
+$t['Left Menu'] = 'Menu à esquerda';
+$t["Select an icon for the menu"] = "Selecione um ícone para o menu";
 $t['URL'] = 'URL';
-$t['URL Iframe'] = 'URL Iframe';
-$t['Page'] = 'Page';
+$t['URL Iframe'] = 'URL do iframe';
+$t['Page'] = 'Página';
 //----- translation strings from plugin/VideoLogoOverlay/page/editor.php
-$t["Customize"] = "Customize";
-$t["Position"] = "Position";
-$t["Opacity"] = "Opacity";
+$t["Customize"] = "Personalizar";
+$t["Position"] = "Posição";
+$t["Opacity"] = "Opacidade";
 //----- translation strings from plugin/VideoTags/index.php
 $t["Tags"] = "Tags";
 //----- translation strings from plugin/VideoTags/index_body.php
-$t["Create Tag Type"] = "Create Tag Type";
-$t["Tag Types"] = "Tag Types";
-$t["Created"] = "Created";
-$t["Modified"] = "Modified";
+$t["Create Tag Type"] = "Criar tipo de tag";
+$t["Tag Types"] = "Tipos de tag";
+$t["Created"] = "Criado";
+$t["Modified"] = "Modificado";
 //----- translation strings from plugin/VimeoAPI/VimeoAPI.php
-$t["Video already uploaded"] = "Video already uploaded";
-$t["Video Filename not found"] = "Video Filename not found";
-$t["Video MP4 File was not found"] = "Video MP4 File was not found";
-$t["Process Start"] = "Process Start";
+$t["Video already uploaded"] = "Vídeo já enviado";
+$t["Video Filename not found"] = "Nome do vídeo não encontrado";
+$t["Video MP4 File was not found"] = "Vídeo MP4 não encontrado";
+$t["Process Start"] = "Iniciar processo";
 //----- translation strings from plugin/VimeoAPI/upload.json.php
-$t["Video ID Not found"] = "Video ID Not found";
-$t["User can not edit this video"] = "User can not edit this video";
-$t["Video does not exist"] = "Video does not exist";
-$t["Error on Upload"] = "Error on Upload";
+$t["Video ID Not found"] = "Vídeo ID não encontrado";
+$t["User can not edit this video"] = "Usuário não pode editar este vídeo";
+$t["Video does not exist"] = "Vídeo não existe";
+$t["Error on Upload"] = "Erro no envio";
 //----- translation strings from plugin/WWBN/page/info.php
 $t["WWBN"] = "WWBN";
 //----- translation strings from plugin/YPTWallet/plugins/YPTWalletRazorPay/requestPayment.json.php
-$t["Process Payment"] = "Process Payment";
+$t["Process Payment"] = "Processar pagamento";
 //----- translation strings from plugin/YPTWallet/plugins/YPTWalletStripe/confirmButton.php
-$t['Submit Payment'] = 'Submit Payment';
-$t["Payment Success"] = "Payment Success";
+$t['Submit Payment'] = 'Enviar pagamento';
+$t["Payment Success"] = "Sucesso no pagamento";
 //----- translation strings from plugin/YPTWallet/view/addFunds.php
-$t["Add Funds"] = "Add Funds";
+$t["Add Funds"] = "Adicionar fundos";
 //----- translation strings from plugin/YPTWallet/view/adminManageWallets.php
-$t["You can not manager wallets"] = "You can not manager wallets";
-$t["Support Author"] = "Support Author";
-$t["Balance"] = "Balance";
-$t["Balance Form"] = "Balance Form";
-$t["Save changes"] = "Save changes";
-$t["No results found!"] = "No results found!";
-$t["Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"] = "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries";
-$t["Loading..."] = "Loading...";
-$t["Refresh"] = "Refresh";
+$t["You can not manage wallets"] = "Você não pode gerenciar wallets";
+$t["Support Author"] = "Suporte o autor";
+$t["Balance"] = "Balanço";
+$t["Balance Form"] = "Formulário de balanço";
+$t["Save changes"] = "Gravar alterações";
+$t["No results found!"] = "Nenhum resultado encontrado!";
+$t["Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries"] = "Mostrando {{ctx.start}} a {{ctx.end}} de {{ctx.total}} registros";
+$t["Loading..."] = "Carregando...";
+$t["Refresh"] = "Recarregar";
 //----- translation strings from plugin/YPTWallet/view/configuration.php
-$t["Configuration"] = "Configuration";
+$t["Configuration"] = "Configuração";
 //----- translation strings from plugin/YPTWallet/view/history.php
-$t["History"] = "History";
-$t["Value"] = "Value";
-$t["Date"] = "Date";
+$t["History"] = "Histórico";
+$t["Value"] = "Valor";
+$t["Date"] = "Data";
 //----- translation strings from plugin/YPTWallet/view/manualAddFunds.php
-$t["Specify Amount"] = "Specify Amount";
-$t["Information"] = "Information";
+$t["Specify Amount"] = "Especificar valor";
+$t["Information"] = "Informação";
 //----- translation strings from plugin/YPTWallet/view/manualWithdrawFunds.php
-$t["Withdraw Funds"] = "Withdraw Funds";
+$t["Withdraw Funds"] = "Sacar fundos";
 //----- translation strings from plugin/YPTWallet/view/menuRight.php
-$t["Transfer Funds"] = "Transfer Funds";
-$t["Manage Wallets"] = "Manage Wallets";
-$t["Pending Requests"] = "Pending Requests";
+$t["Transfer Funds"] = "Transferir fundos";
+$t["Manage Wallets"] = "Gerenciar wallets";
+$t["Pending Requests"] = "Solicitações pendentes";
 //----- translation strings from plugin/YPTWallet/view/transferFunds.php
-$t["Total Amount"] = "Total Amount";
-$t["Transfer Funds to"] = "Transfer Funds to";
-$t["Username or Email"] = "Username or Email";
-$t["Transfer now"] = "Transfer now";
-//----- translation strings from plugin/YouPHPFlix2/view/row_serie.php
-$t['Loading...'] = 'Loading...';
+$t["Total Amount"] = "Valor total";
+$t["Transfer Funds to"] = "Transferir fundos para";
+$t["Username or Email"] = "Usuário ou e-mail";
+$t["Transfer now"] = "Transferir agora";
 //----- translation strings from plugin/YouTube/view/Category.php
-$t["Sub-Category-YouTube"] = "Sub-Category-YouTube";
+$t["Sub-Category-YouTube"] = "Sub-Categoria-YouTube";
 //----- translation strings from plugin/YouTubeAPI/YouTubeAPI.php
-$t["A service error occurred: %s"] = "A service error occurred: %s";
-$t["An client error occurred: %s"] = "An client error occurred: %s";
+$t["A service error occurred: %s"] = "Um erro de serviço ocorreu: %s";
+$t["An client error occurred: %s"] = "Um erro de cliente ocorreu: %s";
 //----- translation strings from plugin/YouTubeAPI/gallerySection.php
-$t["Previous"] = "Previous";
-$t["Next"] = "Next";
+$t["Previous"] = "Anterior";
+$t["Next"] = "Próximo";
 //----- translation strings from view/channel.php
-$t["Channel"] = "Channel";
+$t["Channel"] = "Canal";
 //----- translation strings from view/channelBody.php
-$t["My videos"] = "My videos";
+$t["My videos"] = "Meus vídeos";
 //----- translation strings from view/channelPlaylistItems.php
-$t["Rename"] = "Rename";
-$t['More'] = 'More';
-$t["Remove"] = "Remove";
-$t["Change Playlist Name"] = "Change Playlist Name";
-$t["Confirm Playlist name"] = "Confirm Playlist name";
+$t["Rename"] = "Renomear";
+$t['More'] = 'Mais';
+$t["Remove"] = "Remover";
+$t["Change Playlist Name"] = "Mudar nome de playlist";
+$t["Confirm Playlist name"] = "Confirmar nome de playlist";
 //----- translation strings from view/channelProgram.php
-$t["Auto Sort"] = "Auto Sort";
-$t['Copy embed code'] = 'Copy embed code';
-$t['Show More'] = 'Show More';
-$t['Show Less'] = 'Show Less';
+$t["Auto Sort"] = "Auto-ordenar";
+$t['Copy embed code'] = 'Copiar código de incorporação';
+$t['Show More'] = 'Mostrar mais';
+$t['Show Less'] = 'Mostrar menos';
 //----- translation strings from view/channels.php
-$t["Search Channels"] = "Search Channels";
-$t["Views in the last 30 days"] = "Views in the last 30 days";
+$t["Search Channels"] = "Procurar em canais";
+$t["Views in the last 30 days"] = "Visualizações nos últimos 30 dias";
 //----- translation strings from view/charts_body.php
-$t["Video views - per Channel"] = "Video views - per Channel";
-$t["Comment thumbs up - per Person"] = "Comment thumbs up - per Person";
-$t["Video thumbs up - per Channel"] = "Video thumbs up - per Channel";
+$t["Video views - per Channel"] = "Visualizações - por canal";
+$t["Comment thumbs up - per Person"] = "Thumbs up em comentário - por pessoa";
+$t["Video thumbs up - per Channel"] = "Thumbs up em vídeo - por canal";
 //----- translation strings from view/configurations_body.php
-$t["Compatibility Check"] = "Compatibility Check";
-$t["Regular Configuration"] = "Regular Configuration";
-$t["Advanced Configuration"] = "Advanced Configuration";
-$t["Script Code"] = "Script Code";
-$t["Do not forget to save after choose your theme"] = "Do not forget to save after choose your theme";
-$t["We would like to thanks http://bootswatch.com/"] = "We would like to thanks http://bootswatch.com/";
-$t["You are hosting %d minutes and %d seconds of video"] = "You are hosting %d minutes and %d seconds of video";
-$t["Basic"] = "Basic";
-$t["Language"] = "Language";
-$t["This e-mail will be used for this web site notifications"] = "This e-mail will be used for this web site notifications";
-$t["Authenticated users can upload videos"] = "Authenticated users can upload videos";
-$t["Authenticated users can view chart"] = "Authenticated users can view chart";
-$t["For uploaders"] = "For uploaders";
-$t["For selected, admin view"] = "For selected, admin view";
-$t["Authenticated users can comment videos"] = "Authenticated users can comment videos";
-$t["Autoplay Video on Load Page"] = "Autoplay Video on Load Page";
-$t["Help"] = "Help";
-$t["Logo and Title"] = "Logo and Title";
-$t["Choose a logo"] = "Choose a logo";
+$t["Compatibility Check"] = "Checagem de compatibilidade";
+$t["Regular Configuration"] = "Configuração normal";
+$t["Advanced Configuration"] = "Configuração avançada";
+$t["Script Code"] = "Código em script";
+$t["Do not forget to save after choose your theme"] = "Não esqueça de gravar as alterações depois de escolher o tema";
+$t["We would like to thanks http://bootswatch.com/"] = "Agradecemos BootSwatch (https://bootswatch.com/) pelos temas";
+$t["You are hosting %d minutes and %d seconds of video"] = "Você está hospedando %d minutos e %d segundos de vídeo";
+$t["Basic"] = "Básico";
+$t["Language"] = "Idioma";
+$t["This e-mail will be used for this web site notifications"] = "Este e-mail será usado para receber notificações deste site";
+$t["Authenticated users can upload videos"] = "Usuários autenticados podem enviar vídeos";
+$t["Authenticated users can view chart"] = "Usuários autenticados podem visualizar gráficos";
+$t["For uploaders"] = "Para enviadores de vídeos";
+$t["For selected, admin view"] = "Com selecionado, visualização administrativa";
+$t["Authenticated users can comment videos"] = "Usuários autenticados podem comentar em vídeos";
+$t["Autoplay Video on Load Page"] = "Auto-reprodução do vídeo ao carregar a página";
+$t["Help"] = "Ajuda";
+$t["Logo and Title"] = "Logo e título";
+$t["Choose a logo"] = "Escolha a logo";
 $t["Favicon"] = "Favicon";
-$t["Choose a favicon"] = "Choose a favicon";
-$t["Clear Cache Directory"] = "Clear Cache Directory";
-$t["Encoder URL"] = "Encoder URL";
-$t["You need to set up an encoder server"] = "You need to set up an encoder server";
-$t["You can use our public encoder on"] = "You can use our public encoder on";
-$t["For faster encode, download your own encoder"] = "For faster encode, download your own encoder";
-$t["Session Timeout in seconds"] = "Session Timeout in seconds";
-$t["Disable AVideo Google Analytics"] = "Disable AVideo Google Analytics";
-$t["This help us to track and dettect errors"] = "This help us to track and dettect errors";
-$t["Disable Youtube-Upload"] = "Disable Youtube-Upload";
-$t["Allow download video"] = "Allow download video";
-$t["This creates a download-button under your video, suggest you title.mp4 as download-name."] = "This creates a download-button under your video, suggest you title.mp4 as download-name.";
-$t['If you are not sure how to configure your email'] = 'If you are not sure how to configure your email';
-$t['please try'] = 'please try';
-$t["Enable SMTP"] = "Enable SMTP";
-$t["Enable SMTP Auth"] = "Enable SMTP Auth";
-$t["SMTP Secure"] = "SMTP Secure";
-$t['tls OR ssl'] = 'tls OR ssl';
-$t["Use tls OR ssl"] = "Use tls OR ssl";
-$t["SMTP Port"] = "SMTP Port";
-$t["SMTP Host"] = "SMTP Host";
-$t["SMTP Username"] = "SMTP Username";
-$t["SMTP Password"] = "SMTP Password";
-$t["Test your email"] = "Test your email";
-$t["Test Email"] = "Test Email";
-$t["Advanced configurations are disabled"] = "Advanced configurations are disabled";
-$t["Head Code"] = "Head Code";
-$t['For Google Analytics code'] = 'For Google Analytics code';
-$t['Leave blank for native code'] = 'Leave blank for native code';
-$t["Google Ad Sense"] = "Google Ad Sense";
-$t['Google AD Sense and any other Ads provider are moved to the'] = 'Google AD Sense and any other Ads provider are moved to the';
+$t["Choose a favicon"] = "Escolha um favicon";
+$t["Clear Cache Directory"] = "Limpar diretório de cache";
+$t["Encoder URL"] = "URL do codificador";
+$t["You need to set up an encoder server"] = "Você precisa definir um servidor codificador";
+$t["You can use our public encoder on"] = "Você pode usar nosso codificador público em";
+$t["For faster encode, download your own encoder"] = "Para codificação mais rápida, baixe e instale seu próprio codificador";
+$t["Session Timeout in seconds"] = "Tempo limite de sessão, em segundos";
+$t["Disable AVideo Google Analytics"] = "Desativar Google Analytics do AVideo";
+$t["This help us to track and detect errors"] = "Isso ajuda a equipe de programadores a detectar erros";
+$t["Disable Youtube-Upload"] = "Desativar Youtube-Upload";
+$t["Allow download video"] = "Permitir que o vídeo seja baixado";
+$t["This creates a download-button under your video, suggest you title.mp4 as download-name."] = "Isto cria um botão de baixar em seu vídeo, sugerimos o nome de arquivo como title.mp4.";
+$t['If you are not sure how to configure your email'] = 'Se você não tem certeza como configurar seu e-mail, não altere esta seção';
+$t['please try'] = 'por favor tente';
+$t["Enable SMTP"] = "Ativar SMTP";
+$t["Enable SMTP Auth"] = "Ativar autenticação SMTP";
+$t["SMTP Secure"] = "SMTP Seguro";
+$t['tls OR ssl'] = 'TLS ou SSL';
+$t["Use tls OR ssl"] = "Usar TLS ou SSL";
+$t["SMTP Port"] = "Porta SMTP";
+$t["SMTP Host"] = "Host SMTP";
+$t["SMTP Username"] = "Usuário SMTP";
+$t["SMTP Password"] = "Senha SMTP";
+$t["Test your email"] = "Testar o e-mail";
+$t["Test Email"] = "Testar e-mail";
+$t["Advanced configurations are disabled"] = "Configurações avançadas estão desativadas";
+$t["Head Code"] = "Código de cabeçalho";
+$t['For Google Analytics code'] = 'Para código do Google Analytics';
+$t['Leave blank for native code'] = 'Deixe em branco para incluir o código nativo';
+$t["Google Ad Sense"] = "Google AdSense";
+$t['Google AD Sense and any other Ads provider are moved to the'] = 'Google AdSense e outros fornecedores de ads moveram para';
 //----- translation strings from view/contact.php
-$t["Contact"] = "Contact";
-$t["Your message has been sent!"] = "Your message has been sent!";
-$t["Go back to the main page"] = "Go back to the main page";
-$t["Contact Us Today!"] = "Contact Us Today!";
+$t["Contact"] = "Contato";
+$t["Your message has been sent!"] = "Sua mensagem foi enviada!";
+$t["Go back to the main page"] = "Voltar para a página principal";
+$t["Contact Us Today!"] = "Contate-nos agora!";
 $t["Website"] = "Website";
 //----- translation strings from view/downloadChecker.php
-$t["Your Site Configurations is set to NOT Allow Download"] = "Your Site Configurations is set to NOT Allow Download";
-$t["Your Site Configurations is set to Allow Download"] = "Your Site Configurations is set to Allow Download";
-$t["Non admin users can download videos"] = "Non admin users can download videos";
-$t["Non admin users can NOT download videos"] = "Non admin users can NOT download videos";
-$t["This site configuration allow download"] = "This site configuration allow download";
-$t["But only admin can download"] = "But only admin can download";
-$t["This user do allow download selected videos"] = "This user do allow download selected videos";
-$t["This user do allow download all his files"] = "This user do allow download all his files";
-$t["This user do NOT allow download his files"] = "This user do NOT allow download his files";
-$t["The download is controlled by the system, there is nothing to check on the user"] = "The download is controlled by the system, there is nothing to check on the user";
-$t["This video can be downloaded"] = "This video can be downloaded";
-$t["This category do not allow download"] = "This category do not allow download";
-$t["This category allow download"] = "This category allow download";
-$t["User must allow each video individually, but this video is not marked for download"] = "User must allow each video individually, but this video is not marked for download";
-$t["This video checked for download"] = "This video checked for download";
-$t["The download permission is site wide, so there is nothing to check on the video"] = "The download permission is site wide, so there is nothing to check on the video";
+$t["Your Site Configurations is set to NOT Allow Download"] = "As configurações do site NÃO permitem baixar arquivos";
+$t["Your Site Configurations is set to Allow Download"] = "As configurações do site PERMITEM baixar arquivos";
+$t["Non admin users can download videos"] = "Usuários não-administradores PODEM baixar arquivos";
+$t["Non admin users can NOT download videos"] = "Usuários não-administradores NÃO podem baixar arquivos";
+$t["This site configuration allow download"] = "A configuração do site permite baixar arquivos";
+$t["But only admin can download"] = "Mas apenas administradores podem baixar arquivos";
+$t["This user do allow download selected videos"] = "Este usuário NÃO permite baixar arquivos selecionados";
+$t["This user do allow download all his files"] = "Este usuário PERMITE baixar seus arquivos";
+$t["This user do NOT allow download his files"] = "Este usuário NÃO permite baixar seus arquivos";
+$t["The download is controlled by the system, there is nothing to check on the user"] = "O processo de baixar arquivos é controlado pelo sistema, não há nada para checar na configuração do usuário";
+$t["This video can be downloaded"] = "Este vídeo pode ser baixado";
+$t["This category do not allow download"] = "Esta categoria NÃO permite que vídeos sejam baixados";
+$t["This category allow download"] = "Esta categoria PERMITE que vídeos sejam baixados";
+$t["User must allow each video individually, but this video is not marked for download"] = "O usuário deve permitir que cada vídeo seja baixado, mas o vídeo selecionado está marcado como proibido para baixar";
+$t["This video checked for download"] = "Este vídeo está selecionado para baixar";
+$t["The download permission is site wide, so there is nothing to check on the video"] = "A permissão para baixar vídeos vale para todo o site, não há nada a alterar para este vídeo";
 //----- translation strings from view/downloadExternalVideo.php
-$t["Sorry you not able to download videos right now!"] = "Sorry you not able to download videos right now!";
-$t["You need to install"] = "You need to install";
-$t["We use youtube-dl to download videos from youtube.com or other video platforms"] = "We use youtube-dl to download videos from youtube.com or other video platforms";
-$t["To installations instructions try this link: "] = "To installations instructions try this link: ";
-$t["youtube-dl uses Python and some servers does not came with python as default, to install Python type:"] = "youtube-dl uses Python and some servers does not came with python as default, to install Python type:";
-$t["To install it right away for all UNIX users (Linux, OS X, etc.), type: "] = "To install it right away for all UNIX users (Linux, OS X, etc.), type: ";
-$t["If you do not have curl, you can alternatively use a recent wget: "] = "If you do not have curl, you can alternatively use a recent wget: ";
-$t["Download Video"] = "Download Video";
-$t["Audio only"] = "Audio only";
-$t["Make sure that the video you are going to download has a duration of less than %d minute(s)!"] = "Make sure that the video you are going to download has a duration of less than %d minute(s)!";
+$t["Sorry you not able to download videos right now!"] = "Desculpe, você não conseguirá baixar vídeos nesse momento!";
+$t["You need to install"] = "Você precisa instalar";
+$t["We use youtube-dl to download videos from youtube.com or other video platforms"] = "Youtube-dl é utilizado para baixar vídeos do YouTube ou de outras plataformas";
+$t["To installations instructions try this link: "] = "Para instruções de instalação siga o link: ";
+$t["youtube-dl uses Python and some servers does not came with python as default, to install Python type:"] = "youtube-dl utiliza Python e alguns servidores não tem Python instalado por padrão; para instalar Python digite:";
+$t["To install it right away for all UNIX users (Linux, OS X, etc.), type: "] = "Para instalar agora em ambiente UNIX (Linux, OS X, etc.), digite: ";
+$t["If you do not have curl, you can alternatively use a recent wget: "] = "Se você não tem a extensão curl, você pode utilizar o comando wget: ";
+$t["Download Video"] = "Baixar vídeo";
+$t["Audio only"] = "Áudio apenas";
+$t["Make sure that the video you are going to download has a duration of less than %d minute(s)!"] = "Certifique-se de que a duração do vídeo a ser baixado é menor que %d minuto(s)!";
 //----- translation strings from view/forbiddenPage.php
-$t["Forbidden"] = "Forbidden";
+$t["Forbidden"] = "Proibido";
 //----- translation strings from view/help.php
-$t["User-manual of"] = "User-manual of";
-$t['Here you can find help, how this plattform works.'] = 'Here you can find help, how this plattform works.';
-$t['Admin\'s manual'] = 'Admin\'s manual';
-$t['Only you can see this, because you are a admin.'] = 'Only you can see this, because you are a admin.';
-$t['Settings and plugins'] = 'Settings and plugins';
-$t['The default'] = 'The default';
-$t['Like on a lot of plugins, on the right site, you will find a button'] = 'Like on a lot of plugins, on the right site, you will find a button';
-$t['Also, when you activate a plugin and you see a button "Install Tables", press it at least once, if you never press it, this can cause bugs!'] = 'Also, when you activate a plugin and you see a button "Install Tables", press it at least once, if you never press it, this can cause bugs!';
-$t['Update via git'] = 'Update via git';
-$t['This project is in a fast development. If you have done your setup via git (like in the howto\'s), you can update very easy!'] = 'This project is in a fast development. If you have done your setup via git (like in the howto\'s), you can update very easy!';
-$t['In the shell, go to the avideo-folder and type "git pull" there. Or, for copy-paste'] = 'In the shell, go to the avideo-folder and type "git pull" there. Or, for copy-paste';
-$t['It can be, that you will need a database-update after. For this, go as admin to the menu-point'] = 'It can be, that you will need a database-update after. For this, go as admin to the menu-point';
-$t['Done'] = 'Done';
-$t['Update via ftp/files'] = 'Update via ftp/files';
-$t['Download this file'] = 'Download this file';
-$t['Unzip and upload/replace the'] = 'Unzip and upload/replace the';
-$t['Issues on github'] = 'Issues on github';
-$t['If you want to tell us, what is not working for you, this is great and helps us, to make the software more stable.'] = 'If you want to tell us, what is not working for you, this is great and helps us, to make the software more stable.';
-$t['Some information can help us, to find your problem faster'] = 'Some information can help us, to find your problem faster';
-$t['If you can, clear the log-files, reproduce the error and send them. This helps to reduce old or repeating information.'] = 'If you can, clear the log-files, reproduce the error and send them. This helps to reduce old or repeating information.';
-$t['Here you find information about how to handle videos.'] = 'Here you find information about how to handle videos.';
-$t['Add videos'] = 'Add videos';
-$t['There are various kinds of media you can integrate here. They are working diffrent'] = 'There are various kinds of media you can integrate here. They are working diffrent';
-$t['Mediatype'] = 'Mediatype';
-$t['Audio'] = 'Audio';
-$t['Video'] = 'Video';
-$t['Direct audio-link (mp3 or ogg)'] = 'Direct audio-link (mp3 or ogg)';
-$t['Direct video-link (mp4)'] = 'Direct video-link (mp4)';
-$t['Edit videos'] = 'Edit videos';
-$t['After you add any kind of video, you can find it in'] = 'After you add any kind of video, you can find it in';
-$t['On the right site, you find various symbols'] = 'On the right site, you find various symbols';
-$t['There, you can set'] = 'There, you can set';
-$t['Preview-picture and gif'] = 'Preview-picture and gif';
-$t['Title and description'] = 'Title and description';
-$t['Next video'] = 'Next video';
-$t['With the other options, you can delete, rotate and promote a video'] = 'With the other options, you can delete, rotate and promote a video';
-$t['Use a video as a ad'] = 'Use a video as a ad';
-$t['To use a video as a ad, go to'] = 'To use a video as a ad, go to';
-$t['After enabling this, you can directly set some options, like the name, link and active categorie for example.'] = 'After enabling this, you can directly set some options, like the name, link and active categorie for example.';
-$t['When the video is saved like this, it will show up under the menu-point'] = 'When the video is saved like this, it will show up under the menu-point';
+$t["User-manual of"] = "Manual do usuário de";
+$t['Here you can find help, how this plattform works.'] = 'Aqui você encontrará ajuda em como esta plataforma funciona.';
+$t['Admin\'s manual'] = 'Manual do administrador';
+$t['Only you can see this, because you are a admin.'] = 'Somente você está vendo isso, porque você é um administrador.';
+$t['Settings and plugins'] = 'Configurações e plugins';
+$t['The default'] = 'O padrão';
+$t['Like on a lot of plugins, on the right site, you will find a button'] = 'Como muitos plugins, instalados corretamente, você encontrará um botão';
+$t['Also, when you activate a plugin and you see a button "Install Tables", press it at least once, if you never press it, this can cause bugs!'] = 'Também note que quando você ativar um plugin e ver um botão "Instalar tabelas", clique nele para concluir a instalação do plugin!';
+$t['Update via git'] = 'Atualizar via Git';
+$t['This project is in a fast development. If you have done your setup via git (like in the howto\'s), you can update very easy!'] = 'Este projeto está em desenvolvimento constante. Se você utilizou Git na instalação (indicado na seção "How To"), a atualização é muito fácil!';
+$t['In the shell, go to the avideo-folder and type "git pull" there. Or, for copy-paste'] = 'No terminal/linha de comando, entre no diretório do seu site e digite "git pull". Ou, copiando e colando';
+$t['It can be, that you will need a database-update after. For this, go as admin to the menu-point'] = 'É possível que seja necessário atualizar o banco de dados após a atualização do código. Para isso, como administrador, vá ao menu';
+$t['Done'] = 'Feito';
+$t['Update via ftp/files'] = 'Atualizar via FTP';
+$t['Download this file'] = 'Baixar este arquivo';
+$t['Unzip and upload/replace the'] = 'Unzip e envie/substitua o';
+$t['Issues on github'] = 'Problemas no GitHub';
+$t['If you want to tell us, what is not working for you, this is great and helps us, to make the software more stable.'] = 'Se quer comunicar o que não está funcionando no seu projeto, isso é ótimo e nos ajuda a deixar o sistema mais estável.';
+$t['Some information can help us, to find your problem faster'] = 'Algumas informações podem nos ajudar para solucionar o problema mais rápido';
+$t['If you can, clear the log-files, reproduce the error and send them. This helps to reduce old or repeating information.'] = 'Se possível, limpe os arquivos de log, reproduza o erro e envie os logs para a seção "Issues" do GitHub. Ao zerar o log, evita-se que problemas anteriores e não relacionados sejam compartilhados.';
+$t['Here you find information about how to handle videos.'] = 'Aqui você encontra informação sobre como gerenciar seus vídeos.';
+$t['Add videos'] = 'Adicionar vídeos';
+$t['There are various kinds of media you can integrate here. They are working diffrent'] = 'Existem diversos tipos de mídia que você pode enviar e integrar. Eles trabalham cada um de forma diferente';
+$t['Mediatype'] = 'Tipo de mídia';
+$t['Audio'] = 'Áudio';
+$t['Video'] = 'Vídeo';
+$t['Direct audio-link (mp3 or ogg)'] = 'Link de áudio (MP3 ou OGG)';
+$t['Direct video-link (mp4)'] = 'Link de vídeo (MP4)';
+$t['Edit videos'] = 'Editar vídeos';
+$t['After you add any kind of video, you can find it in'] = 'Depois de adicionar qualquer tipo de vídeo, você o encontrará em';
+$t['On the right site, you find various symbols'] = 'No lado direito, encontrará diversos símbolos';
+$t['There, you can set'] = 'Lá, você pode definir';
+$t['Preview-picture and gif'] = 'Imagem de visualização e GIF';
+$t['Title and description'] = 'Título e descrição';
+$t['Next video'] = 'Próximo vídeo';
+$t['With the other options, you can delete, rotate and promote a video'] = 'Com outras opções, você pode remover, rotacionar e promover um vídeo';
+$t['Use a video as a ad'] = 'Usar um vídeo como anúncio';
+$t['To use a video as a ad, go to'] = 'Para usar um vídeo como anúncio, vá em';
+$t['After enabling this, you can directly set some options, like the name, link and active categorie for example.'] = 'Após ativar esta opção, você pode configurar outras opções, como o nome, link e categoria por exemplo.';
+$t['When the video is saved like this, it will show up under the menu-point'] = 'Quando o vídeo é gravado assim, ele irá aparecer sob o ponto do menu';
 //----- translation strings from view/iframe.php
-$t["Please login first"] = "Please login first";
-$t["Upload"] = "Upload";
+$t["Please login first"] = "Por favor faça o login primeiro";
+$t["Upload"] = "Enviar";
 $t["Network"] = "Network";
 //----- translation strings from view/img/image403.php
-$t["You are not allowed to enter here"] = "You are not allowed to enter here";
+$t["You are not allowed to enter here"] = "Você não tem permissão para visualizar esta página";
 //----- translation strings from view/import.php
-$t["Import"] = "Import";
-$t["Delete files after submit"] = "Delete files after submit";
-$t["List Files"] = "List Files";
-$t["Direct Import all"] = "Direct Import all";
+$t["Import"] = "Importar";
+$t["Delete files after submit"] = "Remover arquivos depois do envio";
+$t["List Files"] = "Listar arquivos";
+$t["Direct Import all"] = "Importar tudo diretamente";
 //----- translation strings from view/include/navbar.php
-$t["Main Menu"] = "Main Menu";
-$t["Direct Import Local Videos"] = "Direct Import Local Videos";
-$t["Add Article"] = "Add Article";
-$t["Sign Out"] = "Sign Out";
-$t["Sign out"] = "Sign out";
-$t["My Account"] = "My Account";
-$t["My Subscribers"] = "My Subscribers";
-$t["Comments"] = "Comments";
+$t["Main Menu"] = "Menu principal";
+$t["Direct Import Local Videos"] = "Importar vídeos locais diretamente";
+$t["Add Article"] = "Adicionar artigo";
+$t["Sign Out"] = "Sair";
+$t["Sign out"] = "Sair";
+$t["My Account"] = "Minha conta";
+$t["My Subscribers"] = "Meus assinantes";
+$t["Comments"] = "Comentários";
 $t["TV"] = "TV";
-$t["My Menu"] = "My Menu";
-$t["Admin Menu"] = "Admin Menu";
-$t["Admin Panel"] = "Admin Panel";
-$t["Update version"] = "Update version";
-$t["Create more translations"] = "Create more translations";
-$t["Clear First Page Cache"] = "Clear First Page Cache";
-$t["Log file"] = "Log file";
-$t["Extra Permissions"] = "Extra Permissions";
-$t["Audios and Videos"] = "Audios and Videos";
-$t["Audios"] = "Audios";
-$t["Browse Channels"] = "Browse Channels";
+$t["My Menu"] = "Meu menu";
+$t["Admin Menu"] = "Menu administração";
+$t["Admin Panel"] = "Painel administração";
+$t["Update version"] = "Atualizar versão";
+$t["Create more translations"] = "Criar mais traduções";
+$t["Clear First Page Cache"] = "Limpar cache da página inicial";
+$t["Log file"] = "Arquivo de auditoria (log)";
+$t["Extra Permissions"] = "Permissões extras";
+$t["Audios and Videos"] = "Áudios e Vídeos";
+$t["Audios"] = "Áudios";
+$t["Browse Channels"] = "Navegar em canais";
 //----- translation strings from view/include/navbarEncoder.php
-$t["Configure an Encoder URL"] = "Configure an Encoder URL";
+$t["Configure an Encoder URL"] = "Configurar uma URL de codificador";
 //----- translation strings from view/include/updateCheck.php
-$t['Database-update needed'] = 'Database-update needed';
+$t['Database-update needed'] = 'Atualização no banco de dados necessária';
 //----- translation strings from view/logs.php
 $t["Logs"] = "Logs";
 //----- translation strings from view/managerCategories.php
-$t["You can not manage categories"] = "You can not manage categories";;
+$t["You can not manage categories"] = "Você não pode gerenciar categorias";
 //----- translation strings from view/managerCategories_body.php
-$t["New Category"] = "New Category";
+$t["New Category"] = "Nova categoria";
 $t["ID"] = "ID";
-$t["Icon"] = "Icon";
-$t["Lives"] = "Lives";
-$t["Order"] = "Order";
-$t["Category Form"] = "Category Form";
-$t["Images"] = "Images";
-$t["Meta Data"] = "Meta Data";
-$t["Background"] = "Background";
-$t["Clean Name"] = "Clean Name";
-$t["Description"] = "Description";
-$t["Privacy"] = "Privacy";
-$t["Allow Download"] = "Allow Download";
-$t["Autoplay next-video-order"] = "Autoplay next-video-order";
-$t["By name"] = "By name";
-$t["Parent-Category"] = "Parent-Category";
-$t["Category Icon"] = "Category Icon";
-$t["None (Parent)"] = "None (Parent)";
+$t["Icon"] = "Ícone";
+$t["Lives"] = "Transmissões";
+$t["Order"] = "Ordem";
+$t["Category Form"] = "Formulário de categoria";
+$t["Images"] = "Imagens";
+$t["Meta Data"] = "Dados Meta";
+$t["Background"] = "Fundo";
+$t["Clean Name"] = "Nome limpo";
+$t["Description"] = "Descrição";
+$t["Privacy"] = "Privacidade";
+$t["Allow Download"] = "Permitir baixar";
+$t["Autoplay next-video-order"] = "Auto-reproduzir ordem-próximo-vídeo";
+$t["By name"] = "Por nome";
+$t["Parent-Category"] = "Categoria-pai";
+$t["Category Icon"] = "Ícone da categoria";
+$t["None (Parent)"] = "Nenhum (pai)";
 $t["Auto"] = "Auto";
-$t["Both"] = "Both";
-$t["Audio"] = "Audio";
-$t["Invalid"] = "Invalid";
+$t["Both"] = "Ambos";
+$t["Audio"] = "Áudio";
+$t["Invalid"] = "Inválido";
 $t["RSS Feed"] = "RSS Feed";
 $t["MRSS Feed"] = "MRSS Feed";
-$t["Roku Json"] = "Roku Json";
-$t["Your category has been deleted!"] = "Your category has been deleted!";
-$t["Your category has been saved!"] = "Your category has been saved!";
-//----- translation strings from view/managerCategories_head.php
+$t["Roku Json"] = "Roku JSON";
+$t["Your category has been deleted!"] = "Categoria foi removida!";
+$t["Your category has been saved!"] = "Categoria foi gravada!";
 //----- translation strings from view/managerComments.php
-$t["You can not manage comments"] = "You can not manage comments";
+$t["You can not manage comments"] = "Você não tem permissão para gerenciar comentários";
 //----- translation strings from view/managerPlugins.php
-$t["You can not manage plugins"] = "You can not manage plugins";
+$t["You can not manage plugins"] = "Você não tem permissão para gerenciar plugins";
 //----- translation strings from view/managerPlugins_body.php
-$t['Installed Plugins'] = 'Installed Plugins';
+$t['Installed Plugins'] = 'Plugins instalados';
 $t['Plugins Store'] = 'Plugins Store';
-$t["Upload a Plugin"] = "Upload a Plugin";
-$t["Installed"] = "Installed";
-$t["Uninstalled"] = "Uninstalled";
-$t["Plugin Form"] = "Plugin Form";
-$t["Make sure you have the unzip app on your server"] = "Make sure you have the unzip app on your server";
-$t["Upload a Plugin ZIP File"] = "Upload a Plugin ZIP File";
-$t["You need to make the plugin dir writable before upload, run this command and refresh this page"] = "You need to make the plugin dir writable before upload, run this command and refresh this page";
-$t["Buy This Plugin"] = "Buy This Plugin";
-$t['Edit parameters'] = 'Edit parameters';
-$t['Reinstall tables'] = 'Reinstall tables';
-$t['Install tables'] = 'Install tables';
-$t['Run Update Script'] = 'Run Update Script';
-$t['User Groups Permissions'] = 'User Groups Permissions';
-//----- translation strings from view/managerPlugins_head.php
+$t["Upload a Plugin"] = "Enviar um plugin";
+$t["Installed"] = "Instalado";
+$t["Uninstalled"] = "Desinstalado";
+$t["Plugin Form"] = "Formulário do plugin";
+$t["Make sure you have the unzip app on your server"] = "Certifique que você tem um aplicativo de descompactação (como unzip) instalado em seu servidor";
+$t["Upload a Plugin ZIP File"] = "Enviar um plugin em arquivo ZIP";
+$t["You need to make the plugin dir writable before upload, run this command and refresh this page"] = "É preciso que o diretório de plugin do servidor tenha permissão de gravação, execute este comando no seu servidor e recarregue a página depois";
+$t["Buy This Plugin"] = "Comprar este plugin";
+$t['Edit parameters'] = 'Editar parâmetros';
+$t['Reinstall tables'] = 'Reinstalar tabelas';
+$t['Install tables'] = 'Instalar tabelas';
+$t['Run Update Script'] = 'Atualizar plugin';
+$t['User Groups Permissions'] = 'Permissões de grupos de usuários';
 //----- translation strings from view/managerSubscribes.php
-$t["You can not manage subscribes"] = "You can not manage subscribes";
-$t["Subscribes"] = "Subscribes";
-$t["Notify Subscribers"] = "Notify Subscribers";
+$t["You can not manage subscribes"] = "Você não tem permissão para gerenciar assinantes";
+$t["Subscribes"] = "Assinantes";
+$t["Notify Subscribers"] = "Notificar assinantes";
 //----- translation strings from view/managerUsers.php
-$t["You can not manage users"] = "You can not manage users";
+$t["You can not manage users"] = "Você não tem permissão para gerenciar usuários";
 //----- translation strings from view/managerUsersGroups.php
-$t["You can not manage do this"] = "You can not manage do this";
-$t["UserGroups"] = "UserGroups";
+$t["You can not manage do this"] = "Você não tem permissão para gerenciar isto";
+$t["UserGroups"] = "GruposUsuários";
 //----- translation strings from view/managerUsersGroups_body.php
-$t["New User Groups"] = "New User Groups";
-$t["What is User Groups"] = "What is User Groups";
-$t["User Groups Form"] = "User Groups Form";
-$t["Group Permissions"] = "Group Permissions";
+$t["New User Groups"] = "Novo grupo de usuários";
+$t["What is User Groups"] = "O que é grupo de usuários";
+$t["User Groups Form"] = "Formulário de grupo de usuários";
+$t["Group Permissions"] = "Permissões do grupo";
 //----- translation strings from view/managerUsers_body.php
-$t["New User"] = "New User";
-$t["CSV File"] = "CSV File";
-$t['Active Users'] = 'Active Users';
-$t['Inactive Users'] = 'Inactive Users';
-$t["User Form"] = "User Form";
-$t["Channel Name"] = "Channel Name";
-$t["Analytics Code"] = "Analytics Code";
-$t["is Admin"] = "is Admin";
-$t["Can Stream Videos"] = "Can Stream Videos";
-$t["Can Upload Videos"] = "Can Upload Videos";
-$t["Can view chart"] = "Can view chart";
-$t["Can create meet"] = "Can create meet";
-$t["is Active"] = "is Active";
-$t["Videos linked"] = "Videos linked";
-$t["User Info"] = "User Info";
-$t["First Name"] = "First Name";
-$t["Last Name"] = "Last Name";
-$t["Address"] = "Address";
-$t["Zip Code"] = "Zip Code";
-$t["Document"] = "Document";
-$t["Your user has been saved!"] = "Your user has been saved!";
+$t["New User"] = "Novo usuáro";
+$t["CSV File"] = "Arquivo CSV";
+$t['Active Users'] = 'Usuários ativos';
+$t['Inactive Users'] = 'Usuários inativos';
+$t["User Form"] = "Formulário de usuário";
+$t["Channel Name"] = "Nome do canal";
+$t["Analytics Code"] = "Código Analytics";
+$t["is Admin"] = "é administrador";
+$t["Can Stream Videos"] = "Pode transmitir vídeos";
+$t["Can Upload Videos"] = "Pode enviar vídeos";
+$t["Can view chart"] = "Pode visualizar gráficos";
+$t["Can create meet"] = "Pode criar meets";
+$t["is Active"] = "está ativo";
+$t["Videos linked"] = "Videos linkados";
+$t["User Info"] = "Informação de usuário";
+$t["First Name"] = "Nome";
+$t["Last Name"] = "Sobrenome";
+$t["Address"] = "Endereço";
+$t["Zip Code"] = "CEP";
+$t["Document"] = "Documento";
+$t["Your user has been saved!"] = "Usuário gravado!";
 $t['Info'] = 'Info';
-//----- translation strings from view/managerUsers_head.php
 //----- translation strings from view/managerVideos.php
-$t["You can not manage videos"] = "You can not manage videos";
+$t["You can not manage videos"] = "Você não tem permissão para gerenciar vídeos";
 //----- translation strings from view/managerVideos_body.php
-$t["Video Chart"] = "Video Chart";
-$t["Advertising Manager"] = "Advertising Manager";
-$t["You are hosting %d videos total, %d minutes and %d seconds and consuming %s of disk"] = "You are hosting %d videos total, %d minutes and %d seconds and consuming %s of disk";
-$t['Upload to YouTube'] = 'Upload to YouTube';
+$t["Video Chart"] = "Gráficos de vídeos";
+$t["Advertising Manager"] = "Gerenciamento de anúncios";
+$t["You are hosting %d videos total, %d minutes and %d seconds and consuming %s of disk"] = "Você está hospedando um total de %d vídeos, %d minutos e %d segundos e consumindo %s de espaço em disco";
+$t['Upload to YouTube'] = 'Enviar para YouTube';
 $t['Status'] = 'Status';
-$t['Unlisted'] = 'Unlisted';
-$t['Private'] = 'Private';
-$t['Add User Group'] = 'Add User Group';
-$t["Users linked"] = "Users linked";
-$t['Remove User Group'] = 'Remove User Group';
-$t['Swap Video File'] = 'Swap Video File';
-$t['Update all videos disk usage'] = 'Update all videos disk usage';
-$t["Video Duration"] = "Video Duration";
-$t["Video Views"] = "Video Views";
-$t["Suggested Video"] = "Suggested Video";
-$t["Size"] = "Size";
-$t["Upload Form"] = "Upload Form";
-$t["Browse"] = "Browse";
-$t["Poster"] = "Poster";
-$t["Portrait Poster"] = "Portrait Poster";
-$t["Mouse Over Poster (WebP)"] = "Mouse Over Poster (WebP)";
-$t["Mouse Over Poster (GIF)"] = "Mouse Over Poster (GIF)";
-$t["Mouse Over Portrait Poster (GIF)"] = "Mouse Over Portrait Poster (GIF)";
-$t["Clean Title"] = "Clean Title";
-$t["Media Owner"] = "Media Owner";
-$t["Allow Download This media"] = "Allow Download This media";
-$t["Allow Share This media"] = "Allow Share This media";
-$t["Only Paid Users Can see"] = "Only Paid Users Can see";
-$t["Public Media"] = "Public Media";
-$t["Groups that can see this video"] = "Groups that can see this video";
-$t["Autoplay Next Video"] = "Autoplay Next Video";
-$t["Remove Autoplay Next Video"] = "Remove Autoplay Next Video";
-$t["Autoplay Next Video URL"] = "Autoplay Next Video URL";
-$t["Embed code for trailer"] = "Embed code for trailer";
-$t["Start video at"] = "Start video at";
-$t["Video Link"] = "Video Link";
-$t["Download your videos list"] = "Download your videos list";
-$t["Let us upload your video to YouTube"] = "Let us upload your video to YouTube";
-$t["How to setup the Youtube-Upload feature"] = "How to setup the Youtube-Upload feature";
-$t["You need to enable"] = "You need to enable";
-$t["Google Login"] = "Google Login";
-$t["Go to your"] = "Go to your";
+$t['Unlisted'] = 'Não-listado';
+$t['Private'] = 'Privado';
+$t['Add User Group'] = 'Adicionar grupo de usuário';
+$t["Users linked"] = "Usuários linkados";
+$t['Remove User Group'] = 'Remover grupo de usuário';
+$t['Swap Video File'] = 'Trocar arquivos de vídeo';
+$t['Update all videos disk usage'] = 'Atualizar uso de disco de todos os vídeos';
+$t["Video Duration"] = "Duração do vídeo";
+$t["Video Views"] = "Visualizações do vídeo";
+$t["Suggested Video"] = "Vídeo sugerido";
+$t["Size"] = "Tamanho";
+$t["Upload Form"] = "Formulário de envio";
+$t["Browse"] = "Procurar";
+$t["Poster"] = "Pôster";
+$t["Portrait Poster"] = "Pôster retrato";
+$t["Mouse Over Poster (WebP)"] = "Pôster mouse-over (WebP)";
+$t["Mouse Over Poster (GIF)"] = "Pôster mouse-over (GIF)";
+$t["Mouse Over Portrait Poster (GIF)"] = "Pôster retrato mouse-over (GIF)";
+$t["Clean Title"] = "Título limpo";
+$t["Media Owner"] = "Proprietário do arquivo";
+$t["Allow Download This media"] = "Permitir baixar arquivo";
+$t["Allow Share This media"] = "Permitir compartilhar arquivo";
+$t["Only Paid Users Can see"] = "Apenas usuários pagantes podem ver";
+$t["Public Media"] = "Mídia pública";
+$t["Groups that can see this video"] = "Grupos que podem ver este vídeo";
+$t["Autoplay Next Video"] = "Auto-reproduzir próximo vídeo";
+$t["Remove Autoplay Next Video"] = "Remover auto-reproduzir próximo vídeo";
+$t["Autoplay Next Video URL"] = "URL da auto-reprodução do próximo vídeo";
+$t["Embed code for trailer"] = "Embutir código para trailer";
+$t["Start video at"] = "Iniciar vídeo em";
+$t["Video Link"] = "Link do vídeo";
+$t["Download your videos list"] = "Baixar lista dos vídeos";
+$t["Let us upload your video to YouTube"] = "Enviar vídeo para o YouTube";
+$t["How to setup the Youtube-Upload feature"] = "Como configurar o recurso de envio para o YouTube";
+$t["You need to enable"] = "Você precisa ativar";
+$t["Google Login"] = "Login do Google";
+$t["Go to your"] = "Vá para seu";
 $t["Google Console API Dashboard"] = "Google Console API Dashboard";
-$t["and enable the following API"] = "and enable the following API";
-$t["In authorized credentials allow the following URIs redirection"] = "In authorized credentials allow the following URIs redirection";
-$t["You can find more help on the following documentation"] = "You can find more help on the following documentation";
-$t["YouTube Data API Overview"] = "YouTube Data API Overview";
-$t["Queue Position"] = "Queue Position";
-$t["Download File"] = "Download File";
-$t["Download disabled"] = "Download disabled";
-$t["Next video NOT set"] = "Next video NOT set";
-$t["Unsuggest"] = "Unsuggest";
-$t["Suggest"] = "Suggest";
-$t["Resolution"] = "Resolution";
-$t["Format"] = "Format";
-$t["Encoder"] = "Encoder";
-$t["Upload to YouTube"] = "Upload to YouTube";
-$t["Watch on YouTube"] = "Watch on YouTube";
-//----- translation strings from view/managerVideos_head.php
+$t["and enable the following API"] = "e ative a seguinte API";
+$t["In authorized credentials allow the following URIs redirection"] = 'No campo "credenciais autorizadas" ("authorized credentials") use as seguintes URIs de redirecionamento';
+$t["You can find more help on the following documentation"] = "Você encontrará mais informações e ajuda na seguinte documentação";
+$t["YouTube Data API Overview"] = "Visão geral dos dados API do YouTube";
+$t["Queue Position"] = "Posição na fila";
+$t["Download File"] = "Baixar arquivo";
+$t["Download disabled"] = "Baixar arquivo desativado";
+$t["Next video NOT set"] = "Próximo vídeo NÃO configurado";
+$t["Unsuggest"] = "Não recomendar";
+$t["Suggest"] = "Recomendar";
+$t["Resolution"] = "Resolução";
+$t["Format"] = "Formato";
+$t["Encoder"] = "Codificador";
+$t["Upload to YouTube"] = "Enviar para o YouTube";
+$t["Watch on YouTube"] = "Assistir no YouTube";
 //----- translation strings from view/mini-upload-form/index.php
-$t["Upload your file"] = "Upload your file";
-$t["Drop Here"] = "Drop Here";
-$t["Your maximum file size is:"] = "Your maximum file size is:";
-$t["This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>public</a> one"] = "This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>public</a> one";
-$t["You have about %s minutes left of video storage!"] = "You have about %s minutes left of video storage!";
-//----- translation strings from view/mini-upload-form/upload.php
+$t["Upload your file"] = "Enviar seu arquivo";
+$t["Drop Here"] = "Solte aqui";
+$t["Your maximum file size is:"] = "O tamanho máximo do arquivo é:";
+$t["This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>public</a> one"] = "Esta página trabalha somente com formatos MP3, MP4 e OGG. Se precisa de outro formato, tente instalar seu próprio <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>codificador</a> ou use o <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>codificador público</a>";
+$t["You have about %s minutes left of video storage!"] = "Você tem cerca de %s minutos disponíveis no armazenamento em disco!";
 //----- translation strings from view/modePlayLink.php
-$t["Place a Link to play"] = "Place a Link to play";
-$t['This is not a valid URL'] = 'This is not a valid URL';
+$t["Place a Link to play"] = "Coloque um link para reproduzir";
+$t['This is not a valid URL'] = 'Esta URL não é válida';
 //----- translation strings from view/modeYoutube.php
-$t['Playlist is empty or does not exist'] = 'Playlist is empty or does not exist';
+$t['Playlist is empty or does not exist'] = 'Playlist está vazia ou não existe';
 //----- translation strings from view/modeYoutubeBottom.php
-$t["Don´t like this video? Sign in to make your opinion count."] = "Don´t like this video? Sign in to make your opinion count.";
-$t["Like this video? Sign in to make your opinion count."] = "Like this video? Sign in to make your opinion count.";
-$t["Rating"] = "Rating";
+$t["Don´t like this video? Sign in to make your opinion count."] = "Não gostou deste vídeo? Faça login e faça sua opinião valer.";
+$t["Like this video? Sign in to make your opinion count."] = "Gostou deste vídeo? Faça login e faça sua opinião valer.";
+$t["Rating"] = "Avaliação";
 //----- translation strings from view/modeYoutubeBottomRight.php
-$t["Autoplay ended"] = "Autoplay ended";
-$t["Autoplay"] = "Autoplay";
-$t["When autoplay is enabled, a suggested video will automatically play next."] = "When autoplay is enabled, a suggested video will automatically play next.";
-$t["Up Next"] = "Up Next";
-//----- translation strings from view/modeYoutubeBundle.php
-//----- translation strings from view/modeYoutubeTop.php
-//----- translation strings from view/oembed.php
-//----- translation strings from view/og.php
+$t["Autoplay ended"] = "Auto-reprodução terminou";
+$t["Autoplay"] = "Auto-reprodução";
+$t["When autoplay is enabled, a suggested video will automatically play next."] = "Quando auto-reprodução está ativa, um próximo vídeo recomendado será reproduzido automaticamente.";
+$t["Up Next"] = "A seguir";
 //----- translation strings from view/report0.php
-$t["Total Videos"] = "Total Videos";
-$t["View Details"] = "View Details";
-$t["Total Videos Views"] = "Total Videos Views";
-$t["Total Users"] = "Total Users";
-$t["Total Subscriptions"] = "Total Subscriptions";
-$t["Total Video Comments"] = "Total Video Comments";
-$t["Total Videos Likes"] = "Total Videos Likes";
-$t["Total Videos Dislikes"] = "Total Videos Dislikes";
-$t["Total Duration Videos (Minutes)"] = "Total Duration Videos (Minutes)";
-$t["Total Views"] = "Total Views";
-$t["Today Views"] = "Today Views";
-$t["Last 7 Days"] = "Last 7 Days";
-$t["Last 30 Days"] = "Last 30 Days";
-$t["Unique Users"] = "Unique Users";
-$t["Color Legend"] = "Color Legend";
-$t["Timeline"] = "Timeline";
-$t["Total Views Today"] = "Total Views Today";
-$t["Total Views (Today)"] = "Total Views (Today)";
+$t["Total Videos"] = "Total de vídeos";
+$t["View Details"] = "Detalhes de visualização";
+$t["Total Videos Views"] = "Total de visualizações de vídeos";
+$t["Total Users"] = "Total de usuários";
+$t["Total Subscriptions"] = "Total de assinaturas";
+$t["Total Video Comments"] = "Total de comentários no vídeo";
+$t["Total Videos Likes"] = "Total de likes no vídeo";
+$t["Total Videos Dislikes"] = "Total de dislikes no vídeo";
+$t["Total Duration Videos (Minutes)"] = "Duração total de vídeos (em minutos)";
+$t["Total Views"] = "Total de visualizações";
+$t["Today Views"] = "Visualizações hoje";
+$t["Last 7 Days"] = "Últimos 7 dias";
+$t["Last 30 Days"] = "Últimos 30 dias";
+$t["Unique Users"] = "Usuários únicos";
+$t["Color Legend"] = "Legenda das cores";
+$t["Timeline"] = "Linha do tempo";
+$t["Total Views Today"] = "Total de visualizações hoje";
+$t["Total Views (Today)"] = "Total de visualizações (hoje)";
 //----- translation strings from view/report1.php
-$t['From'] = 'From';
-$t['To'] = 'To';
-$t['View'] = 'View';
-$t["No data available in table"] = "No data available in table";
-$t["Showing _START_ to _END_ of _TOTAL_ entries"] = "Showing _START_ to _END_ of _TOTAL_ entries";
-$t["Showing 0 to 0 of 0 entries"] = "Showing 0 to 0 of 0 entries";
-$t["(filtered from _MAX_ total entries)"] = "(filtered from _MAX_ total entries)";
-$t["Show _MENU_ entries"] = "Show _MENU_ entries";
-$t["Processing..."] = "Processing...";
-$t["No matching records found"] = "No matching records found";
-$t["First"] = "First";
-$t["Last"] = "Last";
-$t[": activate to sort column ascending"] = ": activate to sort column ascending";
-$t[": activate to sort column descending"] = ": activate to sort column descending";
-//----- translation strings from view/report2.json.php
+$t['From'] = 'De';
+$t['To'] = 'Para';
+$t['View'] = 'Visualizar';
+$t["No data available in table"] = "Nenhum dado disponível na tabela";
+$t["Showing _START_ to _END_ of _TOTAL_ entries"] = "Mostrando _START_ a _END_ de _TOTAL_ registros";
+$t["Showing 0 to 0 of 0 entries"] = "Mostrando 0 a 0 de 0 registros";
+$t["(filtered from _MAX_ total entries)"] = "(filtrado de _MAX_ registros)";
+$t["Show _MENU_ entries"] = "Mostrar _MENU_ registros";
+$t["Processing..."] = "Processando...";
+$t["No matching records found"] = "Nenhum registro encontrado com o filtro";
+$t["First"] = "Primeiro";
+$t["Last"] = "Último";
+$t[": activate to sort column ascending"] = ": ative para ordenar a coluna ascendente";
+$t[": activate to sort column descending"] = ": ative para ordenar a coluna descendente";
 //----- translation strings from view/report2.php
 $t['Thumbs Up'] = 'Thumbs Up';
 $t['Thumbs Down'] = 'Thumbs Down';
-//----- translation strings from view/report3.json.php
-//----- translation strings from view/report3.php
-//----- translation strings from view/robots.txt.php
-//----- translation strings from view/rrating/notRated.php
 //----- translation strings from view/rrating/rating-g.php
-$t["General Audiences"] = "General Audiences";
-$t["All Ages Admitted"] = "All Ages Admitted";
-//----- translation strings from view/rrating/rating-g_text.php
+$t["General Audiences"] = "Audiência geral";
+$t["All Ages Admitted"] = "Todas as idades permitidas";
 //----- translation strings from view/rrating/rating-ma.php
-$t["For mature audiences"] = "For mature audiences";
-//----- translation strings from view/rrating/rating-ma_text.php
+$t["For mature audiences"] = "Para audiência adulta";
 //----- translation strings from view/rrating/rating-nc-17.php
-$t["No one 17 and under admitted"] = "No one 17 and under admitted";
-//----- translation strings from view/rrating/rating-nc-17_text.php
+$t["No one 17 and under admitted"] = "Não permitido para 17 anos ou menos";
 //----- translation strings from view/rrating/rating-pg-13.php
-$t["Parental Guidance Suggested"] = "Parental Guidance Suggested";
-$t["Some material may not be inapropriate for children under 13"] = "Some material may not be inapropriate for children under 13";
-//----- translation strings from view/rrating/rating-pg-13_text.php
+$t["Parental Guidance Suggested"] = "Acompanhamento dos pais sugerido";
+$t["Some material may not be inapropriate for children under 13"] = "Conteúdo inadequado para crianças abaixo de 13 anos";
 //----- translation strings from view/rrating/rating-pg.php
-$t["Some material may not be suitable for children"] = "Some material may not be suitable for children";
-//----- translation strings from view/rrating/rating-pg_text.php
+$t["Some material may not be suitable for children"] = "Algum conteúdo do vídeo pode ser inapropriado para crianças";
 //----- translation strings from view/rrating/rating-r.php
-$t["Restricted"] = "Restricted";
-$t["Under 17 requires accompanying parent or adult guardian"] = "Under 17 requires accompanying parent or adult guardian";
-//----- translation strings from view/rrating/rating-r_text.php
+$t["Restricted"] = "Restrito";
+$t["Under 17 requires accompanying parent or adult guardian"] = "Menores de 17 anos necessitam de acompanhamento dos pais ou de responsáveis adultos";
 //----- translation strings from view/signUp.php
-$t["Sign Up Disabled"] = "Sign Up Disabled";
-$t["Your user account has been created!"] = "Your user account has been created!";
-//----- translation strings from view/sitemap.xml.php
-//----- translation strings from view/theme.css.php
+$t["Sign Up Disabled"] = "Registrar-se desativado";
+$t["Your user account has been created!"] = "Sua conta foi criada!";
 //----- translation strings from view/trending.php
-$t['Previous'] = 'Previous';
-$t['Next'] = 'Next';
-$t['End of content'] = 'End of content';
-$t['No more pages to load'] = 'No more pages to load';
-$t['Next page'] = 'Next page';
+$t['Previous'] = 'Anterior';
+$t['Next'] = 'Próximo';
+$t['End of content'] = 'Fim do conteúdo';
+$t['No more pages to load'] = 'Não há mais páginas para carregar';
+$t['Next page'] = 'Próxima página';
 //----- translation strings from view/update.php
-$t["Update AVideo System"] = "Update AVideo System";
-$t["Select the update"] = "Select the update";
-$t["We detected a total of %s pending updates, if you want to do it now click (Update Now) button"] = "We detected a total of %s pending updates, if you want to do it now click (Update Now) button";
-$t["Update Now"] = "Update Now";
-$t["Your system is up to date"] = "Your system is up to date";
-$t["Your update from file %s is done, click continue"] = "Your update from file %s is done, click continue";
-$t["Continue"] = "Continue";
-//----- translation strings from view/url2Embed.json.php
+$t["Update AVideo System"] = "Atualizar AVideo";
+$t["Select the update"] = "Selecione a atualização";
+$t["We detected a total of %s pending updates, if you want to do it now click (Update Now) button"] = 'Detectamos um total de %s atualizações pendentes, para atualizar agora clique no botão "Atualizar agora"';
+$t["Update Now"] = "Atualizar agora";
+$t["Your system is up to date"] = "Seu sistema está atualizado";
+$t["Your update from file %s is done, click continue"] = "A atualização do arquivo %s está concluída, clique em continuar";
+$t["Continue"] = "Continuar";
 //----- translation strings from view/user.php
-$t["Basic Info"] = "Basic Info";
-$t["Personal Info"] = "Personal Info";
+$t["Basic Info"] = "Informações básicas";
+$t["Personal Info"] = "Informações pessoais";
 //----- translation strings from view/userBasicInfo.php
-$t["Verify e-mail"] = "Verify e-mail";
-$t["Donation Link"] = "Donation Link";
-$t["Track your videos with Google analytics"] = "Track your videos with Google analytics";
-$t["Profile Photo"] = "Profile Photo";
-$t["Upload a Photo"] = "Upload a Photo";
-$t["Make sure you click on the Save button after change the photo"] = "Make sure you click on the Save button after change the photo";
-$t["Channel Art"] = "Channel Art";
-$t["For the best results, please Use this image as a guide to create your Channel Art"] = "For the best results, please Use this image as a guide to create your Channel Art";
-$t["minImageWidth"] = "minImageWidth";
-$t["minImageHeight"] = "minImageHeight";
-$t["maxImageWidth"] = "maxImageWidth";
-$t["maxImageHeight"] = "maxImageHeight";
-//----- translation strings from view/userGetPhoto.php
+$t["Verify e-mail"] = "Verificar e-mail";
+$t["Donation Link"] = "Link de doação";
+$t["Track your videos with Google analytics"] = "Rastreie seus vídeos com Google Analytics";
+$t["Profile Photo"] = "Foto do perfil";
+$t["Upload a Photo"] = "Enviar foto";
+$t["Make sure you click on the Save button after change the photo"] = "Certifique-se de clicar no botão Gravar depois das atualizações na foto";
+$t["Channel Art"] = "Arte do canal";
+$t["For the best results, please Use this image as a guide to create your Channel Art"] = "Para melhor resultado e exibição, utilize esta imagem como guia para criar a arte de seu canal";
+$t["minImageWidth"] = "larguraMinimaImagem";
+$t["minImageHeight"] = "alturaMinimaImagem";
+$t["maxImageWidth"] = "larguraMaximaImagem";
+$t["maxImageHeight"] = "alturaMaximaImagem";
 //----- translation strings from view/userLogin.php
-$t["Login Alert"] = "Login Alert";
-$t["Please Login in the window pop up"] = "Please Login in the window pop up";
-$t["Open pop-up Login window"] = "Open pop-up Login window";
-$t["In case the login window does not open, check how do I disable the pop-up blocker in your browser"] = "In case the login window does not open, check how do I disable the pop-up blocker in your browser";
-$t["Remember me"] = "Remember me";
-$t["Check this to stay signed in"] = "Check this to stay signed in";
-$t["Sign in"] = "Sign in";
-$t["Use this to recover your password"] = "Use this to recover your password";
-$t["Are you new here?"] = "Are you new here?";
-$t["Sign up"] = "Sign up";
-$t['Please type your username'] = 'Please type your username';
-$t['Please type your password'] = 'Please type your password';
-$t['This is not a valid email'] = 'This is not a valid email';
-$t["We will send you a link, to your e-mail, to recover your password!"] = "We will send you a link, to your e-mail, to recover your password!";
-$t["E-mail sent"] = "E-mail sent";
+$t["Login Alert"] = "Alerta de login";
+$t["Please Login in the window pop up"] = "Por favor, fazer o login na janela pop-up";
+$t["Open pop-up Login window"] = "Abrir janela pop-up para login";
+$t["In case the login window does not open, check how do I disable the pop-up blocker in your browser"] = "Caso a janela de login não apareça, verifique se o navegador está bloqueando as janelas pop-up";
+$t["Remember me"] = "Lembrar meu acesso";
+$t["Check this to stay signed in"] = "Selecione para permanecer logado";
+$t["Sign in"] = "Efetuar login";
+$t["Use this to recover your password"] = "Utilize isto para recuperar sua senha";
+$t["Are you new here?"] = "Novo por aqui?";
+$t["Sign up"] = "Registrar-se";
+$t['Please type your username'] = 'Favor digitar seu usuário';
+$t['Please type your password'] = 'Favor digitar sua senha';
+$t['This is not a valid email'] = 'Este não é um endereço de e-mail válido';
+$t["We will send you a link, to your e-mail, to recover your password!"] = "Um link será enviado ao seu e-mail para recuperar sua senha!";
+$t["E-mail sent"] = "E-mail enviado";
 //----- translation strings from view/userPersonalInfo.php
-$t['Select one Option'] = 'Select one Option';
-$t["Upload a Document Image"] = "Upload a Document Image";
+$t['Select one Option'] = 'Selecione uma opção';
+$t["Upload a Document Image"] = "Enviar uma imagem";
 //----- translation strings from view/videoComments.php
-$t["Verify your email to be able to comment"] = "Verify your email to be able to comment";
-$t["You must login to be able to comment on videos"] = "You must login to be able to comment on videos";
-$t["Comment"] = "Comment";
-$t["remaining"] = "remaining";
-$t["Reply"] = "Reply";
-$t["View all replies"] = "View all replies";
-$t["Hide Replies"] = "Hide Replies";
-$t["Comment Form"] = "Comment Form";
-$t["Your comment has been saved!"] = "Your comment has been saved!";
-$t["Sorry"] = "Sorry";
+$t["Verify your email to be able to comment"] = "Verifique seu e-mail para obter permissão para comentar";
+$t["You must login to be able to comment on videos"] = "Você deve estar logado para poder comentar em vídeos";
+$t["Comment"] = "Comentar";
+$t["remaining"] = "restante";
+$t["Reply"] = "Responder";
+$t["View all replies"] = "Ver todas as respostas";
+$t["Hide Replies"] = "Esconder respostas";
+$t["Comment Form"] = "Formulário de comentário";
+$t["Your comment has been saved!"] = "Seu comentário foi gravado!";
+$t["Sorry"] = "Desculpe";
 //----- translation strings from view/videoNotFound.php
-$t['Video Not Found'] = 'Video Not Found';
+$t['Video Not Found'] = 'Vídeo não encontrado';
 //----- translation strings from view/videosList.php
 $t["Plugin"] = "Plugin";

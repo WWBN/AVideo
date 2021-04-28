@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager wallets"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage wallets"));
     exit;
 }
 
