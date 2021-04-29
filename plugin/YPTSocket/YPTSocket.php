@@ -15,7 +15,7 @@ class YPTSocket extends PluginAbstract {
 
     public function getDescription() {
         global $global;
-        $desc = getSocketConnectionLabel();
+        $desc = '<span class="socket_info" style="float: right; margin:0 10px;">'.getSocketConnectionLabel().'</span><script>if(isSocketActive()){setSocketIconStatus(\'connected\');}</script> ';
         $desc .= "Socket Plugin, WebSockets allow for a higher amount of efficiency compared to REST because they do not require the HTTP request/response overhead for each message sent and received<br>";
         $desc .= "<code>sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &</code>";
         $desc .= "<br>To test use <code>php {$global['systemRootPath']}plugin/YPTSocket/test.php</code>";
