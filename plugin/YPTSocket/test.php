@@ -73,6 +73,9 @@ function _test_send($SocketURL, $msg) {
     }, function ($e) {
         global $responses;
         preg_match('/(tcp|tls):\/\/([^:]+):([0-9]+)/i', $e->getMessage(), $matches);
+        if (empty($matches)) {
+            _log("ERROR on get connect response [" . $e->getMessage() . "]");
+        }
         $c = new AVideoSocketConfiguration($matches[1], $matches[3], $matches[2], false, $e->getMessage());
         $responses[] = $c;
         $c->log();
@@ -190,7 +193,7 @@ function printIfComplete() {
         }
         $msg = ' We found ' . count($responses) . ' possible configurations:' . PHP_EOL;
         foreach ($responses as $value) {
-            $msg .= PHP_EOL.'              '.$value->getSecureText() . PHP_EOL;
+            $msg .= PHP_EOL . '              ' . $value->getSecureText() . PHP_EOL;
             $msg .= '-------------------------------------------------------' . PHP_EOL;
             $msg .= '*** Force not to use wss (non secure): ' . ($value->wss == 'ws' ? 'Checked' : 'Unchecked') . ' ' . PHP_EOL;
             $msg .= '*** Server Port: ' . ($value->port) . PHP_EOL;
