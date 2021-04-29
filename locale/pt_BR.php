@@ -803,8 +803,8 @@ $t["Page %d"] = "Página %d";
 $t["Password"] = "Senha";
 $t['Disconnected'] = 'Desconectado';
 $t['Connected'] = 'Conectado';
-$t["Sign Up"] = "Entrar";
-$t["Sign In"] = "Registrar";
+$t["Sign Up"] = "Registrar";
+$t["Sign In"] = "Entrar";
 $t['Plugin'] = 'Plugin';
 //----- translation strings from objects/functionsGetTinyMCE.php
 $t["Unknown Error!"] = "Erro desconhecido!";
