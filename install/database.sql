@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `views_count_50` INT(11) NULL DEFAULT 0,
   `views_count_75` INT(11) NULL DEFAULT 0,
   `views_count_100` INT(11) NULL DEFAULT 0,
-  `status` ENUM('a', 'k', 'i', 'e', 'x', 'd', 'xmp4', 'xwebm', 'xmp3', 'xogg', 'ximg', 'u', 'p', 't') NOT NULL DEFAULT 'e' COMMENT 'a = active\nk = active and encoding\ni = inactive\ne = encoding\nx = encoding error\nd = downloading\nu = Unlisted\np = private\nxmp4 = encoding mp4 error \nxwebm = encoding webm error \nxmp3 = encoding mp3 error \nxogg = encoding ogg error \nximg = get image error\nt = Transfering' ,
+  `status` VARCHAR(16) NOT NULL DEFAULT 'e' ,
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
   `users_id` INT NOT NULL,
