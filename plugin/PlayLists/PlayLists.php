@@ -752,7 +752,8 @@ class PlayLists extends PluginAbstract {
     
     public function getPluginMenu() {
         global $global;
-        return '<a href="plugin/PlayLists/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Schedule</a>';
+        return '';
+        //return '<a href="plugin/PlayLists/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Schedule</a>';
     }
     
 }

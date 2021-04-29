@@ -31,6 +31,15 @@ $t['title'] = $liveLink->getTitle();
 $t['link'] = $liveLink->getLink();
 $t['description'] = $liveLink->getDescription();
 
+AVideoPlugin::getModeLiveLink($liveLink->getId());
+$toTime = strtotime($liveLink->getStart_date());
+if ($toTime > time()) {
+    $message = "<strong>{$t['title']}</strong><br>{$t['description']}";
+    $image = User::getPhoto($t['users_id']);
+    $bgImage = LiveLinks::getImage($t['id']);
+    countDownPage($toTime, $message, $image, $bgImage);
+}
+
 $u = new User($t['users_id']);
 $user_id = $u->getBdId();
 $subscribe = Subscribe::getButton($user_id);
@@ -50,7 +59,7 @@ $imgh = 255;
 
 if (!empty($_GET['embed'])) {
     $video['videoLink'] = LiveLinks::getSourceLink($t['id']);
-    include $global['systemRootPath'].'view/videoEmbeded.php';
+    include $global['systemRootPath'] . 'view/videoEmbeded.php';
     return false;
 }
 

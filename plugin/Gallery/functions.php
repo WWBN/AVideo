@@ -576,7 +576,7 @@ function createGalleryLiveSection($videos) {
     <?php
     if (!empty($video['galleryCallback'])) {
         $video['galleryCallback'] = addcslashes($video['galleryCallback'], '"');
-        echo '<script>$(document).ready(function () {eval("' . $video['galleryCallback'] . '")});</script>';
+        echo '<!-- galleryCallback --><script>$(document).ready(function () {eval("' . $video['galleryCallback'] . '")});</script>';
     }
 
 

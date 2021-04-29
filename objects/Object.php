@@ -49,15 +49,20 @@ abstract class ObjectYPT implements ObjectInterface {
         global $advancedCustom;
         $row = self::getNowFromDB();
         $dt = new DateTime($row['my_date_field']);
-        $timeZOnesOptions = object_to_array($advancedCustom->timeZone->type);
-        if (empty($timeZOnesOptions[$advancedCustom->timeZone->value])) {
+        if(!empty($_COOKIE['timezone'])){
+            $timezone = $_COOKIE['timezone'];
+        }else{
+            $timeZOnesOptions = object_to_array($advancedCustom->timeZone->type);
+            $timezone = $timeZOnesOptions[$advancedCustom->timeZone->value];
+        }
+        if (empty($timezone)) {
             return false;
         }
         try {
-            $objDate = new DateTimeZone($timeZOnesOptions[$advancedCustom->timeZone->value]);
+            $objDate = new DateTimeZone($timezone);
             if (is_object($objDate)) {
                 $dt->setTimezone($objDate);
-                date_default_timezone_set($timeZOnesOptions[$advancedCustom->timeZone->value]);
+                date_default_timezone_set($timezone);
                 return $dt;
             }
             return false;

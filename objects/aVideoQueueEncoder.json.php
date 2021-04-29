@@ -85,7 +85,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     } else {
         $video->setType("video");
     }
-    $video->setStatus('e');
+    $video->setStatus(Video::$statusEncoding);
 
     /*
      * set visibility for private videos

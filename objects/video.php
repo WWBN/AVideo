@@ -58,18 +58,23 @@ if (!class_exists('Video')) {
         private $filesize;
         private $live_transmitions_history_id;
         public static $statusDesc = array(
-            'a' => 'active',
-            'k' => 'active and encoding',
-            'i' => 'inactive',
-            'e' => 'encoding',
-            'x' => 'encoding error',
-            'd' => 'downloading',
-            'xmp4' => 'encoding mp4 error',
-            'xwebm' => 'encoding webm error',
-            'xmp3' => 'encoding mp3 error',
-            'xogg' => 'encoding ogg error',
-            'ximg' => 'get image error',
-            't' => 'transfering');
+            'a' => 'Active',
+            'k' => 'Active and Encoding',
+            'i' => 'Inactive',
+            'e' => 'Encoding',
+            'x' => 'Encoding Error',
+            'd' => 'Downloading',
+            't' => 'Transfering',
+            'u' => 'Unlisted');
+        public static $statusActive = 'a';
+        public static $statusActiveAndEncoding = 'k';
+        public static $statusInactive = 'i';
+        public static $statusEncoding = 'e';
+        public static $statusEncodingError = 'x';
+        public static $statusDownloading = 'd';
+        public static $statusTranfering = 't';
+        public static $statusUnlisted = 'u';
+        
         public static $rratingOptions = array('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
         //ver 3.4
         private $youtubeId;
@@ -337,12 +342,18 @@ if (!class_exists('Video')) {
                         . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}', sites_id = {$this->sites_id}, serie_playlists_id = {$this->serie_playlists_id} ,live_transmitions_history_id = {$this->live_transmitions_history_id} , video_password = '{$this->video_password}', "
                         . " encoderURL = '{$this->encoderURL}', filepath = '{$this->filepath}' , filesize = '{$this->filesize}' , modified = now()"
                         . " WHERE id = {$this->id}";
+                        
+                $saved = sqlDAL::writeSql($sql);
+                if($saved){
+                    $insert_row = $this->id;
+                }
             } else {
                 $sql = "INSERT INTO videos "
                         . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id,live_transmitions_history_id, video_password, encoderURL, filepath , filesize) values "
                         . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}')";
+                        
+                $insert_row = sqlDAL::writeSql($sql);
             }
-            $insert_row = sqlDAL::writeSql($sql);
             if ($insert_row) {
                 _error_log("Video::save ({$this->title}) Saved id = {$insert_row} ");
                 Category::clearCacheCount();
@@ -380,141 +391,6 @@ if (!class_exists('Video')) {
             _error_log('Video::save ' . $sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
             return false;
         }
-
-        /*
-          static function autosetCategoryType($catId) {
-          global $global, $config;
-          if ($config->currentVersionLowerThen('5.01')) {
-          return false;
-          }
-          $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-
-          $res = sqlDAL::readSql($sql, "i", array($catId));
-          $catTypeCache = sqlDAL::fetchAssoc($res);
-          sqlDAL::close($res);
-
-          $videoFound = false;
-          $audioFound = false;
-          if ($catTypeCache) {
-          // 3 means auto
-          if ($catTypeCache['manualSet'] == "0") {
-          // start incremental search and save
-          $sql = "SELECT * FROM `videos` WHERE categories_id = ?";
-          $res = sqlDAL::readSql($sql, "i", array($catId));
-          $fullResult = sqlDAL::fetchAllAssoc($res);
-          sqlDAL::close($res);
-          if ($res != false) {
-          foreach ($fullResult as $row) {
-
-          if ($row['type'] == "audio") {
-          // echo "found audio";
-          $audioFound = true;
-          } else if ($row['type'] == "video") {
-          //echo "found video";
-          $videoFound = true;
-          }
-          }
-          }
-
-          if (($videoFound == false) || ($audioFound == false)) {
-          $sql = "SELECT * FROM `categories` WHERE parentId = ?";
-          $res = sqlDAL::readSql($sql, "i", array($catId));
-          $fullResult = sqlDAL::fetchAllAssoc($res);
-          sqlDAL::close($res);
-          if ($res != false) {
-          //$tmpVid = $res->fetch_assoc();
-          foreach ($fullResult as $row) {
-          $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
-          $res = sqlDAL::readSql($sql, "i", array($row['parentId']));
-          $fullResult2 = sqlDAL::fetchAllAssoc($res);
-          sqlDAL::close($res);
-          foreach ($fullResult2 as $row) {
-          if ($row['type'] == "audio") {
-          //  echo "found audio";
-          $audioFound = true;
-          } else if ($row['type'] == "video") {
-          //echo "found video";
-          $videoFound = true;
-          }
-          }
-          }
-          }
-          }
-          $sql = "UPDATE `category_type_cache` SET `type` = '";
-          if (($videoFound) && ($audioFound)) {
-          $sql .= "0";
-          } else if ($audioFound) {
-          $sql .= "1";
-          } else if ($videoFound) {
-          $sql .= "2";
-          } else {
-          $sql .= "0";
-          }
-          $sql .= "' WHERE `category_type_cache`.`categoryId` = ?;";
-          sqlDAL::writeSql($sql, "i", array($catId));
-          }
-          } else {
-          // start incremental search and save - and a lot of this redundant stuff in a method..
-          $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
-          $res = sqlDAL::readSql($sql, "i", array($catId));
-          $fullResult2 = sqlDAL::fetchAllAssoc($res);
-          sqlDAL::close($res);
-          if ($res != false) {
-          foreach ($fullResult2 as $row) {
-          if ($row['type'] == "audio") {
-          $audioFound = true;
-          } else if ($row['type'] == "video") {
-          $videoFound = true;
-          }
-          }
-          }
-          if (($videoFound == false) || ($audioFound == false)) {
-          $sql = "SELECT parentId FROM `categories` WHERE parentId = ?;";
-          $res = sqlDAL::readSql($sql, "i", array($catId));
-          $fullResult2 = sqlDAL::fetchAllAssoc($res);
-          sqlDAL::close($res);
-          if ($res != false) {
-          foreach ($fullResult2 as $cat) {
-          $sql = "SELECT type,categories_id FROM `videos` WHERE categories_id = ?;";
-          $res = sqlDAL::readSql($sql, "i", array($cat['parentId']));
-          $fullResult2 = sqlDAL::fetchAllAssoc($res);
-          sqlDAL::close($res);
-          if ($res != false) {
-          foreach ($fullResult2 as $row) {
-          if ($row['type'] == "audio") {
-          $audioFound = true;
-          } else if ($row['type'] == "video") {
-          $videoFound = true;
-          }
-          }
-          }
-          }
-          }
-          }
-          $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-          $res = sqlDAL::readSql($sql, "i", array($catId));
-          $exist = sqlDAL::fetchAssoc($res);
-          sqlDAL::close($res);
-          $sqlType = 99;
-          if (($videoFound) && ($audioFound)) {
-          $sqlType = 0;
-          } else if ($audioFound) {
-          $sqlType = 1;
-          } else if ($videoFound) {
-          $sqlType = 2;
-          }
-          $values = array();
-          if (empty($exist)) {
-          $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`) VALUES (?, ?);";
-          $values = array($catId, $sqlType);
-          } else {
-          $sql = "UPDATE `category_type_cache` SET `type` = ? WHERE `category_type_cache`.`categoryId` = ?;";
-          $values = array($sqlType, $catId);
-          }
-          sqlDAL::writeSql($sql, "ii", $values);
-          }
-          }
-         */
 
         // i would like to simplify the big part of the method above in this method, but won't work as i want.
         public static function internalAutoset($catId, $videoFound, $audioFound) {
@@ -596,6 +472,12 @@ if (!class_exists('Video')) {
         public function setStatus($status) {
             if (!empty($this->id)) {
                 global $global;
+                
+                if(empty(Video::$statusDesc[$status])){
+                    _error_log("Video::setStatus({$status}) NOT found ", AVideoLog::$WARNING);
+                    return false;
+                }
+                _error_log("Video::setStatus({$status}) ".json_encode(debug_backtrace()), AVideoLog::$WARNING);
                 $sql = "UPDATE videos SET status = ?, modified = now() WHERE id = ? ";
                 $res = sqlDAL::writeSql($sql, 'si', array($status, $this->id));
                 if ($global['mysqli']->errno != 0) {
@@ -605,6 +487,37 @@ if (!class_exists('Video')) {
             }
             AVideoPlugin::onVideoSetStatus($this->id, $this->status, $status);
             $this->status = $status;
+            return $status;
+        }
+
+        public function setAutoStatus($default = 'a') {
+            global $advancedCustom;
+            if (empty($advancedCustom)) {
+                $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
+            }
+
+            if (!empty($_POST['fail'])) {
+                return $this->setStatus(Video::$statusEncodingError);
+            } else {
+                if (!empty($_REQUEST['overrideStatus'])) {
+                    return $this->setStatus($_REQUEST['overrideStatus']);
+                } else { // encoder did not provide a status
+                    if (!empty($_REQUEST['keepEncoding'])) {
+                        return $this->setStatus(Video::$statusActiveAndEncoding);
+                    } else{
+                        if($this->getTitle() !== "Video automatically booked"){
+                            if (!empty($advancedCustom->makeVideosInactiveAfterEncode)) {
+                                return $this->setStatus(Video::$statusInactive);
+                            } elseif (!empty($advancedCustom->makeVideosUnlistedAfterEncode)) {
+                                return $this->setStatus(Video::$statusUnlisted);
+                            }
+                        }else{
+                            return $this->setStatus(Video::$statusInactive);
+                        }
+                    }
+                }
+            }
+            return $this->setStatus($default);
         }
 
         public function setType($type, $force = true) {
@@ -667,12 +580,12 @@ if (!class_exists('Video')) {
             if (Permissions::canModerateVideos()) {
                 return "";
             }
-            
+
             $obj = AVideoPlugin::getDataObject('Subscription');
             if ($obj && $obj->allowFreePlayWithAds) {
                 $sql = " AND {$tableAlias}only_for_paid = 0 ";
                 return $sql;
-            }else{
+            } else {
                 $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
                 if (User::isLogged()) {
                     require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -771,7 +684,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
-                if($advancedCustomUser->videosSearchAlsoSearchesOnChannelName){
+                if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
@@ -1090,7 +1003,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
-                if($advancedCustomUser->videosSearchAlsoSearchesOnChannelName){
+                if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
@@ -1235,11 +1148,11 @@ if (!class_exists('Video')) {
                     $videos[] = $row;
                 }
                 $rowCount = getRowCount();
-                $tolerance = $rowCount/100;
-                if($tolerance<0.2){
-                    $tolerance=0.2;
-                }else if($tolerance>2){
-                    $tolerance=2;
+                $tolerance = $rowCount / 100;
+                if ($tolerance < 0.2) {
+                    $tolerance = 0.2;
+                } else if ($tolerance > 2) {
+                    $tolerance = 2;
                 }
                 TimeLogEnd("video::getAllVideos foreach", __LINE__, $tolerance);
                 //$videos = $res->fetch_all(MYSQLI_ASSOC);
@@ -1541,7 +1454,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
-                if($advancedCustomUser->videosSearchAlsoSearchesOnChannelName){
+                if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
@@ -1633,12 +1546,8 @@ if (!class_exists('Video')) {
               x = encoding error
               d = downloading
               u = unlisted
-              xmp4 = encoding mp4 error
-              xwebm = encoding webm error
-              xmp3 = encoding mp3 error
-              xogg = encoding ogg error
              */
-            $viewable = array('a', 'k', 'xmp4', 'xwebm', 'xmp3', 'xogg');
+            $viewable = array('a', 'k');
             if ($showUnlisted) {
                 $viewable[] = "u";
             } elseif (!empty($_GET['videoName'])) {
@@ -2280,64 +2189,33 @@ if (!class_exists('Video')) {
               x = encoding error
               d = downloading
               u = unlisted
-              xmp4 = encoding mp4 error
-              xwebm = encoding webm error
-              xmp3 = encoding mp3 error
-              xogg = encoding ogg error
-              ximg = get image error
              */
             if (empty($type) || $type === "status") {
                 $objTag = new stdClass();
                 $objTag->label = __("Status");
-                switch ($video->getStatus()) {
-                    case 'a':
+                $status = $video->getStatus();
+                $objTag->text = __(Video::$statusDesc[$status]);
+                switch ($status) {
+                    case Video::$statusActive:
                         $objTag->type = "success";
-                        $objTag->text = __("Active");
                         break;
-                    case 'k':
+                    case Video::$statusActiveAndEncoding:
                         $objTag->type = "success";
-                        $objTag->text = __("Active and encoding");
                         break;
-                    case 'i':
+                    case Video::$statusInactive:
                         $objTag->type = "warning";
-                        $objTag->text = __("Inactive");
                         break;
-                    case 'e':
+                    case Video::$statusEncoding:
                         $objTag->type = "info";
-                        $objTag->text = __("Encoding");
                         break;
-                    case 'd':
+                    case Video::$statusDownloading:
                         $objTag->type = "info";
-                        $objTag->text = __("Downloading");
                         break;
-                    case 'u':
+                    case Video::$statusUnlisted:
                         $objTag->type = "info";
-                        $objTag->text = __("Unlisted");
                         break;
-                    case 'xmp4':
-                        $objTag->type = "danger";
-                        $objTag->text = __("Encoding mp4 error");
-                        break;
-                    case 'xwebm':
-                        $objTag->type = "danger";
-                        $objTag->text = __("Encoding xwebm error");
-                        break;
-                    case 'xmp3':
-                        $objTag->type = "danger";
-                        $objTag->text = __("Encoding xmp3 error");
-                        break;
-                    case 'xogg':
-                        $objTag->type = "danger";
-                        $objTag->text = __("Encoding xogg error");
-                        break;
-                    case 'ximg':
-                        $objTag->type = "danger";
-                        $objTag->text = __("Get imgage error");
-                        break;
-
                     default:
                         $objTag->type = "danger";
-                        $objTag->text = __("Status not found");
                         break;
                 }
                 $objTag->text = $objTag->text;
@@ -2714,8 +2592,8 @@ if (!class_exists('Video')) {
             if ($force || empty($this->filename)) {
                 AVideoPlugin::onVideoSetFilename($this->id, $this->filename, $filename, $force);
                 $this->filename = $filename;
-            }else{
-                _error_log('setFilename: fail '.$filename." {$this->id}");
+            } else {
+                _error_log('setFilename: fail ' . $filename . " {$this->id}");
             }
             return $this->filename;
         }
@@ -2829,11 +2707,11 @@ if (!class_exists('Video')) {
             //if(!isValidFormats($type)){
             //return array();
             //}
-            
-            if($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)){
-                return array('path'=>$global['systemRootPath'].'view/img/loading-gif.png', 'url'=>getCDN().'view/img/loading-gif.png');
+
+            if ($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)) {
+                return array('path' => $global['systemRootPath'] . 'view/img/loading-gif.png', 'url' => getCDN() . 'view/img/loading-gif.png');
             }
-            
+
             $cacheName = md5($filename . $type . $includeS3);
             if (0 && isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName])) {
                 if (!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])) {
@@ -2905,9 +2783,9 @@ if (!class_exists('Video')) {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}{$token}";
                     }
                 } else {
-                    $source['url'] = getCDN()."videos/{$filename}{$type}{$token}";
+                    $source['url'] = getCDN() . "videos/{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
-                        $source['url'] = getCDN()."videos/{$filename}/index{$type}{$token}";
+                        $source['url'] = getCDN() . "videos/{$filename}/index{$type}{$token}";
                     }
                 }
                 /* need it because getDurationFromFile */
@@ -2963,7 +2841,7 @@ if (!class_exists('Video')) {
             foreach ($global['avideo_resolutions'] as $value) {
                 $search[] = "_{$value}";
                 $replace[] = '';
-                
+
                 $search[] = "res{$value}";
                 $replace[] = '';
             }
@@ -3269,7 +3147,7 @@ if (!class_exists('Video')) {
             if (convertImageToRoku($images->posterLandscapePath, $rokuImage)) {
                 return str_replace($global['systemRootPath'], $global['webSiteRootURL'], $rokuImage);
             }
-            return "".getCDN()."view/img/notfound.jpg";
+            return "" . getCDN() . "view/img/notfound.jpg";
         }
 
         public static function clearImageCache($filename, $type = "video") {
@@ -3356,30 +3234,30 @@ if (!class_exists('Video')) {
                     }
                 } else {
                     if ($type == "article") {
-                        $obj->posterPortrait = "".getCDN()."view/img/article_portrait.png";
+                        $obj->posterPortrait = "" . getCDN() . "view/img/article_portrait.png";
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/article_portrait.png";
-                        $obj->posterPortraitThumbs = "".getCDN()."view/img/article_portrait.png";
-                        $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/article_portrait.png";
+                        $obj->posterPortraitThumbs = "" . getCDN() . "view/img/article_portrait.png";
+                        $obj->posterPortraitThumbsSmall = "" . getCDN() . "view/img/article_portrait.png";
                     } elseif ($type == "pdf") {
-                        $obj->posterPortrait = "".getCDN()."view/img/pdf_portrait.png";
+                        $obj->posterPortrait = "" . getCDN() . "view/img/pdf_portrait.png";
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
-                        $obj->posterPortraitThumbs = "".getCDN()."view/img/pdf_portrait.png";
-                        $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/pdf_portrait.png";
+                        $obj->posterPortraitThumbs = "" . getCDN() . "view/img/pdf_portrait.png";
+                        $obj->posterPortraitThumbsSmall = "" . getCDN() . "view/img/pdf_portrait.png";
                     } /* else if ($type == "image") {
                       $obj->posterPortrait = "".getCDN()."view/img/image_portrait.png";
                       $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/image_portrait.png";
                       $obj->posterPortraitThumbs = "".getCDN()."view/img/image_portrait.png";
                       $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/image_portrait.png";
                       } */ elseif ($type == "zip") {
-                        $obj->posterPortrait = "".getCDN()."view/img/zip_portrait.png";
+                        $obj->posterPortrait = "" . getCDN() . "view/img/zip_portrait.png";
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/zip_portrait.png";
-                        $obj->posterPortraitThumbs = "".getCDN()."view/img/zip_portrait.png";
-                        $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/zip_portrait.png";
+                        $obj->posterPortraitThumbs = "" . getCDN() . "view/img/zip_portrait.png";
+                        $obj->posterPortraitThumbsSmall = "" . getCDN() . "view/img/zip_portrait.png";
                     } else {
-                        $obj->posterPortrait = "".getCDN()."view/img/notfound_portrait.jpg";
+                        $obj->posterPortrait = "" . getCDN() . "view/img/notfound_portrait.jpg";
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/notfound_portrait.png";
-                        $obj->posterPortraitThumbs = "".getCDN()."view/img/notfound_portrait.jpg";
-                        $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/notfound_portrait.jpg";
+                        $obj->posterPortraitThumbs = "" . getCDN() . "view/img/notfound_portrait.jpg";
+                        $obj->posterPortraitThumbsSmall = "" . getCDN() . "view/img/notfound_portrait.jpg";
                     }
                 }
 
@@ -3406,35 +3284,35 @@ if (!class_exists('Video')) {
                     }
                 } else {
                     if ($type == "article") {
-                        $obj->poster = "".getCDN()."view/img/article.png";
-                        $obj->thumbsJpg = "".getCDN()."view/img/article.png";
-                        $obj->thumbsJpgSmall = "".getCDN()."view/img/article.png";
+                        $obj->poster = "" . getCDN() . "view/img/article.png";
+                        $obj->thumbsJpg = "" . getCDN() . "view/img/article.png";
+                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/article.png";
                     } elseif ($type == "pdf") {
-                        $obj->poster = "".getCDN()."view/img/pdf.png";
-                        $obj->thumbsJpg = "".getCDN()."view/img/pdf.png";
-                        $obj->thumbsJpgSmall = "".getCDN()."view/img/pdf.png";
+                        $obj->poster = "" . getCDN() . "view/img/pdf.png";
+                        $obj->thumbsJpg = "" . getCDN() . "view/img/pdf.png";
+                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/pdf.png";
                     } elseif ($type == "image") {
-                        $obj->poster = "".getCDN()."view/img/image.png";
-                        $obj->thumbsJpg = "".getCDN()."view/img/image.png";
-                        $obj->thumbsJpgSmall = "".getCDN()."view/img/image.png";
+                        $obj->poster = "" . getCDN() . "view/img/image.png";
+                        $obj->thumbsJpg = "" . getCDN() . "view/img/image.png";
+                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/image.png";
                     } elseif ($type == "zip") {
-                        $obj->poster = "".getCDN()."view/img/zip.png";
-                        $obj->thumbsJpg = "".getCDN()."view/img/zip.png";
-                        $obj->thumbsJpgSmall = "".getCDN()."view/img/zip.png";
+                        $obj->poster = "" . getCDN() . "view/img/zip.png";
+                        $obj->thumbsJpg = "" . getCDN() . "view/img/zip.png";
+                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/zip.png";
                     } elseif (($type !== "audio") && ($type !== "linkAudio")) {
                         if (file_exists($spectrumSource['path'])) {
                             $obj->poster = $spectrumSource['url'];
                             $obj->thumbsJpg = $spectrumSource['url'];
                             $obj->thumbsJpgSmall = $spectrumSource['url'];
                         } else {
-                            $obj->poster = "".getCDN()."view/img/notfound.jpg";
-                            $obj->thumbsJpg = "".getCDN()."view/img/notfoundThumbs.jpg";
-                            $obj->thumbsJpgSmall = "".getCDN()."view/img/notfoundThumbsSmall.jpg";
+                            $obj->poster = "" . getCDN() . "view/img/notfound.jpg";
+                            $obj->thumbsJpg = "" . getCDN() . "view/img/notfoundThumbs.jpg";
+                            $obj->thumbsJpgSmall = "" . getCDN() . "view/img/notfoundThumbsSmall.jpg";
                         }
                     } else {
-                        $obj->poster = "".getCDN()."view/img/audio_wave.jpg";
-                        $obj->thumbsJpg = "".getCDN()."view/img/audio_waveThumbs.jpg";
-                        $obj->thumbsJpgSmall = "".getCDN()."view/img/audio_waveThumbsSmall.jpg";
+                        $obj->poster = "" . getCDN() . "view/img/audio_wave.jpg";
+                        $obj->thumbsJpg = "" . getCDN() . "view/img/audio_waveThumbs.jpg";
+                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/audio_waveThumbsSmall.jpg";
                     }
                 }
 
@@ -3596,8 +3474,8 @@ if (!class_exists('Video')) {
                     $subDir = "article";
                     $subEmbedDir = "articleEmbed";
                 }
-                if(!empty($advancedCustom->makeVideosIDHarderToGuess)){
-                    $encryptedVideos_id = '.'.idToHash($videos_id);
+                if (!empty($advancedCustom->makeVideosIDHarderToGuess)) {
+                    $encryptedVideos_id = '.' . idToHash($videos_id);
                     $videos_id = $encryptedVideos_id;
                 }
                 if ($embed) {
@@ -3614,8 +3492,8 @@ if (!class_exists('Video')) {
                     }
                 }
             } else {
-                if(!empty($advancedCustom->makeVideosIDHarderToGuess)){
-                    $encryptedVideos_id = '.'.idToHash($videos_id);
+                if (!empty($advancedCustom->makeVideosIDHarderToGuess)) {
+                    $encryptedVideos_id = '.' . idToHash($videos_id);
                     $videos_id = $encryptedVideos_id;
                 }
                 if ($embed) {
@@ -3969,6 +3847,12 @@ if (!class_exists('Video')) {
             $externalOptions = _json_decode($this->getExternalOptions());
             AVideoPlugin::onVideoSetVideoStartSeconds($this->id, $this->videoStartSeconds, $videoStartSeconds);
             $externalOptions->videoStartSeconds = $videoStartSeconds;
+            $this->setExternalOptions(json_encode($externalOptions));
+        }
+
+        public function setVideoEmbedWhitelist($embedWhitelist) {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            $externalOptions->embedWhitelist = $embedWhitelist;
             $this->setExternalOptions(json_encode($externalOptions));
         }
 

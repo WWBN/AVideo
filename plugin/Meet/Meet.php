@@ -171,7 +171,7 @@ Passcode: {password}
     public function getPluginMenu() {
         global $global;
         //return '<a href="plugin/Meet/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</a>';
-        return '<a href="'.$global['webSiteRootURL'].'plugin/Meet/checkServers.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-network-wired"></i> Check Servers</a>';
+        return '<button onclick="avideoModalIframe(webSiteRootURL +\'plugin/Meet/checkServers.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-network-wired"></i> Check Servers</button>';
     }
 
     static function getMeetServerStatus($cache = 30) {

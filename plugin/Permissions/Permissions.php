@@ -69,7 +69,7 @@ class Permissions extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        return '<a href="plugin/Permissions/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</a>';
+        return '<button onclick="avideoModalIframe(webSiteRootURL +\'plugin/Permissions/View/editor.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
     }
 
     static function getForm() {        

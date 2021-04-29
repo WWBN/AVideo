@@ -46,7 +46,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $video = new Video("", $filename, $videos_id);
         if ($video->getTitle() === "Video automatically booked") {
             $video->setTitle($title);
-            $video->setStatus('i');
+            $video->setStatus(Video::$statusInactive);
         }
     }
     //var_dump($videos_id, $_FILES['upl']['name'], $title, $video->getTitle());exit;
@@ -103,19 +103,8 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         }
         $video->setType("zip", true);
     }
-    if (empty($advancedCustom->makeVideosInactiveAfterEncode) && $video->getTitle() !== "Video automatically booked") {
-
-        // set active
-
-        $video->setStatus('a');
-    } else if (empty($advancedCustom->makeVideosUnlistedAfterEncode) && $video->getTitle() !== "Video automatically booked") {
-
-        // set active
-
-        $video->setStatus('u');
-    } else {
-        $video->setStatus('i');
-    }
+    
+    $video->setAutoStatus(Video::$statusInactive);
 
     $id = $video->save();
     if ($id) {

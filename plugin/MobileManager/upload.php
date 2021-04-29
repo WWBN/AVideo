@@ -89,7 +89,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $video->setCan_share($_REQUEST['can_share']);
     }
 
-    $video->setStatus('e');
+    $video->setStatus(Video::$statusEncoding);
 
     if (!move_uploaded_file($_FILES['upl']['tmp_name'], Video::getStoragePath()."original_" . $filename)) {
         $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . Video::getStoragePath()."original_" . $filename . ")";

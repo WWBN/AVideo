@@ -24,7 +24,10 @@ $o->setStatus($_POST['status']);
 $o->setTitle($_POST['title']);
 $o->setType($_POST['type']);
 
-if($o->save()){
+if($id = $o->save()){
+    $o = new LiveLinksTable($id);
+    $o->deleteAllUserGorups();
+    $o->addUserGorups($_POST['userGroups']);
     $obj->error = false;
 }
 echo json_encode($obj);

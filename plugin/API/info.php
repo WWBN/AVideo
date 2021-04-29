@@ -52,7 +52,7 @@ $reflector = new ReflectionClass('API');
             return strcasecmp($matchesA[2], $matchesB[2]);
         });
         ?>
-        <div class="container">
+        <div class="container-fluid">
             <ul class="list-group">                    
                 <li class="list-group-item">
                     <details>

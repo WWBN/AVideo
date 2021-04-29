@@ -141,6 +141,11 @@ if (isRTL()) {
 <script>
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
     var player;
+    var _serverTime = "<?php echo time(); ?>";
+    var _serverDBTime = "<?php echo getDatabaseTime(); ?>";
+    var _serverTimeString = "<?php echo date('Y-m-d H:i:s'); ?>";
+    var _serverDBTimeString = "<?php echo date('Y-m-d H:i:s', getDatabaseTime()); ?>";
+    var _serverTimezone = "<?php echo date_default_timezone_get(); ?>";
 </script>
 <?php
 if (!$config->getDisable_analytics()) {

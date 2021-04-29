@@ -2366,5 +2366,30 @@ if (typeof gtag !== \"function\") {
 
         return sqlDAL::writeSql($sql, "si", array($string, $users_id));
     }
+    
+    static function userGroupsMatch($user_groups, $users_id=0){        
+        if(empty($users_id)){
+            $users_id = User::getId();
+        } 
+        if(empty($user_groups)){
+            return true;
+        }
+        if(empty($users_id)){
+            return false;
+        }
+        if(!is_array($user_groups)){
+            $user_groups = array($user_groups);
+        }        
+        $user_users_groups = UserGroups::getUserGroups($users_id);
+        if(empty($user_users_groups)){
+            return false;
+        }
+        foreach ($user_users_groups as $value) {
+            if(in_array($value['id'], $user_groups)){
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

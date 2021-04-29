@@ -1,3 +1,11 @@
+<?php
+require_once '../../videos/configuration.php';
+
+if(empty($obj)){
+    $obj = AVideoPlugin::getDataObject('MaintenanceMode');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,7 +20,7 @@
         <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/animate/animate.css">
         <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>plugin/MaintenanceModevendor/select2/select2.min.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/select2/select2.min.css">
         <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>plugin/MaintenanceMode/css/util.css">
         <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>plugin/MaintenanceMode/css/main.css">
@@ -114,8 +122,8 @@
 
         <!--===============================================================================================-->	
         <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
-        <!--===============================================================================================-->
-        <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/bootstrap/js/popper.js"></script>
+        <!--===============================================================================================
+        <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/bootstrap/js/popper.js"></script>-->
         <script src="<?php echo getCDN(); ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <!--===============================================================================================-->
         <script src="<?php echo getCDN(); ?>view/js/select2/select2.min.js"></script>

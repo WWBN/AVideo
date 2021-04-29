@@ -304,6 +304,14 @@ abstract class PluginAbstract {
     public function getModeYouTube($videos_id) {
         return false;
     }
+    
+    public function getModeLive($key) {
+        return false;
+    }
+    
+    public function getModeLiveLink($liveLink_id) {
+        return false;
+    }
 
     public function getModeYouTubeLive($users_id) {
         return false;

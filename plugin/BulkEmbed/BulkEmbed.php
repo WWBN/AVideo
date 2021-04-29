@@ -42,7 +42,7 @@ class BulkEmbed extends PluginAbstract {
     
     public function getPluginMenu() {
         global $global;
-        $menu = '<a href="' . $global['webSiteRootURL'] . 'plugin/BulkEmbed/search.php" class="btn btn-primary btn-xs btn-block" target="_blank">Search</a>';
+        $menu = '<button onclick="avideoModalIframe(webSiteRootURL +\'plugin/BulkEmbed/search.php\');" class="btn btn-primary btn-xs btn-block" target="_blank">Search</button>';
         return $menu;
     }
     

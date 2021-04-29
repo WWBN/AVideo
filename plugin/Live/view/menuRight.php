@@ -5,10 +5,12 @@ $obj = AVideoPlugin::getDataObject("Live");
     .liveVideo{
         position: relative;
     }
-    .liveVideo .liveNow{
+    .liveVideo .liveNow, .liveVideo .liveFuture{
         position: absolute;
         bottom: 5px;
         right: 5px;
+    }
+    .liveVideo .liveNow{
         background-color: rgba(255,0,0,0.7);
     }
     #availableLiveStream{
@@ -349,7 +351,7 @@ if (isVideo()) {
             }
             $('#liveVideos').slideDown();
             if (callback) {
-                eval("try {console.log('processApplication application.callback');$liveLi = " + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
+                eval("try {console.log('processApplication application.callback '+callback);$liveLi = " + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
             }
         } else {
 

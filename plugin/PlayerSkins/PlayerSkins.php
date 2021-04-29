@@ -357,6 +357,10 @@ class PlayerSkins extends PluginAbstract {
             $currentTime = self::getCurrentTime();
         }
         
+        if(!empty($global['doNotLoadPlayer'])){
+            return '';
+        }
+        
         if(empty($prepareStartPlayerJS_onPlayerReady)){
             $prepareStartPlayerJS_onPlayerReady = array();
         }
