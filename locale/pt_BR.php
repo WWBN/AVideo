@@ -578,13 +578,14 @@ $t["Trailer"] = "Trailer";
 $t["Added On Watch Later"] = "Adicionado para assistir depois";
 $t["Watch Later"] = "Assistir depois";
 $t["Added On Favorite"] = "Adicionado em favoritos";
-$t["Favorite"] = "Favorito";
+$t["Favorite"] = "Favoritos";
 $t["Edit Video"] = "Editar";
 $t["Change Playlist Name"] = "Renomear playlist";
 $t["Confirm Playlist name"] = "Confirmar nome da playlist";
 //----- view/channelProgram.php
 $t['Add To Serie'] = "Adicionar à série";
 $t["Program"] = "Programa";
+$t["Programs"] = "Programas";
 $t["Auto Sort"] = "Auto-ordenar";
 $t["Alphabetical"] = "Alfabética";
 $t["Created Date"] = "Data de criação";
@@ -1408,6 +1409,9 @@ $t["Play Live"] = "Reproduzir ao vivo";
 $t["Play this Program live now"] = "Reproduzir este programa ao vivo agora";
 $t["Is Live"] = "está ao vivo";
 $t["Stop this Program and start over again"] = "Parar este programa e recomeçar";
+$t["Playlists or Program Playlists are identified by default as programs of content on the AVideo Platform.<br>"] = "Playlists ou programas são identificados por padrão como programas de conteúdo na plataforma AVideo Platform.<br>";
+$t[" You can use the Edit Parameters button to rename it to your choosing.<br>  We recommend to keep the Program name "] = ' Você pode clicar no botão "Editar parâmetros" para renomear a seu gosto.<br>  Recomendamos manter o nome "Programa"/"Program" ';
+$t["as it is defaulted to in order to be well indexed in the SearchTube and Other AVideo Platform search and network indexing tools."] = "já que este é o padrão utilizado no SearchTube e outros indexadores e ferramentas da plataforma AVideo.";
 //----- translation strings from plugin/PlayLists/View/Playlists_schedules/index.php
 $t["PlayLists"] = "PlayLists";
 //----- translation strings from plugin/PlayLists/View/Playlists_schedules/index_body.php
