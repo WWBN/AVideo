@@ -288,6 +288,7 @@ require_once '../locale/function.php';
         <script src="../view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
         <script src="../view/js/jquery.lazy/jquery.lazy.min.js" type="text/javascript"></script>
         <script src="../view/js/jquery.lazy/jquery.lazy.plugins.min.js" type="text/javascript"></script>
+        <script src="../view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
         <script src="../view/js/script.js" type="text/javascript"></script>
 
         <script>
