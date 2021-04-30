@@ -25,12 +25,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => 'ebebf747cdd294714e6f90770d94e29f7b701a10',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -100,12 +100,12 @@ private static $installed = array (
     ),
     'google/auth' => 
     array (
-      'pretty_version' => 'v1.15.0',
-      'version' => '1.15.0.0',
+      'pretty_version' => 'v1.15.1',
+      'version' => '1.15.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'b346c07de6613e26443d7b4830e5e1933b830dc4',
+      'reference' => '4e0c9367719df9703e96f5ad613041b87742471c',
     ),
     'guzzlehttp/guzzle' => 
     array (
@@ -127,12 +127,12 @@ private static $installed = array (
     ),
     'guzzlehttp/psr7' => 
     array (
-      'pretty_version' => '1.8.1',
-      'version' => '1.8.1.0',
+      'pretty_version' => '1.8.2',
+      'version' => '1.8.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '35ea11d335fd638b5882ff1725228b3d35496ab1',
+      'reference' => 'dc960a912984efb74d0a90222870c72c87f10c91',
     ),
     'hybridauth/hybridauth' => 
     array (
@@ -163,21 +163,21 @@ private static $installed = array (
     ),
     'paragonie/random_compat' => 
     array (
-      'pretty_version' => 'v2.0.19',
-      'version' => '2.0.19.0',
+      'pretty_version' => 'v2.0.20',
+      'version' => '2.0.20.0',
       'aliases' => 
       array (
       ),
-      'reference' => '446fc9faa5c2a9ddf65eb7121c0af7e857295241',
+      'reference' => '0f1f60250fccffeaf5dda91eea1c018aed1adc2a',
     ),
     'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => 'v6.4.0',
-      'version' => '6.4.0.0',
+      'pretty_version' => 'v6.4.1',
+      'version' => '6.4.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '050d430203105c27c30efd1dce7aa421ad882d01',
+      'reference' => '9256f12d8fb0cd0500f93b19e18c356906cbed3d',
     ),
     'phpseclib/phpseclib' => 
     array (
@@ -393,12 +393,12 @@ private static $installed = array (
     ),
     'wwbn/avideo' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => 'ebebf747cdd294714e6f90770d94e29f7b701a10',
     ),
   ),
 );

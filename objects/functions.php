@@ -3994,7 +3994,7 @@ function isFirstPage() {
 
 function isVideo() {
     global $isModeYouTube, $global;
-    if(!empty($global['doNotLoadPlayer'])){
+    if (!empty($global['doNotLoadPlayer'])) {
         return false;
     }
     return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();
@@ -4050,7 +4050,7 @@ function isChannel() {
 
 function isEmbed() {
     global $isEmbed, $global;
-    if(!empty($global['doNotLoadPlayer'])){
+    if (!empty($global['doNotLoadPlayer'])) {
         return false;
     }
     return !empty($isEmbed);
@@ -4058,7 +4058,7 @@ function isEmbed() {
 
 function isLive() {
     global $isLive, $global;
-    if(!empty($global['doNotLoadPlayer'])){
+    if (!empty($global['doNotLoadPlayer'])) {
         return false;
     }
     if (!empty($isLive)) {
@@ -4134,6 +4134,20 @@ function getRedirectUri() {
         return $_SERVER["HTTP_REFERER"];
     }
     return getRequestURI();
+}
+
+function getRedirectToVideo($videos_id) {
+    $redirectUri = getRedirectUri();
+    $isEmbed = 0;
+    if (stripos($redirectUri, "embed") !== false) {
+        $isEmbed = 1;
+    }
+    $video = Video::getVideoLight($videos_id);
+    if(empty($video)){
+        return false;
+    }
+    return Video::getLink($videos_id, $video['clean_title'], $isEmbed);
+    
 }
 
 function getRequestURI() {
@@ -5692,7 +5706,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -6499,18 +6513,18 @@ function getCDN($type = 'CDN', $id = 0) {
             $_getCDNURL[$index] = CDN::getURL($type, $id);
         }
     }
-    if($type=='CDN'){
+    if ($type == 'CDN') {
         if (!empty($global['ignoreCDN'])) {
             return $global['webSiteRootURL'];
         } else if (isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
-        }else if(empty($_getCDNURL[$index])){
+        } else if (empty($_getCDNURL[$index])) {
             $_getCDNURL[$index] = $global['webSiteRootURL'];
         }
     }
-    
+
     //var_dump($type, $id, $_getCDNURL[$index]);
-    return empty($_getCDNURL[$index])?false:$_getCDNURL[$index];
+    return empty($_getCDNURL[$index]) ? false : $_getCDNURL[$index];
 }
 
 function getCDNOrURL($url, $type = 'CDN', $id = 0) {
@@ -6521,21 +6535,21 @@ function getCDNOrURL($url, $type = 'CDN', $id = 0) {
     return addLastSlash($url);
 }
 
-function isIPPrivate($ip) {    
-    if(!filter_var($ip, FILTER_VALIDATE_IP)){
+function isIPPrivate($ip) {
+    if (!filter_var($ip, FILTER_VALIDATE_IP)) {
         return false;
     }
     $result = filter_var(
             $ip,
             FILTER_VALIDATE_IP,
             FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
-    if(empty($result)){
+    if (empty($result)) {
         return true;
     }
     return false;
 }
 
-function countDownPage($toTime, $message, $image, $bgImage){
+function countDownPage($toTime, $message, $image, $bgImage) {
     global $global;
     include $global['systemRootPath'] . 'objects/functionCountDownPage.php';
     exit;
