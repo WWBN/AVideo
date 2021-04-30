@@ -5,6 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 
 require_once $global['systemRootPath'] . 'plugin/PlayLists/Objects/Playlists_schedules.php';
+
 class PlayLists extends PluginAbstract {
 
     public function getTags() {
@@ -96,11 +97,11 @@ class PlayLists extends PluginAbstract {
         global $global;
         $obj = $this->getDataObject();
 
-        $css = '<link href="' .getCDN() . 'plugin/PlayLists/style.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' . getCDN() . 'plugin/PlayLists/style.css" rel="stylesheet" type="text/css"/>';
         $css .= '<style>.epgProgress.progress-bar-primary{opacity: 0.5;}.epgProgress:hover{opacity: 1.0;}.epgProgressText{border-right: 1px solid #FFF; height:100%;}</style>';
 
-        if(!empty(getPlaylists_id())){
-            $css .= "<link href=\"".getCDN()."plugin/PlayLists/playerButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+        if (!empty(getPlaylists_id())) {
+            $css .= "<link href=\"" . getCDN() . "plugin/PlayLists/playerButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
         }
 
         return $css;
@@ -110,24 +111,24 @@ class PlayLists extends PluginAbstract {
         global $global;
         $obj = $this->getDataObject();
         include $global['systemRootPath'] . 'plugin/PlayLists/footer.php';
-        $js = '<script src="' .getCDN() . 'plugin/PlayLists/script.js" type="text/javascript"></script>';
+        $js = '<script src="' . getCDN() . 'plugin/PlayLists/script.js" type="text/javascript"></script>';
 
-        if(isEmbed()){
-            if(self::showTVFeatures()){
-                $js .= '<script>'. file_get_contents("{$global['systemRootPath']}plugin/PlayLists/showOnTV.js").'</script>';
+        if (isEmbed()) {
+            if (self::showTVFeatures()) {
+                $js .= '<script>' . file_get_contents("{$global['systemRootPath']}plugin/PlayLists/showOnTV.js") . '</script>';
             }
         }
 
-        if(isLive() && self::showTVFeatures()){
-            if(!empty($_REQUEST['playlists_id_live']) &&
+        if (isLive() && self::showTVFeatures()) {
+            if (!empty($_REQUEST['playlists_id_live']) &&
                     !self::isPlaylistLive($_REQUEST['playlists_id_live']) &&
-                    self::canManagePlaylist($_REQUEST['playlists_id_live'])){
+                    self::canManagePlaylist($_REQUEST['playlists_id_live'])) {
                 $liveLink = PlayLists::getLiveLink($_REQUEST['playlists_id_live']);
-                $js .= '<script>var liveLink = "'.$liveLink.'";'. file_get_contents("{$global['systemRootPath']}plugin/PlayLists/goLiveNow.js").'</script>';
+                $js .= '<script>var liveLink = "' . $liveLink . '";' . file_get_contents("{$global['systemRootPath']}plugin/PlayLists/goLiveNow.js") . '</script>';
             }
         }
 
-        if(!empty(getPlaylists_id())){
+        if (!empty(getPlaylists_id())) {
             PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayLists/playerButton.js"));
         }
 
@@ -298,7 +299,7 @@ class PlayLists extends PluginAbstract {
                     <div>
                         <a href="' . "{$global['webSiteRootURL']}plugin/PlayLists/managerPlaylists.php" . '" class="btn btn-default btn-block" style="border-radius: 0;">
                             <i class="fas fa-list"></i>
-                            ' . __("Organize") . ' ' .$obj->name . '
+                            ' . __("Organize") . ' ' . __($obj->name) . '
                         </a>
                     </div>
                 </li>';
@@ -410,7 +411,7 @@ class PlayLists extends PluginAbstract {
 
     static function getImage($playlists_id) {
         global $global;
-        if(self::isPlaylistLive($playlists_id)){
+        if (self::isPlaylistLive($playlists_id)) {
             return self::getLivePosterImage($playlists_id);
         }
 
@@ -434,9 +435,9 @@ class PlayLists extends PluginAbstract {
 
     static function getLiveImage($playlists_id) {
         global $global;
-        if(self::isPlaylistLive($playlists_id)){
+        if (self::isPlaylistLive($playlists_id)) {
             return self::getLivePosterImage($playlists_id);
-        }else{
+        } else {
             return "{$global['webSiteRootURL']}plugin/Live/view/Offline.jpg";
         }
     }
@@ -501,9 +502,9 @@ class PlayLists extends PluginAbstract {
         if (!self::canManagePlaylist($playlists_id)) {
             return "";
         }
-        $input = '<i class="fas fa-tv" style="margin:2px 5px;"></i> <span class="hidden-xs hidden-sm">'.__('Show on TV') . '</span> <div class="material-switch material-small" style="margin:0 10px;">
+        $input = '<i class="fas fa-tv" style="margin:2px 5px;"></i> <span class="hidden-xs hidden-sm">' . __('Show on TV') . '</span> <div class="material-switch material-small" style="margin:0 10px;">
                                 <input class="ShowOnTVSwitch" data-toggle="toggle" type="checkbox" id="ShowOnTVSwitch' . $playlists_id . '" name="ShowOnTVSwitch' . $playlists_id . '" value="1" ' . (self::showOnTV($playlists_id) ? "checked" : "") . ' onchange="saveShowOnTV(' . $playlists_id . ', $(this).is(\':checked\'))" >
-                                <label for="ShowOnTVSwitch' . $playlists_id . '" class="label-primary" data-toggle="tooltip" title="'.__('Show on TV').'"></label>
+                                <label for="ShowOnTVSwitch' . $playlists_id . '" class="label-primary" data-toggle="tooltip" title="' . __('Show on TV') . '"></label>
                             </div>';
         return $input;
     }
@@ -530,14 +531,14 @@ class PlayLists extends PluginAbstract {
         return $epg[$users_id];
     }
 
-    static function getSiteEPGs($addPlaylistInfo=false) {
+    static function getSiteEPGs($addPlaylistInfo = false) {
         global $global;
         $siteDomain = get_domain($global['webSiteRootURL']);
         $epg = self::getALLEPGs();
         if (empty($epg[$siteDomain])) {
             return array();
         }
-        if($addPlaylistInfo){
+        if ($addPlaylistInfo) {
             foreach ($epg[$siteDomain]["channels"] as $key => $value) {
                 foreach ($value['playlists'] as $key2 => $value2) {
                     $pl = new PlayList($value2['playlist_id']);
@@ -566,7 +567,7 @@ class PlayLists extends PluginAbstract {
         //}
 
         $json = _json_decode($content);
-        if(!is_object($json)){
+        if (!is_object($json)) {
             return array();
         }
         $getSiteEPGs = object_to_array($json->sites);
@@ -674,45 +675,45 @@ class PlayLists extends PluginAbstract {
             return "";
         }
         global $global;
-        $btnId = "btnId". uniqid();
+        $btnId = "btnId" . uniqid();
         $label = __("Play Live");
         $tooltip = __("Play this Program live now");
         $liveLink = PlayLists::getLiveLink($playlists_id);
         $labelLive = __("Is Live");
         $tooltipLive = __("Stop this Program and start over again");
         $isLive = "false";
-        if(self::isPlaylistLive($playlists_id)){
+        if (self::isPlaylistLive($playlists_id)) {
             $isLive = "true";
         }
         if (!empty($liveLink)) {
             $template = file_get_contents("{$global['systemRootPath']}plugin/PlayLists/playLiveButton.html");
-            return str_replace(array('{isLive}','{liveLink}', '{btnId}', '{label}','{labelLive}', '{tooltip}', '{tooltipLive}'), array($isLive, $liveLink, $btnId, $label, $labelLive, $tooltip, $tooltipLive), $template);
-        }else{
+            return str_replace(array('{isLive}', '{liveLink}', '{btnId}', '{label}', '{labelLive}', '{tooltip}', '{tooltipLive}'), array($isLive, $liveLink, $btnId, $label, $labelLive, $tooltip, $tooltipLive), $template);
+        } else {
             _error_log("getPlayLiveButton: liveLink is empty");
         }
         return '';
     }
 
-    static function getVideosIdFromPlaylist($playlists_id){
+    static function getVideosIdFromPlaylist($playlists_id) {
         return PlayList::getVideosIdFromPlaylist($playlists_id);
     }
 
-    static function isPlaylistLive($playlists_id, $users_id = 0){
+    static function isPlaylistLive($playlists_id, $users_id = 0) {
         global $isPlaylistLive;
-        if(!isset($isPlaylistLive)){
+        if (!isset($isPlaylistLive)) {
             $isPlaylistLive = array();
         }
-        if(!isset($isPlaylistLive[$playlists_id])){
+        if (!isset($isPlaylistLive[$playlists_id])) {
             $json = self::getPlayListEPG($playlists_id, $users_id);
             $isPlaylistLive[$playlists_id] = !empty($json['isPIDRunning']);
         }
         return $isPlaylistLive[$playlists_id];
     }
 
-    static function getPlaylistLiveServersID($playlists_id, $users_id = 0){
+    static function getPlaylistLiveServersID($playlists_id, $users_id = 0) {
         $json = self::getPlayListEPG($playlists_id, $users_id);
 
-        if(!empty($json)){
+        if (!empty($json)) {
             return intval($json['live_servers_id']);
         }
 
@@ -724,9 +725,9 @@ class PlayLists extends PluginAbstract {
         return $last['live_servers_id'];
     }
 
-    static function getPlaylistLiveKey($playlists_id, $users_id = 0){
+    static function getPlaylistLiveKey($playlists_id, $users_id = 0) {
         $json = self::getPlayListEPG($playlists_id, $users_id);
-        if(!empty($json['key'])){
+        if (!empty($json['key'])) {
             return $json['key'];
         }
 
@@ -740,14 +741,13 @@ class PlayLists extends PluginAbstract {
 
     public function getLivePosterImage($playlists_id) {
         $live = AVideoPlugin::loadPluginIfEnabled("Live");
-        if($live){
+        if ($live) {
             $pl = new PlayList($playlists_id);
             $users_id = intval($pl->getUsers_id());
             $live_servers_id = self::getPlaylistLiveServersID($playlists_id, $users_id);
-            return $live->getLivePosterImage($users_id, $live_servers_id)."&playlists_id_live={$playlists_id}";
+            return $live->getLivePosterImage($users_id, $live_servers_id) . "&playlists_id_live={$playlists_id}";
         }
         return "";
-
     }
 
     public function getPluginMenu() {
