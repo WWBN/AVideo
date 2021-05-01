@@ -183,7 +183,10 @@ $uid = uniqid();
                                         avideoToast("<?php echo __("Payment Success"); ?>");
                                         updateYPTWallet();
                                         setTimeout(function () {
-                                            location.reload();
+                                            <?php
+                                            $url = YPTWallet::getAddFundsSuccessRedirectURL();
+                                            echo empty($url)?'location.reload();':"window.top.location.href='{$url}'";
+                                            ?>
                                         }, 3000);
                                     }
                                 });

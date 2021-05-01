@@ -45,7 +45,7 @@ if (!empty($payment)) {
     }
     $obj->error = false;
     $obj->approvalLink = $payment->getApprovalLink();
-    _session_start();
-    $_SESSION['addFunds_Cancel'] = $_SESSION['addFunds_Success'] = "{$global['webSiteRootURL']}plugin/Subscription/showPlans.php";
+    $url = "{$global['webSiteRootURL']}plugin/Subscription/showPlans.php";
+    YPTWallet::setAddFundsSuccessRedirectURL($url);
 }
 die(json_encode($obj));

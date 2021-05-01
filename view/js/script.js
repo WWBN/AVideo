@@ -1030,7 +1030,16 @@ function avideoModalIframeWithClassName(url, className) {
 }
 
 function avideoModalIframeIsVisible() {
-    if ($('.swal-modal-iframe').parent().hasClass('swal-overlay--show-modal')) {
+    var modal = '';
+    if($('.swal-modal-iframe-small').length){
+        modal = $('.swal-modal-iframe-small');
+    }else if($('.swal-modal-iframe-large').length){
+        modal = $('.swal-modal-iframe-large');
+    }else{
+        modal = $('.swal-modal-iframe');
+    }
+    
+    if (modal.parent().hasClass('swal-overlay--show-modal')) {
         return true;
     } else {
         return false;

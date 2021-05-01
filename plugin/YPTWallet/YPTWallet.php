@@ -350,8 +350,7 @@ class YPTWallet extends PluginAbstract
         return self::transferBalanceFromSiteOwner(User::getId(), $value);
     }
 
-    public static function transferBalance($users_id_from, $users_id_to, $value, $forceDescription = "", $forceTransfer = false)
-    {
+    public static function transferBalance($users_id_from, $users_id_to, $value, $forceDescription = "", $forceTransfer = false) {
         global $global;
         _error_log("transferBalance: $users_id_from, $users_id_to, $value, $forceDescription, $forceTransfer");
         if (!User::isAdmin()) {
@@ -400,6 +399,20 @@ class YPTWallet extends PluginAbstract
         ObjectYPT::clearSessionCache();
         WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
         return true;
+    }
+    
+    public static function transferAndSplitBalanceWithSiteOwner($users_id_from, $users_id_to, $value, $siteowner_percentage, $forceDescription = "") {
+        
+        $response1 = self::transferBalance($users_id_from, $users_id_to, $value, $forceDescription, true);
+        $response2 = true;
+        if(!empty($siteowner_percentage)){
+            $siteowner_value = ($value/100)*$siteowner_percentage;
+            if($response1){
+                $response2 = self::transferBalanceToSiteOwner($users_id_to, $siteowner_value, $forceDescription." {$siteowner_percentage}% fee",true);
+            }
+        }
+        
+        return $response1 && $response2;
     }
 
     public function getHTMLMenuRight()
@@ -644,5 +657,18 @@ class YPTWallet extends PluginAbstract
         $js .= "<script src=\"".getCDN()."plugin/YPTWallet/script.js\"></script>";
 
         return $js;
+    }
+    
+    static function setAddFundsSuccessRedirectURL($url){
+        _session_start();
+        $_SESSION['addFunds_Success'] = $url;
+    }   
+    
+    static function getAddFundsSuccessRedirectURL(){
+        return $_SESSION['addFunds_Success'];
+    }
+    
+    static function setAddFundsSuccessRedirectToVideo($videos_id){
+        self::setAddFundsSuccessRedirectURL(getRedirectToVideo($videos_id));
     }
 }
