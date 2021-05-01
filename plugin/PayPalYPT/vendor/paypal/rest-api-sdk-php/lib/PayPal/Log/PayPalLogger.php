@@ -77,7 +77,7 @@ class PayPalLogger extends AbstractLogger
         if ($this->isLoggingEnabled) {
             // Checks if the message is at level below configured logging level
             if (array_search($level, $this->loggingLevels) <= array_search($this->loggingLevel, $this->loggingLevels)) {
-                _error_log("[" . date('d-m-Y H:i:s') . "] " . $this->loggerName . " : " . strtoupper($level) . ": $message\n", 3, $this->loggerFile);
+                error_log("[" . date('d-m-Y H:i:s') . "] " . $this->loggerName . " : " . strtoupper($level) . ": $message\n", 3, $this->loggerFile);
             }
         }
     }

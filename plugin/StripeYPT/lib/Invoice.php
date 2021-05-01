@@ -32,11 +32,11 @@ namespace Stripe;
  * amount due for the invoice is less than Stripe's <a
  * href="/docs/currencies#minimum-and-maximum-charge-amounts">minimum allowed
  * charge per currency</a>, the invoice is automatically marked paid, and we add
- * the amount due to the customer's running account balance which is applied to the
- * next invoice.
+ * the amount due to the customer's credit balance which is applied to the next
+ * invoice.
  *
- * More details on the customer's account balance are <a
- * href="https://stripe.com/docs/api/customers/object#customer_object-account_balance">here</a>.
+ * More details on the customer's credit balance are <a
+ * href="https://stripe.com/docs/billing/customer/balance">here</a>.
  *
  * Related guide: <a href="https://stripe.com/docs/billing/invoices/sending">Send
  * Invoices to Customers</a>.
@@ -59,7 +59,7 @@ namespace Stripe;
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
  * @property string $currency Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>, in lowercase. Must be a <a href="https://stripe.com/docs/currencies">supported currency</a>.
  * @property null|\Stripe\StripeObject[] $custom_fields Custom fields displayed on the invoice.
- * @property string|\Stripe\Customer $customer The ID of the customer who will be billed.
+ * @property null|string|\Stripe\Customer $customer The ID of the customer who will be billed.
  * @property null|\Stripe\StripeObject $customer_address The customer's address. Until the invoice is finalized, this field will equal <code>customer.address</code>. Once the invoice is finalized, this field will no longer be updated.
  * @property null|string $customer_email The customer's email. Until the invoice is finalized, this field will equal <code>customer.email</code>. Once the invoice is finalized, this field will no longer be updated.
  * @property null|string $customer_name The customer's name. Until the invoice is finalized, this field will equal <code>customer.name</code>. Once the invoice is finalized, this field will no longer be updated.
@@ -84,8 +84,10 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
  * @property null|int $next_payment_attempt The time at which payment will next be attempted. This value will be <code>null</code> for invoices where <code>collection_method=send_invoice</code>.
  * @property null|string $number A unique, identifying string that appears on emails sent to the customer for this invoice. This starts with the customer's unique invoice_prefix if it is specified.
+ * @property null|string|\Stripe\Account $on_behalf_of The account (if any) for which the funds of the invoice payment are intended. If set, the invoice will be presented with the branding and support information of the specified account. See the <a href="https://stripe.com/docs/billing/invoices/connect">Invoices with Connect</a> documentation for details.
  * @property bool $paid Whether payment was successfully collected for this invoice. An invoice can be paid (most commonly) with a charge or with credit from the customer's account balance.
  * @property null|string|\Stripe\PaymentIntent $payment_intent The PaymentIntent associated with this invoice. The PaymentIntent is generated when the invoice is finalized, and can then be used to pay the invoice. Note that voiding an invoice will cancel the PaymentIntent.
+ * @property \Stripe\StripeObject $payment_settings
  * @property int $period_end End of the usage period during which invoice items were added to this invoice.
  * @property int $period_start Start of the usage period during which invoice items were added to this invoice.
  * @property int $post_payment_credit_notes_amount Total amount of all post-payment credit notes issued for this invoice.

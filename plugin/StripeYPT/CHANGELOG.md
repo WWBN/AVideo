@@ -1,5 +1,54 @@
 # Changelog
 
+## 7.77.0 - 2021-04-12
+* [#1110](https://github.com/stripe/stripe-php/pull/1110) Update PHPDocs
+  * Add support for `acss_debit` on `PaymentMethod`
+  * Add support for `payment_method_options` on `Checkout\Session`
+* [#1107](https://github.com/stripe/stripe-php/pull/1107) Remove duplicate object phpdoc
+
+## 7.76.0 - 2021-03-22
+* [#1100](https://github.com/stripe/stripe-php/pull/1100) Update PHPDocs
+  * Added support for `amount_shipping` on `Checkout.Session.total_details`
+* [#1088](https://github.com/stripe/stripe-php/pull/1088) Make possibility to extend CurlClient
+
+## 7.75.0 - 2021-02-22
+* [#1094](https://github.com/stripe/stripe-php/pull/1094) Add support for Billing Portal Configuration API
+
+## 7.74.0 - 2021-02-17
+* [#1093](https://github.com/stripe/stripe-php/pull/1093) Update PHPDocs
+  * Add support for on_behalf_of to Invoice
+
+## 7.73.0 - 2021-02-16
+* [#1091](https://github.com/stripe/stripe-php/pull/1091) Update PHPDocs
+  * Add support for `afterpay_clearpay` on `PaymentMethod`.
+
+## 7.72.0 - 2021-02-08
+* [#1089](https://github.com/stripe/stripe-php/pull/1089) Update PHPDocs
+  * Add support for `afterpay_clearpay_payments` on `Account.capabilities`
+  * Add support for `payment_settings` on `Invoice`
+
+## 7.71.0 - 2021-02-05
+* [#1087](https://github.com/stripe/stripe-php/pull/1087) Update PHPDocs
+* [#1086](https://github.com/stripe/stripe-php/pull/1086) Update CA cert bundle URL
+
+## 7.70.0 - 2021-02-03
+* [#1085](https://github.com/stripe/stripe-php/pull/1085) Update PHPDocs
+  * Add support for `nationality` on `Person`
+  * Add member `gb_vat` of `TaxID` enum
+
+
+## 7.69.0 - 2021-01-21
+* [#1079](https://github.com/stripe/stripe-php/pull/1079) Update PHPDocs
+
+## 7.68.0 - 2021-01-14
+* [#1063](https://github.com/stripe/stripe-php/pull/1063) Multiple API changes
+* [#1061](https://github.com/stripe/stripe-php/pull/1061) Bump phpDocumentor to 3.0.0
+
+## 7.67.0 - 2020-12-09
+* [#1060](https://github.com/stripe/stripe-php/pull/1060) Improve PHPDocs for `Discount`
+* [#1059](https://github.com/stripe/stripe-php/pull/1059) Upgrade PHPStan to 0.12.59
+* [#1057](https://github.com/stripe/stripe-php/pull/1057) Bump PHP-CS-Fixer and update code
+
 ## 7.66.1 - 2020-12-01
 * [#1054](https://github.com/stripe/stripe-php/pull/1054) Improve error message for invalid keys in StripeClient
 

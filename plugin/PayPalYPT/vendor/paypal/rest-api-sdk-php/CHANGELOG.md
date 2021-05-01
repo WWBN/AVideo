@@ -1,6 +1,19 @@
 PayPal PHP SDK release notes
 ============================
 
+1.14.0
+-----
+* Update sdk_config.ini log.LogLevel comments [#983](https://github.com/paypal/PayPal-PHP-SDK/pull/983).
+* Update RefundCapture.php [#998](https://github.com/paypal/PayPal-PHP-SDK/pull/998).
+* update readme for direct credit card restriction [#1019](https://github.com/paypal/PayPal-PHP-SDK/pull/1019).
+* Add PHP 7.1 and 7.2 in travis build [#1061](https://github.com/paypal/PayPal-PHP-SDK/pull/1061).
+* Custom cache directory line was not written [#1062](https://github.com/paypal/PayPal-PHP-SDK/pull/1062).
+* Re-Order the array keys so that JSON will be an array, not an object [#1034](https://github.com/paypal/PayPal-PHP-SDK/pull/1034).
+* Refactoring tests [#1011](https://github.com/paypal/PayPal-PHP-SDK/pull/1011).
+* Added condition to ignore extra header [#1060](https://github.com/paypal/PayPal-PHP-SDK/pull/1060).
+* Fix links to Developer API Reference [#1095](https://github.com/paypal/PayPal-PHP-SDK/pull/1095).
+* adding target subject to the generate access token call.
+
 1.13.0
 -----
 * Add HUF as a non-decimal currency [#974](https://github.com/paypal/PayPal-PHP-SDK/pull/974).
