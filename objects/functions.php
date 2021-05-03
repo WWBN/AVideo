@@ -6556,7 +6556,7 @@ function countDownPage($toTime, $message, $image, $bgImage) {
 }
 
 function inputToRequest(){
-    $content = json_decofile_get_contents("php://input");
+    $content = file_get_contents("php://input");
     if(!empty($content)){
         $json = json_decode($content);
         foreach ($json as $key => $value) {
