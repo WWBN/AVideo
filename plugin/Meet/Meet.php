@@ -529,8 +529,9 @@ Passcode: {password}
         $ms = new Meet_schedule($meet_schedule_id);
         $invitation = $objM->invitation->value;
         $topic = $ms->getTopic();
-        $pass = $ms->getPassword();
-
+        if(User::isAdmin() || User::getId() == $ms->getUsers_id()){
+            $pass = $ms->getPassword();
+        }
         if (empty($topic)) {
             $invitation = preg_replace("/(\n|\r)[^\n\r]*{topic}[^\n\r]*(\n|\r)/i", "", $invitation);
         } else {

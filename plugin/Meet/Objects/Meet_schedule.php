@@ -148,7 +148,7 @@ class Meet_schedule extends ObjectYPT {
         return $global['webSiteRootURL'] . 'meet/'.$this->getId();
     }
 
-    static function getAllFromUsersId($users_id, $time="", $canAttend=false) {
+    static function getAllFromUsersId($users_id, $time="", $canAttend=false, $hideIfHasPassword=false) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -171,6 +171,9 @@ class Meet_schedule extends ObjectYPT {
                 $sql .= " OR (public = 0 AND (SELECT count(id) FROM meet_schedule_has_users_groups WHERE meet_schedule_id=ms.id AND users_groups_id IN (". implode(",", $userGroupsIds)."))>0) ";
             }
             $sql .= " )  ";
+        }
+        if($hideIfHasPassword){
+            $sql .= " AND (password = '' OR password IS NULL) ";
         }
 
         $identification = User::getNameIdentificationById($users_id);
@@ -221,7 +224,7 @@ class Meet_schedule extends ObjectYPT {
         return $rows;
     }
 
-    static function getTotalFromUsersId($users_id, $time="", $canAttend=false) {
+    static function getTotalFromUsersId($users_id, $time="", $canAttend=false, $hideIfHasPassword=false) {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
@@ -245,6 +248,9 @@ class Meet_schedule extends ObjectYPT {
                 $sql .= " OR (public = 0 AND (SELECT count(id) FROM meet_schedule_has_users_groups WHERE meet_schedule_id=ms.id AND users_groups_id IN (". implode(",", $userGroupsIds)."))>0) ";
             }
             $sql .= " )  ";
+        }
+        if($hideIfHasPassword){
+            $sql .= " AND (password = '' OR password IS NULL) ";
         }
         if(!empty($time)){
             unset($_POST['sort']);
