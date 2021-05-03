@@ -4971,7 +4971,13 @@ function _json_decode($object) {
     if (!is_string($object)) {
         return $object;
     }
-    return json_decode($object);
+    $json = json_decode($object);
+    if($json===NULL){
+        $object = str_replace(array("\r", "\n"), array('\r', '\n'), $object);
+        return json_decode($object);
+    }else{
+        return $json;
+    }
 }
 
 // this will make sure the strring will fits in the database field
@@ -6487,6 +6493,9 @@ function hashToID($hash) {
 }
 
 function videosHashToID($hash_of_videos_id) {
+    if(!is_string($hash_of_videos_id) && !is_numeric($hash_of_videos_id)){
+        return 0;
+    }
     if (preg_match('/^\.([0-9a-z._-]+)/i', $hash_of_videos_id, $matches)) {
         $hash_of_videos_id = hashToID($matches[1]);
     }

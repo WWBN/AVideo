@@ -3855,6 +3855,19 @@ if (!class_exists('Video')) {
             $externalOptions->embedWhitelist = $embedWhitelist;
             $this->setExternalOptions(json_encode($externalOptions));
         }
+        
+        public function getVideoEmbedWhitelist() {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            if(empty($externalOptions->embedWhitelist)){
+                return '';
+            }
+            return $externalOptions->embedWhitelist;
+        }
+        
+        static public function getEmbedWhitelist($videos_id) {
+            $v = new Video('', '', $videos_id);
+            return $v->getVideoEmbedWhitelist();
+        }
 
         public function getSerie_playlists_id() {
             return $this->serie_playlists_id;
