@@ -6559,6 +6559,9 @@ function inputToRequest(){
     $content = file_get_contents("php://input");
     if(!empty($content)){
         $json = json_decode($content);
+        if(empty($json)){
+            return false;
+        }
         foreach ($json as $key => $value) {
             if(!isset($_REQUEST[$key])){
                 $_REQUEST[$key] = $value;
