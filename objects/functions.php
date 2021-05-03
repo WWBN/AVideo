@@ -6554,3 +6554,32 @@ function countDownPage($toTime, $message, $image, $bgImage) {
     include $global['systemRootPath'] . 'objects/functionCountDownPage.php';
     exit;
 }
+
+function login(){    
+    $user = '';
+    $pass = '';
+    inputToRequest();
+    $scan = array('_POST', '_GET', '_REQUEST');
+    foreach ($scan as $value) {
+        $var = $$value;
+        if(empty($user) && !empty($var['user'])){
+            $user = $var['user'];
+        }
+        if(empty($pass) && !empty($var['pass'])){
+            $pass = $var['pass'];
+        }
+    }
+    User::loginFromRequest();    
+}
+
+function inputToRequest(){
+    $content = json_decofile_get_contents("php://input");
+    if(!empty($content)){
+        $json = json_decode($content);
+        foreach ($json as $key => $value) {
+            if(!isset($_REQUEST[$key])){
+                $_REQUEST[$key] = $value;
+            }
+        }
+    }
+}

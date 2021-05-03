@@ -2160,15 +2160,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function loginFromRequest() {
-        $inputJSON = url_get_contents('php://input');
-        $input = _json_decode($inputJSON, true); //convert JSON into array
-        if (is_array($input)) {
-            foreach ($input as $key => $value) {
-                if (empty($_REQUEST[$key])) {
-                    $_REQUEST[$key] = $value;
-                }
-            }
-        }
+        inputToRequest();
         if (!empty($_REQUEST['do_not_login'])) {
             return false;
         }
