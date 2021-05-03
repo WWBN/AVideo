@@ -20,6 +20,8 @@ if (empty($objM)) {
     die(json_encode($obj));
 }
 
+User::loginFromRequest();
+
 if (!User::canCreateMeet()) {
     $obj->msg = "You Cannot create meet";
     _error_log('Meet:User::canCreateMeet error Required: ' . json_encode($_REQUEST));
