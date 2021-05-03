@@ -6555,23 +6555,6 @@ function countDownPage($toTime, $message, $image, $bgImage) {
     exit;
 }
 
-function login(){    
-    $user = '';
-    $pass = '';
-    inputToRequest();
-    $scan = array('_POST', '_GET', '_REQUEST');
-    foreach ($scan as $value) {
-        $var = $$value;
-        if(empty($user) && !empty($var['user'])){
-            $user = $var['user'];
-        }
-        if(empty($pass) && !empty($var['pass'])){
-            $pass = $var['pass'];
-        }
-    }
-    User::loginFromRequest();    
-}
-
 function inputToRequest(){
     $content = json_decofile_get_contents("php://input");
     if(!empty($content)){
