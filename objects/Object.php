@@ -49,13 +49,13 @@ abstract class ObjectYPT implements ObjectInterface {
         global $advancedCustom;
         $row = self::getNowFromDB();
         $dt = new DateTime($row['my_date_field']);
-        if(!empty($_COOKIE['timezone'])){
+        if(!empty($_COOKIE['timezone']) && $timezone !== 'undefined'){
             $timezone = $_COOKIE['timezone'];
         }else{
             $timeZOnesOptions = object_to_array($advancedCustom->timeZone->type);
             $timezone = $timeZOnesOptions[$advancedCustom->timeZone->value];
         }
-        if (empty($timezone)) {
+        if (empty($timezone) || $timezone == 'undefined') {
             return false;
         }
         try {
