@@ -2462,6 +2462,13 @@ function isAVideoEncoder($user_agent = "") {
     return false;
 }
 
+function isCDN(){
+    if(empty($_SERVER['HTTP_CDN_HOST'])){
+        return false;
+    }
+    return isFromCDN($_SERVER['HTTP_CDN_HOST']);
+}
+
 function isFromCDN($url) {
     if(preg_match('/cdn.ypt.me/i', $url)){
         return true;
