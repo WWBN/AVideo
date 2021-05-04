@@ -66,11 +66,8 @@ Options All -Indexes
     <filesMatch "\.(xml|txt)$">
         Header set Cache-Control "max-age=216000, public, must-revalidate"
     </filesMatch>
-    <filesMatch "\.(html|htm|php|key)$">
+    <filesMatch "\.(html|htm|php|key|m3u8)$">
         Header set Cache-Control "max-age=1, private, must-revalidate"
-    </filesMatch>
-    <filesMatch "\.(m3u8)$">
-        Header set Cache-Control "max-age=60, public"
     </filesMatch>
 </ifModule>
 # END Caching
