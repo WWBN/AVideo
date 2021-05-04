@@ -2462,6 +2462,13 @@ function isAVideoEncoder($user_agent = "") {
     return false;
 }
 
+function isFromCDN($url) {
+    if(preg_match('/cdn.ypt.me/i', $url)){
+        return true;
+    }
+    return false;
+}
+
 function isAVideo($user_agent = "") {
     if (empty($user_agent)) {
         $user_agent = @$_SERVER['HTTP_USER_AGENT'];
@@ -2506,7 +2513,7 @@ function requestComesFromSameDomainAsMyAVideo() {
         $url = $_SERVER['HTTP_ORIGIN'];
     }
     //_error_log("requestComesFromSameDomainAsMyAVideo: ({$url}) == ({$global['webSiteRootURL']})");
-    return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN());
+    return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN()) || isFromCDN($url);
 }
 
 function requestComesFromSafePlace() {
