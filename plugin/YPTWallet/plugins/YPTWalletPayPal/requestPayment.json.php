@@ -20,6 +20,10 @@ if(empty($_POST['value'])){
     die(json_encode($obj));
 }
 
+if(!empty($_REQUEST['videos_id'])){
+    YPTWallet::setAddFundsSuccessRedirectToVideo($_REQUEST['videos_id']);
+}
+
 $invoiceNumber = uniqid();
 
 $description = $config->getWebSiteTitle()." Payment";
