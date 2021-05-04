@@ -843,13 +843,14 @@ class Category {
     static function isAssetsValids($categories_id) {
         $photo = Category::getCategoryPhotoPath($categories_id);
         $background = Category::getCategoryBackgroundPath($categories_id);
+        //var_dump(filesize($background['path']), $background['path'], filesize($photo['path']), $photo['path'] );
         if (!file_exists($photo['path']) || !file_exists($background['path'])) {
             return false;
         }
         if(filesize($photo['path']) <= 190){ // transparent image
             return false;
         }
-        if(filesize($background['path']) <= 980){ // transparent image
+        if(filesize($background['path']) <= 980 || filesize($background['path']) == 4480){ // transparent image
             return false;
         }
         return true;
