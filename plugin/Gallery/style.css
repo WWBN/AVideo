@@ -172,7 +172,7 @@ a.h6{
     position: absolute; 
     left: 0; 
     top: 0; 
-    z-index: 9999;
+    z-index: 1020;
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0);
