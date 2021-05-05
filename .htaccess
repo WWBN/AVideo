@@ -51,7 +51,7 @@ Options All -Indexes
 # END Expires
 # BEGIN Caching
 <ifModule mod_headers.c>
-    <FilesMatch "\.(ts|key|ttf|otf|eot|woff|woff2|mp4|webm|m3u8|mp3|ogg|css|jpg|png|gif)$">
+    <FilesMatch "\.(m3u8|ts|key|ttf|otf|eot|woff|woff2|mp4|webm|m3u8|mp3|ogg|css|jpg|png|gif)$">
         Header set Access-Control-Allow-Origin: *
     </FilesMatch>
     <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|ts)$">
