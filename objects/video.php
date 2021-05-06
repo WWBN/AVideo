@@ -2714,7 +2714,6 @@ if (!class_exists('Video')) {
 
             self::_moveSourceFilesToDir($filename);
             $paths = self::getPaths($filename);
-
             if ($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)) {
                 return array('path' => $global['systemRootPath'] . 'view/img/loading-gif.png', 'url' => getCDN() . 'view/img/loading-gif.png');
             }
@@ -2814,6 +2813,7 @@ if (!class_exists('Video')) {
                 if (!file_exists($source['path']) || ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10))) {
                     if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg" && $type != "_portrait_thumbsV2.jpg" && $type != "_portrait_thumbsSmallV2.jpg") {
                         $VideoGetSourceFile[$cacheName] = array('path' => false, 'url' => false);
+                        //if($type=='.jpg'){echo '----'.PHP_EOL;var_dump($type, $source);echo '----'.PHP_EOL;};
                         //echo PHP_EOL.'---'.PHP_EOL;var_dump($source, $type, !file_exists($source['path']), ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10)));echo PHP_EOL.'+++'.PHP_EOL;
                         return $VideoGetSourceFile[$cacheName];
                     }
@@ -2832,6 +2832,7 @@ if (!class_exists('Video')) {
                 }
                 $source['url'] .= "?{$x}";
             }
+            
             //ObjectYPT::setCache($name, $source);
             $VideoGetSourceFile[$cacheName] = $source;
             return $VideoGetSourceFile[$cacheName];
@@ -2866,13 +2867,13 @@ if (!class_exists('Video')) {
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
             $videosDir = self::getStoragePath();            
             if (is_dir("{$videosDir}{$videoFilename}")) {
-                $path = "{$videosDir}{$videoFilename}";
+                $path = addLastSlash("{$videosDir}{$videoFilename}");
             } else if (preg_match('/index\.m3u8$/', $videoFilename)) {
-                $path = "{$videosDir}";
+                $path = addLastSlash($videosDir);
             } else {
-                $path = "{$videosDir}{$cleanVideoFilename}" . DIRECTORY_SEPARATOR;
+                $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
             }
-            $relative = "videos/{$cleanVideoFilename}/";
+            $relative = addLastSlash("videos/{$cleanVideoFilename}");
             $url = getCDN() . "{$relative}";
             return array('filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative);
         }
