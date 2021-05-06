@@ -7,10 +7,6 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
-if(isAnyStorageEnabled()){
-    die('This may bring you problems if you are using S3 or B2 or FTP or YPTstorage, but if you are sure what you are doing, you can comment this line and run this script');
-}
-
 $path = getVideosDir();
 $total = Video::getTotalVideos("", false, true, true, false, false);
 $videos = Video::getAllVideosLight("", false, true, false);
