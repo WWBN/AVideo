@@ -46,8 +46,12 @@ foreach ($videos as $value) {
         }
         $filename = basename($file);
         $newname = Video::getPathToFile($filename);
-        rename($file, $newname);
-        echo "{$count}/{$total} move $filename to $newname" . PHP_EOL;
+        $renamed = rename($file, $newname);
+        if($renamed){
+            echo "{$count}/{$total} moved $filename to $newname" . PHP_EOL;
+        }else{
+            echo "{$count}/{$total} fail to move $filename to $newname" . PHP_EOL;
+        }
     }
     ob_flush();
 }
