@@ -1,8 +1,0 @@
-.idea/
-cache/*
-!cache/.gitkeep
-cast/*
-!cast/not-found.jpg
-posters/*
-!posters/not-found.jpg
-vendor/
