@@ -26,7 +26,8 @@ foreach ($videos as $value) {
     $glob = glob("{$basename}*");
     $totalItems = count($glob);
     if($totalItems){
-        make_path($basename);
+        echo "Creating dir {$basename} " . PHP_EOL;
+        make_path(addLastSlash($basename));
     }
     echo "Found total of {$totalItems} items " . PHP_EOL;
     $dirname = $basename.DIRECTORY_SEPARATOR;
