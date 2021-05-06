@@ -6,7 +6,7 @@ require_once '../videos/configuration.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-
+$global['limitForUnlimitedVideos'] = 999999;
 $path = getVideosDir();
 $total = Video::getTotalVideos("", false, true, true, false, false);
 $videos = Video::getAllVideosLight("", false, true, false);
@@ -46,7 +46,7 @@ foreach ($videos as $value) {
 }
 echo PHP_EOL." Deleting cache ... ";
 ObjectYPT::deleteALLCache();
-echo PHP_EOL." Done! ";
+echo PHP_EOL." Done! ".PHP_EOL;
 die();
 
 
