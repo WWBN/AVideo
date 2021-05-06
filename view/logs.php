@@ -220,8 +220,8 @@ $outputText .= $collapsibleClose;
                     </div>
                 </header>
             </div>
-            If you have a problem with your installation, feel free to share this log information on GitHub, 
-            on this log we hide all the sensitive information from your log. but it still very helpfull to find issues.
+            If you have a problem with your installation, feel free to share this log information on GitHub.
+            In this log, we hide all the sensitive information from your log, but it still very helpful for finding issues.
             <?php
             if (count($outputTextErrors)) {
                 ?>

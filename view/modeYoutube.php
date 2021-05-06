@@ -228,7 +228,7 @@ if (!empty($evideo)) {
         $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="User Photo" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br />' . $subscribe . '<br /><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
         $obj = new Video("", "", $video['id']);
 
-// dont need because have one embeded video on this page
+// Don't need because have an embedded video on this page
 // $resp = $obj->addView();
     }
 
