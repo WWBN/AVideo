@@ -6,6 +6,9 @@ require_once '../videos/configuration.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
+
+die('This may bring you problems if you are using S3 or B2 or FTP or YPTstorage, but if you are using only the local storage, you can comment this line and run this script');
+
 $path = getVideosDir();
 $total = Video::getTotalVideos("", false, true, true, false, false);
 $videos = Video::getAllVideosLight("", false, true, false);
