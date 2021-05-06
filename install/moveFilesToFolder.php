@@ -25,6 +25,9 @@ foreach ($videos as $value) {
     echo " {$count}/{$total} Searching {$basename} ".PHP_EOL;
     $glob = glob("{$basename}*");
     $totalItems = count($glob);
+    if($totalItems){
+        make_path($basename);
+    }
     echo "Found total of {$totalItems} items " . PHP_EOL;
     $dirname = $basename.DIRECTORY_SEPARATOR;
     $countItems = 0;
