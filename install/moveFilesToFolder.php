@@ -6,7 +6,7 @@ require_once '../videos/configuration.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-$global['limitForUnlimitedVideos'] = 999999;
+$global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 $path = getVideosDir();
 $total = Video::getTotalVideos("", false, true, true, false, false);
 $videos = Video::getAllVideosLight("", false, true, false);
