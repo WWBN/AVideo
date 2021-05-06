@@ -1099,7 +1099,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false) {
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-    if ($fileNameisThePath) {       
+    if ($fileNameisThePath) {
         $filename = basename($fileName);
         $files["mp3"] = array(
             'filename' => $filename,
@@ -1211,9 +1211,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     if (!empty($getVideosURL_V2Array[$cleanfilename])) {
         return $getVideosURL_V2Array[$cleanfilename];
     }
-    
+
     $paths = Video::getPaths($cleanfilename);
-    
+
     $pdf = $paths['path'] . "{$cleanfilename}.pdf";
     $mp3 = $paths['path'] . "{$cleanfilename}.mp3";
     if (file_exists($pdf)) {
@@ -1275,7 +1275,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         TimeLogStart($timeName);
         $filesInDir = globVideosDir($cleanfilename, true);
         TimeLogEnd($timeName, __LINE__);
-        
+
 
         $timeName = "getVideosURL_V2::foreach";
         TimeLogStart($timeName);
@@ -1288,12 +1288,12 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
             //$timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             //TimeLogStart($timeName2);
-            $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");//var_dump($file, $parts, $source);
+            $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}"); //var_dump($file, $parts, $source);
             //TimeLogEnd($timeName2, __LINE__);
             if (empty($source)) {
                 continue;
             }
-            if (filesize($file) < 1000 && !preg_match("/Dummy File/i", file_get_contents($file))) { 
+            if (filesize($file) < 1000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
                 continue;
             }
 
@@ -1766,7 +1766,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
     $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-    $paths = Video::getPaths($filename); 
+    $paths = Video::getPaths($filename);
     $destinationFile = "{$paths['path']}{$filename}";
     //$destinationFile = getVideosDir() . "{$filename}";
     _error_log("decideMoveUploadedToVideos: {$filename}");
@@ -1910,6 +1910,22 @@ function decideFile_put_contentsToVideos($tmp_name, $filename) {
             die(json_encode($obj));
         }
     }
+}
+
+function isAnyStorageEnabled() {
+    if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
+        return true;
+    } else
+    if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
+        return true;
+    } else
+    if ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
+        return true;
+    } else
+    if ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
+        return true;
+    }
+    return false;
 }
 
 if (!function_exists('mime_content_type')) {
@@ -2468,15 +2484,15 @@ function isAVideoEncoder($user_agent = "") {
     return false;
 }
 
-function isCDN(){
-    if(empty($_SERVER['HTTP_CDN_HOST'])){
+function isCDN() {
+    if (empty($_SERVER['HTTP_CDN_HOST'])) {
         return false;
     }
     return isFromCDN($_SERVER['HTTP_CDN_HOST']);
 }
 
 function isFromCDN($url) {
-    if(preg_match('/cdn.ypt.me/i', $url)){
+    if (preg_match('/cdn.ypt.me/i', $url)) {
         return true;
     }
     return false;
@@ -4164,11 +4180,10 @@ function getRedirectToVideo($videos_id) {
         $isEmbed = 1;
     }
     $video = Video::getVideoLight($videos_id);
-    if(empty($video)){
+    if (empty($video)) {
         return false;
     }
     return Video::getLink($videos_id, $video['clean_title'], $isEmbed);
-    
 }
 
 function getRequestURI() {
@@ -4993,10 +5008,10 @@ function _json_decode($object) {
         return $object;
     }
     $json = json_decode($object);
-    if($json===NULL){
+    if ($json === NULL) {
         $object = str_replace(array("\r", "\n"), array('\r', '\n'), $object);
         return json_decode($object);
-    }else{
+    } else {
         return $json;
     }
 }
@@ -5546,7 +5561,8 @@ function globVideosDir($filename, $filesOnly = false) {
         return array();
     }
     $cleanfilename = Video::getCleanFilenameFromFile($filename);
-    $paths = Video::getPaths($filename);;
+    $paths = Video::getPaths($filename);
+    ;
     $dir = $paths['path'];
 
     if (is_dir($dir . $filename)) {
@@ -5884,9 +5900,9 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
     }
     if (empty($url)) {
         if ($forceHTTP) {
-            $paths = Video::getPaths($filename); 
+            $paths = Video::getPaths($filename);
             //$url = str_replace(getVideosDir(), getCDN() . "videos/", $filename);
-            $url = getCDN()."{$paths['relative']}";
+            $url = getCDN() . "{$paths['relative']}";
         } else {
             $url = $filename;
         }
@@ -6515,7 +6531,7 @@ function hashToID($hash) {
 }
 
 function videosHashToID($hash_of_videos_id) {
-    if(!is_string($hash_of_videos_id) && !is_numeric($hash_of_videos_id)){
+    if (!is_string($hash_of_videos_id) && !is_numeric($hash_of_videos_id)) {
         return 0;
     }
     if (preg_match('/^\.([0-9a-z._-]+)/i', $hash_of_videos_id, $matches)) {
@@ -6586,28 +6602,28 @@ function countDownPage($toTime, $message, $image, $bgImage) {
     exit;
 }
 
-function inputToRequest(){
+function inputToRequest() {
     $content = file_get_contents("php://input");
-    if(!empty($content)){
+    if (!empty($content)) {
         $json = json_decode($content);
-        if(empty($json)){
+        if (empty($json)) {
             return false;
         }
         foreach ($json as $key => $value) {
-            if(!isset($_REQUEST[$key])){
+            if (!isset($_REQUEST[$key])) {
                 $_REQUEST[$key] = $value;
             }
         }
     }
 }
 
-function useVideoHashOrLogin(){
-    
-    if(!empty($_REQUEST['video_id_hash'])){
+function useVideoHashOrLogin() {
+
+    if (!empty($_REQUEST['video_id_hash'])) {
         $videos_id = Video::getVideoIdFromHash($_REQUEST['video_id_hash']);
-        if(!empty($videos_id)){
+        if (!empty($videos_id)) {
             $users_id = Video::getOwner($videos_id);
-            $user = new User($users_id);            
+            $user = new User($users_id);
             _error_log("useVideoHashOrLogin: $users_id, $videos_id");
             return $user->login(true);
         }
