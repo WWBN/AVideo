@@ -45,8 +45,7 @@ if(!empty($random)){
 }
 
 foreach ($videos as $key => $value) {
-    unset($videos[$key]['password']);
-    unset($videos[$key]['recoverPass']);
+    unset($videos[$key]['password'], $videos[$key]['recoverPass']);
     $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
     $videos[$key]['images'] = $images;
     $videos[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
@@ -56,9 +55,7 @@ foreach ($videos as $key => $value) {
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/" . $videos[$key]['clean_title'];
     $videos[$key]['embedUrl'] = "{$global['webSiteRootURL']}videoEmbeded/" . $videos[$key]['clean_title'];
-    unset($_POST['sort']);
-    unset($_POST['current']);
-    unset($_POST['searchPhrase']);
+    unset($_POST['sort'], $_POST['current'], $_POST['searchPhrase']);
     $_REQUEST['rowCount'] = 10;
     $_POST['sort']['created'] = "desc";
     $videos[$key]['comments'] = Comment::getAllComments($videos[$key]['id']);

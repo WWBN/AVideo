@@ -3882,10 +3882,7 @@ function getDiskUsage() {
 }
 
 function unsetSearch() {
-    unset($_GET['searchPhrase']);
-    unset($_POST['searchPhrase']);
-    unset($_GET['search']);
-    unset($_GET['q']);
+    unset($_GET['searchPhrase'], $_POST['searchPhrase'], $_GET['search'], $_GET['q']);
 }
 
 function encrypt_decrypt($string, $action) {
@@ -4500,9 +4497,7 @@ function cleanSearchVar() {
     }
     $searchIdex = array('q', 'searchPhrase', 'search');
     foreach ($searchIdex as $value) {
-        unset($_REQUEST[$value]);
-        unset($_POST[$value]);
-        unset($_GET[$value]);
+        unset($_REQUEST[$value], $_POST[$value], $_GET[$value]);
     }
 }
 
