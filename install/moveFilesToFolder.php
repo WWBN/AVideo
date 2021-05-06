@@ -11,6 +11,9 @@ $path = getVideosDir();
 $total = Video::getTotalVideos("", false, true, true, false, false);
 $videos = Video::getAllVideosLight("", false, true, false);
 $count = 0;
+
+$isStorage = isAnyStorageEnabled();
+
 foreach ($videos as $value) {
     $count++;
     
@@ -19,9 +22,11 @@ foreach ($videos as $value) {
     $dirname = $basename.DIRECTORY_SEPARATOR;
     foreach ($glob as $file) {
         if (is_dir($file)) {
-            //echo $file.PHP_EOL;
-            $move = Video::updateDirectoryFilename($file);
-            echo "-->".PHP_EOL." {$count}/{$total} move directory {$move['oldDir']} to {$move['newDir']} ".PHP_EOL."<--" . PHP_EOL . PHP_EOL;
+            if(!$isStorage){
+                //echo $file.PHP_EOL;
+                $move = Video::updateDirectoryFilename($file);
+                echo "-->".PHP_EOL." {$count}/{$total} move directory {$move['oldDir']} to {$move['newDir']} ".PHP_EOL."<--" . PHP_EOL . PHP_EOL;
+            }
             continue;
         }
         $filename = basename($file);
