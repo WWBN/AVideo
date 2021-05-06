@@ -1259,7 +1259,6 @@ if (typeof gtag !== \"function\") {
                     $user['city']
                 );
             }
-            $user = $user;
             return $user;
         }
         return false;
