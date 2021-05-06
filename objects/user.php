@@ -2164,9 +2164,13 @@ if (typeof gtag !== \"function\") {
         if (!empty($_REQUEST['do_not_login'])) {
             return false;
         }
+        if(empty($_REQUEST['pass']) && !empty($_REQUEST['password'])){
+            $_REQUEST['pass'] = $_REQUEST['password'];
+        }
         if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
             $user->login(false, !empty($_REQUEST['encodedPass']));
+            $_REQUEST['do_not_login'] = 1;
         }
     }
 

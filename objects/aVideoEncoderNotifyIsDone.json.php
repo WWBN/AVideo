@@ -20,9 +20,7 @@ if (empty($_POST)) {
     die(json_encode($obj));
 }
 
-// pass admin user and pass
-$user = new User("", @$_POST['user'], @$_POST['password']);
-$user->login(false, true);
+useVideoHashOrLogin();
 if (!User::canUpload()) {
     $obj->msg = __("Permission denied to Notify Done: ") . print_r($_POST, true);
     _error_log($obj->msg);

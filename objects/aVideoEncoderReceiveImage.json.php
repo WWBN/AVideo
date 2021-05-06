@@ -9,8 +9,6 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'objects/video.php';
 
 if (empty($_POST)) {
     $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
@@ -18,9 +16,7 @@ if (empty($_POST)) {
     die(json_encode($obj));
 }
 
-// pass admin user and pass
-$user = new User("", @$_POST['user'], @$_POST['password']);
-$user->login(false, true);
+useVideoHashOrLogin();
 if (!User::canUpload()) {
     $obj->msg = __("Permission denied to receive a file: " . json_encode($_POST));
     _error_log("ReceiveImage: ".$obj->msg);
@@ -32,17 +28,16 @@ if(!Video::canEdit($_POST['videos_id'])){
     _error_log("ReceiveImage: ".$obj->msg);
     die(json_encode($obj));
 }
-_error_log("ReceiveImage: "."Start receiving image ". json_encode($_FILES)."". json_encode($_POST));
+_error_log("ReceiveImage: Start receiving image ". json_encode($_FILES)."". json_encode($_POST));
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", $_POST['videos_id']);
 $obj->video_id = $_POST['videos_id'];
 
-_error_log("ReceiveImage: "."Encoder receiving post ". json_encode($_FILES));
-//_error_log("ReceiveImage: ".json_encode($_POST));
-
 $videoFileName = $video->getFilename();
+$paths = Video::getPaths($videoFileName);
+$destination_local = "{$paths['path']}{$videoFileName}";
 
-$destination_local = Video::getStoragePath()."{$videoFileName}";
+_error_log("ReceiveImage: videoFilename = [$videoFileName] destination_local = {$destination_local} Encoder receiving post ". json_encode($_FILES));
 
 $obj->jpgDest = "{$destination_local}.jpg";
 if (!empty($_FILES['image']['tmp_name']) && ( !empty($_REQUEST['update_video_id']) || !file_exists($obj->jpgDest) || filesize($obj->jpgDest)===42342)) {
@@ -143,7 +138,7 @@ $obj->error = false;
 $obj->video_id = $videos_id;
 
 $json = json_encode($obj);
-_error_log("ReceiveImage: "."Files Received for video {$videos_id}: " . $video->getTitle()." {$json}");
+_error_log("ReceiveImage: Files Received for video {$videos_id}: " . $video->getTitle()." {$json}");
 die($json);
 
 /*

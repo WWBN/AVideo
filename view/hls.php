@@ -18,7 +18,7 @@ if (empty($_GET['videoDirectory'])) {
 
 $video = Video::getVideoFromFileName($_GET['videoDirectory'], true);
 
-$filename = Video::getStoragePath() . "{$_GET['videoDirectory']}".DIRECTORY_SEPARATOR."index.m3u8";
+$filename = Video::getPathToFile("{$_GET['videoDirectory']}".DIRECTORY_SEPARATOR."index.m3u8");
 
 if (empty($video) || !file_exists($filename)) {
     header("Content-Type: text/plain");
@@ -47,7 +47,7 @@ if (empty($video) || !file_exists($filename)) {
     }
 }
 
-$_GET['file'] = Video::getStoragePath() . "{$_GET['videoDirectory']}".DIRECTORY_SEPARATOR."index.m3u8";
+$_GET['file'] = Video::getPathToFile("{$_GET['videoDirectory']}".DIRECTORY_SEPARATOR."index.m3u8");
 //var_dump($_GET['file']);exit;
 $cachedPath = explode(DIRECTORY_SEPARATOR, $_GET['videoDirectory']);
 if (empty($_SESSION['user']['sessionCache']['hls'][$cachedPath[0]]) && empty($_GET['download'])) {

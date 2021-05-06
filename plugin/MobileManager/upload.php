@@ -66,7 +66,9 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
 
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($_FILES['upl']['name']));
-    $filename = uniqid($mainName . "_YPTuniqid_", true);
+    
+    $paths = Video::getNewVideoFilename();
+    $filename = $paths['filename'];
 
     $video = new Video(preg_replace("/_+/", " ", $_FILES['upl']['name']), $filename, 0);
     $video->setDuration($duration);

@@ -42,7 +42,8 @@ if (!empty($_POST['videoLink'])) {
     if (empty($_POST['id']) && !(in_array($extension, $audioLinks) || in_array($extension, $videoLinks))) {
         $info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($_POST['videoLink']));
         $infoObj = _json_decode($info);
-        $filename = uniqid("_YPTuniqid_", true);
+        $paths = Video::getNewVideoFilename();
+        $filename = $paths['filename'];
         $filename = $obj->setFilename($filename);
         $obj->setTitle($infoObj->title);
         $obj->setClean_title($infoObj->title);
@@ -51,7 +52,8 @@ if (!empty($_POST['videoLink'])) {
         file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
         $_POST['videoLinkType'] = "embed";
     } else if (empty($_POST['id'])) {
-        $filename = uniqid("_YPTuniqid_", true);
+        $paths = Video::getNewVideoFilename();
+        $filename = $paths['filename'];
         $filename = $obj->setFilename($filename);
         $obj->setTitle($path_parts["filename"]);
         $obj->setClean_title($path_parts["filename"]);
@@ -87,7 +89,8 @@ if (!empty($_POST['isArticle'])) {
     if (empty($_POST['id'])) {
         $obj->setStatus('a');
     }
-    $filename = uniqid("_YPTuniqid_", true);
+    $paths = Video::getNewVideoFilename();
+    $filename = $paths['filename'];
     $filename = $obj->setFilename($filename);
 }
 TimeLogEnd(__FILE__, __LINE__);

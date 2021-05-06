@@ -1,5 +1,4 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -16,7 +15,7 @@ if (empty($_GET['file'])) {
 
 $path_parts = pathinfo($_GET['file']);
 $file = $path_parts['basename'];
-$path = Video::getStoragePath()."{$file}";
+
 
 if ($file == "X-Sendfile.mp4") {
     $path = "{$global['systemRootPath']}plugin/SecureVideosDirectory/test.json";
@@ -36,6 +35,7 @@ if ($file == "configuration.php") {
     forbiddenPage("Cant read this");
 }
 
+$path = Video::getPathToFile($file);
 if (file_exists($path)) {
     if (!empty($_GET['download'])) {
         if(!CustomizeUser::canDownloadVideos()){

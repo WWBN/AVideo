@@ -403,7 +403,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
         </script>
         <?php
-    } else if ($video['type'] == "audio" && !file_exists(Video::getStoragePath() . "{$video['filename']}.mp4")) {
+    } else if ($video['type'] == "audio" && !file_exists(Video::getPathToFile("{$video['filename']}.mp4"))) {
         $isAudio = 1;
         ?>
         <!-- audio -->

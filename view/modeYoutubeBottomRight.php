@@ -50,22 +50,17 @@ if (!empty($playlist_id)) {
         <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], "", $get); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                 <?php
-                $imgGif = "";
-                if (file_exists(Video::getStoragePath()."{$autoPlayVideo['filename']}.gif")) {
-                    $imgGif = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.gif";
-                }
+                $imgGif = Video::getURLToFileIfExists("{$autoPlayVideo['filename']}.gif");
                 if ($autoPlayVideo['type'] === "pdf") {
-                    $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.png";
-                    $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
+                    $imgGif = Video::getURLToFileIfExists("{$autoPlayVideo['filename']}.png");
                 } else if (($autoPlayVideo['type'] !== "audio") && ($autoPlayVideo['type'] !== "linkAudio")) {
-                    $img = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
-                    $img_portrait = ($autoPlayVideo['rotation'] === "90" || $autoPlayVideo['rotation'] === "270") ? "img-portrait" : "";
+                    $imgGif = Video::getURLToFileIfExists("{$autoPlayVideo['filename']}.jpg");
                 } else {
-                    $img = "".getCDN()."view/img/audio_wave.jpg";
+                    $img = getCDN()."view/img/audio_wave.jpg";
                     $img_portrait = "";
                 }
                 ?>
-                <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130" />
+                <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="img img-responsive " height="130" />
                 <?php if (!empty($imgGif)) { ?>
                     <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" id="thumbsGIF<?php echo $autoPlayVideo['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130" />
                 <?php } ?>

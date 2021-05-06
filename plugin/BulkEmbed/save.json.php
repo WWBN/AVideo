@@ -72,14 +72,16 @@ if (empty($objo) || ($objo->onlyAdminCanBulkEmbed && !User::isAdmin())) {
         }
         //$info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($value));
         //$infoObj = _json_decode($info);
-        $filename = uniqid("_YPTuniqid_", true);
+        $paths = Video::getNewVideoFilename();
+        $filename = $paths['filename'];
         $videos = new Video();
         $videos->setFilename($filename);
         $videos->setTitle($value['title']);
         $videos->setDescription($value['description']);
         $videos->setClean_title($value['title']);
         $videos->setDuration(ISO8601ToDuration($value['duration']));
-        file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", url_get_contents($value['thumbs']));
+        $poster = Video::getPathToFile("{$video['filename']}.jpg");
+        file_put_contents($poster, url_get_contents($value['thumbs']));
         $videos->setVideoLink($value['link']);
         $videos->setType('embed');
 

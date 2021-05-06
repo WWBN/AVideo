@@ -310,7 +310,12 @@ if (!class_exists('Video')) {
             }
 
             if (empty($this->filename)) {
-                $this->filename = $this->type . "_" . uniqid();
+                $prefix = $this->type;
+                if(empty($prefix)){
+                    $prefix = 'v';
+                }
+                $paths = self::getNewVideoFilename($prefix);
+                $this->filename = $paths['filename'];
             }
 
             $this->can_download = intval($this->can_download);
@@ -853,7 +858,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             $sql = "SELECT * FROM videos WHERE filename = ? LIMIT 1";
-
+            //var_dump($sql, $fileName);
             $res = sqlDAL::readSql($sql, "s", array($fileName), true);
             if ($res != false) {
                 $video = sqlDAL::fetchAssoc($res);
@@ -2707,7 +2712,10 @@ if (!class_exists('Video')) {
             //if(!isValidFormats($type)){
             //return array();
             //}
-
+            
+            self::_moveSourceFilesToDir($filename);
+            $paths = self::getPaths($filename);
+            
             if ($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)) {
                 return array('path' => $global['systemRootPath'] . 'view/img/loading-gif.png', 'url' => getCDN() . 'view/img/loading-gif.png');
             }
@@ -2721,7 +2729,7 @@ if (!class_exists('Video')) {
 
             // check if there is a webp image
             if ($type === '.gif' && (empty($_SERVER['HTTP_USER_AGENT']) || get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari')) {
-                $path = self::getStoragePath() . "{$filename}.webp";
+                $path = "{$paths['path']}{$filename}.webp";
                 if (file_exists($path)) {
                     $type = ".webp";
                 }
@@ -2754,8 +2762,12 @@ if (!class_exists('Video')) {
                         $token = "?" . implode("&", $vars);
                     }
                 }
+                
+                
+                $paths = self::getPaths($filename);
+                
                 $source = array();
-                $source['path'] = self::getStoragePath() . "{$filename}{$type}";
+                $source['path'] = $paths['path']."{$filename}{$type}";
 
                 if ($type == ".m3u8") {
                     $source['path'] = self::getStoragePath() . "{$filename}/index{$type}";
@@ -2772,18 +2784,18 @@ if (!class_exists('Video')) {
                 if (!empty($video['sites_id']) && (preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || $type == ".m3u8" || $type == ".pdf" || $type == ".zip") && @filesize($source['path']) < 20) {
                     $site = new Sites($video['sites_id']);
                     $siteURL = getCDNOrURL($site->getUrl(), 'CDN_YPTStorage', $video['sites_id']);
-                    $source['url'] = "{$siteURL}videos/{$filename}{$type}{$token}";
+                    $source['url'] = "{$siteURL}{$paths['relative']}{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}{$token}";
                     }
                 } elseif (!empty($advancedCustom->videosCDN) && $canUseCDN) {
                     $advancedCustom->videosCDN = rtrim($advancedCustom->videosCDN, '/') . '/';
-                    $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}{$type}{$token}";
+                    $source['url'] = "{$advancedCustom->videosCDN}{$paths['relative']}{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}{$token}";
                     }
                 } else {
-                    $source['url'] = getCDN() . "videos/{$filename}{$type}{$token}";
+                    $source['url'] = getCDN() . "{$paths['relative']}{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}{$token}";
                     }
@@ -2803,6 +2815,7 @@ if (!class_exists('Video')) {
                 if (!file_exists($source['path']) || ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10))) {
                     if ($type != "_thumbsV2.jpg" && $type != "_thumbsSmallV2.jpg" && $type != "_portrait_thumbsV2.jpg" && $type != "_portrait_thumbsSmallV2.jpg") {
                         $VideoGetSourceFile[$cacheName] = array('path' => false, 'url' => false);
+                        //echo PHP_EOL.'---'.PHP_EOL;var_dump($source, $type, !file_exists($source['path']), ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10)));echo PHP_EOL.'+++'.PHP_EOL;
                         return $VideoGetSourceFile[$cacheName];
                     }
                 }
@@ -2825,35 +2838,179 @@ if (!class_exists('Video')) {
             return $VideoGetSourceFile[$cacheName];
         }
 
-        public static function getCleanFilenameFromFile($filename) {
+        private static function _moveSourceFilesToDir($videoFilename){
+            $videoFilename = self::getCleanFilenameFromFile($videoFilename);
+            if(preg_match('/^(hd|low|sd|(res[0-9]{3,4}))$/', $videoFilename)){
+                return false;
+            }
+            $paths = self::getPaths($videoFilename);
+            $lock = "{$paths['path']}.move_v1.lock";
+            if(file_exists($lock)){
+                return true;
+            }
+            $videosDir = self::getStoragePath();
+            mkdir($paths['path'], 0755, true);
+            $files = _glob($videosDir, '/'.$videoFilename.'[._][a-z0-9_]+/i');            
+            //var_dump($paths['path'], is_dir($paths['path']), $files);exit;
+            foreach ($files as $oldname) {
+                if(is_dir($oldname)){
+                    continue;
+                }
+                $newname = str_replace($videosDir, $paths['path'], $oldname);
+                rename($oldname , $newname);
+            }
+            return file_put_contents($lock, time());
+        }        
+        
+        public static function getPaths($videoFilename){
             global $global;
+            $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
+            $videosDir = self::getStoragePath();
+            if(preg_match('/index\.m3u8$/', $videoFilename)){
+                $path = "{$videosDir}";
+            }else{
+                $path = "{$videosDir}{$cleanVideoFilename}".DIRECTORY_SEPARATOR;
+            }
+            $relative = "videos/{$cleanVideoFilename}/";
+            $url = getCDN()."{$relative}";
+            return array('filename'=>$cleanVideoFilename, 'path'=>$path, 'url'=>$url, 'relative'=>$relative);
+        }
+        
+        public static function getPathToFile($videoFilename){
+            $paths = Video::getPaths($videoFilename);
+            return "{$paths['path']}{$videoFilename}";
+        }
+        
+        public static function getURLToFile($videoFilename){
+            $paths = Video::getPaths($videoFilename);
+            return "{$paths['url']}{$videoFilename}";
+        }
+        
+        public static function getURLToFileIfExists($videoFilename){
+            $paths = Video::getPaths($videoFilename);
+            if(!file_exists("{$paths['path']}{$videoFilename}")){
+                return false;
+            }
+            return "{$paths['url']}{$videoFilename}";
+        }
+        
+        public static function getNewVideoFilename($prefix='', $time=''){
+            $uid = substr(uniqid(), -4);
+            if(empty($time)){
+                $time=time();
+            }
+            $prefix = preg_replace('/[^a-z0-9]/i', '', $prefix);
+            if(empty($prefix)){
+                $prefix='v';
+            }
+            $date = date('ymdHis', $time);
+            $videoFilename = strtolower("{$prefix}_{$date}_{$uid}");
+            return self::getPaths($videoFilename);            
+        }
+        
+        public static function getNewVideoFilenameWithPrefixFromFilename($filename){
+            $video = self::getVideoFromFileNameLight($filename);
+            if(empty($video)){
+                return self::getNewVideoFilename();   
+            }
+            return self::getNewVideoFilename($video['type']);            
+        }
+        
+        public static function updateDirectoryFilename($directory){
+            if(!is_dir($directory)){
+                _error_log('Video::updateDirectoryFilename directory not found '."[{$directory}]");
+                return false;
+            }
+            $video = self::getVideoFromFileNameLight($directory);
+            if(empty($video)){
+                _error_log('Video::updateDirectoryFilename video not found for directory '."[{$directory}]");
+                return false;   
+            }
+            $newFilename = self::getNewVideoFilename($video['type'], strtotime($video['created']));
+            $v = new Video('', '', $video['id']);
+            $v->setFilename($newFilename['filename'], true);
+            $id = $v->save(false, true);
+            
+            if($id){
+                $renamed = rename($directory, $newFilename['path']);
+                if(empty($renamed)){ // rename dir fail rollback
+                    _error_log('Video::updateDirectoryFilename rename dir fail, we will rollback changes '."[olddir={$directory}] [newdir={$newFilename['path']}]");
+                    $v = new Video('', '', $video['id']);
+                    $v->setFilename($video['filename'], true);
+                    $id = $v->save(false, true);
+                    return false;
+                }else{
+                    _error_log('Video::updateDirectoryFilename video folder renamed from '."[olddir={$directory}] [newdir={$newFilename['path']}]");
+                    self::updateFilesInDirectoryFilename($newFilename['path']);
+                }
+            }
+            
+            return array('videos_id'=>$video['id'], 'filename'=>$newFilename['filename'], 'oldDir'=>$directory, 'newDir'=>$newFilename['path'] );
+        }
+        
+        public static function updateFilesInDirectoryFilename($directory){
+            if(!is_dir($directory)){
+                _error_log('Video::updateFilesInDirectoryFilename directory not found '."[{$directory}]");
+                return false;
+            }
+            $video = self::getVideoFromFileNameLight($directory);
+            if(empty($video)){
+                _error_log('Video::updateFilesInDirectoryFilename video not found for directory '."[{$directory}]");
+                return false;   
+            }
+            $newFilename = $video['filename'];
+            $files = glob("{$directory}*.{jpg,png,gif,webp,vtt,srt,mp4,webm,mp3,ogg,notfound}", GLOB_BRACE);
+            _error_log('Video::updateFilesInDirectoryFilename total files found '.count($files));
+            foreach ($files as $value) {
+                $oldFilename = self::getCleanFilenameFromFile($value);
+                $newFilenamePath = str_replace($oldFilename, $newFilename, $value);
+                $renamed = rename($value, $newFilenamePath);
+                if(empty($renamed)){ // rename dir fail rollback
+                    _error_log('Video::updateFilesInDirectoryFilename rename file fail '."[olddir={$value}] [newdir={$newFilenamePath}]");
+                }else{
+                    _error_log('Video::updateFilesInDirectoryFilename video file renamed from '."[olddir={$value}] [newdir={$newFilenamePath}]");
+                }
+            }
+        }
+        
+        public function getVideoIdHash(){
+            $obj = new stdClass();
+            $obj->videos_id = $this->id;
+            return encryptString(json_encode($obj));
+        }
+        
+        public static function getVideoIdFromHash($hash){
+            $string = decryptString($hash);
+            if(!empty($string)){
+                $json = json_decode($string);
+                if(!empty($json) && !empty($json->videos_id)){
+                    return $json->videos_id;
+                }
+            }
+            return false;
+        }
+        
+        public static function getCleanFilenameFromFile($filename) {
+            global $global;  
             if (empty($filename)) {
                 return "";
             }
             $filename = fixPath($filename);
-            $search = array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2');
-            $replace = array('', '', '', '', '', '', '', '', '', '');
-
+            $filename = str_replace(getVideosDir(), '', $filename);
+            $search = array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_spectrum', '_tvg')+$global['langs_codes_values_withdot'];
+                        
             if (empty($global['avideo_resolutions']) || !is_array($global['avideo_resolutions'])) {
                 $global['avideo_resolutions'] = array(240, 360, 480, 540, 720, 1080, 1440, 2160);
             }
 
             foreach ($global['avideo_resolutions'] as $value) {
                 $search[] = "_{$value}";
-                $replace[] = '';
 
                 $search[] = "res{$value}";
-                $replace[] = '';
             }
 
-            $cleanName = str_replace($search, $replace, $filename);
+            $cleanName = str_replace($search, '', $filename);            
             $path_parts = pathinfo($cleanName);
-            if (!empty($path_parts["extension"]) && $path_parts["extension"] === "m3u8") {
-                preg_match('/videos\/([^\/]+)/', $path_parts["dirname"], $matches);
-                if (!empty($matches[1])) {
-                    $path_parts['filename'] = $matches[1];
-                }
-            }
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
                 if (!empty($path_parts['filename'])) {
@@ -2864,8 +3021,7 @@ if (!class_exists('Video')) {
             } else if (strlen($path_parts['extension']) > 4) {
                 return $cleanName;
             } else if ($path_parts['filename'] == 'index' && $path_parts['extension'] == 'm3u8') {
-                $clanFileName = str_replace(getVideosDir(), '', $path_parts['dirname']);
-                $parts = explode(DIRECTORY_SEPARATOR, $clanFileName);
+                $parts = explode(DIRECTORY_SEPARATOR, $cleanName);
                 return $parts[0];
             } else {
                 return $path_parts['filename'];
@@ -3592,7 +3748,8 @@ if (!class_exists('Video')) {
                 return false;
             }
             global $global;
-            $filePath = Video::getStoragePath() . "{$filename}";
+            
+            $filePath = Video::getPathToFile($filename);
             // Streamlined for less coding space.
             $files = glob("{$filePath}*_thumbs*.jpg");
             foreach ($files as $file) {

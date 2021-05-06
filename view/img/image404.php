@@ -14,7 +14,8 @@ if(!empty($_GET['image'])){
 }
 // if the thumb is not ready yet, try to find the default image
 if(preg_match('/videos\/(.*)_thumbs(V2)?.jpg/',$imageURL, $matches)){
-    $jpg = Video::getStoragePath()."{$matches[1]}.jpg";
+    
+    $jpg = Video::getPathToFile("{$matches[1]}.jpg");
     if(file_exists($jpg)){
         $file = $jpg;
         $type = 'image/jpg';

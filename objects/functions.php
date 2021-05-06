@@ -1099,13 +1099,12 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false) {
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-    if ($fileNameisThePath) {
-        $filename = str_replace(getVideosDir(), '', $fileName);
-        $url = getCDN() . "videos/{$filename}";
+    if ($fileNameisThePath) {       
+        $filename = basename($fileName);
         $files["mp3"] = array(
             'filename' => $filename,
-            'path' => $fileName,
-            'url' => $url,
+            'path' => Video::getPathToFile($filename),
+            'url' => Video::getURLToFile($filename),
             'type' => 'audio',
         );
     } else {
@@ -1212,9 +1211,11 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
     if (!empty($getVideosURL_V2Array[$cleanfilename])) {
         return $getVideosURL_V2Array[$cleanfilename];
     }
-
-    $pdf = getVideosDir() . "{$cleanfilename}.pdf";
-    $mp3 = getVideosDir() . "{$cleanfilename}.mp3";
+    
+    $paths = Video::getPaths($cleanfilename);
+    
+    $pdf = $paths['path'] . "{$cleanfilename}.pdf";
+    $mp3 = $paths['path'] . "{$cleanfilename}.mp3";
     if (file_exists($pdf)) {
         return getVideosURLPDF($fileName);
     } elseif (file_exists($mp3)) {
@@ -1274,6 +1275,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         TimeLogStart($timeName);
         $filesInDir = globVideosDir($cleanfilename, true);
         TimeLogEnd($timeName, __LINE__);
+        
 
         $timeName = "getVideosURL_V2::foreach";
         TimeLogStart($timeName);
@@ -1281,17 +1283,17 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             $parts = pathinfo($file);
 
             if ($parts['filename'] == 'index') {
-                $parts['filename'] = str_replace(getVideosDir(), '', $parts['dirname']);
+                $parts['filename'] = str_replace(Video::getPathToFile($parts['dirname']), '', $parts['dirname']);
             }
 
-            $timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
-            TimeLogStart($timeName2);
-            $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
-            TimeLogEnd($timeName2, __LINE__);
+            //$timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
+            //TimeLogStart($timeName2);
+            $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");//var_dump($file, $parts, $source);
+            //TimeLogEnd($timeName2, __LINE__);
             if (empty($source)) {
                 continue;
             }
-            if (filesize($file) < 20000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
+            if (filesize($file) < 1000 && !preg_match("/Dummy File/i", file_get_contents($file))) { 
                 continue;
             }
 
@@ -1325,7 +1327,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         // sort by resolution
         uasort($files, "sortVideosURL");
     }
-
+    //var_dump($files);exit;
     $getVideosURL_V2Array[$cleanfilename] = $files;
     return $getVideosURL_V2Array[$cleanfilename];
 }
@@ -1764,12 +1766,15 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
     $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-    $destinationFile = getVideosDir() . "{$filename}";
+    $paths = Video::getPaths($filename); 
+    $destinationFile = "{$paths['path']}{$filename}";
+    //$destinationFile = getVideosDir() . "{$filename}";
     _error_log("decideMoveUploadedToVideos: {$filename}");
     $path_info = pathinfo($filename);
     if ($type !== "zip" && $path_info['extension'] === 'zip') {
         _error_log("decideMoveUploadedToVideos: ZIp file {$filename}");
-        $dir = getVideosDir() . "{$path_info['filename']}";
+        $paths = Video::getPaths($path_info['filename']);
+        $dir = $paths['path'];
         unzipDirectory($tmp_name, $dir); // unzip it
         cleanDirectory($dir);
         if (!empty($aws_s3)) {
@@ -1899,7 +1904,8 @@ function decideFile_put_contentsToVideos($tmp_name, $filename) {
     } elseif (!empty($ftp)) {
         $ftp->move_uploaded_file($tmp_name, $filename);
     } else {
-        if (!move_uploaded_file($tmp_name, getVideosDir() . "{$filename}")) {
+        $path = Video::getPathToFile($filename);
+        if (!move_uploaded_file($tmp_name, $path)) {
             $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$filename})";
             die(json_encode($obj));
         }
@@ -3631,7 +3637,8 @@ function getUsageFromFilename($filename, $dir = "") {
     }
 
     if (empty($dir)) {
-        $dir = getVideosDir() . "";
+        $paths = Video::getPaths($filename);
+        $dir = $paths['path'];
     }
     $pos = strrpos($dir, '/');
     $dir .= (($pos === false) ? "/" : "");
@@ -4134,7 +4141,7 @@ function isHLS() {
     global $video, $global;
     if (isLive()) {
         return true;
-    } elseif (!empty($video) && $video['type'] == 'video' && file_exists(getVideosDir() . "{$video['filename']}/index.m3u8")) {
+    } elseif (!empty($video) && $video['type'] == 'video' && file_exists(Video::getPathToFile("{$video['filename']}/index.m3u8"))) {
         return true;
     }
     return false;
@@ -5539,7 +5546,8 @@ function globVideosDir($filename, $filesOnly = false) {
         return array();
     }
     $cleanfilename = Video::getCleanFilenameFromFile($filename);
-    $dir = getVideosDir();
+    $paths = Video::getPaths($filename);;
+    $dir = $paths['path'];
 
     if (is_dir($dir . $filename)) {
         $dir = $dir . $filename;
@@ -5552,7 +5560,7 @@ function globVideosDir($filename, $filesOnly = false) {
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
-
+    //var_dump($dir, $pattern);
     return _glob($dir, $pattern);
 }
 
@@ -5876,7 +5884,9 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
     }
     if (empty($url)) {
         if ($forceHTTP) {
-            $url = str_replace(getVideosDir(), getCDN() . "videos/", $filename);
+            $paths = Video::getPaths($filename); 
+            //$url = str_replace(getVideosDir(), getCDN() . "videos/", $filename);
+            $url = getCDN()."{$paths['relative']}";
         } else {
             $url = $filename;
         }
@@ -5890,9 +5900,7 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
 
 function getFilenameFromPath($path) {
     global $global;
-    $fileName = str_replace(getVideosDir() . "", "", $path);
     $fileName = Video::getCleanFilenameFromFile($fileName);
-
     return $fileName;
 }
 
@@ -6591,4 +6599,18 @@ function inputToRequest(){
             }
         }
     }
+}
+
+function useVideoHashOrLogin(){
+    
+    if(!empty($_REQUEST['video_id_hash'])){
+        $videos_id = Video::getVideoIdFromHash($_REQUEST['video_id_hash']);
+        if(!empty($videos_id)){
+            $users_id = Video::getOwner($videos_id);
+            $user = new User($users_id);            
+            _error_log("useVideoHashOrLogin: $users_id, $videos_id");
+            return $user->login(true);
+        }
+    }
+    return User::loginFromRequest();
 }

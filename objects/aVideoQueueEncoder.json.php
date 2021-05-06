@@ -75,7 +75,8 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
 
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($path_parts['filename']));
-    $filename = uniqid($mainName . "_YPTuniqid_", true);
+    $paths = Video::getNewVideoFilename();
+    $filename = $paths['filename'];
     $originalFilePath =  Video::getStoragePath()."original_" . $filename;
 
     $video = new Video(preg_replace("/_+/", " ", $path_parts['filename']), $filename, @$_FILES['upl']['videoId']);

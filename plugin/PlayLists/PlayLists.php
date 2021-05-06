@@ -417,15 +417,15 @@ class PlayLists extends PluginAbstract {
 
         $serie = self::isPlayListASerie($playlists_id);
         if (!empty($serie)) {
-            $tvg_logo = "videos/{$serie['filename']}_tvg.jpg";
-            $tvg_logo_path = "{$global['systemRootPath']}{$tvg_logo}";
+            $tvg_logo = "{$serie['filename']}_tvg.jpg";
+            $tvg_logo_path = Video::getPathToFile($tvg_logo);
             if (!file_exists($tvg_logo_path)) {
                 $images = Video::getSourceFile($serie['filename']);
                 $img = $images["path"];
                 im_resizeV2($img, $tvg_logo_path, 150, 150, 80);
             }
-
-            $tvg_logo_url = "{$global['webSiteRootURL']}{$tvg_logo}";
+            
+            $tvg_logo_url = Video::getURLToFile($tvg_logo);
             return $tvg_logo_url;
         } else {
             $pl = new PlayList($playlists_id);
