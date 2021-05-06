@@ -27,6 +27,8 @@ foreach ($videos as $value) {
                 //echo $file.PHP_EOL;
                 $move = Video::updateDirectoryFilename($file);
                 echo "-->".PHP_EOL." {$count}/{$total} move directory {$move['oldDir']} to {$move['newDir']} ".PHP_EOL."<--" . PHP_EOL . PHP_EOL;
+            }else{
+                echo " We will not rename directory {$file} ".PHP_EOL;
             }
             continue;
         }
