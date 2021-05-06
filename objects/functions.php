@@ -1311,7 +1311,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 $type = 'audio';
             } elseif (in_array($parts['extension'], $image) || preg_match('/^(gif|jpg|webp|png|jpeg)/i', $parts['extension'])) {
                 $type = 'image';
-                $resolution = '';
+                if(!preg_match('/(thumb|roku)/', $resolution)){
+                    $resolution = '';
+                }
             }
             $files["{$parts['extension']}{$resolution}"] = array(
                 'filename' => "{$parts['filename']}.{$parts['extension']}",
