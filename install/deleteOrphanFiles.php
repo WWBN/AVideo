@@ -7,7 +7,7 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
-$doNotDeleteFilesList = array('configuration.php', 'favicon.ico', 'favicon.png', 'avideo.log', 'PayPal.log', 'socketPID.log');
+$doNotDeleteFilesList = array('configuration.php', 'favicon.ico', 'favicon.png', 'avideo.log', 'PayPal.log', 'socketPID.log', 'logo.png');
 
 $lockFilename = '.move_v1.lock';
 $path = getVideosDir();
