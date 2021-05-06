@@ -1233,11 +1233,12 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             $preg_match_url = addcslashes(getCDN(), "/") . "videos";
             foreach ($files as $value) {
                 // check if is a dummy file and the URL still wrong
+                $pathFilesize = filesize($value['path']);
                 if (
                         $value['type'] === 'video' && // is a video
                         preg_match("/^{$preg_match_url}/", $value['url']) && // the URL is the same as the main domain
-                        @filesize($value['path']) < 20) { // file size is small
-                    _error_log("getVideosURL_V2:: dummy file found, fix cache " . json_encode(array("/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']), @filesize($value['path']), $value)));
+                        $pathFilesize < 20) { // file size is small
+                    _error_log("getVideosURL_V2:: dummy file found, fix cache " . json_encode(array("/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']), $pathFilesize, $value)));
                     unset($files);
                     $video = Video::getVideoFromFileName($fileName, true, true);
                     Video::clearCache($video['id']);
