@@ -18,6 +18,7 @@ foreach ($videos as $value) {
     $count++;
     
     $basename = "{$path}{$value['filename']}";
+    echo " Searching {$basename} ".PHP_EOL;
     $glob = glob("{$basename}*");
     $dirname = $basename.DIRECTORY_SEPARATOR;
     foreach ($glob as $file) {
