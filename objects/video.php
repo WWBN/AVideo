@@ -2928,6 +2928,7 @@ if (!class_exists('Video')) {
 
             if (isAnyStorageEnabled()) {
                  $newFilename = self::getPaths($video['filename']);
+                 $id = $video['id'];
             }else{
                 $newFilename = self::getNewVideoFilename($video['type'], strtotime($video['created']));
                 $v = new Video('', '', $video['id']);
