@@ -1043,8 +1043,7 @@ if (!class_exists('Video')) {
                 }
                 $sql .= BootGrid::getSqlFromPost(array(), empty($_POST['sort']['likes']) ? "v." : "", "", true);
             } else {
-                unset($_POST['sort']['trending']);
-                unset($_GET['sort']['trending']);
+                unset($_POST['sort']['trending'], $_GET['sort']['trending']);
                 $rows = array();
                 if (!empty($_REQUEST['current']) && $_REQUEST['current'] == 1) {
                     $rows = VideoStatistic::getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
@@ -3610,11 +3609,7 @@ if (!class_exists('Video')) {
                 $get['channelName'] = $video->getChannelName();
             }
 
-            unset($get['v']);
-            unset($get['videoName']);
-            unset($get['videoName']);
-            unset($get['isMediaPlaySite']);
-            unset($get['parentsOnly']);
+            unset($get['v'], $get['videoName'], $get['videoName'], $get['isMediaPlaySite'], $get['parentsOnly']);
             $get_http = http_build_query($get);
             if (empty($get_http)) {
                 $get_http = "";

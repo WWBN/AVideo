@@ -73,5 +73,4 @@ class Sites extends ObjectYPT {
         return $obj;
     }
 
-
 }
