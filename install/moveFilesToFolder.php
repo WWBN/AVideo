@@ -22,6 +22,7 @@ foreach ($videos as $value) {
     $glob = glob("{$basename}*");
     $dirname = $basename.DIRECTORY_SEPARATOR;
     foreach ($glob as $file) {
+        echo "Process file {$file}" . PHP_EOL;
         if (is_dir($file)) {
             if(!$isStorage){
                 //echo $file.PHP_EOL;
