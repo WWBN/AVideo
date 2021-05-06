@@ -20,9 +20,13 @@ foreach ($videos as $value) {
     $basename = "{$path}{$value['filename']}";
     echo " {$count}/{$total} Searching {$basename} ".PHP_EOL;
     $glob = glob("{$basename}*");
+    $totalItems = count($glob);
+    echo "Found total of {$totalItems} items " . PHP_EOL;
     $dirname = $basename.DIRECTORY_SEPARATOR;
+    $countItems = 0;
     foreach ($glob as $file) {
-        echo "Process file {$file}" . PHP_EOL;
+        $countItems++;
+        echo "[$countItems/$totalItems] Process file {$file} " . PHP_EOL;
         if (is_dir($file)) {
             if(!$isStorage){
                 //echo $file.PHP_EOL;
