@@ -1309,7 +1309,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 $type = 'video';
             } elseif (in_array($parts['extension'], $audio)) {
                 $type = 'audio';
-            } elseif (in_array($parts['extension'], $image)) {
+            } elseif (in_array($parts['extension'], $image) || preg_match('/^(gif|jpg|webp|png|jpeg)/i', $parts['extension'])) {
                 $type = 'image';
                 $resolution = '';
             }
