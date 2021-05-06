@@ -1311,6 +1311,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 $type = 'audio';
             } elseif (in_array($parts['extension'], $image)) {
                 $type = 'image';
+                $resolution = '';
             }
             $files["{$parts['extension']}{$resolution}"] = array(
                 'filename' => "{$parts['filename']}.{$parts['extension']}",
