@@ -156,12 +156,5 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     </body>
     </html>
 
-
-
-
-
-
-
-
     <?php
 }

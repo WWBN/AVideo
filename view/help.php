@@ -60,14 +60,14 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
                     <h2 id='Videos help'><?php echo __('Videos'); ?></h2>
                     <p><?php echo __('Here you find information about how to handle videos.'); ?></p>
                     <h3><?php echo __('Add videos'); ?></h3>
-                    <p><?php echo __('There are various kinds of media you can integrate here. They are working diffrent'); ?>:</p>
+                    <p><?php echo __('There are various kinds of media you can integrate here. They are working different'); ?>:</p>
                     <table class='table'><thead><tr>
                                 <th><?php echo __('Mediatype'); ?></th><th><?php echo __('How to set'); ?></th><th><?php echo __('Notes'); ?></th>
                             </tr>
                         </thead><tbody>
                             <tr><td><?php echo __('Audio'); ?></td><td><?php echo __('Via encoder or direct upload'); ?></td><td><?php echo __('Via encoder, most formats are possible, but you need to enable the Extract audio-option. With direct upload, only MP3 and OGG is allowed'); ?></td></tr>
                             <tr><td><?php echo __('Video'); ?></td><td><?php echo __('Via encoder or direct upload'); ?></td><td><?php echo __('Via encoder, most formats are possible. With direct upload, only MP4 is allowed'); ?></td></tr>
-                            <tr><td><?php echo __('Embeded'); ?></td><td><?php echo __('My videos->Embed a video link->Embeded'); ?></td><td><?php echo __('Only direct mp3- or ogg-files - if you download it with the link, it should be a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.'); ?></td></tr>
+                            <tr><td><?php echo __('Embedded'); ?></td><td><?php echo __('My videos->Embed a video link->Embedded'); ?></td><td><?php echo __('Only direct mp3- or ogg-files - if you download it with the link, it should be a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.'); ?></td></tr>
                             <tr><td><?php echo __('Direct audio-link (mp3 or ogg)'); ?></td><td><?php echo __('My videos->Embed a video link->Choose Direct audio-link (mp3 or ogg)'); ?></td><td><?php echo __('Only direct mp3- or ogg-files - if you download it with the link, it should be a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.'); ?></td></tr>
                             <tr><td><?php echo __('Direct video-link (mp4)'); ?></td><td><?php echo __('My videos->Embed a video->Choose Direct video-link (mp4)'); ?></td><td><?php echo __('Only direct mp4-files - if you download it with the link, it should be a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.'); ?></td></tr>
                         </tbody></table>

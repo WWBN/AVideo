@@ -1247,18 +1247,18 @@ if (typeof gtag !== \"function\") {
                     }
                 }
             }
-            unset($user['password']);
-            unset($user['recoverPass']);
+            unset($user['password'], $user['recoverPass']);
             if (!Permissions::canAdminUsers() && $user['id'] !== User::getId()) {
-                unset($user['first_name']);
-                unset($user['last_name']);
-                unset($user['address']);
-                unset($user['zip_code']);
-                unset($user['country']);
-                unset($user['region']);
-                unset($user['city']);
+                unset(
+                    $user['first_name'],
+                    $user['last_name'],
+                    $user['address'],
+                    $user['zip_code'],
+                    $user['country'],
+                    $user['region'],
+                    $user['city']
+                );
             }
-            $user = $user;
             return $user;
         }
         return false;
@@ -1507,16 +1507,17 @@ if (typeof gtag !== \"function\") {
                 }
             }
         }
-        unset($row['password']);
-        unset($row['recoverPass']);
+        unset($row['password'], $row['recoverPass']);
         if (!Permissions::canAdminUsers() && $row['id'] !== User::getId()) {
-            unset($row['first_name']);
-            unset($row['last_name']);
-            unset($row['address']);
-            unset($row['zip_code']);
-            unset($row['country']);
-            unset($row['region']);
-            unset($row['city']);
+            unset(
+                $row['first_name'],
+                $row['last_name'],
+                $row['address'],
+                $row['zip_code'],
+                $row['country'],
+                $row['region'],
+                $row['city']
+            );
         }
         return $row;
     }

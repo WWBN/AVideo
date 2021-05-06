@@ -305,7 +305,6 @@ class PlayList extends ObjectYPT {
         $close = false;
         _session_start();
         unset($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id]);
-        unset($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id]);
     }
 
     public static function getVideosIDFromPlaylistLight($playlists_id) {

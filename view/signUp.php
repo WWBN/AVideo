@@ -146,7 +146,7 @@ if (!empty($_GET['siteRedirectUri'])) {
                         modal.showPleaseWait();
                         var pass1 = $('#inputPassword').val();
                         var pass2 = $('#inputPasswordConfirm').val();
-                        // password dont match
+                        // Password doesn't match
                         if (pass1 != '' && pass1 != pass2) {
                             modal.hidePleaseWait();
                             avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your password does not match!"); ?>", "error");

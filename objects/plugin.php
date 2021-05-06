@@ -318,8 +318,7 @@ class Plugin extends ObjectYPT {
                 foreach ($fullData as $row) {
                     $getAllEnabledRows[] = $row;
                     if (($key = array_search($row['uuid'], $defaultEnabledUUIDs)) !== false) {
-                        unset($defaultEnabledUUIDs[$key]);
-                        unset($defaultEnabledNames[$key]);
+                        unset($defaultEnabledUUIDs[$key], $defaultEnabledNames[$key]);
                     }
                 }
 
