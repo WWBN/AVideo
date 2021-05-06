@@ -3004,7 +3004,7 @@ if (!class_exists('Video')) {
             }
             $filename = fixPath($filename);
             $filename = str_replace(getVideosDir(), '', $filename);
-            $search = array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_spectrum', '_tvg') + $global['langs_codes_values_withdot'];
+            $search = array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_spectrum', '_tvg', '.notfound') + $global['langs_codes_values_withdot'];
 
             if (empty($global['avideo_resolutions']) || !is_array($global['avideo_resolutions'])) {
                 $global['avideo_resolutions'] = array(240, 360, 480, 540, 720, 1080, 1440, 2160);
