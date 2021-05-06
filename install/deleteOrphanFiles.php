@@ -7,6 +7,8 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
+$doNotDeleteFilesList = array('configuration.php', 'favicon.ico', 'favicon.png', 'avideo.log','PayPal.log', 'socketPID.log');
+
 $lockFilename = '.move_v1.lock';
 $path = getVideosDir();
 $files = array_diff(scandir($path), array('.', '..'));
@@ -14,7 +16,19 @@ echo "*** Total filenames " . count($files) . "\n";
 foreach ($files as $key => $value) {
     $dir = "{$path}{$value}";
     if(!is_dir($dir)){
-        unset($files[$key]);
+        $bname = basename($dir);
+        if(in_array($bname, $doNotDeleteFilesList) || preg_match('/configuration\./i', $bname)){
+            unset($files[$key]);
+        }
+        $filename = Video::getCleanFilenameFromFile($dir);
+        $video = Video::getVideoFromFileName($filename, true);
+        if (!empty($video)) {
+            //echo "+++ Video FOUND for filename {$filename} ".PHP_EOL;
+            unset($files[$key]);
+        }else{      
+            $files[$key] = array($value, $dir);
+            //echo "*** Video NOT found for filename {$filename} ".PHP_EOL;
+        }
         continue;
     }
     $file = "{$dir}".DIRECTORY_SEPARATOR."{$lockFilename}";
