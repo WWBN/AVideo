@@ -19,3 +19,6 @@
 #sidebar {
     margin-top: 65px  !important;
 }
+#mainNavBar .select2-container{
+    margin-top: 15px;
+}
