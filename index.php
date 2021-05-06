@@ -109,3 +109,8 @@
         </div>
     </body>
 </html>
+<?php
+function __($text){
+    return $text;
+}
+?>
