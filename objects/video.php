@@ -2865,7 +2865,7 @@ if (!class_exists('Video')) {
             global $global;
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
             $videosDir = self::getStoragePath();
-            if (preg_match('/index\.m3u8$/', $videoFilename)) {
+            if (is_dir($videoFilename) || preg_match('/index\.m3u8$/', $videoFilename)) {
                 $path = "{$videosDir}";
             } else {
                 $path = "{$videosDir}{$cleanVideoFilename}" . DIRECTORY_SEPARATOR;
