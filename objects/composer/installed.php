@@ -6,11 +6,20 @@
     'aliases' => 
     array (
     ),
-    'reference' => '06273135e8d043e51bd44af1ec88b3a14638941f',
+    'reference' => '776e853ac01b8f8079553e45e8584d6976eda0ef',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
   array (
+    'aws/aws-sdk-php' => 
+    array (
+      'pretty_version' => '3.180.4',
+      'version' => '3.180.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '3e377fdfd0cda4e1412ac7aca93814d4f032d236',
+    ),
     'cboden/ratchet' => 
     array (
       'pretty_version' => 'v0.4.3',
@@ -55,6 +64,15 @@
       array (
       ),
       'reference' => 'f42c9110abe98dd6cfe9053c49bc86acc70b2d23',
+    ),
+    'gliterd/backblaze-b2' => 
+    array (
+      'pretty_version' => '1.1.1',
+      'version' => '1.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '1fa0fa0f03cced94cf634c441604cb024826db6e',
     ),
     'google/apiclient' => 
     array (
@@ -136,6 +154,15 @@
       array (
       ),
       'reference' => '2209ddd84e7ef1256b7af205d0717fb62cfc9c33',
+    ),
+    'mtdowling/jmespath.php' => 
+    array (
+      'pretty_version' => '2.6.0',
+      'version' => '2.6.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '42dae2cbd13154083ca6d70099692fef8ca84bfb',
     ),
     'paragonie/random_compat' => 
     array (
@@ -374,7 +401,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '06273135e8d043e51bd44af1ec88b3a14638941f',
+      'reference' => '776e853ac01b8f8079553e45e8584d6976eda0ef',
     ),
   ),
 );

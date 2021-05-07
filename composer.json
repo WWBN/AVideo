@@ -27,6 +27,8 @@
         "psr/http-message": "^1.0",
         "cboden/ratchet": "^0.4.3",
         "ratchet/pawl": "^0.3.5",
-        "singpolyma/openpgp-php": "^0.4.0"
+        "singpolyma/openpgp-php": "^0.4.0",
+        "aws/aws-sdk-php": "^3.180",
+        "gliterd/backblaze-b2": "^1.1"
     }
 }

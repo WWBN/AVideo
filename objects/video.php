@@ -2877,8 +2877,11 @@ if (!class_exists('Video')) {
             return array('filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative);
         }
 
-        public static function getPathToFile($videoFilename) {
+        public static function getPathToFile($videoFilename, $createDir=false) {
             $paths = Video::getPaths($videoFilename);
+            if($createDir){
+                make_path(addLastSlash($paths['path']));
+            }
             return "{$paths['path']}{$videoFilename}";
         }
 
