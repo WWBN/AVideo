@@ -23,7 +23,7 @@ foreach ($menu as $key => $value) {
             }
             ?>
             <span class="<?php echo $hiddenClass; ?>">
-                <?php echo $value['menuName']; ?>
+                <?php echo __($value['menuName']); ?>
             </span>
             <b class="caret"></b>
         </a>
@@ -41,7 +41,7 @@ foreach ($menu as $key => $value) {
                             <?php
                         }
                         ?>
-                        <?php echo $value2['title'] ?>
+                        <?php echo __($value2['title']); ?>
                     </a>
                 </li>            
                 <?php

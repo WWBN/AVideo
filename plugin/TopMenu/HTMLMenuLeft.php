@@ -20,7 +20,7 @@ foreach ($menu as $key => $value) {
                 <?php
             }
             ?>
-            <?php echo $value['menuName']; ?>
+            <?php echo __($value['menuName']); ?>
         </h3>
     </li>
     <?php
@@ -36,7 +36,7 @@ foreach ($menu as $key => $value) {
                     <?php
                 }
                 ?>
-                <?php echo $value2['title'] ?>
+                <?php echo __($value2['title']); ?>
             </a>
         </li>            
         <?php
