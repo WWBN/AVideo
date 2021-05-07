@@ -58,6 +58,9 @@ foreach ($videos as $value) {
 }
 echo PHP_EOL." Deleting cache ... ";
 ObjectYPT::deleteALLCache();
+$videosDir = Video::getStoragePath(); 
+exec("chown -R www-data:www-data {$videosDir}");
+exec("chmod -R 755 {$videosDir}");
 echo PHP_EOL." Done! ".PHP_EOL;
 die();
 
