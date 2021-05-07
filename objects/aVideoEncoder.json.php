@@ -88,7 +88,7 @@ if (empty($videoFileName)) {
     $videoFileName = $video->setFilename($videoFileName);
 }
 
-$paths = Video::getPaths($videoFilename);
+$paths = Video::getPaths($videoFilename, true);
 $destination_local = "{$paths['path']}{$videoFileName}";
 
 if (!empty($_FILES)) {

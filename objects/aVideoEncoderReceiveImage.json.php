@@ -34,7 +34,7 @@ $video = new Video("", "", $_POST['videos_id']);
 $obj->video_id = $_POST['videos_id'];
 
 $videoFileName = $video->getFilename();
-$paths = Video::getPaths($videoFileName);
+$paths = Video::getPaths($videoFileName, true);
 $destination_local = "{$paths['path']}{$videoFileName}";
 
 _error_log("ReceiveImage: videoFilename = [$videoFileName] destination_local = {$destination_local} Encoder receiving post ". json_encode($_FILES));
