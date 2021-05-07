@@ -36,7 +36,7 @@ foreach ($videos as $value) {
         $countItems++;
         echo "[$countItems/$totalItems] Process file {$file} " . PHP_EOL;
         if (is_dir($file)) {
-            if(!$isStorage || Video::isNewVideoFilename($move['oldDir'])){
+            if(!$isStorage && !Video::isNewVideoFilename($move['oldDir'])){
                 //echo $file.PHP_EOL;
                 $move = Video::updateDirectoryFilename($file);
                 echo "-->".PHP_EOL." {$count}/{$total} move directory {$move['oldDir']} to {$move['newDir']} ".PHP_EOL."<--" . PHP_EOL . PHP_EOL;
