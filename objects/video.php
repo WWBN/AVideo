@@ -2861,7 +2861,7 @@ if (!class_exists('Video')) {
             return file_put_contents($lock, time());
         }
 
-        public static function getPaths($videoFilename) {
+        public static function getPaths($videoFilename, $createDir=false) {
             global $global;
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
             $videosDir = self::getStoragePath();            
@@ -2872,16 +2872,16 @@ if (!class_exists('Video')) {
             } else {
                 $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
             }
+            if($createDir){
+                make_path(addLastSlash($path));
+            }
             $relative = addLastSlash("videos/{$cleanVideoFilename}");
             $url = getCDN() . "{$relative}";
             return array('filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative);
         }
 
         public static function getPathToFile($videoFilename, $createDir=false) {
-            $paths = Video::getPaths($videoFilename);
-            if($createDir){
-                make_path(addLastSlash($paths['path']));
-            }
+            $paths = Video::getPaths($videoFilename, $createDir);
             return "{$paths['path']}{$videoFilename}";
         }
 
