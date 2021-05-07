@@ -69,7 +69,7 @@ class YPTSocket extends PluginAbstract {
         self::addDataObjectHelper('port', 'Server Port', 'You also MUST open this port on the firewall');
         $obj->host = $host;
         self::addDataObjectHelper('host', 'Server host', 'If your site is HTTPS make sure this host also handle the SSL connection');
-        $obj->debugSocket = false;
+        $obj->debugSocket = true;
         self::addDataObjectHelper('debugSocket', 'Show server debugger to admin', 'This will show a panel with some socket informations to the ADMIN user only');
         $obj->debugAllUsersSocket = false;
         self::addDataObjectHelper('debugAllUsersSocket', 'Show server debugger to all', 'Same as above but will show the panel to all users');

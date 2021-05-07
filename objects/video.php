@@ -2885,8 +2885,8 @@ if (!class_exists('Video')) {
             return "{$paths['path']}{$videoFilename}";
         }
 
-        public static function getURLToFile($videoFilename) {
-            $paths = Video::getPaths($videoFilename);
+        public static function getURLToFile($videoFilename, $createDir=false) {
+            $paths = Video::getPaths($videoFilename, $createDir);
             return "{$paths['url']}{$videoFilename}";
         }
 
