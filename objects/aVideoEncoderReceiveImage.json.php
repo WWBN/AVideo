@@ -136,6 +136,8 @@ Video::clearCache($videos_id);
 Video::updateFilesize($videos_id);
 $obj->error = false;
 $obj->video_id = $videos_id;
+$v = new Video('', '', $videos_id);
+$obj->video_id_hash = $v->getVideoIdHash();
 
 $json = json_encode($obj);
 _error_log("ReceiveImage: Files Received for video {$videos_id}: " . $video->getTitle()." {$json}");
