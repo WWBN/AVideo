@@ -76,5 +76,8 @@ if (empty($feed)) {
 }else{
     //echo '<!-- cache -->';
 }
+if(!is_string($feed)){
+    $feed = json_encode($feed);
+}
 echo $feed;
 ?>
