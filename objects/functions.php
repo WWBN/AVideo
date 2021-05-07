@@ -17,17 +17,18 @@ function forbiddenWords($text) {
     }
     return false;
 }
-
-function xss_esc($text) {
-    if (empty($text)) {
-        return "";
+if(!function_exists('xss_esc')){
+    function xss_esc($text) {
+        if (empty($text)) {
+            return "";
+        }
+        $result = @htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+        if (empty($result)) {
+            $result = str_replace(array('"', "'", "\\"), array("", "", ""), strip_tags($text));
+        }
+        $result = str_replace(array('&amp;amp;'), array('&amp;'), $result);
+        return $result;
     }
-    $result = @htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
-    if (empty($result)) {
-        $result = str_replace(array('"', "'", "\\"), array("", "", ""), strip_tags($text));
-    }
-    $result = str_replace(array('&amp;amp;'), array('&amp;'), $result);
-    return $result;
 }
 
 function xss_esc_back($text) {
