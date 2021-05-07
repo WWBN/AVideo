@@ -2911,6 +2911,11 @@ if (!class_exists('Video')) {
             $videoFilename = strtolower("{$prefix}_{$date}_{$uid}");
             return self::getPaths($videoFilename);
         }
+        
+         public static function isNewVideoFilename($filename) {
+            $filename = self::getCleanFilenameFromFile($filename);
+            return preg_match('/_([0-9]{12})_([0-9a-z]{4})$/i', $filename);
+        }
 
         public static function getNewVideoFilenameWithPrefixFromFilename($filename) {
             $video = self::getVideoFromFileNameLight($filename);
