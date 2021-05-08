@@ -3117,7 +3117,7 @@ if (!class_exists('Video')) {
                         TimeLogStart($name2);
                         $resolution = self::getResolutionFromFilename($value["path"]); // this is faster
                         if ($resolution && empty($global['onlyGetResolutionFromFilename'])) {
-                            _error_log("Video:::getHigestResolution:: could not get the resolution from file name, trying a slower method");
+                            _error_log("Video:::getHigestResolution:: could not get the resolution from file name [{$value["path"]}], trying a slower method");
                             $resolution = self::getResolution($value["path"]);
                         }
                         TimeLogEnd($name2, __LINE__);
