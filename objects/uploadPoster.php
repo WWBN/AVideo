@@ -63,10 +63,11 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         /**
          * This is when is using in a non file_dataoaded movie
          */
-        $destination = Video::getStoragePath()."" . $video->getFilename() . $ext;
+        $paths = Video::getPaths($video->getFilename());
+        $destination = $paths['path'] . $video->getFilename() . $ext;
         _error_log("Try to move " . $destination . " \n " . print_r($video, true));
         if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $destination)) {
-            $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . Video::getStoragePath()."" . $filename . $ext;
+            $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . $destination;
             die(json_encode($obj));
         } else {
             if(preg_match('/_convertToJPG/', $ext)){

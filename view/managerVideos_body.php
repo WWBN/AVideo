@@ -1080,7 +1080,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                                 showUploadedThumbs: false,
                                                 maxFileCount: 1,
                                                 initialPreview: [
-                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg'>",
+                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + ".jpg'>",
                                                 ],
                                                 initialCaption: row.clean_title + '.jpg',
                                                 initialPreviewShowDelete: false,
@@ -1098,7 +1098,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                                 showUploadedThumbs: false,
                                                 maxFileCount: 1,
                                                 initialPreview: [
-                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_portrait.jpg'>",
+                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + "_portrait.jpg'>",
                                                 ],
                                                 initialCaption: row.clean_title + '_portrait.jpg',
                                                 initialPreviewShowDelete: false,
@@ -1116,7 +1116,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                                 showUploadedThumbs: false,
                                                 maxFileCount: 1,
                                                 initialPreview: [
-                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".gif'>",
+                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + ".gif'>",
                                                 ],
                                                 initialCaption: row.clean_title + '.gif',
                                                 initialPreviewShowDelete: false,
@@ -1134,7 +1134,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                                 showUploadedThumbs: false,
                                                 maxFileCount: 1,
                                                 initialPreview: [
-                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "_portrait.gif'>",
+                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + "_portrait.gif'>",
                                                 ],
                                                 initialCaption: row.clean_title + '_portrait.gif',
                                                 initialPreviewShowDelete: false,
@@ -1152,7 +1152,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                                 showUploadedThumbs: false,
                                                 maxFileCount: 1,
                                                 initialPreview: [
-                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".webp'>",
+                                                    "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + ".webp'>",
                                                 ],
                                                 initialCaption: row.clean_title + '.webp',
                                                 initialPreviewShowDelete: false,
