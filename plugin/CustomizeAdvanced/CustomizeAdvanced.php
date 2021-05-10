@@ -403,5 +403,10 @@ Allow: .css";
         }
         return $js;
     }
+    
+    public function afterNewVideo($videos_id) {
+        Video::updateFilesize($video_id);
+        return true;
+    }
 
 }
