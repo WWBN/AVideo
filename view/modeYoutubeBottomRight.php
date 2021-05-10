@@ -50,15 +50,9 @@ if (!empty($playlist_id)) {
         <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], "", $get); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
                 <?php
-                $imgGif = Video::getURLToFileIfExists("{$autoPlayVideo['filename']}.gif");
-                if ($autoPlayVideo['type'] === "pdf") {
-                    $imgGif = Video::getURLToFileIfExists("{$autoPlayVideo['filename']}.png");
-                } else if (($autoPlayVideo['type'] !== "audio") && ($autoPlayVideo['type'] !== "linkAudio")) {
-                    $imgGif = Video::getURLToFileIfExists("{$autoPlayVideo['filename']}.jpg");
-                } else {
-                    $img = getCDN()."view/img/audio_wave.jpg";
-                    $img_portrait = "";
-                }
+                $images = Video::getImageFromFilename($autoPlayVideo['filename'], true);
+                $img = $img_portrait = $images->poster;
+                $imgGif = $images->thumbsGif;
                 ?>
                 <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="img img-responsive " height="130" />
                 <?php if (!empty($imgGif)) { ?>
