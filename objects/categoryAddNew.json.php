@@ -22,7 +22,7 @@ if(!Category::canCreateCategory()){
 $objCat = new Category(intval(@$_POST['id']));
 $objCat->setName($_POST['name']);
 $objCat->setClean_name($_POST['clean_name']);
-$objCat->setDescription(nl2br ($_POST['description']));
+$objCat->setDescription($_POST['description']);
 $objCat->setIconClass($_POST['iconClass']);
 $objCat->setNextVideoOrder($_POST['nextVideoOrder']);
 $objCat->setParentId($_POST['parentId']);

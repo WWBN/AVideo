@@ -15,10 +15,10 @@ $_REQUEST['rowCount'] = getRowCount(1000);
 $_REQUEST['current'] = getCurrentPage();
 $categories = Category::getAllCategories(true);
 $total = Category::getTotalCategories(true);
-$breaks = array('<br />', '<br>', '<br/>');
+//$breaks = array('<br />', '<br>', '<br/>');
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";
-    $categories[$key]['description'] = str_ireplace($breaks, "\r\n", $value['description']);
+    //$categories[$key]['description'] = str_ireplace($breaks, "\r\n", $value['description']);
     /*
     $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
     $res = sqlDAL::readSql($sql,"i",array($value['id']));

@@ -24,6 +24,16 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
                     <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $currentCat['clean_name']; ?>">
                         <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name']; ?>
                     </a>
+                    <?php
+                    if (!empty($currentCat['description'])) {
+                        $duid = uniqid();
+                        $titleAlert = str_replace(array('"', "'"), array('``', "`"), $currentCat['name']);
+                        ?>
+                        <a href="#" class="pull-right" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"categoryDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#categoryDescriptionAlertContent<?php echo $duid; ?>").html($("#categoryDescription<?php echo $duid; ?>").html());return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
+                        <div id="categoryDescription<?php echo $duid; ?>" style="display: none;"><?php echo $currentCat['description_html']; ?></div>
+                        <?php
+                    }
+                    ?>
                 </h3>
                 <?php
             }

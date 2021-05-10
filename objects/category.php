@@ -57,7 +57,7 @@ class Category {
     }
 
     function setName($name) {
-        $this->name = xss_esc($name);
+        $this->name = $name;
     }
 
     function setClean_name($clean_name) {
@@ -108,13 +108,13 @@ class Category {
      */
 
     function setDescription($description) {
-        $this->description = xss_esc($description);
+        $this->description = $description;
     }
 
     function __construct($id, $name = '') {
         if (empty($id)) {
             // get the category data from category and pass
-            $this->name = xss_esc($name);
+            $this->name = $name;
         } else {
             $this->id = $id;
             // get data from id
@@ -172,7 +172,7 @@ class Category {
                     . "users_id = ?,"
                     . "`private` = ?, allow_download = ?, `order` = ?, modified = now() WHERE id = ?";
             $format = "sssiisiiiii";
-            $values = array(xss_esc($this->name), xss_esc($this->clean_name), xss_esc($this->description), $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate(), $this->getAllow_download(), $this->getOrder(), $this->id);
+            $values = array($this->name, $this->clean_name, $this->description, $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate(), $this->getAllow_download(), $this->getOrder(), $this->id);
         } else {
             $sql = "INSERT INTO categories ( "
                     . "name,"
@@ -184,7 +184,7 @@ class Category {
                     . "users_id, "
                     . "`private`, allow_download, `order`, created, modified) VALUES (?, ?,?,?,?,?,?,?,?,?,now(), now())";
             $format = "sssiisiiii";
-            $values = array(xss_esc($this->name), xss_esc($this->clean_name), xss_esc($this->description), $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate(), $this->getAllow_download(), $this->getOrder());
+            $values = array($this->name, $this->clean_name, $this->description, $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate(), $this->getAllow_download(), $this->getOrder());
         }
 
         $insert_row = sqlDAL::writeSql($sql, $format, $values);
@@ -301,6 +301,7 @@ class Category {
         sqlDAL::close($res);
         if ($result) {
             $result['name'] = xss_esc_back($result['name']);
+            $result['description_html'] = textToLink(htmlentities($result['description']));
         }
         return ($res) ? $result : false;
     }
@@ -417,7 +418,7 @@ class Category {
                     $totals = self::getTotalFromCategory($row['id']);
                     $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
 
-                    $row['name'] = xss_esc_back($row['name']);
+                    $row['name'] = $row['name'];
                     $row['total'] = $totals['total'];
                     $row['fullTotal'] = $fullTotals['total'];
                     $row['fullTotal_videos'] = $fullTotals['videos'];
@@ -428,6 +429,7 @@ class Category {
                     $row['canAddVideo'] = self::userCanAddInCategory($row['id']);
                     $row['hierarchy'] = self::getHierarchyString($row['parentId']);
                     $row['hierarchyAndName'] = $row['hierarchy'] . $row['name'];
+                    $row['description_html'] = textToLink(htmlentities($row['description']));
                     $category[] = $row;
                 }
                 //$category = $res->fetch_all(MYSQLI_ASSOC);

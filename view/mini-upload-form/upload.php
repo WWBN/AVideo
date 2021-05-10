@@ -139,7 +139,6 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
             AVideoPlugin::afterNewVideo($obj->videos_id);
         }
 
-
         if ($extension !== "jpg" && $video->getType() == "image") {
             sleep(1); // to make sure the file will be available
             $file = $video->getFilename();
