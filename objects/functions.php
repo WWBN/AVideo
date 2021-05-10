@@ -1771,7 +1771,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
     $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
     $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-    $paths = Video::getPaths($filename);
+    $paths = Video::getPaths($filename, true);
     $destinationFile = "{$paths['path']}{$filename}";
     //$destinationFile = getVideosDir() . "{$filename}";
     _error_log("decideMoveUploadedToVideos: {$filename}");
