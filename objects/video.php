@@ -3041,7 +3041,10 @@ if (!class_exists('Video')) {
                 return $cleanName;
             } else if ($path_parts['filename'] == 'index' && $path_parts['extension'] == 'm3u8') {
                 $parts = explode(DIRECTORY_SEPARATOR, $cleanName);
-                return $parts[0];
+                if(!empty($parts[0])){
+                    return $parts[0];
+                }
+                return $parts[1];
             } else {
                 return $path_parts['filename'];
             }
