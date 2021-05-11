@@ -66,8 +66,8 @@ class CDN extends PluginAbstract {
         if (empty($obj->{$type})) {
             return false;
         }
-        if(isIPPrivate(getDomain())){
-            _error_log('The CDN will not work under a private network $type='.$type);
+        if (isIPPrivate(getDomain())) {
+            _error_log('The CDN will not work under a private network $type=' . $type);
             return false;
         }
         $url = '';
@@ -102,6 +102,47 @@ class CDN extends PluginAbstract {
         }
 
         return false;
+    }
+
+    static function getS3URL() {
+        $plugin = AVideoPlugin::getDataObjectIfEnabled('AWS_S3');
+        $CDN_S3 = '';
+        if (!empty($plugin)) {
+            $region = trim($plugin->region);
+            $bucket_name = trim($plugin->bucket_name);
+            $endpoint = trim($plugin->endpoint);
+            if (!empty($endpoint)) {
+                $CDN_S3 = str_replace('https://', "https://{$bucket_name}.", $endpoint);
+            } else if (!empty($plugin->region)) {
+                $CDN_S3 = "https://{$bucket_name}.s3-accesspoint.{$region}.amazonaws.com";
+            }
+            if (!empty($resp->CDN_S3)) {
+                $CDN_S3 = addLastSlash($resp->CDN_S3);
+            }
+        }
+        return $CDN_S3;
+    }
+
+    static function getB2URL() {
+        $CDN_B2 = '';
+        $plugin = AVideoPlugin::getDataObjectIfEnabled('Blackblaze_B2');
+        if (!empty($plugin)) {
+            $b2 = new Blackblaze_B2();
+            $CDN_B2 = $b2->getEndpoint();
+            if (!empty($resp->CDN_B2)) {
+                $CDN_B2 = addLastSlash($resp->CDN_B2);
+            }
+        }
+        return $CDN_B2;
+    }
+
+    static function getFTPURL() {
+        $CDN_FTP = '';
+        $plugin = AVideoPlugin::getDataObjectIfEnabled('FTP_Storage');
+        if (!empty($plugin)) {
+            $CDN_FTP = addLastSlash($plugin->endpoint);
+        }
+        return $CDN_FTP;
     }
 
 }

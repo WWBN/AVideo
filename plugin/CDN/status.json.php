@@ -32,39 +32,13 @@ foreach ($_REQUEST['par'] as $key => $value) {
 }
 
 // Update S3 CDN
-$resp->CDN_S3 = '';
-$plugin = AVideoPlugin::getDataObjectIfEnabled('AWS_S3');
-if (!empty($plugin)) {
-    $region = trim($plugin->region);
-    $bucket_name = trim($plugin->bucket_name);
-    $endpoint = trim($plugin->endpoint);
-    if (!empty($endpoint)) {
-        $resp->CDN_S3 = str_replace('https://', "https://{$bucket_name}.", $endpoint);
-    } else if (!empty($plugin->region)) {
-        $resp->CDN_S3 = "https://{$bucket_name}.s3-accesspoint.{$region}.amazonaws.com";
-    }
-    if (!empty($resp->CDN_S3)) {
-        $resp->CDN_S3 = addLastSlash($resp->CDN_S3);
-    }
-}
+$resp->CDN_S3 = CDN::getS3URL();
 
 // Update B2 CDN
-$resp->CDN_B2 = '';
-$plugin = AVideoPlugin::getDataObjectIfEnabled('Blackblaze_B2');
-if (!empty($plugin)) {
-    $b2 = new Blackblaze_B2();
-    $resp->CDN_B2 = $b2->getEndpoint();
-    if (!empty($resp->CDN_B2)) {
-        $resp->CDN_B2 = addLastSlash($resp->CDN_B2);
-    }
-}
+$resp->CDN_B2 = CDN::getB2URL();
 
 // Update FTP CDN
-$resp->CDN_FTP = '';
-$plugin = AVideoPlugin::getDataObjectIfEnabled('FTP_Storage');
-if (!empty($plugin)) {
-    $resp->CDN_FTP = addLastSlash($plugin->endpoint);
-}
+$resp->CDN_FTP = CDN::getFTPURL();
 
 // Update YPT Storage CDN
 $resp->CDN_YPTStorage = array();
