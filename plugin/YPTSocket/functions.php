@@ -123,3 +123,11 @@ function killProcessOnPort() {
         }
     }
 }
+
+function restartServer(){
+    global $global;
+    killProcessOnPort();
+    sleep(1);
+    $cmd = "nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &";
+    return exec($cmd);
+}

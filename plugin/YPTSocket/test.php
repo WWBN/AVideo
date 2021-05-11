@@ -200,6 +200,11 @@ function printIfComplete() {
             $msg .= '*** Server host: ' . ($value->host) . PHP_EOL;
             $msg .= '-------------------------------------------------------' . PHP_EOL . PHP_EOL;
         }
+        if(empty($responses)){
+            $msg .= 'Restarting socket server' . PHP_EOL;
+            $msg .= restartServer();
+            $msg .= 'Restarting complete' . PHP_EOL;
+        }
         _log($msg);
     }
 }
