@@ -63,6 +63,21 @@ class Message implements MessageComponentInterface {
 
         $this->clients[$conn->resourceId] = $client;
 
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $limit = 250;
+        } else {
+            $limit = 900;
+        }
+        
+        if(count($this->clients)>$limit){
+            $resourceId = array_key_first($this->clients);
+            _log_message("\e[1;32;40m*** Closing connection {$resourceId} ***\e[0m");
+            //$this->clients[$resourceId]->close();
+            //$this->clients->detach($this->clients[$resourceId]['conn']);
+            $this->clients[$resourceId]['conn']->close();
+            unset($resourceId);
+        }
+        
         if ($client['browser'] == \SocketMessageType::TESTING) {
             _log_message("Test detected and received from ($conn->resourceId) " . PHP_EOL . "\e[1;32;40m*** SUCCESS TEST CONNECION {$json->test_msg} ***\e[0m");
             $this->msgToResourceId($json, $conn->resourceId, \SocketMessageType::TESTING);
