@@ -2802,13 +2802,13 @@ if (!class_exists('Video')) {
                     if (file_exists($source['path']) && filesize($source['path']) < 1024) {
                         if (!empty($aws_s3)) {
                             $source = $aws_s3->getAddress("{$filename}{$type}");
-                            $source['url'] = replaceCDNIfNeed($source['url'], 'S3');
+                            $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_S3');
                         } elseif (!empty($bb_b2)) {
                             $source = $bb_b2->getAddress("{$filename}{$type}");
-                            $source['url'] = replaceCDNIfNeed($source['url'], 'B2');
+                            $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_B2');
                         } elseif (!empty($ftp)) {
                             $source = $ftp->getAddress("{$filename}{$type}");
-                            $source['url'] = replaceCDNIfNeed($source['url'], 'FTP');
+                            $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_FTP');
                         }
                     }
                 }

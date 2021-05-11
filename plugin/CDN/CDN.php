@@ -104,7 +104,7 @@ class CDN extends PluginAbstract {
         return false;
     }
 
-    static function getS3URL() {
+    static function getCDN_S3URL() {
         $plugin = AVideoPlugin::getDataObjectIfEnabled('AWS_S3');
         $CDN_S3 = '';
         if (!empty($plugin)) {
@@ -123,7 +123,7 @@ class CDN extends PluginAbstract {
         return $CDN_S3;
     }
 
-    static function getB2URL() {
+    static function getCDN_B2URL() {
         $CDN_B2 = '';
         $plugin = AVideoPlugin::getDataObjectIfEnabled('Blackblaze_B2');
         if (!empty($plugin)) {
@@ -136,7 +136,7 @@ class CDN extends PluginAbstract {
         return $CDN_B2;
     }
 
-    static function getFTPURL() {
+    static function getCDN_FTPURL() {
         $CDN_FTP = '';
         $plugin = AVideoPlugin::getDataObjectIfEnabled('FTP_Storage');
         if (!empty($plugin)) {

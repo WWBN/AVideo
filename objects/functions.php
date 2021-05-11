@@ -5888,17 +5888,17 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
         if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
             $source = $aws_s3->getAddress("{$fileName}");
             $url = $source['url'];
-            $url = replaceCDNIfNeed($url, 'S3');
+            $url = replaceCDNIfNeed($url, 'CDN_S3');
         } else
         if ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
             $source = $bb_b2->getAddress("{$fileName}");
             $url = $source['url'];
-            $url = replaceCDNIfNeed($url, 'B2');
+            $url = replaceCDNIfNeed($url, 'CDN_B2');
         } else
         if ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
             $source = $ftp->getAddress("{$fileName}");
             $url = $source['url'];
-            $url = replaceCDNIfNeed($url, 'FTP');
+            $url = replaceCDNIfNeed($url, 'CDN_FTP');
         }
     }
     if (empty($url)) {
@@ -6591,18 +6591,13 @@ function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
         return $url;
     }
     
-    eval("if(method_exists('CDN','get{$type}URL')){\$defaultURL = CDN::get{$type}URL();}");
-    
-    if(empty($defaultURL)){
-        return $url;
-    }
-    $cdn = addLastSlash($cdn);
-    $defaultURL = addLastSlash($defaultURL);
-    
-    return str_replace($defaultURL, $cdn, $url);
+    return str_replace(parse_url($url, PHP_URL_HOST), parse_url($cdn, PHP_URL_HOST), $url);
 }
 
 function isIPPrivate($ip) {
+    if($ip=='192.168.1.4'){
+        return false;
+    }
     if (!filter_var($ip, FILTER_VALIDATE_IP)) {
         return false;
     }
