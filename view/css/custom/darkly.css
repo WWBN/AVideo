@@ -42,3 +42,7 @@
 #mainNavBar div.navbar-header.pull-right > ul > li > div > ul.dropdown-menu-right{
     margin-top: 12px;
 }
+#mainNavBar div.navbar-header.pull-right{
+    width: 50px;
+    margin: 0 5px;
+}
