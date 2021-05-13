@@ -20,7 +20,7 @@ class YPTSocket extends PluginAbstract {
         $desc .= "<br>To start it on server now <code>sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &</code>";
         $desc .= "<br>To test use <code>php {$global['systemRootPath']}plugin/YPTSocket/test.php</code>";
         $desc .= "<br>To start it on server reboot add it on your crontab (Ubuntu 18+) <code>sudo crontab -eu root</code> than add this code on the last line <code>@reboot sleep 60;nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &</code>";
-        $desc .= "<br>If you use Certbot to renew your SSL use (Ubuntu 18+) <code>sudo crontab -eu root</code> than add this code on the last line <code>@reboot sleep 60;nohup php {$global['systemRootPath']}plugin/YPTSocket/serverCertbot.php &</code>";
+        $desc .= "<br>If you use Certbot to renew your SSL use (Ubuntu 18+) <code>sudo crontab -eu root</code> than add this code on the last line <code>0 1 * * * nohup php {$global['systemRootPath']}plugin/YPTSocket/serverCertbot.php &</code>";
         $help = "<br>run this command start the server <small><a href='https://github.com/WWBN/AVideo/wiki/Socket-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
 
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
