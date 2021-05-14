@@ -352,7 +352,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         sqlDAL::close($res);
         if ($res) {
             $row = $data;
-            return Live::getLiveIndexFromKey($row['key']);
+            return Live::getLiveIndexFromKey(@$row['key']);
         } else {
             return false;
         }
