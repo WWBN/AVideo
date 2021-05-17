@@ -53,6 +53,7 @@ class VideoTags extends PluginAbstract {
                     continue;
                 }
                 foreach ($value['items'] as $value2) {
+                    $value2 = trim(preg_replace("/[^[:alnum:][:space:]_-]/u", '', $value2));
                     // check if exists
                     // create case do not exists
                     $tag = self::getOrCreateTagFromName($value2, $value['id']);
@@ -70,6 +71,7 @@ class VideoTags extends PluginAbstract {
 
     static function getTagFromName($name, $tags_types_id) {
         $tag = new Tags(0);
+        $name = trim(preg_replace("/[^[:alnum:][:space:]_-]/u", '', $name));
         $tag->loadFromName($name, $tags_types_id);
         return $tag;
     }
@@ -79,6 +81,7 @@ class VideoTags extends PluginAbstract {
     }
 
     static function getOrCreateTagFromName($name, $tags_types_id) {
+        $name = trim(preg_replace("/[^[:alnum:][:space:]_-]/u", '', $name));
         $tag = self::getTagFromName($name, $tags_types_id);
         $id = $tag->getId();
         if (empty($id) && self::canCreateTag()) {
