@@ -137,6 +137,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
         if (!empty($_FILES['upl']['tmp_name'])) {
             AVideoPlugin::afterNewVideo($obj->videos_id);
+            $video->setAutoStatus(Video::$statusActive);
         }
 
         if ($extension !== "jpg" && $video->getType() == "image") {
