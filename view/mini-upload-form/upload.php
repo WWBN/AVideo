@@ -43,7 +43,8 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     if (empty($videos_id)) {
         $video = new Video($title, $filename, 0);
     } else {
-        $video = new Video("", $filename, $videos_id);
+        $video = new Video("", "", $videos_id);
+        $filename = $video->getFilename();
         if ($video->getTitle() === "Video automatically booked") {
             $video->setTitle($title);
             $video->setStatus(Video::$statusInactive);

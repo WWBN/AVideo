@@ -137,8 +137,12 @@ $obj->msg = $msg;
 $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
-$obj->video = Video::getVideo($obj->videos_id, false, true);
-
+if(!empty($_POST['id'])){
+    $obj->video = Video::getVideo($obj->videos_id, false, true);
+}else{
+    $obj->video = array();
+    $obj->video['id'] = $obj->videos_id;
+}
 
 TimeLogEnd(__FILE__, __LINE__);
 echo json_encode($obj);

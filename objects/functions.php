@@ -3677,7 +3677,7 @@ function getUsageFromFilename($filename, $dir = "") {
     session_write_close();
     $filesProcessed = array();
     if (empty($files)) {
-        _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one");
+        _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one ". json_encode(debug_backtrace()));
         file_put_contents("{$dir}{$filename}.notfound", time());
         $totalSize = 10;
     } else {
