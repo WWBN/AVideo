@@ -10,7 +10,7 @@ if (empty($advancedCustom->openEncoderInIFrame) || !isSameDomainAsMyAVideo($conf
             </form>
             <a href="#" onclick="$('#formEncoderN').submit();
                     return false;"  data-toggle="tooltip" title="<?php echo __("Choose one of our encoders to upload a file or download it from the Internet"); ?>" data-placement="left" >
-                <span class="fa fa-cogs"></span> <?php echo empty($advancedCustom->encoderNetworkLabel) ? __("Encoder Network") : $advancedCustom->encoderNetworkLabel; ?>
+                <span class="fa fa-cogs"></span> <?php echo empty($advancedCustom->encoderNetworkLabel) ? __("Encoder Network") : __($advancedCustom->encoderNetworkLabel); ?>
             </a>
         </li>
         <?php
@@ -26,7 +26,7 @@ if (empty($advancedCustom->openEncoderInIFrame) || !isSameDomainAsMyAVideo($conf
                 </form>
                 <a href="#" onclick="$('#formEncoder').submit();
                         return false;"  data-toggle="tooltip" title="<?php echo __("Upload a file or download it from the Internet"); ?>" data-placement="left" >
-                    <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?>
+                    <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?>
                 </a>
             </li>
             <?php
@@ -44,7 +44,7 @@ if (empty($advancedCustom->openEncoderInIFrame) || !isSameDomainAsMyAVideo($conf
         ?>
         <li>
             <a href="<?php echo $global['webSiteRootURL']; ?>i/network"  data-toggle="tooltip" title="<?php echo __("Choose one of our encoders to upload a file or download it from the Internet"); ?>" data-placement="left" >
-                <span class="fa fa-cogs"></span> <?php echo empty($advancedCustom->encoderNetworkLabel) ? __("Encoder Network") : $advancedCustom->encoderNetworkLabel; ?>
+                <span class="fa fa-cogs"></span> <?php echo empty($advancedCustom->encoderNetworkLabel) ? __("Encoder Network") : __($advancedCustom->encoderNetworkLabel); ?>
             </a>
         </li>
         <?php
@@ -54,7 +54,7 @@ if (empty($advancedCustom->openEncoderInIFrame) || !isSameDomainAsMyAVideo($conf
             ?>
             <li>
                 <a href="<?php echo $global['webSiteRootURL']; ?>i/upload"  data-toggle="tooltip" title="<?php echo __("Upload a file or download it from the Internet"); ?>" data-placement="left" >
-                    <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?>
+                    <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?>
                 </a>
             </li>
             <?php
