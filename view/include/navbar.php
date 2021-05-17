@@ -7,8 +7,13 @@ if (isset($_GET['noNavbar'])) {
         $_SESSION['noNavbar'] = 0;
         $_SESSION['noNavbarClose'] = 0;
     }
+}else{
+    if(!isIframe()){
+        _session_start();
+        unset($_SESSION['noNavbar']);
+    }
 }
-if (isIframe() && !empty($_SESSION['noNavbar'])) {
+if (!empty($_SESSION['noNavbar'])) {
     if (isset($_GET['noNavbarClose'])) {
         _session_start();
         if (!empty($_GET['noNavbar'])) {
