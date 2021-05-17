@@ -4737,13 +4737,17 @@ function getTmpDir($subdir = "") {
         $_SESSION['getTmpDir'] = array();
     }
     if (empty($_SESSION['getTmpDir'][$subdir . "_"])) {
-        $tmpDir = sys_get_temp_dir();
-        if (empty($tmpDir) || !_isWritable($tmpDir)) {
-            $tmpDir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
+        if(empty($global['tmpDir'])){
+            $tmpDir = sys_get_temp_dir();
+            if (empty($tmpDir) || !_isWritable($tmpDir)) {
+                $tmpDir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
+            }
+            $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            $tmpDir = "{$tmpDir}{$subdir}";
+        }else{
+            $tmpDir = $global['tmpDir'];
         }
-        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-        $tmpDir = "{$tmpDir}{$subdir}";
-        $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $tmpDir = addLastSlash($tmpDir);
         if (!is_dir($tmpDir)) {
             mkdir($tmpDir, 0755, true);
         }
