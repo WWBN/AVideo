@@ -5971,6 +5971,10 @@ function getThemes() {
 
 function getCurrentTheme() {
     global $config;
+    if(!empty($_REQUEST['customCSS'])){
+        _setcookie('customCSS', $_REQUEST['customCSS']);
+        return $_REQUEST['customCSS'];
+    }
     if (!empty($_COOKIE['customCSS'])) {
         return $_COOKIE['customCSS'];
     }
