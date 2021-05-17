@@ -3534,14 +3534,16 @@ function _error_log($message, $type = 0, $doNotRepeat = false) {
     error_log($prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}");
 }
 
-function postVariables($url, $array) {
+function postVariables($url, $array, $httpcodeOnly = true) {
     if (!$url || !is_string($url) || !preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)) {
         return false;
     }
     $array = object_to_array($array);
     $ch = curl_init($url);
-    @curl_setopt($ch, CURLOPT_HEADER, true);  // we want headers
-    @curl_setopt($ch, CURLOPT_NOBODY, true);  // we don't need body
+    if($httpcodeOnly){
+        @curl_setopt($ch, CURLOPT_HEADER, true);  // we want headers
+        @curl_setopt($ch, CURLOPT_NOBODY, true);  // we don't need body
+    }
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $array);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -3549,14 +3551,19 @@ function postVariables($url, $array) {
 
     // execute!
     $response = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if($httpcodeOnly){
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-    // close the connection, release resources used
-    curl_close($ch);
-    if ($httpcode == 200) {
-        return true;
+        // close the connection, release resources used
+        curl_close($ch);
+        if ($httpcode == 200) {
+            return true;
+        }
+        return $httpcode;
+    } else {
+        curl_close($ch);
+        return $response;
     }
-    return $httpcode;
 }
 
 function _session_start(array $options = array()) {
@@ -5373,7 +5380,7 @@ function isIframe() {
     if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') {
         return true;
     }
-    if (empty($_SERVER['HTTP_REFERER'])) {
+    if (empty($_SERVER['HTTP_REFERER']) || $_SERVER['HTTP_REFERER'] == $global['webSiteRootURL']) {
         return false;
     }
     return true;
