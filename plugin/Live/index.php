@@ -53,8 +53,6 @@ if (!empty($_GET['resetKey'])) {
     exit;
 }
 
-$liveStreamObject = new LiveStreamObject($trasnmition['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index'], 0);
-
 $aspectRatio = "16:9";
 $vjsClass = "vjs-16-9";
 
@@ -112,6 +110,8 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                         <?php
                         $activeServerFound = false;
                         if (!$obj->useLiveServers) {
+                            $liveStreamObject = new LiveStreamObject($trasnmition['key'], 0, @$_REQUEST['live_index'], 0);
+                            $key = $liveStreamObject->getKeyWithIndex(true);
                             $activeServerFound = true;
                             $_REQUEST['live_servers_id'] = 0;
                             ?>
@@ -124,14 +124,16 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                         } else {
                             $servers = Live::getAllServers();
                             $activeFound = false;
-                            foreach ($servers as $key => $value) {
+                            foreach ($servers as $index => $value) {
+                                $liveStreamObject = new LiveStreamObject($trasnmition['key'], $value['id'], @$_REQUEST['live_index'], 0);
+                                $key = $liveStreamObject->getKeyWithIndex(true);
                                 $active = "";
                                 if (isset($_REQUEST['live_servers_id'])) {
                                     if ($_REQUEST['live_servers_id'] == $value['id']) {
                                         $activeServerFound = true;
                                         $active = "active";
                                     }
-                                } else if ($key == 0) {
+                                } else if ($index == 0) {
                                     $_REQUEST['live_servers_id'] = $value['id'];
                                     $activeServerFound = true;
                                     $active = "active";
