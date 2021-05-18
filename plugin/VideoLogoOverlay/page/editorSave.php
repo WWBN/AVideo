@@ -14,7 +14,7 @@ $plugin = new VideoLogoOverlay();
 $obj = new stdClass();
 
 $o = $plugin->getDataObject();
-$o->position = $_POST['position'];
+$o->position->value = $_POST['position'];
 $o->opacity = $_POST['opacity'];
 $o->url = $_POST['url'];
 
