@@ -1197,7 +1197,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     //$parsed_cats[] = $subcat['id'];
                                     echo '<li class="navsub-toggle ' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
                                     . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
-                                    . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . $subcat['name'] . ' <span class="badge">' . $subcat['total'] . '</span>';
+                                    . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . __($subcat['name']) . ' <span class="badge">' . $subcat['total'] . '</span>';
                                     echo '</a>';
                                     mkSub($subcat['id']);
                                     echo '</li>';
@@ -1233,7 +1233,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             //$parsed_cats[] = $value['id'];
                             echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
                             . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >';
-                            echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . $value['name'];
+                            echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . __($value['name']);
                             if (empty($advancedCustom->hideCategoryVideosCount)) {
                                 echo ' <span class="badge">' . $total . '</span>';
                             }
