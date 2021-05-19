@@ -887,7 +887,10 @@ if (!class_exists('Video')) {
         static function getRelatedMovies($videos_id, $limit = 10) {
             global $global;
             $video = self::getVideoLight($videos_id);
-            $sql = "SELECT * FROM videos v WHERE v.status='a' AND (categories_id = {$video['categories_id']} ";
+            if(empty($video)){
+                return false;
+            }
+            $sql = "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='a' AND (categories_id = {$video['categories_id']} ";
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 $sql .= " OR (";
                 $sql .= "v.id IN (select videos_id FROM tags_has_videos WHERE tags_id IN "
@@ -895,7 +898,11 @@ if (!class_exists('Video')) {
                 $sql .= ")";
             }
 
-            $sql .= ") ORDER BY RAND() LIMIT {$limit} ";
+            $sql .= ") ";
+            
+            $sql .= AVideoPlugin::getVideoWhereClause();
+            
+            $sql .= "ORDER BY RAND() LIMIT {$limit} ";
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
 
