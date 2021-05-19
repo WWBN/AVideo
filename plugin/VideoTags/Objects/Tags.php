@@ -93,6 +93,7 @@ class Tags extends ObjectYPT {
             $obj = new stdClass();
             $obj->type_name = $value['type_name'];
             $obj->tag_types_id = $value['tags_types_id'];
+            $obj->tags_id = $value['tags_id'];
             $obj->name = $value['name'];
             $tagsArray[] = $obj;
         }
