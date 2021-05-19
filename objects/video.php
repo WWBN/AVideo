@@ -65,7 +65,8 @@ if (!class_exists('Video')) {
             'x' => 'Encoding Error',
             'd' => 'Downloading',
             't' => 'Transfering',
-            'u' => 'Unlisted');
+            'u' => 'Unlisted',
+            'r' => 'Recording');
         public static $statusActive = 'a';
         public static $statusActiveAndEncoding = 'k';
         public static $statusInactive = 'i';
@@ -74,6 +75,7 @@ if (!class_exists('Video')) {
         public static $statusDownloading = 'd';
         public static $statusTranfering = 't';
         public static $statusUnlisted = 'u';
+        public static $statusRecording = 'r';
         public static $rratingOptions = array('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
         //ver 3.4
         private $youtubeId;
@@ -882,6 +884,34 @@ if (!class_exists('Video')) {
             }
         }
 
+        static function getRelatedMovies($videos_id, $limit = 10) {
+            global $global;
+            $video = self::getVideoLight($videos_id);
+            $sql = "SELECT * FROM videos v WHERE v.status='a' AND (categories_id = {$video['categories_id']} ";
+            if (AVideoPlugin::isEnabledByName("VideoTags")) {
+                $sql .= " OR (";
+                $sql .= "v.id IN (select videos_id FROM tags_has_videos WHERE tags_id IN "
+                        . " (SELECT tags_id FROM tags_has_videos WHERE videos_id = {$videos_id}))";
+                $sql .= ")";
+            }
+
+            $sql .= ") ORDER BY RAND() LIMIT {$limit} ";
+            $res = sqlDAL::readSql($sql);
+            $fullData = sqlDAL::fetchAllAssoc($res);
+
+            sqlDAL::close($res);
+            $rows = array();
+            if ($res != false) {
+                foreach ($fullData as $row) {
+                    $row['images'] = self::getImageFromFilename($row['filename']);
+                    $rows[] = $row;
+                }
+            } else {
+                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+            return $rows;
+        }
+
         /**
          *
          * @global type $global
@@ -1130,6 +1160,7 @@ if (!class_exists('Video')) {
                         $otherInfo['title'] = UTF8encode($row['title']);
                         $otherInfo['description'] = UTF8encode($row['description']);
                         $otherInfo['descriptionHTML'] = self::htmlDescription($otherInfo['description']);
+                        $otherInfo['relatedVideos'] = self::getRelatedMovies($row['id']);
                         if (empty($row['filesize'])) {
                             $otherInfo['filesize'] = Video::updateFilesize($row['id']);
                         }
@@ -2834,7 +2865,7 @@ if (!class_exists('Video')) {
                 }
                 $source['url'] .= "?{$x}";
             }
-            
+
             //ObjectYPT::setCache($name, $source);
             $VideoGetSourceFile[$cacheName] = $source;
             return $VideoGetSourceFile[$cacheName];
@@ -2864,10 +2895,10 @@ if (!class_exists('Video')) {
             return file_put_contents($lock, time());
         }
 
-        public static function getPaths($videoFilename, $createDir=false) {
+        public static function getPaths($videoFilename, $createDir = false) {
             global $global;
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
-            $videosDir = self::getStoragePath();            
+            $videosDir = self::getStoragePath();
             if (is_dir("{$videosDir}{$videoFilename}")) {
                 $path = addLastSlash("{$videosDir}{$videoFilename}");
             } else if (preg_match('/index\.m3u8$/', $videoFilename)) {
@@ -2875,7 +2906,7 @@ if (!class_exists('Video')) {
             } else {
                 $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
             }
-            if($createDir){
+            if ($createDir) {
                 make_path(addLastSlash($path));
             }
             $relative = addLastSlash("videos/{$cleanVideoFilename}");
@@ -2883,12 +2914,12 @@ if (!class_exists('Video')) {
             return array('filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative);
         }
 
-        public static function getPathToFile($videoFilename, $createDir=false) {
+        public static function getPathToFile($videoFilename, $createDir = false) {
             $paths = Video::getPaths($videoFilename, $createDir);
             return "{$paths['path']}{$videoFilename}";
         }
 
-        public static function getURLToFile($videoFilename, $createDir=false) {
+        public static function getURLToFile($videoFilename, $createDir = false) {
             $paths = Video::getPaths($videoFilename, $createDir);
             return "{$paths['url']}{$videoFilename}";
         }
@@ -2914,8 +2945,8 @@ if (!class_exists('Video')) {
             $videoFilename = strtolower("{$prefix}_{$date}_{$uid}");
             return self::getPaths($videoFilename);
         }
-        
-         public static function isNewVideoFilename($filename) {
+
+        public static function isNewVideoFilename($filename) {
             $filename = self::getCleanFilenameFromFile($filename);
             return preg_match('/_([0-9]{12})_([0-9a-z]{4})$/i', $filename);
         }
@@ -2940,9 +2971,9 @@ if (!class_exists('Video')) {
             }
 
             if (isAnyStorageEnabled()) {
-                 $newFilename = self::getPaths($video['filename']);
-                 $id = $video['id'];
-            }else{
+                $newFilename = self::getPaths($video['filename']);
+                $id = $video['id'];
+            } else {
                 $newFilename = self::getNewVideoFilename($video['type'], strtotime($video['created']));
                 $v = new Video('', '', $video['id']);
                 $v->setFilename($newFilename['filename'], true);
@@ -3016,11 +3047,11 @@ if (!class_exists('Video')) {
             $filename = fixPath($filename);
             $filename = str_replace(getVideosDir(), '', $filename);
             $search = array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_spectrum', '_tvg', '.notfound');
-            
-            if(!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])){
+
+            if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {
                 $search = array_merge($search, $global['langs_codes_values_withdot']);
             }
-            
+
             if (empty($global['avideo_resolutions']) || !is_array($global['avideo_resolutions'])) {
                 $global['avideo_resolutions'] = array(240, 360, 480, 540, 720, 1080, 1440, 2160);
             }
@@ -3044,7 +3075,7 @@ if (!class_exists('Video')) {
                 return $cleanName;
             } else if ($path_parts['filename'] == 'index' && $path_parts['extension'] == 'm3u8') {
                 $parts = explode(DIRECTORY_SEPARATOR, $cleanName);
-                if(!empty($parts[0])){
+                if (!empty($parts[0])) {
                     return $parts[0];
                 }
                 return $parts[1];
