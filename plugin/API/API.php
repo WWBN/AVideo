@@ -397,7 +397,7 @@ class API extends PluginAbstract {
             //$rows[$key]['wwbnProgram'] = $rows[$key]['pageUrl'];
             //$rows[$key]['wwbnProgramURL'] = $rows[$key]['pageUrl'];
             $rows[$key]['wwbnType'] = $rows[$key]['type'];
-            $rows[$key]['relatedVideos'] = Video::getRelatedMovies($value['id']);
+            $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
         }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
