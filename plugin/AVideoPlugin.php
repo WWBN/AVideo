@@ -2030,6 +2030,7 @@ class AVideoPlugin {
                 'Layout', // Layout
                 'PlayerSkins', // PlayerSkins
                 'Permissions', // Permissions
+                'Scheduler', // Permissions
             );
         } else {
             return array(
@@ -2038,6 +2039,7 @@ class AVideoPlugin {
                 'layout84-8f5a-4d1b-b912-172c608bf9e3', // Layout
                 'e9a568e6-ef61-4dcc-aad0-0109e9be8e36', // PlayerSkins
                 'Permissions-5ee8405eaaa16', // Permissions
+                'Scheduler-5ee8405eaaa16', // Permissions
             );
         }
     }
