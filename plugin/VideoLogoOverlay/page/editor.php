@@ -41,8 +41,8 @@ $o = AVideoPlugin::getObjectData("VideoLogoOverlay");
                         <div class="col-md-10 ">
                             <select class="form-control" id="position">
                                 <?php
-                                foreach ($o->position_options as $value) {
-                                    echo "<option ".($value==$o->position?"selected='selected'":"").">{$value}</option>";
+                                foreach ($o->position->type as $value) {
+                                    echo "<option ".($value==$o->position->value?"selected='selected'":"").">{$value}</option>";
                                 }
                                 ?>  
                             </select>

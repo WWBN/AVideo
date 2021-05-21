@@ -32,7 +32,6 @@ class VideoLogoOverlay extends PluginAbstract {
         $obj->position = $o;
         $obj->opacity = 50;
         $obj->useUserChannelImageAsLogo = true;
-        $obj->position_options = $o->type;
         return $obj;
     }
     
@@ -101,10 +100,12 @@ class VideoLogoOverlay extends PluginAbstract {
         $url = VideoLogoOverlay::getLink();
         $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
         $logoOverlay = "{$global['webSiteRootURL']}videos/logoOverlay.png";
+        $cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
         if ($obj->useUserChannelImageAsLogo) {
             $logoOverlay = User::getPhoto($video['users_id']);
+            $cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
         }
-        $html = '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a></div>';
+        $html = '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img-responsive '.$cols.'"></a></div>';
         $js = "$('{$html}').appendTo('#mainVideo');";
         PlayerSkins::addOnPlayerReady($js);
     }
