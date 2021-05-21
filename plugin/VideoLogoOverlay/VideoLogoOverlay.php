@@ -91,6 +91,7 @@ class VideoLogoOverlay extends PluginAbstract {
     }
 
     function getFooterCode() {
+        global $global;
         if(!isVideo()){
             return '';
         }
