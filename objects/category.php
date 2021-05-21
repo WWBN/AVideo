@@ -326,7 +326,7 @@ class Category {
         return $id;
     }
 
-    static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false) {
+    static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false) {
         global $global, $config;
         if ($config->currentVersionLowerThen('8.4')) {
             return false;
@@ -334,6 +334,9 @@ class Category {
         $sql = "SELECT * FROM categories c WHERE 1=1 ";
         if (!empty($_GET['parentsOnly'])) {
             $sql .= "AND parentId = 0 ";
+        }
+        if ($onlySuggested) {
+            $sql .= "AND suggested = 1 ";
         }
         if ($filterCanAddVideoOnly && !User::isAdmin()) {
             if (is_int($filterCanAddVideoOnly)) {
@@ -723,13 +726,16 @@ class Category {
         //session_write_close();
     }
 
-    static function getTotalCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false) {
+    static function getTotalCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false) {
         global $global, $config;
 
         if ($config->currentVersionLowerThen('5.01')) {
             return false;
         }
         $sql = "SELECT id, parentId FROM categories c WHERE 1=1 ";
+        if ($onlySuggested) {
+            $sql .= "AND suggested = 1 ";
+        }
         if ($filterCanAddVideoOnly && !User::isAdmin()) {
             if (is_int($filterCanAddVideoOnly)) {
                 $users_id = $filterCanAddVideoOnly;

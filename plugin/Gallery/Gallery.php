@@ -102,6 +102,7 @@ class Gallery extends PluginAbstract {
         $obj->CategoriesCustomTitle = "";
         $obj->CategoriesRowCount = 12;
         $obj->CategoriesOrder = 7;
+        $obj->CategoriesShowOnlySuggested = false;
         
         $obj->sortReverseable = false;
         $obj->SubCategorys = false;

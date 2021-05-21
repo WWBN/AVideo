@@ -10,8 +10,8 @@ $obj = AVideoPlugin::getObjectData("Gallery");
 $liveobj = AVideoPlugin::getObjectData("Live");
 $_REQUEST['rowCount'] = 2;
 $_REQUEST['current'] = getCurrentPage();
-$categories = Category::getAllCategories(false, true);
-$total = Category::getTotalCategories(false, true);
+$categories = Category::getAllCategories(false, true, true);
+$total = Category::getTotalCategories(false, true, true);
 $totalPages = ceil($total / getRowCount());
 $page = getCurrentPage();
 if ($totalPages < $page) {
