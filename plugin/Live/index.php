@@ -247,6 +247,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                             "categories_id": $('select[name="categories_id"]').val(),
                             "key": "<?php echo $trasnmition['key']; ?>",
                             "listed": $('#listed').is(":checked"),
+                            "saveTransmition": $('#recordLive').is(":checked"),
                             "userGroups": selectedUserGroups
                         },
                         type: 'post',

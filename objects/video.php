@@ -626,7 +626,7 @@ if (!class_exists('Video')) {
                     . " nv.clean_title as next_clean_title,"
                     . " nv.filename as next_filename,"
                     . " nv.id as next_id,"
-                    . " c.id as category_id,c.iconClass,c.name as category,c.iconClass,  c.clean_name as clean_category,c.description as category_description,c.nextVideoOrder as category_order, v.created as videoCreation, "
+                    . " c.id as category_id,c.iconClass,c.name as category,c.iconClass,  c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, "
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
                     . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes ";
             if (User::isLogged()) {
@@ -2254,6 +2254,9 @@ if (!class_exists('Video')) {
                         break;
                     case Video::$statusUnlisted:
                         $objTag->type = "info";
+                        break;
+                    case Video::$statusRecording:
+                        $objTag->type = "danger isRecording isRecordingIcon";
                         break;
                     default:
                         $objTag->type = "danger";

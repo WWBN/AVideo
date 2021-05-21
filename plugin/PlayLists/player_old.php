@@ -145,17 +145,6 @@ if (!empty($video['id'])) {
 
                             </div>
                             <?php
-                            if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
-                                require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-                                $style = VideoLogoOverlay::getStyle();
-                                $url = VideoLogoOverlay::getLink();
-                                ?>
-                                <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
-                                    <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
-                                </div>
-                            <?php } ?>
-
-                            <?php
                             showCloseButton();
                             ?>
                         </div>

@@ -34,6 +34,19 @@
                                     <label for="listed" class="label-success"></label> 
                                 </div>
                             </div>
+                            <?php
+                            if (AVideoPlugin::isEnabledByName('SendRecordedToEncoder') && SendRecordedToEncoder::canApprove(User::getId())) {
+                                ?> 
+                                <div class="form-group">
+                                    <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?> 
+                                    <div class="material-switch pull-right">
+                                        <input id="recordLive" type="checkbox" value="1" <?php echo SendRecordedToEncoder::userApproved(User::getId()) ? "checked" : ""; ?> onchange="saveStream();"/>
+                                        <label for="recordLive" class="label-success"></label> 
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
                         <div class="col-sm-6">
 

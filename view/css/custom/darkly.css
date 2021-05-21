@@ -33,6 +33,10 @@
 #myNavbar .select2-selection{
     height: 45px;
 }
+#rightLoginButton{
+    height: 45px;
+    padding: 10px 15px !important;
+}
 #rightProfileButton > img{
     height: 45px !important;
     width: 45px !important;
@@ -45,4 +49,10 @@
 #mainNavBar div.navbar-header.pull-right{
     width: 50px;
     margin: 0 5px;
+}
+th a, .select2-container--default span{
+    color: #FFF !important;
+}
+th:hover, .select2-dropdown{
+    background-color: #111 !important;
 }

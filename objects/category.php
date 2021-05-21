@@ -23,7 +23,16 @@ class Category {
     private $private;
     private $allow_download;
     private $order;
+    private $suggested;
 
+    function getSuggested() {
+        return empty($this->suggested)?0:1;
+    }
+
+    function setSuggested($suggested) {
+        $this->suggested = empty($suggested)?0:1;
+    }
+        
     function getOrder() {
         return intval($this->order);
     }
@@ -72,40 +81,6 @@ class Category {
     function setParentId($parentId) {
         $this->parentId = $parentId;
     }
-
-    /*
-      function setType($type, $overwriteUserId = 0) {
-      global $global;
-      $internalId = $overwriteUserId;
-      if (empty($internalId)) {
-      $internalId = $this->id;
-      }
-      $exist = false;
-      // require this cause of Video::autosetCategoryType - but should be moveable easy here..
-      require_once dirname(__FILE__) . '/../objects/video.php';
-      $sql = "SELECT * FROM `category_type_cache` WHERE categoryId = ?";
-      $res = sqlDAL::readSql($sql, "i", array($internalId));
-      $catTypeCache = sqlDAL::fetchAssoc($res);
-      sqlDAL::close($res);
-      if ($catTypeCache != false) {
-      $exist = true;
-      }
-
-      if ($type == "3") {
-      // auto-cat-type
-      Video::autosetCategoryType($internalId);
-      } else {
-      if ($exist) {
-      $sql = "UPDATE `category_type_cache` SET `type` = ?, `manualSet` = '1' WHERE `category_type_cache`.`categoryId` = ?;";
-      sqlDAL::writeSql($sql, "si", array($type, $internalId));
-      } else {
-      $sql = "INSERT INTO `category_type_cache` (`categoryId`, `type`, `manualSet`) VALUES (?,?,'1')";
-      sqlDAL::writeSql($sql, "is", array($internalId, $type));
-      }
-      }
-      }
-     *
-     */
 
     function setDescription($description) {
         $this->description = $description;
@@ -170,9 +145,10 @@ class Category {
                     . "parentId = ?,"
                     . "iconClass = ?,"
                     . "users_id = ?,"
+                    . "suggested = ?,"
                     . "`private` = ?, allow_download = ?, `order` = ?, modified = now() WHERE id = ?";
-            $format = "sssiisiiiii";
-            $values = array($this->name, $this->clean_name, $this->description, $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate(), $this->getAllow_download(), $this->getOrder(), $this->id);
+            $format = "sssiisiiiiii";
+            $values = array($this->name, $this->clean_name, $this->description, intval($this->nextVideoOrder), $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getSuggested(), $this->getPrivate(), $this->getAllow_download(), $this->getOrder(), $this->id);
         } else {
             $sql = "INSERT INTO categories ( "
                     . "name,"
@@ -182,9 +158,10 @@ class Category {
                     . "parentId,"
                     . "iconClass, "
                     . "users_id, "
-                    . "`private`, allow_download, `order`, created, modified) VALUES (?, ?,?,?,?,?,?,?,?,?,now(), now())";
-            $format = "sssiisiiii";
-            $values = array($this->name, $this->clean_name, $this->description, $this->nextVideoOrder, $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getPrivate(), $this->getAllow_download(), $this->getOrder());
+                    . "suggested, "
+                    . "`private`, allow_download, `order`, created, modified) VALUES (?, ?,?,?,?,?,?,?,?,?,?,now(), now())";
+            $format = "sssiisiiiii";
+            $values = array($this->name, $this->clean_name, $this->description, intval($this->nextVideoOrder), $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getSuggested(), $this->getPrivate(), $this->getAllow_download(), $this->getOrder());
         }
 
         $insert_row = sqlDAL::writeSql($sql, $format, $values);
@@ -388,12 +365,12 @@ class Category {
             }
             $sql .= ")";
         }
-        
+
         $sortWhitelist = array('id', 'name', 'clean_name', 'description', 'iconClass', 'nextVideoOrder', 'parentId', 'type', 'users_id', 'private', 'allow_download', 'order');
-        
-        if(!empty($_POST['sort']) && is_array($_POST['sort'])){
+
+        if (!empty($_POST['sort']) && is_array($_POST['sort'])) {
             foreach ($_POST['sort'] as $key => $value) {
-                if(!in_array($key, $sortWhitelist)){
+                if (!in_array($key, $sortWhitelist)) {
                     unset($_POST['sort'][$key]);
                 }
             }
@@ -643,8 +620,7 @@ class Category {
         sqlDAL::close($res);
         return $result;
     }
-    
-    
+
     static function getLatestLiveFromCategory($categories_id) {
         if (!AVideoPlugin::isEnabledByName("Live")) {
             return array();
@@ -849,10 +825,10 @@ class Category {
         if (!file_exists($photo['path']) || !file_exists($background['path'])) {
             return false;
         }
-        if(filesize($photo['path']) <= 190){ // transparent image
+        if (filesize($photo['path']) <= 190) { // transparent image
             return false;
         }
-        if(filesize($background['path']) <= 980 || filesize($background['path']) == 4480){ // transparent image
+        if (filesize($background['path']) <= 980 || filesize($background['path']) == 4480) { // transparent image
             return false;
         }
         return true;

@@ -999,7 +999,12 @@ if (typeof gtag !== \"function\") {
         return !empty($_SESSION['user']['emailVerified']);
     }
 
-    public static function isAdmin() {
+    public static function isAdmin($users_id=0) {
+        if(!empty($users_id)){
+            $user = new User($users_id);
+            return !empty($user->getIsAdmin());
+        }
+        
         self::recreateLoginFromCookie();
         return !empty($_SESSION['user']['isAdmin']);
     }

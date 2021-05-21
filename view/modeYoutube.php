@@ -172,34 +172,6 @@ if (!empty($evideo)) {
         } else {
             $modeYouTubeTimeLog['Code part 1.3'] = microtime(true) - $modeYouTubeTime;
             $modeYouTubeTime = microtime(true);
-            /*
-              if ($video['category_order'] == 1) {
-              $modeYouTubeTimeLog['Code part 1.4'] = microtime(true)-$modeYouTubeTime;
-              $modeYouTubeTime = microtime(true);
-              unset($_POST['sort']);
-              $category = Category::getAllCategories();
-              $_POST['sort']['title'] = "ASC";
-
-              $modeYouTubeTimeLog['Code part 1.4.1'] = microtime(true)-$modeYouTubeTime;
-              $modeYouTubeTime = microtime(true);
-              // maybe there's a more slim method?
-              $videos = Video::getAllVideos();
-              $videoFound = false;
-              $autoPlayVideo;
-              foreach ($videos as $value) {
-              if ($videoFound) {
-              $autoPlayVideo = $value;
-              break;
-              }
-
-              if ($value['id'] == $video['id']) {
-              // if the video is found, make another round to have the next video properly.
-              $videoFound = true;
-              }
-              }
-              } else {
-             * 
-             */
             $modeYouTubeTimeLog['Code part 1.5'] = microtime(true) - $modeYouTubeTime;
             $modeYouTubeTime = microtime(true);
             if (!empty($video['id'])) {

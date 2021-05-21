@@ -100,16 +100,6 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
                         <source src="<?php echo Live::getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                     </video>
-                    <?php
-                    if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
-                        require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-                        $style = VideoLogoOverlay::getStyle();
-                        $url = VideoLogoOverlay::getLink();
-                        ?>
-                        <div style="<?php echo $style; ?>">
-                            <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
-                        </div>
-                    <?php } ?>
 
                     <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="LiveEmbed2">
                         <?php

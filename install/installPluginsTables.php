@@ -75,7 +75,8 @@ if ($option == 1 || $option == 3) {
         array('4b9142c0-f0c3-42be-8fe5-a4775111239c', 'VideoResolutionSwitcher', 'VideoResolutionSwitcher'),
         array('28e74f9a-a2ef-4644-86f0-40234ae7c1b5', 'VideoThumbnails', 'VideoThumbnails'),
         array('meet225-3807-4167-ba81-0509dd280e06', 'Meet', 'Meet'),
-        array('YPTSocket-5ee8405eaaa16', 'YPTSocket', 'YPTSocket')
+        array('YPTSocket-5ee8405eaaa16', 'YPTSocket', 'YPTSocket'),
+        array('Scheduler-5ee8405eaaa16', 'Scheduler', 'Scheduler')
     );
     foreach ($EnablePlugins as $value) {
         if ($plugin = Plugin::getOrCreatePluginByName($value[2], 'active')) {

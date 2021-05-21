@@ -21,6 +21,7 @@ $l->setDescription($_POST['description']);
 $l->setKey($_POST['key']);
 $l->setCategories_id($categories_id);
 $l->setPublic((empty($_POST['listed'])|| $_POST['listed']==='false')?0:1);
+$l->setSaveTransmition((empty($_POST['saveTransmition'])|| $_POST['saveTransmition']==='false')?0:1);
 $l->setUsers_id(User::getId());
 $id = $l->save();
 $l = new LiveTransmition($id);

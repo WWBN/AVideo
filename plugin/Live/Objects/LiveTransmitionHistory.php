@@ -421,8 +421,6 @@ class LiveTransmitionHistory extends ObjectYPT {
             $this->live_servers_id = 'NULL';
         }
 
-        AVideoPlugin::onLiveStream($this->users_id, $this->live_servers_id);
-
         return parent::save();
     }
 

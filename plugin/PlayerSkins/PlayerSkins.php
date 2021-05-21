@@ -188,12 +188,6 @@ class PlayerSkins extends PluginAbstract {
             </div>
             <div id="main-video" class="embed-responsive embed-responsive-16by9">' . $htmlMediaTag . '</div>';
 
-        if (AVideoPlugin::isEnabledByName('VideoLogoOverlay')) {
-            $style = VideoLogoOverlay::getStyle();
-            $url = VideoLogoOverlay::getLink();
-            $html .= '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $global['webSiteRootURL'] . 'videos/logoOverlay.png" alt="Logo"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a></div>';
-        }
-
         $html .= showCloseButton() . '</div></div><div class="'.$col3Classes.'"></div></div>';
 
         return $html;

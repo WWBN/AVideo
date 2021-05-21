@@ -18,7 +18,8 @@
                         <th data-column-id="fullTotal_videos" data-sortable="false"><?php echo __("Videos"); ?></th>
                         <th data-column-id="fullTotal_lives" data-sortable="false"><?php echo __("Lives"); ?></th>
                         <th data-column-id="fullTotal_livelinks" data-sortable="false"><?php echo __("Live Links"); ?></th>
-                        <th data-column-id="allow_download" ><?php echo __("Download"); ?></th>
+                        <th data-column-id="allow_download" data-formatter="download" ><?php echo __("Download"); ?></th>
+                        <th data-column-id="suggested" data-formatter="suggested" ><?php echo __("Suggested"); ?></th>
                         <th data-column-id="order" ><?php echo __("Order"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="130px"></th>
                     </tr>
@@ -111,10 +112,10 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label><?php echo __("Autoplay next-video-order"); ?></label>                        
-                                            <select class="form-control" id="inputNextVideoOrder">
-                                                <option value="0"><?php echo __("Random"); ?></option>
-                                                <option value="1"><?php echo __("By name"); ?></option>
+                                            <label><?php echo __("Suggested"); ?></label>                        
+                                            <select class="form-control" id="inputSuggested">
+                                                <option value="0"><?php echo __("No"); ?></option>
+                                                <option value="1"><?php echo __("Yes"); ?></option>
                                             </select>
                                         </div>
                                     </div>
@@ -217,11 +218,18 @@ echo $croppie2['getCroppieFunction'];
             ajax: true,
             url: "<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>",
             formatters: {
-                "nextVideoOrder": function (column, row) {
-                    if (row.nextVideoOrder == 0) {
-                        return "<?php echo __("Random"); ?>";
+                "download": function (column, row) {
+                    if (row.allow_download == 1) {
+                        return '<i class="far fa-check-square"></i>';
                     } else {
-                        return "<?php echo __("By name"); ?>";
+                        return '<i class="far fa-square"></i>';
+                    }
+                },
+                "suggested": function (column, row) {
+                    if (row.suggested == 1) {
+                        return '<i class="far fa-check-square"></i>';
+                    } else {
+                        return '<i class="far fa-square"></i>';
                     }
                 },
                 "name": function (column, row) {
@@ -274,7 +282,7 @@ echo $croppie2['getCroppieFunction'];
                 $('#inputName').val(row.name);
                 $('#inputCleanName').val(row.clean_name);
                 $('#inputDescription').val(row.description);
-                $('#inputNextVideoOrder').val(row.nextVideoOrder);
+                $('#inputSuggested').val(row.suggested);
                 $('#inputPrivate').val(row.private);
                 $('#allow_download').val(row.allow_download);
                 $('#order').val(row.order);
@@ -379,7 +387,7 @@ echo $croppie1['getCroppieFunction'];
                 "name": $('#inputName').val(),
                 "clean_name": $('#inputCleanName').val(),
                 "description": $('#inputDescription').val(),
-                "nextVideoOrder": $('#inputNextVideoOrder').val(),
+                "suggested": $('#inputSuggested').val(),
                 "private": $('#inputPrivate').val(),
                 "allow_download": $('#allow_download').val(),
                 "order": $('#order').val(),
