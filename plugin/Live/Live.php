@@ -2209,7 +2209,6 @@ class LiveStreamObject {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
         $playerServer = Live::getPlayerServer();
-        $live_servers_id = Live::getLiveServersIdRequest();
         if (!empty($this->live_servers_id)) {
             $liveServer = new Live_servers($this->live_servers_id);
             if ($liveServer->getStats_url()) {
@@ -2217,8 +2216,8 @@ class LiveStreamObject {
                 $o->useAadaptiveMode = $liveServer->getUseAadaptiveMode();
             }
         }
-
-        $uuid = $this->getKeyWithIndex(true, $allowOnlineIndex);
+        
+        $uuid = $this->getKeyWithIndex(false, $allowOnlineIndex);
         $playerServer = addLastSlash($playerServer);
         if ($o->protectLive && empty($doNotProtect)) {
             return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$this->live_servers_id}&uuid=" . encryptString($uuid);
