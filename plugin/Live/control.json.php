@@ -15,9 +15,8 @@ $obj->msg = "";
 $obj->response = "";
 $obj->commandURL = "";
 $obj->command = $_REQUEST['command'];
-$obj->live_transmition_id = $_REQUEST['live_transmition_id'];
+$obj->key = $_REQUEST['key'];
 $obj->live_servers_id = $_REQUEST['live_servers_id'];
-$obj->key = "";
 $obj->newkey = "";
 
 if (empty($obj->command)) {
@@ -30,12 +29,8 @@ if (!User::canStream()) {
     die(json_encode($obj));
 }
 
-if (!empty($obj->live_transmition_id)) {
-    $obj->live_transmition_id = intval($obj->live_transmition_id);
-}
-
-if (empty($obj->live_transmition_id)) {
-    $obj->msg = __("empty live_transmition_id");
+if (empty($obj->key)) {
+    $obj->msg = __("empty key");
     die(json_encode($obj));
 }
 
@@ -51,7 +46,9 @@ if (empty($live)) {
     die(json_encode($obj));
 }
 
-$l = new LiveTransmition($obj->live_transmition_id);
+$parameters = Live::getLiveParametersFromKey($obj->key);
+$l = new LiveTransmition(0);
+$l->loadByKey($parameters["cleanKey"]);
 $users_id = $l->getUsers_id();
 
 if (empty($users_id)) {
@@ -61,19 +58,13 @@ if (empty($users_id)) {
 
 if (!User::isAdmin()) {
     if ($users_id != User::getId()) {
-        $obj->msg = __("You cannot drop this live");
+        $obj->msg = __("You cannot control this live");
         die(json_encode($obj));
     }
 }
 
 
-$obj->key = $l->getKey();
 $obj->newkey = $obj->key;
-if (empty($obj->key)) {
-    $obj->msg = __("key cannot be empty");
-    die(json_encode($obj));
-}
-
 
 switch ($obj->command) {
     case "record_start":
@@ -88,7 +79,7 @@ switch ($obj->command) {
         $obj->newkey = LiveTransmition::resetTransmitionKey($l->getUsers_id());
     case "drop_publisher":
         //http://server.com/control/drop/publisher|subscriber|client?srv=SRV&app=APP&name=NAME&addr=ADDR&clientid=CLIENTID
-        $obj->commandURL = Live::getDropURL($obj->key);
+        $obj->commandURL = Live::getDropURL($obj->key, $obj->live_servers_id);
         break;
     case "is_recording":
         //http://server.com/control/drop/publisher|subscriber|client?srv=SRV&app=APP&name=NAME&addr=ADDR&clientid=CLIENTID
@@ -100,7 +91,7 @@ switch ($obj->command) {
         break;
 }
 
-$obj->commandURL = Live::getDropURL($l->getKey(), $obj->live_servers_id);
+//$obj->commandURL = Live::getDropURL($l->getKey(), $obj->live_servers_id);
 $obj->response = _json_decode(url_get_contents($obj->commandURL));
 
 if (!empty($obj->response)) {
@@ -108,6 +99,13 @@ if (!empty($obj->response)) {
         $obj->msg = $obj->response->msg;
     } else {
         $obj->error = false;
+        if ($obj->response->command == 'record_start' && !empty($obj->response->response)) {
+            if ($objSR = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder')) {
+                SendRecordedToEncoder::onStartRecorder($obj->key, $objSR->maxRecorderTimeInMinutes, User::getUserName(), User::getUserPass());
+            } else {
+                $obj->SendRecordedToEncoder = 'Not enabled';
+            }
+        }
     }
 }
 

@@ -126,13 +126,13 @@ class Live_servers extends ObjectYPT {
         $this->controlURL = $controlURL;
     }
         
-    static function getStatsFromId($live_servers_id) {
+    static function getStatsFromId($live_servers_id, $force_recreate = false) {
         $ls = new Live_servers($live_servers_id);
         if (empty($ls->getStatus()) || $ls->getStatus()=='i') {
             _error_log("Live_servers:: getStatsFromId ERROR ".json_encode($ls));
             return false;
         }
-        return Live::_getStats($live_servers_id);
+        return Live::_getStats($live_servers_id, $force_recreate);
     }
 
     static function getAllActive() {

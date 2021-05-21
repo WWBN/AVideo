@@ -16,11 +16,11 @@
     }
   }
  */
-$streamerURL = "https://demo.avideo.com/"; // change it to your streamer URL
-$record_path = "/var/www/tmp/"; //update this URL
 
-$server_name = "localhost";
-$port = "8080";
+$streamerURL = "http://192.168.1.4/YouPHPTube/"; // change it to your streamer URL
+$record_path = "/var/www/tmp/"; //update this URL
+$controlServer = "http://localhost:8080/";
+
 /*
  * DO NOT EDIT AFTER THIS LINE
  */
@@ -32,6 +32,16 @@ $configFile = '../../../videos/configuration.php';
 if (file_exists($configFile)) {
     include_once $configFile;
     $streamerURL = $global['webSiteRootURL'];
+    $live = AVideoPlugin::getObjectDataIfEnabled('Live');
+    if(empty($live)){
+        return false;
+    }
+    $controlServer = $live->controlServer;
+    $controlServer = addLastSlash($controlServer);
+}
+
+if(!empty($_REQUEST['streamerURL'])){
+    $streamerURL = $_REQUEST['streamerURL'];
 }
 
 error_log("Control.json.php start");
@@ -78,7 +88,7 @@ $arrContextOptions=array(
 $content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
 
 error_log("Control.json.php verification respond content {$content}");
-$json = _json_decode($content);
+$json = json_decode($content);
 
 if (empty($json)) {
     $obj->msg = "Could not verify token";
@@ -102,19 +112,19 @@ flush();
 switch ($obj->command) {
     case "record_start":
         //http://server.com/control/record/start|stop?srv=SRV&app=APP&name=NAME&rec=REC
-        $obj->requestedURL = "http://{$server_name}:{$port}/control/record/start?app={$obj->app}&name={$obj->name}";
+        $obj->requestedURL = "{$controlServer}control/record/start?app={$obj->app}&name={$obj->name}&rec=video";
         $obj->response = @file_get_contents($obj->requestedURL);
         $obj->error = false;
         break;
     case "record_stop":
         //http://server.com/control/record/start|stop?srv=SRV&app=APP&name=NAME&rec=REC
-        $obj->requestedURL = "http://{$server_name}:{$port}/control/record/stop?app={$obj->app}&name={$obj->name}";
+        $obj->requestedURL = "{$controlServer}control/record/stop?app={$obj->app}&name={$obj->name}&rec=video";
         $obj->response = @file_get_contents($obj->requestedURL);
         $obj->error = false;
         break;
     case "drop_publisher":
         //http://server.com/control/drop/publisher|subscriber|client?srv=SRV&app=APP&name=NAME&addr=ADDR&clientid=CLIENTID
-        $obj->requestedURL = "http://{$server_name}:{$port}/control/drop/publisher?app={$obj->app}&name={$obj->name}";
+        $obj->requestedURL = "{$controlServer}control/drop/publisher?app={$obj->app}&name={$obj->name}";
         $obj->response = @file_get_contents($obj->requestedURL);
         $obj->error = false;
         break;
@@ -133,7 +143,6 @@ switch ($obj->command) {
         break;
 
     default:
-
         $obj->msg = "Command is invalid ($obj->command)";
         die(json_encode($obj));
         break;

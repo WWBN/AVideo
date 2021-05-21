@@ -44,14 +44,18 @@
             ?>
             <video poster="<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>" controls 
                    class="embed-responsive-item video-js vjs-default-skin <?php echo $vjsClass; ?> vjs-big-play-centered" 
-                   id="mainVideo" >
-                <source src="<?php echo $liveStreamObject->getM3U8(); ?>" type='application/x-mpegURL'>
+                   id="mainVideo" ><!-- indexCol1 -->
+                <source src="<?php 
+                $liveStreamObject2 = new LiveStreamObject($trasnmition['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index'], 0);
+                $m3u8URL = $liveStreamObject2->getM3U8(false, true);
+                echo $m3u8URL; 
+                ?>" type='application/x-mpegURL'>
             </video>
         </div>
     </div>
     <div class="panel-footer" style="display: none;" id="liveControls">
         <?php
-        echo Live::getAllControlls($trasnmition['id']);
+        echo Live::getRecordControlls($liveStreamObject2->getKeyWithIndex(true, true));
         ?>
     </div>
     <script>

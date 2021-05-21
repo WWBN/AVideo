@@ -178,9 +178,6 @@ class LiveTransmition extends ObjectYPT {
             return false;
         }
         $key = Live::cleanUpKey($key);
-        
-        
-        $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
         $res = sqlDAL::readSql($sql);
@@ -282,8 +279,10 @@ class LiveTransmition extends ObjectYPT {
 
     static function getFromKey($key) {
         global $global;
+        $key = Live::cleanUpKey($key);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($key), true);
+        //var_dump($sql, $key);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
@@ -315,6 +314,9 @@ class LiveTransmition extends ObjectYPT {
         $this->showOnTV = $showOnTV;
     }
 
-
+    static function canSaveTransmition($users_id){
+        $lt = self::getFromDbByUser($users_id);
+        return !empty($lt['saveTransmition']);
+    }
 
 }
