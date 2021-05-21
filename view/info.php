@@ -3,7 +3,7 @@
 header('Content-Type: application/json');
 $cachedFile = '../videos/cache/version.cache';
 
-if(file_exists($cachedFile)){
+if(empty($_GET['modified']) && file_exists($cachedFile)){
     $content = file_get_contents($cachedFile);
     $json = json_decode($content);
     if(!empty($json)){
@@ -52,6 +52,7 @@ if (empty($_GET['version'])) {
         $obj->videos[] = $vid;
     }
 }
+$obj->totalVideosResponse = count($obj->videos);
 $json = json_encode($obj);
 file_put_contents($cachedFile, $json);
 echo $json;
