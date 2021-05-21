@@ -1835,7 +1835,7 @@ function unzipDirectory($filename, $destination) {
         if ($zip) {
             while ($zip_entry = zip_read($zip)) {
                 $path = "{$destination}/" . zip_entry_name($zip_entry);
-                _error_log("unzipDirectory: fopen $path");
+                //_error_log("unzipDirectory: fopen $path");
                 if (substr(zip_entry_name($zip_entry), -1) == '/') {
                     make_path($path);
                 } else {
@@ -2914,6 +2914,10 @@ function rrmdir($dir) {
                 }
             }
         }
+        if(preg_match('/(\/|^)videos(\/cache)?\/?$/i', $dir)){
+            // do not delete videos or cache folder
+            return false;
+        }
         @rmdir($dir);
         if (is_dir($dir)) {
             _error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
@@ -3534,7 +3538,7 @@ function _error_log($message, $type = 0, $doNotRepeat = false) {
     error_log($prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}");
 }
 
-function postVariables($url, $array, $httpcodeOnly = true) {
+function postVariables($url, $array, $httpcodeOnly = true, $timeout=10) {
     if (!$url || !is_string($url) || !preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)) {
         return false;
     }
@@ -3543,7 +3547,11 @@ function postVariables($url, $array, $httpcodeOnly = true) {
     if($httpcodeOnly){
         @curl_setopt($ch, CURLOPT_HEADER, true);  // we want headers
         @curl_setopt($ch, CURLOPT_NOBODY, true);  // we don't need body
+    }else{
+        curl_setopt($curl, CURLOPT_USERAGENT, getSelfUserAgent());
     }
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout); //The number of seconds to wait while trying to connect. Use 0 to wait indefinitely.
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout+1); //The maximum number of seconds to allow cURL functions to execute.
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $array);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -5167,8 +5175,19 @@ function avidoeShutdown() {
     if ($error && ($error['type'] & E_FATAL)) {
         _error_log($error, AVideoLog::$ERROR);
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-        echo '<!-- This page means an error 500 Internal Server Error, check your log file -->' . PHP_EOL;
-        include $global['systemRootPath'] . 'view/maintanance.html';
+        if(!User::isAdmin()){
+            if(!preg_match('/json\.php$/i', $_SERVER['PHP_SELF'])){
+                echo '<!-- This page means an error 500 Internal Server Error, check your log file -->' . PHP_EOL;
+                include $global['systemRootPath'] . 'view/maintanance.html';
+            }else{
+                $o = new stdClass();
+                $o->error = true;
+                $o->msg = __('Under Maintanance');
+                echo json_encode($o);
+            }
+        }else{
+            var_dump($error);
+        }
         exit;
     }
 }
