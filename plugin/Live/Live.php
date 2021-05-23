@@ -348,7 +348,7 @@ class Live extends PluginAbstract {
             $json = json_decode($response);
             if (!empty($json)) {
                 if ($start && empty($json->error) && empty($json->response) && $try < 4) {
-                    _error_log("Live:controlRecording start record is not ready trying again in 5 seconds");
+                    _error_log("Live:controlRecording start record is not ready trying again in 5 seconds ".(isCommandLineInterface()?'From Command Line':'Not Command Line'));
                     sleep(5);
                     return self::controlRecording($key, $live_servers_id, $start, $try + 1);
                 }
