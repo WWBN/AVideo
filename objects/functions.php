@@ -6401,6 +6401,7 @@ function outputAndContinueInBackground() {
     ob_start();
     @header("Connection: close");
     @header("Content-Length: " . ob_get_length());
+    @header("HTTP/1.1 200 OK");
     ob_end_flush();
     flush();
 }
