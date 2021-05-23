@@ -333,6 +333,7 @@ class Live extends PluginAbstract {
     }
     
     static function controlRecording($key, $live_servers_id, $start = true, $try=0) {
+        outputAndContinueInBackground();
         if($start){
             $url = self::getStartRecordURL($key, $live_servers_id);
         }else{
