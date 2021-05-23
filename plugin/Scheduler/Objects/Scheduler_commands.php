@@ -117,6 +117,9 @@ class Scheduler_commands extends ObjectYPT {
             _error_log("Scheduler_commands::save(): date_to_execute is empty ". json_encode(debug_backtrace()));
             return false;
         }
+        if(empty($this->executed_in)){
+            $this->executed_in = 'NULL';
+        }
         if(empty($this->status)){
             $this->status = self::$statusActive;
         }
