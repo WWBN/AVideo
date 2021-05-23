@@ -339,7 +339,7 @@ class Live extends PluginAbstract {
         }else{
             $url = self::getStopRecordURL($key, $live_servers_id);
         }
-        $response = url_get_contents($url);
+        $response = url_get_contents($url, '', 5);
         _error_log("Live:controlRecording {$url} {$live_servers_id} - [{$response}]");
         $obj = new stdClass();
         $obj->error = true;
