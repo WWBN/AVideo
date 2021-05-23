@@ -105,7 +105,7 @@ class VideoLogoOverlay extends PluginAbstract {
             $logoOverlay = User::getPhoto($video['users_id']);
             $cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
         }
-        $html = '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive '.$cols.'" style="max-height: 70px; max-width:250px;"></a></div>';
+        $html = '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive '.$cols.'" style="max-width:150px;"></a></div>';
         $js = "$('{$html}').appendTo('#mainVideo');";
         PlayerSkins::addOnPlayerReady($js);
     }
