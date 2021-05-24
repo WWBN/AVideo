@@ -32,13 +32,25 @@ foreach ($_REQUEST['par'] as $key => $value) {
 }
 
 // Update S3 CDN
-$resp->CDN_S3 = CDN::getS3URL();
+if (AVideoPlugin::isEnabledByName('AWS_S3')) {
+    $resp->CDN_S3 = CDN::getS3URL();
+}else{
+    $resp->CDN_S3 = '';
+}
 
 // Update B2 CDN
-$resp->CDN_B2 = CDN::getB2URL();
+if (AVideoPlugin::isEnabledByName('Blackblaze_B2')) {
+    $resp->CDN_B2 = CDN::getB2URL();
+}else{
+    $resp->CDN_B2 = '';
+}
 
 // Update FTP CDN
-$resp->CDN_FTP = CDN::getFTPURL();
+if (AVideoPlugin::isEnabledByName('FTP_Storage')) {
+    $resp->CDN_FTP = CDN::getFTPURL();
+}else{
+    $resp->CDN_FTP = '';
+}
 
 // Update YPT Storage CDN
 $resp->CDN_YPTStorage = array();
@@ -50,9 +62,9 @@ if (!empty($plugin)) {
             continue;
         }
         $resp->CDN_YPTStorage[] = array(
-                'id'=>$value['id'], 
-                'url'=>addLastSlash($value['url'])
-            );
+            'id' => $value['id'],
+            'url' => addLastSlash($value['url'])
+        );
     }
 }
 
@@ -68,8 +80,8 @@ if (!empty($plugin)) {
                 continue;
             }
             $resp->CDN_LiveServers[] = array(
-                'id'=>$value['id'], 
-                'url'=>addLastSlash($value['playerServer'])
+                'id' => $value['id'],
+                'url' => addLastSlash($value['playerServer'])
             );
         }
     } else {
