@@ -24,7 +24,7 @@ if(empty($obj)){
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container-fluid">
-            <iframe src="https://beta.wwbn.com/platform/?section=signup&webSiteRootURL=<?php echo urlencode($global['webSiteRootURL']); ?>&token=<?php echo WWBN::getToken(); ?>" style="width: 100%; height: calc(100vh - 60px);" frameBorder="0"></iframe>
+            <iframe src="https://wwbn.com/platform/?section=signup&webSiteRootURL=<?php echo urlencode($global['webSiteRootURL']); ?>&token=<?php echo WWBN::getToken(); ?>" style="width: 100%; height: calc(100vh - 60px);" frameBorder="0"></iframe>
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
