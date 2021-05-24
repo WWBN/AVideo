@@ -57,6 +57,10 @@ $obj->name = $_REQUEST['name'];
 $obj->response = "";
 $obj->requestedURL = "";
 
+if(!preg_match('/^live/i',$obj->app)){
+    $obj->app = 'live';
+}
+
 // check the token
 if (empty($obj->token)) {
     $obj->msg = "Token is empty";
