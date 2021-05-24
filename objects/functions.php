@@ -17,7 +17,9 @@ function forbiddenWords($text) {
     }
     return false;
 }
-if(!function_exists('xss_esc')){
+
+if (!function_exists('xss_esc')) {
+
     function xss_esc($text) {
         if (empty($text)) {
             return "";
@@ -29,6 +31,7 @@ if(!function_exists('xss_esc')){
         $result = str_replace(array('&amp;amp;'), array('&amp;'), $result);
         return $result;
     }
+
 }
 
 function xss_esc_back($text) {
@@ -595,6 +598,19 @@ function sendSiteEmail($to, $subject, $message) {
     } catch (Exception $e) {
         _error_log($e->getMessage()); //Boring error messages from anything else!
     }
+}
+
+function sendSiteEmailAsync($to, $subject, $message) {
+    $content = array('to' => $to, 'subject' => $subject, 'message' => $message);
+    $tmpFile = getTmpFile();
+    file_put_contents($tmpFile, _json_encode($content));
+    outputAndContinueInBackground();
+    $command = "php {$global['systemRootPath']}objects/sendSiteEmailAsync.php '$tmpFile'";
+
+    _error_log("sendSiteEmailAsync start  ($command)");
+    $pid = execAsync($command);
+    _error_log("sendSiteEmailAsync end {$pid}");
+    return $pid;
 }
 
 function createEmailMessageFromTemplate($message) {
@@ -1312,7 +1328,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 $type = 'audio';
             } elseif (in_array($parts['extension'], $image) || preg_match('/^(gif|jpg|webp|png|jpeg)/i', $parts['extension'])) {
                 $type = 'image';
-                if(!preg_match('/(thumb|roku)/', $resolution)){
+                if (!preg_match('/(thumb|roku)/', $resolution)) {
                     $resolution = '';
                 }
             }
@@ -2914,7 +2930,7 @@ function rrmdir($dir) {
                 }
             }
         }
-        if(preg_match('/(\/|^)videos(\/cache)?\/?$/i', $dir)){
+        if (preg_match('/(\/|^)videos(\/cache)?\/?$/i', $dir)) {
             // do not delete videos or cache folder
             return false;
         }
@@ -3538,20 +3554,20 @@ function _error_log($message, $type = 0, $doNotRepeat = false) {
     error_log($prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}");
 }
 
-function postVariables($url, $array, $httpcodeOnly = true, $timeout=10) {
+function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10) {
     if (!$url || !is_string($url) || !preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)) {
         return false;
     }
     $array = object_to_array($array);
     $ch = curl_init($url);
-    if($httpcodeOnly){
+    if ($httpcodeOnly) {
         @curl_setopt($ch, CURLOPT_HEADER, true);  // we want headers
         @curl_setopt($ch, CURLOPT_NOBODY, true);  // we don't need body
-    }else{
+    } else {
         curl_setopt($curl, CURLOPT_USERAGENT, getSelfUserAgent());
     }
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout); //The number of seconds to wait while trying to connect. Use 0 to wait indefinitely.
-    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout+1); //The maximum number of seconds to allow cURL functions to execute.
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout + 1); //The maximum number of seconds to allow cURL functions to execute.
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $array);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -3559,7 +3575,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout=10) {
 
     // execute!
     $response = curl_exec($ch);
-    if($httpcodeOnly){
+    if ($httpcodeOnly) {
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         // close the connection, release resources used
@@ -3685,7 +3701,7 @@ function getUsageFromFilename($filename, $dir = "") {
     session_write_close();
     $filesProcessed = array();
     if (empty($files)) {
-        _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one ". json_encode(debug_backtrace()));
+        _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one " . json_encode(debug_backtrace()));
         file_put_contents("{$dir}{$filename}.notfound", time());
         $totalSize = 10;
     } else {
@@ -4745,14 +4761,14 @@ function getTmpDir($subdir = "") {
         $_SESSION['getTmpDir'] = array();
     }
     if (empty($_SESSION['getTmpDir'][$subdir . "_"])) {
-        if(empty($global['tmpDir'])){
+        if (empty($global['tmpDir'])) {
             $tmpDir = sys_get_temp_dir();
             if (empty($tmpDir) || !_isWritable($tmpDir)) {
                 $tmpDir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
             }
             $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
             $tmpDir = "{$tmpDir}{$subdir}";
-        }else{
+        } else {
             $tmpDir = $global['tmpDir'];
         }
         $tmpDir = addLastSlash($tmpDir);
@@ -5175,17 +5191,17 @@ function avidoeShutdown() {
     if ($error && ($error['type'] & E_FATAL)) {
         _error_log($error, AVideoLog::$ERROR);
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
-        if(!User::isAdmin()){
-            if(!preg_match('/json\.php$/i', $_SERVER['PHP_SELF'])){
+        if (!User::isAdmin()) {
+            if (!preg_match('/json\.php$/i', $_SERVER['PHP_SELF'])) {
                 echo '<!-- This page means an error 500 Internal Server Error, check your log file -->' . PHP_EOL;
                 include $global['systemRootPath'] . 'view/maintanance.html';
-            }else{
+            } else {
                 $o = new stdClass();
                 $o->error = true;
                 $o->msg = __('Under Maintanance');
                 echo json_encode($o);
             }
-        }else{
+        } else {
             var_dump($error);
         }
         exit;
@@ -5780,7 +5796,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -5994,7 +6010,7 @@ function getThemes() {
 
 function getCurrentTheme() {
     global $config;
-    if(!empty($_REQUEST['customCSS'])){
+    if (!empty($_REQUEST['customCSS'])) {
         _setcookie('customCSS', $_REQUEST['customCSS']);
         return $_REQUEST['customCSS'];
     }
@@ -6625,12 +6641,12 @@ function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
     if (empty($cdn)) {
         return $url;
     }
-    
+
     return str_replace(parse_url($url, PHP_URL_HOST), parse_url($cdn, PHP_URL_HOST), $url);
 }
 
 function isIPPrivate($ip) {
-    if($ip=='192.168.1.4'){
+    if ($ip == '192.168.1.4') {
         return false;
     }
     if (!filter_var($ip, FILTER_VALIDATE_IP)) {
