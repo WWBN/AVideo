@@ -380,7 +380,7 @@ Passcode: {password}
          * Specific User Groups = 0
          * @return type
          */
-        if (empty($meet->getStarts()) || strtotime($meet->getStarts()) <= strtotime('Today 0 hour')) {
+        if (empty($meet->getStarts()) || strtotime($meet->getStarts()) <= strtotime('Yesterday')) {
             // means public
             if ($meet->getPublic() == "2") {
                 $obj->canJoin = true;
