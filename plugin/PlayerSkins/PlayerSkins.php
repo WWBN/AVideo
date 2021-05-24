@@ -245,7 +245,7 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/shareButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            if ($obj->showShareAutoplay) {
+            if ($obj->showShareAutoplay && !isLive()) {
                 $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/autoplayButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
         }
@@ -282,7 +282,7 @@ class PlayerSkins extends PluginAbstract {
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
             }
 
-            if ($obj->showShareAutoplay) {
+            if ($obj->showShareAutoplay && !isLive()) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/autoplayButton.js"));
             }
         }
