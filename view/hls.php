@@ -15,7 +15,7 @@ session_write_close();
 if (empty($_GET['videoDirectory'])) {
     forbiddenPage("No directory set");
 }
-
+$global['disableGeoblock'] = 1;
 $video = Video::getVideoFromFileName($_GET['videoDirectory'], true);
 
 $filename = Video::getPathToFile("{$_GET['videoDirectory']}".DIRECTORY_SEPARATOR."index.m3u8");
