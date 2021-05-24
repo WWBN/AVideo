@@ -25,12 +25,12 @@ if (empty($video) || !file_exists($filename)) {
     if (empty($video)) {
         $msg = "HLS.php: Video Not found videoDirectory=({$_GET['videoDirectory']})";
         error_log($msg);
-        echo $msg;
+        //echo $msg;
     }
     if (!file_exists($filename)) {
         $msg = "HLS.php: Video file do not exists ({$filename})";
         error_log($msg);
-        echo $msg;
+        //echo $msg;
     }
 
     echo "#EXTM3U
