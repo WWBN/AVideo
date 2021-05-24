@@ -47,6 +47,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->showLoopButton = true;
         $obj->showLogo = false;
         $obj->showShareSocial = true;
+        $obj->showShareAutoplay = true;
         $obj->showLogoOnEmbed = false;
         $obj->showLogoAdjustScale = "0.4";
         $obj->showLogoAdjustLeft = "-74px";
@@ -244,6 +245,9 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/shareButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
+            if ($obj->showShareAutoplay) {
+                $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/autoplayButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+            }
         }
 
         $url = urlencode(getSelfURI());
@@ -276,6 +280,10 @@ class PlayerSkins extends PluginAbstract {
                 //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/shareButton.js\"></script>";
                 $js .= $social['html'];
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
+            }
+
+            if ($obj->showShareAutoplay) {
+                PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/autoplayButton.js"));
             }
         }
         if (isAudio()) {

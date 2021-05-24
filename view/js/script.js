@@ -935,6 +935,38 @@ function setAutoplay(value) {
     });
 }
 
+function showAutoPlayVideoDiv() {
+    var auto = $("#autoplay").prop('checked');
+    if (!auto) {
+        $('#autoPlayVideoDiv').slideUp();
+    } else {
+        $('#autoPlayVideoDiv').slideDown();
+    }
+}
+
+function enableAutoPlay() {
+    setAutoplay(true);
+    checkAutoPlay();
+}
+
+function disableAutoPlay() {
+    setAutoplay(false);
+    checkAutoPlay();
+}
+
+function checkAutoPlay() {
+    if (isAutoplayEnabled()) {
+        $("#autoplay").prop('checked', true);
+        $('.autoplay-button').addClass('checked');
+        avideoTooltip(".autoplay-button","Autoplay is ON");
+    }else{
+        $("#autoplay").prop('checked', false);
+        $('.autoplay-button').removeClass('checked');
+        avideoTooltip(".autoplay-button","Autoplay is OFF");
+    }
+    showAutoPlayVideoDiv();
+}
+
 function isPlayNextEnabled() {
     if (isPlayerLoop()) {
         return false;
@@ -1016,7 +1048,7 @@ function avideoModalIframeLarge(url) {
 function avideoModalIframeWithClassName(url, className) {
     var span = document.createElement("span");
     url = addGetParam(url, 'avideoIframe', 1);
-    span.innerHTML = '<iframe src="' + url + '" />';
+    span.innerHTML = '<iframe frameBorder="0" src="' + url + '" />';
     swal({
         content: span,
         closeModal: true,
@@ -1031,14 +1063,14 @@ function avideoModalIframeWithClassName(url, className) {
 
 function avideoModalIframeIsVisible() {
     var modal = '';
-    if($('.swal-modal-iframe-small').length){
+    if ($('.swal-modal-iframe-small').length) {
         modal = $('.swal-modal-iframe-small');
-    }else if($('.swal-modal-iframe-large').length){
+    } else if ($('.swal-modal-iframe-large').length) {
         modal = $('.swal-modal-iframe-large');
-    }else{
+    } else {
         modal = $('.swal-modal-iframe');
     }
-    
+
     if (modal.parent().hasClass('swal-overlay--show-modal')) {
         return true;
     } else {
@@ -1287,6 +1319,27 @@ $(document).ready(function () {
         }
 
     }, 1000);
+
+    $("input.saveCookie").each(function () {
+        var mycookie = Cookies.get($(this).attr('name'));
+        if (mycookie && mycookie == "true") {
+            $(this).prop('checked', mycookie);
+        }
+    });
+    $("input.saveCookie").change(function () {
+        var auto = $(this).prop('checked');
+        Cookies.set($(this).attr("name"), auto, {
+            path: '/',
+            expires: 365
+        });
+    });
+    if (isAutoplayEnabled()) {
+        $("#autoplay").prop('checked', true);
+    }
+    $("#autoplay").change(function () {
+        checkAutoPlay();
+    });
+    checkAutoPlay();
 });
 
 function validURL(str) {

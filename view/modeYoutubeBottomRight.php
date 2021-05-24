@@ -129,36 +129,9 @@ $modeYouTubeTime = microtime(true);
     var autoPlayPoster = '<?php echo @$autoPlayPoster; ?>';
     var autoPlayThumbsSprit = '<?php echo @$autoPlayThumbsSprit; ?>';
 
-    function showAutoPlayVideoDiv() {
-        var auto = $("#autoplay").prop('checked');
-        if (!auto) {
-            $('#autoPlayVideoDiv').slideUp();
-        } else {
-            $('#autoPlayVideoDiv').slideDown();
-        }
-    }
     $(document).ready(function () {
-        $("input.saveCookie").each(function () {
-            var mycookie = Cookies.get($(this).attr('name'));
-            if (mycookie && mycookie == "true") {
-                $(this).prop('checked', mycookie);
-            }
-        });
-        $("input.saveCookie").change(function () {
-            var auto = $(this).prop('checked');
-            Cookies.set($(this).attr("name"), auto, {
-                path: '/',
-                expires: 365
-            });
-        });
 
-        if (isAutoplayEnabled()) {
-            $("#autoplay").prop('checked', true);
-        }
-
-        $("#autoplay").change(function () {
-            showAutoPlayVideoDiv();
-        });
-        showAutoPlayVideoDiv();
+        
+        
     });
 </script>
