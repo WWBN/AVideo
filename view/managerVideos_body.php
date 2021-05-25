@@ -186,7 +186,7 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="btn-group" id="actionButtonsVideoManager">
-                <button class="btn btn-secondary" id="checkBtn">
+                <button class="btn btn-default" id="checkBtn">
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
                 <?php if (!$config->getDisable_youtubeupload()) { ?>

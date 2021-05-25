@@ -22,9 +22,9 @@ if(!empty($parts["query"])){
 }
 
 if(!empty($_GET['e']) && empty($_GET['p'])){
-    $obj = json_decode(decryptString($_GET['e']));
-    if(!empty($obj->users_id)){
-        $user = new User($obj->users_id);
+    $objE = json_decode(decryptString($_GET['e']));
+    if(!empty($objE->users_id)){
+        $user = new User($objE->users_id);
         $_GET['p'] = $user->getPassword();
     }
 }

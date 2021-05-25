@@ -484,13 +484,25 @@ class Live extends PluginAbstract {
             return "";
         }
 
-        $btn = "<div class=\"btn-group justified\">";
+        $btn = "<div class=\"btn-group justified recordLiveControlsDiv\" style=\"display: none;\" id=\"liveControls\">";
         //$btn .= self::getButton("drop_publisher", $live_transmition_id, $live_servers_id);
         $btn .= self::getButton("drop_publisher_reset_key", $key, $live_servers_id, $iconsOnly);
         $btn .= self::getButton("record_start", $key, $live_servers_id, $iconsOnly);
         $btn .= self::getButton("record_stop", $key, $live_servers_id, $iconsOnly);
         $btn .= "</div>";
+        $btn .= "<script>
+                $(document).ready(function () {
+                    setInterval(function () {
+                        if (isOnlineLabel || $('.liveOnlineLabel.label-success').length) {
+                            $('#liveControls').slideDown();
+                        } else {
+                            $('#liveControls').slideUp();
+                        }
+                    }, 1000);
 
+                });
+            </script>";
+    
         return $btn;
     }
 
@@ -2269,7 +2281,7 @@ class LiveStreamObject {
     
     function getOnlineM3U8($users_id, $doNotProtect = false) {
         $li = $this->live_index;
-        if(empty($this->live_index)){
+        if(empty($this->live_index)){            
             $online = Live::getFirstLiveOnlineFromKey($this->key);
             if(!empty($online)){
                 $parameters = Live::getLiveParametersFromKey($online['key']);

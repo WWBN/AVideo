@@ -53,31 +53,11 @@
             </video>
         </div>
     </div>
-    <div class="panel-footer" style="display: none;" id="liveControls">
+    <div class="panel-footer">
         <?php
-        echo Live::getRecordControlls($liveStreamObject2->getKeyWithIndex(true, true));
+        echo Live::getAllControlls($liveStreamObject2->getKeyWithIndex(true, true));
         ?>
     </div>
-    <script>
-        $(document).ready(function () {
-            setInterval(function () {
-                if (isOnlineLabel) {
-                    $("#liveControls").slideDown();
-                    if(player.paused()){
-                        userIsControling = 0;
-                        reloadVideoJS();
-                        playerPlay();
-                    }
-                } else {
-                    $("#liveControls").slideUp();
-                    if(!player.paused()){
-                        player.pause();
-                    }
-                }
-            }, 1000);
-            
-        });
-    </script>
 </div>
 <?php
 include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamSettings.php';

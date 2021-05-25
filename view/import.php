@@ -41,17 +41,17 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                         <div class="input-group">
                             <input type="text" id="path"  class="form-control" placeholder="Local Path of videos i.e. /media/videos"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-secondary" id="pathBtn">
+                                <button class="btn btn-default" id="pathBtn">
                                     <span class="glyphicon glyphicon-list"></span> <?php echo __("List Files"); ?>
                                 </button>
                             </span>
                             <span class="input-group-btn">
-                                <button class="btn btn-secondary" id="checkBtn">
+                                <button class="btn btn-default" id="checkBtn">
                                     <i class="far fa-check-square" aria-hidden="true"></i>
                                 </button>
                             </span>
                             <span class="input-group-btn">
-                                <button class="btn btn-secondary" id="uncheckBtn">
+                                <button class="btn btn-default" id="uncheckBtn">
                                     <i class="far fa-square" aria-hidden="true"></i>
                                 </button>
                             </span>
