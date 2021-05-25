@@ -79,7 +79,18 @@
                     include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';
                 } else
                 if ($value['name'] == 'Categories' && empty($_GET['showOnly'])) {
-                    include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategory.php';
+                    if(empty($currentCat) && !empty(getSearchVar())){
+                        $onlySuggested = $obj->CategoriesShowOnlySuggested;
+                        cleanSearchVar();
+                        $categories = Category::getAllCategories(false, true, $onlySuggested);
+                        reloadSearchVar(); 
+                        foreach ($categories as $value) {
+                            $currentCat = $value['clean_name'];
+                            include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategory.php';
+                        }
+                    }else{
+                        include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategory.php';
+                    }
                 }
             }
             if (empty($countSections) && !empty($_GET['catName'])) {
