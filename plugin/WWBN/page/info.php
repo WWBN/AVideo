@@ -80,7 +80,7 @@ if(empty($obj)){
                   <div class="panel-body">
 
                       <div class="thumbnail">
-                        <iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---enable-and-signup?objectFit=fill" width="100%" frameborder="0"></iframe>
+                        <iframe src="https://avideo.com/vEmbed/121" width="100%" frameborder="0"></iframe>
                           <div class="caption">
                                 <h3><b>Step #1 - Setup</b></h3>
                             <p>Enable "WWBN" plugin and Create an Account.</p>
@@ -97,7 +97,7 @@ if(empty($obj)){
 
 
                       <div class="thumbnail">
-                          <iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---submitting-adding-index?objectFit=fill" width="100%" frameborder="0"></iframe>
+                          <iframe src="https://avideo.com/vEmbed/122" width="100%" frameborder="0"></iframe>
                           <div class="caption">
                                 <h3><b>Step #3 - Signin and Submit an Index</b></h3>
                             <p>For adding new index; for the first time the data from your platform will be automatically generated and if you already have an existing data you need to type your other platform url then click generate. </p>
@@ -105,7 +105,7 @@ if(empty($obj)){
                     </div>
 
                     <div class="thumbnail">
-                          <iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---verify-index?objectFit=fill" width="100%" frameborder="0"></iframe>
+                          <iframe src="https://avideo.com/vEmbed/124" width="100%" frameborder="0"></iframe>
                           <div class="caption">
                                 <h3><b>Step #4 - Verify Index</b></h3>
                             <p>Click the unverified/verified button of your index, A form to input your validation token will pop-up or an alert message that your index is already verified.</p>
@@ -113,7 +113,7 @@ if(empty($obj)){
                     </div>
 
                     <div class="thumbnail">
-                          <iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---updating-index?objectFit=fill" width="100%" frameborder="0"></iframe>
+                          <iframe src="https://avideo.com/vEmbed/123" width="100%" frameborder="0"></iframe>
                           <div class="caption">
                                 <h3><b>Step #5 - Updating Index</b></h3>
                             <p>Click the edit button of your index, change/update the data for the allowed/editable field then click update button to appy changes.  </p>
@@ -121,7 +121,7 @@ if(empty($obj)){
                     </div>
 
                       <div class="thumbnail">
-                          <iframe src="https://avideo.com/videoEmbeded/wwbn-plugin---deactivate-re-activate-index?objectFit=cover" width="100%" frameborder="0"></iframe>
+                          <iframe src="https://avideo.com/vEmbed/125" width="100%" frameborder="0"></iframe>
                           <div class="caption">
                                 <h3><b>Step #5 - Deactivating/Re-activating Index</b></h3>
                             <p>Changing status of your index to inreview or inactive</p>
