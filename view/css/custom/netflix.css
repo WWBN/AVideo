@@ -21,7 +21,9 @@
 }
 ::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb{-webkit-box-shadow: inset 0 0 6px rgba(255,255,255,255.3) !important;}
 
-th a, .select2-container--default span, .swal-text{
+th a, .select2-container--default span, .swal-text, 
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover,
+.tabbable-line > .nav-tabs > li.active > a > i {
     color: #FFF !important;
 }
 th:hover, .select2-dropdown{
@@ -36,4 +38,10 @@ th:hover, .select2-dropdown{
 #socket_info_container div {
     text-shadow: 0 0 2px #000 !important;
     color: #AAA !important;
+}
+.swal-icon, .swal-icon:before, .swal-icon:after, .swal-icon--success__hide-corners{
+    background-color: #2e3338;
+}
+.swal-icon--info:after, .swal-icon--info:before{
+    background-color: #c9dae1;
 }
