@@ -1167,7 +1167,7 @@ if (!class_exists('Video')) {
                         $otherInfo['title'] = UTF8encode($row['title']);
                         $otherInfo['description'] = UTF8encode($row['description']);
                         $otherInfo['descriptionHTML'] = self::htmlDescription($otherInfo['description']);
-                        $otherInfo['relatedVideos'] = self::getRelatedMovies($row['id']);
+                        //$otherInfo['relatedVideos'] = self::getRelatedMovies($row['id']);
                         if (empty($row['filesize'])) {
                             $otherInfo['filesize'] = Video::updateFilesize($row['id']);
                         }
