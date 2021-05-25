@@ -25,7 +25,7 @@ $payload = @file_get_contents('php://input');
 $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
 $event = null;
 
-$payloadObj = _json_decode($payload);
+$payloadObj = json_decode($payload);
 
 //$payloadObj = object_to_array($payloadObj);
 

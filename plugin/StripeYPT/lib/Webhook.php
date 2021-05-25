@@ -28,7 +28,7 @@ abstract class Webhook
     {
         WebhookSignature::verifyHeader($payload, $sigHeader, $secret, $tolerance);
 
-        $data = \_json_decode($payload, true);
+        $data = \json_decode($payload, true);
         $jsonError = \json_last_error();
         if (null === $data && \JSON_ERROR_NONE !== $jsonError) {
             $msg = "Invalid payload: {$payload} "
