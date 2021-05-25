@@ -2,14 +2,13 @@
 $objLive = AVideoPlugin::getDataObject("Live");
 //Live::deleteStatsCache();
 if ($objLive->allowMultipleLivesPerUser) {
-    $stats = getStatsNotifications();
-    $onliveApplications = array();
-    foreach ($stats["applications"] as $value) {
+    $onliveApplications = Live::getLivesOnlineFromKey($key);
+    foreach ($onliveApplications as $value) {
         if (empty($value['key'])) {
             continue;
         }
         if (preg_match('/' . $trasnmition['key'] . '/', $value['key'])) {
-            $onliveApplications[] = '<a class="btn btn-default btn-block live_'.$value['live_servers_id'].'_'.$value['key'].'" href="' . $value['href'] . '" target="_blank"><span class="label label-danger liveNow faa-flash faa-slow animated">' . __('LIVE NOW') . '</span> ' . $value['title'] . '</a>';
+            $onliveApplications[] = '<a class="btn btn-default btn-block live_' . $value['live_servers_id'] . '_' . $value['key'] . '" href="' . $value['href'] . '" target="_blank"><span class="label label-danger liveNow faa-flash faa-slow animated">' . __('LIVE NOW') . '</span> ' . $value['title'] . '</a>';
         }
     }
 }

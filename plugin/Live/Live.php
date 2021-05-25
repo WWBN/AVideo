@@ -2118,6 +2118,33 @@ class Live extends PluginAbstract {
         return $live_index;
     }
 
+    static function getLivesOnlineFromKey($key) {
+        global $_getLivesOnlineFromKey;
+        if(!isset($_getLivesOnlineFromKey)){
+            $_getLivesOnlineFromKey = array();
+        }
+        if(!isset($_getLivesOnlineFromKey[$key])){
+            $stats = getStatsNotifications();
+            $_getLivesOnlineFromKey[$key] = array();
+            foreach ($stats["applications"] as $value) {
+                if (empty($value['key'])) {
+                    continue;
+                }
+                if (preg_match('/' . $key . '/', $value['key'])) {
+                    $_getLivesOnlineFromKey[$key][] = $value;
+                }
+            }
+        }
+        return $_getLivesOnlineFromKey[$key];
+    }
+    
+    static function getFirstLiveOnlineFromKey($key) {
+        $onliveApplications = self::getLivesOnlineFromKey($key);
+        if(!empty($onliveApplications[0])){
+            return $onliveApplications[0];
+        }
+        return false;
+    }
 }
 
 class LiveImageType {
@@ -2238,6 +2265,21 @@ class LiveStreamObject {
         } else {
             return $playerServer . "{$uuid}/index.m3u8";
         }
+    }
+    
+    function getOnlineM3U8($doNotProtect = false) {
+        $li = $this->live_index;
+        if(empty($this->live_index)){
+            $online = Live::getFirstLiveOnlineFromKey($this->key);
+            if(!empty($online)){
+                $parameters = Live::getLiveParametersFromKey($online['key']);
+                $this->live_index = $parameters['live_index'];
+                //var_dump($parameters, $this->live_index, $li, $online);exit;
+            }
+        }
+        $m3u8 = $this->getM3U8($doNotProtect, true);
+        $this->live_index = $li;
+        return $m3u8;
     }
 
     function getRTMPLink() {
