@@ -396,7 +396,7 @@ Passcode: {password}
                 return $obj;
             }
         } else {
-            $obj->reason = "The meet does not start yet ". humanTimingAfterwards($meet->getStarts());
+            $obj->reason = "The meet does not start yet {$meet->getStarts()} ". humanTimingAfterwards($meet->getStarts());
             return $obj;
         }
     }
