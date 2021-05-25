@@ -2267,15 +2267,18 @@ class LiveStreamObject {
         }
     }
     
-    function getOnlineM3U8($doNotProtect = false) {
+    function getOnlineM3U8($users_id, $doNotProtect = false) {
         $li = $this->live_index;
         if(empty($this->live_index)){
             $online = Live::getFirstLiveOnlineFromKey($this->key);
             if(!empty($online)){
                 $parameters = Live::getLiveParametersFromKey($online['key']);
-                $this->live_index = $parameters['live_index'];
                 //var_dump($parameters, $this->live_index, $li, $online);exit;
+            }else{
+                $key = Live::getLatestKeyFromUser($users_id);
+                $parameters = Live::getLiveParametersFromKey($key);
             }
+            $this->live_index = $parameters['live_index'];
         }
         $m3u8 = $this->getM3U8($doNotProtect, true);
         $this->live_index = $li;

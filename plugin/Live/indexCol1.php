@@ -47,7 +47,7 @@
                    id="mainVideo" ><!-- indexCol1 -->
                 <source src="<?php 
                 $liveStreamObject2 = new LiveStreamObject($trasnmition['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index'], 0);
-                $m3u8URL = $liveStreamObject2->getOnlineM3U8(false, true);
+                $m3u8URL = $liveStreamObject2->getOnlineM3U8(User::getId());
                 echo $m3u8URL; 
                 ?>" type='application/x-mpegURL'>
             </video>
