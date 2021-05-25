@@ -10,8 +10,14 @@ $obj = AVideoPlugin::getObjectData("Gallery");
 $liveobj = AVideoPlugin::getObjectData("Live");
 $_REQUEST['rowCount'] = 2;
 $_REQUEST['current'] = getCurrentPage();
-$categories = Category::getAllCategories(false, true, true);
-$total = Category::getTotalCategories(false, true, true);
+
+$onlySuggested = $obj->CategoriesShowOnlySuggested;
+if(!empty(getSearchVar())){
+    $onlySuggested = false;
+}
+
+$categories = Category::getAllCategories(false, true, $onlySuggested);
+$total = Category::getTotalCategories(false, true, $onlySuggested);
 $totalPages = ceil($total / getRowCount());
 $page = getCurrentPage();
 if ($totalPages < $page) {
