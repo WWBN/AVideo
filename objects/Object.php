@@ -46,7 +46,10 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     public static function setTimeZone() {
-        global $advancedCustom;
+        global $advancedCustom, $timezoneOriginal;
+        if(!isset($timezoneOriginal)){
+            $timezoneOriginal = date_default_timezone_get();
+        }
         $row = self::getNowFromDB();
         $dt = new DateTime($row['my_date_field']);
         if(!empty($_COOKIE['timezone']) && $_COOKIE['timezone'] !== 'undefined'){
@@ -647,6 +650,23 @@ abstract class ObjectYPT implements ObjectInterface {
             $tableExists[$tableName] = !empty($result);
         }
         return $tableExists[$tableName];
+    }
+    
+    static function clientTimezoneToDatabaseTimezone($clientDate){
+        
+        if(!preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $clientDate)){
+            return $clientDate;
+        }
+        
+        global $timezoneOriginal;
+        $currentTimezone = date_default_timezone_get();
+        $time = strtotime($clientDate);
+        date_default_timezone_set($timezoneOriginal);
+        
+        $dbDate = date('Y-m-d H:i:s', $time);
+        
+        date_default_timezone_set($currentTimezone);
+        return $dbDate;
     }
 
 }
