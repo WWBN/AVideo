@@ -392,7 +392,7 @@ class Live extends PluginAbstract {
                 if (!AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
                     return '';
                 }
-                $buttonClass = "btn btn-default btn-sm";
+                $buttonClass = "btn btn-success";
                 $iconClass = "fas fa-video";
                 if (empty($label)) {
                     $label = __("Start Record");
@@ -406,7 +406,7 @@ class Live extends PluginAbstract {
                 if (!AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
                     return '';
                 }
-                $buttonClass = "btn btn-default btn-sm";
+                $buttonClass = "btn btn-danger";
                 $iconClass = "fas fa-video-slash";
                 if (empty($label)) {
                     $label = __("Stop Record");
@@ -416,7 +416,7 @@ class Live extends PluginAbstract {
                 }
                 break;
             case "drop_publisher":
-                $buttonClass = "btn btn-default btn-sm";
+                $buttonClass = "btn btn-default";
                 $iconClass = "fas fa-wifi";
                 if (empty($label)) {
                     $label = __("Disconnect Livestream");
@@ -426,7 +426,7 @@ class Live extends PluginAbstract {
                 }
                 break;
             case "drop_publisher_reset_key":
-                $buttonClass = "btn btn-default btn-sm";
+                $buttonClass = "btn btn-default";
                 $iconClass = "fas fa-key";
                 if (empty($label)) {
                     $label = __("Disconnect Livestream");

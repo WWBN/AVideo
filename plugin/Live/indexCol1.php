@@ -63,10 +63,19 @@
             setInterval(function () {
                 if (isOnlineLabel) {
                     $("#liveControls").slideDown();
+                    if(player.paused()){
+                        userIsControling = 0;
+                        reloadVideoJS();
+                        playerPlay();
+                    }
                 } else {
                     $("#liveControls").slideUp();
+                    if(!player.paused()){
+                        player.pause();
+                    }
                 }
             }, 1000);
+            
         });
     </script>
 </div>
