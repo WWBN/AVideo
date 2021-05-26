@@ -120,7 +120,7 @@ class PlayerSkins extends PluginAbstract {
                 $htmlMediaTag .= '</audio>';
             } else if ($vType == 'embed') {
                 $disableYoutubeIntegration = false;
-                if (!empty($advancedCustom->disableYoutubePlayerIntegration)) {
+                if (!empty($advancedCustom->disableYoutubePlayerIntegration) || isMobile()) {
                     $disableYoutubeIntegration = true;
                 }
                 $_GET['isEmbedded'] = "";
