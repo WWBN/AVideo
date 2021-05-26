@@ -409,11 +409,7 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         ?>
         <?php
         echo AVideoPlugin::afterVideoJS();
-        if ($advancedCustom != false) {
-            $disableYoutubeIntegration = $advancedCustom->disableYoutubePlayerIntegration || isMobile();
-        } else {
-            $disableYoutubeIntegration = false;
-        }
+        $disableYoutubeIntegration = @$advancedCustom->disableYoutubePlayerIntegration || isMobile();
 
         if ((isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false)) {
             if ($_GET['isEmbedded'] == "y") {
