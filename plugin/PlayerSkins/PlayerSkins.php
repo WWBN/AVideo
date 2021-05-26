@@ -124,7 +124,7 @@ class PlayerSkins extends PluginAbstract {
                     $disableYoutubeIntegration = true;
                 }
                 $_GET['isEmbedded'] = "";
-                if (((strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false)) || ($disableYoutubeIntegration)) {
+                if (($disableYoutubeIntegration) || ((strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false))) {
                     $_GET['isEmbedded'] = "e";
                     $isVideoTypeEmbed = 1;
                     $url = parseVideos($video['videoLink']);
