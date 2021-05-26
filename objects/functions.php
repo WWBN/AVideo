@@ -604,7 +604,7 @@ function sendSiteEmailAsync($to, $subject, $message) {
     $content = array('to' => $to, 'subject' => $subject, 'message' => $message);
     $tmpFile = getTmpFile();
     file_put_contents($tmpFile, _json_encode($content));
-    outputAndContinueInBackground();
+    //outputAndContinueInBackground();
     $command = "php {$global['systemRootPath']}objects/sendSiteEmailAsync.php '$tmpFile'";
 
     _error_log("sendSiteEmailAsync start  ($command)");
