@@ -761,9 +761,9 @@ if (!class_exists('Video')) {
                     $video['groups'] = UserGroups::getVideoGroups($video['id']);
                     $video['title'] = UTF8encode($video['title']);
                     $video['description'] = UTF8encode($video['description']);
-                    $video['hashId'] = idToHash($row['id']);
-                    $video['link'] = self::getLinkToVideo($row['id'], $row['clean_title']);
-                    $video['embedlink'] = self::getLinkToVideo($row['id'], $row['clean_title'], true);
+                    $video['hashId'] = idToHash($video['id']);
+                    $video['link'] = self::getLinkToVideo($video['id'], $video['clean_title']);
+                    $video['embedlink'] = self::getLinkToVideo($video['id'], $video['clean_title'], true);
                     $video['progress'] = self::getVideoPogressPercent($video['id']);
                     $video['isFavorite'] = self::isFavorite($video['id']);
                     $video['isWatchLater'] = self::isWatchLater($video['id']);
