@@ -259,15 +259,15 @@ if (!empty($evideo)) {
     if (empty($_GET['videoName']) && !empty($video)) {
         $_GET['videoName'] = $video['clean_title'];
     }
-    if(empty($video) && !empty($_GET['videoName'])){
-        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+    if(!empty($_GET['videoName'])){
+        $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
-    if (empty($video) && empty($videosPlayList[$playlist_index]['id'])) {
+    if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
         videoNotFound("");
     } else {
         $modeYouTubeTimeLog['Code part 4'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
-        AVideoPlugin::getModeYouTube($video['id']);
+        AVideoPlugin::getModeYouTube($v['id']);
         $modeYouTubeTimeLog['Code part 5'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
     }
