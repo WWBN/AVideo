@@ -35,9 +35,9 @@ class VideoLogoOverlay extends PluginAbstract {
         $obj->logoMaxWidthPX = 150;
         return $obj;
     }
-    
+
     public function getPluginVersion() {
-        return "2.0";
+        return "2.1";
     }
 
     public function getPluginMenu() {
@@ -92,21 +92,34 @@ class VideoLogoOverlay extends PluginAbstract {
 
     function getFooterCode() {
         global $global;
-        if(!isVideo()){
+        if (!isVideo()) {
             return '';
         }
-        $videos_id = getVideos_id();
-        $video = Video::getVideoLight($videos_id);
         $style = VideoLogoOverlay::getStyle();
         $url = VideoLogoOverlay::getLink();
         $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
         $logoOverlay = "{$global['webSiteRootURL']}videos/logoOverlay.png";
         $cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
         if ($obj->useUserChannelImageAsLogo) {
-            $logoOverlay = User::getPhoto($video['users_id']);
-            $cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
+            $users_id = 0;
+            if ($liveLink_id = isLiveLink()) {
+                $liveLink = new LiveLinksTable($liveLink_id);
+                $users_id = $liveLink->getUsers_id();
+            } else if ($live = isLive()) {
+                //$live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
+                $lt = LiveTransmition::getFromKey($live['key']);
+                $users_id = $lt['users_id'];                
+            } else {
+                $videos_id = getVideos_id();
+                $video = Video::getVideoLight($videos_id);
+                $users_id = $video['users_id'];
+            }
+            if (!empty($users_id)) {
+                $logoOverlay = User::getPhoto($users_id);
+                $cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
+            }
         }
-        $html = '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive '.$cols.'" style="max-width:'.$obj->logoMaxWidthPX.'px;"></a></div>';
+        $html = '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive ' . $cols . '" style="max-width:' . $obj->logoMaxWidthPX . 'px;"></a></div>';
         $js = "$('{$html}').appendTo('#mainVideo');";
         PlayerSkins::addOnPlayerReady($js);
     }
