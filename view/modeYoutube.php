@@ -270,16 +270,12 @@ if (!empty($evideo)) {
         AVideoPlugin::getModeYouTube($v['id']);
         $modeYouTubeTimeLog['Code part 5'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
-        if (empty($video)) {
-            header('HTTP/1.0 404 Not Found', true, 404);
-        }
-        $modeYouTubeTimeLog['Code part 6'] = microtime(true) - $modeYouTubeTime;
-        $modeYouTubeTime = microtime(true);
     }
 }
 
 // video not found
 if (empty($video)) {
+    /*
     $img = "".getCDN()."view/img/this-video-is-not-available.jpg";
     $poster = "".getCDN()."view/img/this-video-is-not-available.jpg";
     $imgw = 1280;
@@ -303,6 +299,9 @@ if (empty($video)) {
     $video['filename'] = "";
 
     header('HTTP/1.0 404 Not Found', true, 404);
+     * 
+     */
+    videoNotFound('The video is not available');
 }
 $metaDescription = " {$video['id']}";
 
