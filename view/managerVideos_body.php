@@ -1833,7 +1833,9 @@ if (Permissions::canAdminVideos()) {
     <?php
 }
 ?>
-                                                        return embedBtn + editBtn + deleteBtn + status + suggestBtn + pluginsButtons + download + nextIsSet;
+                                                        var playBtn = '<button type="button" class="btn btn-default btn-xs"  onclick="avideoModalIframe(\'' + row.embedlink + '\')"  data-toggle="tooltip" title="<?php echo __('Play'); ?>"><span class="fas fa-play" aria-hidden="true"></span></button>';
+                                                        
+                                                        return playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + pluginsButtons + download + nextIsSet;
                                                     },
                                                     "tags": function (column, row) {
                                                         var tags = "";
@@ -1959,7 +1961,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
 ?>
                                                         img = img + '<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> ' + row.duration + '</div>';
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
-                                                        var buttonTitleLink = '<a href="<?php echo $global['webSiteRootURL']; ?>video/' + row.id + '/' + row.clean_title + '" class="btn btn-default btn-xs titleBtn" style="overflow: hidden;">' + type + row.title + '</a>';
+                                                        var buttonTitleLink = '<a href="' + row.link + '" class="btn btn-default btn-xs titleBtn" style="overflow: hidden;">' + type + row.title + '</a>';
                                                         return img + '<div class="clearfix hidden-md hidden-lg"></div>' + buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList;
                                                     }
 

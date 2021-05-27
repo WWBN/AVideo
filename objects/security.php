@@ -28,7 +28,11 @@ foreach ($scanVars as $value) {
         $scanThis['videos_id'] = videosHashToID($scanThis['videos_id']);
     }
     if (!empty($scanThis['v'])) {
+        $originalValue = $scanThis['v'];
         $scanThis['v'] = videosHashToID($scanThis['v']);
+        if($originalValue === $scanThis['v']){
+            $global['makeVideosIDHarderToGuessNotDecrypted'] = 1;
+        }        
     }
 
     foreach ($filterURL as $key => $value) {

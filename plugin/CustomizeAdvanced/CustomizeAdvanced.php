@@ -347,7 +347,18 @@ Allow: .css";
     public function getHeadCode() {
         global $global;
         $obj = $this->getDataObject();
+        
+        if($obj->makeVideosIDHarderToGuess){
+            if(isVideo()){
+                if(!empty($global['makeVideosIDHarderToGuessNotDecrypted'])){
+                    unset($global['makeVideosIDHarderToGuessNotDecrypted']);
+                    forbiddenPage(__('Invalid ID'));
+                }
+            }
+        }
+        
         $baseName = basename($_SERVER['REQUEST_URI']);
+        
         $js = "";
         if(empty($obj->autoPlayAjax)){
             $js .= "<script>var autoPlayAjax=false;</script>";
