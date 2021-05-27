@@ -369,7 +369,7 @@ class Category {
             $sql .= ")";
         }
 
-        $sortWhitelist = array('id', 'name', 'clean_name', 'description', 'iconClass', 'nextVideoOrder', 'parentId', 'type', 'users_id', 'private', 'allow_download', 'order');
+        $sortWhitelist = array('id', 'name', 'clean_name', 'description', 'iconClass', 'nextVideoOrder', 'parentId', 'type', 'users_id', 'private', 'allow_download', 'order', 'suggested');
 
         if (!empty($_POST['sort']) && is_array($_POST['sort'])) {
             foreach ($_POST['sort'] as $key => $value) {
@@ -379,7 +379,7 @@ class Category {
             }
         }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY `order`, name ASC ");
-
+        //echo $sql;exit;
         $cacheName = md5($sql);
         if (empty($_SESSION['user']['sessionCache']['getAllCategoriesClearCache'])) {
             $category = object_to_array(ObjectYPT::getCache($cacheName, 36000));
