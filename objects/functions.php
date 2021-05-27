@@ -4272,6 +4272,10 @@ function getVideos_id() {
             $videos_id = $video['id'];
         }
     }
+    
+    if(empty($videos_id) && !empty($_REQUEST['v'])){
+        $videos_id = $_REQUEST['v'];
+    }
 
     $videos_id = videosHashToID($videos_id);
 
