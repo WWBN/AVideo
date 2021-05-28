@@ -95,7 +95,7 @@ if (!empty($evideo)) {
                 $isPlayListTrailer = true;
             }
         }
-        if (empty($playlist_index) && $isPlayListTrailer) {
+        if (empty($playlist_index) && $isPlayListTrailer && !empty($videoSerie)) {
             $video = $videoSerie;
         } else {
             $vid = new Video("", "", $videosPlayList[$playlist_index]['id']);
