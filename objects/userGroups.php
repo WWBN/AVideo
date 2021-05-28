@@ -231,6 +231,10 @@ class UserGroups {
         return true;
     }
 
+     static function getAlUserGroupsFromUser($users_id) {
+         return self::getUserGroups($users_id);
+     }
+    
     static function getUserGroups($users_id) {
         global $global;
         $res = sqlDAL::readSql("SHOW TABLES LIKE 'users_has_users_groups'");
