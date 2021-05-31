@@ -75,8 +75,8 @@ function _test_send($SocketURL, $msg) {
         global $responses;
         preg_match('/(tcp|tls):\/\/([^:]+):([0-9]+)/i', $e->getMessage(), $matches);
         if (empty($matches)) {
-            //_log("ERROR on get connect response [" . $e->getMessage() . "]");
-            $responses[] = $e->getMessage();
+            _log("ERROR on get connect response [" . $e->getMessage() . "]");
+            //$responses[] = $e->getMessage();
         }else{
             $c = new AVideoSocketConfiguration($matches[1], $matches[3], $matches[2], false, $e->getMessage());
             $responses[] = $c;
