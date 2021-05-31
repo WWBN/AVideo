@@ -19,7 +19,8 @@ $_SERVER["HTTP_USER_AGENT"] = $AVideoStreamer_UA;
 $socketobj = AVideoPlugin::getDataObject("YPTSocket");
 $address = $socketobj->host;
 $port = $socketobj->port;
-
+$socketobj->forceNonSecure = false;
+        
 $url = "://localhost:{$port}";
 $SocketURL = 'ws' . $url;
 _test_send($SocketURL, 'ws');
@@ -200,11 +201,14 @@ function printIfComplete() {
             $msg .= '*** Server host: ' . ($value->host) . PHP_EOL;
             $msg .= '-------------------------------------------------------' . PHP_EOL . PHP_EOL;
         }
+        /*
         if(empty($responses)){
             $msg .= 'Restarting socket server' . PHP_EOL;
             $msg .= restartServer();
             $msg .= 'Restarting complete' . PHP_EOL;
         }
+         * 
+         */
         _log($msg);
     }
 }
