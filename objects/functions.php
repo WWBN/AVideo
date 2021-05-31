@@ -2088,11 +2088,11 @@ function mime_content_type_per_filename($filename) {
 
 function combineFiles($filesArray, $extension = "js") {
     global $global, $advancedCustom;
-    
-    if($extension=='js' && isBot()){
+
+    if ($extension == 'js' && isBot()) {
         return getCDN() . 'view/js/empty.js';
     }
-    
+
     $cacheDir = $global['systemRootPath'] . 'videos/cache/' . $extension . "/";
     if (!is_dir($cacheDir)) {
         mkdir($cacheDir, 0777, true);
@@ -4277,8 +4277,8 @@ function getVideos_id() {
             $videos_id = $video['id'];
         }
     }
-    
-    if(empty($videos_id) && !empty($_REQUEST['v'])){
+
+    if (empty($videos_id) && !empty($_REQUEST['v'])) {
         $videos_id = $_REQUEST['v'];
     }
 
@@ -5805,7 +5805,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -6704,4 +6704,11 @@ function useVideoHashOrLogin() {
         }
     }
     return User::loginFromRequest();
+}
+
+function strip_specific_tags($string, $tags_to_strip = array("script")) {
+    foreach ($tags_to_strip as $tag) {
+        $string = preg_replace("/<\\/?" . $tag . "(.|\\s)*?>/", $replace_with, $string);
+    }
+    return $string;
 }
