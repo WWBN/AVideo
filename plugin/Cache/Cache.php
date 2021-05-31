@@ -136,9 +136,9 @@ class Cache extends PluginAbstract {
                     header('Content-Type: application/json');
                 }
                 
-                if(isBot()){
-                    $firstPageCache = strip_specific_tags($firstPageCache);
-                }
+                //if(isBot()){
+                    //$firstPageCache = strip_specific_tags($firstPageCache);
+                //}
                 
                 echo $firstPageCache.PHP_EOL.'<!-- Cached Page Generated in '.getScriptRunMicrotimeInSeconds().' Seconds -->';
                 if ($obj->logPageLoadTime) {
