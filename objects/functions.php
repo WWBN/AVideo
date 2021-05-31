@@ -2088,6 +2088,11 @@ function mime_content_type_per_filename($filename) {
 
 function combineFiles($filesArray, $extension = "js") {
     global $global, $advancedCustom;
+    
+    if($extension=='js' && isBot()){
+        return getCDN() . 'view/js/empty.js';
+    }
+    
     $cacheDir = $global['systemRootPath'] . 'videos/cache/' . $extension . "/";
     if (!is_dir($cacheDir)) {
         mkdir($cacheDir, 0777, true);
