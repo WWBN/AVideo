@@ -6716,3 +6716,14 @@ function strip_specific_tags($string, $tags_to_strip = array("script")) {
     }
     return $string;
 }
+function strip_render_blocking_resources($string) {
+    $tags_to_strip = array('link', 'style');
+    $head = preg_match('/<head>(.*)<\/head>/s', $string, $matches);
+    $string = str_replace($matches[0], '{_head_}', $string);    
+    foreach ($tags_to_strip as $tag) {
+        $string = preg_replace('/<'.$tag.'[^>]*>(.*?)<\/'.$tag.'>/s', '', $string);
+        $string = preg_replace('/<'.$tag.'[^>]*\/>/s', '', $string);
+    }
+    $string = str_replace('{_head_}', $matches[0], $string);
+    return $string;
+}
