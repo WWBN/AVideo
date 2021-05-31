@@ -126,6 +126,9 @@ class Cache extends PluginAbstract {
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             $cacheName = 'firstPage'.DIRECTORY_SEPARATOR.$this->getFileName();
             $lifetime = $obj->cacheTimeInSeconds;
+            if($isBot && $lifetime < 3600){
+                $lifetime = 3600;
+            }
             $firstPageCache = ObjectYPT::getCache($cacheName, $lifetime, true);
             if(!empty($firstPageCache) && strtolower($firstPageCache) != 'false'){
                 if ($isBot && $_SERVER['REQUEST_URI'] !== '/login') {
@@ -136,7 +139,7 @@ class Cache extends PluginAbstract {
                     header('Content-Type: application/json');
                 }
                 
-                if(isBot()){
+                if($isBot){
                     $firstPageCache = strip_specific_tags($firstPageCache);
                 }
                 
@@ -180,7 +183,8 @@ class Cache extends PluginAbstract {
 
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             $cacheName = 'firstPage'.DIRECTORY_SEPARATOR.$this->getFileName();
-            ObjectYPT::setCache($cacheName, $c);
+            $r = ObjectYPT::setCache($cacheName, $c);
+            //var_dump($r);
         }
         if ($obj->logPageLoadTime) {
             $this->end();
