@@ -578,6 +578,7 @@ class AVideoPlugin {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                //_error_log("{$value['dirName']}::" . __FUNCTION__);
                 $p->getEnd();
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
