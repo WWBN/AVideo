@@ -105,7 +105,7 @@ class Cache extends PluginAbstract {
     public function getStart() {
         global $global;
         // ignore cache if it is command line
-
+        //var_dump($this->isFirstPage());exit;
         $obj = $this->getDataObject();
         if ($obj->logPageLoadTime) {
             $this->start();
@@ -135,6 +135,9 @@ class Cache extends PluginAbstract {
                 if (preg_match("/\.json\.?/", $baseName)) {
                     header('Content-Type: application/json');
                 }
+                
+                $firstPageCache = strip_specific_tags($firstPageCache);
+                
                 echo $firstPageCache.PHP_EOL.'<!-- Cached Page Generated in '.getScriptRunMicrotimeInSeconds().' Seconds -->';
                 if ($obj->logPageLoadTime) {
                     $this->end("Cache");
