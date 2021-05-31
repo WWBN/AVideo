@@ -137,7 +137,7 @@ class Cache extends PluginAbstract {
                 }
                 
                 //if(isBot()){
-                    //$firstPageCache = strip_specific_tags($firstPageCache);
+                    $firstPageCache = strip_specific_tags($firstPageCache);
                 //}
                 
                 echo $firstPageCache.PHP_EOL.'<!-- Cached Page Generated in '.getScriptRunMicrotimeInSeconds().' Seconds -->';
