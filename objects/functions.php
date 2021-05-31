@@ -4063,8 +4063,8 @@ function isAVideoPlayer() {
 }
 
 function isFirstPage() {
-    global $isFirstPage;
-    return !empty($isFirstPage);
+    global $isFirstPage, $global;
+    return !empty($isFirstPage) || getSelfURI() === "{$global['webSiteRootURL']}view/";
 }
 
 function isVideo() {
