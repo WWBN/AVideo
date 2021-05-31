@@ -424,7 +424,7 @@ abstract class ObjectYPT implements ObjectInterface {
         } elseif (file_exists($cachefile)) {
             self::deleteCache($name);
         }
-        _error_log("YPTObject::getCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
+        //_error_log("YPTObject::getCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
         return null;
     }
 
