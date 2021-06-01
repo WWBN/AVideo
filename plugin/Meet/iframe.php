@@ -48,6 +48,7 @@ if(User::isLogged()){
         <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
         <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
         <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js"></script>
+        <script src="<?php echo getCDN(); ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/js/script.js"></script>
         <script>
             var getRTMPLink = '<?php echo Live::getRTMPLink($meet->getUsers_id()); ?>';
