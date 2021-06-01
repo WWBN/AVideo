@@ -6598,6 +6598,9 @@ function hashToID($hash) {
 }
 
 function videosHashToID($hash_of_videos_id) {
+    if(is_int($hash_of_videos_id)){
+        return $hash_of_videos_id;
+    }
     if (!is_string($hash_of_videos_id) && !is_numeric($hash_of_videos_id)) {
         return 0;
     }
