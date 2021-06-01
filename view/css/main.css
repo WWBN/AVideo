@@ -1123,3 +1123,8 @@ li.dropdown-submenu > ul > li > a{
         padding: 0;
     }
 }
+
+
+.modal {
+    overflow: auto !important;
+}
