@@ -6578,8 +6578,17 @@ function fixPath($path, $addLastSlash = false) {
 
 function idToHash($id) {
     global $global;
-    $id = base_convert($id, 10, 32);
-    $hash = (openssl_encrypt($id, 'rc4', $global['salt']));
+
+    if (!empty($global['useLongHash'])) {
+        $base = 2;
+        $cipher_algo = 'des';
+    } else {
+        $base = 32;
+        $cipher_algo = 'rc4';
+    }
+
+    $id = base_convert($id, 10, $base);
+    $hash = (openssl_encrypt($id, $cipher_algo, $global['salt']));
     //$hash = preg_replace('/^([+]+)/', '', $hash);
     $hash = preg_replace('/(=+)$/', '', $hash);
     $hash = str_replace(array('/', '+', '='), array('_', '-', '.'), $hash);
@@ -6589,16 +6598,23 @@ function idToHash($id) {
 
 function hashToID($hash) {
     global $global;
+    if (!empty($global['useLongHash'])) {
+        $base = 2;
+        $cipher_algo = 'des';
+    } else {
+        $base = 32;
+        $cipher_algo = 'rc4';
+    }
     //$hash = str_pad($hash,  4, "=");
     $hash = str_replace(array('_', '-', '.'), array('/', '+', '='), $hash);
     //$hash = base64_decode($hash);
-    $decrypt = openssl_decrypt(($hash), 'rc4', $global['salt']);
-    $decrypt = base_convert($decrypt, 32, 10);
+    $decrypt = openssl_decrypt(($hash), $cipher_algo, $global['salt']);
+    $decrypt = base_convert($decrypt, $base, 10);
     return intval($decrypt);
 }
 
 function videosHashToID($hash_of_videos_id) {
-    if(is_int($hash_of_videos_id)){
+    if (is_int($hash_of_videos_id)) {
         return $hash_of_videos_id;
     }
     if (!is_string($hash_of_videos_id) && !is_numeric($hash_of_videos_id)) {
@@ -6715,17 +6731,18 @@ function useVideoHashOrLogin() {
 
 function strip_specific_tags($string, $tags_to_strip = array("script")) {
     foreach ($tags_to_strip as $tag) {
-        $string = preg_replace('/<'.$tag.'[^>]*>(.*?)<\/'.$tag.'>/s', '', $string);
+        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '', $string);
     }
     return $string;
 }
+
 function strip_render_blocking_resources($string) {
     $tags_to_strip = array('link', 'style');
     $head = preg_match('/<head>(.*)<\/head>/s', $string, $matches);
-    $string = str_replace($matches[0], '{_head_}', $string);    
+    $string = str_replace($matches[0], '{_head_}', $string);
     foreach ($tags_to_strip as $tag) {
-        $string = preg_replace('/<'.$tag.'[^>]*>(.*?)<\/'.$tag.'>/s', '', $string);
-        $string = preg_replace('/<'.$tag.'[^>]*\/>/s', '', $string);
+        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '', $string);
+        $string = preg_replace('/<' . $tag . '[^>]*\/>/s', '', $string);
     }
     $string = str_replace('{_head_}', $matches[0], $string);
     return $string;
