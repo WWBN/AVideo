@@ -1,7 +1,6 @@
 @media all and (max-width: 767px) {
     .vjs-picture-in-picture-control ,
     .player-logo,
-    .vjs-playback-rate,
     .vjs-seek-button{
         display: none !important;
     }
