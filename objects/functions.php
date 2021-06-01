@@ -4262,7 +4262,7 @@ function URLsAreSameVideo($url1, $url2) {
 function getVideos_id() {
     global $_getVideos_id;
     $videos_id = false;
-    if (isset($_getVideos_id)) {
+    if (isset($_getVideos_id) && is_int($_getVideos_id)) {
         return $_getVideos_id;
     }
     if (isVideo()) {
