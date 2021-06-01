@@ -116,8 +116,12 @@ class VideoLogoOverlay extends PluginAbstract {
             }
             if (!empty($users_id)) {
                 $logoOverlay = User::getPhoto($users_id);
+                $url = User::getChannelLink($users_id);
                 $cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
             }
+        }
+        if(!empty($url)){
+            $style .= 'pointer-events: auto;cursor: pointer;';
         }
         $html = '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive ' . $cols . '" style="max-width:' . $obj->logoMaxWidthPX . 'px;"></a></div>';
         $js = "$('{$html}').appendTo('#mainVideo');";
