@@ -1,0 +1,103 @@
+.VideoLogoOverlay{
+    position: absolute;
+    pointer-events: none;
+}
+.VideoLogoOverlay-URL{
+    pointer-events: auto;
+    cursor: pointer;
+}
+.VideoLogoOverlay img{
+    max-height: 100px;
+    max-width: 250px;
+}
+.VideoLogoOverlay-Center{
+    top: 50%; 
+    left: 50%; 
+    margin-left: -125px; 
+    margin-top: -35px;
+}
+.VideoLogoOverlay-Top{
+    top: 10px; 
+    left: 50%; 
+    margin-left: -125px;
+}
+.VideoLogoOverlay-Bottom{
+    bottom: 10px; 
+    left: 50%; 
+    margin-left: -125px; 
+}
+.VideoLogoOverlay-User.VideoLogoOverlay-Center,
+.VideoLogoOverlay-User.VideoLogoOverlay-Top,
+.VideoLogoOverlay-User.VideoLogoOverlay-Bottom{
+    margin-left: -50px; 
+}
+.VideoLogoOverlay-User.VideoLogoOverlay-Center{
+    margin-top: -50px; 
+}
+.VideoLogoOverlay-Top-Left{
+    top: 10px; 
+    left: 10px;
+}
+.VideoLogoOverlay-Bottom-Left{
+    bottom: 10px; 
+    left: 10px; 
+}
+.VideoLogoOverlay-Bottom-Right{
+    bottom: 10px; 
+    right: 10px; 
+}
+.VideoLogoOverlay-Top-Right{
+    top: 10px; 
+    right: 10px;
+}
+
+@media (max-width: 1200px){
+    .VideoLogoOverlay img{
+        max-height: 70px;
+        max-width: 150px;
+    }
+    
+    .VideoLogoOverlay-Center,
+    .VideoLogoOverlay-Top,
+    .VideoLogoOverlay-Bottom{
+        margin-left: -75px; 
+    }
+    .VideoLogoOverlay-Center{
+        margin-top: -21px; 
+    }
+
+    .VideoLogoOverlay-User.VideoLogoOverlay-Center,
+    .VideoLogoOverlay-User.VideoLogoOverlay-Top,
+    .VideoLogoOverlay-User.VideoLogoOverlay-Bottom{
+        margin-left: -35px; 
+    }
+    .VideoLogoOverlay-User.VideoLogoOverlay-Center{
+        margin-top: -35px; 
+    }
+}
+
+@media (max-width: 767px) {
+    .VideoLogoOverlay img{
+        max-height: 50px;
+        max-width: 120px;
+    }
+    
+    .VideoLogoOverlay-Center,
+    .VideoLogoOverlay-Top,
+    .VideoLogoOverlay-Bottom{
+        margin-left: -60px; 
+    }
+    .VideoLogoOverlay-Center{
+        margin-top: -17px; 
+    }
+
+    .VideoLogoOverlay-User.VideoLogoOverlay-Center,
+    .VideoLogoOverlay-User.VideoLogoOverlay-Top,
+    .VideoLogoOverlay-User.VideoLogoOverlay-Bottom{
+        margin-left: -25px; 
+    }
+    .VideoLogoOverlay-User.VideoLogoOverlay-Center{
+        margin-top: -25px; 
+    }
+}
+

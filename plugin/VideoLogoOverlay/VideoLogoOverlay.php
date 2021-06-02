@@ -32,7 +32,6 @@ class VideoLogoOverlay extends PluginAbstract {
         $obj->position = $o;
         $obj->opacity = 50;
         $obj->useUserChannelImageAsLogo = true;
-        $obj->logoMaxWidthPX = 150;
         return $obj;
     }
 
@@ -48,35 +47,38 @@ class VideoLogoOverlay extends PluginAbstract {
 
     static function getStyle() {
         $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
+        $opacity = "opacity: " . ($obj->opacity / 100) . "; filter: alpha(opacity={$obj->opacity}); ";
 
-        "position: absolute; top: 0; left: 0; opacity: 0.5; filter: alpha(opacity=50);";
-        $opacity = "opacity: " . ($obj->opacity / 100) . "; filter: alpha(opacity={$obj->opacity});pointer-events:none; ";
+        return $opacity;
+    }
 
-        $position = "position: absolute; top: 0; left: 0; ";
+    static function getClass() {
+        $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
+        $position = "VideoLogoOverlay";
         switch ($obj->position->value) {
             case "center":
-                $position = "position: absolute; top: 50%; left: 50%; margin-left: -125px; margin-top: -35px; ";
+                $position .= " VideoLogoOverlay-Center";
                 break;
             case "top":
-                $position = "position: absolute; top: 0; left: 50%; margin-left: -125px; ";
+                $position .= " VideoLogoOverlay-Top";
                 break;
             case "bottom":
-                $position = "position: absolute; bottom: 0; left: 50%; margin-left: -125px; ";
+                $position .= " VideoLogoOverlay-Bottom";
                 break;
             case "top left":
-                $position = "position: absolute; top: 0; left: 0; ";
+                $position .= " VideoLogoOverlay-Top-Left";
                 break;
             case "bottom left":
-                $position = "position: absolute; bottom: 0; left: 0; ";
+                $position .= " VideoLogoOverlay-Bottom-Left";
                 break;
             case "top right":
-                $position = "position: absolute; top: 0; right: 0; ";
+                $position .= " VideoLogoOverlay-Top-Right";
                 break;
             case "bottom right":
-                $position = "position: absolute; bottom: 0; right: 0; ";
+                $position .= " VideoLogoOverlay-Bottom-Right";
                 break;
         }
-        return $position . $opacity;
+        return $position;
     }
 
     static function getLink() {
@@ -97,9 +99,10 @@ class VideoLogoOverlay extends PluginAbstract {
         }
         $style = VideoLogoOverlay::getStyle();
         $url = VideoLogoOverlay::getLink();
+        $class = VideoLogoOverlay::getClass();
         $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
         $logoOverlay = "{$global['webSiteRootURL']}videos/logoOverlay.png";
-        $cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
+        //$cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
         if ($obj->useUserChannelImageAsLogo) {
             $users_id = 0;
             if ($liveLink_id = isLiveLink()) {
@@ -108,7 +111,7 @@ class VideoLogoOverlay extends PluginAbstract {
             } else if ($live = isLive()) {
                 //$live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
                 $lt = LiveTransmition::getFromKey($live['key']);
-                $users_id = $lt['users_id'];                
+                $users_id = $lt['users_id'];
             } else {
                 $videos_id = getVideos_id();
                 $video = Video::getVideoLight($videos_id);
@@ -117,15 +120,25 @@ class VideoLogoOverlay extends PluginAbstract {
             if (!empty($users_id)) {
                 $logoOverlay = User::getPhoto($users_id);
                 $url = User::getChannelLink($users_id);
-                $cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
+                $class .= ' VideoLogoOverlay-User';
+                //$cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
             }
         }
-        if(!empty($url)){
-            $style .= 'pointer-events: auto;cursor: pointer;';
+        $cols = "";
+        
+        if (!empty($url)) {
+            $class .= ' VideoLogoOverlay-URL';
         }
-        $html = '<div style="' . $style . '" class="VideoLogoOverlay"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive ' . $cols . '" style="max-width:' . $obj->logoMaxWidthPX . 'px;"></a></div>';
+        //$logoOverlay = "{$global['webSiteRootURL']}videos/logoOverlay.png";
+
+        $html = '<div style="' . $style . '" class="' . $class . '"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive ' . $cols . '" ></a></div>';
         $js = "$('{$html}').appendTo('#mainVideo');";
         PlayerSkins::addOnPlayerReady($js);
+    }
+
+    public function getHeadCode() {
+        global $global;
+        return "<link href=\"{$global['webSiteRootURL']}plugin/VideoLogoOverlay/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
     }
 
 }
