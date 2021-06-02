@@ -505,7 +505,7 @@ header("HTTP/1.0 404 Not Found");
 
                 <div id="search">
                     <form action="<?php echo $global['webSiteRootURL']; ?>">
-                        <input type="text" placeholder="<? echo __("Search"); ?>" name="search" />
+                        <input type="text" placeholder="<?php echo __("Search"); ?>" name="search" />
                     </form>
                 </div>
 
