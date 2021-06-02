@@ -26,7 +26,7 @@ $percent = 90;
              }
 
              //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
-             $videos = Video::getAllVideos("viewableNotUnlisted", false, true, array(), false, false, true, true);
+             $videos = Video::getAllVideos("viewableNotUnlisted", false, $obj->hidePrivateVideos, array(), false, false, true, true);
              if (!empty($videos)) {
                  ?>
             <div class="row topicRow">
@@ -99,7 +99,7 @@ $percent = 90;
             $dataFlickirty->autoPlay = 10000;
         }
 
-        $programs = Video::getAllVideos("viewableNotUnlisted", false, true, array(), false, false, true, false, true);
+        $programs = Video::getAllVideos("viewableNotUnlisted", false, $obj->hidePrivateVideos, array(), false, false, true, false, true);
         cleanSearchVar();
         if (!empty($programs)) {
             foreach ($programs as $serie) {
@@ -154,7 +154,7 @@ $percent = 90;
 
         $_POST['sort']['trending'] = "";
 
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+        $videos = Video::getAllVideos("viewableNotUnlisted", false, $obj->hidePrivateVideos);
         unset($_POST['sort']['trending']);
         if (!empty($videos)) {
             ?>
@@ -188,7 +188,7 @@ $percent = 90;
         unset($_POST['sort']);
         $_POST['sort']['created'] = "DESC";
 
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+        $videos = Video::getAllVideos("viewableNotUnlisted", false, $obj->hidePrivateVideos);
         if (!empty($videos)) {
             ?>
             <div class="row topicRow">
@@ -224,7 +224,7 @@ $percent = 90;
         unset($_POST['sort']);
         $_POST['sort']['likes'] = "DESC";
         $_POST['sort']['v.created'] = "DESC";
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+        $videos = Video::getAllVideos("viewableNotUnlisted", false, $obj->hidePrivateVideos);
         ?>
         <div class="row topicRow">
             <span class="md-col-12">&nbsp;</span>
@@ -258,7 +258,7 @@ $percent = 90;
         unset($_POST['sort']);
         $_POST['sort']['views_count'] = "DESC";
         $_POST['sort']['created'] = "DESC";
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+        $videos = Video::getAllVideos("viewableNotUnlisted", false, $obj->hidePrivateVideos);
         ?>
         <span class="md-col-12">&nbsp;</span>
         <div class="row topicRow">
@@ -290,7 +290,7 @@ $percent = 90;
         unset($_POST['sort']);
         $_POST['sort']['title'] = "ASC";
         $_POST['sort']['created'] = "DESC";
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+        $videos = Video::getAllVideos("viewableNotUnlisted", false, $obj->hidePrivateVideos);
         ?>
         <span class="md-col-12">&nbsp;</span>
         <div class="row topicRow">
