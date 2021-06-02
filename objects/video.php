@@ -756,35 +756,7 @@ if (!class_exists('Video')) {
             if ($res != false) {
                 require_once $global['systemRootPath'] . 'objects/userGroups.php';
                 if (!empty($video)) {
-                    $video = cleanUpRowFromDatabase($video);
-                    $video['category'] = xss_esc_back($video['category']);
-                    $video['groups'] = UserGroups::getVideoGroups($video['id']);
-                    $video['title'] = UTF8encode($video['title']);
-                    $video['description'] = UTF8encode($video['description']);
-                    $video['hashId'] = idToHash($video['id']);
-                    $video['link'] = self::getLinkToVideo($video['id'], $video['clean_title']);
-                    $video['embedlink'] = self::getLinkToVideo($video['id'], $video['clean_title'], true);
-                    $video['progress'] = self::getVideoPogressPercent($video['id']);
-                    $video['isFavorite'] = self::isFavorite($video['id']);
-                    $video['isWatchLater'] = self::isWatchLater($video['id']);
-                    $video['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
-                    $video['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
-                    if (empty($video['filesize']) && ($video['type'] == "video" || $video['type'] == "audio")) {
-                        $video['filesize'] = Video::updateFilesize($video['id']);
-                    }
-                    if (!$ignoreTags) {
-                        $video['tags'] = self::getTags($video['id']);
-                    }
-                    if (!empty($video['externalOptions'])) {
-                        $video['externalOptions'] = _json_decode($video['externalOptions']);
-                    } else {
-                        $video['externalOptions'] = new stdClass();
-                    }
-                    $video['descriptionHTML'] = strip_tags($video['description']) === $video['description'] ? nl2br(textToLink(htmlentities($video['description']))) : $video['description'];
-                    if (!$ignoreTags && AVideoPlugin::isEnabledByName("VideoTags")) {
-                        $video['videoTags'] = Tags::getAllFromVideosId($video['id']);
-                        $video['videoTagsObject'] = Tags::getObjectFromVideosId($video['id']);
-                    }
+                    $video = self::getInfo($video, $getStatistcs);
                 }
             } else {
                 $video = false;
@@ -890,7 +862,7 @@ if (!class_exists('Video')) {
         static function getRelatedMovies($videos_id, $limit = 10) {
             global $global;
             $video = self::getVideoLight($videos_id);
-            if(empty($video)){
+            if (empty($video)) {
                 return false;
             }
             $sql = "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='a' AND (categories_id = {$video['categories_id']} ";
@@ -902,9 +874,9 @@ if (!class_exists('Video')) {
             }
 
             $sql .= ") ";
-            
+
             $sql .= AVideoPlugin::getVideoWhereClause();
-            
+
             $sql .= "ORDER BY RAND() LIMIT {$limit} ";
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
@@ -1139,60 +1111,7 @@ if (!class_exists('Video')) {
                 require_once 'userGroups.php';
                 TimeLogStart("video::getAllVideos foreach");
                 foreach ($fullData as $row) {
-                    $row = cleanUpRowFromDatabase($row);
-                    if (!self::canEdit($row['id'])) {
-                        if (!empty($row['video_password'])) {
-                            $row['video_password'] = 1;
-                        } else {
-                            $row['video_password'] = 0;
-                        }
-                    }
-                    if ($getStatistcs) {
-                        TimeLogStart("video::getAllVideos getStatistcs");
-                        $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
-                        $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
-                        $today = date('Y-m-d 23:59:59');
-                        $row['statistc_all'] = VideoStatistic::getStatisticTotalViews($row['id']);
-                        $row['statistc_today'] = VideoStatistic::getStatisticTotalViews($row['id'], false, date('Y-m-d 00:00:00'), $today);
-                        $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsWeek, $today);
-                        $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsMonth, $today);
-                        $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
-                        TimeLogEnd("video::getAllVideos getStatistcs", __LINE__, 0.5);
-                    }
-                    TimeLogStart("video::getAllVideos otherInfo");
-                    $otherInfocachename = "otherInfo{$row['id']}";
-                    $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename), 600);
-                    if (empty($otherInfo)) {
-                        $otherInfo = array();
-                        $otherInfo['category'] = xss_esc_back($row['category']);
-                        $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
-                        $otherInfo['tags'] = self::getTags($row['id']);
-                        $otherInfo['title'] = UTF8encode($row['title']);
-                        $otherInfo['description'] = UTF8encode($row['description']);
-                        $otherInfo['descriptionHTML'] = self::htmlDescription($otherInfo['description']);
-                        //$otherInfo['relatedVideos'] = self::getRelatedMovies($row['id']);
-                        if (empty($row['filesize'])) {
-                            $otherInfo['filesize'] = Video::updateFilesize($row['id']);
-                        }
-                        ObjectYPT::setCache($otherInfocachename, $otherInfo);
-                    }
-                    foreach ($otherInfo as $key => $value) {
-                        $row[$key] = $value;
-                    }
-                    $row['hashId'] = idToHash($row['id']);
-                    $row['link'] = self::getLinkToVideo($row['id'], $row['clean_title']);
-                    $row['embedlink'] = self::getLinkToVideo($row['id'], $row['clean_title'], true);
-                    $row['progress'] = self::getVideoPogressPercent($row['id']);
-                    $row['isFavorite'] = self::isFavorite($row['id']);
-                    $row['isWatchLater'] = self::isWatchLater($row['id']);
-                    $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
-                    $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
-                    TimeLogEnd("video::getAllVideos otherInfo", __LINE__, 0.5);
-
-                    TimeLogStart("video::getAllVideos getAllVideosArray");
-                    $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
-                    TimeLogEnd("video::getAllVideos getAllVideosArray", __LINE__);
-                    $videos[] = $row;
+                    $videos[] = self::getInfo($row, $getStatistcs);
                 }
                 $rowCount = getRowCount();
                 $tolerance = $rowCount / 100;
@@ -1208,6 +1127,70 @@ if (!class_exists('Video')) {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return $videos;
+        }
+
+        private static function getInfo($row, $getStatistcs=false) {
+            $name = "_getVideoInfo_{$row['id']}";
+            $cache = ObjectYPT::getSessionCache($name, 3600);
+            if(!empty($cache)){
+                return object_to_array($cache);
+            }
+            
+            $row = cleanUpRowFromDatabase($row);
+            if (!self::canEdit($row['id'])) {
+                if (!empty($row['video_password'])) {
+                    $row['video_password'] = 1;
+                } else {
+                    $row['video_password'] = 0;
+                }
+            }
+            if ($getStatistcs) {
+                TimeLogStart("video::getInfo getStatistcs");
+                $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
+                $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
+                $today = date('Y-m-d 23:59:59');
+                $row['statistc_all'] = VideoStatistic::getStatisticTotalViews($row['id']);
+                $row['statistc_today'] = VideoStatistic::getStatisticTotalViews($row['id'], false, date('Y-m-d 00:00:00'), $today);
+                $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsWeek, $today);
+                $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsMonth, $today);
+                $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
+                TimeLogEnd("video::getInfo getStatistcs", __LINE__, 0.5);
+            }
+            TimeLogStart("video::getInfo otherInfo");
+            $otherInfocachename = "otherInfo{$row['id']}";
+            $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename), 600);
+            if (empty($otherInfo)) {
+                $otherInfo = array();
+                $otherInfo['category'] = xss_esc_back($row['category']);
+                $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
+                $otherInfo['tags'] = self::getTags($row['id']);
+                $otherInfo['title'] = UTF8encode($row['title']);
+                $otherInfo['description'] = UTF8encode($row['description']);
+                $otherInfo['descriptionHTML'] = self::htmlDescription($otherInfo['description']);
+                //$otherInfo['relatedVideos'] = self::getRelatedMovies($row['id']);
+                if (empty($row['filesize'])) {
+                    $otherInfo['filesize'] = Video::updateFilesize($row['id']);
+                }
+                ObjectYPT::setCache($otherInfocachename, $otherInfo);
+            }
+            foreach ($otherInfo as $key => $value) {
+                $row[$key] = $value;
+            }
+            $row['hashId'] = idToHash($row['id']);
+            $row['link'] = self::getLinkToVideo($row['id'], $row['clean_title']);
+            $row['embedlink'] = self::getLinkToVideo($row['id'], $row['clean_title'], true);
+            $row['progress'] = self::getVideoPogressPercent($row['id']);
+            $row['isFavorite'] = self::isFavorite($row['id']);
+            $row['isWatchLater'] = self::isWatchLater($row['id']);
+            $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
+            $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
+            TimeLogEnd("video::getInfo otherInfo", __LINE__, 0.5);
+
+            TimeLogStart("video::getInfo getAllVideosArray");
+            $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
+            TimeLogEnd("video::getInfo getAllVideosArray", __LINE__);
+            ObjectYPT::setCache($name, $row);
+            return $row;
         }
 
         public static function htmlDescription($description) {
