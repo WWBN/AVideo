@@ -98,8 +98,11 @@ $groups = UserGroups::getAllUsersGroups();
                                                     <div class="form-group">
                                                         <label for="type">Type:</label>
                                                         <select class="form-control" id="type">
-                                                            <option value="1"><?php echo __('Default'); ?></option>
-                                                            <option value="2"><?php echo __('Left Menu'); ?></option>
+                                                            <?php
+                                                            foreach (Menu::$typeName as $key => $value) {
+                                                                echo "<option value=\"{$key}\">{$value}</option>";
+                                                            }
+                                                            ?>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -410,7 +413,7 @@ $groups = UserGroups::getAllUsersGroups();
                     $('#item_order').val(item.item_order);
                     $('#item_status').val(item.status);
                     $('#text').val(item.text);
-                    $('#menuSeoUrlItem').val(item.menuSeoUrlItem);                    
+                    $('#menuSeoUrlItem').val(item.menuSeoUrlItem);
                     $("#menuItemIcon").val(item.icon);
                     $("#menuItemIcon").trigger('change');
                     $('iframe').contents().find('.wysihtml5-editor').html(item.text);

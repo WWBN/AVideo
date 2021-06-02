@@ -5,6 +5,17 @@ require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class Menu extends ObjectYPT {
+    
+    static $typeLeftMenu = 1;
+    static $typeTopMenu = 2;
+    static $typeActionMenu = 3;
+    static $typeActionMenuCustomURL = 4;
+    
+    static $typeName = array(
+        1=>'Left', 
+        2=>'Top', 
+        3=>'Action', 
+        4=>'Action Custom URL Per Video');
 
     protected $id, $menuName, $categories_id, $users_groups_id, $menu_order, $status, $position, $type, $icon, $menuSeoUrl;
 

@@ -2,6 +2,8 @@
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/Menu.php';
+require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/MenuItem.php';
 
 use Pecee\SimpleRouter\SimpleRouter; //required if we want to define routes on our plugin.
 
@@ -96,4 +98,70 @@ class TopMenu extends PluginAbstract {
     static function canAdminTopMenu(){
         return Permissions::hasPermission(TopMenu::PERMISSION_CAN_EDIT,'TopMenu');
     }
+    
+    public function getGalleryActionButton($videos_id) {
+        global $global;
+        $obj = $this->getDataObject();
+        include $global['systemRootPath'] . 'plugin/TopMenu/actionButtonGallery.php';
+    }
+
+    public function getNetflixActionButton($videos_id) {
+        global $global;
+        $obj = $this->getDataObject();
+        include $global['systemRootPath'] . 'plugin/TopMenu/actionButtonNetflix.php';
+    }
+    
+    public function getWatchActionButton($videos_id) {
+        global $global, $video;
+        $obj = $this->getDataObject();
+        include $global['systemRootPath'] . 'plugin/TopMenu/actionButtonNetflix.php';
+    }
+    
+    static function getExternalOptionName($menu_item_id){
+        return "menu_url_{$menu_item_id}";
+    }
+    
+
+    static function setVideoMenuURL($videos_id, $menu_item_id, $url) {
+        $video = new Video('', '', $videos_id);
+        $externalOptions = _json_decode($video->getExternalOptions());        
+        $parameterName = self::getExternalOptionName($menu_item_id);
+        $externalOptions->$parameterName = $url;
+        $video->setExternalOptions(json_encode($externalOptions));
+        return $video->save();
+    }
+
+    static function getVideoMenuURL($videos_id, $menu_item_id) {
+        global $_getVideoMenuURL;
+        if(!isset($_getVideoMenuURL)){
+            $_getVideoMenuURL = array();
+        }
+        if(!empty($_getVideoMenuURL[$videos_id])){
+            return $_getVideoMenuURL[$videos_id];
+        }
+        $video = new Video('', '', $videos_id);
+             
+        $parameterName = self::getExternalOptionName($menu_item_id);
+        $externalOptions = _json_decode($video->getExternalOptions());
+        $_getVideoMenuURL[$videos_id] = $externalOptions->$parameterName;
+        return $_getVideoMenuURL[$videos_id];
+    }
+        
+    public function getVideosManagerListButton() {
+        if (!User::canUpload()) {
+            return "";
+        }
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
+        if(empty($menu)){
+            return '';
+        }
+        
+        $obj = $this->getDataObject();
+        $btn = '';
+        
+        $btn .= '<button type="button" class="btn btn-primary btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/TopMenu/addVideoInfo.php?videos_id=\'+row.id+\'\\\');" ><i class="fas fa-edit"></i> Menu items</button>';
+
+        return $btn;
+    }
+    
 }

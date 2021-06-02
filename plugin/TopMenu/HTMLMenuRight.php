@@ -6,8 +6,9 @@ require_once $configFile;
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/Menu.php';
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/MenuItem.php';
 
-$menu = Menu::getAllActive(1);
+$menu = Menu::getAllActive(Menu::$typeTopMenu);
 ?>
+<!-- right menu start -->
 <?php
 foreach ($menu as $key => $value) {
     ?>
@@ -52,4 +53,4 @@ foreach ($menu as $key => $value) {
     <?php
 }
 ?>
-
+<!-- right menu start -->
