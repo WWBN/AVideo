@@ -1,5 +1,5 @@
 <?php
-if(empty($global['systemRootPath'])){
+if (empty($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
@@ -16,7 +16,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         $imgw = $data[0];
         $imgh = $data[1];
     } else if ($video['type'] == "audio") {
-        $img = "".getCDN()."view/img/audio_wave.jpg";
+        $img = "" . getCDN() . "view/img/audio_wave.jpg";
     }
     $type = 'video';
     if ($video['type'] === 'pdf') {
@@ -116,7 +116,8 @@ if (User::hasBlockedUser($video['users_id'])) {
                 <?php if (empty($advancedCustom->disableShareAndPlaylist)) { ?>
                     <?php if (CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
-                            <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                            <span class="fa fa-share"></span> 
+                            <span class="hidden-sm hidden-xs"><?php echo __("Share"); ?></span>
                         </a>
                         <?php
                     }
@@ -145,7 +146,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                             }
 
                             $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
-                            $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_.".($video['type']==='audio'?'mp3':'mp4'));
+                            $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_." . ($video['type'] === 'audio' ? 'mp3' : 'mp4'));
 
                             $parts = explode("_", $key);
                             $name = $key;
@@ -163,13 +164,14 @@ if (User::hasBlockedUser($video['users_id'])) {
                         if (!empty($filesToDownload)) {
                             ?>
                             <a href="#" class="btn btn-default no-outline" id="downloadBtn">
-                                <span class="fa fa-download"></span> <?php echo __("Download"); ?>
+                                <span class="fa fa-download"></span> 
+                                <span class="hidden-sm hidden-xs"><?php echo __("Download"); ?></span>
                             </a>
                             <?php
-                        }else{
+                        } else {
                             echo '<!-- files to download are empty -->';
                         }
-                    }else{
+                    } else {
                         echo '<!-- CustomizeUser::canDownloadVideosFromVideo said NO -->';
                     }
                     ?>
@@ -250,7 +252,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
         });
     </script>
-<?php
+    <?php
 }
 
 if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($video['id'])) {
@@ -319,7 +321,7 @@ if (empty($advancedCustom->showShareMenuOpenByDefault)) {
 if (!empty($video['id']) && empty($advancedCustom->disableComments) && Video::showYoutubeModeOptions()) {
     ?>
     <div class="row bgWhite list-group-item">
-    <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/videoComments.php'; ?>
     </div>
     <?php
 }

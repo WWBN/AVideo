@@ -28,9 +28,11 @@ $obj->setStatus($_POST['status']);
 if(empty($obj->pluginversion)||is_null($obj->pluginversion)){
     require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
     $p=AVideoPlugin::loadPlugin($_POST['dir']);
-    $currentVersion=$p->getPluginVersion();
-    $obj->setPluginversion($currentVersion);
-    Plugin::setCurrentVersionByUuid($_POST['uuid'], $currentVersion);
+    if(is_object($p)){
+        $currentVersion=$p->getPluginVersion();
+        $obj->setPluginversion($currentVersion);
+        Plugin::setCurrentVersionByUuid($_POST['uuid'], $currentVersion);
+    }
 
 }
 

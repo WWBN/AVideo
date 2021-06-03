@@ -82,12 +82,130 @@ $img = Video::getPoster($videos_id);
                     }
 
                 </script>
-
-
                 <?php
             }
         }
         ?>
+        
+                
+        <?php
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForLoggedUsers);
+        foreach ($menu as $key => $value) {
+            $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+            foreach ($menuItems as $key2 => $value2) {
+                ?>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1>
+                            <?php
+                            if (!empty($value2['icon'])) {
+                                ?>
+                                <i class="<?php echo $value2['icon'] ?>"></i> 
+                                <?php
+                            }
+                            ?>
+                            <?php echo __($value2['title']); ?>
+                            (<?php echo __('Logged Users Only'); ?>)
+                        </h1>
+                    </div>
+                    <div class="panel-body">
+                        <input type="url" class="form-control" placeholder="https://mysitetowhiutelist.com/" id="menuURL<?php echo $value2['id']; ?>" value="<?php echo TopMenu::getVideoMenuURL($videos_id, $value2['id']); ?>"/>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-block btn-success" onclick="saveMenuInfo<?php echo $value2['id']; ?>();"><i class="fas fa-solid"></i> <?php echo __('Save'); ?></button>
+                    </div>
+                </div>
+                <script>
+                    function saveMenuInfo<?php echo $value2['id']; ?>() {
+                        modal.showPleaseWait();
+
+                        var data = {
+                            url: $('#menuURL<?php echo $value2['id']; ?>').val(),
+                            menu_item_id: <?php echo $value2['id']; ?>,
+                            videos_id: <?php echo intval($videos_id); ?>
+                        }
+
+                        $.ajax({
+                            url: '<?php echo $global['webSiteRootURL']; ?>plugin/TopMenu/addVideoInfoSave.json.php',
+                            data: data,
+                            type: 'post',
+                            success: function (response) {
+                                modal.hidePleaseWait();
+                                if (!response.error) {
+                                    avideoAlert("<?php echo __("Congratulations!"); ?>", "", "success");
+                                } else {
+                                    avideoAlert("<?php echo __("Error"); ?>", response.msg, "error");
+                                }
+                            }
+                        });
+                        return false;
+                    }
+
+                </script>
+                <?php
+            }
+        }
+        ?>
+                
+                <?php
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanWatchVideo);
+        foreach ($menu as $key => $value) {
+            $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+            foreach ($menuItems as $key2 => $value2) {
+                ?>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1>
+                            <?php
+                            if (!empty($value2['icon'])) {
+                                ?>
+                                <i class="<?php echo $value2['icon'] ?>"></i> 
+                                <?php
+                            }
+                            ?>
+                            <?php echo __($value2['title']); ?>
+                            (<?php echo __('Paid Users Only'); ?>)
+                        </h1>
+                    </div>
+                    <div class="panel-body">
+                        <input type="url" class="form-control" placeholder="https://mysitetowhiutelist.com/" id="menuURL<?php echo $value2['id']; ?>" value="<?php echo TopMenu::getVideoMenuURL($videos_id, $value2['id']); ?>"/>
+                    </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-block btn-success" onclick="saveMenuInfo<?php echo $value2['id']; ?>();"><i class="fas fa-solid"></i> <?php echo __('Save'); ?></button>
+                    </div>
+                </div>
+                <script>
+                    function saveMenuInfo<?php echo $value2['id']; ?>() {
+                        modal.showPleaseWait();
+
+                        var data = {
+                            url: $('#menuURL<?php echo $value2['id']; ?>').val(),
+                            menu_item_id: <?php echo $value2['id']; ?>,
+                            videos_id: <?php echo intval($videos_id); ?>
+                        }
+
+                        $.ajax({
+                            url: '<?php echo $global['webSiteRootURL']; ?>plugin/TopMenu/addVideoInfoSave.json.php',
+                            data: data,
+                            type: 'post',
+                            success: function (response) {
+                                modal.hidePleaseWait();
+                                if (!response.error) {
+                                    avideoAlert("<?php echo __("Congratulations!"); ?>", "", "success");
+                                } else {
+                                    avideoAlert("<?php echo __("Error"); ?>", response.msg, "error");
+                                }
+                            }
+                        });
+                        return false;
+                    }
+
+                </script>
+                <?php
+            }
+        }
+        ?>
+                
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>

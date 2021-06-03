@@ -228,7 +228,7 @@ foreach ($videos as $key => $value) {
                 <div class="pull-left" style="display: inline-table;">
                     <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>">
                         <span class="<?php echo $value['iconClass']; ?>"></span>
-                        <span class="hidden-sm"><?php echo $value['category']; ?></span>
+                        <span class="hidden-sm hidden-xs"><?php echo $value['category']; ?></span>
                     </a>
                     <?php
                     if (!empty($objGallery->showTags)) {

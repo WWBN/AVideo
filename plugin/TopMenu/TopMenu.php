@@ -151,10 +151,6 @@ class TopMenu extends PluginAbstract {
         if (!User::canUpload()) {
             return "";
         }
-        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
-        if(empty($menu)){
-            return '';
-        }
         
         $obj = $this->getDataObject();
         $btn = '';

@@ -46,3 +46,6 @@ th:hover, .select2-dropdown{
 .swal-icon--info:after, .swal-icon--info:before{
     background-color: #c9dae1;
 }
+.btn-default.no-outline:hover{
+    color: #AAA !important;
+}

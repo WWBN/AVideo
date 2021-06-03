@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
 
 if (!PlayList::canSee($_GET['playlists_id'], User::getId())) {
-    die('{"error":"' . __("Permission denied") . '"}');
+    forbiddenPage(_('You cannot see this playlist'));
 }
 
 $video = PlayLists::isPlayListASerie($_GET['playlists_id']);

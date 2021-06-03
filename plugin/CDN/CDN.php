@@ -50,7 +50,15 @@ class CDN extends PluginAbstract {
     public function getPluginMenu() {
         global $global;
         $fileAPIName = $global['systemRootPath'] . 'plugin/CDN/pluginMenu.html';
-        return file_get_contents($fileAPIName);
+        $content = file_get_contents($fileAPIName);
+        $obj = $this->getDataObject();
+        
+        $url = "http://192.168.1.4/youphptube.com/marketplace/CDN/iframe.php?hash={hash}";
+        
+        $url = addQueryStringParameter($url, 'hash', $obj->key);
+        $url = addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
+        
+        return str_replace('{url}', $url, $content);
     }
 
     /**
