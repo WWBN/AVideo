@@ -86,7 +86,7 @@ $videosCounter = 0;
             $_POST['sort']['likes'] = "DESC";
 
             TimeLogStart("modeFlixCategory.php getAllVideos");
-            $videos = Video::getAllVideos("viewableNotUnlisted", false, $obj2->hidePrivateVideos);
+            $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj2->hidePrivateVideos);
             TimeLogEnd("modeFlixCategory.php getAllVideos", __LINE__);
 
             TimeLogEnd($timeLog2, __LINE__);
