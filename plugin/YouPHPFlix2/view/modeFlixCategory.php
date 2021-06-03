@@ -72,7 +72,7 @@ $videosCounter = 0;
         $_POST['searchPhrase'] = $searchPhrase;
         foreach ($categories as $value) {
             echo "<!-- {$value['clean_name']} --> ";
-            $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
+            $obj2 = AVideoPlugin::getObjectData("YouPHPFlix2");
             $timeLog2 = __FILE__ . " - Category {$value['clean_name']}";
             TimeLogStart($timeLog2);
             $oldCatName = @$_GET['catName'];
@@ -86,7 +86,7 @@ $videosCounter = 0;
             $_POST['sort']['likes'] = "DESC";
 
             TimeLogStart("modeFlixCategory.php getAllVideos");
-            $videos = Video::getAllVideos("viewableNotUnlisted", false, $obj->hidePrivateVideos);
+            $videos = Video::getAllVideos("viewableNotUnlisted", false, $obj2->hidePrivateVideos);
             TimeLogEnd("modeFlixCategory.php getAllVideos", __LINE__);
 
             TimeLogEnd($timeLog2, __LINE__);

@@ -1,9 +1,10 @@
 <?php
 global $advancedCustom;
 $uid = uniqid();
-$video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
+$obj2 = AVideoPlugin::getObjectData("YouPHPFlix2");
+$video = Video::getVideo("", "viewableNotUnlisted", $obj2->hidePrivateVideos, false, true);
 if (empty($video)) {
-    $video = Video::getVideo("", "viewableNotUnlisted", true, true);
+    $video = Video::getVideo("", "viewableNotUnlisted", $obj2->hidePrivateVideos, true);
 }
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($video)) {
