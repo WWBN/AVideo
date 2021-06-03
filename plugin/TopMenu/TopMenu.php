@@ -136,15 +136,16 @@ class TopMenu extends PluginAbstract {
         if(!isset($_getVideoMenuURL)){
             $_getVideoMenuURL = array();
         }
-        if(!empty($_getVideoMenuURL[$videos_id])){
-            return $_getVideoMenuURL[$videos_id];
+        $index = "{$videos_id}_{$menu_item_id}";
+        if(!empty($_getVideoMenuURL[$index])){
+            return $_getVideoMenuURL[$index];
         }
         $video = new Video('', '', $videos_id);
              
         $parameterName = self::getExternalOptionName($menu_item_id);
         $externalOptions = _json_decode($video->getExternalOptions());
-        $_getVideoMenuURL[$videos_id] = $externalOptions->$parameterName;
-        return $_getVideoMenuURL[$videos_id];
+        $_getVideoMenuURL[$index] = $externalOptions->$parameterName;
+        return $_getVideoMenuURL[$index];
     }
         
     public function getVideosManagerListButton() {

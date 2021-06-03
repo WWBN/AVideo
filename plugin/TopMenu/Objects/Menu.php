@@ -12,14 +12,16 @@ class Menu extends ObjectYPT {
     static $typeActionMenuCustomURL = 4;
     static $typeActionMenuCustomURLForLoggedUsers = 5;
     static $typeActionMenuCustomURLForUsersThatCanWatchVideo = 6;
+    static $typeActionMenuCustomURLForUsersThatCanNotWatchVideo = 7;
     
     static $typeName = array(
         1=>'Left', 
         2=>'Top', 
         3=>'Action', 
-        4=>'Action Custom URL Per Video', 
-        5=>'Action Custom URL Per Video For Logged Users Only', 
-        6=>'Action Custom URL Per Video For Users That can Watch Video');
+        4=>'Action Per Video', 
+        5=>'Action Per Video For Logged Users Only', 
+        6=>'Action Per Video For Users That can Watch Video', 
+        7=>'Action Per Video For Users That can NOT Watch Video');
 
     protected $id, $menuName, $categories_id, $users_groups_id, $menu_order, $status, $position, $type, $icon, $menuSeoUrl;
 
