@@ -300,6 +300,7 @@ Options All -Indexes
 
     RewriteRule    ^sitemap.xml$ view/sitemap.xml.php    [NC,L]
     RewriteRule    ^robots.txt$ view/robots.txt.php    [NC,L]
+    RewriteRule    ^manifest.json$ view/manifest.json.php    [NC,L]
 
     RewriteRule    ^videos/(.*)/index.m3u8$ view/hls.php?videoDirectory=$1    [NC,L,QSA]
     RewriteRule    ^videos/(.*)/index.m3u8.mp4$ view/hls.php?playHLSasMP4=1&videoDirectory=$1    [NC,L,QSA]

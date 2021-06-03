@@ -78,6 +78,16 @@ class MobileManager extends PluginAbstract {
         $obj->showMeet = true;
         $obj->goLiveWithMeet = true;
         $obj->doNotAutoSearch = false;
+        $obj->playStoreApp = 'https://play.google.com/store/apps/details?id=mobile.youphptube.com';
+        $obj->appleStoreApp = 'https://apps.apple.com/us/app/youphptube/id1337322357';
+        
+        $obj->pwa_background_color = "#000000";
+        $o = new stdClass();
+        $o->type = array('fullscreen', 'standalone', 'minimal-ui');
+        $o->value = "fullscreen";
+        
+        $obj->pwa_display = $o;
+        $obj->pwa_scope = "/";
 
         return $obj;
     }

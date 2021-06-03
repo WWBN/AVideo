@@ -1644,6 +1644,27 @@ function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
     return $saved;
 }
 
+function im_resizePNG($file_src, $file_dest, $wd, $hd) {
+    
+    $srcImage = imagecreatefrompng($file_src);
+    $ws = imagesx($srcImage);
+    $hs = imagesy($srcImage);
+    
+    $targetImage = imagecreatetruecolor($wd, $hd);
+    imagealphablending($targetImage, false);
+    imagesavealpha($targetImage, true);
+
+    imagecopyresampled($targetImage, $srcImage,
+            0, 0,
+            0, 0,
+            $wd, $hd,
+            $ws, $hs);
+
+    $saved = imagepng($targetImage, $file_dest);
+
+    return $saved;
+}
+
 function im_resizeV3($file_src, $file_dest, $wd, $hd) {
     _error_log("im_resizeV3: $file_src, $file_dest, $wd, $hd");
     // This tries to preserve the aspect ratio of the thumb while letterboxing it in
