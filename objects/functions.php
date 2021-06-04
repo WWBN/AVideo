@@ -2355,12 +2355,17 @@ function UTF8encode($data) {
 
 //detect search engine bots
 function isBot() {
+    global $_isBot;
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         return true;
     }
     if (isAVideoEncoder()) {
         return false;
     }
+    if(isset($_isBot)){
+        return $_isBot;
+    }
+    $_isBot = false;
     // User lowercase string for comparison.
     $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
     // A list of some common words used only for bots and crawlers.
@@ -2374,19 +2379,20 @@ function isBot() {
         'fetch',
         'loader',
         'lighthouse',
-        'Pingdom',
-        'GTmetrix',
-        'PTST',
-        'DMBrowser',
-        'DareBoost'
+        'pingdom',
+        'gtmetrix',
+        'ptst',
+        'dmbrowser',
+        'dareboost'
     );
     // See if one of the identifiers is in the UA string.
     foreach ($bot_identifiers as $identifier) {
         if (stripos($user_agent, $identifier) !== false) {
-            return true;
+            $_isBot = true;
+            break;
         }
     }
-    return false;
+    return $_isBot;
 }
 
 /**
