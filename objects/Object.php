@@ -367,6 +367,9 @@ abstract class ObjectYPT implements ObjectInterface {
         if (isCommandLineInterface()) {
             return false;
         }
+        if(isBot()){
+            $lifetime = 0;
+        }
         global $getCachesProcessed, $_getCache;
 
         if (empty($_getCache)) {
