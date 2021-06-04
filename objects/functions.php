@@ -2374,9 +2374,11 @@ function isBot() {
         'fetch',
         'loader',
         'lighthouse',
-        'lighthouse',
         'Pingdom',
         'GTmetrix',
+        'PTST',
+        'DMBrowser',
+        'DareBoost'
     );
     // See if one of the identifiers is in the UA string.
     foreach ($bot_identifiers as $identifier) {
