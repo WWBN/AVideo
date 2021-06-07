@@ -5926,10 +5926,10 @@ function get_ffmpeg($ignoreGPU = false) {
 }
 
 function isHTMLPage($url) {
-    if ($type = getHeaderContentTypeFromURL($url)) {
-        if (preg_match('/https?:\/\/(youtu.be|youtube.com)\//i', $type)) {
-            return true;
-        }else if (preg_match('/text\/html/i', $type)) {
+    if (preg_match('/https?:\/\/(youtu.be|youtube.com)\//i', $type)) {
+        return true;
+    } else if ($type = getHeaderContentTypeFromURL($url)) {
+        if (preg_match('/text\/html/i', $type)) {
             return true;
         }
     }
@@ -6784,7 +6784,7 @@ function optimizeHTMLTags($html) {
     return $html;
     //$html = optimizeCSS($html);
     //$html = optimizeJS($html);
-    return $html.'<--! optimized -->';
+    return $html . '<--! optimized -->';
 }
 
 function optimizeCSS($html) {
@@ -6799,7 +6799,7 @@ function optimizeCSS($html) {
     //$fileExists = false;
     // get link tags
     $pattern = '/((<(link)[^>]*(stylesheet|css)[^>]*\/>)|(<(style)[^>]*>([^<]+)<\/style>))/i';
-    preg_match_all($pattern, $html, $matches); 
+    preg_match_all($pattern, $html, $matches);
     foreach ($matches[3] as $key => $type) {
         if (strtolower($type) == 'link') {
             $linkTag = $matches[0][$key];
@@ -6813,12 +6813,12 @@ function optimizeCSS($html) {
                 if (empty($content)) {
                     continue;
                 }
-                $css .= PHP_EOL." /* link {$href[1]} */ " . $content;
+                $css .= PHP_EOL . " /* link {$href[1]} */ " . $content;
             }
             $html = str_replace($linkTag, '', $html);
         } else {
             if (!$fileExists) {
-                $css .= PHP_EOL.' /* style */ ' . $matches[7][$key];
+                $css .= PHP_EOL . ' /* style */ ' . $matches[7][$key];
             }
             $html = str_replace($matches[1][$key], '', $html);
         }
@@ -6841,21 +6841,21 @@ function optimizeJS($html) {
     $fileExists = false;
     // get link tags
     $pattern = '/((<script[^>]+(src=[^ ]+)[^>]*>( *)<\/script>)|(<script[^>]*>([^<]+)<\/script>))/si';
-    preg_match_all($pattern, $html, $matches); 
+    preg_match_all($pattern, $html, $matches);
     foreach ($matches[2] as $key => $type) {
-        if(empty($type)){        
-            if(preg_match('/application_ld_json/i', $matches[1][$key])){
+        if (empty($type)) {
+            if (preg_match('/application_ld_json/i', $matches[1][$key])) {
                 continue;
             }
-            $js .= PHP_EOL." /* js */ " . $matches[6][$key];
+            $js .= PHP_EOL . " /* js */ " . $matches[6][$key];
             $html = str_replace($matches[1][$key], '', $html);
-        }else{
+        } else {
             $pattern = '/src=.(http[^"\']+)/i';
             preg_match($pattern, $type, $href);
             if (empty($href)) {
                 continue;
             }
-            if (preg_match('/(jquery|video-js|videojs)/i',$href[1])) {
+            if (preg_match('/(jquery|video-js|videojs)/i', $href[1])) {
                 continue;
             }
             if (!$fileExists) {
@@ -6863,7 +6863,7 @@ function optimizeJS($html) {
                 if (empty($content)) {
                     continue;
                 }
-                $js .= PHP_EOL." /* js link {$href[1]} */ " . $content;
+                $js .= PHP_EOL . " /* js link {$href[1]} */ " . $content;
             }
             $html = str_replace($type, '', $html);
         }
