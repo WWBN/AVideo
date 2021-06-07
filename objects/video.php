@@ -1138,7 +1138,7 @@ if (!class_exists('Video')) {
                 if(!empty($externalOptions)){
                     if(is_object($externalOptions)){
                         $obj['externalOptions'] = $externalOptions;
-                    }else(is_string($externalOptions)){
+                    }else if(is_string($externalOptions)){
                         $obj['externalOptions'] = _json_decode($externalOptions);
                     }
                 }
