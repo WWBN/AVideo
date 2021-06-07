@@ -1133,7 +1133,16 @@ if (!class_exists('Video')) {
             $name = "_getVideoInfo_{$row['id']}";
             $cache = ObjectYPT::getSessionCache($name, 3600);
             if(!empty($cache)){
-                return object_to_array($cache);
+                $externalOptions = $cache->externalOptions;
+                $obj = object_to_array($cache);
+                if(!empty($externalOptions)){
+                    if(is_object($externalOptions)){
+                        $obj['externalOptions'] = $externalOptions;
+                    }else(is_string($externalOptions)){
+                        $obj['externalOptions'] = _json_decode($externalOptions);
+                    }
+                }
+                return $obj;
             }
             
             $row = cleanUpRowFromDatabase($row);
