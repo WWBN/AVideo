@@ -30,7 +30,7 @@ foreach ($scanVars as $value) {
     if (!empty($scanThis['v'])) {
         $originalValue = $scanThis['v'];
         $scanThis['v'] = videosHashToID($scanThis['v']);
-        if($originalValue === $scanThis['v']){
+        if(!empty($global['makeVideosIDHarderToGuessNotDecrypted']) && $originalValue != $scanThis['v']){
             $global['makeVideosIDHarderToGuessNotDecrypted'] = 0;
         }        
     }
