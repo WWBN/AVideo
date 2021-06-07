@@ -41,7 +41,7 @@ global $global, $config, $advancedCustom, $advancedCustomUser;
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
 if ($global['mysqli'] === false || !empty($global['mysqli']->connect_errno)) {
-    _error_log("MySQL connect_errno[{$global['mysqli']->connect_errno}] {$global['mysqli']->connect_error}", AVideoLog::$ERROR);
+    error_log("MySQL connect_errno[{$global['mysqli']->connect_errno}] {$global['mysqli']->connect_error}", AVideoLog::$ERROR);
     include $global['systemRootPath'] . 'view/include/offlinePage.php';
     exit;
 }
