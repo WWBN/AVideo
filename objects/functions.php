@@ -5927,7 +5927,7 @@ function get_ffmpeg($ignoreGPU = false) {
 
 function isHTMLPage($url) {
     if ($type = getHeaderContentTypeFromURL($url)) {
-        if (preg_match('/http:\/\/(youtu.be|youtube.com)\//i', $type)) {
+        if (preg_match('/https?:\/\/(youtu.be|youtube.com)\//i', $type)) {
             return true;
         }else if (preg_match('/text\/html/i', $type)) {
             return true;
