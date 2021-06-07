@@ -1645,11 +1645,11 @@ function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
 }
 
 function im_resizePNG($file_src, $file_dest, $wd, $hd) {
-    
+
     $srcImage = imagecreatefrompng($file_src);
     $ws = imagesx($srcImage);
     $hs = imagesy($srcImage);
-    
+
     $targetImage = imagecreatetruecolor($wd, $hd);
     imagealphablending($targetImage, false);
     imagesavealpha($targetImage, true);
@@ -2362,7 +2362,7 @@ function isBot() {
     if (isAVideoEncoder()) {
         return false;
     }
-    if(isset($_isBot)){
+    if (isset($_isBot)) {
         return $_isBot;
     }
     $_isBot = false;
@@ -5927,7 +5927,9 @@ function get_ffmpeg($ignoreGPU = false) {
 
 function isHTMLPage($url) {
     if ($type = getHeaderContentTypeFromURL($url)) {
-        if (preg_match('/text\/html/i', $type)) {
+        if (preg_match('/http:\/\/(youtu.be|youtube.com)\//i', $type)) {
+            return true;
+        }else if (preg_match('/text\/html/i', $type)) {
             return true;
         }
     }
@@ -6596,6 +6598,7 @@ function fixPath($path, $addLastSlash = false) {
     }
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
+        $path = str_replace('\\\\\\', DIRECTORY_SEPARATOR, $path);
     } else {
         $path = str_replace('\\', DIRECTORY_SEPARATOR, $path);
     }
@@ -6775,4 +6778,98 @@ function strip_render_blocking_resources($string) {
     }
     $string = str_replace('{_head_}', $matches[0], $string);
     return $string;
+}
+
+function optimizeHTMLTags($html) {
+    return $html;
+    //$html = optimizeCSS($html);
+    //$html = optimizeJS($html);
+    return $html.'<--! optimized -->';
+}
+
+function optimizeCSS($html) {
+    global $global;
+    $css = '';
+    $cacheDir = getVideosDir() . 'cache/';
+    $cacheName = md5(getSelfURI() . User::getId()) . '.css';
+    $filename = "{$cacheDir}{$cacheName}";
+    $urlname = "{$global['webSiteRootURL']}videos/cache/{$cacheName}";
+    $HTMLTag = "<link href=\"{$urlname}\" rel=\"stylesheet\" type=\"text/css\"/>";
+    $fileExists = file_exists($filename);
+    //$fileExists = false;
+    // get link tags
+    $pattern = '/((<(link)[^>]*(stylesheet|css)[^>]*\/>)|(<(style)[^>]*>([^<]+)<\/style>))/i';
+    preg_match_all($pattern, $html, $matches); 
+    foreach ($matches[3] as $key => $type) {
+        if (strtolower($type) == 'link') {
+            $linkTag = $matches[0][$key];
+            $pattern = '/href=.(http[^"\']+)/i';
+            preg_match($pattern, $linkTag, $href);
+            if (empty($href)) {
+                continue;
+            }
+            if (!$fileExists) {
+                $content = url_get_contents($href[1]);
+                if (empty($content)) {
+                    continue;
+                }
+                $css .= PHP_EOL." /* link {$href[1]} */ " . $content;
+            }
+            $html = str_replace($linkTag, '', $html);
+        } else {
+            if (!$fileExists) {
+                $css .= PHP_EOL.' /* style */ ' . $matches[7][$key];
+            }
+            $html = str_replace($matches[1][$key], '', $html);
+        }
+    }
+    if (!$fileExists) {
+        _file_put_contents($filename, $css);
+    }
+    return str_replace('</title>', '</title><!-- optimized CSS -->' . PHP_EOL . $HTMLTag . PHP_EOL . '', $html);
+}
+
+function optimizeJS($html) {
+    global $global;
+    $js = '';
+    $cacheDir = getVideosDir() . 'cache/';
+    $cacheName = md5(getSelfURI() . User::getId()) . '.js';
+    $filename = "{$cacheDir}{$cacheName}";
+    $urlname = "{$global['webSiteRootURL']}videos/cache/{$cacheName}";
+    $HTMLTag = "<script src=\"{$urlname}\"></script>";
+    $fileExists = file_exists($filename);
+    $fileExists = false;
+    // get link tags
+    $pattern = '/((<script[^>]+(src=[^ ]+)[^>]*>( *)<\/script>)|(<script[^>]*>([^<]+)<\/script>))/si';
+    preg_match_all($pattern, $html, $matches); 
+    foreach ($matches[2] as $key => $type) {
+        if(empty($type)){        
+            if(preg_match('/application_ld_json/i', $matches[1][$key])){
+                continue;
+            }
+            $js .= PHP_EOL." /* js */ " . $matches[6][$key];
+            $html = str_replace($matches[1][$key], '', $html);
+        }else{
+            $pattern = '/src=.(http[^"\']+)/i';
+            preg_match($pattern, $type, $href);
+            if (empty($href)) {
+                continue;
+            }
+            if (preg_match('/(jquery|video-js|videojs)/i',$href[1])) {
+                continue;
+            }
+            if (!$fileExists) {
+                $content = url_get_contents($href[1]);
+                if (empty($content)) {
+                    continue;
+                }
+                $js .= PHP_EOL." /* js link {$href[1]} */ " . $content;
+            }
+            $html = str_replace($type, '', $html);
+        }
+    }
+    if (!$fileExists) {
+        _file_put_contents($filename, $js);
+    }
+    return str_replace('</body>', '<!-- optimized JS -->' . PHP_EOL . $HTMLTag . PHP_EOL . '</body>', $html);
 }
