@@ -71,9 +71,15 @@ class PlayerSkins extends PluginAbstract {
             $video = Video::getVideoFromFileName($filename, true);
             $vType = Video::getIncludeType($video);
             $_GET['isMediaPlaySite'] = $video['id'];
-            if (!empty($video['externalOptions']->videoStartSeconds)) {
-                $video['externalOptions']->videoStartSeconds = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
-            } else {
+            if(is_object($video['externalOptions'])){
+                if (!empty($video['externalOptions']->videoStartSeconds)) {
+                    $video['externalOptions']->videoStartSeconds = parseDurationToSeconds($video['externalOptions']->videoStartSeconds);
+                } else {
+                    $video['externalOptions']->videoStartSeconds = 0;
+                }
+            }else{
+                _error_log('externalOptions Error '.$video['externalOptions'], AVideoLog::$WARNING);
+                $video['externalOptions'] = new stdClass();
                 $video['externalOptions']->videoStartSeconds = 0;
             }
             $images = Video::getImageFromFilename($filename);
