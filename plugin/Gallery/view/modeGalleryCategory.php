@@ -15,7 +15,8 @@ $onlySuggested = $obj->CategoriesShowOnlySuggested;
 if(!empty(getSearchVar())){
     $onlySuggested = false;
 }
-
+$sort = $_POST['sort'];
+unset($_POST['sort']);
 $categories = Category::getAllCategories(false, true, $onlySuggested);
 $total = Category::getTotalCategories(false, true, $onlySuggested);
 $totalPages = ceil($total / getRowCount());
@@ -76,3 +77,6 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
     echo getPagination($totalPages, $page, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem");
     ?>
 </div>
+<?php
+$_POST['sort'] = $sort;
+?>
