@@ -122,8 +122,7 @@ $uid = uniqid();
                 if (!response.error) {
                     console.log(response);
                     stripe<?php echo $uid; ?>.confirmCardPayment(
-                            response.client_secret,
-                            {
+                            response.client_secret,{
                                 payment_method: {card: card<?php echo $uid; ?>}
                             }
                     ).then(function (result) {

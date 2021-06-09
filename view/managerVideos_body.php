@@ -528,8 +528,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <label for="inputTrailer"><?php echo __("Embed code for trailer"); ?></label>
-                                        <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed code for trailer"); ?>" required>
+                                        <label for="inputTrailer"><?php echo __("Embed URL for trailer"); ?></label>
+                                        <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed URL for trailer"); ?>" required>
 
                                         <div>
                                             <label for="videoStartSecond" ><?php echo __("Start video at"); ?></label>

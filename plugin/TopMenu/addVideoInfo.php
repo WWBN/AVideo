@@ -22,7 +22,7 @@ function createMenuSaveForm($menu) {
         ?>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h1>
+                <strong>
                     <?php
                     if (!empty($value['icon'])) {
                         ?>
@@ -31,19 +31,37 @@ function createMenuSaveForm($menu) {
                     }
                     ?>
                     <?php echo __($value['menuName']); ?>
-                </h1>
+                </strong>
             </div>
             <div class="panel-body">
                 <?php
-                foreach ($menuItems as $key2 => $value2) { 
+                foreach ($menuItems as $key2 => $value2) {
                     ?>
                     <div class="row">
-                        <div class="col-xs-10">
-                            <input type="url" class="form-control" placeholder="<?php echo __($value2['title']); ?>" id="menuURL<?php echo $value2['id']; ?>" value="<?php echo TopMenu::getVideoMenuURL($videos_id, $value2['id']); ?>"/>
+                        <div class="col-xs-9">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="menuURL<?php echo $value2['id']; ?>">
+                                        <?php
+                                        if (!empty($value2['icon'])) {
+                                            ?>
+                                            <i class="<?php echo $value2['icon'] ?>"></i> 
+                                            <?php
+                                        }
+                                        ?>
+                                        <?php echo __($value2['title']); ?>
+                                    </label>
+                                    <input type="url" class="form-control" placeholder="<?php echo __($value2['title']); ?>" id="menuURL<?php echo $value2['id']; ?>" value="<?php echo TopMenu::getVideoMenuURL($videos_id, $value2['id']); ?>"/>
+                                </div>
+                            </div>
+
                         </div>
 
-                        <div class="col-xs-2">
-                            <button class="btn btn-block btn-success" onclick="saveMenuInfo<?php echo $value2['id']; ?>();"><i class="fas fa-solid"></i> <?php echo __('Save'); ?></button>
+                        <div class="col-xs-3">
+                            <button class="btn btn-block btn-success" onclick="saveMenuInfo<?php echo $value2['id']; ?>();">
+                                <i class="fas fa-save"></i> 
+                                <?php echo __('Save'); ?>
+                            </button>
                         </div>
                     </div>
                     <script>

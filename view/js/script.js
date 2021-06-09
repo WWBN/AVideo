@@ -151,7 +151,7 @@ function lazyImage() {
                             });
                             gif.height(element.height());
                             gif.width(element.width());
-                            console.log('lazyImage', gif);
+                            //console.log('lazyImage', gif);
                         }
 
                         $("#log").append("<div>Handler for .mouseover() called.</div>");
@@ -893,14 +893,14 @@ function isALiveContent() {
 }
 
 function isAutoplayEnabled() {
-    console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
+    //console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
     if (isALiveContent()) {
-        console.log("isAutoplayEnabled always autoplay live contents");
+        //console.log("isAutoplayEnabled always autoplay live contents");
         return true;
     } else
     if ($("#autoplay").length && $("#autoplay").is(':visible')) {
         autoplay = $("#autoplay").is(":checked");
-        console.log("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
+        //console.log("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
         setAutoplay(autoplay);
         return autoplay;
     } else if (
@@ -908,23 +908,23 @@ function isAutoplayEnabled() {
             typeof Cookies.get('autoplay') !== 'undefined'
             ) {
         if (Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true) {
-            console.log("isAutoplayEnabled Cookie said Yes ");
+            //console.log("isAutoplayEnabled Cookie said Yes ");
             setAutoplay(true);
             return true;
         } else {
-            console.log("isAutoplayEnabled Cookie said No ");
+            //console.log("isAutoplayEnabled Cookie said No ");
             setAutoplay(false);
             return false;
         }
     } else {
         if (typeof autoplay !== 'undefined') {
-            console.log("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
+            //console.log("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
             setAutoplay(autoplay);
             return autoplay;
         }
     }
     setAutoplay(false);
-    console.log("isAutoplayEnabled Default is No ");
+    //console.log("isAutoplayEnabled Default is No ");
     return false;
 }
 
@@ -1357,7 +1357,7 @@ function isURL(url) {
 }
 var startTimerInterval = [];
 function startTimer(duration, selector) {
-    console.log('startTimer 1', duration);
+    //console.log('startTimer 1', duration);
     clearInterval(startTimerInterval[selector]);
     var timer = duration;
     startTimerInterval[selector] = setInterval(function () {
@@ -1567,7 +1567,7 @@ function getCroppie(uploadCropObject, callback, width, height) {
     console.log('getCroppie 3', ret);
 }
 
-function setToolTips() {
+async function setToolTips() {
     if (!$('[data-toggle="tooltip"]').not('.alreadyTooltip').length) {
         return false;
     }

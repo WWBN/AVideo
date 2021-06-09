@@ -31,6 +31,8 @@ foreach ($scanVars as $value) {
         $originalValue = $scanThis['v'];
         $scanThis['v'] = videosHashToID($scanThis['v']);
         if(!empty($global['makeVideosIDHarderToGuessNotDecrypted']) && $originalValue != $scanThis['v']){
+            // if you set $global['makeVideosIDHarderToGuessNotDecrypted'] and originalValue = scanThis['v'] it meand it was not decrypted, and it is a direct video ID, 
+            // otherwiseit was a hash that we decrypt into an ID
             $global['makeVideosIDHarderToGuessNotDecrypted'] = 0;
         }        
     }

@@ -1,6 +1,6 @@
 <script>
     function onlineLabelOnline(selector) {
-        console.log("Change video to Online ",selector);
+        //console.log("Change video to Online ",selector);
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-danger');
         $(selector).addClass('label-success');
@@ -11,7 +11,7 @@
     }
 
     function onlineLabelPleaseWait(selector) {
-        console.log("Change video to please wait");
+        //console.log("Change video to please wait");
         if(!$('#indexCol1 div.panel-heading .label-success').length){
             isOnlineLabel = false;
         }
@@ -25,7 +25,7 @@
     }
 
     function onlineLabelOffline(selector) {
-        console.log("Change video to offline");
+        //console.log("Change video to offline");
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-success');
         $(selector).addClass('label-danger');
@@ -35,7 +35,7 @@
         }
     }
     function onlineLabelFinishing(selector) {
-        console.log("Change video to finishing");
+        //console.log("Change video to finishing");
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-success');
         $(selector).addClass('label-danger');

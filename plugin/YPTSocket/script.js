@@ -10,7 +10,7 @@ function socketConnect() {
     clearTimeout(socketConnectTimeout);
     socketConnectRequested = 1;
     var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
-    console.log('Trying to reconnect on socket... ');
+    //console.log('Trying to reconnect on socket... ');
     conn = new WebSocket(url);    
     setSocketIconStatus('loading');
     conn.onopen = function (e) {
@@ -153,7 +153,7 @@ function parseSocketResponse() {
     if (typeof json === 'undefined') {
         return false;
     }
-    console.log("parseSocketResponse", json);
+    //console.log("parseSocketResponse", json);
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
         if (typeof avideoToastWarning == 'funciton') {
             avideoToastWarning("Please restart your socket server. You are running (v" + json.webSocketServerVersion + ") and your client is expecting (v" + webSocketServerVersion + ")");
@@ -222,7 +222,7 @@ function parseSocketResponse() {
 }
 
 $(function () {
-    console.log('Getting webSocketToken ...');
+    //console.log('Getting webSocketToken ...');
     var getWebSocket = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
     getWebSocket = addGetParam(getWebSocket, 'webSocketSelfURI', webSocketSelfURI);
     getWebSocket = addGetParam(getWebSocket, 'webSocketVideos_id', webSocketVideos_id);
@@ -236,7 +236,7 @@ $(function () {
                     avideoToastError(response.msg);
                 }
             } else {
-                console.log('Getting webSocketToken SUCCESS ', response);
+                //console.log('Getting webSocketToken SUCCESS ', response);
                 webSocketToken = response.webSocketToken;
                 webSocketURL = response.webSocketURL;
                 socketConnect();

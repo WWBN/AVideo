@@ -72,6 +72,9 @@ Options All -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine on
     #VideoHLS for DRM
+
+    RewriteRule    ^videos/webfonts/(fa-.*) view/css/fontawesome-free-5.5.0-web/webfonts/$1    [NC,L]
+
     RewriteRule    ^playLink/?$ view/modePlayLink.php    [QSA]
     RewriteRule    ^videos/([^/]+)/(.*).key$ plugin/VideoHLS/downloadProtection.php?filename=$1&key=$2    [QSA]
 
@@ -306,6 +309,7 @@ Options All -Indexes
     RewriteRule    ^videos/(.*)/index.m3u8.mp4$ view/hls.php?playHLSasMP4=1&videoDirectory=$1    [NC,L,QSA]
 
     RewriteRule    ^vast.xml/?([0-9]+)?$ plugin/AD_Server/VAST.php?campaign_has_videos_id=$1    [NC,L]
+
 
     <IfModule mod_xsendfile.c>
         RewriteRule    ^videos/([_A-Za-z0-9.-]+/)?([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ view/xsendfile.php?file=$2    [QSA]

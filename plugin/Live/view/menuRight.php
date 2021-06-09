@@ -258,7 +258,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             if (response.applications.length) {
                 disableGif = response.disableGif;
                 for (i = 0; i < response.applications.length; i++) {
-                    console.log('processApplicationLive', response.applications[i]);
+                    //console.log('processApplicationLive', response.applications[i]);
                     var live_index = 0;
                     if (typeof response.applications[i].live_index !== 'undefined') {
                         live_index = response.applications[i].live_index;
@@ -351,7 +351,7 @@ if (isVideo()) {
             }
             $('#liveVideos').slideDown();
             if (callback) {
-                eval("try {console.log('processApplication application.callback '+callback);$liveLi = " + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
+                eval("try {$liveLi = " + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
             }
         } else {
 
