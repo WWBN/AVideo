@@ -55,7 +55,7 @@ $croppieFilesAdded = 1;
             restartCroppie<?php echo $uid; ?>('<?php echo getImageTransparent1pxURL(); ?>');
         });
 
-        $('#croppie<?php echo $uid; ?>').croppie('bind', {url: imageURL + '?' + Math.random()}).then(function () {
+        $('#croppie<?php echo $uid; ?>').croppie('bind', {url: addGetParam(imageURL, 'cache', Math.random())}).then(function () {
             $('#croppie<?php echo $uid; ?>').croppie('setZoom', <?php echo $zoom; ?>)
         });
     }
