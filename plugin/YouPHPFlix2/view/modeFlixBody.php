@@ -114,6 +114,8 @@ $percent = 90;
                 $canWatchPlayButton = "";
                 if (User::canWatchVideoWithAds($value['id'])) {
                     $canWatchPlayButton = "canWatchPlayButton";
+                } else if ($obj->hidePlayButtonIfCannotWatch) {
+                    $canWatchPlayButton = "hidden";
                 }
                 ?>
                 <div class="row topicRow">

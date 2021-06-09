@@ -27,10 +27,10 @@ TimeLogStart($timeLog3);
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
         $ajaxLoad = '';
         if (!empty($value['serie_playlists_id'])) {
-            if(empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)){
+            if (empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)) {
                 $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
             }
-            $ajaxLoad = $global['webSiteRootURL'].'plugin/YouPHPFlix2/view/modeFlixSerie.php?playlists_id='.$value['serie_playlists_id'];
+            $ajaxLoad = $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/modeFlixSerie.php?playlists_id=' . $value['serie_playlists_id'];
             $link = PlayLists::getLink($value['serie_playlists_id']);
             $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
             $value['title'] = "<a href='{$link}' embed='{$linkEmbed}'>{$value['title']}</a>";
@@ -103,7 +103,7 @@ foreach ($videos as $_index => $value) {
     $uid = "{$uidOriginal}_{$value['id']}";
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
     if (!empty($value['serie_playlists_id'])) {
-        if(empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)){
+        if (empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)) {
             $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
         }
     }
@@ -113,16 +113,18 @@ foreach ($videos as $_index => $value) {
     $canWatchPlayButton = "";
     if (User::canWatchVideoWithAds($value['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
+    } else if ($obj->hidePlayButtonIfCannotWatch) {
+        $canWatchPlayButton = "hidden";
     }
-    
-    if(!empty($rowPlayListLink)){
-        $rowLink = addQueryStringParameter($rowPlayListLink,'playlist_index',$_index);
-        $rowLinkEmbed = addQueryStringParameter($rowPlayListLinkEmbed,'playlist_index',$_index);
-    }else{
+
+    if (!empty($rowPlayListLink)) {
+        $rowLink = addQueryStringParameter($rowPlayListLink, 'playlist_index', $_index);
+        $rowLinkEmbed = addQueryStringParameter($rowPlayListLinkEmbed, 'playlist_index', $_index);
+    } else {
         $rowLink = YouPHPFlix2::getLinkToVideo($value['id'], true);
         $rowLinkEmbed = Video::getLinkToVideo($value['id'], $value['clean_title'], true);
     }
-    
+
     if (empty($value['serie_playlists_id'])) {
         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_video.php';
     } else {

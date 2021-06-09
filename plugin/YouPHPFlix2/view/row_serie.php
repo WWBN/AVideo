@@ -15,6 +15,8 @@
             $canWatchPlayButton = "";
             if (User::canWatchVideoWithAds($value['id'])) {
                 $canWatchPlayButton = "canWatchPlayButton";
+            } else if ($obj->hidePlayButtonIfCannotWatch) {
+                $canWatchPlayButton = "hidden";
             }
             $value['title'] = "<a href='{$link}' embed='{$linkEmbed}' class='{$canWatchPlayButton}'>{$value['title']}</a>";
             echo $value['title'];

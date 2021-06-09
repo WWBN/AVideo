@@ -22,6 +22,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         $get = $_GET;
         if (User::canWatchVideoWithAds($video['id'])) {
             $canWatchPlayButton = "canWatchPlayButton";
+        }else if($obj->hidePlayButtonIfCannotWatch){
+            $canWatchPlayButton = "hidden";
         }
         $_GET = $get;
         ?>
