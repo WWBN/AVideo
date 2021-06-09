@@ -122,6 +122,11 @@
             </div>
         </div>
         <div class="footerBtn">
+            <?php
+            if (empty($canWatchPlayButton) && $obj->hidePlayButtonIfCannotWatch) {
+                $canWatchPlayButton = "hidden";
+            }
+            ?>
             <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" 
                href="<?php echo $rowLink; ?>" 
                embed="<?php echo $rowLinkEmbed; ?>">
