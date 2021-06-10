@@ -22,8 +22,7 @@ if (empty($obj->menu_item_id)) {
 
 $obj->url = $_REQUEST['url'];
 if (!IsValidURL($obj->url)) {
-    $obj->msg = 'url is invalid '.$obj->url;
-    die(json_encode($obj));
+    $obj->url = '';
 }
 
 if (!Video::canEdit($obj->videos_id )) {
