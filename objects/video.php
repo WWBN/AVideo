@@ -489,7 +489,7 @@ if (!class_exists('Video')) {
                 if ($global['mysqli']->errno != 0) {
                     die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
-                self::deleteTagsAsync($this->id);
+                self::clearCache($this->id);
             }
             AVideoPlugin::onVideoSetStatus($this->id, $this->status, $status);
             $this->status = $status;
