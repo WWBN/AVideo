@@ -1911,7 +1911,7 @@ function make_path($path) {
  * @param type $allowedExtensions
  * @return type
  */
-function cleanDirectory($dir, $allowedExtensions = array('key', 'm3u8', 'ts', 'vtt', 'jpg', 'gif', 'mp3', 'webm')) {
+function cleanDirectory($dir, $allowedExtensions = array('key', 'm3u8', 'ts', 'vtt', 'jpg', 'gif', 'mp3', 'webm', 'webp')) {
     $ffs = scandir($dir);
 
     unset($ffs[array_search('.', $ffs, true)]);
