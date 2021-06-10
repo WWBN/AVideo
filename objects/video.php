@@ -756,7 +756,7 @@ if (!class_exists('Video')) {
             if ($res != false) {
                 require_once $global['systemRootPath'] . 'objects/userGroups.php';
                 if (!empty($video)) {
-                    $video = self::getInfo($video, $getStatistcs);
+                    $video = self::getInfo($video);
                 }
             } else {
                 $video = false;
