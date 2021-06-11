@@ -33,21 +33,21 @@ foreach ($_REQUEST['par'] as $key => $value) {
 
 // Update S3 CDN
 if (AVideoPlugin::isEnabledByName('AWS_S3')) {
-    $resp->CDN_S3 = CDN::getS3URL();
+    $resp->CDN_S3 = CDN::getCDN_S3URL();
 }else{
     $resp->CDN_S3 = '';
 }
 
 // Update B2 CDN
 if (AVideoPlugin::isEnabledByName('Blackblaze_B2')) {
-    $resp->CDN_B2 = CDN::getB2URL();
+    $resp->CDN_B2 = CDN::getCDN_B2URL();
 }else{
     $resp->CDN_B2 = '';
 }
 
 // Update FTP CDN
 if (AVideoPlugin::isEnabledByName('FTP_Storage')) {
-    $resp->CDN_FTP = CDN::getFTPURL();
+    $resp->CDN_FTP = CDN::getCDN_FTPURL();
 }else{
     $resp->CDN_FTP = '';
 }
