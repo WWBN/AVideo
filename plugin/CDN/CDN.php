@@ -11,7 +11,7 @@ class CDN extends PluginAbstract {
     }
 
     public function getDescription() {
-        $txt = "(Under development, do not enable yet) With our CDN we will provide you a highly-distributed platform of servers that helps minimize delays in loading web page content "
+        $txt = "With our CDN we will provide you a highly-distributed platform of servers that helps minimize delays in loading web page content "
                 . "by reducing the physical distance between the server and the user. This helps users around the world view the same high-quality "
                 . "content without slow loading times";
         $help = "";
