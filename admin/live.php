@@ -13,11 +13,11 @@
     </div>
     <div class="col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading"><?php echo __('Live Chat') ?> <div class="pull-right"><?php echo getPluginSwitch('LiveChat'); ?></div></div>
+            <div class="panel-heading"><?php echo __('Chat') ?> <div class="pull-right"><?php echo getPluginSwitch('Chat2'); ?></div></div>
             <div class="panel-body">
                 <?php
 
-                createTable("LiveChat");
+                createTable("Chat2");
                 ?>
 
             </div>
