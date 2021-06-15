@@ -272,7 +272,7 @@ class API extends PluginAbstract {
     public function get_api_video_file($parameters) {
         global $global;
         $obj = $this->startResponseObject($parameters);
-        $obj->video_file = Video::getHigherVideosPathsFromID($videos_id);
+        $obj->video_file = Video::getHigherVideoPathFromID($videos_id);
         return new ApiObject("", false, $obj);
     }
 
