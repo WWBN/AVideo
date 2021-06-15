@@ -11,6 +11,7 @@ class API extends PluginAbstract {
             PluginTags::$MOBILE
         );
     }
+
     public function getDescription() {
         return "Handle APIs for third party Applications";
     }
@@ -136,7 +137,7 @@ class API extends PluginAbstract {
         }
         return new ApiObject("", false, $obj);
     }
-    
+
     /**
      * @param type $parameters 
      * This will check if the provided UserAgent/Headers comes from a mobile
@@ -150,11 +151,11 @@ class API extends PluginAbstract {
     public function get_api_is_mobile($parameters) {
         global $global;
         $obj = $this->startResponseObject($parameters);
-        if(!empty($_REQUEST['httpHeaders'])){
+        if (!empty($_REQUEST['httpHeaders'])) {
             $json = _json_decode($_REQUEST['httpHeaders']);
-            if(!empty($json)){
+            if (!empty($json)) {
                 $_REQUEST['httpHeaders'] = $json;
-            }else{
+            } else {
                 $_REQUEST['httpHeaders'] = array($_REQUEST['httpHeaders']);
             }
         }
@@ -221,10 +222,10 @@ class API extends PluginAbstract {
         if (empty($videos[$parameters['nextIndex']])) {
             $parameters['nextIndex'] = 0;
         }
-        
+
         $playlist = new PlayList($parameters['playlists_id']);
         $user = new User($playlist->getUsers_id());
-        
+
         $videoPath = Video::getHigherVideoPathFromID($video['id']);
         $parameters['videos'] = $videos;
         $parameters['playlist_name'] = $playlist->getName();
@@ -238,20 +239,20 @@ class API extends PluginAbstract {
         $parameters['totalPlaylistDuration'] = 0;
         $parameters['currentPlaylistTime'] = 0;
         foreach ($parameters['videos'] as $key => $value) {
-            
+
             $parameters['videos'][$key]['path'] = Video::getHigherVideoPathFromID($value['id']);
-            if($key && $key<=$parameters['index']){
-                $parameters['currentPlaylistTime'] += durationToSeconds($parameters['videos'][$key-1]['duration']);
+            if ($key && $key <= $parameters['index']) {
+                $parameters['currentPlaylistTime'] += durationToSeconds($parameters['videos'][$key - 1]['duration']);
             }
             $parameters['totalPlaylistDuration'] += durationToSeconds($parameters['videos'][$key]['duration']);
-            
+
             $parameters['videos'][$key]['info'] = Video::getTags($value['id']);
             $parameters['videos'][$key]['category'] = Category::getCategory($value['categories_id']);
         }
-        if(empty($parameters['totalPlaylistDuration'])){
+        if (empty($parameters['totalPlaylistDuration'])) {
             $parameters['percentage_progress'] = 0;
-        }else{
-            $parameters['percentage_progress'] = ($parameters['currentPlaylistTime']/$parameters['totalPlaylistDuration'])*100;
+        } else {
+            $parameters['percentage_progress'] = ($parameters['currentPlaylistTime'] / $parameters['totalPlaylistDuration']) * 100;
         }
         $parameters['title'] = $video['title'];
         $parameters['videos_id'] = $video['id'];
@@ -272,7 +273,18 @@ class API extends PluginAbstract {
     public function get_api_video_file($parameters) {
         global $global;
         $obj = $this->startResponseObject($parameters);
-        $obj->video_file = Video::getHigherVideoPathFromID($videos_id);
+        $obj->videos_id = $parameters['videos_id'];
+        $dataObj = $this->getDataObject();
+        if ($dataObj->APISecret !== @$parameters['APISecret']) {
+            if (!User::canWatchVideoWithAds($obj->videos_id)) {
+                return new ApiObject("You cannot watch this video");
+            }
+        }
+        $video = new Video('', '', $obj->videos_id);
+        $obj->filename = $video->getFilename();
+        $obj->video_file = Video::getHigherVideoPathFromID($obj->videos_id);
+        $obj->sources = getSources($obj->filename, true);
+        $obj->images = Video::getImageFromFilename($obj->filename);
         return new ApiObject("", false, $obj);
     }
 
@@ -293,17 +305,17 @@ class API extends PluginAbstract {
      * @return \ApiObject
      */
     public function get_api_video($parameters) {
-        
+
         $rowCount = getRowCount();
-        if($rowCount > 100){
+        if ($rowCount > 100) {
             // use 1 hour cache
-            $cacheName = 'get_api_video'.md5(json_encode($parameters).json_encode($_GET));
+            $cacheName = 'get_api_video' . md5(json_encode($parameters) . json_encode($_GET));
             $obj = ObjectYPT::getCache($cacheName, 3600);
-            if(!empty($obj)){
+            if (!empty($obj)) {
                 return new ApiObject("Cached response", false, $obj);
             }
         }
-        
+
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
@@ -355,7 +367,7 @@ class API extends PluginAbstract {
             $rows[$key]['embedUrl'] = Video::getLink($rows[$key]['id'], $rows[$key]['clean_title'], true);
             $rows[$key]['UserPhoto'] = User::getPhoto($rows[$key]['users_id']);
             $rows[$key]['isSubscribed'] = false;
-            if(User::isLogged()){
+            if (User::isLogged()) {
                 require_once $global['systemRootPath'] . 'objects/subscribe.php';
                 $rows[$key]['isSubscribed'] = Subscribe::isSubscribed($rows[$key]['users_id']);
             }
@@ -365,7 +377,7 @@ class API extends PluginAbstract {
                 foreach ($rows[$key]['subtitles'] as $key2 => $value) {
                     $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
                 }
-            }            
+            }
             require_once $global['systemRootPath'] . 'objects/comment.php';
             require_once $global['systemRootPath'] . 'objects/subscribe.php';
             unset($_POST['sort']);
@@ -381,7 +393,7 @@ class API extends PluginAbstract {
                 $rows[$key]['comments'][$key2]['userName'] = $user->getNameIdentificationBd();
             }
             $rows[$key]['subscribers'] = Subscribe::getTotalSubscribes($rows[$key]['users_id']);
-            
+
             //wwbn elements
             $rows[$key]['wwbnURL'] = $rows[$key]['pageUrl'];
             $rows[$key]['wwbnEmbedURL'] = $rows[$key]['embedUrl'];
@@ -647,7 +659,7 @@ class API extends PluginAbstract {
             return new ApiObject("API Secret is not valid");
         }
     }
-    
+
     /**
      * Return a users list
      * @param type $parameters 
@@ -664,18 +676,18 @@ class API extends PluginAbstract {
         $obj = $this->startResponseObject($parameters);
         $dataObj = $this->getDataObject();
         if ($dataObj->APISecret === $_GET['APISecret']) {
-            
+
             $status = '';
-            if(!empty($_GET['status'])){
-                if($_GET['status'] === 'i'){
+            if (!empty($_GET['status'])) {
+                if ($_GET['status'] === 'i') {
                     $status = 'i';
-                }else {
+                } else {
                     $status = 'a';
                 }
             }
-            
+
             $rows = User::getAllUsers(true, array('user', 'name'), $status);
-            
+
             return new ApiObject("", false, $rows);
         } else {
             return new ApiObject("API Secret is not valid");
@@ -1073,7 +1085,7 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'objects/playListAddVideo.json.php';
         exit;
     }
-    
+
     /**
      * Return all watch_later from a user
      * @param type $parameters
