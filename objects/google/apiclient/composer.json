@@ -13,8 +13,7 @@
         "monolog/monolog": "^1.17|^2.0",
         "phpseclib/phpseclib": "~2.0||^3.0.2",
         "guzzlehttp/guzzle": "~5.3.3||~6.0||~7.0",
-        "guzzlehttp/psr7": "^1.2",
-        "composer/composer": "2.0.13"
+        "guzzlehttp/psr7": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7||^8.5.13",
@@ -24,7 +23,7 @@
         "cache/filesystem-adapter": "^0.3.2|^1.1",
         "phpcompatibility/php-compatibility": "^9.2",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-        "composer/composer": "^1.10"
+        "composer/composer": "^1.10.22"
     },
     "suggest": {
         "cache/filesystem-adapter": "For caching certs and tokens (using Google\\Client::setCache)"

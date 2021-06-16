@@ -30,12 +30,16 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionAppMesh(array $args = [])
  * @method \Aws\AppRegistry\AppRegistryClient createAppRegistry(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionAppRegistry(array $args = [])
+ * @method \Aws\AppRunner\AppRunnerClient createAppRunner(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionAppRunner(array $args = [])
  * @method \Aws\AppSync\AppSyncClient createAppSync(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionAppSync(array $args = [])
  * @method \Aws\Appflow\AppflowClient createAppflow(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionAppflow(array $args = [])
  * @method \Aws\ApplicationAutoScaling\ApplicationAutoScalingClient createApplicationAutoScaling(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionApplicationAutoScaling(array $args = [])
+ * @method \Aws\ApplicationCostProfiler\ApplicationCostProfilerClient createApplicationCostProfiler(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionApplicationCostProfiler(array $args = [])
  * @method \Aws\ApplicationDiscoveryService\ApplicationDiscoveryServiceClient createApplicationDiscoveryService(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionApplicationDiscoveryService(array $args = [])
  * @method \Aws\ApplicationInsights\ApplicationInsightsClient createApplicationInsights(array $args = [])
@@ -396,6 +400,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionPricing(array $args = [])
  * @method \Aws\PrometheusService\PrometheusServiceClient createPrometheusService(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionPrometheusService(array $args = [])
+ * @method \Aws\Proton\ProtonClient createProton(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionProton(array $args = [])
  * @method \Aws\QLDB\QLDBClient createQLDB(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionQLDB(array $args = [])
  * @method \Aws\QLDBSession\QLDBSessionClient createQLDBSession(array $args = [])
@@ -432,6 +438,10 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionS3Control(array $args = [])
  * @method \Aws\S3Outposts\S3OutpostsClient createS3Outposts(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionS3Outposts(array $args = [])
+ * @method \Aws\SSMContacts\SSMContactsClient createSSMContacts(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionSSMContacts(array $args = [])
+ * @method \Aws\SSMIncidents\SSMIncidentsClient createSSMIncidents(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionSSMIncidents(array $args = [])
  * @method \Aws\SSO\SSOClient createSSO(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionSSO(array $args = [])
  * @method \Aws\SSOAdmin\SSOAdminClient createSSOAdmin(array $args = [])
@@ -535,7 +545,7 @@ namespace Aws;
  */
 class Sdk
 {
-    const VERSION = '3.180.4';
+    const VERSION = '3.184.4';
 
     /** @var array Arguments for creating clients */
     private $args;

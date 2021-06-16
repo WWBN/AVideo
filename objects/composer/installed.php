@@ -6,19 +6,19 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'dd5b0337ecfd88870801d540339ceec937adb267',
+    'reference' => 'dc73194324b96c153575b18c25bc92bbb9ea31da',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
   array (
     'aws/aws-sdk-php' => 
     array (
-      'pretty_version' => '3.180.4',
-      'version' => '3.180.4.0',
+      'pretty_version' => '3.184.4',
+      'version' => '3.184.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '3e377fdfd0cda4e1412ac7aca93814d4f032d236',
+      'reference' => '34e6b2abfb9d9d2f619c7218fb366371099e26b7',
     ),
     'cboden/ratchet' => 
     array (
@@ -58,12 +58,12 @@
     ),
     'firebase/php-jwt' => 
     array (
-      'pretty_version' => 'v5.2.1',
-      'version' => '5.2.1.0',
+      'pretty_version' => 'v5.3.0',
+      'version' => '5.3.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f42c9110abe98dd6cfe9053c49bc86acc70b2d23',
+      'reference' => '3c2d70f2e64e2922345e89f2ceae47d2463faae1',
     ),
     'gliterd/backblaze-b2' => 
     array (
@@ -76,12 +76,12 @@
     ),
     'google/apiclient' => 
     array (
-      'pretty_version' => 'v2.9.1',
-      'version' => '2.9.1.0',
+      'pretty_version' => 'v2.9.2',
+      'version' => '2.9.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '2fb6e702aca5d68203fa737f89f6f774022494c6',
+      'reference' => 'e9ef4c26a044b8d39a46bcf296be795fe24a1849',
     ),
     'google/apiclient-services' => 
     array (
@@ -148,12 +148,12 @@
     ),
     'monolog/monolog' => 
     array (
-      'pretty_version' => '1.26.0',
-      'version' => '1.26.0.0',
+      'pretty_version' => '1.26.1',
+      'version' => '1.26.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '2209ddd84e7ef1256b7af205d0717fb62cfc9c33',
+      'reference' => 'c6b00f05152ae2c9b04a448f99c7590beb6042f5',
     ),
     'mtdowling/jmespath.php' => 
     array (
@@ -218,12 +218,12 @@
     ),
     'psr/log' => 
     array (
-      'pretty_version' => '1.1.3',
-      'version' => '1.1.3.0',
+      'pretty_version' => '1.1.4',
+      'version' => '1.1.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0f73288fd15629204f9d42b7055f72dacbe811fc',
+      'reference' => 'd49695b909c3b7628b6289db5479a1c204601f11',
     ),
     'psr/log-implementation' => 
     array (
@@ -401,7 +401,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'dd5b0337ecfd88870801d540339ceec937adb267',
+      'reference' => 'dc73194324b96c153575b18c25bc92bbb9ea31da',
     ),
   ),
 );
