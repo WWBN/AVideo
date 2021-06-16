@@ -86,6 +86,9 @@ class IP2Location extends ObjectYPT {
     static function getCountries() {
         global $global;
 
+        if (!static::isTableInstalled()) {
+            return false;
+        }
         $cacheDir = $global['systemRootPath'] . 'videos/cache/';
         if (!file_exists($cacheDir)) {
             mkdir($cacheDir, 0777, true);
@@ -117,6 +120,9 @@ class IP2Location extends ObjectYPT {
     static function getRegions($country_name) {
         global $global;
 
+        if (!static::isTableInstalled()) {
+            return false;
+        }
         $cacheDir = $global['systemRootPath'] . 'videos/cache/';
         if (!file_exists($cacheDir)) {
             mkdir($cacheDir, 0777, true);

@@ -206,11 +206,17 @@ class Subscribe {
      * @param type $user_id
      * @return boolean
      */
-    static function getSubscribedChannels($user_id) {
+    static function getSubscribedChannels($user_id, $limit=0, $page=0) {
         global $global;
-
+        $limit = intval($limit);
+        $page = intval($page);
+        
         $sql = "SELECT s.* FROM subscribes as s WHERE status = 'a' AND subscriber_users_id = ? ";
 
+        if(!empty($limit)){
+            $sql .= " LIMIT {$page},{$limit} ";
+        }
+        
         $res = sqlDAL::readSql($sql, "i", array($user_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -277,7 +283,7 @@ class Subscribe {
         global $global;
         $sql = "SELECT id FROM subscribes WHERE status = 'a' AND subscriber_users_id = ? ";
 
-        $sql .= BootGrid::getSqlSearchFromPost(array('email'));
+        //$sql .= BootGrid::getSqlSearchFromPost(array('email'));
         $res = sqlDAL::readSql($sql, "i", array($user_id));
         $numRows = sqlDAL::num_rows($res);
         sqlDAL::close($res);

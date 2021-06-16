@@ -5125,7 +5125,8 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         if (preg_match("/(current=[0-9]+)/i", $link, $match)) {
             $link = str_replace($match[1], "current={page}", $link);
         } else {
-            $link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
+            $link = addQueryStringParameter($link, 'current', '{page}');
+            //$link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
         }
     }
 
@@ -5135,7 +5136,12 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     }
 
     if ($isInfiniteScroll && $page > 1) {
-        $pageForwardLink = str_replace("{page}", $page + 1, $link);
+        if (preg_match("/\{page\}/", $link, $match)) {
+            $pageForwardLink = str_replace("{page}", $page + 1, $link);
+        } else {
+            $pageForwardLink = addQueryStringParameter($link, 'current', $page + 1);
+        }
+
         return "<nav class=\"{$class}\">"
                 . "<ul class=\"pagination\">"
                 . "<li class=\"page-item\"><a class=\"page-link pagination__next pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
@@ -5159,8 +5165,13 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     }
     if (!$isInfiniteScroll) {
         if ($page > 1) {
-            $pageLink = str_replace("{page}", 1, $link);
-            $pageBackLink = str_replace("{page}", $page - 1, $link);
+            if (preg_match("/\{page\}/", $link, $match)) {
+                $pageLink = str_replace("{page}", 1, $link);
+                $pageBackLink = str_replace("{page}", $page - 1, $link);
+            } else {
+                $pageLink = addQueryStringParameter($link, 'current', 1);
+                $pageBackLink = addQueryStringParameter($link, 'current', $page - 1);
+            }
             if ($start > ($page - 1)) {
                 $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
             }
@@ -5176,8 +5187,13 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         }
     }
     if ($page < $total) {
-        $pageLink = str_replace("{page}", $total, $link);
-        $pageForwardLink = str_replace("{page}", $page + 1, $link);
+        if (preg_match("/\{page\}/", $link, $match)) {
+            $pageLink = str_replace("{page}", $total, $link);
+            $pageForwardLink = str_replace("{page}", $page + 1, $link);
+        } else {
+            $pageLink = addQueryStringParameter($link, 'current', $total);
+            $pageForwardLink = addQueryStringParameter($link, 'current', $page + 1);
+        }
         $pag .= PHP_EOL . '<li class="page-item"><a class="page-link pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
         if ($total > ($end + 1)) {
             $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
