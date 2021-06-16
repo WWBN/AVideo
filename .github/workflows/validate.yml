@@ -1,0 +1,25 @@
+name: validate
+
+on: [push, pull_request]
+
+jobs:
+ build:
+  runs-on: ${{ matrix.operating-system }}
+
+  strategy:
+   matrix:
+    operating-system: [ubuntu-latest]
+    php-versions: ['5.6']
+  name: PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
+  steps:
+  - name: Checkout
+    uses: actions/checkout@v2
+
+  - name: Set up PHP
+    uses: shivammathur/setup-php@v2
+    with:
+     php-version: ${{ matrix.php-versions }}
+     extensions: pcre
+
+  - name: Validate composer.json and composer.lock
+    run: composer validate
