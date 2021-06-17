@@ -9,6 +9,10 @@ require_once $global['systemRootPath'].'videos/configuration.php';
 require_once $global['systemRootPath'].'objects/subscribe.php';
 require_once $global['systemRootPath'].'plugin/Gallery/functions.php';
 
+if(empty($obj)){
+    $obj = AVideoPlugin::getDataObject('Gallery');
+}
+
 $itemsPerPage = 4;
 $total = Subscribe::getTotalSubscribedChannels(User::getId());
 $page = getCurrentPage();
