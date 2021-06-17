@@ -106,7 +106,7 @@ class VideoTags extends PluginAbstract {
         $str = "";
         foreach ($types as $value) {
             $input = self::getTagsInput($value['id']);
-            $str .= "<label for=\"tagTypesId{$value['id']}\">{$value['name']}</label><div class=\"clear clearfix\">{$input}</div> ";
+            $str .= "<label for=\"tagTypesId{$value['id']}\">".__($value['name'])."</label><div class=\"clear clearfix\">{$input}</div> ";
         }
         return $str;
     }
@@ -197,13 +197,13 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
                 if ($value['total'] > 1) {
                     $tooltip = "{$value['total']} " . __("Videos");
                 }
-                $strT .= '<a data-toggle="tooltip" title="' . $tooltip . '" href="' . $global['webSiteRootURL'] . 'tag/' . $value['tags_id'] . '/' . urlencode($value['name']) . '" class="label label-primary">' . $value['name'] . '</a> ';
+                $strT .= '<a data-toggle="tooltip" title="' . $tooltip . '" href="' . $global['webSiteRootURL'] . 'tag/' . $value['tags_id'] . '/' . urlencode($value['name']) . '" class="label label-primary">' . __($value['name']) . '</a> ';
             }
             if (!empty($strT)) {
                 $label = "";
                 if($showType){
                     $name = str_replace("_", " ", $type['name']);
-                    $label = "<strong class='label text-muted'>{$name}: </strong> ";
+                    $label = "<strong class='label text-muted'>".__($name).": </strong> ";
                 }
                 $tagsStrList[] = "{$label}{$strT}";
             }
