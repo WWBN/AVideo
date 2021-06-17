@@ -213,7 +213,7 @@ class Subscribe {
         if($page<0){
             $page=0;
         }
-        $offset = $limit+$page;
+        $offset = $limit*$page;
         $sql = "SELECT s.*, (SELECT MAX(v.created) FROM videos v WHERE v.users_id = s.users_id) as newestvideo "
                 . " FROM subscribes as s WHERE status = 'a' AND subscriber_users_id = ? "
                 . " ORDER BY newestvideo DESC ";
@@ -221,7 +221,7 @@ class Subscribe {
         if(!empty($limit)){
             $sql .= " LIMIT {$offset},{$limit} ";
         }
-        //var_dump($sql, $user_id);exit;
+        var_dump($sql, $user_id);exit;
         $res = sqlDAL::readSql($sql, "i", array($user_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
