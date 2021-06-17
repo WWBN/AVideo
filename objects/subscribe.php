@@ -209,7 +209,10 @@ class Subscribe {
     static function getSubscribedChannels($user_id, $limit=0, $page=0) {
         global $global;
         $limit = intval($limit);
-        $page = intval($page);
+        $page = intval($page)-1;
+        if($page<0){
+            $page=0;
+        }
         
         $sql = "SELECT s.*, (SELECT MAX(v.created) FROM videos v WHERE v.users_id = s.users_id) as newest "
                 . " FROM subscribes as s WHERE status = 'a' AND subscriber_users_id = ? "
