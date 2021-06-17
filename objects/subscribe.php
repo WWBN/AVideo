@@ -221,7 +221,7 @@ class Subscribe {
         if(!empty($limit)){
             $sql .= " LIMIT {$offset},{$limit} ";
         }
-        var_dump($sql, $user_id);exit;
+        //var_dump($sql, $user_id);exit;
         $res = sqlDAL::readSql($sql, "i", array($user_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
