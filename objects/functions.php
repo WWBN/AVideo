@@ -46,7 +46,8 @@ function cmpPlugin($a, $b) {
             $a['name'] === 'SecureVideosDirectory' ||
             $a['name'] === 'GoogleAds_IMA' ||
             $a['name'] === 'Subscription' ||
-            $a['name'] === 'PayPerView'
+            $a['name'] === 'PayPerView' ||
+            $a['name'] === 'FansSubscriptions'
     ) {
         return -1;
     } elseif ($a['name'] === 'PlayerSkins') {
@@ -55,7 +56,8 @@ function cmpPlugin($a, $b) {
             $b['name'] === 'SecureVideosDirectory' ||
             $b['name'] === 'GoogleAds_IMA' ||
             $b['name'] === 'Subscription' ||
-            $b['name'] === 'PayPerView'
+            $b['name'] === 'PayPerView' ||
+            $b['name'] === 'FansSubscriptions'
     ) {
         return 1;
     } elseif ($b['name'] === 'PlayerSkins') {
