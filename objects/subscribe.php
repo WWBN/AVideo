@@ -74,7 +74,7 @@ class Subscribe {
     static function getSubscribe($id) {
         global $global;
         $id = intval($id);
-        $sql = "SELECT * FROM subscribes WHERE  id = $id LIMIT 1";
+        $sql = "SELECT * FROM subscribes WHERE  id = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "i", array($id));
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
@@ -211,12 +211,14 @@ class Subscribe {
         $limit = intval($limit);
         $page = intval($page);
         
-        $sql = "SELECT s.* FROM subscribes as s WHERE status = 'a' AND subscriber_users_id = ? ";
+        $sql = "SELECT s.*, (SELECT MAX(v.created) FROM videos v WHERE v.users_id = s.users_id) as newest "
+                . " FROM subscribes as s WHERE status = 'a' AND subscriber_users_id = ? "
+                . " ORDER BY newest DESC ";
 
         if(!empty($limit)){
             $sql .= " LIMIT {$page},{$limit} ";
         }
-        
+        //var_dump($sql, $user_id);exit;
         $res = sqlDAL::readSql($sql, "i", array($user_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -397,5 +399,15 @@ class Subscribe {
     function setSubscriber_users_id($subscriber_users_id) {
         $this->subscriber_users_id = $subscriber_users_id;
     }
+    
+    function getUsers_id() {
+        return $this->users_id;
+    }
+
+    function setUsers_id($users_id) {
+        $this->users_id = $users_id;
+    }
+
+
 
 }
