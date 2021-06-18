@@ -66,7 +66,8 @@ if (!class_exists('Video')) {
             'd' => 'Downloading',
             't' => 'Transfering',
             'u' => 'Unlisted',
-            'r' => 'Recording');
+            'r' => 'Recording',
+            'f' => 'FansOnly');
         public static $statusActive = 'a';
         public static $statusActiveAndEncoding = 'k';
         public static $statusInactive = 'i';
@@ -76,6 +77,7 @@ if (!class_exists('Video')) {
         public static $statusTranfering = 't';
         public static $statusUnlisted = 'u';
         public static $statusRecording = 'r';
+        public static $statusFansOnly = 'f';
         public static $rratingOptions = array('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
         //ver 3.4
         private $youtubeId;
@@ -1111,7 +1113,11 @@ if (!class_exists('Video')) {
                 require_once 'userGroups.php';
                 TimeLogStart("video::getAllVideos foreach");
                 foreach ($fullData as $row) {
-                    $videos[] = self::getInfo($row, $getStatistcs);
+                    $row = self::getInfo($row, $getStatistcs);
+                    if(!is_object($row['externalOptions'])){
+                        $row['externalOptions'] = _json_decode($row['externalOptions']);
+                    }
+                    $videos[] = $row;
                 }
                 $rowCount = getRowCount();
                 $tolerance = $rowCount / 100;
@@ -1577,21 +1583,14 @@ if (!class_exists('Video')) {
         }
 
         public static function getViewableStatus($showUnlisted = false) {
-            /**
-              a = active
-              k = active and encoding
-              i = inactive
-              e = encoding
-              x = encoding error
-              d = downloading
-              u = unlisted
-             */
-            $viewable = array('a', 'k');
+            $viewable = array('a', 'k', 'f');
             if ($showUnlisted) {
                 $viewable[] = "u";
-            } elseif (!empty($_GET['videoName'])) {
+            } 
+            $videos_id = getVideos_id();
+            if (!empty($videos_id)) {
                 $post = $_POST;
-                if (self::isOwnerFromCleanTitle($_GET['videoName']) || Permissions::canModerateVideos()) {
+                if (self::isOwner($videos_id) || Permissions::canModerateVideos()) {
                     $viewable[] = "u";
                 }
                 $_POST = $post;
@@ -2189,7 +2188,11 @@ if (!class_exists('Video')) {
                     }
                 } else {
                     $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
-                    if ($advancedCustomUser->userCanProtectVideosWithPassword && !empty($video->getVideo_password())) {
+                    if ($video->getStatus()===self::$statusFansOnly) {
+                        $objTag->type = "warning";
+                        $objTag->text = '<i class="fas fa-star" ></i>';
+                        $objTag->tooltip = __("Fans Only");
+                    } elseif ($advancedCustomUser->userCanProtectVideosWithPassword && !empty($video->getVideo_password())) {
                         $objTag->type = "danger";
                         $objTag->text = '<i class="fas fa-lock" ></i>';
                         $objTag->tooltip = __("Password Protected");

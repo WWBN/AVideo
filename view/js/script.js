@@ -1653,6 +1653,9 @@ function avideoAjax(url, data) {
                 avideoAlertError(response.msg);
             } else {
                 avideoToastSuccess(response.msg);
+                if(typeof response.eval !== 'undefined'){
+                    eval(response.eval);
+                }
             }
         }
     });

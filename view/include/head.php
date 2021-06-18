@@ -6,7 +6,9 @@ $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraCo
 if(empty($advancedCustom)){
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
-
+if(is_object($video)){
+    $video = Video::getVideoLight($video->getId());
+}
 $custom = array();
 
 if (file_exists($extraPluginFile) && AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
