@@ -396,7 +396,7 @@ if (!class_exists('Video')) {
                 self::clearCache($this->id);
                 return $id;
             }
-            _error_log('Video::save ' . $sql . ' Save Video Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
+            _error_log('Video::save Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
             return false;
         }
 
@@ -1852,7 +1852,12 @@ if (!class_exists('Video')) {
                 $new_description = strip_tags(br2nl($description));
             }
             AVideoPlugin::onVideoSetDescription($this->id, $this->description, $new_description);
-            $new_description= preg_replace('/[\xE2\x80\xAF\xBA]/', '', $new_description);
+            //$new_description= preg_replace('/[\xE2\x80\xAF\xBA\x96]/', '', $new_description);
+            
+            if(function_exists('mb_convert_encoding')){
+                $new_description = mb_convert_encoding($new_description, 'UTF-8', 'UTF-8');
+            }
+            
             $this->description = $new_description;
             //var_dump($this->description, $description, $parts);exit;
         }
