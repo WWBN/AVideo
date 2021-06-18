@@ -1852,6 +1852,7 @@ if (!class_exists('Video')) {
                 $new_description = strip_tags(br2nl($description));
             }
             AVideoPlugin::onVideoSetDescription($this->id, $this->description, $new_description);
+            $new_description= preg_replace('/[\xE2\x80\xAF\xBA]/', '', $new_description);
             $this->description = $new_description;
             //var_dump($this->description, $description, $parts);exit;
         }
