@@ -1226,10 +1226,13 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                     if (response.status === "1" || response.status === true) {
                                                     if (response.video.id) {
                                                     videos_id = response.video.id;
+                                                            videoUploaded = videos_id;
                                                     }
-                                                    if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
-                                                    videoUploaded = true;
-                                                    }
+                                                    /*
+                                                     if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
+                                                     videoUploaded = true;
+                                                     }
+                                                     */
                                                     if (closeModal && videoUploaded) {
                                                     $('#videoFormModal').modal('hide');
                                                     }
@@ -1834,7 +1837,7 @@ if (Permissions::canAdminVideos()) {
 }
 ?>
                                                         var playBtn = '<button type="button" class="btn btn-default btn-xs"  onclick="avideoModalIframe(\'' + row.embedlink + '\')"  data-toggle="tooltip" title="<?php echo __('Play'); ?>"><span class="fas fa-play" aria-hidden="true"></span></button>';
-                                                        
+
                                                         return playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + pluginsButtons + download + nextIsSet;
                                                     },
                                                     "tags": function (column, row) {
@@ -1856,7 +1859,7 @@ if (Permissions::canAdminVideos()) {
                                                             }
                                                             var text = row.tags[i].text;
                                                             if (typeof row.tags[i].tooltip !== "undefined") {
-                                                                text += ' '+row.tags[i].tooltip;
+                                                                text += ' ' + row.tags[i].tooltip;
                                                             }
                                                             tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + text + "</span>";
                                                         }
