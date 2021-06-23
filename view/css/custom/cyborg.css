@@ -54,3 +54,81 @@ th:hover, .select2-dropdown{
 .btn-default.no-outline:hover{
     color: #AAA !important;
 }
+
+
+  #modeYoutubeBottomContent .btn-default {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
+
+
+
+  .navbar-default .navbar-brand {
+    color: #000000;
+}
+  
+  
+  .btn-default {
+    
+    background-color: #2d2d2d00;
+    border-color: #2d2d2d00;
+}
+
+
+
+
+
+body {
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #fff;
+}
+  
+  
+body {
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #fff;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+
+
+
+  #myNavbar ul.right-menus {
+    background-color: #000000;
+    right: 0;
+}
+
+
+
+  .list-group-item {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #121111;
+    border: 1px solid #040202;
+}
+
+
