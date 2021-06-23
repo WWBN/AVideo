@@ -1,7 +1,7 @@
 <?php
 
 //streamer config
-require_once dirname(__FILE__) . '../videos/configuration.php';
+require_once dirname(__FILE__) . '/../videos/configuration.php';
 
 _error_log('sendSiteEmailAsync: Start');
 if (!isCommandLineInterface()) {
