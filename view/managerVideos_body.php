@@ -1226,10 +1226,13 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                     if (response.status === "1" || response.status === true) {
                                                     if (response.video.id) {
                                                     videos_id = response.video.id;
+                                                            videoUploaded = videos_id;
                                                     }
-                                                    if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
-                                                    videoUploaded = true;
-                                                    }
+                                                    /*
+                                                     if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
+                                                     videoUploaded = true;
+                                                     }
+                                                     */
                                                     if (closeModal && videoUploaded) {
                                                     $('#videoFormModal').modal('hide');
                                                     }
@@ -1255,6 +1258,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
                                         function resetVideoForm() {
                                             isArticle = 0;
+                                            $('#fileUploadVideos_id').val(0);
                                             $('.nav-tabs a[href="#pmedia"], #pmedia').show();
                                             $("#pmedia").css("display", "");
                                             $("#pmedia").attr("style", "");
@@ -1755,6 +1759,7 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                                                         var activeBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is Active and Listed, click here to unlist it")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
                                                         var inactiveBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is inactive, click here to activate it")); ?>"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
                                                         var unlistedBtn = '<button style="color: #BBB" type="button" class="btn btn-default btn-xs command-unlisted"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is unlisted, click here to inactivate it")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
+                                                        var fansOnlyBtn = '<button style="color: #FFD700" type="button" class="btn btn-default btn-xs command-fansOnly"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is for fans Only, click here to toogle it")); ?>" onclick="avideoAjax(webSiteRootURL+\'plugin/FansSubscriptions/toogleFansOnly.json.php?videos_id=' + row.id + '\', {});"><i class="fas fa-star" aria-hidden="true"></i></button>';
                                                         var status;
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                                                         var download = "";
@@ -1799,6 +1804,8 @@ if (User::isAdmin()) {
                                                             status = activeBtn;
                                                         } else if (row.status == "u") {
                                                             status = unlistedBtn;
+                                                        }  else if (row.status == "f") {
+                                                            status = fansOnlyBtn;
                                                         } else if (row.status == "x") {
                                                             return editBtn + deleteBtn;
                                                         } else if (row.status == "d") {
@@ -1834,7 +1841,7 @@ if (Permissions::canAdminVideos()) {
 }
 ?>
                                                         var playBtn = '<button type="button" class="btn btn-default btn-xs"  onclick="avideoModalIframe(\'' + row.embedlink + '\')"  data-toggle="tooltip" title="<?php echo __('Play'); ?>"><span class="fas fa-play" aria-hidden="true"></span></button>';
-                                                        
+
                                                         return playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + pluginsButtons + download + nextIsSet;
                                                     },
                                                     "tags": function (column, row) {
@@ -1856,7 +1863,7 @@ if (Permissions::canAdminVideos()) {
                                                             }
                                                             var text = row.tags[i].text;
                                                             if (typeof row.tags[i].tooltip !== "undefined") {
-                                                                text += ' '+row.tags[i].tooltip;
+                                                                text += ' ' + row.tags[i].tooltip;
                                                             }
                                                             tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + text + "</span>";
                                                         }

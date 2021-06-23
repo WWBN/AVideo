@@ -113,7 +113,7 @@ class Subscribe {
             $sql .= " AND status = '{$status}' ";
         }
         $sql .= " LIMIT 1";
-        $res = sqlDAL::readSql($sql);
+        $res = sqlDAL::readSql($sql, "", array(), true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {

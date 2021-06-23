@@ -175,7 +175,12 @@ if (User::hasBlockedUser($video['users_id'])) {
                         echo '<!-- CustomizeUser::canDownloadVideosFromVideo said NO -->';
                     }
                     ?>
-                <?php } echo AVideoPlugin::getWatchActionButton($video['id']); ?>
+                    <?php
+                }
+                $_v = $video;
+                echo AVideoPlugin::getWatchActionButton($video['id']);
+                $video = $_v;
+                ?>
                 <?php
                 if (!empty($video['id']) && empty($advancedCustom->removeThumbsUpAndDown)) {
                     ?>
