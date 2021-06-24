@@ -358,12 +358,7 @@ $('.wysihtml5-sandbox').contents().find('body').blur(function() {
 }
   
   
-  .btn-default {
-    
-    background-color: #2d2d2d00;
-    border-color: #2d2d2d00;
-}
-</style>
+ </style>
 
 
 
@@ -418,7 +413,7 @@ a {
 
 
 
-  
+ <style> 
 
 body {
     font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -475,9 +470,11 @@ body {
   
 }
 
+
+
 .btn-default {
-    color: #ffffff;
-    background-color: #000000;
-    border-color: #000000;
-    2: ;
+    color: #fff;
+    background-color: #42424200;
+    border-color: #424242;
 }
+</style>
