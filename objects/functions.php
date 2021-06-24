@@ -603,6 +603,7 @@ function sendSiteEmail($to, $subject, $message) {
 }
 
 function sendSiteEmailAsync($to, $subject, $message) {
+    global $global;
     $content = array('to' => $to, 'subject' => $subject, 'message' => $message);
     $tmpFile = getTmpFile();
     file_put_contents($tmpFile, _json_encode($content));
