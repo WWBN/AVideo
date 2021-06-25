@@ -1225,14 +1225,14 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                     success: function (response) {
                                                     if (response.status === "1" || response.status === true) {
                                                     if (response.video.id) {
-                                                    videos_id = response.video.id;
-                                                            videoUploaded = videos_id;
+                                                        videos_id = response.video.id;
+                                                        //videoUploaded = videos_id;
                                                     }
-                                                    /*
+                                                    /**/
                                                      if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
-                                                     videoUploaded = true;
+                                                        videoUploaded = true;
                                                      }
-                                                     */
+                                                     
                                                     if (closeModal && videoUploaded) {
                                                     $('#videoFormModal').modal('hide');
                                                     }
