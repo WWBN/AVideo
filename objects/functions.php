@@ -5644,7 +5644,7 @@ function _glob($dir, $pattern) {
     }
     $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     $array = array();
-    if ($handle = opendir($dir)) {
+    if (is_dir($dir) && $handle = opendir($dir)) {
         $count = 0;
         while (false !== ($file_name = readdir($handle))) {
             if ($file_name == '.' || $file_name == '..') {
