@@ -2899,7 +2899,7 @@ if (!class_exists('Video')) {
                 return true;
             }
             $videosDir = self::getStoragePath();
-            mkdir($paths['path'], 0755, true);
+            make_path($paths['path']);
             $files = _glob($videosDir, '/' . $videoFilename . '[._][a-z0-9_]+/i');
             //var_dump($paths['path'], is_dir($paths['path']), $files);exit;
             foreach ($files as $oldname) {

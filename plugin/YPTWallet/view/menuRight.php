@@ -45,6 +45,16 @@ $balance = $plugin->getBalance(User::getId());
             </li>
             <?php
             }
+            if($obj->enableAutoWithdrawFundsPage){
+            ?>
+            <li class="dropdown-submenu">
+                <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/autoWithdrawFunds.php">
+                    <i class="far fa-money-bill-alt" aria-hidden="true"></i>
+                    <?php echo $obj->manualWithdrawFundsMenuTitle; ?>
+                </a>
+            </li>
+            <?php
+            }
             ?>
             <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/transferFunds.php">

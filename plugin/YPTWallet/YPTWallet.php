@@ -74,6 +74,7 @@ class YPTWallet extends PluginAbstract
         $obj->manualAddFundsTransferFromUserId = 1;
         // sell funds
         $obj->enableManualWithdrawFundsPage = true;
+        $obj->enableAutoWithdrawFundsPage = false;
         $obj->withdrawFundsOptions = "[5,10,20,50,100,1000]";
         $obj->manualWithdrawFundsMenuTitle = "Withdraw Funds";
         $obj->manualWithdrawFundsPageButton = "Request Withdraw";
