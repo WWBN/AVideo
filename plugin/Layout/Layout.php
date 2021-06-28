@@ -43,6 +43,7 @@ class Layout extends PluginAbstract {
          */
         //$obj->showButtonNotification = false;
         $obj->categoriesTopButtons = false;
+        $obj->categoriesTopButtonsShowOnlyOnFirstPage = true;
 
         $o = new stdClass();
         $o->type = array(0 => '-- ' . __("Random")) + self::getLoadersArray();
@@ -459,6 +460,9 @@ class Layout extends PluginAbstract {
         global $global;
         $obj = $this->getDataObject();
         if(!empty($obj->categoriesTopButtons)){
+            if(!empty($obj->categoriesTopButtonsShowOnlyOnFirstPage) && !isFirstPage()){
+                return '';
+            }
             include $global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php';
         }
     }
