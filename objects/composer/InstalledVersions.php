@@ -20,8 +20,6 @@ use Composer\Semver\VersionParser;
 
 
 
-
-
 class InstalledVersions
 {
 private static $installed = array (
@@ -32,19 +30,19 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'dc73194324b96c153575b18c25bc92bbb9ea31da',
+    'reference' => '58aabfc7d43dc4cd19df6b44128269ef86dd8772',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
   array (
     'aws/aws-sdk-php' => 
     array (
-      'pretty_version' => '3.184.4',
-      'version' => '3.184.4.0',
+      'pretty_version' => '3.185.2',
+      'version' => '3.185.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '34e6b2abfb9d9d2f619c7218fb366371099e26b7',
+      'reference' => '0e6ece3f9c4ab26bb20183c697fd36e1d55c1053',
     ),
     'cboden/ratchet' => 
     array (
@@ -84,12 +82,12 @@ private static $installed = array (
     ),
     'firebase/php-jwt' => 
     array (
-      'pretty_version' => 'v5.3.0',
-      'version' => '5.3.0.0',
+      'pretty_version' => 'v5.4.0',
+      'version' => '5.4.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '3c2d70f2e64e2922345e89f2ceae47d2463faae1',
+      'reference' => 'd2113d9b2e0e349796e72d2a63cf9319100382d2',
     ),
     'gliterd/backblaze-b2' => 
     array (
@@ -120,12 +118,12 @@ private static $installed = array (
     ),
     'google/auth' => 
     array (
-      'pretty_version' => 'v1.15.1',
-      'version' => '1.15.1.0',
+      'pretty_version' => 'v1.16.0',
+      'version' => '1.16.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '4e0c9367719df9703e96f5ad613041b87742471c',
+      'reference' => 'c747738d2dd450f541f09f26510198fbedd1c8a0',
     ),
     'guzzlehttp/guzzle' => 
     array (
@@ -183,12 +181,12 @@ private static $installed = array (
     ),
     'mtdowling/jmespath.php' => 
     array (
-      'pretty_version' => '2.6.0',
-      'version' => '2.6.0.0',
+      'pretty_version' => '2.6.1',
+      'version' => '2.6.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '42dae2cbd13154083ca6d70099692fef8ca84bfb',
+      'reference' => '9b87907a81b87bc76d19a7fb2d61e61486ee9edb',
     ),
     'paragonie/random_compat' => 
     array (
@@ -201,12 +199,12 @@ private static $installed = array (
     ),
     'phpmailer/phpmailer' => 
     array (
-      'pretty_version' => 'v6.4.1',
-      'version' => '6.4.1.0',
+      'pretty_version' => 'v6.5.0',
+      'version' => '6.5.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9256f12d8fb0cd0500f93b19e18c356906cbed3d',
+      'reference' => 'a5b5c43e50b7fba655f793ad27303cd74c57363c',
     ),
     'phpseclib/phpseclib' => 
     array (
@@ -296,12 +294,12 @@ private static $installed = array (
     ),
     'react/dns' => 
     array (
-      'pretty_version' => 'v1.5.0',
-      'version' => '1.5.0.0',
+      'pretty_version' => 'v1.7.0',
+      'version' => '1.7.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'b22b0b20278e8535e633ab71a52472c5bf620aa1',
+      'reference' => 'a45784faebf8fbd59058fad2d8497f71a787d20c',
     ),
     'react/event-loop' => 
     array (
@@ -332,12 +330,12 @@ private static $installed = array (
     ),
     'react/socket' => 
     array (
-      'pretty_version' => 'v1.6.0',
-      'version' => '1.6.0.0',
+      'pretty_version' => 'v1.7.0',
+      'version' => '1.7.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e2b96b23a13ca9b41ab343268dbce3f8ef4d524a',
+      'reference' => '5d39e3fa56ea7cc443c86f2788a40867cdba1659',
     ),
     'react/stream' => 
     array (
@@ -427,7 +425,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'dc73194324b96c153575b18c25bc92bbb9ea31da',
+      'reference' => '58aabfc7d43dc4cd19df6b44128269ef86dd8772',
     ),
   ),
 );
@@ -446,6 +444,7 @@ $packages = array();
 foreach (self::getInstalled() as $installed) {
 $packages[] = array_keys($installed['versions']);
 }
+
 
 if (1 === \count($packages)) {
 return $packages[0];
@@ -610,23 +609,9 @@ return $installed[0]['root'];
 
 
 
-
 public static function getRawData()
 {
-@trigger_error('getRawData only returns the first dataset loaded, which may not be what you expect. Use getAllRawData() instead which returns all datasets for all autoloaders present in the process.', E_USER_DEPRECATED);
-
 return self::$installed;
-}
-
-
-
-
-
-
-
-public static function getAllRawData()
-{
-return self::getInstalled();
 }
 
 
@@ -652,7 +637,6 @@ public static function reload($data)
 self::$installed = $data;
 self::$installedByVendor = array();
 }
-
 
 
 

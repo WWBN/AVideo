@@ -171,7 +171,7 @@ final class Parser
             }
         } elseif (Message::TYPE_CNAME === $type || Message::TYPE_PTR === $type || Message::TYPE_NS === $type) {
             list($rdata, $consumed) = $this->readDomain($message->data, $consumed);
-        } elseif (Message::TYPE_TXT === $type) {
+        } elseif (Message::TYPE_TXT === $type || Message::TYPE_SPF === $type) {
             $rdata = array();
             while ($consumed < $expected) {
                 $len = ord($message->data[$consumed]);

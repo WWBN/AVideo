@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.7.0 (2021-06-25)
+
+*   Feature: Support falling back to multiple DNS servers from DNS config.
+    (#257 by @clue)
+
+    If you're using the default `Connector`, it will now use all DNS servers
+    configured on your system. If you have multiple DNS servers configured and
+    connectivity to the primary DNS server is broken, it will now fall back to
+    your other DNS servers, thus providing improved connectivity and redundancy
+    for broken DNS configurations.
+
+*   Feature: Use round robin for happy eyeballs DNS responses (load balancing).
+    (#247 by @clue)
+
+    If you're using the default `Connector`, it will now randomize the order of
+    the IP addresses resolved via DNS when connecting. This allows the load to
+    be distributed more evenly across all returned IP addresses. This can be
+    used as a very basic DNS load balancing mechanism.
+
+*   Internal improvement to avoid unhandled rejection for future Promise API.
+    (#258 by @clue)
+
+*   Improve test suite, use GitHub actions for continuous integration (CI).
+    (#254 by @SimonFrings)
+
 ## 1.6.0 (2020-08-28)
 
 *   Feature: Support upcoming PHP 8 release.

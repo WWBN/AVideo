@@ -1,6 +1,6 @@
 # Socket
 
-[![Build Status](https://travis-ci.org/reactphp/socket.svg?branch=master)](https://travis-ci.org/reactphp/socket)
+[![CI status](https://github.com/reactphp/socket/workflows/CI/badge.svg)](https://github.com/reactphp/socket/actions)
 
 Async, streaming plaintext TCP/IP and secure TLS socket server and client
 connections for [ReactPHP](https://reactphp.org/).
@@ -1427,13 +1427,13 @@ This project follows [SemVer](https://semver.org/).
 This will install the latest supported version:
 
 ```bash
-$ composer require react/socket:^1.6
+$ composer require react/socket:^1.7
 ```
 
 See also the [CHANGELOG](CHANGELOG.md) for details about version upgrades.
 
 This project aims to run on any platform and thus does not require any PHP
-extensions and supports running on legacy PHP 5.3 through current PHP 7+ and HHVM.
+extensions and supports running on legacy PHP 5.3 through current PHP 8+ and HHVM.
 It's *highly recommended to use PHP 7+* for this project, partly due to its vast
 performance improvements and partly because legacy PHP versions require several
 workarounds as described below.

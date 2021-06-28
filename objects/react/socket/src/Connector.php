@@ -57,16 +57,18 @@ final class Connector implements ConnectorInterface
                 $resolver = $options['dns'];
             } else {
                 if ($options['dns'] !== true) {
-                    $server = $options['dns'];
+                    $config = $options['dns'];
                 } else {
                     // try to load nameservers from system config or default to Google's public DNS
                     $config = DnsConfig::loadSystemConfigBlocking();
-                    $server = $config->nameservers ? \reset($config->nameservers) : '8.8.8.8';
+                    if (!$config->nameservers) {
+                        $config->nameservers[] = '8.8.8.8'; // @codeCoverageIgnore
+                    }
                 }
 
                 $factory = new DnsFactory();
                 $resolver = $factory->createCached(
-                    $server,
+                    $config,
                     $loop
                 );
             }

@@ -92,6 +92,7 @@ final class BinaryDumper
                     $binary = $this->domainNameToBinary($record->data);
                     break;
                 case Message::TYPE_TXT:
+                case Message::TYPE_SPF:
                     $binary = $this->textsToBinary($record->data);
                     break;
                 case Message::TYPE_MX:

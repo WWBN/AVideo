@@ -34,6 +34,16 @@ final class Message
      * The OPT record uses the "ttl" field to store additional flags.
      */
     const TYPE_OPT = 41;
+
+    /**
+     * Sender Policy Framework (SPF) had a dedicated SPF type which has been
+     * deprecated in favor of reusing the existing TXT type.
+     *
+     * @deprecated https://datatracker.ietf.org/doc/html/rfc7208#section-3.1
+     * @see self::TYPE_TXT
+     */
+    const TYPE_SPF = 99;
+
     const TYPE_ANY = 255;
     const TYPE_CAA = 257;
 

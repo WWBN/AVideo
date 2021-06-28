@@ -185,7 +185,7 @@ class TcpTransportExecutor implements ExecutorInterface
             // set socket to non-blocking and wait for it to become writable (connection success/rejected)
             \stream_set_blocking($socket, false);
             if (\function_exists('stream_set_chunk_size')) {
-                \stream_set_chunk_size($socket, (1 << 31) - 1); // @codeCoverageIgnore
+                \stream_set_chunk_size($socket, (int) ((1 << 31) - 1)); // @codeCoverageIgnore
             }
             $this->socket = $socket;
         }
