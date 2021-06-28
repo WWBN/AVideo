@@ -45,11 +45,13 @@ if (!empty($_POST['videoLink'])) {
         $paths = Video::getNewVideoFilename();
         $filename = $paths['filename'];
         $filename = $obj->setFilename($filename);
-        $obj->setTitle($infoObj->title);
-        $obj->setClean_title($infoObj->title);
-        $obj->setDuration($infoObj->duration);
-        $obj->setDescription($infoObj->description);
-        file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
+        if(is_object($infoObj)){
+            $obj->setTitle($infoObj->title);
+            $obj->setClean_title($infoObj->title);
+            $obj->setDuration($infoObj->duration);
+            $obj->setDescription($infoObj->description);
+            file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
+        }
         $_POST['videoLinkType'] = "embed";
     } else if (empty($_POST['id'])) {
         $paths = Video::getNewVideoFilename();
@@ -137,12 +139,7 @@ $obj->msg = $msg;
 $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
-if(!empty($_POST['id'])){
-    $obj->video = Video::getVideo($obj->videos_id, false, true);
-}else{
-    $obj->video = array();
-    $obj->video['id'] = $obj->videos_id;
-}
+$obj->video = Video::getVideoLight($obj->videos_id);
 
 TimeLogEnd(__FILE__, __LINE__);
 echo json_encode($obj);

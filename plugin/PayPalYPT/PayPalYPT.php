@@ -20,6 +20,7 @@ use PayPal\Api\AgreementStateDescriptor;
 use PayPal\Api\Payer;
 use PayPal\Api\Plan;
 use PayPal\Api\ShippingAddress;
+use PaypalPayoutsSDK\Payouts\PayoutsPostRequest;
 
 //require_once $global['systemRootPath'] . 'plugin/PayPalYPT/vendor/paypal/rest-api-sdk-php/lib/PayPal/Api/Plan.php';
 
@@ -31,6 +32,7 @@ class PayPalYPT extends PluginAbstract {
             PluginTags::$FREE,
         );
     }
+
     public function getDescription() {
         return "Paypal module for several purposes<br>
             Go to Paypal developer <a href='https://developer.paypal.com/developer/applications' target='_blank'>Site here</a> (you must have Paypal account, of course)
@@ -59,6 +61,7 @@ class PayPalYPT extends PluginAbstract {
         $obj->paymentButtonLabel = "Pay With PayPal";
         $obj->ClientSecret = "ECxtMBsLr0cFwSCgI0uaDiVzEUbVlV3r_o_qaU-SOsQqCEOKPq4uGlr1C0mhdDmEyO30mw7-PF0bOnfo";
         $obj->disableSandbox = false;
+        $obj->enablePayout = false;
         return $obj;
     }
 
@@ -167,7 +170,7 @@ class PayPalYPT extends PluginAbstract {
     private function createBillingPlan($redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement', $plans_id = 0) {
         global $global;
         _error_log("createBillingPlan: start: " . json_encode(array($redirect_url, $cancel_url, $total, $currency, $frequency, $interval, $name)));
-                
+
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipn.php";
         // Create a new billing plan
@@ -216,15 +219,13 @@ class PayPalYPT extends PluginAbstract {
                     ->setInitialFailAmountAction('CONTINUE')
                     ->setMaxFailAttempts('0')
                     ->setSetupFee(new Currency(array('value' => $total, 'currency' => $currency)));
-
-        }else{
+        } else {
             $merchantPreferences->setReturnUrl($redirect_url)
                     ->setCancelUrl($cancel_url)
                     //->setNotifyUrl($notify_url)
                     ->setAutoBillAmount('yes')
                     ->setInitialFailAmountAction('CONTINUE')
                     ->setMaxFailAttempts('0');
-
         }
         $plan->setMerchantPreferences($merchantPreferences);
 
@@ -303,14 +304,14 @@ class PayPalYPT extends PluginAbstract {
         }
         // Create new agreement
         // the setup fee will be the first payment and start date is the next payment
-        
+
         $subs = new SubscriptionPlansTable($_POST['plans_id']);
-        if(!empty($subs)){
+        if (!empty($subs)) {
             $trialDays = $subs->getHow_many_days_trial();
         }
-        if(!empty($trialDays)){
-            $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+12 hour")); 
-        }else{
+        if (!empty($trialDays)) {
+            $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+12 hour"));
+        } else {
             $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+{$interval} {$frequency}"));
         }
         $agreement = new Agreement();
@@ -529,6 +530,134 @@ class PayPalYPT extends PluginAbstract {
         }
 
         curl_close($ch);
+    }
+
+    public static function setUserReceiverEmail($users_id, $email) {
+        $user = new User($users_id);
+        $paramName = 'PayPalReceiverEmail';
+        return $user->addExternalOptions($paramName, $email);
+    }
+
+    public static function getUserReceiverEmail($users_id) {
+        $user = new User($users_id);
+        $paramName = 'PayPalReceiverEmail';
+        return $user->getExternalOption($paramName);
+    }
+
+    public function getMyAccount($users_id) {
+        global $global;
+
+        $obj = AVideoPlugin::getDataObjectIfEnabled('PayPalYPT');
+        if (empty($obj) || empty($obj->enablePayout)) {
+            return '';
+        }
+
+        include $global['systemRootPath'] . 'plugin/PayPalYPT/payOutReceiverEmailForm.php';
+    }
+
+    public static function WalletPayout($users_id_to_be_paid, $value) {
+        $obj = new stdClass();
+        $obj->error = true;
+        $obj->msg = '';
+        $obj->response = false;
+
+        if (empty($value)) {
+            $obj->msg = 'value is empty';
+            return $obj;
+        }
+
+        $wallet = AVideoPlugin::getDataObjectIfEnabled('YPTWallet');
+        if (empty($wallet)) {
+            $obj->msg = 'YPTWallet plugin is disabled';
+            return $obj;
+        }
+
+        $user->getExternalOption($id);
+
+        // check if the user has a paypal email
+        $receiver_email = self::getUserReceiverEmail($users_id_to_be_paid);
+        if (empty($receiver_email)) {
+            $obj->msg = "The user {$users_id_to_be_paid} does not have a paypal receiver email";
+            return $obj;
+        }
+
+        // transfer money from wallet
+        $description = "Paypal payout";
+        $transfer = YPTWallet::transferBalanceToSiteOwner($users_id_to_be_paid, $value, $description = "", true);
+        if ($transfer) {
+            $email_subject = $note = "You received " . YPTWallet::formatCurrency($value) . " from " . $config->getWebSiteTitle() . " ";
+            // payout using paypal
+            $obj->response = self::Payout($receiver_email, $value, $wallet->currency, $note, $email_subject);
+            if (empty($obj->response)) {
+                $obj->msg = 'PayPal Payout error';
+                return $obj;
+            }
+
+            $obj->error = false;
+        }
+
+        return $obj;
+    }
+
+    public static function Payout($receiver_email, $value, $currency = 'USD', $note = '', $email_subject = '') {
+
+        if (empty($value)) {
+            _error_log('PayPal::Payout value is empty');
+            return false;
+        }
+
+        if (empty($receiver_email)) {
+            _error_log("PayPal::Payout The user {$users_id_to_be_paid} does not have a paypal receiver email");
+            return false;
+        }
+
+        $paypal = AVideoPlugin::getDataObjectIfEnabled('PayPalYPT');
+        if (empty($paypal) || $paypal->enablePayout) {
+            _error_log('PayPal::Payout plugin or payout is disabled');
+            return false;
+        }
+
+        try {
+
+            $request = new PayoutsPostRequest();
+            $request->body = new stdClass();
+            $request->body->sender_batch_header = new stdClass();
+            $request->body->sender_batch_header->email_subject = $email_subject;
+            $item = new stdClass();
+            $item->recipient_type = 'EMAIL';
+            $item->receiver = $receiver_email;
+            $item->note = $note;
+            $item->amount = new stdClass();
+            $item->amount->currency = $currency;
+            $item->amount->value = $value;
+            $request->body->items = array($item);
+
+            $request->body = self::buildRequestBody();
+            $client = PayPalClient::client();
+            $response = $client->execute($request);
+            if ($debug) {
+                $msg = '';
+                $msg .= "Status Code: {$response->statusCode}\n";
+                $msg .= "Status: {$response->result->batch_header->batch_status}\n";
+                $msg .= "Batch ID: {$response->result->batch_header->payout_batch_id}\n";
+                $msg .= "Links:\n";
+                foreach ($response->result->links as $link) {
+                    $msg .= "\t{$link->rel}: {$link->href}\tCall Type: {$link->method}\n";
+                }
+                // To toggle printing the whole response body comment/uncomment below line
+                $msg .= json_encode($response->result, JSON_PRETTY_PRINT) . "\n";
+                _error_log('PayPal::Payout ' . $msg);
+            }
+            return $response;
+        } catch (HttpException $e) {
+            $msg = '';
+            //Parse failure response
+            $msg .= $e->getMessage() . "\n";
+            $error = json_decode($e->getMessage());
+            $msg .= $error->message . "\n";
+            $msg .= $error->name . "\n";
+            $msg .= $error->debug_id . "\n";
+        }
     }
 
 }

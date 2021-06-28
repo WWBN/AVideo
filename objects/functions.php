@@ -603,6 +603,7 @@ function sendSiteEmail($to, $subject, $message) {
 }
 
 function sendSiteEmailAsync($to, $subject, $message) {
+    global $global;
     $content = array('to' => $to, 'subject' => $subject, 'message' => $message);
     $tmpFile = getTmpFile();
     file_put_contents($tmpFile, _json_encode($content));
@@ -3742,6 +3743,7 @@ function getUsageFromFilename($filename, $dir = "") {
     $filesProcessed = array();
     if (empty($files)) {
         _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one " . json_encode(debug_backtrace()));
+        make_path($dir);
         file_put_contents("{$dir}{$filename}.notfound", time());
         $totalSize = 10;
     } else {
@@ -5643,7 +5645,7 @@ function _glob($dir, $pattern) {
     }
     $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
     $array = array();
-    if ($handle = opendir($dir)) {
+    if (is_dir($dir) && $handle = opendir($dir)) {
         $count = 0;
         while (false !== ($file_name = readdir($handle))) {
             if ($file_name == '.' || $file_name == '..') {

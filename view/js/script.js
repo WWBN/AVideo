@@ -336,6 +336,10 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+function isEmailValid(email){
+    return validateEmail(email);
+}
+
 function subscribe(email, user_id) {
     $.ajax({
         url: webSiteRootURL + 'objects/subscribe.json.php',

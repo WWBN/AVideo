@@ -97,7 +97,8 @@ $options = _json_decode($obj->addFundsOptions);
                         type: "POST",
                         data: {
                             value: $('#value').val(),
-                            information: $('#information').val()
+                            information: $('#information').val(),
+                            autoWithdraw: <?php echo empty($autoWithdraw)?0:1; ?>
                         },
                         success: function (response) {
                             modal.hidePleaseWait();
