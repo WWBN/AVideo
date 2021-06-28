@@ -1398,5 +1398,6 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
 } else if ($thisScriptFile["basename"] !== 'user.php' && empty($advancedCustom->disableNavbar)) {
     
 }
+echo '<!-- navBarAfter start -->', AVideoPlugin::navBarAfter(), '<!-- navBarAfter end -->';
 unset($_GET['parentsOnly']);
 ?>

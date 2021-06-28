@@ -940,6 +940,21 @@ class AVideoPlugin {
         return $navBarButtons;
     }
 
+    public static function navBarAfter() {
+        $plugins = Plugin::getAllEnabled();
+        $userOptions = array();
+        $navBarButtons = "";
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $navBarButtons .= $p->navBarAfter();
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return $navBarButtons;
+    }
+
     /**
      * excecute update function at plugin and 
      * update plugin version at database 

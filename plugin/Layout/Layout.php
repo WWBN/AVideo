@@ -41,7 +41,8 @@ class Layout extends PluginAbstract {
           $obj->showCustomCSS = true;
          * 
          */
-        $obj->showButtonNotification = false;
+        //$obj->showButtonNotification = false;
+        $obj->categoriesTopButtons = false;
 
         $o = new stdClass();
         $o->type = array(0 => '-- ' . __("Random")) + self::getLoadersArray();
@@ -452,6 +453,11 @@ class Layout extends PluginAbstract {
             return false;
         }
         include $global['systemRootPath'] . 'plugin/Layout/menuRight.php';
+    }
+    
+    public function navBarAfter() {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php';
     }
 
 }

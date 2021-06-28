@@ -1,0 +1,8 @@
+/**
+ * jquery-bootstrap-scrolling-tabs
+ * @version v2.6.1
+ * @link https://github.com/mikejacobson/jquery-bootstrap-scrolling-tabs
+ * @author Mike Jacobson <michaeljjacobson1@gmail.com>
+ * @license MIT License, http://www.opensource.org/licenses/MIT
+ */
+.scrtabs-tab-container *{box-sizing:border-box}.scrtabs-tab-container{height:42px}.scrtabs-tab-container .tab-content{clear:left}.scrtabs-tab-container.scrtabs-bootstrap4 .scrtabs-tabs-movable-container>.navbar-nav{-ms-flex-direction:row;flex-direction:row}.scrtabs-tabs-fixed-container{float:left;height:42px;overflow:hidden;width:100%}.scrtabs-tabs-movable-container{position:relative}.scrtabs-tabs-movable-container .tab-content{display:none}.scrtabs-tab-container.scrtabs-rtl .scrtabs-tabs-movable-container>ul.nav-tabs{padding-right:0}.scrtabs-tab-scroll-arrow{border:1px solid #ddd;border-top:none;color:#428bca;display:none;float:left;font-size:12px;height:42px;margin-bottom:-1px;padding-left:2px;padding-top:13px;width:20px}.scrtabs-tab-scroll-arrow:hover{background-color:#eee}.scrtabs-tab-scroll-arrow,.scrtabs-tab-scroll-arrow .scrtabs-click-target{cursor:pointer}.scrtabs-tab-scroll-arrow.scrtabs-with-click-target{cursor:default}.scrtabs-tab-scroll-arrow.scrtabs-disable,.scrtabs-tab-scroll-arrow.scrtabs-disable .scrtabs-click-target{color:#ddd;cursor:default}.scrtabs-tab-scroll-arrow.scrtabs-disable:hover{background-color:initial}.scrtabs-tabs-fixed-container ul.nav-tabs>li{white-space:nowrap}

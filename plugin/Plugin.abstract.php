@@ -353,6 +353,10 @@ abstract class PluginAbstract {
     public function navBar() {
         return "";
     }
+    
+    public function navBarAfter() {
+        return "";
+    }
 
     public function isReady($pluginsList) {
         $return = array('ready' => array(), 'missing' => array());
