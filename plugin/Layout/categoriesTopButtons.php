@@ -24,7 +24,7 @@
         }
         ?>
         <li>
-            <a href="<?php echo $global['webSiteRootURL'] . 'cat/' . $value['clean_name']; ?>" 
+            <a href="<?php echo Category::getCategoryLinkFromName( $value['clean_name']); ?>" 
                class="<?php echo ($value['clean_name'] == @$_GET['catName'] ? "active" : ""); ?>">
                 <?php
                 echo '<i class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></i>  ' . __($value['name']);

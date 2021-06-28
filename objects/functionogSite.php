@@ -1,7 +1,8 @@
 <?php
 global $videos_id;
-echo "<!-- OpenGraph for the Site -->";
+echo PHP_EOL."<!-- OpenGraph for the Site -->".PHP_EOL;
 if ($users_id = isChannel()) {
+    echo PHP_EOL."<!-- OpenGraph channel -->".PHP_EOL;
     $imgw = 200;
     $imgh = 200;
     $img = User::getOGImage($users_id);
@@ -11,12 +12,25 @@ if ($users_id = isChannel()) {
     <meta property="og:type" content="profile" />
     <meta property="profile:username" content="<?php echo $title; ?>" />
     <?php
-} else if (!isVideo() && empty($videos_id)) {
+} else if (!empty($_GET['catName'])) {
+    $imgw = 200;
+    $imgh = 200;
+    $category = Category::getCategoryByName($_GET['catName']);
+    $img = Category::getOGImage($category['id']);
+    $title = html2plainText($category['name']);
+    $url = Category::getCategoryLinkFromName($_GET['catName']);
+    echo PHP_EOL."<!-- OpenGraph not video -->".PHP_EOL;
+    ?>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="<?php echo $title; ?>">
+    <?php
+}  else if (!isVideo() && empty($videos_id)) {
     $imgw = 200;
     $imgh = 200;
     $img = Configuration::getOGImage();
     $title = html2plainText($config->getWebSiteTitle());
     $url = $global['webSiteRootURL'];
+    echo PHP_EOL."<!-- OpenGraph not video -->".PHP_EOL;
     ?>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="<?php echo $title; ?>">

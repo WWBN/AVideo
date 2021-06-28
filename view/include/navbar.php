@@ -1232,7 +1232,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             }
                             //$parsed_cats[] = $value['id'];
                             echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
-                            . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '" >';
+                            . '<a href="' . Category::getCategoryLinkFromName( $value['clean_name']) . '" >';
                             echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . __($value['name']);
                             if (empty($advancedCustom->hideCategoryVideosCount)) {
                                 echo ' <span class="badge">' . $total . '</span>';

@@ -26,13 +26,13 @@ class Category {
     private $suggested;
 
     function getSuggested() {
-        return empty($this->suggested)?0:1;
+        return empty($this->suggested) ? 0 : 1;
     }
 
     function setSuggested($suggested) {
-        $this->suggested = empty($suggested)?0:1;
+        $this->suggested = empty($suggested) ? 0 : 1;
     }
-        
+
     function getOrder() {
         return intval($this->order);
     }
@@ -166,6 +166,7 @@ class Category {
 
         $insert_row = sqlDAL::writeSql($sql, $format, $values);
         if ($insert_row) {
+            self::deleteOGImage($this->id);
             $_SESSION['user']['sessionCache']['getAllCategoriesClearCache'] = 1;
             ObjectYPT::deleteALLCache();
             if (empty($this->id)) {
@@ -268,6 +269,16 @@ class Category {
             $result['name'] = xss_esc_back($result['name']);
         }
         return ($res) ? $result : false;
+    }
+
+    static function getCategoryLink($id) {
+        $cat = new Category($id);
+        return self::getCategoryLinkFromName($cat->getClean_name());
+    }
+
+    static function getCategoryLinkFromName($clean_name) {
+        global $global;
+        return "{$global['webSiteRootURL']}cat/{$clean_name}";
     }
 
     static function getCategoryByName($name) {
@@ -820,7 +831,7 @@ class Category {
         $path['dir'] = "{$global['systemRootPath']}{$dir}";
         make_path($path['dir']);
         $path['path'] = "{$global['systemRootPath']}{$dir}";
-        $path['url'] = "{$global['webSiteRootURL']}{$dir}";
+        $path['url'] = getCDN() . "{$dir}";
         return $path;
     }
 
@@ -838,6 +849,47 @@ class Category {
             return false;
         }
         return true;
+    }
+
+    public static function getOGImagePaths($categories_id) {
+        $name = "og_200X200.jpg";
+        $dirPaths = self::getCategoryDirPath($categories_id);
+        $path = array();
+        $path['dir'] = $dirPaths['url'];
+        $path['path'] = "{$dirPaths['path']}{$name}";
+        $path['url'] = "{$dirPaths['url']}{$name}";
+        if (file_exists($path['path'])) {
+            $path['url+timestamp'] = "{$path['url']}?" . filectime($path['path']);
+        } else {
+            $path['url+timestamp'] = $path['url'];
+        }
+        return $path;
+    }
+
+    public static function deleteOGImage($categories_id) {
+        $ogPaths = self::getOGImagePaths($categories_id);
+        $destination = $ogPaths['path'];
+        if (file_exists($destination)) {
+            unlink($destination);
+        }
+    }
+
+    public static function getOGImage($categories_id) {
+        global $global;
+        $isAssetsValids = self::isAssetsValids($categories_id);
+        if ($isAssetsValids) {
+            $ogPaths = self::getOGImagePaths($categories_id);
+            $destination = $ogPaths['path'];
+            if (!file_exists($destination)) {
+                $photo = self::getCategoryPhotoPath($categories_id);
+                $source = $photo['path'];
+                convertImageToOG($source, $destination);
+            }
+
+            return $ogPaths['url+timestamp'];
+        } else {
+            return Configuration::getOGImage();
+        }
     }
 
     static function getCategoryPhotoPath($categories_id) {

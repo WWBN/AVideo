@@ -1,17 +1,17 @@
 <?php
-echo "<!-- OpenGraph -->";
+echo PHP_EOL."<!-- OpenGraph -->".PHP_EOL;
 if (empty($videos_id)) {
-    echo "<!-- OpenGraph no video id -->";
+    echo PHP_EOL."<!-- OpenGraph no video id -->".PHP_EOL;
     if (!empty($_GET['videoName'])) {
-        echo "<!-- OpenGraph videoName {$_GET['videoName']} -->";
+        echo PHP_EOL."<!-- OpenGraph videoName {$_GET['videoName']} -->".PHP_EOL;
         $video = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
 } else {
-    echo "<!-- OpenGraph videos_id {$videos_id} -->";
+    echo PHP_EOL."<!-- OpenGraph videos_id {$videos_id} -->".PHP_EOL;
     $video = Video::getVideoLight($videos_id);
 }
 if (empty($video)) {
-    echo "<!-- OpenGraph no video -->";
+    echo PHP_EOL."<!-- OpenGraph no video -->".PHP_EOL;
     return false;
 }
 $videos_id = $video['id'];
