@@ -24,6 +24,8 @@ $inputJSON = url_get_contents('php://input');
 $input = _json_decode($inputJSON, TRUE); //convert JSON into array
 if(empty($input)){
     $input = array();
+}else{
+    $input = object_to_array($input);
 }
 $parameters = array_merge($_GET, $_POST, $input);
 

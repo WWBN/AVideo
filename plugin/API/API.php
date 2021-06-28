@@ -39,7 +39,7 @@ class API extends PluginAbstract {
 
     public function set($parameters) {
         if (empty($parameters['APIName'])) {
-            $object = new ApiObject("Parameter APIName can not be empty");
+            $object = new ApiObject("Parameter APIName can not be empty (set)");
         } else {
             if (!empty($parameters['pass'])) {
                 $parameters['password'] = $parameters['pass'];
@@ -64,7 +64,7 @@ class API extends PluginAbstract {
 
     public function get($parameters) {
         if (empty($parameters['APIName'])) {
-            $object = new ApiObject("Parameter APIName can not be empty");
+            $object = new ApiObject("Parameter APIName can not be empty (get)");
         } else {
             if (!empty($parameters['pass'])) {
                 $parameters['password'] = $parameters['pass'];
