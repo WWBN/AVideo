@@ -457,7 +457,10 @@ class Layout extends PluginAbstract {
     
     public function navBarAfter() {
         global $global;
-        include $global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php';
+        $obj = $this->getDataObject();
+        if(!empty($obj->categoriesTopButtons)){
+            include $global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php';
+        }
     }
 
 }
