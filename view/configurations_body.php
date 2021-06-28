@@ -343,12 +343,12 @@ if (User::isAdmin()) {
                                             </label>
                                             <div class="col-md-8">
                                                 <div class="material-switch">
-                                                    <input data-toggle="toggle" type="checkbox" name="autoplay" id="autoplay" value="1" <?php
+                                                    <input data-toggle="toggle" type="checkbox" name="autoplaySwitch" id="autoplaySwitch" value="1" <?php
                                                     if (!empty($config->getAutoplay())) {
                                                         echo "checked";
                                                     }
                                                     ?> >
-                                                    <label for="autoplay" class="label-primary"></label>
+                                                    <label for="autoplaySwitch" class="label-primary"></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -815,7 +815,7 @@ if (User::isAdmin()) {
                                 "disable_youtubeupload": $('#disable_youtubeupload').prop("checked"),
                                 "allow_download": $("#allow_download").prop("checked"),
                                 "session_timeout": $('#session_timeout').val(),
-                                "autoplay": $('#autoplay').prop("checked"),
+                                "autoplay": $('#autoplaySwitch').prop("checked"),
                                 "theme": theme,
                                 "smtp": $('#enableSmtp').prop("checked"),
                                 "smtpAuth": $('#enableSmtpAuth').prop("checked"),
