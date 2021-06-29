@@ -19,8 +19,11 @@ $f = intval(@$_REQUEST['id']);
 
 $cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveLinkImage_{$f}.{$_REQUEST['format']}";
 if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
-    echo file_get_contents($cacheFileImageName);
-    exit;
+    $content = file_get_contents($cacheFileImageName);
+    if(!empty($content)){
+        echo $content;
+        exit;
+    } 
 }
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';

@@ -20,8 +20,11 @@ $f = md5(@$_REQUEST['u'] . @$_REQUEST['live_servers_id'] . @$_REQUEST['live_inde
 
 $cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}.{$_REQUEST['format']}";
 if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
-    echo file_get_contents($cacheFileImageName);
-    exit;
+    $content = file_get_contents($cacheFileImageName);
+    if(!empty($content)){
+        echo $content;
+        exit;
+    } 
 }
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
