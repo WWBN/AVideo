@@ -4072,7 +4072,7 @@ if (!class_exists('Video')) {
         public function setVideoStartSeconds($videoStartSeconds) {
             $externalOptions = _json_decode($this->getExternalOptions());
             AVideoPlugin::onVideoSetVideoStartSeconds($this->id, $this->videoStartSeconds, $videoStartSeconds);
-            $externalOptions->videoStartSeconds = $videoStartSeconds;
+            $externalOptions->videoStartSeconds = intval($videoStartSeconds);
             $this->setExternalOptions(json_encode($externalOptions));
         }
 
