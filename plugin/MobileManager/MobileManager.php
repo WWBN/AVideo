@@ -84,7 +84,7 @@ class MobileManager extends PluginAbstract {
         $obj->pwa_background_color = "#000000";
         $o = new stdClass();
         $o->type = array('fullscreen', 'standalone', 'minimal-ui');
-        $o->value = "fullscreen";
+        $o->value = "standalone";
         
         $obj->pwa_display = $o;
         $obj->pwa_scope = "/";
