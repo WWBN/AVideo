@@ -22,7 +22,7 @@
     margin-left: -125px;
 }
 .VideoLogoOverlay-Bottom{
-    bottom: 10px; 
+    bottom: 30px; 
     left: 50%; 
     margin-left: -125px; 
 }
@@ -39,11 +39,11 @@
     left: 10px;
 }
 .VideoLogoOverlay-Bottom-Left{
-    bottom: 20px; 
+    bottom: 30px; 
     left: 10px; 
 }
 .VideoLogoOverlay-Bottom-Right{
-    bottom: 20px; 
+    bottom: 30px; 
     right: 10px; 
 }
 .VideoLogoOverlay-Top-Right{
