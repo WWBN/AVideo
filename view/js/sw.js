@@ -14,10 +14,11 @@ self.addEventListener('install', (e) => {
   );
      * 
      */
+  console.log('sw.js 1',e);
 });
 
 self.addEventListener('fetch', (e) => {
-  console.log(e.request.url);
+  console.log('sw.js 2',e.request.url);
   e.respondWith(
     caches.match(e.request).then((response) => response || fetch(e.request)),
   );
