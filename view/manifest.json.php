@@ -31,7 +31,14 @@ $pwa->related_applications[] = pwaRelated_applications('play', $obj->playStoreAp
 $pwa->related_applications[] = pwaRelated_applications('itunes', $obj->appleStoreApp);
 
 
+$shortcut = new stdClass();
+$shortcut->name = $config->getWebSiteTitle();
+$shortcut->short_name = $config->getWebSiteTitle();
+$shortcut->description = $config->getWebSiteTitle();
+$shortcut->url = $global['webSiteRootURL'];
+$shortcut->icons = pwaIconsArray();
 
+$pwa->shortcuts = array($shortcut);
 
 echo _json_encode($pwa);
 
