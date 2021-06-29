@@ -1147,6 +1147,7 @@ if (!class_exists('Video')) {
                     }else if(is_string($externalOptions)){
                         $obj['externalOptions'] = _json_decode($externalOptions);
                     }
+                    $obj['externalOptions'] = json_encode($obj['externalOptions']);
                 }
                 return $obj;
             }
