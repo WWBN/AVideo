@@ -432,6 +432,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     public static function deleteCache($name) {
+        if(empty($name)){return false;}
         global $__getAVideoCache;
         unset($__getAVideoCache);
         $cachefile = self::getCacheFileName($name);

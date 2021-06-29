@@ -690,6 +690,10 @@ abstract class PluginAbstract {
         $p->setObject_data(json_encode($pluginDO));
         return $p->save();
     }
+    
+    public function getWalletConfigurationHTML($users_id, $wallet, $walletDataObject) {
+        return "";
+    }
 }
 
 
