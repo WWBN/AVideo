@@ -1114,9 +1114,6 @@ if (!class_exists('Video')) {
                 TimeLogStart("video::getAllVideos foreach");
                 foreach ($fullData as $row) {
                     $row = self::getInfo($row, $getStatistcs);
-                    if(!is_object($row['externalOptions'])){
-                        $row['externalOptions'] = _json_decode($row['externalOptions']);
-                    }
                     $videos[] = $row;
                 }
                 $rowCount = getRowCount();
