@@ -3872,6 +3872,7 @@ if (!class_exists('Video')) {
         }
 
         public static function clearCacheFromFilename($fileName) {
+            if($fileName == '.zip'){return false;}
             _error_log("Video:clearCacheFromFilename($fileName)");
             $video = self::getVideoFromFileNameLight($fileName);
             if (empty($video['id'])) {

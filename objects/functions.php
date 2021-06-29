@@ -1806,6 +1806,7 @@ function convertImage($originalImage, $outputImage, $quality) {
 }
 
 function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
+    if($filename == '.zip'){return false;}
     global $global;
     $obj = new stdClass();
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
