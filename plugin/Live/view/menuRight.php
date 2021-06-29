@@ -172,7 +172,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
 
             $liveLi.find('.thumbsJPG').attr("src", getImageURL + "&format=jpg" + ('&' + Math.random()));
             if (!disableGif) {
-                $liveLi.find('.thumbsGIF').attr("src", getImageURL + "&format=gif" + ('&' + Math.random()));
+                $liveLi.find('.thumbsGIF').attr("src", getImageURL + "&format=webp" + ('&' + Math.random()));
             } else {
                 $liveLi.find('.thumbsGIF').remove();
             }

@@ -141,7 +141,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $obj->name = $u->getNameIdentificationBd();
         $obj->playlists_id_live = $playlists_id_live;
         $obj->poster = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index());
-        $obj->imgGif = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index(), 'gif');
+        $obj->imgGif = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index(), 'webp');
         $obj->title = $title;
         $obj->user = $u->getUser();
         $obj->categories_id = intval($lt['categories_id']);

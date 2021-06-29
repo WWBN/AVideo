@@ -1,6 +1,29 @@
 <?php
+$lifetime = 600;
 
-require_once '../../videos/configuration.php';
+if (empty($_REQUEST['format'])) {
+    $_REQUEST['format'] = "png";
+    header('Content-Type: image/x-png');
+} else if ($_REQUEST['format'] === 'jpg') {
+    header('Content-Type: image/jpg');
+} else if ($_REQUEST['format'] === 'gif') {
+    header('Content-Type: image/gif');
+} else if ($_REQUEST['format'] === 'webp') {
+    header('Content-Type: image/webp');
+} else {
+    $_REQUEST['format'] = "png";
+    header('Content-Type: image/x-png');
+}
+
+$f = intval(@$_REQUEST['id']);
+
+$cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveLinkImage_{$f}.{$_REQUEST['format']}";
+if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
+    echo file_get_contents($cacheFileImageName);
+    exit;
+}
+
+require_once dirname(__FILE__) . '/../../videos/configuration.php';
 session_write_close();
 $filename = $global['systemRootPath'] . 'plugin/Live/view/OnAir.jpg';
 //echo file_get_contents($filename);exit;
@@ -17,19 +40,6 @@ if(empty($_GET['id'])){
 }
 
 $liveLink = new LiveLinksTable($_GET['id']);
-if (empty($_GET['format'])) {
-    $_GET['format'] = "png";
-    header('Content-Type: image/x-png');
-} else if ($_GET['format'] === 'jpg') {
-    header('Content-Type: image/jpg');
-} else if ($_GET['format'] === 'gif') {
-    header('Content-Type: image/gif');
-} else if ($_GET['format'] === 'webp') {
-    header('Content-Type: image/webp');
-} else {
-    $_GET['format'] = "png";
-    header('Content-Type: image/x-png');
-}
 
 if(LiveLinks::isLiveThumbsDisabled()){
     $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
@@ -48,9 +58,9 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
     $encoderURL = $config->_getEncoderURL();
     //$encoderURL = $config->getEncoderURL();
     
-    $url = "{$encoderURL}getImage/" . base64_encode($video) . "/{$_GET['format']}";
+    $url = "{$encoderURL}getImage/" . base64_encode($video) . "/{$_REQUEST['format']}";
     $name = "liveLinks_getImage_".md5($url);
-    $content = ObjectYPT::getCache($name, 600);
+    $content = ObjectYPT::getCache($name, $lifetime);
     if(Live::isDefaultImage($content)){
         $content = '';
     }
@@ -61,6 +71,9 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
         if(!empty($content)){
             ObjectYPT::setCache($name, $content);
         }
+    }
+    if (!Live::isDefaultImage($content)) {
+        file_put_contents($cacheFileImageName, $content);
     }
 }
 

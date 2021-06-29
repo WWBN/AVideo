@@ -1298,7 +1298,7 @@ class Live extends PluginAbstract {
                     "title" => $title,
                     'channelName' => $channelName,
                     'poster' => $poster,
-                    'imgGif' => $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'gif'),
+                    'imgGif' => $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'webp'),
                     'link' => addQueryStringParameter($link, 'embed', 1),
                     'href' => $link,
                     'playlists_id_live' => $playlists_id_live,
@@ -2069,10 +2069,10 @@ class Live extends PluginAbstract {
                 $contentLen = strlen(file_get_contents($content));
             }
         }
-        if ($contentLen === 2095341) {
+        if ($contentLen >= 2095335 && $contentLen <= 2095350) {
             return LiveImageType::$DEFAULTGIF;
         }
-        if ($contentLen === 70808) {
+        if ($contentLen >= 70805 && $contentLen <= 70810) {
             return LiveImageType::$ONAIRENCODER;
         }
         $filesize = file_get_contents($global['systemRootPath'] . self::getOnAirImage(false));

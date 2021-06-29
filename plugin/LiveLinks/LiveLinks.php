@@ -106,7 +106,7 @@ class LiveLinks extends PluginAbstract {
 
     static function getImageGif($id) {
         global $global;
-        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=gif";
+        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=webp";
     }
 
     /**
@@ -162,7 +162,7 @@ class LiveLinks extends PluginAbstract {
                 str_replace('"', "", $value['description']),
                 self::getLink($value['id']),
                 '<img src="' . "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg" . '" class="thumbsJPG img-responsive" height="130">',
-                empty($obj->disableGifThumbs) ? ('<img src="' . "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif" . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : "",
+                empty($obj->disableGifThumbs) ? ('<img src="' . "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=webp" . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : "",
                 "col-lg-2 col-md-4 col-sm-4 col-xs-6",
                 ($liveUsers ? getLiveUsersLabelLiveLinks($value['id']) : '')
             );
@@ -194,7 +194,7 @@ class LiveLinks extends PluginAbstract {
                 "name" => $name,
                 "source" => $value['link'],
                 "poster" => self::getPosterToLiveFromId($value['id']),
-                "imgGif" => self::getPosterToLiveFromId($value['id'], 'gif'),
+                "imgGif" => self::getPosterToLiveFromId($value['id'], 'webp'),
                 "link" => self::getLinkToLiveFromId($value['id'], true),
                 "href" => self::getLinkToLiveFromId($value['id']),
                 "categories_id" => intval($value['categories_id']),
