@@ -3973,7 +3973,9 @@ function encrypt_decrypt($string, $action) {
     while (strlen($secret_iv) < 16) {
         $secret_iv .= $global['systemRootPath'];
     }
-
+    if(empty($secret_iv)){
+        $secret_iv = '1234567890abcdef';
+    }
     // hash
     $key = hash('sha256', $global['salt']);
 
@@ -4376,22 +4378,7 @@ function getVideoIDFromURL($url) {
     if (preg_match("/v=([0-9]+)/", $url, $matches)) {
         return intval($matches[1]);
     }
-    if (preg_match('/\/video\/([0-9]+)/', $url, $matches)) {
-        return intval($matches[1]);
-    }
-    if (preg_match('/\/videoEmbed\/([0-9]+)/', $url, $matches)) {
-        return intval($matches[1]);
-    }
-    if (preg_match('/\/v\/([0-9]+)/', $url, $matches)) {
-        return intval($matches[1]);
-    }
-    if (preg_match('/\/vEmbed\/([0-9]+)/', $url, $matches)) {
-        return intval($matches[1]);
-    }
-    if (preg_match('/\/article\/([0-9]+)/', $url, $matches)) {
-        return intval($matches[1]);
-    }
-    if (preg_match('/\/articleEmbed\/([0-9]+)/', $url, $matches)) {
+    if (preg_match('/\/(video|videoEmbed|v|vEmbed|article|articleEmbed)\/([0-9]+)/', $url, $matches)) {
         return intval($matches[1]);
     }
     if (AVideoPlugin::isEnabledByName('PlayLists')) {
@@ -4402,6 +4389,12 @@ function getVideoIDFromURL($url) {
                 return $video['id'];
             }
         }
+    }
+    if (preg_match("/v=(\.[0-9a-zA-Z_-]+)/", $url, $matches)) {
+        return hashToID($matches[1]);
+    }
+    if (preg_match('/\/(video|videoEmbed|v|vEmbed|article|articleEmbed)\/(\.[0-9a-zA-Z_-]+)/', $url, $matches)) {
+        return hashToID($matches[2]);
     }
     return false;
 }
@@ -6629,7 +6622,15 @@ function fixPath($path, $addLastSlash = false) {
 }
 
 function idToHash($id) {
-    global $global;
+    global $global, $_idToHash;
+    
+    if(!isset($_idToHash)){
+        $_idToHash = array();
+    }
+    
+    if(!empty($_idToHash[$id])){
+        return $_idToHash[$id];
+    }
 
     if (!empty($global['useLongHash'])) {
         $base = 2;
@@ -6638,13 +6639,16 @@ function idToHash($id) {
         $base = 32;
         $cipher_algo = 'rc4';
     }
-
-    $id = base_convert($id, 10, $base);
-    $hash = (openssl_encrypt($id, $cipher_algo, $global['salt']));
+    if(empty($global['salt'])){
+        $global['salt'] = '11234567890abcdef';
+    }
+    $idConverted = base_convert($id, 10, $base);
+    $hash = (@openssl_encrypt($idConverted, $cipher_algo, $global['salt']));
     //$hash = preg_replace('/^([+]+)/', '', $hash);
     $hash = preg_replace('/(=+)$/', '', $hash);
     $hash = str_replace(array('/', '+', '='), array('_', '-', '.'), $hash);
     //return base64_encode($hash);
+    $_idToHash[$id] = $hash;
     return $hash;
 }
 
