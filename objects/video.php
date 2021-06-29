@@ -1712,24 +1712,28 @@ if (!class_exists('Video')) {
         }
 
         public function removeVideoFiles() {
+            $filename = $this->getFilename();
+            if(empty($filename)){
+                return false;
+            }
             $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
             $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
             $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
             $YPTStorage = AVideoPlugin::loadPluginIfEnabled('YPTStorage');
             if (!empty($aws_s3)) {
-                $aws_s3->removeFiles($this->getFilename());
+                $aws_s3->removeFiles($filename);
             }
             if (!empty($bb_b2)) {
-                $bb_b2->removeFiles($this->getFilename());
+                $bb_b2->removeFiles($filename);
             }
             if (!empty($ftp)) {
-                $ftp->removeFiles($this->getFilename());
+                $ftp->removeFiles($filename);
             }
             if (!empty($YPTStorage) && !empty($this->getSites_id())) {
-                $YPTStorage->removeFiles($this->getFilename(), $this->getSites_id());
+                $YPTStorage->removeFiles($filename, $this->getSites_id());
             }
-            $this->removeFiles($this->getFilename());
-            self::deleteThumbs($this->getFilename());
+            $this->removeFiles($filename);
+            self::deleteThumbs($filename);
         }
 
         private function removeNextVideos($videos_id) {
