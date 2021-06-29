@@ -61,7 +61,11 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
     $encoderURL = $config->_getEncoderURL();
     //$encoderURL = $config->getEncoderURL();
     
-    $url = "{$encoderURL}getImage/" . base64_encode($video) . "/{$_REQUEST['format']}";
+    //$url = "{$encoderURL}getImage/" . base64_encode($video) . "/{$_REQUEST['format']}";
+    $url = "{$encoderURL}objects/getImage.php";
+    $url = addQueryStringParameter($url, 'base64Url', base64_encode($video));
+    $url = addQueryStringParameter($url, 'format', $_REQUEST['format']);
+    
     $name = "liveLinks_getImage_".md5($url);
     $content = ObjectYPT::getCache($name, $lifetime);
     if(Live::isDefaultImage($content)){
