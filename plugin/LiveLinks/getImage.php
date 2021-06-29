@@ -1,5 +1,5 @@
 <?php
-$lifetime = 600;
+$lifetime = 300;
 
 if (empty($_REQUEST['format'])) {
     $_REQUEST['format'] = "png";
@@ -8,8 +8,10 @@ if (empty($_REQUEST['format'])) {
     header('Content-Type: image/jpg');
 } else if ($_REQUEST['format'] === 'gif') {
     header('Content-Type: image/gif');
+    $lifetime *= 3;
 } else if ($_REQUEST['format'] === 'webp') {
     header('Content-Type: image/webp');
+    $lifetime *= 3;
 } else {
     $_REQUEST['format'] = "png";
     header('Content-Type: image/x-png');
