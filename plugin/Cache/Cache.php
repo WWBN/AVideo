@@ -208,6 +208,7 @@ class Cache extends PluginAbstract {
             'Meet',
             '/roku.json',
             'mrss',
+            '/sitemap.xml',
             'plugin/Live/verifyToken.json.php');
         foreach ($cacheBotWhitelist as $value) {
             if (strpos($_SERVER['REQUEST_URI'], $value) !== false) {
