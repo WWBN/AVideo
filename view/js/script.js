@@ -19,6 +19,7 @@ var _serverTime;
 var _serverDBTime;
 var _serverTimeString;
 var _serverDBTimeString;
+let deferredPrompt;
 
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
@@ -1371,6 +1372,27 @@ $(document).ready(function () {
         checkAutoPlay();
     });
     checkAutoPlay();
+
+
+    serviceWorkerRegister();
+    // Code to handle install prompt on desktop
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        var beforeinstallprompt = Cookies.get('beforeinstallprompt');
+        if (beforeinstallprompt) {
+            return false;
+        }
+        var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> Add To Home Screen </a>";
+        var options = {text: msg, hideAfter: 20000};
+        $.toast(options);
+        Cookies.set('beforeinstallprompt', 1, {
+            path: '/',
+            expires: 365
+        });
+    });
 });
 
 function validURL(str) {
@@ -1708,29 +1730,8 @@ function serviceWorkerRegister() {
                 });
     }
 }
-serviceWorkerRegister();
-// Code to handle install prompt on desktop
 
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent Chrome 67 and earlier from automatically showing the prompt
-    e.preventDefault();
-    // Stash the event so it can be triggered later.
-    deferredPrompt = e;
-    var beforeinstallprompt = Cookies.get('beforeinstallprompt');
-    if (beforeinstallprompt) {
-        return false;
-    }
-    var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> Add To Home Screen </a>";
-    var options = {text: msg, hideAfter: 20000};
-    $.toast(options);
-    Cookies.set('beforeinstallprompt', 1, {
-        path: '/',
-        expires: 365
-    });
-});
-
-function A2HSInstall(){
+function A2HSInstall() {
     // Show the prompt
     deferredPrompt.prompt();
     // Wait for the user to respond to the prompt
