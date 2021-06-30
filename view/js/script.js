@@ -1186,8 +1186,10 @@ $(document).ready(function () {
     });
 
     tabsCategoryDocumentHeight = $(document).height();
-    $('.nav-tabs-horizontal').scrollingTabs();
-    //$('.nav-tabs-horizontal').fadeIn();
+    if(typeof $('.nav-tabs-horizontal').scrollingTabs == 'function'){
+        $('.nav-tabs-horizontal').scrollingTabs();
+        //$('.nav-tabs-horizontal').fadeIn();
+    }
     setInterval(function () {
         if (tabsCategoryDocumentHeightChanged()) {
             $('.nav-tabs-horizontal').scrollingTabs('refresh');
