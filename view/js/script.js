@@ -1691,7 +1691,7 @@ function avideoAjax(url, data) {
 // Register service worker to control making site work offline
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker
-            .register(webSiteRootURL + 'view/js/sw.js')
+            .register(webSiteRootURL + 'sw.js')
             .then(() => {
                 console.log('Service Worker Registered');
             });
