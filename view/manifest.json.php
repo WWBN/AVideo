@@ -17,7 +17,8 @@ $pwa->description = $config->getWebSiteTitle();
 
 $pwa->icons = pwaIconsArray();
 
-$pwa->start_url = $global['webSiteRootURL'];
+//$pwa->start_url = $global['webSiteRootURL'];
+$pwa->start_url = '/';
 
 $pwa->background_color = $obj->pwa_background_color;
 $pwa->theme_color = $obj->pwa_background_color;
@@ -35,7 +36,8 @@ $shortcut = new stdClass();
 $shortcut->name = $config->getWebSiteTitle();
 $shortcut->short_name = $config->getWebSiteTitle();
 $shortcut->description = $config->getWebSiteTitle();
-$shortcut->url = $global['webSiteRootURL'];
+//$shortcut->url = $global['webSiteRootURL'];
+$shortcut->url = '/';
 $shortcut->icons = pwaIconsArray();
 
 $pwa->shortcuts = array($shortcut);
