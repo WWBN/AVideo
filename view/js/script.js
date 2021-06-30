@@ -1186,13 +1186,13 @@ $(document).ready(function () {
     });
 
     tabsCategoryDocumentHeight = $(document).height();
-    if(typeof $('.nav-tabs-horizontal').scrollingTabs == 'function'){
+    if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
         $('.nav-tabs-horizontal').scrollingTabs();
         //$('.nav-tabs-horizontal').fadeIn();
     }
     setInterval(function () {
         if (tabsCategoryDocumentHeightChanged()) {
-            if(typeof $('.nav-tabs-horizontal').scrollingTabs == 'function'){
+            if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
                 $('.nav-tabs-horizontal').scrollingTabs('refresh');
             }
         }
@@ -1695,12 +1695,14 @@ function avideoAjax(url, data) {
 // Register service worker to control making site work offline
 function serviceWorkerRegister() {
     if (typeof webSiteRootURL == 'undefined') {
-        setTimeout(function () {serviceWorkerRegister();}, 1000);
+        setTimeout(function () {
+            serviceWorkerRegister();
+        }, 1000);
         return false;
     }
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
-                .register(webSiteRootURL + 'sw.js?'+Math.random())
+                .register(webSiteRootURL + 'sw.js?' + Math.random())
                 .then(() => {
                     console.log('Service Worker Registered');
                 });
@@ -1715,6 +1717,20 @@ window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     // Stash the event so it can be triggered later.
     deferredPrompt = e;
+    var beforeinstallprompt = Cookies.get('beforeinstallprompt');
+    if (beforeinstallprompt) {
+        return false;
+    }
+    var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> Add To Home Screen </a>";
+    var options = {text: msg, hideAfter: 20000};
+    $.toast(options);
+    Cookies.set('beforeinstallprompt', 1, {
+        path: '/',
+        expires: 365
+    });
+});
+
+function A2HSInstall(){
     // Show the prompt
     deferredPrompt.prompt();
     // Wait for the user to respond to the prompt
@@ -1726,4 +1742,4 @@ window.addEventListener('beforeinstallprompt', (e) => {
         }
         deferredPrompt = null;
     });
-});
+}
