@@ -57,6 +57,8 @@ function startYPTScripts() {
         eventer(messageEvent, function (e) {
             if (typeof e.data.hideElement !== 'undefined') {
                 $(e.data.hideElement).hide();
+            } else if (typeof e.data.zoom !== 'undefined') {
+                aVideoMeetZoom(e.data.zoom);
             } else if (typeof e.data.append !== 'undefined') {
                 $(e.data.append.parentSelector).append(e.data.append.html);
             } else if (typeof e.data.prepend !== 'undefined') {
@@ -82,6 +84,10 @@ function aVideoMeetStartRecording(RTMPLink, dropURL) {
 
 function aVideoMeetStopRecording(dropURL) {
     window.parent.postMessage({"aVideoMeetStopRecording": {dropURL:dropURL}}, "*");
+}
+
+function aVideoMeetZoom(zoom) {
+    $('body').css({'zoom':zoom, '-moz-transform': 'scale('+zoom+')' , '-moz-transform-origin': '0 0' })
 }
 
 function fixHREF(){
