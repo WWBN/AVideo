@@ -1192,7 +1192,9 @@ $(document).ready(function () {
     }
     setInterval(function () {
         if (tabsCategoryDocumentHeightChanged()) {
-            $('.nav-tabs-horizontal').scrollingTabs('refresh');
+            if(typeof $('.nav-tabs-horizontal').scrollingTabs == 'function'){
+                $('.nav-tabs-horizontal').scrollingTabs('refresh');
+            }
         }
     }, 1000);
 
