@@ -1700,7 +1700,7 @@ function serviceWorkerRegister() {
     }
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
-                .register(webSiteRootURL + 'sw.js')
+                .register(webSiteRootURL + 'sw.js?'+Math.random())
                 .then(() => {
                     console.log('Service Worker Registered');
                 });
