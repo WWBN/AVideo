@@ -5,7 +5,5 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', (e) => {
     //console.log('sw.js 2', e.request.url);
-    e.respondWith(
-            caches.match(e.request).then((response) => response || fetch(e.request)),
-            );
+    e.respondWith(fetch(e.request));
 });
