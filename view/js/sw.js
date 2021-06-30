@@ -19,6 +19,7 @@
 
 
 self.addEventListener('install', event => {
+    console.log('sw.js 1', e.request.url);
     event.waitUntil(Promise.all([self.skipWaiting()]));
 });
 
