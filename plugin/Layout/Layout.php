@@ -44,6 +44,7 @@ class Layout extends PluginAbstract {
         //$obj->showButtonNotification = false;
         $obj->categoriesTopButtons = false;
         $obj->categoriesTopButtonsShowOnlyOnFirstPage = true;
+        $obj->categoriesTopButtonsShowVideosCount = false;
 
         $o = new stdClass();
         $o->type = array(0 => '-- ' . __("Random")) + self::getLoadersArray();
