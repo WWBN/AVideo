@@ -47,6 +47,14 @@ $video = new Video("", "", $video_id);
 if($video->getStatus() === Video::$statusActive){
     AVideoPlugin::afterNewVideo($video_id);
 }
+
+if($video->getType() == 'audio' && AVideoPlugin::isEnabledByName('MP4ThumbsAndGif')){
+    $videoFileName = $video->getFilename();
+    MP4ThumbsAndGif::getImage($videoFileName, 'jpg', $video_id);
+    Video::deleteThumbs($videoFileName);
+    Video::deleteGifAndWebp($videoFileName);
+}
+
 $obj->error = false;
 $obj->video_id = $video_id;
 Video::updateFilesize($video_id);

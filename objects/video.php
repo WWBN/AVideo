@@ -3843,6 +3843,27 @@ if (!class_exists('Video')) {
             return true;
         }
 
+        public static function deleteGifAndWebp($filename) {
+            if (empty($filename)) {
+                return false;
+            }
+            global $global;
+
+            $filePath = Video::getPathToFile($filename);
+            @unlink("{$filePath}.gif");
+            @unlink("{$filePath}.webp");
+            ObjectYPT::deleteCache($filename);
+            ObjectYPT::deleteCache($filename . "article");
+            ObjectYPT::deleteCache($filename . "pdf");
+            ObjectYPT::deleteCache($filename . "video");
+            Video::clearImageCache($filename);
+            Video::clearImageCache($filename, "article");
+            Video::clearImageCache($filename, "pdf");
+            Video::clearImageCache($filename, "audio");
+            clearVideosURL($filename);
+            return true;
+        }
+
         public static function clearCache($videos_id) {
             _error_log("Video:clearCache($videos_id)");
             $video = new Video("", "", $videos_id);
