@@ -10,7 +10,7 @@ if (!isCommandLineInterface()) {
 
 echo "Start delete statistics" . PHP_EOL;
 
-$sql = "delete videos_statistics where id > 0";
+$sql = "delete FROM videos_statistics where id > 0";
 sqlDAL::writeSql($sql);
 
 echo "Finish delete statistics" . PHP_EOL;
