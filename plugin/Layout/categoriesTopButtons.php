@@ -49,12 +49,14 @@
                 <?php
             }
             $_REQUEST['rowCount'] = $_rowCount;
-
+            /*
             for ($i = 0; $i < 100; $i++) {
                 ?> <li data-toggle="tooltip" title="<?php echo __($i); ?>" data-placement="bottom"> <a href="#"> <?php echo '<i class="fa fa-folder"></i>  <span class="hidden-xs">' . $i . '</span>';
             if (!empty($obj->categoriesTopButtonsShowVideosCount)) {
                 echo ' <span class="badge">' . $i . '</span>';
-            } ?> </a> </li> <?php } ?>
+            } ?> </a> </li> <?php } 
+            */
+            ?>
         </ul>
     </center>
         </div>
