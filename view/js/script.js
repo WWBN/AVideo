@@ -1689,14 +1689,20 @@ function avideoAjax(url, data) {
 }
 
 // Register service worker to control making site work offline
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-            .register(webSiteRootURL + 'sw.js')
-            .then(() => {
-                console.log('Service Worker Registered');
-            });
+function serviceWorkerRegister() {
+    if (typeof webSiteRootURL == 'undefined') {
+        setTimeout(function () {serviceWorkerRegister();}, 1000);
+        return false;
+    }
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+                .register(webSiteRootURL + 'sw.js')
+                .then(() => {
+                    console.log('Service Worker Registered');
+                });
+    }
 }
-
+serviceWorkerRegister();
 // Code to handle install prompt on desktop
 
 let deferredPrompt;
