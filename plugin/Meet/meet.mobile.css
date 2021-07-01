@@ -1,14 +1,13 @@
-/*
 .new-toolbox, .sideToolbarContainer, .subject{
-    zoom:2;
-    -moz-transform: scale(2);
+    zoom:1.8;
+    -moz-transform: scale(1.8);
     -moz-transform-origin: 0 0;
 }
-*/
+/*
 .toolbox-icon svg, .toolbox-icon {
     width: 1.5em !important;
     height: 1.5em !important;
-}
+}*/
 .filmstrip{
     min-width:25%;
     max-width: 300px;
@@ -16,9 +15,9 @@
 .leftwatermark{
     width: 200px;
 }
-.new-toolbox .toolbox-content .button-group-center .toolbox-button .toolbox-icon{
-    margin: 0;
+.new-toolbox, .toolbox-content, .button-group-center, .toolbox-button, .toolbox-icon{
+    margin: 0 !important;
 }
 .toolbox-icon{
-    margin: 0 2px;
+    margin: 0 4px !important;
 }
