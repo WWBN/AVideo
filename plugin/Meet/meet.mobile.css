@@ -1,7 +1,13 @@
+/*
 .new-toolbox, .sideToolbarContainer, .subject{
     zoom:2;
     -moz-transform: scale(2);
     -moz-transform-origin: 0 0;
+}
+*/
+.new-toolbox svg, .toolbox-icon {
+    width: 1.5em;
+    height: 1.5em;
 }
 .filmstrip{
     min-width:25%;
@@ -10,9 +16,9 @@
 .leftwatermark{
     width: 200px;
 }
+.new-toolbox .toolbox-content .button-group-center .toolbox-button .toolbox-icon{
+    margin: 0;
+}
 .toolbox-icon{
     margin: 0 2px;
-}
-.new-toolbox .toolbox-content .toolbox-button{
-    margin: 0;
 }
