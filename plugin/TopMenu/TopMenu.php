@@ -144,6 +144,12 @@ class TopMenu extends PluginAbstract {
              
         $parameterName = self::getExternalOptionName($menu_item_id);
         $externalOptions = _json_decode($video->getExternalOptions());
+        if(empty($externalOptions)){
+            $externalOptions = new stdClass();
+        }
+        if(!isset($externalOptions->$parameterName)){
+            $externalOptions->$parameterName = '';
+        }
         $_getVideoMenuURL[$index] = $externalOptions->$parameterName;
         return $_getVideoMenuURL[$index];
     }
