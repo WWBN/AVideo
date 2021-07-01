@@ -6,8 +6,8 @@
 }
 */
 .new-toolbox svg, .toolbox-icon {
-    width: 1.5em;
-    height: 1.5em;
+    width: 1.5em !important;
+    height: 1.5em !important;
 }
 .filmstrip{
     min-width:25%;
