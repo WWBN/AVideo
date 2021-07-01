@@ -10,3 +10,9 @@
 .leftwatermark{
     width: 200px;
 }
+.toolbox-icon{
+    margin: 0 2px;
+}
+.new-toolbox .toolbox-content .toolbox-button{
+    margin: 0;
+}
