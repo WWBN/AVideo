@@ -1,9 +1,11 @@
-.new-toolbox, .sideToolbarContainer, .subject{
-    zoom:2;
-    -moz-transform: scale(2);
-    -moz-transform-origin: 0 0;
-}
-.filmstrip{
-    min-width:25%;
-    max-width: 300px;
+@media (max-width: 767px) {
+    .new-toolbox, .sideToolbarContainer, .subject{
+        zoom:2;
+        -moz-transform: scale(2);
+        -moz-transform-origin: 0 0;
+    }
+    .filmstrip{
+        min-width:25%;
+        max-width: 300px;
+    }
 }
