@@ -1,5 +1,4 @@
 <?php
-
 global $t;
 
 $t['%d Users linked'] = "%d Användare länkade";
@@ -217,8 +216,8 @@ $t['Message could not be sent'] = "Meddelandet kunde inte skickas";
 $t['Message sent'] = "Meddelande skickat";
 $t['Message'] = "Meddelande";
 $t['Modified'] = "Modifierad";
-$t['Most Popular'] = "Mest populär";
-$t['Most Watched'] = "Mest sett";
+$t['Most Popular'] = "Mest Populär";
+$t['Most Watched'] = "Mest Sett";
 $t['Most popular'] = "Mest populär";
 $t['Most watched'] = "Mest sett";
 $t['My Account'] = "Mitt konto";
