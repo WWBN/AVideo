@@ -87,7 +87,7 @@ function aVideoMeetStopRecording(dropURL) {
 }
 
 function aVideoMeetZoom(zoom) {
-    $('.new-toolbox').css({'zoom':zoom, '-moz-transform': 'scale('+zoom+')' , '-moz-transform-origin': '0 0' })
+    $('.new-toolbox, .filmstrip__videos').css({'zoom':zoom, '-moz-transform': 'scale('+zoom+')' , '-moz-transform-origin': '0 0' })
 }
 
 function fixHREF(){
