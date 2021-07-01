@@ -5,7 +5,7 @@
     -moz-transform-origin: 0 0;
 }
 */
-.new-toolbox svg, .toolbox-icon {
+.toolbox-icon svg, .toolbox-icon {
     width: 1.5em !important;
     height: 1.5em !important;
 }
