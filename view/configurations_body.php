@@ -639,7 +639,7 @@ if (User::isAdmin()) {
 
             </div>
             <div class="panel-footer">
-                <button type="button" class="btn btn-block btn-primary btn-lg" onclick="$('updateConfigForm').submit();" ><i class="fas fa-save"></i> <?php echo __("Save"); ?></button>
+                <button type="button" class="btn btn-block btn-primary btn-lg" onclick="$('#updateConfigForm').submit();" ><i class="fas fa-save"></i> <?php echo __("Save"); ?></button>
             </div>
         </div>
 
