@@ -60,13 +60,7 @@ if (empty($meet_schedule_id)) {
                 event_on_meetReady();
             }
             aVideoMeetCreateButtons();
-<?php
-if (isMobile()) {
-    ?>
-    aVideoMeetAppendElement("head", <?php echo json_encode('<style>'.file_get_contents($global['systemRootPath'] . 'plugin/Meet/meet.css').'</style>'); ?>);    
-    <?php
-}
-?>
+            aVideoMeetAppendElement("head", <?php echo json_encode('<style>'.file_get_contents($global['systemRootPath'] . 'plugin/Meet/meet.css').'</style>'); ?>);
             console.log("YPTMeetScript conference is ready");
         } else if (typeof e.data.aVideoMeetStartRecording !== 'undefined') {
             console.log("YPTMeetScript aVideoMeetStartRecording");
