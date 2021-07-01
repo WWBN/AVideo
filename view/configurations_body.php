@@ -3,7 +3,7 @@ if (User::isAdmin()) {
     ?>
 
     <form class="form-compact form-horizontal"  id="updateConfigForm" onsubmit="">
-        <div class="panel panel-default "">
+        <div class="panel panel-default ">
             <div class="panel-heading tabbable-line">
 
                 <ul class="nav nav-tabs">
