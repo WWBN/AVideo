@@ -1,5 +1,4 @@
 <?php
-
 global $t;
 
 $t['%d Users linked'] = "%d Användare länkade";
