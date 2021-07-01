@@ -62,7 +62,9 @@ if (empty($meet_schedule_id)) {
             aVideoMeetCreateButtons();
 <?php
 if (isMobile()) {
-    echo 'aVideoMeetZoom(2);';
+    ?>
+    aVideoMeetAppendElement("head", <?php echo json_encode('<style>'.file_get_contents($global['systemRootPath'] . 'plugin/Meet/meet.css').'</style>'); ?>);    
+    <?php
 }
 ?>
             console.log("YPTMeetScript conference is ready");

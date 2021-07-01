@@ -88,7 +88,6 @@ function aVideoMeetStopRecording(dropURL) {
 
 function aVideoMeetZoom(zoom) {
     $('.new-toolbox, .sideToolbarContainer, .subject  ').css({'zoom':zoom, '-moz-transform': 'scale('+zoom+')' , '-moz-transform-origin': '0 0' });
-    $('.filmstrip').css({'min-width':'25%', 'max-width': '300px'  });
 }
 
 function fixHREF(){
