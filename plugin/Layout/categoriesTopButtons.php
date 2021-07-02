@@ -39,7 +39,7 @@
                        class="<?php echo ($value['clean_name'] == @$_GET['catName'] ? "active" : ""); ?>">
                            <?php
                            echo '<i class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></i>  '
-                           . '<span class="hidden-xs">' . __($value['name']) . '</span>';
+                           . '<span class="">' . __($value['name']) . '</span>';
                            if (!empty($obj->categoriesTopButtonsShowVideosCount)) {
                                echo ' <span class="badge">' . $total . '</span>';
                            }
