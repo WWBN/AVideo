@@ -93,6 +93,7 @@ class Scheduler extends PluginAbstract {
         $e = new Scheduler_commands(0);
         $e->setDate_to_execute($date_to_execute);
         $e->setCallbackURL($callbackURL);
+        _error_log("Scheduler::add [$date_to_execute] [$callbackURL]");
         return $e->save();
     }
 
