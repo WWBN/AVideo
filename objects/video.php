@@ -888,6 +888,9 @@ if (!class_exists('Video')) {
             if ($res != false) {
                 foreach ($fullData as $row) {
                     $row['images'] = self::getImageFromFilename($row['filename']);
+                    if(empty($row['externalOptions'])){
+                        $row['externalOptions'] = json_encode(array('videoStartSeconds'=>'00:00:00'));
+                    }
                     $rows[] = $row;
                 }
             } else {
@@ -1146,6 +1149,9 @@ if (!class_exists('Video')) {
                     }
                     $obj['externalOptions'] = json_encode($obj['externalOptions']);
                 }
+                if(empty($obj['externalOptions'])){
+                    $obj['externalOptions'] = json_encode(array('videoStartSeconds'=>'00:00:00'));
+                }
                 return $obj;
             }
             
@@ -1197,6 +1203,10 @@ if (!class_exists('Video')) {
             $row['isWatchLater'] = self::isWatchLater($row['id']);
             $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
             $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
+            
+            if(empty($row['externalOptions'])){
+                $row['externalOptions'] = json_encode(array('videoStartSeconds'=>'00:00:00'));
+            }
             TimeLogEnd("video::getInfo otherInfo", __LINE__, 0.5);
 
             TimeLogStart("video::getInfo getAllVideosArray");
@@ -3668,6 +3678,9 @@ if (!class_exists('Video')) {
             }
 
             global $global, $advancedCustomUser, $advancedCustom;
+            if(!is_object($advancedCustomUser)){
+                $advancedCustomUser = AVideoPlugin::getDataObject('CustomizeUser');
+            }
             if (empty($videos_id) && !empty($clean_title)) {
                 $videos_id = self::get_id_from_clean_title($clean_title);
             }

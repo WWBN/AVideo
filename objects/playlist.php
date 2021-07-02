@@ -395,6 +395,9 @@ class PlayList extends ObjectYPT {
                             $row['subtitlesSRT'][] = convertSRTTrack($value);
                         }
                     }
+                    if(empty($row['externalOptions'])){
+                        $row['externalOptions'] = json_encode(array('videoStartSeconds'=>'00:00:00'));
+                    }
                     $rows[] = $row;
                 }
 
