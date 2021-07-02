@@ -4312,6 +4312,7 @@ function getVideos_id() {
         setVideos_id($videos_id);
     }
     if (empty($videos_id) && !empty($_REQUEST['playlists_id'])) {
+        AVideoPlugin::loadPlugin('PlayLists');
         $video = PlayLists::isPlayListASerie($_REQUEST['playlists_id']);
         if (!empty($video)) {
             $videos_id = $video['id'];
