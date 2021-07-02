@@ -54,7 +54,7 @@ class Scheduler_commands extends ObjectYPT {
     } 
  
     function setDate_to_execute($date_to_execute) {
-        if(is_numeric($date_to_execute)){
+        if(!is_numeric($date_to_execute)){
             $date_to_execute = date('Y-m-d H:i:s', $date_to_execute);
         }
         $this->date_to_execute = $date_to_execute;
