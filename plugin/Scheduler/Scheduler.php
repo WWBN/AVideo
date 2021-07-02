@@ -84,16 +84,18 @@ class Scheduler extends PluginAbstract {
 
     
     static public function add($date_to_execute, $callbackURL){
+        _error_log("Scheduler::add [$date_to_execute] [$callbackURL]");
         if(empty($date_to_execute)){
+            _error_log("Scheduler::add ERROR date_to_execute is empty");
             return false;
         }
         if(empty($callbackURL)){
+            _error_log("Scheduler::add ERROR callbackURL is empty");
             return false;
         }
         $e = new Scheduler_commands(0);
         $e->setDate_to_execute($date_to_execute);
         $e->setCallbackURL($callbackURL);
-        _error_log("Scheduler::add [$date_to_execute] [$callbackURL]");
         return $e->save();
     }
 
