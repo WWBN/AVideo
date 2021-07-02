@@ -7,7 +7,9 @@ require_once $global['systemRootPath'] . 'plugin/Scheduler/Objects/Scheduler_com
 class Scheduler extends PluginAbstract {
 
     public function getDescription() {
+        global $global;
         $desc = "Scheduler Plugin";
+        $desc .= "<br>Crontab every 1 minute<br><code>*/60 * * * * php {$global['systemRootPath']}plugin/Scheduler/run.php</code>";
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
         return $desc;
     }
