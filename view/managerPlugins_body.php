@@ -211,7 +211,7 @@ $uuidJSCondition = implode(" && ", $rowId);
         $li.find('.panel-title').text(name);
         $li.find('.int').text(intPrice);
         $li.find('.cents').text("99");
-        $li.find('.desc').text(description);
+        $li.find('.desc').html(description);
         $li.find('.img').attr("src", src);
         $('#pluginStoreList').append($li);
     }
