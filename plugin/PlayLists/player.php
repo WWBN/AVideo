@@ -58,6 +58,8 @@ foreach ($playList as $key => $value) {
 
 $video = PlayLists::isPlayListASerie($_GET['playlists_id']);
 
+$playlist_index = intval(@$_REQUEST['playlist_index']);
+
 if (!empty($video['id'])) {
     AVideoPlugin::getEmbed($video['id']);
     setVideos_id($video['id']);
@@ -65,7 +67,6 @@ if (!empty($video['id'])) {
     setVideos_id($playListData[$playlist_index]['id']);
 }
 
-$playlist_index = intval(@$_REQUEST['playlist_index']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
