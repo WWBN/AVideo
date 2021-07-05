@@ -2938,6 +2938,9 @@ function object_to_array($obj) {
 
 function allowOrigin() {
     global $global;
+    if (!headers_sent()) {
+        header_remove('Access-Control-Allow-Origin');
+    }
     if (empty($_SERVER['HTTP_ORIGIN'])) {
         $server = parse_url($global['webSiteRootURL']);
         header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');
