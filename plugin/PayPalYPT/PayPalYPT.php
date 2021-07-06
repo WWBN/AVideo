@@ -649,7 +649,9 @@ class PayPalYPT extends PluginAbstract {
             $ipnURL = 'https://ipnpb.paypal.com/cgi-bin/webscr';
         }
         
-        $ch = curl_init('https://ipnpb.paypal.com/cgi-bin/webscr');
+        $ch = curl_init($ipnURL);
+        
+        curl_setopt($curl, CURLOPT_USERAGENT, 'PHP-IPN-VerificationScript');
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -669,11 +671,11 @@ class PayPalYPT extends PluginAbstract {
         }
         // inspect IPN validation result and act accordingly
         if (strcmp($res, "VERIFIED") == 0) {
-            _error_log("IPNcheck SUCCESS: The response from IPN was: <b>" . $res . "");
+            _error_log("IPNcheck SUCCESS: The response from IPN was: " . $res . "");
             return true;
         } else if (strcmp($res, "INVALID") == 0) {
             // IPN invalid, log for manual investigation
-            _error_log("IPNcheck ERROR: The response from IPN was: <b>" . $res . "");
+            _error_log("IPNcheck ERROR: The response from IPN was: " . $res . "");
             return false;
         }
 
