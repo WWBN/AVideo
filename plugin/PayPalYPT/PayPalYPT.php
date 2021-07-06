@@ -392,8 +392,9 @@ class PayPalYPT extends PluginAbstract {
 
     private function createBillingPlanV2($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = '', $json = '', $trialDays = 0) {
         global $global;
+        $currency = strtoupper($currency);
         _error_log("createBillingPlanV2: createBillingPlan: start: " . json_encode(array($total, $currency, $frequency, $interval, $name, $trialDays)));
-                
+        
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipnV2.php";
         $notify_url = addQueryStringParameter($notify_url, 'json', $json);
