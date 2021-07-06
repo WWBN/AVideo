@@ -678,7 +678,8 @@ class PayPalYPT extends PluginAbstract {
             _error_log("IPNcheck ERROR: The response from IPN was: " . $res . "");
             return false;
         }
-
+        _error_log("IPNcheck ERROR: Unknow response from IPN : " . $res . "");
+        return false;
         curl_close($ch);
     }
 
