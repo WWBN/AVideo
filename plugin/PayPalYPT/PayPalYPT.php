@@ -659,7 +659,11 @@ class PayPalYPT extends PluginAbstract {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'User-Agent: PHP-IPN-Verification-Script',
+            'Connection: Close',
+        ));
         // In wamp-like environments that do not come bundled with root authority certificates,
         // please download 'cacert.pem' from "https://curl.haxx.se/docs/caextract.html" and set
         // the directory path of the certificate as shown below:
