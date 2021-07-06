@@ -619,6 +619,8 @@ class PayPalYPT extends PluginAbstract {
     }
 
     static function IPNcheck() {
+        $obj = AVideoPlugin::getDataObject('PayPalYPT');
+        
         $raw_post_data = file_get_contents('php://input');
         $raw_post_array = explode('&', $raw_post_data);
         $myPost = array();
@@ -642,6 +644,11 @@ class PayPalYPT extends PluginAbstract {
         }
 
         // Step 2: POST IPN data back to PayPal to validate
+        $ipnURL = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
+        if(empty($obj->disableSandbox)){
+            $ipnURL = 'https://ipnpb.paypal.com/cgi-bin/webscr';
+        }
+        
         $ch = curl_init('https://ipnpb.paypal.com/cgi-bin/webscr');
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_POST, 1);
