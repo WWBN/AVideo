@@ -88,7 +88,7 @@ if (!empty($_GET['token'])) {
         _error_log("PayPalIPN V2: recurring_payment_id was already processed ");
     }
 }
-if (is_object($pp)) {
+if (!empty($pp) && is_object($pp)) {
     if ($pp->save()) {
         if ($walletObject->currency === $payment_currency) {
             _error_log("PayPalIPN V2: token log saved $json->users_id, $payment_amount");
@@ -108,9 +108,9 @@ if (!empty($json->type)) {
     switch ($json->type) {
         case 'FansSubscriptions':
             _error_log("PayPalIPN V2 FansSubscriptions");
-            if (!empty($json->Fsubscriptions_plan_id)) {
+            if (!empty($json->Fsubscriptions_plan_id) && !empty($json->users_id)) {
                 $fsObj = AVideoPlugin::getDataObjectIfEnabled('FansSubscriptions');
-                if (!empty($fsObj)) {
+                if (!empty($fsObj) && !empty($json->users_id)) {
                     if (FansSubscriptions::renew($json->users_id, $json->Fsubscriptions_plan_id)) {
                         header('Location: ' . $redirectUri);
                         exit;
