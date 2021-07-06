@@ -651,7 +651,7 @@ class PayPalYPT extends PluginAbstract {
         _error_log("IPNcheck: URL {$ipnURL} [$req]");
         
         $ch = curl_init($ipnURL);        
-        curl_setopt($ch, CURLOPT_USERAGENT, 'PHP-IPN-VerificationScript');
+        //curl_setopt($ch, CURLOPT_USERAGENT, 'PHP-IPN-VerificationScript');
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
