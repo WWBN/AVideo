@@ -73,19 +73,19 @@ if (!empty($_GET['token'])) {
         _error_log("PayPalIPN V2: IPN Fail ");
         die(json_encode($obj));
     }
-    _error_log("PayPalIPN V2: recurring_payment_id = {$_POST["recurring_payment_id"]} ");
-    if (!PayPalYPT::isRecurringPaymentIdUsed($_POST["recurring_payment_id"])) {
-        _error_log("PayPalIPN V2: recurring_payment_id will be processed ");
+    _error_log("PayPalIPN V2: else ");
+    if (!PayPalYPT::isRecurringPaymentIdUsed($_POST["verify_sign"])) {
+        _error_log("PayPalIPN V2: verify_sign will be processed ");
         $payment_amount = empty($_POST['mc_gross']) ? $_POST['amount'] : $_POST['mc_gross'];
         $payment_currency = empty($_POST['mc_currency']) ? $_POST['currency_code'] : $_POST['mc_currency'];
 
         $pp = new PayPalYPT_log(0);
         $pp->setUsers_id($json->users_id);
-        $pp->setRecurring_payment_id($_POST["recurring_payment_id"]);
+        $pp->setRecurring_payment_id($_POST["verify_sign"]);
         $pp->setValue($payment_amount);
         $pp->setJson(array('ipn' => $ipn, 'post' => $_POST, 'get' => $_GET));
     } else {
-        _error_log("PayPalIPN V2: recurring_payment_id was already processed ");
+        _error_log("PayPalIPN V2: verify_sign was already processed ");
     }
 }
 if (!empty($pp) && is_object($pp)) {
