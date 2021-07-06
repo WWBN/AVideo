@@ -435,6 +435,13 @@ class Live extends PluginAbstract {
                     $tooltip = __("Disconnect Livestream") . __(" and also reset the stream name/key");
                 }
                 break;
+            case "save_dvr":
+                $obj = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
+                if(empty($obj) || empty($obj->saveDVREnable)){
+                    return '';
+                }
+                return SendRecordedToEncoder::getSaveDVRButton($key, $live_servers_id);
+                break;
             default:
                 return '';
         }
@@ -486,6 +493,7 @@ class Live extends PluginAbstract {
 
         $btn = "<div class=\"btn-group justified recordLiveControlsDiv\" style=\"display: none;\" id=\"liveControls\">";
         //$btn .= self::getButton("drop_publisher", $live_transmition_id, $live_servers_id);
+        $btn .= self::getButton("save_dvr", $key, $live_servers_id, $iconsOnly);
         $btn .= self::getButton("drop_publisher_reset_key", $key, $live_servers_id, $iconsOnly);
         $btn .= self::getButton("record_start", $key, $live_servers_id, $iconsOnly);
         $btn .= self::getButton("record_stop", $key, $live_servers_id, $iconsOnly);
@@ -598,24 +606,21 @@ class Live extends PluginAbstract {
     }
 
     static function getRemoteFile() {
+        return self::getRemoteFileFromLiveServersID(self::getCurrentLiveServersId());
+    }
+
+    static function getRemoteFileFromLiveServersID($live_servers_id) {
         $obj = AVideoPlugin::getObjectData("Live");
         if (!empty($obj->useLiveServers)) {
-            $ls = new Live_servers(self::getCurrentLiveServersId());
+            $ls = new Live_servers($live_servers_id);
             return $ls->getGetRemoteFile();
         }
         return false;
     }
 
     static function getRemoteFileFromRTMPHost($rtmpHostURI) {
-        $obj = AVideoPlugin::getObjectData("Live");
-        if (!empty($obj->useLiveServers)) {
-            $live_servers_id = Live_servers::getServerIdFromRTMPHost($rtmpHostURI);
-            if ($live_servers_id) {
-                $ls = new Live_servers($live_servers_id);
-                return $ls->getGetRemoteFile();
-            }
-        }
-        return false;
+        $live_servers_id = Live_servers::getServerIdFromRTMPHost($rtmpHostURI);
+        return self::getRemoteFileFromLiveServersID($live_servers_id);
     }
 
     static function getLiveServersIdRequest() {
