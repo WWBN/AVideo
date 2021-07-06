@@ -20,6 +20,8 @@ header('Content-Type: application/json');
 if(!empty($_POST['sort']['valueText'])){
     $_POST['sort']['value'] = $_POST['sort']['valueText'];
     unset($_POST['sort']['valueText']);
+}else if(!empty($_POST['sort']['created'])){
+    $_POST['sort']['id'] = 'DESC';
 }
 
 $row = WalletLog::getAllFromUser($users_id);

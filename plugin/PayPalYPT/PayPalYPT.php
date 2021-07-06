@@ -2,6 +2,7 @@
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'plugin/PayPalYPT/Objects/PayPalYPT_log.php';
 
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
@@ -22,7 +23,7 @@ use PayPal\Api\Plan;
 use PayPal\Api\ShippingAddress;
 use PaypalPayoutsSDK\Payouts\PayoutsPostRequest;
 
-//require_once $global['systemRootPath'] . 'plugin/PayPalYPT/vendor/paypal/rest-api-sdk-php/lib/PayPal/Api/Plan.php';
+require_once $global['systemRootPath'] . 'plugin/PayPalYPT/PayPalClient.php';
 
 class PayPalYPT extends PluginAbstract {
 
@@ -50,7 +51,7 @@ class PayPalYPT extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "2.0";
     }
 
     public function getEmptyDataObject() {
@@ -61,7 +62,6 @@ class PayPalYPT extends PluginAbstract {
         $obj->paymentButtonLabel = "Pay With PayPal";
         $obj->ClientSecret = "ECxtMBsLr0cFwSCgI0uaDiVzEUbVlV3r_o_qaU-SOsQqCEOKPq4uGlr1C0mhdDmEyO30mw7-PF0bOnfo";
         $obj->disableSandbox = false;
-        $obj->enablePayout = false;
         return $obj;
     }
 
@@ -342,6 +342,148 @@ class PayPalYPT extends PluginAbstract {
         return false;
     }
 
+    public function setUpSubscriptionV2($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = '', $json = '', $trialDays = 0) {
+        global $global;
+
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        //createBillingPlanV2($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = '', $trialDays = 0)
+        $plan = $this->createBillingPlanV2($total, $currency, $frequency, $interval, $name, $json, $trialDays);
+
+        if (empty($plan)) {
+            _error_log("setUpSubscriptionV2: PayPal Error setUpSubscription Plan ID is empty ");
+            return false;
+        }
+        $planId = $plan->getId();
+        
+        // Create new agreement
+        // the setup fee will be the first payment and start date is the next payment
+        if (!empty($trialDays)) {
+            $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+12 hour"));
+        } else {
+            $startDate = date("Y-m-d\TH:i:s.000\Z", strtotime("+{$interval} {$frequency}"));
+        }
+        $agreement = new Agreement();
+        $agreement->setName(substr(cleanString($name), 0, 126))
+                ->setDescription(substr(cleanString($json), 0, 126))
+                ->setStartDate($startDate);
+
+        $plan = new Plan();
+        $plan->setId($planId);
+        $agreement->setPlan($plan);
+
+        // Add payer type
+        $payer = new Payer();
+        $payer->setPaymentMethod('paypal');
+        $agreement->setPayer($payer);
+
+        try {
+            // Create agreement
+            $agreement = $agreement->create($apiContext);
+
+            // Extract approval URL to redirect user
+            return $agreement;
+        } catch (PayPal\Exception\PayPalConnectionException $ex) {
+            _error_log("setUpSubscriptionV2: PayPal Error createBillingPlan 5: startDate: {$startDate} " . $ex->getData());
+        } catch (Exception $ex) {
+            _error_log("setUpSubscriptionV2: PayPal Error createBillingPlan 6: startDate: {$startDate} " . $ex->getData());
+        }
+        return false;
+    }
+
+    private function createBillingPlanV2($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = '', $json = '', $trialDays = 0) {
+        global $global;
+        _error_log("createBillingPlanV2: createBillingPlan: start: " . json_encode(array($total, $currency, $frequency, $interval, $name, $trialDays)));
+                
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        $notify_url = "{$global['webSiteRootURL']}plugin/PayPalYPT/ipnV2.php";
+        $notify_url = addQueryStringParameter($notify_url, 'json', $json);
+        
+        $cancel_url = addQueryStringParameter($notify_url, 'success', 0);
+        $success_url = addQueryStringParameter($notify_url, 'success', 1);
+        
+        // Create a new billing plan
+        $plan = new Plan();
+        $plan->setName(substr(cleanString($name), 0, 126))
+                ->setDescription(substr(cleanString($name), 0, 126))
+                ->setType('INFINITE');
+
+        $paymentDefinitionArray = array();
+
+        if (!empty($trialDays)) {
+            $trialPaymentDefinition = new PaymentDefinition();
+            $trialPaymentDefinition->setName('Trial Payment')
+                    ->setType('TRIAL')
+                    ->setFrequency('Day')
+                    ->setFrequencyInterval($trialDays)
+                    ->setCycles("1")
+                    ->setAmount(new Currency(array('value' => 0, 'currency' => $currency)));
+            $paymentDefinitionArray[] = $trialPaymentDefinition;
+        }
+
+        // Set billing plan definitions
+        $paymentDefinition = new PaymentDefinition();
+        $paymentDefinition->setName('Regular Payments')
+                ->setType('REGULAR')
+                ->setFrequency($frequency)
+                ->setFrequencyInterval($interval)
+                ->setCycles('0')
+                ->setAmount(new Currency(array('value' => $total, 'currency' => $currency)));
+        $paymentDefinitionArray[] = $paymentDefinition;
+
+        $plan->setPaymentDefinitions($paymentDefinitionArray);
+
+        // Set merchant preferences
+        $merchantPreferences = new MerchantPreferences();
+        // if there is a trial do not charge a setup fee
+        if (empty($trialDays)) {
+            $merchantPreferences->setReturnUrl($success_url)
+                    ->setCancelUrl($cancel_url)
+                    ->setNotifyUrl($notify_url)
+                    ->setAutoBillAmount('yes')
+                    ->setInitialFailAmountAction('CONTINUE')
+                    ->setMaxFailAttempts('0')
+                    ->setSetupFee(new Currency(array('value' => $total, 'currency' => $currency)));
+        } else {
+            $merchantPreferences->setReturnUrl($success_url)
+                    ->setCancelUrl($cancel_url)
+                    ->setNotifyUrl($notify_url)
+                    ->setAutoBillAmount('yes')
+                    ->setInitialFailAmountAction('CONTINUE')
+                    ->setMaxFailAttempts('0');
+        }
+        $plan->setMerchantPreferences($merchantPreferences);
+
+        //create plan
+        try {
+            $createdPlan = $plan->create($apiContext);
+
+            try {
+                $patch = new Patch();
+                $value = new PayPalModel('{"state":"ACTIVE"}');
+                $patch->setOp('replace')
+                        ->setPath('/')
+                        ->setValue($value);
+                $patchRequest = new PatchRequest();
+                $patchRequest->addPatch($patch);
+                $createdPlan->update($patchRequest, $apiContext);
+
+                $plan = Plan::get($createdPlan->getId(), $apiContext);
+                _error_log("createBillingPlanV2: createBillingPlan: " . json_encode(array($total, $currency, $frequency, $interval, $name, $trialDays, $plan)));
+                // Output plan id
+                return $plan;
+            } catch (PayPal\Exception\PayPalConnectionException $ex) {
+                _error_log("createBillingPlanV2: PayPal Error createBillingPlan 1: " . $ex->getData());
+            } catch (Exception $ex) {
+                _error_log("createBillingPlanV2: PayPal Error createBillingPlan 2: " . $ex->getData());
+            }
+        } catch (PayPal\Exception\PayPalConnectionException $ex) {
+            _error_log("createBillingPlanV2: PayPal Error createBillingPlan 3: " . $ex->getData());
+        } catch (Exception $ex) {
+            _error_log("createBillingPlanV2: PayPal Error createBillingPlan 4: " . $ex->getData());
+        }
+        return false;
+    }
+
     private function executeBillingAgreement() {
         global $global;
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
@@ -443,8 +585,6 @@ class PayPalYPT extends PluginAbstract {
         $createdPlan = Plan::get($plan_id, $apiContext);
 
         try {
-
-
             $patch1 = new Patch();
             $patch1->setOp('replace')
                     ->setPath('/')
@@ -547,8 +687,8 @@ class PayPalYPT extends PluginAbstract {
     public function getMyAccount($users_id) {
         global $global;
 
-        $obj = AVideoPlugin::getDataObjectIfEnabled('PayPalYPT');
-        if (empty($obj) || empty($obj->enablePayout)) {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('YPTWallet');
+        if (empty($obj) || empty($obj->enableAutoWithdrawFundsPagePaypal)) {
             return '';
         }
 
@@ -556,6 +696,7 @@ class PayPalYPT extends PluginAbstract {
     }
 
     public static function WalletPayout($users_id_to_be_paid, $value) {
+        global $config;
         $obj = new stdClass();
         $obj->error = true;
         $obj->msg = '';
@@ -572,8 +713,6 @@ class PayPalYPT extends PluginAbstract {
             return $obj;
         }
 
-        $user->getExternalOption($id);
-
         // check if the user has a paypal email
         $receiver_email = self::getUserReceiverEmail($users_id_to_be_paid);
         if (empty($receiver_email)) {
@@ -582,14 +721,16 @@ class PayPalYPT extends PluginAbstract {
         }
 
         // transfer money from wallet
-        $description = "Paypal payout";
-        $transfer = YPTWallet::transferBalanceToSiteOwner($users_id_to_be_paid, $value, $description = "", true);
+        $description = "Paypal payout to {$receiver_email} [users_id=$users_id_to_be_paid]";
+        $transfer = YPTWallet::transferBalanceToSiteOwner($users_id_to_be_paid, $value, $description, true);
         if ($transfer) {
             $email_subject = $note = "You received " . YPTWallet::formatCurrency($value) . " from " . $config->getWebSiteTitle() . " ";
             // payout using paypal
             $obj->response = self::Payout($receiver_email, $value, $wallet->currency, $note, $email_subject);
-            if (empty($obj->response)) {
-                $obj->msg = 'PayPal Payout error';
+            if (empty($obj->response) || !empty($obj->response->error)) {
+                $description = "Paypal refund";
+                $obj->msg = 'PayPal Payout error: ' . $obj->response->msg;
+                $transfer = YPTWallet::transferBalanceFromSiteOwner($users_id_to_be_paid, $value, $description, true);
                 return $obj;
             }
 
@@ -600,26 +741,31 @@ class PayPalYPT extends PluginAbstract {
     }
 
     public static function Payout($receiver_email, $value, $currency = 'USD', $note = '', $email_subject = '') {
+        $obj = new stdClass();
+        $obj->msg = '';
+        $obj->error = true;
+        $obj->response = false;
 
         if (empty($value)) {
-            _error_log('PayPal::Payout value is empty');
-            return false;
+            $obj->msg = 'PayPal::Payout value is empty';
+            _error_log($obj->msg);
+            return $obj;
         }
 
         if (empty($receiver_email)) {
-            _error_log("PayPal::Payout The user {$users_id_to_be_paid} does not have a paypal receiver email");
-            return false;
+            $obj->msg = "PayPal::Payout The user {$users_id_to_be_paid} does not have a paypal receiver email";
+            _error_log($obj->msg);
+            return $obj;
         }
 
-        $paypal = AVideoPlugin::getDataObjectIfEnabled('PayPalYPT');
-        if (empty($paypal) || $paypal->enablePayout) {
-            _error_log('PayPal::Payout plugin or payout is disabled');
-            return false;
+        $wallet = AVideoPlugin::getDataObjectIfEnabled('YPTWallet');
+        if (empty($wallet) || empty($wallet->enableAutoWithdrawFundsPagePaypal)) {
+            $obj->msg = 'PayPal::Payout Wallet enableAutoWithdrawFundsPagePaypal is disabled';
+            _error_log($obj->msg);
+            return $obj;
         }
-
         try {
-
-            $request = new PayoutsPostRequest();
+            $request = new PaypalPayoutsSDK\Payouts\PayoutsPostRequest();
             $request->body = new stdClass();
             $request->body->sender_batch_header = new stdClass();
             $request->body->sender_batch_header->email_subject = $email_subject;
@@ -632,9 +778,10 @@ class PayPalYPT extends PluginAbstract {
             $item->amount->value = $value;
             $request->body->items = array($item);
 
-            $request->body = self::buildRequestBody();
+            $request->body = object_to_array($request->body);
+
             $client = PayPalClient::client();
-            $response = $client->execute($request);
+            $obj->response = $client->execute($request);
             if ($debug) {
                 $msg = '';
                 $msg .= "Status Code: {$response->statusCode}\n";
@@ -645,19 +792,49 @@ class PayPalYPT extends PluginAbstract {
                     $msg .= "\t{$link->rel}: {$link->href}\tCall Type: {$link->method}\n";
                 }
                 // To toggle printing the whole response body comment/uncomment below line
-                $msg .= json_encode($response->result, JSON_PRETTY_PRINT) . "\n";
-                _error_log('PayPal::Payout ' . $msg);
+                $msg .= json_encode($response->result, JSON_PRETTY_PRINT) . PHP_EOL;
+                $obj->msg = 'PayPal::Payout ' . $msg;
+                _error_log($obj->msg);
             }
-            return $response;
+            $obj->error = false;
+            return $obj;
         } catch (HttpException $e) {
             $msg = '';
             //Parse failure response
-            $msg .= $e->getMessage() . "\n";
+            $msg .= $e->getMessage() . PHP_EOL;
             $error = json_decode($e->getMessage());
-            $msg .= $error->message . "\n";
-            $msg .= $error->name . "\n";
-            $msg .= $error->debug_id . "\n";
+            $msg .= $error->message . PHP_EOL;
+            $msg .= $error->name . PHP_EOL;
+            $msg .= $error->debug_id . PHP_EOL;
+            $obj->msg = 'PayPal::Payout ' . $msg;
+            _error_log($obj->msg);
         }
+        return $obj;
+    }
+
+    public function getWalletConfigurationHTML($users_id, $wallet, $walletDataObject) {
+        global $global;
+        $obj = AVideoPlugin::getDataObjectIfEnabled('YPTWallet');
+        if (empty($obj->enableAutoWithdrawFundsPagePaypal)) {
+            return '';
+        }
+        include_once $global['systemRootPath'] . 'plugin/PayPalYPT/getWalletConfigurationHTML.php';
+    }
+    
+    
+    public function getPluginMenu() {
+        global $global;
+        return '<button onclick="avideoModalIframeLarge(webSiteRootURL+\'plugin/PayPalYPT/View/editor.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';        
+    }
+    
+    static function isTokenUsed($token){
+        $row = PayPalYPT_log::getFromToken($token);
+        return !empty($row);
+    }
+    
+    static function isRecurringPaymentIdUsed($recurring_payment_id){
+        $row = PayPalYPT_log::getFromRecurringPaymentId($recurring_payment_id);
+        return !empty($row);
     }
 
 }

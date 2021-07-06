@@ -26,18 +26,12 @@ $obj->url = $_GET['url'];
 $obj->vtt = array();
 
 $patternURL = addcslashes($global['webSiteRootURL'], "/");
+$obj->videos_id = getVideoIDFromURL($obj->url);
 
-if (preg_match("/{$patternURL}v(ideo(Embed)?)?\/([0-9]+)/", $obj->url, $matches)) {
-    if (empty($matches[3])) {
-        $obj->msg = "videos_id NOT found";
-        die(json_encode($obj));
-    }
-} else {
-    $obj->msg = "it is not a valid URL";
+if (empty($obj->videos_id)) {
+    $obj->msg = "videos_id NOT found";
     die(json_encode($obj));
 }
-
-$obj->videos_id = intval($matches[3]);
 
 $video = Video::getVideo($obj->videos_id);
 

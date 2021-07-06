@@ -29,6 +29,9 @@
         "ratchet/pawl": "^0.3.5",
         "singpolyma/openpgp-php": "^0.4.0",
         "aws/aws-sdk-php": "^3.180",
-        "gliterd/backblaze-b2": "^1.1"
+        "gliterd/backblaze-b2": "^1.1",
+        "paypal/rest-api-sdk-php": "*",
+        "paypal/paypal-payouts-sdk": "^1.0",
+        "paypal/paypal-checkout-sdk": "^1.0"
     }
 }

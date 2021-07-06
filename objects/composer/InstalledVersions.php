@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '58aabfc7d43dc4cd19df6b44128269ef86dd8772',
+    'reference' => '822e364fad02c43c84c64c6faaa12b22f1da7b8f',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -196,6 +196,42 @@ private static $installed = array (
       array (
       ),
       'reference' => '0f1f60250fccffeaf5dda91eea1c018aed1adc2a',
+    ),
+    'paypal/paypal-checkout-sdk' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ed6a55075448308b87a8b59dcb7fedf04a048cb1',
+    ),
+    'paypal/paypal-payouts-sdk' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '45558e007569bd5b1967c07abc6505a58b8d9672',
+    ),
+    'paypal/paypalhttp' => 
+    array (
+      'pretty_version' => '1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '1ad9b846a046f09d6135cbf2cbaa7701bbc630a3',
+    ),
+    'paypal/rest-api-sdk-php' => 
+    array (
+      'pretty_version' => '1.14.0',
+      'version' => '1.14.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '72e2f2466975bf128a31e02b15110180f059fc04',
     ),
     'phpmailer/phpmailer' => 
     array (
@@ -425,7 +461,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '58aabfc7d43dc4cd19df6b44128269ef86dd8772',
+      'reference' => '822e364fad02c43c84c64c6faaa12b22f1da7b8f',
     ),
   ),
 );

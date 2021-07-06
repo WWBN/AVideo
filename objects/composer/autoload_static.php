@@ -41,6 +41,7 @@ class ComposerStaticInit78837c7a9c090d873268c14c1a5daf3d
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'Symfony\\Component\\Routing\\' => 26,
             'Symfony\\Component\\HttpFoundation\\' => 33,
+            'Sample\\' => 7,
         ),
         'R' => 
         array (
@@ -60,6 +61,9 @@ class ComposerStaticInit78837c7a9c090d873268c14c1a5daf3d
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Cache\\' => 10,
+            'PaypalPayoutsSDK\\' => 17,
+            'PayPalHttp\\' => 11,
+            'PayPalCheckoutSdk\\' => 18,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
@@ -129,6 +133,11 @@ class ComposerStaticInit78837c7a9c090d873268c14c1a5daf3d
         array (
             0 => __DIR__ . '/..' . '/symfony/http-foundation',
         ),
+        'Sample\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paypal/paypal-payouts-sdk/samples',
+            1 => __DIR__ . '/..' . '/paypal/paypal-checkout-sdk/samples',
+        ),
         'React\\Stream\\' => 
         array (
             0 => __DIR__ . '/..' . '/react/stream/src',
@@ -181,6 +190,18 @@ class ComposerStaticInit78837c7a9c090d873268c14c1a5daf3d
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+        'PaypalPayoutsSDK\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paypal/paypal-payouts-sdk/lib/PaypalPayoutsSDK',
+        ),
+        'PayPalHttp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paypal/paypalhttp/lib/PayPalHttp',
+        ),
+        'PayPalCheckoutSdk\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paypal/paypal-checkout-sdk/lib/PayPalCheckoutSdk',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
@@ -232,6 +253,13 @@ class ComposerStaticInit78837c7a9c090d873268c14c1a5daf3d
     );
 
     public static $prefixesPsr0 = array (
+        'P' => 
+        array (
+            'PayPal' => 
+            array (
+                0 => __DIR__ . '/..' . '/paypal/rest-api-sdk-php/lib',
+            ),
+        ),
         'H' => 
         array (
             'HTMLPurifier' => 

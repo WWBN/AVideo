@@ -18,7 +18,7 @@
             </a>
         </div>
         <div class="clearfix"></div>
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs nav-tabs-horizontal">
             <li class="active"><a data-toggle="tab" href="#usersTab"><?php echo __('Active Users'); ?></a></li>
             <li><a data-toggle="tab" href="#inactiveUsersTab" onclick="startUserGrid('#gridInactive', '?status=i');"><?php echo __('Inactive Users'); ?></a></li>
             <?php

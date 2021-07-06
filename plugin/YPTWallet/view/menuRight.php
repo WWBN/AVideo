@@ -41,16 +41,14 @@ $balance = $plugin->getBalance(User::getId());
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/manualWithdrawFunds.php">
                     <i class="far fa-money-bill-alt" aria-hidden="true"></i>
                     <?php echo $obj->manualWithdrawFundsMenuTitle; ?>
-                </a>
-            </li>
-            <?php
-            }
-            if($obj->enableAutoWithdrawFundsPage){
-            ?>
-            <li class="dropdown-submenu">
-                <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/autoWithdrawFunds.php">
-                    <i class="far fa-money-bill-alt" aria-hidden="true"></i>
-                    <?php echo $obj->manualWithdrawFundsMenuTitle; ?>
+                    
+                    <?php
+                    if ($obj->enableAutoWithdrawFundsPagePaypal) {
+                        ?>
+                        <span class="badge"><i class="fab fa-paypal"></i></span>    
+                        <?php
+                    }
+                    ?>
                 </a>
             </li>
             <?php
@@ -68,6 +66,9 @@ $balance = $plugin->getBalance(User::getId());
                     <?php echo __("History"); ?>
                 </a>
             </li>
+            <?php
+            if(empty($obj->hideConfiguration)){
+            ?>
             <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/configuration.php">
                     <i class="fas fa-cog" aria-hidden="true"></i>
@@ -75,6 +76,7 @@ $balance = $plugin->getBalance(User::getId());
                 </a>
             </li>
             <?php
+            }
             if (User::isAdmin()) {
                 $total = WalletLog::getTotalFromWallet(0,true,'pending');
                 ?>

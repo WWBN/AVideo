@@ -1128,3 +1128,14 @@ li.dropdown-submenu > ul > li > a{
 .modal {
     overflow: auto !important;
 }
+
+.nav-tabs-horizontal{
+    display: -webkit-box; 
+    display: -webkit-inline-box;
+}
+.scrtabs-tab-container{
+    margin: 5px 0;    
+}
+.scrtabs-tab-scroll-arrow{
+    border-top: 1px solid #ddd;
+}

@@ -1164,6 +1164,220 @@
             "install-path": "../paragonie/random_compat"
         },
         {
+            "name": "paypal/paypal-checkout-sdk",
+            "version": "1.0.1",
+            "version_normalized": "1.0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/Checkout-PHP-SDK.git",
+                "reference": "ed6a55075448308b87a8b59dcb7fedf04a048cb1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/Checkout-PHP-SDK/zipball/ed6a55075448308b87a8b59dcb7fedf04a048cb1",
+                "reference": "ed6a55075448308b87a8b59dcb7fedf04a048cb1",
+                "shasum": ""
+            },
+            "require": {
+                "paypal/paypalhttp": "1.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "time": "2019-11-07T23:16:44+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "PayPalCheckoutSdk\\": "lib/PayPalCheckoutSdk",
+                    "Sample\\": "samples/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "https://github.com/paypal/Checkout-PHP-SDK/blob/master/LICENSE"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/Checkout-PHP-SDK/contributors"
+                }
+            ],
+            "description": "PayPal's PHP SDK for Checkout REST APIs",
+            "homepage": "http://github.com/paypal/Checkout-PHP-SDK/",
+            "keywords": [
+                "checkout",
+                "orders",
+                "payments",
+                "paypal",
+                "rest",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/paypal/Checkout-PHP-SDK/issues",
+                "source": "https://github.com/paypal/Checkout-PHP-SDK/tree/1.0.1"
+            },
+            "install-path": "../paypal/paypal-checkout-sdk"
+        },
+        {
+            "name": "paypal/paypal-payouts-sdk",
+            "version": "v1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/Payouts-PHP-SDK.git",
+                "reference": "45558e007569bd5b1967c07abc6505a58b8d9672"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/Payouts-PHP-SDK/zipball/45558e007569bd5b1967c07abc6505a58b8d9672",
+                "reference": "45558e007569bd5b1967c07abc6505a58b8d9672",
+                "shasum": ""
+            },
+            "require": {
+                "paypal/paypalhttp": "~1.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "time": "2020-02-07T10:48:57+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "PaypalPayoutsSDK\\": "lib/PaypalPayoutsSDK",
+                    "Sample\\": "samples/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/PAYOUTS-PHP-SDK/contributors"
+                }
+            ],
+            "description": "PayPal's PHP SDK for Payouts REST APIs",
+            "homepage": "http://github.com/paypal/PAYOUTS-PHP-SDK/",
+            "keywords": [
+                "payouts",
+                "paypal",
+                "rest",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/paypal/Payouts-PHP-SDK/issues",
+                "source": "https://github.com/paypal/Payouts-PHP-SDK/tree/v1.0.0"
+            },
+            "install-path": "../paypal/paypal-payouts-sdk"
+        },
+        {
+            "name": "paypal/paypalhttp",
+            "version": "1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/paypalhttp_php.git",
+                "reference": "1ad9b846a046f09d6135cbf2cbaa7701bbc630a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/paypalhttp_php/zipball/1ad9b846a046f09d6135cbf2cbaa7701bbc630a3",
+                "reference": "1ad9b846a046f09d6135cbf2cbaa7701bbc630a3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7",
+                "wiremock-php/wiremock-php": "1.43.2"
+            },
+            "time": "2019-11-06T21:27:12+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "PayPalHttp\\": "lib/PayPalHttp"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/paypalhttp_php/contributors"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/paypal/paypalhttp_php/issues",
+                "source": "https://github.com/paypal/paypalhttp_php/tree/1.0.0"
+            },
+            "abandoned": true,
+            "install-path": "../paypal/paypalhttp"
+        },
+        {
+            "name": "paypal/rest-api-sdk-php",
+            "version": "1.14.0",
+            "version_normalized": "1.14.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paypal/PayPal-PHP-SDK.git",
+                "reference": "72e2f2466975bf128a31e02b15110180f059fc04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/72e2f2466975bf128a31e02b15110180f059fc04",
+                "reference": "72e2f2466975bf128a31e02b15110180f059fc04",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.3.0",
+                "psr/log": "^1.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "time": "2019-01-04T20:04:25+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-0": {
+                    "PayPal": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "PayPal",
+                    "homepage": "https://github.com/paypal/rest-api-sdk-php/contributors"
+                }
+            ],
+            "description": "PayPal's PHP SDK for REST APIs",
+            "homepage": "http://paypal.github.io/PayPal-PHP-SDK/",
+            "keywords": [
+                "payments",
+                "paypal",
+                "rest",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/paypal/PayPal-PHP-SDK/issues",
+                "source": "https://github.com/paypal/PayPal-PHP-SDK/tree/master"
+            },
+            "abandoned": true,
+            "install-path": "../paypal/rest-api-sdk-php"
+        },
+        {
             "name": "phpmailer/phpmailer",
             "version": "v6.5.0",
             "version_normalized": "6.5.0.0",

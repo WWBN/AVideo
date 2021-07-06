@@ -65,6 +65,8 @@ class YPTWallet extends PluginAbstract
         $obj->addFundsOptions = "[5,10,20,50]";
         $obj->showWalletOnlyToAdmin = false;
         $obj->CryptoWalletName = "Bitcoin Wallet Address";
+        $obj->CryptoWalletEnabled = false;
+        $obj->hideConfiguration = false;
         $obj->enableAutomaticAddFundsPage = true;
         // add funds
         $obj->enableManualAddFundsPage = false;
@@ -74,7 +76,7 @@ class YPTWallet extends PluginAbstract
         $obj->manualAddFundsTransferFromUserId = 1;
         // sell funds
         $obj->enableManualWithdrawFundsPage = true;
-        $obj->enableAutoWithdrawFundsPage = false;
+        $obj->enableAutoWithdrawFundsPagePaypal = false;
         $obj->withdrawFundsOptions = "[5,10,20,50,100,1000]";
         $obj->manualWithdrawFundsMenuTitle = "Withdraw Funds";
         $obj->manualWithdrawFundsPageButton = "Request Withdraw";
@@ -429,8 +431,7 @@ class YPTWallet extends PluginAbstract
         include $global['systemRootPath'] . 'plugin/YPTWallet/view/menuRight.php';
     }
 
-    public static function getAvailablePayments()
-    {
+    public static function getAvailablePayments(){
         global $global;
 
         if (!User::isLogged()) {
@@ -452,8 +453,7 @@ class YPTWallet extends PluginAbstract
         return true;
     }
 
-    public static function getAvailableRecurrentPayments()
-    {
+    public static function getAvailableRecurrentPayments(){
         global $global;
 
         if (!User::isLogged()) {
@@ -473,6 +473,31 @@ class YPTWallet extends PluginAbstract
             if (is_dir($subdir) && file_exists($file)) {
                 require_once $file;
                 $eval = "\$obj = new {$value}();\$obj->getRecurrentAprovalButton();";
+                eval($eval);
+            }
+        }
+    }    
+
+    public static function getAvailableRecurrentPaymentsV2($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = '', $json = '', $addFunds_Success='', $trialDays = 0){
+        global $global;
+
+        if (!User::isLogged()) {
+            $redirectUri = getSelfURI();
+            if (!empty($redirectUri)) {
+                $redirectUri = "&redirectUri=" . urlencode($redirectUri);
+            }
+            echo getButtonSignUp(). getButtonSignIn();;
+            return false;
+        }
+
+        $dir = self::getPluginDir();
+        $plugins = self::getEnabledPlugins();
+        foreach ($plugins as $value) {
+            $subdir = $dir . DIRECTORY_SEPARATOR . $value . DIRECTORY_SEPARATOR;
+            $file = $subdir . "{$value}.php";
+            if (is_dir($subdir) && file_exists($file)) {
+                require_once $file;
+                $eval = "\$obj = new {$value}();\$obj->getRecurrentAprovalButtonV2(\$total, \$currency, \$frequency, \$interval, \$name, \$json, \$addFunds_Success, \$trialDays);";
                 eval($eval);
             }
         }
@@ -671,5 +696,13 @@ class YPTWallet extends PluginAbstract
     
     static function setAddFundsSuccessRedirectToVideo($videos_id){
         self::setAddFundsSuccessRedirectURL(getRedirectToVideo($videos_id));
+    }
+    
+    public function getWalletConfigurationHTML($users_id, $wallet, $walletDataObject) {
+        global $global;
+        if(empty($walletDataObject->CryptoWalletEnabled)){
+            return '';
+        }
+        include_once $global['systemRootPath'].'plugin/YPTWallet/getWalletConfigurationHTML.php';
     }
 }
