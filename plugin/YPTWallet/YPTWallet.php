@@ -691,7 +691,7 @@ class YPTWallet extends PluginAbstract
     }   
     
     static function getAddFundsSuccessRedirectURL(){
-        return $_SESSION['addFunds_Success'];
+        return @$_SESSION['addFunds_Success'];
     }
     
     static function setAddFundsSuccessRedirectToVideo($videos_id){
