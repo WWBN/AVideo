@@ -66,7 +66,7 @@ if (!empty($_GET['token'])) {
     }
     //var_dump($agreement, date('Y-m-d\TH:i:s'));
     //exit;
-} else if (!empty($_POST["recurring_payment_id"])) {
+} else {
     $ipn = PayPalYPT::IPNcheck();
     if (!$ipn) {
         $obj->msg = 'IPN Fail';
