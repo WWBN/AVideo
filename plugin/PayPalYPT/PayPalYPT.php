@@ -648,9 +648,9 @@ class PayPalYPT extends PluginAbstract {
         if(empty($obj->disableSandbox)){
             $ipnURL = 'https://ipnpb.paypal.com/cgi-bin/webscr';
         }
+        _error_log("IPNcheck: URL {$ipnURL} [$req]");
         
-        $ch = curl_init($ipnURL);
-        
+        $ch = curl_init($ipnURL);        
         curl_setopt($ch, CURLOPT_USERAGENT, 'PHP-IPN-VerificationScript');
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_POST, 1);
