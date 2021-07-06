@@ -6027,7 +6027,7 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
 
 function getFilenameFromPath($path) {
     global $global;
-    $fileName = Video::getCleanFilenameFromFile($fileName);
+    $fileName = Video::getCleanFilenameFromFile($path);
     return $fileName;
 }
 
