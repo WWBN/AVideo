@@ -645,7 +645,7 @@ class PayPalYPT extends PluginAbstract {
 
         // Step 2: POST IPN data back to PayPal to validate
         $ipnURL = 'https://ipnpb.sandbox.paypal.com/cgi-bin/webscr';
-        if(empty($obj->disableSandbox)){
+        if(!empty($obj->disableSandbox)){
             $ipnURL = 'https://ipnpb.paypal.com/cgi-bin/webscr';
         }
         _error_log("IPNcheck: URL {$ipnURL} [$req]");
