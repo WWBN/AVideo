@@ -73,6 +73,7 @@ if (!$isAdaptive) {
     $endLine = PHP_EOL . '#EXT-X-ENDLIST';
     $appendCommand = "echo \"{$endLine}\" >> {$DVRFile}";
     error_log("saveDVR: append [{$appendCommand}]");
+    exec($appendCommand);
 } else {
     $dir = $tmpDVRDir . DIRECTORY_SEPARATOR;
     error_log("saveDVR: adaptive {$dir}");
