@@ -695,7 +695,7 @@ class AVideoPlugin {
         }
     }
 
-    public function getModeLive($key) {
+    public static function getModeLive($key) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
@@ -707,7 +707,7 @@ class AVideoPlugin {
         }
     }
 
-    public function getModeLiveLink($liveLink_id) {
+    public static function getModeLiveLink($liveLink_id) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
