@@ -62,7 +62,7 @@ if (!$isAdaptive) {
 } else {
     $copyDir = "mkdir {$tmpDVRDir} && cp -R {$DVRFile}* {$tmpDVRDir} && chmod -R 777 {$tmpDVRDir} ";
     error_log("saveDVR: copy dir 2 [{$copyDir}]");
-    $DVRFile = "{$tmpDVRDir}" . DIRECTORY_SEPARATOR . "{$key}.m3u8";
+    $DVRFile = "{$tmpDVRDir}" . DIRECTORY_SEPARATOR . "index.m3u8";
     //$DVRFile .= ".m3u8";
 }
 exec($copyDir);
