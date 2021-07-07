@@ -9,7 +9,8 @@ if (!empty($video['id'])) {
         $title = $video->getTitle();
     }
 }
-
+$removeChars = array('|');
+$title = str_replace($removeChars, '-', $title);
 //$originalURL = $urlSocial;
 $urlSocial = urlencode($url);
 //set the $urlSocial and the $title before include this
