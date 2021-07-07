@@ -374,7 +374,7 @@ class Subscribe {
                                    title="' . __("Stop getting notified for every new video") . '">
                                 <i class="fa fa-bell" ></i>
                             </button></span><span class=" notNotify' . $user_id . ' ' . $notNotify . '"><button onclick="toogleNotify' . $user_id . '();" class="btn btn-default btn-xs "  data-toggle="tooltip"
-                                   title="' . __("Get notified for every new video") . '">
+                                   title="' . __("Click to get notified for every new video") . '">
                                 <i class="fa fa-bell-slash"></i>
                             </button></span>';
             $script = "<script>

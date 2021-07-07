@@ -837,7 +837,7 @@ $t["Sign in to subscribe to this channel"] = "Registre-se e assine este canal";
 $t["Subscribe"] = "Assine";
 $t["Subscribed"] = "Assinante";
 $t["Stop getting notified for every new video"] = "Pare de receber notificação para cada novo vídeo";
-$t["Get notified for every new video"] = "Receba notificação para cada novo vídeo";
+$t["Click to get notified for every new video"] = "Receba notificação para cada novo vídeo";
 //----- translation strings from objects/user.php
 $t["E-mail Verified"] = "E-mail verificado";
 $t["You need a user and passsword to register"] = "Você precisa de um nome de usuário e senha para registrar-se";
