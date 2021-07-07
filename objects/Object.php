@@ -514,7 +514,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $tmpDir = fixPath($tmpDir);
         make_path($tmpDir);
         if (!file_exists($tmpDir . "index.html") && is_writable($tmpDir)) {// to avoid search into the directory
-            @file_put_contents($tmpDir . "index.html", time());
+            _file_put_contents($tmpDir . "index.html", time());
         }
 
         $_getCacheDir[$filename] = $tmpDir;
