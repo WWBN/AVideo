@@ -69,8 +69,10 @@ exec($copyDir);
 error_log("saveDVR: copy dir done");
 
 if (!$isAdaptive) {
-    error_log("saveDVR: append #EXT-X-ENDLIST {$DVRFile}");
-    file_put_contents(PHP_EOL . '#EXT-X-ENDLIST', $DVRFile, FILE_APPEND);
+    //file_put_contents(PHP_EOL . '#EXT-X-ENDLIST', $DVRFile, FILE_APPEND);
+    $endLine = PHP_EOL . '#EXT-X-ENDLIST';
+    $appendCommand = "echo \"{$endLine}\" >> {$DVRFile}";
+    error_log("saveDVR: append [{$appendCommand}]");
 } else {
     $dir = $tmpDVRDir . DIRECTORY_SEPARATOR;
     error_log("saveDVR: adaptive {$dir}");
