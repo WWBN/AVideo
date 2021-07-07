@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "985d8fef4f8a9b27e934c0ea35300d7d",
+    "content-hash": "cbcd2892d0228aa3d4d2e7a87443c5c2",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -204,6 +204,94 @@
                 "source": "https://github.com/chrisbliss18/php-ico"
             },
             "time": "2016-09-27T22:00:56+00:00"
+        },
+        {
+            "name": "emojione/assets",
+            "version": "4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/emojione/emojione-assets.git",
+                "reference": "88478c659a64af0176c7b0cd0778f1f9cb8f916f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/emojione/emojione-assets/zipball/88478c659a64af0176c7b0cd0778f1f9cb8f916f",
+                "reference": "88478c659a64af0176c7b0cd0778f1f9cb8f916f",
+                "shasum": ""
+            },
+            "suggest": {
+                "emojione/emojione": "A set of libraries to make using emoji on your websites easier."
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Emojis in png format brought to you by EmojiOne. EmojiOne is a complete set of emojis designed for the web.",
+            "homepage": "https://www.emojione.com",
+            "keywords": [
+                "emoji",
+                "emojione",
+                "emojis",
+                "emoticons",
+                "smileys",
+                "smilies",
+                "unicode"
+            ],
+            "support": {
+                "issues": "https://github.com/emojione/emojione-assets/issues",
+                "source": "https://github.com/emojione/emojione-assets/tree/4.5"
+            },
+            "abandoned": true,
+            "time": "2019-01-23T22:10:07+00:00"
+        },
+        {
+            "name": "emojione/emojione",
+            "version": "4.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/emojione/emojione.git",
+                "reference": "79e685356877cbb6128074a71b7f88f435b58412"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/emojione/emojione/zipball/79e685356877cbb6128074a71b7f88f435b58412",
+                "reference": "79e685356877cbb6128074a71b7f88f435b58412",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.6 || ~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Emojione\\": "lib/php/src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "(CC-BY-4.0 and MIT)"
+            ],
+            "description": "EmojiOne is a complete set of emojis designed for the web. It includes libraries to easily convert unicode characters to shortnames (:smile:) and shortnames to our custom emoji images. PNG format provided for the emoji images.",
+            "homepage": "http://www.emojione.com",
+            "keywords": [
+                "emoji",
+                "emojione",
+                "emojis",
+                "emoticons",
+                "smileys",
+                "smilies",
+                "unicode"
+            ],
+            "support": {
+                "issues": "https://github.com/emojione/emojione/issues",
+                "source": "https://github.com/emojione/emojione/tree/4.5.0"
+            },
+            "abandoned": true,
+            "time": "2019-02-15T01:32:20+00:00"
         },
         {
             "name": "evenement/evenement",
@@ -922,6 +1010,52 @@
                 "source": "https://github.com/JamesHeinrich/getID3/tree/master"
             },
             "time": "2020-06-30T18:43:34+00:00"
+        },
+        {
+            "name": "mervick/emojionearea",
+            "version": "v3.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mervick/emojionearea.git",
+                "reference": "99129f789f2e7619ce553c038783a13f47cbc846"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mervick/emojionearea/zipball/99129f789f2e7619ce553c038783a13f47cbc846",
+                "reference": "99129f789f2e7619ce553c038783a13f47cbc846",
+                "shasum": ""
+            },
+            "type": "plugin",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Izman",
+                    "email": "izmanw@gmail.com"
+                },
+                {
+                    "name": "Klas Lundberg",
+                    "email": "klas.lundberg@instinct.se"
+                },
+                {
+                    "name": "Merlin Mason",
+                    "email": "info@merlinmason.co.uk"
+                }
+            ],
+            "description": "WYSIWYG-like EmojiOne Converter / Picker Plugin for jQuery",
+            "support": {
+                "issues": "https://github.com/mervick/emojionearea/issues",
+                "source": "https://github.com/mervick/emojionearea/tree/master"
+            },
+            "time": "2019-02-09T14:22:25+00:00"
         },
         {
             "name": "monolog/monolog",

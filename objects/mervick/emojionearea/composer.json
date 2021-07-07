@@ -1,0 +1,32 @@
+{
+    "name": "mervick/emojionearea",
+    "description": "WYSIWYG-like EmojiOne Converter / Picker Plugin for jQuery",
+    "type": "plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrey Izman",
+            "email": "izmanw@gmail.com"
+        },
+        {
+            "name": "Klas Lundberg",
+            "email": "klas.lundberg@instinct.se"
+        },
+        {
+            "name": "Merlin Mason",
+            "email": "info@merlinmason.co.uk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "config": {
+        "vendor-dir": "vendor",
+        "preferred-install": "dist",
+        "process-timeout": 1800
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}

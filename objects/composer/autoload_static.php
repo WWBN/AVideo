@@ -90,6 +90,10 @@ class ComposerStaticInit78837c7a9c090d873268c14c1a5daf3d
         array (
             'Firebase\\JWT\\' => 13,
         ),
+        'E' => 
+        array (
+            'Emojione\\' => 9,
+        ),
         'B' => 
         array (
             'BackblazeB2\\' => 12,
@@ -135,8 +139,8 @@ class ComposerStaticInit78837c7a9c090d873268c14c1a5daf3d
         ),
         'Sample\\' => 
         array (
-            0 => __DIR__ . '/..' . '/paypal/paypal-payouts-sdk/samples',
-            1 => __DIR__ . '/..' . '/paypal/paypal-checkout-sdk/samples',
+            0 => __DIR__ . '/..' . '/paypal/paypal-checkout-sdk/samples',
+            1 => __DIR__ . '/..' . '/paypal/paypal-payouts-sdk/samples',
         ),
         'React\\Stream\\' => 
         array (
@@ -241,6 +245,10 @@ class ComposerStaticInit78837c7a9c090d873268c14c1a5daf3d
         'Firebase\\JWT\\' => 
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'Emojione\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/emojione/emojione/lib/php/src',
         ),
         'BackblazeB2\\' => 
         array (

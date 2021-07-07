@@ -204,6 +204,100 @@
             "install-path": "../chrisjean/php-ico"
         },
         {
+            "name": "emojione/assets",
+            "version": "4.5",
+            "version_normalized": "4.5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/emojione/emojione-assets.git",
+                "reference": "88478c659a64af0176c7b0cd0778f1f9cb8f916f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/emojione/emojione-assets/zipball/88478c659a64af0176c7b0cd0778f1f9cb8f916f",
+                "reference": "88478c659a64af0176c7b0cd0778f1f9cb8f916f",
+                "shasum": ""
+            },
+            "suggest": {
+                "emojione/emojione": "A set of libraries to make using emoji on your websites easier."
+            },
+            "time": "2019-01-23T22:10:07+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Emojis in png format brought to you by EmojiOne. EmojiOne is a complete set of emojis designed for the web.",
+            "homepage": "https://www.emojione.com",
+            "keywords": [
+                "emoji",
+                "emojione",
+                "emojis",
+                "emoticons",
+                "smileys",
+                "smilies",
+                "unicode"
+            ],
+            "support": {
+                "issues": "https://github.com/emojione/emojione-assets/issues",
+                "source": "https://github.com/emojione/emojione-assets/tree/4.5"
+            },
+            "abandoned": true,
+            "install-path": "../emojione/assets"
+        },
+        {
+            "name": "emojione/emojione",
+            "version": "4.5.0",
+            "version_normalized": "4.5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/emojione/emojione.git",
+                "reference": "79e685356877cbb6128074a71b7f88f435b58412"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/emojione/emojione/zipball/79e685356877cbb6128074a71b7f88f435b58412",
+                "reference": "79e685356877cbb6128074a71b7f88f435b58412",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.6 || ~5.0"
+            },
+            "time": "2019-02-15T01:32:20+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Emojione\\": "lib/php/src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "(CC-BY-4.0 and MIT)"
+            ],
+            "description": "EmojiOne is a complete set of emojis designed for the web. It includes libraries to easily convert unicode characters to shortnames (:smile:) and shortnames to our custom emoji images. PNG format provided for the emoji images.",
+            "homepage": "http://www.emojione.com",
+            "keywords": [
+                "emoji",
+                "emojione",
+                "emojis",
+                "emoticons",
+                "smileys",
+                "smilies",
+                "unicode"
+            ],
+            "support": {
+                "issues": "https://github.com/emojione/emojione/issues",
+                "source": "https://github.com/emojione/emojione/tree/4.5.0"
+            },
+            "abandoned": true,
+            "install-path": "../emojione/emojione"
+        },
+        {
             "name": "evenement/evenement",
             "version": "v2.1.0",
             "version_normalized": "2.1.0.0",
@@ -952,6 +1046,55 @@
                 "source": "https://github.com/JamesHeinrich/getID3/tree/master"
             },
             "install-path": "../james-heinrich/getid3"
+        },
+        {
+            "name": "mervick/emojionearea",
+            "version": "v3.4.2",
+            "version_normalized": "3.4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mervick/emojionearea.git",
+                "reference": "99129f789f2e7619ce553c038783a13f47cbc846"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mervick/emojionearea/zipball/99129f789f2e7619ce553c038783a13f47cbc846",
+                "reference": "99129f789f2e7619ce553c038783a13f47cbc846",
+                "shasum": ""
+            },
+            "time": "2019-02-09T14:22:25+00:00",
+            "type": "plugin",
+            "extra": {
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrey Izman",
+                    "email": "izmanw@gmail.com"
+                },
+                {
+                    "name": "Klas Lundberg",
+                    "email": "klas.lundberg@instinct.se"
+                },
+                {
+                    "name": "Merlin Mason",
+                    "email": "info@merlinmason.co.uk"
+                }
+            ],
+            "description": "WYSIWYG-like EmojiOne Converter / Picker Plugin for jQuery",
+            "support": {
+                "issues": "https://github.com/mervick/emojionearea/issues",
+                "source": "https://github.com/mervick/emojionearea/tree/master"
+            },
+            "install-path": "../mervick/emojionearea"
         },
         {
             "name": "monolog/monolog",

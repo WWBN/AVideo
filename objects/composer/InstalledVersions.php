@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '822e364fad02c43c84c64c6faaa12b22f1da7b8f',
+    'reference' => 'd116dcc1af39989517515475992c30fae8dd9dc5',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -61,6 +61,24 @@ private static $installed = array (
       array (
       ),
       'reference' => 'ccd5c0d56554f3ddcd7a823e695be83e0d1e43b6',
+    ),
+    'emojione/assets' => 
+    array (
+      'pretty_version' => '4.5',
+      'version' => '4.5.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '88478c659a64af0176c7b0cd0778f1f9cb8f916f',
+    ),
+    'emojione/emojione' => 
+    array (
+      'pretty_version' => '4.5.0',
+      'version' => '4.5.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '79e685356877cbb6128074a71b7f88f435b58412',
     ),
     'evenement/evenement' => 
     array (
@@ -169,6 +187,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '3c15e353b9bb1252201c73394bb8390b573a751d',
+    ),
+    'mervick/emojionearea' => 
+    array (
+      'pretty_version' => 'v3.4.2',
+      'version' => '3.4.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '99129f789f2e7619ce553c038783a13f47cbc846',
     ),
     'monolog/monolog' => 
     array (
@@ -461,7 +488,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '822e364fad02c43c84c64c6faaa12b22f1da7b8f',
+      'reference' => 'd116dcc1af39989517515475992c30fae8dd9dc5',
     ),
   ),
 );
