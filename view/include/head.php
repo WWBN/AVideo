@@ -21,7 +21,9 @@ if (!empty($poster)) {
     $subTitle = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($video['description']));
     $custom = array();
     $custom[] = $subTitle;
-    $custom[] = $video["category"];
+    if(!empty($video["category"])){
+        $custom[] = $video["category"];
+    }
 }
 
 if (!empty($_GET['catName'])) {
