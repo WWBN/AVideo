@@ -2101,7 +2101,7 @@ class Live extends PluginAbstract {
         return $type === LiveImageType::$ONAIRENCODER || $type === LiveImageType::$ONAIR || $type === LiveImageType::$OFFLINE || $type === LiveImageType::$DEFAULTGIF;
     }
 
-    function iskeyOnline($key) {
+    static function iskeyOnline($key) {
         $stats = getStatsNotifications();
         foreach ($stats["applications"] as $value) {
             if (empty($value['key'])) {
