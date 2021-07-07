@@ -1,7 +1,7 @@
 <?php
 global $socialAdded;
 if (!empty($video['id'])) {
-    $url = Video::getLinkToVideo($video['id']);
+    $urlSocial = Video::getLinkToVideo($video['id']);
     if (!empty($video['title'])) {
         $title = $video['title'];
     } else {
@@ -10,17 +10,17 @@ if (!empty($video['id'])) {
     }
 }
 
-//$originalURL = $url;
-//$url = urlencode($url);
-//set the $url and the $title before include this
-$facebookURL = "https://www.facebook.com/sharer.php?u={$url}&title={$title}";
-$twitterURL = "http://twitter.com/intent/tweet?text={$title}+{$url}";
-$tumblr = "http://www.tumblr.com/share?v=3&u=$url&quote=$title&s=";
-$pinterest = "http://pinterest.com/pin/create/button/?url=$url&description=";
-$reddit = "http://www.reddit.com/submit?url=$url&title=$title";
-$linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$url&title=$title&summary=&source=$url";
-$wordpress = "http://wordpress.com/press-this.php?u=$url&quote=$title&s=";
-$pinboard = "https://pinboard.in/popup_login/?url=$url&title=$title&description=";
+//$originalURL = $urlSocial;
+$urlSocial = urlencode($url);
+//set the $urlSocial and the $title before include this
+$facebookURL = "https://www.facebook.com/sharer.php?u={$urlSocial}&title={$title}";
+$twitterURL = "http://twitter.com/intent/tweet?text={$title}+{$urlSocial}";
+$tumblr = "http://www.tumblr.com/share?v=3&u=$urlSocial&quote=$title&s=";
+$pinterest = "http://pinterest.com/pin/create/button/?url=$urlSocial&description=";
+$reddit = "http://www.reddit.com/submit?url=$urlSocial&title=$title";
+$linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$urlSocial&title=$title&summary=&source=$urlSocial";
+$wordpress = "http://wordpress.com/press-this.php?u=$urlSocial&quote=$title&s=";
+$pinboard = "https://pinboard.in/popup_login/?url=$urlSocial&title=$title&description=";
 if (empty($socialAdded)) { // do not add the CSS more then once
     ?>     
     <link href="<?php echo getCDN(); ?>view/css/social.css" rel="stylesheet" type="text/css"/>
@@ -38,7 +38,7 @@ $socialAdded = 1;
     <li><a href="<?php echo $wordpress; ?>" target="_blank"  class="icoWordpress" title="Wordpress" data-toggle="tooltip" ><i class="fab fa-wordpress-simple"></i></a></li>
     <li><a href="<?php echo $pinboard; ?>" target="_blank"  class="icoPinboard" title="Pinboard" data-toggle="tooltip" ><i class="fas fa-thumbtack"></i></a></li>
     <li>
-        <a href="#" class="icoCopy" title="<?php echo __('Copy to Clipboard'); ?>" data-toggle="tooltip" onclick="copyToClipboard('<?php echo urldecode($url); ?>');$(this).closest('.modal').modal('hide');" >
+        <a href="#" class="icoCopy" title="<?php echo __('Copy to Clipboard'); ?>" data-toggle="tooltip" onclick="copyToClipboard('<?php echo ($urlSocial); ?>');$(this).closest('.modal').modal('hide');" >
             <i class="far fa-copy"></i>
         </a>
     </li>
