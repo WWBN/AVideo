@@ -3,25 +3,25 @@ global $socialAdded;
 if (!empty($video['id'])) {
     $urlSocial = Video::getLinkToVideo($video['id']);
     if (!empty($video['title'])) {
-        $title = $video['title'];
+        $titleSocial = $video['title'];
     } else {
         $video = new Video("", "", $video['id']);
-        $title = $video->getTitle();
+        $titleSocial = $video->getTitle();
     }
 }
 $removeChars = array('|');
-$title = str_replace($removeChars, '-', $title);
+$titleSocial = str_replace($removeChars, '-', $title);
 //$originalURL = $urlSocial;
 $urlSocial = urlencode($url);
-//set the $urlSocial and the $title before include this
-$facebookURL = "https://www.facebook.com/sharer.php?u={$urlSocial}&title={$title}";
-$twitterURL = "http://twitter.com/intent/tweet?text={$title}+{$urlSocial}";
-$tumblr = "http://www.tumblr.com/share?v=3&u=$urlSocial&quote=$title&s=";
+//set the $urlSocial and the $titleSocial before include this
+$facebookURL = "https://www.facebook.com/sharer.php?u={$urlSocial}&title={$titleSocial}";
+$twitterURL = "http://twitter.com/intent/tweet?text={$titleSocial}+{$urlSocial}";
+$tumblr = "http://www.tumblr.com/share?v=3&u=$urlSocial&quote=$titleSocial&s=";
 $pinterest = "http://pinterest.com/pin/create/button/?url=$urlSocial&description=";
-$reddit = "http://www.reddit.com/submit?url=$urlSocial&title=$title";
-$linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$urlSocial&title=$title&summary=&source=$urlSocial";
-$wordpress = "http://wordpress.com/press-this.php?u=$urlSocial&quote=$title&s=";
-$pinboard = "https://pinboard.in/popup_login/?url=$urlSocial&title=$title&description=";
+$reddit = "http://www.reddit.com/submit?url=$urlSocial&title=$titleSocial";
+$linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$urlSocial&title=$titleSocial&summary=&source=$urlSocial";
+$wordpress = "http://wordpress.com/press-this.php?u=$urlSocial&quote=$titleSocial&s=";
+$pinboard = "https://pinboard.in/popup_login/?url=$urlSocial&title=$titleSocial&description=";
 if (empty($socialAdded)) { // do not add the CSS more then once
     ?>     
     <link href="<?php echo getCDN(); ?>view/css/social.css" rel="stylesheet" type="text/css"/>
