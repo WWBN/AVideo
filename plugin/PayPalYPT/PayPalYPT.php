@@ -22,6 +22,7 @@ use PayPal\Api\Payer;
 use PayPal\Api\Plan;
 use PayPal\Api\ShippingAddress;
 use PaypalPayoutsSDK\Payouts\PayoutsPostRequest;
+use PaypalPayoutsSDK\Payouts\PayoutsGetRequest;
 
 require_once $global['systemRootPath'] . 'plugin/PayPalYPT/PayPalClient.php';
 
@@ -711,7 +712,7 @@ class PayPalYPT extends PluginAbstract {
     }
 
     public static function WalletPayout($users_id_to_be_paid, $value) {
-        global $config;
+        global $config, $global;
         $obj = new stdClass();
         $obj->error = true;
         $obj->msg = '';
@@ -747,6 +748,12 @@ class PayPalYPT extends PluginAbstract {
                 $obj->msg = 'PayPal Payout error: ' . $obj->response->msg;
                 $transfer = YPTWallet::transferBalanceFromSiteOwner($users_id_to_be_paid, $value, $description, true);
                 return $obj;
+            }else{
+                $payout_batch_id = $obj->response->response->result->batch_header->payout_batch_id;
+                $paymentLink = "<br><a href='{$global['webSiteRootURL']}plugin/PayPalYPT/payout.php?payout_batch_id={$payout_batch_id}'>PayPal Info</a>";
+                $description .= $paymentLink;
+                YPTWallet::setLogInfo($transfer, $obj->response);
+                YPTWallet::setLogDescription($transfer, $description);
             }
 
             $obj->error = false;
@@ -801,7 +808,9 @@ class PayPalYPT extends PluginAbstract {
             $msg = json_encode($obj->response, JSON_PRETTY_PRINT) . PHP_EOL;
             $obj->msg = 'PayPal::Payout ' . $msg;
             _error_log($obj->msg);
-            $obj->error = false;
+            if(is_object($obj->response) && $obj->response->statusCode ==  201){
+                $obj->error = false;
+            }
             return $obj;
         } catch (HttpException $e) {
             $msg = '';
@@ -812,6 +821,25 @@ class PayPalYPT extends PluginAbstract {
             $msg .= $error->name . PHP_EOL;
             $msg .= $error->debug_id . PHP_EOL;
             $obj->msg = 'PayPal::Payout ' . $msg;
+            _error_log($obj->msg);
+        }
+        return $obj;
+    }
+    
+    public static function getPayoutInfo($payout_batch_id) {
+        try {
+            $request = new PaypalPayoutsSDK\Payouts\PayoutsGetRequest($payout_batch_id);
+            $client = PayPalClient::client();
+            return $client->execute($request);
+        } catch (HttpException $e) {
+            $msg = '';
+            //Parse failure response
+            $msg .= $e->getMessage() . PHP_EOL;
+            $error = json_decode($e->getMessage());
+            $msg .= $error->message . PHP_EOL;
+            $msg .= $error->name . PHP_EOL;
+            $msg .= $error->debug_id . PHP_EOL;
+            $obj->msg = 'PayPal::PayoutInfo ' . $msg;
             _error_log($obj->msg);
         }
         return $obj;

@@ -72,6 +72,9 @@ class WalletLog extends ObjectYPT {
     }
 
     function setInformation($information) {
+        if(!is_string($information)){
+            $information = _json_encode($information);
+        }
         $this->information = $information;
     }
     

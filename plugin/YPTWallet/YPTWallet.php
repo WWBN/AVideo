@@ -387,7 +387,8 @@ class YPTWallet extends PluginAbstract
         if (!empty($forceDescription)) {
             $description = $forceDescription;
         }
-        WalletLog::addLog($wallet_id, "-" . $value, $description, "{}", "success", "transferBalance to");
+        
+        $log_id_from = WalletLog::addLog($wallet_id, "-" . $value, $description, "{}", "success", "transferBalance to");
 
 
         $wallet = self::getWallet($users_id_to);
@@ -400,8 +401,9 @@ class YPTWallet extends PluginAbstract
             $description = $forceDescription;
         }
         ObjectYPT::clearSessionCache();
-        WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
-        return true;
+        
+        $log_id_to = WalletLog::addLog($wallet_id, $value, $description, "{}", "success", "transferBalance from");
+        return array('log_id_from'=>$log_id_from, 'log_id_to'=>$log_id_to);
     }
     
     public static function transferAndSplitBalanceWithSiteOwner($users_id_from, $users_id_to, $value, $siteowner_percentage, $forceDescription = "") {
@@ -704,5 +706,27 @@ class YPTWallet extends PluginAbstract
             return '';
         }
         include_once $global['systemRootPath'].'plugin/YPTWallet/getWalletConfigurationHTML.php';
+    }
+    
+    static function setLogInfo($wallet_log_id, $information){
+        if(!is_array($wallet_log_id)){
+            $wallet_log_id = array($wallet_log_id);
+        }
+        foreach ($wallet_log_id as $id) {
+            $w = new WalletLog($id);
+            $w->setInformation($information);
+            $w->save();
+        }
+    }
+    
+    static function setLogDescription($wallet_log_id, $description){
+        if(!is_array($wallet_log_id)){
+            $wallet_log_id = array($wallet_log_id);
+        }
+        foreach ($wallet_log_id as $id) {
+            $w = new WalletLog($id);
+            $w->setDescription($description);
+            $w->save();
+        }
     }
 }
