@@ -797,16 +797,8 @@ class PayPalYPT extends PluginAbstract {
 
             $client = PayPalClient::client();
             $obj->response = $client->execute($request);
-            $msg = '';
-            $msg .= "Status Code: {$response->statusCode}\n";
-            $msg .= "Status: {$response->result->batch_header->batch_status}\n";
-            $msg .= "Batch ID: {$response->result->batch_header->payout_batch_id}\n";
-            $msg .= "Links:\n";
-            foreach ($response->result->links as $link) {
-                $msg .= "\t{$link->rel}: {$link->href}\tCall Type: {$link->method}\n";
-            }
             // To toggle printing the whole response body comment/uncomment below line
-            $msg .= json_encode($response->result, JSON_PRETTY_PRINT) . PHP_EOL;
+            $msg = json_encode($response->result, JSON_PRETTY_PRINT) . PHP_EOL;
             $obj->msg = 'PayPal::Payout ' . $msg;
             _error_log($obj->msg);
             $obj->error = false;
