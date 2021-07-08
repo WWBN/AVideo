@@ -65,6 +65,7 @@ if (!empty($video['id'])) {
     setVideos_id($video['id']);
 } else if (!empty($playListData[$playlist_index])) {
     setVideos_id($playListData[$playlist_index]->getVideos_id());
+    $video = Video::getVideo($playListData[$playlist_index]->getVideos_id());
 }
 
 ?>
