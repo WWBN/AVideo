@@ -19,11 +19,11 @@ if (empty($paypal)) {
     forbiddenPage('PayPal Disabled');
 }
 
-if (empty($_REQUEST['payout_batch_id'])) {
+if (empty($_REQUEST['payout_batch'])) {
     forbiddenPage('payout_batch_id required');
 }
 
-var_dump($_REQUEST['payout_batch_id']);
-$response = PayPalYPT::getPayoutInfo($_REQUEST['payout_batch_id']);
+var_dump($_REQUEST['payout_batch']);
+$response = PayPalYPT::getPayoutInfo($_REQUEST['payout_batch']);
 var_dump($response);
 ?>

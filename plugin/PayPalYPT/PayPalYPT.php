@@ -750,7 +750,7 @@ class PayPalYPT extends PluginAbstract {
                 return $obj;
             }else{
                 $payout_batch_id = $obj->response->response->result->batch_header->payout_batch_id;
-                $paymentLink = "<br><a href='{$global['webSiteRootURL']}plugin/PayPalYPT/payout.php?payout_batch_id={$payout_batch_id}'>PayPal Info</a>";
+                $paymentLink = "<br><a href='{$global['webSiteRootURL']}plugin/PayPalYPT/payout.php?payout_batch={$payout_batch_id}'>PayPal Info</a>";
                 $description .= $paymentLink;
                 YPTWallet::setLogInfo($transfer, $obj->response);
                 YPTWallet::setLogDescription($transfer, $description);
