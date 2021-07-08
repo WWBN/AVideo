@@ -837,7 +837,7 @@ class Live extends PluginAbstract {
         if (!preg_match('/^live/i', $live)) {
             $live = 'live';
         }
-        return $live;
+        return trim($live);
     }
 
 // not implemented yet
