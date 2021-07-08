@@ -1,16 +1,16 @@
 <?php
 global $socialAdded;
 if (!empty($video['id'])) {
-    $urlSocial = Video::getLinkToVideo($video['id']);
+    $url = Video::getLinkToVideo($video['id']);
     if (!empty($video['title'])) {
         $titleSocial = $video['title'];
     } else {
         $video = new Video("", "", $video['id']);
-        $titleSocial = $video->getTitle();
+        $title = $video->getTitle();
     }
 }
 $removeChars = array('|');
-$titleSocial = str_replace($removeChars, '-', $title);
+$titleSocial = str_replace($removeChars, '-', @$title);
 //$originalURL = $urlSocial;
 $urlSocial = urlencode($url);
 //set the $urlSocial and the $titleSocial before include this
