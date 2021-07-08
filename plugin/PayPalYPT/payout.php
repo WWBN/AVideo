@@ -23,7 +23,14 @@ if (empty($_REQUEST['payout_batch'])) {
     forbiddenPage('payout_batch_id required');
 }
 
-var_dump($_REQUEST['payout_batch']);
 $response = PayPalYPT::getPayoutInfo($_REQUEST['payout_batch']);
-var_dump($response);
+
+if(!is_object($response) || empty($response->result)){
+    forbiddenPage('Request error');
+}
+
 ?>
+Subject: <?php echo $response->result->batch_header->sender_batch_header->email_subject; ?><br>
+Status: <?php echo $response->result->batch_header->batch_status; ?><br>
+Time: <?php echo $response->result->batch_header->time_created; ?><br>
+Amount: $<?php echo $response->result->batch_header->amount->value, $response->result->batch_header->amount->currency; ?><br> 
