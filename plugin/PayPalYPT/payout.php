@@ -23,6 +23,7 @@ if (empty($_REQUEST['payout_batch_id'])) {
     forbiddenPage('payout_batch_id required');
 }
 
+var_dump($_REQUEST['payout_batch_id']);
 $response = PayPalYPT::getPayoutInfo($_REQUEST['payout_batch_id']);
-var_dump($_REQUEST['payout_batch_id'], $response);
+var_dump($response);
 ?>
