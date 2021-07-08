@@ -735,7 +735,7 @@ class PayPalYPT extends PluginAbstract {
             $obj->msg = "The user {$users_id_to_be_paid} does not have a paypal receiver email";
             return $obj;
         }
-
+        mysqlBeginTransaction();
         // transfer money from wallet
         $description = "Paypal payout to {$receiver_email} [users_id=$users_id_to_be_paid]";
         $transfer = YPTWallet::transferBalanceToSiteOwner($users_id_to_be_paid, $value, $description, true);
@@ -747,6 +747,7 @@ class PayPalYPT extends PluginAbstract {
                 $description = "Paypal refund";
                 $obj->msg = 'PayPal Payout error: ' . $obj->response->msg;
                 $transfer = YPTWallet::transferBalanceFromSiteOwner($users_id_to_be_paid, $value, $description, true);
+                mysqlRollback();
                 return $obj;
             }else{
                 $payout_batch_id = $obj->response->response->result->batch_header->payout_batch_id;
@@ -759,6 +760,7 @@ class PayPalYPT extends PluginAbstract {
             $obj->error = false;
         }
 
+        mysqlCommit();
         return $obj;
     }
 

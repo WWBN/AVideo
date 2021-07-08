@@ -6902,3 +6902,20 @@ function optimizeJS($html) {
     }
     return str_replace('</body>', '<!-- optimized JS -->' . PHP_EOL . $HTMLTag . PHP_EOL . '</body>', $html);
 }
+
+function mysqlBeginTransaction(){
+    global $global;
+    $global['mysqli']->autocommit(false);
+}
+
+function mysqlRollback(){
+    global $global;
+    $global['mysqli']->rollback();
+    $global['mysqli']->autocommit(true);
+}
+
+function mysqlCommit(){
+    global $global;
+    $global['mysqli']->commit();
+    $global['mysqli']->autocommit(true);
+}
