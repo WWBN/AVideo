@@ -798,7 +798,7 @@ class PayPalYPT extends PluginAbstract {
             $client = PayPalClient::client();
             $obj->response = $client->execute($request);
             // To toggle printing the whole response body comment/uncomment below line
-            $msg = json_encode($response->result, JSON_PRETTY_PRINT) . PHP_EOL;
+            $msg = json_encode($obj->response, JSON_PRETTY_PRINT) . PHP_EOL;
             $obj->msg = 'PayPal::Payout ' . $msg;
             _error_log($obj->msg);
             $obj->error = false;
