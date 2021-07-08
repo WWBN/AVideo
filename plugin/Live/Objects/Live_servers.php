@@ -79,7 +79,7 @@ class Live_servers extends ObjectYPT {
     }
 
     function getRtmp_server() {
-        return $this->rtmp_server;
+        return trim($this->rtmp_server);
     }
 
     function getPlayerServer() {

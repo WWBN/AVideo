@@ -289,7 +289,7 @@ class Live extends PluginAbstract {
                 return $ls->getRtmp_server();
             }
         }
-        return $obj->server;
+        return trim($obj->server);
     }
 
     static function getDropURL($key, $live_servers_id = 0) {
