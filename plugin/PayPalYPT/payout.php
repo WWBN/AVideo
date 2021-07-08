@@ -24,5 +24,5 @@ if (empty($_REQUEST['payout_batch_id'])) {
 }
 
 $response = PayPalYPT::getPayoutInfo($_REQUEST['payout_batch_id']);
-var_dump($response);
+var_dump($_REQUEST['payout_batch_id'], $response);
 ?>
