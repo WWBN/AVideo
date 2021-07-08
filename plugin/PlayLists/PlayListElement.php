@@ -64,9 +64,70 @@ class PlayListElement {
         $this->thumbnail = $playListThumbnail;
     }
     
-    
-    
-    
+    function getSources() {
+        return $this->sources;
+    }
+
+    function getThumbnail() {
+        return $this->thumbnail;
+    }
+
+    function getPoster() {
+        return $this->poster;
+    }
+
+    function getVideoStartSeconds() {
+        return $this->videoStartSeconds;
+    }
+
+    function getCreated() {
+        return $this->created;
+    }
+
+    function getLikes() {
+        return $this->likes;
+    }
+
+    function getViews() {
+        return $this->views;
+    }
+
+    function getVideos_id() {
+        return $this->videos_id;
+    }
+
+    function setSources($sources) {
+        $this->sources = $sources;
+    }
+
+    function setThumbnail($thumbnail) {
+        $this->thumbnail = $thumbnail;
+    }
+
+    function setPoster($poster) {
+        $this->poster = $poster;
+    }
+
+    function setVideoStartSeconds($videoStartSeconds) {
+        $this->videoStartSeconds = $videoStartSeconds;
+    }
+
+    function setCreated($created) {
+        $this->created = $created;
+    }
+
+    function setLikes($likes) {
+        $this->likes = $likes;
+    }
+
+    function setViews($views) {
+        $this->views = $views;
+    }
+
+    function setVideos_id($videos_id) {
+        $this->videos_id = $videos_id;
+    }
+
 
 }
 

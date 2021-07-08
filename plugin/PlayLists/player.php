@@ -64,7 +64,7 @@ if (!empty($video['id'])) {
     AVideoPlugin::getEmbed($video['id']);
     setVideos_id($video['id']);
 } else if (!empty($playListData[$playlist_index])) {
-    setVideos_id($playListData[$playlist_index]['id']);
+    setVideos_id($playListData[$playlist_index]->getVideos_id());
 }
 
 ?>
