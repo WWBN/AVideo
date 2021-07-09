@@ -57,7 +57,11 @@ Passcode: {password}
         $obj->invitation = $o;
 
         $o = new stdClass();
-        $o->type = array('ca1.ypt.me' => "North America 1", 'eu1.ypt.me' => "Europe 1", 'custom' => "Custom Jitsi");
+        $o->type = array(
+            'ca1.ypt.me' => "North America 1", 
+            'eu1.ypt.me' => "Europe 1", 
+            'custom' => "Custom Jitsi",
+            'ca2.ypt.me' => "Test Server do not use it", );
         $o->value = 'ca1.ypt.me';
         $obj->server = $o;
 
