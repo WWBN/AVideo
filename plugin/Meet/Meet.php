@@ -257,6 +257,7 @@ Passcode: {password}
     static function getJoinURL() {
         $domain = self::getDomainURL();
         $url = "https://" . $domain . "/";
+        $url = str_replace('ca2.ypt.me', 'ca1.ypt.me', $url);
         return $url;
     }
 
