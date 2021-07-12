@@ -9,9 +9,9 @@ services:
     ports:
       - 3306
     environment:
-      #- MYSQL_USER=root
-      #- MYSQL_PASSWORD=root
-      #- MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=youphptube
+      - MYSQL_PASSWORD=youphptube
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=avideo
       - TZ=UTC
     expose:
