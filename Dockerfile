@@ -7,18 +7,18 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install apt-transport-https lsb-release logrotate git curl vim net-tools iputils-ping -y --no-install-recommends
 
 # Install all the rest
-RUN sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install sshpass nano net-tools curl apache2 php7.4 libapache2-mod-php7.4 php7.4-mysql php7.4-curl php7.4-gd php7.4-intl php7.4-xml  \
-    mysql-server mysql-client ffmpeg git libimage-exiftool-perl libapache2-mod-xsendfile -y  && sudo a2enmod xsendfile && cd /var/www/html && \
-    sudo git clone https://github.com/WWBN/AVideo.git && cd /var/www/html && sudo git clone https://github.com/WWBN/AVideo-Encoder.git && sudo apt-get install python -y && \
-    sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && sudo chmod a+rx /usr/local/bin/youtube-dl && sudo apt-get install build-essential libpcre3 libpcre3-dev libssl-dev php7.4-xml -y && sudo a2enmod rewrite && \
-    sudo chown www-data:www-data /var/www/html/AVideo/plugin && sudo chmod 755 /var/www/html/AVideo/plugin && sudo apt-get install unzip -y && sudo apt-get install htop python3-pip \
-    && sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && sudo chmod a+rx /usr/local/bin/youtube-dl && sudo apt-get install build-essential libpcre3 libpcre3-dev libssl-dev -y && \
-    sudo a2enmod rewrite && sudo chown www-data:www-data /var/www/html/AVideo/plugin && sudo chmod 755 /var/www/html/AVideo/plugin && sudo apt-get install unzip -y && cd /var/www/html/AVideo/plugin/User_Location/install && \
-    sudo unzip install.zip && sudo pip3 install youtube-dl && sudo pip3 install --upgrade youtube-dl && sudo a2enmod expires && sudo a2enmod headers && sudo chmod 777 /var/www/html/AVideo/objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/ \
-    && sudo mkdir /var/www/tmp && sudo chmod 777 /var/www/tmp && sudo apt-get install build-essential libssl-dev libpcre3 libpcre3-dev && sudo apt-get install --reinstall zlibc zlib1g zlib1g-dev -y && sudo mkdir ~/build && cd ~/build && \
-    sudo git clone https://github.com/arut/nginx-rtmp-module.git && sudo git clone https://github.com/nginx/nginx.git && cd nginx && sudo ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && 
-    sudo make && sudo make install && cd /usr/local/nginx/html && sudo wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/stat.xsl && sudo apt install python3-pip -y && sudo pip3 install glances && sudo apt install certbot python3-certbot-apache software-properties-common -y \
-    && sudo mysql -u root -e "USE mysql;CREATE USER 'youphptube'@'localhost' IDENTIFIED BY 'youphptube';GRANT ALL PRIVILEGES ON *.* TO 'youphptube'@'localhost'; FLUSH PRIVILEGES; "
+RUN  apt-get update -y &&  apt-get upgrade -y &&  apt-get install sshpass nano net-tools curl apache2 php7.4 libapache2-mod-php7.4 php7.4-mysql php7.4-curl php7.4-gd php7.4-intl php7.4-xml  \
+    mysql-server mysql-client ffmpeg git libimage-exiftool-perl libapache2-mod-xsendfile -y  &&  a2enmod xsendfile && cd /var/www/html && \
+     git clone https://github.com/WWBN/AVideo.git && cd /var/www/html &&  git clone https://github.com/WWBN/AVideo-Encoder.git &&  apt-get install python -y && \
+     curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&  chmod a+rx /usr/local/bin/youtube-dl &&  apt-get install build-essential libpcre3 libpcre3-dev libssl-dev php7.4-xml -y &&  a2enmod rewrite && \
+     chown www-data:www-data /var/www/html/AVideo/plugin &&  chmod 755 /var/www/html/AVideo/plugin &&  apt-get install unzip -y &&  apt-get install htop python3-pip \
+    &&  curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&  chmod a+rx /usr/local/bin/youtube-dl &&  apt-get install build-essential libpcre3 libpcre3-dev libssl-dev -y && \
+     a2enmod rewrite &&  chown www-data:www-data /var/www/html/AVideo/plugin &&  chmod 755 /var/www/html/AVideo/plugin &&  apt-get install unzip -y && cd /var/www/html/AVideo/plugin/User_Location/install && \
+     unzip install.zip &&  pip3 install youtube-dl &&  pip3 install --upgrade youtube-dl &&  a2enmod expires &&  a2enmod headers &&  chmod 777 /var/www/html/AVideo/objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/ \
+    &&  mkdir /var/www/tmp &&  chmod 777 /var/www/tmp &&  apt-get install build-essential libssl-dev libpcre3 libpcre3-dev &&  apt-get install --reinstall zlibc zlib1g zlib1g-dev -y &&  mkdir ~/build && cd ~/build && \
+     git clone https://github.com/arut/nginx-rtmp-module.git &&  git clone https://github.com/nginx/nginx.git && cd nginx &&  ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && 
+     make &&  make install && cd /usr/local/nginx/html &&  wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/stat.xsl &&  apt install python3-pip -y &&  pip3 install glances &&  apt install certbot python3-certbot-apache software-properties-common -y \
+    &&  mysql -u root -e "USE mysql;CREATE USER 'youphptube'@'localhost' IDENTIFIED BY 'youphptube';GRANT ALL PRIVILEGES ON *.* TO 'youphptube'@'localhost'; FLUSH PRIVILEGES; "
 
 # Add Ondrej's repo to the sources list
 #RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
