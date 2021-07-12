@@ -65,6 +65,7 @@ if (empty($meet_schedule_id)) {
             if(!isMobile()){
                 $css = "@media (max-width: 767px) {{$css}}";
             }
+            $css .= file_get_contents($global['systemRootPath'] . 'plugin/Meet/meet.css');
             ?>
             aVideoMeetAppendElement("head", <?php echo json_encode("<style>{$css}</style>"); ?>);
             console.log("YPTMeetScript conference is ready");
