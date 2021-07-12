@@ -17,7 +17,8 @@ RUN sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install ss
     sudo unzip install.zip && sudo pip3 install youtube-dl && sudo pip3 install --upgrade youtube-dl && sudo a2enmod expires && sudo a2enmod headers && sudo chmod 777 /var/www/html/AVideo/objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/ \
     && sudo mkdir /var/www/tmp && sudo chmod 777 /var/www/tmp && sudo apt-get install build-essential libssl-dev libpcre3 libpcre3-dev && sudo apt-get install --reinstall zlibc zlib1g zlib1g-dev -y && sudo mkdir ~/build && cd ~/build && \
     sudo git clone https://github.com/arut/nginx-rtmp-module.git && sudo git clone https://github.com/nginx/nginx.git && cd nginx && sudo ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && 
-    sudo make && sudo make install && cd /usr/local/nginx/html && sudo wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/stat.xsl && sudo apt install python3-pip -y && sudo pip3 install glances && sudo apt install certbot python3-certbot-apache software-properties-common -y
+    sudo make && sudo make install && cd /usr/local/nginx/html && sudo wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/stat.xsl && sudo apt install python3-pip -y && sudo pip3 install glances && sudo apt install certbot python3-certbot-apache software-properties-common -y \
+    && sudo mysql -u root -e "USE mysql;CREATE USER 'youphptube'@'localhost' IDENTIFIED BY 'youphptube';GRANT ALL PRIVILEGES ON *.* TO 'youphptube'@'localhost'; FLUSH PRIVILEGES; "
 
 # Add Ondrej's repo to the sources list
 #RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
