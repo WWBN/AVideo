@@ -33,13 +33,13 @@ COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/avideo.conf
 # Install php7.4
 # RUN apt-get -y -f install php7.4 php7.4-common php7.4-cli php7.4-json php7.4-mbstring php7.4-curl php7.4-mysql php7.4-bcmath php7.4-xml php7.4-gd php7.4-zip --no-install-recommends
 
-# COPY  . /var/www/avideo
-WORKDIR /var/www/avideo
+# COPY  . /var/www/html/AVideo
+WORKDIR /var/www/html/AVideo/
 
 # Set Permision
 # Create folder if not exists
-#RUN mkdir /var/www/avideo/videos
-#RUN chown www-data:www-data /var/www/avideo/videos && chmod 755 /var/www/avideo/videos
+#RUN mkdir /var/www/html/AVideo/videos
+#RUN chown www-data:www-data /var/www/html/AVideo/videos && chmod 755 /var/www/html/AVideo/videos
 #VOLUME [ "/storage/data" ]
 
 # Manually set up the apache environment variables
@@ -60,4 +60,4 @@ EXPOSE 443
 CMD /usr/sbin/apache2ctl -D FOREGROUND
 CMD /usr/local/nginx/sbin/nginx
 
-RUN cd /var/www/avideo/install && php install.php {{ .Env.JIBRI_INSTANCE }}
+RUN cd /var/www/html/AVideo/install && php install.php {{ .Env.JIBRI_INSTANCE }}
