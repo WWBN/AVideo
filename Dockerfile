@@ -7,16 +7,10 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install apt-transport-https lsb-release logrotate git curl vim net-tools iputils-ping -y --no-install-recommends
 
 # Install all the rest
-RUN  apt-get update -y &&  apt-get upgrade -y &&  apt-get install sshpass nano net-tools curl apache2 php7.4 libapache2-mod-php7.4 php7.4-mysql php7.4-curl php7.4-gd php7.4-intl php7.4-xml  \
-    mysql-server mysql-client ffmpeg git libimage-exiftool-perl libapache2-mod-xsendfile -y  &&  a2enmod xsendfile && cd /var/www/html && \
-     git clone https://github.com/WWBN/AVideo.git && cd /var/www/html &&  git clone https://github.com/WWBN/AVideo-Encoder.git &&  apt-get install python -y && \
-     curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&  chmod a+rx /usr/local/bin/youtube-dl &&  apt-get install build-essential libpcre3 libpcre3-dev libssl-dev php7.4-xml -y &&  a2enmod rewrite && \
-     chown www-data:www-data /var/www/html/AVideo/plugin &&  chmod 755 /var/www/html/AVideo/plugin &&  apt-get install unzip -y &&  apt-get install htop python3-pip \
-    &&  curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&  chmod a+rx /usr/local/bin/youtube-dl &&  apt-get install build-essential libpcre3 libpcre3-dev libssl-dev -y && \
-     a2enmod rewrite &&  chown www-data:www-data /var/www/html/AVideo/plugin &&  chmod 755 /var/www/html/AVideo/plugin &&  apt-get install unzip -y && cd /var/www/html/AVideo/plugin/User_Location/install && \
-     unzip install.zip &&  pip3 install youtube-dl &&  pip3 install --upgrade youtube-dl &&  a2enmod expires &&  a2enmod headers &&  chmod 777 /var/www/html/AVideo/objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/ \
-    &&  mkdir /var/www/tmp &&  chmod 777 /var/www/tmp &&  apt-get install build-essential libssl-dev libpcre3 libpcre3-dev &&  apt-get install --reinstall zlibc zlib1g zlib1g-dev -y &&  \    
-    &&  mysql -u root -e "USE mysql;CREATE USER 'youphptube'@'localhost' IDENTIFIED BY 'youphptube';GRANT ALL PRIVILEGES ON *.* TO 'youphptube'@'localhost'; FLUSH PRIVILEGES; "
+RUN apt-get install sshpass nano net-tools curl apache2 php7.4 libapache2-mod-php7.4 php7.4-mysql php7.4-curl php7.4-gd php7.4-intl php7.4-xml apache2  \
+    mysql-server mysql-client ffmpeg git libimage-exiftool-perl libapache2-mod-xsendfile python build-essential libpcre3 libpcre3-dev libssl-dev unzip htop python3-pip  -y 
+
+ADD cd /var/www/html && git clone https://github.com/WWBN/AVideo.git && cd /var/www/html &&  git clone https://github.com/WWBN/AVideo-Encoder.git &&  curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&  chmod a+rx /usr/local/bin/youtube-dl && chown www-data:www-data /var/www/html/AVideo/plugin &&  chmod 755 /var/www/html/AVideo/plugin &&  curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&  chmod a+rx /usr/local/bin/youtube-dl && a2enmod rewrite &&  chown www-data:www-data /var/www/html/AVideo/plugin &&  chmod 755 /var/www/html/AVideo/plugin && cd /var/www/html/AVideo/plugin/User_Location/install && unzip install.zip &&  pip3 install youtube-dl &&  pip3 install --upgrade youtube-dl &&  a2enmod expires &&  a2enmod headers &&  chmod 777 /var/www/html/AVideo/objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/ &&  mkdir /var/www/tmp &&  chmod 777 /var/www/tmp &&  mysql -u root -e "USE mysql;CREATE USER 'youphptube'@'localhost' IDENTIFIED BY 'youphptube';GRANT ALL PRIVILEGES ON *.* TO 'youphptube'@'localhost'; FLUSH PRIVILEGES; "
 
 #RUN mkdir ~/build && cd ~/build && git clone https://github.com/arut/nginx-rtmp-module.git &&  git clone https://github.com/nginx/nginx.git && cd nginx &&  ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && 
 #     make &&  make install && cd /usr/local/nginx/html &&  wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/stat.xsl &&  apt install python3-pip -y &&  pip3 install glances &&  apt install certbot python3-certbot-apache software-properties-common -y \
@@ -27,13 +21,7 @@ RUN  apt-get update -y &&  apt-get upgrade -y &&  apt-get install sshpass nano n
 # Set localtime to UTC
 RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
-# Update packages list
-RUN apt-get update -y
-
-# Install Apache
-RUN apt-get -y install apache2
-
-RUN a2enmod rewrite headers expires ssl http2 \
+RUN a2enmod rewrite headers expires ssl http2 xsendfile \
     && service apache2 restart
 
 # Set new default virtualhost
