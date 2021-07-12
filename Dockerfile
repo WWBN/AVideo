@@ -15,10 +15,11 @@ RUN  apt-get update -y &&  apt-get upgrade -y &&  apt-get install sshpass nano n
     &&  curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&  chmod a+rx /usr/local/bin/youtube-dl &&  apt-get install build-essential libpcre3 libpcre3-dev libssl-dev -y && \
      a2enmod rewrite &&  chown www-data:www-data /var/www/html/AVideo/plugin &&  chmod 755 /var/www/html/AVideo/plugin &&  apt-get install unzip -y && cd /var/www/html/AVideo/plugin/User_Location/install && \
      unzip install.zip &&  pip3 install youtube-dl &&  pip3 install --upgrade youtube-dl &&  a2enmod expires &&  a2enmod headers &&  chmod 777 /var/www/html/AVideo/objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/ \
-    &&  mkdir /var/www/tmp &&  chmod 777 /var/www/tmp &&  apt-get install build-essential libssl-dev libpcre3 libpcre3-dev &&  apt-get install --reinstall zlibc zlib1g zlib1g-dev -y &&  mkdir ~/build && cd ~/build && \
-     git clone https://github.com/arut/nginx-rtmp-module.git &&  git clone https://github.com/nginx/nginx.git && cd nginx &&  ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && 
-     make &&  make install && cd /usr/local/nginx/html &&  wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/stat.xsl &&  apt install python3-pip -y &&  pip3 install glances &&  apt install certbot python3-certbot-apache software-properties-common -y \
+    &&  mkdir /var/www/tmp &&  chmod 777 /var/www/tmp &&  apt-get install build-essential libssl-dev libpcre3 libpcre3-dev &&  apt-get install --reinstall zlibc zlib1g zlib1g-dev -y &&  \    
     &&  mysql -u root -e "USE mysql;CREATE USER 'youphptube'@'localhost' IDENTIFIED BY 'youphptube';GRANT ALL PRIVILEGES ON *.* TO 'youphptube'@'localhost'; FLUSH PRIVILEGES; "
+
+#RUN mkdir ~/build && cd ~/build && git clone https://github.com/arut/nginx-rtmp-module.git &&  git clone https://github.com/nginx/nginx.git && cd nginx &&  ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && 
+#     make &&  make install && cd /usr/local/nginx/html &&  wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/stat.xsl &&  apt install python3-pip -y &&  pip3 install glances &&  apt install certbot python3-certbot-apache software-properties-common -y \
 
 # Add Ondrej's repo to the sources list
 #RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
