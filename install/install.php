@@ -26,7 +26,7 @@ while (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
         echo "Invalid Site URL ({$webSiteRootURL})\n";
     }
     echo "Enter Site URL\n";
-    ob_flush();
+    @ob_flush();
     $webSiteRootURL = trim(readline(""));
 }
 
