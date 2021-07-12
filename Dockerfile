@@ -60,4 +60,4 @@ EXPOSE 443
 CMD /usr/sbin/apache2ctl -D FOREGROUND
 CMD /usr/local/nginx/sbin/nginx
 
-RUN cd /var/www/html/AVideo/install && php install.php {{ .Env.JIBRI_INSTANCE }}
+RUN cd /var/www/html/AVideo/install && php install.php {{ .Env.webSiteRootURL }}
