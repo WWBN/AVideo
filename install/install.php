@@ -21,7 +21,7 @@ $databaseUser = empty($argv[2])?$databaseUser:$argv[2];
 $databasePass = empty($argv[3])?$databasePass:$argv[3];
 $systemAdminPass = empty($argv[4])?"123":$argv[4];
 $contactEmail = empty($argv[5])?"undefined@youremail.com":$argv[5];
-while (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
+if (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
     if (!empty($webSiteRootURL)) {
         echo "Invalid Site URL ({$webSiteRootURL})\n";
     }
