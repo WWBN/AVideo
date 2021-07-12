@@ -29,6 +29,10 @@ services:
     environment:
       - DEBIAN_FRONTEND=noninteractive
       - TZ=UTC
+      - webSiteRootURL
+      - HTTP_PORT
+      - HTTPS_PORT
+      - Socket_PORT
     expose:
       - 80
       - 443
