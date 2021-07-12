@@ -34,7 +34,7 @@ if (Meet::isModerator($meet_schedule_id)) {
 $domain = Meet::getDomainURL();
 
 // for tests
-$domain = str_replace('ca2.ypt.me', 'ca1.ypt.me', $domain);
+//$domain = str_replace('ca2.ypt.me', 'ca1.ypt.me', $domain);
 
 $nameIdentification = '';
 if(User::isLogged()){
