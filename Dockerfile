@@ -53,3 +53,5 @@ EXPOSE 443
 
 # By default, simply start apache.
 CMD /usr/sbin/apache2ctl -D FOREGROUND
+
+RUN cd /var/www/avideo/install && php install.php {{ .Env.JIBRI_INSTANCE }}
