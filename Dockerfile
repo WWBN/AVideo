@@ -13,7 +13,7 @@ RUN cd /var/www/html && git clone https://github.com/WWBN/AVideo.git && cd /var/
  
 RUN mysql -u root -e "USE mysql;CREATE USER 'youphptube'@'localhost' IDENTIFIED BY 'youphptube';GRANT ALL PRIVILEGES ON *.* TO 'youphptube'@'localhost'; FLUSH PRIVILEGES; "
 
-RUN mkdir ~/build && cd ~/build && git clone https://github.com/arut/nginx-rtmp-module.git &&  git clone https://github.com/nginx/nginx.git && cd nginx &&  ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && make &&  make install && cd /usr/local/nginx/html &&  wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/stat.xsl &&  apt install python3-pip -y &&  pip3 install glances &&  apt install certbot python3-certbot-apache software-properties-common -y \
+RUN mkdir ~/build && cd ~/build && git clone https://github.com/arut/nginx-rtmp-module.git &&  git clone https://github.com/nginx/nginx.git && cd nginx &&  ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && make &&  make install && cd /usr/local/nginx/html &&  wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/stat.xsl &&  apt install python3-pip -y &&  pip3 install glances &&  apt install certbot python3-certbot-apache software-properties-common -y 
 
 # Add Ondrej's repo to the sources list
 #RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
