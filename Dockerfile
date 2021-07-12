@@ -49,6 +49,7 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 
 EXPOSE 80
 EXPOSE 443
+EXPOSE 2053
 #CMD ["supervisord"]
 
 # By default, simply start apache.
