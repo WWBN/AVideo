@@ -88,6 +88,11 @@ if (isset($_SESSION['savedQuerys'])) {
 if (!empty($advancedCustom->footerHTMLCode->value)) {
     echo $advancedCustom->footerHTMLCode->value;
 }
+
+if(isFirstPage()){
+    echo '<script src="'.(getCDN().'view/js/a2hs.js?'.filectime("{$global['systemRootPath']}view/js/a2hs.js")).'" type="text/javascript"></script>';
+}
+
 ?>
 <script>
     var checkFooterTimout;
