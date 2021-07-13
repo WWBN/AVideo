@@ -1,16 +1,17 @@
 <?php
 global $socialAdded;
+$titleSocial = @$title;
 if (!empty($video['id'])) {
     $url = Video::getLinkToVideo($video['id']);
     if (!empty($video['title'])) {
         $titleSocial = $video['title'];
     } else {
         $video = new Video("", "", $video['id']);
-        $title = $video->getTitle();
+        $titleSocial = $video->getTitle();
     }
 }
 $removeChars = array('|');
-$titleSocial = str_replace($removeChars, '-', @$title);
+$titleSocial = str_replace($removeChars, '-', $titleSocial);
 //$originalURL = $urlSocial;
 $urlSocial = urlencode($url);
 //set the $urlSocial and the $titleSocial before include this
@@ -39,7 +40,7 @@ $socialAdded = 1;
     <li><a href="<?php echo $wordpress; ?>" target="_blank"  class="icoWordpress" title="Wordpress" data-toggle="tooltip" ><i class="fab fa-wordpress-simple"></i></a></li>
     <li><a href="<?php echo $pinboard; ?>" target="_blank"  class="icoPinboard" title="Pinboard" data-toggle="tooltip" ><i class="fas fa-thumbtack"></i></a></li>
     <li>
-        <a href="#" class="icoCopy" title="<?php echo __('Copy to Clipboard'); ?>" data-toggle="tooltip" onclick="copyToClipboard('<?php echo ($urlSocial); ?>');$(this).closest('.modal').modal('hide');" >
+        <a href="#" class="icoCopy" title="<?php echo __('Copy to Clipboard'); ?>" data-toggle="tooltip" onclick="copyToClipboard('<?php echo urldecode($urlSocial); ?>');$(this).closest('.modal').modal('hide');" >
             <i class="far fa-copy"></i>
         </a>
     </li>
