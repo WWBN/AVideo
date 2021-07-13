@@ -78,7 +78,7 @@ class PlayerSkins extends PluginAbstract {
                     $video['externalOptions']->videoStartSeconds = 0;
                 }
             }else{
-                _error_log('externalOptions Error '.$video['externalOptions'], AVideoLog::$WARNING);
+                //_error_log('externalOptions Error '.$video['externalOptions'], AVideoLog::$WARNING);
                 $video['externalOptions'] = new stdClass();
                 $video['externalOptions']->videoStartSeconds = 0;
             }
