@@ -206,15 +206,15 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('allowMultipleLivesPerUser', 'Allow Multiple Lives Per User', 'Your users will be able to make unlimited livestreams');
 
         $obj->controllButtonsShowOnlyToAdmin_record_start = false;
-        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_record_start', 'Show Record Start Button Only to Admin', 'Regular users will not able to see this butto');
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_record_start', 'Show Record Start Button Only to Admin', 'Regular users will not able to see this button');
         $obj->controllButtonsShowOnlyToAdmin_record_stop = false;
-        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_record_stop', 'Show Record Stop Button Only to Admin', 'Regular users will not able to see this butto');
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_record_stop', 'Show Record Stop Button Only to Admin', 'Regular users will not able to see this button');
         $obj->controllButtonsShowOnlyToAdmin_drop_publisher = false;
-        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_drop_publisher', 'Show Drop Publisher Button Only to Admin', 'Regular users will not able to see this butto');
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_drop_publisher', 'Show Drop Publisher Button Only to Admin', 'Regular users will not able to see this button');
         $obj->controllButtonsShowOnlyToAdmin_drop_publisher_reset_key = false;
-        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_drop_publisher_reset_key', 'Show Drop Publisher and Reset Key Button Only to Admin', 'Regular users will not able to see this butto');
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_drop_publisher_reset_key', 'Show Drop Publisher and Reset Key Button Only to Admin', 'Regular users will not able to see this button');
         $obj->controllButtonsShowOnlyToAdmin_save_dvr = false;
-        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_save_dvr', 'Show Save DVR Button Only to Admin', 'Regular users will not able to see this butto');
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_save_dvr', 'Show Save DVR Button Only to Admin', 'Regular users will not able to see this button');
 
         return $obj;
     }
