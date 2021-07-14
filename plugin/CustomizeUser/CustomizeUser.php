@@ -387,7 +387,13 @@ class CustomizeUser extends PluginAbstract {
         $cansee = User::canWatchVideoWithAds($videos_id);
         $obj = $this->getDataObject();
         if (!$cansee) {
-            forbiddenPage(__("Sorry, this video is private"));
+            $resp = Video::canVideoBePurchased($videos_id);
+            if(!empty($resp) && $resp->canVideoBePurchased && isValidURL($resp->buyURL)){
+                header("Location: {$resp->buyURL}");
+                exit;
+            }else{
+                forbiddenPage(__("Sorry, this video is private"));
+            }
             /*
               if (!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')) {
               header("Location: {$global['webSiteRootURL']}user?msg=" . urlencode(__("Sorry, this video is private")));

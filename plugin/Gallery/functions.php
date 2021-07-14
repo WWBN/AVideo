@@ -342,7 +342,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                             $duid = uniqid();
                             $titleAlert = str_replace(array('"', "'"), array('``', "`"), $value['title']);
                             ?>
-                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
+                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' class="text-primary" data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
                             <div id="videoDescription<?php echo $duid; ?>" style="display: none;"><?php echo $desc; ?></div>
                             <?php
                         }
@@ -540,7 +540,7 @@ function createGalleryLiveSection($videos) {
                         if (!empty($desc)) {
                             $titleAlert = str_replace(array('"', "'"), array('``', "`"), $video['title']);
                             ?>
-                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>", "info");return false;' ><i class="far fa-file-alt"></i> <?php echo __("Description"); ?></a>
+                    <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>", "info");return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
                             <?php
                         }
                     }
