@@ -205,6 +205,17 @@ class Live extends PluginAbstract {
         $obj->allowMultipleLivesPerUser = true;
         self::addDataObjectHelper('allowMultipleLivesPerUser', 'Allow Multiple Lives Per User', 'Your users will be able to make unlimited livestreams');
 
+        $obj->controllButtonsShowOnlyToAdmin_record_start = false;
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_record_start', 'Show Record Start Button Only to Admin', 'Regular users will not able to see this butto');
+        $obj->controllButtonsShowOnlyToAdmin_record_stop = false;
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_record_stop', 'Show Record Stop Button Only to Admin', 'Regular users will not able to see this butto');
+        $obj->controllButtonsShowOnlyToAdmin_drop_publisher = false;
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_drop_publisher', 'Show Drop Publisher Button Only to Admin', 'Regular users will not able to see this butto');
+        $obj->controllButtonsShowOnlyToAdmin_drop_publisher_reset_key = false;
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_drop_publisher_reset_key', 'Show Drop Publisher and Reset Key Button Only to Admin', 'Regular users will not able to see this butto');
+        $obj->controllButtonsShowOnlyToAdmin_save_dvr = false;
+        self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_save_dvr', 'Show Save DVR Button Only to Admin', 'Regular users will not able to see this butto');
+
         return $obj;
     }
 
@@ -379,18 +390,29 @@ class Live extends PluginAbstract {
         _error_log("NGINX Live::controlRecordingAsync end {$pid}");
         return $pid;
     }
+    
+    static function userCanRecordLive($users_id){
+        if (!AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
+            return false;
+        }
+        return SendRecordedToEncoder::canRecord($users_id);
+    }
 
     static function getButton($command, $key, $live_servers_id = 0, $iconsOnly = false, $label = "", $class = "", $tooltip = "") {
         if (!User::canStream()) {
-            return "";
+            return '';
         }
         global $global;
         $id = "getButton" . uniqid();
         $afterLabel = "";
+        $obj = AVideoPlugin::getDataObject('Live');
         switch ($command) {
             case "record_start":
-                if (!AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
+                if ($obj->controllButtonsShowOnlyToAdmin_record_start && !User::isAdmin()) {
                     return '';
+                }
+                if (!self::userCanRecordLive(User::getId())) {
+                    return '<!-- User Cannot record -->';
                 }
                 $buttonClass = "btn btn-success";
                 $iconClass = "fas fa-video";
@@ -403,7 +425,10 @@ class Live extends PluginAbstract {
                 $afterLabel = '<span class="fas fa-circle isRecordingIcon isRecordingIcon' . $key . '" ></span>';
                 break;
             case "record_stop":
-                if (!AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
+                if (!self::userCanRecordLive(User::getId())) {
+                    return '<!-- User Cannot record -->';
+                }
+                if ($obj->controllButtonsShowOnlyToAdmin_record_stop && !User::isAdmin()) {
                     return '';
                 }
                 $buttonClass = "btn btn-danger";
@@ -416,6 +441,9 @@ class Live extends PluginAbstract {
                 }
                 break;
             case "drop_publisher":
+                if ($obj->controllButtonsShowOnlyToAdmin_drop_publisher && !User::isAdmin()) {
+                    return '';
+                }
                 $buttonClass = "btn btn-default";
                 $iconClass = "fas fa-wifi";
                 if (empty($label)) {
@@ -426,6 +454,9 @@ class Live extends PluginAbstract {
                 }
                 break;
             case "drop_publisher_reset_key":
+                if ($obj->controllButtonsShowOnlyToAdmin_drop_publisher_reset_key && !User::isAdmin()) {
+                    return '';
+                }
                 $buttonClass = "btn btn-default";
                 $iconClass = "fas fa-key";
                 if (empty($label)) {
@@ -440,7 +471,13 @@ class Live extends PluginAbstract {
                 if (empty($obj) || empty($obj->saveDVREnable)) {
                     return '';
                 }
-                return SendRecordedToEncoder::getSaveDVRButton($key, $live_servers_id);
+                if ($obj->controllButtonsShowOnlyToAdmin_save_dvr && !User::isAdmin()) {
+                    return '';
+                }
+                if (!self::userCanRecordLive(User::getId())) {
+                    return '<!-- User Cannot record -->';
+                }
+                return SendRecordedToEncoder::getSaveDVRButton($key, $live_servers_id, $class);
                 break;
             default:
                 return '';
@@ -486,17 +523,17 @@ class Live extends PluginAbstract {
         return $btn;
     }
 
-    static function getAllControlls($key, $live_servers_id = 0, $iconsOnly = false) {
-        if (!User::canStream()) {
-            return "";
+    static function getAllControlls($key, $live_servers_id = 0, $iconsOnly = false, $btnClass = '') {
+        if (!Live::canManageLiveFromLiveKey($key, User::getId())) {
+            return '';
         }
 
         $btn = "<div class=\"btn-group justified recordLiveControlsDiv\" style=\"display: none;\" id=\"liveControls\">";
         //$btn .= self::getButton("drop_publisher", $live_transmition_id, $live_servers_id);
-        $btn .= self::getButton("save_dvr", $key, $live_servers_id, $iconsOnly);
-        $btn .= self::getButton("drop_publisher_reset_key", $key, $live_servers_id, $iconsOnly);
-        $btn .= self::getButton("record_start", $key, $live_servers_id, $iconsOnly);
-        $btn .= self::getButton("record_stop", $key, $live_servers_id, $iconsOnly);
+        $btn .= self::getButton("save_dvr", $key, $live_servers_id, $iconsOnly, '', $btnClass);
+        $btn .= self::getButton("drop_publisher_reset_key", $key, $live_servers_id, $iconsOnly, '', $btnClass);
+        $btn .= self::getButton("record_start", $key, $live_servers_id, $iconsOnly, '', $btnClass);
+        $btn .= self::getButton("record_stop", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= "</div>";
         $btn .= "<script>
                 $(document).ready(function () {
@@ -1095,6 +1132,22 @@ class Live extends PluginAbstract {
             return false;
         }
         return $lt->userCanSeeTransmition();
+    }
+
+    static function canManageLiveFromLiveKey($key, $users_id) {
+        if (empty($users_id)) {
+            return false;
+        }
+        $lt = self::getLiveTransmitionObjectFromKey($key);
+        if (empty($lt)) {
+            return false;
+        }
+        $user = new User($users_id);
+        if ($user->getIsAdmin()) {
+            return true;
+        }
+        $u_id = $lt->getUsers_id();
+        return $u_id == $users_id;
     }
 
     static function isAPrivateLiveFromLiveKey($key) {
