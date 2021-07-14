@@ -53,7 +53,7 @@
             </video>
         </div>
     </div>
-    <div class="panel-footer">
+    <div class="panel-footer clearfix" id="liveFooterPanel">
         <?php
         echo Live::getAllControlls($liveStreamObject2->getKeyWithIndex(true, true));
         ?>

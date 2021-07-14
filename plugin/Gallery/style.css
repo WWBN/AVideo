@@ -81,6 +81,7 @@ h3.galleryTitle{
     text-overflow: ellipsis;
     padding-right: 5px;
     font-size: 0.7em;
+    margin: 1px;
 }
 
 .firstRow .galeryDetails div{
