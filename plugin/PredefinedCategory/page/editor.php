@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 $categories = Category::getAllCategories();
 array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
 $groups = UserGroups::getAllUsersGroups();
-$users = User::getAllUsers();
+//$users = User::getAllUsers();
 $o = AVideoPlugin::getObjectData("PredefinedCategory");
 ?>
 <!DOCTYPE html>
@@ -20,6 +20,11 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <style>
+            .funkyradio-info label, .funkyradio-default label, .funkyradio-warning label, .funkyradio-danger label{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
             .funkyradio div {
                 clear: both;
@@ -139,16 +144,16 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
                 <div class="alert alert-info">
                     <i class="fa fa-info-circle"></i> Here you can choose the default category whenever a video is submitted to your site.
                 </div>
-                <div class="card">
-                    <div class="card-header">Site Default Category</div>
-                    <div class="card-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Site Default Category</div>
+                    <div class="panel-body">
                         <div class="funkyradio">
                             <?php
                             foreach ($categories as $value) {
                                 ?>
                                 <div class="funkyradio-primary">
                                     <input type="radio" name="radio" class="categoryRadio" id="radio<?php echo $value['id']; ?>" value="<?php echo $value['id']; ?>" <?php if ($o->defaultCategory == $value['id']) { ?>checked<?php } ?>/>
-                                    <label for="radio<?php echo $value['id']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['name']; ?></label>
+                                    <label for="radio<?php echo $value['id']; ?>"><i class="<?php echo $value['iconClass']; ?>"  style="display: unset;"></i> <?php echo $value['name']; ?></label>
                                 </div>
                                 <?php
                             }
@@ -158,39 +163,26 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">Default Category per User</div>
-                    <div class="card-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Default Category per User</div>
+                    <div class="panel-body">
                         <div class="alert alert-info">
                             <i class="fa fa-info-circle"></i> Select a user then choose the defaul category.
                         </div>
                         <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">Users</div>
-                                <div class="card-body">
-                                    <div class="funkyradio">
-                                        <?php
-                                        $count = 0;
-                                        foreach ($users as $value) {
-                                            ?>
-                                            <div class="funkyradio-warning">
-                                                <input type="radio" name="radioUser" class="userRadio" id="radioUser<?php echo $value['id']; ?>" value="<?php echo $value['id']; ?>" <?php if (empty($count)) { ?>checked<?php } ?>/>
-                                                <label for="radioUser<?php echo $value['id']; ?>"> <?php echo $value['user']; ?></label>
-                                            </div>
-                                            <?php
-                                            $count++;
-                                        }
-                                        ?>
-                                    </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Users <input id="searchUser" type="text" class="form-control" placeholder="<?php echo __('Search User'); ?>" /></div>
+                                <div class="panel-body">
+                                    <div class="funkyradio" id="funkyradiousers"></div>
                                 </div>
                             </div>
                         </div>
 
 
                         <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">Category</div>
-                                <div class="card-body">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Category</div>
+                                <div class="panel-body">
                                     <div class="funkyradio">
                                         <div class="funkyradio-default">
                                             <input type="radio" name="radioUserCat" class="categoryGroupRadio" id="radioUserCat" value="0" checked="checked"/>
@@ -201,7 +193,7 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
                                             ?>
                                             <div class="funkyradio-info">
                                                 <input type="radio" name="radioUserCat" class="categoryGroupRadio" id="radioUserCat<?php echo $value['id']; ?>" value="<?php echo $value['id']; ?>"/>
-                                                <label for="radioUserCat<?php echo $value['id']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['hierarchyAndName']; ?></label>
+                                                <label for="radioUserCat<?php echo $value['id']; ?>"><i class="<?php echo $value['iconClass']; ?>" style="display: unset;"></i> <?php echo $value['name']; ?></label>
                                             </div>
                                             <?php
                                         }
@@ -221,9 +213,9 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
                     <a href="http://127.0.0.1/AVideo/usersGroups">user groups</a> you selected.<br>
                     Leave it blank to be public by default
                 </div>
-                <div class="card">
-                    <div class="card-header">Site Default User Group</div>
-                    <div class="card-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Site Default User Group</div>
+                    <div class="panel-body">
                         <div class="funkyradio">
                             <?php
                             foreach ($groups as $value) {
@@ -245,6 +237,7 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
         ?>
         <script>
             var userCategory = <?php echo json_encode($o->userCategory); ?>;
+            var userSearchTimeout;
             $(document).ready(function () {
                 $('.groupRadio').click(function () {
                     modal.showPleaseWait();
@@ -273,18 +266,11 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
                         }
                     });
                 });
-                                
-                $('.userRadio').click(function () {
-                    var value = 0;
-                    if(typeof userCategory != 'undefined' && userCategory[$(this).val()]){
-                        value = userCategory[$(this).val()];
-                    }
-                    $("input[name=radioUserCat][value=0]").prop('checked', true);
-                    $('[name=radioUserCat]').removeAttr('checked');
-                    $("input[name=radioUserCat][value=" + value + "]").prop('checked', true);
-                });
+
+                searchUserForCat('');
+
                 $("input[name='radioUser']:checked").trigger('click')
-                
+
                 $('.categoryGroupRadio').click(function () {
                     modal.showPleaseWait();
                     var radioValue = $("input[name='radioUser']:checked").val();
@@ -301,7 +287,50 @@ $o = AVideoPlugin::getObjectData("PredefinedCategory");
                         }
                     });
                 });
+
+                $('#searchUser').keyup(function () {
+                    clearTimeout(userSearchTimeout);
+                    userSearchTimeout = setTimeout(function () {
+                        searchUserForCat($('#searchUser').val());
+                    }, 500);
+                });
             });
+
+            function searchUserForCat(search) {
+                modal.showPleaseWait();
+                $.ajax({
+                    url: webSiteRootURL + 'objects/users.json.php?status=a&rowCount=10&searchPhrase=' + search,
+                    success: function (response) {
+                        console.log(response);
+                        $('#funkyradiousers').empty();
+                        for (var index in response.rows) {
+                            var user = response.rows[index];
+                            if (typeof user == 'function') {
+                                continue;
+                            }
+                            var html = '<div class="funkyradio-warning">';
+                            html += '<input type="radio" name="radioUser" class="userRadio" id="radioUser' + user.id + '" value="' + user.id + '"/>';
+                            html += '<label for="radioUser' + user.id + '"> ' + user.identification + '</label>';
+                            html += '</div>'
+                            $('#funkyradiousers').append(html);
+                        }
+                        setOnClickUser();
+                        modal.hidePleaseWait();
+                    }
+                });
+            }
+
+            function setOnClickUser() {
+                $('.userRadio').click(function () {
+                    var value = 0;
+                    if (typeof userCategory != 'undefined' && userCategory[$(this).val()]) {
+                        value = userCategory[$(this).val()];
+                    }
+                    $("input[name=radioUserCat][value=0]").prop('checked', true);
+                    $('[name=radioUserCat]').removeAttr('checked');
+                    $("input[name=radioUserCat][value=" + value + "]").prop('checked', true);
+                });
+            }
         </script>
     </body>
 </html>

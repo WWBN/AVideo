@@ -888,8 +888,8 @@ if (!class_exists('Video')) {
             if ($res != false) {
                 foreach ($fullData as $row) {
                     $row['images'] = self::getImageFromFilename($row['filename']);
-                    if(empty($row['externalOptions'])){
-                        $row['externalOptions'] = json_encode(array('videoStartSeconds'=>'00:00:00'));
+                    if (empty($row['externalOptions'])) {
+                        $row['externalOptions'] = json_encode(array('videoStartSeconds' => '00:00:00'));
                     }
                     $rows[] = $row;
                 }
@@ -1135,26 +1135,26 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        private static function getInfo($row, $getStatistcs=false) {
+        private static function getInfo($row, $getStatistcs = false) {
             $name = "_getVideoInfo_{$row['id']}";
             $cache = ObjectYPT::getSessionCache($name, 3600);
-            if(!empty($cache)){
+            if (!empty($cache)) {
                 $externalOptions = $cache->externalOptions;
                 $obj = object_to_array($cache);
-                if(!empty($externalOptions)){
-                    if(is_object($externalOptions)){
+                if (!empty($externalOptions)) {
+                    if (is_object($externalOptions)) {
                         $obj['externalOptions'] = $externalOptions;
-                    }else if(is_string($externalOptions)){
+                    } else if (is_string($externalOptions)) {
                         $obj['externalOptions'] = _json_decode($externalOptions);
                     }
                     $obj['externalOptions'] = json_encode($obj['externalOptions']);
                 }
-                if(empty($obj['externalOptions'])){
-                    $obj['externalOptions'] = json_encode(array('videoStartSeconds'=>'00:00:00'));
+                if (empty($obj['externalOptions'])) {
+                    $obj['externalOptions'] = json_encode(array('videoStartSeconds' => '00:00:00'));
                 }
                 return $obj;
             }
-            
+
             $row = cleanUpRowFromDatabase($row);
             if (!self::canEdit($row['id'])) {
                 if (!empty($row['video_password'])) {
@@ -1203,9 +1203,9 @@ if (!class_exists('Video')) {
             $row['isWatchLater'] = self::isWatchLater($row['id']);
             $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
             $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
-            
-            if(empty($row['externalOptions'])){
-                $row['externalOptions'] = json_encode(array('videoStartSeconds'=>'00:00:00'));
+
+            if (empty($row['externalOptions'])) {
+                $row['externalOptions'] = json_encode(array('videoStartSeconds' => '00:00:00'));
             }
             TimeLogEnd("video::getInfo otherInfo", __LINE__, 0.5);
 
@@ -1594,7 +1594,7 @@ if (!class_exists('Video')) {
             $viewable = array('a', 'k', 'f');
             if ($showUnlisted) {
                 $viewable[] = "u";
-            } 
+            }
             $videos_id = getVideos_id();
             if (!empty($videos_id)) {
                 $post = $_POST;
@@ -1723,7 +1723,7 @@ if (!class_exists('Video')) {
 
         public function removeVideoFiles() {
             $filename = $this->getFilename();
-            if(empty($filename)){
+            if (empty($filename)) {
                 return false;
             }
             $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
@@ -1865,11 +1865,11 @@ if (!class_exists('Video')) {
             }
             AVideoPlugin::onVideoSetDescription($this->id, $this->description, $new_description);
             //$new_description= preg_replace('/[\xE2\x80\xAF\xBA\x96]/', '', $new_description);
-            
-            if(function_exists('mb_convert_encoding')){
+
+            if (function_exists('mb_convert_encoding')) {
                 $new_description = mb_convert_encoding($new_description, 'UTF-8', 'UTF-8');
             }
-            
+
             $this->description = $new_description;
             //var_dump($this->description, $description, $parts);exit;
         }
@@ -2206,7 +2206,7 @@ if (!class_exists('Video')) {
                     }
                 } else {
                     $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
-                    if ($video->getStatus()===self::$statusFansOnly) {
+                    if ($video->getStatus() === self::$statusFansOnly) {
                         $objTag->type = "warning";
                         $objTag->text = '<i class="fas fa-star" ></i>';
                         $objTag->tooltip = __("Fans Only");
@@ -3678,7 +3678,7 @@ if (!class_exists('Video')) {
             }
 
             global $global, $advancedCustomUser, $advancedCustom;
-            if(!is_object($advancedCustomUser)){
+            if (!is_object($advancedCustomUser)) {
                 $advancedCustomUser = AVideoPlugin::getDataObject('CustomizeUser');
             }
             if (empty($videos_id) && !empty($clean_title)) {
@@ -3910,7 +3910,9 @@ if (!class_exists('Video')) {
         }
 
         public static function clearCacheFromFilename($fileName) {
-            if($fileName == '.zip'){return false;}
+            if ($fileName == '.zip') {
+                return false;
+            }
             _error_log("Video:clearCacheFromFilename($fileName)");
             $video = self::getVideoFromFileNameLight($fileName);
             if (empty($video['id'])) {
@@ -4279,6 +4281,66 @@ if (!class_exists('Video')) {
                     . 'class="btn btn-default btn-xs getChangeVideoStatusButton_u"  data-toggle="tooltip" title="' . str_replace("'", "\\'", __("This video is unlisted, click here to inactivate it")) . '"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
 
             return "<span class='getChangeVideoStatusButton getChangeVideoStatusButton_{$videos_id} status_{$status}'>{$activeBtn}{$inactiveBtn}{$unlistedBtn}</span>";
+        }
+
+        static function canVideoBePurchased($videos_id) {
+            global $global;
+            $obj = new stdClass();
+            $obj->plugin = '';
+            $obj->buyURL = '';
+            $obj->canVideoBePurchased = false;
+            // check for Subscription plugin
+            if (AVideoPlugin::isEnabledByName('Subscription')) {
+                $sub = new Subscription();
+                $plans = $sub->getPlansFromVideo($videos_id);
+                if (!empty($plans)) {
+                    $obj->plugin = 'Subscription';
+                    $obj->buyURL = "{$global['webSiteRootURL']}plugin/Subscription/showPlans.php?videos_id={$videos_id}";
+                    $obj->canVideoBePurchased = true;
+                    return $obj;
+                }
+            }
+
+            // check for PPV plugin
+            if (AVideoPlugin::isEnabledByName('PayPerView')) {
+                if (PayPerView::isVideoPayPerView($videos_id) || $obj->onlyPlayVideosWithPayPerViewActive) {
+                    $url = "{$global['webSiteRootURL']}plugin/PayPerView/page/buy.php";
+                    if (isSerie()) {
+                        $redirectUri = getSelfURI();
+                    } else {
+                        $redirectUri = getRedirectToVideo($videos_id);
+                    }
+                    if (!empty($redirectUri)) {
+                        $url = addQueryStringParameter($url, 'redirectUri', $redirectUri);
+                    }
+                    $url = addQueryStringParameter($url, 'videos_id', $videos_id);
+                    $obj->plugin = 'PayPerView';
+                    $obj->buyURL = $url;
+                    $obj->canVideoBePurchased = true;
+                    return $obj;
+                }
+            }
+
+            // check for fansSubscription
+            if (AVideoPlugin::isEnabledByName('FansSubscriptions')) {
+                if (FansSubscriptions::hasPlansFromVideosID($videos_id)) {
+                    $url = "{$global['webSiteRootURL']}plugin/FansSubscriptions/View/buy.php";
+                    if (isSerie()) {
+                        $redirectUri = getSelfURI();
+                    } else {
+                        $redirectUri = getRedirectToVideo($videos_id);
+                    }
+                    if (!empty($redirectUri)) {
+                        $url = addQueryStringParameter($url, 'redirectUri', $redirectUri);
+                    }
+                    $url = addQueryStringParameter($url, 'videos_id', $videos_id);
+                    $obj->plugin = 'FansSubscriptions';
+                    $obj->buyURL = $url;
+                    $obj->canVideoBePurchased = true;
+                    return $obj;
+                }
+            }
+            return false;
         }
 
     }
