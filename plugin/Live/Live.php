@@ -448,7 +448,7 @@ class Live extends PluginAbstract {
         if ($iconsOnly) {
             $label = "";
         }
-        $html = "<button class='{$buttonClass} {$class}' id='{$id}'  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{$tooltip}\"><i class='{$iconClass}'></i> {$label} {$afterLabel}";
+        $html = "<button class='{$buttonClass} {$class}' id='{$id}'  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{$tooltip}\"><i class='{$iconClass}'></i> <span class='hidden-sm hidden-xs'>{$label}</span> {$afterLabel}";
         $html .= "<script>$(document).ready(function () {
             $('#{$id}').click(function(){
         modal.showPleaseWait();
