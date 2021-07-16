@@ -4,8 +4,10 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
-$email = "";
+$email = '';
+$name = '';
 if (User::isLogged()) {
+    $name = User::getNameIdentification();
     $email = User::getEmail_();
 }
 $metaDescription = " Contact Form";
@@ -52,7 +54,7 @@ $metaDescription = " Contact Form";
                                 <div class="col-md-4 inputGroupContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input  name="first_name" placeholder="<?php echo __("Name"); ?>" class="form-control"  type="text" required="true">
+                                        <input  name="first_name" placeholder="<?php echo __("Name"); ?>" class="form-control" value="<?php echo $name; ?>" type="text" required="true">
                                     </div>
                                 </div>
                             </div>
