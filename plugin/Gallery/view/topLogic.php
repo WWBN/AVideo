@@ -63,7 +63,7 @@ if(!empty($video)){
     }
     $contentSearchFound = false;
 	
-	array_push($siteTitle, __("Home"));
+	//array_push($siteTitle, __("Home"));
 	
 	// don't add a prefix for SEO, it's already handled here below by the implode() func	
 	$seoComplement = getSEOComplement(array(
@@ -77,11 +77,11 @@ if(!empty($video)){
 	$metaDescription = $video['id'];
 } else {
 	array_push($siteTitle, __("Video Not Available"));
-	array_push($siteTitle, __("Home"));
+	//array_push($siteTitle, __("Home"));
 	
 	$metaDescription = __("Video Not Available");
 }
 array_push($siteTitle, $config->getWebSiteTitle());
-$metaDescription .= $config->getPageTitleSeparator() . __("Home");
+$metaDescription .= $config->getPageTitleSeparator();
 
 $siteTitle = implode($config->getPageTitleSeparator(), $siteTitle);
