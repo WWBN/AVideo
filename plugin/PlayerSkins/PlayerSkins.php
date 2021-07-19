@@ -201,6 +201,9 @@ class PlayerSkins extends PluginAbstract {
     }
 
     public function getHeadCode() {
+        if(isWebRTC()){
+            return '';
+        }
         global $global, $config, $video;
         $obj = $this->getDataObject();
         $css = "";
@@ -265,6 +268,9 @@ class PlayerSkins extends PluginAbstract {
     }
 
     public function getFooterCode() {
+        if(isWebRTC()){
+            return '';
+        }
         global $global, $config, $getStartPlayerJSWasRequested, $video, $url, $title;
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
