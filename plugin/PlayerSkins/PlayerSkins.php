@@ -218,7 +218,7 @@ class PlayerSkins extends PluginAbstract {
             if (!empty($obj->skin)) {
                 $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            if ($obj->showLoopButton && !isLive()) {
+            if ($obj->showLoopButton && isVideoPlayerHasProgressBar()) {
                 $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
             $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/player.css?" . filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.css") . "\" rel=\"stylesheet\" type=\"text/css\"/>";
@@ -251,7 +251,7 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/shareButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            if ($obj->showShareAutoplay && !isLive()) {
+            if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar()) {
                 $css .= "<link href=\"".getCDN()."plugin/PlayerSkins/autoplayButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
         }
@@ -288,7 +288,7 @@ class PlayerSkins extends PluginAbstract {
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
             }
 
-            if ($obj->showShareAutoplay && !isLive()) {
+            if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar()) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/autoplayButton.js"));
             }
         }
@@ -316,10 +316,10 @@ class PlayerSkins extends PluginAbstract {
         $dataSetup = array();
 
         $dataSetup[] = "errorDisplay: false";
-        if (!isLive() && !empty($obj->playbackRates)) {
+        if (isVideoPlayerHasProgressBar() && !empty($obj->playbackRates)) {
             $dataSetup[] = "'playbackRates':{$obj->playbackRates}";
         }
-        if (!isLive() && (isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false) && !empty($video['videoLink'])) {
+        if (isVideoPlayerHasProgressBar() && (isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false) && !empty($video['videoLink'])) {
             if ($_GET['isEmbedded'] == "y") {
                 $dataSetup[] = "techOrder:[\"youtube\"]";
                 $dataSetup[] = "sources:[{type: \"video/youtube\", src: \"{$video['videoLink']}\"}]";
@@ -358,10 +358,13 @@ class PlayerSkins extends PluginAbstract {
     }
 
     static function getStartPlayerJSCode($noReadyFunction = false, $currentTime = 0) {
+        if(isWebRTC()){
+            return '';
+        }
         global $config, $global, $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup, $IMAADTag;
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         $js = "";
-        if (empty($currentTime) && !isLive()) {
+        if (empty($currentTime) && isVideoPlayerHasProgressBar()) {
             $currentTime = self::getCurrentTime();
         }
         
@@ -388,7 +391,7 @@ class PlayerSkins extends PluginAbstract {
         if (typeof player === 'undefined') {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
             ";
-        if (!empty($IMAADTag) && !isLive()) {
+        if (!empty($IMAADTag) && isVideoPlayerHasProgressBar()) {
             $js .= "adTagOptions = {id: 'mainVideo', adTagUrl: '{$IMAADTag}', autoPlayAdBreaks:false}; player.ima(adTagOptions);";
             $js .= "setInterval(function(){ fixAdSize(); }, 300);
                 // first time it's clicked.
@@ -440,7 +443,7 @@ class PlayerSkins extends PluginAbstract {
             namespace: 'AVideo'
         });";
 
-        if ($obj->showLoopButton && !isLive()) {
+        if ($obj->showLoopButton && isVideoPlayerHasProgressBar()) {
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/loopbutton.js');
         }
 
