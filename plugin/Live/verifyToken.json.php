@@ -26,7 +26,9 @@ if(!is_array($array)){
     die(json_encode($obj));
 }
 
-if(empty($array['users_id'])){
+$obj->users_id = intval($array['users_id']);
+
+if(empty($obj->users_id)){
     $obj->msg = "Users Id is empty";
     die(json_encode($obj));
 }
@@ -39,7 +41,7 @@ if(time() - $array['time'] > $twelveHours){
 }
 
 
-$obj->key = Live::getKeyFromUser($array['users_id']);
+$obj->key = Live::getKeyFromUser($obj->users_id);
 $lso = new LiveStreamObject($key);
 $obj->RTMPLinkWithOutKey = $lso->getRTMPLinkWithOutKey();
 
