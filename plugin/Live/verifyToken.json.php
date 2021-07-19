@@ -42,7 +42,7 @@ if(time() - $array['time'] > $twelveHours){
 
 $trasnmition = LiveTransmition::createTransmitionIfNeed($obj->users_id);
 $obj->key = $trasnmition['key'];
-$lso = new LiveStreamObject($key);
+$lso = new LiveStreamObject($obj->key);
 $obj->RTMPLinkWithOutKey = $lso->getRTMPLinkWithOutKey();
 
 
