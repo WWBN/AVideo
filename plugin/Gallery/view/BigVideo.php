@@ -160,16 +160,16 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
                                                embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
                                                title="<?php echo $videoRow['title']; ?>">
-                                                <h1><?php echo $videoRow['title']; ?></h1>
+                                                <strong><?php echo $videoRow['title']; ?></strong>
                                             </a>
                                             <div class="mainAreaDescriptionContainer">
-                                                <h4 class="mainAreaDescription" itemprop="description"><?php
+                                                <p class="mainAreaDescription" itemprop="description"><?php
                                                     if (strpos($videoRow['description'], '<br') !== false || strpos($videoRow['description'], '<p') !== false) {
                                                         echo $videoRow['description'];
                                                     } else {
                                                         echo nl2br(textToLink(htmlentities($videoRow['description'])));
                                                     }
-                                                    ?></h4>
+                                                    ?></p>
                                             </div>
                                             <div class="text-muted galeryDetails">
                                                 <div>
