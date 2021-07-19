@@ -4174,6 +4174,14 @@ function isEmbed() {
     return !empty($isEmbed);
 }
 
+function isWebRTC() {
+    global $isWebRTC, $global;
+    if (!empty($global['doNotLoadPlayer'])) {
+        return false;
+    }
+    return !empty($isWebRTC);
+}
+
 function isLive() {
     global $isLive, $global;
     if (!empty($global['doNotLoadPlayer'])) {
@@ -4223,6 +4231,9 @@ function setLiveKey($key, $live_servers_id, $live_index = '') {
 }
 
 function isVideoPlayerHasProgressBar() {
+    if(isWebRTC()){
+        return false;
+    }
     if (isLive()) {
         $obj = AVideoPlugin::getObjectData('Live');
         if (empty($obj->disableDVR)) {
