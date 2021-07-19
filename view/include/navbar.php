@@ -278,6 +278,12 @@ if(!empty($_GET['avideoIframe'])){ // comes from avideoModalIframe(url) javascri
     ?>
 </style>
 <?php
+if(!empty($customizePluginDescription)){
+    echo "<h1 class='hidden metaDescription'>{$customizePluginDescription}</h1>";
+}else 
+if(!empty($metaDescription)){
+    echo "<h1 class='hidden metaDescription'>{$metaDescription}</h1>";
+}
 if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
     ?>
     <nav class="navbar navbar-default navbar-fixed-top " id="mainNavBar">

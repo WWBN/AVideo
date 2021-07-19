@@ -11,10 +11,12 @@ if(is_object($video)){
 }
 $custom = array();
 
-if (file_exists($extraPluginFile) && AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+$customizePluginDescription = '';
+if (file_exists($extraPluginFile) && AVideoPlugin::isEnabledByName("Customize")) {
     require_once $extraPluginFile;
     $ec = new ExtraConfig();
-    $custom[] = $ec->getDescription();
+    $customizePluginDescription = $ec->getDescription();
+    $custom[] = $customizePluginDescription;
 }
 
 if (!empty($poster)) {
