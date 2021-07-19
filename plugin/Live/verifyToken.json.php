@@ -26,7 +26,7 @@ if(!is_array($array)){
     die(json_encode($obj));
 }
 
-if(!empty($array['users_id'])){
+if(empty($array['users_id'])){
     $obj->msg = "Users Id is empty";
     die(json_encode($obj));
 }
