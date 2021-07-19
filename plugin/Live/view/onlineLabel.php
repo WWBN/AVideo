@@ -111,7 +111,9 @@ if (isMobile()) {
                 player.trigger('loadstart');
                 player.posterImage.show();
                 player.bigPlayButton.show();
-                player.currentTime(0);
+                if(!isWebRTC()){
+                    player.currentTime(0);
+                }
                 player.on('play', function () {
                     $('#mainVideo.liveVideo').find('.vjs-poster').fadeOut();
                 });
