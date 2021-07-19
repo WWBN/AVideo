@@ -294,7 +294,7 @@ Allow: .css";
         $obj = $this->getDataObject();
         $content = '';
         if ($obj->autoHideNavbar && !isEmbed()) {
-            $content .= '<script>$(function () {setTimeout(function(){$("#mainNavBar").autoHidingNavbar();},5000);});</script>';
+            $content .= '<script>$(function () {setTimeout(function(){if(typeof $("#mainNavBar").autoHidingNavbar == "function"){$("#mainNavBar").autoHidingNavbar();}},5000);});</script>';
             $content .= '<script>'. file_get_contents($global['systemRootPath'] . 'plugin/CustomizeAdvanced/autoHideNavbar.js').'</script>';
         }
         if ($obj->autoHideNavbarInSeconds && !isEmbed()) {
