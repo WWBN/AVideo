@@ -2219,7 +2219,16 @@ class Live extends PluginAbstract {
         }
         return false;
     }
-
+    
+    static function getUserHash($users_id){
+        return encryptString(_json_encode(array('users_id'=>$users_id, 'time'=>time())));
+    }
+    
+    static function decryptHash($hash){
+        $string = decryptString($hash);
+        $json = _json_decode($string);
+        return object_to_array($json);
+    }
 }
 
 class LiveImageType {
