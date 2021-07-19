@@ -140,7 +140,7 @@ if (!empty($obj) && empty($obj->error)) {
     }
     //exit;
 } else {
-    _error_log("NGINX ON Publish denied ", AVideoLog::$SECURITY);
+    _error_log("NGINX ON Publish denied ". json_encode($obj), AVideoLog::$SECURITY);
     http_response_code(401);
     header("HTTP/1.1 401 Unauthorized Error");
     exit;
