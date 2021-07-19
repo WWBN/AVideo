@@ -38,6 +38,15 @@ if ($users_id = isChannel()) {
 } else {
     return false;
 }
+
+$description = $title;
+if(!empty($customizePluginDescription)){
+    $description = $customizePluginDescription;
+}else 
+if(!empty($metaDescription)){
+    $description = $metaDescription;
+}
+
 ?>
 <link rel="image_src" href="<?php echo $img; ?>" />
 <meta property="og:image" content="<?php echo $img; ?>" />
@@ -49,7 +58,7 @@ if ($users_id = isChannel()) {
 
 <meta property="fb:app_id"             content="774958212660408" />
 <meta property="og:title"              content="<?php echo $title; ?>" />
-<meta property="og:description"        content="<?php echo $title; ?>" />
+<meta property="og:description"        content="<?php echo $description; ?>" />
 <meta property="og:url"                content="<?php echo $url; ?>" />
 
 <?php
