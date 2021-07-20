@@ -420,7 +420,7 @@ class VideoStatistic extends ObjectYPT {
         // count how many views each one has
         $sql2 = "SELECT count(s.id) as total FROM videos_statistics s "
                 . " LEFT JOIN videos v ON v.id = videos_id WHERE v.users_id = $users_id "
-                . " AND DATE(s.created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+                . " AND DATE(s.`when`) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
         $res2 = sqlDAL::readSql($sql2);
         $result2 = sqlDAL::fetchAssoc($res2);
         sqlDAL::close($res2);
