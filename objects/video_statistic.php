@@ -280,14 +280,9 @@ class VideoStatistic extends ObjectYPT {
         $cacheName3 = "getChannelsWithMoreViews{$daysLimit}" . DIRECTORY_SEPARATOR . md5(json_encode(array($_GET, $_POST)));
         $cache = ObjectYPT::getCache($cacheName3, 3600); // 1 hour cache
         if (!empty($cache)) {
-            _error_log('getChannelsWithMoreViews cache used');
-            $json = base64_decode($cache);
-            $json = _json_decode($json);
-            if (!empty($json)) {
-                return object_to_array($json);
-            }
+            return object_to_array($cache);
         } else {
-            _error_log('getChannelsWithMoreViews no cache found ' . $cacheName3);
+           // _error_log('getChannelsWithMoreViews no cache found ' . $cacheName3);
         }
 
         // get unique videos ids from the requested timeframe
@@ -303,7 +298,6 @@ class VideoStatistic extends ObjectYPT {
         if (empty($channelsPerUser)) {
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
-            $fullData = object_to_array($cache2);
             sqlDAL::close($res);
             if ($res != false) {
                 // get the channel owner from each of those videos
@@ -318,7 +312,7 @@ class VideoStatistic extends ObjectYPT {
             $response = ObjectYPT::setCache($cacheName2, $channelsPerUser);
         }
 
-        if (!empty($channelsPerUsern)) {
+        if (!empty($channelsPerUser)) {
             foreach ($channelsPerUser as $key => $value) {
                 // count how many views each one has
                 $sql2 = "SELECT count(id) as total FROM videos_statistics WHERE videos_id IN (" . implode(",", $value) . ") AND DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
@@ -336,10 +330,8 @@ class VideoStatistic extends ObjectYPT {
                 return $a['total'] - $b['total'];
             });
         }
-
-        $base64 = base64_encode(_json_encode($channels));
-        $response = ObjectYPT::setCache($cacheName3, $base64);
-        _error_log('getChannelsWithMoreViews cache saved [' . json_encode($response) . '] [' . strlen($base64) . '] ' . $cacheName3);
+        $response = ObjectYPT::setCache($cacheName3, $channels);
+        //_error_log('getChannelsWithMoreViews cache saved [' . json_encode($response) . '] [' . json_encode($channels) . '] ' . $cacheName3);
         return $channels;
     }
 
