@@ -153,7 +153,6 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->askRRatingConfirmationBeforePlay_NC17 = true;
         $obj->askRRatingConfirmationBeforePlay_MA = true;
         $obj->filterRRating = false;
-        $obj->AsyncJobs = false;
 
 
         $obj->doNotShowLeftHomeButton = false;
