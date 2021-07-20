@@ -295,7 +295,7 @@ class VideoStatistic extends ObjectYPT {
         $channels = array();
         $channelsPerUser = array();
         $cacheName2 = "getChannelsWithMoreViews" . DIRECTORY_SEPARATOR . md5($sql);
-        $cache2 = ObjectYPT::getSessionCache($cacheName2, 3600); // 1 hour cache
+        $cache2 = ObjectYPT::getCache($cacheName2, 3600); // 1 hour cache
         if (!empty($cache2)) {
             $channelsPerUser = object_to_array($cache2);
         }
@@ -339,7 +339,7 @@ class VideoStatistic extends ObjectYPT {
 
         $base64 = base64_encode(_json_encode($channels));
         $response = ObjectYPT::setCache($cacheName3, $base64);
-        _error_log('getChannelsWithMoreViews cache saved [' . json_encode($response) . '] ' . $cacheName3);
+        _error_log('getChannelsWithMoreViews cache saved [' . json_encode($response) . '] [' . strlen($base64) . '] ' . $cacheName3);
         return $channels;
     }
 
