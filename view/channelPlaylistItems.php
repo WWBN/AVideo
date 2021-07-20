@@ -85,8 +85,6 @@ unset($_POST['current']);
             continue;
         } else if (empty($videosArrayId)) {
             $videosP = array();
-        } else if ($advancedCustom->AsyncJobs) {
-            $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
         } else {
             $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
         }//var_dump($videosArrayId, $videosP); exit;
