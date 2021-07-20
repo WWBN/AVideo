@@ -1901,11 +1901,11 @@ function unzipDirectory($filename, $destination) {
 }
 
 function make_path($path) {
-    if (substr($path, -1) !== '/') {
+    if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
         $path = pathinfo($path, PATHINFO_DIRNAME);
     }
     if (!is_dir($path)) {
-        @mkdir($path, 0755, true);
+        mkdir($path, 0755, true);
     }
 }
 
