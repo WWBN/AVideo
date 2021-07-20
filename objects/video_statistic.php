@@ -278,7 +278,7 @@ class VideoStatistic extends ObjectYPT {
         global $global;
 
         $cacheName = "getChannelsWithMoreViews($daysLimit)". md5(json_encode(array($_GET, $_POST)));
-        $cache = ObjectYPT::getCache($cacheName, 3600); // 1 hour cache
+        $cache = ObjectYPT::getSessionCache($cacheName, 3600); // 1 hour cache
         if (!empty($cache)) {
             _error_log('getChannelsWithMoreViews cache used');
             return object_to_array($cache);
@@ -316,7 +316,7 @@ class VideoStatistic extends ObjectYPT {
             usort($channels, function ($a, $b) {
                 return $a['total'] - $b['total'];
             });
-            $response = ObjectYPT::setCache($cacheName, $channels);
+            $response = ObjectYPT::setSessionCache($cacheName, $channels);
             return $channels;
         }
     }
