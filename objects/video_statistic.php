@@ -163,7 +163,7 @@ class VideoStatistic extends ObjectYPT {
         $path = getCacheDir() . "getTotalLastDaysAsync/";
         make_path($path);
         $cacheFileName = "{$path}{$md5}";
-        if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
+        if (!file_exists($cacheFileName)) {
             if (file_exists($cacheFileName . ".lock")) {
                 return array();
             }
@@ -205,7 +205,7 @@ class VideoStatistic extends ObjectYPT {
     public static function getTotalTodayAsync($video_id) {
         global $global, $advancedCustom;
         $cacheFileName = getCacheDir() . "getTotalTodayAsync_{$video_id}";
-        if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
+        if (!file_exists($cacheFileName)) {
             if (file_exists($cacheFileName . ".lock")) {
                 return array();
             }
