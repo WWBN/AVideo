@@ -28,14 +28,9 @@ if(!is_array($array)){
 
 $obj->users_id = intval($array['users_id']);
 
-if(empty($obj->users_id)){
-    $obj->msg = "Users Id is empty";
-    die(json_encode($obj));
-}
-
 $twelveHours = 43200;
 
-if(time() - $array['time'] > $twelveHours){
+if(!empty($array['time']) && time() - $array['time'] > $twelveHours){
     $obj->msg = "Token is expired";
     die(json_encode($obj));
 }
