@@ -62,7 +62,7 @@ $percent = 90;
         if (!empty($channels)) {
             foreach ($channels as $channel) {
                 $_POST['sort']['created'] = "DESC";
-                $videos = Video::getAllVideosAsync("viewable", $channel['id']);
+                $videos = Video::getAllVideos("viewable", $channel['id']);
                 unset($_POST['sort']['created']);
                 $link = User::getChannelLinkFromChannelName($channel["channelName"]);
                 ?>
