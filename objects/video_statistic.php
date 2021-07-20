@@ -286,8 +286,15 @@ class VideoStatistic extends ObjectYPT {
             // get unique videos ids from the requested timeframe
             $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics WHERE DATE(`when`) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
 
-            $res = sqlDAL::readSql($sql);
-            $fullData = sqlDAL::fetchAllAssoc($res);
+            
+            $cacheName = "getChannelsWithMoreViews". md5($sql);
+            $cache2 = ObjectYPT::getSessionCache($cacheName, 3600); // 1 hour cache
+            if(empty($cache2)){
+                $res = sqlDAL::readSql($sql);
+                $fullData = sqlDAL::fetchAllAssoc($res);
+            }else{
+                $fullData = object_to_array($cache2);
+            }
             sqlDAL::close($res);
             $channels = array();
             if ($res != false) {
