@@ -80,9 +80,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                     continue;
                 } else if (empty($videosArrayId)) {
                     $videosP = array();
-                } else if ($advancedCustom->AsyncJobs) {
-                    $videosP = Video::getAllVideosAsync("viewable", false, true, $videosArrayId, false, true);
-                } else {
+                }else {
                     $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
                 }//var_dump($videosArrayId, $videosP);exit;
                 @$timesC[__LINE__] += microtime(true) - $startC;
