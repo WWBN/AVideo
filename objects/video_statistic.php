@@ -277,8 +277,8 @@ class VideoStatistic extends ObjectYPT {
     public static function getChannelsWithMoreViews($daysLimit = 30) {
         global $global;
 
-        $cacheName = "getChannelsWithMoreViews($daysLimit)" . md5(json_encode(array($_GET, $_POST)));
-        $cache = ObjectYPT::getCache($cacheName, 3600); // 1 hour cache
+        $cacheName3 = "getChannelsWithMoreViews{$daysLimit}_" . md5(json_encode(array($_GET, $_POST)));
+        $cache = ObjectYPT::getCache($cacheName3, 3600); // 1 hour cache
         if (!empty($cache)) {
             _error_log('getChannelsWithMoreViews cache used');
             $json = base64_decode($cache);
@@ -335,7 +335,7 @@ class VideoStatistic extends ObjectYPT {
             return $a['total'] - $b['total'];
         });
         $base64 = base64_encode(json_encode($channels));
-        $response = ObjectYPT::setCache($cacheName, $base64);
+        $response = ObjectYPT::setCache($cacheName3, $base64);
         return $channels;
     }
 
