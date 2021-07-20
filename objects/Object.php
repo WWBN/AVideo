@@ -381,7 +381,9 @@ abstract class ObjectYPT implements ObjectInterface {
         }
         $cachefile = self::getCacheFileName($name);
 
+        //_error_log('getCache: cachefile '.$cachefile);
         if (!empty($_getCache[$name])) {
+            //_error_log('getCache: '.__LINE__);
             return $_getCache[$name];
         }
 
@@ -398,6 +400,7 @@ abstract class ObjectYPT implements ObjectInterface {
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
                 $_getCache[$name] = $session;
+                //_error_log('getCache: '.__LINE__);
                 return $session;
             }
         }
@@ -423,10 +426,13 @@ abstract class ObjectYPT implements ObjectInterface {
             
             self::setSessionCache($name, $json);
             $_getCache[$name] = $json;
+            //_error_log('getCache: '.__LINE__);
             return $json;
         } elseif (file_exists($cachefile)) {
             self::deleteCache($name);
+            @unlink($cachefile);
         }
+        //if(preg_match('/getChannelsWithMoreViews30/i', $name)){var_dump($name, $cachefile, file_exists($cachefile) , $lifetime, time() - $lifetime, filemtime($cachefile));exit;}
         //_error_log("YPTObject::getCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
         return null;
     }
