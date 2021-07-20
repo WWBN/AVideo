@@ -277,28 +277,33 @@ class VideoStatistic extends ObjectYPT {
     public static function getChannelsWithMoreViews($daysLimit = 30) {
         global $global;
 
-        $cacheName = "getChannelsWithMoreViews($daysLimit)". md5(json_encode(array($_GET, $_POST)));
-        $cache = ObjectYPT::getSessionCache($cacheName, 3600); // 1 hour cache
+        $cacheName = "getChannelsWithMoreViews($daysLimit)" . md5(json_encode(array($_GET, $_POST)));
+        $cache = ObjectYPT::getCache($cacheName, 3600); // 1 hour cache
         if (!empty($cache)) {
             _error_log('getChannelsWithMoreViews cache used');
-            return object_to_array($cache);
-        }else{
-            // get unique videos ids from the requested timeframe
-            $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics WHERE DATE(`when`) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
-
-            
-            $cacheName = "getChannelsWithMoreViews". md5($sql);
-            $cache2 = ObjectYPT::getSessionCache($cacheName, 3600); // 1 hour cache
-            if(empty($cache2)){
-                $res = sqlDAL::readSql($sql);
-                $fullData = sqlDAL::fetchAllAssoc($res);
-            }else{
-                $fullData = object_to_array($cache2);
+            $json = base64_decode($cache);
+            $json = _json_decode($json);
+            if (!empty($json)) {
+                return object_to_array($json);
             }
+        }
+
+        // get unique videos ids from the requested timeframe
+        $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics WHERE DATE(`when`) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+        $channels = array();
+        $channelsPerUser = array();
+        $cacheName2 = "getChannelsWithMoreViews" . md5($sql);
+        $cache2 = ObjectYPT::getSessionCache($cacheName2, 3600); // 1 hour cache
+        if (!empty($cache2)) {
+            $channelsPerUser = object_to_array($cache2);
+        }
+
+        if (empty($channelsPerUser)) {
+            $res = sqlDAL::readSql($sql);
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            $fullData = object_to_array($cache2);
             sqlDAL::close($res);
-            $channels = array();
             if ($res != false) {
-                $channelsPerUser = array();
                 // get the channel owner from each of those videos
                 foreach ($fullData as $row) {
                     $users_id = Video::getOwner($row['videos_id']);
@@ -307,25 +312,31 @@ class VideoStatistic extends ObjectYPT {
                     }
                     $channelsPerUser[$users_id][] = $row['videos_id'];
                 }
-                foreach ($channelsPerUser as $key => $value) {
-                    // count how many views each one has
-                    $sql2 = "SELECT count(id) as total FROM videos_statistics WHERE videos_id IN (" . implode(",", $value) . ") AND DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
-                    $res2 = sqlDAL::readSql($sql2);
-                    $result2 = sqlDAL::fetchAssoc($res2);
-                    sqlDAL::close($res2);
-                    if (!empty($result2)) {
-                        $channels[$key]['users_id'] = $key;
-                        $channels[$key]['total'] = intval($result2['total']);
-                    }
+            }
+            $response = ObjectYPT::setCache($cacheName2, $channelsPerUser);
+        }
+
+        if (!empty($channelsPerUsern)) {
+            foreach ($channelsPerUser as $key => $value) {
+                // count how many views each one has
+                $sql2 = "SELECT count(id) as total FROM videos_statistics WHERE videos_id IN (" . implode(",", $value) . ") AND DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+                $res2 = sqlDAL::readSql($sql2);
+                $result2 = sqlDAL::fetchAssoc($res2);
+                sqlDAL::close($res2);
+                if (!empty($result2)) {
+                    $channels[$key]['users_id'] = $key;
+                    $channels[$key]['total'] = intval($result2['total']);
                 }
             }
-            // return more first
-            usort($channels, function ($a, $b) {
-                return $a['total'] - $b['total'];
-            });
-            $response = ObjectYPT::setSessionCache($cacheName, $channels);
-            return $channels;
         }
+
+        // return more first
+        usort($channels, function ($a, $b) {
+            return $a['total'] - $b['total'];
+        });
+        $base64 = base64_encode(json_encode($channels));
+        $response = ObjectYPT::setCache($cacheName, $base64);
+        return $channels;
     }
 
     public static function getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly, $daysLimit = 30) {
