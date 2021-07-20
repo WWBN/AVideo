@@ -286,6 +286,8 @@ class VideoStatistic extends ObjectYPT {
             if (!empty($json)) {
                 return object_to_array($json);
             }
+        }else{
+            _error_log('getChannelsWithMoreViews no cache found '.$cacheName3);
         }
 
         // get unique videos ids from the requested timeframe
