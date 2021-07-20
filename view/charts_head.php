@@ -23,7 +23,7 @@ $times = array();
 $start = microtime(true);
 if ($config->getAuthCanViewChart() == 0) {
     if (User::isAdmin()) {
-        $videos = Video::getAllVideosAsync("viewable", true, true, array(), true);
+        $videos = Video::getAllVideos("viewable", true, true, array(), true);
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
         $totalVideos = Video::getTotalVideos("viewable");
@@ -43,7 +43,7 @@ if ($config->getAuthCanViewChart() == 0) {
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
     } else {
-        $videos = Video::getAllVideosAsync("viewable", true, true, array(), true);
+        $videos = Video::getAllVideos("viewable", true, true, array(), true);
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
         $totalVideos = Video::getTotalVideos("", true);
@@ -66,7 +66,7 @@ if ($config->getAuthCanViewChart() == 0) {
 } else if ($config->getAuthCanViewChart() == 1) {
     // mode 1 means selected users see admin-charts.
     if ((!empty($_SESSION['user']['canViewChart'])) || (User::isAdmin())) {
-        $videos = Video::getAllVideosAsync("viewable", true, true, array(), false);
+        $videos = Video::getAllVideos("viewable", true, true, array(), false);
         $times[__LINE__] = microtime(true) - $start;
         $start = microtime(true);
         $totalVideos = Video::getTotalVideos("viewable");
