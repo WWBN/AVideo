@@ -126,9 +126,9 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE IF NOT EXISTS `live_restreams` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `stream_url` VARCHAR(255) NOT NULL,
-  `stream_key` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(500) NOT NULL,
+  `stream_url` VARCHAR(500) NOT NULL,
+  `stream_key` VARCHAR(500) NOT NULL,
   `status` CHAR(1) NULL,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
