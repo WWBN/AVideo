@@ -28,6 +28,7 @@
             </script>
         </span>
         <?php
+        include $global['systemRootPath'] . 'plugin/Live/webRTC.php';
         if (Live::canStreamWithMeet()) {
             include $global['systemRootPath'] . 'plugin/Live/meet.php';
         }
@@ -35,6 +36,7 @@
     </div>
     <div class="panel-body">          
         <div class="embed-responsive embed-responsive-16by9">
+            <div id="divWebcamIFrame"><iframe src="about:blank" style="width: 100%; height: 100%;"></iframe></div> 
             <?php
             if (Live::canStreamWithMeet()) {
                 ?>

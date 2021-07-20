@@ -193,6 +193,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
         on_processingMeetReady();
         $('#mainVideo').slideUp();
         $('#divMeetToIFrame').slideDown();
+        $('#divWebcamIFrame').slideUp();
         player.pause();
     }
 
@@ -200,6 +201,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
         on_meetStop();
         $('#mainVideo').slideDown();
         $('#divMeetToIFrame').slideUp();
+        $('#divWebcamIFrame').slideUp();
     }
 
     var setProcessingIsLiveTimeout;
