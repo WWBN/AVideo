@@ -411,6 +411,11 @@ class VideoStatistic extends ObjectYPT {
 
     public static function getChannelsTotalViews($users_id, $daysLimit = 30) {
         global $global;
+        $cacheName = "getChannelsTotalViews($users_id, $daysLimit)";
+        $cache = ObjectYPT::getCache($cacheName, 3600); // 1 hour cache
+        if (!empty($cache)) {
+            return object_to_array($cache);
+        }
         $users_id = intval($users_id);
         // count how many views each one has
         $sql2 = "SELECT count(s.id) as total FROM videos_statistics s "
@@ -419,9 +424,11 @@ class VideoStatistic extends ObjectYPT {
         $res2 = sqlDAL::readSql($sql2);
         $result2 = sqlDAL::fetchAssoc($res2);
         sqlDAL::close($res2);
+        $result = 0;
         if (!empty($result2)) {
-            return intval($result2['total']);
+            $result = intval($result2['total']);
         }
+        ObjectYPT::setCache($cacheName, $result);        
         return 0;
     }
 
