@@ -276,7 +276,6 @@ class VideoStatistic extends ObjectYPT {
 
     public static function getChannelsWithMoreViews($daysLimit = 30) {
         global $global;
-
         $cacheName3 = "getChannelsWithMoreViews{$daysLimit}" . DIRECTORY_SEPARATOR . md5(json_encode(array($_GET, $_POST)));
         $cache = ObjectYPT::getCache($cacheName3, 3600); // 1 hour cache
         if (!empty($cache)) {
@@ -310,7 +309,7 @@ class VideoStatistic extends ObjectYPT {
                     $channelsPerUser[$users_id][] = $row['videos_id'];
                 }
             }
-            $response = ObjectYPT::setCache($cacheName2, $channelsPerUser);
+            $response = ObjectYPT::setCache($cacheName2, $channelsPerUser);            var_dump($response);exit;
         }
 
         if (!empty($channelsPerUser)) {
