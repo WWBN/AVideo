@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 if (!User::isLogged()) {
-    header("Location: {$global['webSiteRootURL']}");
+    gotToLoginAndComeBackHere();
 }
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");

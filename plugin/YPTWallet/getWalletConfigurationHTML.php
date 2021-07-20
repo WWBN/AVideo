@@ -1,3 +1,8 @@
+<?php
+if(empty($wallet) || !is_object($wallet)){
+    $wallet = YPTWallet::getWallet(User::getId());
+}  
+?>
 <div class="panel panel-default">
     <div class="panel-heading"><?php echo __("Configurations"); ?></div>
     <div class="panel-body">
