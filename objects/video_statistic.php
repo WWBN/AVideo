@@ -330,14 +330,16 @@ class VideoStatistic extends ObjectYPT {
                     $channels[$key]['total'] = intval($result2['total']);
                 }
             }
+            
+            // return more first
+            usort($channels, function ($a, $b) {
+                return $a['total'] - $b['total'];
+            });
         }
 
-        // return more first
-        usort($channels, function ($a, $b) {
-            return $a['total'] - $b['total'];
-        });
-        $base64 = base64_encode(json_encode($channels));
+        $base64 = base64_encode(_json_encode($channels));
         $response = ObjectYPT::setCache($cacheName3, $base64);
+        _error_log('getChannelsWithMoreViews cache saved ['.json_encode($response).'] '.$cacheName3);
         return $channels;
     }
 
