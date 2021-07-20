@@ -332,7 +332,7 @@ class VideoStatistic extends ObjectYPT {
             });
         }
         $response = ObjectYPT::setCache($cacheName3, $channels);
-        _error_log('getChannelsWithMoreViews cache saved [' . json_encode($response) . '] [' . json_encode($channels) . '] ' . $cacheName3);
+        _error_log('getChannelsWithMoreViews cache saved [' . json_encode($response) . '] ' . $cacheName3);
         return $channels;
     }
 
