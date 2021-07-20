@@ -92,5 +92,11 @@ class User_Location extends PluginAbstract {
         return false;
     }
 
+    
+    public function getPluginMenu() {
+        global $global;
+        $filename = $global['systemRootPath'] . 'plugin/User_Location/pluginMenu.html';
+        return file_get_contents($filename);
+    }
 
 }
