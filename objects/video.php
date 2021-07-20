@@ -1538,7 +1538,7 @@ if (!class_exists('Video')) {
             make_path($path);
             $cacheFileName = "{$path}_{$status}_{$showOnlyLoggedUserVideos}_{$ignoreGroup}_" . implode($videosArrayId) . "_{$getStatistcs}";
             $return = array();
-            if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
+            if (!file_exists($cacheFileName)) {
                 if (file_exists($cacheFileName . ".lock")) {
                     return array();
                 }
@@ -2099,19 +2099,8 @@ if (!class_exists('Video')) {
                 return $videos_getTags[$name];
             }
 
-            if (empty($advancedCustom->AsyncJobs)) {
-                $videos_getTags[$name] = self::getTags_($video_id, $type);
-                return $videos_getTags[$name];
-            } else {
-                $tags = self::getTagsAsync($video_id, $type);
-                foreach ($tags as $key => $value) {
-                    if (is_array($value)) {
-                        $tags[$key] = (object) $value;
-                    }
-                }
-                $videos_getTags[$name] = $tags;
-                return $tags;
-            }
+            $videos_getTags[$name] = self::getTags_($video_id, $type);
+            return $videos_getTags[$name];
         }
 
         public static function getTagsHTMLLabelArray($video_id) {
@@ -3326,7 +3315,7 @@ if (!class_exists('Video')) {
             global $advancedCustom;
             // I dont know why but I had to remove it to avoid ERR_RESPONSE_HEADERS_TOO_BIG
             header_remove('Set-Cookie');
-            if (empty($advancedCustom->AsyncJobs) && !$async) {
+            if (!$async) {
                 return self::getImageFromFilename_($filename, $type);
             } else {
                 return self::getImageFromFilenameAsync($filename, $type);
@@ -3551,7 +3540,7 @@ if (!class_exists('Video')) {
             $path = getCacheDir() . "getImageFromFilenameAsync/";
             make_path($path);
             $cacheFileName = "{$path}_{$filename}_{$type}";
-            if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName)) {
+            if (!file_exists($cacheFileName)) {
                 if (file_exists($cacheFileName . ".lock")) {
                     return array();
                 }
