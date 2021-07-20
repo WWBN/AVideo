@@ -132,7 +132,7 @@ $metaDescription = __("Channels");
                                     $_POST['current'] = 1;
                                     $_REQUEST['rowCount'] = 6;
                                     $_POST['sort']['created'] = "DESC";
-                                    $uploadedVideos = Video::getAllVideosAsync("viewable", $value['id']);
+                                    $uploadedVideos = Video::getAllVideos("viewable", $value['id']);
                                     
                                     createGallerySection($uploadedVideos, dechex(crc32($value['channelName'])));
                                     ?>
