@@ -277,7 +277,7 @@ class VideoStatistic extends ObjectYPT {
     public static function getChannelsWithMoreViews($daysLimit = 30) {
         global $global;
 
-        $cacheName3 = "getChannelsWithMoreViews{$daysLimit}_" . md5(json_encode(array($_GET, $_POST)));
+        $cacheName3 = "getChannelsWithMoreViews{$daysLimit}" . DIRECTORY_SEPARATOR . md5(json_encode(array($_GET, $_POST)));
         $cache = ObjectYPT::getCache($cacheName3, 3600); // 1 hour cache
         if (!empty($cache)) {
             _error_log('getChannelsWithMoreViews cache used');
@@ -286,15 +286,15 @@ class VideoStatistic extends ObjectYPT {
             if (!empty($json)) {
                 return object_to_array($json);
             }
-        }else{
-            _error_log('getChannelsWithMoreViews no cache found '.$cacheName3);
+        } else {
+            _error_log('getChannelsWithMoreViews no cache found ' . $cacheName3);
         }
 
         // get unique videos ids from the requested timeframe
         $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics WHERE DATE(`when`) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
         $channels = array();
         $channelsPerUser = array();
-        $cacheName2 = "getChannelsWithMoreViews" . md5($sql);
+        $cacheName2 = "getChannelsWithMoreViews" . DIRECTORY_SEPARATOR . md5($sql);
         $cache2 = ObjectYPT::getSessionCache($cacheName2, 3600); // 1 hour cache
         if (!empty($cache2)) {
             $channelsPerUser = object_to_array($cache2);
@@ -330,7 +330,7 @@ class VideoStatistic extends ObjectYPT {
                     $channels[$key]['total'] = intval($result2['total']);
                 }
             }
-            
+
             // return more first
             usort($channels, function ($a, $b) {
                 return $a['total'] - $b['total'];
@@ -339,7 +339,7 @@ class VideoStatistic extends ObjectYPT {
 
         $base64 = base64_encode(_json_encode($channels));
         $response = ObjectYPT::setCache($cacheName3, $base64);
-        _error_log('getChannelsWithMoreViews cache saved ['.json_encode($response).'] '.$cacheName3);
+        _error_log('getChannelsWithMoreViews cache saved [' . json_encode($response) . '] ' . $cacheName3);
         return $channels;
     }
 
