@@ -1298,37 +1298,7 @@ if (!class_exists('Video')) {
                 return false;
             }
         }
-
-        public static function getAllVideosAsync($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true) {
-            global $global, $advancedCustom;
-            $return = array();
-            $users_id = User::getId();
-            $get = json_encode(@$_GET);
-            $post = json_encode(@$_POST);
-            $md5 = md5("{$users_id}{$get}{$post}{$status}{$showOnlyLoggedUserVideos}{$ignoreGroup}" . implode("_", $videosArrayId) . "{$getStatistcs}{$showUnlisted}{$activeUsersOnly}");
-            $path = getCacheDir() . "getAllVideosAsync/";
-            make_path($path);
-            $cacheFileName = "{$path}{$md5}";
-            if (empty($advancedCustom->AsyncJobs) || !file_exists($cacheFileName) || filesize($cacheFileName) === 0) {
-                if (file_exists($cacheFileName . ".lock")) {
-                    return array();
-                }
-                file_put_contents($cacheFileName . ".lock", 1);
-                $total = static::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnly);
-                file_put_contents($cacheFileName, json_encode($total));
-                unlink($cacheFileName . ".lock");
-                return $total;
-            }
-            $return = _json_decode(file_get_contents($cacheFileName));
-            if (time() - filemtime($cacheFileName) > cacheExpirationTime()) {
-                // file older than 1 min
-                $command = ("php '{$global['systemRootPath']}objects/getAllVideosAsync.php' '$status' '$showOnlyLoggedUserVideos' '$ignoreGroup' '" . json_encode($videosArrayId) . "' '$getStatistcs' '$showUnlisted' '$activeUsersOnly' '{$get}' '{$post}' '{$cacheFileName}'");
-                _error_log("getAllVideosAsync: {$command}");
-                exec($command . " > /dev/null 2>/dev/null &");
-            }
-            return object_to_array($return);
-        }
-
+        
         /**
          * Same as getAllVideos() method but a lighter query
          * @global type $global
