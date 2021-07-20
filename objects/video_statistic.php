@@ -300,7 +300,7 @@ class VideoStatistic extends ObjectYPT
     {
         global $global;
         // get unique videos ids from the requested timeframe
-        $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics WHERE DATE(created) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+        $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics WHERE DATE(`when`) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
 
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
