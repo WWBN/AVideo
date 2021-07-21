@@ -4,8 +4,7 @@ require_once '../../videos/configuration.php';
 $plugin = AVideoPlugin::loadPluginIfEnabled('LiveLinks');
 
 if (empty($plugin) || !$plugin->canAddLinks()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
-    exit;
+    forbiddenPage(__("You can not do this"));
 }
 ?>
 <!DOCTYPE html>

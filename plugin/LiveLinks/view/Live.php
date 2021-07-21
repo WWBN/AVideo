@@ -13,26 +13,36 @@ if (empty($plugin)) {
     die('Plugin disabled');
 }
 
-if (empty($_GET['link'])) {
+$_GET['link'] = intval($_GET['link']);
+
+if (!empty($_GET['link'])) {
+    $liveLink = new LiveLinksTable($_GET['link']);
+
+    $isLiveLink = $liveLink->getId();
+    if ($liveLink->getType() == 'logged_only' && !User::isLogged()) {
+        die('Link for logged only');
+    }
+
+    $uuid = $_GET['link'];
+    $t['id'] = $uuid;
+    $t['users_id'] = $liveLink->getUsers_id();
+    $t['title'] = $liveLink->getTitle();
+    $t['link'] = $liveLink->getLink();
+    $t['description'] = $liveLink->getDescription();
+
+    AVideoPlugin::getModeLiveLink($liveLink->getId());
+    $toTime = strtotime($liveLink->getStart_date());
+} else {
+    $isLiveLink = uniqid();
+    $uuid = $isLiveLink;
+    $t = LiveLinks::decodeDinamicVideoLink();
+    $toTime = time();
+}
+
+if (empty($t['users_id'])) {
     die('Link not found');
 }
-$_GET['link'] = intval($_GET['link']);
-$liveLink = new LiveLinksTable($_GET['link']);
 
-$isLiveLink = $liveLink->getId();
-if ($liveLink->getType() == 'logged_only' && !User::isLogged()) {
-    die('Link for logged only');
-}
-
-$uuid = $_GET['link'];
-$t['id'] = $uuid;
-$t['users_id'] = $liveLink->getUsers_id();
-$t['title'] = $liveLink->getTitle();
-$t['link'] = $liveLink->getLink();
-$t['description'] = $liveLink->getDescription();
-
-AVideoPlugin::getModeLiveLink($liveLink->getId());
-$toTime = strtotime($liveLink->getStart_date());
 if ($toTime > time()) {
     $message = "<strong>{$t['title']}</strong><br>{$t['description']}";
     $image = User::getPhoto($t['users_id']);

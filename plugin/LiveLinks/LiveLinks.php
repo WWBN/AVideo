@@ -171,17 +171,17 @@ class LiveLinks extends PluginAbstract {
             $newContentExtra = str_replace($search, $replace, $contentExtra);
             $newContentExtraVideoPage = str_replace($search, $replace, $contentExtraVideoPage);
             $newContentVideoListItem = str_replace($search, $replace, $contentListem);
-            
+
             $callback = '';
             $galleryCallback = '';
-            if(strtotime($value['start_date']) > time()){
+            if (strtotime($value['start_date']) > time()) {
                 $callback = "liveLinkApps(\$('.liveLink_{$value['id']}'), 'liveLink_{$value['id']}', '{$value['start_date']}')";
                 $galleryCallback = 'var liveLinkItemSelector = \'.liveLink_' . $value['id'] . ' .liveNow\'; '
-                . '$(liveLinkItemSelector).attr(\'class\', \'liveNow label label-primary\');'
-                . '$(liveLinkItemSelector).text(\'' . $value['start_date'] . '\');'
-                . 'startTimerToDate(\'' . $value['start_date'] . '\', liveLinkItemSelector, true);';
+                        . '$(liveLinkItemSelector).attr(\'class\', \'liveNow label label-primary\');'
+                        . '$(liveLinkItemSelector).text(\'' . $value['start_date'] . '\');'
+                        . 'startTimerToDate(\'' . $value['start_date'] . '\', liveLinkItemSelector, true);';
             }
-            
+
             $array[] = array(
                 "type" => "LiveLink",
                 "html" => $newContent,
@@ -438,27 +438,57 @@ class LiveLinks extends PluginAbstract {
         include $global['systemRootPath'] . 'plugin/LiveLinks/view/footer.php';
         return '<!-- LiveLinks Footer Code -->';
     }
-    
+
     static function userCanWatch($users_id, $livelinks_id) {
-        if(empty($users_id) || empty($livelinks_id)){
+        if (empty($users_id) || empty($livelinks_id)) {
             return false;
         }
-        
-        if(User::isAdmin()){
+
+        if (User::isAdmin()) {
             return true;
         }
-        
+
         $livelinks = new LiveLinksTable($livelinks_id);
-        if($livelinks->getUsers_id()==$users_id){
+        if ($livelinks->getUsers_id() == $users_id) {
             return true;
         }
-        
+
         $user_groups_ids = LiveLinksTable::getUserGorupsIds($livelinks_id);
-        if(empty($user_groups_ids)){
+        if (empty($user_groups_ids)) {
             return true;
         }
-        
+
         return LiveLinksTable::userGroupsMatch($livelinks_id, $users_id);
+    }
+
+    public static function getDinamicVideoLink($videoLink, $title, $owner_users_id) {
+        global $global;
+        $video = new stdClass();
+        $video->videoLink = $videoLink;
+        $video->title = $title;
+        $video->users_id = $owner_users_id;
+
+        $hash = encryptString(_json_encode($video));
+
+        return "{$global['webSiteRootURL']}liveLink/0/?hash={$hash}";
+    }
+
+    public static function decodeDinamicVideoLink() {
+
+        if (empty($_REQUEST['hash'])) {
+            return false;
+        }
+
+        $string = decryptString($_REQUEST['hash']);
+        $video = _json_decode($string);
+        //var_dump($video);exit;
+        $t = array();
+        $t['id'] = -1;
+        $t['users_id'] = $video->users_id;
+        $t['title'] = $video->title;
+        $t['link'] = $video->videoLink;
+        $t['description'] = @$video->description;
+        return $t;
     }
 
 }

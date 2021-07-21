@@ -1,5 +1,9 @@
 <?php
-$liveLink = LiveLinks::getSourceLink($t['id']);
+if($t['id']>0){
+    $liveLink = LiveLinks::getSourceLink($t['id']);
+}else{
+    $liveLink = $t['link'];
+}
 $posterURL = LiveLinks::getImage($t['id']);
 ?>
 <link href="<?php echo getCDN(); ?>plugin/Live/view/live.css" rel="stylesheet" type="text/css"/>
