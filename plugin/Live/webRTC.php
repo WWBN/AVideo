@@ -5,7 +5,7 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
 ?>
 <span class=" pull-right">
     <button class="btn btn-default btn-xs" id="startWebcam" onclick="startWebcamNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
-        <i class="fas fa-camera"></i> <?php echo __("Webcam"); ?>
+        <i class="fas fa-camera"></i> <span class="hidden-sm hidden-xs"><?php echo __("Webcam"); ?></span>
     </button>
 </span>
 <script>

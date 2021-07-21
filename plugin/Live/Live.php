@@ -397,8 +397,8 @@ class Live extends PluginAbstract {
         _error_log("NGINX Live::controlRecordingAsync end {$pid}");
         return $pid;
     }
-    
-    static function userCanRecordLive($users_id){
+
+    static function userCanRecordLive($users_id) {
         if (!AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
             return false;
         }
@@ -1895,6 +1895,19 @@ class Live extends PluginAbstract {
         unset($_isLiveAndIsReadyFromKey);
     }
 
+    public static function getReverseRestreamObject($m3u8, $users_id) {
+        if (!isValidURL($m3u8)) {
+            return false;
+        }
+        $obj = new stdClass();
+        $obj->m3u8 = $m3u8;
+        $obj->restreamerURL = self::getRestreamer();
+        $obj->restreamsDestinations = array(Live::getRTMPLink($users_id));
+        $obj->token = getToken(60);
+        $obj->users_id = $users_id;
+        return $obj;
+    }
+
     public static function getRestreamObject($liveTransmitionHistory_id) {
 
         if (empty($liveTransmitionHistory_id)) {
@@ -1920,15 +1933,24 @@ class Live extends PluginAbstract {
         return $obj;
     }
 
+    public static function reverseRestream($m3u8, $users_id) {
+        $obj = self::getReverseRestreamObject($m3u8, $users_id);
+        return self::sendRestream($obj);
+    }
+
     public static function restream($liveTransmitionHistory_id) {
+        $obj = self::getRestreamObject($liveTransmitionHistory_id);
+        return self::sendRestream($obj);
+    }
+
+    private static function sendRestream($obj) {
         outputAndContinueInBackground();
         try {
-            $obj = self::getRestreamObject($liveTransmitionHistory_id);
             if (empty($obj)) {
                 return false;
             }
             $data_string = json_encode($obj);
-            _error_log("Live:restream ({$obj->restreamerURL}) {$data_string}");
+            _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string}");
 //open connection
             $ch = curl_init();
 //set the url, number of POST vars, POST data
@@ -1947,7 +1969,7 @@ class Live extends PluginAbstract {
             curl_close($ch);
             return _json_decode($output);
         } catch (Exception $exc) {
-            _error_log("Live:restream " . $exc->getTraceAsString());
+            _error_log("Live:sendRestream " . $exc->getTraceAsString());
         }
         return false;
     }
@@ -2226,16 +2248,17 @@ class Live extends PluginAbstract {
         }
         return false;
     }
-    
-    static function getUserHash($users_id){
-        return encryptString(_json_encode(array('users_id'=>$users_id, 'time'=>time())));
+
+    static function getUserHash($users_id) {
+        return encryptString(_json_encode(array('users_id' => $users_id, 'time' => time())));
     }
-    
-    static function decryptHash($hash){
+
+    static function decryptHash($hash) {
         $string = decryptString($hash);
         $json = _json_decode($string);
         return object_to_array($json);
     }
+
 }
 
 class LiveImageType {
