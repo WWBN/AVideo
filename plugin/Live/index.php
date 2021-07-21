@@ -102,6 +102,9 @@ if (empty($channelName)) {
                     #live .panel-body {
                         height: calc(50vh - 200px);
                     }
+                    #liveFooterPanel{
+                        padding: 0;
+                    }
                 }    
                 <?php
             }
