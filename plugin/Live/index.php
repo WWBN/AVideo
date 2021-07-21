@@ -89,10 +89,8 @@ if (empty($channelName)) {
             #live .panel-body {
                 height: calc(100vh - 220px);
             }
-            #live .panel-body > div{
+            #live .panel-body > div, #mainVideo{
                 height: -webkit-fill-available;
-            }
-            #mainVideo{
                 width:  -webkit-fill-available;
             }
             <?php
