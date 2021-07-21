@@ -95,6 +95,17 @@ if (empty($channelName)) {
             #mainVideo{
                 width:  -webkit-fill-available;
             }
+            <?php
+            if (AVideoPlugin::isEnabledByName('Chat2')) {
+                ?>
+                @media (max-width: 769px) {
+                    #live .panel-body {
+                        height: calc(50vh - 200px);
+                    }
+                }    
+                <?php
+            }
+            ?>
         </style>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
