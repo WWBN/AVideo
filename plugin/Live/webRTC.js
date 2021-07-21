@@ -29,6 +29,7 @@ function startLiveRestream(m3u8) {
 }
 
 function webRTCConnect() {
+    modal.showPleaseWait();
     document.querySelector("iframe").contentWindow.postMessage({setLiveStart: 1}, "*");
 }
 
