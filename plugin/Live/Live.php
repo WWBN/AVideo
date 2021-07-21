@@ -1952,9 +1952,9 @@ class Live extends PluginAbstract {
             }
             $data_string = json_encode($obj);
             _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string}");
-//open connection
+            //open connection
             $ch = curl_init();
-//set the url, number of POST vars, POST data
+            //set the url, number of POST vars, POST data
             curl_setopt($ch, CURLOPT_URL, $obj->restreamerURL);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
@@ -1968,7 +1968,16 @@ class Live extends PluginAbstract {
             );
             $output = curl_exec($ch);
             curl_close($ch);
-            return _json_decode($output);
+            if(empty($output)){
+                _error_log('Live:sendRestream ERROR '.curl_error($ch));
+                return false;
+            }
+            $json = _json_decode($output);
+            if(empty($output)){
+                _error_log('Live:sendRestream JSON ERROR '.$output);
+                return false;
+            }
+            return $json;
         } catch (Exception $exc) {
             _error_log("Live:sendRestream " . $exc->getTraceAsString());
             
