@@ -34,6 +34,7 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
             $('#mainVideo').hide();
             $('#divMeetToIFrame').hide();
             $('#divWebcamIFrame').show();
+            $('.showOnWebRTC').show();
             $('#divWebcamIFrame iframe').attr('src', '<?php echo $iframeURL; ?>');
             if (typeof stopMeetNow == 'function') {
                 stopMeetNow();
