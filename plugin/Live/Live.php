@@ -1980,6 +1980,7 @@ class Live extends PluginAbstract {
                 _error_log('Live:sendRestream JSON ERROR '.$output);
                 return false;
             }
+            _error_log('Live:sendRestream complete '.$output);
             return $json;
         } catch (Exception $exc) {
             _error_log("Live:sendRestream " . $exc->getTraceAsString());
