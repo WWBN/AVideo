@@ -1,3 +1,7 @@
+<?php
+$live_servers_id = Live::getLiveServersIdRequest();
+$users_id = User::getId();
+?>
 <script>autoplay = false;</script>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -21,12 +25,12 @@
                 <?php
             }
             ?>
-            <video poster="<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>" controls 
+                <video poster="<?php echo Live::getPoster($users_id, $live_servers_id); ?>" controls 
                    class=" video-js vjs-default-skin vjs-big-play-centered" 
                    id="mainVideo" ><!-- indexCol1 -->
                 <source src="<?php 
-                $liveStreamObject2 = new LiveStreamObject($trasnmition['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index'], 0);
-                $m3u8URL = $liveStreamObject2->getOnlineM3U8(User::getId());
+                $liveStreamObject2 = new LiveStreamObject($trasnmition['key'], $live_servers_id, @$_REQUEST['live_index'], 0);
+                $m3u8URL = $liveStreamObject2->getOnlineM3U8($users_id);
                 echo $m3u8URL; 
                 ?>" type='application/x-mpegURL'>
             </video>
