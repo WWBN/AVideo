@@ -3,7 +3,7 @@ $iframeURL = 'https://webrtc.ca1.ypt.me/player/';
 $iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webSiteRootURL']);
 $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(User::getId()));
 ?>
-<span class=" pull-right">
+<span class=" pull-right" style="margin-left: 5px;">
     <button class="btn btn-danger btn-xs showOnWebRTC" id="webRTCDisconnect" style="display: none;" onclick="webRTCDisconnect();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
         <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
     </button>
