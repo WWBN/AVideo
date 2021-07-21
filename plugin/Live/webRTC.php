@@ -27,6 +27,11 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
         $('#divWebcamIFrame').slideUp();
     }
 
+    window.addEventListener('message', event => {
+        if (event.data.startLiveRestream) {
+            startLiveRestream();
+        }
+    });
 
     function startLiveRestream() {
         //console.log('WebRTCLiveCam: startLive');
