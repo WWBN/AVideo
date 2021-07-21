@@ -1934,7 +1934,9 @@ class Live extends PluginAbstract {
     }
 
     public static function reverseRestream($m3u8, $users_id, $live_servers_id=-1) {
+        _error_log("Live:reverseRestream start");
         $obj = self::getReverseRestreamObject($m3u8, $users_id, $live_servers_id);
+        _error_log("Live:reverseRestream obj ". _json_encode($obj));
         return self::sendRestream($obj);
     }
 

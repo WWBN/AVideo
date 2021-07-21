@@ -35,7 +35,7 @@ _error_log('webRTCToLive: start');
 $users_id = User::getId();
 $count = 1;
 while ($count <= 4) {
-    sleep(10);
+    sleep(5);
     $count++;
     if (isURL200($_REQUEST['m3u8'], true)) {
         break;
