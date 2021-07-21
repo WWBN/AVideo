@@ -10,6 +10,9 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
     <button class="btn btn-success btn-xs showOnWebRTC" id="webRTCConnect" style="display: none;" onclick="webRTCConnect();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
         <i class="fas fa-circle"></i> <span class="hidden-sm hidden-xs"><?php echo __("Go Live"); ?></span>
     </button>
+    <button class="btn btn-primary btn-xs showOnWebRTC" style="display: none;" onclick="webRTCConfiguration();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Configuration"); ?>">
+        <i class="fas fa-cog"></i> <span class="hidden-sm hidden-xs"><?php echo __("Configuration"); ?></span>
+    </button>
     <button class="btn btn-default btn-xs" id="startWebcam" onclick="toogleWebcam();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
         <i class="fas fa-camera"></i> <span class="hidden-sm hidden-xs"><?php echo __("Webcam"); ?></span>
     </button>

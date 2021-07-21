@@ -35,3 +35,7 @@ function webRTCConnect() {
 function webRTCDisconnect() {
     document.querySelector("iframe").contentWindow.postMessage({setLiveStop: 1}, "*");
 }
+
+function webRTCConfiguration() {
+    document.querySelector("iframe").contentWindow.postMessage({setConfiguration: 1}, "*");
+}
