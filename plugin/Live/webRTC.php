@@ -45,11 +45,9 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
             },
             success: function (response) {
                 if (response.error) {
-                    avideoAlertError(response.msg);
-                    stopStreaming();
+                    document.querySelector("iframe").contentWindow.postMessage({setLiveStop: 1}, "*");
                 } else {
-                    avideoToastSuccess(response.msg);
-                    $('body').addClass('webRTCBtnStarted');
+                    document.querySelector("iframe").contentWindow.postMessage({setLiveStart: 1}, "*");
                 }
                 modal.hidePleaseWait();
             }
