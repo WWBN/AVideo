@@ -474,8 +474,8 @@ class Live extends PluginAbstract {
                 }
                 break;
             case "save_dvr":
-                $obj = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
-                if (empty($obj) || empty($obj->saveDVREnable)) {
+                $obj2 = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
+                if (empty($obj2) || empty($obj->saveDVREnable2)) {
                     return '';
                 }
                 if ($obj->controllButtonsShowOnlyToAdmin_save_dvr && !User::isAdmin()) {
@@ -1947,6 +1947,7 @@ class Live extends PluginAbstract {
     private static function sendRestream($obj) {
         try {
             if (empty($obj)) {
+                _error_log("Live:sendRestream object is empty");
                 return false;
             }
             $data_string = json_encode($obj);
@@ -1970,6 +1971,7 @@ class Live extends PluginAbstract {
             return _json_decode($output);
         } catch (Exception $exc) {
             _error_log("Live:sendRestream " . $exc->getTraceAsString());
+            
         }
         return false;
     }
