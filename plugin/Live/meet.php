@@ -36,7 +36,7 @@ $dropURL = "{$global['webSiteRootURL']}plugin/Live/droplive.json.php?live_transm
 include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
 ?>
 <span class=" pull-right" style="display: none;" id="meetButtons">
-    <button class="btn btn-danger btn-xs showOnLive hideOnProcessingLive hideOnMeetNotReady showOnLive hideOnNoLive" id="stopRecording" style="display: none;" onclick="aVideoMeetStopRecording('<?php echo $dropURL; ?>')" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
+    <button class="btn btn-danger btn-xs showOnLive hideOnProcessingLive hideOnMeetNotReady hideOnNoLive" id="stopRecording" style="display: none;" onclick="aVideoMeetStopRecording('<?php echo $dropURL; ?>')" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
         <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
     </button>
     <button class="btn btn-success btn-xs showOnNoLive hideOnProcessingLive hideOnMeetNotReady" id="startRecording" style="display: none;" onclick="aVideoMeetStartRecording('<?php echo Live::getRTMPLink(User::getId()); ?>','<?php echo $dropURL; ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">

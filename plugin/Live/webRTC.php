@@ -4,10 +4,17 @@ $iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webS
 $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(User::getId()));
 ?>
 <span class=" pull-right">
+    <button class="btn btn-danger btn-xs showOnWebRTC" id="webRTCDisconnect" style="display: none;" onclick="webRTCDisconnect();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
+        <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
+    </button>
+    <button class="btn btn-success btn-xs showOnWebRTC" id="webRTCConnect" style="display: none;" onclick="webRTCConnect();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
+        <i class="fas fa-circle"></i> <?php echo __("Go Live"); ?>
+    </button>
     <button class="btn btn-default btn-xs" id="startWebcam" onclick="startWebcamNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
         <i class="fas fa-camera"></i> <span class="hidden-sm hidden-xs"><?php echo __("Webcam"); ?></span>
     </button>
 </span>
+<script src="<?php echo getCDN(); ?>plugin/Live/webRTC.js" type="text/javascript"></script>
 <script>
     function startWebcamNow() {
         showWebcam();
@@ -24,36 +31,32 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
     function hideWebcam() {
         $('#mainVideo').slideDown();
         $('#divMeetToIFrame').slideUp();
-        $('#divWebcamIFrame').slideUp();
+        $('#divWebcamIFrame, .showOnWebRTC').slideUp();
     }
-
-    window.addEventListener('message', event => {
-        if (event.data.startLiveRestream) {
-            startLiveRestream(event.data.m3u8);
+    var updateControlStatusLastState;
+    function updateControlStatus(){
+        isVisible = $('#divWebcamIFrame').is(":visible");        
+        if(updateControlStatusLastState === isVisible){
+            return false;
         }
-    });
-
-    function startLiveRestream(m3u8) {
-        //console.log('WebRTCLiveCam: startLive');
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + '/plugin/Live/webRTCToLive.json.php',
-            method: 'POST',
-            data: {
-                'm3u8': m3u8,
-                'live_servers_id': '<?php echo Live::getCurrentLiveServersId(); ?>'
-            },
-            success: function (response) {
-                if (response.error) {
-                    document.querySelector("iframe").contentWindow.postMessage({setLiveStop: 1}, "*");
-                } else {
-                    document.querySelector("iframe").contentWindow.postMessage({setLiveStart: 1}, "*");
-                }
-                modal.hidePleaseWait();
+        updateControlStatusLastState = isVisible;
+        
+        if(isVisible){
+            if($('.liveOnlineLabel').hasClass('label-danger')){
+                $('#webRTCDisconnect').hide();
+                $('#webRTCConnect').show();
+            }else{
+                $('#webRTCDisconnect').show();
+                $('#webRTCConnect').hide();
             }
-        });
+        }else{
+            $('.showOnWebRTC').slideUp();
+        }
     }
 
     $(document).ready(function () {
+        setInterval(function(){
+            updateControlStatus();
+        },1000);
     });
 </script>
