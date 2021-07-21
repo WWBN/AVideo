@@ -7,7 +7,7 @@ if (empty($objM)) {
 
 $meetDomain = Meet::getDomain();
 if (empty($meetDomain)) {
-    echo "<span class='label label-danger'>".__("The server is not ready")."</span>";
+    echo "<span class='label label-danger'>" . __("The server is not ready") . "</span>";
     return '';
 }
 
@@ -39,14 +39,14 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
     <button class="btn btn-danger btn-xs showOnLive hideOnProcessingLive hideOnMeetNotReady hideOnNoLive" id="stopRecording" style="display: none;" onclick="aVideoMeetStopRecording('<?php echo $dropURL; ?>')" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">
         <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
     </button>
-    <button class="btn btn-success btn-xs showOnNoLive hideOnProcessingLive hideOnMeetNotReady" id="startRecording" style="display: none;" onclick="aVideoMeetStartRecording('<?php echo Live::getRTMPLink(User::getId()); ?>','<?php echo $dropURL; ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
+    <button class="btn btn-success btn-xs showOnNoLive hideOnProcessingLive hideOnMeetNotReady" id="startRecording" style="display: none;" onclick="aVideoMeetStartRecording('<?php echo Live::getRTMPLink(User::getId()); ?>', '<?php echo $dropURL; ?>');" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Start Live Now"); ?>">
         <i class="fas fa-circle"></i> <?php echo __("Go Live"); ?>
     </button>
     <button class="btn btn-warning btn-xs showOnProcessingLive hideOnMeetNotReady" style="display: none;">
         <i class="fas fa-circle-notch fa-spin"></i> <?php echo __("Please Wait"); ?>
     </button>
     <button class="btn btn-default btn-xs hideOnMeetReady showOnMeetNotReady hideOnProcessingMeetReady" id="startMeet" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
-        <i class="fas fa-camera"></i> <span class="hidden-sm hidden-xs"><?php echo __("Webcam"); ?>/<?php echo __("Meet"); ?></span>
+        <i class="fas fa-comments"></i> <span class="hidden-sm hidden-xs"><?php echo __("Meet"); ?></span>
     </button>
     <button class="btn btn-warning btn-xs hideOnMeetReady showOnProcessingMeetReady" id="processMeet" style="display: none;" >
         <i class="fas fa-cog fa-spin"></i> <?php echo __("Please Wait"); ?>
@@ -124,15 +124,23 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
                 } else {
                     aVideoMeetStart('<?php echo $domain; ?>', response.roomName, response.jwt, '<?php echo User::getEmail_(); ?>', '<?php echo addcslashes(User::getNameIdentification(), "'"); ?>', <?php echo json_encode(Meet::getButtons(0)); ?>);
                     
+                    if (typeof hideWebcam == 'function') {
+                        hideWebcam();
+                    }
                     meetPassword = response.password;
                     $('#meetPassword').val(meetPassword);
-                    
+
                     meetLink = response.link;
                     $('#meetLink').val(meetLink);
 <?php echo (Meet::isCustomJitsi() ? 'event_on_meetReady();$("#startRecording").hide();$("#stopRecording").hide();' : "") ?>
                 }
             }
         });
+    }
+    
+    function stopMeetNow() {
+        $('#divMeetToIFrame iframe').remove();
+        on_meetStop();
     }
 
     var showStopStartInterval;
@@ -191,17 +199,17 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
     function showMeet() {
         userIsControling = true;
         on_processingMeetReady();
-        $('#mainVideo').slideUp();
-        $('#divMeetToIFrame').slideDown();
-        $('#divWebcamIFrame').slideUp();
+        $('#mainVideo').hide();
+        $('#divMeetToIFrame').show();
+        $('#divWebcamIFrame').hide();
         player.pause();
     }
 
     function hideMeet() {
         on_meetStop();
-        $('#mainVideo').slideDown();
-        $('#divMeetToIFrame').slideUp();
-        $('#divWebcamIFrame').slideUp();
+        $('#mainVideo').show();
+        $('#divMeetToIFrame').hide();
+        $('#divWebcamIFrame').hide();
     }
 
     var setProcessingIsLiveTimeout;
