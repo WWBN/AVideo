@@ -40,7 +40,7 @@ while ($count <= 4) {
     if (isURL200($_REQUEST['m3u8'], true)) {
         break;
     }else{
-        _error_log('webRTCToLive: wait till 200');
+        _error_log('webRTCToLive: wait till 200 '.$_REQUEST['m3u8']);
     }
 }
 
