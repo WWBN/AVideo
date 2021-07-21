@@ -1945,6 +1945,7 @@ class Live extends PluginAbstract {
     }
 
     private static function sendRestream($obj) {
+        _error_log("Live:sendRestream start");
         try {
             if (empty($obj)) {
                 _error_log("Live:sendRestream object is empty");
@@ -1980,7 +1981,7 @@ class Live extends PluginAbstract {
             return $json;
         } catch (Exception $exc) {
             _error_log("Live:sendRestream " . $exc->getTraceAsString());
-            
+            return false;
         }
         return false;
     }
