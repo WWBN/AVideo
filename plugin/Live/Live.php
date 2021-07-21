@@ -1939,12 +1939,12 @@ class Live extends PluginAbstract {
     }
 
     public static function restream($liveTransmitionHistory_id) {
+        outputAndContinueInBackground();
         $obj = self::getRestreamObject($liveTransmitionHistory_id);
         return self::sendRestream($obj);
     }
 
     private static function sendRestream($obj) {
-        outputAndContinueInBackground();
         try {
             if (empty($obj)) {
                 return false;
