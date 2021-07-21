@@ -16,47 +16,47 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
 </span>
 <script src="<?php echo getCDN(); ?>plugin/Live/webRTC.js" type="text/javascript"></script>
 <script>
-    function startWebcamNow() {
-        showWebcam();
-        $('#divWebcamIFrame iframe').attr('src', '<?php echo $iframeURL; ?>');
-    }
-
-    function showWebcam() {
-        $('#mainVideo').slideUp();
-        $('#divMeetToIFrame').slideUp();
-        $('#divWebcamIFrame').slideDown();
-        player.pause();
-    }
-
-    function hideWebcam() {
-        $('#mainVideo').slideDown();
-        $('#divMeetToIFrame').slideUp();
-        $('#divWebcamIFrame, .showOnWebRTC').slideUp();
-    }
-    var updateControlStatusLastState;
-    function updateControlStatus(){
-        isVisible = $('#divWebcamIFrame').is(":visible");        
-        if(updateControlStatusLastState === isVisible){
-            return false;
+        function startWebcamNow() {
+            showWebcam();
+            $('#divWebcamIFrame iframe').attr('src', '<?php echo $iframeURL; ?>');
         }
-        updateControlStatusLastState = isVisible;
-        
-        if(isVisible){
-            if($('.liveOnlineLabel').hasClass('label-danger')){
-                $('#webRTCDisconnect').hide();
-                $('#webRTCConnect').show();
-            }else{
-                $('#webRTCDisconnect').show();
-                $('#webRTCConnect').hide();
+
+        function showWebcam() {
+            $('#mainVideo').slideUp();
+            $('#divMeetToIFrame').slideUp();
+            $('#divWebcamIFrame').slideDown();
+            player.pause();
+        }
+
+        function hideWebcam() {
+            $('#mainVideo').slideDown();
+            $('#divMeetToIFrame').slideUp();
+            $('#divWebcamIFrame, .showOnWebRTC').slideUp();
+        }
+        var updateControlStatusLastState;
+        function updateControlStatus() {
+            isVisible = $('#divWebcamIFrame').is(":visible");
+            if (isVisible) {
+                var hasclass = $('.liveOnlineLabel').hasClass('label-danger');
+                if (updateControlStatusLastState === hasclass) {
+                    return false;
+                }
+                updateControlStatusLastState = hasclass;
+                if (hasclass) {
+                    $('#webRTCDisconnect').hide();
+                    $('#webRTCConnect').show();
+                } else {
+                    $('#webRTCDisconnect').show();
+                    $('#webRTCConnect').hide();
+                }
+            } else {
+                $('.showOnWebRTC').slideUp();
             }
-        }else{
-            $('.showOnWebRTC').slideUp();
         }
-    }
 
-    $(document).ready(function () {
-        setInterval(function(){
-            updateControlStatus();
-        },1000);
-    });
+        $(document).ready(function () {
+            setInterval(function () {
+                updateControlStatus();
+            }, 1000);
+        });
 </script>
