@@ -26,6 +26,30 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
         $('#divMeetToIFrame').slideUp();
         $('#divWebcamIFrame').slideUp();
     }
+
+
+    function startLiveRestream() {
+        //console.log('WebRTCLiveCam: startLive');
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + '/plugin/Live/webRTCToLive.json.php',
+            method: 'POST',
+            data: {
+                'm3u8': '<?php echo $links['hls']; ?>'
+            },
+            success: function (response) {
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                    stopStreaming();
+                } else {
+                    avideoToastSuccess(response.msg);
+                    $('body').addClass('webRTCBtnStarted');
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    }
+
     $(document).ready(function () {
     });
 </script>

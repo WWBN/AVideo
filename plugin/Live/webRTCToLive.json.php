@@ -35,4 +35,6 @@ if (!isValidURL($_REQUEST['m3u8'])) {
 $users_id = User::getId();
 $obj->response = Live::reverseRestream($_REQUEST['m3u8'], $users_id);
 
+$obj->error = false;
+
 die(json_encode($obj));
