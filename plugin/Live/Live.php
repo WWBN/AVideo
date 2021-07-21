@@ -1959,7 +1959,7 @@ class Live extends PluginAbstract {
             $ch = curl_init();
             //set the url, number of POST vars, POST data
             curl_setopt($ch, CURLOPT_URL, $obj->restreamerURL);
-            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
