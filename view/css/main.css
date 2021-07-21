@@ -153,7 +153,7 @@ footer ul.list-inline li {
 }
 @media (max-width: 767px) {
     .navbar-form, #modeYoutubeBottomContent, .principalContainer,
-    .nopaddingOnSmall,.container-fluid, .yptRightBar{
+    .nopaddingOnSmall,.container-fluid, #yptRightBar{
         padding: 0;
     }
     .panel-body, .tabbable-panel {
