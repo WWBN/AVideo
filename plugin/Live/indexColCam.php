@@ -25,7 +25,7 @@ $users_id = User::getId();
                 <?php
             }
             ?>
-                <video poster="<?php echo Live::getPoster($users_id, $live_servers_id); ?>" controls 
+                <video poster="<?php echo $global['webSiteRootURL'], Live::getPoster($users_id, $live_servers_id); ?>" controls 
                    class=" video-js vjs-default-skin vjs-big-play-centered" 
                    id="mainVideo" ><!-- indexCol1 -->
                 <source src="<?php 
