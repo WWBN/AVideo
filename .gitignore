@@ -71,3 +71,4 @@
 /videos/
 *.ser
 sitemap.xml
+/plugin/WebRTCLiveCam/

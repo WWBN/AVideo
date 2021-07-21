@@ -694,6 +694,9 @@ function showMuteTooltip() {
 }
 
 function playerPlayIfAutoPlay(currentTime) {
+    if(isWebRTC()){
+        return false;
+    }
     if (isAutoplayEnabled()) {
         playerPlayTimeout = setTimeout(function () {
             console.log('playerPlayIfAutoPlay true', currentTime);
@@ -899,9 +902,18 @@ function isALiveContent() {
     return false;
 }
 
+function isWebRTC() {
+    if (typeof isWebRTC !== 'undefined') {
+        return isWebRTC;
+    }
+    return false;
+}
+
 function isAutoplayEnabled() {
     //console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
-    if (isALiveContent()) {
+    if (isWebRTC()) {
+        return false;
+    } else if (isALiveContent()) {
         //console.log("isAutoplayEnabled always autoplay live contents");
         return true;
     } else

@@ -164,6 +164,9 @@ footer ul.list-inline li {
     .nopaddingOnSmall{
         padding: 0;
     }
+    .container-fluid{
+        padding: 0;
+    }
 
 }
 @media (max-width: 450px) {
