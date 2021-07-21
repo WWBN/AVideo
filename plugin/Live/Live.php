@@ -1895,13 +1895,13 @@ class Live extends PluginAbstract {
         unset($_isLiveAndIsReadyFromKey);
     }
 
-    public static function getReverseRestreamObject($m3u8, $users_id) {
+    public static function getReverseRestreamObject($m3u8, $users_id, $live_servers_id=-1) {
         if (!isValidURL($m3u8)) {
             return false;
         }
         $obj = new stdClass();
         $obj->m3u8 = $m3u8;
-        $obj->restreamerURL = self::getRestreamer();
+        $obj->restreamerURL = self::getRestreamer($live_servers_id);
         $obj->restreamsDestinations = array(Live::getRTMPLink($users_id));
         $obj->token = getToken(60);
         $obj->users_id = $users_id;
@@ -1933,8 +1933,8 @@ class Live extends PluginAbstract {
         return $obj;
     }
 
-    public static function reverseRestream($m3u8, $users_id) {
-        $obj = self::getReverseRestreamObject($m3u8, $users_id);
+    public static function reverseRestream($m3u8, $users_id, $live_servers_id=-1) {
+        $obj = self::getReverseRestreamObject($m3u8, $users_id, $live_servers_id);
         return self::sendRestream($obj);
     }
 
