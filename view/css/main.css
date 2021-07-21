@@ -152,20 +152,12 @@ footer ul.list-inline li {
     margin-bottom: 10px;
 }
 @media (max-width: 767px) {
-    .navbar-form {
-        padding: 0;
-    }
-    #modeYoutubeBottomContent, .principalContainer{
+    .navbar-form, #modeYoutubeBottomContent, .principalContainer,
+    .nopaddingOnSmall,.container-fluid, .yptRightBar{
         padding: 0;
     }
     .panel-body, .tabbable-panel {
         padding: 5px;
-    }
-    .nopaddingOnSmall{
-        padding: 0;
-    }
-    .container-fluid{
-        padding: 0;
     }
 
 }
