@@ -33,6 +33,15 @@ if (!isValidURL($_REQUEST['m3u8'])) {
 }
 
 $users_id = User::getId();
+$count = 1;
+while ($count <= 4) {
+    sleep(5);
+    $count++
+    if (isURL200($_REQUEST['m3u8'], true)) {
+        break;
+    }
+}
+
 $obj->response = Live::reverseRestream($_REQUEST['m3u8'], $users_id, @$_REQUEST['live_servers_id']);
 
 $obj->error = false;
