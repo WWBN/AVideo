@@ -999,7 +999,7 @@ function avideoAlert(title, msg, type) {
     if (typeof msg == 'undefined') {
         return false;
     }
-    if (msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
+    if (typeof msh === 'string' && msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
         avideoAlertHTMLText(title, msg, type);
     } else {
         swal(title, msg, type);
