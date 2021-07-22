@@ -65,6 +65,13 @@ if (empty($channelName)) {
     $user->save();
 }
 //$global['ignoreChat2'] = 1;
+$col1Class = "col-md-12 col-lg-12";
+$col2Class = "hidden";
+$chat2 = AVideoPlugin::getObjectDataIfEnabled("Chat2");
+if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
+    $col1Class = "col-md-8 col-lg-8";
+    $col2Class = "col-md-4 col-lg-4";
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
