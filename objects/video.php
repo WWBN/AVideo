@@ -2914,6 +2914,10 @@ if (!class_exists('Video')) {
             $videosDir = self::getStoragePath();
             $videoFilename = str_replace($videosDir, '', $videoFilename);
             $paths = Video::getPaths($videoFilename, $createDir);
+            if(preg_match('/index.m3u8$/', $videoFilename)){
+                $paths['path'] = rtrim($paths['path'],DIRECTORY_SEPARATOR);
+                $videoFilename = str_replace($paths['filename'], '', $videoFilename);
+            }
             return "{$paths['path']}{$videoFilename}";
         }
 
