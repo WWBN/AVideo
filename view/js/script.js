@@ -996,10 +996,10 @@ function isPlayNextEnabled() {
 }
 
 function avideoAlert(title, msg, type) {
-    if (typeof msg == 'undefined') {
+    if (typeof msg !== 'string') {
         return false;
     }
-    if (typeof msh === 'string' && msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
+    if (msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
         avideoAlertHTMLText(title, msg, type);
     } else {
         swal(title, msg, type);
