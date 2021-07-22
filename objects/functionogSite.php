@@ -39,6 +39,13 @@ if ($users_id = isChannel()) {
     return false;
 }
 
+if(empty($customizePluginDescription)){
+    if(AVideoPlugin::isEnabledByName('Customize')){
+        $ec = new ExtraConfig();
+        $customizePluginDescription = $ec->getDescription();
+    }
+}
+
 $description = $title;
 if(!empty($customizePluginDescription)){
     $description = $customizePluginDescription;
