@@ -2890,7 +2890,7 @@ if (!class_exists('Video')) {
             if (is_dir("{$videosDir}{$videoFilename}")) {
                 $path = addLastSlash("{$videosDir}{$videoFilename}");
             } else if (preg_match('/index\.m3u8$/', $videoFilename)) {
-                $path = addLastSlash($videosDir);
+                $path = addLastSlash($videosDir);                
             } else {
                 $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
             }
@@ -3038,6 +3038,9 @@ if (!class_exists('Video')) {
             }
             $filename = fixPath($filename);
             $filename = str_replace(getVideosDir(), '', $filename);
+            if(preg_match('/videos[\/\\\]([^\/\\\]+)[\/\\\].*index.m3u8$/', $filename, $matches)){
+                return $matches[1]; 
+            }
             $search = array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_spectrum', '_tvg', '.notfound');
 
             if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {
