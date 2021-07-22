@@ -6003,21 +6003,22 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
             $source = $yptStorage->getAddress("{$fileName}");
             $url = $source['url'];
-        } else
-        if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
-            $source = $aws_s3->getAddress("{$fileName}");
-            $url = $source['url'];
-            $url = replaceCDNIfNeed($url, 'CDN_S3');
-        } else
-        if ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
-            $source = $bb_b2->getAddress("{$fileName}");
-            $url = $source['url'];
-            $url = replaceCDNIfNeed($url, 'CDN_B2');
-        } else
-        if ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
-            $source = $ftp->getAddress("{$fileName}");
-            $url = $source['url'];
-            $url = replaceCDNIfNeed($url, 'CDN_FTP');
+        } else if(preg_match('/index.m3u8$/', $filename)){
+            if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
+                $source = $aws_s3->getAddress("{$fileName}");
+                $url = $source['url'];
+                $url = replaceCDNIfNeed($url, 'CDN_S3');
+            } else
+            if ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
+                $source = $bb_b2->getAddress("{$fileName}");
+                $url = $source['url'];
+                $url = replaceCDNIfNeed($url, 'CDN_B2');
+            } else
+            if ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
+                $source = $ftp->getAddress("{$fileName}");
+                $url = $source['url'];
+                $url = replaceCDNIfNeed($url, 'CDN_FTP');
+            }
         }
     }
     if (empty($url)) {
