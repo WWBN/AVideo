@@ -2884,22 +2884,30 @@ if (!class_exists('Video')) {
         }
 
         public static function getPaths($videoFilename, $createDir = false) {
-            global $global;
+            global $global, $__getPaths;
+            if(!isset($__getPaths)){
+                $__getPaths = array();
+            }
+            if(!empty($__getPaths[$videoFilename])){
+                return $__getPaths[$videoFilename];
+            }
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
             $videosDir = self::getStoragePath();
             if (is_dir("{$videosDir}{$videoFilename}")) {
                 $path = addLastSlash("{$videosDir}{$videoFilename}");
-            } else if (preg_match('/index\.m3u8$/', $videoFilename)) {
-                $path = addLastSlash($videosDir);                
+            //} else if (preg_match('/index\.m3u8$/', $videoFilename)) {
+            //    $path = addLastSlash($videosDir);                
             } else {
                 $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
             }
+            $path = fixPath($path);
             if ($createDir) {
                 make_path(addLastSlash($path));
             }
             $relative = addLastSlash("videos/{$cleanVideoFilename}");
             $url = getCDN() . "{$relative}";
-            return array('filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative);
+            $__getPaths[$videoFilename] = array('filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative);
+            return $__getPaths[$videoFilename];
         }
 
         public static function getPathToFile($videoFilename, $createDir = false) {
