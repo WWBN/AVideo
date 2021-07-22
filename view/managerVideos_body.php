@@ -571,9 +571,9 @@
                                                 },
                                                 select: function (event, ui) {
                                                     $("#inputNextVideo").val(ui.item.title);
-                                                    $("#inputNextVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + ui.item.clean_title);
+                                                    $("#inputNextVideoClean").val(ui.item.link);
                                                     $("#inputNextVideo-id").val(ui.item.id);
-                                                    $("#inputNextVideo-poster").attr("src", "videos/" + ui.item.filename + ".jpg");
+                                                    $("#inputNextVideo-poster").attr("src", ui.item.videosURL.jpg.url);
                                                     return false;
                                                 }
                                             }).autocomplete("instance")._renderItem = function (ul, item) {
