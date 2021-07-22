@@ -224,7 +224,7 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_save_dvr', 'Show Save DVR Button Only to Admin', 'Regular users will not able to see this button');
         
         
-        $obj->webRTC_player = 'https://webrtc.ca1.ypt.me/player/';
+        $obj->webRTC_player = 'https://webrtc.ypt.me/player/';
         return $obj;
     }
 
