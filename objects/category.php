@@ -163,14 +163,13 @@ class Category {
             $format = "sssiisiiiii";
             $values = array($this->name, $this->clean_name, $this->description, intval($this->nextVideoOrder), $this->parentId, $this->getIconClass(), $this->getUsers_id(), $this->getSuggested(), $this->getPrivate(), $this->getAllow_download(), $this->getOrder());
         }
-
         $insert_row = sqlDAL::writeSql($sql, $format, $values);
         if ($insert_row) {
             self::deleteOGImage($this->id);
             $_SESSION['user']['sessionCache']['getAllCategoriesClearCache'] = 1;
             ObjectYPT::deleteALLCache();
             if (empty($this->id)) {
-                $id = $global['mysqli']->insert_id;
+                $id = $insert_row;
             } else {
                 $id = $this->id;
             }

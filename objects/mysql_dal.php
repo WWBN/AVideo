@@ -99,9 +99,15 @@ class sqlDAL {
             $stmt->close();
             return false;
         }
+        $iid = @$global['mysqli']->insert_id;
+        //$global['mysqli']->affected_rows = $stmt->affected_rows;
         //$stmt->commit();
         $stmt->close();
-        return true;
+        if(!empty($iid)){
+            return $iid;
+        }else{
+            return true;
+        }
     }
 
     /*
