@@ -6003,7 +6003,7 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
             $source = $yptStorage->getAddress("{$fileName}");
             $url = $source['url'];
-        } else if(preg_match('/index.m3u8$/', $filename)){
+        } else if(!preg_match('/index.m3u8$/', $filename)){
             if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
                 $source = $aws_s3->getAddress("{$fileName}");
                 $url = $source['url'];
