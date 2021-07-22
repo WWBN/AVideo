@@ -1107,6 +1107,20 @@ function avideoModalIframeRemove() {
     }
 }
 
+function avideoResponse(response) {
+    if(response.error){
+        if(!response.msg){
+            response.msg = 'Error';
+        }
+        avideoAlertError(response.msg);
+    }else{
+        if(!response.msg){
+            response.msg = 'Success';
+        }
+        avideoToastSuccess(response.msg);
+    }
+}
+
 function avideoAlertText(msg) {
     avideoAlert("", msg, '');
 }

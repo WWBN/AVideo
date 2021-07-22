@@ -40,6 +40,7 @@ class Cache extends PluginAbstract {
         $obj->cacheDir = $global['systemRootPath'] . 'videos/cache/';
         $obj->logPageLoadTime = false;
         $obj->stopBotsFromNonCachedPages = false;
+        $obj->deleteStatisticsDaysOld = 180; // 6 months
         return $obj;
     }
 
@@ -252,6 +253,20 @@ class Cache extends PluginAbstract {
         $t = (floatval($finish) - floatval($global['cachePluginStart']));
         $total_time = round($t, 4);
         _error_log("Page generated in {$total_time} seconds. {$type} ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
+    }
+    
+    public function getPluginMenu() {
+        global $global;
+        $fileAPIName = $global['systemRootPath'] . 'plugin/Cache/pluginMenu.html';
+        $content = file_get_contents($fileAPIName);        
+        return $content;
+    }
+    
+    public function getFooterCode() {
+        global $global;
+        if(preg_match('/managerPlugins.php$/', $_SERVER["SCRIPT_FILENAME"])){
+            return "<script src=\"{$global['webSiteRootURL']}plugin/Cache/pluginMenu.js\"></script>";
+        }
     }
 
 }

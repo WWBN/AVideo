@@ -431,5 +431,34 @@ class VideoStatistic extends ObjectYPT {
         ObjectYPT::setCache($cacheName, $result);        
         return 0;
     }
+    
+    
+    public static function getTotalStatisticsRecords() {
+        global $global;
+        $sql2 = "SELECT count(s.id) as total FROM videos_statistics s ";
+        $res2 = sqlDAL::readSql($sql2);
+        $result2 = sqlDAL::fetchAssoc($res2);
+        sqlDAL::close($res2);
+        $result = 0;
+        if (!empty($result2)) {
+            return intval($result2['total']);
+        }
+        ObjectYPT::setCache($cacheName, $result);        
+        return 0;
+    }
+    
+    public static function deleteOldStatistics($days) {
+        global $global;
+        $days = intval($days);
+        if (!empty($days)) {
+            $sql = "DELETE FROM " . static::getTableName() . " ";
+            $sql .= " WHERE created < DATE_SUB(NOW(), INTERVAL ? DAY) ";
+            $global['lastQuery'] = $sql;
+            //_error_log("Delete Query: ".$sql);
+            return sqlDAL::writeSql($sql, "i", array($days));
+        }
+        _error_log("Id for table " . static::getTableName() . " not defined for deletion", AVideoLog::$ERROR);
+        return false;
+    }
 
 }
