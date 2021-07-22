@@ -1,5 +1,6 @@
 <?php
-$iframeURL = 'https://webrtc.ca1.ypt.me/player/';
+$lObj = AVideoPlugin::getDataObject('Live');
+$iframeURL = $lObj->webRTC_player;
 $iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webSiteRootURL']);
 $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(User::getId()));
 ?>

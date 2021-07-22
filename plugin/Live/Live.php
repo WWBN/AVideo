@@ -222,7 +222,9 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_drop_publisher_reset_key', 'Show Drop Publisher and Reset Key Button Only to Admin', 'Regular users will not able to see this button');
         $obj->controllButtonsShowOnlyToAdmin_save_dvr = false;
         self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_save_dvr', 'Show Save DVR Button Only to Admin', 'Regular users will not able to see this button');
-
+        
+        
+        $obj->webRTC_player = 'https://webrtc.ca1.ypt.me/player/';
         return $obj;
     }
 
