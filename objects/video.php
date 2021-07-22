@@ -2903,11 +2903,15 @@ if (!class_exists('Video')) {
         }
 
         public static function getPathToFile($videoFilename, $createDir = false) {
+            $videosDir = self::getStoragePath();
+            $videoFilename = str_replace($videosDir, '', $videoFilename);
             $paths = Video::getPaths($videoFilename, $createDir);
             return "{$paths['path']}{$videoFilename}";
         }
 
         public static function getURLToFile($videoFilename, $createDir = false) {
+            $videosDir = self::getStoragePath();
+            $videoFilename = str_replace($videosDir, '', $videoFilename);
             $paths = Video::getPaths($videoFilename, $createDir);
             return "{$paths['url']}{$videoFilename}";
         }
