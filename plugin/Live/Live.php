@@ -2025,7 +2025,7 @@ class Live extends PluginAbstract {
             return '';
         }
         $buttonTitle = $this->getButtonTitle();
-//include $global['systemRootPath'] . 'plugin/Live/getUploadMenuButton.php';
+        include $global['systemRootPath'] . 'plugin/Live/getUploadMenuButton.php';
     }
 
     public static function getAllVideos($status = "", $showOnlyLoggedUserVideos = false, $activeUsersOnly = true) {
