@@ -477,7 +477,7 @@ class Live extends PluginAbstract {
                 break;
             case "save_dvr":
                 $obj2 = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
-                if (empty($obj2) || empty($obj->saveDVREnable)) {
+                if (empty($obj2) || empty($obj2->saveDVREnable)) {
                     return '<!-- SendRecordedToEncoder saveDVREnable is not present -->';
                 }
                 if ($obj->controllButtonsShowOnlyToAdmin_save_dvr && !User::isAdmin()) {
