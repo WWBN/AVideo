@@ -74,6 +74,11 @@ if (!empty($_REQUEST['videos_id'])) {
         <div class="panel-body">
             <ul class="list-group">
                 <?php
+                $canDownload = array('audio', 'video');
+                $type = $video->getType();
+                if(!in_array($type, $canDownload)){
+                    echo getChecked(__("You cannot download video type")." {$type}", false, $help);
+                }
                 if (User::isAdmin()) {
                     $help = array();
                     $help[] = "Plugins menu / CustomizeUser / userCanAllowFilesDownload";
