@@ -478,15 +478,15 @@ class Live extends PluginAbstract {
             case "save_dvr":
                 $obj2 = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
                 if (empty($obj2) || empty($obj->saveDVREnable)) {
-                    return '';
+                    return '<!-- SendRecordedToEncoder saveDVREnable is not present -->';
                 }
                 if ($obj->controllButtonsShowOnlyToAdmin_save_dvr && !User::isAdmin()) {
-                    return '';
+                    return '<!-- User Cannot save DVR controllButtonsShowOnlyToAdmin_save_dvr -->';
                 }
                 if (!self::userCanRecordLive(User::getId())) {
                     return '<!-- User Cannot record -->';
                 }
-                return SendRecordedToEncoder::getSaveDVRButton($key, $live_servers_id, $class);
+                return '<!-- SendRecordedToEncoder::getSaveDVRButton -->'.SendRecordedToEncoder::getSaveDVRButton($key, $live_servers_id, $class);
                 break;
             default:
                 return '';
