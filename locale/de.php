@@ -1,3 +1,5 @@
+<?php
+global $t;
 
 $t['%s ERROR: You must set a ID on config'] = "%s FEHLER: Du musst eine ID in der config erstellen";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: Du musst einen KEY (Schlüssel) in der config generieren";
@@ -766,5 +768,4 @@ $t['Your video is downloading now'] = "Dein Video wird nun heruntergeladen";
 $t['Your videos have been saved!'] = "Deine Videos wurden gespeichert!";
 $t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = "Youtube-dl verwendet Python und einige Server haben Python nicht als Standard installiert, um Python zu installieren tippe:";
 $t['Zip Code'] = "PLZ";
-<?php
-global $t;
+
