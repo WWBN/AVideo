@@ -27,16 +27,16 @@ $obj = AVideoPlugin::getDataObject("Live");
 if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
     ?>
     <li>
-        <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live"  class="btn btn-danger navbar-btn" data-toggle="tooltip" title="<?php echo __("Broadcast a Live Stream"); ?>" data-placement="bottom" >
-            <span class="fa fa-circle"></span>  <span class="hidden-md hidden-sm hidden-mdx"><?php echo __($buttonTitle); ?></span>
+        <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live"  class="faa-parent animated-hover btn btn-danger navbar-btn" data-toggle="tooltip" title="<?php echo __("Broadcast a Live Stream"); ?>" data-placement="bottom" >
+            <span class="fa fa-circle faa-flash"></span>  <span class="hidden-md hidden-sm hidden-mdx"><?php echo __($buttonTitle); ?></span>
         </a>
     </li>
     <?php
 }
 ?>
 <li class="dropdown">
-    <a href="#" class=" btn btn-default navbar-btn" data-toggle="dropdown">
-        <span class="fa fa-bell"></span>
+    <a href="#" class="faa-parent animated-hover btn btn-default navbar-btn" data-toggle="dropdown">
+        <span class="fas fa-bell faa-ring"></span>
         <span class="badge onlineApplications" style=" background: rgba(255,0,0,1); color: #FFF;">0</span>
         <b class="caret"></b>
     </a>

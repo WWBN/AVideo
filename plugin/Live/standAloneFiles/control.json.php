@@ -15,6 +15,7 @@
         }
     }
   }
+ * For more information please check this https://github.com/WWBN/AVideo/wiki/Live-Plugin#control
  */
 
 $streamerURL = "http://192.168.1.4/YouPHPTube/"; // change it to your streamer URL

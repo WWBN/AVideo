@@ -24,7 +24,7 @@
 th a, .select2-container--default span, .swal-text, 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover,
 .tabbable-line > .nav-tabs > li.active > a > i,
-.swal-title {
+.swal-title, h3.popover-title, div.popover-content {
     color: #FFF !important;
 }
 th:hover, .select2-dropdown{

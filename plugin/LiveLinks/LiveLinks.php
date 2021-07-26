@@ -36,6 +36,8 @@ class LiveLinks extends PluginAbstract {
         $obj->disableLiveThumbs = false;
         $obj->doNotShowLiveLinksLabel = false;
         $obj->disableProxy = false;
+        $obj->hideTopButton = true;
+        self::addDataObjectHelper('hideTopButton', 'Hide Top Button', 'This will hide the button on the top menu bar');
         return $obj;
     }
 
@@ -61,6 +63,9 @@ class LiveLinks extends PluginAbstract {
     public function getHTMLMenuRight() {
         global $global;
         $obj = $this->getDataObject();
+        if($obj->hideTopButton){
+            return '';
+        }
         if (!$this->canAddLinks()) {
             return '';
         }
@@ -307,7 +312,7 @@ class LiveLinks extends PluginAbstract {
         }
         $obj = $this->getDataObject();
         $buttonTitle = $obj->buttonTitle;
-        //include $global['systemRootPath'] . 'plugin/LiveLinks/getUploadMenuButton.php';
+        include $global['systemRootPath'] . 'plugin/LiveLinks/getUploadMenuButton.php';
     }
 
     public static function getAllVideos($status = "", $showOnlyLoggedUserVideos = false, $activeUsersOnly = true) {

@@ -62,12 +62,12 @@ if (User::canSeeCommentTextarea()) {
                 <?php
             }
             ?>
-            <button class="btn btn-default no-outline btn-xs replyLikeBtn"> 
-                <span class="fa fa-thumbs-up"></span>
+            <button class="faa-parent animated-hover btn btn-default no-outline btn-xs replyLikeBtn"> 
+                <span class="fa fa-thumbs-up faa-bounce"></span>
                 <small>0</small>
             </button> 
-            <button class="btn btn-default no-outline btn-xs replyDislikeBtn"> 
-                <span class="fa fa-thumbs-down"></span>
+            <button class="faa-parent animated-hover btn btn-default no-outline btn-xs replyDislikeBtn"> 
+                <span class="fa fa-thumbs-down faa-bounce faa-reverse"></span>
                 <small>0</small>
             </button>           
             <button class="btn btn-default no-outline allReplies btn-xs viewAllReplies">  

@@ -342,6 +342,7 @@ function isEmailValid(email) {
 }
 
 function subscribe(email, user_id) {
+    modal.showPleaseWait();
     $.ajax({
         url: webSiteRootURL + 'objects/subscribe.json.php',
         method: 'POST',
@@ -350,22 +351,27 @@ function subscribe(email, user_id) {
             'user_id': user_id
         },
         success: function (response) {
+            var totalElement = $('.notificationButton' + user_id+' .badge');
             if (response.subscribe == "i") {
-                $('.subs' + user_id).removeClass("subscribed");
-                $('.subs' + user_id + ' b.text').text("Subscribe");
-                $('b.textTotal' + user_id).text(parseInt($('b.textTotal' + user_id).first().text()) - 1);
+                $('.notificationButton' + user_id).removeClass("subscribed");
+                totalElement.text(parseInt(totalElement.first().text()) - 1);
             } else {
-                $('.subs' + user_id).addClass("subscribed");
-                $('.subs' + user_id + ' b.text').text("Subscribed");
-                $('b.textTotal' + user_id).text(parseInt($('b.textTotal' + user_id).first().text()) + 1);
+                $('.notificationButton' + user_id).addClass("subscribed");
+                totalElement.text(parseInt(totalElement.first().text()) + 1);
             }
             $('#popover-content #subscribeEmail').val(email);
             $('.subscribeButton' + user_id).popover('hide');
+            modal.hidePleaseWait();
         }
     });
 }
 
+function toogleNotify(user_id) {
+    email = $('#subscribeEmail'+user_id).val();
+    subscribeNotify(email, user_id);
+}
 function subscribeNotify(email, user_id) {
+    modal.showPleaseWait();
     $.ajax({
         url: webSiteRootURL + 'objects/subscribeNotify.json.php',
         method: 'POST',
@@ -375,12 +381,11 @@ function subscribeNotify(email, user_id) {
         },
         success: function (response) {
             if (response.notify) {
-                $('.notNotify' + user_id).addClass("hidden");
-                $('.notify' + user_id).removeClass("hidden");
+                $('.notificationButton' + user_id).addClass("notify");
             } else {
-                $('.notNotify' + user_id).removeClass("hidden");
-                $('.notify' + user_id).addClass("hidden");
+                $('.notificationButton' + user_id).removeClass("notify");
             }
+            modal.hidePleaseWait();
         }
     });
 }
@@ -903,8 +908,8 @@ function isALiveContent() {
 }
 
 function isWebRTC() {
-    if (typeof isWebRTC !== 'undefined') {
-        return isWebRTC;
+    if (typeof _isWebRTC !== 'undefined') {
+        return _isWebRTC;
     }
     return false;
 }
@@ -912,6 +917,7 @@ function isWebRTC() {
 function isAutoplayEnabled() {
     //console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
     if (isWebRTC()) {
+        console.log("isAutoplayEnabled said No because is WebRTC ");
         return false;
     } else if (isALiveContent()) {
         //console.log("isAutoplayEnabled always autoplay live contents");

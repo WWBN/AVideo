@@ -46,7 +46,7 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
         <i class="fas fa-circle-notch fa-spin"></i> <?php echo __("Please Wait"); ?>
     </button>
     <button class="btn btn-default btn-xs hideOnMeetReady showOnMeetNotReady hideOnProcessingMeetReady" id="startMeet" onclick="startMeetNow();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use your webcam"); ?>">
-        <i class="fas fa-comments"></i> <span class="hidden-sm hidden-xs"><?php echo __("Meet"); ?></span>
+        <i class="fas fa-comments"></i> <?php echo __("Meet"); ?>
     </button>
     <button class="btn btn-warning btn-xs hideOnMeetReady showOnProcessingMeetReady" id="processMeet" style="display: none;" >
         <i class="fas fa-cog fa-spin"></i> <?php echo __("Please Wait"); ?>
@@ -61,13 +61,12 @@ include $global['systemRootPath'] . 'plugin/Meet/api.js.php';
         ?>
         <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/checkServers.php" class="btn btn-xs btn-default"
            data-toggle="tooltip" data-placement="bottom" title="You need to use one of our servers, your selfhosted jitsi will not work, you can disable this feature on Plugins->Live->disableMeetCamera">
-            <i class="fas fa-exclamation-triangle"></i> Use our servers
+            <i class="fas fa-exclamation-triangle"></i> <span class="hidden-sm hidden-xs">Use our servers</span>
         </a>
         <?php
     }
     ?>
 </span>
-<div class="clearfix"></div>
 <script>
     var meetPassword;
     var meetLink;

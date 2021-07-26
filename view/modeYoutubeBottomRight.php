@@ -46,61 +46,12 @@ if (!empty($playlist_id)) {
             </span>
         </div>
     </div>
-    <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border autoPlayVideo" id="autoPlayVideoDiv"  style="margin: 10px 0; padding: 15px 5px; <?php echo PlayerSkins::isAutoplayEnabled() ? "" : "display: none;"; ?>" >
-        <a href="<?php echo Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], "", $get); ?>" title="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="videoLink h6">
-            <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage">
-                <?php
-                $images = Video::getImageFromFilename($autoPlayVideo['filename'], true);
-                $img = $img_portrait = $images->poster;
-                $imgGif = $images->thumbsGif;
-                ?>
-                <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" class="img img-responsive " height="130" />
-                <?php if (!empty($imgGif)) { ?>
-                    <img src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo str_replace('"', '', $autoPlayVideo['title']); ?>" id="thumbsGIF<?php echo $autoPlayVideo['id']; ?>" class="thumbsGIF img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $autoPlayVideo['rotation']; ?>" height="130" />
-                <?php } ?>
-                <time class="duration" datetime="<?php echo Video::getItemPropDuration($autoPlayVideo['duration']); ?>"><?php echo Video::getCleanDuration($autoPlayVideo['duration']); ?></time>
-            </div>
-            <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
-                <div class="text-uppercase row"><strong class="title"><?php echo $autoPlayVideo['title']; ?></strong></div>
-                <div class="details row text-muted" ">
-                    <div>
-                        <strong><?php echo __("Category"); ?>: </strong>
-                        <span class="<?php echo $autoPlayVideo['iconClass']; ?>"></span>
-                        <?php echo $autoPlayVideo['category']; ?>
-                    </div>
-
-                    <?php
-                    if (empty($advancedCustom->doNotDisplayViews)) {
-                        ?> 
-                        <div>
-                            <strong class=""><?php echo number_format($autoPlayVideo['views_count'], 0); ?></strong>
-                            <?php echo __("Views"); ?>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                    <div><?php echo $autoPlayVideo['creator']; ?></div>
-                </div>
-                <div class="row">
-                    <?php
-                    if (!empty($autoPlayVideo['tags'])) {
-                        foreach ($autoPlayVideo['tags'] as $autoPlayVideo2) {
-                            if (is_array($autoPlayVideo2)) {
-                                $autoPlayVideo2 = (object) $autoPlayVideo2;
-                            }
-                            if ($autoPlayVideo2->label === __("Group")) {
-                                ?>
-                                <span class="label label-<?php echo $autoPlayVideo2->type; ?>"><?php echo $autoPlayVideo2->text; ?></span>
-                                <?php
-                            }
-                        }
-                    }
-                    ?>
-                </div>
-            </div>
-        </a>
-    </div>
     <?php
+    $style = 'margin: 10px 0; padding: 15px 5px;';
+    if(!PlayerSkins::isAutoplayEnabled()){
+        $style .= 'display: none;';
+    }
+    echo Video::getVideosListItem($autoPlayVideo['id'], 'autoPlayVideoDiv', $style);
 }
 
 
@@ -108,7 +59,7 @@ $modeYouTubeTimeLog['After autoplay and playlist '] = microtime(true) - $modeYou
 $modeYouTubeTime = microtime(true);
 ?>
 <div class="clearfix"></div>
-    <div class="extraVideos nopadding"  style="margin: 15px 0;"></div>
+<div class="extraVideos nopadding"  style="margin: 15px 0;"></div>
 <div class="clearfix"></div>
 <!-- videos List -->
 <!--googleoff: all-->
@@ -131,7 +82,7 @@ $modeYouTubeTime = microtime(true);
 
     $(document).ready(function () {
 
-        
-        
+
+
     });
 </script>

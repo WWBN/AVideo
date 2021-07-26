@@ -275,6 +275,11 @@ footer ul.list-inline li {
     border-top: 2px solid #F2F2F2;
     clear: both;
 }
+
+.watch8-action-buttons .btn{
+    margin: 5px 2px;
+}
+
 .bgWhite {
     margin: 0 0 10px;
     border: 0;
@@ -470,27 +475,35 @@ img.rotate-90 {
     -o-transform: rotate(270deg);
     /* Opera */
 }
-.subsB  {
-    background-color: #e62117;
-    color: #FFF;
-    -webkit-transition: all 1s ease-out;
-    -moz-transition: all 1s ease-out;
-    -o-transition: all 1s ease-out;
-    transition: all 1s ease-out;
+
+.notificationButton button{
+    display: none;
+    border-radius: 4px 0 0 4px !important;
 }
-.subsB  span:before {
-    content: "\f16a";
+
+.notificationButton button.subscribe{
+    border-radius: 4px !important;
 }
-.subscribed {
-    background-color: #DDD;
-    color: #777;
+
+.notificationButton button.notifyBtn{
+    border-radius: 0 4px 4px 0 !important;
 }
-.subscribed span:before {
-    content: "\f00c";
+
+.notificationButton.subscribed .doNotify,
+.notificationButton .subscribe{
+    display: inline-block;
 }
-.subscribed:hover span:before {
-    content: "\f057";
+
+.notificationButton.subscribed .subscribed,
+.notificationButton.subscribed.notify .doNotNotify{
+    display: inline-block;
 }
+
+.notificationButton.subscribed.notify .doNotify,
+.notificationButton.subscribed .subscribe{
+    display: none;
+}
+
 .profileBg {
     padding: 20px;
     height: 27vw;
@@ -1133,4 +1146,30 @@ li.dropdown-submenu > ul > li > a{
 }
 .scrtabs-tab-scroll-arrow{
     border-top: 1px solid #ddd;
+}
+
+.videoCreator{
+    display: -webkit-inline-box;
+}
+.videoCreator .zoom{
+    width: 40px;
+    height: 40px;
+}
+.videoCreatorSmall .zoom{
+    width: 20px;
+    height: 20px;
+}
+.videoCreator>img,
+.videoCreator>a, 
+.videoCreator>div{
+    margin: 2px 10px 2px 2px;
+}
+.videoCreator>img, .videoCreatorSmall img{
+    float: left;
+}
+.videoCreatorSmall img{
+    margin-right: 5px;
+}
+a:hover{
+    text-decoration: none;
 }

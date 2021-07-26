@@ -206,19 +206,19 @@ class Subscribe {
      * @param type $user_id
      * @return boolean
      */
-    static function getSubscribedChannels($user_id, $limit=0, $page=0) {
+    static function getSubscribedChannels($user_id, $limit = 0, $page = 0) {
         global $global;
         $limit = intval($limit);
-        $page = intval($page)-1;
-        if($page<0){
-            $page=0;
+        $page = intval($page) - 1;
+        if ($page < 0) {
+            $page = 0;
         }
-        $offset = $limit*$page;
+        $offset = $limit * $page;
         $sql = "SELECT s.*, (SELECT MAX(v.created) FROM videos v WHERE v.users_id = s.users_id) as newestvideo "
                 . " FROM subscribes as s WHERE status = 'a' AND subscriber_users_id = ? "
                 . " ORDER BY newestvideo DESC ";
 
-        if(!empty($limit)){
+        if (!empty($limit)) {
             $sql .= " LIMIT {$offset},{$limit} ";
         }
         //var_dump($sql, $user_id);exit;
@@ -335,64 +335,51 @@ class Subscribe {
         }
 
         $total = static::getTotalSubscribes($user_id);
+        $btnFile = $global['systemRootPath'] . 'view/subscribeBtnOffline.html';
 
-        $subscribe = "<div class=\"btn-group\" >"
-                . "<button class='btn btn-xs subsB subs{$user_id} subscribeButton{$user_id}' "
-                . "title=\"" . __("Want to subscribe to this channel?") . "\" "
-                . "data-content=\"" . __("Sign in to subscribe to this channel") . "<hr><center><a class='btn btn-success btn-sm' href='{$global['webSiteRootURL']}user'>" . __("Sign in") . "</a></center>\"  "
-                . "tabindex=\"0\" role=\"button\" data-html=\"true\"  data-toggle=\"popover\" data-placement=\"bottom\" ><i class='fas fa-play-circle'></i> <b class='text'>" . __("Subscribe") . "</b></button>"
-                . "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal{$user_id}'>{$total}</b></button>"
-                . "</div>";
-
-        //show subscribe button with mail field
-        $popover = "";
-        $script = "";
+        $notify = '';
+        $email = '';
+        $subscribed = '';
+        $subscribeText = __("Subscribe");
+        $subscribedText = __("Subscribed");
         if (User::isLogged()) {
-            //check if the email is logged
+            $btnFile = $global['systemRootPath'] . 'view/subscribeBtn.html';
             $email = User::getMail();
             $subs = Subscribe::getSubscribeFromID(User::getId(), $user_id);
-            $popover = "<input type=\"hidden\" placeholder=\"E-mail\" class=\"form-control\"  id=\"subscribeEmail{$user_id}\" value=\"{$email}\">";
-            // show unsubscribe Button
-            $subscribe = "<div class=\"btn-group\">";
-            if (!empty($subs) && $subs['status'] === 'a') {
-                $subscribe .= "<button class='btn btn-xs subsB subscribeButton{$user_id} subscribed subs{$user_id}'><i class='fas fa-play-circle'></i> <b class='text'>" . __("Subscribed") . "</b></button>";
-                $subscribe .= "<button class='btn btn-xs subsB subscribed subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>";
-            } else {
-                $subscribe .= "<button class='btn btn-xs subsB subscribeButton{$user_id} subs{$user_id}'><i class='fas fa-play-circle'></i> <b class='text'>" . __("Subscribe") . "</b></button>";
-                $subscribe .= "<button class='btn btn-xs subsB subs{$user_id}'><b class='textTotal{$user_id}'>$total</b></button>";
-            }
-            $subscribe .= "</div>";
-
             if (!empty($subs['notify'])) {
-                $notify = '';
-                $notNotify = 'hidden';
-            } else {
-                $notify = 'hidden';
-                $notNotify = '';
+                $notify = 'notify';
             }
-            $subscribe .= '<span class=" notify' . $user_id . ' ' . $notify . '"><button onclick="toogleNotify' . $user_id . '();" class="btn btn-default btn-xs " data-toggle="tooltip"
-                                   title="' . __("Stop getting notified for every new video") . '">
-                                <i class="fa fa-bell" ></i>
-                            </button></span><span class=" notNotify' . $user_id . ' ' . $notNotify . '"><button onclick="toogleNotify' . $user_id . '();" class="btn btn-default btn-xs "  data-toggle="tooltip"
-                                   title="' . __("Click to get notified for every new video") . '">
-                                <i class="fa fa-bell-slash"></i>
-                            </button></span>';
-            $script = "<script>
-                    function toogleNotify{$user_id}(){
-                        email = $('#subscribeEmail{$user_id}').val();
-                        subscribeNotify(email, '{$user_id}');
-                    }
-                    $(document).ready(function () {
-                        $(\".subscribeButton{$user_id}\").off(\"click\");
-                        $(\".subscribeButton{$user_id}\").click(function () {
-                            email = $('#subscribeEmail{$user_id}').val();
-                            subscribe(email, '{$user_id}');
-                        });
-                    });
-                </script>";
-        }
 
-        return $subscribe . $popover . $script;
+            if (!empty($subs) && $subs['status'] === 'a') {
+                $subscribed = 'subscribed';
+            }
+        }
+        $content = local_get_contents($btnFile);
+
+        $signInBTN = ("<a class='btn btn-primary btn-sm btn-block' href='{$global['webSiteRootURL']}user'>".__("Sign in to subscribe to this channel")."</a>");
+        
+        $search = array(
+            '_user_id_', 
+            '{notify}', 
+            '{tooltipStop}', 
+            '{tooltip}', 
+            '{titleOffline}', 
+            '{tooltipOffline}', 
+            '{email}', '{total}',
+            '{subscribed}', '{subscribeText}', '{subscribedText}');
+        
+        $replace = array(
+            $user_id, 
+            $notify,
+            __("Stop getting notified for every new video"), 
+            __("Click to get notified for every new video"), 
+            __("Want to subscribe to this channel?"),
+            $signInBTN,
+            $email, $total,
+            $subscribed, $subscribeText, $subscribedText);
+
+        $btnHTML = str_replace($search, $replace, $content);
+        return $btnHTML;
     }
 
     function getSubscriber_users_id() {
@@ -402,7 +389,7 @@ class Subscribe {
     function setSubscriber_users_id($subscriber_users_id) {
         $this->subscriber_users_id = $subscriber_users_id;
     }
-    
+
     function getUsers_id() {
         return $this->users_id;
     }
@@ -410,7 +397,5 @@ class Subscribe {
     function setUsers_id($users_id) {
         $this->users_id = $users_id;
     }
-
-
 
 }

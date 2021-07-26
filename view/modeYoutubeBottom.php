@@ -5,10 +5,7 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 if (empty($video) && !empty($_GET['videos_id'])) {
     $video = Video::getVideo(intval($_GET['videos_id']), "viewable", true, false, true, true);
-    $name = User::getNameIdentificationById($video['users_id']);
-    $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($video['users_id']) . "</a>";
-    $subscribe = Subscribe::getButton($video['users_id']);
-    $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($video['users_id']) . '" alt="User Photo" class="img img-responsive img-circle zoom" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br />' . $subscribe . '<br /><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small></div></div>';
+    $video['creator'] = Video::getCreatorHTML($video['users_id'], '<div class="clearfix"></div><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small>');
     $source = Video::getSourceFile($video['filename']);
     if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
         $img = $source['url'];
@@ -184,11 +181,11 @@ if (User::hasBlockedUser($video['users_id'])) {
                 <?php
                 if (!empty($video['id']) && empty($advancedCustom->removeThumbsUpAndDown)) {
                     ?>
-                    <a href="#" class="btn btn-default no-outline pull-right <?php echo (@$video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Don´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
-                        <span class="fa fa-thumbs-down"></span> <small><?php echo $video['dislikes']; ?></small>
+                    <a href="#" class="faa-parent animated-hover btn btn-default no-outline pull-right <?php echo (@$video['myVote'] == - 1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Don´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
+                        <span class="fa fa-thumbs-down faa-bounce faa-reverse "></span> <small><?php echo $video['dislikes']; ?></small>
                     </a>
-                    <a href="#" class="btn btn-default no-outline pull-right <?php echo (@$video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
-                        <span class="fa fa-thumbs-up"></span>
+                    <a href="#" class="faa-parent animated-hover btn btn-default no-outline pull-right <?php echo (@$video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
+                        <span class="fa fa-thumbs-up faa-bounce"></span>
                         <small><?php echo $video['likes']; ?></small>
                     </a>
                     <script>

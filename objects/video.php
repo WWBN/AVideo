@@ -1298,7 +1298,7 @@ if (!class_exists('Video')) {
                 return false;
             }
         }
-        
+
         /**
          * Same as getAllVideos() method but a lighter query
          * @global type $global
@@ -2885,18 +2885,18 @@ if (!class_exists('Video')) {
 
         public static function getPaths($videoFilename, $createDir = false) {
             global $global, $__getPaths;
-            if(!isset($__getPaths)){
+            if (!isset($__getPaths)) {
                 $__getPaths = array();
             }
-            if(!empty($__getPaths[$videoFilename])){
+            if (!empty($__getPaths[$videoFilename])) {
                 return $__getPaths[$videoFilename];
             }
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
             $videosDir = self::getStoragePath();
             if (is_dir("{$videosDir}{$videoFilename}")) {
                 $path = addLastSlash("{$videosDir}{$videoFilename}");
-            //} else if (preg_match('/index\.m3u8$/', $videoFilename)) {
-            //    $path = addLastSlash($videosDir);                
+                //} else if (preg_match('/index\.m3u8$/', $videoFilename)) {
+                //    $path = addLastSlash($videosDir);                
             } else {
                 $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
             }
@@ -2914,8 +2914,8 @@ if (!class_exists('Video')) {
             $videosDir = self::getStoragePath();
             $videoFilename = str_replace($videosDir, '', $videoFilename);
             $paths = Video::getPaths($videoFilename, $createDir);
-            if(preg_match('/index.m3u8$/', $videoFilename)){
-                $paths['path'] = rtrim($paths['path'],DIRECTORY_SEPARATOR);
+            if (preg_match('/index.m3u8$/', $videoFilename)) {
+                $paths['path'] = rtrim($paths['path'], DIRECTORY_SEPARATOR);
                 $videoFilename = str_replace($paths['filename'], '', $videoFilename);
             }
             return "{$paths['path']}{$videoFilename}";
@@ -3050,8 +3050,8 @@ if (!class_exists('Video')) {
             }
             $filename = fixPath($filename);
             $filename = str_replace(getVideosDir(), '', $filename);
-            if(preg_match('/videos[\/\\\]([^\/\\\]+)[\/\\\].*index.m3u8$/', $filename, $matches)){
-                return $matches[1]; 
+            if (preg_match('/videos[\/\\\]([^\/\\\]+)[\/\\\].*index.m3u8$/', $filename, $matches)) {
+                return $matches[1];
             }
             $search = array('_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_spectrum', '_tvg', '.notfound');
 
@@ -4319,6 +4319,178 @@ if (!class_exists('Video')) {
                 }
             }
             return false;
+        }
+
+        static function getCreatorHTML($users_id, $html = '', $small=false) {
+            global $global;
+            if($small){
+                $template = $global['systemRootPath'] . 'view/videoCreatorSmall.html';
+            }else{
+                $template = $global['systemRootPath'] . 'view/videoCreator.html';
+            }
+            $content = local_get_contents($template);
+            $name = User::getNameIdentificationById($users_id);
+
+            $search = array(
+                '{photo}',
+                '{channelLink}',
+                '{name}',
+                '{icon}',
+                '{subscriptionButton}',
+                '{html}');
+
+            $replace = array(
+                User::getPhoto($users_id),
+                User::getChannelLink($users_id),
+                strip_tags($name),
+                User::getEmailVerifiedIcon($users_id),
+                Subscribe::getButton($users_id),
+                $html
+            );
+
+            $btnHTML = str_replace($search, $replace, $content);
+            return $btnHTML;
+        }
+
+        static function getVideosListItem($videos_id, $divID='', $style='') {
+            global $global, $advancedCustom;
+            if(empty($divID)){
+                $divID = "divVideo-{$videos_id}";
+            }
+            $objGallery = AVideoPlugin::getObjectData("Gallery");
+            $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
+            $template = $global['systemRootPath'] . 'view/videosListItem.html';
+            $content = local_get_contents($template);
+            $value = Video::getVideoLight($videos_id);
+            $link = Video::getLink($value['id'], $value['clean_title'], "", $get);
+            if (!empty($_GET['page']) && $_GET['page'] > 1) {
+                $link = addQueryStringParameter($link, 'page', $_GET['page']);
+            }
+
+            $title = $value['title'];
+
+            $images = Video::getImageFromFilename($value['filename'], $value['type']);
+
+            if (!is_object($images)) {
+                $images = new stdClass();
+                $images->thumbsGif = "";
+                $images->poster = getCDN() . "view/img/notfound.jpg";
+                $images->thumbsJpg = getCDN() . "view/img/notfoundThumbs.jpg";
+                $images->thumbsJpgSmall = getCDN() . "view/img/notfoundThumbsSmall.jpg";
+            }
+            $imgJPGLow = $images->thumbsJpgSmall;
+            $imgJPGHight = $images->thumbsJpg;
+            $imgGif = $images->thumbsGif;
+            $imgGifHTML = '';
+
+            if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+                $imgGif = $images->gifPortrait;
+                $imgJPGHight = $images->posterPortrait;
+            }
+            if (!empty($imgGif)) {
+                $imgGifHTML = '<img src="' . getCDN() . 'view/img/loading-gif.png" data-src="' . $imgGif . '" style="position: absolute; top: 0; display: none;" alt="' . $title . '" id="thumbsGIF' . $videos_id . '" class="thumbsGIF img-responsive" height="130" />';
+            }
+
+            $timeHTML = '';
+            if (isToShowDuration($value['type'])) {
+                $timeHTML = '<time class="duration" datetime="' . Video::getItemPropDuration($value['duration']) . '">' . Video::getCleanDuration($value['duration']) . '</time>';
+            }
+
+            $loggedUserHTML = '';
+            if (User::isLogged() && !empty($program)) {
+                $value['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
+                $value['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
+                if ($value['isWatchLater']) {
+                    $watchLaterBtnAddedStyle = "";
+                    $watchLaterBtnStyle = "display: none;";
+                } else {
+                    $watchLaterBtnAddedStyle = "display: none;";
+                    $watchLaterBtnStyle = "";
+                }
+                if ($value['isFavorite']) {
+                    $favoriteBtnAddedStyle = "";
+                    $favoriteBtnStyle = "display: none;";
+                } else {
+                    $favoriteBtnAddedStyle = "display: none;";
+                    $favoriteBtnStyle = "";
+                }
+                $loggedUserHTML = '<div class="galleryVideoButtons">';
+                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['watchLaterId'] . ');return false;" '
+                        . 'class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $value['id'] . '" '
+                        . 'title="' . __("Added On Watch Later") . '" style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> ';
+                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['watchLaterId'] . ');return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn' . $value['id'] . '" title="' . __("Watch Later") . '" style="' . $watchLaterBtnStyle . '" ><i class="fas fa-clock"></i></button>';
+                $loggedUserHTML .= '<br>';
+                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $value['id'] . '" title="' . __("Added On Favorite") . '" style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>  ';
+                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $value['id'] . '" title="' . __("Favorite") . '" style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart" ></i></button>    ';
+                $loggedUserHTML .= '</div>';
+            }
+            $progress = self::getVideoPogressPercent($value['id']);;
+            
+            $category = new Category($value['categories_id']);
+            
+            $categoryLink = $category->getLink();
+            $categoryIcon = $category->getIconClass();
+            $category = $category->getName();
+            $tagsHTML = '';
+            $tagsWhitelist = array(__("Paid Content"), __("Group"), __("Plugin"));
+            if (!empty($objGallery->showTags)) {
+                foreach ($value['tags'] as $value2) {
+                    if (!empty($value2->label) && in_array($value2->label, $tagsWhitelist)) {
+                        $tagsHTML .= '<span class="label label-' . $value2->type . '">' . $value2->text . '</span>';
+                    }
+                }
+            }
+            $viewsHTML = '';
+
+            if (empty($advancedCustom->doNotDisplayViews)) {
+                if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+                    $viewsHTML = '<div class="text-muted pull-right" style="display:flex;font-size: 1.2em;">' . getLiveUsersLabelVideo($value['id'], $value['views_count']) . '</div>';
+                } else {
+                    $viewsHTML = '<div class="text-muted pull-right"><i class="fas fa-eye"></i> ' . number_format($value['views_count'], 0) . '</strong></div>';
+                }
+            }
+            $creator = self::getCreatorHTML($value['users_id'], '', true);
+
+
+            $search = array(
+                '{style}',
+                '{divID}',
+                '{link}',
+                '{title}',
+                '{imgJPGLow}',
+                '{imgJPGHight}',
+                '{imgGifHTML}',
+                '{timeHTML}',
+                '{loggedUserHTML}',
+                '{progress}',
+                '{categoryLink}',
+                '{categoryIcon}',
+                '{category}',
+                '{tagsHTML}',
+                '{viewsHTML}',
+                '{creator}');
+
+            $replace = array(
+                $style,
+                $divID,
+                $link,
+                $title,
+                $imgJPGLow,
+                $imgJPGHight,
+                $imgGifHTML,
+                $timeHTML,
+                $loggedUserHTML,
+                $progress,
+                $categoryLink,
+                $categoryIcon,
+                $category,
+                $tagsHTML,
+                $viewsHTML,
+                $creator
+            );
+
+            $btnHTML = str_replace($search, $replace, $content);
+            return $btnHTML;
         }
 
     }

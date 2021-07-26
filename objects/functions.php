@@ -2173,7 +2173,7 @@ function combineFiles($filesArray, $extension = "js") {
 
 function local_get_contents($path) {
     if (function_exists('fopen')) {
-        $myfile = fopen($path, "r") or die("Unable to open file!");
+        $myfile = fopen($path, "r") or die("Unable to open file! [{$path}]");
         $text = fread($myfile, filesize($path));
         fclose($myfile);
         return $text;

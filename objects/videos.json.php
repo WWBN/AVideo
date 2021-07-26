@@ -28,7 +28,6 @@ $total = Video::getTotalVideos('', $showOnlyLoggedUserVideos, true, $showUnliste
 foreach ($videos as $key => $value) {
     unset($value['password'], $value['recoverPass']);
     $name = empty($value['name'])?$value['user']:$value['name'];
-    //$categories[$key]['comment'] = " <div class=\"commenterName\"><strong>{$name}</strong><div class=\"date sub-text\">{$value['created']}</div></div><div class=\"commentText\">". nl2br($value['comment'])."</div>";
     $videos[$key]['creator'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="User Photo" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong>'.$name.'</strong>' . User::getEmailVerifiedIcon($value['users_id']) . ' <small>'.humanTiming(strtotime($value['videoCreation'])).'</small></div></div>';
     $videos[$key]['next_video'] = array();
     $videos[$key]['description'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['description']);

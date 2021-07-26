@@ -279,6 +279,10 @@ class Category {
         global $global;
         return "{$global['webSiteRootURL']}cat/{$clean_name}";
     }
+    
+    function getLink(){
+        return self::getCategoryLinkFromName($this->getClean_name());
+    }
 
     static function getCategoryByName($name) {
         global $global;

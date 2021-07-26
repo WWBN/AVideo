@@ -1,0 +1,26 @@
+<div class="btn-group notificationButton notificationButton_user_id_ {subscribed} {notify} ">
+    <button class='btn btn-xs btn-danger subs_user_id_ subscribe' 
+            onclick="subscribe('{email}', '_user_id_');">
+        <i class='fas fa-play-circle'></i> 
+        <b class='text'>{subscribeText}</b>
+        <span class="badge">{total}</span>
+    </button>
+    <button class='btn btn-xs btn-success subs_user_id_ subscribed' 
+            onclick="subscribe('{email}', '_user_id_');">
+        <i class='fas fa-play-circle'></i> 
+        <b class='text'>{subscribedText}</b>
+        <span class="badge">{total}</span>
+    </button>
+    <button onclick="toogleNotify(_user_id_);" 
+            class="faa-parent animated-hover btn btn-success btn-xs notifyBtn doNotify" 
+            data-toggle="tooltip"
+            title="{tooltipStop}">
+        <i class="fas fa-bell faa-ring" ></i>
+    </button>
+    <button onclick="toogleNotify(_user_id_);" 
+            class="faa-parent animated-hover btn btn-default btn-xs notifyBtn doNotNotify"  
+            data-toggle="tooltip"
+            title="{tooltip}">
+        <i class="fas fa-bell-slash faa-ring"></i>
+    </button>
+</div>

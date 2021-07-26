@@ -8,10 +8,10 @@ $users_id = User::getId();
         <?php
         $streamName = $trasnmition['key'];
         include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
-        include $global['systemRootPath'] . 'plugin/Live/webRTC.php';
         if (Live::canStreamWithMeet()) {
             include $global['systemRootPath'] . 'plugin/Live/meet.php';
         }
+        include $global['systemRootPath'] . 'plugin/Live/webRTC.php';
         ?>
     </div>
     <div class="panel-body">          
