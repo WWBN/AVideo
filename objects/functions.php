@@ -1676,9 +1676,39 @@ function im_resizeV3($file_src, $file_dest, $wd, $hd) {
     exec($ffmpeg . " < /dev/null 2>&1", $output, $return_val);
 }
 
+function im_resize_gif($file_src, $file_dest, $max_width, $max_height) {
+    if(class_exists('Imagick')){
+        $imagick = new Imagick($file_src);
+
+        $format = $imagick->getImageFormat();
+        if ($format == 'GIF') {
+            $imagick = $imagick->coalesceImages();
+            do {
+                $imagick->resizeImage($max_width, $max_height, Imagick::FILTER_BOX, 1);
+            } while ($imagick->nextImage());
+            $imagick = $imagick->deconstructImages();
+            $imagick->writeImages($file_dest, true);
+        }
+
+        $imagick->clear();
+        $imagick->destroy();
+    }else{
+        copy($file_src, $file_dest);
+    }
+}
+
 function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
     $fn = $file_src;
-    $tmpFile = getTmpFile() . ".jpg";
+
+    $extension = strtolower(pathinfo($file_dest, PATHINFO_EXTENSION));
+
+    if ($extension == 'gif') {
+        im_resize_gif($file_src, $file_dest, $max_width, $max_height);
+        @unlink($file_src);
+        return true;
+    }
+
+    $tmpFile = getTmpFile() . ".{$extension}";
     if (empty($fn)) {
         _error_log("im_resize_max_size: file name is empty, Destination: {$file_dest}", AVideoLog::$ERROR);
         return false;
@@ -1806,7 +1836,9 @@ function convertImage($originalImage, $outputImage, $quality) {
 }
 
 function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
-    if($filename == '.zip'){return false;}
+    if ($filename == '.zip') {
+        return false;
+    }
     global $global;
     $obj = new stdClass();
     $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
@@ -2168,7 +2200,7 @@ function combineFiles($filesArray, $extension = "js") {
         }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
-    return getCDN() . 'videos/cache/' . $extension . "/" . $md5FileName . "?" . filectime($cacheDir . $md5FileName). filemtime($cacheDir . $md5FileName);
+    return getCDN() . 'videos/cache/' . $extension . "/" . $md5FileName . "?" . filectime($cacheDir . $md5FileName) . filemtime($cacheDir . $md5FileName);
 }
 
 function local_get_contents($path) {
@@ -3977,7 +4009,7 @@ function encrypt_decrypt($string, $action) {
     while (strlen($secret_iv) < 16) {
         $secret_iv .= $global['systemRootPath'];
     }
-    if(empty($secret_iv)){
+    if (empty($secret_iv)) {
         $secret_iv = '1234567890abcdef';
     }
     // hash
@@ -4231,7 +4263,7 @@ function setLiveKey($key, $live_servers_id, $live_index = '') {
 }
 
 function isVideoPlayerHasProgressBar() {
-    if(isWebRTC()){
+    if (isWebRTC()) {
         return false;
     }
     if (isLive()) {
@@ -5867,7 +5899,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -6003,7 +6035,7 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
             $source = $yptStorage->getAddress("{$fileName}");
             $url = $source['url'];
-        } else if(!preg_match('/index.m3u8$/', $filename)){
+        } else if (!preg_match('/index.m3u8$/', $filename)) {
             if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
                 $source = $aws_s3->getAddress("{$fileName}");
                 $url = $source['url'];
@@ -6640,12 +6672,12 @@ function fixPath($path, $addLastSlash = false) {
 
 function idToHash($id) {
     global $global, $_idToHash;
-    
-    if(!isset($_idToHash)){
+
+    if (!isset($_idToHash)) {
         $_idToHash = array();
     }
-    
-    if(!empty($_idToHash[$id])){
+
+    if (!empty($_idToHash[$id])) {
         return $_idToHash[$id];
     }
 
@@ -6656,7 +6688,7 @@ function idToHash($id) {
         $base = 32;
         $cipher_algo = 'rc4';
     }
-    if(empty($global['salt'])){
+    if (empty($global['salt'])) {
         $global['salt'] = '11234567890abcdef';
     }
     $idConverted = base_convert($id, 10, $base);
@@ -6915,22 +6947,22 @@ function optimizeJS($html) {
     return str_replace('</body>', '<!-- optimized JS -->' . PHP_EOL . $HTMLTag . PHP_EOL . '</body>', $html);
 }
 
-function mysqlBeginTransaction(){
+function mysqlBeginTransaction() {
     global $global;
-    _error_log('Begin transaction '. getSelfURI());
+    _error_log('Begin transaction ' . getSelfURI());
     $global['mysqli']->autocommit(false);
 }
 
-function mysqlRollback(){
+function mysqlRollback() {
     global $global;
-    _error_log('Rollback transaction '. getSelfURI(), AVideoLog::$ERROR);
+    _error_log('Rollback transaction ' . getSelfURI(), AVideoLog::$ERROR);
     $global['mysqli']->rollback();
     $global['mysqli']->autocommit(true);
 }
 
-function mysqlCommit(){
+function mysqlCommit() {
     global $global;
-    _error_log('Commit transaction '. getSelfURI());
+    _error_log('Commit transaction ' . getSelfURI());
     $global['mysqli']->commit();
     $global['mysqli']->autocommit(true);
 }
