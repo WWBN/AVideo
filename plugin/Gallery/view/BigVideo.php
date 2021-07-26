@@ -162,14 +162,18 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                title="<?php echo $videoRow['title']; ?>">
                                                 <strong><?php echo $videoRow['title']; ?></strong>
                                             </a>
-                                            <div class="mainAreaDescriptionContainer">
-                                                <p class="mainAreaDescription" itemprop="description"><?php
-                                                    if (strpos($videoRow['description'], '<br') !== false || strpos($videoRow['description'], '<p') !== false) {
-                                                        echo $videoRow['description'];
-                                                    } else {
-                                                        echo nl2br(textToLink(htmlentities($videoRow['description'])));
-                                                    }
-                                                    ?></p>
+                                            <div class="descriptionArea">
+                                                <div class="descriptionAreaPreContent">
+                                                    <div class="descriptionAreaContent">
+                                                        <?php
+                                                        echo Video::htmlDescription($videoRow['description']);
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                                <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
+                                                    <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
+                                                    <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
+                                                </button>
                                             </div>
                                             <div class="text-muted galeryDetails">
                                                 <div>
