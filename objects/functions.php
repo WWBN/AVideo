@@ -2168,7 +2168,7 @@ function combineFiles($filesArray, $extension = "js") {
         }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
-    return getCDN() . 'videos/cache/' . $extension . "/" . $md5FileName . "?" . filectime($cacheDir . $md5FileName);
+    return getCDN() . 'videos/cache/' . $extension . "/" . $md5FileName . "?" . filectime($cacheDir . $md5FileName). filemtime($cacheDir . $md5FileName);
 }
 
 function local_get_contents($path) {
