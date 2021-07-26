@@ -2,6 +2,18 @@
 window.addEventListener('message', event => {
     if (event.data.startLiveRestream) {
         startLiveRestream(event.data.m3u8);
+    }else
+    if (event.data.webRTCModalConfig) {
+        console.log('event.data.webRTCModalConfig', event.data.webRTCModalConfig, typeof webRTCModalConfigShow);
+        if(event.data.webRTCModalConfig==1){
+            if(typeof webRTCModalConfigShow =='function'){
+                webRTCModalConfigShow();
+            }
+        }else{
+            if(typeof webRTCModalConfigHide =='function'){
+                webRTCModalConfigHide();
+            }
+        }
     }
 });
 

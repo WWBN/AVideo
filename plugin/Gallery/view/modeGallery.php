@@ -1,6 +1,7 @@
 <?php
 $isFirstPage = 1;
 include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
+$leaderBoardTop = getAdsLeaderBoardTop();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -14,14 +15,20 @@ include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <div class="container-fluid gallery">
-            <div class="row text-center" style="padding: 10px;">
-                <?php echo getAdsLeaderBoardTop(); ?>
-            </div>
-            <div class="col-lg-10 col-lg-offset-1 list-group-item addWidthOnMenuOpen">
-                <?php
-                include $global['systemRootPath'] . 'view/include/categoryTop.php';
-                include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
-                ?>
+            <?php
+            if(!empty($leaderBoardTop)){
+                echo '<div class="row text-center" style="padding: 10px;">'.$leaderBoardTop.'</div>';
+            }
+            ?>
+            <div class="col-lg-10 col-lg-offset-1 addWidthOnMenuOpen">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <?php
+                    include $global['systemRootPath'] . 'view/include/categoryTop.php';
+                    include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
+                    ?>
+                    </div>
+                </div>
             </div>
         </div>
         <?php
