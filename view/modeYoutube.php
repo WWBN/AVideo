@@ -128,7 +128,12 @@ if (!empty($evideo)) {
         if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $advancedCustom->forceCategory === false)) {
             $_GET['catName'] = "";
         }
-
+        
+        if (empty($video) && !empty($_REQUEST['v'])) {
+            $video = Video::getVideo($_REQUEST['v'], "viewable", false, false, false, true);
+            //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
+        }
+        
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, true, true);
         }
