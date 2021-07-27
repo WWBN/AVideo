@@ -2022,7 +2022,7 @@ class Live extends PluginAbstract {
     public function getUploadMenuButton() {
         global $global;
         $obj = $this->getDataObject();
-        if (!empty($obj->doNotShowGoLiveButton) || !User::canStream()) {
+        if (!empty(!User::canStream()) {
             return '';
         }
         $buttonTitle = $this->getButtonTitle();
