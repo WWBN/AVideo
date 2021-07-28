@@ -51,7 +51,7 @@ function url_get_contents($url, $timeout = 0) {
     if (ini_get('allow_url_fopen')) {
         try {
             $tmp = file_get_contents($url, false, $context);
-            _log('file_get_contents:: '.$tmp);
+            _log('file_get_contents:: '.htmlentities($tmp));
             if (empty($tmp)) {
                 _log('file_get_contents fail return an empty content');
                 return false;
@@ -77,7 +77,7 @@ function url_get_contents($url, $timeout = 0) {
         }
         $output = curl_exec($ch);
         curl_close($ch);
-        _log('curl_init:: '.$output);
+        _log('curl_init:: '.htmlentities($output));
         if (empty($output)) {
             _log('curl_init fail to download');
             return false;
@@ -106,7 +106,7 @@ function url_get_contents($url, $timeout = 0) {
     $filename = $tmpDir . md5($url);
     if (wget($url, $filename)) {
         $result = file_get_contents($filename);
-        _log('wget:: '.$result);
+        _log('wget:: '.htmlentities($result));
         unlink($filename);
         if (!empty($result)) {
             _log('wget works ');
