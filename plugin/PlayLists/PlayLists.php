@@ -87,7 +87,7 @@ class PlayLists extends PluginAbstract {
         }
         $obj = $this->getDataObject();
         //echo "getNetflixActionButton: ".$videos_id;
-        $btnClass = "text-primary";
+        $btnClass = "";
         echo '<div class="">';
         include $global['systemRootPath'] . 'plugin/PlayLists/actionButton.php';
         echo '</div>';
