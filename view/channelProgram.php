@@ -106,7 +106,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                 <div class="panel panel-default program" playListId="<?php echo $program['id']; ?>">
                     <div class="panel-heading">
 
-                        <strong style="font-size: 1.1em;" class="playlistName"><?php echo $program['name']; ?> </strong>
+                        <strong class="playlistName"><?php echo $program['name']; ?> </strong>
 
                         <?php
                         if (!empty($videosArrayId)) {
@@ -259,11 +259,11 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                                     }
                                                     ?>
                                                 </a>
-                                                <a class="hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
-                                                    <h2><?php echo $value['title']; ?></h2>
+                                                <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
+                                                    <strong class="title"><?php echo $value['title']; ?></strong>
                                                 </a>
                                                 <div class="galeryDetails" style="min-height: 60px;">
-                                                    <div>
+                                                    <div class="galleryTags">
                                                         <?php
                                                         $value['tags'] = Video::getTags($value['id']);
                                                         foreach ($value['tags'] as $value2) {
