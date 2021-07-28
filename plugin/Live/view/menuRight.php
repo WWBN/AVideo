@@ -55,33 +55,34 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
         </div>
     </a>
 </li>
+
 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border hidden extraVideosModel liveVideo">
-    <a href="" class="videoLink">
-        <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage" style="min-height: 70px; position:relative;" >
+    <a href="" class="videoLink" class="videoLink galleryLink " >
+        <div class="aspectRatio16_9" style="min-height: 70px;" >
             <img src="<?php echo getCDN(); ?>videos/userPhoto/logo.png" class="thumbsJPG img-responsive" height="130" itemprop="thumbnailUrl" alt="Logo" />
-            <span itemprop="uploadDate" content="<?php echo date("Y-m-d h:i:s"); ?>" />
             <img src="" style="position: absolute; top: 0; display: none;" class="thumbsGIF img-responsive" height="130" />
             <span class="label label-danger liveNow faa-flash faa-slow animated"><?php echo __("LIVE NOW"); ?></span>
         </div>
-        <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
-            <div class="text-uppercase row"><strong itemprop="name" class="title liveTitle"><?php echo __("Title"); ?></strong></div>
-            <div class="details row" itemprop="description">
-                <div class="pull-left">
-                    <img src="" class="photoImg img img-circle img-responsive" style="max-width: 20px;">
-                </div>
-                <div style="margin-left: 25px;">
-                    <div class="liveUser"><?php echo __("User"); ?></div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
+    </a>
+    
+    <a class="h6 galleryLink " href="_link_" title="_title_" >
+        <strong class="title liveTitle"><?php echo __("Title"); ?></strong>
+    </a>
+    <div class="galeryDetails" style="overflow: hidden;">
+        <div>
+            <img src="" class="photoImg img img-circle img-responsive" style="max-width: 20px;">
+        </div>
+        <div class="liveUser"><?php echo __("User"); ?></div>        
+        <div class="galleryTags">
             <?php
             if (AVideoPlugin::isEnabledByName("LiveUsers") && method_exists("LiveUsers", "getLabels")) {
                 echo LiveUsers::getLabels('extraVideosModelOnLineLabels');
             }
             ?>
         </div>
-    </a>
+    </div>
 </div>
+
 <script>
     var loadedExtraVideos = [];
     /* Use this funtion to display live videos dynamic on pages*/
