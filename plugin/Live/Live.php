@@ -1291,9 +1291,14 @@ class Live extends PluginAbstract {
                 $title = $row['title'];
                 $u = new User($row['users_id']);
                 $hiddenName = preg_replace('/^(.{5})/', '*****', $value->name);
-                _error_log('Live::isLiveFromKey:_getStats '. json_encode($_SERVER));
+                //_error_log('Live::isLiveFromKey:_getStats '. json_encode($_SERVER));
                 if (!self::canSeeLiveFromLiveKey($value->name)) {
-                    $obj->hidden_applications[] = "{$row['channelName']} ($hiddenName} is a private live";
+                    $obj->hidden_applications[] = array(
+                        "key" => $value->name,
+                        "name" => $row['channelName'],
+                        "user" => $row['channelName'],
+                        "title" => "{$row['channelName']} ($hiddenName} is a private live",
+                    );
                     if (!User::isAdmin()) {
                         continue;
                     } else {
@@ -1301,7 +1306,12 @@ class Live extends PluginAbstract {
                     }
                 } else
                 if (empty($row) || empty($row['public'])) {
-                    $obj->hidden_applications[] = "{$row['channelName']} ($hiddenName} " . __("is set to not be listed");
+                    $obj->hidden_applications[] = array(
+                        "key" => $value->name,
+                        "name" => $row['channelName'],
+                        "user" => $row['channelName'],
+                        "title" => "{$row['channelName']} ($hiddenName} " . __("is set to not be listed")
+                    );
                     if (!User::isAdmin()) {
                         continue;
                     } else {
@@ -1309,7 +1319,12 @@ class Live extends PluginAbstract {
                     }
                 } else
                 if ($u->getStatus() !== 'a') {
-                    $obj->hidden_applications[] = "{$row['channelName']} {$hiddenName} " . __("the user is inactive");
+                    $obj->hidden_applications[] = array(
+                        "key" => $value->name,
+                        "name" => $row['channelName'],
+                        "user" => $row['channelName'],
+                        "title" => "{$row['channelName']} {$hiddenName} " . __("the user is inactive"),
+                    );
                     if (!User::isAdmin()) {
                         continue;
                     } else {
@@ -1362,7 +1377,6 @@ class Live extends PluginAbstract {
                 $filenameExtra = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItem.html';
                 $filenameExtraVideoPage = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItemVideoPage.html';
                 $filename = $filenameListItem = $global['systemRootPath'] . 'plugin/LiveLinks/view/videoListItem.html';
-                ;
                 $search = array(
                     '_unique_id_',
                     '_user_photo_',
@@ -1447,6 +1461,14 @@ class Live extends PluginAbstract {
 //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         ObjectYPT::setCache($cacheName, json_encode($obj));
         return $obj;
+    }
+
+    static function byPass() {
+        if (preg_match('/socket_notification/', $_SERVER['SCRIPT_FILENAME'])) {
+            return true;
+        }
+
+        return false;
     }
 
     static function getLiveParametersFromKey($key) {
@@ -1591,13 +1613,13 @@ class Live extends PluginAbstract {
         //_error_log('Live::isKeyLiveInStats:self::getStats ' . json_encode($json));
         $_isLiveFromKey[$index] = false;
         if (!empty($json)) {
-            _error_log("Live::isLiveFromKey {$key} JSON was not empty");
+            //_error_log("Live::isLiveFromKey {$key} JSON was not empty");
             if (!is_array($json)) {
                 $json = array($json);
             }
             $namesFound = array();
             foreach ($json as $ki => $item) {
-                _error_log("Live::isLiveFromKey json [$ki] ". json_encode($item));
+                //_error_log("Live::isLiveFromKey json [$ki] " . json_encode($item));
                 $applications = array();
                 if (empty($item->applications) && is_array($item)) {
                     $applications = $item;
@@ -1651,7 +1673,7 @@ class Live extends PluginAbstract {
                     }
                 }
             }
-            _error_log("Live::isLiveFromKey namesFound ". json_encode($namesFound));
+            _error_log("Live::isLiveFromKey namesFound " . json_encode($namesFound));
         }
         if (empty($_isLiveFromKey[$index])) {
             _error_log("Live::isLiveFromKey is NOT online [{$key}]");
