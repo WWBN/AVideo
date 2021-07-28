@@ -121,10 +121,10 @@ class LiveLinks extends PluginAbstract {
     public function getLiveApplicationArray() {
         global $global;
         $obj = $this->getDataObject();
-        $filename = $global['systemRootPath'] . 'plugin/LiveLinks/view/menuItem.html';
+        //$filename = $global['systemRootPath'] . 'plugin/LiveLinks/view/menuItem.html';
         $filenameExtra = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItem.html';
         $filenameExtraVideoPage = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItemVideoPage.html';
-        $filenameListItem = $global['systemRootPath'] . 'plugin/LiveLinks/view/videoListItem.html';
+        $filename = $filenameListItem = $global['systemRootPath'] . 'plugin/LiveLinks/view/videoListItem.html';
         $row = LiveLinks::getAllActive(true, true);
         //var_dump($row);exit;
         $array = array();
@@ -166,8 +166,8 @@ class LiveLinks extends PluginAbstract {
                 $name,
                 str_replace('"', "", $value['description']),
                 self::getLink($value['id']),
-                '<img src="' . "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg" . '" class="thumbsJPG img-responsive" height="130">',
-                empty($obj->disableGifThumbs) ? ('<img src="' . "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=webp" . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : "",
+                '<img src="'. getCDN().'view/img/loading-gif.png" data-src="' . "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg" . '" class="thumbsJPG img-responsive" height="130">',
+                empty($obj->disableGifThumbs) ? ('<img src="'. getCDN().'view/img/loading-gif.png" data-src="' . "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=webp" . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : "",
                 "col-lg-2 col-md-4 col-sm-4 col-xs-6",
                 ($liveUsers ? getLiveUsersLabelLiveLinks($value['id']) : '')
             );
