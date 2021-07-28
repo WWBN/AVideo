@@ -344,7 +344,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $value['title']);
                         ?>
                         <div>
-                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' class="text-primary" data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
+                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
                             <div id="videoDescription<?php echo $duid; ?>" style="display: none;"><?php echo $desc; ?></div>
                         </div>
                         <?php
@@ -353,7 +353,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 ?>
                 <?php if (Video::canEdit($value['id'])) { ?>
                     <div>
-                        <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>');return false;" class="text-primary" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
+                        <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
                             <i class="fa fa-edit"></i> <span class="hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
                         </a>
                     </div>
@@ -361,7 +361,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 ?>
                 <?php if (!empty($value['trailer1'])) { ?>
                     <div>
-                        <span onclick="showTrailer('<?php echo parseVideos($value['trailer1'], 1); ?>'); return false;" class="text-primary cursorPointer" >
+                        <span onclick="showTrailer('<?php echo parseVideos($value['trailer1'], 1); ?>'); return false;" class="cursorPointer" >
                             <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
                         </span>
                     </div>

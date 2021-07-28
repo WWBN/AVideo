@@ -78,7 +78,7 @@ if (is_object($obj) && empty($obj->error)) {
                     </div>
                     <?php if (!empty($video->trailer1)) { ?>
                         <div>
-                            <span onclick="showTrailer('<?php echo parseVideos($video->trailer1, 1); ?>'); return false;" class="text-primary cursorPointer" >
+                            <span onclick="showTrailer('<?php echo parseVideos($video->trailer1, 1); ?>'); return false;" class="cursorPointer" >
                                 <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
                             </span>
                         </div>

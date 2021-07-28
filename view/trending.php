@@ -130,7 +130,7 @@ $metaDescription = __("Trending");
                                         </div>
                                         <?php if (Video::canEdit($value['id'])) { ?>
                                             <div>
-                                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary">
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>">
                                                     <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
                                                 </a>
                                             </div>

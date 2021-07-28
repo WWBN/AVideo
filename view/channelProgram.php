@@ -307,7 +307,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                                     if (Video::canEdit($value['id'])) {
                                                         ?>
                                                         <div>
-                                                            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                            <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
 
 
                                                         </div>
@@ -323,7 +323,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                                             </span>
                                                         </div>
                                                         <div>
-                                                            <span class="text-primary" playlist_id="<?php echo $program['id']; ?>" video_id="<?php echo $value['id']; ?>">
+                                                            <span playlist_id="<?php echo $program['id']; ?>" video_id="<?php echo $value['id']; ?>">
                                                                 <i class="fas fa-sort-numeric-down"></i> <?php echo __("Sort"); ?> 
                                                                 <input type="number" step="1" class="video_order" value="<?php echo intval($program['videos'][$count - 1]['video_order']); ?>" style="max-width: 50px;">
                                                                 <button class="btn btn-sm btn-xs sortNow"><i class="fas fa-check-square"></i></button>
