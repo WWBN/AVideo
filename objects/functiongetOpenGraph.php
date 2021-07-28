@@ -59,7 +59,7 @@ $ogURL = Video::getLinkToVideo($videos_id);
 <meta property="og:description"        content="<?php echo $description; ?>" />
 <meta property="og:url"                content="<?php echo $ogURL; ?>" />
 <meta property="og:type"               content="video.other" />
-<link rel=”canonical” href=”<?php echo $ogURL; ?>” />
+<link rel="canonical" href="<?php echo $ogURL; ?>" />
 
 <?php
 $source = Video::getHigestResolution($video['filename']);

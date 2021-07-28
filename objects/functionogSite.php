@@ -67,7 +67,7 @@ if(!empty($metaDescription)){
 <meta property="og:title"              content="<?php echo $title; ?>" />
 <meta property="og:description"        content="<?php echo $description; ?>" />
 <meta property="og:url"                content="<?php echo $url; ?>" />
-<link rel=”canonical” href=”<?php echo $url; ?>” />
+<link rel="canonical" href="<?php echo $url; ?>" />
 
 <?php
 if (!empty($advancedCustom->twitter_summary_large_image)) {
