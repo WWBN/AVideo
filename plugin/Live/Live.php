@@ -1588,6 +1588,7 @@ class Live extends PluginAbstract {
         //_error_log('getStats execute getStats: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
 
         $json = self::getStats($force_recreate);
+        _error_log('Live::isKeyLiveInStats:self::getStats ' . json_encode($json));
         $_isLiveFromKey[$index] = false;
         if (!empty($json)) {
             _error_log("Live::isLiveFromKey {$key} JSON was not empty");
