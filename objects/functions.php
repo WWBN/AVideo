@@ -2157,7 +2157,7 @@ function combineFiles($filesArray, $extension = "js") {
     $str = "";
     $fileName = "";
     foreach ($filesArray as $value) {
-        $fileName .= $value.filemtime($value);
+        $fileName .= $value.filectime($value).filemtime($value);
     }
     if ($advancedCustom != false) {
         $minifyEnabled = $advancedCustom->EnableMinifyJS;
