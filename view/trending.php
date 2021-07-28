@@ -55,8 +55,6 @@ $metaDescription = __("Trending");
                         foreach ($videos as $key => $value) {
                             ?>
                             <div class="col-lg-12 searchResult thumbsImage mb-2" style="overflow: hidden;">
-
-
                                 <a class="galleryLink col-sm-4 col-md-4 col-lg-4" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
                                     <?php
                                     $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -77,11 +75,11 @@ $metaDescription = __("Trending");
                                     </div>
                                 </a>
                                 <div class=" col-sm-8 col-md-8 col-lg-8">
-                                    <a class="h6 galleryLink  col-lg-12" style="font-size: 1.5em;" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
-                                        <h2><?php echo $value['title']; ?></h2>
+                                    <a class="h6 galleryLink col-lg-12" style="font-size: 1.5em;" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
+                                        <strong><?php echo $value['title']; ?></strong>
                                     </a>
 
-                                    <div class="text-muted galeryDetails col-lg-12" style="overflow: hidden;">
+                                    <div class="galeryDetails col-lg-12" style="overflow: hidden;">
                                         <div>
                                             <?php if (empty($_GET['catName'])) { ?>
                                                 <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
@@ -122,8 +120,8 @@ $metaDescription = __("Trending");
                                             <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
                                         </div>
                                         <div>
-                                            <i class="fa fa-user"></i>
-                                            <a class="text-muted" href="<?php echo User::getChannelLink($value['users_id']); ?>">
+                                            <a href="<?php echo User::getChannelLink($value['users_id']); ?>">
+                                                <i class="fa fa-user"></i>
                                                 <?php echo User::getNameIdentificationById($value['users_id']); ?>
                                             </a>
                                             <?php if ((!empty($value['description'])) && !empty($obj->Description)) { ?>

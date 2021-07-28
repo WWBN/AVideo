@@ -216,7 +216,7 @@ unset($_POST['current']);
                                     <a class="hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo $serie['title']; ?>">
                                         <h2><?php echo $serie['title']; ?></h2>
                                     </a>
-                                    <small class="text-muted galeryDetails">
+                                    <small class="galeryDetails">
                                         <a class="label label-default" href="<?php echo Video::getLink($serie['id'], $category->getClean_name(), false, $get); ?>">
                                             <?php
                                             if (!empty($category->getIconClass())) {
@@ -344,7 +344,7 @@ unset($_POST['current']);
                             <a class="hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
                                 <h2><?php echo $value['title']; ?></h2>
                             </a>
-                            <div class="text-muted galeryDetails" style="min-height: 60px;">
+                            <div class="galeryDetails" style="min-height: 60px;">
                                 <div>
                                     <?php
                                     $value['tags'] = Video::getTags($value['id']);

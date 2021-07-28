@@ -175,8 +175,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                     <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
                                                 </button>
                                             </div>
-                                            <div class="text-muted galeryDetails">
-                                                <div>
+                                            <div class="galeryDetails">
+                                                <div class="galleryTags">
                                                     <?php if (empty($_GET['catName'])) { ?>
                                                         <a class="label label-default" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>">
                                                             <?php
@@ -224,8 +224,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                     <?php echo humanTiming(strtotime($videoRow['videoCreation'])), " ", __('ago'); ?>
                                                 </div>
                                                 <div>
-                                                    <i class="fa fa-user"></i>
-                                                    <a class="text-muted" href="<?php echo User::getChannelLink($videoRow['users_id']); ?>">
+                                                    <a href="<?php echo User::getChannelLink($videoRow['users_id']); ?>">
+                                                        <i class="fa fa-user"></i>
                                                         <?php echo $name; ?>
                                                     </a>
                                                 </div>

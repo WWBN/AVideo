@@ -61,7 +61,7 @@ if (is_object($obj) && empty($obj->error)) {
                 <a class="h6 evideo" href="<?php echo $youtubeEmbedLink; ?>" title="<?php echo $youtubeTitle; ?>">
                     <h2><?php echo $youtubeTitle; ?></h2>
                 </a>
-                <div class="text-muted galeryDetails" style="overflow: hidden;">
+                <div class="galeryDetails" style="overflow: hidden;">
                     <?php
                     if (empty($advancedCustom->doNotDisplayViews)) {
                         ?>

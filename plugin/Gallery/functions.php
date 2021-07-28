@@ -277,10 +277,10 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
             <a class="h6 galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $value['id']; ?>" 
                href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>"  
                embed="<?php echo Video::getLink($value['id'], $value['clean_title'], true, $getCN); ?>" title="<?php echo $value['title']; ?>">
-                <h2><?php echo $value['title']; ?></h2>
+                <strong class="title"><?php echo $value['title']; ?></strong>
             </a>
 
-            <div class="text-muted galeryDetails" style="overflow: hidden;">
+            <div class="galeryDetails" style="overflow: hidden;">
                 <div class="galleryTags">
                     <!-- category tags -->
                     <?php
@@ -330,8 +330,8 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                     <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
                 </div>
                 <div>
-                    <i class="fa fa-user"></i>
-                    <a class="text-muted" href="<?php echo User::getChannelLink($value['users_id']); ?>">
+                    <a href="<?php echo User::getChannelLink($value['users_id']); ?>">
+                        <i class="fa fa-user"></i>
                         <?php echo $name; ?>
                     </a>
                 </div>
@@ -513,10 +513,10 @@ function createGalleryLiveSection($videos) {
             <a class="h6 galleryLink" videos_id="<?php echo $video['title']; ?>" 
                href="<?php echo $video['href']; ?>"  
                embed="<?php echo $video['link']; ?>" title="<?php echo $video['title']; ?>">
-                <h2><?php echo $video['title'] ?></h2>
+                <strong class="title"><?php echo $video['title'] ?></strong>
             </a>
 
-            <div class="text-muted galeryDetails" style="overflow: hidden;">
+            <div class="galeryDetails" style="overflow: hidden;">
                 <div class="galleryTags">
                     <?php if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) { ?>
                         <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>">
@@ -533,7 +533,7 @@ function createGalleryLiveSection($videos) {
                 </div>
                 <div>
                     <i class="fa fa-user"></i>
-                    <a class="text-muted" href="<?php echo User::getChannelLink($video['users_id']); ?>">
+                    <a href="<?php echo User::getChannelLink($video['users_id']); ?>">
                         <?php echo $name; ?>
                     </a>
                 </div>

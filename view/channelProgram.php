@@ -262,7 +262,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                                 <a class="hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
                                                     <h2><?php echo $value['title']; ?></h2>
                                                 </a>
-                                                <div class="text-muted galeryDetails" style="min-height: 60px;">
+                                                <div class="galeryDetails" style="min-height: 60px;">
                                                     <div>
                                                         <?php
                                                         $value['tags'] = Video::getTags($value['id']);

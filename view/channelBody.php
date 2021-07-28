@@ -36,6 +36,7 @@ unset($_POST['current']);
 $get = array('channelName' => $_GET['channelName']);
 $palyListsObj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 TimeLogEnd($timeLog, __LINE__);
+$obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 ?>
 
 <style>
@@ -68,6 +69,11 @@ TimeLogEnd($timeLog, __LINE__);
     }
     #aboutArea.expanded .showLess{
         display: block;
+    }
+    #channelHome{
+        background-color: rgb(<?php echo $obj->backgroundRGB; ?>);
+        position: relative; 
+        overflow: hidden;
     }
 </style>
 <!-- <?php var_dump($uploadedTotalVideos, $user_id, !isToHidePrivateVideos()); ?> -->
@@ -166,7 +172,7 @@ TimeLogEnd($timeLog, __LINE__);
                             }
                             if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
                                 $totalPrograms = PlayList::getAllFromUserLight($user_id, true, false, 0, true);
-                                if($totalPrograms){
+                                if ($totalPrograms) {
                                     ?>
                                     <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
                                         <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
@@ -189,7 +195,7 @@ TimeLogEnd($timeLog, __LINE__);
                                 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                                 ?>
                                 <style>#bigVideo{top: 0 !important;}</style>
-                                <div class="tab-pane  <?php echo $active; ?>" id="channelHome" style="min-height: 800px; background-color: rgb(<?php echo $obj->backgroundRGB; ?>);position: relative; overflow: hidden;">
+                                <div class="tab-pane  <?php echo $active; ?>" id="channelHome" >
                                     <?php
                                     $obj->BigVideo = true;
                                     $obj->PlayList = false;
@@ -276,12 +282,12 @@ TimeLogEnd($timeLog, __LINE__);
                                     <div class="panel panel-default">
                                         <div class="panel-heading text-right">
                                             <?php
-                                            if($isMyChannel){
-                                            ?>
-                                            <a class="btn btn-default btn-xs " href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/managerPlaylists.php">
-                                                <i class="fas fa-edit"></i> <?php echo __('Organize') . ' ' .$palyListsObj->name; ?>
-                                            </a>
-                                            <?php
+                                            if ($isMyChannel) {
+                                                ?>
+                                                <a class="btn btn-default btn-xs " href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/managerPlaylists.php">
+                                                    <i class="fas fa-edit"></i> <?php echo __('Organize') . ' ' . $palyListsObj->name; ?>
+                                                </a>
+                                                <?php
                                             }
                                             ?>
                                         </div>
