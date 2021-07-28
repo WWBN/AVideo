@@ -1588,13 +1588,14 @@ class Live extends PluginAbstract {
         //_error_log('getStats execute getStats: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
 
         $json = self::getStats($force_recreate);
-        _error_log('Live::isKeyLiveInStats:self::getStats ' . json_encode($json));
+        //_error_log('Live::isKeyLiveInStats:self::getStats ' . json_encode($json));
         $_isLiveFromKey[$index] = false;
         if (!empty($json)) {
             _error_log("Live::isLiveFromKey {$key} JSON was not empty");
             if (!is_array($json)) {
                 $json = array($json);
             }
+            $namesFound = array();
             foreach ($json as $item) {
                 $applications = array();
                 if (empty($item->applications) && is_array($item)) {
@@ -1608,6 +1609,7 @@ class Live extends PluginAbstract {
                     if (!is_array($value) || empty($value) || empty($value['key'])) {
                         continue;
                     }
+                    $namesFound[] = "({$value['key']})";
                     if (preg_match("/{$key}.*/", $value['key'])) {
                         if (empty($live_servers_id)) {
                             $_isLiveFromKey[$index] = true;
@@ -1630,6 +1632,7 @@ class Live extends PluginAbstract {
                         if (!is_array($value) || empty($value) || empty($value['key'])) {
                             continue;
                         }
+                        $namesFound[] = "({$value['key']})";
                         if (preg_match("/{$key}.*/", $value['key'])) {
                             if (empty($live_servers_id)) {
                                 $_isLiveFromKey[$index] = true;
@@ -1646,6 +1649,7 @@ class Live extends PluginAbstract {
                     }
                 }
             }
+            _error_log("Live::isLiveFromKey namesFound ". json_encode($namesFound));
         }
         if (empty($_isLiveFromKey[$index])) {
             _error_log("Live::isLiveFromKey is NOT online [{$key}]");
