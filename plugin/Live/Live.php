@@ -1291,7 +1291,7 @@ class Live extends PluginAbstract {
                 $title = $row['title'];
                 $u = new User($row['users_id']);
                 $hiddenName = preg_replace('/^(.{5})/', '*****', $value->name);
-
+                _error_log('Live::isLiveFromKey:_getStats '. json_encode($_SERVER));
                 if (!self::canSeeLiveFromLiveKey($value->name)) {
                     $obj->hidden_applications[] = "{$row['channelName']} ($hiddenName} is a private live";
                     if (!User::isAdmin()) {
@@ -1597,7 +1597,7 @@ class Live extends PluginAbstract {
             }
             $namesFound = array();
             foreach ($json as $ki => $item) {
-                //_error_log("Live::isLiveFromKey json [$ki] ". json_encode($item));
+                _error_log("Live::isLiveFromKey json [$ki] ". json_encode($item));
                 $applications = array();
                 if (empty($item->applications) && is_array($item)) {
                     $applications = $item;
