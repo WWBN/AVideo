@@ -1596,7 +1596,8 @@ class Live extends PluginAbstract {
                 $json = array($json);
             }
             $namesFound = array();
-            foreach ($json as $item) {
+            foreach ($json as $ki => $item) {
+                _error_log("Live::isLiveFromKey json [$ki] ". json_encode($item));
                 $applications = array();
                 if (empty($item->applications) && is_array($item)) {
                     $applications = $item;
@@ -1606,7 +1607,7 @@ class Live extends PluginAbstract {
 
                 foreach ($applications as $k => $value) {
                     $value = object_to_array($value);
-                    _error_log("Live::isLiveFromKey applications [$k] ". json_encode($value));
+                    //_error_log("Live::isLiveFromKey applications [$k] ". json_encode($value));
                     if (!is_array($value) || empty($value) || empty($value['key'])) {
                         continue;
                     }
