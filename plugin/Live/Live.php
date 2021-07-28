@@ -1604,8 +1604,9 @@ class Live extends PluginAbstract {
                     $applications = $item->applications;
                 }
 
-                foreach ($applications as $value) {
+                foreach ($applications as $k => $value) {
                     $value = object_to_array($value);
+                    _error_log("Live::isLiveFromKey applications [$k] ". json_encode($value));
                     if (!is_array($value) || empty($value) || empty($value['key'])) {
                         continue;
                     }
