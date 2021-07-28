@@ -2543,6 +2543,10 @@ function isMobile($userAgent = null, $httpHeaders = null) {
     return $detect->isMobile($userAgent, $httpHeaders);
 }
 
+function isChannelPage(){
+    return strpos($_SERVER["SCRIPT_NAME"], 'view/channel.php') !== false;
+}
+
 function isAVideoMobileApp($user_agent = "") {
     if (empty($user_agent)) {
         $user_agent = @$_SERVER['HTTP_USER_AGENT'];
