@@ -45,7 +45,7 @@ TimeLogStart($timeLog3);
             $cssClass = "posterPortrait";
         }
         ?>
-        <div class="carousel-cell  "  itemscope itemtype="http://schema.org/VideoObject">
+        <div class="carousel-cell" >
             <div class="tile">
                 <div class="slide thumbsImage" crc="<?php echo $uid; ?>" 
                      videos_id="<?php echo $value['id']; ?>" 

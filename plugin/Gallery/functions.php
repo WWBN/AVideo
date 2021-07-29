@@ -182,7 +182,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
             $isserieClass = "isserie";
         }
         ?>
-        <div class=" <?php echo $colsClass; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
+        <div class=" <?php echo $colsClass; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
             <a class="galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $value['id']; ?>" 
                href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>"  
                embed="<?php echo Video::getLink($value['id'], $value['clean_title'], true, $getCN); ?>" title="<?php echo $value['title']; ?>">
