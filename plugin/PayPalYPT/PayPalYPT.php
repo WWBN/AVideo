@@ -441,7 +441,7 @@ class PayPalYPT extends PluginAbstract {
             $merchantPreferences->setReturnUrl($success_url)
                     ->setCancelUrl($cancel_url)
                     ->setNotifyUrl($notify_url)
-                    ->setAutoBillAmount('yes')
+                    ->setAutoBillAmount('YES')
                     ->setInitialFailAmountAction('CONTINUE')
                     ->setMaxFailAttempts('0')
                     ->setSetupFee(new Currency(array('value' => $total, 'currency' => $currency)));
@@ -449,7 +449,7 @@ class PayPalYPT extends PluginAbstract {
             $merchantPreferences->setReturnUrl($success_url)
                     ->setCancelUrl($cancel_url)
                     ->setNotifyUrl($notify_url)
-                    ->setAutoBillAmount('yes')
+                    ->setAutoBillAmount('YES')
                     ->setInitialFailAmountAction('CONTINUE')
                     ->setMaxFailAttempts('0');
         }

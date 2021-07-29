@@ -51,12 +51,22 @@ if (!empty($_GET['token'])) {
         _error_log("PayPalIPN V2: token will be processed ");
         $agreement = $paypal->execute();
         //_error_log("PayPalIPN V2: agreement ". print_r($agreement->getAgreementDetails()->getLastPaymentAmount()->getValue(), true));
-        
-        $lastPayment = $agreement->getAgreementDetails()->getLastPaymentAmount();
-        if(empty($lastPayment)){
-            _error_log("PayPalIPN V2: agreement ". print_r($agreement->getAgreementDetails(), true));
+
+        if ($agreement->getState() !== 'Active') {
+            $obj->msg = 'The Agreement is not active yet ';
+            _error_log("PayPalIPN V2: {$obj->msg} ");
+            die(json_encode($obj));
         }
-            
+
+        $lastPayment = $agreement->getAgreementDetails()->getLastPaymentAmount();
+        if (empty($lastPayment)) {
+            $lastPayment = $agreement->getPlan()->getMerchantPreferences()->getSetupFee();
+        }
+        if (empty($lastPayment)) {
+            _error_log("PayPalIPN V2: agreement " . print_r($agreement, true));
+            var_dump($agreement);
+            exit;
+        }
         $payment_amount = floatval($lastPayment->getValue());
         $payment_currency = $lastPayment->getCurrency();
         //$payment_time = strtotime($agreement->agreement_details->last_payment_date);
@@ -117,7 +127,8 @@ if (!empty($json->type)) {
             if (!empty($json->Fsubscriptions_plan_id) && !empty($json->users_id)) {
                 $fsObj = AVideoPlugin::getDataObjectIfEnabled('FansSubscriptions');
                 if (!empty($fsObj) && !empty($json->users_id)) {
-                    if (FansSubscriptions::renew($json->users_id, $json->Fsubscriptions_plan_id)) {
+                    if ($renew = FansSubscriptions::renew($json->users_id, $json->Fsubscriptions_plan_id)) {
+                        $redirectUri = addQueryStringParameter($redirectUri, 'msg', $renew->msg);
                         header('Location: ' . $redirectUri);
                         exit;
                     }
