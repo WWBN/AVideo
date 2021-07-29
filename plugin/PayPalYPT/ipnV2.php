@@ -50,9 +50,9 @@ if (!empty($_GET['token'])) {
     if (!PayPalYPT::isTokenUsed($_GET['token'])) {
         _error_log("PayPalIPN V2: token will be processed ");
         $agreement = $paypal->execute();
-        _error_log("PayPalIPN V2: agreement ". print_r($agreement, true));
-        $payment_amount = floatval($agreement->agreement_details->last_payment_amount->value);
-        $payment_currency = $agreement->agreement_details->last_payment_amount->currency;
+        //_error_log("PayPalIPN V2: agreement ". print_r($agreement->getAgreementDetails()->getLastPaymentAmount()->getValue(), true));
+        $payment_amount = floatval($agreement->getAgreementDetails()->getLastPaymentAmount()->getValue());
+        $payment_currency = $agreement->getAgreementDetails()->getLastPaymentAmount()->getCurrency();
         //$payment_time = strtotime($agreement->agreement_details->last_payment_date);
 
         $pp = new PayPalYPT_log(0);
