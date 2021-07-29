@@ -504,31 +504,6 @@ class PayPalYPT extends PluginAbstract {
         }
         return false;
     }
-    
-    static function listPlans() {
-        global $global;
-        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
-        try {
-            // Execute agreement
-            _error_log("PayPal listPlans Try to execute ");
-            $params = array('page_size' => 20);
-            $planList = Plan::all($params, $apiContext);
-            $p = $planList->getPlans();
-            foreach ($p as $value) {
-                echo $value->getId()."<br>";
-                echo $value->getName()."<br>";
-                echo $value->getDescription()."<br>";
-                $plan = Plan::get($value->getId(), $apiContext);
-                var_dump($plan);
-            }
-            return $planList;
-        } catch (PayPal\Exception\PayPalConnectionException $ex) {
-            _error_log("PayPal Error listPlans: " . $ex->getData());
-        } catch (Exception $ex) {
-            _error_log("PayPal Error listPlans: " . $ex);
-        }
-        return false;
-    }
 
     static function getBillingAgreement($agreement_id) {
         global $global;
@@ -895,6 +870,11 @@ class PayPalYPT extends PluginAbstract {
     static function isRecurringPaymentIdUsed($recurring_payment_id){
         $row = PayPalYPT_log::getFromRecurringPaymentId($recurring_payment_id);
         return !empty($row);
+    }
+    
+    static function getAllLogsFromUser($users_id){
+        $rows = PayPalYPT_log::getAllFromUser($users_id);
+        return $rows;
     }
 
 }

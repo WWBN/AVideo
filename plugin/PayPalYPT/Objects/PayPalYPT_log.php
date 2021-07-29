@@ -47,7 +47,7 @@ class PayPalYPT_log extends ObjectYPT {
     }
 
     function setJson($json) {
-        if(!is_string($json)){
+        if (!is_string($json)) {
             $json = _json_encode($json);
         }
         $this->json = $json;
@@ -92,7 +92,7 @@ class PayPalYPT_log extends ObjectYPT {
     function getToken() {
         return $this->token;
     }
-    
+
     static function getFromToken($token) {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  token = ? LIMIT 1";
@@ -107,7 +107,7 @@ class PayPalYPT_log extends ObjectYPT {
         }
         return $row;
     }
-    
+
     static function getFromRecurringPaymentId($recurring_payment_id) {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  recurring_payment_id = ? LIMIT 1";
@@ -121,6 +121,35 @@ class PayPalYPT_log extends ObjectYPT {
             $row = false;
         }
         return $row;
+    }
+
+    static function getAllFromUser($users_id) {
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . "  WHERE users_id = ? ";
+
+        $sql .= self::getSqlFromPost();
+        $res = sqlDAL::readSql($sql, "i", array($users_id));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $search = array('"get":{"json":"{', '}","success"');
+                $replace = array('"get":{"json":{', '},"success"');
+                $row['json'] = str_replace($search, $replace, $row['json']);
+                $rows[] = $row;
+            }
+        } else {
+            _error_log($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
+    }
+    
+    public function save() {
+        global $global;
+        $this->json = $global['mysqli']->real_escape_string($this->json);
+        
+        return parent::save();
     }
 
 }

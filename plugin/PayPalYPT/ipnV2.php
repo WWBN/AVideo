@@ -51,7 +51,7 @@ if (!empty($_GET['token'])) {
         _error_log("PayPalIPN V2: token will be processed ");
         $agreement = $paypal->execute();
         //_error_log("PayPalIPN V2: agreement ". print_r($agreement->getAgreementDetails()->getLastPaymentAmount()->getValue(), true));
-
+        
         if ($agreement->getState() !== 'Active') {
             $obj->msg = 'The Agreement is not active yet ';
             _error_log("PayPalIPN V2: {$obj->msg} ");
@@ -76,7 +76,7 @@ if (!empty($_GET['token'])) {
         $pp->setAgreement_id($agreement->id);
         $pp->setToken($_GET['token']);
         $pp->setValue($payment_amount);
-        $pp->setJson(array('agreement' => $agreement, 'post' => $_POST, 'get' => $_GET));
+        $pp->setJson(array('post' => $_POST, 'get' => $_GET));
     } else {
         _error_log("PayPalIPN V2: token was already processed ");
     }
