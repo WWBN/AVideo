@@ -94,7 +94,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             <?php
             if (Video::showYoutubeModeOptions() && empty($advancedCustom->doNotDisplayViews)) {
                 ?>
-                <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
+                <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format_short($video['views_count']); ?></span> <?php echo __("Views"); ?></span>
                 <?php
             }
             ?>

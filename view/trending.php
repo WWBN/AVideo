@@ -111,7 +111,7 @@ $metaDescription = __("Trending");
                                             <div>
                                                 <i class="fa fa-eye"></i>
                                                 <span itemprop="interactionCount">
-                                                    <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                                    <?php echo number_format_short($value['views_count']); ?> <?php echo __("Views"); ?>
                                                 </span>
                                             </div>
                                         <?php } ?>

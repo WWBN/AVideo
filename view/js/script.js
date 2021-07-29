@@ -443,7 +443,7 @@ function _addView(videos_id, currentTime) {
             'currentTime': currentTime
         },
         success: function (response) {
-            $('.view-count' + videos_id).text(response.count);
+            $('.view-count' + videos_id).text(response.countHTML);
         }
     });
 }

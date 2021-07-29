@@ -406,7 +406,7 @@ class PayPalYPT extends PluginAbstract {
         // Create a new billing plan
         $plan = new Plan();
         $plan->setName(substr(cleanString($name), 0, 126))
-                ->setDescription(substr(cleanString($name), 0, 126))
+                ->setDescription(substr(json_encode(User::getId()), 0, 126))
                 ->setType('INFINITE');
 
         $paymentDefinitionArray = array();
@@ -501,6 +501,31 @@ class PayPalYPT extends PluginAbstract {
             _error_log("PayPal Error executeBillingAgreement: " . $ex->getData());
         } catch (Exception $ex) {
             _error_log("PayPal Error executeBillingAgreement: " . $ex);
+        }
+        return false;
+    }
+    
+    static function listPlans() {
+        global $global;
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
+        try {
+            // Execute agreement
+            _error_log("PayPal listPlans Try to execute ");
+            $params = array('page_size' => 20);
+            $planList = Plan::all($params, $apiContext);
+            $p = $planList->getPlans();
+            foreach ($p as $value) {
+                echo $value->getId()."<br>";
+                echo $value->getName()."<br>";
+                echo $value->getDescription()."<br>";
+                $plan = Plan::get($value->getId(), $apiContext);
+                var_dump($plan);
+            }
+            return $planList;
+        } catch (PayPal\Exception\PayPalConnectionException $ex) {
+            _error_log("PayPal Error listPlans: " . $ex->getData());
+        } catch (Exception $ex) {
+            _error_log("PayPal Error listPlans: " . $ex);
         }
         return false;
     }

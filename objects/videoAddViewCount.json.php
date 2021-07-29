@@ -53,6 +53,7 @@ $count = $obj->getViews_count();
 $obj2 = new stdClass();
 $obj2->status = !empty($resp);
 $obj2->count = $count;
+$obj2->countHTML = number_format_short($count);
 $obj2->resp = $resp;
 
 echo json_encode($obj2);
