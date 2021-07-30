@@ -37,7 +37,6 @@ if (empty($_REQUEST['success'])) {
     exit;
 }
 
-_error_log("PayPalIPN V2: " . json_encode($obj));
 _error_log("PayPalIPN V2: POST " . json_encode($_POST));
 _error_log("PayPalIPN V2: GET " . json_encode($_GET));
 
@@ -51,8 +50,25 @@ if (!empty($_GET['token'])) {
     if (!PayPalYPT::isTokenUsed($_GET['token'])) {
         _error_log("PayPalIPN V2: token will be processed ");
         $agreement = $paypal->execute();
-        $payment_amount = floatval($agreement->agreement_details->last_payment_amount->value);
-        $payment_currency = $agreement->agreement_details->last_payment_amount->currency;
+        //_error_log("PayPalIPN V2: agreement ". print_r($agreement->getAgreementDetails()->getLastPaymentAmount()->getValue(), true));
+        
+        if ($agreement->getState() !== 'Active') {
+            $obj->msg = 'The Agreement is not active yet ';
+            _error_log("PayPalIPN V2: {$obj->msg} ");
+            die(json_encode($obj));
+        }
+
+        $lastPayment = $agreement->getAgreementDetails()->getLastPaymentAmount();
+        if (empty($lastPayment)) {
+            $lastPayment = $agreement->getPlan()->getMerchantPreferences()->getSetupFee();
+        }
+        if (empty($lastPayment)) {
+            _error_log("PayPalIPN V2: agreement " . print_r($agreement, true));
+            var_dump($agreement);
+            exit;
+        }
+        $payment_amount = floatval($lastPayment->getValue());
+        $payment_currency = $lastPayment->getCurrency();
         //$payment_time = strtotime($agreement->agreement_details->last_payment_date);
 
         $pp = new PayPalYPT_log(0);
@@ -60,7 +76,7 @@ if (!empty($_GET['token'])) {
         $pp->setAgreement_id($agreement->id);
         $pp->setToken($_GET['token']);
         $pp->setValue($payment_amount);
-        $pp->setJson(array('agreement' => $agreement, 'post' => $_POST, 'get' => $_GET));
+        $pp->setJson(array('post' => $_POST, 'get' => $_GET));
     } else {
         _error_log("PayPalIPN V2: token was already processed ");
     }
@@ -111,7 +127,8 @@ if (!empty($json->type)) {
             if (!empty($json->Fsubscriptions_plan_id) && !empty($json->users_id)) {
                 $fsObj = AVideoPlugin::getDataObjectIfEnabled('FansSubscriptions');
                 if (!empty($fsObj) && !empty($json->users_id)) {
-                    if (FansSubscriptions::renew($json->users_id, $json->Fsubscriptions_plan_id)) {
+                    if ($renew = FansSubscriptions::renew($json->users_id, $json->Fsubscriptions_plan_id)) {
+                        $redirectUri = addQueryStringParameter($redirectUri, 'msg', $renew->msg);
                         header('Location: ' . $redirectUri);
                         exit;
                     }

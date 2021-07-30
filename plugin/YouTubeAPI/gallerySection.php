@@ -50,7 +50,7 @@ if (showThis($sectionName)) {
             $youtubeTitle = $video->title;
             $youtubeThumbs = $video->thumbnails;
             ?>
-            <div class="col-lg-<?php echo 12 / $objGallery->screenColsLarge; ?> col-md-<?php echo 12 / $objGallery->screenColsMedium; ?> col-sm-<?php echo 12 / $objGallery->screenColsSmall; ?> col-xs-<?php echo 12 / $objGallery->screenColsXSmall; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
+            <div class="col-lg-<?php echo 12 / $objGallery->screenColsLarge; ?> col-md-<?php echo 12 / $objGallery->screenColsMedium; ?> col-sm-<?php echo 12 / $objGallery->screenColsSmall; ?> col-xs-<?php echo 12 / $objGallery->screenColsXSmall; ?> galleryVideo thumbsImage fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
                 <a class="evideo" href="<?php echo $youtubeEmbedLink; ?>" title="<?php echo $youtubeTitle; ?>">
                     <div class="aspectRatio16_9">
                         <img src="<?php echo $youtubeThumbs; ?>" alt="<?php echo $youtubeTitle; ?>" class="thumbsJPG img img-responsive" />

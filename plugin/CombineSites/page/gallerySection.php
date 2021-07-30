@@ -35,7 +35,7 @@ foreach ($items as $item) {
                         <a class="h6 evideo" >
                             <h2>...</h2>
                         </a>
-                        <div class="text-muted galeryDetails" style="overflow: hidden;">
+                        <div class="galeryDetails" style="overflow: hidden;">
                             <div>
                                 <i class="fa fa-eye"></i>
                                 <span itemprop="interactionCount">

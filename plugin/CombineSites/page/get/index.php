@@ -52,7 +52,7 @@ if (is_object($obj) && empty($obj->error)) {
             $youtubeTitle = $video->title;
             $youtubeThumbs = $video->thumbnails;
             ?>
-            <div class="col-lg-<?php echo 12 / $objGallery->screenColsLarge; ?> col-md-<?php echo 12 / $objGallery->screenColsMedium; ?> col-sm-<?php echo 12 / $objGallery->screenColsSmall; ?> col-xs-<?php echo 12 / $objGallery->screenColsXSmall; ?> galleryVideo thumbsImage fixPadding" style="min-height: 175px;" itemscope itemtype="http://schema.org/VideoObject">
+            <div class="col-lg-<?php echo 12 / $objGallery->screenColsLarge; ?> col-md-<?php echo 12 / $objGallery->screenColsMedium; ?> col-sm-<?php echo 12 / $objGallery->screenColsSmall; ?> col-xs-<?php echo 12 / $objGallery->screenColsXSmall; ?> galleryVideo thumbsImage fixPadding" style="min-height: 175px;">
                 <a class="evideo" href="<?php echo $youtubeEmbedLink; ?>" title="<?php echo $youtubeTitle; ?>">
                     <div class="aspectRatio16_9">
                         <img src="<?php echo $youtubeThumbs; ?>" alt="<?php echo $youtubeTitle; ?>" class="thumbsJPG img img-responsive" />
@@ -61,7 +61,7 @@ if (is_object($obj) && empty($obj->error)) {
                 <a class="h6 evideo" href="<?php echo $youtubeEmbedLink; ?>" title="<?php echo $youtubeTitle; ?>">
                     <h2><?php echo $youtubeTitle; ?></h2>
                 </a>
-                <div class="text-muted galeryDetails" style="overflow: hidden;">
+                <div class="galeryDetails" style="overflow: hidden;">
                     <?php
                     if (empty($advancedCustom->doNotDisplayViews)) {
                         ?>
@@ -78,7 +78,7 @@ if (is_object($obj) && empty($obj->error)) {
                     </div>
                     <?php if (!empty($video->trailer1)) { ?>
                         <div>
-                            <span onclick="showTrailer('<?php echo parseVideos($video->trailer1, 1); ?>'); return false;" class="text-primary cursorPointer" >
+                            <span onclick="showTrailer('<?php echo parseVideos($video->trailer1, 1); ?>'); return false;" class="cursorPointer" >
                                 <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
                             </span>
                         </div>

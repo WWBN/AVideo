@@ -15,7 +15,7 @@ foreach ($menu as $key => $value) {
     foreach ($menuItems as $key2 => $value2) {
         ?>
         <div>
-            <a href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?>  class="text-primary">
+            <a href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?>>
                 <?php
                 if (!empty($value2['icon'])) {
                     ?>
@@ -41,7 +41,7 @@ foreach ($menu as $key => $value) {
         }
         ?>
         <div>
-            <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?>  class="text-primary">
+            <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?>>
                 <?php
                 if (!empty($value2['icon'])) {
                     ?>
@@ -68,7 +68,7 @@ if (User::isLogged()) {
             }
             ?>
             <div>
-                <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?>  class="text-primary">
+                <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?>>
                     <?php
                     if (!empty($value2['icon'])) {
                         ?>
@@ -95,7 +95,7 @@ if (User::isLogged()) {
                 }
                 ?>
                 <div>
-                    <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?>  class="text-primary">
+                    <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?>>
                         <?php
                         if (!empty($value2['icon'])) {
                             ?>
@@ -125,7 +125,7 @@ if (!User::canWatchVideo($videos_id)) {
             }
             ?>
             <div>
-                <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?>  class="text-primary">
+                <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?>>
                     <?php
                     if (!empty($value2['icon'])) {
                         ?>

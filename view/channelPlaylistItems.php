@@ -46,11 +46,11 @@ unset($_POST['current']);
 <div class="programsContainerItem">
     <?php
     if (empty($playlists)) {
-        
-        if($current==1){
-            echo "<div class='alert alert-warning'><i class=\"fas fa-exclamation-triangle\"></i> ".__('Sorry you do not have anything available')."</div>";
+
+        if ($current == 1) {
+            echo "<div class='alert alert-warning'><i class=\"fas fa-exclamation-triangle\"></i> " . __('Sorry you do not have anything available') . "</div>";
         }
-        
+
         die("</div>");
     }
     $playListsObj = AVideoPlugin::getObjectData("PlayLists");
@@ -213,30 +213,32 @@ unset($_POST['current']);
                                     <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" style="max-height: 200px;" />
                                 </div>  
                                 <div>
-                                    <a class="hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo $serie['title']; ?>">
-                                        <h2><?php echo $serie['title']; ?></h2>
+                                    <a class="h6 galleryLink hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo $serie['title']; ?>">
+                                        <strong class="title"><?php echo $serie['title']; ?></strong>
                                     </a>
-                                    <small class="text-muted galeryDetails">
-                                        <a class="label label-default" href="<?php echo Video::getLink($serie['id'], $category->getClean_name(), false, $get); ?>">
-                                            <?php
-                                            if (!empty($category->getIconClass())) {
-                                                ?>
-                                                <i class="<?php echo $category->getIconClass(); ?>"></i>
+                                    <small class="galeryDetails">
+                                        <div class="galleryTags">
+                                            <a class="label label-default" href="<?php echo Video::getLink($serie['id'], $category->getClean_name(), false, $get); ?>">
                                                 <?php
+                                                if (!empty($category->getIconClass())) {
+                                                    ?>
+                                                    <i class="<?php echo $category->getIconClass(); ?>"></i>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <?php echo $category->getName(); ?>
+                                            </a>
+                                            <?php
+                                            $serie['tags'] = Video::getTags($serie['id']);
+                                            foreach ($serie['tags'] as $value2) {
+                                                if ($value2->label === __("Group")) {
+                                                    ?>
+                                                    <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
+                                                    <?php
+                                                }
                                             }
                                             ?>
-                                            <?php echo $category->getName(); ?>
-                                        </a>
-                                        <?php
-                                        $serie['tags'] = Video::getTags($serie['id']);
-                                        foreach ($serie['tags'] as $value2) {
-                                            if ($value2->label === __("Group")) {
-                                                ?>
-                                                <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                                <?php
-                                            }
-                                        }
-                                        ?>
+                                        </div>
                                         <i class="far fa-clock"></i>
                                         <?php
                                         echo humanTiming(strtotime($serie['created'])), " ", __('ago');
@@ -341,10 +343,10 @@ unset($_POST['current']);
                                 }
                                 ?>
                             </a>
-                            <a class="hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
-                                <h2><?php echo $value['title']; ?></h2>
+                            <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
+                                <strong class="title"><?php echo $value['title']; ?></strong>
                             </a>
-                            <div class="text-muted galeryDetails" style="min-height: 60px;">
+                            <div class="galeryDetails" style="min-height: 60px;">
                                 <div>
                                     <?php
                                     $value['tags'] = Video::getTags($value['id']);
@@ -386,7 +388,7 @@ unset($_POST['current']);
                                 if (Video::canEdit($value['id'])) {
                                     ?>
                                     <div>
-                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
 
 
                                     </div>
@@ -413,28 +415,28 @@ unset($_POST['current']);
 
                 <?php
             }
-            if(PlayLists::showTVFeatures()){
-            ?>
-            <div class="panel-footer">
-                <?php 
-                $_REQUEST['user_id'] = $user_id;
-                $_REQUEST['playlists_id'] = $playlist['id'];
-                include $global['systemRootPath'] . 'plugin/PlayLists/epg.html.php';
+            if (PlayLists::showTVFeatures()) {
                 ?>
-            </div>
-            <?php
+                <div class="panel-footer">
+                    <?php
+                    $_REQUEST['user_id'] = $user_id;
+                    $_REQUEST['playlists_id'] = $playlist['id'];
+                    include $global['systemRootPath'] . 'plugin/PlayLists/epg.html.php';
+                    ?>
+                </div>
+                <?php
             }
             ?>
         </div>
-    <?php
-}
-if (!empty($videosP) && empty($countSuccess)) {
-    header("Location: {$global['webSiteRootURL']}view/channelPlaylistItems.php?current=" . (count($playlists) ? $_POST['current'] + 1 : $_POST['current']) . "&channelName={$_GET['channelName']}");
-    exit;
-}
-TimeLogEnd($timeLog2, __LINE__);
-$_GET['channelName'] = $channelName;
-?>
+        <?php
+    }
+    if (!empty($videosP) && empty($countSuccess)) {
+        header("Location: {$global['webSiteRootURL']}view/channelPlaylistItems.php?current=" . (count($playlists) ? $_POST['current'] + 1 : $_POST['current']) . "&channelName={$_GET['channelName']}");
+        exit;
+    }
+    TimeLogEnd($timeLog2, __LINE__);
+    $_GET['channelName'] = $channelName;
+    ?>
     <script>
 
         $(function () {
@@ -581,14 +583,14 @@ $_GET['channelName'] = $channelName;
     </script>
     <!--
     channelPlaylist
-<?php
-$timesC[__LINE__] = microtime(true) - $startC;
-$startC = microtime(true);
-foreach ($timesC as $key => $value) {
-    echo "Line: {$key} -> {$value}\n";
-}
-$_POST['current'] = $current;
-?>
+    <?php
+    $timesC[__LINE__] = microtime(true) - $startC;
+    $startC = microtime(true);
+    foreach ($timesC as $key => $value) {
+        echo "Line: {$key} -> {$value}\n";
+    }
+    $_POST['current'] = $current;
+    ?>
     -->
 </div>
 <p class="pagination">

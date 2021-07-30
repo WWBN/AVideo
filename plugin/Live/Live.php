@@ -187,8 +187,8 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('doNotShowOfflineLiveOnCategoryList', 'Do not show offline lives on site category list', 'We will not show the live thumbs on the main Gallery page if it is offline');
         $obj->limitLiveOnVideosList = 12;
         self::addDataObjectHelper('limitLiveOnVideosList', 'Videos List Limit', 'This will limit the maximum of videos that you will see in the Videos page');
-//$obj->doNotShowGoLiveButton = false;
-//self::addDataObjectHelper('doNotShowGoLiveButton', 'Hide Top Button', 'This will hide the "Go Live" button on the top menu bar');
+        $obj->doNotShowGoLiveButton = false;
+        self::addDataObjectHelper('doNotShowGoLiveButton', 'Hide Top Go live Button', 'This will hide the "Go Live" button on the top menu bar');
         $obj->doNotProcessNotifications = false;
         self::addDataObjectHelper('doNotProcessNotifications', 'Do not show notifications', 'Do not show the notification on the top bar');
         $obj->useLiveServers = false;
@@ -222,8 +222,8 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_drop_publisher_reset_key', 'Show Drop Publisher and Reset Key Button Only to Admin', 'Regular users will not able to see this button');
         $obj->controllButtonsShowOnlyToAdmin_save_dvr = false;
         self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_save_dvr', 'Show Save DVR Button Only to Admin', 'Regular users will not able to see this button');
-        
-        
+
+
         $obj->webRTC_player = 'https://webrtc.ypt.me/player/';
         return $obj;
     }
@@ -487,7 +487,7 @@ class Live extends PluginAbstract {
                 if (!self::userCanRecordLive(User::getId())) {
                     return '<!-- User Cannot record -->';
                 }
-                return '<!-- SendRecordedToEncoder::getSaveDVRButton -->'.SendRecordedToEncoder::getSaveDVRButton($key, $live_servers_id, $class);
+                return '<!-- SendRecordedToEncoder::getSaveDVRButton -->' . SendRecordedToEncoder::getSaveDVRButton($key, $live_servers_id, $class);
                 break;
             default:
                 return '';
@@ -1291,9 +1291,14 @@ class Live extends PluginAbstract {
                 $title = $row['title'];
                 $u = new User($row['users_id']);
                 $hiddenName = preg_replace('/^(.{5})/', '*****', $value->name);
-
+                //_error_log('Live::isLiveFromKey:_getStats '. json_encode($_SERVER));
                 if (!self::canSeeLiveFromLiveKey($value->name)) {
-                    $obj->hidden_applications[] = "{$row['channelName']} ($hiddenName} is a private live";
+                    $obj->hidden_applications[] = array(
+                        "key" => $value->name,
+                        "name" => $row['channelName'],
+                        "user" => $row['channelName'],
+                        "title" => "{$row['channelName']} ($hiddenName} is a private live",
+                    );
                     if (!User::isAdmin()) {
                         continue;
                     } else {
@@ -1301,7 +1306,12 @@ class Live extends PluginAbstract {
                     }
                 } else
                 if (empty($row) || empty($row['public'])) {
-                    $obj->hidden_applications[] = "{$row['channelName']} ($hiddenName} " . __("is set to not be listed");
+                    $obj->hidden_applications[] = array(
+                        "key" => $value->name,
+                        "name" => $row['channelName'],
+                        "user" => $row['channelName'],
+                        "title" => "{$row['channelName']} ($hiddenName} " . __("is set to not be listed")
+                    );
                     if (!User::isAdmin()) {
                         continue;
                     } else {
@@ -1309,7 +1319,12 @@ class Live extends PluginAbstract {
                     }
                 } else
                 if ($u->getStatus() !== 'a') {
-                    $obj->hidden_applications[] = "{$row['channelName']} {$hiddenName} " . __("the user is inactive");
+                    $obj->hidden_applications[] = array(
+                        "key" => $value->name,
+                        "name" => $row['channelName'],
+                        "user" => $row['channelName'],
+                        "title" => "{$row['channelName']} {$hiddenName} " . __("the user is inactive"),
+                    );
                     if (!User::isAdmin()) {
                         continue;
                     } else {
@@ -1351,12 +1366,61 @@ class Live extends PluginAbstract {
                     $title .= " ({$live_index})";
                 }
 
-// this variable is to keep it compatible for Mobile app
+                // this variable is to keep it compatible for Mobile app
                 $UserPhoto = $photo;
                 $key = LiveTransmition::keyNameFix($value->name);
                 $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id, $live_index);
                 $m3u8 = self::getM3U8File($key);
+
+                $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');
+                //$filename = $global['systemRootPath'] . 'plugin/LiveLinks/view/menuItem.html';
+                $filenameExtra = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItem.html';
+                $filenameExtraVideoPage = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItemVideoPage.html';
+                $filename = $filenameListItem = $global['systemRootPath'] . 'plugin/LiveLinks/view/videoListItem.html';
+                $search = array(
+                    '_unique_id_',
+                    '_user_photo_',
+                    '_title_',
+                    '_user_identification_',
+                    '_description_',
+                    '_link_',
+                    '_imgJPG_',
+                    '_imgGIF_',
+                    '_class_',
+                    '_total_on_live_links_id_',
+                    'liveLink',
+                    'LiveLink'
+                );
+                $content = file_get_contents($filename);
+                $contentExtra = file_get_contents($filenameExtra);
+                $contentExtraVideoPage = file_get_contents($filenameExtraVideoPage);
+                $contentListem = file_get_contents($filenameListItem);
+                $uid = "live_{$live_servers_id}_{$value->name}";
+                $replace = array(
+                    $uid,
+                    $UserPhoto,
+                    $title,
+                    $user,
+                    str_replace('"', "", ''),
+                    $link,
+                    '<img src="' . getCDN() . 'view/img/loading-gif.png" data-src="' . $poster . '" class="thumbsJPG img-responsive" height="130">',
+                    empty($obj->disableGifThumbs) ? ('<img src="' . getCDN() . 'view/img/loading-gif.png" data-src="' . $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'webp') . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : "",
+                    "col-lg-2 col-md-4 col-sm-4 col-xs-6",
+                    ($liveUsers ? getLiveUsersLabelLive($value->name, $live_servers_id) : ''),
+                    'liveVideo',
+                    'LiveVideo'
+                );
+
+                $newContent = str_replace($search, $replace, $content);
+                $newContentExtra = str_replace($search, $replace, $contentExtra);
+                $newContentExtraVideoPage = str_replace($search, $replace, $contentExtraVideoPage);
+                $newContentVideoListItem = str_replace($search, $replace, $contentListem);
+
                 $obj->applications[] = array(
+                    "html" => $newContent,
+                    "htmlExtra" => $newContentExtra,
+                    "htmlExtraVideoPage" => $newContentExtraVideoPage,
+                    "htmlExtraVideoListItem" => $newContentVideoListItem,
                     "live_index" => $live_index,
                     "live_cleanKey" => $parameters['cleanKey'],
                     "key" => $value->name,
@@ -1374,13 +1438,12 @@ class Live extends PluginAbstract {
                     'link' => addQueryStringParameter($link, 'embed', 1),
                     'href' => $link,
                     'playlists_id_live' => $playlists_id_live,
-                    'live_index' => $live_index,
                     'm3u8' => $m3u8,
                     'isURL200' => isURL200($m3u8),
                     'users_id' => $row['users_id'],
                     'live_servers_id' => $live_servers_id,
                     'categories_id' => intval($row['categories_id']),
-                    'className' => "live_{$live_servers_id}_{$value->name}"
+                    'className' => $uid
                 );
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;
@@ -1398,6 +1461,14 @@ class Live extends PluginAbstract {
 //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         ObjectYPT::setCache($cacheName, json_encode($obj));
         return $obj;
+    }
+
+    static function byPass() {
+        if (preg_match('/socket_notification/', $_SERVER['SCRIPT_FILENAME'])) {
+            return true;
+        }
+
+        return false;
     }
 
     static function getLiveParametersFromKey($key) {
@@ -1539,13 +1610,16 @@ class Live extends PluginAbstract {
         //_error_log('getStats execute getStats: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
 
         $json = self::getStats($force_recreate);
+        _error_log('Live::isKeyLiveInStats:self::getStats ' . json_encode($json));
         $_isLiveFromKey[$index] = false;
         if (!empty($json)) {
-            _error_log("Live::isLiveFromKey {$key} JSON was not empty");
+            //_error_log("Live::isLiveFromKey {$key} JSON was not empty");
             if (!is_array($json)) {
                 $json = array($json);
             }
-            foreach ($json as $item) {
+            $namesFound = array();
+            foreach ($json as $ki => $item) {
+                //_error_log("Live::isLiveFromKey json [$ki] " . json_encode($item));
                 $applications = array();
                 if (empty($item->applications) && is_array($item)) {
                     $applications = $item;
@@ -1553,11 +1627,13 @@ class Live extends PluginAbstract {
                     $applications = $item->applications;
                 }
 
-                foreach ($applications as $value) {
+                foreach ($applications as $k => $value) {
                     $value = object_to_array($value);
+                    //_error_log("Live::isLiveFromKey applications [$k] ". json_encode($value));
                     if (!is_array($value) || empty($value) || empty($value['key'])) {
                         continue;
                     }
+                    $namesFound[] = "({$value['key']})";
                     if (preg_match("/{$key}.*/", $value['key'])) {
                         if (empty($live_servers_id)) {
                             $_isLiveFromKey[$index] = true;
@@ -1580,6 +1656,7 @@ class Live extends PluginAbstract {
                         if (!is_array($value) || empty($value) || empty($value['key'])) {
                             continue;
                         }
+                        $namesFound[] = "({$value['key']})";
                         if (preg_match("/{$key}.*/", $value['key'])) {
                             if (empty($live_servers_id)) {
                                 $_isLiveFromKey[$index] = true;
@@ -1596,6 +1673,7 @@ class Live extends PluginAbstract {
                     }
                 }
             }
+            _error_log("Live::isLiveFromKey namesFound " . json_encode($namesFound));
         }
         if (empty($_isLiveFromKey[$index])) {
             _error_log("Live::isLiveFromKey is NOT online [{$key}]");
@@ -1898,7 +1976,7 @@ class Live extends PluginAbstract {
         unset($_isLiveAndIsReadyFromKey);
     }
 
-    public static function getReverseRestreamObject($m3u8, $users_id, $live_servers_id=-1) {
+    public static function getReverseRestreamObject($m3u8, $users_id, $live_servers_id = -1) {
         if (!isValidURL($m3u8)) {
             return false;
         }
@@ -1936,10 +2014,10 @@ class Live extends PluginAbstract {
         return $obj;
     }
 
-    public static function reverseRestream($m3u8, $users_id, $live_servers_id=-1) {
+    public static function reverseRestream($m3u8, $users_id, $live_servers_id = -1) {
         _error_log("Live:reverseRestream start");
         $obj = self::getReverseRestreamObject($m3u8, $users_id, $live_servers_id);
-        _error_log("Live:reverseRestream obj ". _json_encode($obj));
+        _error_log("Live:reverseRestream obj " . _json_encode($obj));
         return self::sendRestream($obj);
     }
 
@@ -1978,16 +2056,16 @@ class Live extends PluginAbstract {
             );
             $output = curl_exec($ch);
             curl_close($ch);
-            if(empty($output)){
-                _error_log('Live:sendRestream ERROR '.curl_error($ch));
+            if (empty($output)) {
+                _error_log('Live:sendRestream ERROR ' . curl_error($ch));
                 return false;
             }
             $json = _json_decode($output);
-            if(empty($output)){
-                _error_log('Live:sendRestream JSON ERROR '.$output);
+            if (empty($output)) {
+                _error_log('Live:sendRestream JSON ERROR ' . $output);
                 return false;
             }
-            _error_log('Live:sendRestream complete '.$output);
+            _error_log('Live:sendRestream complete ' . $output);
             return $json;
         } catch (Exception $exc) {
             _error_log("Live:sendRestream " . $exc->getTraceAsString());
@@ -2022,7 +2100,7 @@ class Live extends PluginAbstract {
     public function getUploadMenuButton() {
         global $global;
         $obj = $this->getDataObject();
-        if (!empty($obj->doNotShowGoLiveButton) || !User::canStream()) {
+        if (!empty(!User::canStream())) {
             return '';
         }
         $buttonTitle = $this->getButtonTitle();

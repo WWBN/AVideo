@@ -162,17 +162,21 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                title="<?php echo $videoRow['title']; ?>">
                                                 <strong><?php echo $videoRow['title']; ?></strong>
                                             </a>
-                                            <div class="mainAreaDescriptionContainer">
-                                                <p class="mainAreaDescription" itemprop="description"><?php
-                                                    if (strpos($videoRow['description'], '<br') !== false || strpos($videoRow['description'], '<p') !== false) {
-                                                        echo $videoRow['description'];
-                                                    } else {
-                                                        echo nl2br(textToLink(htmlentities($videoRow['description'])));
-                                                    }
-                                                    ?></p>
+                                            <div class="descriptionArea">
+                                                <div class="descriptionAreaPreContent">
+                                                    <div class="descriptionAreaContent">
+                                                        <?php
+                                                        echo Video::htmlDescription($videoRow['description']);
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                                <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
+                                                    <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
+                                                    <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
+                                                </button>
                                             </div>
-                                            <div class="text-muted galeryDetails">
-                                                <div>
+                                            <div class="galeryDetails">
+                                                <div class="galleryTags">
                                                     <?php if (empty($_GET['catName'])) { ?>
                                                         <a class="label label-default" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>">
                                                             <?php
@@ -220,19 +224,19 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                     <?php echo humanTiming(strtotime($videoRow['videoCreation'])), " ", __('ago'); ?>
                                                 </div>
                                                 <div>
-                                                    <i class="fa fa-user"></i>
-                                                    <a class="text-muted" href="<?php echo User::getChannelLink($videoRow['users_id']); ?>">
+                                                    <a href="<?php echo User::getChannelLink($videoRow['users_id']); ?>">
+                                                        <i class="fa fa-user"></i>
                                                         <?php echo $name; ?>
                                                     </a>
                                                 </div>
                                                 <?php if (Video::canEdit($videoRow['id'])) { ?>
                                                     <div>
-                                                        <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $videoRow['id']; ?>');return false;" class="text-primary"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                        <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $videoRow['id']; ?>');return false;"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if (!empty($videoRow['trailer1'])) { ?>
                                                     <div>
-                                                        <span onclick="showTrailer('<?php echo parseVideos($videoRow['trailer1'], 1); ?>'); return false;" class="text-primary cursorPointer" >
+                                                        <span onclick="showTrailer('<?php echo parseVideos($videoRow['trailer1'], 1); ?>'); return false;" class="cursorPointer" >
                                                             <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
                                                         </span>
                                                     </div>

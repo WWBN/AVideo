@@ -37,10 +37,6 @@ time.duration{
     color: rgba(255, 255, 255, 0.3)!important;
     font-size: 50px;
 }
-.videoLink div.details,
-.videoLink div.details div {
-    font-size: 0.9em;
-}
 .gallery:hover .glyphicon-play-circle,
 .videoLink:hover .glyphicon-play-circle {
     color: rgba(255, 255, 255, 0.6)!important;
@@ -153,7 +149,7 @@ footer ul.list-inline li {
 }
 @media (max-width: 767px) {
     .navbar-form, #modeYoutubeBottomContent, .principalContainer,
-    .nopaddingOnSmall,.container-fluid, #yptRightBar{
+    .nopaddingOnSmall,.container-fluid,.container, #yptRightBar{
         padding: 0;
     }
     .panel-body, .tabbable-panel {
@@ -889,6 +885,7 @@ img.blur{
 
 .videoListItem{
     overflow: hidden;
+    font-size: smaller;
 }
 .extraVideos:empty{
     display: none;
@@ -1172,4 +1169,38 @@ li.dropdown-submenu > ul > li > a{
 }
 a:hover{
     text-decoration: none;
+}
+
+.descriptionArea .descriptionAreaPreContent{
+    max-height: 200px;
+    overflow: hidden;
+    transition: max-height 0.25s ease-out;
+    overflow: hidden;
+}
+.descriptionAreaPreContent{
+    margin-bottom: 10px;
+}
+.descriptionArea.expanded .descriptionAreaPreContent{
+    max-height: 1500px;
+    overflow: auto;
+    transition: max-height 0.25s ease-in;
+}
+.descriptionAreaShowMoreBtn{
+    margin-top: -10px;
+}
+.descriptionArea .showMore{
+    display: block;
+}
+.descriptionArea .showLess{
+    display: none;
+}
+.descriptionArea.expanded .showMore{
+    display: none;
+}
+.descriptionArea.expanded .showLess{
+    display: block;
+}
+.infoDetails{
+    display: flex;
+    margin: 4px 0;
 }

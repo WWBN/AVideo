@@ -351,7 +351,7 @@ function subscribe(email, user_id) {
             'user_id': user_id
         },
         success: function (response) {
-            var totalElement = $('.notificationButton' + user_id+' .badge');
+            var totalElement = $('.notificationButton' + user_id + ' .badge');
             if (response.subscribe == "i") {
                 $('.notificationButton' + user_id).removeClass("subscribed");
                 totalElement.text(parseInt(totalElement.first().text()) - 1);
@@ -367,7 +367,7 @@ function subscribe(email, user_id) {
 }
 
 function toogleNotify(user_id) {
-    email = $('#subscribeEmail'+user_id).val();
+    email = $('#subscribeEmail' + user_id).val();
     subscribeNotify(email, user_id);
 }
 function subscribeNotify(email, user_id) {
@@ -443,7 +443,7 @@ function _addView(videos_id, currentTime) {
             'currentTime': currentTime
         },
         success: function (response) {
-            $('.view-count' + videos_id).text(response.count);
+            $('.view-count' + videos_id).text(response.countHTML);
         }
     });
 }
@@ -699,7 +699,7 @@ function showMuteTooltip() {
 }
 
 function playerPlayIfAutoPlay(currentTime) {
-    if(isWebRTC()){
+    if (isWebRTC()) {
         return false;
     }
     if (isAutoplayEnabled()) {
@@ -1114,13 +1114,13 @@ function avideoModalIframeRemove() {
 }
 
 function avideoResponse(response) {
-    if(response.error){
-        if(!response.msg){
+    if (response.error) {
+        if (!response.msg) {
             response.msg = 'Error';
         }
         avideoAlertError(response.msg);
-    }else{
-        if(!response.msg){
+    } else {
+        if (!response.msg) {
             response.msg = 'Success';
         }
         avideoToastSuccess(response.msg);
@@ -1212,7 +1212,21 @@ function tabsCategoryDocumentHeightChanged() {
     return false;
 }
 
+function checkDescriptionArea(){
+    $(".descriptionArea").each(function (index) {
+        if ($(this).height() < $(this).find('.descriptionAreaContent').height()) {
+            $(this).find('.descriptionAreaShowMoreBtn').show();
+        }
+    });
+}
+
 $(document).ready(function () {
+    checkDescriptionArea();
+    setInterval(function(){// check for the carousel
+        checkDescriptionArea(); 
+    },3000);
+
+
     Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone, {
         path: '/',
         expires: 365

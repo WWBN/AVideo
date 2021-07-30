@@ -9,7 +9,7 @@
     font-size: 0.9em;
     border-radius: 5px;
 }
-.gallery h2,
+.gallery .title,
 .videosDetails .title {
     font-size: 1em;
     margin: 0;
@@ -74,14 +74,17 @@ h3.galleryTitle{
     border-bottom: solid 1px #EEE;
 }
 
+.galeryDetails{
+    font-size: smaller;
+}
+
 .galeryDetails div{
     float: left;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     padding-right: 5px;
-    font-size: 0.7em;
-    margin: 1px;
+    margin: 2px 0;
 }
 
 .firstRow .galeryDetails div{
@@ -205,5 +208,5 @@ a.h6{
    font-size: 0.9em;
 }
 .galleryTags{
-   margin: 1px;
+   margin: 0 !important;
 }

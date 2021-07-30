@@ -4444,7 +4444,7 @@ if (!class_exists('Video')) {
 
             if (empty($advancedCustom->doNotDisplayViews)) {
                 if (AVideoPlugin::isEnabledByName('LiveUsers')) {
-                    $viewsHTML = '<div class="text-muted pull-right" style="display:flex;font-size: 1.2em;">' . getLiveUsersLabelVideo($value['id'], $value['views_count']) . '</div>';
+                    $viewsHTML = '<div class="text-muted pull-right" style="display:flex;">' . getLiveUsersLabelVideo($value['id'], $value['views_count']) . '</div>';
                 } else {
                     $viewsHTML = '<div class="text-muted pull-right"><i class="fas fa-eye"></i> ' . number_format($value['views_count'], 0) . '</strong></div>';
                 }

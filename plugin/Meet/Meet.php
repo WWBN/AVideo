@@ -69,6 +69,7 @@ Passcode: {password}
         $obj->JWT_APP_ID = "my_jitsi_app_id";
         $obj->JWT_APP_SECRET = "my_jitsi_app_secret";
         $obj->hideTopButton = true;
+        $obj->buttonTitle = 'Meet';
         self::addDataObjectHelper('hideTopButton', 'Hide Top Button', 'This will hide the button on the top menu bar');
         return $obj;
     }

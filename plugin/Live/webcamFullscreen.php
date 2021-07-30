@@ -2,7 +2,7 @@
 $isWebRTC = 1;
 require_once '../../videos/configuration.php';
 
-if(!User::canStream()){
+if (!User::canStream()) {
     forbiddenPage('You cannot stream');
 }
 
@@ -14,10 +14,15 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
 
 $chatURL = '';
 $chat = AVideoPlugin::loadPluginIfEnabled('Chat2');
-if(!empty($chat)){
-    Chat2::getChatRoomLink(User::getId(), 1, 1, 1, true);
+if (!empty($chat)) {
+    $chatURL = Chat2::getChatRoomLink(User::getId(), 1, 1, 1, true, 1);
+    if(!empty($_REQUEST['user'])){
+        $chatURL = addQueryStringParameter($chatURL, 'user', $_REQUEST['user']);
+    }
+    if(!empty($_REQUEST['pass'])){
+        $chatURL = addQueryStringParameter($chatURL, 'pass', $_REQUEST['pass']);
+    }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -43,15 +48,21 @@ if(!empty($chat)){
             }
             iframe{
                 width: 100vw;
-                height: 100vh;
+                height: calc(100vh - 45px);
             }
             #chat2Iframe{
                 position: absolute;
                 top: 0;
                 left: 0;
-                width: 100vw;
-                height: 100vh;
-                
+                /* pointer-events: none; */
+            }
+            #controls{
+                position: absolute;
+                bottom: 5px;
+                width: 100%;
+            }
+            #controls .col{
+                padding: 0 5px;
             }
         </style>
         <script>
@@ -64,10 +75,19 @@ if(!empty($chat)){
     </head>
 
     <body>
-        <iframe frameBorder="0" src="<?php echo $iframeURL; ?>" style="width: 100%; height: 100%;" allowusermedia allow="feature_name allow_list;feature_name allow_list;camera *;microphone *"></iframe>
-        <iframe frameBorder="0" id="chat2Iframe" src="http://192.168.1.4/YouPHPTube/plugin/Chat2/?room_users_id=1&live_transmitions_history_id=1724&iframe=1&noFade=1&bubblesOnly=1" 
-                style="width: 100%; height: 100%;" ></iframe>
-
+        <iframe frameBorder="0" 
+                src="<?php echo $iframeURL; ?>" 
+                allowusermedia allow="feature_name allow_list;feature_name allow_list;camera *;microphone *"></iframe>
+        <?php
+        if(!empty($chatURL)){
+           ?>
+            <iframe frameBorder="0" 
+                id="chat2Iframe" 
+                src="<?php echo $chatURL; ?>" 
+                ></iframe>
+            <?php 
+        }
+        ?>
         <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveEmbed">
             <?php
             $streamName = $uuid;
@@ -79,14 +99,61 @@ if(!empty($chat)){
         <script src="<?php echo getCDN(); ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/js/jquery-toast/jquery.toast.min.js" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
-        <?php
-        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-        ?>
         <!-- getFooterCode start -->
         <?php
         echo AVideoPlugin::getFooterCode();
         ?>  
         <!-- getFooterCode end -->
+        <div class="" id="controls">
+            <div class="col col-xs-8" id="webRTCDisconnect" style="display: none;" >
+                <button class="btn btn-danger btn-block" onclick="webRTCDisconnect();" data-toggle="tooltip"  title="<?php echo __("Stop"); ?>">
+                    <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
+                </button>
+            </div>
+            <div class="col col-xs-8" id="webRTCConnect" style="display: none;" >
+                <button class="btn btn-success btn-block" onclick="webRTCConnect();" data-toggle="tooltip" title="<?php echo __("Start Live Now"); ?>">
+                    <i class="fas fa-circle"></i> <?php echo __("Go Live"); ?>
+                </button>
+            </div>
+            <div class="col col-xs-4">
+                <button class="btn btn-primary btn-block" style="" onclick="webRTCConfiguration();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Configuration"); ?>">
+                    <i class="fas fa-cog"></i> <span class="hidden-sm hidden-xs"><?php echo __("Configuration"); ?></span>
+                </button>
+            </div>
+        </div>
+        <script src="<?php echo getCDN(); ?>plugin/Live/webRTC.js" type="text/javascript"></script>
+        <script>
+                    var updateControlStatusLastState;
+
+                    function updateControlStatus() {
+                        var hasclass = $('.liveOnlineLabel').hasClass('label-danger');
+                        if (updateControlStatusLastState === hasclass) {
+                            return false;
+                        }
+                        updateControlStatusLastState = hasclass;
+                        if (hasclass) {
+                            $('#webRTCDisconnect').hide();
+                            $('#webRTCConnect').show();
+                        } else {
+                            $('#webRTCDisconnect').show();
+                            $('#webRTCConnect').hide();
+                        }
+                    }
+
+                    $(document).ready(function () {
+                        updateControlStatus();
+                        setInterval(function () {
+                            updateControlStatus();
+                        }, 500);
+                    });
+                    
+                    function webRTCModalConfigShow(){
+                        $('#chat2Iframe').fadeOut();
+                    }
+                    function webRTCModalConfigHide(){
+                        $('#chat2Iframe').fadeIn();
+                    }
+        </script>
     </body>
 </html>
 

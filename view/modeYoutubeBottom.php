@@ -94,7 +94,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             <?php
             if (Video::showYoutubeModeOptions() && empty($advancedCustom->doNotDisplayViews)) {
                 ?>
-                <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format($video['views_count'], 0); ?></span> <?php echo __("Views"); ?></span>
+                <span class="watch-view-count pull-right text-muted" itemprop="interactionCount"><span class="view-count<?php echo $video['id']; ?>"><?php echo number_format_short($video['views_count']); ?></span> <?php echo __("Views"); ?></span>
                 <?php
             }
             ?>
@@ -280,15 +280,15 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
             if ($video['type'] !== 'notfound' && $video['type'] !== 'article') {
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
-                <div class="col-xs-8 col-sm-10 col-lg-10" itemprop="description" id="descriptionArea">
-                    <div id="descriptionAreaPreContent">
-                        <div id="descriptionAreaContent">
+                <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="description">
+                    <div class="descriptionAreaPreContent">
+                        <div class="descriptionAreaContent">
                             <?php
                             echo Video::htmlDescription($video['description']);
                             ?>
                         </div>
                     </div>
-                    <button onclick="$('#descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default" id="descriptionAreaShowMoreBtn" style="display: none; ">
+                    <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
                         <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
                         <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
                     </button>
@@ -302,9 +302,6 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
 </div>
 <script>
     $(document).ready(function () {
-        if ($('#descriptionArea').height() < $('#descriptionAreaContent').height()) {
-            $('#descriptionAreaShowMoreBtn').show();
-        }
 <?php
 if (empty($advancedCustom->showShareMenuOpenByDefault)) {
     ?>

@@ -406,7 +406,7 @@ class PayPalYPT extends PluginAbstract {
         // Create a new billing plan
         $plan = new Plan();
         $plan->setName(substr(cleanString($name), 0, 126))
-                ->setDescription(substr(cleanString($name), 0, 126))
+                ->setDescription(substr(json_encode(User::getId()), 0, 126))
                 ->setType('INFINITE');
 
         $paymentDefinitionArray = array();
@@ -441,7 +441,7 @@ class PayPalYPT extends PluginAbstract {
             $merchantPreferences->setReturnUrl($success_url)
                     ->setCancelUrl($cancel_url)
                     ->setNotifyUrl($notify_url)
-                    ->setAutoBillAmount('yes')
+                    ->setAutoBillAmount('YES')
                     ->setInitialFailAmountAction('CONTINUE')
                     ->setMaxFailAttempts('0')
                     ->setSetupFee(new Currency(array('value' => $total, 'currency' => $currency)));
@@ -449,7 +449,7 @@ class PayPalYPT extends PluginAbstract {
             $merchantPreferences->setReturnUrl($success_url)
                     ->setCancelUrl($cancel_url)
                     ->setNotifyUrl($notify_url)
-                    ->setAutoBillAmount('yes')
+                    ->setAutoBillAmount('YES')
                     ->setInitialFailAmountAction('CONTINUE')
                     ->setMaxFailAttempts('0');
         }
@@ -870,6 +870,11 @@ class PayPalYPT extends PluginAbstract {
     static function isRecurringPaymentIdUsed($recurring_payment_id){
         $row = PayPalYPT_log::getFromRecurringPaymentId($recurring_payment_id);
         return !empty($row);
+    }
+    
+    static function getAllLogsFromUser($users_id){
+        $rows = PayPalYPT_log::getAllFromUser($users_id);
+        return $rows;
     }
 
 }
