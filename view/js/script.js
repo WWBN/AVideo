@@ -422,6 +422,7 @@ function isMobile() {
 
 var last_videos_id = 0;
 var last_currentTime = -1;
+var videoViewAdded = false;
 function addView(videos_id, currentTime) {
     if (last_videos_id == videos_id && last_currentTime == currentTime) {
         return false;
@@ -429,14 +430,31 @@ function addView(videos_id, currentTime) {
     if (currentTime > 5 && currentTime % 30 !== 0) { // only update each 30 seconds
         return false;
     }
+
+    if (videoViewAdded) {
+        return false;
+    }
+
+    videoViewAdded = true;
+
     last_videos_id = videos_id;
     last_currentTime = currentTime;
     _addView(videos_id, currentTime);
 }
 
+function addViewBeacon() {
+    if (typeof player === 'object' && typeof mediaId !== 'undefined') {
+        var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
+        url = addGetParam(url, 'id', mediaId);
+        url = addGetParam(url, 'currentTime', player.currentTime());
+        var beacon = new Image();
+        beacon.src = url;
+    }
+}
+
 function _addView(videos_id, currentTime) {
     $.ajax({
-        url: webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID='+PHPSESSID,
+        url: webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID,
         method: 'POST',
         data: {
             'id': videos_id,
@@ -1212,7 +1230,7 @@ function tabsCategoryDocumentHeightChanged() {
     return false;
 }
 
-function checkDescriptionArea(){
+function checkDescriptionArea() {
     $(".descriptionArea").each(function (index) {
         if ($(this).height() < $(this).find('.descriptionAreaContent').height()) {
             $(this).find('.descriptionAreaShowMoreBtn').show();
@@ -1221,10 +1239,15 @@ function checkDescriptionArea(){
 }
 
 $(document).ready(function () {
+
+    $(window).bind('beforeunload', function () {
+        addViewBeacon();
+    });
+
     checkDescriptionArea();
-    setInterval(function(){// check for the carousel
-        checkDescriptionArea(); 
-    },3000);
+    setInterval(function () {// check for the carousel
+        checkDescriptionArea();
+    }, 3000);
 
 
     Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone, {

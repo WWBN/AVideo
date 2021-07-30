@@ -5,13 +5,15 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
+_error_log('Add view '. json_encode($_REQUEST));
+
 if(!empty($_GET['SESSID'])){
     @session_write_close();
     session_id($_GET['PHPSESSID']);
     _session_start();
 }
 
-if (empty($_POST['id'])) {
+if (empty($_REQUEST['id'])) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
 if (empty($_COOKIE[$global['session_name']])) {
@@ -21,7 +23,7 @@ if(empty($_COOKIE) && isIframe() && isIframeInDifferentDomain()){
     die('{"error":"isIframeInDifferentDomain"}');
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
-$obj = new Video("", "", $_POST['id']);
+$obj = new Video("", "", $_REQUEST['id']);
 if (empty($obj)) {
     die("Object not found");
 }
@@ -33,25 +35,25 @@ if (empty($_SESSION['addViewCount'])) {
 $seconds = parseDurationToSeconds($obj->getDuration());
 
 if (!empty($seconds)) {
-    $percent = (intval($_POST['currentTime']) / $seconds) * 100;
+    $percent = (intval($_REQUEST['currentTime']) / $seconds) * 100;
     $percentOptions = array(25,50,75,100);
     foreach ($percentOptions as $value) {
         if ($percent >= $value) {
-            if (empty($_SESSION['addViewCount'][$_POST['id']][$value]) && !empty($_POST['currentTime'])) {
+            if (empty($_SESSION['addViewCount'][$_REQUEST['id']][$value]) && !empty($_REQUEST['currentTime'])) {
                 if ($obj->addViewPercent($value)) {
                     _session_start();
-                    $_SESSION['addViewCount'][$_POST['id']][$value] = 1;
+                    $_SESSION['addViewCount'][$_REQUEST['id']][$value] = 1;
                 }
             }
         }
     }
 }
-if (empty($_SESSION['addViewCount'][$_POST['id']]['time'])) {
+if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
     $resp = $obj->addView();
     _session_start();
-    $_SESSION['addViewCount'][$_POST['id']]['time'] = strtotime("+{$seconds} seconds");
-} elseif (!empty($_POST['currentTime'])) {
-    $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), intval($_POST['currentTime']));
+    $_SESSION['addViewCount'][$_REQUEST['id']]['time'] = strtotime("+{$seconds} seconds");
+} elseif (!empty($_REQUEST['currentTime'])) {
+    $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), intval($_REQUEST['currentTime']));
 } else {
     $resp = 0;
 }
