@@ -431,11 +431,11 @@ function addView(videos_id, currentTime) {
         return false;
     }
 
-    if (videoViewAdded) {
+    if (videoViewAdded && videoViewAdded==videos_id) {
         return false;
     }
 
-    videoViewAdded = true;
+    videoViewAdded = videos_id;
 
     last_videos_id = videos_id;
     last_currentTime = currentTime;
