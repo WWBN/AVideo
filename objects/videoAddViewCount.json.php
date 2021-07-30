@@ -4,6 +4,13 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
+if(!empty($_GET['SESSID'])){
+    @session_write_close();
+    session_id($_GET['PHPSESSID']);
+    _session_start();
+}
+
 if (empty($_POST['id'])) {
     die('{"error":"' . __("Permission denied") . '"}');
 }

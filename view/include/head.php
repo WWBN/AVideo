@@ -153,6 +153,7 @@ if (isRTL()) {
     var _serverTimeString = "<?php echo date('Y-m-d H:i:s'); ?>";
     var _serverDBTimeString = "<?php echo date('Y-m-d H:i:s', getDatabaseTime()); ?>";
     var _serverTimezone = "<?php echo date_default_timezone_get(); ?>";
+    var PHPSESSID = "<?php echo session_id(); ?>";
 </script>
 <?php
 if (!$config->getDisable_analytics()) {

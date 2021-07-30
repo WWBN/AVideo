@@ -436,7 +436,7 @@ function addView(videos_id, currentTime) {
 
 function _addView(videos_id, currentTime) {
     $.ajax({
-        url: webSiteRootURL + 'objects/videoAddViewCount.json.php',
+        url: webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID='+PHPSESSID,
         method: 'POST',
         data: {
             'id': videos_id,
