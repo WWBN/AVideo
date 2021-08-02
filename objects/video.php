@@ -4374,13 +4374,16 @@ if (!class_exists('Video')) {
 
         static function getVideosListItem($videos_id, $divID='', $style='') {
             global $global, $advancedCustom;
+            $get = array();
+            $get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
+            
             if(empty($divID)){
                 $divID = "divVideo-{$videos_id}";
             }
             $objGallery = AVideoPlugin::getObjectData("Gallery");
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
             $template = $global['systemRootPath'] . 'view/videosListItem.html';
-            $content = local_get_contents($template);
+            $content = file_get_contents($template);
             $value = Video::getVideoLight($videos_id);
             $link = Video::getLink($value['id'], $value['clean_title'], "", $get);
             if (!empty($_GET['page']) && $_GET['page'] > 1) {
