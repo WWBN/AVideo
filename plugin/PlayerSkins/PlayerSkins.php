@@ -154,7 +154,7 @@ class PlayerSkins extends PluginAbstract {
                     PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
                     $htmlMediaTag = "<!-- Embed Link YoutubeIntegration {$video['title']} {$video['filename']} -->";
                     $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
-                    $htmlMediaTag .= '<script>var player;var mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
+                    $htmlMediaTag .= '<script>var player;mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
                 }
             } else if ($vType == 'serie') {
                 $isVideoTypeEmbed = 1;
@@ -169,7 +169,7 @@ class PlayerSkins extends PluginAbstract {
                 $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
             }
 
-            $html .= "<script>var mediaId = '{$video['id']}';var player;" . self::playerJSCodeOnLoad($video['id'], @$autoPlayURL) . '</script>';
+            $html .= "<script>mediaId = '{$video['id']}';var player;" . self::playerJSCodeOnLoad($video['id'], @$autoPlayURL) . '</script>';
         }
 
         $col1Classes = 'col-md-2 firstC';
