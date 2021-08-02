@@ -4456,7 +4456,7 @@ if (!class_exists('Video')) {
             $category = $category->getName();
             $tagsHTML = '';
             $tagsWhitelist = array(__("Paid Content"), __("Group"), __("Plugin"));
-            if (!empty($objGallery->showTags)) {
+            if (!empty($objGallery->showTags) && !empty($value['tags']) && is_array($value['tags'])) {
                 foreach ($value['tags'] as $value2) {
                     if (!empty($value2->label) && in_array($value2->label, $tagsWhitelist)) {
                         $tagsHTML .= '<span class="label label-' . $value2->type . '">' . $value2->text . '</span>';
