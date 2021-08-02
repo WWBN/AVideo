@@ -1267,10 +1267,6 @@ function checkDescriptionArea() {
     });
 }
 $(document).ready(function () {
-    window.addEventListener('beforeunload', function (e) {
-        console.log('window.addEventListener(beforeunload');
-        addViewBeacon();
-    }, false);
 
     checkDescriptionArea();
     setInterval(function () {// check for the carousel
@@ -1808,3 +1804,14 @@ function avideoAjax(url, data) {
         }
     });
 }
+
+window.addEventListener('beforeunload', function (e) {
+    console.log('window.addEventListener(beforeunload');
+    addViewBeacon();
+}, false);
+document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') {
+        console.log('document.addEventListener(visibilitychange');
+       addViewBeacon();
+    }
+});
