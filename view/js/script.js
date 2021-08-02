@@ -21,6 +21,7 @@ var _serverTimeString;
 var _serverDBTimeString;
 let deferredPrompt;
 var playerCurrentTime;
+var mediaId;
 
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
