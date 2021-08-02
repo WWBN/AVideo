@@ -1251,22 +1251,8 @@ function checkDescriptionArea() {
     });
 }
 $(document).ready(function () {
-    window.onbeforeunload = function () {
-        addViewBeacon();
-    };
-
-    $(window).on("beforeunload", function () {
-        addViewBeacon();
-    });
-
     $(window).on("unload", function () {
         addViewBeacon();
-    });
-
-    window.addEventListener("beforeunload", function (e) {
-        e.preventDefault(); 
-        e.returnValue = addViewBeacon();     // Gecko, Trident, Chrome 34+
-        return e.returnValue;              // Gecko, WebKit, Chrome <34
     });
 
     checkDescriptionArea();
