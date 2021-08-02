@@ -1254,7 +1254,8 @@ $(document).ready(function () {
     $(window).on("unload", function () {
         addViewBeacon();
     });
-
+    window.addEventListener('beforeunload', function(e) {addViewBeacon();}, false);
+    
     checkDescriptionArea();
     setInterval(function () {// check for the carousel
         checkDescriptionArea();
