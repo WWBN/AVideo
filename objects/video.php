@@ -4511,7 +4511,6 @@ if (!class_exists('Video')) {
                 $viewsHTML,
                 $creator
             );
-            _error_log('Is array '. print_r($templateContent, true));
             $btnHTML = str_replace(
                     $search, 
                     $replace, 
