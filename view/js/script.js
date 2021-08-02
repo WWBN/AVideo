@@ -458,7 +458,7 @@ function addViewBeacon() {
         return false;
     }
     if (typeof mediaId !== 'undefined' && typeof playerCurrentTime !== 'undefined' && typeof seconds_watching_video !== 'undefined') {
-        
+
         var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
         url = addGetParam(url, 'id', mediaId);
         url = addGetParam(url, 'currentTime', playerCurrentTime);
@@ -467,8 +467,16 @@ function addViewBeacon() {
         beacon.src = url;
         console.log('addViewBeacon will be sent', mediaId, playerCurrentTime, seconds_watching_video, beacon);
         _addViewBeaconAdded = true;
-    }else{        
-        console.log('addViewBeacon mediaId is undefined');
+    } else {
+        if (typeof mediaId !== 'undefined') {
+            console.log('addViewBeacon mediaId is undefined');
+        }
+        if (typeof playerCurrentTime !== 'undefined') {
+            console.log('addViewBeacon playerCurrentTime is undefined');
+        }
+        if (typeof seconds_watching_video !== 'undefined') {
+            console.log('addViewBeacon seconds_watching_video is undefined');
+        }
     }
     return '';
 }
@@ -1259,11 +1267,11 @@ function checkDescriptionArea() {
     });
 }
 $(document).ready(function () {
-    window.addEventListener('beforeunload', function(e) {
+    window.addEventListener('beforeunload', function (e) {
         console.log('window.addEventListener(beforeunload');
         addViewBeacon();
     }, false);
-    
+
     checkDescriptionArea();
     setInterval(function () {// check for the carousel
         checkDescriptionArea();
