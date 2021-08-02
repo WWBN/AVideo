@@ -448,7 +448,7 @@ function addView(videos_id, currentTime) {
         addViewBeaconTimeout = setTimeout(function () {
             addViewBeacon();
         } // update the time watched
-        , 100);
+        , 500);
 
     } else {
         videoViewAdded = videos_id;
