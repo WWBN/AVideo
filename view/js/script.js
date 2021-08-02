@@ -457,7 +457,6 @@ function addViewBeacon() {
         return false;
     }
     if (typeof mediaId !== 'undefined' && typeof playerCurrentTime !== 'undefined' && typeof seconds_watching_video !== 'undefined') {
-        console.log('addViewBeacon will be sent', mediaId, playerCurrentTime, seconds_watching_video);
         
         var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
         url = addGetParam(url, 'id', mediaId);
@@ -465,6 +464,7 @@ function addViewBeacon() {
         url = addGetParam(url, 'seconds_watching_video', seconds_watching_video);
         var beacon = new Image();
         beacon.src = url;
+        console.log('addViewBeacon will be sent', mediaId, playerCurrentTime, seconds_watching_video, beacon);
         _addViewBeaconAdded = true;
     }else{        
         console.log('addViewBeacon mediaId is undefined');
@@ -1259,9 +1259,13 @@ function checkDescriptionArea() {
 }
 $(document).ready(function () {
     $(window).on("unload", function () {
+        console.log('$(window).on("unload"');
         addViewBeacon();
     });
-    window.addEventListener('beforeunload', function(e) {addViewBeacon();}, false);
+    window.addEventListener('beforeunload', function(e) {
+        console.log('window.addEventListener(beforeunload');
+        addViewBeacon();
+    }, false);
     
     checkDescriptionArea();
     setInterval(function () {// check for the carousel
