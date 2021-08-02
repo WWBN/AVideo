@@ -448,7 +448,11 @@ function addView(videos_id, currentTime) {
     _addView(videos_id, currentTime);
 }
 
+var _addViewBeaconAdded = false;
 function addViewBeacon() {
+    if(_addViewBeaconAdded){
+        return false;
+    }
     if (typeof player === 'object' && typeof mediaId !== 'undefined') {
         var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
         url = addGetParam(url, 'id', mediaId);
@@ -456,6 +460,7 @@ function addViewBeacon() {
         url = addGetParam(url, 'seconds_watching_video', seconds_watching_video);
         var beacon = new Image();
         beacon.src = url;
+        _addViewBeaconAdded = true;
     }
 }
 
@@ -1244,10 +1249,13 @@ function checkDescriptionArea() {
         }
     });
 }
-
 $(document).ready(function () {
+    window.onbeforeunload = function() { 
+        addViewBeacon(); 
+    };
+    
     $(window).on("unload", function () {
-        addViewBeacon();
+        addViewBeacon(); 
     });
 
     checkDescriptionArea();
