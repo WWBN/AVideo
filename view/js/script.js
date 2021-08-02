@@ -459,6 +459,7 @@ function addViewBeacon() {
     if (typeof mediaId !== 'undefined' && typeof playerCurrentTime !== 'undefined' && typeof seconds_watching_video !== 'undefined') {
         console.log('addViewBeacon will be sent', mediaId, playerCurrentTime, seconds_watching_video);
 
+        var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
         let data = new FormData();
         data.append('id', mediaId);
         data.append('currentTime', playerCurrentTime);
