@@ -4423,14 +4423,14 @@ if (!class_exists('Video')) {
             if (User::isLogged() && !empty($program)) {
                 $value['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
                 $value['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
-                if ($value['isWatchLater']) {
+                if (!empty($value['isWatchLater'])) {
                     $watchLaterBtnAddedStyle = "";
                     $watchLaterBtnStyle = "display: none;";
                 } else {
                     $watchLaterBtnAddedStyle = "display: none;";
                     $watchLaterBtnStyle = "";
                 }
-                if ($value['isFavorite']) {
+                if (!empty($value['isFavorite'])) {
                     $favoriteBtnAddedStyle = "";
                     $favoriteBtnStyle = "display: none;";
                 } else {
