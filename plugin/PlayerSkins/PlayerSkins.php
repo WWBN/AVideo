@@ -523,6 +523,7 @@ class PlayerSkins extends PluginAbstract {
         $js .= "
         player.on('play', function () {
             addView({$videos_id}, this.currentTime());
+            _addViewBeaconAdded = false;
         });
         player.on('timeupdate', function () {
             var time = Math.round(this.currentTime());
