@@ -456,7 +456,7 @@ function addViewBeacon() {
         console.log('addViewBeacon return false');
         return false;
     }
-    if (typeof mediaId !== 'undefined') {
+    if (typeof mediaId !== 'undefined' && typeof playerCurrentTime !== 'undefined' && typeof seconds_watching_video !== 'undefined') {
         console.log('addViewBeacon will be sent', mediaId, playerCurrentTime, seconds_watching_video);
         var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
         url = addGetParam(url, 'id', mediaId);
