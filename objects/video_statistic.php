@@ -84,6 +84,7 @@ class VideoStatistic extends ObjectYPT {
         
         if(!empty($seconds_watching_video) && $seconds_watching_video > 0){
             $totalVideoWatched = $vs->getSeconds_watching_video()+$seconds_watching_video;
+            _error_log("updateStatistic: add more [$seconds_watching_video] to video [$videos_id]");
             $vs->setSeconds_watching_video($totalVideoWatched);
             $v = new Video('', '', $videos_id);
             $v->addSecondsWatching($seconds_watching_video);

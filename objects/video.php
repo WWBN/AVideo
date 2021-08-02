@@ -132,7 +132,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             $sql = "UPDATE videos SET total_seconds_watching = total_seconds_watching+{$seconds_watching}, modified = now() WHERE id = ?";
-            _error_log($sql."={$this->id}");
+            //_error_log($sql."={$this->id}");
             return sqlDAL::writeSql($sql, "i", array($this->id));
         }
 
