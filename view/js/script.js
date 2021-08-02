@@ -191,9 +191,9 @@ function setPlayerListners() {
             pauseIfIsPlayinAdsInterval = setInterval(function () {
                 pauseIfIsPlayinAds();
             }, 500);
-            _startCountPlayingTime = setInterval(function(){
+            _startCountPlayingTime = setInterval(function () {
                 seconds_watching_video++;
-            },1000);
+            }, 1000);
         });
 
         $("#mainVideo .vjs-mute-control").click(function () {
@@ -438,7 +438,7 @@ function addView(videos_id, currentTime) {
         return false;
     }
 
-    if (videoViewAdded && videoViewAdded==videos_id) {
+    if (videoViewAdded && videoViewAdded == videos_id) {
         return false;
     }
 
@@ -1246,8 +1246,7 @@ function checkDescriptionArea() {
 }
 
 $(document).ready(function () {
-
-    $(window).bind('beforeunload', function () {
+    $(window).on("unload", function () {
         addViewBeacon();
     });
 
