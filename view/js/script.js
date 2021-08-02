@@ -1258,10 +1258,6 @@ function checkDescriptionArea() {
     });
 }
 $(document).ready(function () {
-    $(window).on("unload", function () {
-        console.log('$(window).on("unload"');
-        addViewBeacon();
-    });
     window.addEventListener('beforeunload', function(e) {
         console.log('window.addEventListener(beforeunload');
         addViewBeacon();
