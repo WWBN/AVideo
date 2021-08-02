@@ -470,10 +470,10 @@ function addViewBeacon() {
         url = addGetParam(url, 'id', mediaId);
         url = addGetParam(url, 'currentTime', playerCurrentTime);
         url = addGetParam(url, 'seconds_watching_video', seconds_watching_video);
+        seconds_watching_video = 0;
         var beacon = new Image();
         beacon.src = url;
         console.log('addViewBeacon will be sent', mediaId, playerCurrentTime, seconds_watching_video, beacon);
-        seconds_watching_video = 0;
     } else {
         if (typeof mediaId !== 'undefined') {
             console.log('addViewBeacon mediaId is undefined');
