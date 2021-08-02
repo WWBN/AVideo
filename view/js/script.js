@@ -193,6 +193,7 @@ function setPlayerListners() {
             pauseIfIsPlayinAdsInterval = setInterval(function () {
                 pauseIfIsPlayinAds();
             }, 500);
+            clearInterval(_startCountPlayingTime);
             _startCountPlayingTime = setInterval(function () {
                 seconds_watching_video++;
             }, 1000);
