@@ -441,22 +441,18 @@ function addView(videos_id, currentTime) {
     }
 
     if (videoViewAdded && videoViewAdded == videos_id) {
-        return false;
+        addViewBeacon(); // update the time watched
+    } else {
+        videoViewAdded = videos_id;
+        last_videos_id = videos_id;
+        last_currentTime = currentTime;
+        _addView(videos_id, currentTime);
     }
-
-    videoViewAdded = videos_id;
-    last_videos_id = videos_id;
-    last_currentTime = currentTime;
-    _addView(videos_id, currentTime);
+    return true;
 }
 
-var _addViewBeaconAdded = false;
 function addViewBeacon() {
     console.log('addViewBeacon');
-    if (_addViewBeaconAdded) {
-        console.log('addViewBeacon return false');
-        return false;
-    }
     if (typeof mediaId !== 'undefined' && typeof playerCurrentTime !== 'undefined' && typeof seconds_watching_video !== 'undefined') {
 
         var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
@@ -466,7 +462,7 @@ function addViewBeacon() {
         var beacon = new Image();
         beacon.src = url;
         console.log('addViewBeacon will be sent', mediaId, playerCurrentTime, seconds_watching_video, beacon);
-        _addViewBeaconAdded = true;
+        seconds_watching_video = 0;
     } else {
         if (typeof mediaId !== 'undefined') {
             console.log('addViewBeacon mediaId is undefined');
@@ -1812,6 +1808,6 @@ window.addEventListener('beforeunload', function (e) {
 document.addEventListener('visibilitychange', function () {
     if (document.visibilityState === 'hidden') {
         console.log('document.addEventListener(visibilitychange');
-       addViewBeacon();
+        addViewBeacon();
     }
 });
