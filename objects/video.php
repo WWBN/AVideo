@@ -4383,7 +4383,7 @@ if (!class_exists('Video')) {
             $objGallery = AVideoPlugin::getObjectData("Gallery");
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
             $template = $global['systemRootPath'] . 'view/videosListItem.html';
-            $content = file_get_contents($template);
+            $templateContent = file_get_contents($template);
             $value = Video::getVideoLight($videos_id);
             $link = Video::getLink($value['id'], $value['clean_title'], "", $get);
             if (!empty($_GET['page']) && $_GET['page'] > 1) {
@@ -4512,7 +4512,7 @@ if (!class_exists('Video')) {
                 $creator
             );
 
-            $btnHTML = str_replace($search, $replace, $content);
+            $btnHTML = str_replace($search, $replace, $templateContent);
             return $btnHTML;
         }
         
