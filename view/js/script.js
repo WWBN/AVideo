@@ -450,7 +450,7 @@ function addView(videos_id, currentTime) {
 
 var _addViewBeaconAdded = false;
 function addViewBeacon() {
-    if(_addViewBeaconAdded){
+    if (_addViewBeaconAdded) {
         return false;
     }
     if (typeof player === 'object' && typeof mediaId !== 'undefined') {
@@ -462,6 +462,7 @@ function addViewBeacon() {
         beacon.src = url;
         _addViewBeaconAdded = true;
     }
+    return '';
 }
 
 function _addView(videos_id, currentTime) {
@@ -1250,12 +1251,22 @@ function checkDescriptionArea() {
     });
 }
 $(document).ready(function () {
-    window.onbeforeunload = function() { 
-        addViewBeacon(); 
+    window.onbeforeunload = function () {
+        addViewBeacon();
     };
-    
+
+    $(window).on("beforeunload", function () {
+        addViewBeacon();
+    });
+
     $(window).on("unload", function () {
-        addViewBeacon(); 
+        addViewBeacon();
+    });
+
+    window.addEventListener("beforeunload", function (e) {
+        e.preventDefault(); 
+        e.returnValue = addViewBeacon();     // Gecko, Trident, Chrome 34+
+        return e.returnValue;              // Gecko, WebKit, Chrome <34
     });
 
     checkDescriptionArea();
