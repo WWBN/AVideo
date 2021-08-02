@@ -150,6 +150,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `filepath` VARCHAR(255) NULL DEFAULT NULL,
   `filesize` BIGINT(19) UNSIGNED NULL DEFAULT 0,
   `live_transmitions_history_id` INT(11) NULL DEFAULT NULL,
+  `total_seconds_watching` INT(11) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
@@ -162,6 +163,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `video_status_idx` (`status` ASC),
   INDEX `video_type_idx` (`type` ASC) ,
   INDEX `fk_videos_live_transmitions_history1_idx` (`live_transmitions_history_id` ASC),
+  INDEX `total_sec_watchinindex` (`total_seconds_watching` ASC),
   FULLTEXT INDEX `index17vname` (`title`),
   FULLTEXT INDEX `index18vdesc` (`description`),
   CONSTRAINT `fk_videos_sites1`
@@ -307,11 +309,13 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
   `modified` DATETIME NULL DEFAULT NULL,
   `lastVideoTime` INT(11) NULL DEFAULT NULL,
   `session_id` VARCHAR(45) NOT NULL,
+  `seconds_watching_video` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC),
   INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC),
   INDEX `when_statisci` (`when` ASC),
   INDEX `session_id_statistics` (`session_id` ASC),
+  INDEX `sec_watchin_videos` (`seconds_watching_video` ASC),
   CONSTRAINT `fk_videos_statistics_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)

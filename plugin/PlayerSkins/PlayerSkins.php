@@ -373,7 +373,7 @@ class PlayerSkins extends PluginAbstract {
         if (empty($currentTime) && isVideoPlayerHasProgressBar()) {
             $currentTime = self::getCurrentTime();
         }
-
+        
         if (!empty($global['doNotLoadPlayer'])) {
             return '';
         }
@@ -384,7 +384,6 @@ class PlayerSkins extends PluginAbstract {
         if (empty($prepareStartPlayerJS_getDataSetup)) {
             $prepareStartPlayerJS_getDataSetup = array();
         }
-
         if (empty($noReadyFunction)) {
             $js .= "var originalVideo;
                 var adTagOptions;
@@ -471,9 +470,9 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             if (!empty($videos_id)) {
                 $video = Video::getVideoLight($videos_id);
-                $progress = Video::getVideoPogressPercent($videos_id);
+                $progress = Video::getVideoPogressPercent($videos_id); 
                 if (!empty($progress) && !empty($progress['lastVideoTime'])) {
-                    $currentTime = intval($video['progress']['lastVideoTime']);
+                    $currentTime = intval($progress['lastVideoTime']);
                 } else if (!empty($video['externalOptions'])) {                    
                     $json = _json_decode($video['externalOptions']);
                     if (!empty($json->videoStartSeconds)) {

@@ -57,6 +57,7 @@ if (!class_exists('Video')) {
         private $filepath;
         private $filesize;
         private $live_transmitions_history_id;
+        private $total_seconds_watching;
         public static $statusDesc = array(
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -116,6 +117,23 @@ if (!class_exists('Video')) {
                 return $obj;
             }
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        
+        public function addSecondsWatching($seconds_watching) {
+            global $global;
+            
+            $seconds_watching = intval($seconds_watching);
+            
+            if(empty($seconds_watching)){
+                return false;
+            }
+            
+            if (empty($this->id)) {
+                return false;
+            }
+            $sql = "UPDATE videos SET total_seconds_watching = total_seconds_watching+{$seconds_watching}, modified = now() WHERE id = ?";
+            _error_log($sql."={$this->id}");
+            return sqlDAL::writeSql($sql, "i", array($this->id));
         }
 
         public function updateViewsCount($total) {
@@ -1203,6 +1221,8 @@ if (!class_exists('Video')) {
             $row['isWatchLater'] = self::isWatchLater($row['id']);
             $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
             $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
+            $row['total_seconds_watching_human'] = seconds2human($row['total_seconds_watching']);
+            $row['views_count_short'] = number_format_short($row['views_count']);
 
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(array('videoStartSeconds' => '00:00:00'));
@@ -4492,7 +4512,15 @@ if (!class_exists('Video')) {
             $btnHTML = str_replace($search, $replace, $content);
             return $btnHTML;
         }
+        
+        function getTotal_seconds_watching() {
+            return $this->total_seconds_watching;
+        }
 
+        function setTotal_seconds_watching($total_seconds_watching) {
+            $this->total_seconds_watching = $total_seconds_watching;
+        }
+    
     }
 
 }

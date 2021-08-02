@@ -52,8 +52,17 @@ if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
     $resp = $obj->addView();
     _session_start();
     $_SESSION['addViewCount'][$_REQUEST['id']]['time'] = strtotime("+{$seconds} seconds");
-} elseif (!empty($_REQUEST['currentTime'])) {
-    $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), intval($_REQUEST['currentTime']));
+} elseif (isset($_REQUEST['currentTime'])) {
+    $currentTime = intval($_REQUEST['currentTime']);
+    if($currentTime<0){
+        $currentTime = 0;
+    }
+    $seconds_watching_video = intval(@$_REQUEST['seconds_watching_video']);
+    if($seconds_watching_video<0){
+        $seconds_watching_video = 0;
+    }
+    
+    $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), $currentTime, $seconds_watching_video);
 } else {
     $resp = 0;
 }

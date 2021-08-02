@@ -170,6 +170,9 @@ lazyImage();
 
 var pleaseWaitIsINUse = false;
 var pauseIfIsPlayinAdsInterval;
+var seconds_watching_video = 0;
+var _startCountPlayingTime;
+
 function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
@@ -177,6 +180,7 @@ function setPlayerListners() {
             console.log("setPlayerListners: pause");
             //userIsControling = true;
             clearInterval(pauseIfIsPlayinAdsInterval);
+            clearInterval(_startCountPlayingTime);
         });
 
         player.on('play', function () {
@@ -187,6 +191,9 @@ function setPlayerListners() {
             pauseIfIsPlayinAdsInterval = setInterval(function () {
                 pauseIfIsPlayinAds();
             }, 500);
+            _startCountPlayingTime = setInterval(function(){
+                seconds_watching_video++;
+            },1000);
         });
 
         $("#mainVideo .vjs-mute-control").click(function () {
@@ -436,7 +443,6 @@ function addView(videos_id, currentTime) {
     }
 
     videoViewAdded = videos_id;
-
     last_videos_id = videos_id;
     last_currentTime = currentTime;
     _addView(videos_id, currentTime);
@@ -447,6 +453,7 @@ function addViewBeacon() {
         var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
         url = addGetParam(url, 'id', mediaId);
         url = addGetParam(url, 'currentTime', player.currentTime());
+        url = addGetParam(url, 'seconds_watching_video', seconds_watching_video);
         var beacon = new Image();
         beacon.src = url;
     }
