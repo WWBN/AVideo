@@ -28,7 +28,7 @@ $v = new Video('', '', $videos_id);
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <title><?php echo $titleTag . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <title>Videos View info</title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
