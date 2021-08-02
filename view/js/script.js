@@ -20,6 +20,7 @@ var _serverDBTime;
 var _serverTimeString;
 var _serverDBTimeString;
 let deferredPrompt;
+var playerCurrentTime;
 
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
@@ -453,10 +454,10 @@ function addViewBeacon() {
     if (_addViewBeaconAdded) {
         return false;
     }
-    if (typeof player === 'object' && typeof mediaId !== 'undefined') {
+    if (typeof mediaId !== 'undefined') {
         var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
         url = addGetParam(url, 'id', mediaId);
-        url = addGetParam(url, 'currentTime', player.currentTime());
+        url = addGetParam(url, 'currentTime', playerCurrentTime);
         url = addGetParam(url, 'seconds_watching_video', seconds_watching_video);
         var beacon = new Image();
         beacon.src = url;
