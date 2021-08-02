@@ -451,7 +451,9 @@ function addView(videos_id, currentTime) {
 
 var _addViewBeaconAdded = false;
 function addViewBeacon() {
+    console.log('addViewBeacon', mediaId, playerCurrentTime, seconds_watching_video);
     if (_addViewBeaconAdded) {
+        console.log('addViewBeacon return false');
         return false;
     }
     if (typeof mediaId !== 'undefined') {
@@ -462,6 +464,8 @@ function addViewBeacon() {
         var beacon = new Image();
         beacon.src = url;
         _addViewBeaconAdded = true;
+    }else{        
+        console.log('addViewBeacon mediaId is undefined');
     }
     return '';
 }
