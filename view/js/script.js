@@ -432,6 +432,9 @@ function isMobile() {
 var last_videos_id = 0;
 var last_currentTime = -1;
 var videoViewAdded = false;
+
+var addViewBeaconTimeout;
+
 function addView(videos_id, currentTime) {
     if (last_videos_id == videos_id && last_currentTime == currentTime) {
         return false;
@@ -441,7 +444,12 @@ function addView(videos_id, currentTime) {
     }
 
     if (videoViewAdded && videoViewAdded == videos_id) {
-        addViewBeacon(); // update the time watched
+        clearTimeout(addViewBeaconTimeout);
+        addViewBeaconTimeout = setTimeout(function () {
+            addViewBeacon();
+        } // update the time watched
+        , 100);
+
     } else {
         videoViewAdded = videos_id;
         last_videos_id = videos_id;
@@ -454,7 +462,7 @@ function addView(videos_id, currentTime) {
 function addViewBeacon() {
     console.log('addViewBeacon');
     if (typeof mediaId !== 'undefined' && typeof playerCurrentTime !== 'undefined' && typeof seconds_watching_video !== 'undefined') {
-        if(seconds_watching_video<=0){
+        if (seconds_watching_video <= 0) {
             console.log('addViewBeacon seconds_watching_video <= 0 ', seconds_watching_video);
             return false;
         }
