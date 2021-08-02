@@ -526,6 +526,7 @@ class PlayerSkins extends PluginAbstract {
         });
         player.on('timeupdate', function () {
             var time = Math.round(this.currentTime());
+            playerCurrentTime = time;
             var url = '{$url}';
             if (url.indexOf('?') > -1) {
             url += '&t=' + time;
