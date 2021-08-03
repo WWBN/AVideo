@@ -154,7 +154,7 @@ class PlayerSkins extends PluginAbstract {
                     PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
                     $htmlMediaTag = "<!-- Embed Link YoutubeIntegration {$video['title']} {$video['filename']} -->";
                     $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
-                    $htmlMediaTag .= '<script>var player;var mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
+                    $htmlMediaTag .= '<script>var player;mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
                 }
             } else if ($vType == 'serie') {
                 $isVideoTypeEmbed = 1;
@@ -169,7 +169,7 @@ class PlayerSkins extends PluginAbstract {
                 $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
             }
 
-            $html .= "<script>var mediaId = '{$video['id']}';var player;" . self::playerJSCodeOnLoad($video['id'], @$autoPlayURL) . '</script>';
+            $html .= "<script>mediaId = '{$video['id']}';var player;" . self::playerJSCodeOnLoad($video['id'], @$autoPlayURL) . '</script>';
         }
 
         $col1Classes = 'col-md-2 firstC';
@@ -373,7 +373,7 @@ class PlayerSkins extends PluginAbstract {
         if (empty($currentTime) && isVideoPlayerHasProgressBar()) {
             $currentTime = self::getCurrentTime();
         }
-
+        
         if (!empty($global['doNotLoadPlayer'])) {
             return '';
         }
@@ -384,7 +384,6 @@ class PlayerSkins extends PluginAbstract {
         if (empty($prepareStartPlayerJS_getDataSetup)) {
             $prepareStartPlayerJS_getDataSetup = array();
         }
-
         if (empty($noReadyFunction)) {
             $js .= "var originalVideo;
                 var adTagOptions;
@@ -471,9 +470,9 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             if (!empty($videos_id)) {
                 $video = Video::getVideoLight($videos_id);
-                $progress = Video::getVideoPogressPercent($videos_id);
+                $progress = Video::getVideoPogressPercent($videos_id); 
                 if (!empty($progress) && !empty($progress['lastVideoTime'])) {
-                    $currentTime = intval($video['progress']['lastVideoTime']);
+                    $currentTime = intval($progress['lastVideoTime']);
                 } else if (!empty($video['externalOptions'])) {                    
                     $json = _json_decode($video['externalOptions']);
                     if (!empty($json->videoStartSeconds)) {
@@ -524,9 +523,11 @@ class PlayerSkins extends PluginAbstract {
         $js .= "
         player.on('play', function () {
             addView({$videos_id}, this.currentTime());
+            _addViewBeaconAdded = false;
         });
         player.on('timeupdate', function () {
             var time = Math.round(this.currentTime());
+            playerCurrentTime = time;
             var url = '{$url}';
             if (url.indexOf('?') > -1) {
             url += '&t=' + time;

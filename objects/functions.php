@@ -2157,7 +2157,7 @@ function combineFiles($filesArray, $extension = "js") {
     $str = "";
     $fileName = "";
     foreach ($filesArray as $value) {
-        $fileName .= $value.filectime($global['systemRootPath'] . $value).filemtime($global['systemRootPath'] . $value);
+        $fileName .= $value . filectime($global['systemRootPath'] . $value) . filemtime($global['systemRootPath'] . $value);
     }
     if ($advancedCustom != false) {
         $minifyEnabled = $advancedCustom->EnableMinifyJS;
@@ -2543,7 +2543,7 @@ function isMobile($userAgent = null, $httpHeaders = null) {
     return $detect->isMobile($userAgent, $httpHeaders);
 }
 
-function isChannelPage(){
+function isChannelPage() {
     return strpos($_SERVER["SCRIPT_NAME"], 'view/channel.php') !== false;
 }
 
@@ -5174,8 +5174,8 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         if (preg_match("/(current=[0-9]+)/i", $link, $match)) {
             $link = str_replace($match[1], "current={page}", $link);
         } else {
-            $link = addQueryStringParameter($link, 'current', '{page}');
-            //$link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
+            //$link = addQueryStringParameter($link, 'current', '{page}');
+            $link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
         }
     }
 
@@ -6292,7 +6292,7 @@ function getStatsNotifications($force_recreate = false) {
         $json = ObjectYPT::getCache($cacheName, 0, true);
     }
     if (empty($json)) {
-        _error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace()));
+        //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace()));
         $json = Live::getStats();
         $json = object_to_array($json);
 
@@ -7002,4 +7002,32 @@ function number_format_short($n, $precision = 1) {
     }
 
     return $n_format . $suffix;
+}
+
+function seconds2human($ss) {
+    $s = $ss % 60;
+    $m = floor(($ss % 3600) / 60);
+    $h = floor(($ss % 86400) / 3600);
+    $d = floor(($ss % 2592000) / 86400);
+    $M = floor($ss / 2592000);
+
+    $times = array();
+    
+    if(!empty($M)){
+        $times[] = "$M ".__('m');
+    }
+    if(!empty($d)){
+        $times[] = "$d ".__('d');
+    }
+    if(!empty($h)){
+        $times[] = "$h ".__('h');
+    }
+    if(!empty($m)){
+        $times[] = "$m ".__('min');
+    }
+    if(!empty($s)){
+        $times[] = "$s ".__('sec');
+    }    
+    
+    return implode(', ', $times);
 }

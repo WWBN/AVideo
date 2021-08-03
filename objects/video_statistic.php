@@ -19,6 +19,7 @@ class VideoStatistic extends ObjectYPT {
     protected $videos_id;
     protected $lastVideoTime;
     protected $session_id;
+    protected $seconds_watching_video;
 
     public static function getSearchFieldsNames() {
         return array();
@@ -69,7 +70,7 @@ class VideoStatistic extends ObjectYPT {
         }
     }
 
-    public static function updateStatistic($videos_id, $users_id, $lastVideoTime) {
+    public static function updateStatistic($videos_id, $users_id, $lastVideoTime, $seconds_watching_video=0) {
         $lastStatistic = self::getLastStatistics($videos_id, $users_id);
         if (empty($lastStatistic)) {
             $vs = new VideoStatistic(0);
@@ -80,7 +81,27 @@ class VideoStatistic extends ObjectYPT {
             $vs = new VideoStatistic($lastStatistic['id']);
         }
         $vs->setLastVideoTime($lastVideoTime);
-        return $vs->save();
+        
+        if(!empty($seconds_watching_video) && $seconds_watching_video > 0){
+            $totalVideoWatched = $vs->getSeconds_watching_video()+$seconds_watching_video;
+            _error_log("updateStatistic: add more [$seconds_watching_video] to video [$videos_id] ". get_browser_name());
+            $vs->setSeconds_watching_video($totalVideoWatched);
+            $v = new Video('', '', $videos_id);
+            $v->addSecondsWatching($seconds_watching_video);
+            
+            //$totalVideoSeconds = timeToSeconds($hms);
+            
+            //Video::addViewPercent();
+            
+        }
+        
+        $id = $vs->save();
+        /*
+        if(!empty($id)){
+            Video::clearCache($videos_id);
+        }
+         */
+        return $id;
     }
 
     public function save() {
@@ -94,6 +115,9 @@ class VideoStatistic extends ObjectYPT {
         if (empty($this->users_id)) {
             $this->setUsers_id('null');
         }
+        
+        $this->seconds_watching_video = intval($this->seconds_watching_video);
+        
         return parent::save();
     }
 
@@ -459,6 +483,71 @@ class VideoStatistic extends ObjectYPT {
         }
         _error_log("Id for table " . static::getTableName() . " not defined for deletion", AVideoLog::$ERROR);
         return false;
+    }
+    
+    function getSeconds_watching_video() {
+        return intval($this->seconds_watching_video);
+    }
+
+    function setSeconds_watching_video($seconds_watching_video) {
+        $this->seconds_watching_video = intval($seconds_watching_video);
+    }
+    
+    
+
+    public static function getAllFromVideos_id($videos_id) {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        
+        $videos_id = intval($videos_id);
+        
+        if(empty($videos_id)){
+            return false;
+        }
+        
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE videos_id=$videos_id ";
+
+        $sql .= self::getSqlFromPost();
+        //echo $sql;//exit;
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $rows[] = $row;
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
+    }
+    
+    public static function getTotalFromVideos_id($videos_id) {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        
+        $videos_id = intval($videos_id);
+        
+        if(empty($videos_id)){
+            return false;
+        }
+        
+        $sql = "SELECT count(id) as total FROM  " . static::getTableName() . " WHERE videos_id=$videos_id ";
+
+        $sql .= self::getSqlSearchFromPost();
+        
+        //echo $sql;//exit;
+        $res = sqlDAL::readSql($sql);
+        $result = sqlDAL::fetchAssoc($res);
+        if (!empty($result)) {
+            return intval($result['total']);
+        }        
+        return 0;
     }
 
 }

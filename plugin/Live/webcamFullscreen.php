@@ -67,6 +67,7 @@ if (!empty($chat)) {
         </style>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+            var live_servers_id = '<?php echo Live::getCurrentLiveServersId(); ?>';
             var player;
         </script>
         <?php

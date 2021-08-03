@@ -290,16 +290,19 @@
                         <th data-column-id="title" data-formatter="titleTag" ><?php echo __("Title"); ?></th>
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="300px" data-header-css-class='hidden-xs' data-css-class='hidden-xs tagsInfo'><?php echo __("Tags"); ?></th>
                         <th  style="display: none;"  data-column-id="duration" data-width="80px"  data-header-css-class='hidden-md hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-md hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Video Duration") . '"></i>'); ?>
+                            <?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Duration") . '"></i>'); ?>
                         </th>
-                        <th  style="display: none;"  data-column-id="views_count" data-width="50px"  data-header-css-class='hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-eye" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Video Views") . '"></i>'); ?>
+                        <th  style="display: none;"  data-column-id="views_count" data-formatter="views_count" data-width="50px"  data-header-css-class='hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-sm hidden-xs'>
+                            <?php echo htmlentities('<i class="fas fa-eye" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Views") . '"></i>'); ?>
+                        </th>
+                        <th  style="display: none;"  data-column-id="total_seconds_watching" data-formatter="total_seconds_watching" data-width="100px" data-header-css-class='hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-sm hidden-xs'>
+                            <?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Time Watching") . '"></i>'); ?>
                         </th>
                         <?php
                         if (Permissions::canAdminVideos()) {
                             ?>
                             <th  style="display: none;"  data-column-id="isSuggested" data-formatter="isSuggested" data-width="42px"  data-header-css-class='hidden-xs showOnGridDone' data-css-class='hidden-xs'>
-                                <?php echo htmlentities('<i class="fas fa-star" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Suggested Video") . '"></i>'); ?>
+                                <?php echo htmlentities('<i class="fas fa-star" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Suggested") . '"></i>'); ?>
                             </th>
                             <?php
                         }
@@ -1396,7 +1399,7 @@ echo AVideoPlugin::getManagerVideosReset();
                                             item += '</div><div class="progress progress-striped active " id="downloadProgress' + id + '" style="height: 10px; border-top-right-radius: 0; border-top-left-radius: 0;"><div class="progress-bar  progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0;"></div></div> ';
                                             $('#encodeProgress' + id).html(item);
                                         }
-
+                                        /*
                                         function viewsDetails(views_count, views_count_25, views_count_50, views_count_75, views_count_100) {
                                             viewsDetailsReset();
                                             $("#videoViewFormModal .modal-title").html("Total views: " + views_count);
@@ -1404,6 +1407,8 @@ echo AVideoPlugin::getManagerVideosReset();
                                             var p50 = (views_count_50 / views_count) * 100;
                                             var p75 = (views_count_75 / views_count) * 100;
                                             var p100 = (views_count_100 / views_count) * 100;
+                                            console.log('views', views_count, views_count_25, views_count_50, views_count_75, views_count_100);
+                                            console.log('p',p25, p50, p75, p100);
                                             $('#videoViewFormModal').modal();
                                             $("#progress25 .progress-bar")
                                                     .css("width", p25 + "%")
@@ -1442,7 +1447,7 @@ echo AVideoPlugin::getManagerVideosReset();
                                                     .attr("aria-valuenow", "0")
                                                     .text("Loading ...");
                                         }
-
+                                        */
 
 
                                         $(document).ready(function () {
@@ -1868,7 +1873,7 @@ if (Permissions::canAdminVideos()) {
                                                             tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + text + "</span>";
                                                         }
                                                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default \">" + row.type + "</span>";
-                                                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default \">" + row.views_count + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span>";
+                                                        //tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default \">" + row.views_count_short + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span>";
                                                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Format") . ":"; ?> </span>" + row.typeLabels + "";
                                                         if (row.encoderURL) {
                                                             tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Encoder") . ":"; ?> </span><span class=\"label label-default \">" + row.encoderURL + "</span>";
@@ -1902,6 +1907,15 @@ if (Permissions::canAdminVideos()) {
                                                     "checkbox": function (column, row) {
                                                         var tags = "<input type='checkbox' name='checkboxVideo' class='checkboxVideo' value='" + row.id + "'>";
                                                         return tags;
+                                                    },
+                                                    "total_seconds_watching": function (column, row) {
+                                                        return '<small style="white-space: normal;">'
+                                                                +'<a href="#" onclick="avideoModalIframe(webSiteRootURL +\'view/videoViewsInfo.php?videos_id='+(row.id.toString())+'\');return false;">'
+                                                                +(row.total_seconds_watching_human.toString())
+                                                                +'</a></small>';
+                                                    },
+                                                    "views_count": function (column, row) {
+                                                        return row.views_count_short;
                                                     },
                                                     "titleTag": function (column, row) {
                                                         var tags = "";

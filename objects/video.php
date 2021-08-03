@@ -57,6 +57,7 @@ if (!class_exists('Video')) {
         private $filepath;
         private $filesize;
         private $live_transmitions_history_id;
+        private $total_seconds_watching;
         public static $statusDesc = array(
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -116,6 +117,23 @@ if (!class_exists('Video')) {
                 return $obj;
             }
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        
+        public function addSecondsWatching($seconds_watching) {
+            global $global;
+            
+            $seconds_watching = intval($seconds_watching);
+            
+            if(empty($seconds_watching)){
+                return false;
+            }
+            
+            if (empty($this->id)) {
+                return false;
+            }
+            $sql = "UPDATE videos SET total_seconds_watching = total_seconds_watching+{$seconds_watching}, modified = now() WHERE id = ?";
+            //_error_log($sql."={$this->id}");
+            return sqlDAL::writeSql($sql, "i", array($this->id));
         }
 
         public function updateViewsCount($total) {
@@ -1203,6 +1221,8 @@ if (!class_exists('Video')) {
             $row['isWatchLater'] = self::isWatchLater($row['id']);
             $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
             $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
+            $row['total_seconds_watching_human'] = seconds2human($row['total_seconds_watching']);
+            $row['views_count_short'] = number_format_short($row['views_count']);
 
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(array('videoStartSeconds' => '00:00:00'));
@@ -4354,13 +4374,16 @@ if (!class_exists('Video')) {
 
         static function getVideosListItem($videos_id, $divID='', $style='') {
             global $global, $advancedCustom;
+            $get = array();
+            $get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
+            
             if(empty($divID)){
                 $divID = "divVideo-{$videos_id}";
             }
             $objGallery = AVideoPlugin::getObjectData("Gallery");
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
             $template = $global['systemRootPath'] . 'view/videosListItem.html';
-            $content = local_get_contents($template);
+            $templateContent = file_get_contents($template);
             $value = Video::getVideoLight($videos_id);
             $link = Video::getLink($value['id'], $value['clean_title'], "", $get);
             if (!empty($_GET['page']) && $_GET['page'] > 1) {
@@ -4400,14 +4423,14 @@ if (!class_exists('Video')) {
             if (User::isLogged() && !empty($program)) {
                 $value['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
                 $value['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
-                if ($value['isWatchLater']) {
+                if (!empty($value['isWatchLater'])) {
                     $watchLaterBtnAddedStyle = "";
                     $watchLaterBtnStyle = "display: none;";
                 } else {
                     $watchLaterBtnAddedStyle = "display: none;";
                     $watchLaterBtnStyle = "";
                 }
-                if ($value['isFavorite']) {
+                if (!empty($value['isFavorite'])) {
                     $favoriteBtnAddedStyle = "";
                     $favoriteBtnStyle = "display: none;";
                 } else {
@@ -4433,7 +4456,7 @@ if (!class_exists('Video')) {
             $category = $category->getName();
             $tagsHTML = '';
             $tagsWhitelist = array(__("Paid Content"), __("Group"), __("Plugin"));
-            if (!empty($objGallery->showTags)) {
+            if (!empty($objGallery->showTags) && !empty($value['tags']) && is_array($value['tags'])) {
                 foreach ($value['tags'] as $value2) {
                     if (!empty($value2->label) && in_array($value2->label, $tagsWhitelist)) {
                         $tagsHTML .= '<span class="label label-' . $value2->type . '">' . $value2->text . '</span>';
@@ -4488,11 +4511,21 @@ if (!class_exists('Video')) {
                 $viewsHTML,
                 $creator
             );
-
-            $btnHTML = str_replace($search, $replace, $content);
+            $btnHTML = str_replace(
+                    $search, 
+                    $replace, 
+                    $templateContent);
             return $btnHTML;
         }
+        
+        function getTotal_seconds_watching() {
+            return $this->total_seconds_watching;
+        }
 
+        function setTotal_seconds_watching($total_seconds_watching) {
+            $this->total_seconds_watching = $total_seconds_watching;
+        }
+    
     }
 
 }

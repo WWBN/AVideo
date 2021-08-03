@@ -2,6 +2,10 @@
 window.addEventListener('message', event => {
     if (event.data.startLiveRestream) {
         startLiveRestream(event.data.m3u8);
+    }else if (event.data.showPleaseWait) {
+        modal.showPleaseWait();
+    }else if (event.data.hidePleaseWait) {
+        modal.hidePleaseWait();
     }else
     if (event.data.webRTCModalConfig) {
         console.log('event.data.webRTCModalConfig', event.data.webRTCModalConfig, typeof webRTCModalConfigShow);
@@ -25,7 +29,7 @@ function startLiveRestream(m3u8) {
         method: 'POST',
         data: {
             'm3u8': m3u8,
-            'live_servers_id': '<?php echo Live::getCurrentLiveServersId(); ?>'
+            'live_servers_id': live_servers_id
         },
         success: function (response) {
             if (response.error) {

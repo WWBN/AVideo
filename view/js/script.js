@@ -20,6 +20,8 @@ var _serverDBTime;
 var _serverTimeString;
 var _serverDBTimeString;
 let deferredPrompt;
+var playerCurrentTime;
+var mediaId;
 
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
@@ -170,6 +172,9 @@ lazyImage();
 
 var pleaseWaitIsINUse = false;
 var pauseIfIsPlayinAdsInterval;
+var seconds_watching_video = 0;
+var _startCountPlayingTime;
+
 function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
@@ -177,6 +182,7 @@ function setPlayerListners() {
             console.log("setPlayerListners: pause");
             //userIsControling = true;
             clearInterval(pauseIfIsPlayinAdsInterval);
+            clearInterval(_startCountPlayingTime);
         });
 
         player.on('play', function () {
@@ -187,6 +193,10 @@ function setPlayerListners() {
             pauseIfIsPlayinAdsInterval = setInterval(function () {
                 pauseIfIsPlayinAds();
             }, 500);
+            clearInterval(_startCountPlayingTime);
+            _startCountPlayingTime = setInterval(function () {
+                seconds_watching_video++;
+            }, 1000);
         });
 
         $("#mainVideo .vjs-mute-control").click(function () {
@@ -423,6 +433,9 @@ function isMobile() {
 var last_videos_id = 0;
 var last_currentTime = -1;
 var videoViewAdded = false;
+
+var addViewBeaconTimeout;
+
 function addView(videos_id, currentTime) {
     if (last_videos_id == videos_id && last_currentTime == currentTime) {
         return false;
@@ -431,25 +444,49 @@ function addView(videos_id, currentTime) {
         return false;
     }
 
-    if (videoViewAdded && videoViewAdded==videos_id) {
-        return false;
+    if (videoViewAdded && videoViewAdded == videos_id) {
+        clearTimeout(addViewBeaconTimeout);
+        addViewBeaconTimeout = setTimeout(function () {
+            addViewBeacon();
+        } // update the time watched
+        , 500);
+
+    } else {
+        videoViewAdded = videos_id;
+        last_videos_id = videos_id;
+        last_currentTime = currentTime;
+        _addView(videos_id, currentTime);
     }
-
-    videoViewAdded = videos_id;
-
-    last_videos_id = videos_id;
-    last_currentTime = currentTime;
-    _addView(videos_id, currentTime);
+    return true;
 }
 
 function addViewBeacon() {
-    if (typeof player === 'object' && typeof mediaId !== 'undefined') {
+    console.log('addViewBeacon');
+    if (typeof mediaId !== 'undefined' && typeof playerCurrentTime !== 'undefined' && typeof seconds_watching_video !== 'undefined') {
+        if (seconds_watching_video <= 0) {
+            console.log('addViewBeacon seconds_watching_video <= 0 ', seconds_watching_video);
+            return false;
+        }
         var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
         url = addGetParam(url, 'id', mediaId);
-        url = addGetParam(url, 'currentTime', player.currentTime());
+        url = addGetParam(url, 'currentTime', playerCurrentTime);
+        url = addGetParam(url, 'seconds_watching_video', seconds_watching_video);
+        console.log('addViewBeacon will be sent', mediaId, playerCurrentTime, seconds_watching_video, beacon);
+        seconds_watching_video = 0;
         var beacon = new Image();
         beacon.src = url;
+    } else {
+        if (typeof mediaId !== 'undefined') {
+            console.log('addViewBeacon mediaId is undefined');
+        }
+        if (typeof playerCurrentTime !== 'undefined') {
+            console.log('addViewBeacon playerCurrentTime is undefined');
+        }
+        if (typeof seconds_watching_video !== 'undefined') {
+            console.log('addViewBeacon seconds_watching_video is undefined');
+        }
     }
+    return '';
 }
 
 function _addView(videos_id, currentTime) {
@@ -1237,12 +1274,7 @@ function checkDescriptionArea() {
         }
     });
 }
-
 $(document).ready(function () {
-
-    $(window).bind('beforeunload', function () {
-        addViewBeacon();
-    });
 
     checkDescriptionArea();
     setInterval(function () {// check for the carousel
@@ -1780,3 +1812,14 @@ function avideoAjax(url, data) {
         }
     });
 }
+
+window.addEventListener('beforeunload', function (e) {
+    console.log('window.addEventListener(beforeunload');
+    addViewBeacon();
+}, false);
+document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') {
+        console.log('document.addEventListener(visibilitychange');
+        addViewBeacon();
+    }
+});
