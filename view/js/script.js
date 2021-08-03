@@ -490,6 +490,9 @@ function addViewBeacon() {
 }
 
 function _addView(videos_id, currentTime) {
+    if(typeof PHPSESSID == 'undefined'){
+        PHPSESSID = '';
+    }
     $.ajax({
         url: webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID,
         method: 'POST',
@@ -507,6 +510,9 @@ var _addViewAsyncSent = false;
 function _addViewAsync() {
     if(_addViewAsyncSent){
         return false;
+    }
+    if(typeof PHPSESSID == 'undefined'){
+        PHPSESSID = '';
     }
     _addViewAsyncSent = true;
     $.ajax({
