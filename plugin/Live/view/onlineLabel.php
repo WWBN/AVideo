@@ -13,7 +13,6 @@ $liveObj = AVideoPlugin::getObjectData('Live');
 if($liveObj->doNotShowOnlineOfflineLabel){
     $liveViewStatusClass .= ' hidden';
 }
-
 if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id, @$live['live_index'])) {
     echo "<span class='label label-success liveOnlineLabel {$liveViewStatusClass}' id='{$liveViewStatusID}'>ONLINE</span>";
 } else {
