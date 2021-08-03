@@ -87,6 +87,7 @@ $v = new Video('', '', $videos_id);
         <script type="text/javascript">
             $(document).ready(function () {
                 var VideoViewsInfo = $('#VideoViewsInfo').DataTable({
+                    "order": [[ 1, "desc" ]],
                     serverSide: true,
                     "ajax": "<?php echo $global['webSiteRootURL']; ?>view/videoViewsInfo.json.php?videos_id=<?php echo $videos_id; ?>",
                                 "columns": [
