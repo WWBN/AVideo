@@ -17,4 +17,4 @@ $total = VideoStatistic::getTotalFromVideos_id($videos_id);
 $totalPages = ceil($total / $_REQUEST['rowCount']);
 
 ?>
-{"data": <?php echo json_encode($rows); ?>, "draw": <?php echo intval(@$_REQUEST['draw']); ?>, "recordsTotal":<?php echo $total; ?>, "recordsFiltered":<?php echo count($rows); ?>}
+{"data": <?php echo json_encode($rows); ?>, "draw": <?php echo intval(@$_REQUEST['draw']); ?>, "recordsTotal":<?php echo $total; ?>, "recordsFiltered":<?php echo $total; ?>}
