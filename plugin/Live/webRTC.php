@@ -27,6 +27,7 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
 </span>
 <script src="<?php echo getCDN(); ?>plugin/Live/webRTC.js" type="text/javascript"></script>
 <script>
+                var live_servers_id = '<?php echo Live::getCurrentLiveServersId(); ?>';
                 var updateControlStatusLastState;
                 function toogleWebcam() {
                     updateControlStatusLastState = null;

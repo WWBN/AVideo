@@ -25,7 +25,7 @@ function startLiveRestream(m3u8) {
         method: 'POST',
         data: {
             'm3u8': m3u8,
-            'live_servers_id': '<?php echo Live::getCurrentLiveServersId(); ?>'
+            'live_servers_id': live_servers_id
         },
         success: function (response) {
             if (response.error) {
