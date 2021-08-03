@@ -27,7 +27,7 @@ $users_id = User::getId();
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
 $live_servers_id = Live::getCurrentLiveServersId();
 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, @$_REQUEST['live_index'], 0);
-$streamName = $liveStreamObject->getKey();
+$streamName = $liveStreamObject->getKeyWithIndex(true);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
