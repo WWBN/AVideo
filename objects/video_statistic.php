@@ -544,7 +544,12 @@ class VideoStatistic extends ObjectYPT {
                     }
                     $json->location = object_to_array($json->location);
                     $row['location'] = $json->location;
-                    $row['location_name'] = "{$json->location['country_name']}, {$json->location['city_name']}, {$json->location['region_name']}";
+                    if(empty($json->location['country_name']) || $json->location['country_name'] === '-'){
+                        $row['location_name'] = $row['ip'];
+                    }else{
+                        $row['location_name'] = "{$json->location['country_name']}, {$json->location['city_name']}, {$json->location['region_name']}";
+                    }
+                    
                 } else {
                     $row['location_name'] = $row['location'] = '';
                 }
