@@ -20,6 +20,7 @@ class VideoStatistic extends ObjectYPT {
     protected $lastVideoTime;
     protected $session_id;
     protected $seconds_watching_video;
+    protected $json;
 
     public static function getSearchFieldsNames() {
         return array();
@@ -70,7 +71,7 @@ class VideoStatistic extends ObjectYPT {
         }
     }
 
-    public static function updateStatistic($videos_id, $users_id, $lastVideoTime, $seconds_watching_video=0) {
+    public static function updateStatistic($videos_id, $users_id, $lastVideoTime, $seconds_watching_video = 0) {
         $lastStatistic = self::getLastStatistics($videos_id, $users_id);
         if (empty($lastStatistic)) {
             $vs = new VideoStatistic(0);
@@ -81,25 +82,23 @@ class VideoStatistic extends ObjectYPT {
             $vs = new VideoStatistic($lastStatistic['id']);
         }
         $vs->setLastVideoTime($lastVideoTime);
-        
-        if(!empty($seconds_watching_video) && $seconds_watching_video > 0){
-            $totalVideoWatched = $vs->getSeconds_watching_video()+$seconds_watching_video;
-            _error_log("updateStatistic: add more [$seconds_watching_video] to video [$videos_id] ". get_browser_name());
+
+        if (!empty($seconds_watching_video) && $seconds_watching_video > 0) {
+            $totalVideoWatched = $vs->getSeconds_watching_video() + $seconds_watching_video;
+            _error_log("updateStatistic: add more [$seconds_watching_video] to video [$videos_id] " . get_browser_name());
             $vs->setSeconds_watching_video($totalVideoWatched);
             $v = new Video('', '', $videos_id);
             $v->addSecondsWatching($seconds_watching_video);
-            
+
             //$totalVideoSeconds = timeToSeconds($hms);
-            
             //Video::addViewPercent();
-            
         }
-        
+
         $id = $vs->save();
         /*
-        if(!empty($id)){
-            Video::clearCache($videos_id);
-        }
+          if(!empty($id)){
+          Video::clearCache($videos_id);
+          }
          */
         return $id;
     }
@@ -115,9 +114,9 @@ class VideoStatistic extends ObjectYPT {
         if (empty($this->users_id)) {
             $this->setUsers_id('null');
         }
-        
+
         $this->seconds_watching_video = intval($this->seconds_watching_video);
-        
+
         return parent::save();
     }
 
@@ -303,10 +302,10 @@ class VideoStatistic extends ObjectYPT {
         $cacheName3 = "getChannelsWithMoreViews{$daysLimit}" . DIRECTORY_SEPARATOR . md5(json_encode(array($_GET, $_POST)));
         $cache = ObjectYPT::getCache($cacheName3, 3600); // 1 hour cache
         if (!empty($cache)) {
-           _error_log('getChannelsWithMoreViews cache found ' . $cacheName3);
+            _error_log('getChannelsWithMoreViews cache found ' . $cacheName3);
             return object_to_array($cache);
         } else {
-           _error_log('getChannelsWithMoreViews no cache found ' . $cacheName3);
+            _error_log('getChannelsWithMoreViews no cache found ' . $cacheName3);
         }
 
         // get unique videos ids from the requested timeframe
@@ -452,11 +451,10 @@ class VideoStatistic extends ObjectYPT {
         if (!empty($result2)) {
             $result = intval($result2['total']);
         }
-        ObjectYPT::setCache($cacheName, $result);        
+        ObjectYPT::setCache($cacheName, $result);
         return 0;
     }
-    
-    
+
     public static function getTotalStatisticsRecords() {
         global $global;
         $sql2 = "SELECT count(s.id) as total FROM videos_statistics s ";
@@ -467,10 +465,10 @@ class VideoStatistic extends ObjectYPT {
         if (!empty($result2)) {
             return intval($result2['total']);
         }
-        ObjectYPT::setCache($cacheName, $result);        
+        ObjectYPT::setCache($cacheName, $result);
         return 0;
     }
-    
+
     public static function deleteOldStatistics($days) {
         global $global;
         $days = intval($days);
@@ -484,7 +482,7 @@ class VideoStatistic extends ObjectYPT {
         _error_log("Id for table " . static::getTableName() . " not defined for deletion", AVideoLog::$ERROR);
         return false;
     }
-    
+
     function getSeconds_watching_video() {
         return intval($this->seconds_watching_video);
     }
@@ -492,21 +490,30 @@ class VideoStatistic extends ObjectYPT {
     function setSeconds_watching_video($seconds_watching_video) {
         $this->seconds_watching_video = intval($seconds_watching_video);
     }
-    
-    
+
+    function getJson() {
+        return $this->json;
+    }
+
+    function setJson($json) {
+        if(!is_string($json)){
+            $json = _json_encode($json);
+        }
+        $this->json = $json;
+    }
 
     public static function getAllFromVideos_id($videos_id) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
-        
+
         $videos_id = intval($videos_id);
-        
-        if(empty($videos_id)){
+
+        if (empty($videos_id)) {
             return false;
         }
-        
+
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE videos_id=$videos_id ";
 
         $sql .= self::getSqlFromPost();
@@ -516,7 +523,31 @@ class VideoStatistic extends ObjectYPT {
         sqlDAL::close($res);
         $rows = array();
         if ($res != false) {
+
+            $isPluginEnabled = AVideoPlugin::isEnabledByName('User_Location');
+
             foreach ($fullData as $row) {
+                $row['users'] = User::getNameIdentificationById($row['users_id']);
+                $row['when_human'] = humanTimingAgo($row['when']);
+                $row['seconds_watching_video_human'] = seconds2human($row['seconds_watching_video']);
+                if ($isPluginEnabled) {
+
+                    $json = _json_decode($row['json']);
+                    if (empty($json)) {
+                        $json = new stdClass();
+                    }
+                    if (empty($json->location)) {
+                        $json->location = User_Location::getLocationFromIP($row['ip']);
+                        $vs = new VideoStatistic($row['id']);
+                        $vs->setJson($json);
+                        $vs->save();
+                    }
+
+                    $row['location'] = $json->location;
+                    $row['location_name'] = "{$json->location->country_name}, {$json->location->city_name}";
+                } else {
+                    $row['location_name'] = $row['location'] = '';
+                }
                 $rows[] = $row;
             }
         } else {
@@ -524,29 +555,29 @@ class VideoStatistic extends ObjectYPT {
         }
         return $rows;
     }
-    
+
     public static function getTotalFromVideos_id($videos_id) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
-        
+
         $videos_id = intval($videos_id);
-        
-        if(empty($videos_id)){
+
+        if (empty($videos_id)) {
             return false;
         }
-        
+
         $sql = "SELECT count(id) as total FROM  " . static::getTableName() . " WHERE videos_id=$videos_id ";
 
         $sql .= self::getSqlSearchFromPost();
-        
+
         //echo $sql;//exit;
         $res = sqlDAL::readSql($sql);
         $result = sqlDAL::fetchAssoc($res);
         if (!empty($result)) {
             return intval($result['total']);
-        }        
+        }
         return 0;
     }
 

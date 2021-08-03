@@ -177,6 +177,10 @@ abstract class ObjectYPT implements ObjectInterface {
                     $direction = "DESC";
                 }
                 $key = preg_replace("/[^A-Za-z0-9._ ]/", '', $key);
+                $key = trim($key);
+                if (strpos($key, '.') === false) {
+                    $key = "`{$key}`";
+                }
                 $orderBy[] = " {$keyPrefix}{$key} {$value} ";
             }
             $sql .= " ORDER BY " . implode(",", $orderBy);

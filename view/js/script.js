@@ -503,6 +503,28 @@ function _addView(videos_id, currentTime) {
     });
 }
 
+var _addViewAsyncSent = false;
+function _addViewAsync() {
+    if(_addViewAsyncSent){
+        return false;
+    }
+    _addViewAsyncSent = true;
+    $.ajax({
+        url: webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID,
+        method: 'POST',
+        data: {
+            'id': mediaId,
+            'currentTime': playerCurrentTime,
+            'seconds_watching_video': seconds_watching_video
+        },
+        async: false,
+        success: function (response) {
+            console.log('_addViewAsync', response);
+            setTimeout(function(){_addViewAsyncSent=false;},2000);
+        }
+    });
+}
+
 function getPlayerButtonIndex(name) {
     var children = player.getChild('controlBar').children();
     for (i = 0; i < children.length; i++) {
@@ -1815,11 +1837,11 @@ function avideoAjax(url, data) {
 
 window.addEventListener('beforeunload', function (e) {
     console.log('window.addEventListener(beforeunload');
-    addViewBeacon();
+    _addViewAsync();
 }, false);
 document.addEventListener('visibilitychange', function () {
     if (document.visibilityState === 'hidden') {
         console.log('document.addEventListener(visibilitychange');
-        addViewBeacon();
+        _addViewAsync();
     }
 });
