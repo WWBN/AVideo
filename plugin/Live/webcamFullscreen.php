@@ -95,7 +95,7 @@ $streamName = $liveStreamObject->getKey();
                 }
                 ?>
         <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveEmbed">
-            <?php 
+            <?php
             include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
             echo getLiveUsersLabel();
             ?>
@@ -157,6 +157,32 @@ $streamName = $liveStreamObject->getKey();
                     }
                     function webRTCModalConfigHide() {
                         $('#chat2Iframe').fadeIn();
+                    }
+
+
+                    function socketLiveONCallback(json) {
+                        console.log('socketLiveONCallback webcamFullscreen', json);
+                        if (typeof onlineLabelOnline == 'function') {
+                            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
+                            onlineLabelOnline(selector);
+                            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+                            onlineLabelOnline(selector);
+                        }
+                    }
+
+                    function socketLiveOFFCallback(json) {
+                        console.log('socketLiveOFFCallback webcamFullscreen', json);
+                        if (typeof onlineLabelOffline == 'function') {
+                            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
+                            //console.log('socketLiveOFFCallback 2', selector);
+                            onlineLabelOffline(selector);
+                            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+                            //console.log('socketLiveOFFCallback 3', selector);
+                            onlineLabelOffline(selector);
+                            selector = '.liveViewStatusClass_' + json.cleanKey;
+                            //console.log('socketLiveOFFCallback 3', selector);
+                            onlineLabelOffline(selector);
+                        }
                     }
         </script>
     </body>
