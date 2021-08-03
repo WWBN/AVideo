@@ -2,6 +2,10 @@
 window.addEventListener('message', event => {
     if (event.data.startLiveRestream) {
         startLiveRestream(event.data.m3u8);
+    }else if (event.data.showPleaseWait) {
+        modal.showPleaseWait();
+    }else if (event.data.hidePleaseWait) {
+        modal.hidePleaseWait();
     }else
     if (event.data.webRTCModalConfig) {
         console.log('event.data.webRTCModalConfig', event.data.webRTCModalConfig, typeof webRTCModalConfigShow);
