@@ -6770,8 +6770,8 @@ function getCDN($type = 'CDN', $id = 0) {
 }
 
 function getURL($relativePath){
-    global $global;
-    return getCDN().$relativePath.'?cache='.(@filemtime("{$global['systemRootPath']}{$relativePath}"));
+    global $global;    
+    return getCDN().$relativePath.'?cache='.(@filemtime("{$global['systemRootPath']}{$relativePath}").(@filectime("{$global['systemRootPath']}{$relativePath}")));
 }
 
 function getCDNOrURL($url, $type = 'CDN', $id = 0) {
