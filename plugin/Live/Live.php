@@ -589,7 +589,13 @@ class Live extends PluginAbstract {
         return $obj->controlURL;
     }
 
-    static function getRTMPLink($users_id) {
+    static function getRTMPLink($users_id, $forceUniqueKey = false) {
+        $key = self::getKeyFromUser($users_id);
+        if ($forceUniqueKey) {
+            // make sure the key is unique
+            $parts = explode('-', $key);
+            $key = $parts[0] . '-reverse' . uniqid();
+        }
         return self::getRTMPLinkFromKey(self::getKeyFromUser($users_id));
     }
 
@@ -1983,7 +1989,7 @@ class Live extends PluginAbstract {
         $obj = new stdClass();
         $obj->m3u8 = $m3u8;
         $obj->restreamerURL = self::getRestreamer($live_servers_id);
-        $obj->restreamsDestinations = array(Live::getRTMPLink($users_id));
+        $obj->restreamsDestinations = array(Live::getRTMPLink($users_id, true));
         $obj->token = getToken(60);
         $obj->users_id = $users_id;
         return $obj;
