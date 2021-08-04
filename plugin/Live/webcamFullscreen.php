@@ -26,7 +26,8 @@ if (!empty($chat)) {
 $users_id = User::getId();
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
 $live_servers_id = Live::getCurrentLiveServersId();
-$liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, @$_REQUEST['live_index'], 0);
+$forceIndex = "webRTCLive". date('YmdHis');
+$liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, $forceIndex, 0);
 $streamName = $liveStreamObject->getKeyWithIndex(true, true);
 $controls = Live::getAllControlls($streamName);
 ?>
@@ -84,6 +85,7 @@ $controls = Live::getAllControlls($streamName);
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
             var live_servers_id = '<?php echo $live_servers_id; ?>';
             var player;
+            var forceIndex = '<?php echo $forceIndex; ?>';
         </script>
         <?php
         echo AVideoPlugin::getHeadCode();

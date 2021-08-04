@@ -589,12 +589,12 @@ class Live extends PluginAbstract {
         return $obj->controlURL;
     }
 
-    static function getRTMPLink($users_id, $forceKey = false) {
+    static function getRTMPLink($users_id, $forceIndex = false) {
         $key = self::getKeyFromUser($users_id);
-        if (!empty($forceKey)) {
+        if (!empty($forceIndex)) {
             // make sure the key is unique
             $parts = explode('-', $key);
-            $key = $parts[0] . "-{$forceKey}";
+            $key = $parts[0] . "-{$forceIndex}";
         }
         return self::getRTMPLinkFromKey(self::getKeyFromUser($users_id));
     }
@@ -1982,14 +1982,14 @@ class Live extends PluginAbstract {
         unset($_isLiveAndIsReadyFromKey);
     }
 
-    public static function getReverseRestreamObject($m3u8, $users_id, $live_servers_id = -1, $forceKey=false) {
+    public static function getReverseRestreamObject($m3u8, $users_id, $live_servers_id = -1, $forceIndex=false) {
         if (!isValidURL($m3u8)) {
             return false;
         }
         $obj = new stdClass();
         $obj->m3u8 = $m3u8;
         $obj->restreamerURL = self::getRestreamer($live_servers_id);
-        $obj->restreamsDestinations = array(Live::getRTMPLink($users_id, $forceKey));
+        $obj->restreamsDestinations = array(Live::getRTMPLink($users_id, $forceIndex));
         $obj->token = getToken(60);
         $obj->users_id = $users_id;
         return $obj;
@@ -2020,9 +2020,9 @@ class Live extends PluginAbstract {
         return $obj;
     }
 
-    public static function reverseRestream($m3u8, $users_id, $live_servers_id = -1, $forceKey=false) {
+    public static function reverseRestream($m3u8, $users_id, $live_servers_id = -1, $forceIndex=false) {
         _error_log("Live:reverseRestream start");
-        $obj = self::getReverseRestreamObject($m3u8, $users_id, $live_servers_id, $forceKey);
+        $obj = self::getReverseRestreamObject($m3u8, $users_id, $live_servers_id, $forceIndex);
         _error_log("Live:reverseRestream obj " . _json_encode($obj));
         return self::sendRestream($obj);
     }

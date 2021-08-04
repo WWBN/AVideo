@@ -1,7 +1,7 @@
 
 window.addEventListener('message', event => {
     if (event.data.startLiveRestream) {
-        startLiveRestream(event.data.m3u8);
+        startLiveRestream(event.data.m3u8, forceIndex);
     }else if (event.data.showPleaseWait) {
         modal.showPleaseWait();
     }else if (event.data.hidePleaseWait) {
@@ -21,7 +21,7 @@ window.addEventListener('message', event => {
     }
 });
 
-function startLiveRestream(m3u8) {
+function startLiveRestream(m3u8, forceIndex) {
     console.log('WebRTCLiveCam: startLiveRestream', m3u8);
     modal.showPleaseWait();
     $.ajax({
@@ -29,7 +29,8 @@ function startLiveRestream(m3u8) {
         method: 'POST',
         data: {
             'm3u8': m3u8,
-            'live_servers_id': live_servers_id
+            'live_servers_id': live_servers_id,
+            'forceIndex': forceIndex
         },
         success: function (response) {
             if (response.error) {

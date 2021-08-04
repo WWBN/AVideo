@@ -44,9 +44,9 @@ while ($count <= 4) {
     }
 }
 
-$forceKey = "webRTCLive". md5($_REQUEST['m3u8']);
+$forceIndex = "webRTCLive". md5($_REQUEST['m3u8']);
 
-$obj->response = Live::reverseRestream($_REQUEST['m3u8'], $users_id, @$_REQUEST['live_servers_id'], $forceKey);
+$obj->response = Live::reverseRestream($_REQUEST['m3u8'], $users_id, @$_REQUEST['live_servers_id'], $forceIndex);
 
 $obj->error = false;
 
