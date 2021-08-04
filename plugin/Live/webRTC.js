@@ -22,7 +22,7 @@ window.addEventListener('message', event => {
 });
 
 function startLiveRestream(m3u8, forceIndex) {
-    console.log('WebRTCLiveCam: startLiveRestream', m3u8);
+    console.log('WebRTCLiveCam: startLiveRestream', m3u8, forceIndex);
     modal.showPleaseWait();
     $.ajax({
         url: webSiteRootURL + '/plugin/Live/webRTCToLive.json.php',

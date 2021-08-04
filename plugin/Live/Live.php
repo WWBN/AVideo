@@ -596,7 +596,7 @@ class Live extends PluginAbstract {
             $parts = explode('-', $key);
             $key = $parts[0] . "-{$forceIndex}";
         }
-        return self::getRTMPLinkFromKey(self::getKeyFromUser($users_id));
+        return self::getRTMPLinkFromKey($key);
     }
 
     static function getRTMPLinkFromKey($key) {

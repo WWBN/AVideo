@@ -26,7 +26,7 @@ if (!empty($chat)) {
 $users_id = User::getId();
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
 $live_servers_id = Live::getCurrentLiveServersId();
-$forceIndex = "webRTCLive". date('YmdHis');
+$forceIndex = "Live". date('YmdHis');
 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, $forceIndex, 0);
 $streamName = $liveStreamObject->getKeyWithIndex(true, true);
 $controls = Live::getAllControlls($streamName);
