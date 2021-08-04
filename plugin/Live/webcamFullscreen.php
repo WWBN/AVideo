@@ -48,7 +48,7 @@ $controls = Live::getAllControlls($streamName);
                 padding: 0 !important;
                 margin: 0 !important;
                 width: 100vw;
-                height: 100%;
+                height: 100vh;
                 overflow:hidden;
                 background-color: #000;
             }
