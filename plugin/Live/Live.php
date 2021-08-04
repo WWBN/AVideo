@@ -597,7 +597,7 @@ class Live extends PluginAbstract {
     static function getRTMPLinkFromKey($key, $forceIndex=false) {
         $lso = new LiveStreamObject($key);
 
-        return $lso->getRTMPLink($foceIndex);
+        return $lso->getRTMPLink($forceIndex);
     }
 
     static function getRTMPLinkWithOutKey($users_id) {
@@ -2018,7 +2018,7 @@ class Live extends PluginAbstract {
     public static function reverseRestream($m3u8, $users_id, $live_servers_id = -1, $forceIndex=false) {
         _error_log("Live:reverseRestream start");
         $obj = self::getReverseRestreamObject($m3u8, $users_id, $live_servers_id, $forceIndex);
-        _error_log("Live:reverseRestream obj " . _json_encode($obj));
+        _error_log("Live:reverseRestream obj " . _json_encode($obj)); 
         return self::sendRestream($obj);
     }
 
@@ -2507,8 +2507,9 @@ class LiveStreamObject {
             $parts = explode('-', $key);
             $key = $parts[0] . "-{$forceIndex}";
         }
-        
-        return $this->getRTMPLinkWithOutKey() . $key;
+        $url = $this->getRTMPLinkWithOutKey() . $key;
+        _error_log("getRTMPLink: {$url}");
+        return $url;
     }
 
     function getRTMPLinkWithOutKey() {
