@@ -28,7 +28,7 @@ $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
 $live_servers_id = Live::getCurrentLiveServersId();
 $forceIndex = "Live" . date('YmdHis');
 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, $forceIndex, 0);
-$streamName = $liveStreamObject->getKeyWithIndex(true, true);
+$streamName = $liveStreamObject->getKeyWithIndex($forceIndex, true);
 $controls = Live::getAllControlls($streamName);
 ?>
 <!DOCTYPE html>

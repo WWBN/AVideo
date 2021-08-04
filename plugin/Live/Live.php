@@ -2404,15 +2404,20 @@ class LiveStreamObject {
     }
 
     function getKeyWithIndex($forceIndexIfEnabled = false, $allowOnlineIndex = false) {
-        if ($forceIndexIfEnabled) {
-            $objLive = AVideoPlugin::getDataObject("Live");
-            if (!empty($objLive->allowMultipleLivesPerUser)) {
-                if (empty($allowOnlineIndex)) {
-                    $this->live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
-                } else {
-                    $this->live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
+        if (!empty($forceIndexIfEnabled)) {
+            if(is_string($forceIndexIfEnabled)){
+                $this->live_index = $forceIndexIfEnabled;
+            }else{
+                $objLive = AVideoPlugin::getDataObject("Live");
+                if (!empty($objLive->allowMultipleLivesPerUser)) {
+                    if (empty($allowOnlineIndex)) {
+                        $this->live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
+                    } else {
+                        $this->live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
+                    }
                 }
             }
+            
         }
         return Live::getLiveKeyFromRequest($this->key, $this->live_index, $this->playlists_id_live);
     }
