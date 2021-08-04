@@ -31,7 +31,7 @@ if (!isValidURL($_REQUEST['m3u8'])) {
     $obj->msg = 'Invalid m3u8';
     die(json_encode($obj));
 }
-_error_log('webRTCToLive: start');
+_error_log('webRTCToLive: start '. json_encode($_REQUEST));
 $users_id = User::getId();
 $count = 1;
 while ($count <= 4) {
