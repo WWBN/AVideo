@@ -1,5 +1,5 @@
 
-#webRTCDisconnect, #webRTCPleaseWait{
+#webRTCDisconnect, #webRTCPleaseWait, #liveControls{
     display: none;
 }
 
@@ -13,10 +13,12 @@ body.webRTCPleaseWait #webRTCPleaseWait {
 }
 
 body.webRTCisLive #webRTCPleaseWait, 
-body.webRTCisLive #webRTCConnect {
+body.webRTCisLive #webRTCConnect{
     display: none;
 }
 
-body.webRTCisLive #webRTCDisconnect {
+body.webRTCisLive #webRTCDisconnect,
+body.webRTCisLive #liveControls {
     display: block;
 }
+

@@ -66,7 +66,7 @@ function webRTCPleaseWaitShow(){
     clearTimeout(_webRTCPleaseWaitShowTimeout);
     _webRTCPleaseWaitShowTimeout = setTimeout(function(){
         webRTCPleaseWaitHide();
-    },10000);
+    },60000);
 }
 
 function webRTCPleaseWaitHide(){
