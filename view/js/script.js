@@ -999,7 +999,9 @@ function isWebRTC() {
 
 function isAutoplayEnabled() {
     //console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
-    if (isWebRTC()) {
+    if (typeof forceautoplay !== 'undefined' && forceautoplay) {
+        return true;
+    }else if (isWebRTC()) {
         console.log("isAutoplayEnabled said No because is WebRTC ");
         return false;
     } else if (isALiveContent()) {
