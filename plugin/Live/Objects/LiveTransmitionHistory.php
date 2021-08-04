@@ -284,7 +284,12 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` LIKE '{$key}%' ";
         if(isset($live_servers_id)){
-            $sql .= " AND live_servers_id = ".intval($live_servers_id);
+            $sql .= " AND (live_servers_id = ".intval($live_servers_id);
+            
+            if(empty($live_servers_id)){
+                $sql .= " OR live_servers_id IS NULL ";
+            }
+            $sql .= " )";
         }
         $sql .= " ORDER BY created DESC LIMIT 1";
         //var_dump($sql, $key);exit;
