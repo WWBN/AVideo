@@ -14,13 +14,6 @@ if (!Video::canEdit($videos_id)) {
     forbiddenPage("You cannot see this info");
 }
 
-$_REQUEST['rowCount'] = 20;
-$_POST['sort']['created'] = 'DESC';
-
-$statistics = VideoStatistic::getAllFromVideos_id($videos_id);
-$total = VideoStatistic::getTotalFromVideos_id($videos_id);
-$totalPages = ceil($total / $_REQUEST['rowCount']);
-
 $v = new Video('', '', $videos_id);
 
 //var_dump($total);exit;
@@ -32,6 +25,7 @@ $v = new Video('', '', $videos_id);
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
@@ -62,43 +56,22 @@ $v = new Video('', '', $videos_id);
                     $pag = getPagination($totalPages);
                     echo $pag;
                     ?>
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="VideoViewsInfo">
                         <thead>
                             <tr>
                                 <th>User</th>
                                 <th>When</th>
                                 <th>Time</th>
+                                <th>Location</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            foreach ($statistics as $value) {
-                                ?>
-                                <tr>
-                                    <td>
-                                        <?php
-                                        echo User::getNameIdentificationById($value['users_id']);
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <?php
-                                        echo humanTimingAgo($value['when']);
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <?php
-                                        echo seconds2human($value['seconds_watching_video']);
-                                        ?>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
-                            ?>
-                        </tbody>
                         <tfoot>
-                        <th>User</th>
-                        <th>When</th>
-                        <th>Time</th>
+                            <tr>
+                                <th>User</th>
+                                <th>When</th>
+                                <th>Time</th>
+                                <th>Location</th>
+                            </tr>
                         </tfoot>
                     </table>
                     <?php
@@ -110,5 +83,30 @@ $v = new Video('', '', $videos_id);
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
+        <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var VideoViewsInfo = $('#VideoViewsInfo').DataTable({
+                    "order": [[ 1, "desc" ]],
+                    serverSide: true,
+                    "ajax": "<?php echo $global['webSiteRootURL']; ?>view/videoViewsInfo.json.php?videos_id=<?php echo $videos_id; ?>",
+                                "columns": [
+                                    {data: 'users_id', render: function (data, type, row) {
+                                            return row.users
+                                        }},
+                                    {data: 'when', render: function (data, type, row) {
+                                            return row.when_human
+                                        }},
+                                    {data: 'seconds_watching_video', render: function (data, type, row) {
+                                            return row.seconds_watching_video_human
+                                        }},
+                                    {orderable: false, render: function (data, type, row) {
+                                            return row.location_name
+                                        }}
+                                ],
+                                select: true,
+                            });
+                        });
+        </script>
     </body>
 </html>

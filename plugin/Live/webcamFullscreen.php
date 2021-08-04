@@ -16,13 +16,18 @@ $chatURL = '';
 $chat = AVideoPlugin::loadPluginIfEnabled('Chat2');
 if (!empty($chat)) {
     $chatURL = Chat2::getChatRoomLink(User::getId(), 1, 1, 1, true, 1);
-    if(!empty($_REQUEST['user'])){
+    if (!empty($_REQUEST['user'])) {
         $chatURL = addQueryStringParameter($chatURL, 'user', $_REQUEST['user']);
     }
-    if(!empty($_REQUEST['pass'])){
+    if (!empty($_REQUEST['pass'])) {
         $chatURL = addQueryStringParameter($chatURL, 'pass', $_REQUEST['pass']);
     }
 }
+$users_id = User::getId();
+$trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
+$live_servers_id = Live::getCurrentLiveServersId();
+$liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, @$_REQUEST['live_index'], 0);
+$streamName = $liveStreamObject->getKeyWithIndex(true);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -67,7 +72,7 @@ if (!empty($chat)) {
         </style>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
-            var live_servers_id = '<?php echo Live::getCurrentLiveServersId(); ?>';
+            var live_servers_id = '<?php echo $live_servers_id; ?>';
             var player;
         </script>
         <?php
@@ -79,19 +84,18 @@ if (!empty($chat)) {
         <iframe frameBorder="0" 
                 src="<?php echo $iframeURL; ?>" 
                 allowusermedia allow="feature_name allow_list;feature_name allow_list;camera *;microphone *"></iframe>
-        <?php
-        if(!empty($chatURL)){
-           ?>
+                <?php
+                if (!empty($chatURL)) {
+                    ?>
             <iframe frameBorder="0" 
-                id="chat2Iframe" 
-                src="<?php echo $chatURL; ?>" 
-                ></iframe>
-            <?php 
-        }
-        ?>
+                    id="chat2Iframe" 
+                    src="<?php echo $chatURL; ?>" 
+                    ></iframe>
+                    <?php
+                }
+                ?>
         <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveEmbed">
             <?php
-            $streamName = $uuid;
             include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
             echo getLiveUsersLabel();
             ?>
@@ -147,12 +151,38 @@ if (!empty($chat)) {
                             updateControlStatus();
                         }, 500);
                     });
-                    
-                    function webRTCModalConfigShow(){
+
+                    function webRTCModalConfigShow() {
                         $('#chat2Iframe').fadeOut();
                     }
-                    function webRTCModalConfigHide(){
+                    function webRTCModalConfigHide() {
                         $('#chat2Iframe').fadeIn();
+                    }
+
+
+                    function socketLiveONCallback(json) {
+                        console.log('socketLiveONCallback webcamFullscreen', json);
+                        if (typeof onlineLabelOnline == 'function') {
+                            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
+                            onlineLabelOnline(selector);
+                            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+                            onlineLabelOnline(selector);
+                        }
+                    }
+
+                    function socketLiveOFFCallback(json) {
+                        console.log('socketLiveOFFCallback webcamFullscreen', json);
+                        if (typeof onlineLabelOffline == 'function') {
+                            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
+                            //console.log('socketLiveOFFCallback 2', selector);
+                            onlineLabelOffline(selector);
+                            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+                            //console.log('socketLiveOFFCallback 3', selector);
+                            onlineLabelOffline(selector);
+                            selector = '.liveViewStatusClass_' + json.cleanKey;
+                            //console.log('socketLiveOFFCallback 3', selector);
+                            onlineLabelOffline(selector);
+                        }
                     }
         </script>
     </body>

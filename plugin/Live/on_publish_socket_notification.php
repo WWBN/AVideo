@@ -55,6 +55,13 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array['stats'] = getStatsNotifications();
     }
     $obj->error = false;
+    
+    if(empty($array['key']) && !empty($liveTransmitionHistory_id)){
+        $lt = new LiveTransmitionHistory($liveTransmitionHistory_id);
+        $array['key'] = $lt->getKey();
+        $array['live_servers_id'] = $lt->getLive_servers_id();
+    }
+    
     $socketObj = Live::notifySocketStats("socketLiveONCallback", $array);
 }
 

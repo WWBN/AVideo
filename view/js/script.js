@@ -490,6 +490,9 @@ function addViewBeacon() {
 }
 
 function _addView(videos_id, currentTime) {
+    if(typeof PHPSESSID == 'undefined'){
+        PHPSESSID = '';
+    }
     $.ajax({
         url: webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID,
         method: 'POST',
@@ -499,6 +502,31 @@ function _addView(videos_id, currentTime) {
         },
         success: function (response) {
             $('.view-count' + videos_id).text(response.countHTML);
+        }
+    });
+}
+
+var _addViewAsyncSent = false;
+function _addViewAsync() {
+    if(_addViewAsyncSent){
+        return false;
+    }
+    if(typeof PHPSESSID == 'undefined'){
+        PHPSESSID = '';
+    }
+    _addViewAsyncSent = true;
+    $.ajax({
+        url: webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID,
+        method: 'POST',
+        data: {
+            'id': mediaId,
+            'currentTime': playerCurrentTime,
+            'seconds_watching_video': seconds_watching_video
+        },
+        async: false,
+        success: function (response) {
+            console.log('_addViewAsync', response);
+            setTimeout(function(){_addViewAsyncSent=false;},2000);
         }
     });
 }
@@ -1815,11 +1843,11 @@ function avideoAjax(url, data) {
 
 window.addEventListener('beforeunload', function (e) {
     console.log('window.addEventListener(beforeunload');
-    addViewBeacon();
+    _addViewAsync();
 }, false);
 document.addEventListener('visibilitychange', function () {
     if (document.visibilityState === 'hidden') {
         console.log('document.addEventListener(visibilitychange');
-        addViewBeacon();
+        _addViewAsync();
     }
 });

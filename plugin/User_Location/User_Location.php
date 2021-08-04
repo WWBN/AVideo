@@ -60,12 +60,16 @@ class User_Location extends PluginAbstract {
         //_error_log("User_Location: $ip ". json_encode($_SESSION['User_Location'][$ip]));
     }
     
-    static  function getThisUserLocation() {
+    static function getThisUserLocation() {
         $location = self::getSessionLocation();
         if(!empty($location['country_code'])){
             return $location;
         }
-        return IP2Location::getLocation(getRealIpAddr());
+        return self::getLocationFromIP(getRealIpAddr());
+    }
+    
+    static function getLocationFromIP($ip) {
+        return IP2Location::getLocation($ip);
     }
     
     public function getStart() {

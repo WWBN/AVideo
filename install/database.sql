@@ -310,6 +310,7 @@ CREATE TABLE IF NOT EXISTS `videos_statistics` (
   `lastVideoTime` INT(11) NULL DEFAULT NULL,
   `session_id` VARCHAR(45) NOT NULL,
   `seconds_watching_video` INT(11) NULL DEFAULT NULL,
+  `json` TEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC),
   INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC),

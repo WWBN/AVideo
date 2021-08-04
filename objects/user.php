@@ -546,7 +546,17 @@ if (typeof gtag !== \"function\") {
         }
         if (empty($this->user) || empty($this->password)) {
             //echo "u:" . $this->user . "|p:" . strlen($this->password);
-            _error_log('Error : ' . __("You need a user and passsword to register"));
+            if (empty($this->user)) {
+                //echo "u:" . $this->user . "|p:" . strlen($this->password);
+                _error_log('Error : 1 ' . __("You need a user and passsword to register"));
+                return false;
+            }
+            if (empty($this->password)) {
+                //echo "u:" . $this->user . "|p:" . strlen($this->password);
+                _error_log('Error : 2 ' . __("You need a user and passsword to register"));
+                return false;
+            }
+
             return false;
         }
         if (empty($this->isAdmin)) {
@@ -574,8 +584,8 @@ if (typeof gtag !== \"function\") {
         }
 
         $user = ($this->user);
-        $password = ($this->password); 
-        $name = ($this->name); 
+        $password = ($this->password);
+        $name = ($this->name);
         $status = ($this->status);
         $this->about = preg_replace("/(\\\)+n/", "\n", $this->about);
         $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);
@@ -700,7 +710,7 @@ if (typeof gtag !== \"function\") {
             $cache = ObjectYPT::getSessionCache($cacheName, 600);
         }
         if (isset($cache)) {
-            if($cache === 'false'){
+            if ($cache === 'false') {
                 $cache = false;
             }
             return $cache;
@@ -999,12 +1009,12 @@ if (typeof gtag !== \"function\") {
         return !empty($_SESSION['user']['emailVerified']);
     }
 
-    public static function isAdmin($users_id=0) {
-        if(!empty($users_id)){
+    public static function isAdmin($users_id = 0) {
+        if (!empty($users_id)) {
             $user = new User($users_id);
             return !empty($user->getIsAdmin());
         }
-        
+
         self::recreateLoginFromCookie();
         return !empty($_SESSION['user']['isAdmin']);
     }
@@ -1255,13 +1265,13 @@ if (typeof gtag !== \"function\") {
             unset($user['password'], $user['recoverPass']);
             if (!Permissions::canAdminUsers() && $user['id'] !== User::getId()) {
                 unset(
-                    $user['first_name'],
-                    $user['last_name'],
-                    $user['address'],
-                    $user['zip_code'],
-                    $user['country'],
-                    $user['region'],
-                    $user['city']
+                        $user['first_name'],
+                        $user['last_name'],
+                        $user['address'],
+                        $user['zip_code'],
+                        $user['country'],
+                        $user['region'],
+                        $user['city']
                 );
             }
             return $user;
@@ -1357,12 +1367,12 @@ if (typeof gtag !== \"function\") {
         $sql .= " AND (id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
 
         $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
-        if(!empty($ids) && is_array($ids)){
+        if (!empty($ids) && is_array($ids)) {
             $ids = array_unique($ids);
-            $sql .= " OR id IN ('". implode("','", $ids)."') ";
+            $sql .= " OR id IN ('" . implode("','", $ids) . "') ";
         }
         $sql .= " ) ";
-        
+
         if (!empty($status)) {
             if (strtolower($status) === 'i') {
                 $sql .= " AND u.status = 'i' ";
@@ -1370,7 +1380,7 @@ if (typeof gtag !== \"function\") {
                 $sql .= " AND u.status = 'a' ";
             }
         }
-        
+
         $sql .= BootGrid::getSqlFromPost($searchFields);
 
         $user = array();
@@ -1406,9 +1416,9 @@ if (typeof gtag !== \"function\") {
         $sql .= " AND (id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
 
         $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
-        if(!empty($ids) && is_array($ids)){
+        if (!empty($ids) && is_array($ids)) {
             $ids = array_unique($ids);
-            $sql .= " OR id IN ('". implode("','", $ids)."') ";
+            $sql .= " OR id IN ('" . implode("','", $ids) . "') ";
         }
         $sql .= " ) ";
         if (!empty($status)) {
@@ -1423,7 +1433,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql);
         $result = sqlDal::num_rows($res);
         sqlDAL::close($res);
-        
+
 
         return $result;
     }
@@ -1462,8 +1472,6 @@ if (typeof gtag !== \"function\") {
 
         return $user;
     }
-    
-    
 
     public static function getAllActiveUsersThatCanUpload() {
         if (!Permissions::canAdminUsers()) {
@@ -1515,13 +1523,13 @@ if (typeof gtag !== \"function\") {
         unset($row['password'], $row['recoverPass']);
         if (!Permissions::canAdminUsers() && $row['id'] !== User::getId()) {
             unset(
-                $row['first_name'],
-                $row['last_name'],
-                $row['address'],
-                $row['zip_code'],
-                $row['country'],
-                $row['region'],
-                $row['city']
+                    $row['first_name'],
+                    $row['last_name'],
+                    $row['address'],
+                    $row['zip_code'],
+                    $row['country'],
+                    $row['region'],
+                    $row['city']
             );
         }
         return $row;
@@ -2170,7 +2178,7 @@ if (typeof gtag !== \"function\") {
         if (!empty($_REQUEST['do_not_login'])) {
             return false;
         }
-        if(empty($_REQUEST['pass']) && !empty($_REQUEST['password'])){
+        if (empty($_REQUEST['pass']) && !empty($_REQUEST['password'])) {
             $_REQUEST['pass'] = $_REQUEST['password'];
         }
         if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
@@ -2368,26 +2376,26 @@ if (typeof gtag !== \"function\") {
 
         return sqlDAL::writeSql($sql, "si", array($string, $users_id));
     }
-    
-    static function userGroupsMatch($user_groups, $users_id=0){        
-        if(empty($users_id)){
+
+    static function userGroupsMatch($user_groups, $users_id = 0) {
+        if (empty($users_id)) {
             $users_id = User::getId();
-        } 
-        if(empty($user_groups)){
+        }
+        if (empty($user_groups)) {
             return true;
         }
-        if(empty($users_id)){
+        if (empty($users_id)) {
             return false;
         }
-        if(!is_array($user_groups)){
+        if (!is_array($user_groups)) {
             $user_groups = array($user_groups);
-        }        
+        }
         $user_users_groups = UserGroups::getUserGroups($users_id);
-        if(empty($user_users_groups)){
+        if (empty($user_users_groups)) {
             return false;
         }
         foreach ($user_users_groups as $value) {
-            if(in_array($value['id'], $user_groups)){
+            if (in_array($value['id'], $user_groups)) {
                 return true;
             }
         }
