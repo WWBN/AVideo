@@ -51,7 +51,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
             continue;
         }
         ?>
-        <div class="row clear clearfix">
+        <div class="clear clearfix">
             <?php
             if (canPrintCategoryTitle($_cat['name'])) {
                 ?>
