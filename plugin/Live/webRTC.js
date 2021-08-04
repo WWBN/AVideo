@@ -48,12 +48,38 @@ function startLiveRestream(m3u8, forceIndex) {
 function webRTCConnect() {
     modal.showPleaseWait();
     document.querySelector("iframe").contentWindow.postMessage({setLiveStart: 1}, "*");
+    webRTCPleaseWaitShow();
 }
 
 function webRTCDisconnect() {
     document.querySelector("iframe").contentWindow.postMessage({setLiveStop: 1}, "*");
+    webRTCPleaseWaitHide();
 }
 
 function webRTCConfiguration() {
     document.querySelector("iframe").contentWindow.postMessage({setConfiguration: 1}, "*");
+}
+
+var _webRTCPleaseWaitShowTimeout;
+function webRTCPleaseWaitShow(){
+    $('body').addClass('webRTCPleaseWait');
+    clearTimeout(_webRTCPleaseWaitShowTimeout);
+    _webRTCPleaseWaitShowTimeout = setTimeout(function(){
+        webRTCPleaseWaitHide();
+    },10000);
+}
+
+function webRTCPleaseWaitHide(){
+    clearTimeout(_webRTCPleaseWaitShowTimeout);
+    $('body').removeClass('webRTCPleaseWait');
+}
+
+function webRTCisLive(){
+    $('body').addClass('webRTCisLive');
+    webRTCPleaseWaitHide();
+}
+
+function webRTCisOffline(){
+    $('body').removeClass('webRTCisLive');
+    webRTCPleaseWaitHide();
 }

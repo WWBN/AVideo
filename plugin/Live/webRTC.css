@@ -1,0 +1,22 @@
+
+#webRTCDisconnect, #webRTCPleaseWait{
+    display: none;
+}
+
+body.webRTCPleaseWait #webRTCDisconnect, 
+body.webRTCPleaseWait #webRTCConnect {
+    display: none;
+}
+
+body.webRTCPleaseWait #webRTCPleaseWait {
+    display: block;
+}
+
+body.webRTCisLive #webRTCPleaseWait, 
+body.webRTCisLive #webRTCConnect {
+    display: none;
+}
+
+body.webRTCisLive #webRTCDisconnect {
+    display: block;
+}

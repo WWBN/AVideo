@@ -6769,6 +6769,11 @@ function getCDN($type = 'CDN', $id = 0) {
     return empty($_getCDNURL[$index]) ? false : $_getCDNURL[$index];
 }
 
+function getURL($relativePath){
+    global $global;
+    return getCDN().$relativePath.'?cache='.(@filemtime("{$global['systemRootPath']}{$relativePath}"));
+}
+
 function getCDNOrURL($url, $type = 'CDN', $id = 0) {
     $cdn = getCDN($type, $id);
     if (!empty($cdn)) {
