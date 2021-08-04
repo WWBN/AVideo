@@ -591,18 +591,13 @@ class Live extends PluginAbstract {
 
     static function getRTMPLink($users_id, $forceIndex = false) {
         $key = self::getKeyFromUser($users_id);
-        if (!empty($forceIndex)) {
-            // make sure the key is unique
-            $parts = explode('-', $key);
-            $key = $parts[0] . "-{$forceIndex}";
-        }
-        return self::getRTMPLinkFromKey($key);
+        return self::getRTMPLinkFromKey($key, $forceIndex);
     }
 
-    static function getRTMPLinkFromKey($key) {
+    static function getRTMPLinkFromKey($key, $forceIndex=false) {
         $lso = new LiveStreamObject($key);
 
-        return $lso->getRTMPLink();
+        return $lso->getRTMPLink($foceIndex);
     }
 
     static function getRTMPLinkWithOutKey($users_id) {
@@ -2505,8 +2500,15 @@ class LiveStreamObject {
         return $m3u8;
     }
 
-    function getRTMPLink() {
-        return $this->getRTMPLinkWithOutKey() . $this->getKeyWithIndex(true);
+    function getRTMPLink($forceIndex=false) {
+        $key = $this->getKeyWithIndex(true);
+        if (!empty($forceIndex)) {
+            // make sure the key is unique
+            $parts = explode('-', $key);
+            $key = $parts[0] . "-{$forceIndex}";
+        }
+        
+        return $this->getRTMPLinkWithOutKey() . $key;
     }
 
     function getRTMPLinkWithOutKey() {
