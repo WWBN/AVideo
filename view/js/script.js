@@ -984,7 +984,7 @@ function setCurrentTime(currentTime) {
 }
 
 function isALiveContent() {
-    if (typeof isLive !== 'undefined' && isLive && (typeof isOnlineLabel === 'undefined' || isOnlineLabel === true)) {
+    if (typeof isLive !== 'undefined' && isLive && (typeof isOnlineLabel === 'undefined' || isOnlineLabel === true || $('.liveOnlineLabel').hasClass('label-success'))) {
         return true;
     }
     return false;
