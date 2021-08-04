@@ -48,5 +48,5 @@ $obj->response = Live::reverseRestream($_REQUEST['m3u8'], $users_id, @$_REQUEST[
 
 $obj->error = false;
 
-_error_log('webRTCToLive: complete');
+_error_log('webRTCToLive: complete '. json_encode($obj));
 die(json_encode($obj));
