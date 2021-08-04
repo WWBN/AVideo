@@ -65,6 +65,7 @@ function webRTCPleaseWaitShow(){
     $('body').addClass('webRTCPleaseWait');
     clearTimeout(_webRTCPleaseWaitShowTimeout);
     _webRTCPleaseWaitShowTimeout = setTimeout(function(){
+        avideoToastError('Live error')
         webRTCPleaseWaitHide();
     },60000);
 }
