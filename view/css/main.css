@@ -149,13 +149,14 @@ footer ul.list-inline li {
 }
 @media (max-width: 767px) {
     .navbar-form, #modeYoutubeBottomContent, .principalContainer,
-    .nopaddingOnSmall,.container-fluid,.container, #yptRightBar{
+    .nopaddingOnSmall,.container-fluid,.container, #yptRightBar,
+    body > div.container-fluid.gallery > div{
         padding: 0;
     }
     .panel-body, .tabbable-panel {
         padding: 5px;
-    }
-
+    }    
+    
 }
 @media (max-width: 450px) {
     #captchaText, .captcha .input-group{

@@ -36,7 +36,7 @@ if(empty($user->getBdId())){
 
 if (!empty($advancedCustomUser->emailMustBeUnique)) {
     if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $obj->error = __("You must specify an valid email")." {$_POST['email']}";
+        $obj->error = __("You must specify a valid email")." {$_POST['email']} (update)";
         die(json_encode($obj));
     }
     $userFromEmail = User::getUserFromEmail($_POST['email']);

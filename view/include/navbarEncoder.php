@@ -25,8 +25,9 @@ if (empty($advancedCustom->openEncoderInIFrame) || !isSameDomainAsMyAVideo($conf
                     <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off"  />
                 </form>
                 <a href="#" onclick="$('#formEncoder').submit();
-                        return false;"  data-toggle="tooltip" title="<?php echo __("Upload a file or download it from the Internet"); ?>" data-placement="left" >
-                    <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?>
+                        return false;"  data-toggle="tooltip" title="<?php echo __("Upload a file or download it from the Internet"); ?>" data-placement="left"
+                    class="faa-parent animated-hover" >
+                    <span class="fas fa-cog faa-spin"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?>
                 </a>
             </li>
             <?php

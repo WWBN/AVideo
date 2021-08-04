@@ -2,7 +2,10 @@
 $live_servers_id = Live::getLiveServersIdRequest();
 $users_id = User::getId();
 ?>
-<script>autoplay = false;</script>
+<script>
+    autoplay = false;
+    var forceIndex = '<?php echo $_REQUEST['live_index']; ?>';
+</script>
 <div class="panel panel-default">
     <div class="panel-heading">
         <?php

@@ -53,7 +53,7 @@ class BulkEmbed extends PluginAbstract {
             return '';
         }
         
-        return '<li><a  href="'.$global['webSiteRootURL'].'plugin/BulkEmbed/search.php" ><span class="fa fa-link"></span> '.__("Bulk Embed").'</a></li>';
+        return '<li><a  href="'.$global['webSiteRootURL'].'plugin/BulkEmbed/search.php" class="faa-parent animated-hover"><span class="fa fa-link faa-burst"></span> '.__("Bulk Embed").'</a></li>';
     }
 
 

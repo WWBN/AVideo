@@ -26,8 +26,10 @@ if (!empty($chat)) {
 $users_id = User::getId();
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
 $live_servers_id = Live::getCurrentLiveServersId();
-$liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, @$_REQUEST['live_index'], 0);
-$streamName = $liveStreamObject->getKeyWithIndex(true);
+$forceIndex = "Live". date('YmdHis');
+$liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, $forceIndex, 0);
+$streamName = $liveStreamObject->getKeyWithIndex(true, true);
+$controls = Live::getAllControlls($streamName);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -47,23 +49,32 @@ $streamName = $liveStreamObject->getKeyWithIndex(true);
                 padding: 0 !important;
                 margin: 0 !important;
                 width: 100vw;
-                height: 100vh;
+                height: 100%;
                 overflow:hidden;
                 background-color: #000;
+                position: fixed;
+                top: 0;
             }
             iframe{
                 width: 100vw;
-                height: calc(100vh - 45px);
+                height: calc(100% - 100px);
             }
             #chat2Iframe{
                 position: absolute;
-                top: 0;
+                top: 45px;
                 left: 0;
                 /* pointer-events: none; */
             }
+            #liveControls{
+                position: fixed;
+                top: 10px;
+                right: 10px;
+                opacity: 0.8;
+            }
+
             #controls{
                 position: absolute;
-                bottom: 5px;
+                bottom: 10px;
                 width: 100%;
             }
             #controls .col{
@@ -74,6 +85,7 @@ $streamName = $liveStreamObject->getKeyWithIndex(true);
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
             var live_servers_id = '<?php echo $live_servers_id; ?>';
             var player;
+            var forceIndex = '<?php echo $forceIndex; ?>';
         </script>
         <?php
         echo AVideoPlugin::getHeadCode();
@@ -110,22 +122,26 @@ $streamName = $liveStreamObject->getKeyWithIndex(true);
         ?>  
         <!-- getFooterCode end -->
         <div class="" id="controls">
-            <div class="col col-xs-8" id="webRTCDisconnect" style="display: none;" >
+            <div class="col col-xs-9" id="webRTCDisconnect" style="display: none;" >
                 <button class="btn btn-danger btn-block" onclick="webRTCDisconnect();" data-toggle="tooltip"  title="<?php echo __("Stop"); ?>">
                     <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
                 </button>
             </div>
-            <div class="col col-xs-8" id="webRTCConnect" style="display: none;" >
+            <div class="col col-xs-9" id="webRTCConnect" style="display: none;" >
                 <button class="btn btn-success btn-block" onclick="webRTCConnect();" data-toggle="tooltip" title="<?php echo __("Start Live Now"); ?>">
                     <i class="fas fa-circle"></i> <?php echo __("Go Live"); ?>
                 </button>
             </div>
-            <div class="col col-xs-4">
+            <div class="col col-xs-3">
                 <button class="btn btn-primary btn-block" style="" onclick="webRTCConfiguration();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Configuration"); ?>">
                     <i class="fas fa-cog"></i> <span class="hidden-sm hidden-xs"><?php echo __("Configuration"); ?></span>
                 </button>
             </div>
         </div>
+        <?php
+        echo $controls;
+        ?>
+        <!-- WebRTC finish -->
         <script src="<?php echo getCDN(); ?>plugin/Live/webRTC.js" type="text/javascript"></script>
         <script>
                     var updateControlStatusLastState;

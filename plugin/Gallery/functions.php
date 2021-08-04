@@ -22,7 +22,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     $paggingId = uniqid();
     $uid = "gallery" . uniqid();
     ?>
-    <div class="row clear clearfix galeryRowElement" id="<?php echo $uid; ?>">
+    <div class="clear clearfix galeryRowElement" id="<?php echo $uid; ?>">
         <?php
         if (canPrintCategoryTitle($title)) {
             ?>

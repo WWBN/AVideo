@@ -27,7 +27,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         }
     </style>
     <div class="row">
-        <div class="col-sm-12 fixPadding">
+        <div class="col-sm-12">
             <div id="bigVideoCarousel" class="<?php echo $class; ?> " data-ride="carousel">
                 <?php
                 if (count($videoRows) > 1) {

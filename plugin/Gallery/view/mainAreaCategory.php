@@ -16,7 +16,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
     if (!empty($videos)) {
         ?>
-        <div class="row clear clearfix" id="Div<?php echo $currentCat['clean_name']; ?>">
+        <div class="clear clearfix" id="Div<?php echo $currentCat['clean_name']; ?>">
             <?php
             if (canPrintCategoryTitle($currentCat['name'])) {
                 ?>

@@ -127,7 +127,7 @@ $metaDescription = __("Channels");
                                 </div>
                                 
                                 <div class="clearfix" style="margin-bottom: 10px;"></div>
-                                <div class="row clear clearfix galeryRowElement">
+                                <div class="clear clearfix galeryRowElement">
                                     <?php
                                     $_POST['current'] = 1;
                                     $_REQUEST['rowCount'] = 6;
