@@ -984,7 +984,7 @@ function setCurrentTime(currentTime) {
 }
 
 function isALiveContent() {
-    if (typeof isLive !== 'undefined' && isLive && (typeof isOnlineLabel === 'undefined' || isOnlineLabel === true)) {
+    if (typeof isLive !== 'undefined' && isLive && (typeof isOnlineLabel === 'undefined' || isOnlineLabel === true || $('.liveOnlineLabel').hasClass('label-success'))) {
         return true;
     }
     return false;
@@ -999,7 +999,9 @@ function isWebRTC() {
 
 function isAutoplayEnabled() {
     //console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
-    if (isWebRTC()) {
+    if (typeof forceautoplay !== 'undefined' && forceautoplay) {
+        return true;
+    }else if (isWebRTC()) {
         console.log("isAutoplayEnabled said No because is WebRTC ");
         return false;
     } else if (isALiveContent()) {

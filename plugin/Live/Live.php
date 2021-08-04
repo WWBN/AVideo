@@ -591,18 +591,13 @@ class Live extends PluginAbstract {
 
     static function getRTMPLink($users_id, $forceIndex = false) {
         $key = self::getKeyFromUser($users_id);
-        if (!empty($forceIndex)) {
-            // make sure the key is unique
-            $parts = explode('-', $key);
-            $key = $parts[0] . "-{$forceIndex}";
-        }
-        return self::getRTMPLinkFromKey($key);
+        return self::getRTMPLinkFromKey($key, $forceIndex);
     }
 
-    static function getRTMPLinkFromKey($key) {
+    static function getRTMPLinkFromKey($key, $forceIndex=false) {
         $lso = new LiveStreamObject($key);
 
-        return $lso->getRTMPLink();
+        return $lso->getRTMPLink($forceIndex);
     }
 
     static function getRTMPLinkWithOutKey($users_id) {
@@ -2023,7 +2018,7 @@ class Live extends PluginAbstract {
     public static function reverseRestream($m3u8, $users_id, $live_servers_id = -1, $forceIndex=false) {
         _error_log("Live:reverseRestream start");
         $obj = self::getReverseRestreamObject($m3u8, $users_id, $live_servers_id, $forceIndex);
-        _error_log("Live:reverseRestream obj " . _json_encode($obj));
+        _error_log("Live:reverseRestream obj " . _json_encode($obj)); 
         return self::sendRestream($obj);
     }
 
@@ -2409,15 +2404,20 @@ class LiveStreamObject {
     }
 
     function getKeyWithIndex($forceIndexIfEnabled = false, $allowOnlineIndex = false) {
-        if ($forceIndexIfEnabled) {
-            $objLive = AVideoPlugin::getDataObject("Live");
-            if (!empty($objLive->allowMultipleLivesPerUser)) {
-                if (empty($allowOnlineIndex)) {
-                    $this->live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
-                } else {
-                    $this->live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
+        if (!empty($forceIndexIfEnabled)) {
+            if(is_string($forceIndexIfEnabled)){
+                $this->live_index = $forceIndexIfEnabled;
+            }else{
+                $objLive = AVideoPlugin::getDataObject("Live");
+                if (!empty($objLive->allowMultipleLivesPerUser)) {
+                    if (empty($allowOnlineIndex)) {
+                        $this->live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
+                    } else {
+                        $this->live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
+                    }
                 }
             }
+            
         }
         return Live::getLiveKeyFromRequest($this->key, $this->live_index, $this->playlists_id_live);
     }
@@ -2505,8 +2505,16 @@ class LiveStreamObject {
         return $m3u8;
     }
 
-    function getRTMPLink() {
-        return $this->getRTMPLinkWithOutKey() . $this->getKeyWithIndex(true);
+    function getRTMPLink($forceIndex=false) {
+        $key = $this->getKeyWithIndex(true);
+        if (!empty($forceIndex)) {
+            // make sure the key is unique
+            $parts = explode('-', $key);
+            $key = $parts[0] . "-{$forceIndex}";
+        }
+        $url = $this->getRTMPLinkWithOutKey() . $key;
+        _error_log("getRTMPLink: {$url}");
+        return $url;
     }
 
     function getRTMPLinkWithOutKey() {

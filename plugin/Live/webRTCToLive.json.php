@@ -31,9 +31,10 @@ if (!isValidURL($_REQUEST['m3u8'])) {
     $obj->msg = 'Invalid m3u8';
     die(json_encode($obj));
 }
-_error_log('webRTCToLive: start');
+_error_log('webRTCToLive: start '. json_encode($_REQUEST));
 $users_id = User::getId();
 $count = 1;
+
 while ($count <= 4) {
     sleep(10);
     $count++;
@@ -42,11 +43,11 @@ while ($count <= 4) {
     } else {
         _error_log('webRTCToLive: wait till 200 ' . $_REQUEST['m3u8']);
     }
-}
+} 
 
 $obj->response = Live::reverseRestream($_REQUEST['m3u8'], $users_id, @$_REQUEST['live_servers_id'], @$_REQUEST['forceIndex']);
 
 $obj->error = false;
 
-_error_log('webRTCToLive: complete');
+_error_log('webRTCToLive: complete '. json_encode($obj));
 die(json_encode($obj));

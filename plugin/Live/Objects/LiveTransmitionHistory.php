@@ -275,14 +275,26 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     static function getLatest($key, $live_servers_id=null) {
         global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = ? ";
+        
+        $key = $global['mysqli']->real_escape_string($key);
+        
+        if(empty($key)){
+            return false;
+        }
+        
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` LIKE '{$key}%' ";
         if(isset($live_servers_id)){
-            $sql .= " AND live_servers_id = ".intval($live_servers_id);
+            $sql .= " AND (live_servers_id = ".intval($live_servers_id);
+            
+            if(empty($live_servers_id)){
+                $sql .= " OR live_servers_id IS NULL ";
+            }
+            $sql .= " )";
         }
         $sql .= " ORDER BY created DESC LIMIT 1";
-        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
+        //var_dump($sql, $key);exit;
 
-        $res = sqlDAL::readSql($sql, "s", array($key));
+        $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {

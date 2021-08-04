@@ -38,7 +38,7 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
         <title><?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>view/css/player.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('view/css/player.css'); ?>" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
         <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <?php
@@ -88,7 +88,8 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
         <?php
         echo AVideoPlugin::afterVideoJS();
         ?>
-        <script src="<?php echo getCDN(); ?>view/js/script.js" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/js/jquery-toast/jquery.toast.min.js" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>

@@ -26,9 +26,9 @@ if (!empty($chat)) {
 $users_id = User::getId();
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
 $live_servers_id = Live::getCurrentLiveServersId();
-$forceIndex = "Live". date('YmdHis');
+$forceIndex = "Live" . date('YmdHis');
 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, $forceIndex, 0);
-$streamName = $liveStreamObject->getKeyWithIndex(true, true);
+$streamName = $liveStreamObject->getKeyWithIndex($forceIndex, true);
 $controls = Live::getAllControlls($streamName);
 ?>
 <!DOCTYPE html>
@@ -41,7 +41,8 @@ $controls = Live::getAllControlls($streamName);
         <title><?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>view/css/player.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('view/css/player.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('plugin/Live/webRTC.css'); ?>" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <style>
@@ -80,6 +81,7 @@ $controls = Live::getAllControlls($streamName);
             #controls .col{
                 padding: 0 5px;
             }
+            
         </style>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
@@ -112,7 +114,7 @@ $controls = Live::getAllControlls($streamName);
             echo getLiveUsersLabel();
             ?>
         </div>
-        <script src="<?php echo getCDN(); ?>view/js/script.js" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/js/jquery-toast/jquery.toast.min.js" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
@@ -122,18 +124,23 @@ $controls = Live::getAllControlls($streamName);
         ?>  
         <!-- getFooterCode end -->
         <div class="" id="controls">
-            <div class="col col-xs-9" id="webRTCDisconnect" style="display: none;" >
+            <div class="col col-xs-9" id="webRTCPleaseWait" >
+                <button class="btn btn-warning btn-block" data-toggle="tooltip"  title="<?php echo __("Please Wait"); ?>" disabled="disabled">
+                    <i class="fas fa-spinner fa-pulse"></i> <?php echo __("Please Wait"); ?>
+                </button>
+            </div>
+            <div class="col col-xs-9" id="webRTCDisconnect" >
                 <button class="btn btn-danger btn-block" onclick="webRTCDisconnect();" data-toggle="tooltip"  title="<?php echo __("Stop"); ?>">
                     <i class="fas fa-stop"></i> <?php echo __("Stop"); ?>
                 </button>
             </div>
-            <div class="col col-xs-9" id="webRTCConnect" style="display: none;" >
+            <div class="col col-xs-9" id="webRTCConnect" >
                 <button class="btn btn-success btn-block" onclick="webRTCConnect();" data-toggle="tooltip" title="<?php echo __("Start Live Now"); ?>">
                     <i class="fas fa-circle"></i> <?php echo __("Go Live"); ?>
                 </button>
             </div>
             <div class="col col-xs-3">
-                <button class="btn btn-primary btn-block" style="" onclick="webRTCConfiguration();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Configuration"); ?>">
+                <button class="btn btn-primary btn-block" onclick="webRTCConfiguration();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Configuration"); ?>">
                     <i class="fas fa-cog"></i> <span class="hidden-sm hidden-xs"><?php echo __("Configuration"); ?></span>
                 </button>
             </div>
@@ -142,30 +149,12 @@ $controls = Live::getAllControlls($streamName);
         echo $controls;
         ?>
         <!-- WebRTC finish -->
-        <script src="<?php echo getCDN(); ?>plugin/Live/webRTC.js" type="text/javascript"></script>
+        <script src="<?php echo getURL('plugin/Live/webRTC.js'); ?>" type="text/javascript"></script>
         <script>
                     var updateControlStatusLastState;
 
-                    function updateControlStatus() {
-                        var hasclass = $('.liveOnlineLabel').hasClass('label-danger');
-                        if (updateControlStatusLastState === hasclass) {
-                            return false;
-                        }
-                        updateControlStatusLastState = hasclass;
-                        if (hasclass) {
-                            $('#webRTCDisconnect').hide();
-                            $('#webRTCConnect').show();
-                        } else {
-                            $('#webRTCDisconnect').show();
-                            $('#webRTCConnect').hide();
-                        }
-                    }
-
                     $(document).ready(function () {
-                        updateControlStatus();
-                        setInterval(function () {
-                            updateControlStatus();
-                        }, 500);
+                        
                     });
 
                     function webRTCModalConfigShow() {
@@ -175,7 +164,6 @@ $controls = Live::getAllControlls($streamName);
                         $('#chat2Iframe').fadeIn();
                     }
 
-
                     function socketLiveONCallback(json) {
                         console.log('socketLiveONCallback webcamFullscreen', json);
                         if (typeof onlineLabelOnline == 'function') {
@@ -183,6 +171,9 @@ $controls = Live::getAllControlls($streamName);
                             onlineLabelOnline(selector);
                             selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
                             onlineLabelOnline(selector);
+                        }
+                        if (json.key == '<?php echo $streamName; ?>') {
+                            webRTCisLive();
                         }
                     }
 
@@ -198,6 +189,9 @@ $controls = Live::getAllControlls($streamName);
                             selector = '.liveViewStatusClass_' + json.cleanKey;
                             //console.log('socketLiveOFFCallback 3', selector);
                             onlineLabelOffline(selector);
+                        }
+                        if (json.key == '<?php echo $streamName; ?>') {
+                            webRTCisOffline();
                         }
                     }
         </script>

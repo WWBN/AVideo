@@ -2867,11 +2867,11 @@ if (!class_exists('Video')) {
             if (substr($type, -4) === ".jpg" || substr($type, -4) === ".png" || substr($type, -4) === ".gif" || substr($type, -4) === ".webp") {
                 $x = uniqid();
                 if (file_exists($source['path'])) {
-                    $x = filemtime($source['path']);
+                    $x = filemtime($source['path']).filectime($source['path']);
                 } elseif (!empty($video)) {
                     $x = strtotime($video['modified']);
                 }
-                $source['url'] .= "?{$x}";
+                $source['url'] .= "?cache={$x}";
             }
 
             //ObjectYPT::setCache($name, $source);
