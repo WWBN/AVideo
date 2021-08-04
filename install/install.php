@@ -9,8 +9,8 @@ if (file_exists("../videos/configuration.php")) {
 }
 
 
-$databaseUser = "youphptube";
-$databasePass = "youphptube";
+$databaseUser = "turboflop";
+$databasePass = "DfZ9zecmv-^TkMw^PmAB7tjmx!gXAtALhrfjkS%cBz6*vAK!7uKVn^_&LkEDE!K+_U*zR!xxGLXfzt=g%7^DHJ3b_Lv=^5gLQB4u&eBULSD4*eAwH*4ta8xFEdnPEHv";
 if (version_compare(phpversion(), '7.2', '<')) {
     $databaseUser = "root";
 }
@@ -48,12 +48,12 @@ $_POST['databaseHost'] = "localhost";
 $_POST['databaseUser'] = $databaseUser;
 $_POST['databasePass'] = $databasePass;
 $_POST['databasePort'] = "3306";
-$_POST['databaseName'] = "AVideo_". preg_replace("/[^0-9a-z]/i", "", parse_url($webSiteRootURL, PHP_URL_HOST));
+$_POST['databaseName'] = "TurboFlop_". preg_replace("/[^0-9a-z]/i", "", parse_url($webSiteRootURL, PHP_URL_HOST));
 $_POST['createTables'] = 2;
 $_POST['contactEmail'] = $contactEmail;
 $_POST['systemAdminPass'] = $systemAdminPass;
 $_POST['mainLanguage'] = "en";
-$_POST['webSiteTitle'] = "AVideo";
+$_POST['webSiteTitle'] = "TurnoFlop";
 $_POST['webSiteRootURL'] = $webSiteRootURL;
 
 include './checkConfiguration.php';
