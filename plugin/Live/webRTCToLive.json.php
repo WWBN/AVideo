@@ -39,12 +39,14 @@ while ($count <= 4) {
     $count++;
     if (isURL200($_REQUEST['m3u8'], true)) {
         break;
-    }else{
-        _error_log('webRTCToLive: wait till 200 '.$_REQUEST['m3u8']);
+    } else {
+        _error_log('webRTCToLive: wait till 200 ' . $_REQUEST['m3u8']);
     }
 }
 
-$obj->response = Live::reverseRestream($_REQUEST['m3u8'], $users_id, @$_REQUEST['live_servers_id']);
+$forceKey = "webRTCLive". md5($_REQUEST['m3u8']);
+
+$obj->response = Live::reverseRestream($_REQUEST['m3u8'], $users_id, @$_REQUEST['live_servers_id'], $forceKey);
 
 $obj->error = false;
 
