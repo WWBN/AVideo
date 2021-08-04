@@ -48,9 +48,11 @@ $controls = Live::getAllControlls($streamName);
                 padding: 0 !important;
                 margin: 0 !important;
                 width: 100vw;
-                height: 100vh;
+                height: 100%;
                 overflow:hidden;
                 background-color: #000;
+                position: fixed;
+                top: 0;
             }
             iframe{
                 width: 100vw;
