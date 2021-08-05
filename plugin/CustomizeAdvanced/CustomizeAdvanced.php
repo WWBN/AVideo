@@ -55,10 +55,20 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotShowEmbedButton = false;
         $obj->embedBackgroundColor = "white";
         $obj->embedButtonLabel = "";
-        $obj->embedCodeTemplate = '<div class="embed-responsive embed-responsive-16by9"><iframe width="640" height="360" style="max-width: 100%;max-height: 100%; border:none;" src="{embedURL}" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="no">iFrame is not supported!</iframe></div>';
+        $obj->embedCodeTemplate = '<div class="embed-responsive embed-responsive-16by9"><iframe width="640" height="360" style="max-width: 100%;max-height: 100%; border:none;" src="{embedURL}" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="no" videoLengthInSeconds="{videoLengthInSeconds}">iFrame is not supported!</iframe></div>';
         $obj->embedCodeTemplateObject = '<div class="embed-responsive embed-responsive-16by9"><object width="640" height="360"><param name="movie" value="{embedURL}"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="{embedURL}" allowscriptaccess="always" allowfullscreen="true" width="640" height="360"></embed></object></div>';
         $obj->htmlCodeTemplate = '<a href="{permaLink}"><img src="{imgSRC}">{title}</a>';
-        $obj->BBCodeTemplate = '[url={permaLink}][img]{imgSRC}[/img]{title}[/url]';
+        $obj->BBCodeTemplate = '[url={permaLink}][img]{imgSRC}[/img]{title}[/url]';        
+        
+        $o = new stdClass();
+        $o->type = array(-1 => __("Basic Controls"), 0 => __("No Controls"), 1 => __("All controls"));
+        $o->value = 1;
+        $obj->embedControls = $o;
+        $obj->embedAutoplay = false;
+        $obj->embedLoop = false;
+        $obj->embedStartMuted = false;
+        $obj->embedShowinfo = true;
+        
         $obj->doNotShowEncoderHLS = false;
         $obj->doNotShowEncoderResolutionLow = false;
         $obj->doNotShowEncoderResolutionSD = false;

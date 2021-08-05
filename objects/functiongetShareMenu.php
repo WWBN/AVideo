@@ -1,7 +1,7 @@
 <?php
 $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-$search = array('{permaLink}','{imgSRC}','{title}', '{embedURL}');
-$replace = array($permaLink,$img,$title, $embedURL);
+$search = array('{permaLink}','{imgSRC}','{title}', '{embedURL}', '{videoLengthInSeconds}');
+$replace = array($permaLink,$img,$title, $embedURL, $videoLengthInSeconds);
 ?>
 <div class="<?php echo $class; ?>" id="shareDiv">
     <div class="tabbable-panel">

@@ -3664,18 +3664,18 @@ if (!class_exists('Video')) {
          * @return String a web link
          */
         public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = array()) {
+            global $global, $advancedCustomUser, $advancedCustom;
             if (!empty($_GET['evideo'])) {
                 $v = self::decodeEvideo();
                 if (!empty($v['video']['videoLink'])) {
                     if ($embed) {
-                        return parseVideos($v['video']['videoLink']);
+                        return parseVideos($v['video']['videoLink'], $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
                     } else {
                         return $v['video']['videoLink'];
                     }
                 }
             }
 
-            global $global, $advancedCustomUser, $advancedCustom;
             if (!is_object($advancedCustomUser)) {
                 $advancedCustomUser = AVideoPlugin::getDataObject('CustomizeUser');
             }
@@ -3718,10 +3718,11 @@ if (!class_exists('Video')) {
                 }
                 if ($embed) {
                     if (empty($advancedCustom->useVideoIDOnSEOLinks)) {
-                        return "{$global['webSiteRootURL']}{$subEmbedDir}/{$clean_title}{$get_http}";
+                        $url = "{$global['webSiteRootURL']}{$subEmbedDir}/{$clean_title}{$get_http}";
                     } else {
-                        return "{$global['webSiteRootURL']}{$subEmbedDir}/{$videos_id}/{$clean_title}{$get_http}";
+                        $url = "{$global['webSiteRootURL']}{$subEmbedDir}/{$videos_id}/{$clean_title}{$get_http}";
                     }
+                    return parseVideos($url, $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
                 } else {
                     if (empty($advancedCustom->useVideoIDOnSEOLinks)) {
                         return "{$global['webSiteRootURL']}{$cat}{$subDir}/{$clean_title}{$get_http}";
@@ -3735,7 +3736,8 @@ if (!class_exists('Video')) {
                     $videos_id = $encryptedVideos_id;
                 }
                 if ($embed) {
-                    return "{$global['webSiteRootURL']}vEmbed/{$videos_id}{$get_http}";
+                    $url = "{$global['webSiteRootURL']}vEmbed/{$videos_id}{$get_http}";
+                    return parseVideos($url, $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
                 } else {
                     return "{$global['webSiteRootURL']}v/{$videos_id}{$get_http}";
                 }
