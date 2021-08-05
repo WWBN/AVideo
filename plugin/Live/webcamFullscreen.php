@@ -88,6 +88,8 @@ $controls = Live::getAllControlls($streamName);
             var live_servers_id = '<?php echo $live_servers_id; ?>';
             var player;
             var forceIndex = '<?php echo $forceIndex; ?>';
+            var webrtcUser = '<?php echo User::getUserName(); ?>';
+            var webrtcPass = '<?php echo User::getUserPass(); ?>';
         </script>
         <?php
         echo AVideoPlugin::getHeadCode();
