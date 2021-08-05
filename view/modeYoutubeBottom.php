@@ -258,7 +258,7 @@ if (User::hasBlockedUser($video['users_id'])) {
 }
 
 if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($video['id'])) {
-    getShareMenu($video['title'], Video::getPermaLink($video['id']), Video::getURLFriendly($video['id']), Video::getLink($video['id'], $video['clean_title'], true), $img);
+    getShareMenu($video['title'], Video::getPermaLink($video['id']), Video::getURLFriendly($video['id']), Video::getLink($video['id'], $video['clean_title'], true), $img, "row bgWhite list-group-item menusDiv", timeToSeconds($video['duration']));
 }
 ?>
 <div class="row bgWhite list-group-item" id="modeYoutubeBottomContentDetails">

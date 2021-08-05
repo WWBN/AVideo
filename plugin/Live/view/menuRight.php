@@ -183,12 +183,17 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
             $liveLi = afterExtraVideos($liveLi);
             $('.extraVideos').append($liveLi);
             $liveLi.slideDown();
+            
             setTimeout(function () {
                 refreshGetLiveImage("#" + id)
             }, 5000);
         } else if ($("#" + id).length) {
             refreshGetLiveImage("#" + id);
         }
+        
+        setTimeout(function () {
+            lazyImage();
+        }, 1000);
     }
 
     function refreshGetLiveImage(selector) {
@@ -354,6 +359,9 @@ if (isVideo()) {
                 }
             }
             $('#liveVideos').slideDown();
+            setTimeout(function () {
+                lazyImage();
+            }, 1000);
             if (callback) {
                 eval("try {$liveLi = " + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
             }

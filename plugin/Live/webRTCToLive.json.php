@@ -16,6 +16,7 @@ $obj->response = "";
 
 if (!User::canStream()) {
     $obj->msg = __("Permition denied");
+    _error_log($obj->msg.' '. json_encode($_REQUEST));
     die(json_encode($obj));
 }
 

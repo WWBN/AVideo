@@ -68,7 +68,7 @@ if ($video['type'] !== "pdf") {
     }
 }
 
-if(empty($poster)){
+if (empty($poster)) {
     $poster = "";
     if (!empty($video['filename'])) {
         $images = Video::getImageFromFilename($video['filename']);
@@ -89,7 +89,7 @@ if(empty($poster)){
         if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
         } else {
-            $poster = "".getCDN()."view/img/audio_wave.jpg";
+            $poster = "" . getCDN() . "view/img/audio_wave.jpg";
         }
     }
 }
@@ -113,6 +113,7 @@ $resp = $obj->addView();
 $modestbranding = false;
 $autoplay = false;
 $controls = "controls";
+$showOnlyBasicControls = false;
 $loop = "";
 $mute = "";
 $objectFit = "";
@@ -124,8 +125,12 @@ if (isset($_GET['modestbranding']) && $_GET['modestbranding'] == "1") {
 if (!empty($_GET['autoplay']) || $config->getAutoplay()) {
     $autoplay = true;
 }
-if (isset($_GET['controls']) && $_GET['controls'] == "0") {
-    $controls = "";
+if (isset($_GET['controls'])) {
+    if($_GET['controls'] == "0"){
+        $controls = "";
+    }else if($_GET['controls'] == "-1"){
+        $showOnlyBasicControls = true;
+    }
 }
 if (!empty($_GET['loop'])) {
     $loop = "loop";
@@ -265,8 +270,24 @@ if (User::hasBlockedUser($video['users_id'])) {
             <?php
             if (empty($controls)) {
                 ?>
-                #topInfo, .vjs-big-play-button, .vjs-control-bar{
+                #topInfo, .vjs-big-play-button, .vjs-control-bar, #seekBG{
+                    display: none !important;
+                }
+                <?php
+            }else if($showOnlyBasicControls){
+                ?>
+                #mainVideo > div.vjs-control-bar > .vjs-control, 
+                #mainVideo > div.vjs-control-bar > div.vjs-time-divider{
                     display: none;
+                }
+                #mainVideo > div.vjs-control-bar > .vjs-play-control,
+                #mainVideo > div.vjs-control-bar > .vjs-fullscreen-control{
+                    display: inline-block;
+                }
+                #mainVideo > div.vjs-control-bar > .vjs-volume-panel,
+                #mainVideo > div.vjs-control-bar > .vjs-progress-control,
+                #mainVideo > div.vjs-control-bar > .vjs-resolution-button{
+                    display: flex;
                 }
                 <?php
             }
@@ -432,7 +453,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     ?>
         </script>
         <?php
-    } else if ($video['type'] == "linkVideo" || $video['type'] == "liveLink" ) {
+    } else if ($video['type'] == "linkVideo" || $video['type'] == "liveLink") {
         ?>
         <!-- videoLink -->
         <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?> 
@@ -448,7 +469,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         </video>
 
         <?php
-        if($video['type'] == "liveLink"){
+        if ($video['type'] == "liveLink") {
             echo getLiveUsersLabelHTML();
         }
         ?>
@@ -469,8 +490,8 @@ if (User::hasBlockedUser($video['users_id'])) {
             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
         </video>
         <script><?php
-    PlayerSkins::playerJSCodeOnLoad($video['id']);
-    ?>
+               PlayerSkins::playerJSCodeOnLoad($video['id']);
+               ?>
         </script>
         <?php
     }
@@ -520,33 +541,33 @@ if (User::hasBlockedUser($video['users_id'])) {
     include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
     ?>
     <script>
-        var topInfoTimeout;
-        $(document).ready(function () {
-            setInterval(function () {
-                if (typeof player !== 'undefined') {
-                    if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                        $('#topInfo').fadeOut();
-                    } else {
-                        $('#topInfo').fadeIn();
+            var topInfoTimeout;
+            $(document).ready(function () {
+                setInterval(function () {
+                    if (typeof player !== 'undefined') {
+                        if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                            $('#topInfo').fadeOut();
+                        } else {
+                            $('#topInfo').fadeIn();
+                        }
                     }
-                }
-            }, 200);
+                }, 200);
 
-            $("iframe, #topInfo").mouseover(function (e) {
-                clearTimeout(topInfoTimeout);
-                $('#mainVideo').addClass("vjs-user-active");
-                topInfoTimeout = setTimeout(function () {
-                    $('#mainVideo').removeClass("vjs-user-active");
-                }, 5000);
+                $("iframe, #topInfo").mouseover(function (e) {
+                    clearTimeout(topInfoTimeout);
+                    $('#mainVideo').addClass("vjs-user-active");
+                    topInfoTimeout = setTimeout(function () {
+                        $('#mainVideo').removeClass("vjs-user-active");
+                    }, 5000);
+                });
+
+                $("iframe").mouseout(function (e) {
+                    topInfoTimeout = setTimeout(function () {
+                        $('#mainVideo').removeClass("vjs-user-active");
+                    }, 500);
+                });
+
             });
-
-            $("iframe").mouseout(function (e) {
-                topInfoTimeout = setTimeout(function () {
-                    $('#mainVideo').removeClass("vjs-user-active");
-                }, 500);
-            });
-
-        });
     </script>
     <?php
     showCloseButton();

@@ -30,7 +30,9 @@ function startLiveRestream(m3u8, forceIndex) {
         data: {
             'm3u8': m3u8,
             'live_servers_id': live_servers_id,
-            'forceIndex': forceIndex
+            'forceIndex': forceIndex,
+            'user': webrtcUser,
+            'pass': webrtcPass
         },
         success: function (response) {
             if (response.error) {
