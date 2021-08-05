@@ -12,7 +12,7 @@
     .vjs-button:not(.player-logo)  {
         max-width: 30px;
     }
-    .vjs-remaining-time{
+    .vjs-remaining-time, player-logo{
         display: none !important;
     }
 }
