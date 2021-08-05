@@ -221,13 +221,14 @@ class PlayerSkins extends PluginAbstract {
             }
             $js .= "<script>var playNextURL = '';</script>";
             if (!empty($obj->skin)) {
-                $css .= "<link href=\"" . getCDN() . "plugin/PlayerSkins/skins/{$obj->skin}.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+                $url = "plugin/PlayerSkins/skins/{$obj->skin}.css";
+                $css .= "<link href=\"" . getURL($url) . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
             if ($obj->showLoopButton && isVideoPlayerHasProgressBar()) {
-                $css .= "<link href=\"" . getCDN() . "plugin/PlayerSkins/loopbutton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+                $css .= "<link href=\"" . getURL('plugin/PlayerSkins/loopbutton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            $css .= "<link href=\"" . getCDN() . "plugin/PlayerSkins/player.css?" . filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.css") . "\" rel=\"stylesheet\" type=\"text/css\"/>";
-            $css .= "<script src=\"" . getCDN() . "plugin/PlayerSkins/player.js?" . filectime("{$global['systemRootPath']}plugin/PlayerSkins/player.js") . "\"></script>";
+            $css .= "<link href=\"" . getURL('plugin/PlayerSkins/player.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
+            $css .= "<script src=\"" . getURL('plugin/PlayerSkins/player.js') . "\"></script>";
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"
@@ -254,10 +255,10 @@ class PlayerSkins extends PluginAbstract {
             }
 
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
-                $css .= "<link href=\"" . getCDN() . "plugin/PlayerSkins/shareButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+                $css .= "<link href=\"" . getURL('plugin/PlayerSkins/shareButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
             if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar()) {
-                $css .= "<link href=\"" . getCDN() . "plugin/PlayerSkins/autoplayButton.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+                $css .= "<link href=\"" . getURL('plugin/PlayerSkins/autoplayButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
         }
 
