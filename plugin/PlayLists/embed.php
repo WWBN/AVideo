@@ -137,7 +137,6 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
         <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>view/css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/social.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
 

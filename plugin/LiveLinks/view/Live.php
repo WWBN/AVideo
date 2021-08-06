@@ -90,7 +90,6 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
         <title><?php echo $t['title'] . $config->getPageTitleSeparator() . __("Live Links") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getCDN(); ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>css/player.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';

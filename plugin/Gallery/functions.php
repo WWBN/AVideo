@@ -152,8 +152,8 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         }
 
         $img_portrait = (@$value['rotation'] === "90" || @$value['rotation'] === "270") ? "img-portrait" : "";
-        $name = User::getNameIdentificationById($value['users_id']);
-        $name .= " " . User::getEmailVerifiedIcon($value['users_id']);
+        $nameId = User::getNameIdentificationById($value['users_id']);
+        $name = $nameId." " . User::getEmailVerifiedIcon($value['users_id']);
         // make a row each 6 cols
         if ($countCols % $obj->screenColsLarge === 0) {
             echo '<div class="clearfix "></div>';
@@ -324,13 +324,14 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                         <?php
                     }
                 }
+                $humanTiming = humanTiming(strtotime($value['videoCreation']))." ". __('ago');
                 ?>
-                <div>
+                <div data-toggle="tooltip" title="<?php echo $humanTiming; ?>">
                     <i class="far fa-clock"></i>
-                    <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
+                    <?php echo $humanTiming; ?>
                 </div>
                 <div>
-                    <a href="<?php echo User::getChannelLink($value['users_id']); ?>">
+                    <a href="<?php echo User::getChannelLink($value['users_id']); ?>" data-toggle="tooltip" title="<?php echo $nameId; ?>">
                         <i class="fa fa-user"></i>
                         <?php echo $name; ?>
                     </a>
@@ -344,7 +345,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $value['title']);
                         ?>
                         <div>
-                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
+                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-md hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
                             <div id="videoDescription<?php echo $duid; ?>" style="display: none;"><?php echo $desc; ?></div>
                         </div>
                         <?php
@@ -354,7 +355,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 <?php if (Video::canEdit($value['id'])) { ?>
                     <div>
                         <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
-                            <i class="fa fa-edit"></i> <span class="hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
+                            <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
                         </a>
                     </div>
                 <?php }
@@ -544,7 +545,7 @@ function createGalleryLiveSection($videos) {
                         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $video['title']);
                         ?>
                         <div>
-                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>", "info");return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
+                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>", "info");return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-md hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
                         </div>
                         <?php
                     }
