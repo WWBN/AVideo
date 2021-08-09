@@ -53,7 +53,7 @@ $_POST['createTables'] = 2;
 $_POST['contactEmail'] = $contactEmail;
 $_POST['systemAdminPass'] = $systemAdminPass;
 $_POST['mainLanguage'] = "en";
-$_POST['webSiteTitle'] = "TurnoFlop";
+$_POST['webSiteTitle'] = "TurboFlop";
 $_POST['webSiteRootURL'] = $webSiteRootURL;
 
 include './checkConfiguration.php';
