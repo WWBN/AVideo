@@ -297,7 +297,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                         if(inIframe()){
                             url = addGetParam(url, 'PHPSESSID', response.PHPSESSID);
                         }
-                        document.location = response.redirectUri;
+                        document.location = url;
                     }
                 }
             });
