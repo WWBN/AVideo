@@ -141,6 +141,8 @@ function restartServer($kill=true) {
 function restartServerIfIsDead() {
     global $global;
 
+    $obj = \AVideoPlugin::getDataObject("YPTSocket");
+    $port = intval($obj->port);
     $pid = getPIDUsingPort($port);
     if (!empty($pid)) {
         echo 'Server is already runing on port '.$port.' PID ' . $pid . PHP_EOL;
