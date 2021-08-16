@@ -7,12 +7,6 @@ if (!isset($global['systemRootPath'])) {
 
 _error_log('Add view '. json_encode($_REQUEST));
 
-if(!empty($_GET['SESSID'])){
-    @session_write_close();
-    session_id($_GET['PHPSESSID']);
-    _session_start();
-}
-
 if (empty($_REQUEST['id'])) {
     die('{"error":"' . __("Permission denied") . '"}');
 }

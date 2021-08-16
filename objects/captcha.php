@@ -3,12 +3,6 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-if(!empty($_GET['PHPSESSID'])){
-    session_write_close();
-    session_id($_GET['PHPSESSID']);
-    _error_log("captcha: session_id changed to ". $_GET['PHPSESSID']);
-    session_start();
-}
 class Captcha{
     private $largura, $altura, $tamanho_fonte, $quantidade_letras;
 
