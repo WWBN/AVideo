@@ -8,9 +8,11 @@ if (!isCommandLineInterface()) {
 }
 
 $force = @$argv[1];
-
-if($force = 'force'){
+echo 'Restart socket server' . PHP_EOL;
+if($force == 'force'){
+    echo 'Kill it if need' . PHP_EOL;
     restartServer();
 }else{
+    echo 'Do not kill if is running' . PHP_EOL;
     restartServerIfIsDead();
 }
