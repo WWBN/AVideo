@@ -3781,12 +3781,18 @@ function getUsageFromFilename($filename, $dir = "") {
         $paths = Video::getPaths($filename);
         $dir = $paths['path'];
     }
-    $pos = strrpos($dir, '/');
-    $dir .= (($pos === false) ? "/" : "");
+    $dir = addLastSlash($dir);
     $totalSize = 0;
     _error_log("getUsageFromFilename: start {$dir}{$filename}");
     //$files = glob("{$dir}{$filename}*");
-    $files = globVideosDir($filename);
+    $paths = Video::getPaths($filename);
+    
+    if(is_dir($paths['path'])){
+        $files = array($paths['path']);
+    }else{
+        $files = globVideosDir($filename);
+    }
+    //var_dump($paths, $files, $filename);exit;
     session_write_close();
     $filesProcessed = array();
     if (empty($files)) {
@@ -5723,7 +5729,7 @@ function globVideosDir($filename, $filesOnly = false) {
     }
     $cleanfilename = Video::getCleanFilenameFromFile($filename);
     $paths = Video::getPaths($filename);
-    ;
+    
     $dir = $paths['path'];
 
     if (is_dir($dir . $filename)) {
