@@ -222,6 +222,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                 color: #FFF;
                 padding: 15px;
                 background-image: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0));
+                overflow: hidden;
 
             }
             #topInfo a{
