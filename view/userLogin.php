@@ -293,7 +293,10 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                         }
                         loginFormReset();
                     } else {
-
+                        var url = response.redirectUri;
+                        if(inIframe()){
+                            url = addGetParam(url, 'PHPSESSID', response.PHPSESSID);
+                        }
                         document.location = response.redirectUri;
                     }
                 }
