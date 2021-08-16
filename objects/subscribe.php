@@ -142,7 +142,7 @@ class Subscribe {
      * @param type $user_id
      * @return boolean
      */
-    static function getAllSubscribes($user_id = "", $status = "a") {
+    static function getAllSubscribes($user_id = "", $status = "a", $verifiedOnly = false) {
         global $global;
         $cacheName = "getAllSubscribes_{$user_id}_{$status}_" . getCurrentPage() . "_" . getRowCount();
         $subscribe = ObjectYPT::getCache($cacheName, 300); // 5 minutes
@@ -160,6 +160,9 @@ class Subscribe {
                 $sql .= " AND u.status = '{$status}' ";
                 $sql .= " AND suId.status = '{$status}' ";
                 //$sql .= " AND su.status = '{$status}' ";
+            }
+            if (!empty($verifiedOnly)) {
+                $sql .= " AND suId.emailVerified = 1 ";
             }
 
             //$sql .= " GROUP BY subscriber_id ";
