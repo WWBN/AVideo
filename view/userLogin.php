@@ -297,6 +297,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                         if(inIframe()){
                             url = addGetParam(url, 'PHPSESSID', response.PHPSESSID);
                         }
+                        console.log('Login success', url);
                         document.location = url;
                     }
                 }
