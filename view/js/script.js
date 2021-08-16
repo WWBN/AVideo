@@ -572,6 +572,7 @@ function playerIsReady() {
 }
 
 var promisePlaytry = 20;
+var promisePlaytryNetworkFail = 0;
 var promisePlayTimeoutTime = 500;
 var promisePlayTimeout;
 var promisePlay;
@@ -635,14 +636,19 @@ function playerPlay(currentTime) {
                         }
                     }
                 }).catch(function (error) {
-                    if (player.networkState() === 3) {
+                    if (player.networkState() === 3 && promisePlaytryNetworkFail<20) {
                         promisePlaytry = 20;
-                        console.log("playerPlay: Network error detected, trying again");
+                        promisePlaytryNetworkFail++;
+                        console.log("playerPlay: Network error detected, trying again", promisePlaytryNetworkFail);
                         player.src(player.currentSources());
                         userIsControling = false;
                         tryToPlay(currentTime);
                     } else {
-                        if (promisePlaytry <= 10) {
+                        if (promisePlaytryNetworkFail>=20) {
+                            console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented");
+                            $('#seekBG').fadeOut();
+                            player.pause();
+                        }else if (promisePlaytry <= 10) {
                             console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
                             tryToPlayMuted(currentTime);
                         } else {
