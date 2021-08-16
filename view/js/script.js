@@ -646,7 +646,6 @@ function playerPlay(currentTime) {
                     } else {
                         if (promisePlaytryNetworkFail>=20) {
                             console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented");
-                            $('#seekBG').fadeOut();
                             player.pause();
                         }else if (promisePlaytry <= 10) {
                             console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
