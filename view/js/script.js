@@ -648,6 +648,7 @@ function playerPlay(currentTime) {
                         },promisePlaytryNetworkFail*1000);
                     } else {
                         if (promisePlaytryNetworkFail>=5) {
+                            userIsControling = true;
                             console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented");
                             player.pause();
                         }else if (promisePlaytry <= 10) {
