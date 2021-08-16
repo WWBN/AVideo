@@ -26,7 +26,7 @@ $video = new Video("", "", $vastCampaingVideos->getVideos_id());
             <Impression><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=Impression&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Impression>
             <Creatives>
                 <Creative id="57861016576" sequence="1">
-                    <Linear skipoffset="<?php echo $obj->skipoffset; ?>">
+                    <Linear skipoffset="<?php echo $obj->skipoffset->value; ?>">
                         <Duration><?php echo $video->getDuration(); ?></Duration>
                         <TrackingEvents>
                             <Tracking event="start"><![CDATA[<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/log.php?label=start&ad_mt=[AD_MT]&campaign_has_videos_id=<?php echo $_GET['campaign_has_videos_id']; ?>]]></Tracking>

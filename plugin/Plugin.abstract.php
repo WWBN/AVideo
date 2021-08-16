@@ -142,6 +142,17 @@ abstract class PluginAbstract {
             $eo = $this->getEmptyDataObject();
             // check if the plugin define any array for the select option, if does, overwrite it
             foreach ($eo as $key => $value) {
+                if(empty($o->$key)){
+                    continue;
+                }
+                $teo = gettype($value);
+                $to = gettype($o->$key);
+                if($teo !== $to){ // this will make sure the type is the same
+                    if(!is_numeric($value) || !is_numeric($o->$key)){
+                        _error_log("getDataObject - type is different $teo !== $to uuid = $uuid");
+                        $o->$key = $value;
+                    }
+                }
                 if(isset($value->type) && is_array($value->type) && isset($o->$key) && isset($o->$key->type)){
                     $o->$key->type = $value->type;
                 }

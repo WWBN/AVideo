@@ -745,10 +745,11 @@ if (typeof gtag !== \"function\") {
 
         // check if the video is not public
         $rows = UserGroups::getVideoGroups($videos_id);
-
+        
         if (empty($rows)) {
             // check if any plugin restrict access to this video
-            if (!AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id)) {
+            $pluginCanWatch = AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id);
+            if (!$pluginCanWatch) {
                 if (User::isLogged()) {
                     _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [" . User::getId() . "] can not see ({$videos_id})");
                 } else {
