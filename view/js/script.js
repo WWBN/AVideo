@@ -636,15 +636,18 @@ function playerPlay(currentTime) {
                         }
                     }
                 }).catch(function (error) {
-                    if (player.networkState() === 3 && promisePlaytryNetworkFail<20) {
+                    if (player.networkState() === 3 && promisePlaytryNetworkFail<5) {
                         promisePlaytry = 20;
                         promisePlaytryNetworkFail++;
                         console.log("playerPlay: Network error detected, trying again", promisePlaytryNetworkFail);
-                        player.src(player.currentSources());
-                        userIsControling = false;
-                        tryToPlay(currentTime);
+                        clearTimeout(promisePlaytryNetworkFailTimeout);
+                        promisePlaytryNetworkFailTimeout = setTimeout(function(){
+                            player.src(player.currentSources());
+                            userIsControling = false;
+                            tryToPlay(currentTime);
+                        },promisePlaytryNetworkFail*1000);
                     } else {
-                        if (promisePlaytryNetworkFail>=20) {
+                        if (promisePlaytryNetworkFail>=5) {
                             console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented");
                             player.pause();
                         }else if (promisePlaytry <= 10) {
