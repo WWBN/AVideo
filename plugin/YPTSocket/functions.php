@@ -133,7 +133,7 @@ function restartServer($kill=true) {
     $cmd = "php {$global['systemRootPath']}plugin/YPTSocket/server.php";
     echo 'Starting server with command ' . $cmd . PHP_EOL;
     exec($cmd, $output, $retval);
-    print_r($output);
+    echo implode(PHP_EOL,$output);
     echo PHP_EOL;
     return $retval;
 }
