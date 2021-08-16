@@ -145,6 +145,6 @@ function restartServerIfIsDead() {
         echo 'Run "php '.$global['systemRootPath'].'plugin/YPTSocket/serverRestart.php force" if you want to kill the current server and restart it'.PHP_EOL;
         return false;
     }
-
+    echo 'Server was dead, restart it'.PHP_EOL;
     return restartServer();
 }
