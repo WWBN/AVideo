@@ -133,6 +133,7 @@ function restartServer() {
     exec($cmd, $output, $retval);
     print_r($output);
     echo PHP_EOL;
+    return $retval;
 }
 
 function restartServerIfIsDead() {
