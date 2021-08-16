@@ -318,6 +318,9 @@ if ($object->isLogged) {
 } else {
     _error_log('login.json.php is not logged');
 }
+
+$object->PHPSESSID = session_id();
+
 TimeLogEnd($timeLog, __LINE__);
 //_error_log("login.json.php almost complete");
 $json = _json_encode($object);
