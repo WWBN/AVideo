@@ -6,7 +6,7 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 if (!isCommandLineInterface()) {
     die("Command line only");
 }
-
+ob_end_flush();
 $force = @$argv[1];
 echo 'Restart socket server' . PHP_EOL;
 if($force == 'force'){
