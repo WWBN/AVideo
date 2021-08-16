@@ -579,6 +579,7 @@ var promisePlay;
 var browserPreventShowed = false;
 var playerPlayTimeout;
 var isTryingToPlay = false;
+var promisePlaytryNetworkFailTimeout;
 function playerPlay(currentTime) {
     isTryingToPlay = true;
     clearTimeout(playerPlayTimeout);
