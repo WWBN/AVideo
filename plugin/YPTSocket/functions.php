@@ -112,8 +112,8 @@ function killProcessOnPort() {
     $port = intval($obj->port);
     if (!empty($port)) {
         echo 'Searching for port: ' . $port . PHP_EOL;
-        $command = 'netstat -ano | findstr ' . $port;
-        exec($command, $output, $retval);
+        //$command = 'netstat -ano | findstr ' . $port;
+        //exec($command, $output, $retval);
         $pid = getPIDUsingPort($port);
         if (!empty($pid)) {
             echo 'Server is already runing on port '.$port.' Killing, PID ' . $pid . PHP_EOL;
