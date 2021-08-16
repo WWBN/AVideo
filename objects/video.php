@@ -1312,6 +1312,7 @@ if (!class_exists('Video')) {
             TimeLogEnd("Video::updateFilesize {$videos_id}", __LINE__);
             if ($video->save(false, true)) {
                 _error_log("updateFilesize: videos_id=$videos_id filename=$filename filesize=$filesize");
+                Video::clearCache($videos_id);
                 return $filesize;
             } else {
                 _error_log("updateFilesize: ERROR videos_id=$videos_id filename=$filename filesize=$filesize");
