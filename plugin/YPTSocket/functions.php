@@ -116,7 +116,7 @@ function killProcessOnPort() {
         exec($command, $output, $retval);
         $pid = getPIDUsingPort($port);
         if (!empty($pid)) {
-            echo 'Killing, PID ' . $pid . PHP_EOL;
+            echo 'Server is already runing on port '.$port.' Killing, PID ' . $pid . PHP_EOL;
             killProcess($pid);
         } else {
             echo 'No Need to kill, port NOT found' . PHP_EOL;
@@ -124,10 +124,23 @@ function killProcessOnPort() {
     }
 }
 
-function restartServer(){
+function restartServer() {
     global $global;
     killProcessOnPort();
     sleep(1);
     $cmd = "nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &";
     return exec($cmd);
+}
+
+function restartServerIfIsDead() {
+    global $global;
+
+    $pid = getPIDUsingPort($port);
+    if (!empty($pid)) {
+        echo 'Server is already runing on port '.$port.' PID ' . $pid . PHP_EOL;
+        echo 'Run "php '.$global['systemRootPath'].'plugin/YPTSocket/serverRestart.php force" if you want to kill the current server and restart it'.PHP_EOL;
+        return false;
+    }
+
+    return restartServer();
 }
