@@ -3673,7 +3673,15 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10) {
 
 function _session_start(array $options = array()) {
     try {
-        if (session_status() == PHP_SESSION_NONE) {
+        if (!empty($_GET['PHPSESSID'])) {
+            if (session_status() != PHP_SESSION_NONE) {
+                session_write_close();
+            }
+            session_id($_GET['PHPSESSID']);
+            _error_log("captcha: session_id changed to " . $_GET['PHPSESSID']);
+            unset($_GET['PHPSESSID']);
+            return @session_start($options);
+        }else if (session_status() == PHP_SESSION_NONE) {
             return @session_start($options);
         }
     } catch (Exception $exc) {
@@ -6769,9 +6777,9 @@ function getCDN($type = 'CDN', $id = 0) {
     return empty($_getCDNURL[$index]) ? false : $_getCDNURL[$index];
 }
 
-function getURL($relativePath){
-    global $global;    
-    return getCDN().$relativePath.'?cache='.(@filemtime("{$global['systemRootPath']}{$relativePath}").(@filectime("{$global['systemRootPath']}{$relativePath}")));
+function getURL($relativePath) {
+    global $global;
+    return getCDN() . $relativePath . '?cache=' . (@filemtime("{$global['systemRootPath']}{$relativePath}") . (@filectime("{$global['systemRootPath']}{$relativePath}")));
 }
 
 function getCDNOrURL($url, $type = 'CDN', $id = 0) {
@@ -7017,22 +7025,22 @@ function seconds2human($ss) {
     $M = floor($ss / 2592000);
 
     $times = array();
-    
-    if(!empty($M)){
-        $times[] = "$M ".__('m');
+
+    if (!empty($M)) {
+        $times[] = "$M " . __('m');
     }
-    if(!empty($d)){
-        $times[] = "$d ".__('d');
+    if (!empty($d)) {
+        $times[] = "$d " . __('d');
     }
-    if(!empty($h)){
-        $times[] = "$h ".__('h');
+    if (!empty($h)) {
+        $times[] = "$h " . __('h');
     }
-    if(!empty($m)){
-        $times[] = "$m ".__('min');
+    if (!empty($m)) {
+        $times[] = "$m " . __('min');
     }
-    if(!empty($s)){
-        $times[] = "$s ".__('sec');
-    }    
-    
+    if (!empty($s)) {
+        $times[] = "$s " . __('sec');
+    }
+
     return implode(', ', $times);
 }
