@@ -3815,6 +3815,7 @@ function getUsageFromFilename($filename, $dir = "") {
                     // probably the HLS file is hosted on the YPTStorage
                     $info = YPTStorage::getFileInfo($filename);
                     if (!empty($info->size)) {
+                        _error_log("getUsageFromFilename: found info on the YPTStorage ". print_r($info, true));
                         $totalSize += $info->size;
                     }else{
                         _error_log("getUsageFromFilename: there is no info on the YPTStorage ". print_r($info, true));
