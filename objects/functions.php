@@ -3809,11 +3809,20 @@ function getUsageFromFilename($filename, $dir = "") {
                 _error_log("getUsageFromFilename: {$f} is Dir");
                 $dirSize = getDirSize($f);
                 $totalSize += $dirSize;
-                if ($dirSize < 1000000 && AVideoPlugin::isEnabledByName('YPTStorage')) {
+                $minDirSize = 1000000;
+                $isEnabled = AVideoPlugin::isEnabledByName('YPTStorage');
+                if ($dirSize < $minDirSize && $isEnabled) {
                     // probably the HLS file is hosted on the YPTStorage
                     $info = YPTStorage::getFileInfo($filename);
                     if (!empty($info->size)) {
                         $totalSize += $info->size;
+                    }
+                }else{
+                   if ($dirSize < $minDirSize) {
+                        _error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
+                    } 
+                    if($isEnabled){
+                        _error_log("getUsageFromFilename: YPTStorage is disabled");
                     }
                 }
             } elseif (is_file($f)) {
