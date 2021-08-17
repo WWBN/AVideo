@@ -283,7 +283,7 @@ abstract class ObjectYPT implements ObjectInterface {
                     $fields[] = " now() ";
                 } elseif (!isset($this->$value) || strtolower($this->$value) == 'null') {
                     $fields[] = " NULL ";
-                } else {
+                } else if(is_string($this->$value)){
                     $fields[] = " '{$this->$value}' ";
                 }
             }
