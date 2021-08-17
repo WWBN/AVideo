@@ -3816,6 +3816,8 @@ function getUsageFromFilename($filename, $dir = "") {
                     $info = YPTStorage::getFileInfo($filename);
                     if (!empty($info->size)) {
                         $totalSize += $info->size;
+                    }else{
+                        _error_log("getUsageFromFilename: there is no info on the YPTStorage ". print_r($info, true));
                     }
                 }else{
                    if ($dirSize < $minDirSize) {
