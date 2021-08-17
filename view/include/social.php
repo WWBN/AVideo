@@ -24,6 +24,7 @@ $linkedin = "http://www.linkedin.com/shareArticle?mini=true&url=$urlSocial&title
 $wordpress = "http://wordpress.com/press-this.php?u=$urlSocial&quote=$titleSocial&s=";
 $pinboard = "https://pinboard.in/popup_login/?url=$urlSocial&title=$titleSocial&description=";
 $gabURL = "https://gab.com/compose?url={$urlSocial}&text={$titleSocial}";
+$cloutHubURL = "https://app.clouthub.com/share?url={$urlSocial}&text={$titleSocial}";
 
 if (empty($socialAdded)) { // do not add the CSS more then once
     ?>     
@@ -45,6 +46,13 @@ $socialAdded = 1;
         <a href="<?php echo $gabURL; ?>" style="" target="_blank" class="icoGab" title="Gab" data-toggle="tooltip" >
             <i class="fas">
                 <img src="<?php echo getCDN(); ?>view/img/gab.png" title="gab" style="height: 30px;"/>
+            </i>
+        </a>
+    </li>
+    <li>
+        <a href="<?php echo $cloutHubURL; ?>" style="" target="_blank" class="icoCloutHub" title="CloutHub" data-toggle="tooltip" >
+            <i class="fas">
+                <img src="<?php echo getCDN(); ?>view/img/cloutHub.png" title="gab" style="height: 30px;"/>
             </i>
         </a>
     </li>
