@@ -1545,7 +1545,11 @@ class AVideoPlugin {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $r .= $p->getUploadMenuButton();
+                $btn = $p->getUploadMenuButton();
+                if(empty($btn)){
+                    continue;
+                }
+                $r .= "<!-- {$value['dirName']} getUploadMenuButton start -->".$btn."<!-- {$value['dirName']} getUploadMenuButton end -->";
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }

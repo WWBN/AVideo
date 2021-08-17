@@ -444,6 +444,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     </button>
                                     <?php
                                     if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
+                                        echo '<!-- navbar line '.__LINE__.'-->';
                                         ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <?php
@@ -490,6 +491,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                         </ul>     
                                         <?php
                                     } else {
+                                        echo '<!-- navbar line '.__LINE__.'-->';
                                         ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <li>
@@ -511,8 +513,10 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             <?php
                         } else {
                             $output = ob_get_clean();
+                            ob_start();
                             echo AVideoPlugin::getUploadMenuButton();
                             $getUploadMenuButton = ob_get_clean();
+                            ob_start();
                             if (!empty($getUploadMenuButton)) {
                                 ?>
                                 <li>
@@ -520,6 +524,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                         <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
                                             <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon) ? $advancedCustom->uploadButtonDropdownIcon : "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? __($advancedCustom->uploadButtonDropdownText) : ""; ?> <span class="caret"></span>
                                         </button>
+                                        <?php echo '<!-- navbar line '.__LINE__.'-->'; ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <?php
                                             echo $getUploadMenuButton;
@@ -528,9 +533,10 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     </div>
                                 </li>
                                 <?php
+                                $getUploadMenuButton = ob_get_clean();
+                                ob_start();
                             }
-                            ob_start();
-                            echo $output;
+                            echo $output.$getUploadMenuButton;
                         }
                         ?>
                         <li>
@@ -618,7 +624,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                                  class="img img-responsive img-circle" alt="User Photo"
                                                  />
                                         </button>
-
+                                        <?php echo '<!-- navbar line '.__LINE__.'-->'; ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <li>
                                                 <div class="pull-left" style="margin-left: 10px;">
