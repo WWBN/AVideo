@@ -149,7 +149,7 @@ abstract class PluginAbstract {
                 $to = gettype($o->$key);
                 if($teo !== $to){ // this will make sure the type is the same
                     if(!is_numeric($value) || !is_numeric($o->$key)){
-                        if(!(is_numeric($value) && is_bool($o->$key)) || !(is_bool($value) && is_numeric($o->$key))){
+                        if(!(is_int($value) && is_bool($o->$key)) && !(is_bool($value) && is_int($o->$key))){
                             _error_log("getDataObject - type is different $teo !== $to uuid = $uuid");
                             $o->$key = $value;
                         }
