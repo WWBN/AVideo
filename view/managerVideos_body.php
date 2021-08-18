@@ -1780,17 +1780,19 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                     continue;
                                                                 }
                                                                 var url = row.videosURL[k].url;
-                                                                var downloadURL = addGetParam(url, 'download', 1);
-                                                                var pattern = /^m3u8/i;
-                                                                if (pattern.test(k) === true) {
-                                                                    downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '_' + k + '.mp4');
-                                                                    download += '<div class="btn-group  btn-group-justified">';
-                                                                    download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
-                                                                    download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
-                                                                    download += '</div>';
-                                                                } else {
-                                                                    downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '.mp4');
-                                                                    download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
+                                                                if (!url.includes('.s3.')) {
+                                                                    var downloadURL = addGetParam(url, 'download', 1);
+                                                                    var pattern = /^m3u8/i;
+                                                                    if (pattern.test(k) === true) {
+                                                                        downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '_' + k + '.mp4');
+                                                                        download += '<div class="btn-group  btn-group-justified">';
+                                                                        download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
+                                                                        download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
+                                                                        download += '</div>';
+                                                                    } else {
+                                                                        downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '.mp4');
+                                                                        download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
+                                                                    }
                                                                 }
 
                                                             }
