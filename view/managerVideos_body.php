@@ -1781,7 +1781,7 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                 }
                                                                 var url = row.videosURL[k].url;
                                                                 var addParameters = true;
-                                                                if (!url.includes('.s3.')) {
+                                                                if (url.includes('.s3.')) {
                                                                     addParameters = false;
                                                                 }
                                                                 var downloadURL = url;
