@@ -705,8 +705,9 @@ if (typeof gtag !== \"function\") {
         $cacheName = "canWatchVideo$videos_id";
         if (!User::isLogged()) {
             $cacheName = "canWatchVideoNOTLOGED$videos_id";
-            $cache = ObjectYPT::getCache($cacheName, 3600);
-        } else {
+            $cache = ObjectYPT::getCache($cacheName, 60);
+        }
+        if (empty($cache)) {
             $cache = ObjectYPT::getSessionCache($cacheName, 600);
         }
         if (isset($cache)) {
@@ -715,7 +716,6 @@ if (typeof gtag !== \"function\") {
             }
             return $cache;
         }
-
         if (empty($videos_id)) {
             _error_log("User::canWatchVideo Video is empty ({$videos_id})");
             return false;
@@ -745,7 +745,7 @@ if (typeof gtag !== \"function\") {
 
         // check if the video is not public
         $rows = UserGroups::getVideoGroups($videos_id);
-        
+
         if (empty($rows)) {
             // check if any plugin restrict access to this video
             $pluginCanWatch = AVideoPlugin::userCanWatchVideo(User::getId(), $videos_id);
@@ -1283,7 +1283,7 @@ if (typeof gtag !== \"function\") {
     public static function getUserFromEmail($email) {
         $email = trim($email);
         $sql = "SELECT * FROM users WHERE email = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "s", array($email));
+        $res = sqlDAL::readSql($sql, "s", array($email), true);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user != false) {
