@@ -285,6 +285,8 @@ abstract class ObjectYPT implements ObjectInterface {
                     $fields[] = " NULL ";
                 } else if(is_string($this->$value)){
                     $fields[] = " '{$this->$value}' ";
+                }else{
+                    $fields[] = " NULL ";
                 }
             }
             $sql .= " VALUES (" . implode(", ", $fields) . ")";
