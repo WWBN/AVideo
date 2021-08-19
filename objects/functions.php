@@ -3821,10 +3821,10 @@ function getUsageFromFilename($filename, $dir = "") {
                         _error_log("getUsageFromFilename: there is no info on the YPTStorage ". print_r($info, true));
                     }
                 }else{
-                   if ($dirSize < $minDirSize) {
+                   if (!($dirSize < $minDirSize)) {
                         _error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
                     } 
-                    if($isEnabled){
+                    if(!$isEnabled){
                         _error_log("getUsageFromFilename: YPTStorage is disabled");
                     }
                 }
