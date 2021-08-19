@@ -25,7 +25,7 @@ function startLiveRestream(m3u8, forceIndex) {
     console.log('WebRTCLiveCam: startLiveRestream', m3u8, forceIndex);
     modal.showPleaseWait();
     $.ajax({
-        url: webSiteRootURL + '/plugin/Live/webRTCToLive.json.php',
+        url: webSiteRootURL + 'plugin/Live/webRTCToLive.json.php',
         method: 'POST',
         data: {
             'm3u8': m3u8,
