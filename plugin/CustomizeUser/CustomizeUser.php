@@ -443,6 +443,7 @@ class CustomizeUser extends PluginAbstract {
                 $thisScriptFile["basename"] === "channels.php" ||
                 $thisScriptFile["basename"] === "trending.php") &&
                 !User::isLogged()) {
+            _error_log("CustomizeUser::userMustBeLoggedIn basename: {$thisScriptFile["basename"]}");
             $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
             header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($actual_link));
             exit;
