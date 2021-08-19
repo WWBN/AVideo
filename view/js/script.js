@@ -508,7 +508,7 @@ function _addView(videos_id, currentTime) {
 
 var _addViewAsyncSent = false;
 function _addViewAsync() {
-    if(_addViewAsyncSent){
+    if(_addViewAsyncSent || typeof webSiteRootURL == 'undefined'){
         return false;
     }
     if(typeof PHPSESSID == 'undefined'){
