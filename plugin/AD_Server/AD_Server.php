@@ -126,9 +126,8 @@ class AD_Server extends PluginAbstract {
 
     public function canLoadAds() {
         //if (empty($_GET['videoName']) && empty($_GET['u'])) {
-
-        if (isVideo()) {
-            $videos_id = getVideos_id();
+        $videos_id = getVideos_id();
+        if (!empty($videos_id)) {
             $showAds = AVideoPlugin::showAds($videos_id);
             if (!$showAds) {
                 return false;
