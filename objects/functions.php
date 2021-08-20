@@ -3674,11 +3674,13 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10) {
 function _session_start(array $options = array()) {
     try {
         if (!empty($_GET['PHPSESSID'])) {
-            if (session_status() != PHP_SESSION_NONE) {
-                @session_write_close();
+            if($_GET['PHPSESSID'] !== session_id()){
+                if (session_status() != PHP_SESSION_NONE) {
+                    @session_write_close();
+                }
+                session_id($_GET['PHPSESSID']);
+                _error_log("captcha: session_id changed to " . $_GET['PHPSESSID']);
             }
-            session_id($_GET['PHPSESSID']);
-            _error_log("captcha: session_id changed to " . $_GET['PHPSESSID']);
             unset($_GET['PHPSESSID']);
             return @session_start($options);
         }else if (session_status() == PHP_SESSION_NONE) {
