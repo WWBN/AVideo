@@ -111,16 +111,22 @@ table.dataTable thead .sorting_desc_disabled:after {
 table.dataTable thead .sorting:after {
   opacity: 0.2;
   content: "\f0dc";
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
   /* sort */
 }
 table.dataTable thead .sorting_asc:after {
   opacity: 0.5;
   content: "\f884";
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
   /* sort-by-attributes */
 }
 table.dataTable thead .sorting_desc:after {
   opacity: 0.5;
   content: "\f161";
+    font-family: "Font Awesome\ 5 Free";
+    font-weight: 900;
   /* sort-by-attributes-alt */
 }
 table.dataTable thead .sorting_asc_disabled:after,
