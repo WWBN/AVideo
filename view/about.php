@@ -36,12 +36,6 @@ $metaDescription = "About Page";
                             <h1><?php echo __("For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen."); ?></h1>
                             <footer class="blockquote-footer"><?php echo __("Apostle Paul in"); ?> <cite title="Source Title"><?php echo __("Romans 11:36"); ?></cite></footer>
                         </blockquote>
-                        <div class="btn-group btn-group-justified">
-                            <a href="https://www.avideo.com/" class="btn btn-success"><?php echo __("Main Site"); ?></a>
-                            <a href="https://demo.avideo.com/" class="btn btn-danger"><?php echo __("Demo Site"); ?></a>
-                            <a href="https://tutorials.avideo.com/" class="btn btn-primary"><?php echo __("Tutorials Site"); ?></a>
-                            <a href="https://github.com/WWBN/AVideo/issues" class="btn btn-warning"><?php echo __("Issues and requests Site"); ?></a>
-                        </div>
                         <div class="clearfix"></div>
                         <span class="label label-success"><?php printf(__("You are running AVideo version %s!"), $config->getVersion()); ?></span>
 
