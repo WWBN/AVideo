@@ -117,7 +117,7 @@ table.dataTable thead .sorting:after {
 }
 table.dataTable thead .sorting_asc:after {
   opacity: 0.5;
-  content: "\f884";
+  content: "\f160";
     font-family: "Font Awesome\ 5 Free";
     font-weight: 900;
   /* sort-by-attributes */
