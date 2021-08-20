@@ -110,17 +110,17 @@ table.dataTable thead .sorting_desc_disabled:after {
 }
 table.dataTable thead .sorting:after {
   opacity: 0.2;
-  content: "";
+  content: "\f0dc";
   /* sort */
 }
 table.dataTable thead .sorting_asc:after {
   opacity: 0.5;
-  content: "";
+  content: "\f884";
   /* sort-by-attributes */
 }
 table.dataTable thead .sorting_desc:after {
   opacity: 0.5;
-  content: "";
+  content: "\f161";
   /* sort-by-attributes-alt */
 }
 table.dataTable thead .sorting_asc_disabled:after,
