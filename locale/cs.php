@@ -210,6 +210,7 @@ $t['Edit-symbol and enable Create an Advertising'] = "Klepněte na symbol editac
 $t['Email All Users'] = "Napsat všem e-mail";
 $t['Email can not be blank'] = "Email can not be blank";
 $t['Embed Stream'] = "Embed Stream";
+$t['Embed URL for trailer'] = "Vložit URL pro upoutávku";
 $t['Embed a video link'] = "Vložit odkaz na video";
 $t['Embed videos/files in your site'] = "Vložit video/soubor do vaší stránky";
 $t['Embed'] = "Vložit";
