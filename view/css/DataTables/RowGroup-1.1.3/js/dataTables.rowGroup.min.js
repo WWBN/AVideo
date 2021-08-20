@@ -1,0 +1,22 @@
+/*!
+   Copyright 2017-2021 SpryMedia Ltd.
+
+ This source file is free software, available under the following license:
+   MIT license - http://datatables.net/license/mit
+
+ This source file is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
+
+ For details please refer to: http://www.datatables.net
+ RowGroup 1.1.3
+ ©2017-2021 SpryMedia Ltd - datatables.net/license
+*/
+(function(c){"function"===typeof define&&define.amd?define(["jquery","datatables.net"],function(l){return c(l,window,document)}):"object"===typeof exports?module.exports=function(l,p){l||(l=window);p&&p.fn.dataTable||(p=require("datatables.net")(l,p).$);return c(p,l,l.document)}:c(jQuery,window,document)})(function(c,l,p,q){var f=c.fn.dataTable,m=function(a,b){if(!f.versionCheck||!f.versionCheck("1.10.8"))throw"RowGroup requires DataTables 1.10.8 or newer";this.c=c.extend(!0,{},f.defaults.rowGroup,
+m.defaults,b);this.s={dt:new f.Api(a)};this.dom={};a=this.s.dt.settings()[0];if(b=a.rowGroup)return b;a.rowGroup=this;this._constructor()};c.extend(m.prototype,{dataSrc:function(a){if(a===q)return this.c.dataSrc;var b=this.s.dt;this.c.dataSrc=a;c(b.table().node()).triggerHandler("rowgroup-datasrc.dt",[b,a]);return this},disable:function(){this.c.enable=!1;return this},enable:function(a){if(!1===a)return this.disable();this.c.enable=!0;return this},enabled:function(){return this.c.enable},_constructor:function(){var a=
+this,b=this.s.dt,d=b.settings()[0];b.on("draw.dtrg",function(g,r){a.c.enable&&d===r&&a._draw()});b.on("column-visibility.dt.dtrg responsive-resize.dt.dtrg",function(){a._adjustColspan()});b.on("destroy",function(){b.off(".dtrg")})},_adjustColspan:function(){c("tr."+this.c.className,this.s.dt.table().body()).find("td:visible").attr("colspan",this._colspan())},_colspan:function(){return this.s.dt.columns().visible().reduce(function(a,b){return a+b},0)},_draw:function(){var a=this._group(0,this.s.dt.rows({page:"current"}).indexes());
+this._groupDisplay(0,a)},_group:function(a,b){for(var d=Array.isArray(this.c.dataSrc)?this.c.dataSrc:[this.c.dataSrc],g=f.ext.oApi._fnGetObjectDataFn(d[a]),r=this.s.dt,h,n,k=[],e=0,t=b.length;e<t;e++){var u=b[e];h=r.row(u).data();h=g(h);if(null===h||h===q)h=this.c.emptyDataGroup;if(n===q||h!==n)k.push({dataPoint:h,rows:[]}),n=h;k[k.length-1].rows.push(u)}if(d[a+1]!==q)for(e=0,t=k.length;e<t;e++)k[e].children=this._group(a+1,k[e].rows);return k},_groupDisplay:function(a,b){for(var d=this.s.dt,g,r=
+0,h=b.length;r<h;r++){var n=b[r],k=n.dataPoint,e=n.rows;this.c.startRender&&(g=this.c.startRender.call(this,d.rows(e),k,a),(g=this._rowWrap(g,this.c.startClassName,a))&&g.insertBefore(d.row(e[0]).node()));this.c.endRender&&(g=this.c.endRender.call(this,d.rows(e),k,a),(g=this._rowWrap(g,this.c.endClassName,a))&&g.insertAfter(d.row(e[e.length-1]).node()));n.children&&this._groupDisplay(a+1,n.children)}},_rowWrap:function(a,b,d){if(null===a||""===a)a=this.c.emptyDataGroup;return a===q||null===a?null:
+("object"===typeof a&&a.nodeName&&"tr"===a.nodeName.toLowerCase()?c(a):a instanceof c&&a.length&&"tr"===a[0].nodeName.toLowerCase()?a:c("<tr/>").append(c("<td/>").attr("colspan",this._colspan()).append(a))).addClass(this.c.className).addClass(b).addClass("dtrg-level-"+d)}});m.defaults={className:"dtrg-group",dataSrc:0,emptyDataGroup:"No group",enable:!0,endClassName:"dtrg-end",endRender:null,startClassName:"dtrg-start",startRender:function(a,b){return b}};m.version="1.1.3";c.fn.dataTable.RowGroup=
+m;c.fn.DataTable.RowGroup=m;f.Api.register("rowGroup()",function(){return this});f.Api.register("rowGroup().disable()",function(){return this.iterator("table",function(a){a.rowGroup&&a.rowGroup.enable(!1)})});f.Api.register("rowGroup().enable()",function(a){return this.iterator("table",function(b){b.rowGroup&&b.rowGroup.enable(a===q?!0:a)})});f.Api.register("rowGroup().enabled()",function(){var a=this.context;return a.length&&a[0].rowGroup?a[0].rowGroup.enabled():!1});f.Api.register("rowGroup().dataSrc()",
+function(a){return a===q?this.context[0].rowGroup.dataSrc():this.iterator("table",function(b){b.rowGroup&&b.rowGroup.dataSrc(a)})});c(p).on("preInit.dt.dtrg",function(a,b,d){"dt"===a.namespace&&(a=b.oInit.rowGroup,d=f.defaults.rowGroup,a||d)&&(d=c.extend({},d,a),!1!==a&&new m(b,d))});return m});
