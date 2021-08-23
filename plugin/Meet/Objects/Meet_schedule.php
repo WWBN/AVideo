@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
 class Meet_schedule extends ObjectYPT {
 
-    protected $id,$users_id,$status,$public,$live_stream,$password,$topic,$starts,$finish,$name,$meet_code;
+    protected $id,$users_id,$status,$public,$live_stream,$password,$topic,$starts,$finish,$name,$meet_code, $timezone;
 
     static function getSearchFieldsNames() {
         return array('password','topic','name','meet_code');
@@ -216,6 +216,11 @@ class Meet_schedule extends ObjectYPT {
                     $row['joinURL'] = Meet::getJoinURL();
                     $row['roomID'] = Meet::getRoomID($row['id']);
                 }
+                
+                $row['starts_timezone'] = "{$row['starts']} ".__('Timezone').": {$row['timezone']}";
+                
+                $row['starts_in'] = humanTimingAfterwards($row['starts'], 2, $row['timezone']);
+                
                 $rows[] = $row;
             }
         } else {
@@ -320,6 +325,8 @@ class Meet_schedule extends ObjectYPT {
                     $row['joinURL'] = Meet::getJoinURL();
                     $row['roomID'] = Meet::getRoomID($row['id']);
                 }
+                $row['starts_timezone'] = "{$row['starts']} ".__('Timezone').": {$row['timezone']}";
+                $row['starts_in'] = humanTimingAfterwards($row['starts'],2, $row['timezone']);
                 $rows[] = $row;
             }
         } else {
@@ -368,11 +375,22 @@ class Meet_schedule extends ObjectYPT {
         }
         return false;
     }
+    
+    function getTimezone() {
+        return $this->timezone;
+    }
 
+    private function _setTimezone($timezone) {
+        $this->timezone = $timezone;
+    }
+    
     function save() {
         if(empty($this->finish)){
             $this->finish = 'null';
         }
+        
+        $this->_setTimeZone(date_default_timezone_get());
+        
         return parent::save();
     }
 

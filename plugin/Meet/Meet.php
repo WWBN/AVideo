@@ -23,7 +23,19 @@ class Meet extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "3.0";
+    }
+    
+    public function updateScript() {
+        global $global;
+        if (AVideoPlugin::compareVersion($this->getName(), "3.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Meet/install/updateV3.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        return true;
     }
 
     public function getDescription() {
@@ -392,7 +404,11 @@ Passcode: {password}
          * Specific User Groups = 0
          * @return type
          */
-        if (empty($meet->getStarts()) || strtotime($meet->getStarts()) >= strtotime()) {
+        
+        $timezone = $meet->getTimezone();
+        $now = getTimeInTimezone($timezone);
+        
+        if (empty($meet->getStarts()) || strtotime($meet->getStarts()) >= $now) {
             // means public
             if ($meet->getPublic() == "2") {
                 $obj->canJoin = true;

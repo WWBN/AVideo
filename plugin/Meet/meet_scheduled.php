@@ -41,6 +41,7 @@ if (!User::canCreateMeet()) {
             </th>
             <th><?php echo __("Topic"); ?></th>
             <th><?php echo __("Starts"); ?></th>
+            <th><?php echo __("Starts In"); ?></th>
             <th><?php echo __("Owner"); ?></th>
             <th></th>
         </tr>
@@ -60,6 +61,7 @@ if (!User::canCreateMeet()) {
             </th>
             <th><?php echo __("Topic"); ?></th>
             <th><?php echo __("Starts"); ?></th>
+            <th><?php echo __("Starts In"); ?></th>
             <th><?php echo __("Owner"); ?></th>
             <th></th>
         </tr>
@@ -176,7 +178,19 @@ if (!User::canCreateMeet()) {
                                 }
                             },
                             {"data": "topic"},
-                            {"data": "starts"},
+                            {
+                                "data": "starts",
+                                "render": function (data, type, row) {
+                                    return row.starts_timezone;
+                                }
+                            },
+                            {
+                                sortable: false,
+                                data: null,
+                                "render": function (data, type, row) {
+                                    return row.starts_in;
+                                }
+                            },
                             {"data": "identification"},
                             {
                                 sortable: false,
