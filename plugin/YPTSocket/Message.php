@@ -68,7 +68,7 @@ class Message implements MessageComponentInterface {
         } else {
             $limit = 900;
         }
-        $limit = 99999;
+        //$limit = 99999;
         if(count($this->clients)>$limit){
             $resourceId = array_key_first($this->clients);
             _log_message("\e[1;32;40m*** Closing connection {$resourceId} ***\e[0m");
