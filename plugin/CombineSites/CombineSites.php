@@ -9,7 +9,8 @@ class CombineSites extends PluginAbstract {
     public function getTags() {
         return array(
             PluginTags::$RECOMMENDED,
-            PluginTags::$FREE
+            PluginTags::$FREE,
+            PluginTags::$DEPRECATED
         );
     }
     public function getDescription() {
