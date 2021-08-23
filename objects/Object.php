@@ -62,10 +62,10 @@ abstract class ObjectYPT implements ObjectInterface {
             return false;
         }
         try {
+            date_default_timezone_set($timezone);
             $objDate = new DateTimeZone($timezone);
             if (is_object($objDate)) {
                 $dt->setTimezone($objDate);
-                date_default_timezone_set($timezone);
                 return $dt;
             }
             return false;
