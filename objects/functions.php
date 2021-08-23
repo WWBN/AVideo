@@ -137,14 +137,14 @@ function humanTimingAgo($time, $precision = 0, $useDatabaseTime = true) {
 }
 
 function humanTimingAfterwards($time, $precision = 0, $useDatabaseTime = true) {
-    if(!is_numeric($time)){
+    if (!is_numeric($time)) {
         $time = strtotime($time);
     }
     $time = secondsIntervalFromNow($time, $useDatabaseTime);
     if (empty($time)) {
         return __("Now");
-    }else if($time>0){
-        return secondsToHumanTiming($time, $precision).' '.__('Ago');
+    } else if ($time > 0) {
+        return secondsToHumanTiming($time, $precision) . ' ' . __('Ago');
     }
     return __('Coming in') . ' ' . secondsToHumanTiming($time, $precision);
 }
@@ -6672,18 +6672,16 @@ function secondsIntervalHuman($time, $useDatabaseTime = true) {
     }
 }
 
-function secondsIntervalFromNow($time, $useDatabaseTime = true) {
-    if (!empty($useDatabaseTime)) {
-        if (is_numeric($var) || is_bool($var)) {
-            return secondsInterval(getDatabaseTime(), $time);
-        } else {
-            return secondsInterval(getDatabaseTime(), $time);
+function secondsIntervalFromNow($time, $useDatabaseTimeOrTimezoneString = true) {
+    $timeNow = time();
+    if (!empty($useDatabaseTimeOrTimezoneString)) {
+        if (is_numeric($useDatabaseTimeOrTimezoneString) || is_bool($useDatabaseTimeOrTimezoneString)) {
+            $timeNow = getDatabaseTime();
+        } else if (is_string($useDatabaseTimeOrTimezoneString)) {
+            $timeNow = getTimeInTimezone($timeNow, $useDatabaseTimeOrTimezoneString);
         }
-    } else {
-        
     }
-
-    return secondsInterval(time(), $time);
+    return secondsInterval($timeNow, $time);
 }
 
 function getScriptRunMicrotimeInSeconds() {
@@ -7076,22 +7074,27 @@ function seconds2human($ss) {
     return implode(', ', $times);
 }
 
-function getTimeInTimezone($timezone) {
-    if(empty($timezone) || empty($timezone)){
-        return time();
+function getTimeInTimezone($time, $timezone) {
+    if(!is_numeric($time)){
+        $time = strtotime($time);
+    }    
+    if (empty($timezone) || empty(date_default_timezone_get()) || $timezone == date_default_timezone_get()) {
+        return $time;
     }
-    $date = new DateTime("now", new DateTimeZone($timezone));
-    $date->format('Y-m-d H:i:s');
-    return $date->getTimestamp();
+    $date = new DateTime(date('Y-m-d H:i:s', $time));
+    $date->setTimezone(new DateTimeZone($timezone));
+    //$date->setTimezone(date_default_timezone_get());
+    $dateString = $date->format('Y-m-d H:i:s');
+    return strtotime($dateString);
 }
 
-function timeToUTC($dateString){
-    if(empty($dateString)){
+function timeToUTC($dateString) {
+    if (empty($dateString)) {
         $dateString = date('Y-m-d H:i:s');
-    }else if(is_numeric($dateString)){
+    } else if (is_numeric($dateString)) {
         $dateString = date('Y-m-d H:i:s', $dateString);
     }
-    
+
     $date = new DateTime($dateString);
     $date->setTimezone(new DateTimeZone('UTC'));
     return $date->format('Y-m-d H:i:s');
