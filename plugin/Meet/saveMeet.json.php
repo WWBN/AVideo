@@ -73,7 +73,7 @@ $o->setPublic($_REQUEST['public']);
 $o->setLive_stream($_REQUEST['live_stream']);
 $o->setPassword(@$_REQUEST['RoomPasswordNew']);
 $o->setTopic(@$_REQUEST['RoomTopic']);
-$o->setStarts(ObjectYPT::clientTimezoneToDatabaseTimezone($_REQUEST['starts']));
+$o->setStarts($_REQUEST['starts']);
 $o->setName($obj->roomName);
 $o->setMeet_code(uniqid());
 $meet_schedule_id = $o->save();

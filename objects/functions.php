@@ -143,6 +143,8 @@ function humanTimingAfterwards($time, $precision = 0, $useDatabaseTime = true) {
     $time = secondsIntervalFromNow($time, $useDatabaseTime);
     if (empty($time)) {
         return __("Now");
+    }else if($time>0){
+        return secondsToHumanTiming($time, $precision).' '.__('Ago');
     }
     return __('Coming in') . ' ' . secondsToHumanTiming($time, $precision);
 }
