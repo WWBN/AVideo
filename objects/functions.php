@@ -137,6 +137,9 @@ function humanTimingAgo($time, $precision = 0, $useDatabaseTime = true) {
 }
 
 function humanTimingAfterwards($time, $precision = 0, $useDatabaseTime = true) {
+    if(!is_numeric($time)){
+        $time = strtotime($time);
+    }
     $time = secondsIntervalFromNow($time, $useDatabaseTime);
     if (empty($time)) {
         return __("Now");
@@ -3674,7 +3677,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10) {
 function _session_start(array $options = array()) {
     try {
         if (!empty($_GET['PHPSESSID'])) {
-            if($_GET['PHPSESSID'] !== session_id()){
+            if ($_GET['PHPSESSID'] !== session_id()) {
                 if (session_status() != PHP_SESSION_NONE) {
                     @session_write_close();
                 }
@@ -3683,7 +3686,7 @@ function _session_start(array $options = array()) {
             }
             unset($_GET['PHPSESSID']);
             return @session_start($options);
-        }else if (session_status() == PHP_SESSION_NONE) {
+        } else if (session_status() == PHP_SESSION_NONE) {
             return @session_start($options);
         }
     } catch (Exception $exc) {
@@ -3788,10 +3791,10 @@ function getUsageFromFilename($filename, $dir = "") {
     _error_log("getUsageFromFilename: start {$dir}{$filename}");
     //$files = glob("{$dir}{$filename}*");
     $paths = Video::getPaths($filename);
-    
-    if(is_dir($paths['path'])){
+
+    if (is_dir($paths['path'])) {
         $files = array($paths['path']);
-    }else{
+    } else {
         $files = globVideosDir($filename);
     }
     //var_dump($paths, $files, $filename);exit;
@@ -3817,16 +3820,16 @@ function getUsageFromFilename($filename, $dir = "") {
                     // probably the HLS file is hosted on the YPTStorage
                     $info = YPTStorage::getFileInfo($filename);
                     if (!empty($info->size)) {
-                        _error_log("getUsageFromFilename: found info on the YPTStorage ". print_r($info, true));
+                        _error_log("getUsageFromFilename: found info on the YPTStorage " . print_r($info, true));
                         $totalSize += $info->size;
-                    }else{
-                        _error_log("getUsageFromFilename: there is no info on the YPTStorage ". print_r($info, true));
+                    } else {
+                        _error_log("getUsageFromFilename: there is no info on the YPTStorage " . print_r($info, true));
                     }
-                }else{
-                   if (!($dirSize < $minDirSize)) {
+                } else {
+                    if (!($dirSize < $minDirSize)) {
                         _error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
-                    } 
-                    if(!$isEnabled){
+                    }
+                    if (!$isEnabled) {
                         _error_log("getUsageFromFilename: YPTStorage is disabled");
                     }
                 }
@@ -5743,7 +5746,7 @@ function globVideosDir($filename, $filesOnly = false) {
     }
     $cleanfilename = Video::getCleanFilenameFromFile($filename);
     $paths = Video::getPaths($filename);
-    
+
     $dir = $paths['path'];
 
     if (is_dir($dir . $filename)) {
@@ -6668,11 +6671,17 @@ function secondsIntervalHuman($time, $useDatabaseTime = true) {
 }
 
 function secondsIntervalFromNow($time, $useDatabaseTime = true) {
-    if ($useDatabaseTime) {
-        return secondsInterval(getDatabaseTime(), $time);
+    if (!empty($useDatabaseTime)) {
+        if (is_numeric($var) || is_bool($var)) {
+            return secondsInterval(getDatabaseTime(), $time);
+        } else {
+            return secondsInterval(getDatabaseTime(), $time);
+        }
     } else {
-        return secondsInterval(time(), $time);
+        
     }
+
+    return secondsInterval(time(), $time);
 }
 
 function getScriptRunMicrotimeInSeconds() {
@@ -7063,4 +7072,13 @@ function seconds2human($ss) {
     }
 
     return implode(', ', $times);
+}
+
+function getTimeInTimezone($timezone) {
+    if(empty($timezone) || empty($timezone)){
+        return time();
+    }
+    $date = new DateTime("now", new DateTimeZone($timezone));
+    $date->format('Y-m-d H:i:s');
+    return $date->getTimestamp();
 }
