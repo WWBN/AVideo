@@ -53,7 +53,9 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
         <div class="container-fluid nopadding">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="far fa-comments"></i> <?php echo __("Meeting"); ?> <span id="serverTime" class="label label-default pull-right"  data-toggle="tooltip" data-placement="bottom" title="Server Time"></span>
+                    <i class="far fa-comments"></i> <?php echo __("Meeting"); ?> 
+                    <span id="serverTime" class="label label-default pull-right"  data-toggle="tooltip" data-placement="bottom" title="Server Time"></span>
+                    <span class="label label-default pull-right"  data-toggle="tooltip" data-placement="bottom" title="Timezone"> <?php echo date_default_timezone_get(); ?> </span>
                     <div class="pull-right serverLabels">
                         <span class="label label-warning"><i class="fas fa-cog fa-spin"></i> <?php echo __("Loading Server Info"); ?></span>
                     </div>
@@ -107,7 +109,7 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
             <script>
                                         var serverLabelsRequestTime;
                                         $(document).ready(function () {
-<?php $today = getdate(); ?>
+                                            <?php $today = getdate(); ?>
                                             var d = new Date(<?php echo $today['year'] . "," . $today['mon'] . "," . $today['mday'] . "," . $today['hours'] . "," . $today['minutes'] . "," . $today['seconds']; ?>);
                                             setInterval(function () {
                                                 d.setSeconds(d.getSeconds() + 1);
