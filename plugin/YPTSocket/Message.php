@@ -68,7 +68,7 @@ class Message implements MessageComponentInterface {
         } else {
             $limit = 900;
         }
-        
+        $limit = 99999;
         if(count($this->clients)>$limit){
             $resourceId = array_key_first($this->clients);
             _log_message("\e[1;32;40m*** Closing connection {$resourceId} ***\e[0m");
@@ -398,7 +398,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
-        _log_message("msgToAll FROM ({$from->resourceId}) {$type}");
+        _log_message("msgToAll FROM ({$from->resourceId}) {$type} Total Clients: ".count($this->clients));
         foreach ($this->clients as $key => $client) {
             if (!empty($includeMe) || $from !== $client['conn']) {
                 //_log_message("msgToAll FROM ({$from->resourceId}) TO {$key} {$type}");
