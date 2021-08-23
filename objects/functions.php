@@ -7082,3 +7082,15 @@ function getTimeInTimezone($timezone) {
     $date->format('Y-m-d H:i:s');
     return $date->getTimestamp();
 }
+
+function timeToUTC($dateString){
+    if(empty($dateString)){
+        $dateString = date('Y-m-d H:i:s');
+    }else if(is_numeric($dateString)){
+        $dateString = date('Y-m-d H:i:s', $dateString);
+    }
+    
+    $date = new DateTime($dateString);
+    $date->setTimezone(new DateTimeZone('UTC'));
+    return $date->format('Y-m-d H:i:s');
+}

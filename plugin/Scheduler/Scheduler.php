@@ -23,20 +23,20 @@ class Scheduler extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "2.0";
     }
-
+    
     public function updateScript() {
-        global $global;       
-        /*
+        global $global;
         if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
-            sqlDal::executeFile($global['systemRootPath'] . 'plugin/PayPerView/install/updateV2.0.sql');
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV2.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
         }
-         * 
-         */
         return true;
     }
-
     public function getEmptyDataObject() {
         $obj = new stdClass();
         /*
@@ -98,5 +98,4 @@ class Scheduler extends PluginAbstract {
         $e->setCallbackURL($callbackURL);
         return $e->save();
     }
-
 }
