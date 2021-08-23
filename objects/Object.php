@@ -50,8 +50,6 @@ abstract class ObjectYPT implements ObjectInterface {
         if(!isset($timezoneOriginal)){
             $timezoneOriginal = date_default_timezone_get();
         }
-        $row = self::getNowFromDB();
-        $dt = new DateTime($row['my_date_field']);
         if(!empty($_COOKIE['timezone']) && $_COOKIE['timezone'] !== 'undefined'){
             $timezone = $_COOKIE['timezone'];
         }else{
@@ -61,18 +59,7 @@ abstract class ObjectYPT implements ObjectInterface {
         if (empty($timezone) || $timezone == 'undefined') {
             return false;
         }
-        try {
-            date_default_timezone_set($timezone);
-            $objDate = new DateTimeZone($timezone);
-            if (is_object($objDate)) {
-                $dt->setTimezone($objDate);
-                return $dt;
-            }
-            return false;
-        } catch (Exception $exc) {
-            _error_log("setTimeZone: " . $exc->getMessage(), AVideoLog::$ERROR);
-            return false;
-        }
+        date_default_timezone_set($timezone);
     }
 
     protected static function getFromDb($id) {
