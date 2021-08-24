@@ -406,7 +406,7 @@ Passcode: {password}
          */
         
         $timezone = $meet->getTimezone();
-        $now = getTimeInTimezone($timezone);
+        $now = getTimeInTimezone('now', $timezone);
         
         if (empty($meet->getStarts()) || strtotime($meet->getStarts()) >= $now) {
             // means public
