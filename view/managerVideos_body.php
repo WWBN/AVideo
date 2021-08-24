@@ -580,7 +580,7 @@
                                                     return false;
                                                 }
                                             }).autocomplete("instance")._renderItem = function (ul, item) {
-                                                return $("<li>").append("<div>" + item.title + "<br><?php echo __("Uploaded By"); ?>: " + item.user + "</div>").appendTo(ul);
+                                                return $("<li>").append("<div class='clearfix'><img class='img img-responsive pull-left' style='max-width: 90px;max-height: 35px; margin-right: 10px;' src='" + item.videosURL.jpg.url + "'/>[#" + item.id + "] " + item.title + "<br><?php echo __("Owner"); ?>: " + item.user + "</div>").appendTo(ul);
                                             };
                                             $("#inputUserOwner").autocomplete({
                                                 minLength: 0,
