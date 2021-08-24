@@ -404,13 +404,9 @@ Passcode: {password}
          * Logged Users Only = 1
          * Specific User Groups = 0
          * @return type
-         */
-        $timezone = $meet->getTimezone();
-        $now = getTimeInTimezone('now', $timezone);
-
+         */        
         $time = secondsIntervalFromNow($meet->getStarts(), $meet->getTimezone());
-
-        if (empty($meet->getStarts()) || $time < 0) {
+        if (empty($meet->getStarts()) || $time>0) {
             // means public
             if ($meet->getPublic() == "2") {
                 $obj->canJoin = true;
@@ -426,7 +422,7 @@ Passcode: {password}
                 return $obj;
             }
         } else {
-            $obj->reason = "The meet does not start yet {$meet->getStarts()} " . humanTimingAfterwards($meet->getStarts(), 2, $meet->getTimezone());
+            $obj->reason = "The meet does not start yet {$meet->getStarts()} {$meet->getTimezone()} " . humanTimingAfterwards($meet->getStarts(), 2, $meet->getTimezone());
             return $obj;
         }
     }
