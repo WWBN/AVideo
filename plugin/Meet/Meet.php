@@ -408,7 +408,9 @@ Passcode: {password}
         $timezone = $meet->getTimezone();
         $now = getTimeInTimezone('now', $timezone);
         
-        if (empty($meet->getStarts()) || strtotime($meet->getStarts()) >= $now) {
+        $time = secondsIntervalFromNow($meet->getStarts(), $meet->getTimezone());
+        
+        if (empty($meet->getStarts()) || $time<0) {
             // means public
             if ($meet->getPublic() == "2") {
                 $obj->canJoin = true;
