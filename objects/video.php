@@ -709,7 +709,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
@@ -1041,7 +1041,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
@@ -1497,7 +1497,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             if (!empty($_POST['searchPhrase'])) {
-                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
