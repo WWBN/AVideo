@@ -20,7 +20,7 @@ if (!empty($_GET['c'])) {
     }
 }
 
-$livet = LiveTransmition::getFromDbByUserName($_GET['u']);
+$livet = LiveTransmition::getFromRequest();
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 $lt = new LiveTransmition($livet['id']);
 if (!$lt->userCanSeeTransmition()) {

@@ -10,12 +10,8 @@ $obj = AVideoPlugin::getDataObject("Live");
         bottom: 5px;
         right: 5px;
     }
-    .liveVideo .liveNow{
-        background-color: rgba(255,0,0,0.7);
-    }
     #availableLiveStream{
-        min-width: 300px;
-        max-width: 400px;
+        width: 350px;
         overflow: hidden;
         max-height: 75vh;
         overflow-y: auto;
@@ -36,27 +32,32 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
 }
 ?>
 <li class="dropdown" onclick="setTimeout(function () {
-                lazyImage();
-            }, 500);">
+            lazyImage();
+        }, 200);">
     <a href="#" class="faa-parent animated-hover btn btn-default navbar-btn" data-toggle="dropdown">
         <span class="fas fa-bell faa-ring"></span>
         <span class="badge onlineApplications" style=" background: rgba(255,0,0,1); color: #FFF;">0</span>
         <b class="caret"></b>
     </a>
-    <ul class="dropdown-menu dropdown-menu-right notify-drop" id="availableLiveStream"></ul>
-</li>
-<li class="hidden liveModel"  style="margin-right: 0;">
-    <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/" class='liveLink '>
-        <div class="pull-left">
-            <img src="" class="img img-circle img-responsive" style="max-width: 38px;">
+    <ul class="dropdown-menu dropdown-menu-right notify-drop" >
+        <?php
+        if(User::canStream()){
+            ?>
+            <div class="btn-group btn-group-justified" style="padding: 5px;">
+                <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL+'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
+                    <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($buttonTitle); ?></span>
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="avideoModalIframe(webSiteRootURL+'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>" >
+                    <i class="far fa-calendar"></i> <span class="hidden-sm hidden-xs"><?php echo __('Schedule'); ?></span>
+                </button>
+            </div>
+            <?php
+        }
+        ?>
+        <div id="availableLiveStream">
+
         </div>
-        <div style="margin-left: 40px;white-space: nowrap;
-             overflow: hidden;
-             text-overflow: ellipsis;">
-            <i class="fas fa-video"></i> <strong class="liveTitle"><?php echo __("Title"); ?></strong> <br>
-            <span class="label label-success liveUser"><?php echo __("User"); ?></span> <span class="label label-danger liveNow faa-flash faa-slow animated hidden"><?php echo __("LIVE NOW"); ?></span>
-        </div>
-    </a>
+    </ul>
 </li>
 
 <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border hidden extraVideosModel liveVideo">
@@ -87,113 +88,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
 </div>
 
 <script>
-    var loadedExtraVideos = [];
     /* Use this funtion to display live videos dynamic on pages*/
     function afterExtraVideos($liveLi) {
         return $liveLi
-    }
-
-    function createLiveItem(href, title, name, photo, offline, online, views, key, isPrivate, callback) {
-        var $liveLi = $('.liveModel').clone();
-        $($liveLi).find('a').removeClass('linksToFullscreen');
-        if (offline) {
-            $liveLi.find('.fa-video').removeClass("fa-video").addClass("fa-ban");
-            $liveLi.find('.liveUser').removeClass("label-success").addClass("label-danger");
-            $liveLi.find('.badge').text("offline");
-            //$('#mainVideo.liveVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
-        } else {
-            //$('#mainVideo.liveVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg)'});
-        }
-        $liveLi.removeClass("hidden").removeClass("liveModel");
-        if (isPrivate) {
-            $liveLi.find('.fa-video').removeClass('fa-video').addClass('fa-lock');
-        }
-        $liveLi.find('a').attr("href", href);
-        $liveLi.find('.liveTitle').text(title);
-        $liveLi.find('.liveUser').text(name);
-        $liveLi.find('.img').attr("src", photo);
-
-        if (typeof callback == 'string' && callback) {
-            eval("try {console.log('createLiveItem application.callback');$liveLi = " + callback + ";} catch (e) {console.log('createLiveItem application.callback error',e.message);}");
-        }
-
-        $('#availableLiveStream').append($liveLi);
-
-        if (href != "#") {
-            $liveLi.find('.liveNow').removeClass("hidden");
-        }
-        if (!avideoSocketIsActive()) {
-            $('.liveUsersOnline_' + key).text(online);
-            $('.liveUsersViews_' + key).text(views);
-        }
-
-    }
-    var limitLiveOnVideosListCount = 0;
-    function createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id, live_index) {
-        if (typeof key !== 'string') {
-            return false;
-        }
-        $('#liveVideos').slideDown();
-        limitLiveOnVideosListCount++;
-        if (limitLiveOnVideosListCount ><?php echo intval($obj->limitLiveOnVideosList); ?>) {
-            console.log("Max live videos on first page reached");
-            return false;
-        }
-
-        var matches = key.match(/.*_([0-9]+)/);
-        var playlists_id_live = "";
-        if (matches && matches[1]) {
-            playlists_id_live = "&playlists_id_live=" + matches[1];
-        }
-
-        var id = 'extraVideo' + user + "_" + live_servers_id + "_" + key;
-        var _class = 'live' + "_" + live_servers_id + "_" + key;
-        id = id.replace(/\W/g, '');
-        if ($(".extraVideos").length && $("#" + id).length == 0) {
-            var $liveLi = $('.extraVideosModel').clone();
-            $($liveLi).find('a').removeClass('linksToFullscreen');
-            $liveLi.removeClass("hidden").removeClass("extraVideosModel");
-
-            var counterClassName = "total_on_live_" + key + "_" + live_servers_id;
-            $liveLi.find('.extraVideosModelOnLineLabels').addClass(counterClassName);
-            $liveLi.find('.views_on_extraVideosModelOnLineLabels').addClass('views_on_' + counterClassName);
-
-            $liveLi.css({'display': 'none'})
-            $liveLi.attr('id', id);
-            $liveLi.addClass(_class);
-            $liveLi.find('.videoLink').attr("href", href);
-            $liveLi.find('.liveTitle').text(title);
-            $liveLi.find('.liveUser').text(name);
-            $liveLi.find('.photoImg').attr("src", photo);
-            if (!avideoSocketIsActive()) {
-                $liveLi.find('.liveUsersOnline').text(online);
-                $liveLi.find('.liveUsersViews').text(views);
-                $liveLi.find('.liveUsersOnline').addClass("liveUsersOnline_" + key);
-                $liveLi.find('.liveUsersViews').addClass("liveUsersViews_" + key);
-            }
-
-            var getImageURL = webSiteRootURL + "plugin/Live/getImage.php?live_servers_id=" + live_servers_id + "&live_index=" + live_index + "&u=" + user + playlists_id_live;
-
-            $liveLi.find('.thumbsJPG').attr("src", getImageURL + "&format=jpg" + ('&' + Math.random()));
-            if (!disableGif) {
-                $liveLi.find('.thumbsGIF').attr("src", getImageURL + "&format=webp" + ('&' + Math.random()));
-            } else {
-                $liveLi.find('.thumbsGIF').remove();
-            }
-            $liveLi = afterExtraVideos($liveLi);
-            $('.extraVideos').append($liveLi);
-            $liveLi.slideDown();
-            
-            setTimeout(function () {
-                refreshGetLiveImage("#" + id)
-            }, 5000);
-        } else if ($("#" + id).length) {
-            refreshGetLiveImage("#" + id);
-        }
-        
-        setTimeout(function () {
-            lazyImage();
-        }, 1000);
     }
 
     function refreshGetLiveImage(selector) {
@@ -207,9 +104,7 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
 
     function processLiveStats(response) {
         //console.log('processLiveStats', response);
-        limitLiveOnVideosListCount = 0;
         if (typeof response !== 'undefined') {
-            $('#availableLiveStream').empty();
             if (isArray(response)) {
                 for (var i in response) {
                     if (typeof response[i] !== 'object') {
@@ -265,18 +160,8 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     function processApplicationLive(response) {
         if (typeof response.applications !== 'undefined') {
             if (response.applications.length) {
-                disableGif = response.disableGif;
                 for (i = 0; i < response.applications.length; i++) {
-                    //console.log('processApplicationLive', response.applications[i]);
-                    var live_index = 0;
-                    if (typeof response.applications[i].live_index !== 'undefined') {
-                        live_index = response.applications[i].live_index;
-                    }
-                    var live_servers_id = 0;
-                    if (typeof response.applications[i].live_servers_id !== 'undefined') {
-                        live_servers_id = response.applications[i].live_servers_id;
-                    }
-                    processApplication(response.applications[i], disableGif, live_servers_id, live_index);
+                    processApplication(response.applications[i]);
                     var selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
                     onlineLabelOnline(selector);
                     selector = '.liveViewStatusClass_' + response.applications[i].key;
@@ -289,8 +174,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         var count = 0;
         while (typeof response[count] !== 'undefined') {
             for (i = 0; i < response[count].applications.length; i++) {
-                disableGif = response[count].disableGif;
-                processApplication(response[count].applications[i], disableGif, response[count].live_servers_id, response[count].live_index);
+                processApplication(response[count].applications[i]);
             }
             count++;
         }
@@ -298,7 +182,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
 
     function availableLiveStreamIsLoading() {
         if ($('#availableLiveStream').hasClass('notfound')) {
-            $('#availableLiveStream').empty();
+            availableLiveStreamEmpty();
             createLiveItem("#", "<?php echo __("Please Wait, we are checking the lives"); ?>", "", "", true, false, '');
             $('#availableLiveStream').find('.fa-ban').removeClass("fa-ban").addClass("fa-sync fa-spin");
             $('#availableLiveStream').find('.liveLink div').attr('style', '');
@@ -307,19 +191,24 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
 
     function availableLiveStreamNotFound() {
         $('#availableLiveStream').addClass('notfound');
-        $('#availableLiveStream').empty();
+        availableLiveStreamEmpty();
         createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true, false, '');
         $('#availableLiveStream').find('.liveLink div').attr('style', '');
     }
 
-    function processApplication(application, disableGif, live_servers_id, live_index) {
+    function availableLiveStreamEmpty() {
+        $('#availableLiveStream').empty();
+    }
 
+    var linksToEmbedTimeout;
+    function processApplication(application) {
         href = application.href;
         title = application.title;
         name = application.name;
         user = application.user;
         photo = application.photo;
         key = application.key;
+        //console.log('processApplication', application.className);
         callback = '';
         if (typeof application.callback === 'string') {
             callback = application.callback;
@@ -333,49 +222,53 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             views = 0;
         }
         if (typeof application.html != 'undefined') {
-            $('#availableLiveStream').append(application.html);
-            if (typeof application.htmlExtra != 'undefined') {
-                var id = $(application.htmlExtra).attr('id');
-                if (loadedExtraVideos.indexOf(id) == -1) {
-                    loadedExtraVideos.push(id)
+            var notificationHTML = $(application.html);
+            var notificatioID = notificationHTML.attr('id') + '_notification';
+            if (typeof key !== 'undefined') {
+                //console.log('processApplication remove class .live_' + key);
+                $('.live_' + key).remove();
+            }
+            if (!$('#' + notificatioID).length) {
+                notificationHTML.attr('id', notificatioID);
+                $('#availableLiveStream').prepend(notificationHTML);
+            }else{
+                //console.log('processApplication is already present '+notificatioID, application.className);
+            }
+
+            var html;
 <?php
 if (isVideo()) {
     ?>
-                        $('.extraVideos').append(application.htmlExtraVideoListItem);
+                html = application.htmlExtraVideoListItem;
     <?php
 } else if (isLive()) {
     ?>
-                        $('.extraVideos').append(application.htmlExtraVideoPage);
+                html = application.htmlExtraVideoPage;
     <?php
 } else {
     ?>
-                        $('.extraVideos').append(application.htmlExtra);
+                html = application.htmlExtra;
     <?php
 }
 ?>
-
-                } else {
-                    $('#' + id).slideDown();
-                }
+            var id = $(html).attr('id');
+            if ($('#' + id).length) {
+                //console.log('processApplication key found', id);
+                return false;
             }
+            $('.extraVideos').prepend(html);
             $('#liveVideos').slideDown();
             setTimeout(function () {
                 lazyImage();
             }, 1000);
             if (callback) {
-                eval("try {$liveLi = " + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
+                eval("try {" + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
             }
         } else {
-
-            createLiveItem(href, title, name, photo, false, online, views, key, isPrivate, callback);
-<?php
-if (empty($obj->doNotShowLiveOnVideosList)) {
-    ?>
-                createExtraVideos(href, title, name, photo, user, online, views, key, disableGif, live_servers_id, live_index);
-    <?php
-}
-?>
-            setTimeout(function () {
+            console.log('application.html is undefined');
+        }
+        clearTimeout(linksToEmbedTimeout);
+        linksToEmbedTimeout = setTimeout(function () {
 <?php
 if (!empty($obj->playLiveInFullScreenOnIframe)) {
     echo 'if (typeof linksToFullscreen === \'function\') {linksToFullscreen(\'.liveVideo a, #availableLiveStream a\');}';
@@ -383,9 +276,8 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     echo 'if (typeof linksToEmbed === \'function\') {linksToEmbed(\'.liveVideo a, #availableLiveStream a\');}';
 }
 ?>
-            }, 200);
-
-        }
+            avideoSocket();
+        }, 500);
         if (application.users && typeof application.users.views !== 'undefined') {
             $('.views_on_total_on_live_' + application.users.transmition_key + '_' + application.users.live_servers_id).text(application.users.views);
         }
@@ -417,11 +309,11 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     }
     function socketLiveOFFCallback(json) {
         console.log('socketLiveOFFCallback', json);
-        processLiveStats(json.stats);
         var selector = '.live_' + json.live_servers_id + "_" + json.key;
         selector += ', .liveVideo_live_' + json.live_servers_id + "_" + json.key;
+        selector += ', .live_' + json.key;
         //console.log('socketLiveOFFCallback 1', selector);
-        $(selector).slideUp();
+        $(selector).slideUp("fast", function() { $(this).remove(); } );
         if (typeof onlineLabelOffline == 'function') {
             selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
             //console.log('socketLiveOFFCallback 2', selector);
@@ -434,7 +326,10 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             onlineLabelOffline(selector);
         }
         setTimeout(function () {
-            hideExtraVideosIfEmpty();
+            processLiveStats(json.stats);
+            setTimeout(function () {
+                hideExtraVideosIfEmpty();
+            }, 500);
         }, 500);
     }
 

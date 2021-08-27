@@ -120,32 +120,9 @@ class LiveLinks extends PluginAbstract {
      */
     public function getLiveApplicationArray() {
         global $global;
-        $obj = $this->getDataObject();
-        //$filename = $global['systemRootPath'] . 'plugin/LiveLinks/view/menuItem.html';
-        $filenameExtra = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItem.html';
-        $filenameExtraVideoPage = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItemVideoPage.html';
-        $filename = $filenameListItem = $global['systemRootPath'] . 'plugin/LiveLinks/view/videoListItem.html';
+        
+        $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');        
         $row = LiveLinks::getAllActive(true, true);
-        //var_dump($row);exit;
-        $array = array();
-        $search = array(
-            '_unique_id_',
-            '_user_photo_',
-            '_title_',
-            '_user_identification_',
-            '_description_',
-            '_link_',
-            '_imgJPG_',
-            '_imgGIF_',
-            '_class_',
-            '_total_on_live_links_id_'
-        );
-        $content = file_get_contents($filename);
-        $contentExtra = file_get_contents($filenameExtra);
-        $contentExtraVideoPage = file_get_contents($filenameExtraVideoPage);
-        $contentListem = file_get_contents($filenameListItem);
-
-        $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');
 
         foreach ($row as $value) {
 
@@ -157,56 +134,21 @@ class LiveLinks extends PluginAbstract {
                     continue;
                 }
             }
-            $UserPhoto = User::getPhoto($value['users_id']);
-            $name = User::getNameIdentificationById($value['users_id']);
-            $replace = array(
-                $value['id'],
-                $UserPhoto,
-                $value['title'],
-                $name,
-                str_replace('"', "", $value['description']),
-                self::getLink($value['id']),
-                '<img src="'. getCDN().'view/img/loading-gif.png" data-src="' . "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg" . '" class="thumbsJPG img-responsive" height="130">',
-                empty($obj->disableGifThumbs) ? ('<img src="'. getCDN().'view/img/loading-gif.png" data-src="' . "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=webp" . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : "",
-                "col-lg-2 col-md-4 col-sm-4 col-xs-6",
-                ($liveUsers ? getLiveUsersLabelLiveLinks($value['id']) : '')
-            );
-
-            $newContent = str_replace($search, $replace, $content);
-            $newContentExtra = str_replace($search, $replace, $contentExtra);
-            $newContentExtraVideoPage = str_replace($search, $replace, $contentExtraVideoPage);
-            $newContentVideoListItem = str_replace($search, $replace, $contentListem);
-
-            $callback = '';
-            $galleryCallback = '';
-            if (strtotime($value['start_date']) > time()) {
-                $callback = "liveLinkApps(\$('.liveLink_{$value['id']}'), 'liveLink_{$value['id']}', '{$value['start_date']}')";
-                $galleryCallback = 'var liveLinkItemSelector = \'.liveLink_' . $value['id'] . ' .liveNow\'; '
-                        . '$(liveLinkItemSelector).attr(\'class\', \'liveNow label label-primary\');'
-                        . '$(liveLinkItemSelector).text(\'' . $value['start_date'] . '\');'
-                        . 'startTimerToDate(\'' . $value['start_date'] . '\', liveLinkItemSelector, true);';
-            }
-
-            $array[] = array(
-                "type" => "LiveLink",
-                "html" => $newContent,
-                "htmlExtra" => $newContentExtra,
-                "htmlExtraVideoPage" => $newContentExtraVideoPage,
-                "htmlExtraVideoListItem" => $newContentVideoListItem,
-                "UserPhoto" => $UserPhoto,
-                "title" => $value['title'],
-                "users_id" => $value['users_id'],
-                "name" => $name,
-                "source" => $value['link'],
-                "poster" => self::getPosterToLiveFromId($value['id']),
-                "imgGif" => self::getPosterToLiveFromId($value['id'], 'webp'),
-                "link" => self::getLinkToLiveFromId($value['id'], true),
-                "href" => self::getLinkToLiveFromId($value['id']),
-                "categories_id" => intval($value['categories_id']),
-                "className" => 'liveLink_' . $value['id'],
-                "callback" => $callback,
-                "galleryCallback" => $galleryCallback,
-            );
+                        
+            $label = ($liveUsers ? getLiveUsersLabelLiveLinks($value['id']) : '');
+            //var_dump( self::getPosterToLiveFromId($value['id']),$value['id'] );exit;
+            $array[] = Live::getLiveApplicationModelArray(
+                    $value['users_id'], 
+                    $value['title'], 
+                    self::getLinkToLiveFromId($value['id']), 
+                    self::getPosterToLiveFromId($value['id']),
+                    self::getPosterToLiveFromId($value['id'], 'webp'), 
+                    'LiveLink', 
+                    $label, 
+                    'liveLink_'.$value['id'], 
+                    '', 
+                    $value['start_date']);
+            
         }
 
         return $array;

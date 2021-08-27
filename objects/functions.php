@@ -6672,6 +6672,15 @@ function secondsIntervalHuman($time, $useDatabaseTime = true) {
     }
 }
 
+function isTimeForFuture($time, $useDatabaseTime = true) {
+    $dif = secondsIntervalFromNow($time, $useDatabaseTime);
+    if ($dif < 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function secondsIntervalFromNow($time, $useDatabaseTimeOrTimezoneString = true) {
     $timeNow = time();
     if (!empty($useDatabaseTimeOrTimezoneString)) {

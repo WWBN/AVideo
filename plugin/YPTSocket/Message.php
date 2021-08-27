@@ -62,7 +62,7 @@ class Message implements MessageComponentInterface {
         _log_message("New connection ($conn->resourceId) {$json->yptDeviceId} {$client['selfURI']} {$client['browser']}");
 
         $this->clients[$conn->resourceId] = $client;
-
+        /*
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $limit = 250;
         } else {
@@ -77,7 +77,7 @@ class Message implements MessageComponentInterface {
             $this->clients[$resourceId]['conn']->close();
             unset($resourceId);
         }
-        
+        */
         if ($client['browser'] == \SocketMessageType::TESTING) {
             _log_message("Test detected and received from ($conn->resourceId) " . PHP_EOL . "\e[1;32;40m*** SUCCESS TEST CONNECION {$json->test_msg} ***\e[0m");
             $this->msgToResourceId($json, $conn->resourceId, \SocketMessageType::TESTING);

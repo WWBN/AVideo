@@ -39,7 +39,16 @@ if (!empty($_GET['c'])) {
         $_GET['u'] = $user['user'];
     }
 }
-$livet = LiveTransmition::getFromDbByUserName($_GET['u']);
+$livet = LiveTransmition::getFromRequest();
+//header('Content-Type: text/plain');var_dump($livet);exit;
+if(!empty($_REQUEST['live_schedule']) && !empty($livet['scheduled_time']) && isTimeForFuture($livet['scheduled_time'], $livet['timezone'])){
+    $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule']);
+    $uploadedPoster = $array['path'];
+    header('Content-Type: image/jpg');
+    echo file_get_contents($uploadedPoster);
+    _error_log('getImage: live does not start yet');
+    exit;
+}
 //_error_log('getImage: start');
 if (empty($livet)) {
     $uploadedPoster = $global['systemRootPath'] . Live::getOfflineImage(false);
