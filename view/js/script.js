@@ -1173,7 +1173,7 @@ function avideoModalIframeLarge(url) {
 function avideoModalIframeWithClassName(url, className) {
     var span = document.createElement("span");
     url = addGetParam(url, 'avideoIframe', 1);
-    span.innerHTML = '<iframe frameBorder="0" src="' + url + '" />';
+    span.innerHTML = '<iframe frameBorder="0" src="' + url + '"  allow="camera *;microphone *" />';
     swal({
         content: span,
         closeModal: true,
