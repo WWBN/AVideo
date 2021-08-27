@@ -6821,6 +6821,9 @@ function getURL($relativePath) {
 }
 
 function getCDNOrURL($url, $type = 'CDN', $id = 0) {
+    if(!preg_match('/^http/i', $url)){
+        return $url;
+    }
     $cdn = getCDN($type, $id);
     if (!empty($cdn)) {
         return $cdn;
