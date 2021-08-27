@@ -69,7 +69,7 @@ function webRTCPleaseWaitShow(){
     _webRTCPleaseWaitShowTimeout = setTimeout(function(){
         avideoToastError('Live error')
         webRTCPleaseWaitHide();
-    },60000);
+    },120000);
 }
 
 function webRTCPleaseWaitHide(){
