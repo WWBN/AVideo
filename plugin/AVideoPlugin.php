@@ -765,7 +765,7 @@ class AVideoPlugin {
                 $appArray = $p->getLiveApplicationArray();
                 if(!is_array($array)){
                     $array = $appArray;
-                }else{
+                }else if(is_array($appArray)){
                     $array = array_merge($array, $appArray);
                 }
             }
