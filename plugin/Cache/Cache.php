@@ -190,7 +190,7 @@ class Cache extends PluginAbstract {
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             $cacheName = 'firstPage'.DIRECTORY_SEPARATOR.$this->getFileName();
             
-            $c = preg_replace('/var PHPSESSID = "[0-9a-zA-Z]+";/', '', $c);
+            $c = preg_replace('/<script id="infoForNonCachedPages">[^<]+<\/script>/', '', $c);
             
             $r = ObjectYPT::setCache($cacheName, $c);
             //var_dump($r);
