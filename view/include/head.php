@@ -148,6 +148,9 @@ if (isRTL()) {
 <script>
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
     var player;
+</script>
+
+<script id="infoForNonCachedPages">
     var _serverTime = "<?php echo time(); ?>";
     var _serverDBTime = "<?php echo getDatabaseTime(); ?>";
     var _serverTimeString = "<?php echo date('Y-m-d H:i:s'); ?>";
