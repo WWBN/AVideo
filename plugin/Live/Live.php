@@ -1487,7 +1487,7 @@ class Live extends PluginAbstract {
 
                 $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value->name, $live_servers_id) : '');
                 $imgJPG =  $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index);
-                if($obj->disableGifThumbs){
+                if($obj->disableGif){
                     $imgGIF = '';
                 }else{
                     $imgGIF = $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'webp');
