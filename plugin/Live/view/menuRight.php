@@ -181,25 +181,14 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     }
 
     function availableLiveStreamIsLoading() {
-        if(typeof createLiveItem !== 'funciton'){
-           return false;
-        }
         if ($('#availableLiveStream').hasClass('notfound')) {
             availableLiveStreamEmpty();
-            createLiveItem("#", "<?php echo __("Please Wait, we are checking the lives"); ?>", "", "", true, false, '');
-            $('#availableLiveStream').find('.fa-ban').removeClass("fa-ban").addClass("fa-sync fa-spin");
-            $('#availableLiveStream').find('.liveLink div').attr('style', '');
         }
     }
 
     function availableLiveStreamNotFound() {
-        if(typeof createLiveItem !== 'funciton'){
-           return false;
-        }
         $('#availableLiveStream').addClass('notfound');
         availableLiveStreamEmpty();
-        createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true, false, '');
-        $('#availableLiveStream').find('.liveLink div').attr('style', '');
     }
 
     function availableLiveStreamEmpty() {
