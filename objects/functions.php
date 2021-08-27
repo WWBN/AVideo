@@ -7023,6 +7023,7 @@ function mysqlCommit() {
 }
 
 function number_format_short($n, $precision = 1) {
+    $n = floatval($n);
     if ($n < 900) {
         // 0 - 900
         $n_format = number_format($n, $precision);
