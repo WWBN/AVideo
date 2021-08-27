@@ -98,7 +98,7 @@ $controls = Live::getAllControlls($streamName);
     <body>
         <iframe frameBorder="0" 
                 src="<?php echo $iframeURL; ?>" 
-                allowusermedia allow="feature_name allow_list;feature_name allow_list;camera *;microphone *"></iframe>
+                allowusermedia allow="camera *;microphone *"></iframe>
                 <?php
                 if (!empty($chatURL)) {
                     ?>
