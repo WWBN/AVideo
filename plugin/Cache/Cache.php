@@ -213,7 +213,8 @@ class Cache extends PluginAbstract {
             '/roku.json',
             'mrss',
             '/sitemap.xml',
-            'plugin/Live/verifyToken.json.php');
+            'plugin/Live/verifyToken.json.php',
+            'control.json.php');
         foreach ($cacheBotWhitelist as $value) {
             if (strpos($_SERVER['REQUEST_URI'], $value) !== false) {
                 _error_log("Cache::isREQUEST_URIWhitelisted: ($value) is whitelisted");
