@@ -181,6 +181,9 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     }
 
     function availableLiveStreamIsLoading() {
+        if(typeof createLiveItem !== 'funciton'){
+           return false;
+        }
         if ($('#availableLiveStream').hasClass('notfound')) {
             availableLiveStreamEmpty();
             createLiveItem("#", "<?php echo __("Please Wait, we are checking the lives"); ?>", "", "", true, false, '');
@@ -190,6 +193,9 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     }
 
     function availableLiveStreamNotFound() {
+        if(typeof createLiveItem !== 'funciton'){
+           return false;
+        }
         $('#availableLiveStream').addClass('notfound');
         availableLiveStreamEmpty();
         createLiveItem("#", "<?php echo __("There is no streaming now"); ?>", "", "", true, false, '');
