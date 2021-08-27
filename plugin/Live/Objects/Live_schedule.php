@@ -71,8 +71,8 @@ class Live_schedule extends ObjectYPT {
         $imageName = "schedule_{$live_schedule_id}.jpg";
         $imageName_thumbs = "schedule_{$live_schedule_id}_thumbs.jpg";
         $array['relative_path'] = "videos/{$subdir}/{$imageName}";
+        $array['path_thumbs'] = $array['path'].$imageName_thumbs;
         $array['path'] .= $imageName;
-        $array['path_thumbs'] .= $imageName_thumbs;
         $array['url'] = getURL("videos/{$subdir}/{$imageName}");
         $array['url_thumbs'] = getURL("videos/{$subdir}/{$imageName_thumbs}");
 
