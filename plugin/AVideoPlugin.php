@@ -763,7 +763,11 @@ class AVideoPlugin {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $appArray = $p->getLiveApplicationArray();
-                $array = array_merge($array, $appArray);
+                if(!is_array($array)){
+                    $array = $appArray;
+                }else{
+                    $array = array_merge($array, $appArray);
+                }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
