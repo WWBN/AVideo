@@ -430,7 +430,8 @@ class Live extends PluginAbstract {
     }
 
     static function getDropURL($key, $live_servers_id = 0) {
-        $server = self::getRtmp_server();
+        $obj = AVideoPlugin::getObjectData("Live");
+        $server = $obj->server;
         $server = rtrim($server, "/");
         $parts = explode("/", $server);
         $app = array_pop($parts);
@@ -440,7 +441,8 @@ class Live extends PluginAbstract {
     }
 
     static function getIsRecording($key, $live_servers_id = 0) {
-        $server = self::getRtmp_server();
+        $obj = AVideoPlugin::getObjectData("Live");
+        $server = $obj->server;
         $server = rtrim($server, "/");
         $parts = explode("/", $server);
         $app = array_pop($parts);
@@ -450,7 +452,8 @@ class Live extends PluginAbstract {
     }
 
     static function getStartRecordURL($key, $live_servers_id = 0) {
-        $server = self::getRtmp_server();
+        $obj = AVideoPlugin::getObjectData("Live");
+        $server = $obj->server;
         $server = rtrim($server, "/");
         $parts = explode("/", $server);
         $app = array_pop($parts);
@@ -460,7 +463,8 @@ class Live extends PluginAbstract {
     }
 
     static function getStopRecordURL($key, $live_servers_id = 0) {
-        $server = self::getRtmp_server();
+        $obj = AVideoPlugin::getObjectData("Live");
+        $server = $obj->server;
         $server = rtrim($server, "/");
         $parts = explode("/", $server);
         $app = array_pop($parts);
