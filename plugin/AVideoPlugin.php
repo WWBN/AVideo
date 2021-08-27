@@ -518,10 +518,10 @@ class AVideoPlugin {
             $p = static::loadPluginIfEnabled($name);
             $isPluginEnabledByName[$index] = false;
             if ($minVersion) {
-                if(!empty($p)){
-                    if(version_compare($p->getPluginVersion(), $minVersion, '>=')){
+                if (!empty($p)) {
+                    if (version_compare($p->getPluginVersion(), $minVersion, '>=')) {
                         $isPluginEnabledByName[$index] = true;
-                    }else{
+                    } else {
                         _error_log("You need to update your plugin {$name} to version {$minVersion} or greater", AVideoLog::$WARNING);
                     }
                 }
@@ -763,12 +763,12 @@ class AVideoPlugin {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $appArray = $p->getLiveApplicationArray();
-                if(!is_array($array)){
-                    if(is_array($appArray)){
+                if (is_array($appArray)) {
+                    if (!is_array($array)) {
                         $array = $appArray;
+                    } else {
+                        $array = array_merge($array, $appArray);
                     }
-                }else if(is_array($appArray)){
-                    $array = array_merge($array, $appArray);
                 }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
@@ -1552,10 +1552,10 @@ class AVideoPlugin {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $btn = $p->getUploadMenuButton();
-                if(empty($btn)){
+                if (empty($btn)) {
                     continue;
                 }
-                $r .= "<!-- {$value['dirName']} getUploadMenuButton start -->".$btn."<!-- {$value['dirName']} getUploadMenuButton end -->";
+                $r .= "<!-- {$value['dirName']} getUploadMenuButton start -->" . $btn . "<!-- {$value['dirName']} getUploadMenuButton end -->";
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
@@ -1970,7 +1970,7 @@ class AVideoPlugin {
         }
         return;
     }
-    
+
     public static function onVideoSetOnly_for_paid($video_id, $oldValue, $newValue) {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
