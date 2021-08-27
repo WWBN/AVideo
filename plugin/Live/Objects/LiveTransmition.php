@@ -155,8 +155,9 @@ class LiveTransmition extends ObjectYPT {
             return LiveTransmition::getFromDbBySchedule($_REQUEST['live_schedule']);
         }else if(!empty($_REQUEST['u'])){
             return LiveTransmition::getFromDbByUserName($_REQUEST['u']);
+        }else if(!empty($_REQUEST['c'])){
+            return LiveTransmition::getFromDbByChannelName($_REQUEST['c']);
         }
-        
         return false;
     }
     
@@ -166,6 +167,25 @@ class LiveTransmition extends ObjectYPT {
         $userName = $global['mysqli']->real_escape_string($userName);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($userName), true);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res != false) {
+            $user = $data;
+            if(empty($user)){
+                return false;
+            }
+            return static::getFromDbByUser($user['id']);
+        } else {
+            return false;
+        }
+    }
+    
+    static function getFromDbByChannelName($channelName) {
+        global $global;
+        _mysql_connect();
+        $userName = $global['mysqli']->real_escape_string($userName);
+        $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($channelName), true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
