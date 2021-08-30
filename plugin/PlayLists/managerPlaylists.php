@@ -104,6 +104,7 @@ if (!User::isLogged()) {
                             if ($totalNOTSubPlaylists) {
                                 $classes[] = 'pl_videos';
                             }
+                            $durationInSeconds = 0;
                             ?>
                             <div class="col-sm-6 col-md-4 col-lg-3 pl pl<?php echo $value["id"]; ?> <?php echo implode(' ', $classes) ?>" >
                                 <div class="panel panel-<?php echo $totalSubPlaylists ? 'primary' : 'default'; ?>">
@@ -180,6 +181,7 @@ if (!User::isLogged()) {
                                                         <?php
                                                         if ($totalSubPlaylists > 0) {
                                                             foreach ($rowsSubPlaylists as $row) {
+                                                                $durationInSeconds += durationToSeconds($row["duration"]);
                                                                 ?>
                                                                 <li class="list-group-item" id="videos_id_<?php echo $row["id"]; ?>_playlists_id_<?php echo $value["id"]; ?>">
                                                                     <div class="ellipsis videoTitle">
@@ -213,6 +215,7 @@ if (!User::isLogged()) {
                                                         <?php
                                                         foreach ($rowsNOTSubPlaylists as $row) {
                                                             if ($totalNOTSubPlaylists > 0) {
+                                                                $durationInSeconds += durationToSeconds($row["duration"]);
                                                                 ?>
                                                                 <li class="list-group-item" id="videos_id_<?php echo $row["id"]; ?>_playlists_id_<?php echo $value["id"]; ?>">
                                                                     <div class="ellipsis videoTitle">
@@ -257,6 +260,7 @@ if (!User::isLogged()) {
                                         if ($totalNOTSubPlaylists) {
                                             echo '<span class="label label-default"><i class="fas fa-film"></i> ' . __('Videos') . '</span>';
                                         }
+                                        echo '<span class="label label-default"><i class="far fa-clock"></i> ' . seconds2human($durationInSeconds) . '</span>';
                                         ?>
                                     </div>
                                 </div>   
