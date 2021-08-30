@@ -1938,12 +1938,19 @@ function unzipDirectory($filename, $destination) {
 }
 
 function make_path($path) {
+    $created = false;
     if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
         $path = pathinfo($path, PATHINFO_DIRNAME);
     }
     if (!is_dir($path)) {
-        mkdir($path, 0755, true);
+        $created = mkdir($path, 0755, true);
+        if(!$created){
+            _error_log('make_path: could not create the dir '. json_encode($path));
+        }
+    }else{
+        $created = true;
     }
+    return $created;
 }
 
 /**
