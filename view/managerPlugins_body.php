@@ -617,7 +617,7 @@ $uuidJSCondition = implode(" && ", $rowId);
             success: function (response) {
                 for (i = 0; i < response.rows.length; i++) {
                     var r = response.rows[i];
-                    createPluginStoreList(r.images[0], r.name, r.price, r.description);
+                    createPluginStoreList('https://youphptube.b-cdn.net/marketplace/'+r.images[0], r.name, r.price, r.description);
                 }
             }
         });
