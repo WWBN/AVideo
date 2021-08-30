@@ -1833,7 +1833,7 @@ if (typeof gtag !== \"function\") {
         foreach ($groups as $value) {
             $obj = new stdClass();
             $obj->type = "warning";
-            $obj->text = (empty($value['isDynamic'])?'<i class="fas fa-link"></i>':'<i class="fas fa-lock"></i>').$value['group_name'];
+            $obj->text = (empty($value['isDynamic'])?'<i class="fas fa-link"></i>':'<i class="fas fa-lock"></i>').' '.$value['group_name'];
             $tags[] = $obj;
         }
 
