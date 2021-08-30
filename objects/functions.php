@@ -5397,6 +5397,7 @@ function getDomain() {
     }
     $domain = str_replace("www.", "", $domain);
     $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
+    $domain = preg_replace('/:[0-9]+$/','', $domain);
     $_getDomain = $domain;
     return $domain;
 }
