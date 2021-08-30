@@ -75,7 +75,7 @@
                 <!-- row video 1 -->
                 <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                     <center>
-                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 86px;" />
+                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
                     </center>
                 </div>
                 <?php
@@ -93,7 +93,7 @@
                 <!-- row video 3 -->
                 <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                     <center>
-                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 86px;" />
+                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
                     </center>
                 </div>
                 <?php
