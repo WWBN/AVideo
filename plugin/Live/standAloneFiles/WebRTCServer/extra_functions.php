@@ -1,6 +1,4 @@
 <?php
-
-
 function verify($url) {
     ini_set('default_socket_timeout', 5);
     $cacheFile = sys_get_temp_dir() . "/" . md5($url) . "_verify.log";
@@ -75,7 +73,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
             if ($tmp != false) {
                 $response = ($tmp);
                 if ($debug) {
-//error_log("url_get_contents: SUCCESS file_get_contents($url) {$response}");
+                    //error_log("url_get_contents: SUCCESS file_get_contents($url) {$response}");
                     error_log("url_get_contents: SUCCESS file_get_contents($url)");
                 }
                 return $response;
