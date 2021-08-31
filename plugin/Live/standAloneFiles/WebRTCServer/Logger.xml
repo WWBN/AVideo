@@ -5,5 +5,5 @@
 	<Path>/var/log/ovenmediaengine</Path>
 
 	<!-- Log level: [debug, info, warn, error, critical] -->
-	<Tag name=".*" level="debug" />
+	<Tag name=".*" level="info" />
 </Logger>
