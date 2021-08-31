@@ -2793,6 +2793,33 @@ function get_domain($url, $ifEmptyReturnSameString = false) {
     return false;
 }
 
+function verify($url) {
+    ini_set('default_socket_timeout', 5);
+    $cacheFile = sys_get_temp_dir() . "/" . md5($url) . "_verify.log";
+    $lifetime = 86400; //24 hours
+    error_log("Verification Start {$url}");
+    $verifyURL = "https://search.avideo.com/verify.php?url=" . urlencode($url);
+    if (!file_exists($cacheFile) || (time() > (filemtime($cacheFile) + $lifetime))) {
+        error_log("Verification Creating the Cache {$url}");
+        $result = url_get_contents($verifyURL, '', 5);
+        file_put_contents($cacheFile, $result);
+    } else {
+        error_log("Verification GetFrom Cache {$url}");
+        $result = file_get_contents($cacheFile);
+    }
+    error_log("Verification Response ($verifyURL): {$result}");
+    return json_decode($result);
+}
+
+function isVerified($url) {
+    $resultV = verify($url);
+    if (!empty($resultV) && !$resultV->verified) {
+        error_log("Error on Login not verified");
+        return false;
+    }
+    return true;
+}
+
 function siteMap() {
     _error_log("siteMap: start");
     ini_set('memory_limit', '-1');
@@ -5402,6 +5429,15 @@ function getDomain() {
     return $domain;
 }
 
+function getHostOnlyFromURL($url){
+    $parse = parse_url($url);
+    $domain = $parse['host'];
+    $domain = str_replace("www.", "", $domain);
+    $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
+    $domain = preg_replace('/:[0-9]+$/','', $domain);
+    return $domain;
+}
+
 /**
  * It's separated by time, version, clock_seq_hi, clock_seq_lo, node, as indicated in the followoing rfc.
  *
@@ -7108,3 +7144,4 @@ function getTimeInTimezone($time, $timezone) {
     $dateString = $date->format('Y-m-d H:i:s');
     return strtotime($dateString);
 }
+

@@ -123,7 +123,11 @@ class Live_schedule extends ObjectYPT {
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' ORDER BY scheduled_time ASC LIMIT {$limit} ";
+        // to convert time must load time zone table into mysql
+        
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' "
+                . " AND (CONVERT_TZ(scheduled_time, timezone, @@session.time_zone ) > NOW() || scheduled_time > NOW()) "
+                . " ORDER BY scheduled_time ASC LIMIT {$limit} ";
 
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);

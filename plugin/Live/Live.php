@@ -55,7 +55,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "7.2";
+        return "9.0";
     }
 
     public function updateScript() {
@@ -135,6 +135,13 @@ class Live extends PluginAbstract {
         }
         if (AVideoPlugin::compareVersion($this->getName(), "8.0") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV8.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "9.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV9.0.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -340,8 +347,12 @@ class Live extends PluginAbstract {
         $obj->controllButtonsShowOnlyToAdmin_save_dvr = false;
         self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_save_dvr', 'Show Save DVR Button Only to Admin', 'Regular users will not able to see this button');
 
-
-        $obj->webRTC_player = 'https://webrtc.ypt.me/player/';
+        $o = new stdClass();
+        $o->type = array(0=>__('Public'), 1=>__('Self Hosted'));
+        $o->value = 0;
+        $obj->webRTC_server = $o;
+        self::addDataObjectHelper('webRTC_server', 'WebRTC Server', 'https://github.com/WWBN/AVideo/wiki/WebRTC-Server');
+        
         return $obj;
     }
 
@@ -363,6 +374,33 @@ class Live extends PluginAbstract {
         return $js . $css;
     }
 
+    public static function getWebRTCPlayer($live_servers_id = -1) {
+        $player = self::getWebRTCServerURL($live_servers_id);
+        return "{$player}player/";
+    }
+    
+    public static function getWebRTCServerURL($live_servers_id = -1) {
+        
+        global $global;
+        $obj = AVideoPlugin::getObjectData("Live");
+        
+        if(empty($obj->webRTC_server->value)){
+            return 'https://webrtc.ypt.me/';
+        }       
+        
+        if (!empty($obj->useLiveServers)) {
+            if ($live_servers_id < 0) {
+                $live_servers_id = self::getCurrentLiveServersId();
+            }
+            $ls = new Live_servers($live_servers_id);
+            if (!empty($ls->getwebRTC_server())) {
+                return $ls->getwebRTC_server();
+            }
+        }
+        
+        return "{$global['webSiteRootURL']}plugin/Live/standAloneFiles/WebRTCServer/";
+    }
+    
     public function getFooterCode() {
         $obj = $this->getDataObject();
         global $global;
@@ -436,7 +474,7 @@ class Live extends PluginAbstract {
         $parts = explode("/", $server);
         $app = array_pop($parts);
         $domain = self::getControl($live_servers_id);
-//return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
+        //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
         return "{$domain}?command=drop_publisher&app={$app}&name={$key}&token=" . getToken(60);
     }
 
@@ -447,7 +485,7 @@ class Live extends PluginAbstract {
         $parts = explode("/", $server);
         $app = array_pop($parts);
         $domain = self::getControl($live_servers_id);
-//return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
+        //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
         return "{$domain}?command=is_recording&app={$app}&name={$key}&token=" . getToken(60);
     }
 
