@@ -89,12 +89,14 @@ global $Schedulecount;
             <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?>" >
                 <i class="far fa-clipboard"></i> <i class="fa fa-server"></i> <span class="hidden-sm hidden-xs"><?php echo __('Server URL'); ?></span>
             </button>
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURLAndKey'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
+            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL')+'/'+$(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
                 <i class="far fa-clipboard"></i> <i class="fa fa-server"></i> + <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Server URL'); ?> + <?php echo __('Key'); ?></span>
             </button>
             <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Key'); ?>" >
                 <i class="far fa-clipboard"></i> <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Key'); ?></span>
             </button>
+        </div>
+        <div class="btn-group pull-right">
             <button class="btn btn-primary btn-xs" onclick="uploadPoster($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Upload Poster Image'); ?>" >
                 <i class="far fa-image"></i> <i class="far fa-upload"></i> <span class="hidden-sm hidden-xs"><?php echo __('Upload Poster'); ?></span>
             </button>
