@@ -318,18 +318,6 @@
                     </Publishers>
                 </Application>
             </Applications>
-            
-            <Logger version="2">
-                <!-- Log file location 
-                <Path>/var/log/ovenmediaengine</Path>
-                -->
-                <!-- Disable some SRT internal logs -->
-                <Tag name="SRT" level="critical" />
-                <Tag name="Monitor" level="critical" />
-
-                <!-- Log level: [debug, info, warn, error, critical] -->
-                <Tag name=".*" level="debug" />
-            </Logger>
         </VirtualHost>
     </VirtualHosts>
     <Managers>
