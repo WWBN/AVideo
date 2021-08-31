@@ -6110,7 +6110,7 @@ function getTinyMCE($id) {
     return $contents;
 }
 
-function pathToRemoteURL($filename, $forceHTTP = false) {
+function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
     global $pathToRemoteURL, $global;
     if (!isset($pathToRemoteURL)) {
         $pathToRemoteURL = array();
@@ -6128,17 +6128,23 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
             if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
                 $source = $aws_s3->getAddress("{$fileName}");
                 $url = $source['url'];
-                $url = replaceCDNIfNeed($url, 'CDN_S3');
+                if(empty($ignoreCDN)){
+                    $url = replaceCDNIfNeed($url, 'CDN_S3');
+                }
             } else
             if ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
                 $source = $bb_b2->getAddress("{$fileName}");
                 $url = $source['url'];
-                $url = replaceCDNIfNeed($url, 'CDN_B2');
+                if(empty($ignoreCDN)){
+                    $url = replaceCDNIfNeed($url, 'CDN_B2');
+                }
             } else
             if ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
                 $source = $ftp->getAddress("{$fileName}");
                 $url = $source['url'];
-                $url = replaceCDNIfNeed($url, 'CDN_FTP');
+                if(empty($ignoreCDN)){
+                    $url = replaceCDNIfNeed($url, 'CDN_FTP');
+                }
             }
         }
     }
@@ -6146,7 +6152,11 @@ function pathToRemoteURL($filename, $forceHTTP = false) {
         if ($forceHTTP) {
             $paths = Video::getPaths($filename);
             //$url = str_replace(getVideosDir(), getCDN() . "videos/", $filename);
-            $url = getCDN() . "{$paths['relative']}";
+            if(empty($ignoreCDN)){
+                $url = getCDN() . "{$paths['relative']}";
+            }else{
+                $url = "{$global['webSiteRootURL']}{$paths['relative']}";
+            }
         } else {
             $url = $filename;
         }
