@@ -71,6 +71,6 @@ $command = 'docker run -d '
         //. '--name '.$imageName.' youphptube/ovenmediaengine:v1';
         . '--name ' . $imageName . ' airensoft/ovenmediaengine:latest';
 
-echo ('Execute WebRTCLiveCam server ' . $command);
+echo ('Execute WebRTCLiveCam server: ' . PHP_EOL . $command . PHP_EOL);
 
 exec($command);

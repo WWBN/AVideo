@@ -2,6 +2,7 @@
 $configFile = dirname(__FILE__) . '/../../../../videos/configuration.php';
 $localServer = true;
 if (file_exists($configFile)) {
+    echo 'Config file found try self hosted version '.PHP_EOL;
     include_once $configFile;
     $live = AVideoPlugin::getObjectDataIfEnabled('Live');
     if (empty($live)) {
