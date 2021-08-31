@@ -1779,7 +1779,7 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                 if (typeof row.videosURL[k].url === 'undefined' || !row.videosURL[k].url) {
                                                                     continue;
                                                                 }
-                                                                var url = row.videosURL[k].url_noCDN;
+                                                                var url = (typeof row.videosURL[k].url_noCDN !== 'undefined')?row.videosURL[k].url_noCDN:row.videosURL[k].url;
                                                                 var addParameters = true;
                                                                 if (url.includes('.s3.')) {
                                                                     addParameters = false;
