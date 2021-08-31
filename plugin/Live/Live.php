@@ -355,7 +355,17 @@ class Live extends PluginAbstract {
         $o->value = 0;
         $obj->webRTC_server = $o;
         self::addDataObjectHelper('webRTC_server', 'WebRTC Server', 'https://github.com/WWBN/AVideo/wiki/WebRTC-Server');
-        
+                
+        $ServerHost = getHostOnlyFromURL($global['webSiteRootURL']);
+        $obj->webRTC_CertPath = '/etc/letsencrypt/live/' . $ServerHost . '/cert.pem';
+        self::addDataObjectHelper('webRTC_CertPath', 'SSL Certificate path');
+         
+        $obj->webRTC_KeyPath = '/etc/letsencrypt/live/' . $ServerHost . '/privkey.pem';
+        self::addDataObjectHelper('webRTC_KeyPath', 'SSL Key path');
+         
+        $obj->webRTC_ChainCertPath = '/etc/letsencrypt/live/' . $ServerHost . '/chain.pem';
+        self::addDataObjectHelper('webRTC_ChainCertPath', 'SSL Certificate Chain path');
+         
         return $obj;
     }
 
