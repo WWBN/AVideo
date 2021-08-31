@@ -8,13 +8,17 @@ $obj->error = true;
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('Live');
 
-if(!User::isAdmin()){
+if(!User::canStream()){
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
 
 $id = intval($_REQUEST['id']);
 $row = new Live_schedule($id);
-$obj->error = !$row->delete();
+
+if(User::isAdmin() || $row->getUsers_id() == User::getId()){
+    $obj->error = !$row->delete();
+}
+
 die(json_encode($obj));
 ?>
