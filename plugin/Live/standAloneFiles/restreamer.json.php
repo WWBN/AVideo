@@ -52,7 +52,7 @@ if (file_exists($configFile)) {
     $streamerURL = $global['webSiteRootURL'];
 }
 
-error_log("Restreamer.json.php start");
+error_log("Restreamer.json.php start {$streamerURL}");
 $whichffmpeg = whichffmpeg();
 if ($whichffmpeg !== $ffmpegBinary) {
     error_log("Restreamer.json.php WARNING you are using a different FFMPEG $whichffmpeg!==$ffmpegBinary");
