@@ -5874,6 +5874,7 @@ function downloadHLS($filepath) {
     $output = m3u8ToMP4($filepath);
 
     if (empty($output)) {
+        _error_log("downloadHLS: m3u8ToMP4($filepath) return empty");
         die("downloadHLS was not possible");
     }
 
