@@ -10,8 +10,6 @@ if (file_exists($configFile)) {
         return false;
     }
     
-    $live->webRTC_SelfHostedURL = addLastSlash($live->webRTC_SelfHostedURL);
-    
     $webRTCServerURL = $global['webSiteRootURL'].'plugin/Live/standAloneFiles/WebRTCServer/';;
     $OME_HLS_STREAM_PORT = 7770;
     $OME_API_PORT = 7771;
