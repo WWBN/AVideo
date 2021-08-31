@@ -12,7 +12,7 @@ if (file_exists($configFile)) {
     
     $live->webRTC_SelfHostedURL = addLastSlash($live->webRTC_SelfHostedURL);
     
-    $webRTCServerURL = ($live->webRTC_SelfHostedURL).'plugin/Live/standAloneFiles/WebRTCServer/';
+    $webRTCServerURL = $global['webSiteRootURL'].'plugin/Live/standAloneFiles/WebRTCServer/';;
     $OME_HLS_STREAM_PORT = 7770;
     $OME_API_PORT = 7771;
     $OME_SOCKET_PORT = 7772;
@@ -22,7 +22,7 @@ if (file_exists($configFile)) {
     $AccessToken = $global['salt'] . $ServerHost;
     $pushRTMP = false;
 
-    $ServerHost = getHostOnlyFromURL($webRTCServerURL);
+    $ServerHost = $live->webRTC_SelfHostedURL;
 
     $files = array(
         'CertPath' => $live->webRTC_CertPath,
