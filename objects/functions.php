@@ -5948,6 +5948,10 @@ function m3u8ToMP4($input) {
     } else {
         $filepath = escapeshellcmd($input);
     }
+    
+    if(is_dir($filepath)){
+        $filepath = addLastSlash($filepath).'index.m3u8';
+    }
 
     $outputpath = escapeshellcmd($outputpath);
     if (!file_exists($outputpath)) {
