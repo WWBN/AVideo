@@ -40,7 +40,7 @@ if (file_exists($ServerXML)) {
 }
 
 if (!file_exists($LoggerXML)) {
-    $command = 'cp ' . dirname(__FILE__) . '/Server.xml ' . $LoggerXML;
+    $command = 'cp ' . dirname(__FILE__) . '/Logger.xml ' . $LoggerXML;
     exec($command);
 }
 
