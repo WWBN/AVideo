@@ -39,6 +39,7 @@ if (!file_exists($ffmpegBinary)) {
 
 set_time_limit(300);
 ini_set('max_execution_time', 300);
+ini_set("memory_limit", "-1");
 
 $logFileLocation = rtrim($logFileLocation, "/") . '/';
 $logFile = $logFileLocation . "ffmpeg_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
