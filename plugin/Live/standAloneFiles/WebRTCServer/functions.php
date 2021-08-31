@@ -1,9 +1,10 @@
 <?php
+
 $configFile = dirname(__FILE__) . '/../../../../videos/configuration.php';
 $localServer = true;
 if (file_exists($configFile)) {
-    echo 'Config file found try self hosted version '.PHP_EOL;
     include_once $configFile;
+    echo 'Config file found try self hosted version ' . PHP_EOL;
     $live = AVideoPlugin::getObjectDataIfEnabled('Live');
     if (empty($live)) {
         return false;
@@ -15,32 +16,37 @@ if (file_exists($configFile)) {
     $OME_STREAM_PORT_TLS = 7773;
     $OME_TCP_RELAY_ADDRESS = 7774;
     $OME_ICE_CANDIDATES = '7775-7779';
-    $AccessToken = $global['salt'].$ServerHost;
+    $AccessToken = $global['salt'] . $ServerHost;
     $pushRTMP = false;
-    
+
+    $parse = parse_url($webRTCServerURL);
+    $domain = $parse['host'];
+    $domain = str_replace("www.", "", $domain);
+    $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
+    $domain = preg_replace('/:[0-9]+$/', '', $domain);
+    $ServerHost = $domain;
+
     $files = array(
-        'CertPath'=>'/etc/letsencrypt/live/'.$ServerHost.'/cert.pem', 
-        'KeyPath'=>'/etc/letsencrypt/live/'.$ServerHost.'/privkey.pem', 
-        'ChainCertPath'=>'/etc/letsencrypt/live/'.$ServerHost.'/chain.pem'
+        'CertPath' => '/etc/letsencrypt/live/' . $ServerHost . '/cert.pem',
+        'KeyPath' => '/etc/letsencrypt/live/' . $ServerHost . '/privkey.pem',
+        'ChainCertPath' => '/etc/letsencrypt/live/' . $ServerHost . '/chain.pem'
     );
-    
 } else {
-    echo 'Config file not found try the standalone version '.$configFile.PHP_EOL;
+    echo 'Config file not found try the standalone version ' . $configFile . PHP_EOL;
     $configFile = dirname(__FILE__) . '/configuration.php';
     if (file_exists($configFile)) {
         require_once $configFile;
         require_once dirname(__FILE__) . '/extra_functions.php';
+        $parse = parse_url($webRTCServerURL);
+        $domain = $parse['host'];
+        $domain = str_replace("www.", "", $domain);
+        $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
+        $domain = preg_replace('/:[0-9]+$/', '', $domain);
+        $ServerHost = $domain;
     } else {
-        die('you need a configuration file on '.$configFile.PHP_EOL);
+        die('you need a configuration file on ' . $configFile . PHP_EOL);
     }
 }
-
-$parse = parse_url($webRTCServerURL);
-$domain = $parse['host'];
-$domain = str_replace("www.", "", $domain);
-$domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
-$domain = preg_replace('/:[0-9]+$/','', $domain);
-$ServerHost = $domain;
 
 $AccessToken = md5($AccessToken);
 
