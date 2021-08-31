@@ -338,6 +338,9 @@ function createInput() {
                 resetMessages();
 
                 errorTextSpan.text(errorMessage);
+                modal.hidePleaseWait();
+                window.parent.postMessage({hidePleaseWait: 1}, '*');
+                avideoToastSuccess(errorMessage);
             },
             connectionClosed: function (type, event) {
                 console.error('WebRTC player connectionClosed:', type, event);
