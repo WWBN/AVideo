@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__FILE__) . '/functions.php';
 
 $certificateFolderName = "/YPTcertificates/{$ServerHost}";
@@ -7,32 +8,36 @@ make_path($certificateFolderName);
 $imageName = "ovenmediaengine-{$ServerHost}";
 
 // create a folder to store the certificates
-if(!is_dir($certificateFolderName)){
-    $command = 'mkdir '.$certificateFolderName;
+if (!is_dir($certificateFolderName)) {
+    $command = 'mkdir ' . $certificateFolderName;
     exec($command);
 }
 
 $command = "rm {$certificateFolderName}/*.pem";
-exec($command);  
+exec($command);
 
 foreach ($files as $key => $value) {
     // copy all certificates into the folder
-    if(!file_exists($value)){
-        echo ('WebRTCLiveCam server ERROR file does not exists '.$value);
+    if (!file_exists($value)) {
+        echo ('WebRTCLiveCam server ERROR file does not exists ' . $value . PHP_EOL);
+    } else {
+        $command = "cp -Lr {$value} {$certificateFolderName}/{$key}.pem";
+        exec($command);
     }
-    
-    $command = "cp -Lr {$value} {$certificateFolderName}/{$key}.pem";
-    exec($command);    
 }
 
-$command = 'docker stop '.$imageName.' && docker rm '.$imageName;
+$command = 'docker stop ' . $imageName . ' && docker rm ' . $imageName;
 exec($command);
 
 $path = '/var/lib/docker/volumes/ome-origin-conf/_data/';
 make_path($path);
-$ServerXML = $path.'Server.xml';
-$command = 'rm '.$ServerXML;
-exec($command);
+$ServerXML = $path . 'Server.xml';
+
+if (file_exists($ServerXML)) {
+    $command = 'rm ' . $ServerXML;
+    exec($command);
+}
+
 
 $content = file_get_contents(dirname(__FILE__) . '/Server.xml');
 
@@ -62,10 +67,10 @@ $command = 'docker run -d '
         . "--env OME_ICE_CANDIDATES='*:{$OME_ICE_CANDIDATES}/udp' "
         . '-v ome-origin-conf:/opt/ovenmediaengine/bin/origin_conf '
         . '-v ome-edge-conf:/opt/ovenmediaengine/bin/edge_conf '
-        . '-v '.$certificateFolderName.':/cert '
+        . '-v ' . $certificateFolderName . ':/cert '
         //. '--name '.$imageName.' youphptube/ovenmediaengine:v1';
-        . '--name '.$imageName.' airensoft/ovenmediaengine:latest';
+        . '--name ' . $imageName . ' airensoft/ovenmediaengine:latest';
 
-echo ('Execute WebRTCLiveCam server '.$command);
+echo ('Execute WebRTCLiveCam server ' . $command);
 
 exec($command);
