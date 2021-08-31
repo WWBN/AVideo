@@ -1,5 +1,6 @@
 <?php
 if(!empty($doNotIncludeConfig)){
+    error_log('AVideo includeconfig ignored');
     return false;
 }
 
