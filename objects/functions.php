@@ -5964,6 +5964,8 @@ function m3u8ToMP4($input) {
                 return false;
             }
         }
+    }else{
+        _error_log("downloadHLS: outputpath not found ({$outputpath})");
     }
     return array('path' => $outputpath, 'filename' => $outputfilename);
 }
