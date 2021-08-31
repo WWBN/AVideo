@@ -1,6 +1,5 @@
 <?php
-
-$configFile = '../../../videos/configuration.php';
+$configFile = '../../../../videos/configuration.php';
 $localServer = true;
 if (file_exists($configFile)) {
     include_once $configFile;
@@ -30,7 +29,7 @@ if (file_exists($configFile)) {
         require_once $configFile;
         require_once dirname(__FILE__) . '/extra_functions.php';
     } else {
-        die('you need a configuration file');
+        die('you need a configuration file on '.$configFile.PHP_EOL);
     }
 }
 
