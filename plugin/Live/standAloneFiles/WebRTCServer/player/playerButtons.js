@@ -316,7 +316,7 @@ function createInput() {
     input = OvenWebRTCInput.create({
         callbacks: {
             error: function (error) {
-
+                console.error('WebRTC player error:', error);
                 let errorMessage = '';
 
                 if (error.message) {
@@ -340,6 +340,7 @@ function createInput() {
                 errorTextSpan.text(errorMessage);
             },
             connectionClosed: function (type, event) {
+                console.error('WebRTC player connectionClosed:', type, event);
                 if (type === 'websocket') {
                     let reason;
                     // See http://tools.ietf.org/html/rfc6455#section-7.4.1
@@ -378,12 +379,15 @@ function createInput() {
                 }
             },
             connected: function (state) {
+                console.log('WebRTC player connected:', state);
                 onStreamConnected();
             },
             iceStateChange: function (state) {
+                console.log('WebRTC player iceStateChange:', state);
                 iceStateSpan.text(state);
             },
             connectionClose: function (type, e) {
+                console.error('WebRTC player connectionClose:', type, e);
                 avideoAlertError('Iceconnection Closed');
                 modal.hidePleaseWait();
                 window.parent.postMessage({hidePleaseWait: 1}, '*');

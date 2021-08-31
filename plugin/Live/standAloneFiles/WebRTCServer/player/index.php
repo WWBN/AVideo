@@ -214,7 +214,7 @@ if (!empty($pushRTMP)) {
         $hls = $links['hls'];
     }
     ?>
-                    console.log('Live will start with restream');
+                    console.log('Live will start with restream <?php echo $hls; ?>');
                     window.parent.postMessage({startLiveRestream: 1, m3u8: '<?php echo $hls; ?>'}, '*');
     <?php
 }
