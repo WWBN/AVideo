@@ -358,13 +358,13 @@ class Live extends PluginAbstract {
                 
         $ServerHost = getHostOnlyFromURL($global['webSiteRootURL']);
         $obj->webRTC_CertPath = '/etc/letsencrypt/live/' . $ServerHost . '/cert.pem';
-        self::addDataObjectHelper('webRTC_CertPath', 'SSL Certificate path');
+        self::addDataObjectHelper('webRTC_CertPath', 'SSL Certificate path', 'Self Hosted only');
          
         $obj->webRTC_KeyPath = '/etc/letsencrypt/live/' . $ServerHost . '/privkey.pem';
-        self::addDataObjectHelper('webRTC_KeyPath', 'SSL Key path');
+        self::addDataObjectHelper('webRTC_KeyPath', 'SSL Key path', 'Self Hosted only');
          
         $obj->webRTC_ChainCertPath = '/etc/letsencrypt/live/' . $ServerHost . '/chain.pem';
-        self::addDataObjectHelper('webRTC_ChainCertPath', 'SSL Certificate Chain path');
+        self::addDataObjectHelper('webRTC_ChainCertPath', 'SSL Certificate Chain path', 'Self Hosted only');
          
         return $obj;
     }
