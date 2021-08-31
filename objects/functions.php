@@ -1319,7 +1319,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             if (empty($source)) {
                 continue;
             }
-            if (filesize($file) < 1000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
+            if (in_array($parts['extension'], $image) && filesize($file) < 1000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
                 continue;
             }
 

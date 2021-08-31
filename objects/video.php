@@ -2881,7 +2881,8 @@ if (!class_exists('Video')) {
                 } elseif (!empty($video)) {
                     $x = strtotime($video['modified']);
                 }
-                $source['url'] .= "?cache={$x}";
+                $source['url'] = addQueryStringParameter($source['url'], 'cache', $x);
+                $source['url_noCDN'] = addQueryStringParameter($source['url_noCDN'], 'cache', $x);
             }
 
             //ObjectYPT::setCache($name, $source);
