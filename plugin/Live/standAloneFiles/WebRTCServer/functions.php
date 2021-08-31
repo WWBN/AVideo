@@ -9,7 +9,7 @@ if (file_exists($configFile)) {
     if (empty($live)) {
         return false;
     }
-    $webRTCServerURL = $global['webSiteRootURL'].'plugin/Live/liveStandalone/WebRTCServer/';;
+    $webRTCServerURL = $global['webSiteRootURL'].'plugin/Live/standAloneFiles/WebRTCServer/';;
     $OME_HLS_STREAM_PORT = 7770;
     $OME_API_PORT = 7771;
     $OME_SOCKET_PORT = 7772;
