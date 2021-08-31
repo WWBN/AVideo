@@ -13,7 +13,17 @@
     If this is successful, you can use ${PublicIP} in your settings.
     -->
     <StunServer>stun.l.google.com:19302</StunServer>
+    <Logger version="2">
+        <!-- Log file location 
+        <Path>/var/log/ovenmediaengine</Path>
+        -->
+        <!-- Disable some SRT internal logs -->
+        <Tag name="SRT" level="critical" />
+        <Tag name="Monitor" level="critical" />
 
+        <!-- Log level: [debug, info, warn, error, critical] -->
+        <Tag name=".*" level="debug" />
+    </Logger>
     <!-- Settings for the ports to bind -->
     <Bind>
         <!-- Enable this configuration if you want to use API Server -->
