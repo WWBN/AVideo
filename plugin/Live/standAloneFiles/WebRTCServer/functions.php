@@ -1,5 +1,5 @@
 <?php
-$configFile = '../../../../videos/configuration.php';
+$configFile = dirname(__FILE__) . '/../../../../videos/configuration.php';
 $localServer = true;
 if (file_exists($configFile)) {
     include_once $configFile;
@@ -24,6 +24,7 @@ if (file_exists($configFile)) {
     );
     
 } else {
+    echo 'Config file not found try the standalone version '.$configFile.PHP_EOL;
     $configFile = dirname(__FILE__) . '/configuration.php';
     if (file_exists($configFile)) {
         require_once $configFile;
