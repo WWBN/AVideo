@@ -340,6 +340,7 @@ function createInput() {
                 errorTextSpan.text(errorMessage);
                 modal.hidePleaseWait();
                 window.parent.postMessage({hidePleaseWait: 1}, '*');
+                window.parent.postMessage({webRTCPleaseWaitHide: 1}, '*');
                 avideoToastSuccess(errorMessage);
             },
             connectionClosed: function (type, event) {

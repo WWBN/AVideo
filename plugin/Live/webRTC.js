@@ -2,6 +2,8 @@
 window.addEventListener('message', event => {
     if (event.data.startLiveRestream) {
         startLiveRestream(event.data.m3u8, forceIndex);
+    }else if (event.data.webRTCPleaseWaitHide) {
+        webRTCPleaseWaitHide();
     }else if (event.data.showPleaseWait) {
         modal.showPleaseWait();
     }else if (event.data.hidePleaseWait) {
