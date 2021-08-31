@@ -44,7 +44,7 @@ $logFileLocation = rtrim($logFileLocation, "/") . '/';
 $logFile = $logFileLocation . "ffmpeg_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
 
 header('Content-Type: application/json');
-$configFile = '../../../videos/configuration.php';
+$configFile = dirname(__FILE__) .'/../../../videos/configuration.php';
 
 if (file_exists($configFile)) {
     include_once $configFile;
@@ -296,4 +296,22 @@ if (!function_exists('isURL200')) {
         return $result;
     }
 
+}
+
+if (!function_exists('make_path')) {
+    function make_path($path) {
+        $created = false;
+        if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
+            $path = pathinfo($path, PATHINFO_DIRNAME);
+        }
+        if (!is_dir($path)) {
+            $created = mkdir($path, 0755, true);
+            if (!$created) {
+                error_log('make_path: could not create the dir ' . json_encode($path));
+            }
+        } else {
+            $created = true;
+        }
+        return $created;
+    }
 }
