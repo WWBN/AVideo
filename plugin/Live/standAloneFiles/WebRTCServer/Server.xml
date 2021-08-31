@@ -2,39 +2,17 @@
 
 <Server version="8">
     <Name>OvenMediaEngine</Name>
-    <!-- Host type (origin/edge) -->
     <Type>origin</Type>
-    <!-- Specify IP address to bind (* means all IPs) -->
     <IP>*</IP>
-
-    <!-- 
-    To get the public IP address(mapped address of stun) of the local server. 
-    This is useful when OME cannot obtain a public IP from an interface, such as AWS or docker environment. 
-    If this is successful, you can use ${PublicIP} in your settings.
-    -->
     <StunServer>stun.l.google.com:19302</StunServer>
-    <!-- Settings for the ports to bind -->
     <Bind>
-        <!-- Enable this configuration if you want to use API Server -->
         <Managers>
             <API>
                 <Port>${env:OME_API_PORT:48081}</Port>
                 <WorkerCount>1</WorkerCount>
             </API>
         </Managers>
-
         <Providers>
-            <!--
-            <RTMP>
-                <Port>${env:OME_RTMP_PROV_PORT:41935}</Port>
-            </RTMP>
-            <SRT>
-                <Port>${env:OME_SRT_PROV_PORT:9999}</Port>
-            </SRT>
-            <MPEGTS>
-                <Port>${env:OME_MPEGTS_PROV_PORT:4000-4003,4004,4005/udp}</Port>
-            </MPEGTS>
-            -->
             <WebRTC>
                 <Signalling>
                     <!--
@@ -51,16 +29,6 @@
         </Providers>
 
         <Publishers>
-            <!-- The OVT is protocol for ORIGIN-EDGE -->
-            <!--
-            <OVT>
-                <Port>${env:OME_ORIGIN_PORT:9000}</Port>
-            </OVT>
-            <DASH>
-                <Port>${env:OME_DASH_STREAM_PORT:8080}</Port>
-                <TLSPort>${env:OME_STREAM_PORT_TLS:8443}</TLSPort>
-            </DASH>
-            -->
             <HLS>
                 <!--
                 <Port>${env:OME_HLS_STREAM_PORT:8080}</Port>
@@ -83,124 +51,26 @@
             </WebRTC>
         </Publishers>
     </Bind>
-
-    <!-- P2P works only in WebRTC -->
-    <!--
-    <P2P>
-            <MaxClientPeersPerHostPeer>2</MaxClientPeersPerHostPeer>
-    </P2P>
-    -->
-
-    <!--
-            Enable this configuration if you want to use API Server
-            
-            <AccessToken> is a token for authentication, and when you invoke the API, you must put "Basic base64encode(<AccessToken>)" in the "Authorization" header of HTTP request.
-            For example, if you set <AccessToken> to "ome-access-token", you must set "Basic b21lLWFjY2Vzcy10b2tlbg==" in the "Authorization" header.
-    -->
-    <!--
-    <Managers>
-            <Host>
-                    <Names>
-                            <Name>*</Name>
-                    </Names>
-                    <TLS>
-                            <CertPath>path/to/file.crt</CertPath>
-                            <KeyPath>path/to/file.key</KeyPath>
-                            <ChainCertPath>path/to/file.crt</ChainCertPath>
-                    </TLS>
-            </Host>
-            <API>
-                    <AccessToken>ome-access-token</AccessToken>
-            </API>
-    </Managers>
-    -->
-
     <VirtualHosts>
-        <!-- You can use wildcard like this to include multiple XMLs -->
         <VirtualHost include="VHost*.xml" />
         <VirtualHost>
             <Name>default</Name>
-
-            <!-- Settings for multi ip/domain and TLS -->
             <Host>
                 <Names>
                     <Name>{ServerHost}</Name>
                     <Name>127.0.0.1</Name>
                 </Names>
-
-
                 <TLS>
                     <CertPath>/cert/CertPath.pem</CertPath>
                     <KeyPath>/cert/KeyPath.pem</KeyPath>
                     <ChainCertPath>/cert/ChainCertPath.pem</ChainCertPath>
                 </TLS>
-                
             </Host>
-
-            <!-- 	
-            Refer https://airensoft.gitbook.io/ovenmediaengine/signedpolicy
-            <SignedPolicy>
-                    <PolicyQueryKeyName>policy</PolicyQueryKeyName>
-                    <SignatureQueryKeyName>signature</SignatureQueryKeyName>
-                    <SecretKey>aKq#1kj</SecretKey>
-
-                    <Enables>
-                            <Providers>rtmp,webrtc,srt</Providers>
-                            <Publishers>webrtc,hls,dash,lldash</Publishers>
-                    </Enables>
-            </SignedPolicy>
-            -->
-
-            <!--
-            <AdmissionWebhooks>
-                    <TargetUrl></TargetUrl>
-                    <SeretKey></SecretKey>
-                    <Timeout>3000</Timeout>
-                    <Enables>
-                            <Providers>rtmp,webrtc,srt</Providers>
-                            <Publishers>webrtc,hls,dash,lldash</Publishers>
-                    </Enables>
-            </AdmissionWebhooks>
-            -->
-
-            <!--
-            <Origins>
-            
-                    <Origin>
-                            <Location>/app/stream</Location>
-                            <Pass>
-                                    <Scheme>ovt</Scheme>
-                                    <Urls><Url>origin.com:9000/app/stream_720p</Url></Urls>
-                            </Pass>
-                    </Origin>
-                    <Origin>
-                            <Location>/app/</Location>
-                            <Pass>
-                                    <Scheme>ovt</Scheme>
-                                    <Urls><Url>origin.com:9000/app/</Url></Urls>
-                            </Pass>
-                    </Origin>
-                    <Origin>
-                            <Location>/edge/</Location>
-                            <Pass>
-                                    <Scheme>ovt</Scheme>
-                                    <Urls><Url>origin.com:9000/app/</Url></Urls>
-                            </Pass>
-                    </Origin>
-            </Origins>
-            -->
-            <!-- Settings for applications -->
             <Applications>
                 <Application>
                     <Name>app</Name>
-                    <!-- Application type (live/vod) -->
                     <Type>live</Type>
                     <OutputProfiles>
-                        <!-- Enable this configuration if you want to hardware acceleration using GPU -->
-                        <!-- 
-                        <HardwareAcceleration>false</HardwareAcceleration>
-                        -->
-
                         <OutputProfile>
                             <Name>bypass_stream</Name>
                             <OutputStreamName>${OriginStreamName}</OutputStreamName>
@@ -226,76 +96,15 @@
                                     <Samplerate>48000</Samplerate>
                                     <Channel>2</Channel>
                                 </Audio>
-                                <!-- 							
-                                <Video>
-                                        <Codec>vp8</Codec>
-                                        <Bitrate>1024000</Bitrate>
-                                        <Framerate>30</Framerate>
-                                        <Width>1280</Width>
-                                        <Height>720</Height>
-                                </Video>
-
-                                <Image>
-                                    <Codec>jpeg</Codec>
-                                    <Framerate>1</Framerate>
-                                    <Width>1280</Width>
-                                    <Height>720</Height>
-                                </Image>
-                                <Image>
-                                    <Codec>png</Codec>
-                                    <Framerate>1</Framerate>
-                                    <Width>1280</Width>
-                                    <Height>720</Height>
-                                </Image>                                                                                                
-                                -->
                             </Encodes>
                         </OutputProfile>
                     </OutputProfiles>
                     <Providers>
-                        <!--
-                        <OVT />
-                        <RTMP />
-                        <SRT />
-                        <MPEGTS>
-                            <StreamMap>
-                                <Stream>
-                                    <Name>stream_${Port}</Name>
-                                    <Port>4000,4001-4004</Port>
-                                </Stream>
-                                <Stream>
-                                    <Name>stream_4005</Name>
-                                    <Port>4005</Port>
-                                </Stream>
-                            </StreamMap>
-                        </MPEGTS>
-                        <RTSPPull />
-                        -->
                         <WebRTC />
                     </Providers>
                     <Publishers>
                         <StreamLoadBalancingThreadCount>16</StreamLoadBalancingThreadCount>
                         <SessionLoadBalancingThreadCount>0</SessionLoadBalancingThreadCount>
-                        <!--
-                    <OVT />
-                    <DASH>
-                        <SegmentDuration>5</SegmentDuration>
-                        <SegmentCount>3</SegmentCount>
-                        <CrossDomains>
-                            <Url>*</Url>
-                        </CrossDomains>
-                        <UTCTiming>
-                            <Scheme>urn:mpeg:dash:utc:http-xsdate:2014</Scheme>
-                            <Value>/time?iso&amp;ms</Value>
-                        </UTCTiming>
-                    </DASH>
-                    <LLDASH>
-                        <SegmentDuration>5</SegmentDuration>
-                        <CrossDomains>
-                            <Url>*</Url>
-                        </CrossDomains>
-                        <UTCTiming />
-                    </LLDASH>
-                        -->
                         <RTMPPush></RTMPPush>
                         <WebRTC>
                             <Timeout>120000</Timeout>
@@ -309,12 +118,6 @@
                                 <Url>*</Url>
                             </CrossDomains>
                         </HLS>
-                        <!--
-                    <Thumbnail>
-                            <Port>20080</Port>
-                            <TLSPort>20081</TLSPort>
-                    </Thumbnail>
-                        -->
                     </Publishers>
                 </Application>
             </Applications>
@@ -325,14 +128,6 @@
             <Names>
                 <Name>*</Name>
             </Names>
-            <!--
-                    If you want to set up TLS, set it up by referring to the following:
-            <TLS>
-                    <CertPath>airensoft_com.crt</CertPath>
-                    <KeyPath>airensoft_com.key</KeyPath>
-                    <ChainCertPath>airensoft_com_chain.crt</ChainCertPath>
-            </TLS>
-            -->
         </Host>
         <API>
             <AccessToken>{AccessToken}</AccessToken>
