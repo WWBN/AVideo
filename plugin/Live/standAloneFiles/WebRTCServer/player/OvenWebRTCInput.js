@@ -569,7 +569,7 @@
 
         instance.startStreaming = function (connectionUrl, connectionConfig) {
 
-            console.info(logEventHeader, 'Start Streaming');
+            console.info(logEventHeader, 'Start Streaming', connectionUrl);
 
             if (connectionConfig) {
 
