@@ -22,6 +22,7 @@ foreach ($files as $key => $value) {
         echo ('WebRTCLiveCam server ERROR file does not exists ' . $value . PHP_EOL);
     } else {
         $command = "cp -Lr {$value} {$certificateFolderName}/{$key}.pem";
+        echo ($command . PHP_EOL);
         exec($command);
     }
 }
