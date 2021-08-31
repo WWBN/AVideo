@@ -26,6 +26,7 @@ class Live extends PluginAbstract {
     }
 
     public function getDescription() {
+        global $global;
         $desc = "Broadcast a RTMP video from your computer<br> and receive HLS streaming from servers";
         $lu = AVideoPlugin::loadPlugin("LiveUsers");
         if (!empty($lu)) {
@@ -33,6 +34,7 @@ class Live extends PluginAbstract {
                 $desc .= "<div class='alert alert-danger'>You MUST update your LiveUsers plugin to version 2.0 or greater</div>";
             }
         }
+        $desc .= "<br><strong>Start Self hosted WebRTC server:</strong> <code>php {$global['systemRootPath']}plugin/Live/standAloneFiles/WebRTCServer/server.php</code>";
         return $desc;
     }
 
