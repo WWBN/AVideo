@@ -4,7 +4,7 @@ $configFile = dirname(__FILE__) . '/../../../../videos/configuration.php';
 $localServer = true;
 if (file_exists($configFile)) {
     include_once $configFile;
-    echo 'Config file found try self hosted version ' . PHP_EOL;
+    //echo 'Config file found try self hosted version ' . PHP_EOL;
     $live = AVideoPlugin::getObjectDataIfEnabled('Live');
     if (empty($live)) {
         return false;
@@ -27,7 +27,7 @@ if (file_exists($configFile)) {
         'ChainCertPath' => $live->webRTC_ChainCertPath
     );
 } else {
-    echo 'Config file not found try the standalone version ' . $configFile . PHP_EOL;
+    //echo 'Config file not found try the standalone version ' . $configFile . PHP_EOL;
     $configFile = dirname(__FILE__) . '/configuration.php';
     if (file_exists($configFile)) {
         require_once $configFile;
