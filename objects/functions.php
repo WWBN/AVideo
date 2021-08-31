@@ -5944,7 +5944,7 @@ function m3u8ToMP4($input) {
     _error_log("downloadHLS: m3u8ToMP4($input)");
     //var_dump(!preg_match('/^http/i', $input), filesize($input), preg_match('/.m3u8$/i', $input));
     if (!preg_match('/^http/i', $input) && (filesize($input) <= 10 || preg_match('/.m3u8$/i', $input))) { // dummy file
-        $filepath = escapeshellcmd(pathToRemoteURL($input, true));
+        $filepath = escapeshellcmd(pathToRemoteURL($input, true, true));
     } else {
         $filepath = escapeshellcmd($input);
     }
