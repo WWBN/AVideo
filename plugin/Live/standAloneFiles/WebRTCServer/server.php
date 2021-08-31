@@ -32,9 +32,15 @@ exec($command);
 $path = '/var/lib/docker/volumes/ome-origin-conf/_data/';
 make_path($path);
 $ServerXML = $path . 'Server.xml';
+$LoggerXML = $path . 'Logger.xml';
 
 if (file_exists($ServerXML)) {
     $command = 'rm ' . $ServerXML;
+    exec($command);
+}
+
+if (!file_exists($LoggerXML)) {
+    $command = 'cp ' . dirname(__FILE__) . '/Server.xml ' . $LoggerXML;
     exec($command);
 }
 
