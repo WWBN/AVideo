@@ -57,9 +57,17 @@ if($whichffmpeg!==$ffmpegBinary){
     error_log("Restreamer.json.php WARNING you are using a different FFMPEG $whichffmpeg!==$ffmpegBinary");
 }
 
-$request = file_get_contents("php://input");
-error_log("Restreamer.json.php php://input {$request}");
-$robj = _json_decode($request);
+$isCommandLine = php_sapi_name() === 'cli';
+
+if(!$isCommandLine){ // not command line
+    $request = file_get_contents("php://input");
+    error_log("Restreamer.json.php php://input {$request}");
+    $robj = _json_decode($request);
+}else{
+    $robj->m3u8 = $argv[1];
+    $robj->restreamsDestinations = array($argv[2]);
+    $robj->users_id = 'commandline';
+}
 
 $obj = new stdClass();
 $obj->error = true;
@@ -84,40 +92,41 @@ if (empty($obj->token)) {
     die(json_encode($obj));
 }
 
-$verifyTokenURL = "{$obj->streamerURL}plugin/Live/verifyToken.json.php?token={$obj->token}";
+if(!$isCommandLine){
+    $verifyTokenURL = "{$obj->streamerURL}plugin/Live/verifyToken.json.php?token={$obj->token}";
 
-error_log("Restreamer.json.php verifying token {$verifyTokenURL}");
+    error_log("Restreamer.json.php verifying token {$verifyTokenURL}");
 
-$arrContextOptions=array(
-    "ssl"=>array(
-        "verify_peer"=>false,
-        "verify_peer_name"=>false,
-    ),
-);  
+    $arrContextOptions=array(
+        "ssl"=>array(
+            "verify_peer"=>false,
+            "verify_peer_name"=>false,
+        ),
+    );  
 
-$content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
+    $content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
 
-error_log("Restreamer.json.php verification respond content {$content}");
-$json = _json_decode($content);
+    error_log("Restreamer.json.php verification respond content {$content}");
+    $json = _json_decode($content);
 
-if (empty($json)) {
-    $obj->msg = "Could not verify token";
-    error_log("Restreamer.json.php ERROR {$obj->msg} ({$verifyTokenURL}) ");
-    die(json_encode($obj));
-} else if (!empty($json->error)) {
-    $obj->msg = "Token is invalid";
-    error_log("Restreamer.json.php ERROR {$obj->msg} ({$verifyTokenURL}) " . json_encode($json));
-    die(json_encode($obj));
+    if (empty($json)) {
+        $obj->msg = "Could not verify token";
+        error_log("Restreamer.json.php ERROR {$obj->msg} ({$verifyTokenURL}) ");
+        die(json_encode($obj));
+    } else if (!empty($json->error)) {
+        $obj->msg = "Token is invalid";
+        error_log("Restreamer.json.php ERROR {$obj->msg} ({$verifyTokenURL}) " . json_encode($json));
+        die(json_encode($obj));
+    }
 }
-error_log("Restreamer.json.php token is correct");
 
+error_log("Restreamer.json.php token is correct");
 ignore_user_abort(true);
 ob_start();
 header("Connection: close");
 @header("Content-Length: " . ob_get_length());
 ob_end_flush();
 flush();
-
 if (empty($separateRestreams)) {
     error_log("Restreamer.json.php all in one command ");
     $obj->pid[] = startRestream($robj->m3u8, $robj->restreamsDestinations, $obj->logFile);
