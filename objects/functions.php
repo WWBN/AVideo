@@ -5876,7 +5876,7 @@ function downloadHLS($filepath) {
 
     if (empty($output)) {
         _error_log("downloadHLS: m3u8ToMP4($filepath) return empty");
-        die("downloadHLS was not possible {$filepath}");
+        die("downloadHLS was not possible");
     }
 
     $outputpath = $output['path'];
@@ -5958,13 +5958,13 @@ function m3u8ToMP4($input) {
     if (!file_exists($outputpath)) {
         $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$filepath} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
         _error_log("downloadHLS: Exec Command ({$command})");
-        //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
+        var_dump($outputfilename, $command, $_GET, $filepath);exit;
         exec($command . " 2>&1", $output, $return);
         if (!empty($return)) {
             _error_log("downloadHLS: ERROR 1 " . implode(PHP_EOL, $output));
 
             $command = get_ffmpeg() . " -y -i {$filepath} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
-            //var_dump($outputfilename, $command, $_GET, $filepath, $quoted);exit;
+            //var_dump($outputfilename, $command, $_GET, $filepath);exit;
             exec($command . " 2>&1", $output, $return);
             if (!empty($return)) {
                 _error_log("downloadHLS: ERROR 2 " . implode(PHP_EOL, $output));
@@ -6125,12 +6125,14 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
             $source = $yptStorage->getAddress("{$fileName}");
             $url = $source['url'];
-        } else if (!preg_match('/index.m3u8$/', $filename)) {
+        } else if (!preg_match('/index.m3u8$/', $filename)) {           
             if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
                 $source = $aws_s3->getAddress("{$fileName}");
                 $url = $source['url'];
                 if(empty($ignoreCDN)){
                     $url = replaceCDNIfNeed($url, 'CDN_S3');
+                }else if(!empty($source['url_noCDN'])){
+                    $url = $source['url_noCDN'];
                 }
             } else
             if ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
@@ -6138,6 +6140,8 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
                 $url = $source['url'];
                 if(empty($ignoreCDN)){
                     $url = replaceCDNIfNeed($url, 'CDN_B2');
+                }else if(!empty($source['url_noCDN'])){
+                    $url = $source['url_noCDN'];
                 }
             } else
             if ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
@@ -6145,6 +6149,8 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
                 $url = $source['url'];
                 if(empty($ignoreCDN)){
                     $url = replaceCDNIfNeed($url, 'CDN_FTP');
+                }else if(!empty($source['url_noCDN'])){
+                    $url = $source['url_noCDN'];
                 }
             }
         }
@@ -6157,6 +6163,9 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
                 $url = getCDN() . "{$paths['relative']}";
             }else{
                 $url = "{$global['webSiteRootURL']}{$paths['relative']}";
+            } 
+            if (preg_match('/index.m3u8$/', $filename) && !preg_match('/index.m3u8$/', $url)){
+                $url .= 'index.m3u8';
             }
         } else {
             $url = $filename;
@@ -6164,7 +6173,7 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
     }
 
     //$url = str_replace(array($global['systemRootPath'], '/videos/videos/'), array("", '/videos/'), $url);
-
+    
     $pathToRemoteURL[$filename] = $url;
     return $url;
 }
