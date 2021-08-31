@@ -34,7 +34,8 @@ class Live extends PluginAbstract {
                 $desc .= "<div class='alert alert-danger'>You MUST update your LiveUsers plugin to version 2.0 or greater</div>";
             }
         }
-        $desc .= "<br><strong>Start Self hosted WebRTC server:</strong> <code>php {$global['systemRootPath']}plugin/Live/standAloneFiles/WebRTCServer/server.php</code>";
+        $desc .= "<br><strong>Start Self hosted WebRTC server:</strong> <code>php {$global['systemRootPath']}plugin/Live/standAloneFiles/WebRTCServer/server.php</code> ";
+        $desc .= "<br><small><a href='https://github.com/WWBN/AVideo/wiki/WebRTC-Server' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $desc;
     }
 
