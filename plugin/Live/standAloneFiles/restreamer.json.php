@@ -63,7 +63,7 @@ $isCommandLine = php_sapi_name() === 'cli';
 if (!$isCommandLine) { // not command line
     $request = file_get_contents("php://input");
     error_log("Restreamer.json.php php://input {$request}");
-    $robj = _json_decode($request);
+    $robj = json_decode($request);
 } else {
     $robj = new stdClass();
     $robj->token = '';
@@ -111,15 +111,15 @@ if (!$isCommandLine) {
     $content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
 
     error_log("Restreamer.json.php verification respond content {$content}");
-    $json = _json_decode($content);
+    $json = json_decode($content);
 
     if (empty($json)) {
         $obj->msg = "Could not verify token";
-        error_log("Restreamer.json.php ERROR {$obj->msg} ({$verifyTokenURL}) ");
+        error_log("Restreamer.json.php empty json ERROR {$obj->msg} ({$verifyTokenURL}) ");
         die(json_encode($obj));
     } else if (!empty($json->error)) {
         $obj->msg = "Token is invalid";
-        error_log("Restreamer.json.php ERROR {$obj->msg} ({$verifyTokenURL}) " . json_encode($json));
+        error_log("Restreamer.json.php json error ERROR {$obj->msg} ({$verifyTokenURL}) " . json_encode($json));
         die(json_encode($obj));
     }
 }
