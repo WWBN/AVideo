@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/functions.php';
 $certificateFolderName = "/YPTcertificates/{$ServerHost}";
 make_path($certificateFolderName);
 
-$imageName = "ovenmediaengine-{$ServerHost}";
+$imageName = "ovenmediaengine-". str_replace('.', '', $ServerHost);
 
 // create a folder to store the certificates
 if (!is_dir($certificateFolderName)) {
