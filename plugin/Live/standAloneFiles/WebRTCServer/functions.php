@@ -22,9 +22,9 @@ if (file_exists($configFile)) {
     $ServerHost = getHostOnlyFromURL($webRTCServerURL);
 
     $files = array(
-        'CertPath' => '/etc/letsencrypt/live/' . $ServerHost . '/cert.pem',
-        'KeyPath' => '/etc/letsencrypt/live/' . $ServerHost . '/privkey.pem',
-        'ChainCertPath' => '/etc/letsencrypt/live/' . $ServerHost . '/chain.pem'
+        'CertPath' => $live->webRTC_CertPath,
+        'KeyPath' => $live->webRTC_KeyPath,
+        'ChainCertPath' => $live->webRTC_ChainCertPath
     );
 } else {
     echo 'Config file not found try the standalone version ' . $configFile . PHP_EOL;
