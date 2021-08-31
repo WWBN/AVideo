@@ -85,14 +85,15 @@ if (empty($robj->restreamsDestinations) || !is_array($robj->restreamsDestination
 }
 error_log("Restreamer.json.php Found " . count($robj->restreamsDestinations) . " destinations: " . json_encode($robj->restreamsDestinations));
 
-// check the token
-if (empty($obj->token)) {
-    $obj->msg = "Token is empty";
-    error_log("Restreamer.json.php ERROR {$obj->msg}");
-    die(json_encode($obj));
-}
 
-if(!$isCommandLine){
+if(!$isCommandLine){    
+    // check the token
+    if (empty($obj->token)) {
+        $obj->msg = "Token is empty";
+        error_log("Restreamer.json.php ERROR {$obj->msg}");
+        die(json_encode($obj));
+    }
+
     $verifyTokenURL = "{$obj->streamerURL}plugin/Live/verifyToken.json.php?token={$obj->token}";
 
     error_log("Restreamer.json.php verifying token {$verifyTokenURL}");
