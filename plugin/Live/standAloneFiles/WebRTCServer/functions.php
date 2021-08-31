@@ -9,7 +9,7 @@ if (file_exists($configFile)) {
     if (empty($live)) {
         return false;
     }
-    $webRTCServerURL = Live::getWebRTCServerURL();
+    $webRTCServerURL = $global['webSiteRootURL'].'plugin/Live/liveStandalone/WebRTCServer/';;
     $OME_HLS_STREAM_PORT = 7770;
     $OME_API_PORT = 7771;
     $OME_SOCKET_PORT = 7772;
@@ -19,12 +19,7 @@ if (file_exists($configFile)) {
     $AccessToken = $global['salt'] . $ServerHost;
     $pushRTMP = false;
 
-    $parse = parse_url($webRTCServerURL);
-    $domain = $parse['host'];
-    $domain = str_replace("www.", "", $domain);
-    $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
-    $domain = preg_replace('/:[0-9]+$/', '', $domain);
-    $ServerHost = $domain;
+    $ServerHost = getHostOnlyFromURL($webRTCServerURL);
 
     $files = array(
         'CertPath' => '/etc/letsencrypt/live/' . $ServerHost . '/cert.pem',
