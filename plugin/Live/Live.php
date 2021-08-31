@@ -369,6 +369,9 @@ class Live extends PluginAbstract {
          
         $obj->webRTC_ChainCertPath = '/etc/letsencrypt/live/' . $ServerHost . '/chain.pem';
         self::addDataObjectHelper('webRTC_ChainCertPath', 'SSL Certificate Chain path', 'Self Hosted only');
+        
+        $obj->webRTC_PushRTMP = '/etc/letsencrypt/live/' . $ServerHost . '/chain.pem';
+        self::addDataObjectHelper('webRTC_PushRTMP', 'PushRTMP', 'Self Hosted only If it is unchecked we will restream the Webcam instead of pushing it');
          
         return $obj;
     }
