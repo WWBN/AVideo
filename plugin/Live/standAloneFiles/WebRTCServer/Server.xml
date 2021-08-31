@@ -29,9 +29,7 @@
 
         <Publishers>
             <HLS>
-                <!--
                 <Port>${env:OME_HLS_STREAM_PORT:8080}</Port>
-                -->
                 <TLSPort>${env:OME_STREAM_PORT_TLS:8443}</TLSPort>
             </HLS>
             <WebRTC>
