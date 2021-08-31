@@ -357,6 +357,10 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('webRTC_server', 'WebRTC Server', 'https://github.com/WWBN/AVideo/wiki/WebRTC-Server');
                 
         $ServerHost = getHostOnlyFromURL($global['webSiteRootURL']);
+        
+        $obj->webRTC_SelfHostedURL = $ServerHost;
+        self::addDataObjectHelper('webRTC_SelfHostedURL', 'Self Hosted URL', 'Self Hosted only');
+        
         $obj->webRTC_CertPath = '/etc/letsencrypt/live/' . $ServerHost . '/cert.pem';
         self::addDataObjectHelper('webRTC_CertPath', 'SSL Certificate path', 'Self Hosted only');
          
