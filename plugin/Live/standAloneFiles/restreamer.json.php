@@ -150,6 +150,47 @@ function clearCommandURL($url) {
     return preg_replace('/[^0-9a-z:.\/_&?=-]/i', "", $url);
 }
 
+function isURL200($url, $forceRecheck = false) {
+
+    //error_log("isURL200 checking URL {$url}");
+    $headers = @get_headers($url);
+    if (!is_array($headers)) {
+        $headers = array($headers);
+    }
+
+    $result = false;
+    foreach ($headers as $value) {
+        if (
+                strpos($value, '200') ||
+                strpos($value, '302') ||
+                strpos($value, '304')
+        ) {
+            $result = true;
+            break;
+        } else {
+            //_error_log('isURL200: '.$value);
+        }
+    }
+
+    return $result;
+}
+
+function make_path($path) {
+    $created = false;
+    if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
+        $path = pathinfo($path, PATHINFO_DIRNAME);
+    }
+    if (!is_dir($path)) {
+        $created = mkdir($path, 0755, true);
+        if (!$created) {
+            error_log('make_path: could not create the dir ' . json_encode($path));
+        }
+    } else {
+        $created = true;
+    }
+    return $created;
+}
+
 function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
     global $ffmpegBinary;
     if (empty($restreamsDestinations)) {
@@ -270,43 +311,3 @@ function replaceSlashesForPregMatch($str) {
     return str_replace('/', '.', $str);
 }
 
-function isURL200($url, $forceRecheck = false) {
-
-    //error_log("isURL200 checking URL {$url}");
-    $headers = @get_headers($url);
-    if (!is_array($headers)) {
-        $headers = array($headers);
-    }
-
-    $result = false;
-    foreach ($headers as $value) {
-        if (
-                strpos($value, '200') ||
-                strpos($value, '302') ||
-                strpos($value, '304')
-        ) {
-            $result = true;
-            break;
-        } else {
-            //_error_log('isURL200: '.$value);
-        }
-    }
-
-    return $result;
-}
-
-function make_path($path) {
-    $created = false;
-    if (substr($path, -1) !== DIRECTORY_SEPARATOR) {
-        $path = pathinfo($path, PATHINFO_DIRNAME);
-    }
-    if (!is_dir($path)) {
-        $created = mkdir($path, 0755, true);
-        if (!$created) {
-            error_log('make_path: could not create the dir ' . json_encode($path));
-        }
-    } else {
-        $created = true;
-    }
-    return $created;
-}
