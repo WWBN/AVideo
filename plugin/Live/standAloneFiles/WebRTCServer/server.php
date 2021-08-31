@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/functions.php';
 $certificateFolderName = "/YPTcertificates/{$ServerHost}";
 make_path($certificateFolderName);
 
-$imageName = "ovenmediaengine-". str_replace('.', '', $ServerHost);
+$imageName = "ovenmediaengine-". str_replace('.', '-', $ServerHost);
 
 // create a folder to store the certificates
 if (!is_dir($certificateFolderName)) {
@@ -21,7 +21,7 @@ foreach ($files as $key => $value) {
     if (!file_exists($value)) {
         echo ('WebRTCLiveCam server ERROR file does not exists ' . $value . PHP_EOL);
     } else {
-        $command = "cp -Lr {$value} {$certificateFolderName}/{$key}.pem";
+        $command = "cp -Lr {$value} {$certificateFolderName}{$key}.pem";
         echo ($command . PHP_EOL);
         exec($command);
     }
