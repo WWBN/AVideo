@@ -18,7 +18,7 @@ if (file_exists($configFile)) {
     $OME_TCP_RELAY_ADDRESS = 7774;
     $OME_ICE_CANDIDATES = '7775-7779';
     $AccessToken = $global['salt'] . $ServerHost;
-    $pushRTMP = false;
+    $pushRTMP = $live->webRTC_PushRTMP;
 
     $ServerHost = $live->webRTC_SelfHostedURL;
 
