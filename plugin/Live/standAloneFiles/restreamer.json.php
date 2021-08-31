@@ -47,6 +47,7 @@ header('Content-Type: application/json');
 $configFile = dirname(__FILE__) .'/../../../videos/configuration.php';
 
 if (file_exists($configFile)) {
+    $doNotIncludeConfig = 1;
     include_once $configFile;
     $streamerURL = $global['webSiteRootURL'];
 }
