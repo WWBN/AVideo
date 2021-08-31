@@ -2227,8 +2227,8 @@ function local_get_contents($path) {
 
 function getSelfUserAgent() {
     global $global, $AVideoStreamer_UA;
-    $agent = $AVideoStreamer_UA . " ";
-    $agent .= parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+    $agent = $AVideoStreamer_UA . "_";
+    $agent .= md5($global['salt']);
     return $agent;
 }
 
@@ -2748,8 +2748,9 @@ function isAVideoStreamer($user_agent = "") {
     if (empty($user_agent)) {
         return false;
     }
-    global $AVideoStreamer_UA;
-    if (preg_match("/{$AVideoStreamer_UA}(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)) {
+    global $AVideoStreamer_UA, $global;
+    $md5 = md5($global['salt']);
+    if (preg_match("/{$AVideoStreamer_UA}_{$md5}/", $_SERVER["HTTP_USER_AGENT"], $match)) {
         $url = trim($match[1]);
         if (!empty($url)) {
             return $url;
