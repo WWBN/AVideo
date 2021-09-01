@@ -66,12 +66,12 @@ if ($canDownloadVideosFromVideo) {
             }
             $keyFound = false;
             foreach ($notAllowedKeys as $notAllowedKey) {
-                if(preg_match("/{$notAllowedKey}/", $key)){
+                if (preg_match("/{$notAllowedKey}/", $key)) {
                     $keyFound = true;
                     break;
                 }
             }
-            if($keyFound){
+            if ($keyFound) {
                 continue;
             }
             $contextMenu[] = "{name: '" . __("Download video") . " ({$key})',
@@ -132,6 +132,10 @@ if ($playerSkinsObj->showSocialShareOnEmbed && $playerSkinsObj->contextMenuShare
 <input type="hidden" value="<?php echo Video::getURLFriendly($video['id']); ?>" class="form-control" readonly="readonly" id="linkFriendly"/>
 <input type="hidden" value="<?php echo Video::getURLFriendly($video['id']); ?>?t=0" class="form-control" readonly="readonly" id="linkCurrentTime"/>
 <textarea class="form-control" style="display: none;" rows="5" id="textAreaEmbed" readonly="readonly"><?php
-    $code = str_replace("{embedURL}", Video::getLink($video['id'], $video['clean_title'], true), $advancedCustom->embedCodeTemplate);
+    $embedURL = Video::getLink($video['id'], $video['clean_title'], true);
+    $videoLengthInSeconds = durationToSeconds($video['duration']);
+    $search = array('{embedURL}', '{videoLengthInSeconds}');
+    $replace = array($embedURL, $videoLengthInSeconds);
+    $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
     echo htmlentities($code);
     ?></textarea>
