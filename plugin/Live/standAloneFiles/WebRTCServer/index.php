@@ -4,13 +4,7 @@ error_log(json_encode($_SERVER));
 require_once './functions.php';
 header('Content-Type: application/json');
 
-if (!empty($_REQUEST['test'])) {
-    stopLive('test');
-    sleep(1);
-    $response = startLive('6087fa2155c78-test', 'rtmp://t.ypt.me/live2?e=b3dtVG9pU2o4bjIvblJyTnVrb0tweDZ0QjZHd0phV21Ldk1EUGp3aTRIRWYxbUpZODcrbktDOWhHQVF3N2dHcQ==/', 'stream', 'test');
-    var_dump($response);
-    exit;
-} else if (!empty($_REQUEST['list'])) {
+if (!empty($_REQUEST['list'])) {
     die(json_encode(listLives()));
 } else if (!empty($_REQUEST['stop'])) {
     die(json_encode(stopUnused()));

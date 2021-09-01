@@ -84,7 +84,7 @@ class Live_schedule extends ObjectYPT {
         if (file_exists($paths['path'])) {
             return $paths['url'];
         } else {
-            return Live::getOfflineImage();
+            return Live::getComingSoonImage();
         }
     }
 

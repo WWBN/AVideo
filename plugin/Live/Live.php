@@ -2051,6 +2051,15 @@ class Live extends PluginAbstract {
         }
         return $img;
     }
+    
+    static function getComingSoonImage($includeURL = true) {
+        global $global;
+        $img = "plugin/Live/view/ComingSoon.jpg";
+        if ($includeURL) {
+            $img = getCDN() . $img;
+        }
+        return $img;
+    }
 
     public static function _getPosterImage($users_id, $live_servers_id) {
         $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}.jpg";
