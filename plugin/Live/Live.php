@@ -212,8 +212,18 @@ class Live extends PluginAbstract {
         $lt = LiveTransmition::getFromDbByUser($users_id);
         $UserPhoto = User::getPhoto($users_id);
         $name = User::getNameIdentificationById($users_id);
+        $comingsoon = false;
+        if(!empty($startsOnDate)){
+            if(strtotime($startsOnDate) > time()){
+                $callback .= ';'. '$(\'.'.$uid . ' .liveNow\').attr(\'class\', \'liveNow label label-primary\');'
+                    . '$(\'.'.$uid . ' .liveNow\').text(\'' . $startsOnDate . '\');'
+                    . 'startTimerToDate(\'' . $startsOnDate . '\', \'.'.$uid . ' .liveNow\', true);';
+                $comingsoon = true;
+            }
+        }
+        
         if(empty($imgJPG)){
-            $imgJPG = getCDN().Live::getPosterThumbsImage($users_id, 0);
+            $imgJPG = getCDN().Live::getPosterThumbsImage($users_id, 0, $comingsoon);
         }
         $replace = array(
             $uid,
@@ -227,13 +237,6 @@ class Live extends PluginAbstract {
             $class
         );
 
-        if(!empty($startsOnDate)){
-            if(strtotime($startsOnDate) > time()){
-                $callback .= ';'. '$(\'.'.$uid . ' .liveNow\').attr(\'class\', \'liveNow label label-primary\');'
-                    . '$(\'.'.$uid . ' .liveNow\').text(\'' . $startsOnDate . '\');'
-                    . 'startTimerToDate(\'' . $startsOnDate . '\', \'.'.$uid . ' .liveNow\', true);';
-            }
-        }
         
         $newContent = str_replace($search, $replace, $global['getLiveApplicationModelArray']['content']);
         $newContentExtra = str_replace($search, $replace, $global['getLiveApplicationModelArray']['contentExtra']);
@@ -1986,7 +1989,7 @@ class Live extends PluginAbstract {
         return false;
     }
 
-    public static function getPosterThumbsImage($users_id, $live_servers_id) {
+    public static function getPosterThumbsImage($users_id, $live_servers_id, $cominsoon=false) {
         global $global;
         if(empty($_REQUEST['live_schedule'])){
             $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
@@ -1996,7 +1999,11 @@ class Live extends PluginAbstract {
         }
 
         if (!file_exists($global['systemRootPath'] . $file)) {
-            $file = self::getOnAirImage(false);
+            if($cominsoon){
+                $file = self::getComingSoonImage(false);
+            }else{
+                $file = self::getOnAirImage(false);
+            }
         }
         return $file;
     }
