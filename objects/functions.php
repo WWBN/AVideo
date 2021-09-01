@@ -1945,10 +1945,10 @@ function make_path($path) {
     }
     if (!is_dir($path)) {
         $created = mkdir($path, 0755, true);
-        if(!$created){
-            _error_log('make_path: could not create the dir '. json_encode($path));
+        if (!$created) {
+            _error_log('make_path: could not create the dir ' . json_encode($path));
         }
-    }else{
+    } else {
         $created = true;
     }
     return $created;
@@ -2750,13 +2750,29 @@ function isAVideoStreamer($user_agent = "") {
     }
     global $AVideoStreamer_UA, $global;
     $md5 = md5($global['salt']);
-    if (preg_match("/{$AVideoStreamer_UA}_{$md5}/", $_SERVER["HTTP_USER_AGENT"], $match)) {
-        $url = trim($match[1]);
-        if (!empty($url)) {
-            return $url;
-        }
+    if (preg_match("/{$AVideoStreamer_UA}_{$md5}/", $_SERVER["HTTP_USER_AGENT"])) {
         return true;
     }
+    return false;
+}
+
+function isAVideoUserAgent($user_agent = "") {
+    if (empty($user_agent)) {
+        $user_agent = @$_SERVER['HTTP_USER_AGENT'];
+    }
+    if (empty($user_agent)) {
+        return false;
+    }
+    global $AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoStreamer_UA, $AVideoStorage_UA, $global;
+
+    $agents = array($AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoStreamer_UA, $AVideoStorage_UA);
+
+    foreach ($agents as $value) {
+        if (preg_match("/{$value}/", $_SERVER["HTTP_USER_AGENT"])) {
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -5426,17 +5442,17 @@ function getDomain() {
     }
     $domain = str_replace("www.", "", $domain);
     $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
-    $domain = preg_replace('/:[0-9]+$/','', $domain);
+    $domain = preg_replace('/:[0-9]+$/', '', $domain);
     $_getDomain = $domain;
     return $domain;
 }
 
-function getHostOnlyFromURL($url){
+function getHostOnlyFromURL($url) {
     $parse = parse_url($url);
     $domain = $parse['host'];
     $domain = str_replace("www.", "", $domain);
     $domain = preg_match("/^\..+/", $domain) ? ltrim($domain, '.') : $domain;
-    $domain = preg_replace('/:[0-9]+$/','', $domain);
+    $domain = preg_replace('/:[0-9]+$/', '', $domain);
     return $domain;
 }
 
@@ -5950,9 +5966,9 @@ function m3u8ToMP4($input) {
     } else {
         $filepath = escapeshellcmd($input);
     }
-    
-    if(is_dir($filepath)){
-        $filepath = addLastSlash($filepath).'index.m3u8';
+
+    if (is_dir($filepath)) {
+        $filepath = addLastSlash($filepath) . 'index.m3u8';
     }
 
     $outputpath = escapeshellcmd($outputpath);
@@ -5972,7 +5988,7 @@ function m3u8ToMP4($input) {
                 return false;
             }
         }
-    }else{
+    } else {
         _error_log("downloadHLS: outputpath not found ({$outputpath})");
     }
     return array('path' => $outputpath, 'filename' => $outputfilename);
@@ -6065,7 +6081,7 @@ function saveCroppieImage($destination, $postIndex = "imgBase64") {
 
 function get_ffmpeg($ignoreGPU = false) {
     global $global;
-    return 'ffmpeg -user-agent "'.getSelfUserAgent("FFMPEG").'" ';
+    return 'ffmpeg -user-agent "' . getSelfUserAgent("FFMPEG") . '" ';
     //return 'ffmpeg -headers "User-Agent: '.getSelfUserAgent("FFMPEG").'" ';
     $ffmpeg = 'ffmpeg  ';
     if (empty($ignoreGPU) && !empty($global['ffmpegGPU'])) {
@@ -6126,31 +6142,31 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
             $source = $yptStorage->getAddress("{$fileName}");
             $url = $source['url'];
-        } else if (!preg_match('/index.m3u8$/', $filename)) {           
+        } else if (!preg_match('/index.m3u8$/', $filename)) {
             if ($aws_s3 = AVideoPlugin::loadPluginIfEnabled("AWS_S3")) {
                 $source = $aws_s3->getAddress("{$fileName}");
                 $url = $source['url'];
-                if(empty($ignoreCDN)){
+                if (empty($ignoreCDN)) {
                     $url = replaceCDNIfNeed($url, 'CDN_S3');
-                }else if(!empty($source['url_noCDN'])){
+                } else if (!empty($source['url_noCDN'])) {
                     $url = $source['url_noCDN'];
                 }
             } else
             if ($bb_b2 = AVideoPlugin::loadPluginIfEnabled("Blackblaze_B2")) {
                 $source = $bb_b2->getAddress("{$fileName}");
                 $url = $source['url'];
-                if(empty($ignoreCDN)){
+                if (empty($ignoreCDN)) {
                     $url = replaceCDNIfNeed($url, 'CDN_B2');
-                }else if(!empty($source['url_noCDN'])){
+                } else if (!empty($source['url_noCDN'])) {
                     $url = $source['url_noCDN'];
                 }
             } else
             if ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
                 $source = $ftp->getAddress("{$fileName}");
                 $url = $source['url'];
-                if(empty($ignoreCDN)){
+                if (empty($ignoreCDN)) {
                     $url = replaceCDNIfNeed($url, 'CDN_FTP');
-                }else if(!empty($source['url_noCDN'])){
+                } else if (!empty($source['url_noCDN'])) {
                     $url = $source['url_noCDN'];
                 }
             }
@@ -6160,12 +6176,12 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
         if ($forceHTTP) {
             $paths = Video::getPaths($filename);
             //$url = str_replace(getVideosDir(), getCDN() . "videos/", $filename);
-            if(empty($ignoreCDN)){
+            if (empty($ignoreCDN)) {
                 $url = getCDN() . "{$paths['relative']}";
-            }else{
+            } else {
                 $url = "{$global['webSiteRootURL']}{$paths['relative']}";
-            } 
-            if (preg_match('/index.m3u8$/', $filename) && !preg_match('/index.m3u8$/', $url)){
+            }
+            if (preg_match('/index.m3u8$/', $filename) && !preg_match('/index.m3u8$/', $url)) {
                 $url .= 'index.m3u8';
             }
         } else {
@@ -6174,7 +6190,7 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
     }
 
     //$url = str_replace(array($global['systemRootPath'], '/videos/videos/'), array("", '/videos/'), $url);
-    
+
     $pathToRemoteURL[$filename] = $url;
     return $url;
 }
@@ -6894,7 +6910,7 @@ function getURL($relativePath) {
 }
 
 function getCDNOrURL($url, $type = 'CDN', $id = 0) {
-    if(!preg_match('/^http/i', $url)){
+    if (!preg_match('/^http/i', $url)) {
         return $url;
     }
     $cdn = getCDN($type, $id);
@@ -7161,9 +7177,9 @@ function seconds2human($ss) {
 }
 
 function getTimeInTimezone($time, $timezone) {
-    if(!is_numeric($time)){
+    if (!is_numeric($time)) {
         $time = strtotime($time);
-    }    
+    }
     if (empty($timezone) || empty(date_default_timezone_get()) || $timezone == date_default_timezone_get()) {
         return $time;
     }
@@ -7173,4 +7189,3 @@ function getTimeInTimezone($time, $timezone) {
     $dateString = $date->format('Y-m-d H:i:s');
     return strtotime($dateString);
 }
-
