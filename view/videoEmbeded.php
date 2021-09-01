@@ -141,7 +141,7 @@ if (!empty($_GET['loop'])) {
 if (!empty($_GET['mute'])) {
     $mute = 'muted="muted"';
 }
-if (!empty($_GET['objectFit'])) {
+if (!empty($_GET['objectFit']) && (intval($_GET['objectFit']) == 1 || $_GET['objectFit'] == 'true')) {
     $objectFit = 'object-fit: ' . $_GET['objectFit'];
 }
 if (!empty($_GET['t'])) {
