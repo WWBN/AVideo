@@ -152,5 +152,8 @@ if (User::isAdmin() && !empty($getCachesProcessed) && is_array($getCachesProcess
 if(!empty($config) && is_object($config)){
     echo PHP_EOL.'v:'.$config->getVersion().PHP_EOL;
 }
+if(!empty($global['rowCount'])){
+    echo PHP_EOL."rowCount: {$global['rowCount']}";
+}
 ?>
 -->
