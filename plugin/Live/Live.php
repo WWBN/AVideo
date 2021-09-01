@@ -223,7 +223,7 @@ class Live extends PluginAbstract {
         }
         
         if(empty($imgJPG)){
-            $imgJPG = getCDN().Live::getPosterThumbsImage($users_id, 0, $comingsoon);
+            $imgJPG = getURL(Live::getPosterThumbsImage($users_id, 0, $comingsoon));
         }
         $replace = array(
             $uid,
