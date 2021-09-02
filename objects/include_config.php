@@ -166,7 +166,7 @@ if (empty($global['avideo_resolutions'])) {
 }
 
 sort($global['avideo_resolutions']);
-if(empty($doNotConnectDatabaseIncludeConfig)){
+if(!empty($doNotConnectDatabaseIncludeConfig)){
     return false;
 }
 $advancedCustom = AVideoPlugin::getObjectData('CustomizeAdvanced');
