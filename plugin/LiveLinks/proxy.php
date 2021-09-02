@@ -1,12 +1,9 @@
 <?php
-
+$doNotConnectDatabaseIncludeConfig = 1;
+$doNotStartSessionbaseIncludeConfig = 1;
 require_once '../../videos/configuration.php';
 session_write_close();
-try {
-    $global['mysqli']->close();
-} catch (Exception $exc) {
-    //echo $exc->getTraceAsString();
-}
+_mysql_close();
 
 
 /*

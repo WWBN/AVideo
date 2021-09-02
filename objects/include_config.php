@@ -42,19 +42,22 @@ if (empty($global['logfile'])) {
 ini_set('error_log', $global['logfile']);
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
-$global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+if(empty($doNotConnectDatabaseIncludeConfig)){
+    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
-if ($global['mysqli'] === false || !empty($global['mysqli']->connect_errno)) {
-    error_log("MySQL connect_errno[{$global['mysqli']->connect_errno}] {$global['mysqli']->connect_error}");
-    include $global['systemRootPath'] . 'view/include/offlinePage.php';
-    exit;
+    if ($global['mysqli'] === false || !empty($global['mysqli']->connect_errno)) {
+        error_log("MySQL connect_errno[{$global['mysqli']->connect_errno}] {$global['mysqli']->connect_error}");
+        include $global['systemRootPath'] . 'view/include/offlinePage.php';
+        exit;
+    }
+
+    // if you set it on configuration file it will help you to encode
+    if (!empty($global['mysqli_charset'])) {
+        $global['mysqli']->set_charset($global['mysqli_charset']);
+    }
+}else{
+    $mysql_connect_was_closed = 1;
 }
-
-// if you set it on configuration file it will help you to encode
-if (!empty($global['mysqli_charset'])) {
-    $global['mysqli']->set_charset($global['mysqli_charset']);
-}
-
 require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/security.php';
@@ -67,24 +70,26 @@ if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) 
 
 $global['dont_show_us_flag'] = false;
 // this is for old versions
-session_write_close();
 
-// server should keep session data for AT LEAST 1 hour
-ini_set('session.gc_maxlifetime', $config->getSession_timeout());
+if(empty($doNotStartSessionbaseIncludeConfig)){
+    session_write_close();
 
-// each client should remember their session id for EXACTLY 1 hour
-session_set_cookie_params($config->getSession_timeout());
+    // server should keep session data for AT LEAST 1 hour
+    ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 
-//Fix “set SameSite cookie to none” warning
-if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
-    setcookie('key', 'value', ['samesite' => 'None', 'secure' => true]);
-} else {
-    header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
-    setcookie('key', 'value', time() + $config->getSession_timeout(), '/; SameSite=None; Secure');
+    // each client should remember their session id for EXACTLY 1 hour
+    session_set_cookie_params($config->getSession_timeout());
+
+    //Fix “set SameSite cookie to none” warning
+    if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
+        setcookie('key', 'value', ['samesite' => 'None', 'secure' => true]);
+    } else {
+        header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
+        setcookie('key', 'value', time() + $config->getSession_timeout(), '/; SameSite=None; Secure');
+    }
+
+    session_start();
 }
-
-session_start();
-
 // DDOS protection can be disabled in video/configuration.php
 if (!empty($global['enableDDOSprotection'])) {
     ddosProtection();
