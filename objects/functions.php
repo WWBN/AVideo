@@ -3753,7 +3753,7 @@ function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
     try {
         if (!_mysql_is_open()) {
-            _error_log('MySQL Connect '. json_encode(debug_backtrace()));
+            //_error_log('MySQL Connect '. json_encode(debug_backtrace()));
             $mysql_connect_was_closed = 0;
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
             if (!empty($global['mysqli_charset'])) {
@@ -3769,7 +3769,7 @@ function _mysql_connect() {
 function _mysql_close() {
     global $global, $mysql_connect_was_closed;
     if (_mysql_is_open()) {
-        _error_log('MySQL Closed '. json_encode(debug_backtrace()));
+        //_error_log('MySQL Closed '. json_encode(debug_backtrace()));
         $mysql_connect_was_closed = 1;
         @$global['mysqli']->close();
         $global['mysqli'] = false;
