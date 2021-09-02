@@ -3780,7 +3780,7 @@ function _mysql_is_open() {
     global $global, $mysql_connect_was_closed;
     try {
         //if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
-        if (is_object($global['mysqli']) && empty($mysql_connect_was_closed)) {
+        if (!empty($global['mysqli']) && is_object($global['mysqli']) && empty($mysql_connect_was_closed)) {
             return true;
         }
     } catch (Exception $exc) {
@@ -6895,7 +6895,7 @@ function getCDN($type = 'CDN', $id = 0) {
     if ($type == 'CDN') {
         if (!empty($global['ignoreCDN'])) {
             return $global['webSiteRootURL'];
-        } else if (isValidURL($advancedCustom->videosCDN)) {
+        } else if (!empty ($advancedCustom) && isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
         } else if (empty($_getCDNURL[$index])) {
             $_getCDNURL[$index] = $global['webSiteRootURL'];
