@@ -78,12 +78,10 @@
                                     <Channel>2</Channel>
                                 </Audio>
                                 <Video>
-                                    <Bypass>false</Bypass>
+                                    <Bypass>true</Bypass>
                                     <Codec>h264</Codec>
-                                    <!--
                                     <Width>1280</Width>
                                     <Height>720</Height>
-                                    -->
                                     <Bitrate>2000000</Bitrate>
                                     <Framerate>30.0</Framerate>
                                 </Video>
