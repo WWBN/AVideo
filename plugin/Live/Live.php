@@ -929,6 +929,7 @@ class Live extends PluginAbstract {
 
         $o = $this->getDataObject();
         if ($o->doNotProcessNotifications) {
+            _error_log("Live::getStatsObject[$live_servers_id]: will not show notifications because you select the option doNotProcessNotifications on the live plugin ");
             $xml = new stdClass();
             $xml->server = new stdClass();
             $xml->server->application = array();
