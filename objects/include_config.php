@@ -61,7 +61,6 @@ if(empty($doNotConnectDatabaseIncludeConfig)){
 require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/security.php';
-$config = new Configuration();
 
 // for update config from old versions 2020-05-11
 if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) {
@@ -72,6 +71,7 @@ $global['dont_show_us_flag'] = false;
 // this is for old versions
 
 if(empty($doNotStartSessionbaseIncludeConfig)){
+    $config = new Configuration();
     session_write_close();
 
     // server should keep session data for AT LEAST 1 hour
