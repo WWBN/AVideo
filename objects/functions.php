@@ -3768,6 +3768,7 @@ function _mysql_connect() {
 function _mysql_close() {
     global $global, $mysql_connect_was_closed;
     if (_mysql_is_open()) {
+        _error_log('MySQL Closed '. json_encode(debug_backtrace()));
         $mysql_connect_was_closed = 1;
         @$global['mysqli']->close();
         $global['mysqli'] = false;
