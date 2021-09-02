@@ -151,9 +151,9 @@ getDeviceID();
 allowOrigin();
 
 $baseName = basename($_SERVER['SCRIPT_FILENAME']);
-if ($baseName !== 'xsendfile.php' && class_exists('Plugin')) {
+if (empty($doNotConnectDatabaseIncludeConfig) && $baseName !== 'xsendfile.php' && class_exists('Plugin')) {
     AVideoPlugin::getStart();
-} elseif ($baseName !== 'xsendfile.php') {
+} elseif (empty($doNotConnectDatabaseIncludeConfig) && $baseName !== 'xsendfile.php') {
     _error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");
 }
 if (empty($global['bodyClass'])) {
