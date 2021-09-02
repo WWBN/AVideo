@@ -29,8 +29,10 @@ $httpsWebSiteRootURL = $global['webSiteRootURL'];
 if(!preg_match('/^https/', $httpsWebSiteRootURL)){
     $httpsWebSiteRootURL = 'https://tutorialsavideocom.cdn.ypt.me/';
 }
-        
-        
+
+if(empty($webRTCServerCDNURL)){
+    $webRTCServerCDNURL = $global['WebRTCserver'];
+}
 
 ?>
 <!DOCTYPE html>
@@ -45,7 +47,7 @@ if(!preg_match('/^https/', $httpsWebSiteRootURL)){
         <link href="<?php echo $httpsWebSiteRootURL; ?>view/css/custom/netflix.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $httpsWebSiteRootURL; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
-        <link href="<?php echo $global['WebRTCserver']; ?>player/playerButtons.css?<?php echo uniqid(); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $webRTCServerCDNURL; ?>player/playerButtons.css?<?php echo uniqid(); ?>" rel="stylesheet" type="text/css"/>
         <script>
             var webSiteRootURL = '<?php echo $httpsWebSiteRootURL; ?>';
             var WebRTCserver = '<?php echo $global['WebRTCserver']; ?>';
@@ -180,10 +182,10 @@ if(!preg_match('/^https/', $httpsWebSiteRootURL)){
     <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
     <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/jquery-toast/jquery.toast.min.js" type="text/javascript"></script>
     <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
-    <script src="<?php echo $global['WebRTCserver']; ?>player/adapter.js"></script>
-    <script src="<?php echo $global['WebRTCserver']; ?>player/underscore-min.js"></script>
-    <script src="<?php echo $global['WebRTCserver']; ?>player/OvenWebRTCInput.js"></script>
-    <script src="<?php echo $global['WebRTCserver']; ?>player/playerButtons.js?<?php echo uniqid(); ?>"></script>
+    <script src="<?php echo $webRTCServerCDNURL; ?>player/adapter.js"></script>
+    <script src="<?php echo $webRTCServerCDNURL; ?>player/underscore-min.js"></script>
+    <script src="<?php echo $webRTCServerCDNURL; ?>player/OvenWebRTCInput.js"></script>
+    <script src="<?php echo $webRTCServerCDNURL; ?>player/playerButtons.js?<?php echo uniqid(); ?>"></script>
     <script>
 
             window.addEventListener('message', event => {

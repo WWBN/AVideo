@@ -6081,7 +6081,7 @@ function saveCroppieImage($destination, $postIndex = "imgBase64") {
 
 function get_ffmpeg($ignoreGPU = false) {
     global $global;
-    return 'ffmpeg -user-agent "' . getSelfUserAgent("FFMPEG") . '" ';
+    $complement = ' -user_agent "'.getSelfUserAgent("FFMPEG").'" ';
     //return 'ffmpeg -headers "User-Agent: '.getSelfUserAgent("FFMPEG").'" ';
     $ffmpeg = 'ffmpeg  ';
     if (empty($ignoreGPU) && !empty($global['ffmpegGPU'])) {
@@ -6090,7 +6090,7 @@ function get_ffmpeg($ignoreGPU = false) {
     if (!empty($global['ffmpeg'])) {
         $ffmpeg = "{$global['ffmpeg']}{$ffmpeg}";
     }
-    return $ffmpeg;
+    return $ffmpeg.$complement;
 }
 
 function isHTMLPage($url) {

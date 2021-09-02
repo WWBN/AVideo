@@ -13,6 +13,7 @@ if (!empty($_REQUEST['list'])) {
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
+$obj->webRTCServerURL = $webRTCServerURL;
 if(!empty($_REQUEST['webSiteRootURL'])){
     $obj->webSiteRootURL = $_REQUEST['webSiteRootURL'];
 }else{
