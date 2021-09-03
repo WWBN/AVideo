@@ -1078,7 +1078,7 @@ li.dropdown-submenu > ul > li > a{
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% - 40px);
+    height: calc(100% - 50px);
     max-width: 100%;
     max-height: 100%;
 }

@@ -1874,6 +1874,10 @@ function avideoAjax(url, data) {
     });
 }
 
+function isPlayerUserActive(){
+    return $('#mainVideo').hasClass("vjs-user-active");
+}
+
 window.addEventListener('beforeunload', function (e) {
     //console.log('window.addEventListener(beforeunload');
     _addViewAsync();
