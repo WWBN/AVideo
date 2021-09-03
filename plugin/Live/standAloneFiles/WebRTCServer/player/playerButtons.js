@@ -4,7 +4,7 @@ let input = null;
 
 const userResolutions = {
     vga: {
-        width: {exact: 640}, height: {exact: 480}
+        width: {exact: 1024}, height: {exact: 576}
         // width: { min: 0, ideal: 640}, height: { min: 0, ideal: 480 }
         //width: {ideal: 640}, height: {ideal: 480}
     },
@@ -22,7 +22,7 @@ const userResolutions = {
 
 const displayResolutions = {
     vga: {
-        width: 640, height: 480
+        width: 1024, height: 576
     },
     hd: {
         width: 1280, height: 720
