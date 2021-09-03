@@ -26,7 +26,7 @@ window.addEventListener('message', event => {
 });
 
 function onStreamReady(){
-    $('#webRTCConnect').prop('disabled', false);
+    $('#webRTCConnect button').prop('disabled', false);
 }
 
 function startLiveRestream(m3u8, forceIndex) {
