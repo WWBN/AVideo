@@ -405,14 +405,14 @@ function createInput() {
 
         if (videoSourceSelect.val() === 'displayCapture') {
             input.getDisplayMedia(getDisplayConstraints()).then(function (stream) {
-                console.log('input.getDisplayMedia(getDisplayConstraints())');
+                console.log('input.getDisplayMedia(getDisplayConstraints())', stream, videoElement);
                 onStreamReady();
                 streamingButton.prop('disabled', false);
                 getResolutionAndCalculateFrame(videoElement);
             });
         } else {
             input.getUserMedia(getUserConstraints()).then(function (stream) {
-                console.log('input.getUserMedia(getUserConstraints())');
+                console.log('input.getUserMedia(getUserConstraints())', stream, videoElement);
                 onStreamReady();
                 streamingButton.prop('disabled', false);
                 getResolutionAndCalculateFrame(videoElement);
