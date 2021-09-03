@@ -4,17 +4,17 @@ let input = null;
 
 const userResolutions = {
     vga: {
-        // width: {exact: 640}, height: {exact: 480}
+        width: {exact: 640}, height: {exact: 480}
         // width: { min: 0, ideal: 640}, height: { min: 0, ideal: 480 }
         //width: {ideal: 640}, height: {ideal: 480}
     },
     hd: {
-        // width: {exact: 1280}, height: {exact: 720}
+        width: {exact: 1280}, height: {exact: 720}
         // width: { min: 640, ideal: 1280}, height: { min: 480, ideal: 720 }
         //width: {ideal: 1280}, height: {ideal: 720}
     },
     fhd: {
-        // width: {exact: 1920}, height: {exact: 1080}
+        width: {exact: 1920}, height: {exact: 1080}
         // width: { min: 1280, ideal: 1920}, height: { min: 720, ideal: 1080 }
         //width: {ideal: 1920}, height: {ideal: 1080}
     }
