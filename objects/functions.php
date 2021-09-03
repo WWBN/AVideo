@@ -2765,7 +2765,8 @@ function isAVideoUserAgent($user_agent = "") {
     }
     global $AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoStreamer_UA, $AVideoStorage_UA, $global;
 
-    $agents = array($AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoStreamer_UA, $AVideoStorage_UA);
+    // Lavf = ffmpeg
+    $agents = array($AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoStreamer_UA, $AVideoStorage_UA, 'Lavf');
 
     foreach ($agents as $value) {
         if (preg_match("/{$value}/", $_SERVER["HTTP_USER_AGENT"])) {
