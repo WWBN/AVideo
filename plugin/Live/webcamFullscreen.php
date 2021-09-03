@@ -2,7 +2,7 @@
 $isWebRTC = 1;
 require_once '../../videos/configuration.php';
 
-if (!User::canStream()) {
+if (!Live::canStreamWithWebRTC()) {
     forbiddenPage('You cannot stream');
 }
 

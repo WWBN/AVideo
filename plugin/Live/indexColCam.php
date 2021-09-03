@@ -14,7 +14,9 @@ $users_id = User::getId();
         if (Live::canStreamWithMeet()) {
             include $global['systemRootPath'] . 'plugin/Live/meet.php';
         }
-        include $global['systemRootPath'] . 'plugin/Live/webRTC.php';
+        if(Live::canStreamWithWebRTC()){
+            include $global['systemRootPath'] . 'plugin/Live/webRTC.php';
+        }
         ?>
     </div>
     <div class="panel-body">          

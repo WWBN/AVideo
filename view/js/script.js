@@ -1170,10 +1170,17 @@ function avideoModalIframeLarge(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-large');
 }
 
+function avideoModalIframeFullScreen(url) {
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-full');
+}
+function avideoModalIframeFull(url) {
+    avideoModalIframeFullScreen(url);
+}
+""
 function avideoModalIframeWithClassName(url, className) {
     var span = document.createElement("span");
     url = addGetParam(url, 'avideoIframe', 1);
-    span.innerHTML = '<iframe frameBorder="0" src="' + url + '"  allow="camera *;microphone *" />';
+    span.innerHTML = '<div id="avideoModalIframeDiv"><button class="btn btn-sm btn-default pull-right" onclick="swal.close();"><i class="fas fa-times"></i></button></div><iframe frameBorder="0" src="' + url + '"  allow="camera *;microphone *" />';
     swal({
         content: span,
         closeModal: true,

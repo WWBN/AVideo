@@ -353,6 +353,13 @@ class Live extends PluginAbstract {
         $obj->controllButtonsShowOnlyToAdmin_save_dvr = false;
         self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_save_dvr', 'Show Save DVR Button Only to Admin', 'Regular users will not able to see this button');
 
+        
+        $obj->disable_live_schedule = false;
+        self::addDataObjectHelper('disable_live_schedule', 'Disable Live Schedule');
+        
+        $obj->webRTC_isDisabled = false;
+        self::addDataObjectHelper('webRTC_isDisabled', 'Disable WebRTC camera', 'https://github.com/WWBN/AVideo/wiki/WebRTC-Server');
+        
         $o = new stdClass();
         $o->type = array(0=>__('Public'), 1=>__('Self Hosted'));
         $o->value = 0;
@@ -2218,6 +2225,32 @@ class Live extends PluginAbstract {
             return false;
         }
         return false;
+    }
+    
+    public static function canStreamWithWebRTC(){
+        if (!User::canStream()) {
+            return false;
+        }
+        
+        $obj = AVideoPlugin::getObjectDataIfEnabled("Live");
+        if (!empty($obj->webRTC_isDisabled)) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    public static function canScheduleLive(){
+        if (!User::canStream()) {
+            return false;
+        }
+        
+        $obj = AVideoPlugin::getObjectDataIfEnabled("Live");
+        if (!empty($obj->disable_live_schedule)) {
+            return false;
+        }
+
+        return true;
     }
 
     public static function canStreamWithMeet() {

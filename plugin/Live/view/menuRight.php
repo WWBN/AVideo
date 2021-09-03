@@ -41,15 +41,25 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
     </a>
     <ul class="dropdown-menu dropdown-menu-right notify-drop" >
         <?php
-        if(User::canStream()){
+        if (Live::canStreamWithWebRTC() || Live::canScheduleLive()) {
             ?>
             <div class="btn-group btn-group-justified" style="padding: 5px;">
-                <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL+'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
-                    <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($buttonTitle); ?></span>
-                </button>
-                <button class="btn btn-primary btn-sm" onclick="avideoModalIframe(webSiteRootURL+'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>" >
-                    <i class="far fa-calendar"></i> <span class="hidden-sm hidden-xs"><?php echo __('Schedule'); ?></span>
-                </button>
+                <?php
+                if (Live::canStreamWithWebRTC()) {
+                    ?>
+                    <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
+                        <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($buttonTitle); ?></span>
+                    </button>
+                    <?php
+                }
+                if (Live::canScheduleLive()) {
+                    ?>
+                    <button class="btn btn-primary btn-sm" onclick="avideoModalIframe(webSiteRootURL + 'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>" >
+                        <i class="far fa-calendar"></i> <span class="hidden-sm hidden-xs"><?php echo __('Schedule'); ?></span>
+                    </button>
+                    <?php
+                }
+                ?>
             </div>
             <?php
         }
@@ -226,7 +236,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             if (!$('#' + notificatioID).length) {
                 notificationHTML.attr('id', notificatioID);
                 $('#availableLiveStream').prepend(notificationHTML);
-            }else{
+            } else {
                 //console.log('processApplication is already present '+notificatioID, application.className);
             }
 
@@ -308,7 +318,9 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         selector += ', .liveVideo_live_' + json.live_servers_id + "_" + json.key;
         selector += ', .live_' + json.key;
         //console.log('socketLiveOFFCallback 1', selector);
-        $(selector).slideUp("fast", function() { $(this).remove(); } );
+        $(selector).slideUp("fast", function () {
+            $(this).remove();
+        });
         if (typeof onlineLabelOffline == 'function') {
             selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
             //console.log('socketLiveOFFCallback 2', selector);
