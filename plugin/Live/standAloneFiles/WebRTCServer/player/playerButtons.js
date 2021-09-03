@@ -163,20 +163,19 @@ function getUserConstraints() {
     if (videoResolution) {
 
         const resolution = userResolutions[videoResolution];
-        /*
-         if (screen.availHeight > screen.availWidth) {
-         newConstraint.video.width = resolution.height;
-         newConstraint.video.height = resolution.width;
-         console.log('Portrait detected');
-         } else {
-         newConstraint.video.width = resolution.width;
-         newConstraint.video.height = resolution.height;
-         console.log('Landscape detected');
-         }
-         */
+        
+        if (screen.availHeight > screen.availWidth) {
+            newConstraint.video.width = resolution.height;
+            newConstraint.video.height = resolution.width;
+            console.log('Portrait detected');
+        } else {
+            newConstraint.video.width = resolution.width;
+            newConstraint.video.height = resolution.height;
+            console.log('Landscape detected');
+        }
 
-        newConstraint.video.width = resolution.width;
-        newConstraint.video.height = resolution.height;
+        //newConstraint.video.width = resolution.width;
+        //newConstraint.video.height = resolution.height;
 
     }
 
