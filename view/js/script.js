@@ -1182,7 +1182,7 @@ function avideoModalIframeWithClassName(url, className) {
     var html = '';
     html = '<div id="avideoModalIframeDiv" class="clearfix">';
     html += '<button class="btn btn-default pull-left" onclick="swal.close();">';
-    html += '<i class="fas fa-angle-left"></i>';
+    html += '<i class="fas fa-chevron-left"></i>';
     html += '</button></div>';
     html += '<iframe frameBorder="0" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
     var span = document.createElement("span");
