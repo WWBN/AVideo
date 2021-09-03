@@ -112,8 +112,8 @@ if(empty($webRTCServerCDNURL)){
                                         <select class="custom-select constraintSelect form-control" id="videoResolutionSelect">
                                             <option value="">Not Set</option>
                                             <option value="fhd">Full HD (1920x1080)</option>
-                                            <option value="hd">HD (1280x720)</option>
-                                            <option value="vga" selected="selected">VGA (640x480)</option>
+                                            <option value="hd" selected="selected">HD (1280x720)</option>
+                                            <option value="vga">VGA (640x480)</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-3">
