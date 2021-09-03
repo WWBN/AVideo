@@ -62,8 +62,8 @@ $t['As a database increases in size full database backups take more time to comp
 $t['Audio only'] = "Jen audio";
 $t['Audio'] = "Audio";
 $t['Audio-Gallery by Date'] = "Audio-Gallery by Date";
-$t['Audio and Video'] = "Audia a Videa";
-$t['Audio'] = "Audia";
+$t['Audio and Video'] = "Audio a Video";
+$t['Audio'] = "Audio";
 $t['Australian Dollar = AUD, Brazilian Real = BRL, Canadian Dollar = CAD, Euro = EUR, U.S. Dollar = USD, etc'] = "Australský dolar = AUD, brazilský real = BRL, Česká koruna = CZK, kanadský dolar = CAD, euro = EUR, americký dolar = USD atd.";
 $t['Authenticated users can comment videos'] = "Přihlášený uživatel může komentovat videa";
 $t['Authenticated users can upload videos'] = "Přihlášený uživatel může nahrávat videa";
