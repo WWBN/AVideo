@@ -6,7 +6,9 @@ class CDN extends PluginAbstract {
 
     public function getTags() {
         return array(
-            PluginTags::$RECOMMENDED
+            PluginTags::$RECOMMENDED,
+            PluginTags::$LIVE,
+            PluginTags::$PLAYER
         );
     }
 

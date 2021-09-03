@@ -62,13 +62,13 @@ class Message implements MessageComponentInterface {
         _log_message("New connection ($conn->resourceId) {$json->yptDeviceId} {$client['selfURI']} {$client['browser']}");
 
         $this->clients[$conn->resourceId] = $client;
-
+        /*
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $limit = 250;
         } else {
             $limit = 900;
         }
-        
+        //$limit = 99999;
         if(count($this->clients)>$limit){
             $resourceId = array_key_first($this->clients);
             _log_message("\e[1;32;40m*** Closing connection {$resourceId} ***\e[0m");
@@ -77,7 +77,7 @@ class Message implements MessageComponentInterface {
             $this->clients[$resourceId]['conn']->close();
             unset($resourceId);
         }
-        
+        */
         if ($client['browser'] == \SocketMessageType::TESTING) {
             _log_message("Test detected and received from ($conn->resourceId) " . PHP_EOL . "\e[1;32;40m*** SUCCESS TEST CONNECION {$json->test_msg} ***\e[0m");
             $this->msgToResourceId($json, $conn->resourceId, \SocketMessageType::TESTING);
@@ -398,7 +398,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
-        _log_message("msgToAll FROM ({$from->resourceId}) {$type}");
+        _log_message("msgToAll FROM ({$from->resourceId}) {$type} Total Clients: ".count($this->clients));
         foreach ($this->clients as $key => $client) {
             if (!empty($includeMe) || $from !== $client['conn']) {
                 //_log_message("msgToAll FROM ({$from->resourceId}) TO {$key} {$type}");

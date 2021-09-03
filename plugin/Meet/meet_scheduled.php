@@ -41,6 +41,7 @@ if (!User::canCreateMeet()) {
             </th>
             <th><?php echo __("Topic"); ?></th>
             <th><?php echo __("Starts"); ?></th>
+            <th><?php echo __("Starts In"); ?></th>
             <th><?php echo __("Owner"); ?></th>
             <th></th>
         </tr>
@@ -60,6 +61,7 @@ if (!User::canCreateMeet()) {
             </th>
             <th><?php echo __("Topic"); ?></th>
             <th><?php echo __("Starts"); ?></th>
+            <th><?php echo __("Starts In"); ?></th>
             <th><?php echo __("Owner"); ?></th>
             <th></th>
         </tr>
@@ -152,7 +154,7 @@ if (!User::canCreateMeet()) {
 
             "processing": true,
             "serverSide": true,
-            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/list.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&manageMeetings=<?php echo $manageMeetings; ?>&<?php echo $userCredentials; ?>",
+            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/list.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&manageMeetings=<?php echo $manageMeetings; ?><?php echo !empty($userCredentials)?"&{$userCredentials}":''; ?>",
                         "order": [],
                         "columns": [
                             {
@@ -176,7 +178,19 @@ if (!User::canCreateMeet()) {
                                 }
                             },
                             {"data": "topic"},
-                            {"data": "starts"},
+                            {
+                                "data": "starts",
+                                "render": function (data, type, row) {
+                                    return row.starts_timezone;
+                                }
+                            },
+                            {
+                                sortable: false,
+                                data: null,
+                                "render": function (data, type, row) {
+                                    return row.starts_in;
+                                }
+                            },
                             {"data": "identification"},
                             {
                                 sortable: false,
@@ -239,7 +253,7 @@ if ($manageMeetings) {
                                                             $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal').modal();
                                                             $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Modal .modal-body').html('');
                                                             $.ajax({
-                                                                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/getMeetInfo.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&meet_schedule_id=' + data.id + '&<?php echo $userCredentials; ?>',
+                                                                url: webSiteRootURL+'plugin/Meet/getMeetInfo.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&meet_schedule_id=' + data.id + '&<?php echo $userCredentials; ?>',
                                                                 success: function (response) {
                                                                     if (response.error) {
                                                                         avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");

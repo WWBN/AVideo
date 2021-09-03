@@ -150,6 +150,17 @@ class LiveTransmition extends ObjectYPT {
         }
     }
 
+    static function getFromRequest() {
+        if(!empty($_REQUEST['live_schedule'])){
+            return LiveTransmition::getFromDbBySchedule($_REQUEST['live_schedule']);
+        }else if(!empty($_REQUEST['u'])){
+            return LiveTransmition::getFromDbByUserName($_REQUEST['u']);
+        }else if(!empty($_REQUEST['c'])){
+            return LiveTransmition::getFromDbByChannelName($_REQUEST['c']);
+        }
+        return false;
+    }
+    
     static function getFromDbByUserName($userName) {
         global $global;
         _mysql_connect();
@@ -168,8 +179,44 @@ class LiveTransmition extends ObjectYPT {
             return false;
         }
     }
+    
+    static function getFromDbByChannelName($channelName) {
+        global $global;
+        _mysql_connect();
+        $userName = $global['mysqli']->real_escape_string($userName);
+        $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($channelName), true);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res != false) {
+            $user = $data;
+            if(empty($user)){
+                return false;
+            }
+            return static::getFromDbByUser($user['id']);
+        } else {
+            return false;
+        }
+    }
+    
+    static function getFromDbBySchedule($live_schedule_id) {
+        global $global;
+        $live_schedule_id = intval($live_schedule_id);
+        $sql = "SELECT lt.*, ls.* FROM live_schedule ls "
+                . " LEFT JOIN " . static::getTableName() . " lt ON lt.users_id = ls.users_id "
+                . " WHERE ls.id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "i", array($live_schedule_id), true);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res != false) {
+            $user = $data;
+        } else {
+            $user = false;
+        }
+        return $user;
+    }
 
-    static function keyExists($key) {
+    static function keyExists($key, $checkSchedule = true) {
         global $global;
         if (!is_string($key)) {
             return false;
@@ -179,18 +226,30 @@ class LiveTransmition extends ObjectYPT {
         }
         $key = Live::cleanUpKey($key);
         $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
-                . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
+                . " LEFT JOIN users u ON u.id = users_id AND u.status='a' "
+                . " WHERE  `key` = '$key' LIMIT 1";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
             $row = $data;
+            if(!empty($row)){
+                $row['scheduled'] = 0;
+            }
             $row = cleanUpRowFromDatabase($row);
         } else {
             $row = false;
         }
+        
+        if($checkSchedule && empty($row)){
+            $row = Live_schedule::keyExists($key);
+            if(!empty($row)){
+                $row['scheduled'] = 1;
+            }
+        }
+        
         return $row;
-    }    
+    } 
 
     function save() {
         $this->public = intval($this->public);

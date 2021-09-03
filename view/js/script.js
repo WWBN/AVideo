@@ -467,7 +467,8 @@ function addViewBeacon() {
             console.log('addViewBeacon seconds_watching_video <= 0 ', seconds_watching_video);
             return false;
         }
-        var url = webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID;
+        var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
+        url = addGetParam(url, 'PHPSESSID', PHPSESSID);
         url = addGetParam(url, 'id', mediaId);
         url = addGetParam(url, 'currentTime', playerCurrentTime);
         url = addGetParam(url, 'seconds_watching_video', seconds_watching_video);
@@ -493,8 +494,10 @@ function _addView(videos_id, currentTime) {
     if(typeof PHPSESSID == 'undefined'){
         PHPSESSID = '';
     }
+    var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
+    url = addGetParam(url, 'PHPSESSID', PHPSESSID);
     $.ajax({
-        url: webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID,
+        url: url,
         method: 'POST',
         data: {
             'id': videos_id,
@@ -508,15 +511,17 @@ function _addView(videos_id, currentTime) {
 
 var _addViewAsyncSent = false;
 function _addViewAsync() {
-    if(_addViewAsyncSent || typeof webSiteRootURL == 'undefined'){
+    if(_addViewAsyncSent || typeof webSiteRootURL == 'undefined' || typeof player == 'undefined'){
         return false;
     }
     if(typeof PHPSESSID == 'undefined'){
         PHPSESSID = '';
     }
+    var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
+    url = addGetParam(url, 'PHPSESSID', PHPSESSID);
     _addViewAsyncSent = true;
     $.ajax({
-        url: webSiteRootURL + 'objects/videoAddViewCount.json.php?PHPSESSID=' + PHPSESSID,
+        url: url,
         method: 'POST',
         data: {
             'id': mediaId,
@@ -1168,7 +1173,7 @@ function avideoModalIframeLarge(url) {
 function avideoModalIframeWithClassName(url, className) {
     var span = document.createElement("span");
     url = addGetParam(url, 'avideoIframe', 1);
-    span.innerHTML = '<iframe frameBorder="0" src="' + url + '" />';
+    span.innerHTML = '<iframe frameBorder="0" src="' + url + '"  allow="camera *;microphone *" />';
     swal({
         content: span,
         closeModal: true,
@@ -1859,7 +1864,6 @@ window.addEventListener('beforeunload', function (e) {
 }, false);
 document.addEventListener('visibilitychange', function () {
     if (document.visibilityState === 'hidden') {
-        console.log('document.addEventListener(visibilitychange');
         _addViewAsync();
     }
 });

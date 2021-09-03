@@ -6,15 +6,14 @@ if (!User::canStream()) {
     forbiddenPage('You cannot stream');
 }
 
-
 $lObj = AVideoPlugin::getDataObject('Live');
-$iframeURL = $lObj->webRTC_player;
+$iframeURL = Live::getWebRTCPlayer();
 $iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webSiteRootURL']);
 $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(User::getId()));
 
 $chatURL = '';
 $chat = AVideoPlugin::loadPluginIfEnabled('Chat2');
-if (!empty($chat)) {
+if (!empty($chat) && empty(Chat2::getEmbedURL(User::getId()))) {
     $chatURL = Chat2::getChatRoomLink(User::getId(), 1, 1, 1, true, 1);
     if (!empty($_REQUEST['user'])) {
         $chatURL = addQueryStringParameter($chatURL, 'user', $_REQUEST['user']);
@@ -98,7 +97,7 @@ $controls = Live::getAllControlls($streamName);
     <body>
         <iframe frameBorder="0" 
                 src="<?php echo $iframeURL; ?>" 
-                allowusermedia allow="feature_name allow_list;feature_name allow_list;camera *;microphone *"></iframe>
+                allowusermedia allow="camera *;microphone *"></iframe>
                 <?php
                 if (!empty($chatURL)) {
                     ?>

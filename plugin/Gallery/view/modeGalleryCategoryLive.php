@@ -28,7 +28,7 @@ foreach ($stats["applications"] as $key => $value) {
         'link' => @$value['link'],
         'imgGif' => @$value['imgGif'],
         'className' => @$value['className'],
-        'galleryCallback' => @$value['galleryCallback']
+        'galleryCallback' => @$value['callback']
     );
     
     $videos[] = $video;

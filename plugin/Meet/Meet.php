@@ -14,6 +14,7 @@ User::loginFromRequest();
 //require_once $global['systemRootPath'] . 'objects/firebase/php-jwt/src/JWT.php';
 //use \Firebase\JWT\JWT;
 class Meet extends PluginAbstract {
+
     public function getTags() {
         return array(
             PluginTags::$RECOMMENDED,
@@ -23,7 +24,19 @@ class Meet extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "3.0";
+    }
+
+    public function updateScript() {
+        global $global;
+        if (AVideoPlugin::compareVersion($this->getName(), "3.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Meet/install/updateV3.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        return true;
     }
 
     public function getDescription() {
@@ -58,10 +71,10 @@ Passcode: {password}
 
         $o = new stdClass();
         $o->type = array(
-            'ca1.ypt.me' => "North America 1", 
-            'eu1.ypt.me' => "Europe 1", 
+            'ca1.ypt.me' => "North America 1",
+            'eu1.ypt.me' => "Europe 1",
             'custom' => "Custom Jitsi",
-            'ca2.ypt.me' => "Test Server do not use it", );
+            'ca2.ypt.me' => "Test Server do not use it",);
         $o->value = 'ca1.ypt.me';
         $obj->server = $o;
 
@@ -121,9 +134,9 @@ Passcode: {password}
     static function getSecret() {
         $obj = AVideoPlugin::getDataObject("Meet");
         if ($obj->server->value == 'custom') {
-            if($obj->JWT_APP_SECRET == 'my_jitsi_app_secret'){
+            if ($obj->JWT_APP_SECRET == 'my_jitsi_app_secret') {
                 return $obj->secret;
-            }else{
+            } else {
                 return $obj->JWT_APP_SECRET;
             }
         } else {
@@ -134,9 +147,9 @@ Passcode: {password}
     static function getAPPID() {
         $obj = AVideoPlugin::getDataObject("Meet");
         if ($obj->server->value == 'custom') {
-            if($obj->JWT_APP_ID == 'my_jitsi_app_id'){
+            if ($obj->JWT_APP_ID == 'my_jitsi_app_id') {
                 return "avideo";
-            }else{
+            } else {
                 return $obj->JWT_APP_ID;
             }
         } else {
@@ -147,9 +160,9 @@ Passcode: {password}
     static function getISS() {
         $obj = AVideoPlugin::getDataObject("Meet");
         if ($obj->server->value == 'custom') {
-            if($obj->JWT_APP_ID == 'my_jitsi_app_id'){
+            if ($obj->JWT_APP_ID == 'my_jitsi_app_id') {
                 return "*";
-            }else{
+            } else {
                 return $obj->JWT_APP_ID;
             }
         } else {
@@ -160,9 +173,9 @@ Passcode: {password}
     static function getAUD() {
         $obj = AVideoPlugin::getDataObject("Meet");
         if ($obj->server->value == 'custom') {
-            if($obj->JWT_APP_ID == 'my_jitsi_app_id'){
+            if ($obj->JWT_APP_ID == 'my_jitsi_app_id') {
                 return "avideo";
-            }else{
+            } else {
                 return $obj->JWT_APP_ID;
             }
         } else {
@@ -278,7 +291,7 @@ Passcode: {password}
         $roomName .= "?jwt={$token}";
 
         $obj = new stdClass();
-        if(class_exists("Live")){
+        if (class_exists("Live")) {
             $obj->getRTMPLink = Live::getRTMPLink($m->getUsers_id());
         }
         $obj->shareLink = Meet::getMeetShortLink($meet_schedule_id);
@@ -323,7 +336,7 @@ Passcode: {password}
     public function getHTMLMenuRight() {
         global $global;
         $obj = $this->getDataObject();
-        if($obj->hideTopButton){
+        if ($obj->hideTopButton) {
             return '';
         }
         if (!User::isLogged()) {
@@ -391,8 +404,9 @@ Passcode: {password}
          * Logged Users Only = 1
          * Specific User Groups = 0
          * @return type
-         */
-        if (empty($meet->getStarts()) || strtotime($meet->getStarts()) >= strtotime()) {
+         */        
+        $time = secondsIntervalFromNow($meet->getStarts(), $meet->getTimezone());
+        if (empty($meet->getStarts()) || $time>0) {
             // means public
             if ($meet->getPublic() == "2") {
                 $obj->canJoin = true;
@@ -408,7 +422,7 @@ Passcode: {password}
                 return $obj;
             }
         } else {
-            $obj->reason = "The meet does not start yet {$meet->getStarts()} ". humanTimingAfterwards($meet->getStarts());
+            $obj->reason = "The meet does not start yet {$meet->getStarts()} {$meet->getTimezone()} " . humanTimingAfterwards($meet->getStarts(), 2, $meet->getTimezone());
             return $obj;
         }
     }
@@ -541,7 +555,7 @@ Passcode: {password}
         $ms = new Meet_schedule($meet_schedule_id);
         $invitation = $objM->invitation->value;
         $topic = $ms->getTopic();
-        if(User::isAdmin() || User::getId() == $ms->getUsers_id()){
+        if (User::isAdmin() || User::getId() == $ms->getUsers_id()) {
             $pass = $ms->getPassword();
         }
         if (empty($topic)) {
@@ -561,25 +575,25 @@ Passcode: {password}
         return $invitation;
     }
 
-    static function validatePassword($meet_schedule_id, $password){
-        if(User::isAdmin() || self::isModerator($meet_schedule_id)){
+    static function validatePassword($meet_schedule_id, $password) {
+        if (User::isAdmin() || self::isModerator($meet_schedule_id)) {
             return true;
         }
         $meet = new Meet_schedule($meet_schedule_id);
-        if($meet->getPassword()){
-            if(empty($_SESSION['user']['meet_password'][$meet_schedule_id])){
-                if(!empty($password) && $meet->getPassword()==$password){
+        if ($meet->getPassword()) {
+            if (empty($_SESSION['user']['meet_password'][$meet_schedule_id])) {
+                if (!empty($password) && $meet->getPassword() == $password) {
                     _session_start();
                     $_SESSION['user']['meet_password'][$meet_schedule_id] = 1;
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }
         }
         return true;
     }
-    
+
     public function getUploadMenuButton() {
         global $global;
         if (!User::isLogged()) {

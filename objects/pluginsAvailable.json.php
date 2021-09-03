@@ -3,7 +3,11 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'objects/user.php';
+
+if(!User::isAdmin()){
+    forbiddenPage();
+}
+
 header('Content-Type: application/json');
 
 $row = Plugin::getAvailablePlugins(true);

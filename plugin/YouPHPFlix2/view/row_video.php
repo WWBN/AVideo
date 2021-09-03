@@ -72,14 +72,16 @@
             <?php
             if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
                 ?>
+                <!-- row video 1 -->
                 <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                     <center>
-                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 86px;" />
+                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
                     </center>
                 </div>
                 <?php
             } else if (!empty($images->poster) && basename($images->poster) !== 'notfound.jpg' && basename($images->poster) !== 'pdf.png' && basename($images->poster) !== 'article.png') {
                 ?>
+                <!-- row video 2 -->
                 <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                     <center>
                         <img alt="<?php echo $value['title']; ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
@@ -88,14 +90,16 @@
                 <?php
             } else if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
                 ?>
+                <!-- row video 3 -->
                 <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                     <center>
-                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="min-width: 86px;" />
+                        <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
                     </center>
                 </div>
                 <?php
             } else {
                 ?>
+                <!-- row video 4 -->
                 <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
                     <center>
                         <img alt="<?php echo $value['title']; ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />

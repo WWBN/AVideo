@@ -1,5 +1,5 @@
 videojs.addLanguage('nl', {
-  "Audio Player": "Audiospeler",
+  "Audio Player": "Audiopeler",
   "Video Player": "Videospeler",
   "Play": "Afspelen",
   "Pause": "Pauzeren",
@@ -25,7 +25,7 @@ videojs.addLanguage('nl', {
   "Chapters": "Hoofdstukken",
   "Descriptions": "Beschrijvingen",
   "descriptions off": "beschrijvingen uit",
-  "Audio Track": "Audiospoor",
+  "Audio Track": "Audiopoor",
   "Volume Level": "Geluidsniveau",
   "You aborted the media playback": "U heeft het afspelen van de media afgebroken",
   "A network error caused the media download to fail part-way.": "Een netwerkfout heeft ervoor gezorgd dat het downloaden van de media halverwege is mislukt.",

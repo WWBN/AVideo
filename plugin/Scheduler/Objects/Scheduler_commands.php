@@ -9,7 +9,7 @@ class Scheduler_commands extends ObjectYPT {
     public static $statusCanceled = 'c';
     public static $statusExecuted = 'e';
     
-    protected $id,$callbackURL,$parameters,$date_to_execute,$executed_in,$status, $callbackResponse;
+    protected $id,$callbackURL,$parameters,$date_to_execute,$executed_in,$status, $callbackResponse, $timezone;
     
     static function getSearchFieldsNames() {
         return array('callbackURL','parameters');
@@ -112,6 +112,14 @@ class Scheduler_commands extends ObjectYPT {
         return $this->save();
     } 
     
+    function getTimezone() {
+        return $this->timezone;
+    }
+
+    private function _setTimezone($timezone) {
+        $this->timezone = $timezone;
+    }
+    
     public function save() {
         if(empty($this->date_to_execute)){
             _error_log("Scheduler_commands::save(): date_to_execute is empty ". json_encode(debug_backtrace()));
@@ -126,7 +134,9 @@ class Scheduler_commands extends ObjectYPT {
         if(empty($this->callbackURL)){
             $this->callbackURL = '';
         }
+        
+        $this->_setTimeZone(date_default_timezone_get());
+        
         return parent::save();
     }
-        
 }

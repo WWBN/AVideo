@@ -201,7 +201,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                             </ul>
                         </div>
                         <div class="panel-body">
-                            <div class="col-lg-8" id="indexCol1">
+                            <div class="col-lg-6" id="indexCol1">
                                 <div class="row">
                                     <div class="<?php echo $col1Class; ?>">
                                         <?php
@@ -215,7 +215,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4" id="indexCol2">
+                            <div class="col-lg-6" id="indexCol2">
                                 <?php
                                 include $global['systemRootPath'] . 'plugin/Live/indexCol3.php';
                                 ?>

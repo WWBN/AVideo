@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
 class Live_servers extends ObjectYPT {
 
-    protected $id, $name, $url, $status, $rtmp_server, $playerServer, $stats_url, $disableDVR, $disableGifThumbs, $useAadaptiveMode, $protectLive, $getRemoteFile, $restreamerURL, $controlURL;
+    protected $id, $name, $url, $status, $rtmp_server, $playerServer, $stats_url, $disableDVR, $disableGifThumbs, $useAadaptiveMode, $protectLive, $getRemoteFile, $restreamerURL, $controlURL, $webRTC_server;
 
     static function getSearchFieldsNames() {
         return array('name', 'url', 'rtmp_server', 'playerServer', 'stats_url', 'getRemoteFile');
@@ -125,14 +125,34 @@ class Live_servers extends ObjectYPT {
     function setControlURL($controlURL) {
         $this->controlURL = $controlURL;
     }
-        
+    
+    function getwebRTC_server() {
+        return $this->webRTC_server;
+    }
+
+    function setwebRTC_server($webRTC_server) {
+        $this->webRTC_server = addLastSlash($webRTC_server);
+    }
+            
     static function getStatsFromId($live_servers_id, $force_recreate = false) {
+        global $_getStatsFromId;
+        if(empty($force_recreate)){
+            if(!isset($_getStatsFromId)){
+                $_getStatsFromId = array();
+            }
+
+            if(isset($_getStatsFromId[$live_servers_id])){
+                return $_getStatsFromId[$live_servers_id];
+            }
+        }
         $ls = new Live_servers($live_servers_id);
         if (empty($ls->getStatus()) || $ls->getStatus()=='i') {
             _error_log("Live_servers:: getStatsFromId ERROR ".json_encode($ls));
-            return false;
+            $_getStatsFromId[$live_servers_id] = false;
+        }else{
+            $_getStatsFromId[$live_servers_id] = Live::_getStats($live_servers_id, $force_recreate);
         }
-        return Live::_getStats($live_servers_id, $force_recreate);
+        return $_getStatsFromId[$live_servers_id];
     }
 
     static function getAllActive() {

@@ -1,4 +1,8 @@
 <?php
+if(!empty($doNotIncludeConfig)){
+    error_log('AVideo includeconfig ignored');
+    return false;
+}
 
 //$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
 //$global['stopBotsWhiteList'] = array('google','bing','yahoo','yandex','twitter');
@@ -38,23 +42,25 @@ if (empty($global['logfile'])) {
 ini_set('error_log', $global['logfile']);
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
-$global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+if(empty($doNotConnectDatabaseIncludeConfig)){
+    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
-if ($global['mysqli'] === false || !empty($global['mysqli']->connect_errno)) {
-    error_log("MySQL connect_errno[{$global['mysqli']->connect_errno}] {$global['mysqli']->connect_error}");
-    include $global['systemRootPath'] . 'view/include/offlinePage.php';
-    exit;
+    if ($global['mysqli'] === false || !empty($global['mysqli']->connect_errno)) {
+        error_log("MySQL connect_errno[{$global['mysqli']->connect_errno}] {$global['mysqli']->connect_error}");
+        include $global['systemRootPath'] . 'view/include/offlinePage.php';
+        exit;
+    }
+
+    // if you set it on configuration file it will help you to encode
+    if (!empty($global['mysqli_charset'])) {
+        $global['mysqli']->set_charset($global['mysqli_charset']);
+    }
+}else{
+    $mysql_connect_was_closed = 1;
 }
-
-// if you set it on configuration file it will help you to encode
-if (!empty($global['mysqli_charset'])) {
-    $global['mysqli']->set_charset($global['mysqli_charset']);
-}
-
 require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/security.php';
-$config = new Configuration();
 
 // for update config from old versions 2020-05-11
 if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) {
@@ -63,24 +69,27 @@ if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) 
 
 $global['dont_show_us_flag'] = false;
 // this is for old versions
-session_write_close();
 
-// server should keep session data for AT LEAST 1 hour
-ini_set('session.gc_maxlifetime', $config->getSession_timeout());
+if(empty($doNotStartSessionbaseIncludeConfig)){
+    $config = new Configuration();
+    session_write_close();
 
-// each client should remember their session id for EXACTLY 1 hour
-session_set_cookie_params($config->getSession_timeout());
+    // server should keep session data for AT LEAST 1 hour
+    ini_set('session.gc_maxlifetime', $config->getSession_timeout());
 
-//Fix “set SameSite cookie to none” warning
-if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
-    setcookie('key', 'value', ['samesite' => 'None', 'secure' => true]);
-} else {
-    header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
-    setcookie('key', 'value', time() + $config->getSession_timeout(), '/; SameSite=None; Secure');
+    // each client should remember their session id for EXACTLY 1 hour
+    session_set_cookie_params($config->getSession_timeout());
+
+    //Fix “set SameSite cookie to none” warning
+    if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
+        setcookie('key', 'value', ['samesite' => 'None', 'secure' => true]);
+    } else {
+        header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
+        setcookie('key', 'value', time() + $config->getSession_timeout(), '/; SameSite=None; Secure');
+    }
+
+    session_start();
 }
-
-session_start();
-
 // DDOS protection can be disabled in video/configuration.php
 if (!empty($global['enableDDOSprotection'])) {
     ddosProtection();
@@ -142,9 +151,9 @@ getDeviceID();
 allowOrigin();
 
 $baseName = basename($_SERVER['SCRIPT_FILENAME']);
-if ($baseName !== 'xsendfile.php' && class_exists('Plugin')) {
+if (empty($doNotConnectDatabaseIncludeConfig) && $baseName !== 'xsendfile.php' && class_exists('Plugin')) {
     AVideoPlugin::getStart();
-} elseif ($baseName !== 'xsendfile.php') {
+} elseif (empty($doNotConnectDatabaseIncludeConfig) && $baseName !== 'xsendfile.php') {
     _error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");
 }
 if (empty($global['bodyClass'])) {
@@ -157,7 +166,9 @@ if (empty($global['avideo_resolutions'])) {
 }
 
 sort($global['avideo_resolutions']);
-
+if(!empty($doNotConnectDatabaseIncludeConfig)){
+    return false;
+}
 $advancedCustom = AVideoPlugin::getObjectData('CustomizeAdvanced');
 
 if (empty($global['disableTimeFix'])) {

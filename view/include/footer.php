@@ -29,10 +29,7 @@ if (empty($advancedCustom)) {
         ?>
         <ul class="list-inline">
             <li>
-                Powered by <a href="http://www.avideo.com" class="external btn btn-outline btn-primary btn-xs" target="_blank" rel="noopener noreferrer">AVideo®</a> - <a href="http://platform.avideo.com" class="external btn btn-outline btn-primary btn-xs" target="_blank" rel="noopener noreferrer">A Video Platform v<?php echo $config->getVersion(); ?></a>
-            </li>
-            <li>
-                <a href="https://www.facebook.com/avideo/" class="external btn btn-outline btn-primary btn-xs" target="_blank" rel="noopener noreferrer"><span class="sr-only">Facebook</span><i class="fab fa-facebook-square"></i></a>
+                Powered by AVideo ® Platform v<?php echo $config->getVersion(); ?>
             </li>
         </ul>
         <?php
@@ -154,6 +151,9 @@ if (User::isAdmin() && !empty($getCachesProcessed) && is_array($getCachesProcess
  */
 if(!empty($config) && is_object($config)){
     echo PHP_EOL.'v:'.$config->getVersion().PHP_EOL;
+}
+if(!empty($global['rowCount'])){
+    echo PHP_EOL."rowCount: {$global['rowCount']}";
 }
 ?>
 -->

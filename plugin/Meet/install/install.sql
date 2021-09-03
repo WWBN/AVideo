@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `meet_schedule` (
   `finish` DATETIME NULL,
   `name` VARCHAR(255) NULL,
   `meet_code` VARCHAR(255) NULL,
+  `timezone` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_meet_users_rights_users_idx` (`users_id` ASC),
   UNIQUE INDEX `meet_code_UNIQUE` (`meet_code` ASC),

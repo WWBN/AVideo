@@ -125,7 +125,6 @@ $key = $liveStreamObject->getKeyWithIndex(true);
             </div>
         </div>
         <div id="tabPosterImage" class="tab-pane fade"> 
-
             <div class="panel panel-default ">
                 <div class="panel-heading">
                     <?php

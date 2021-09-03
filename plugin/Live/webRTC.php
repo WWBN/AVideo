@@ -1,6 +1,6 @@
 <?php
 $lObj = AVideoPlugin::getDataObject('Live');
-$iframeURL = $lObj->webRTC_player;
+$iframeURL = Live::getWebRTCPlayer();
 $iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webSiteRootURL']);
 $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(User::getId()));
 ?>

@@ -9,6 +9,7 @@ $obj = new stdClass();
 $obj->error = true;
 
 $live_servers_id = intval($_REQUEST['live_servers_id']);
+$live_schedule_id = intval($_REQUEST['live_schedule_id']);
 
 if (!User::isLogged()) {
     $obj->msg = 'You cant edit this file';
@@ -32,9 +33,17 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         die(json_encode($obj));
     }
     
-    $obj->file = Live::_getPosterImage(User::getId(), $live_servers_id);
-    $obj->fileThumbs = Live::_getPosterThumbsImage(User::getId(), $live_servers_id);;
+    if(empty($live_schedule_id)){
+        $obj->file = Live::_getPosterImage(User::getId(), $live_servers_id);
+        $obj->fileThumbs = Live::_getPosterThumbsImage(User::getId(), $live_servers_id);
+    }else{
+        $paths = Live_schedule::getPosterPaths($live_schedule_id);
+        $obj->file = str_replace($global['systemRootPath'], '',$paths['path']);
+        $obj->fileThumbs = str_replace($global['systemRootPath'], '',$paths['path_thumbs']);
+    }
+    
     $tmpDestination = "{$global['systemRootPath']}{$obj->file}.{$extension}";
+    
     make_path($global['systemRootPath'].$obj->file);
     if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $tmpDestination)) {
         $obj->msg = "Error on move_file_uploaded_file {$obj->file}" ;
@@ -52,6 +61,14 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     }else{
         $obj->msg = "Image not created {$tmpDestination} {$global['systemRootPath']}{$obj->file}" ;
         die(json_encode($obj));
+    }
+    
+    if(!empty($live_schedule_id)){
+        $ls = new Live_schedule($live_schedule_id);
+        $array = setLiveKey($ls->getKey(), $ls->getLive_servers_id());
+        $array['users_id'] = $ls->getUsers_id();
+        $array['stats'] = getStatsNotifications(true);     
+        Live::notifySocketStats("socketLiveOFFCallback", $array);  
     }
     
     echo "{}";

@@ -118,16 +118,16 @@ if (!class_exists('Video')) {
             }
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-        
+
         public function addSecondsWatching($seconds_watching) {
             global $global;
-            
+
             $seconds_watching = intval($seconds_watching);
-            
-            if(empty($seconds_watching)){
+
+            if (empty($seconds_watching)) {
                 return false;
             }
-            
+
             if (empty($this->id)) {
                 return false;
             }
@@ -709,7 +709,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
@@ -1041,7 +1041,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
@@ -1497,7 +1497,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             if (!empty($_POST['searchPhrase'])) {
-                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
@@ -2822,19 +2822,25 @@ if (!class_exists('Video')) {
                     $site = new Sites($video['sites_id']);
                     $siteURL = getCDNOrURL($site->getUrl(), 'CDN_YPTStorage', $video['sites_id']);
                     $source['url'] = "{$siteURL}{$paths['relative']}{$filename}{$type}{$token}";
+                    $source['url_noCDN'] = $site->getUrl() . "{$paths['relative']}{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
                         $source['url'] = "{$siteURL}videos/{$filename}/index{$type}{$token}";
+                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
                     }
                 } elseif (!empty($advancedCustom->videosCDN) && $canUseCDN) {
-                    $advancedCustom->videosCDN = rtrim($advancedCustom->videosCDN, '/') . '/';
+                    $advancedCustom->videosCDN = addLastSlash($advancedCustom->videosCDN);
                     $source['url'] = "{$advancedCustom->videosCDN}{$paths['relative']}{$filename}{$type}{$token}";
+                    $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
                         $source['url'] = "{$advancedCustom->videosCDN}videos/{$filename}/index{$type}{$token}";
+                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
                     }
                 } else {
                     $source['url'] = getCDN() . "{$paths['relative']}{$filename}{$type}{$token}";
+                    $source['url_noCDN'] = "{$global['webSiteRootURL']}{$paths['relative']}{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
                         $source['url'] = getCDN() . "videos/{$filename}/index{$type}{$token}";
+                        $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
                     }
                 }
                 /* need it because getDurationFromFile */
@@ -2842,12 +2848,15 @@ if (!class_exists('Video')) {
                     if (file_exists($source['path']) && filesize($source['path']) < 1024) {
                         if (!empty($aws_s3)) {
                             $source = $aws_s3->getAddress("{$filename}{$type}");
+                            $source['url_noCDN'] = $source['url'];
                             $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_S3');
                         } elseif (!empty($bb_b2)) {
                             $source = $bb_b2->getAddress("{$filename}{$type}");
+                            $source['url_noCDN'] = $source['url'];
                             $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_B2');
                         } elseif (!empty($ftp)) {
                             $source = $ftp->getAddress("{$filename}{$type}");
+                            $source['url_noCDN'] = $source['url'];
                             $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_FTP');
                         }
                     }
@@ -2868,11 +2877,12 @@ if (!class_exists('Video')) {
             if (substr($type, -4) === ".jpg" || substr($type, -4) === ".png" || substr($type, -4) === ".gif" || substr($type, -4) === ".webp") {
                 $x = uniqid();
                 if (file_exists($source['path'])) {
-                    $x = filemtime($source['path']).filectime($source['path']);
+                    $x = filemtime($source['path']) . filectime($source['path']);
                 } elseif (!empty($video)) {
                     $x = strtotime($video['modified']);
                 }
-                $source['url'] .= "?cache={$x}";
+                $source['url'] = addQueryStringParameter($source['url'], 'cache', $x);
+                $source['url_noCDN'] = addQueryStringParameter($source['url_noCDN'], 'cache', $x);
             }
 
             //ObjectYPT::setCache($name, $source);
@@ -4344,11 +4354,11 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        static function getCreatorHTML($users_id, $html = '', $small=false) {
+        static function getCreatorHTML($users_id, $html = '', $small = false) {
             global $global;
-            if($small){
+            if ($small) {
                 $template = $global['systemRootPath'] . 'view/videoCreatorSmall.html';
-            }else{
+            } else {
                 $template = $global['systemRootPath'] . 'view/videoCreator.html';
             }
             $content = local_get_contents($template);
@@ -4375,12 +4385,12 @@ if (!class_exists('Video')) {
             return $btnHTML;
         }
 
-        static function getVideosListItem($videos_id, $divID='', $style='') {
+        static function getVideosListItem($videos_id, $divID = '', $style = '') {
             global $global, $advancedCustom;
             $get = array();
             $get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
-            
-            if(empty($divID)){
+
+            if (empty($divID)) {
                 $divID = "divVideo-{$videos_id}";
             }
             $objGallery = AVideoPlugin::getObjectData("Gallery");
@@ -4450,10 +4460,11 @@ if (!class_exists('Video')) {
                 $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $value['id'] . '" title="' . __("Favorite") . '" style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart" ></i></button>    ';
                 $loggedUserHTML .= '</div>';
             }
-            $progress = self::getVideoPogressPercent($value['id']);;
-            
+            $progress = self::getVideoPogressPercent($value['id']);
+            ;
+
             $category = new Category($value['categories_id']);
-            
+
             $categoryLink = $category->getLink();
             $categoryIcon = $category->getIconClass();
             $category = $category->getName();
@@ -4515,12 +4526,12 @@ if (!class_exists('Video')) {
                 $creator
             );
             $btnHTML = str_replace(
-                    $search, 
-                    $replace, 
+                    $search,
+                    $replace,
                     $templateContent);
             return $btnHTML;
         }
-        
+
         function getTotal_seconds_watching() {
             return $this->total_seconds_watching;
         }
@@ -4528,7 +4539,7 @@ if (!class_exists('Video')) {
         function setTotal_seconds_watching($total_seconds_watching) {
             $this->total_seconds_watching = $total_seconds_watching;
         }
-    
+
     }
 
 }

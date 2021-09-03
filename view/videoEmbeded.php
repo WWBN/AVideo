@@ -126,10 +126,13 @@ if (!empty($_GET['autoplay']) || $config->getAutoplay()) {
     $autoplay = true;
 }
 if (isset($_GET['controls'])) {
-    if($_GET['controls'] == "0"){
+    if ($_GET['controls'] == "0") {
         $controls = "";
-    }else if($_GET['controls'] == "-1"){
+    } else if ($_GET['controls'] == "-1") {
         $showOnlyBasicControls = true;
+    } else if ($_GET['controls'] == "-2") {
+        $showOnlyBasicControls = true;
+        $hideProgressBarAndUnPause = true;
     }
 }
 if (!empty($_GET['loop'])) {
@@ -138,7 +141,7 @@ if (!empty($_GET['loop'])) {
 if (!empty($_GET['mute'])) {
     $mute = 'muted="muted"';
 }
-if (!empty($_GET['objectFit'])) {
+if (!empty($_GET['objectFit']) && (intval($_GET['objectFit']) == 1 || $_GET['objectFit'] == 'true')) {
     $objectFit = 'object-fit: ' . $_GET['objectFit'];
 }
 if (!empty($_GET['t'])) {
@@ -274,7 +277,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                     display: none !important;
                 }
                 <?php
-            }else if($showOnlyBasicControls){
+            } else if ($showOnlyBasicControls) {
                 ?>
                 #mainVideo > div.vjs-control-bar > .vjs-control, 
                 #mainVideo > div.vjs-control-bar > div.vjs-time-divider{
@@ -290,6 +293,14 @@ if (User::hasBlockedUser($video['users_id'])) {
                     display: flex;
                 }
                 <?php
+                if ($hideProgressBarAndUnPause) {
+                    ?>
+                    #mainVideo > div.vjs-control-bar > .vjs-progress-control, 
+                    #mainVideo > div.vjs-control-bar > button.vjs-play-control{
+                        display: none;
+                    }
+                    <?php
+                }
             }
             ?>
         </style>
@@ -541,33 +552,42 @@ if (User::hasBlockedUser($video['users_id'])) {
     include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
     ?>
     <script>
-            var topInfoTimeout;
-            $(document).ready(function () {
-                setInterval(function () {
-                    if (typeof player !== 'undefined') {
-                        if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                            $('#topInfo').fadeOut();
-                        } else {
-                            $('#topInfo').fadeIn();
-                        }
+        var topInfoTimeout;
+        $(document).ready(function () {
+            setInterval(function () {
+                if (typeof player !== 'undefined') {
+                    if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                        $('#topInfo').fadeOut();
+                    } else {
+                        $('#topInfo').fadeIn();
                     }
-                }, 200);
+                }
+            }, 200);
 
-                $("iframe, #topInfo").mouseover(function (e) {
-                    clearTimeout(topInfoTimeout);
-                    $('#mainVideo').addClass("vjs-user-active");
-                    topInfoTimeout = setTimeout(function () {
-                        $('#mainVideo').removeClass("vjs-user-active");
-                    }, 5000);
-                });
-
-                $("iframe").mouseout(function (e) {
-                    topInfoTimeout = setTimeout(function () {
-                        $('#mainVideo').removeClass("vjs-user-active");
-                    }, 500);
-                });
-
+            $("iframe, #topInfo").mouseover(function (e) {
+                clearTimeout(topInfoTimeout);
+                $('#mainVideo').addClass("vjs-user-active");
+                topInfoTimeout = setTimeout(function () {
+                    $('#mainVideo').removeClass("vjs-user-active");
+                }, 5000);
             });
+
+            $("iframe").mouseout(function (e) {
+                topInfoTimeout = setTimeout(function () {
+                    $('#mainVideo').removeClass("vjs-user-active");
+                }, 500);
+            });
+            <?php
+            if ($hideProgressBarAndUnPause) {
+                ?>
+                player.on('pause', function () {
+                    player.play();
+                });
+                <?php
+            }
+            ?>
+
+        });
     </script>
     <?php
     showCloseButton();

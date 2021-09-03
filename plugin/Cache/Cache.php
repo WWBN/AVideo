@@ -189,6 +189,9 @@ class Cache extends PluginAbstract {
 
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             $cacheName = 'firstPage'.DIRECTORY_SEPARATOR.$this->getFileName();
+            
+            $c = preg_replace('/<script id="infoForNonCachedPages">[^<]+<\/script>/', '', $c);
+            
             $r = ObjectYPT::setCache($cacheName, $c);
             //var_dump($r);
         }
@@ -210,7 +213,8 @@ class Cache extends PluginAbstract {
             '/roku.json',
             'mrss',
             '/sitemap.xml',
-            'plugin/Live/verifyToken.json.php');
+            'plugin/Live/verifyToken.json.php',
+            'control.json.php');
         foreach ($cacheBotWhitelist as $value) {
             if (strpos($_SERVER['REQUEST_URI'], $value) !== false) {
                 _error_log("Cache::isREQUEST_URIWhitelisted: ($value) is whitelisted");
