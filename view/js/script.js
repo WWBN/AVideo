@@ -1222,7 +1222,7 @@ function avideoModalIframeRemove() {
             avideoModalIframeRemove();
         }, 1000);
     } else {
-        $('.swal-modal-iframe .swal-content').html('');
+        $('.swal-content').html('');
     }
 }
 
