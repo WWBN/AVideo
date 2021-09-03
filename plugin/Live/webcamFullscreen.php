@@ -13,7 +13,7 @@ $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(U
 
 $chatURL = '';
 $chat = AVideoPlugin::loadPluginIfEnabled('Chat2');
-if (!empty($chat)) {
+if (!empty($chat) && empty(Chat2::getEmbedURL(User::getId()))) {
     $chatURL = Chat2::getChatRoomLink(User::getId(), 1, 1, 1, true, 1);
     if (!empty($_REQUEST['user'])) {
         $chatURL = addQueryStringParameter($chatURL, 'user', $_REQUEST['user']);
