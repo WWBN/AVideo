@@ -1196,7 +1196,7 @@ function avideoModalIframeWithClassName(url, className) {
     });
     setTimeout(function () {
         avideoModalIframeRemove();
-    }, 1000);
+    }, 2000);
 }
 
 function avideoModalIframeIsVisible() {
