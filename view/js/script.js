@@ -1205,6 +1205,8 @@ function avideoModalIframeIsVisible() {
         modal = $('.swal-modal-iframe-small');
     } else if ($('.swal-modal-iframe-large').length) {
         modal = $('.swal-modal-iframe-large');
+    } else if ($('.swal-modal-iframe-full').length) {
+        modal = $('.swal-modal-iframe-full');
     } else {
         modal = $('.swal-modal-iframe');
     }
@@ -1222,6 +1224,7 @@ function avideoModalIframeRemove() {
             avideoModalIframeRemove();
         }, 1000);
     } else {
+        console.log('avideoModalIframeRemove');
         $('.swal-content').html('');
     }
 }
