@@ -183,7 +183,7 @@ class LiveTransmition extends ObjectYPT {
     static function getFromDbByChannelName($channelName) {
         global $global;
         _mysql_connect();
-        $userName = $global['mysqli']->real_escape_string($userName);
+        $channelName = $global['mysqli']->real_escape_string($channelName);
         $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", array($channelName), true);
         $data = sqlDAL::fetchAssoc($res);
