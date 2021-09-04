@@ -47,7 +47,7 @@ if(empty($webRTCServerCDNURL)){
         <link href="<?php echo $httpsWebSiteRootURL; ?>view/css/custom/netflix.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $httpsWebSiteRootURL; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
-        <link href="<?php echo $webRTCServerCDNURL; ?>player/playerButtons.css?<?php echo uniqid(); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $webRTCServerCDNURL; ?>player/playerButtons.css?cache=<?php echo filemtime('playerButtons.css'); ?>" rel="stylesheet" type="text/css"/>
         <script>
             var webSiteRootURL = '<?php echo $httpsWebSiteRootURL; ?>';
             var WebRTCserver = '<?php echo $global['WebRTCserver']; ?>';
@@ -112,8 +112,8 @@ if(empty($webRTCServerCDNURL)){
                                         <select class="custom-select constraintSelect form-control" id="videoResolutionSelect">
                                             <option value="">Not Set</option>
                                             <option value="fhd">Full HD (1920x1080)</option>
-                                            <option value="hd">HD (1280x720)</option>
-                                            <option value="vga" selected="selected">VGA (640x480)</option>
+                                            <option value="hd" selected="selected">HD (1280x720)</option>
+                                            <option value="vga">VGA (640x480)</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-3">
@@ -182,10 +182,10 @@ if(empty($webRTCServerCDNURL)){
     <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
     <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/jquery-toast/jquery.toast.min.js" type="text/javascript"></script>
     <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
-    <script src="<?php echo $webRTCServerCDNURL; ?>player/adapter.js"></script>
-    <script src="<?php echo $webRTCServerCDNURL; ?>player/underscore-min.js"></script>
-    <script src="<?php echo $webRTCServerCDNURL; ?>player/OvenWebRTCInput.js"></script>
-    <script src="<?php echo $webRTCServerCDNURL; ?>player/playerButtons.js?<?php echo uniqid(); ?>"></script>
+    <script src="<?php echo $webRTCServerCDNURL; ?>player/adapter.js?cache=<?php echo filemtime('adapter.js'); ?>"></script>
+    <script src="<?php echo $webRTCServerCDNURL; ?>player/underscore-min.js?cache=<?php echo filemtime('underscore-min.js'); ?>"></script>
+    <script src="<?php echo $webRTCServerCDNURL; ?>player/OvenWebRTCInput.js?cache=<?php echo filemtime('OvenWebRTCInput.js'); ?>"></script>
+    <script src="<?php echo $webRTCServerCDNURL; ?>player/playerButtons.js?cache=<?php echo filemtime('playerButtons.js'); ?>"></script>
     <script>
 
             window.addEventListener('message', event => {

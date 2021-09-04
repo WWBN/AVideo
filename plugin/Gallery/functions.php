@@ -354,7 +354,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 ?>
                 <?php if (Video::canEdit($value['id'])) { ?>
                     <div>
-                        <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
+                        <a href="#" onclick="avideoModalIframeFull('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
                             <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
                         </a>
                     </div>

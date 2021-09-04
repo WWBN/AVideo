@@ -117,7 +117,11 @@ class Layout extends PluginAbstract {
         $files = _glob($global['systemRootPath'] . 'plugin/Layout/animatedBackGrounds/', '/.*php/');
         $response = array();
         foreach ($files as $key => $value) {
-            $name = str_replace('.php', '', basename($value));
+            $name = basename($value);
+            if($name === 'index.php'){
+                continue;
+            }
+            $name = str_replace('.php', '', $name);
             $response[$name] = array('path' => $value, 'name' => $name);
         }
         return $response;

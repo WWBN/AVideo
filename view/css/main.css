@@ -156,7 +156,7 @@ footer ul.list-inline li {
     .panel-body, .tabbable-panel {
         padding: 5px;
     }    
-    
+
 }
 @media (max-width: 450px) {
     #captchaText, .captcha .input-group{
@@ -1055,6 +1055,8 @@ li.dropdown-submenu > ul > li > a{
 }
 #avideoModalIframeDiv{
     display: none;
+    padding: 8px 10px;
+    padding-inline-start: 40px;
 }
 
 .swal-modal-iframe-small {
@@ -1076,7 +1078,7 @@ li.dropdown-submenu > ul > li > a{
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% - 30px);
+    height: calc(100% - 50px);
     max-width: 100%;
     max-height: 100%;
 }
@@ -1096,6 +1098,9 @@ li.dropdown-submenu > ul > li > a{
     .swal-modal.swal-modal-iframe {
         width: calc(100% - 40px);
         height: calc(100% - 50px);
+    }
+    #avideoModalIframeDiv{
+        padding-inline-start: 5px;
     }
 }
 

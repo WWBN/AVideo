@@ -4,17 +4,17 @@ let input = null;
 
 const userResolutions = {
     vga: {
-        // width: {exact: 640}, height: {exact: 480}
+        width: {exact: 1024}, height: {exact: 576}
         // width: { min: 0, ideal: 640}, height: { min: 0, ideal: 480 }
         //width: {ideal: 640}, height: {ideal: 480}
     },
     hd: {
-        // width: {exact: 1280}, height: {exact: 720}
+        width: {exact: 1280}, height: {exact: 720}
         // width: { min: 640, ideal: 1280}, height: { min: 480, ideal: 720 }
         //width: {ideal: 1280}, height: {ideal: 720}
     },
     fhd: {
-        // width: {exact: 1920}, height: {exact: 1080}
+        width: {exact: 1920}, height: {exact: 1080}
         // width: { min: 1280, ideal: 1920}, height: { min: 720, ideal: 1080 }
         //width: {ideal: 1920}, height: {ideal: 1080}
     }
@@ -22,7 +22,7 @@ const userResolutions = {
 
 const displayResolutions = {
     vga: {
-        width: 640, height: 480
+        width: 1024, height: 576
     },
     hd: {
         width: 1280, height: 720
@@ -163,20 +163,19 @@ function getUserConstraints() {
     if (videoResolution) {
 
         const resolution = userResolutions[videoResolution];
-        /*
-         if (screen.availHeight > screen.availWidth) {
-         newConstraint.video.width = resolution.height;
-         newConstraint.video.height = resolution.width;
-         console.log('Portrait detected');
-         } else {
-         newConstraint.video.width = resolution.width;
-         newConstraint.video.height = resolution.height;
-         console.log('Landscape detected');
-         }
-         */
+        
+        if (screen.availHeight > screen.availWidth) {
+            newConstraint.video.width = resolution.height;
+            newConstraint.video.height = resolution.width;
+            console.log('Portrait detected');
+        } else {
+            newConstraint.video.width = resolution.width;
+            newConstraint.video.height = resolution.height;
+            console.log('Landscape detected');
+        }
 
-        newConstraint.video.width = resolution.width;
-        newConstraint.video.height = resolution.height;
+        //newConstraint.video.width = resolution.width;
+        //newConstraint.video.height = resolution.height;
 
     }
 
@@ -405,18 +404,24 @@ function createInput() {
 
         if (videoSourceSelect.val() === 'displayCapture') {
             input.getDisplayMedia(getDisplayConstraints()).then(function (stream) {
-                console.log('input.getDisplayMedia(getDisplayConstraints())');
+                console.log('input.getDisplayMedia(getDisplayConstraints())', stream, videoElement);
+                onStreamReady();
                 streamingButton.prop('disabled', false);
                 getResolutionAndCalculateFrame(videoElement);
             });
         } else {
             input.getUserMedia(getUserConstraints()).then(function (stream) {
-                console.log('input.getUserMedia(getUserConstraints())');
+                console.log('input.getUserMedia(getUserConstraints())', stream, videoElement);
+                onStreamReady();
                 streamingButton.prop('disabled', false);
                 getResolutionAndCalculateFrame(videoElement);
             });
         }
     }
+}
+
+function onStreamReady(){
+    window.parent.postMessage({onStreamReady: 1}, '*');
 }
 
 function startStreaming() {

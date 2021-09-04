@@ -1178,9 +1178,15 @@ function avideoModalIframeFull(url) {
 }
 ""
 function avideoModalIframeWithClassName(url, className) {
-    var span = document.createElement("span");
     url = addGetParam(url, 'avideoIframe', 1);
-    span.innerHTML = '<div id="avideoModalIframeDiv"><button class="btn btn-sm btn-default pull-right" onclick="swal.close();"><i class="fas fa-times"></i></button></div><iframe frameBorder="0" src="' + url + '"  allow="camera *;microphone *" />';
+    var html = '';
+    html = '<div id="avideoModalIframeDiv" class="clearfix">';
+    html += '<button class="btn btn-default pull-left" onclick="swal.close();">';
+    html += '<i class="fas fa-chevron-left"></i>';
+    html += '</button></div>';
+    html += '<iframe frameBorder="0" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+    var span = document.createElement("span");
+    span.innerHTML = html;
     swal({
         content: span,
         closeModal: true,
@@ -1190,7 +1196,7 @@ function avideoModalIframeWithClassName(url, className) {
     });
     setTimeout(function () {
         avideoModalIframeRemove();
-    }, 1000);
+    }, 2000);
 }
 
 function avideoModalIframeIsVisible() {
@@ -1199,6 +1205,8 @@ function avideoModalIframeIsVisible() {
         modal = $('.swal-modal-iframe-small');
     } else if ($('.swal-modal-iframe-large').length) {
         modal = $('.swal-modal-iframe-large');
+    } else if ($('.swal-modal-iframe-full').length) {
+        modal = $('.swal-modal-iframe-full');
     } else {
         modal = $('.swal-modal-iframe');
     }
@@ -1216,7 +1224,8 @@ function avideoModalIframeRemove() {
             avideoModalIframeRemove();
         }, 1000);
     } else {
-        $('.swal-modal-iframe .swal-content').html('');
+        console.log('avideoModalIframeRemove');
+        $('.swal-content').html('');
     }
 }
 
@@ -1865,8 +1874,12 @@ function avideoAjax(url, data) {
     });
 }
 
+function isPlayerUserActive(){
+    return $('#mainVideo').hasClass("vjs-user-active");
+}
+
 window.addEventListener('beforeunload', function (e) {
-    console.log('window.addEventListener(beforeunload');
+    //console.log('window.addEventListener(beforeunload');
     _addViewAsync();
 }, false);
 document.addEventListener('visibilitychange', function () {
