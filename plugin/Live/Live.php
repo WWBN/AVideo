@@ -1241,8 +1241,9 @@ class Live extends PluginAbstract {
         if(empty($obj->server_type->value)){
             $rows = LiveTransmitionHistory::getActiveLiveFromUser(0);
             $servers = array();
+            $servers['applications'] = array();
             foreach ($rows as $value) {
-                $servers[] = LiveTransmitionHistory::getApplicationObject($value['id']);
+                $servers['applications'][] = LiveTransmitionHistory::getApplicationObject($value['id']);
             }
             return $servers;
         }else if (empty($obj->useLiveServers)) {
