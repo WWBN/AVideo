@@ -2241,11 +2241,11 @@ class Live extends PluginAbstract {
                 'Content-Length: ' . strlen($data_string))
             );
             $output = curl_exec($ch);
-            curl_close($ch);
             if (empty($output)) {
                 _error_log('Live:sendRestream ERROR ' . curl_error($ch));
                 return false;
             }
+            curl_close($ch);
             $json = _json_decode($output);
             if (empty($output)) {
                 _error_log('Live:sendRestream JSON ERROR ' . $output);
