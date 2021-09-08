@@ -295,7 +295,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $row = self::getActiveLiveFromUser(0, '', $key);
         
-        return $row;
+        return self::getApplicationObject($row['id']);
     }
     
     static function getLatest($key, $live_servers_id=null) {
