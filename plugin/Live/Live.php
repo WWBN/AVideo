@@ -776,9 +776,6 @@ class Live extends PluginAbstract {
 
     static function getRestreamer($live_servers_id = -1) {
         $obj = AVideoPlugin::getObjectData("Live");
-        if(empty($obj->server_type->value)){
-            return "http://".self::$public_server_domain.":".self::$public_server_port."/restreamer.json.php";
-        }
         if (!empty($obj->useLiveServers)) {
             if ($live_servers_id < 0) {
                 $live_servers_id = self::getCurrentLiveServersId();
@@ -793,9 +790,6 @@ class Live extends PluginAbstract {
 
     static function getControl($live_servers_id = -1) {
         $obj = AVideoPlugin::getObjectData("Live");
-        if(empty($obj->server_type->value)){
-            return "http://".self::$public_server_domain.":".self::$public_server_port."/control.json.php";
-        }
         if (!empty($obj->useLiveServers) && !empty($live_servers_id)) {
             if ($live_servers_id < 0) {
                 $live_servers_id = self::getCurrentLiveServersId();
@@ -919,9 +913,6 @@ class Live extends PluginAbstract {
     public function getStatsURL($live_servers_id = 0) {
         global $global;
         $o = $this->getDataObject();
-        if(empty($o->server_type->value)){
-            return "http://".self::$public_server_domain.":".self::$public_server_port."/stats";
-        }
         if (!empty($live_servers_id)) {
             $liveServer = new Live_servers($live_servers_id);
             if ($liveServer->getStats_url()) {
@@ -1247,7 +1238,14 @@ class Live extends PluginAbstract {
             }
         }
         $obj = AVideoPlugin::getObjectData("Live");
-        if (empty($obj->useLiveServers)) {
+        if(empty($obj->server_type->value)){
+            $rows = LiveTransmitionHistory::getActiveLiveFromUser(0);
+            $servers = array();
+            foreach ($getStatsObject as $value) {
+                $servers[] = LiveTransmitionHistory::getApplicationObject($value['id']);
+            }
+            return $servers;
+        }else if (empty($obj->useLiveServers)) {
             //_error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
             $getStatsLive = self::_getStats(0, $force_recreate);
             //_error_log('Live::getStats(0) 1');
@@ -2708,7 +2706,7 @@ class LiveStreamObject {
             if(!empty($isLive) && !empty($isLive['key'])){
                 $row = LiveTransmitionHistory::getLatest($isLive['key'], $isLive['live_servers_id']);
                 if(!empty($row['domain'])){
-                    return "http://{$row['domain']}/adaptive/{$uuid}.m3u8";
+                    return "https://{$row['domain']}/adaptive/{$uuid}.m3u8";
                 }
             }            
         }
