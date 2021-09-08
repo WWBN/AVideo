@@ -286,7 +286,7 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('button_title', 'Button Title', 'This is the title that will appear in your button to enter in the Live panel');
         $o = new stdClass();
         $o->type = array(0=>__('Public'), 1=>__('Self Hosted'));
-        $o->value = 0;
+        $o->value = 1;
         $obj->server_type = $o;
         self::addDataObjectHelper('server_type', 'Server type', "If is set to public you do not need to configure anything");
         $obj->server = "rtmp://{$server['host']}/live";
