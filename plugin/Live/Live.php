@@ -1899,7 +1899,7 @@ class Live extends PluginAbstract {
                 $m3u8 = self::getM3U8File($key);
                 $_REQUEST['live_servers_id'] = $ls;
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
-                $is200 = isURL200($m3u8, $force_recreate);
+                $is200 = isValidM3U8Link($m3u8);
                 if (empty($is200)) {
                     _error_log("isLiveAndIsReadyFromKey the m3u8 file is not present {$m3u8}");
                     $_isLiveAndIsReadyFromKey[$name] = false;
