@@ -67,6 +67,8 @@ $jsFiles[] = "view/js/bootstrap-list-filter/bootstrap-list-filter.min.js";
 $jsFiles[] = "view/js/js-cookie/js.cookie.js";
 $jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
 $jsFiles[] = "view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.js";
+$jsFiles[] = "view/js/BootstrapMenu.min.js";
+
 $jsFiles = array_merge($jsFiles, AVideoPlugin::getJSFiles());
 $jsURL = combineFiles($jsFiles, "js");
 ?>
