@@ -124,7 +124,6 @@ class LiveTransmitionHistory extends ObjectYPT {
         $users_id = $lth->getUsers_id();
         $key = $lth->getKey();
         $title = $lth->getTitle();
-        $photo = $u->getPhotoDB();
         $live_servers_id = $lth->getLive_servers_id();
         $playlists_id_live = 0;
         
