@@ -1239,15 +1239,15 @@ class Live extends PluginAbstract {
         }
         $obj = AVideoPlugin::getObjectData("Live");
         if(empty($obj->server_type->value)){
-            $rows = LiveTransmitionHistory::getActiveLiveFromUser(0);
+            $rows = LiveTransmitionHistory::getActiveLiveFromUser(0, '', '', 10);            
             $servers = array();
             $servers['applications'] = array();
-            foreach ($rows as $value) {
+            foreach ($rows as $value) {var_dump($value);
                 if(!is_array($value)){
                     continue;
                 }
                 $servers['applications'][] = LiveTransmitionHistory::getApplicationObject($value['id']);
-            }
+            }var_dump($rows);exit;
             return $servers;
         }else if (empty($obj->useLiveServers)) {
             //_error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
