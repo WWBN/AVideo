@@ -1775,6 +1775,12 @@ class Live extends PluginAbstract {
             _error_log('Live::isKeyLiveInStats key is already set');
             return $_isLiveFromKey[$index];
         }
+        
+        $o = AVideoPlugin::getObjectData("Live");      
+        if(empty($o->server_type->value)){
+            return LiveTransmitionHistory::isLive($this->key);
+        }
+        
 
         //_error_log('getStats execute getStats: ' . __LINE__ . ' ' . __FILE__);
         //$json = getStatsNotifications($force_recreate);
