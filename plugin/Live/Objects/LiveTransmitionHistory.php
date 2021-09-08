@@ -417,7 +417,7 @@ class LiveTransmitionHistory extends ObjectYPT {
                     if (strtotime($row['modified']) < strtotime('-1 hour')) {
                         // check if the m3u8 file still exists
                         $m3u8 = Live::getM3U8File($row['key']);
-                        $isURL200 = url_get_contents($m3u8, '', 5);
+                        $isURL200 = isValidM3U8Link($m3u8);
                         if(empty($isURL200)){
                             self::finishFromTransmitionHistoryId($row['id']);
                             continue;
