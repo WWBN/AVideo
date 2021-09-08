@@ -2704,7 +2704,7 @@ class LiveStreamObject {
         if(empty($o->server_type->value)){
             $row = LiveTransmitionHistory::getLatest($this->key, $this->live_servers_id);
             if(!empty($row['domain'])){
-                return "https://{$row['domain']}/adaptive/{$uuid}.m3u8";
+                return "https://{$row['domain']}/live/{$uuid}.m3u8";
             }            
         }
         
