@@ -4524,11 +4524,12 @@ if (!class_exists('Video')) {
                 $tagsHTML,
                 $viewsHTML,
                 $creator
-            );
-            $btnHTML = str_replace(
+            );  
+            $btnHTML = @str_replace(
                     $search,
                     $replace,
-                    $templateContent);
+                    $templateContent
+            );
             return $btnHTML;
         }
 
