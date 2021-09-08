@@ -1239,7 +1239,7 @@ class Live extends PluginAbstract {
         }
         $obj = AVideoPlugin::getObjectData("Live");
         if(empty($obj->server_type->value)){
-            $rows = LiveTransmitionHistory::getActiveLiveFromUser(0, '', '', 10);            
+            $rows = LiveTransmitionHistory::getActiveLiveFromUser(0, '', '', 50);            
             $servers = array();
             $servers['applications'] = array();
             foreach ($rows as $value) {var_dump($value);
