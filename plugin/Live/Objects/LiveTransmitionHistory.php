@@ -442,6 +442,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         if (empty($this->live_servers_id)) {
             $this->live_servers_id = 'NULL';
         }
+        if (empty($this->finished)) {
+            $this->finished = 'NULL';
+        }
 
         return parent::save();
     }
