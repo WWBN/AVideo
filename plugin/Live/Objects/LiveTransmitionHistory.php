@@ -264,7 +264,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         global $global;
         
         $row = self::getActiveLiveFromUser(0, '', $key);
-        
+        if(empty($row)){
+            return false;
+        }
         return self::getApplicationObject($row['id']);
     }
     
