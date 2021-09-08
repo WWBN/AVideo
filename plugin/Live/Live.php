@@ -2243,6 +2243,7 @@ class Live extends PluginAbstract {
             $output = curl_exec($ch);
             if (empty($output)) {
                 _error_log('Live:sendRestream ERROR ' . curl_error($ch));
+                curl_close($ch);
                 return false;
             }
             curl_close($ch);
