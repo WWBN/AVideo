@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveTransmitionHistory extends ObjectYPT {
 
-    protected $id, $title, $description, $key, $created, $modified, $users_id, $live_servers_id, $finished;
+    protected $id, $title, $description, $key, $created, $modified, $users_id, $live_servers_id, $finished, $domain, $json;
 
     static function getSearchFieldsNames() {
         return array('title', 'description');
@@ -52,6 +52,23 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $this->finished;
     }
     
+    function getDomain() {
+        return $this->domain;
+    }
+
+    function getJson() {
+        return $this->json;
+    }
+
+    function setDomain($domain) {
+        $this->domain = $domain;
+    }
+
+    function setJson($json) {
+        $this->json = $json;
+    }
+
+        
     function setTitle($title) {
         global $global;
         $title = $global['mysqli']->real_escape_string($title);

@@ -18,8 +18,7 @@ class Live extends PluginAbstract {
     
     static $public_server_http = 'http';
     static $public_server_port = 8080;
-    static $public_server_domain = 'apple.gdrive.local';
-    static $public_server_domain_cdn = 'apple.gdrive.local';
+    static $public_server_domain = 'live.ypt.me';
 
     public function getTags() {
         return array(
@@ -63,7 +62,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "9.0";
+        return "10.0";
     }
 
     public function updateScript() {
@@ -150,6 +149,13 @@ class Live extends PluginAbstract {
         }
         if (AVideoPlugin::compareVersion($this->getName(), "9.0") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV9.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "10.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.0.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -844,9 +850,7 @@ class Live extends PluginAbstract {
 
     static function getPlayerServer() {
         $obj = AVideoPlugin::getObjectData("Live");
-        if(empty($obj->server_type->value)){
-            return "http://".Live::$public_server_domain_cdn.":".self::$public_server_port."/adaptive";
-        }
+        
         $url = $obj->playerServer;
         $url = getCDNOrURL($url, 'CDN_Live');
         if (!empty($obj->useLiveServers)) {
@@ -2698,6 +2702,17 @@ class LiveStreamObject {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
         
+        $uuid = $this->getKeyWithIndex(false, $allowOnlineIndex);        
+        if(empty($o->server_type->value)){
+            $isLive = isLive();
+            if(!empty($isLive) && !empty($isLive['key'])){
+                $row = LiveTransmitionHistory::getLatest($isLive['key'], $isLive['live_servers_id']);
+                if(!empty($row['domain'])){
+                    return "http://{$row['domain']}/adaptive/{$uuid}.m3u8";
+                }
+            }            
+        }
+        
         $playerServer = Live::getPlayerServer();
         if (!empty($this->live_servers_id)) {
             $liveServer = new Live_servers($this->live_servers_id);
@@ -2707,11 +2722,6 @@ class LiveStreamObject {
             }
         }
         
-        $uuid = $this->getKeyWithIndex(false, $allowOnlineIndex);
-        if(empty($o->server_type->value)){
-            return "http://".Live::$public_server_domain_cdn.":".Live::$public_server_port."/live/{$uuid}.m3u8";
-        }
-
         $playerServer = addLastSlash($playerServer);
         if ($o->protectLive && empty($doNotProtect)) {
             return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$this->live_servers_id}&uuid=" . encryptString($uuid);

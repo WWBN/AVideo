@@ -1,0 +1,3 @@
+ALTER TABLE `live_transmitions_history` 
+ADD COLUMN `domain` VARCHAR(255) NULL DEFAULT NULL,
+ADD COLUMN `json` TEXT NULL DEFAULT NULL;
