@@ -2232,6 +2232,16 @@ function getSelfUserAgent() {
     return $agent;
 }
 
+function isValidM3U8Link($url, $timeout = 5){
+    $content = url_get_contents($url, '', 5);
+    if(!empty($content)){
+        if(preg_match('/EXTM3U/', $content)){
+            return true;
+        }
+    }
+    return false;
+}
+
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if ($debug) {
