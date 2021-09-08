@@ -1778,7 +1778,7 @@ class Live extends PluginAbstract {
         
         $o = AVideoPlugin::getObjectData("Live");      
         if(empty($o->server_type->value)){
-            return LiveTransmitionHistory::isLive($this->key);
+            return LiveTransmitionHistory::isLive($key);
         }
         
 
