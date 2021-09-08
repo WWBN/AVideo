@@ -371,7 +371,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $rows;
     }
     
-    static function getActiveLiveFromUser($users_id, $live_servers_id='', $key='') {
+    static function getActiveLiveFromUser($users_id, $live_servers_id='', $key='', $count=1) {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";
         
@@ -394,19 +394,35 @@ class LiveTransmitionHistory extends ObjectYPT {
             $values[] = $key;
         }
         
-        $sql .= " ORDER BY created DESC LIMIT 1";
+        $sql .= " ORDER BY created DESC LIMIT {$count}";
         $res = sqlDAL::readSql($sql, $formats, $values);
-        $data = sqlDAL::fetchAssoc($res);
-        sqlDAL::close($res);
-        if ($res) {
-            $row = $data;
-        } else {
-            $row = false;
+        if($count == 1){
+            $data = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            if ($res) {
+                $row = $data;
+            } else {
+                $row = false;
+            }
+            if(empty($row)){
+                _error_log('LiveTransmitionHistory::getActiveLiveFromUser: '.$sql." [$users_id, $live_servers_id, $key]");
+            }
+            return $row;
+        }else{
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            $rows = array();
+            if ($res != false) {
+                foreach ($fullData as $row) {
+                    $log = LiveTransmitionHistoryLog::getAllFromHistory($row['id']);
+                    $row['totalUsers'] = count($log);
+                    $rows[] = $row;
+                }
+            } else {
+                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+            return $rows;
         }
-        if(empty($row)){
-            _error_log('LiveTransmitionHistory::getActiveLiveFromUser: '.$sql." [$users_id, $live_servers_id, $key]");
-        }
-        return $row;
     }
 
     public function save() {
