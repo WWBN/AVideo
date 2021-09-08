@@ -2702,12 +2702,9 @@ class LiveStreamObject {
         
         $uuid = $this->getKeyWithIndex(false, $allowOnlineIndex);        
         if(empty($o->server_type->value)){
-            $isLive = isLive();
-            if(!empty($isLive) && !empty($isLive['key'])){
-                $row = LiveTransmitionHistory::getLatest($isLive['key'], $isLive['live_servers_id']);
-                if(!empty($row['domain'])){
-                    return "https://{$row['domain']}/adaptive/{$uuid}.m3u8";
-                }
+            $row = LiveTransmitionHistory::getLatest($this->key, $this->live_servers_id);
+            if(!empty($row['domain'])){
+                return "https://{$row['domain']}/adaptive/{$uuid}.m3u8";
             }            
         }
         
