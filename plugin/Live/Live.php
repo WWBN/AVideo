@@ -1242,12 +1242,12 @@ class Live extends PluginAbstract {
             $rows = LiveTransmitionHistory::getActiveLiveFromUser(0, '', '', 50);            
             $servers = array();
             $servers['applications'] = array();
-            foreach ($rows as $value) {var_dump($value);
+            foreach ($rows as $value) {
                 if(!is_array($value)){
                     continue;
                 }
                 $servers['applications'][] = LiveTransmitionHistory::getApplicationObject($value['id']);
-            }var_dump($rows);exit;
+            }
             return $servers;
         }else if (empty($obj->useLiveServers)) {
             //_error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
