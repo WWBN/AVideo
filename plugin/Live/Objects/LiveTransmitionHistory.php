@@ -120,65 +120,34 @@ class LiveTransmitionHistory extends ObjectYPT {
     static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
-        $lt = LiveTransmition::getFromDbByUser($lth->getUsers_id());
-        $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
-        $p = AVideoPlugin::loadPlugin("Live");
-        $obj = new stdClass();
+        
         $users_id = $lth->getUsers_id();
-        $u = new User($users_id);
-        $live_servers_id = $lth->getLive_servers_id();
-        if(empty($live_servers_id) && !empty($_REQUEST['live_servers_id'])){
-            $live_servers_id = $_REQUEST['live_servers_id'];
-        }
         $key = $lth->getKey();
         $title = $lth->getTitle();
         $photo = $u->getPhotoDB();
-        $m3u8 = Live::getM3U8File($key);
+        $live_servers_id = $lth->getLive_servers_id();
         $playlists_id_live = 0;
+        
+        $type = 'Live';
+        
         if (preg_match("/.*_([0-9]+)/", $key, $matches)) {
             if (!empty($matches[1])) {
                 $_REQUEST['playlists_id_live'] = intval($matches[1]);
                 $playlists_id_live = $_REQUEST['playlists_id_live'];
-                $photo = PlayLists::getImage($_REQUEST['playlists_id_live']);
+                $imgJPG = PlayLists::getImage($_REQUEST['playlists_id_live']);
                 $title = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
             }
         }
-
-        $obj->UserPhoto = $u->getPhotoDB();
-        $obj->isAdaptive = Live::isAdaptive($key);
-        $obj->photo = $photo;
-        $obj->channelName = $u->getChannelName();
-        $obj->live_index = $lth->getLive_index();
-        $obj->live_cleanKey = $lth->getLive_cleanKey();
-        $obj->live_servers_id = $live_servers_id;
-        $obj->href = Live::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id, $obj->live_index);
-        $obj->key = $key;
-        $obj->isPrivate = Live::isAPrivateLiveFromLiveKey($obj->key);
-        $obj->link = addQueryStringParameter($obj->href, 'embed', 1);
-        $obj->name = $u->getNameIdentificationBd();
-        $obj->playlists_id_live = $playlists_id_live;
-        $obj->poster = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index());
-        $obj->imgGif = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index(), 'webp');
-        $obj->title = $title;
-        $obj->user = $u->getUser();
-        $obj->categories_id = intval($lt['categories_id']);
-        $obj->className = "live_{$obj->live_servers_id}_{$obj->key}";
-        $users = false;
-        if ($liveUsersEnabled) {
-            $filename = $global['systemRootPath'] . 'plugin/LiveUsers/Objects/LiveOnlineUsers.php';
-            if (file_exists($filename)) {
-                require_once $filename;
-                $liveUsers = new LiveOnlineUsers(0);
-                $users = $liveUsers->getUsersFromTransmitionKey($key, $live_servers_id);
-            }
-        }
-        $obj->users = $users;
+        $imgJPG = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index());
+        $imgGif = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index(), 'webp');
         
-        $obj->m3u8 =$m3u8;
-        $obj->isURL200 = isURL200($m3u8);
-        $obj->users_id = $users_id;
+        $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
+        $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($key, $live_servers_id) : '');
+            
+            
+            
+        return Live::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive);
         
-        return $obj;
     }
 
     static function getStatsAndAddApplication($liveTransmitionHistory_id) {
