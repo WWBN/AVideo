@@ -127,7 +127,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $live_servers_id = $lth->getLive_servers_id();
         $playlists_id_live = 0;
         
-        $type = 'Live';
+        $type = 'LiveObject';
         
         if (preg_match("/.*_([0-9]+)/", $key, $matches)) {
             if (!empty($matches[1])) {
@@ -404,7 +404,7 @@ class LiveTransmitionHistory extends ObjectYPT {
             $row = false;
         }
         if(empty($row)){
-            _error_log('LiveTransmitionHistory::getActiveLiveFromUser: '.$sql);
+            _error_log('LiveTransmitionHistory::getActiveLiveFromUser: '.$sql." [$users_id, $live_servers_id, $key]");
         }
         return $row;
     }
