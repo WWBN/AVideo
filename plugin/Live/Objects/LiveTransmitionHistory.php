@@ -137,6 +137,8 @@ class LiveTransmitionHistory extends ObjectYPT {
                 $title = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
             }
         }
+        
+        $p = AVideoPlugin::loadPlugin("Live");
         $imgJPG = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index());
         $imgGif = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index(), 'webp');
         
