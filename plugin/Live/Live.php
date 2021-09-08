@@ -1243,6 +1243,9 @@ class Live extends PluginAbstract {
             $servers = array();
             $servers['applications'] = array();
             foreach ($rows as $value) {
+                if(!is_array($value)){
+                    continue;
+                }
                 $servers['applications'][] = LiveTransmitionHistory::getApplicationObject($value['id']);
             }
             return $servers;
