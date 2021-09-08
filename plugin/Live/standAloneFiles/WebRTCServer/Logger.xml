@@ -10,5 +10,5 @@
 	<Tag name=".*\.Stat" level="warn" />
         
 	<!-- Log level: [debug, info, warn, error, critical] -->
-	<Tag name=".*" level="info" />
+	<Tag name=".*" level="error" />
 </Logger>
