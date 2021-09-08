@@ -1344,7 +1344,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 'filename' => "{$parts['filename']}.{$parts['extension']}",
                 'path' => $file,
                 'url' => $source['url'],
-                'url_noCDN' => $source['url_noCDN'],
+                'url_noCDN' => @$source['url_noCDN'],
                 'type' => $type,
                 'format' => strtolower($parts['extension']),
             );
