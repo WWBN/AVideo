@@ -3690,6 +3690,9 @@ if (!class_exists('Video')) {
             if (!is_object($advancedCustomUser)) {
                 $advancedCustomUser = AVideoPlugin::getDataObject('CustomizeUser');
             }
+            if (empty($advancedCustom)) {
+                $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
+            }
             if (empty($videos_id) && !empty($clean_title)) {
                 $videos_id = self::get_id_from_clean_title($clean_title);
             }
