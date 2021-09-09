@@ -3,9 +3,8 @@ $lObj = AVideoPlugin::getDataObject('Live');
 if (!Live::canStreamWithWebRTC()) {
     return false;
 }
-$iframeURL = Live::getWebRTCPlayer();
-$iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webSiteRootURL']);
-$iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(User::getId()));
+
+$iframeURL = Live::getWebRTCIframeURL(User::getId());
 ?>
 <span class=" pull-right" style="margin-left: 5px;">
     <button class="btn btn-danger btn-xs hideOnNonWebRTC" id="webRTCDisconnect" style="display: none;" onclick="webRTCDisconnect();" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Stop"); ?>">

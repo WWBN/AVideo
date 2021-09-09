@@ -426,6 +426,16 @@ class Live extends PluginAbstract {
         return "{$player}player/";
     }
     
+    public static function getWebRTCIframeURL($users_id) {
+        global $global;
+        $obj = AVideoPlugin::getObjectData("Live");
+        $iframeURL = Live::getWebRTCPlayer();
+        $iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webSiteRootURL']);
+        $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash($users_id));
+        $iframeURL = addQueryStringParameter($iframeURL, 'server_type', $obj->server_type->value);
+        return $iframeURL;
+    }
+    
     public static function getWebRTCServerURL($live_servers_id = -1) {
         
         global $global;

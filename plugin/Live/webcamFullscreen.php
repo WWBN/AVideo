@@ -7,9 +7,8 @@ if (!Live::canStreamWithWebRTC()) {
 }
 
 $lObj = AVideoPlugin::getDataObject('Live');
-$iframeURL = Live::getWebRTCPlayer();
-$iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webSiteRootURL']);
-$iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash(User::getId()));
+
+$iframeURL = Live::getWebRTCIframeURL(User::getId());
 
 $chatURL = '';
 $chat = AVideoPlugin::loadPluginIfEnabled('Chat2');
