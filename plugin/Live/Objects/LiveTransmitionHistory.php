@@ -321,6 +321,19 @@ class LiveTransmitionHistory extends ObjectYPT {
 
         return $insert_row;
     }
+    
+    
+    static function finishALL($olderThan = '') {
+        $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE finished IS NULL ";
+        
+        if(!empty($olderThan)){
+            $sql .= " modified < ".date('Y-m-d H:i:s', strtotime($olderThan));
+        }
+
+        $insert_row = sqlDAL::writeSql($sql);
+
+        return $insert_row;
+    }
 
     static function getLatestFromUser($users_id) {
         $rows = self::getLastsLiveHistoriesFromUser($users_id, 1);
@@ -413,13 +426,15 @@ class LiveTransmitionHistory extends ObjectYPT {
             sqlDAL::close($res);
             $rows = array();
             if ($res != false) {
+                $total = count($fullData);
                 foreach ($fullData as $row) {
-                    if (strtotime($row['modified']) < strtotime('-1 hour')) {
+                    if ($total<10 && strtotime($row['modified']) < strtotime('-1 hour')) {
                         // check if the m3u8 file still exists
                         $m3u8 = Live::getM3U8File($row['key']);
                         $isURL200 = isValidM3U8Link($m3u8);
                         if(empty($isURL200)){
                             self::finishFromTransmitionHistoryId($row['id']);
+                            //var_dump($isURL200, $m3u8, $row);exit;
                             continue;
                         }else{
                             // update it to make sure the modified date is updated

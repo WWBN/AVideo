@@ -2232,8 +2232,11 @@ function getSelfUserAgent() {
     return $agent;
 }
 
-function isValidM3U8Link($url, $timeout = 5){
-    $content = url_get_contents($url, '', 5);
+function isValidM3U8Link($url, $timeout = 3){
+    if(!isValidURL($url)){
+        return false;
+    }
+    $content = url_get_contents($url, '', $timeout);
     if(!empty($content)){
         if(preg_match('/EXTM3U/', $content)){
             return true;
