@@ -628,6 +628,10 @@ if (!class_exists('Video')) {
             }
         }
 
+        static function getUserGroups($videos_id) {
+            return UserGroups::getVideoGroups($videos_id);
+        }
+
         public static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true) {
             global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('5')) {
@@ -4527,11 +4531,11 @@ if (!class_exists('Video')) {
                 $tagsHTML,
                 $viewsHTML,
                 $creator
-            );  
+            );
             $btnHTML = @str_replace(
-                    $search,
-                    $replace,
-                    $templateContent
+                            $search,
+                            $replace,
+                            $templateContent
             );
             return $btnHTML;
         }
