@@ -144,9 +144,25 @@ if(isFirstPage()){
         if($('#mainFooter').length){
             mainFooterH = $('#mainFooter').height();
         }
-        
-        return mainNavBarH + mainFooterH + $('.container, .container-fluid').first().height();
+        var containerH = getLargerContainerHeight();
+        return mainNavBarH + mainFooterH + containerH;
     }
+    
+    function getLargerContainerHeight(){
+        var conteiners = $('body > .container,body >  .container-fluid');
+        var height = 0;
+        for (var item in conteiners) {
+            if(isNaN(item)){
+                continue;
+            }
+            var h = $(conteiners[item]).height();
+            if(h>height){
+                height = h;
+            }
+        }
+        return height;
+    }
+    
 </script>
 <!--
 <?php
