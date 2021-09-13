@@ -3061,7 +3061,8 @@ function cleanUpAccessControlHeader(){
     if (!headers_sent()) {
         foreach (headers_list() as $header) {
             if(preg_match('/Access-Control-Allow-Origin/i', $header)){
-                header_remove($header);
+                $parts = explode(':', $header);
+                header_remove($parts[0]);
             }
         }
     }
