@@ -2232,13 +2232,13 @@ function getSelfUserAgent() {
     return $agent;
 }
 
-function isValidM3U8Link($url, $timeout = 3){
-    if(!isValidURL($url)){
+function isValidM3U8Link($url, $timeout = 3) {
+    if (!isValidURL($url)) {
         return false;
     }
     $content = url_get_contents($url, '', $timeout);
-    if(!empty($content)){
-        if(preg_match('/EXTM3U/', $content)){
+    if (!empty($content)) {
+        if (preg_match('/EXTM3U/', $content)) {
             return true;
         }
     }
@@ -3046,7 +3046,11 @@ function object_to_array($obj) {
 function allowOrigin() {
     global $global;
     if (!headers_sent()) {
-        header_remove('Access-Control-Allow-Origin');
+        foreach (headers_list() as $header) {
+            if(preg_match('/Access-Control-Allow-Origin/i', $header)){
+                header_remove($header);
+            }
+        }
     }
     if (empty($_SERVER['HTTP_ORIGIN'])) {
         $server = parse_url($global['webSiteRootURL']);
@@ -6107,7 +6111,7 @@ function get_ffmpeg($ignoreGPU = false) {
     if (!empty($global['ffmpeg'])) {
         $ffmpeg = "{$global['ffmpeg']}{$ffmpeg}";
     }
-    return $ffmpeg.$complement;
+    return $ffmpeg . $complement;
 }
 
 function isHTMLPage($url) {
@@ -6910,7 +6914,7 @@ function getCDN($type = 'CDN', $id = 0) {
     if ($type == 'CDN') {
         if (!empty($global['ignoreCDN'])) {
             return $global['webSiteRootURL'];
-        } else if (!empty ($advancedCustom) && isValidURL($advancedCustom->videosCDN)) {
+        } else if (!empty($advancedCustom) && isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
         } else if (empty($_getCDNURL[$index])) {
             $_getCDNURL[$index] = $global['webSiteRootURL'];
