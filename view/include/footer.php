@@ -136,7 +136,16 @@ if(isFirstPage()){
 
 
     function getPageHeight() {
-        return $('#mainNavBar').height() + $('#mainFooter').height() + $('.container, .container-fluid').first().height();
+        var mainNavBarH = 0;
+        if($('#mainNavBar').length){
+            mainNavBarH = $('#mainNavBar').height();
+        }
+        var mainFooterH = 0;
+        if($('#mainFooter').length){
+            mainFooterH = $('#mainFooter').height();
+        }
+        
+        return mainNavBarH + mainFooterH + $('.container, .container-fluid').first().height();
     }
 </script>
 <!--
