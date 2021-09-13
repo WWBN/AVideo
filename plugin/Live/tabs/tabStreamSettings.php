@@ -12,6 +12,10 @@ if ($objLive->allowMultipleLivesPerUser) {
         }
     }
 }
+if(!is_object($liveStreamObject)){
+    $islive = isLive();
+    $liveStreamObject = new LiveStreamObject($islive['key'], $islive['live_servers_id'], @$_REQUEST['live_index'], 0);
+}
 $key = $liveStreamObject->getKeyWithIndex(true);
 ?>
 <style>
