@@ -3045,13 +3045,7 @@ function object_to_array($obj) {
 
 function allowOrigin() {
     global $global;
-    if (!headers_sent()) {
-        foreach (headers_list() as $header) {
-            if(preg_match('/Access-Control-Allow-Origin/i', $header)){
-                header_remove($header);
-            }
-        }
-    }
+    cleanUpAccessControlHeader();
     if (empty($_SERVER['HTTP_ORIGIN'])) {
         $server = parse_url($global['webSiteRootURL']);
         header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');
@@ -3061,6 +3055,16 @@ function allowOrigin() {
     header("Access-Control-Allow-Credentials: true");
     header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT");
     header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+}
+
+function cleanUpAccessControlHeader(){
+    if (!headers_sent()) {
+        foreach (headers_list() as $header) {
+            if(preg_match('/Access-Control-Allow-Origin/i', $header)){
+                header_remove($header);
+            }
+        }
+    }
 }
 
 function rrmdir($dir) {
