@@ -45,7 +45,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
             </div>
         </div>
         <?php
-        $total = Video::getTotalVideos("viewable");
+        $total = Video::getTotalVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
         $totalPages = ceil($total / getRowCount());
         $page = getCurrentPage();
         if ($totalPages < $page) {
