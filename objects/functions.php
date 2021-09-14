@@ -4408,7 +4408,9 @@ function getRedirectUri() {
         }
     }
     if (!empty($_SERVER["HTTP_REFERER"])) {
-        return $_SERVER["HTTP_REFERER"];
+        if(isSameDomainAsMyAVideo($_SERVER["HTTP_REFERER"])){
+            return $_SERVER["HTTP_REFERER"];
+        }
     }
     return getRequestURI();
 }
