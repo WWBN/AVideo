@@ -1472,11 +1472,12 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.serie_playlists_id IS NOT NULL ";
                 }
             }
-
+            
             if (!empty($_GET['catName'])) {
                 $catName = $global['mysqli']->real_escape_string($_GET['catName']);
-                $sql .= " AND c.clean_name = '{$catName}'";
+                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
+            
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {
                     $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
