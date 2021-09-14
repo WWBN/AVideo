@@ -53,7 +53,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $_REQUEST['current'] = $_GET['page'];
         $_REQUEST['rowCount'] = $rowCount;
 
-        $total = Video::getTotalVideos("viewable");
+        $total = Video::getTotalVideos("viewableNotUnlisted", false, $ignoreGroup);
         $totalPages = ceil($total / $_REQUEST['rowCount']);
         $page = $_GET['page'];
         if ($totalPages < $_GET['page']) {

@@ -14,7 +14,10 @@ ini_set('max_execution_time', 10);
 set_time_limit(10);
 session_write_close();
 $pobj = AVideoPlugin::getDataObjectIfEnabled("Live");
-
+if(empty($pobj->server_type->value)){
+    ini_set('max_execution_time', 180);
+    set_time_limit(180);
+}
 if (empty($pobj)) {
     die(json_encode("Plugin disabled"));
 }

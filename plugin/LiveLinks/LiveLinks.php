@@ -123,7 +123,7 @@ class LiveLinks extends PluginAbstract {
         
         $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');        
         $row = LiveLinks::getAllActive(true, true);
-
+        $array = array();
         foreach ($row as $value) {
 
             if ($value['type'] == 'unlisted') {

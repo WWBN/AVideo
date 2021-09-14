@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveTransmitionHistory extends ObjectYPT {
 
-    protected $id, $title, $description, $key, $created, $modified, $users_id, $live_servers_id, $finished;
+    protected $id, $title, $description, $key, $created, $modified, $users_id, $live_servers_id, $finished, $domain, $json;
 
     static function getSearchFieldsNames() {
         return array('title', 'description');
@@ -47,11 +47,27 @@ class LiveTransmitionHistory extends ObjectYPT {
     function setId($id) {
         $this->id = $id;
     }
-    
+
     function getFinished() {
         return $this->finished;
     }
-    
+
+    function getDomain() {
+        return $this->domain;
+    }
+
+    function getJson() {
+        return $this->json;
+    }
+
+    function setDomain($domain) {
+        $this->domain = $domain;
+    }
+
+    function setJson($json) {
+        $this->json = $json;
+    }
+
     function setTitle($title) {
         global $global;
         $title = $global['mysqli']->real_escape_string($title);
@@ -83,17 +99,17 @@ class LiveTransmitionHistory extends ObjectYPT {
     function getLive_servers_id() {
         return intval($this->live_servers_id);
     }
-    
+
     function getLive_index() {
-        if(empty($this->key)){
+        if (empty($this->key)) {
             return '';
         }
         $parameters = Live::getLiveParametersFromKey($this->key);
         return $parameters['live_index'];
     }
-    
+
     function getLive_cleanKey() {
-        if(empty($this->key)){
+        if (empty($this->key)) {
             return '';
         }
         $parameters = Live::getLiveParametersFromKey($this->key);
@@ -103,92 +119,61 @@ class LiveTransmitionHistory extends ObjectYPT {
     static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
-        $lt = LiveTransmition::getFromDbByUser($lth->getUsers_id());
-        $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
-        $p = AVideoPlugin::loadPlugin("Live");
-        $obj = new stdClass();
+
         $users_id = $lth->getUsers_id();
-        $u = new User($users_id);
-        $live_servers_id = $lth->getLive_servers_id();
-        if(empty($live_servers_id) && !empty($_REQUEST['live_servers_id'])){
-            $live_servers_id = $_REQUEST['live_servers_id'];
-        }
         $key = $lth->getKey();
         $title = $lth->getTitle();
-        $photo = $u->getPhotoDB();
-        $m3u8 = Live::getM3U8File($key);
+        $live_servers_id = $lth->getLive_servers_id();
         $playlists_id_live = 0;
+
+        $type = 'LiveObject';
+
         if (preg_match("/.*_([0-9]+)/", $key, $matches)) {
             if (!empty($matches[1])) {
                 $_REQUEST['playlists_id_live'] = intval($matches[1]);
                 $playlists_id_live = $_REQUEST['playlists_id_live'];
-                $photo = PlayLists::getImage($_REQUEST['playlists_id_live']);
+                $imgJPG = PlayLists::getImage($_REQUEST['playlists_id_live']);
                 $title = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
             }
         }
 
-        $obj->UserPhoto = $u->getPhotoDB();
-        $obj->isAdaptive = Live::isAdaptive($key);
-        $obj->photo = $photo;
-        $obj->channelName = $u->getChannelName();
-        $obj->live_index = $lth->getLive_index();
-        $obj->live_cleanKey = $lth->getLive_cleanKey();
-        $obj->live_servers_id = $live_servers_id;
-        $obj->href = Live::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id, $obj->live_index);
-        $obj->key = $key;
-        $obj->isPrivate = Live::isAPrivateLiveFromLiveKey($obj->key);
-        $obj->link = addQueryStringParameter($obj->href, 'embed', 1);
-        $obj->name = $u->getNameIdentificationBd();
-        $obj->playlists_id_live = $playlists_id_live;
-        $obj->poster = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index());
-        $obj->imgGif = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index(), 'webp');
-        $obj->title = $title;
-        $obj->user = $u->getUser();
-        $obj->categories_id = intval($lt['categories_id']);
-        $obj->className = "live_{$obj->live_servers_id}_{$obj->key}";
-        $users = false;
-        if ($liveUsersEnabled) {
-            $filename = $global['systemRootPath'] . 'plugin/LiveUsers/Objects/LiveOnlineUsers.php';
-            if (file_exists($filename)) {
-                require_once $filename;
-                $liveUsers = new LiveOnlineUsers(0);
-                $users = $liveUsers->getUsersFromTransmitionKey($key, $live_servers_id);
-            }
-        }
-        $obj->users = $users;
-        
-        $obj->m3u8 =$m3u8;
-        $obj->isURL200 = isURL200($m3u8);
-        $obj->users_id = $users_id;
-        
-        return $obj;
+        $p = AVideoPlugin::loadPlugin("Live");
+        $imgJPG = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index());
+        $imgGIF = $p->getLivePosterImage($users_id, $live_servers_id, $playlists_id_live, $lth->getLive_index(), 'webp');
+        $link = Live::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id, $lth->getLive_index());
+        $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
+        $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($key, $live_servers_id) : '');
+        $uid = "{$type}_{$liveTransmitionHistory_id}";
+
+
+        return Live::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive, $uid);
     }
 
     static function getStatsAndAddApplication($liveTransmitionHistory_id) {
         $stats = getStatsNotifications();
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
-        
+
         $key = $lth->getKey();
-        if(!empty($stats['applications'])){
+        if (!empty($stats['applications'])) {
             foreach ($stats['applications'] as $value) {
-                if(empty($value['key'])){
+                if (empty($value['key'])) {
                     continue;
                 }
                 $value = object_to_array($value);
-                $value['key']= self::getCleankeyName($value['key']);
-                if(!empty($value['key']) && $value['key']==$key){ // application is already in the list
-                    return $stats; 
+                $value['key'] = self::getCleankeyName($value['key']);
+                if (!empty($value['key']) && $value['key'] == $key) { // application is already in the list
+                    return $stats;
                 }
             }
         }
-        if(!empty($stats['hidden_applications'])){
+        if (!empty($stats['hidden_applications'])) {
             foreach ($stats['hidden_applications'] as $value) {
-                if(empty($value['key'])){
+                if (empty($value['key'])) {
                     continue;
                 }
                 $value = object_to_array($value);
-                $value['key']= self::getCleankeyName($value['key']);
-                if($value['key']==$key){ // application is already in the list
+                $value['key'] = self::getCleankeyName($value['key']);
+                if ($value['key'] == $key) { // application is already in the list
                     return $stats;
                 }
             }
@@ -200,20 +185,20 @@ class LiveTransmitionHistory extends ObjectYPT {
             $stats['applications'][] = $application;
         }
         $stats['countLiveStream']++;
-        
+
         $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
         $cache = ObjectYPT::setCache($cacheName, $stats); // update the cache
         //_error_log("NGINX getStatsAndAddApplication ". json_encode($stats));
         //_error_log("NGINX getStatsAndAddApplication ". json_encode($cache));
-        
+
         return $stats;
     }
-    
-    static function getCleankeyName($key){
+
+    static function getCleankeyName($key) {
         $parts = explode("_", $key);
-        if(!empty($parts[1])){
+        if (!empty($parts[1])) {
             $adaptive = array('hi', 'low', 'mid');
-            if(in_array($parts[1], $adaptive)){
+            if (in_array($parts[1], $adaptive)) {
                 return $parts[0];
             }
         }
@@ -223,26 +208,26 @@ class LiveTransmitionHistory extends ObjectYPT {
     static function getStatsAndRemoveApplication($liveTransmitionHistory_id) {
         $stats = getStatsNotifications();
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
-        
+
         $key = $lth->getKey();
         foreach ($stats['applications'] as $k => $value) {
             $value = object_to_array($value);
-            if(!empty($value['key']) && $value['key']==$key){ // application is already in the list
+            if (!empty($value['key']) && $value['key'] == $key) { // application is already in the list
                 unset($stats['applications'][$k]);
                 $stats['countLiveStream']--;
             }
         }
-        if(empty($stats['hidden_applications'])){
+        if (empty($stats['hidden_applications'])) {
             $stats['hidden_applications'] = array();
-        }else{
+        } else {
             foreach ($stats['hidden_applications'] as $k => $value) {
                 $value = object_to_array($value);
-                if($value['key']==$key){ // application is already in the list
+                if ($value['key'] == $key) { // application is already in the list
                     unset($stats['hidden_applications'][$k]);
                 }
             }
         }
-        
+
         $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
         $cache = ObjectYPT::setCache($cacheName, $stats); // update the cache
         return $stats;
@@ -273,20 +258,30 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $rows;
     }
 
-    static function getLatest($key, $live_servers_id=null) {
+    static function isLive($key) {
         global $global;
-        
-        $key = $global['mysqli']->real_escape_string($key);
-        
-        if(empty($key)){
+
+        $row = self::getActiveLiveFromUser(0, '', $key);
+        if (empty($row)) {
             return false;
         }
-        
+        return self::getApplicationObject($row['id']);
+    }
+
+    static function getLatest($key, $live_servers_id = null) {
+        global $global;
+
+        $key = $global['mysqli']->real_escape_string($key);
+
+        if (empty($key)) {
+            return false;
+        }
+
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` LIKE '{$key}%' ";
-        if(isset($live_servers_id)){
-            $sql .= " AND (live_servers_id = ".intval($live_servers_id);
-            
-            if(empty($live_servers_id)){
+        if (isset($live_servers_id)) {
+            $sql .= " AND (live_servers_id = " . intval($live_servers_id);
+
+            if (empty($live_servers_id)) {
                 $sql .= " OR live_servers_id IS NULL ";
             }
             $sql .= " )";
@@ -304,24 +299,37 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         return $row;
     }
-    
+
     static function finish($key) {
         $row = self::getLatest($key);
-        if(empty($row) || empty($row['id']) || !empty($row['finished'])){
+        if (empty($row) || empty($row['id']) || !empty($row['finished'])) {
             return false;
         }
 
         return self::finishFromTransmitionHistoryId($row['id']);
     }
-    
+
     static function finishFromTransmitionHistoryId($live_transmitions_history_id) {
         $live_transmitions_history_id = intval($live_transmitions_history_id);
-        if(empty($live_transmitions_history_id)){
+        if (empty($live_transmitions_history_id)) {
             return false;
         }
-        
+
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$live_transmitions_history_id} ";
+
+        $insert_row = sqlDAL::writeSql($sql);
+
+        return $insert_row;
+    }
+    
+    
+    static function finishALL($olderThan = '') {
+        $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE finished IS NULL ";
         
+        if(!empty($olderThan)){
+            $sql .= " modified < ".date('Y-m-d H:i:s', strtotime($olderThan));
+        }
+
         $insert_row = sqlDAL::writeSql($sql);
 
         return $insert_row;
@@ -336,9 +344,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         global $global;
         $parts = Live::getLiveParametersFromKey($key);
         $key = $parts['cleanKey'];
-        
+
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE `key` LIKE '{$key}%'  ";
-        
+
         $sql .= " ORDER BY created DESC LIMIT 1";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
@@ -350,16 +358,16 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         return $row;
     }
-    
+
     static function getLatestIndexFromKey($key) {
         $row = self::getLatestFromKey($key);
         return Live::getLiveIndexFromKey(@$row['key']);
     }
-    
-    static function getLastsLiveHistoriesFromUser($users_id, $count=10) {
+
+    static function getLastsLiveHistoriesFromUser($users_id, $count = 10) {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `users_id` = ? ORDER BY created DESC LIMIT ?";
-        
+
         $res = sqlDAL::readSql($sql, "ii", array($users_id, $count));
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -375,48 +383,82 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         return $rows;
     }
-    
-    static function getActiveLiveFromUser($users_id, $live_servers_id='', $key='') {
+
+    static function getActiveLiveFromUser($users_id, $live_servers_id = '', $key = '', $count = 1) {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";
-        
-        $formats = ""; 
+
+        $formats = "";
         $values = array();
-        
-        if(!empty($users_id)){
+
+        if (!empty($users_id)) {
             $sql .= ' AND `users_id` = ? ';
-            $formats .= "i"; 
+            $formats .= "i";
             $values[] = $users_id;
         }
-        if(!empty($live_servers_id)){
+        if (!empty($live_servers_id)) {
             $sql .= ' AND `live_servers_id` = ? ';
-            $formats .= "i"; 
+            $formats .= "i";
             $values[] = $live_servers_id;
         }
-        if(!empty($key)){
+        if (!empty($key)) {
             $sql .= ' AND `key` = ? ';
-            $formats .= "s"; 
+            $formats .= "s";
             $values[] = $key;
         }
-        
-        $sql .= " ORDER BY created DESC LIMIT 1";
+
+        $sql .= " ORDER BY created DESC LIMIT {$count}";
         $res = sqlDAL::readSql($sql, $formats, $values);
-        $data = sqlDAL::fetchAssoc($res);
-        sqlDAL::close($res);
-        if ($res) {
-            $row = $data;
+        if ($count == 1) {
+            $data = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            if ($res) {
+                $row = $data;
+            } else {
+                $row = false;
+            }
+            if (empty($row)) {
+                _error_log('LiveTransmitionHistory::getActiveLiveFromUser: ' . $sql . " [$users_id, $live_servers_id, $key]");
+            }
+            return $row;
         } else {
-            $row = false;
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            $rows = array();
+            if ($res != false) {
+                $total = count($fullData);
+                foreach ($fullData as $row) {
+                    if ($total<10 && strtotime($row['modified']) < strtotime('-1 hour')) {
+                        // check if the m3u8 file still exists
+                        $m3u8 = Live::getM3U8File($row['key']);
+                        $isURL200 = isValidM3U8Link($m3u8);
+                        if(empty($isURL200)){
+                            self::finishFromTransmitionHistoryId($row['id']);
+                            //var_dump($isURL200, $m3u8, $row);exit;
+                            continue;
+                        }else{
+                            // update it to make sure the modified date is updated
+                            $lth = new LiveTransmitionHistory($row['id']);
+                            $lth->save();
+                        }
+                    }
+                    $log = LiveTransmitionHistoryLog::getAllFromHistory($row['id']);
+                    $row['totalUsers'] = count($log);
+                    $rows[] = $row;
+                }
+            } else {
+                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+            return $rows;
         }
-        if(empty($row)){
-            _error_log('LiveTransmitionHistory::getActiveLiveFromUser: '.$sql);
-        }
-        return $row;
     }
 
     public function save() {
         if (empty($this->live_servers_id)) {
             $this->live_servers_id = 'NULL';
+        }
+        if (empty($this->finished)) {
+            $this->finished = 'NULL';
         }
 
         return parent::save();

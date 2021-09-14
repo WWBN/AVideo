@@ -1344,7 +1344,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 'filename' => "{$parts['filename']}.{$parts['extension']}",
                 'path' => $file,
                 'url' => $source['url'],
-                'url_noCDN' => $source['url_noCDN'],
+                'url_noCDN' => @$source['url_noCDN'],
                 'type' => $type,
                 'format' => strtolower($parts['extension']),
             );
@@ -2232,6 +2232,19 @@ function getSelfUserAgent() {
     return $agent;
 }
 
+function isValidM3U8Link($url, $timeout = 3) {
+    if (!isValidURL($url)) {
+        return false;
+    }
+    $content = url_get_contents($url, '', $timeout);
+    if (!empty($content)) {
+        if (preg_match('/EXTM3U/', $content)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if ($debug) {
@@ -3032,9 +3045,7 @@ function object_to_array($obj) {
 
 function allowOrigin() {
     global $global;
-    if (!headers_sent()) {
-        header_remove('Access-Control-Allow-Origin');
-    }
+    cleanUpAccessControlHeader();
     if (empty($_SERVER['HTTP_ORIGIN'])) {
         $server = parse_url($global['webSiteRootURL']);
         header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');
@@ -3044,6 +3055,17 @@ function allowOrigin() {
     header("Access-Control-Allow-Credentials: true");
     header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT");
     header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+}
+
+function cleanUpAccessControlHeader(){
+    if (!headers_sent()) {
+        foreach (headers_list() as $header) {
+            if(preg_match('/Access-Control-Allow-Origin/i', $header)){
+                $parts = explode(':', $header);
+                header_remove($parts[0]);
+            }
+        }
+    }
 }
 
 function rrmdir($dir) {
@@ -6094,7 +6116,7 @@ function get_ffmpeg($ignoreGPU = false) {
     if (!empty($global['ffmpeg'])) {
         $ffmpeg = "{$global['ffmpeg']}{$ffmpeg}";
     }
-    return $ffmpeg.$complement;
+    return $ffmpeg . $complement;
 }
 
 function isHTMLPage($url) {
@@ -6897,7 +6919,7 @@ function getCDN($type = 'CDN', $id = 0) {
     if ($type == 'CDN') {
         if (!empty($global['ignoreCDN'])) {
             return $global['webSiteRootURL'];
-        } else if (!empty ($advancedCustom) && isValidURL($advancedCustom->videosCDN)) {
+        } else if (!empty($advancedCustom) && isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
         } else if (empty($_getCDNURL[$index])) {
             $_getCDNURL[$index] = $global['webSiteRootURL'];

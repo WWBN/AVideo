@@ -256,4 +256,4 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         }
     }
 </script>
-<script src="<?php echo getCDN(); ?>plugin/YPTSocket/script.js?<?php echo filectime($global['systemRootPath'] . 'plugin/YPTSocket/script.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('plugin/YPTSocket/script.js'); ?>" type="text/javascript"></script>

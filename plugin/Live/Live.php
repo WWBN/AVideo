@@ -18,8 +18,7 @@ class Live extends PluginAbstract {
     
     static $public_server_http = 'http';
     static $public_server_port = 8080;
-    static $public_server_domain = 'apple.gdrive.local';
-    static $public_server_domain_cdn = 'apple.gdrive.local';
+    static $public_server_domain = 'live.ypt.me';
 
     public function getTags() {
         return array(
@@ -63,7 +62,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "9.0";
+        return "10.0";
     }
 
     public function updateScript() {
@@ -154,6 +153,14 @@ class Live extends PluginAbstract {
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
             }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "10.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+            LiveTransmitionHistory::finishALL();
         }
         return true;
     }
@@ -285,8 +292,8 @@ class Live extends PluginAbstract {
         $obj->button_title = "LIVE";
         self::addDataObjectHelper('button_title', 'Button Title', 'This is the title that will appear in your button to enter in the Live panel');
         $o = new stdClass();
-        $o->type = array(0=>__('Public'), 1=>__('Self Hosted'));
-        $o->value = 0;
+        $o->type = array(0=>__('Public').' UNDER DEVELOPMENT', 1=>__('Self Hosted'));
+        $o->value = 1;
         $obj->server_type = $o;
         self::addDataObjectHelper('server_type', 'Server type', "If is set to public you do not need to configure anything");
         $obj->server = "rtmp://{$server['host']}/live";
@@ -417,6 +424,16 @@ class Live extends PluginAbstract {
     public static function getWebRTCPlayer($live_servers_id = -1) {
         $player = self::getWebRTCServerURL($live_servers_id);
         return "{$player}player/";
+    }
+    
+    public static function getWebRTCIframeURL($users_id) {
+        global $global;
+        $obj = AVideoPlugin::getObjectData("Live");
+        $iframeURL = Live::getWebRTCPlayer();
+        $iframeURL = addQueryStringParameter($iframeURL, 'webSiteRootURL', $global['webSiteRootURL']);
+        $iframeURL = addQueryStringParameter($iframeURL, 'userHash', Live::getUserHash($users_id));
+        $iframeURL = addQueryStringParameter($iframeURL, 'server_type', $obj->server_type->value);
+        return $iframeURL;
     }
     
     public static function getWebRTCServerURL($live_servers_id = -1) {
@@ -770,9 +787,6 @@ class Live extends PluginAbstract {
 
     static function getRestreamer($live_servers_id = -1) {
         $obj = AVideoPlugin::getObjectData("Live");
-        if(empty($obj->server_type->value)){
-            return "http://".self::$public_server_domain.":".self::$public_server_port."/restreamer.json.php";
-        }
         if (!empty($obj->useLiveServers)) {
             if ($live_servers_id < 0) {
                 $live_servers_id = self::getCurrentLiveServersId();
@@ -787,9 +801,6 @@ class Live extends PluginAbstract {
 
     static function getControl($live_servers_id = -1) {
         $obj = AVideoPlugin::getObjectData("Live");
-        if(empty($obj->server_type->value)){
-            return "http://".self::$public_server_domain.":".self::$public_server_port."/control.json.php";
-        }
         if (!empty($obj->useLiveServers) && !empty($live_servers_id)) {
             if ($live_servers_id < 0) {
                 $live_servers_id = self::getCurrentLiveServersId();
@@ -844,9 +855,7 @@ class Live extends PluginAbstract {
 
     static function getPlayerServer() {
         $obj = AVideoPlugin::getObjectData("Live");
-        if(empty($obj->server_type->value)){
-            return "http://".Live::$public_server_domain_cdn.":".self::$public_server_port."/adaptive";
-        }
+        
         $url = $obj->playerServer;
         $url = getCDNOrURL($url, 'CDN_Live');
         if (!empty($obj->useLiveServers)) {
@@ -915,9 +924,6 @@ class Live extends PluginAbstract {
     public function getStatsURL($live_servers_id = 0) {
         global $global;
         $o = $this->getDataObject();
-        if(empty($o->server_type->value)){
-            return "http://".self::$public_server_domain.":".self::$public_server_port."/stats";
-        }
         if (!empty($live_servers_id)) {
             $liveServer = new Live_servers($live_servers_id);
             if ($liveServer->getStats_url()) {
@@ -1221,16 +1227,17 @@ class Live extends PluginAbstract {
         $obj = $this->getDataObject();
 
         $btn = '<button onclick="avideoModalIframeLarge(\'' . $global['webSiteRootURL'] . 'plugin/Live/view/editor.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> ' . __('Edit Live Servers') . '</button>';
-
-        if ($obj->useLiveServers) {
-            $servers = Live_servers::getAll();
-            foreach ($servers as $value) {
-                $btn .= '<button onclick="avideoModalIframeSmall(\'' . $global['webSiteRootURL'] . 'plugin/Live/test.php?statsURL=' . urlencode($value['stats_url']) . '\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Server') . ' ' . $value['id'] . '</button>';
+        $btn = '<button onclick="avideoAjax(webSiteRootURL+\'plugin/Live/view/finishAll.json.php\', {});" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-ban"></i> ' . __('Mark all as finished') . '</button>';
+        if($obj->server_type->value){
+            if ($obj->useLiveServers) {
+                $servers = Live_servers::getAll();
+                foreach ($servers as $value) {
+                    $btn .= '<button onclick="avideoModalIframeSmall(\'' . $global['webSiteRootURL'] . 'plugin/Live/test.php?statsURL=' . urlencode($value['stats_url']) . '\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Server') . ' ' . $value['id'] . '</button>';
+                }
+            } else {
+                $btn .= '<button onclick="avideoModalIframeSmall(\'' . $global['webSiteRootURL'] . 'plugin/Live/test.php?statsURL=' . urlencode($obj->stats) . '\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Stats') . '</button>';
             }
-        } else {
-            $btn .= '<button onclick="avideoModalIframeSmall(\'' . $global['webSiteRootURL'] . 'plugin/Live/test.php?statsURL=' . urlencode($obj->stats) . '\');" class="btn btn-primary btn-sm btn-xs btn-block"> ' . __('Test Stats') . '</button>';
         }
-
         return $btn;
     }
 
@@ -1243,7 +1250,18 @@ class Live extends PluginAbstract {
             }
         }
         $obj = AVideoPlugin::getObjectData("Live");
-        if (empty($obj->useLiveServers)) {
+        if(empty($obj->server_type->value)){
+            $rows = LiveTransmitionHistory::getActiveLiveFromUser(0, '', '', 50);            
+            $servers = array();
+            $servers['applications'] = array();
+            foreach ($rows as $value) {
+                if(!is_array($value)){
+                    continue;
+                }
+                $servers['applications'][] = LiveTransmitionHistory::getApplicationObject($value['id']);
+            }
+            return $servers;
+        }else if (empty($obj->useLiveServers)) {
             //_error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
             $getStatsLive = self::_getStats(0, $force_recreate);
             //_error_log('Live::getStats(0) 1');
@@ -1773,6 +1791,12 @@ class Live extends PluginAbstract {
             _error_log('Live::isKeyLiveInStats key is already set');
             return $_isLiveFromKey[$index];
         }
+        
+        $o = AVideoPlugin::getObjectData("Live");      
+        if(empty($o->server_type->value)){
+            return LiveTransmitionHistory::isLive($key);
+        }
+        
 
         //_error_log('getStats execute getStats: ' . __LINE__ . ' ' . __FILE__);
         //$json = getStatsNotifications($force_recreate);
@@ -1887,7 +1911,7 @@ class Live extends PluginAbstract {
                 $m3u8 = self::getM3U8File($key);
                 $_REQUEST['live_servers_id'] = $ls;
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
-                $is200 = isURL200($m3u8, $force_recreate);
+                $is200 = isValidM3U8Link($m3u8);
                 if (empty($is200)) {
                     _error_log("isLiveAndIsReadyFromKey the m3u8 file is not present {$m3u8}");
                     $_isLiveAndIsReadyFromKey[$name] = false;
@@ -2241,11 +2265,12 @@ class Live extends PluginAbstract {
                 'Content-Length: ' . strlen($data_string))
             );
             $output = curl_exec($ch);
-            curl_close($ch);
             if (empty($output)) {
                 _error_log('Live:sendRestream ERROR ' . curl_error($ch));
+                curl_close($ch);
                 return false;
             }
+            curl_close($ch);
             $json = _json_decode($output);
             if (empty($output)) {
                 _error_log('Live:sendRestream JSON ERROR ' . $output);
@@ -2697,6 +2722,14 @@ class LiveStreamObject {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
         
+        $uuid = $this->getKeyWithIndex(false, $allowOnlineIndex);        
+        if(empty($o->server_type->value)){
+            $row = LiveTransmitionHistory::getLatest($this->key, $this->live_servers_id);
+            if(!empty($row['domain'])){
+                return "https://{$row['domain']}/live/{$uuid}.m3u8";
+            }            
+        }
+        
         $playerServer = Live::getPlayerServer();
         if (!empty($this->live_servers_id)) {
             $liveServer = new Live_servers($this->live_servers_id);
@@ -2706,11 +2739,6 @@ class LiveStreamObject {
             }
         }
         
-        $uuid = $this->getKeyWithIndex(false, $allowOnlineIndex);
-        if(empty($o->server_type->value)){
-            return "http://".Live::$public_server_domain_cdn.":".Live::$public_server_port."/live/{$uuid}.m3u8";
-        }
-
         $playerServer = addLastSlash($playerServer);
         if ($o->protectLive && empty($doNotProtect)) {
             return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$this->live_servers_id}&uuid=" . encryptString($uuid);
@@ -2746,7 +2774,7 @@ class LiveStreamObject {
             $parts = explode('-', $key);
             $key = $parts[0] . "-{$forceIndex}";
         }
-        $url = $this->getRTMPLinkWithOutKey() . $key;
+        $url = addLastSlash($this->getRTMPLinkWithOutKey()) . $key;
         _error_log("getRTMPLink: {$url}");
         return $url;
     }

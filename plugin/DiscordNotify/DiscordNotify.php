@@ -27,7 +27,7 @@ class DiscordNotify extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "1.2";
     }
 
     public function getEmptyDataObject() {
@@ -43,6 +43,7 @@ class DiscordNotify extends PluginAbstract {
     }
 
     public function afterNewVideo($videos_id) {
+		_error_log("DiscordNotify:afterNewVideo start");
         global $global;
         $o = $this->getDataObject();
         $users_id = Video::getOwner($videos_id);
@@ -60,8 +61,9 @@ class DiscordNotify extends PluginAbstract {
         $avatar_url = $o->avatar_url;
         $bot_username = $o->bot_username;
         $footer_image = $o->footer_image;
+		_error_log("DiscordNotify:afterNewVideo: {$url}");
 
-        $hookObject = json_encode([
+         $hookObject = json_encode([
             "content" => "",
             "username" => $bot_username,
             "avatar_url" => $avatar_url,
@@ -70,9 +72,8 @@ class DiscordNotify extends PluginAbstract {
                 [
                     "title" => $username . " just uploaded a video",
                     "type" => "rich",
-                    "description" => "",
                     "url" => $global['webSiteRootURL'] . $channelName,
-                    "timestamp" => "",
+                    "timestamp" => gmdate('Y-m-d\TH:i:s', time()),
                     "color" => hexdec("FF0000"),
                     "footer" => [
                         "text" => $bot_username,
@@ -81,9 +82,6 @@ class DiscordNotify extends PluginAbstract {
                     "image" => [
                         "url" => $videoThumbs,
                     ],
-                    //"thumbnail" => [
-                    //   "url" => $userThumbnail
-                    //],
                     "fields" => [
                         [
                             "name" => "Video Name",
@@ -108,20 +106,16 @@ class DiscordNotify extends PluginAbstract {
                     ]
                 ]
             ]
-                ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        $ch = curl_init();
-
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $hookObject,
-            CURLOPT_HTTPHEADER => [
-              "Content-Type: application/json"
-            ]
-        ]);
-
-        return curl_exec($ch);
+        $c = curl_init($url);
+		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($c, CURLOPT_POST, true);
+		curl_setopt($c, CURLOPT_POSTFIELDS, $hookObject);
+		curl_setopt($c, CURLOPT_HTTPHEADER, array(
+				'Content-Type: application/json',
+		));
+		curl_exec($c);
+		curl_close($c);
     }
-
 }
