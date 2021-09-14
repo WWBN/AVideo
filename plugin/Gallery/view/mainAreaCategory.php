@@ -47,6 +47,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
         <!-- mainAreaCategory -->
         <div class="col-sm-12" style="z-index: 1;">
             <?php
+            $_REQUEST['rowCount'] = $obj->CategoriesRowCount * 3;
             $_GET['catName'] = $currentCat['clean_name'];
             $total = Video::getTotalVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
             $totalPages = ceil($total / getRowCount());
