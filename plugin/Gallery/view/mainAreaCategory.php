@@ -15,6 +15,12 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     $_REQUEST['rowCount'] = $obj->CategoriesRowCount * 3;
     $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
     if (!empty($videos)) {
+        $total = Video::getTotalVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+        $totalPages = ceil($total / getRowCount());
+        $page = getCurrentPage();
+        if ($totalPages < $page) {
+            $page = $totalPages;
+        }
         ?>
         <div class="clear clearfix" id="Div<?php echo $currentCat['clean_name']; ?>">
             <?php
@@ -44,14 +50,6 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
                 ?>
             </div>
         </div>
-        <?php
-        $total = Video::getTotalVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
-        $totalPages = ceil($total / getRowCount());
-        $page = getCurrentPage();
-        if ($totalPages < $page) {
-            $page = $totalPages;
-        }
-        ?>
         <!-- mainAreaCategory -->
         <div class="col-sm-12" style="z-index: 1;">
             <?php
