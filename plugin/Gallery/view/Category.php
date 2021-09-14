@@ -15,23 +15,21 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
             if ((empty($parentCat)) && (($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
                 if (!empty($_GET['catName'])) {
                     ?>
-                    <div>
-                        <a class="btn btn-default btn-sm pull-right"  href="<?php echo $global['webSiteRootURL']; ?>">
+                    <div class="clearfix" style="margin: 10px 0;">
+                        <a class="btn btn-default btn-sm pull-left"  href="<?php echo $global['webSiteRootURL']; ?>">
                             <i class="fa fa-backward"></i>
-                            <?php echo __("Back to startpage"); ?> 
+                            <?php echo __("Back"); ?> 
                         </a>
-                        <hr>
                     </div>
                     <?php
                 }
             } else if (!empty($parentCat)) {
                 ?>
-                <div>
-                    <a class="btn btn-default btn-sm pull-right" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>">
+                <div class="clearfix" style="margin: 10px 0;">
+                    <a class="btn btn-default btn-sm pull-left" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>">
                         <i class="fa fa-backward"></i>
                         <?php echo __("Back to") . " " . $parentCat['name']; ?> 
                     </a>
-                    <hr>
                 </div>
                 <?php
             }
@@ -65,9 +63,9 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
 
                         // make a row each 6 cols
                         if ($countCols % 6 === 0) {
-                            echo '</div><div class="row aligned-row ">';
+                            echo '</div><div class="clearfix">';
                         }
-                        $countCols ++;
+                        $countCols++;
                         unset($_GET['catName']);
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
@@ -86,7 +84,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                                                 <?php
                                             }
                                             $sql = "SELECT COUNT(title) FROM videos WHERE categories_id = ?;";
-                                            $res = sqlDAL::readSql($sql,"i",array($value['categories_id']));
+                                            $res = sqlDAL::readSql($sql, "i", array($value['categories_id']));
                                             $videoCount = sqlDAL::fetchArray($res);
                                             sqlDAL::close($res);
                                             break;
@@ -97,7 +95,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                                         <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $cat['id']; ?>" />
                                         <?php
                                         $sql = "SELECT COUNT(title) FROM videos WHERE categories_id = ?;";
-                                        $res = sqlDAL::readSql($sql,"i",array($cat['id']));
+                                        $res = sqlDAL::readSql($sql, "i", array($cat['id']));
                                         $videoCount = sqlDAL::fetchArray($res);
                                         sqlDAL::close($res);
                                     }
