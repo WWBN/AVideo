@@ -5265,7 +5265,7 @@ function _substr($string, $start, $length = null) {
 function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "") {
     global $global, $advancedCustom;
     if ($total < 2) {
-        return '';
+        return '<!-- getPagination total < 2 ('. json_encode($total).') -->';
     }
 
     if (empty($page)) {
@@ -7214,4 +7214,29 @@ function getTimeInTimezone($time, $timezone) {
     //$date->setTimezone(date_default_timezone_get());
     $dateString = $date->format('Y-m-d H:i:s');
     return strtotime($dateString);
+}
+
+function listFolderFiles($dir){
+    if(empty($dir)){
+        return array();
+    }
+    $ffs = scandir($dir);
+
+    unset($ffs[array_search('.', $ffs, true)]);
+    unset($ffs[array_search('..', $ffs, true)]);
+
+    $files = array();
+    // prevent empty ordered elements
+    if (count($ffs) >= 1){
+        foreach($ffs as $ff){
+            $dir = rtrim($dir,DIRECTORY_SEPARATOR);
+            $file = $dir.DIRECTORY_SEPARATOR.$ff;
+            if(is_dir($file)){
+                listFolderFiles($file);
+            }else{
+                $files[] = $file;
+            }
+        }
+    }
+    return $files;
 }
