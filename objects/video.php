@@ -4368,6 +4368,8 @@ if (!class_exists('Video')) {
             } else {
                 $template = $global['systemRootPath'] . 'view/videoCreator.html';
             }
+            
+            require_once $global['systemRootPath'] . 'objects/subscribe.php';
             $content = local_get_contents($template);
             $name = User::getNameIdentificationById($users_id);
 
