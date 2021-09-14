@@ -155,6 +155,9 @@ if (!empty($_GET['type'])) {
         //header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
         //echo $e->getMessage();
     }
+    if(!isSameDomainAsMyAVideo($location)){
+       $location = $global['webSiteRootURL']; 
+    }
     header('Content-Type: text/html');
     ?>
     <script>
