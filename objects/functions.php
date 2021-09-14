@@ -4403,7 +4403,9 @@ function isHLS() {
 
 function getRedirectUri() {
     if (!empty($_GET['redirectUri'])) {
-        return $_GET['redirectUri'];
+        if(isSameDomainAsMyAVideo($_GET['redirectUri'])){
+            return $_GET['redirectUri'];
+        }
     }
     if (!empty($_SERVER["HTTP_REFERER"])) {
         return $_SERVER["HTTP_REFERER"];
@@ -7232,7 +7234,7 @@ function listFolderFiles($dir){
             $dir = rtrim($dir,DIRECTORY_SEPARATOR);
             $file = $dir.DIRECTORY_SEPARATOR.$ff;
             if(is_dir($file)){
-                listFolderFiles($file);
+                $files[] = listFolderFiles($file);
             }else{
                 $files[] = $file;
             }
