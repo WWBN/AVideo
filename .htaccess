@@ -51,14 +51,16 @@ Options All -Indexes
 # END Expires
 # BEGIN Caching
 <ifModule mod_headers.c>
-    Header set Access-Control-Allow-Origin: *
     <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|ts)$">
+        Header set Access-Control-Allow-Origin: *
         Header set Cache-Control "max-age=2592000, public"
     </filesMatch>
     <filesMatch "\.(woff2|css)$">
+        Header set Access-Control-Allow-Origin: *
         Header set Cache-Control "max-age=604800, public"
     </filesMatch>
     <filesMatch "\.(js)$">
+        Header set Access-Control-Allow-Origin: *
         Header set Cache-Control "max-age=216000, private"
     </filesMatch>
     <filesMatch "\.(xml|txt)$">
