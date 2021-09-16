@@ -207,6 +207,22 @@ abstract class PluginAbstract {
         return false;
     }
 
+    public function onEncoderNotifyIsDone($videos_id) {
+        return false;
+    }
+    
+    public function onEncoderReceiveImage($videos_id) {
+        return false;
+    }
+    
+    public function onUploadIsDone($videos_id) {
+        return false;
+    }
+    
+    public function onReceiveFile($videos_id) {
+        return false;
+    }
+    
     public function afterNewVideo($videos_id) {
         return false;
     }
