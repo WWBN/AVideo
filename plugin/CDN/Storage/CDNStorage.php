@@ -1,9 +1,9 @@
 <?php
-
-require_once $global['systemRootPath'] . 'plugin/CDN/FtpClient/FtpClient.php';
-require_once $global['systemRootPath'] . 'plugin/CDN/FtpClient/FtpWrapper.php';
-require_once $global['systemRootPath'] . 'plugin/CDN/FtpClient/FtpException.php';
-
+if(!class_exists('FtpClient')){
+    require_once $global['systemRootPath'] . 'plugin/CDN/FtpClient/FtpClient.php';
+    require_once $global['systemRootPath'] . 'plugin/CDN/FtpClient/FtpWrapper.php';
+    require_once $global['systemRootPath'] . 'plugin/CDN/FtpClient/FtpException.php';
+}
 class CDNStorage {
 
     static $allowedFiles = array('mp4', 'webm', 'mp3', 'm3u8', 'ts', 'pdf', 'zip');
