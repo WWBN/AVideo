@@ -64,7 +64,6 @@ Options All -Indexes
         Header set Cache-Control "max-age=216000, private"
     </filesMatch>
     <filesMatch "\.(xml|txt)$">
-        Header set Access-Control-Allow-Origin: *
         Header set Cache-Control "max-age=216000, public, must-revalidate"
     </filesMatch>
     <filesMatch "\.(html|htm|php|key|m3u8)$">
