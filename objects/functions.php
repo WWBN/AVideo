@@ -1126,10 +1126,22 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false) {
     $start = $time;
     if ($fileNameisThePath) {
         $filename = basename($fileName);
+        $path = Video::getPathToFile($filename);
+        if (filesize($path) < 20) {
+            $objCDNS = AVideoPlugin::getObjectDataIfEnabled('CDN');
+            if (!empty($objCDNS) && $objCDNS->enable_storage) {
+                $url = CDNStorage::getURL("{$filename}");
+            }
+        }
+        if (empty($url)) {
+            $url = Video::getURLToFile($filename);
+        }
+
         $files["mp3"] = array(
             'filename' => $filename,
-            'path' => Video::getPathToFile($filename),
-            'url' => Video::getURLToFile($filename),
+            'path' => $path,
+            'url' => $url,
+            'url_noCDN' => $url,
             'type' => 'audio',
         );
     } else {
@@ -1139,6 +1151,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false) {
             'filename' => "{$fileName}.mp3",
             'path' => $file,
             'url' => $source['url'],
+            'url_noCDN' => @$source['url_noCDN'],
             'type' => 'audio',
         );
     }
@@ -1357,7 +1370,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         // sort by resolution
         uasort($files, "sortVideosURL");
     }
-    //var_dump($files);exit;
+    //var_dump($files);//exit;
     $getVideosURL_V2Array[$cleanfilename] = $files;
     return $getVideosURL_V2Array[$cleanfilename];
 }
@@ -1440,7 +1453,6 @@ function getSources($fileName, $returnArray = false, $try = 0) {
 
     $obj = new stdClass();
     $obj->result = $return;
-
     if (empty($videoSources) && empty($audioTracks) && !empty($video['id']) && $video['type'] == 'video') {
         if (empty($try)) {
             //sleep(1);
@@ -3057,10 +3069,10 @@ function allowOrigin() {
     header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 }
 
-function cleanUpAccessControlHeader(){
+function cleanUpAccessControlHeader() {
     if (!headers_sent()) {
         foreach (headers_list() as $header) {
-            if(preg_match('/Access-Control-Allow-Origin/i', $header)){
+            if (preg_match('/Access-Control-Allow-Origin/i', $header)) {
                 $parts = explode(':', $header);
                 header_remove($parts[0]);
             }
@@ -3867,7 +3879,7 @@ function getUsageFromFilename($filename, $dir = "") {
     }
     $dir = addLastSlash($dir);
     $totalSize = 0;
-    _error_log("getUsageFromFilename: start {$dir}{$filename}");
+    _error_log("getUsageFromFilename: start {$dir}{$filename} ". json_encode(debug_backtrace()));
     //$files = glob("{$dir}{$filename}*");
     $paths = Video::getPaths($filename);
 
@@ -3890,11 +3902,20 @@ function getUsageFromFilename($filename, $dir = "") {
                 continue;
             }
             if (is_dir($f)) {
-                _error_log("getUsageFromFilename: {$f} is Dir");
-                $dirSize = getDirSize($f);
+                $dirSize = getDirSize($f, true);
+                _error_log("getUsageFromFilename: is Dir dirSize={$dirSize} ". humanFileSize($dirSize). " {$f}");
                 $totalSize += $dirSize;
                 $minDirSize = 4000000;
                 $isEnabled = AVideoPlugin::isEnabledByName('YPTStorage');
+                $isEnabledCDN = AVideoPlugin::getObjectDataIfEnabled('CDN');
+                if ($isEnabledCDN->enable_storage) {
+                    $v = Video::getVideoFromFileName($filename);
+                    if (!empty($v)) {
+                        $size = CDNStorage::getRemoteDirectorySize($v['id']);
+                        _error_log("getUsageFromFilename: CDNStorage found $size " . humanFileSize($size));
+                        $totalSize += $size;
+                    }
+                }
                 if ($dirSize < $minDirSize && $isEnabled) {
                     // probably the HLS file is hosted on the YPTStorage
                     $info = YPTStorage::getFileInfo($filename);
@@ -3910,6 +3931,9 @@ function getUsageFromFilename($filename, $dir = "") {
                     }
                     if (!$isEnabled) {
                         _error_log("getUsageFromFilename: YPTStorage is disabled");
+                    }
+                    if (!$isEnabledCDN) {
+                        _error_log("getUsageFromFilename: CDN Storage is disabled");
                     }
                 }
             } elseif (is_file($f)) {
@@ -4040,28 +4064,45 @@ function getUsageFromURL($url) {
     return (int) $result;
 }
 
-function getDirSize($dir) {
+function getDirSize($dir, $forceNew = false) {
+    global $_getDirSize;
+
+    if (!isset($_getDirSize)) {
+        $_getDirSize = array();
+    }
+    if (empty($forceNew) && isset($_getDirSize[$dir])) {
+        return $_getDirSize[$dir];
+    }
+
     _error_log("getDirSize: start {$dir}");
 
     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-        return foldersize($dir);
+        $return = foldersize($dir);
+        $_getDirSize[$dir] = $return;
+        return $return;
     } else {
         $command = "du -sb {$dir}";
         exec($command . " < /dev/null 2>&1", $output, $return_val);
         if ($return_val !== 0) {
             _error_log("getDirSize: ERROR ON Command {$command}");
-            return 0;
+            $return = 0;
+            $_getDirSize[$dir] = $return;
+            return $return;
         } else {
             if (!empty($output[0])) {
                 preg_match("/^([0-9]+).*/", $output[0], $matches);
             }
             if (!empty($matches[1])) {
                 _error_log("getDirSize: found {$matches[1]} from - {$output[0]}");
-                return intval($matches[1]);
+                $return = intval($matches[1]);
+                $_getDirSize[$dir] = $return;
+                return $return;
             }
 
             _error_log("getDirSize: ERROR on pregmatch {$output[0]}");
-            return 0;
+            $return = 0;
+            $_getDirSize[$dir] = $return;
+            return $return;
         }
     }
 }
@@ -4403,12 +4444,12 @@ function isHLS() {
 
 function getRedirectUri() {
     if (!empty($_GET['redirectUri'])) {
-        if(isSameDomainAsMyAVideo($_GET['redirectUri'])){
+        if (isSameDomainAsMyAVideo($_GET['redirectUri'])) {
             return $_GET['redirectUri'];
         }
     }
     if (!empty($_SERVER["HTTP_REFERER"])) {
-        if(isSameDomainAsMyAVideo($_SERVER["HTTP_REFERER"])){
+        if (isSameDomainAsMyAVideo($_SERVER["HTTP_REFERER"])) {
             return $_SERVER["HTTP_REFERER"];
         }
     }
@@ -5269,7 +5310,7 @@ function _substr($string, $start, $length = null) {
 function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "") {
     global $global, $advancedCustom;
     if ($total < 2) {
-        return '<!-- getPagination total < 2 ('. json_encode($total).') -->';
+        return '<!-- getPagination total < 2 (' . json_encode($total) . ') -->';
     }
 
     if (empty($page)) {
@@ -7220,8 +7261,8 @@ function getTimeInTimezone($time, $timezone) {
     return strtotime($dateString);
 }
 
-function listFolderFiles($dir){
-    if(empty($dir)){
+function listFolderFiles($dir) {
+    if (empty($dir)) {
         return array();
     }
     $ffs = scandir($dir);
@@ -7231,13 +7272,13 @@ function listFolderFiles($dir){
 
     $files = array();
     // prevent empty ordered elements
-    if (count($ffs) >= 1){
-        foreach($ffs as $ff){
-            $dir = rtrim($dir,DIRECTORY_SEPARATOR);
-            $file = $dir.DIRECTORY_SEPARATOR.$ff;
-            if(is_dir($file)){
+    if (count($ffs) >= 1) {
+        foreach ($ffs as $ff) {
+            $dir = rtrim($dir, DIRECTORY_SEPARATOR);
+            $file = $dir . DIRECTORY_SEPARATOR . $ff;
+            if (is_dir($file)) {
                 $files[] = listFolderFiles($file);
-            }else{
+            } else {
                 $files[] = $file;
             }
         }
