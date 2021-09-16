@@ -135,12 +135,6 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $obj->duration = $duration;
         $obj->videos_id = $id;
 
-
-        if (!empty($_FILES['upl']['tmp_name'])) {
-            AVideoPlugin::afterNewVideo($obj->videos_id);
-            $video->setAutoStatus(Video::$statusActive);
-        }
-
         if ($extension !== "jpg" && $video->getType() == "image") {
             sleep(1); // to make sure the file will be available
             $file = $video->getFilename();
@@ -153,6 +147,10 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
             }
         }
 
+        if (!empty($_FILES['upl']['tmp_name'])) {
+            $video->setAutoStatus(Video::$statusActive);
+            AVideoPlugin::onUploadIsDone($obj->videos_id);
+        }
         die(json_encode($obj));
     }
 }
