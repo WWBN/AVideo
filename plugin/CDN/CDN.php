@@ -1,6 +1,7 @@
 <?php
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'plugin/CDN/Storage/CDNStorage.php';
 
 class CDN extends PluginAbstract {
 
@@ -8,7 +9,8 @@ class CDN extends PluginAbstract {
         return array(
             PluginTags::$RECOMMENDED,
             PluginTags::$LIVE,
-            PluginTags::$PLAYER
+            PluginTags::$PLAYER,
+            PluginTags::$STORAGE
         );
     }
 
@@ -29,7 +31,7 @@ class CDN extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "2.0";
     }
 
     public function getEmptyDataObject() {
@@ -45,22 +47,39 @@ class CDN extends PluginAbstract {
         $obj->CDN_Live = "";
         // this is a JSON with servers_id + URL
         $obj->CDN_LiveServers = ""; // array
+        $obj->enable_storage = false;
+        $obj->storage_autoupload_new_videos = true;
+        $obj->storage_users_can_choose_storage = true;
+        $obj->storage_username = "";
+        $obj->storage_password = "";
+        $obj->storage_pullzone = "";
 
         return $obj;
     }
 
+    public function getVideosManagerListButton() {
+        $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CDN/Storage/syncVideo.php?videos_id=\'+ row.id +\'\\\');" ><i class="fas fa-project-diagram"></i> Move To Storage</button>';
+        return $btn;
+    }
+
     public function getPluginMenu() {
         global $global;
-        $fileAPIName = $global['systemRootPath'] . 'plugin/CDN/pluginMenu.html';
+        $fileAPIName = $global['systemRootPath'] . 'plugin/CDN/Storage/pluginMenu.html';
         $content = file_get_contents($fileAPIName);
         $obj = $this->getDataObject();
-        
+
         $url = "https://youphp.tube/marketplace/CDN/iframe.php?hash={hash}";
-        
+
         $url = addQueryStringParameter($url, 'hash', $obj->key);
         $url = addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
-        
-        return str_replace('{url}', $url, $content);
+
+        $cdnMenu = str_replace('{url}', $url, $content);
+        $storageMenu = '';
+        if($obj->enable_storage){
+            $fileStorageMenu = $global['systemRootPath'] . 'plugin/CDN/Storage/pluginMenu.html';
+            $storageMenu = file_get_contents($fileStorageMenu);
+        }
+        return $cdnMenu.$storageMenu;
     }
 
     /**
@@ -113,7 +132,7 @@ class CDN extends PluginAbstract {
 
         return false;
     }
-
+    
     static function getCDN_S3URL() {
         $plugin = AVideoPlugin::getDataObjectIfEnabled('AWS_S3');
         $CDN_S3 = '';
@@ -148,11 +167,57 @@ class CDN extends PluginAbstract {
 
     static function getCDN_FTPURL() {
         $CDN_FTP = '';
-        $plugin = AVideoPlugin::getDataObjectIfEnabled('FTP_Storage');
+        $plugin = AVideoPlugin::getDataObjectIfEnabled('CDN');
         if (!empty($plugin)) {
             $CDN_FTP = addLastSlash($plugin->endpoint);
         }
         return $CDN_FTP;
+    }
+        
+    public static function getVideoTags($videos_id) {
+        global $global;
+        if (empty($videos_id)) {
+            return array();
+        }
+        if (!Video::canEdit($videos_id)) {
+            return array();
+        }
+        $video = Video::getVideoLight($videos_id);
+        $sites_id = $video['sites_id'];
+
+        $obj = new stdClass();
+        $obj->label = 'Storage';
+        $isMoving = CDNStorage::isMoving($videos_id);
+        if ($isMoving) {
+            $obj->type = "danger";
+            $obj->text = '<i class="fas fa-sync fa-spin"></i> ' . __('Moving');
+        } else if (empty($sites_id)) {
+            $obj->type = "success";
+            $obj->text = '<i class="fas fa-map-marker-alt"></i> ' . __('Local');
+        } else {
+            $obj->type = "warning";
+            $obj->text = "<i class=\"fas fa-project-diagram\"></i> " . __('Storage');
+        }
+        //var_dump($obj);exit;
+        return array($obj);
+    }
+
+    
+    public function onEncoderNotifyIsDone($videos_id) {
+        return $this->processNewVideo($videos_id);
+    }
+
+    public function onUploadIsDone($videos_id) {
+        return $this->processNewVideo($videos_id);
+    }
+
+    private function processNewVideo($videos_id) {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('CDN');
+        if($obj->enable_storage){
+            if($obj->storage_autoupload_new_videos){
+                CDNStorage::moveLocalToRemote($videos_id, false);
+            }
+        }
     }
 
 }
