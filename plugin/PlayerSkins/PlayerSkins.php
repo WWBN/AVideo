@@ -108,7 +108,7 @@ class PlayerSkins extends PluginAbstract {
                  * 
                  */
                 $htmlMediaTag .= '<p>' . __("If you can't view this video, your browser does not support HTML5 videos") . '</p><p class="vjs-no-js">' . __("To view this video please enable JavaScript, and consider upgrading to a web browser that") . '<a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a></p></video>';
-            } else if ($vType == 'audio') {
+            } else if ($vType == 'audio') {               
                 $htmlMediaTag = '<audio playsinline webkit-playsinline="webkit-playsinline" 
                        preload="auto"
                        poster="' . $images->poster . '" controls class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo">';

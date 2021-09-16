@@ -72,5 +72,26 @@ class Sites extends ObjectYPT {
         }
         return $obj;
     }
+    
+    static function getFromStatus($status) {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status = ? ";
+
+        $res = sqlDAL::readSql($sql, 's', array($status));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $rows[] = $row;
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
+    }
 
 }

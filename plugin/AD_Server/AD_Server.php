@@ -102,7 +102,7 @@ class AD_Server extends PluginAbstract {
             $vc = new VastCampaigns($obj->autoAddNewVideosInCampaignId);
             if (!empty($vc->getName())) {
                 $video = new Video("", "", $videos_id);
-                if (!empty($video->getTitle())) {
+                if (!empty($video->getTitle()) && !empty($obj->autoAddNewVideosInCampaignId)) {
                     _error_log("AD_Server:afterNewVideo saving");
                     $o = new VastCampaignsVideos(0);
                     $o->setVast_campaigns_id($obj->autoAddNewVideosInCampaignId);

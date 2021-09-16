@@ -442,21 +442,8 @@ if (User::hasBlockedUser($video['users_id'])) {
         <audio style="width: 100%; height: 100%;"  id="mainVideo" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainVideo"  data-setup='{ "fluid": true }'
                poster="<?php echo $poster; ?>">
                    <?php
-                   $ext = "";
-                   if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
-                       ?>
-                <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg" type="audio/ogg" />
-                <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.ogg">horse</a>
-                <?php
-                $ext = ".ogg";
-            } else {
-                ?>
-                <source src="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3" type="audio/mpeg" />
-                <a href="<?php echo $global['webSiteRootURL']; ?>videos/<?php echo $video['filename']; ?>.mp3">horse</a>
-                <?php
-                $ext = ".mp3";
-            }
-            ?>
+                   echo getSources($video['filename']);
+                   ?>
         </audio>
         <script>
     <?php
@@ -577,15 +564,15 @@ if (User::hasBlockedUser($video['users_id'])) {
                     $('#mainVideo').removeClass("vjs-user-active");
                 }, 500);
             });
-            <?php
-            if ($hideProgressBarAndUnPause) {
-                ?>
+<?php
+if ($hideProgressBarAndUnPause) {
+    ?>
                 player.on('pause', function () {
                     player.play();
                 });
-                <?php
-            }
-            ?>
+    <?php
+}
+?>
 
         });
     </script>
