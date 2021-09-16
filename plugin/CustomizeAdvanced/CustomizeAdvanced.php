@@ -424,7 +424,7 @@ Allow: .css";
         return $js;
     }
     
-    public function afterNewVideo($videos_id) {
+    public function onReceiveFile($videos_id) {
         Video::updateFilesize($videos_id);
         return true;
     }
