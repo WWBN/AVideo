@@ -44,10 +44,6 @@ $video_id = $video->save();
 
 $video = new Video("", "", $video_id);
 
-if($video->getStatus() === Video::$statusActive){
-    AVideoPlugin::afterNewVideo($video_id);
-}
-
 if($video->getType() == 'audio' && AVideoPlugin::isEnabledByName('MP4ThumbsAndGif')){
     $videoFileName = $video->getFilename();
     MP4ThumbsAndGif::getImage($videoFileName, 'jpg', $video_id);
@@ -65,6 +61,7 @@ if(file_exists($originalFilePath)){
 }
 _error_log("Video is done notified {$video_id}: " . $video->getTitle());
 Video::clearCache($video_id);
+AVideoPlugin::onEncoderNotifyIsDone($video_id);
 die(json_encode($obj));
 
 /*
