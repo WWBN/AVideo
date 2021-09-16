@@ -610,6 +610,45 @@ class AVideoPlugin {
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
     }
+        
+    public static function onEncoderReceiveImage($videos_id) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onEncoderReceiveImage($videos_id);
+                $p->onReceiveFile($videos_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+
+    public static function onEncoderNotifyIsDone($videos_id) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onEncoderNotifyIsDone($videos_id);
+                $p->onReceiveFile($videos_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+
+    public static function onUploadIsDone($videos_id) {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onUploadIsDone($videos_id);
+                $p->onReceiveFile($videos_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
 
     public static function afterDonation($from_users_id, $how_much, $videos_id, $users_id) {
         $plugins = Plugin::getAllEnabled();
