@@ -4444,16 +4444,21 @@ function isHLS() {
 
 function getRedirectUri() {
     if (!empty($_GET['redirectUri'])) {
-        if (isSameDomainAsMyAVideo($_GET['redirectUri'])) {
-            return $_GET['redirectUri'];
-        }
+        return $_GET['redirectUri'];
     }
     if (!empty($_SERVER["HTTP_REFERER"])) {
-        if (isSameDomainAsMyAVideo($_SERVER["HTTP_REFERER"])) {
-            return $_SERVER["HTTP_REFERER"];
-        }
+        return $_SERVER["HTTP_REFERER"];
     }
     return getRequestURI();
+}
+
+function redirectIfRedirectUriIsSet(){
+    if (!empty($_GET['redirectUri'])) {
+        if (isSameDomainAsMyAVideo($_GET['redirectUri'])) {
+            header("Location: {$_GET['redirectUri']}");
+            exit;
+        }
+    }
 }
 
 function getRedirectToVideo($videos_id) {
