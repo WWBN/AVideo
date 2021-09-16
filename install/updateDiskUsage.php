@@ -5,7 +5,7 @@ require_once '../videos/configuration.php';
 if(!isCommandLineInterface()){
     return die('Command Line only');
 }
-
+$_REQUEST['rowCount'] = 99999;
 $total = Video::getTotalVideos("",false, true, true, false, false);
 $videos = Video::getAllVideosLight("", false, true, false);
 $count = 0;
