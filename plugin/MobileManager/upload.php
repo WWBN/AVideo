@@ -90,6 +90,9 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     if(!empty($_REQUEST['can_share'])) {
         $video->setCan_share($_REQUEST['can_share']);
     }
+    if(!empty($_REQUEST['video_password'])) {
+        $video->setVideo_password($_REQUEST['video_password']);
+    }
 
     $video->setStatus(Video::$statusEncoding);
 
