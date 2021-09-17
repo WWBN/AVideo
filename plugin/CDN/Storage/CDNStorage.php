@@ -80,7 +80,7 @@ class CDNStorage {
 
     static function getPZ(){
         $obj = AVideoPlugin::getDataObject('CDN');
-        return addLastSlash($obj->storage_username.'cdn.ypt.me');
+        return addLastSlash($obj->storage_username.'.cdn.ypt.me');
     }
     
     static function getFilesListRemote($videos_id, $client = null) {
