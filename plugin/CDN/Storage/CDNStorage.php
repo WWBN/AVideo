@@ -78,6 +78,11 @@ class CDNStorage {
         return $files;
     }
 
+    static function getPZ(){
+        $obj = AVideoPlugin::getDataObject('CDN');
+        return addLastSlash($obj->storage_username.'cdn.ypt.me');
+    }
+    
     static function getFilesListRemote($videos_id, $client = null) {
         global $global, $_getFilesListRemote;
         if (!isset($_getFilesListRemote)) {
@@ -96,7 +101,7 @@ class CDNStorage {
         }
 
         $obj = AVideoPlugin::getDataObject('CDN');
-        $pz = addLastSlash($obj->storage_pullzone);
+        $pz = self::getPZ();
 
         $list = $client->rawlist($video['filename'], true);
         $files = array();
@@ -386,7 +391,7 @@ class CDNStorage {
             return $_getFilesList_CDNSTORAGE[$videos_id];
         }
         $obj = AVideoPlugin::getDataObject('CDN');
-        $pz = addLastSlash($obj->storage_pullzone);
+        $pz = self::getPZ();
         $files = self::getLocalFolder($videos_id);
         $video = Video::getVideoLight($videos_id);
         $filesList = array();
@@ -443,7 +448,7 @@ class CDNStorage {
             $relativeFilename = "{$paths['filename']}/{$filename}";
         }
         $obj = AVideoPlugin::getDataObject('CDN');
-        $pz = addLastSlash($obj->storage_pullzone);
+        $pz = self::getPZ();
         return "https://{$pz}{$relativeFilename}";
     }
 

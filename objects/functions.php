@@ -4446,19 +4446,40 @@ function getRedirectUri() {
     if (!empty($_GET['redirectUri'])) {
         return $_GET['redirectUri'];
     }
+    if (!empty($_SESSION['redirectUri'])) {
+        return $_SESSION['redirectUri'];
+    }
     if (!empty($_SERVER["HTTP_REFERER"])) {
         return $_SERVER["HTTP_REFERER"];
     }
     return getRequestURI();
 }
 
+function setRedirectUri($redirectUri) {
+    _session_start();
+    $_SESSION['redirectUri'] = $redirectUri;
+}
+
 function redirectIfRedirectUriIsSet(){
+    $redirectUri = false;
     if (!empty($_GET['redirectUri'])) {
         if (isSameDomainAsMyAVideo($_GET['redirectUri'])) {
-            header("Location: {$_GET['redirectUri']}");
-            exit;
+            $redirectUri = $_GET['redirectUri'];
         }
     }
+    if(!empty($_SESSION['redirectUri'])){
+        if (isSameDomainAsMyAVideo($_SESSION['redirectUri'])) {
+            $redirectUri = $_SESSION['redirectUri'];
+        }
+        _session_start();
+        unset($_SESSION['redirectUri']);
+    }
+    
+    if(!empty($redirectUri)){
+        header("Location: {$_SESSION['redirectUri']}");
+        exit;
+    }
+            
 }
 
 function getRedirectToVideo($videos_id) {
