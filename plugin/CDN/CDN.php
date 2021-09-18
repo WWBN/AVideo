@@ -63,7 +63,7 @@ class CDN extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        $fileAPIName = $global['systemRootPath'] . 'plugin/CDN/Storage/pluginMenu.html';
+        $fileAPIName = $global['systemRootPath'] . 'plugin/CDN/pluginMenu.html';
         $content = file_get_contents($fileAPIName);
         $obj = $this->getDataObject();
 
