@@ -97,7 +97,6 @@ class CDNStorage {
             $client = self::getStorageClient();
         }
         $dir = self::filenameToRemotePath($video['filename']);
-        _error_log("CDNStorage::getFilesListRemote ({$dir}) ");
         try {
             if (!$client->isDir($dir)) {
                 return array();
@@ -108,8 +107,12 @@ class CDNStorage {
 
         $obj = AVideoPlugin::getDataObject('CDN');
         $pz = self::getPZ();
+        try {
+            $list = $client->rawlist($video['filename'], true);
+        } catch (Exception $exc) {
+            $list = array();
+        }
 
-        $list = $client->rawlist($video['filename'], true);
         $files = array();
         foreach ($list as $key => $value) {
             $parts1 = explode('#', $key);
