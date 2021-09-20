@@ -1913,9 +1913,7 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
     $fsize = @filesize($destinationFile);
     _error_log("decideMoveUploadedToVideos: destinationFile {$destinationFile} filesize=" . ($fsize) . " (" . humanFileSize($fsize) . ")");
     Video::clearCacheFromFilename($filename);
-    if(!file_exists($destinationFile)){
-        _error_log("decideMoveUploadedToVideos: ERROR file removed {$destinationFile}");
-    }
+    return $destinationFile;
 }
 
 function unzipDirectory($filename, $destination) {

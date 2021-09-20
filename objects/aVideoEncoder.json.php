@@ -135,7 +135,7 @@ if (!empty($_FILES['video']['tmp_name'])) {
     $fsize = filesize($_FILES['video']['tmp_name']);
 
     _error_log("aVideoEncoder.json: receiving video upload to {$filename} filesize=" . ($fsize) . " (" . humanFileSize($fsize) . ")" . json_encode($_FILES));
-    decideMoveUploadedToVideos($_FILES['video']['tmp_name'], $filename);
+    $destinationFile = decideMoveUploadedToVideos($_FILES['video']['tmp_name'], $filename);
 } else {
     // set encoding
     $video->setStatus(Video::$statusEncoding);
@@ -181,6 +181,13 @@ $v = new Video('', '', $video_id);
 $obj->video_id_hash = $v->getVideoIdHash();
 
 _error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
+if(!empty($destinationFile)){
+    if(file_exists($destinationFile)){
+        _error_log("aVideoEncoder.json: Success $destinationFile ");
+    }else{
+        _error_log("aVideoEncoder.json: ERROR $destinationFile ");
+    }
+}
 die(json_encode($obj));
 
 /*
@@ -189,8 +196,7 @@ die(json_encode($obj));
   var_dump($_POST, $_FILES);
  */
 
-function downloadVideoFromDownloadURL($downloadURL)
-{
+function downloadVideoFromDownloadURL($downloadURL){
     global $global;
     _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($_POST['downloadURL']);
