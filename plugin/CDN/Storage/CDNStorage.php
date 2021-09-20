@@ -96,8 +96,13 @@ class CDNStorage {
         if (empty($client)) {
             $client = self::getStorageClient();
         }
-        if (!$client->isDir($video['filename'])) {
-            return array();
+        $dir = self::filenameToRemotePath($video['filename']);
+        try {
+            if (!$client->isDir($dir)) {
+                return array();
+            }
+        } catch (Exception $exc) {
+            _error_log("CDNStorage::getFilesListRemote ({$dir}) ".$exc->getTraceAsString());
         }
 
         $obj = AVideoPlugin::getDataObject('CDN');
@@ -117,7 +122,7 @@ class CDNStorage {
             $relative = $parts1[1];
             $local_path = "{$global['systemRootPath']}videos/{$relative}";
             $local_filesize = filesize($local_path);
-            $remote_path = "/{$obj->storage_username}/" . $relative;
+            $remote_path = self::filenameToRemotePath($relative);
             $path_parts = pathinfo($local_path);
             $extension = $path_parts['extension'];
 
@@ -148,7 +153,7 @@ class CDNStorage {
         return $total;
     }
 
-    static function getFilesListInfo($local_path, $storage_username, $storage_pullzone, $videos_id, $skipDummyFiles = true) {
+    static function getFilesListInfo($local_path, $storage_pullzone, $videos_id, $skipDummyFiles = true) {
         global $global;
         if ($skipDummyFiles && filesize($local_path) < 20) {
             return false;
@@ -163,7 +168,7 @@ class CDNStorage {
         $relative = str_replace($videosDir, '', $local_path);
         $relative = str_replace('\\', '/', $relative);
         $local_filesize = filesize($local_path);
-        $remote_path = "/{$storage_username}/" . $relative;
+        $remote_path = self::filenameToRemotePath($relative);
 
         $file = array(
             'extension' => $path_parts['extension'],
@@ -291,12 +296,20 @@ class CDNStorage {
         if (empty($client)) {
             $client = self::getStorageClient();
         }
-        $dir = "/{$obj->storage_username}/{$filename}";
+        $dir = self::filenameToRemotePath($filename);
         if(!$client->isDir($dir)){
             return false;
         }
         _error_log("CDNStorage::deleteRemoteDirectoryFromFilename {$dir}");
         return $client->rmdir($dir, $recursive);
+    }
+    
+    static function filenameToRemotePath($filename){
+        $obj = AVideoPlugin::getDataObject('CDN');
+        if(!preg_match('/^\/'.$obj->storage_username.'\//', $filename)){
+            return addLastSlash("/{$obj->storage_username}/$filename");
+        }
+        return $filename;
     }
 
     static function moveLocalToRemote($videos_id, $runInBackground= true) {
@@ -398,13 +411,13 @@ class CDNStorage {
         foreach ($files as $value) {
             if (is_array($value)) {
                 foreach ($value as $value2) {
-                    $file = self::getFilesListInfo($value2, $obj->storage_username, $pz, $videos_id, $skipDummyFiles);
+                    $file = self::getFilesListInfo($value2, $pz, $videos_id, $skipDummyFiles);
                     if (!empty($file)) {
                         $filesList[$file['relative']] = $file;
                     }
                 }
             } else {
-                $file = self::getFilesListInfo($value, $obj->storage_username, $pz, $videos_id, $skipDummyFiles);
+                $file = self::getFilesListInfo($value, $pz, $videos_id, $skipDummyFiles);
                 if (!empty($file)) {
                     $filesList[$file['relative']] = $file;
                 }
