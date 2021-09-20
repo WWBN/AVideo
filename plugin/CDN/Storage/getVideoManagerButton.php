@@ -18,14 +18,6 @@
     </ul>
 </div>
 <script>
-    $(document).ready(function () {
-
-        $('#uploadSelectedToCDNStorage').click(function () {
-
-        });
-
-    });
-
     function uploadSelected() {
         var videos_ids = getSelectedVideos();
         if (videos_ids.length === 0) {
