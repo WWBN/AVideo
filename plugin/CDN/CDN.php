@@ -236,14 +236,5 @@ class CDN extends PluginAbstract {
         }
         return false;
     }
-    
-    public function getVideoManagerButton() {
-        global $global;
-
-        if (true || !self::userCanMoveVideoStorage()) {
-            return false;
-        }
-        include $global['systemRootPath'] . 'plugin/CDN/Storage/getVideoManagerButton.php';
-    }
 
 }
