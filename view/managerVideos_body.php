@@ -286,7 +286,7 @@
                     <i class="fa fa-trash" aria-hidden="true"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Delete'); ?></span>
                 </button>
             </div>
-            <table id="grid" class="table table-condensed table-hover table-striped">
+            <table id="grid" class="table table-condensed table-hover table-striped videosManager">
                 <thead>
                     <tr>
                         <th data-formatter="checkbox" data-width="25px" ></th>
