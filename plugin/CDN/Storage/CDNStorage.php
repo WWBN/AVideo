@@ -347,14 +347,14 @@ class CDNStorage {
                 continue;
             }
             try {
-                $response = $client->put($value['remote_path'], $value['local_path']);
-                $remote_filesize = $client->size($value['remote_path']);
-                if($remote_filesize<0){
-                    self::addToLog($videos_id, "Filesizes are not the same trying the relative path ");
-                    $response = $client->put($value['relative'], $value['local_path']);
+                $response = $client->put($value['relative'], $value['local_path']);
+                $remote_filesize = $client->size($value['relative']);
+                if ($remote_filesize < 0) {
+                    self::addToLog($videos_id, "Filesizes are not the same trying the full path ");
+                    $response = $client->put($value['remote_path'], $value['local_path']);
                     $remote_filesize = $client->size($value['remote_path']);
                 }
-                
+
                 if ($remote_filesize == $value['local_filesize']) {
                     $msg = "PUT File moved from {$value['local_path']} to {$value['remote_path']} ";
                     self::addToLog($videos_id, $msg);
