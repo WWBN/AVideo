@@ -52,6 +52,7 @@ class CDN extends PluginAbstract {
         $obj->storage_users_can_choose_storage = true;
         $obj->storage_username = "";
         $obj->storage_password = "";
+        $obj->storage_hostname = "";
 
         return $obj;
     }

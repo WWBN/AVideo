@@ -16,7 +16,7 @@ class CDNStorage {
         $obj = AVideoPlugin::getDataObject('CDN');
         $CDNstorage = new \FtpClient\FtpClient();
         try {
-            $CDNstorage->connect('storage.ypt.me');
+            $CDNstorage->connect($obj->storage_hostname);
             $CDNstorage->login($obj->storage_username, $obj->storage_password);
             $CDNstorage->pasv(true);
         } catch (Exception $exc) {
