@@ -97,6 +97,7 @@ class CDNStorage {
             $client = self::getStorageClient();
         }
         $dir = self::filenameToRemotePath($video['filename']);
+        _error_log("CDNStorage::getFilesListRemote ({$dir}) ");
         try {
             if (!$client->isDir($dir)) {
                 return array();
