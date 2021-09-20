@@ -332,7 +332,7 @@ class CDNStorage {
         $video = Video::getVideoLight($videos_id);
         $client->mkdir($video['filename'], true);
         if($runInBackground){
-            outputAndContinueInBackground();
+            //outputAndContinueInBackground();
         }
         @session_write_close();
         _mysql_close();
