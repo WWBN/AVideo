@@ -79,7 +79,7 @@ if (!empty($evideo)) {
         $videosPlayList = PlayList::sortVideos($videosPlayList, $videosArrayId);
 
         $videoSerie = Video::getVideoFromSeriePlayListsId($playlist_id);
-
+        //var_dump($videoSerie, $videosArrayId);exit;
         unset($_GET['playlist_id']);
         $isPlayListTrailer = false;
 
