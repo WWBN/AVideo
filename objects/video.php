@@ -607,8 +607,7 @@ if (!class_exists('Video')) {
                 return "";
             }
 
-            $obj = AVideoPlugin::getDataObject('Subscription');
-            if ($obj && $obj->allowFreePlayWithAds) {
+            if (self::allowFreePlayWithAds()) {
                 $sql = " AND {$tableAlias}only_for_paid = 0 ";
                 return $sql;
             } else {
@@ -626,6 +625,22 @@ if (!class_exists('Video')) {
                 }
                 return " AND " . $sql;
             }
+        }
+        
+        static function allowFreePlayWithAds(){
+            $obj = AVideoPlugin::getDataObjectIfEnabled('Subscription');
+            if ($obj && $obj->allowFreePlayWithAds) {
+                return true;
+            }
+            $obj = AVideoPlugin::getDataObjectIfEnabled('PayPerView');
+            if ($obj && $obj->allowFreePlayWithAds) {
+                return true;
+            }
+            $obj = AVideoPlugin::getDataObjectIfEnabled('FansSubscriptions');
+            if ($obj && $obj->allowFreePlayWithAds) {
+                return true;
+            }
+            return false;
         }
 
         static function getUserGroups($videos_id) {
