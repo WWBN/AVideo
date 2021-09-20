@@ -261,7 +261,7 @@ class CDNStorage {
             }
             try {
                 $response = $client->get($value['local_path'], $value['remote_path']);
-                $msg = "File moved from {$value['remote_path']} to {$value['local_path']} ";
+                $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} ";
                 self::addToLog($videos_id, $msg);
                 $filesCopied++;
             } catch (Exception $exc) {
@@ -346,12 +346,14 @@ class CDNStorage {
             }
             try {
                 $response = $client->put($value['remote_path'], $value['local_path']);
-                $msg = "File moved from {$value['local_path']} to {$value['remote_path']} ";
+                $msg = "PUT File moved from {$value['local_path']} to {$value['remote_path']} ";
                 self::addToLog($videos_id, $msg);
                 $filesCopied++;
                 $remote_filesize = $client->size($value['remote_path']);
                 if ($remote_filesize == $value['local_filesize']) {
                     self::createDummy($value['local_path']);
+                }else{
+                    self::addToLog($videos_id, "Filesizes are not the same $remote_filesize == {$value['local_filesize']} ". json_encode($value));
                 }
             } catch (Exception $exc) {
                 _error_log($exc->getTraceAsString());
