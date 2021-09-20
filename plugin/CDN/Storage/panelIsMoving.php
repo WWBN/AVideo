@@ -5,8 +5,8 @@
     <div class="panel-body">
         <i class="fas fa-sync fa-spin"></i>
         <?php
-        echo __('Created') . ': ' . humanTimingAgo($isMoving['created']).' ';
-        echo __('Modified') . ': ' . humanTimingAgo($isMoving['modified']);
+        echo __('Created') . ': ' . humanTimingAgo($isMoving['created'], 0, false).' ';
+        echo __('Modified') . ': ' . humanTimingAgo($isMoving['modified'], 0, false);
         ?>
     </div>
 
