@@ -255,14 +255,14 @@ class CDNStorage {
         set_time_limit(0);
         $fails = 0;
         foreach ($list as $value) {
-            $remote_filesize = $client->size($value['remote_path']);
+            $remote_filesize = $client->size($value['relative']);
             if ($local_filesize >= $remote_filesize) {
                 self::addToLog($value['videos_id'], $value['local_path'] . ' is NOT a dummy file local_filesize=' . $value['local_filesize'] . ' Bytes');
                 //$client->delete($value['remote_path']);
                 continue;
             }
             try {
-                $response = $client->get($value['local_path'], $value['remote_path']);
+                $response = $client->get($value['local_path'], $value['relative']);
                 $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} ";
                 self::addToLog($videos_id, $msg);
                 $filesCopied++;
@@ -347,6 +347,14 @@ class CDNStorage {
                 continue;
             }
             try {
+                $remote_filesize = $client->size($value['relative']);
+                if ($remote_filesize > 0 && $remote_filesize == $value['local_filesize']) {
+                    $msg = "File is already on the remote {$value['local_path']} to {$value['remote_path']} ";
+                    self::addToLog($videos_id, $msg);
+                    $filesCopied++;
+                    self::createDummy($value['local_path']);
+                    continue;
+                }
                 $response = $client->put($value['relative'], $value['local_path']);
                 $remote_filesize = $client->size($value['relative']);
                 if ($remote_filesize < 0) {
