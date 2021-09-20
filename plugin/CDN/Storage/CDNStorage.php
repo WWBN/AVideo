@@ -332,7 +332,7 @@ class CDNStorage {
         $video = Video::getVideoLight($videos_id);
         $client->mkdir($video['filename'], true);
         if($runInBackground){
-            //outputAndContinueInBackground();
+            outputAndContinueInBackground();
         }
         @session_write_close();
         _mysql_close();
@@ -479,6 +479,7 @@ class CDNStorage {
     }
 
     static function addToLog($videos_id, $message) {
+        _error_log($message);
         $file = self::getLogFile($videos_id);
         return file_put_contents($file, date('Y-m-d H:i:s: ') . $message . PHP_EOL, FILE_APPEND);
     }
