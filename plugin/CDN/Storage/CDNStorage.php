@@ -266,7 +266,6 @@ class CDNStorage {
                 $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} ";
                 self::addToLog($videos_id, $msg);
                 $filesCopied++;
-                self::sendSocketNotification($videos_id, __('Video upload complete'));
             } catch (Exception $exc) {
                 $fails++;
                 _error_log($exc->getTraceAsString());
@@ -278,6 +277,7 @@ class CDNStorage {
         if (empty($fails)) {
             self::deleteRemoteDirectory($videos_id, $client);
             self::setProgress($videos_id, true, true);
+            self::sendSocketNotification($videos_id, __('Video upload complete'));
         } else {
             _error_log("ERROR moveRemoteToLocal had {$fails} fails videos_id=($videos_id) filesCopied={$filesCopied} in {$end} Seconds");
         }
@@ -370,7 +370,6 @@ class CDNStorage {
                     self::addToLog($videos_id, $msg);
                     $filesCopied++;
                     self::createDummy($value['local_path']);
-                    self::sendSocketNotification($videos_id, __('Video upload complete'));
                 } else {
                     self::addToLog($videos_id, "ERROR Filesizes are not the same $remote_filesize == {$value['local_filesize']} " . json_encode($value));
                 }
@@ -381,7 +380,7 @@ class CDNStorage {
                 self::addToLog($videos_id, "ERROR 2 " . json_encode(error_get_last()));
             }
         }
-
+        self::sendSocketNotification($videos_id, __('Video upload complete'));
         self::setProgress($videos_id, true, true);
         $end = microtime(true) - $start;
         _error_log("Finish moveLocalToRemote videos_id=($videos_id) filesCopied={$filesCopied} in {$end} Seconds");
