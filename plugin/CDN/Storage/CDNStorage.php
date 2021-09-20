@@ -363,7 +363,7 @@ class CDNStorage {
         if (empty($file) || !file_exists($file)) {
             return false;
         }
-        return true;
+        return array('modified'=>filemtime($file), 'created'=> filectime($file));
     }
 
     static function createDummy($file_path) {

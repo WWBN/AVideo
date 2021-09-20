@@ -57,7 +57,7 @@ class CDN extends PluginAbstract {
     }
 
     public function getVideosManagerListButton() {
-        $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CDN/Storage/syncVideo.php?videos_id=\'+ row.id +\'\\\');" ><i class="fas fa-project-diagram"></i> Move To Storage</button>';
+        $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CDN/Storage/syncVideo.php?videos_id=\'+ row.id +\'\\\');" ><i class="fas fa-project-diagram"></i> CDN Storage</button>';
         return $btn;
     }
 
