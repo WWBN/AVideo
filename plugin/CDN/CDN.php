@@ -74,7 +74,7 @@ class CDN extends PluginAbstract {
 
         $cdnMenu = str_replace('{url}', $url, $content);
         $storageMenu = '';
-        if($obj->enable_storage){
+        if(self::userCanMoveVideoStorage()){
             $fileStorageMenu = $global['systemRootPath'] . 'plugin/CDN/Storage/pluginMenu.html';
             $storageMenu = file_get_contents($fileStorageMenu);
         }
@@ -217,6 +217,29 @@ class CDN extends PluginAbstract {
                 CDNStorage::moveLocalToRemote($videos_id, false);
             }
         }
+    }
+    
+    public static function userCanMoveVideoStorage(){
+        $obj = AVideoPlugin::getDataObjectIfEnabled('CDN');
+        if(empty($obj->enable_storage)){
+            return false;
+        }
+        if(User::isAdmin()){
+            return true;
+        }
+        if (!empty($obj->storage_users_can_choose_storage) && User::canUpload()) {
+            return true;
+        }
+        return false;
+    }
+    
+    public function getVideoManagerButton() {
+        global $global;
+
+        if (true || !self::userCanMoveVideoStorage()) {
+            return false;
+        }
+        include $global['systemRootPath'] . 'plugin/CDN/Storage/getVideoManagerButton.php';
     }
 
 }
