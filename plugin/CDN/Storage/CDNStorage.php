@@ -274,7 +274,7 @@ class CDNStorage {
                 self::addToLog($videos_id, "ERROR 2 " . json_encode(error_get_last()));
             }
         }
-        if (empty($fails)) {
+        if (!empty($fails)) {
             self::deleteRemoteDirectory($videos_id, $client);
             self::setProgress($videos_id, true, true);
             _error_log("ERROR moveRemoteToLocal had {$fails} fails videos_id=($videos_id) filesCopied={$filesCopied} in {$end} Seconds");
