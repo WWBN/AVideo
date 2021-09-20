@@ -607,7 +607,7 @@ if (!class_exists('Video')) {
                 return "";
             }
 
-            if (self::allowFreePlayWithAds()) {
+            if (self::allowFreePlayWithAdsIsEnabled()) {
                 $sql = " AND {$tableAlias}only_for_paid = 0 ";
                 return $sql;
             } else {
@@ -627,7 +627,7 @@ if (!class_exists('Video')) {
             }
         }
         
-        static function allowFreePlayWithAds(){
+        static function allowFreePlayWithAdsIsEnabled(){
             $obj = AVideoPlugin::getDataObjectIfEnabled('Subscription');
             if ($obj && $obj->allowFreePlayWithAds) {
                 return true;
