@@ -6,13 +6,13 @@
         <li>
             <a href="#"  onclick="uploadSelected(); return false;">
                 <i class="fas fa-cloud-upload-alt"></i>
-                <?php echo __('Upload'); ?>
+                <?php echo __('Upload selected'); ?>
             </a>  
         </li>
         <li>
             <a href="#"  onclick="downloadSelected(); return false;">
                 <i class="fas fa-cloud-download-alt"></i>
-                <?php echo __('Download'); ?>
+                <?php echo __('Download selected'); ?>
             </a>  
         </li>
     </ul>

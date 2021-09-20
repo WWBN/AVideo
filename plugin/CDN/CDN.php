@@ -236,5 +236,12 @@ class CDN extends PluginAbstract {
         }
         return false;
     }
+    
+    public function getFooterCode() {
+        global $global;
+        if(self::userCanMoveVideoStorage()){
+            include $global['systemRootPath'] . 'plugin/CDN/Storage/footer.php';
+        }
+    }
 
 }

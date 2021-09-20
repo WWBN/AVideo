@@ -5,10 +5,11 @@
     <div class="panel-body">
         <i class="fas fa-sync fa-spin"></i>
         <?php
-        echo humanTimingAgo($isMoving['modified']);
+        echo __('Created') . ': ' . humanTimingAgo($isMoving['created']).' ';
+        echo __('Modified') . ': ' . humanTimingAgo($isMoving['modified']);
         ?>
     </div>
-    
+
     <div class="panel-footer">
         <?php
         $file = CDNStorage::getLogFile($videos_id);

@@ -266,6 +266,7 @@ class CDNStorage {
                 $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} ";
                 self::addToLog($videos_id, $msg);
                 $filesCopied++;
+                self::sendSocketNotification($videos_id, __('Video upload complete'));
             } catch (Exception $exc) {
                 $fails++;
                 _error_log($exc->getTraceAsString());
@@ -274,9 +275,10 @@ class CDNStorage {
                 self::addToLog($videos_id, "ERROR 2 " . json_encode(error_get_last()));
             }
         }
-        if (!empty($fails)) {
+        if (empty($fails)) {
             self::deleteRemoteDirectory($videos_id, $client);
             self::setProgress($videos_id, true, true);
+        } else {
             _error_log("ERROR moveRemoteToLocal had {$fails} fails videos_id=($videos_id) filesCopied={$filesCopied} in {$end} Seconds");
         }
         $end = microtime(true) - $start;
@@ -368,6 +370,7 @@ class CDNStorage {
                     self::addToLog($videos_id, $msg);
                     $filesCopied++;
                     self::createDummy($value['local_path']);
+                    self::sendSocketNotification($videos_id, __('Video upload complete'));
                 } else {
                     self::addToLog($videos_id, "ERROR Filesizes are not the same $remote_filesize == {$value['local_filesize']} " . json_encode($value));
                 }
@@ -386,6 +389,16 @@ class CDNStorage {
         return $filesCopied;
     }
 
+    static function sendSocketNotification($videos_id, $msg) {
+        $v = Video::getVideoLight($videos_id);
+        $users_id = $v['users_id'];
+        if (!empty($users_id)) {
+            $poster = Video::getPoster($videos_id);
+            $img = "<img src='{$poster}' class='img img-responsive'>";
+            sendSocketMessageToUsers_id($msg . '<br>' . $img, $users_id, 'socketCDNStorageMoved');
+        }
+    }
+
     private static function setProgress($videos_id, $isOnTheStorage, $finished) {
         self::setSite($videos_id, $isOnTheStorage);
         if ($finished) {
@@ -399,7 +412,15 @@ class CDNStorage {
         if (empty($file) || !file_exists($file)) {
             return false;
         }
-        return array('modified' => filemtime($file), 'created' => filectime($file));
+
+        $modified = filemtime($file);
+        if (time() - $modified > 300) {
+            // if is laonger than 5 min say it is not moving
+            _error_log('CDNStorage isMoving is taking too long to finish, check your connection speed or FTP errors', AVideoLog::$WARNING);
+            return false;
+        }
+
+        return array('modified' => $modified, 'created' => filectime($file));
     }
 
     static function createDummy($file_path) {
