@@ -6,6 +6,7 @@
         <i class="fas fa-sync fa-spin"></i>
         <?php
         echo humanTimingAgo($isMoving['modified']);
+        echo CDNStorage::getLogFile($videos_id);
         ?>
     </div>
 </div>
