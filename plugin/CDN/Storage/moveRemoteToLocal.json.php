@@ -28,7 +28,7 @@ if (!is_array($_REQUEST['videos_id'])) {
     $_REQUEST['videos_id'] = array($_REQUEST['videos_id']);
 }
 
-_error_log('Start to move remote to local ' . $videos_id);
+_error_log('Start to move remote to local ');
 foreach ($_REQUEST['videos_id'] as $videos_id) {
     if (!isCommandLineInterface()) {
         if (!Video::canEdit($videos_id)) {
@@ -42,6 +42,6 @@ foreach ($_REQUEST['videos_id'] as $videos_id) {
     $obj->response = CDNStorage::moveRemoteToLocal($videos_id);
 
 }
-_error_log('Finish to move remote to local ' . $videos_id);
+_error_log('Finish to move remote to local ');
 
 echo json_encode($obj);

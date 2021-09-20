@@ -20,14 +20,15 @@ if (empty($_REQUEST['videos_id'])) {
 }
 
 if (empty($_REQUEST['videos_id'])) {
-    $obj->msg = "Video ID is empty";
+    $obj->msg = "Video ID is empty ";
+    _error_log("{$obj->msg} ".json_encode($_REQUEST));
     die(json_encode($obj));
 }
 if (!is_array($_REQUEST['videos_id'])) {
     $_REQUEST['videos_id'] = array($_REQUEST['videos_id']);
 }
 
-_error_log('Start to move file ' . $videos_id);
+_error_log('Start to move file ');
 foreach ($_REQUEST['videos_id'] as $videos_id) {
     if (!isCommandLineInterface()) {
         if (!Video::canEdit($videos_id)) {
@@ -41,5 +42,5 @@ foreach ($_REQUEST['videos_id'] as $videos_id) {
     $obj->response = CDNStorage::moveLocalToRemote($videos_id);
 
 }
-_error_log('Finish to move file ' . $videos_id);
+_error_log('Finish to move file ');
 echo json_encode($obj);
