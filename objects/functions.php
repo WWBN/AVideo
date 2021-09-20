@@ -1901,6 +1901,11 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
                     }
                 }
             }
+            if(file_exists($destinationFile)){
+                _error_log("decideMoveUploadedToVideos: SUCCESS Local {$destinationFile}");
+            }else{
+                _error_log("decideMoveUploadedToVideos: ERROR Local {$destinationFile}");
+            }
             chmod($destinationFile, 0644);
         }
     }
