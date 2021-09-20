@@ -32,6 +32,9 @@ if(!isCommandLineInterface()){
 }
 
 $obj->error = false;
+_error_log('Start to move file '.$_REQUEST['videos_id']);
 $obj->response = CDNStorage::moveLocalToRemote($_REQUEST['videos_id']);  
+
+_error_log('Finish to move file '.$_REQUEST['videos_id']);
 
 echo json_encode($obj);
