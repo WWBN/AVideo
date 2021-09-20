@@ -28,7 +28,7 @@ $video = Video::getVideoLight($videos_id);
         <div class="container-fluid">
             <?php
             $isMoving = CDNStorage::isMoving($videos_id);
-            if(false && !empty($isMoving)){
+            if(!empty($isMoving)){
                 include './panelIsMoving.php';
             }else{
                 include './panelMove.php';
