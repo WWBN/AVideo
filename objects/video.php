@@ -2788,7 +2788,6 @@ if (!class_exists('Video')) {
             //if(!isValidFormats($type)){
             //return array();
             //}
-
             self::_moveSourceFilesToDir($filename);
             $paths = self::getPaths($filename);
             if ($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)) {
@@ -2941,7 +2940,6 @@ if (!class_exists('Video')) {
                 $source['url'] = addQueryStringParameter($source['url'], 'cache', $x);
                 $source['url_noCDN'] = addQueryStringParameter($source['url_noCDN'], 'cache', $x);
             }
-
             //ObjectYPT::setCache($name, $source);
             $VideoGetSourceFile[$cacheName] = $source;
             return $VideoGetSourceFile[$cacheName];
@@ -2981,13 +2979,13 @@ if (!class_exists('Video')) {
             }
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
             $videosDir = self::getStoragePath();
-            if (is_dir("{$videosDir}{$videoFilename}")) {
-                $path = addLastSlash("{$videosDir}{$videoFilename}");
-                //} else if (preg_match('/index\.m3u8$/', $videoFilename)) {
-                //    $path = addLastSlash($videosDir);                
+            
+            if (is_dir("{$videosDir}{$cleanVideoFilename}")) {
+                $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");           
             } else {
-                $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
+                $path = addLastSlash("{$videosDir}{$videoFilename}");
             }
+            
             $path = fixPath($path);
             if ($createDir) {
                 make_path(addLastSlash($path));
@@ -3160,7 +3158,7 @@ if (!class_exists('Video')) {
             $cleanName = str_replace($search, '', $filename);
             
             if($cleanName == $filename){
-                $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+\./', '$1.', $filename);
+                $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', '$1', $filename);
             }
             
             $path_parts = pathinfo($cleanName);
