@@ -6959,7 +6959,11 @@ function videosHashToID($hash_of_videos_id) {
         return $hash_of_videos_id;
     }
     if (!is_string($hash_of_videos_id) && !is_numeric($hash_of_videos_id)) {
-        return 0;
+        if(is_array($hash_of_videos_id)){
+            return $hash_of_videos_id;
+        }else{
+            return 0;
+        }
     }
     if (preg_match('/^\.([0-9a-z._-]+)/i', $hash_of_videos_id, $matches)) {
         $hash_of_videos_id = hashToID($matches[1]);
