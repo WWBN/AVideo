@@ -271,7 +271,8 @@ class Live extends PluginAbstract {
             'poster' => $imgJPG,
             'imgGif' => $imgGIF,
             'categories_id' => intval($lt['categories_id']),
-            'className' => $uid
+            'className' => $uid,
+            'comingsoon' => $comingsoon
         );
 
         return $array;
@@ -373,6 +374,9 @@ class Live extends PluginAbstract {
         
         $obj->disable_live_schedule = false;
         self::addDataObjectHelper('disable_live_schedule', 'Disable Live Schedule');
+        
+        $obj->live_schedule_label = 'Upcoming Events';
+        self::addDataObjectHelper('live_schedule_label', 'Label for Schedule');
         
         $obj->webRTC_isDisabled = false;
         self::addDataObjectHelper('webRTC_isDisabled', 'Disable WebRTC camera', 'https://github.com/WWBN/AVideo/wiki/WebRTC-Server');

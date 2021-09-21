@@ -98,11 +98,6 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
 </div>
 
 <script>
-    /* Use this funtion to display live videos dynamic on pages*/
-    function afterExtraVideos($liveLi) {
-        return $liveLi
-    }
-
     function refreshGetLiveImage(selector) {
         $(selector).find('.thumbsImage img').each(function (index) {
             $(this).attr('src', $(this).attr('src') + ('&' + Math.random()));
@@ -235,7 +230,11 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             }
             if (!$('#' + notificatioID).length) {
                 notificationHTML.attr('id', notificatioID);
-                $('#availableLiveStream').prepend(notificationHTML);
+                if(application.comingsoon){
+                    $('#availableLiveStream').append(notificationHTML);
+                }else{
+                    $('#availableLiveStream').prepend(notificationHTML);
+                }
             } else {
                 //console.log('processApplication is already present '+notificatioID, application.className);
             }
@@ -261,8 +260,13 @@ if (isVideo()) {
                 //console.log('processApplication key found', id);
                 return false;
             }
-            $('.extraVideos').prepend(html);
-            $('#liveVideos').slideDown();
+            if(application.comingsoon){
+                $('#liveScheduleVideos .extraVideos').prepend(html);
+                $('#liveScheduleVideos').slideDown();
+            }else{
+                $('#liveVideos .extraVideos').prepend(html);
+                $('#liveVideos').slideDown();
+            }
             setTimeout(function () {
                 lazyImage();
             }, 1000);
@@ -341,7 +345,19 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     }
 
     function hideExtraVideosIfEmpty() {
-        $('.extraVideos').each(function (index, currentElement) {
+        $('#liveScheduleVideos .extraVideos').each(function (index, currentElement) {
+            var somethingIsVisible = false;
+            $(this).children('div').each(function (index2, currentElement2) {
+                if ($(this).is(":visible")) {
+                    somethingIsVisible = true;
+                    return false;
+                }
+            });
+            if (!somethingIsVisible) {
+                $('#liveScheduleVideos').slideUp();
+            }
+        });
+        $('#liveVideos .extraVideos').each(function (index, currentElement) {
             var somethingIsVisible = false;
             $(this).children('div').each(function (index2, currentElement2) {
                 if ($(this).is(":visible")) {

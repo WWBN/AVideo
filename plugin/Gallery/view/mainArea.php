@@ -21,26 +21,20 @@
         }
         echo '<center style="margin:5px;">' . getAdsLeaderBoardTop2() . '</center>';
         if (empty($_GET['catName'])) {
+            $objLive = AVideoPlugin::getDataObject('Live');
             ?>
             <!-- For Live Videos -->
             <div id="liveVideos" class="clear clearfix" style="display: none;">
                 <h3 class="galleryTitle text-danger"> <i class="fas fa-play-circle"></i> <?php echo __("Live"); ?></h3>
                 <div class="extraVideos"></div>
             </div>
-            <script>
-                function afterExtraVideos($liveLi) {
-                    $liveLi.removeClass('col-lg-12 col-sm-12 col-xs-12 bottom-border');
-                    $liveLi.find('.thumbsImage').removeClass('col-lg-5 col-sm-5 col-xs-5');
-                    $liveLi.find('.videosDetails').removeClass('col-lg-7 col-sm-7 col-xs-7');
-                    $liveLi.addClass('col-lg-2 col-md-4 col-sm-4 col-xs-6 fixPadding');
-                    $('#liveVideos').slideDown();
-                    return $liveLi;
-                }
-            </script>
+            <!-- For Live Schedule Videos -->
+            <div id="liveScheduleVideos" class="clear clearfix" style="display: none;">
+                <h3 class="galleryTitle"> <i class="far fa-calendar-alt"></i> <?php echo __($objLive->live_schedule_label); ?></h3>
+                <div class="extraVideos"></div>
+            </div>
             <!-- For Live Videos End -->
             <?php
-        } else {
-            echo '<script>function afterExtraVideos($liveLi) {return false;}</script>';
         }
         echo AVideoPlugin::getGallerySection();
 
