@@ -188,7 +188,7 @@ unset($_POST['current']);
                         }
                     }
                     ?>
-                    <a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>viewProgram/<?php echo $playlist['id']; ?>/<?php echo urlencode($playlist['name']); ?>/">
+                    <a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>viewProgram/<?php echo $playlist['id']; ?>/<?php echo urlencode(cleanURLName($playlist['name'])); ?>/">
                         <?php echo __('More'); ?> <i class="fas fa-ellipsis-h"></i> 
                     </a>
                 </div>
@@ -285,7 +285,7 @@ unset($_POST['current']);
                             $count++;
                             continue;
                         }
-                        $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/" . urlencode($playlist['name']) . "/{$value['clean_title']}";
+                        $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/" . urlencode(cleanURLName($playlist['name'])) . "/".cleanURLName($value['clean_title']);
                         $count++;
                         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                         $name = User::getNameIdentificationById($value['users_id']);
