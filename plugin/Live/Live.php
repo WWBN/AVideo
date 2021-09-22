@@ -530,6 +530,17 @@ class Live extends PluginAbstract {
         }
         return trim($obj->server);
     }
+    
+    static function getControlOrPublic($key, $live_servers_id = 0){
+        $obj = AVideoPlugin::getObjectData("Live");              
+        if(empty($obj->server_type->value)){ 
+            $row = LiveTransmitionHistory::getLatest($key, $live_servers_id);
+            if(!empty($row['domain'])){
+                return "{$row['domain']}control.json.php";
+            }            
+        }
+        $domain = self::getControl($live_servers_id);
+    }
 
     static function getDropURL($key, $live_servers_id = 0) {
         $obj = AVideoPlugin::getObjectData("Live");
@@ -542,7 +553,7 @@ class Live extends PluginAbstract {
             $parts = explode("/", $server);
             $app = array_pop($parts);
         }
-        $domain = self::getControl($live_servers_id);
+        $domain = self::getControlOrPublic($key, $live_servers_id);
         //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
         return "{$domain}?command=drop_publisher&app={$app}&name={$key}&token=" . getToken(60);
     }
@@ -553,7 +564,7 @@ class Live extends PluginAbstract {
         $server = rtrim($server, "/");
         $parts = explode("/", $server);
         $app = array_pop($parts);
-        $domain = self::getControl($live_servers_id);
+        $domain = self::getControlOrPublic($key, $live_servers_id);
         //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
         return "{$domain}?command=is_recording&app={$app}&name={$key}&token=" . getToken(60);
     }
@@ -564,7 +575,7 @@ class Live extends PluginAbstract {
         $server = rtrim($server, "/");
         $parts = explode("/", $server);
         $app = array_pop($parts);
-        $domain = self::getControl($live_servers_id);
+        $domain = self::getControlOrPublic($key, $live_servers_id);
         //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
         return "{$domain}?command=record_start&app={$app}&name={$key}&token=" . getToken(60);
     }
@@ -575,7 +586,7 @@ class Live extends PluginAbstract {
         $server = rtrim($server, "/");
         $parts = explode("/", $server);
         $app = array_pop($parts);
-        $domain = self::getControl($live_servers_id);
+        $domain = self::getControlOrPublic($key, $live_servers_id);
 
         return "{$domain}?command=record_stop&app={$app}&name={$key}&token=" . getToken(60);
     }
@@ -723,6 +734,7 @@ class Live extends PluginAbstract {
         if ($iconsOnly) {
             $label = "";
         }
+        
         $html = "<button class='{$buttonClass} {$class}' id='{$id}'  data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{$tooltip}\"><i class='{$iconClass}'></i> <span class='hidden-sm hidden-xs'>{$label}</span> {$afterLabel}";
         $html .= "<script>$(document).ready(function () {
             $('#{$id}').click(function(){
