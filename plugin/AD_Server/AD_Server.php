@@ -86,6 +86,8 @@ class AD_Server extends PluginAbstract {
         $o->type = array(0 => 'Do not auto add new videos on campaign');
         $rows = VastCampaigns::getAllActive();
         if(!is_array($rows)){
+            $o->value = 0;
+            $obj->autoAddNewVideosInCampaignId = $o;
             return $obj;
         }
         foreach ($rows as $row) {
