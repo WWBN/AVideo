@@ -24,7 +24,11 @@ if (!empty($chat) && empty(Chat2::getEmbedURL(User::getId()))) {
 $users_id = User::getId();
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
 $live_servers_id = Live::getCurrentLiveServersId();
-$forceIndex = "Live" . date('YmdHis');
+$forceIndex = '';
+if (!empty($lObj->server_type->value)) {
+    $forceIndex = "Live" . date('YmdHis');
+}
+
 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, $forceIndex, 0);
 $streamName = $liveStreamObject->getKeyWithIndex($forceIndex, true);
 $controls = Live::getAllControlls($streamName);
@@ -78,7 +82,7 @@ $controls = Live::getAllControlls($streamName);
             #controls .col{
                 padding: 0 5px;
             }
-            
+
         </style>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
@@ -153,7 +157,7 @@ $controls = Live::getAllControlls($streamName);
                     var updateControlStatusLastState;
 
                     $(document).ready(function () {
-                        
+
                     });
 
                     function webRTCModalConfigShow() {
