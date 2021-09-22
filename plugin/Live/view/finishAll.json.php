@@ -1,5 +1,5 @@
 <?php
-require_once '../../videos/configuration.php';
+require_once '../../../videos/configuration.php';
 
 header('Content-Type: application/json');
 
