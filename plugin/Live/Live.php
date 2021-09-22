@@ -532,11 +532,13 @@ class Live extends PluginAbstract {
     }
     
     static function getControlOrPublic($key, $live_servers_id = 0){
+        global $global;
         $obj = AVideoPlugin::getObjectData("Live");              
         if(empty($obj->server_type->value)){ 
             $row = LiveTransmitionHistory::getLatest($key, $live_servers_id);
             if(!empty($row['domain'])){
-                return "{$row['domain']}control.json.php";
+                $url = "{$row['domain']}control.json.php";
+                return addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
             }            
         }
         $domain = self::getControl($live_servers_id);
@@ -554,8 +556,11 @@ class Live extends PluginAbstract {
             $app = array_pop($parts);
         }
         $domain = self::getControlOrPublic($key, $live_servers_id);
-        //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
-        return "{$domain}?command=drop_publisher&app={$app}&name={$key}&token=" . getToken(60);
+        $domain = addQueryStringParameter($domain, 'command', 'drop_publisher');
+        $domain = addQueryStringParameter($domain, 'app', $app);
+        $domain = addQueryStringParameter($domain, 'name', $key);
+        $domain = addQueryStringParameter($domain, 'token', getToken(60));
+        return $domain;
     }
 
     static function getIsRecording($key, $live_servers_id = 0) {
@@ -565,8 +570,11 @@ class Live extends PluginAbstract {
         $parts = explode("/", $server);
         $app = array_pop($parts);
         $domain = self::getControlOrPublic($key, $live_servers_id);
-        //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
-        return "{$domain}?command=is_recording&app={$app}&name={$key}&token=" . getToken(60);
+        $domain = addQueryStringParameter($domain, 'command', 'is_recording');
+        $domain = addQueryStringParameter($domain, 'app', $app);
+        $domain = addQueryStringParameter($domain, 'name', $key);
+        $domain = addQueryStringParameter($domain, 'token', getToken(60));
+        return $domain;
     }
 
     static function getStartRecordURL($key, $live_servers_id = 0) {
@@ -576,8 +584,11 @@ class Live extends PluginAbstract {
         $parts = explode("/", $server);
         $app = array_pop($parts);
         $domain = self::getControlOrPublic($key, $live_servers_id);
-        //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
-        return "{$domain}?command=record_start&app={$app}&name={$key}&token=" . getToken(60);
+        $domain = addQueryStringParameter($domain, 'command', 'record_start');
+        $domain = addQueryStringParameter($domain, 'app', $app);
+        $domain = addQueryStringParameter($domain, 'name', $key);
+        $domain = addQueryStringParameter($domain, 'token', getToken(60));
+        return $domain;
     }
 
     static function getStopRecordURL($key, $live_servers_id = 0) {
@@ -587,8 +598,11 @@ class Live extends PluginAbstract {
         $parts = explode("/", $server);
         $app = array_pop($parts);
         $domain = self::getControlOrPublic($key, $live_servers_id);
-
-        return "{$domain}?command=record_stop&app={$app}&name={$key}&token=" . getToken(60);
+        $domain = addQueryStringParameter($domain, 'command', 'record_stop');
+        $domain = addQueryStringParameter($domain, 'app', $app);
+        $domain = addQueryStringParameter($domain, 'name', $key);
+        $domain = addQueryStringParameter($domain, 'token', getToken(60));
+        return $domain;
     }
 
     static function controlRecording($key, $live_servers_id, $start = true, $try = 0) {
