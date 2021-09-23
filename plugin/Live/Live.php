@@ -490,10 +490,7 @@ class Live extends PluginAbstract {
     }
 
     static function getDestinationApplicationName() {
-        $server = self::getPlayerServer();
-        $server = rtrim($server, "/");
-        $parts = explode("/", $server);
-        $app = array_pop($parts);
+        $app = self::getAPPName();
         $domain = self::getControl();
 //return "{$domain}/control/drop/publisher?app={$app}&name={$key}";
         return "{$app}?p=" . User::getUserPass();
@@ -543,18 +540,24 @@ class Live extends PluginAbstract {
         }
         $domain = self::getControl($live_servers_id);
     }
-
-    static function getDropURL($key, $live_servers_id = 0) {
+    
+    static function getAPPName(){
         $obj = AVideoPlugin::getObjectData("Live");
-        
         if(empty($obj->server_type->value)){
-            $app = 'live';
+            return 'live';
         }else{
-            $server = $obj->server;
+            $server = self::getPlayerServer();
             $server = rtrim($server, "/");
             $parts = explode("/", $server);
             $app = array_pop($parts);
         }
+        return $app;
+    }
+
+    static function getDropURL($key, $live_servers_id = 0) {
+        $obj = AVideoPlugin::getObjectData("Live");
+        
+        $app = self::getAPPName();
         $domain = self::getControlOrPublic($key, $live_servers_id);
         $domain = addQueryStringParameter($domain, 'command', 'drop_publisher');
         $domain = addQueryStringParameter($domain, 'app', $app);
@@ -564,11 +567,7 @@ class Live extends PluginAbstract {
     }
 
     static function getIsRecording($key, $live_servers_id = 0) {
-        $obj = AVideoPlugin::getObjectData("Live");
-        $server = $obj->server;
-        $server = rtrim($server, "/");
-        $parts = explode("/", $server);
-        $app = array_pop($parts);
+        $app = self::getAPPName();
         $domain = self::getControlOrPublic($key, $live_servers_id);
         $domain = addQueryStringParameter($domain, 'command', 'is_recording');
         $domain = addQueryStringParameter($domain, 'app', $app);
@@ -578,11 +577,7 @@ class Live extends PluginAbstract {
     }
 
     static function getStartRecordURL($key, $live_servers_id = 0) {
-        $obj = AVideoPlugin::getObjectData("Live");
-        $server = $obj->server;
-        $server = rtrim($server, "/");
-        $parts = explode("/", $server);
-        $app = array_pop($parts);
+        $app = self::getAPPName();
         $domain = self::getControlOrPublic($key, $live_servers_id);
         $domain = addQueryStringParameter($domain, 'command', 'record_start');
         $domain = addQueryStringParameter($domain, 'app', $app);
@@ -592,11 +587,7 @@ class Live extends PluginAbstract {
     }
 
     static function getStopRecordURL($key, $live_servers_id = 0) {
-        $obj = AVideoPlugin::getObjectData("Live");
-        $server = $obj->server;
-        $server = rtrim($server, "/");
-        $parts = explode("/", $server);
-        $app = array_pop($parts);
+        $app = self::getAPPName();
         $domain = self::getControlOrPublic($key, $live_servers_id);
         $domain = addQueryStringParameter($domain, 'command', 'record_stop');
         $domain = addQueryStringParameter($domain, 'app', $app);
