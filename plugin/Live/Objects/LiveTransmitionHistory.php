@@ -145,8 +145,8 @@ class LiveTransmitionHistory extends ObjectYPT {
         $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($key, $live_servers_id) : '');
         $uid = "{$type}_{$liveTransmitionHistory_id}";
 
-
-        return Live::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive, $uid);
+        //getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive='', $uid ='', $callback='', $startsOnDate='', $class='')
+        return Live::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive, $uid, '', '', $key);
     }
 
     static function getStatsAndAddApplication($liveTransmitionHistory_id) {
