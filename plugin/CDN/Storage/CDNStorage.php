@@ -176,7 +176,7 @@ class CDNStorage {
         $relative = str_replace('\\', '/', $relative);
         $local_filesize = filesize($local_path);
         $remote_path = self::filenameToRemotePath($relative);
-
+        $pz = self::getPZ();
         $file = array(
             'extension' => $path_parts['extension'],
             'videos_id' => $videos_id,
@@ -185,8 +185,7 @@ class CDNStorage {
             'local_url' => "{$global['webSiteRootURL']}videos/{$relative}",
             'remote_utl' => "https://{$pz}{$relative}",
             'relative' => $relative,
-            'local_filesize' => $local_filesize,
-            'video' => $video);
+            'local_filesize' => $local_filesize);
         return $file;
     }
 
