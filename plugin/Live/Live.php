@@ -2021,9 +2021,9 @@ class Live extends PluginAbstract {
         return $url;
     }
 
-    public static function getPosterImage($users_id, $live_servers_id) {
+    public static function getPosterImage($users_id, $live_servers_id, $live_schedule_id=0) {
         global $global;
-        $file = self::_getPosterImage($users_id, $live_servers_id);
+        $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id);
 
         if (!file_exists($global['systemRootPath'] . $file)) {
             $file = self::getOnAirImage(false);
@@ -2154,7 +2154,11 @@ class Live extends PluginAbstract {
         return $img;
     }
 
-    public static function _getPosterImage($users_id, $live_servers_id) {
+    public static function _getPosterImage($users_id, $live_servers_id, $live_schedule_id=0) {
+        if(!empty($live_schedule_id)){
+            $paths = Live_schedule::getPosterPaths($live_schedule_id);
+            return $paths['relative_path'];
+        }
         $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}.jpg";
         return $file;
     }

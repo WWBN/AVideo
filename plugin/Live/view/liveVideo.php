@@ -1,6 +1,6 @@
 <?php
 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
-$poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id']);
+$poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'], @$_REQUEST['live_schedule']);
 $posterURL = $global['webSiteRootURL'] . $poster . '?' . filectime($global['systemRootPath'] . $poster);
 ?>
 <link href="<?php echo getURL('plugin/Live/view/live.css'); ?>" rel="stylesheet" type="text/css"/>
