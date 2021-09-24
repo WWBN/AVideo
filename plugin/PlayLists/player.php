@@ -25,8 +25,10 @@ $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 $playListData = array();
 $videoStartSeconds = array();
 $users_id = User::getId();
+$messagesFromPlayList = array();
 foreach ($playList as $key => $value) {
     if(!User::isAdmin() && !Video::userGroupAndVideoGroupMatch($users_id, $value['videos_id'])){
+        $messagesFromPlayList[] = "videos_id={$value['videos_id']} UserGroups do not match";
         unset($playList[$key]);
         continue;
     }
@@ -51,6 +53,7 @@ foreach ($playList as $key => $value) {
         $playListSources[] = new playListSource($value2['url'], $value['type'] === 'embed');
     }
     if (empty($playListSources)) {
+        $messagesFromPlayList[] = "videos_id={$value['videos_id']} empty playlist source ";
         continue;
     }
     $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), $value['cre'], $value['likes'], $value['views_count'], $value['videos_id']);
@@ -66,6 +69,10 @@ if (!empty($video['id'])) {
 } else if (!empty($playListData[$playlist_index])) {
     setVideos_id($playListData[$playlist_index]->getVideos_id());
     $video = Video::getVideo($playListData[$playlist_index]->getVideos_id());
+}
+
+if(empty($playListData)){
+    videoNotFound(implode('<br>', $messagesFromPlayList));
 }
 
 ?>
@@ -275,16 +282,17 @@ if (!empty($video['id'])) {
                                                 $("#modeYoutubeBottomContent").load("<?php echo $global['webSiteRootURL']; ?>view/modeYoutubeBottom.php?videos_id=" + playerPlaylist[0].videos_id);
                                                 $(".vjs-playlist-item ").click(function () {
 
-
                                                 });
 
                                                 player.on('playlistitem', function () {
                                                     index = player.playlist.currentIndex();
                                                     videos_id = playerPlaylist[index].videos_id;
                                                     $("#modeYoutubeBottomContent").load("<?php echo $global['webSiteRootURL']; ?>view/modeYoutubeBottom.php?videos_id=" + playerPlaylist[index].videos_id);
-                                                    setTimeout(function () {
-                                                        player.currentTime(playerPlaylist[index].videoStartSeconds);
-                                                    }, 500);
+                                                    if(playerPlaylist[index] && playerPlaylist[index].videoStartSeconds){
+                                                        setTimeout(function () {
+                                                            player.currentTime(playerPlaylist[index].videoStartSeconds);
+                                                        }, 500);
+                                                    }
                                                     if (typeof enableDownloadProtection === 'function') {
                                                         enableDownloadProtection();
                                                     }
@@ -305,7 +313,7 @@ if (!empty($video['id'])) {
                                                         }
                                                     });
 
-// Register the new component
+                                                    // Register the new component
                                                     videojs.registerComponent('nextButton', nextButton);
                                                     player.getChild('controlBar').addChild('nextButton', {}, getPlayerButtonIndex('PlayToggle') + 1);
                                                 }, 30);
