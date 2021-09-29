@@ -256,7 +256,15 @@ class Live_schedule extends ObjectYPT {
         if (empty($this->public)) {
             $this->public = 'NULL';
         }
-
+        
+        if (empty($this->saveTransmition)) {
+            $this->saveTransmition = 'NULL';
+        }
+        
+        if (empty($this->showOnTV)) {
+            $this->showOnTV = 'NULL';
+        }
+        
         if (empty($this->key)) {
             $this->key = uniqid();
         }
