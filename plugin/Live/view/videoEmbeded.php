@@ -26,6 +26,12 @@ $user_id = $u->getBdId();
 $video['users_id'] = $user_id;
 AVideoPlugin::getModeYouTubeLive($user_id);
 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
+
+if (!empty($_REQUEST['live_schedule'])) {
+    $ls = new Live_schedule($_REQUEST['live_schedule']);
+    $liveTitle = $ls->getTitle();
+    setLiveKey($ls->getKey(), $ls->getLive_servers_id());
+}
 $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'], @$_REQUEST['live_schedule']);
 ?>
 <!DOCTYPE html>
@@ -35,7 +41,7 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'],
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="<?php echo getCDN(); ?>view/img/favicon.ico">
-        <title><?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php echo $liveTitle; ?></title>
         <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
