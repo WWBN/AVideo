@@ -252,6 +252,10 @@ class Live_schedule extends ObjectYPT {
         if (empty($this->live_servers_id)) {
             $this->live_servers_id = 'NULL';
         }
+        
+        if (empty($this->public)) {
+            $this->public = 'NULL';
+        }
 
         if (empty($this->key)) {
             $this->key = uniqid();
