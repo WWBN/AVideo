@@ -295,6 +295,7 @@ class Live_schedule extends ObjectYPT {
         if (!empty($id)) {
             $array['stats'] = getStatsNotifications(true);
             Live::notifySocketStats("socketLiveOFFCallback", $array);
+            clearCache(true);
         }      
         return $id;
     }
