@@ -338,18 +338,7 @@ class LiveTransmition extends ObjectYPT {
 
     static function getFromKey($key) {
         global $global;
-        $key = Live::cleanUpKey($key);
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "s", array($key), true);
-        //var_dump($sql, $key);
-        $data = sqlDAL::fetchAssoc($res);
-        sqlDAL::close($res);
-        if ($res != false) {
-            $user = $data;
-        } else {
-            $user = false;
-        }
-        return $user;
+        return Live::keyExists($key);
     }
     
     static function keyNameFix($key){
