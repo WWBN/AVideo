@@ -102,6 +102,7 @@ class VideoLogoOverlay extends PluginAbstract {
         $class = VideoLogoOverlay::getClass();
         $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
         $logoOverlay = "{$global['webSiteRootURL']}videos/logoOverlay.png";
+        $html = '';
         //$cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
         if ($obj->useUserChannelImageAsLogo) {
             $users_id = 0;
@@ -123,6 +124,7 @@ class VideoLogoOverlay extends PluginAbstract {
                 $class .= ' VideoLogoOverlay-User';
                 //$cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
             }
+            $html .= "<!-- users_id = {$users_id} -->";
         }
         $cols = "";
         
@@ -130,8 +132,7 @@ class VideoLogoOverlay extends PluginAbstract {
             $class .= ' VideoLogoOverlay-URL';
         }
         //$logoOverlay = "{$global['webSiteRootURL']}videos/logoOverlay.png";
-
-        $html = '<div style="' . $style . '" class="' . $class . '"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive ' . $cols . '" ></a></div>';
+        $html .= '<div style="' . $style . '" class="' . $class . '"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive ' . $cols . '" ></a></div>';
         $js = "$('{$html}').appendTo('#mainVideo');";
         PlayerSkins::addOnPlayerReady($js);
     }
