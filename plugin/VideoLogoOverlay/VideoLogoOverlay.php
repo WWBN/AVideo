@@ -112,7 +112,7 @@ class VideoLogoOverlay extends PluginAbstract {
                 $liveLink = new LiveLinksTable($liveLink_id);
                 $users_id = $liveLink->getUsers_id();
             } else if ($live = isLive()) {
-                $js .= "/* VideoLogoOverlay live */";
+                $js .= "/* VideoLogoOverlay live ". json_encode($live)." */";
                 //$live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
                 $lt = LiveTransmition::getFromKey($live['key']);
                 $users_id = $lt['users_id'];
@@ -123,11 +123,12 @@ class VideoLogoOverlay extends PluginAbstract {
                 $users_id = $video['users_id'];
             }
             if (!empty($users_id)) {
-                $js .= "/* VideoLogoOverlay empty users_id */";
                 $logoOverlay = User::getPhoto($users_id);
                 $url = User::getChannelLink($users_id);
                 $class .= ' VideoLogoOverlay-User';
                 //$cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
+            }else{
+                $js .= "/* VideoLogoOverlay empty users_id */";
             }
             $js .= "/* VideoLogoOverlay users_id = {$users_id} */";
         }
