@@ -112,7 +112,7 @@ class VideoLogoOverlay extends PluginAbstract {
                 $liveLink = new LiveLinksTable($liveLink_id);
                 $users_id = $liveLink->getUsers_id();
             } else if ($live = isLive()) {
-                $js .= "/* VideoLogoOverlay live ". json_encode($live)." */";
+                $js .= "/* VideoLogoOverlay live */";
                 //$live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
                 $lt = LiveTransmition::getFromKey($live['key']);
                 $users_id = $lt['users_id'];
