@@ -338,7 +338,7 @@ class LiveTransmition extends ObjectYPT {
 
     static function getFromKey($key) {
         global $global;
-        return Live::keyExists($key);
+        return self::keyExists($key);
     }
     
     static function keyNameFix($key){
