@@ -52,7 +52,8 @@ if (!empty($_REQUEST['live_schedule'])) {
     $liveDescription = $ls->getDescription();
     $liveImg = Live_schedule::getPosterURL($_REQUEST['live_schedule']);
     $liveUrl = addQueryStringParameter($liveUrl, 'live_schedule', $_REQUEST['live_schedule']);
-    setLiveKey($ls->getKey(), $ls->getLive_servers_id());
+    global $getLiveKey;
+    $getLiveKey = array('key' => $ls->getKey(), 'live_servers_id' => intval($ls->getLive_servers_id()), 'live_index' => '', 'cleanKey' => '');
 }
 
 
