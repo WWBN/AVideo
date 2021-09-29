@@ -113,9 +113,14 @@ class VideoLogoOverlay extends PluginAbstract {
                 $users_id = $liveLink->getUsers_id();
             } else if ($live = isLive()) {
                 $js .= "/* VideoLogoOverlay live */";
-                //$live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
-                $lt = LiveTransmition::getFromKey($live['key']);
-                $users_id = $lt['users_id'];
+                if(!empty($_REQUEST['live_schedule'])){
+                    $ls = new Live_schedule($_REQUEST['live_schedule']);
+                    $users_id = $ls->getUsers_id();
+                }else{
+                    //$live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
+                    $lt = LiveTransmition::getFromKey($live['key']);
+                    $users_id = $lt['users_id'];
+                }
             } else {
                 $js .= "/* VideoLogoOverlay video */";
                 $videos_id = getVideos_id();
