@@ -1669,7 +1669,7 @@ var startTimerToDateTimeOut = [];
 function startTimerToDate(toDate, selector, useDBDate) {
     clearTimeout(startTimerToDateTimeOut[selector]);
     if (typeof _serverTime === 'undefined') {
-        console.log('startTimerToDate _serverTime is undefined');
+        //console.log('startTimerToDate _serverTime is undefined');
         getServerTime();
         startTimerToDateTimeOut[selector] = setTimeout(function () {
             startTimerToDate(toDate, selector, useDBDate)
@@ -1677,29 +1677,29 @@ function startTimerToDate(toDate, selector, useDBDate) {
         return false;
     }
     if (typeof toDate === 'string') {
-        console.log('startTimerToDate 1 '+toDate);
-        toDate = new Date(toDate);
+        //console.log('startTimerToDate 1 '+toDate);
+        toDate = new Date(toDate.replace(/-/g, "/"));
     }
     if (useDBDate) {
         if (typeof _serverDBTimeString !== 'undefined') {
-            date2 = new Date(_serverDBTimeString);
-            console.log('startTimerToDate 2 '+date2);
+            date2 = new Date(_serverDBTimeString.replace(/-/g, "/"));
+            //console.log('startTimerToDate 2 '+date2);
         }
     } else {
         if (typeof _serverTimeString !== 'undefined') {
-            date2 = new Date(_serverTimeString);
-            console.log('startTimerToDate 3 '+date2);
+            date2 = new Date(_serverTimeString.replace(/-/g, "/"));
+            //console.log('startTimerToDate 3 '+date2);
         }
     }
     if (typeof date2 === 'undefined') {
         date2 = new Date();
-        console.log('startTimerToDate 4 '+date2);
+        //console.log('startTimerToDate 4 '+date2);
     }
 
     var seconds = (toDate.getTime() - date2.getTime()) / 1000;
-    console.log('startTimerToDate toDate', toDate);
-    console.log('startTimerToDate selector', selector);
-    console.log('startTimerToDate seconds', seconds);
+    //console.log('startTimerToDate toDate', toDate);
+    //console.log('startTimerToDate selector', selector);
+    //console.log('startTimerToDate seconds', seconds);
     return startTimer(seconds, selector);
 }
 
