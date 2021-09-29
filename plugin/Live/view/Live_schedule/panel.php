@@ -133,7 +133,7 @@ global $Schedulecount;
                             data: $("#Schedule_form").serialize()
                         }).done(function (resposta) {
                             if (resposta.error) {
-                                avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                avideoAlertError(resposta.msg);
                             } else {
                                 avideoAlertSuccess(resposta.msg);
                                 listScheduledLives();
