@@ -101,7 +101,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                                 </div>
                             </div>
                             <?php
-                            if (AVideoPlugin::isEnabledByName('SendRecordedToEncoder', '5.0') && (SendRecordedToEncoder::canRecord(User::getId()) || SendRecordedToEncoder::canApprove(User::getId()))) {
+                            if (AVideoPlugin::isEnabledByName('SendRecordedToEncoder', '5.0') && (SendRecordedToEncoder::canAutoRecord(User::getId()) || SendRecordedToEncoder::canApprove(User::getId()))) {
                                 ?> 
                                 <div class="form-group">
                                     <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?> 
