@@ -135,7 +135,7 @@ global $Schedulecount;
                             if (resposta.error) {
                                 avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
                             } else {
-                                avideoAlert("<?php echo __("Congratulations!"); ?>", resposta.msg, "error");
+                                avideoAlertSuccess(resposta.msg);
                                 listScheduledLives();
                                 resetSchedule();
                             }
