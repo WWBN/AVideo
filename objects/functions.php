@@ -6844,10 +6844,10 @@ function listAllWordsToTranslate() {
 
 function secondsInterval($time1, $time2) {
 
-    if (!is_int($time1)) {
+    if (!is_numeric($time1)) {
         $time1 = strtotime($time1);
     }
-    if (!is_int($time2)) {
+    if (!is_numeric($time2)) {
         $time2 = strtotime($time2);
     }
 

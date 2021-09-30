@@ -58,6 +58,7 @@ if (!class_exists('Video')) {
         private $filesize;
         private $live_transmitions_history_id;
         private $total_seconds_watching;
+        private $duration_in_seconds;
         public static $statusDesc = array(
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -357,6 +358,10 @@ if (!class_exists('Video')) {
                 $this->live_transmitions_history_id = 'NULL';
             }
 
+            if (empty($this->duration_in_seconds)) {
+                $this->duration_in_seconds = durationToSeconds($this->duration);
+            }
+
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo() && !$allowOfflineUser && !Permissions::canModerateVideos()) {
                     header('Content-Type: application/json');
@@ -366,7 +371,7 @@ if (!class_exists('Video')) {
                         . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
                         . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, isSuggested = {$this->isSuggested}, users_id = {$this->users_id}, "
                         . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}', sites_id = {$this->sites_id}, serie_playlists_id = {$this->serie_playlists_id} ,live_transmitions_history_id = {$this->live_transmitions_history_id} , video_password = '{$this->video_password}', "
-                        . " encoderURL = '{$this->encoderURL}', filepath = '{$this->filepath}' , filesize = '{$this->filesize}' , modified = now()"
+                        . " encoderURL = '{$this->encoderURL}', filepath = '{$this->filepath}' , filesize = '{$this->filesize}' , duration_in_seconds = '{$this->duration_in_seconds}' , modified = now()"
                         . " WHERE id = {$this->id}";
 
                 $saved = sqlDAL::writeSql($sql);
@@ -375,8 +380,8 @@ if (!class_exists('Video')) {
                 }
             } else {
                 $sql = "INSERT INTO videos "
-                        . "(title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id,live_transmitions_history_id, video_password, encoderURL, filepath , filesize) values "
-                        . "('{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}')";
+                        . "(duration_in_seconds, title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id,live_transmitions_history_id, video_password, encoderURL, filepath , filesize) values "
+                        . "('{$this->duration_in_seconds}','{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}')";
 
                 $insert_row = sqlDAL::writeSql($sql);
             }
@@ -416,6 +421,25 @@ if (!class_exists('Video')) {
             }
             _error_log('Video::save Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
             return false;
+        }
+        
+        public static function updateDurationInSeconds($videos_id, $duration){
+            global $config;
+            $videos_id = intval($videos_id);
+            if ($config->currentVersionLowerThen('11.4')) {
+                return false;
+            }
+            if(empty($videos_id)){
+                return false;
+            }
+            $duration_in_seconds = durationToSeconds($duration);
+            if(empty($duration_in_seconds)){
+                return false;
+            }
+            $sql = "UPDATE videos SET duration_in_seconds = '{$duration_in_seconds}' , modified = now() WHERE id = {$videos_id}";
+            $saved = sqlDAL::writeSql($sql);
+            self::clearCache($videos_id);
+            return $duration_in_seconds;
         }
 
         // i would like to simplify the big part of the method above in this method, but won't work as i want.
@@ -626,8 +650,8 @@ if (!class_exists('Video')) {
                 return " AND " . $sql;
             }
         }
-        
-        static function allowFreePlayWithAdsIsEnabled(){
+
+        static function allowFreePlayWithAdsIsEnabled() {
             $obj = AVideoPlugin::getDataObjectIfEnabled('Subscription');
             if ($obj && $obj->allowFreePlayWithAds) {
                 return true;
@@ -853,12 +877,12 @@ if (!class_exists('Video')) {
                 $fileName = $parts[0];
             }
             $fileName = self::getCleanFilenameFromFile($fileName);
-            
-            if(!isset($_getVideoFromFileName)){
+
+            if (!isset($_getVideoFromFileName)) {
                 $_getVideoFromFileName = array();
             }
             $indexName = "{$fileName}_{$ignoreGroup}_{$ignoreTags}";
-            if(isset($_getVideoFromFileName[$indexName])){
+            if (isset($_getVideoFromFileName[$indexName])) {
                 return $_getVideoFromFileName[$indexName];
             }
             $_getVideoFromFileName[$indexName] = false;
@@ -1162,6 +1186,9 @@ if (!class_exists('Video')) {
                 require_once 'userGroups.php';
                 TimeLogStart("video::getAllVideos foreach");
                 foreach ($fullData as $row) {
+                    if(empty($row['duration_in_seconds'])){
+                        $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
+                    }
                     $row = self::getInfo($row, $getStatistcs);
                     $videos[] = $row;
                 }
@@ -1300,9 +1327,9 @@ if (!class_exists('Video')) {
             }
             return false;
         }
-        
+
         public static function updateFilesizeFromFilename($filename) {
-            $value = Video::getVideoFromFileNameLight($filename);    
+            $value = Video::getVideoFromFileNameLight($filename);
             return self::updateFilesize($value['id']);
         }
 
@@ -1325,7 +1352,7 @@ if (!class_exists('Video')) {
                 $obj = AVideoPlugin::getObjectDataIfEnabled("DiskUploadQuota");
                 if (!empty($obj->deleteVideosWith0Bytes)) {
                     try {
-                        _error_log("updateFilesize: DELETE videos_id=$videos_id filename=$filename filesize=$filesize ". humanFileSize($filesize));
+                        _error_log("updateFilesize: DELETE videos_id=$videos_id filename=$filename filesize=$filesize " . humanFileSize($filesize));
                         return $video->delete();
                     } catch (Exception $exc) {
                         _error_log("updateFilesize: ERROR " . $exc->getTraceAsString());
@@ -1334,17 +1361,17 @@ if (!class_exists('Video')) {
                 }
             }
             if ($video->getFilesize() == $filesize) {
-                _error_log("updateFilesize: No need to update videos_id=$videos_id filename=$filename filesize=$filesize ". humanFileSize($filesize));
+                _error_log("updateFilesize: No need to update videos_id=$videos_id filename=$filename filesize=$filesize " . humanFileSize($filesize));
                 return $filesize;
             }
             $video->setFilesize($filesize);
             TimeLogEnd("Video::updateFilesize {$videos_id}", __LINE__);
             if ($video->save(false, true)) {
-                _error_log("updateFilesize: videos_id=$videos_id filename=$filename filesize=$filesize ". humanFileSize($filesize));
+                _error_log("updateFilesize: videos_id=$videos_id filename=$filename filesize=$filesize " . humanFileSize($filesize));
                 Video::clearCache($videos_id);
                 return $filesize;
             } else {
-                _error_log("updateFilesize: ERROR videos_id=$videos_id filename=$filename filesize=$filesize ". humanFileSize($filesize));
+                _error_log("updateFilesize: ERROR videos_id=$videos_id filename=$filename filesize=$filesize " . humanFileSize($filesize));
                 return false;
             }
         }
@@ -1421,6 +1448,9 @@ if (!class_exists('Video')) {
             $videos = array();
             if ($res != false) {
                 foreach ($fullData as $row) {
+                    if(empty($row['duration_in_seconds'])){
+                        $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
+                    }
                     if (empty($row['filesize'])) {
                         $row['filesize'] = Video::updateFilesize($row['id']);
                     }
@@ -2979,13 +3009,13 @@ if (!class_exists('Video')) {
             }
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
             $videosDir = self::getStoragePath();
-            
+
             if (is_dir("{$videosDir}{$cleanVideoFilename}")) {
-                $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");           
+                $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
             } else {
                 $path = addLastSlash("{$videosDir}{$videoFilename}");
             }
-            
+
             $path = fixPath($path);
             if ($createDir) {
                 make_path(addLastSlash($path));
@@ -3012,7 +3042,7 @@ if (!class_exists('Video')) {
             $videoFilename = str_replace($videosDir, '', $videoFilename);
             $paths = Video::getPaths($videoFilename, $createDir);
             $parts = explode('/', $videoFilename);
-            if(!empty($parts[1]) && $parts[1]=='index.m3u8'){
+            if (!empty($parts[1]) && $parts[1] == 'index.m3u8') {
                 $videoFilename = $parts[1];
             }
             return "{$paths['url']}{$videoFilename}";
@@ -3160,11 +3190,11 @@ if (!class_exists('Video')) {
             }
 
             $cleanName = str_replace($search, '', $filename);
-            
-            if($cleanName == $filename){
+
+            if ($cleanName == $filename) {
                 $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', '$1', $filename);
             }
-            
+
             $path_parts = pathinfo($cleanName);
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
@@ -4610,6 +4640,14 @@ if (!class_exists('Video')) {
             $this->total_seconds_watching = $total_seconds_watching;
         }
 
+        function getDuration_in_seconds() {
+            return $this->duration_in_seconds;
+        }
+
+        function setDuration_in_seconds($duration_in_seconds) {
+            $this->duration_in_seconds = intval($duration_in_seconds);
+        }
+            
     }
 
 }

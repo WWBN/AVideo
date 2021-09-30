@@ -7,7 +7,7 @@ if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}");
     exit;
 }
-
+$isAdminPanel = 1;
 class MenuAdmin {
 
     public $title, $icon, $href, $active = false, $show = false, $itens = array(), $data_toggle, $data_target;
@@ -38,6 +38,9 @@ class MenuAdmin {
 $itens = array();
 
 $menu = new MenuAdmin(__("Dashboard"), "fa fa-tachometer-alt", "dashboard");
+$itens[] = $menu;
+
+$menu = new MenuAdmin(__("Premium Featrures"), "fas fa-star", "premium");
 $itens[] = $menu;
 
 $menu = new MenuAdmin(__("Settings"), "fa fa-wrench");
@@ -93,6 +96,9 @@ $includeBody = "";
 switch ($_GET['page']) {
     case "backup":
         $includeBody = $global['systemRootPath'] . 'admin/backup.php';
+        break;
+    case "premium":
+        $includeBody = $global['systemRootPath'] . 'admin/premium.php';
         break;
     case "design_first_page":
         $includeBody = $global['systemRootPath'] . 'admin/design_first_page.php';
