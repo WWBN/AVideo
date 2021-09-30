@@ -18,4 +18,4 @@ CREATE TABLE IF NOT EXISTS `statistics` (
     REFERENCES `users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
+ENGINE = InnoDB;
