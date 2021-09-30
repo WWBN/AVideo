@@ -42,7 +42,7 @@ if (!User::isAdmin()) {
     }
 
     .huge {
-        font-size: 40px;
+        font-size: 30px;
     }
 
     <?php
