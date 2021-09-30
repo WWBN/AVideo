@@ -5,6 +5,8 @@ if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
 
+AVideoPlugin::getDataObject('VideosStatistics');
+
 session_write_close();
 
 $obj = new stdClass();
