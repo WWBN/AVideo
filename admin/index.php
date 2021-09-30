@@ -8,6 +8,7 @@ if (!User::isAdmin()) {
     exit;
 }
 $isAdminPanel = 1;
+
 class MenuAdmin {
 
     public $title, $icon, $href, $active = false, $show = false, $itens = array(), $data_toggle, $data_target;
@@ -39,10 +40,10 @@ $itens = array();
 
 $menu = new MenuAdmin(__("Dashboard"), "fa fa-tachometer-alt", "dashboard");
 $itens[] = $menu;
-
+/*
 $menu = new MenuAdmin(__("Premium Featrures"), "fas fa-star", "premium");
 $itens[] = $menu;
-
+*/
 $menu = new MenuAdmin(__("Settings"), "fa fa-wrench");
 $menu->addItem(new MenuAdmin(__("Remove Branding"), "far fa-edit", "customize_settings"));
 $menu->addItem(new MenuAdmin(__("General Settings"), "fas fa-cog", "general_settings"));
@@ -179,7 +180,7 @@ switch ($_GET['page']) {
 <!DOCTYPE html>
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
-        <?php 
+        <?php
         echo getHTMLTitle(__("Administration"));
         ?>
         <?php
@@ -199,6 +200,23 @@ switch ($_GET['page']) {
             .leftMenu .panel-body {
                 padding: 0px;
             }
+            .adminLeftMenu .panel-default i, .adminLeftMenu .panel-default{
+                -webkit-transition: opacity 0.5s ease-in-out;
+                -moz-transition: opacity 0.5s ease-in-out;
+                transition: opacity 0.5s ease-in-out;
+            }
+            .adminLeftMenu .panel-default i{
+                opacity: 0.2;
+            }
+            .adminLeftMenu:hover .panel-default i{
+                opacity: 1;
+            }
+            .adminLeftMenu .panel-default{
+                opacity: 0.6;
+            }
+            .adminLeftMenu:hover .panel-default{
+                opacity: 1;
+            }
         </style>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
@@ -209,7 +227,7 @@ switch ($_GET['page']) {
         <div class="container-fluid">
             <br>
             <div class="row">
-                <div class="col-sm-3 col-md-3 fixed affix leftMenu">
+                <div class=" col-lg-2 col-md-3 col-sm-3 fixed affix leftMenu">
                     <div class="panel-group" id="accordion">
                         <?php
                         foreach ($itens as $key => $value) {
@@ -218,56 +236,62 @@ switch ($_GET['page']) {
                             if (!empty($value->href)) {
                                 $href = 'href="' . $global['webSiteRootURL'] . 'admin/?page=' . $value->href . '"';
                             }
+                            $panel = 'panel-default';
+                            if($_REQUEST['page']==$value->href){
+                                $panel = 'panel-primary';
+                            }
                             ?>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a <?php echo $href; ?>><i class="<?php echo $value->icon; ?>"></i> <?php echo $value->title; ?></a>
-                                    </h4>
-                                </div>
-                                <?php
-                                if (!empty($value->itens)) {
-                                    $in = "";
-                                    if (!empty($_GET['page'])) {
-                                        foreach ($value->itens as $search) {
-                                            if ($_GET['page'] === $search->href) {
-                                                $in = "in";
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    ?>
-                                    <div id="collapse<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $in; ?>">
-                                        <div class="panel-body">
-                                            <table class="table">
-                                                <?php
-                                                foreach ($value->itens as $key2 => $value2) {
-                                                    $active = "";
-                                                    if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
-                                                        $active = "active";
-                                                    }
-                                                    ?>
-                                                    <tr>
-                                                        <td class="<?php echo $active; ?>">
-                                                            <a href="<?php echo "{$global['webSiteRootURL']}admin/?page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
-                                                        </td>
-                                                    </tr>
-                                                    <?php
-                                                }
-                                                ?>
-                                            </table>
-                                        </div>
+                            <a <?php echo $href; ?> class="adminLeftMenu">
+                                <div class="panel <?php echo $panel; ?>">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <i class="<?php echo $value->icon; ?> "></i> <?php echo $value->title; ?>
+                                        </h4>
                                     </div>
                                     <?php
-                                }
-                                ?>
-                            </div>
+                                    if (!empty($value->itens)) {
+                                        $in = "";
+                                        if (!empty($_GET['page'])) {
+                                            foreach ($value->itens as $search) {
+                                                if ($_GET['page'] === $search->href) {
+                                                    $in = "in";
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        ?>
+                                        <div id="collapse<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $in; ?>">
+                                            <div class="panel-body">
+                                                <table class="table">
+                                                    <?php
+                                                    foreach ($value->itens as $key2 => $value2) {
+                                                        $active = "";
+                                                        if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
+                                                            $active = "active";
+                                                        }
+                                                        ?>
+                                                        <tr>
+                                                            <td class="<?php echo $active; ?>">
+                                                                <a href="<?php echo "{$global['webSiteRootURL']}admin/?page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                            </a>
                             <?php
                         }
                         ?>
                     </div>
                 </div>
-                <div class="col-sm-9 col-md-9 col-sm-offset-3 col-md-offset-3 ">
+                <div class=" col-lg-10 col-md-9 col-sm-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-2 ">
                     <?php
                     if (!empty($includeBody)) {
                         if (is_array($includeBody)) {
