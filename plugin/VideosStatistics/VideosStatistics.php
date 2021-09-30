@@ -4,6 +4,7 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 require_once $global['systemRootPath'] . 'plugin/VideosStatistics/Objects/Statistics.php';
+require_once $global['systemRootPath'] . 'objects/subscribe.php';
 
 class VideosStatistics extends PluginAbstract {
 
