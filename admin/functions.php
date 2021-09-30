@@ -55,8 +55,11 @@ function jsonToFormElements($json, $filter = array())
                 }
                 $input .= "</select>";
             } else {
-                //var_dump($keyJson, $valueJson);
-                $input = "<input class='form-control jsonElement' name='{$keyJson}' pluginType='object' type='{$valueJson->type}' value='{$valueJson->value}'/>";
+                if(!is_string($valueJson->type) || !is_string($valueJson->value)){
+                    continue;
+                }
+                $input = "<input class='form-control jsonElement' name='{$keyJson}' "
+                . "pluginType='object' type='{$valueJson->type}' value='{$valueJson->value}'/>";
             }
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
         } elseif (is_bool($valueJson)) {

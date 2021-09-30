@@ -41,9 +41,9 @@ $itens = array();
 $menu = new MenuAdmin(__("Dashboard"), "fa fa-tachometer-alt", "dashboard");
 $itens[] = $menu;
 /*
-$menu = new MenuAdmin(__("Premium Featrures"), "fas fa-star", "premium");
-$itens[] = $menu;
-*/
+  $menu = new MenuAdmin(__("Premium Featrures"), "fas fa-star", "premium");
+  $itens[] = $menu;
+ */
 $menu = new MenuAdmin(__("Settings"), "fa fa-wrench");
 $menu->addItem(new MenuAdmin(__("Remove Branding"), "far fa-edit", "customize_settings"));
 $menu->addItem(new MenuAdmin(__("General Settings"), "fas fa-cog", "general_settings"));
@@ -200,21 +200,21 @@ switch ($_GET['page']) {
             .leftMenu .panel-body {
                 padding: 0px;
             }
-            .adminLeftMenu .panel-default i, .adminLeftMenu .panel-default{
+            .adminLeftMenu.panel-default i, .adminLeftMenu.panel-default{
                 -webkit-transition: opacity 0.5s ease-in-out;
                 -moz-transition: opacity 0.5s ease-in-out;
                 transition: opacity 0.5s ease-in-out;
             }
-            .adminLeftMenu .panel-default i{
+            .adminLeftMenu.panel-default i{
                 opacity: 0.2;
             }
-            .adminLeftMenu:hover .panel-default i{
+            .adminLeftMenu:hover.panel-default i{
                 opacity: 1;
             }
-            .adminLeftMenu .panel-default{
+            .adminLeftMenu.panel-default{
                 opacity: 0.6;
             }
-            .adminLeftMenu:hover .panel-default{
+            .adminLeftMenu:hover.panel-default{
                 opacity: 1;
             }
         </style>
@@ -237,55 +237,61 @@ switch ($_GET['page']) {
                                 $href = 'href="' . $global['webSiteRootURL'] . 'admin/?page=' . $value->href . '"';
                             }
                             $panel = 'panel-default';
-                            if($_REQUEST['page']==$value->href){
+                            if (!empty($_REQUEST['page']) && $_REQUEST['page'] == $value->href) {
                                 $panel = 'panel-primary';
+                            } else {
+                                foreach ($value->itens as $key2 => $value2) {
+                                    if (!empty($_REQUEST['page']) && $_REQUEST['page'] === $value2->href) {
+                                        $panel = 'panel-primary';
+                                    }
+                                }
                             }
                             ?>
-                            <a <?php echo $href; ?> class="adminLeftMenu">
-                                <div class="panel <?php echo $panel; ?>">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
+                            <div class="panel <?php echo $panel; ?>" class="adminLeftMenu">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a <?php echo $href; ?> >
                                             <i class="<?php echo $value->icon; ?> "></i> <?php echo $value->title; ?>
-                                        </h4>
-                                    </div>
-                                    <?php
-                                    if (!empty($value->itens)) {
-                                        $in = "";
-                                        if (!empty($_GET['page'])) {
-                                            foreach ($value->itens as $search) {
-                                                if ($_GET['page'] === $search->href) {
-                                                    $in = "in";
-                                                    break;
-                                                }
+                                        </a>
+                                    </h4>
+                                </div>
+                                <?php
+                                if (!empty($value->itens)) {
+                                    $in = "";
+                                    if (!empty($_GET['page'])) {
+                                        foreach ($value->itens as $search) {
+                                            if ($_GET['page'] === $search->href) {
+                                                $in = "in";
+                                                break;
                                             }
                                         }
-                                        ?>
-                                        <div id="collapse<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $in; ?>">
-                                            <div class="panel-body">
-                                                <table class="table">
-                                                    <?php
-                                                    foreach ($value->itens as $key2 => $value2) {
-                                                        $active = "";
-                                                        if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
-                                                            $active = "active";
-                                                        }
-                                                        ?>
-                                                        <tr>
-                                                            <td class="<?php echo $active; ?>">
-                                                                <a href="<?php echo "{$global['webSiteRootURL']}admin/?page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
-                                                            </td>
-                                                        </tr>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <?php
                                     }
                                     ?>
-                                </div>
-                            </a>
+                                    <div id="collapse<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $in; ?>">
+                                        <div class="panel-body">
+                                            <table class="table">
+                                                <?php
+                                                foreach ($value->itens as $key2 => $value2) {
+                                                    $active = "";
+                                                    if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
+                                                        $active = "active";
+                                                    }
+                                                    ?>
+                                                    <tr>
+                                                        <td class="<?php echo $active; ?>">
+                                                            <a href="<?php echo "{$global['webSiteRootURL']}admin/?page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
                             <?php
                         }
                         ?>
