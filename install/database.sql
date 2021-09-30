@@ -151,6 +151,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `filesize` BIGINT(19) UNSIGNED NULL DEFAULT 0,
   `live_transmitions_history_id` INT(11) NULL DEFAULT NULL,
   `total_seconds_watching` INT(11) NULL DEFAULT 0,
+  `duration_in_seconds` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
