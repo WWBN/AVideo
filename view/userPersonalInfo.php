@@ -14,7 +14,7 @@
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                <input name="first_name" id="first_name" placeholder="<?php echo __("Last Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getFirst_name(); ?>" >
+                <input name="first_name" id="first_name" placeholder="<?php echo __("First Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getFirst_name(); ?>" >
             </div>
         </div>
     </div>
