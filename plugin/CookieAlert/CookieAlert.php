@@ -33,7 +33,7 @@ class CookieAlert extends PluginAbstract {
     
     private function doNotShow(){
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
-        if(preg_match("/embed/i", $baseName) || !empty($_GET['embed'])){
+        if(isEmbed() || preg_match("/embed/i", $baseName) || !empty($_GET['embed'])){
             return true;
         }
         return false;
