@@ -548,9 +548,13 @@ class Live extends PluginAbstract {
             return 'live';
         }else{
             $server = self::getPlayerServer();
-            $server = rtrim($server, "/");
-            $parts = explode("/", $server);
-            $app = array_pop($parts);
+            if(preg_match('/.cdn.ypt.me/', $server)){
+                return 'live';
+            }else{
+                $server = rtrim($server, "/");
+                $parts = explode("/", $server);
+                $app = array_pop($parts);
+            }
         }
         return $app;
     }
