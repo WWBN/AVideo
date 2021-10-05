@@ -11,7 +11,7 @@
 
     cookieAlert.offsetHeight; // Force browser to trigger reflow (https://stackoverflow.com/a/39451131)
 
-    if (!getCookie("acceptCookies")) {
+    if (!getCookie("acceptCookies") && !inIframe()) {
         cookieAlert.classList.add("show");
     }
 
