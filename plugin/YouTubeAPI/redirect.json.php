@@ -6,7 +6,7 @@ if(!isset($global['systemRootPath'])){
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/YouTubeAPI/Objects/YouTubeUploads.php';
-require_once $global['systemRootPath'] . 'plugin/YouTubeAPI/youtube-api/autoload.php';
+require_once $global['systemRootPath'] . 'objects/autoload.php';
 header('Content-Type: application/json');
 $object = new stdClass();
         $object->error = true;

@@ -87,7 +87,7 @@ class YouTubeAPI extends PluginAbstract {
         $cache = ObjectYPT::getCache($name, $youTubeObj->cacheTimeout);
 
         if (empty($cache)) {
-            require_once $global['systemRootPath'] . 'plugin/YouTubeAPI/youtube-api/autoload.php';
+            require_once $global['systemRootPath'] . 'objects/autoload.php';
             /*
              * Set $DEVELOPER_KEY to the "API key" value from the "Access" tab of the
              * Google API Console <https://console.developers.google.com/>

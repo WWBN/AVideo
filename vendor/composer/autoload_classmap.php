@@ -56,6 +56,7 @@ return array(
     'Google_Task_Runner' => $vendorDir . '/google/apiclient/src/aliases.php',
     'Google_Utils_UriTemplate' => $vendorDir . '/google/apiclient/src/aliases.php',
     'Image_XMP' => $vendorDir . '/james-heinrich/getid3/getid3/module.tag.xmp.php',
+    'JsonException' => $vendorDir . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
     'MCryptWrapper' => $vendorDir . '/singpolyma/openpgp-php/lib/openpgp_mcrypt_wrapper.php',
     'Normalizer' => $vendorDir . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
     'OpenPGP' => $vendorDir . '/singpolyma/openpgp-php/lib/openpgp.php',

@@ -14,8 +14,8 @@
         "ext-json": "*",
         "chrisjean/php-ico": "^1.0",
         "ezyang/htmlpurifier": "^4.13",
-        "google/apiclient": "^2.1.2",
-        "google/apiclient-services": "^0.156",
+        "google/apiclient": "^2.11",
+        "google/apiclient-services": "*",
         "google/auth": "^1.14.3",
         "guzzlehttp/guzzle": "^6.5",
         "guzzlehttp/psr7": "^1.7",
@@ -36,6 +36,10 @@
         "emojione/assets": "^4.5",
         "mervick/emojionearea": "^3.4",
         "emojione/emojione": "^4.5",
-        "abraham/twitteroauth": "^1.0"
+        "abraham/twitteroauth": "^1.0",
+        "symfony/http-client": "^5.3",
+        "nyholm/psr7": "^1.4",
+        "norkunas/onesignal-php-api": "^2.7",
+        "stripe/stripe-php": "^7.97"
     }
 }

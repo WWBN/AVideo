@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '37880a28cc7be135695a84fc70d19e8fb2cfd392',
+    'reference' => 'f1b6d0af5264c7d73a511010c5f77058a120f228',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -121,21 +121,21 @@
     ),
     'google/apiclient' => 
     array (
-      'pretty_version' => 'v2.9.2',
-      'version' => '2.9.2.0',
+      'pretty_version' => 'v2.11.0',
+      'version' => '2.11.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e9ef4c26a044b8d39a46bcf296be795fe24a1849',
+      'reference' => '7db9eb40c8ba887e81c0fe84f2888a967396cdfb',
     ),
     'google/apiclient-services' => 
     array (
-      'pretty_version' => 'v0.156',
-      'version' => '0.156.0.0',
+      'pretty_version' => 'v0.215.0',
+      'version' => '0.215.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '2f5e54fdef034f856208328126bddd8376dae4b3',
+      'reference' => '1d4d488c09a9bb5f361f8d7ddd8dbb37cb7786ac',
     ),
     'google/auth' => 
     array (
@@ -227,6 +227,24 @@
       ),
       'reference' => 'f4655858a784988f880c1b8c7feabbf02dfdf045',
     ),
+    'norkunas/onesignal-php-api' => 
+    array (
+      'pretty_version' => 'v2.7.0',
+      'version' => '2.7.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a16f8ce7b161a0ff118105e83ac682694df55e59',
+    ),
+    'nyholm/psr7' => 
+    array (
+      'pretty_version' => '1.4.1',
+      'version' => '1.4.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2212385b47153ea71b1c1b1374f8cb5e4f7892ec',
+    ),
     'paypal/paypal-checkout-sdk' => 
     array (
       'pretty_version' => '1.0.2',
@@ -263,6 +281,29 @@
       ),
       'reference' => '72e2f2466975bf128a31e02b15110180f059fc04',
     ),
+    'php-http/async-client-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '*',
+      ),
+    ),
+    'php-http/client-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '*',
+      ),
+    ),
+    'php-http/message-factory' => 
+    array (
+      'pretty_version' => 'v1.0.2',
+      'version' => '1.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a478cb11f66a6ac48d8954216cfed9aa06a501a1',
+    ),
     'phpmailer/phpmailer' => 
     array (
       'pretty_version' => 'v6.5.1',
@@ -289,6 +330,47 @@
       array (
       ),
       'reference' => 'd11b50ad223250cf17b86e38383413f5a6764bf8',
+    ),
+    'psr/container' => 
+    array (
+      'pretty_version' => '1.1.1',
+      'version' => '1.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8622567409010282b7aeebe4bb841fe98b58dcaf',
+    ),
+    'psr/http-client' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2dfb5f6c5eff0e91e20e913f8c5452ed95b86621',
+    ),
+    'psr/http-client-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
+    ),
+    'psr/http-factory' => 
+    array (
+      'pretty_version' => '1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '12ac7fcd07e5b077433f5f2bee95b3a771bf61be',
+    ),
+    'psr/http-factory-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '1.0',
+      ),
     ),
     'psr/http-message' => 
     array (
@@ -421,6 +503,15 @@
       ),
       'reference' => '67aba786991e3cb3e555025b6d357779ab32a0ab',
     ),
+    'stripe/stripe-php' => 
+    array (
+      'pretty_version' => 'v7.97.0',
+      'version' => '7.97.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ae41c309ce113362706f8d5f19cf0cf2c730bc4a',
+    ),
     'symfony/deprecation-contracts' => 
     array (
       'pretty_version' => 'v2.4.0',
@@ -430,6 +521,31 @@
       ),
       'reference' => '5f38c8804a9e97d23e0c8d63341088cd8a22d627',
     ),
+    'symfony/http-client' => 
+    array (
+      'pretty_version' => 'v5.3.8',
+      'version' => '5.3.8.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c6370fe2c0a445aedc08f592a6a3149da1fea4c7',
+    ),
+    'symfony/http-client-contracts' => 
+    array (
+      'pretty_version' => 'v2.4.0',
+      'version' => '2.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7e82f6084d7cae521a75ef2cb5c9457bbda785f4',
+    ),
+    'symfony/http-client-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '2.4',
+      ),
+    ),
     'symfony/http-foundation' => 
     array (
       'pretty_version' => 'v5.3.7',
@@ -438,6 +554,15 @@
       array (
       ),
       'reference' => 'e36c8e5502b4f3f0190c675f1c1f1248a64f04e5',
+    ),
+    'symfony/options-resolver' => 
+    array (
+      'pretty_version' => 'v5.3.7',
+      'version' => '5.3.7.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '4b78e55b179003a42523a362cc0e8327f7a69b5e',
     ),
     'symfony/polyfill-intl-idn' => 
     array (
@@ -475,6 +600,15 @@
       ),
       'reference' => '9a142215a36a3888e30d0a9eeea9766764e96976',
     ),
+    'symfony/polyfill-php73' => 
+    array (
+      'pretty_version' => 'v1.23.0',
+      'version' => '1.23.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'fba8933c384d6476ab14fb7b8526e5287ca7e010',
+    ),
     'symfony/polyfill-php80' => 
     array (
       'pretty_version' => 'v1.23.1',
@@ -492,6 +626,15 @@
       array (
       ),
       'reference' => 'be865017746fe869007d94220ad3f5297951811b',
+    ),
+    'symfony/service-contracts' => 
+    array (
+      'pretty_version' => 'v2.4.0',
+      'version' => '2.4.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f040a30e04b57fbcc9c6cbcf4dbaa96bd318b9bb',
     ),
     'symfony/translation' => 
     array (
@@ -525,7 +668,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '37880a28cc7be135695a84fc70d19e8fb2cfd392',
+      'reference' => 'f1b6d0af5264c7d73a511010c5f77058a120f228',
     ),
   ),
 );

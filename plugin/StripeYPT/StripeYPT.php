@@ -2,7 +2,8 @@
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
-require_once $global['systemRootPath'] . 'plugin/StripeYPT/init.php';
+require_once $global['systemRootPath'] . 'objects/autoload.php';
+require_once $global['systemRootPath'] . 'vendor/stripe/stripe-php/init.php';
 
 class StripeYPT extends PluginAbstract {
 

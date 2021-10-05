@@ -8,6 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'PayPal' => array($vendorDir . '/paypal/rest-api-sdk-php/lib'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
-    'Google_Service_' => array($vendorDir . '/google/apiclient-services/src'),
     'Evenement' => array($vendorDir . '/evenement/evenement/src'),
 );
