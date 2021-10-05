@@ -1,0 +1,16 @@
+[
+  'methods' => [
+    {% for method in methods %}{% literal method.wireName %} => [
+      'path' => {% literal method.path %},
+      'httpMethod' => {% literal method.httpMethod %},
+      'parameters' => [{% for p in method.parameters %}
+        {% literal p.wireName %} => [
+          'location' => {% literal p.location %},
+          'type' => {% literal p.type %},
+          {% if p.repeated %}'repeated' => true,{% endif %}
+          {% if p.required %}'required' => true,{% endif %}
+        ],
+      {% endfor %}],
+    ],{% endfor %}
+  ]
+]

@@ -25,6 +25,6 @@ return array(
     'a1105708a18b76903365ca1c4aa61b02' => $vendorDir . '/symfony/translation/Resources/functions.php',
     '1f87db08236948d07391152dccb70f04' => $vendorDir . '/google/apiclient-services/autoload.php',
     '2cffec82183ee1cea088009cef9a6fc3' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-    '3be16222a6efa6dd226a219eaaff823b' => $vendorDir . '/ratchet/pawl/src/functions_include.php',
     'a8d3953fd9959404dd22d3dfcd0a79f0' => $vendorDir . '/google/apiclient/src/aliases.php',
+    '3be16222a6efa6dd226a219eaaff823b' => $vendorDir . '/ratchet/pawl/src/functions_include.php',
 );

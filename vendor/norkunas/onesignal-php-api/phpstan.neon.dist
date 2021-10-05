@@ -1,0 +1,19 @@
+includes:
+	- vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+	bootstrapFiles:
+		- vendor/bin/.phpunit/phpunit/vendor/autoload.php
+	paths:
+		- src/
+		- tests/
+	tmpDir: %currentWorkingDirectory%/.phpstan
+	level: 8
+	inferPrivatePropertyTypeFromConstructor: true
+	checkMissingIterableValueType: false
+	checkGenericClassInNonGenericObjectType: false
+	checkUninitializedProperties: true
+	ignoreErrors:
+		-
+			path: %currentWorkingDirectory%/src/Notifications.php
+			message: '#PHPDoc tag @param references unknown parameter: \$kind#'

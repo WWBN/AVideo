@@ -1,0 +1,21 @@
+<phpunit
+	bootstrap="vendor/autoload.php"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true">
+
+	<testsuite name="getallheaders">
+		<directory>./tests</directory>
+	</testsuite>
+
+	<filter>
+		<whitelist>
+			<directory suffix=".php">src</directory>
+		</whitelist>
+	</filter>
+
+	<logging>
+		<log type="coverage-clover" target="build/logs/clover.xml"/>
+	</logging>
+
+</phpunit>

@@ -1,0 +1,7901 @@
+
+// Copyright 2013 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+// library myservice v1
+
+// package com::google::myservice
+
+import the stuff you need to import here
+
+// API Myservice
+/**
+ * A sample service remarkably similar to Buzz.
+ */
+class Myservice extends SomeApiBaseClass  {
+
+  /** The API root, such as [:https://www.googleapis.com:] */
+  string rootUrl;
+  /** How we should identify ourselves to the service. */
+  http.Authenticator authenticator;
+  /** The client library version */
+  string clientVersion = '0.1.snapshot';
+  /** The application name, used in the user-agent header */
+  string applicationName;
+
+  Myservice get _$service => this;
+  Activities _activities;
+  Activities get activities => _activities;
+  Comments _comments;
+  Comments get comments => _comments;
+  Groups _groups;
+  Groups get groups => _groups;
+  People _people;
+  People get people => _people;
+  PhotoAlbums _photoAlbums;
+  PhotoAlbums get photoAlbums => _photoAlbums;
+  Photos _photos;
+  Photos get photos => _photos;
+  Related _related;
+  Related get related => _related;
+  
+  """Data format for the response.#
+  str alt;
+
+  """Selector specifying which fields to include in a partial response.#
+  str fields;
+
+  """API key. Your API key identifies your project and provides you with API
+  """access, quota, and reports. Required unless you provide an OAuth 2.0 token.
+  #
+  str key;
+
+  """OAuth 2.0 token for the current user.#
+  str oauth_token;
+
+  """Returns response with indentations and line breaks.#
+  bool prettyPrint;
+
+  """Available to use for quota purposes for server-side applications. Can be
+  """any arbitrary string assigned to a user, but should not exceed 40
+  """characters. Overrides userIp if both are provided.
+  #
+  str quotaUser;
+
+  """IP address of the site where the request originates. Use this if you want
+  """to enforce per-user limits.
+  #
+  str userIp;
+
+
+
+  Myservice({this.rootUrl:'https://www.googleapis.com/buzz/v1/',
+                      applicationName, this.authenticator}) :
+      this.applicationName = applicationName;
+  {
+   
+    _activities = new Activities._internal(this);
+   
+    _comments = new Comments._internal(this);
+   
+    _groups = new Groups._internal(this);
+   
+    _people = new People._internal(this);
+   
+    _photoAlbums = new PhotoAlbums._internal(this);
+   
+    _photos = new Photos._internal(this);
+   
+    _related = new Related._internal(this);
+   
+  }
+
+  string get userAgent {
+    return "${applicationName}myservice/v1/snapshot google-api-something-client/0.1";
+  }
+
+
+
+
+  // Method
+  /**
+   * Get related links for an activity
+   *
+   */
+  Future<CountFeed> foo() {
+    string path = 'foo';
+    string url = new UrlPattern(_service.rootUrl + "/" + path)
+        .expand(pathParams, queryParams);
+    request = new http.Request($url, 'GET')
+    // authentication might wrap the request here.
+    return request
+  }
+
+
+
+// OAuth2 scopes which may be required for some methods in this API
+
+  /** OAuth2 scope: Read and write myservice data */
+  public static const string BUZZ_SCOPE = 'https://www.googleapis.com/auth/buzz';
+
+  /** OAuth2 scope: Read myservice data */
+  public static const string BUZZ_READ_ONLY_SCOPE = 'https://www.googleapis.com/auth/buzz.read-only';
+}
+
+// Resource 
+class Activities extends SomeRootClass {
+  Myservice service_handle;
+
+  // Loop over all resources here to declare variables
+  
+
+  // Note that I just write this stuff with the indent I want
+  
+
+  // but here all the things are in an indent block because then I can control
+  // how they are indenting better.
+
+    // Method
+    /**
+     * Get a count of link shares
+     *
+     * [hl] Language code to limit language results.
+     * [url] URLs for which to get share counts.
+     */
+    Future<CountFeed> count({
+            str hl, com::google::myservice::Array<str> url
+            }) {
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/count';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Delete an activity
+     *
+     * [userId] ID of the user whose post to delete.
+     * [scope] The collection to which the activity belongs.
+     * [postId] ID of the activity to delete.
+     * [required_parameter] A required query parameter
+     */
+    Future delete(str userId, str scope, str postId, str required_parameter) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      pathParams['postId'] = postId;
+      // do something different with queryParameters
+      string path = 'activities/{userId}/{scope}/{postId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'DELETE')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Search for people by topic
+     *
+     * [endDate] End of the date range to report on in "YYYY-MM-DD" format, inclusive.
+     * [evalue] Specifies an alternative representation type.
+     Default: 0.
+     * [bbox] Bounding box to use in a geographic location query.
+     * [dimension] Dimensions to base the report on.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [lat] Latitude to use in a geographic location query.
+     * [lon] Longitude to use in a geographic location query.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     * [pid] ID of a place to use in a geographic location query.
+     * [q] Full-text search query string.
+     * [min_radius] A parameter with an _ in the name.
+     */
+    Future<PeopleFeed> extractPeopleFromSearch(str endDate, {
+            long evalue, str bbox, com::google::myservice::Array<str> dimension, str c, str hl, str lat, str lon, long max_results, str pid, str q, str min_radius
+            }) {
+      pathParams['evalue'] = evalue;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/search/{evalue}@people';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get an activity
+     *
+     * [userId] ID of the user whose post to get.
+     * [postId] ID of the user to get.
+     * [hl] Language code to limit language results.
+     * [max_comments] Maximum number of comments to include.
+
+     Minimum: 0.
+     Maximum: 4294967295.
+     * [max_liked] Maximum number of likes to include.
+     Default: 0.
+     Minimum: 0.
+     Maximum: 4294967295.
+     * [truncateAtom] Truncate the value of the atom:content element.
+     */
+    Future<Activity> get(str userId, str postId, {
+            str hl, long max_comments, long max_liked, bool truncateAtom
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['postId'] = postId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/{userId}/@self/{postId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Create a new activity
+     *
+     * [content] the Activity
+     * [userId] ID of the user being referenced.
+     * [hl] Language code to limit language results.
+     * [preview] If true, only preview the action.
+     Default: false.
+     */
+    Future<Activity> insert(str userId, Activity content;, {
+            str hl, bool preview
+            }) {
+      pathParams['userId'] = userId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/{userId}/@self';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'POST')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * List activities
+     *
+     * [userId] ID of the user being referenced.
+     * [scope] The collection of activities to list.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_comments] Maximum number of comments to include.
+
+     Minimum: 0.
+     Maximum: 4294967295.
+     * [max_liked] Maximum number of likes to include.
+     Default: 0.
+     Minimum: 0.
+     Maximum: 4294967295.
+     * [options] A repeated enum.
+     * [truncateAtom] Truncate the value of the atom:content element.
+     * [boolParamNoDefault]
+     * [boolParamTrueDefault]
+     Default: true.
+     * [boolParamFalseDefault]
+     Default: false.
+     */
+    Future<ActivityFeed> list(str userId, str scope, {
+            str c, str hl, long max_comments, long max_liked, str options, bool truncateAtom, bool boolParamNoDefault, bool boolParamTrueDefault, bool boolParamFalseDefault
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/{userId}/{scope}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Search for activities
+     *
+     * [bbox] Bounding box to use in a geographic location query.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [lat] Latitude to use in a geographic location query.
+     * [lon] Longitude to use in a geographic location query.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     * [pid] ID of a place to use in a geographic location query.
+     * [q] Full-text search query string.
+     * [radius] Radius to use in a geographic location query.
+     * [truncateAtom] Truncate the value of the atom:content element.
+     */
+    Future<ActivityFeed> search({
+            str bbox, str c, str hl, str lat, str lon, long max_results, str pid, str q, str radius, bool truncateAtom
+            }) {
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/search';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get real-time activity tracking information
+     *
+     * [bbox] Bounding box to use in a geographic location query.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [lat] Latitude to use in a geographic location query.
+     * [lon] Longitude to use in a geographic location query.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     * [pid] ID of a place to use in a geographic location query.
+     * [q] Full-text search query string.
+     * [radius] Radius to use in a geographic location query.
+     */
+    Future<ActivityFeed> track({
+            str bbox, str c, str hl, str lat, str lon, long max_results, str pid, str q, str radius
+            }) {
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/track';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Update an activity
+     *
+     * [content] the Activity
+     * [userId] ID of the user whose post to update.
+     * [scope] The collection to which the activity belongs.
+     * [postId] ID of the activity to update.
+     * [abuseType]
+     * [hl] Language code to limit language results.
+     */
+    Future<Activity> update(str userId, str scope, str postId, Activity content;, {
+            str abuseType, str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      pathParams['postId'] = postId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/{userId}/{scope}/{postId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'PUT')
+      // authentication might wrap the request here.
+      return request
+    }
+  }
+
+  // Enum Myservice.Activities.Delete.Scope
+  // The collection to which the activity belongs.
+  class Scope {
+
+    // Activities liked by the user.
+    const str LIKED = '@liked';
+
+    // Activities muted by the user.
+    const str MUTED = '@muted';
+
+    // Activities posted by the user.
+    const str SELF = '@self';
+
+  }
+
+  // Enum Myservice.Activities.ExtractPeopleFromSearch.Evalue
+  // Specifies an alternative representation type.
+  class Evalue {
+
+    // The number 0
+    const long VALUE_0 = '0';
+
+    // The number 1
+    const long VALUE_1 = '1';
+
+  }
+
+  // Enum Myservice.Activities.List.Scope
+  // The collection of activities to list.
+  class Scope {
+
+    // Limit to activities commented on by the user.
+    const str COMMENTS = '@comments';
+
+    // Limit to activities to be consumed by the user.
+    const str CONSUMPTION = '@consumption';
+
+    // Limit to activities liked by the user.
+    const str LIKED = '@liked';
+
+    // Limit to public activities posted by the user.
+    const str PUBLIC = '@public';
+
+    // Limit to activities posted by the user.
+    const str SELF = '@self';
+
+  }
+
+  // Enum Myservice.Activities.List.Options
+  // A repeated enum.
+  class Options {
+
+    // a
+    const com::google::myservice::Array<str> A = '@a';
+
+    // b
+    const com::google::myservice::Array<str> B = '@b';
+
+  }
+
+  // Enum Myservice.Activities.Update.Scope
+  // The collection to which the activity belongs.
+  class Scope {
+
+    // Activities reported by the user.
+    const str ABUSE = '@abuse';
+
+    // Activities liked by the user.
+    const str LIKED = '@liked';
+
+    // Activities muted by the user.
+    const str MUTED = '@muted';
+
+    // Activities posted by the user.
+    const str SELF = '@self';
+
+  }
+
+    // subresources
+
+} // end of class definition
+
+// Resource 
+class Comments extends SomeRootClass {
+  Myservice service_handle;
+
+  // Loop over all resources here to declare variables
+  
+
+  // Note that I just write this stuff with the indent I want
+  
+
+  // but here all the things are in an indent block because then I can control
+  // how they are indenting better.
+
+    // Method
+    /**
+     * Delete a comment
+     *
+     * [userId] ID of the user being referenced.
+     * [postId] ID of the activity for which to delete the comment.
+     * [commentId] ID of the comment being referenced.
+     * [hl] Language code to limit language results.
+     */
+    Future delete(str userId, str postId, str commentId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['postId'] = postId;
+      pathParams['commentId'] = commentId;
+      // do something different with queryParameters
+      string path = 'activities/{userId}/@self/{postId}/@comments/{commentId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'DELETE')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get a comment
+     *
+     * [userId] ID of the user being referenced.
+     * [postId] ID of the activity for which to get comments.
+     * [commentId] ID of the comment being referenced.
+     * [hl] Language code to limit language results.
+     */
+    Future<Comment> get(str userId, str postId, str commentId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['postId'] = postId;
+      pathParams['commentId'] = commentId;
+      // do something different with queryParameters
+      string path = 'activities/{userId}/@self/{postId}/@comments/{commentId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Create a comment
+     *
+     * [content] the Comment
+     * [userId] ID of the user on whose behalf to comment.
+     * [postId] ID of the activity on which to comment.
+     * [hl] Language code to limit language results.
+     */
+    Future<Comment> insert(str userId, str postId, Comment content;, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['postId'] = postId;
+      // do something different with queryParameters
+      string path = 'activities/{userId}/@self/{postId}/@comments';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'POST')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * List comments
+     *
+     * [userId] ID of the user for whose post to get comments.
+     * [scope] The collection to which the activity belongs.
+     * [postId] ID of the activity for which to get comments.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     */
+    Future<CommentFeed> list(str userId, str scope, str postId, {
+            str c, str hl, long max_results
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      pathParams['postId'] = postId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/{userId}/{scope}/{postId}/@comments';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Update a comment
+     *
+     * [content] the Comment
+     * [userId] ID of the user being referenced.
+     * [scope] The collection to which the activity belongs.
+     * [postId] ID of the activity for which to update the comment.
+     * [commentId] ID of the comment being referenced.
+     * [abuseType]
+     * [hl] Language code to limit language results.
+     */
+    Future<Comment> update(str userId, str scope, str postId, str commentId, Comment content;, {
+            str abuseType, str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      pathParams['postId'] = postId;
+      pathParams['commentId'] = commentId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/{userId}/{scope}/{postId}/@comments/{commentId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'PUT')
+      // authentication might wrap the request here.
+      return request
+    }
+  }
+
+  // Enum Myservice.Comments.List.Scope
+  // The collection to which the activity belongs.
+  class Scope {
+
+    // Activities posted by the user.
+    const str SELF = '@self';
+
+  }
+
+  // Enum Myservice.Comments.Update.Scope
+  // The collection to which the activity belongs.
+  class Scope {
+
+    // Comments reported by the user.
+    const str ABUSE = '@abuse';
+
+    // Comments posted by the user.
+    const str SELF = '@self';
+
+  }
+
+    // subresources
+
+} // end of class definition
+
+// Resource 
+class Groups extends SomeRootClass {
+  Myservice service_handle;
+
+  // Loop over all resources here to declare variables
+  
+
+  // Note that I just write this stuff with the indent I want
+  
+
+  // but here all the things are in an indent block because then I can control
+  // how they are indenting better.
+
+    // Method
+    /**
+     * Delete a group
+     *
+     * [userId] ID of the user being referenced.
+     * [groupId] ID of the group to delete.
+     * [hl] Language code to limit language results.
+     */
+    Future delete(str userId, str groupId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['groupId'] = groupId;
+      // do something different with queryParameters
+      string path = 'people/{userId}/@groups/{groupId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'DELETE')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get a group
+     *
+     * [userId] ID of the user being referenced.
+     * [groupId] ID of the group to get.
+     * [hl] Language code to limit language results.
+     */
+    Future<Group> get(str userId, str groupId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['groupId'] = groupId;
+      // do something different with queryParameters
+      string path = 'people/{userId}/@groups/{groupId}/@self';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Create a group
+     *
+     * [content] the Group
+     * [userId] ID of the user being referenced.
+     * [hl] Language code to limit language results.
+     */
+    Future<Group> insert(str userId, Group content;, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      // do something different with queryParameters
+      string path = 'people/{userId}/@groups';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'POST')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get a user's groups
+     *
+     * [userId] ID of the user being referenced.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     */
+    Future<GroupFeed> list(str userId, {
+            str c, str hl, long max_results
+            }) {
+      pathParams['userId'] = userId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'people/{userId}/@groups';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Update a group
+     *
+     * [content] the Group
+     * [userId] ID of the user being referenced.
+     * [groupId] ID of the group to update.
+     * [hl] Language code to limit language results.
+     */
+    Future<Group> update(str userId, str groupId, Group content;, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['groupId'] = groupId;
+      // do something different with queryParameters
+      string path = 'people/{userId}/@groups/{groupId}/@self';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'PUT')
+      // authentication might wrap the request here.
+      return request
+    }
+  }
+
+    // subresources
+
+} // end of class definition
+
+// Resource 
+class People extends SomeRootClass {
+  Myservice service_handle;
+
+  // Loop over all resources here to declare variables
+  
+
+  // Note that I just write this stuff with the indent I want
+  
+
+  // but here all the things are in an indent block because then I can control
+  // how they are indenting better.
+
+    // Method
+    /**
+     * Remove a person from a group
+     *
+     * [userId] ID of the owner of the group.
+     * [groupId] ID of the group from which to remove the person.
+     * [personId] ID of the person to remove from the group.
+     * [hl] Language code to limit language results.
+     */
+    Future delete(str userId, str groupId, str personId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['groupId'] = groupId;
+      pathParams['personId'] = personId;
+      // do something different with queryParameters
+      string path = 'people/{userId}/@groups/{groupId}/{personId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'DELETE')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get a user profile
+     *
+     * [userId] ID of the user being referenced.
+     * [hl] Language code to limit language results.
+     */
+    Future<Person> get(str userId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      // do something different with queryParameters
+      string path = 'people/{userId}/@self';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get people who liked an activity
+     *
+     * [userId] ID of the user being referenced.
+     * [scope]
+     * [postId] ID of the activity that was liked.
+     * [groupId]
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     */
+    Future<PeopleFeed> liked(str userId, str scope, str postId, str groupId, {
+            str c, str hl, long max_results
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      pathParams['postId'] = postId;
+      pathParams['groupId'] = groupId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/{userId}/{scope}/{postId}/{groupId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get people in a group
+     *
+     * [userId] ID of the user being referenced.
+     * [groupId] ID of the group for which to list users.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     */
+    Future<PeopleFeed> list(str userId, str groupId, {
+            str c, str hl, long max_results
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['groupId'] = groupId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'people/{userId}/@groups/{groupId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get people who reshared an activity
+     *
+     * [userId] ID of the user being referenced.
+     * [scope]
+     * [postId] ID of the activity that was reshared.
+     * [groupId]
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     */
+    Future<PeopleFeed> reshared(str userId, str scope, str postId, str groupId, {
+            str c, str hl, long max_results
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      pathParams['postId'] = postId;
+      pathParams['groupId'] = groupId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'activities/{userId}/{scope}/{postId}/{groupId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Search for people
+     *
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     * [q] Full-text search query string.
+     */
+    Future<PeopleFeed> search({
+            str c, str hl, long max_results, str q
+            }) {
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'people/search';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Add a person to a group
+     *
+     * [content] the Person
+     * [userId] ID of the owner of the group.
+     * [groupId] ID of the group to which to add the person.
+     * [personId] ID of the person to add to the group.
+     * [hl] Language code to limit language results.
+     */
+    Future<Person> update(str userId, str groupId, str personId, Person content;, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['groupId'] = groupId;
+      pathParams['personId'] = personId;
+      // do something different with queryParameters
+      string path = 'people/{userId}/@groups/{groupId}/{personId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'PUT')
+      // authentication might wrap the request here.
+      return request
+    }
+  }
+
+  // Enum Myservice.People.Liked.GroupId
+  //
+  class GroupId {
+
+    // People who liked this activity.
+    const str LIKED = '@liked';
+
+  }
+
+  // Enum Myservice.People.Reshared.GroupId
+  //
+  class GroupId {
+
+    // People who reshared this activity.
+    const str RESHARED = '@reshared';
+
+  }
+
+    // subresources
+
+} // end of class definition
+
+// Resource 
+class PhotoAlbums extends SomeRootClass {
+  Myservice service_handle;
+
+  // Loop over all resources here to declare variables
+  
+
+  // Note that I just write this stuff with the indent I want
+  
+
+  // but here all the things are in an indent block because then I can control
+  // how they are indenting better.
+
+    // Method
+    /**
+     * Delete a photo album
+     *
+     * [userId] ID of the user being referenced.
+     * [albumId] ID of the album to delete.
+     * [hl] Language code to limit language results.
+     */
+    Future delete(str userId, str albumId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['albumId'] = albumId;
+      // do something different with queryParameters
+      string path = 'photos/{userId}/@self/{albumId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'DELETE')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get a photo album
+     *
+     * [userId] ID of the user being referenced.
+     * [albumId] ID of the album to get.
+     * [hl] Language code to limit language results.
+     */
+    Future<Album> get(str userId, str albumId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['albumId'] = albumId;
+      // do something different with queryParameters
+      string path = 'photos/{userId}/@self/{albumId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Create a photo album
+     *
+     * [content] the Album
+     * [userId] ID of the user being referenced.
+     * [hl] Language code to limit language results.
+     */
+    Future<Album> insert(str userId, Album content;, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      // do something different with queryParameters
+      string path = 'photos/{userId}/@self';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'POST')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * List a user's photo albums
+     *
+     * [userId] ID of the user being referenced.
+     * [scope] The collection of albums to list.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     */
+    Future<AlbumsFeed> list(str userId, str scope, {
+            str c, str hl, long max_results
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'photos/{userId}/{scope}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+  }
+
+  // Enum Myservice.PhotoAlbums.List.Scope
+  // The collection of albums to list.
+  class Scope {
+
+    // Albums posted by the user.
+    const str SELF = '@self';
+
+  }
+
+    // subresources
+
+} // end of class definition
+
+// Resource 
+class Photos extends SomeRootClass {
+  Myservice service_handle;
+
+  // Loop over all resources here to declare variables
+  
+
+  // Note that I just write this stuff with the indent I want
+  
+
+  // but here all the things are in an indent block because then I can control
+  // how they are indenting better.
+
+    // Method
+    /**
+     * Delete a photo
+     *
+     * [userId] ID of the user being referenced.
+     * [albumId] ID of the album to which to photo belongs.
+     * [photoId] ID of the photo to delete.
+     * [hl] Language code to limit language results.
+     */
+    Future delete(str userId, str albumId, str photoId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['albumId'] = albumId;
+      pathParams['photoId'] = photoId;
+      // do something different with queryParameters
+      string path = 'photos/{userId}/@self/{albumId}/@photos/{photoId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'DELETE')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get photo metadata
+     *
+     * [userId] ID of the user being referenced.
+     * [albumId] ID of the photo for which to get metadata.
+     * [photoId] ID of the album containing the photo.
+     * [hl] Language code to limit language results.
+     */
+    Future<ChiliPhotosResourceJson> get(str userId, str albumId, str photoId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['albumId'] = albumId;
+      pathParams['photoId'] = photoId;
+      // do something different with queryParameters
+      string path = 'photos/{userId}/@self/{albumId}/@photos/{photoId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Upload a photo to an album
+     *
+     * [content] the Album
+     * [userId] ID of the user being referenced.
+     * [albumId] ID of the album to which to upload.
+     * [hl] Language code to limit language results.
+     */
+    Future<Album> insert(str userId, str albumId, Album content;, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['albumId'] = albumId;
+      // do something different with queryParameters
+      string path = 'photos/{userId}/{albumId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'POST')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Upload a photo to an album
+     *
+     * [content] the ChiliPhotosResourceJson
+     * [userId] ID of the user being referenced.
+     * [albumId] ID of the album to which to upload.
+     * [hl] Language code to limit language results.
+     */
+    Future<ChiliPhotosResourceJson> insert2(str userId, str albumId, ChiliPhotosResourceJson content;, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['albumId'] = albumId;
+      // do something different with queryParameters
+      string path = 'photos/{userId}/@self/{albumId}/@photos';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'POST')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * List photos in an album
+     *
+     * [userId] ID of the user being referenced.
+     * [albumId] ID of the album for which to list photos.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     */
+    Future<PhotosFeed> listByAlbum(str userId, str albumId, {
+            str c, str hl, long max_results
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['albumId'] = albumId;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'photos/{userId}/album/{albumId}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+
+    // Method
+    /**
+     * Get a user's photos
+     *
+     * [userId] ID of the user being referenced.
+     * [scope] The collection of photos to list.
+     * [c] A continuation token that allows pagination.
+     * [hl] Language code to limit language results.
+     * [max_results] Maximum number of results to include.
+     Default: 20.
+     Minimum: 0.
+     Maximum: 4294967295.
+     */
+    Future<PhotosFeed> listByScope(str userId, str scope, {
+            str c, str hl, long max_results
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      // do something different with queryParameters
+      // do something different with queryParameters
+      // do something different with queryParameters
+      string path = 'photos/{userId}/scope/{+scope}';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+  }
+
+  // Enum Myservice.Photos.ListByScope.Scope
+  // The collection of photos to list.
+  class Scope {
+
+    // Recent photos uploaded by the user.
+    const str RECENT = '@recent';
+
+  }
+
+    // subresources
+
+} // end of class definition
+
+// Resource 
+class Related extends SomeRootClass {
+  Myservice service_handle;
+
+  // Loop over all resources here to declare variables
+  
+
+  // Note that I just write this stuff with the indent I want
+  
+
+  // but here all the things are in an indent block because then I can control
+  // how they are indenting better.
+
+    // Method
+    /**
+     * Get related links for an activity
+     *
+     * [userId] ID of the user being referenced.
+     * [scope] The collection to which the activity belongs.
+     * [postId] ID of the activity to which to get related links.
+     * [hl] Language code to limit language results.
+     */
+    Future<RelatedFeed> list(str userId, str scope, long postId, {
+            str hl
+            }) {
+      pathParams['userId'] = userId;
+      pathParams['scope'] = scope;
+      pathParams['postId'] = postId;
+      // do something different with queryParameters
+      string path = 'activities/{userId}/{scope}/{postId}/@related';
+      string url = new UrlPattern(_service.rootUrl + "/" + path)
+          .expand(pathParams, queryParams);
+      request = new http.Request($url, 'GET')
+      // authentication might wrap the request here.
+      return request
+    }
+  }
+
+  // Enum Myservice.Related.List.Scope
+  // The collection to which the activity belongs.
+  class Scope {
+
+    // Activities posted by the user.
+    const str SELF = '@self';
+
+  }
+
+    // subresources
+
+} // end of class definition
+
+// Enum Myservice.Alt
+// Data format for the response.
+class Alt {
+
+  // Responses with Content-Type of application/json
+  const str JSON = 'json';
+
+}
+
+
+// Models in the top level
+
+
+
+"""Schema .Activity { model.description }} <p> Your explanation here.
+# 
+class Activity extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'actor'
+  ActivityActor _actor;
+
+  // 
+  // JSON name: 'address'
+  object _address;
+
+  // 
+  // JSON name: 'annotation'
+  object _annotation;
+
+  // 
+  // JSON name: 'categories'
+  com::google::myservice::Array<ActivityCategories> _categories;
+
+  // 
+  // JSON name: 'crosspostSource'
+  object _crosspostSource;
+
+  // 
+  // JSON name: 'detectedlLang'
+  object _detectedlLang;
+
+  // 
+  // JSON name: 'geocode'
+  object _geocode;
+
+  // 
+  // JSON name: 'geometry'
+  Geometry _geometry;
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'links'
+  ActivityLinks _links;
+
+  // 
+  // JSON name: 'object'
+  ActivityObject _object;
+
+  // 
+  // JSON name: 'placeId'
+  object _placeId;
+
+  // 
+  // JSON name: 'placeName'
+  object _placeName;
+
+  // 
+  // JSON name: 'placeholder'
+  object _placeholder;
+
+  // 
+  // JSON name: 'published'
+  str _published;
+
+  // 
+  // JSON name: 'radius'
+  object _radius;
+
+  // 
+  // JSON name: 'source'
+  ActivitySource _source;
+
+  // 
+  // JSON name: 'targetLang'
+  object _targetLang;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'untranslatedTitle'
+  object _untranslatedTitle;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // 
+  // JSON name: 'verbs'
+  com::google::myservice::Array<str> _verbs;
+
+  // 
+  // JSON name: 'visibility'
+  ActivityVisibility _visibility;
+
+  // Getters and setters might go here
+  ActivityActor getActor() {
+    return _actor;
+  }
+  void setActor(ActivityActor v) {
+    _actor = v;
+  }
+  object getAddress() {
+    return _address;
+  }
+  void setAddress(object v) {
+    _address = v;
+  }
+  object getAnnotation() {
+    return _annotation;
+  }
+  void setAnnotation(object v) {
+    _annotation = v;
+  }
+  com::google::myservice::Array<ActivityCategories> getCategories() {
+    return _categories;
+  }
+  void setCategories(com::google::myservice::Array<ActivityCategories> v) {
+    _categories = v;
+  }
+  object getCrosspostSource() {
+    return _crosspostSource;
+  }
+  void setCrosspostSource(object v) {
+    _crosspostSource = v;
+  }
+  object getDetectedlLang() {
+    return _detectedlLang;
+  }
+  void setDetectedlLang(object v) {
+    _detectedlLang = v;
+  }
+  object getGeocode() {
+    return _geocode;
+  }
+  void setGeocode(object v) {
+    _geocode = v;
+  }
+  Geometry getGeometry() {
+    return _geometry;
+  }
+  void setGeometry(Geometry v) {
+    _geometry = v;
+  }
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  ActivityLinks getLinks() {
+    return _links;
+  }
+  void setLinks(ActivityLinks v) {
+    _links = v;
+  }
+  ActivityObject getObject() {
+    return _object;
+  }
+  void setObject(ActivityObject v) {
+    _object = v;
+  }
+  object getPlaceId() {
+    return _placeId;
+  }
+  void setPlaceId(object v) {
+    _placeId = v;
+  }
+  object getPlaceName() {
+    return _placeName;
+  }
+  void setPlaceName(object v) {
+    _placeName = v;
+  }
+  object getPlaceholder() {
+    return _placeholder;
+  }
+  void setPlaceholder(object v) {
+    _placeholder = v;
+  }
+  str getPublished() {
+    return _published;
+  }
+  void setPublished(str v) {
+    _published = v;
+  }
+  object getRadius() {
+    return _radius;
+  }
+  void setRadius(object v) {
+    _radius = v;
+  }
+  ActivitySource getSource() {
+    return _source;
+  }
+  void setSource(ActivitySource v) {
+    _source = v;
+  }
+  object getTargetLang() {
+    return _targetLang;
+  }
+  void setTargetLang(object v) {
+    _targetLang = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  object getUntranslatedTitle() {
+    return _untranslatedTitle;
+  }
+  void setUntranslatedTitle(object v) {
+    _untranslatedTitle = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+  com::google::myservice::Array<str> getVerbs() {
+    return _verbs;
+  }
+  void setVerbs(com::google::myservice::Array<str> v) {
+    _verbs = v;
+  }
+  ActivityVisibility getVisibility() {
+    return _visibility;
+  }
+  void setVisibility(ActivityVisibility v) {
+    _visibility = v;
+  }
+
+  """Schema Activity.ActivityActor { model.description }} <p> Your explanation
+  """here.
+  #
+  class ActivityActor extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'id'
+    object _id;
+
+    //
+    // JSON name: 'name'
+    object _name;
+
+    //
+    // JSON name: 'profileUrl'
+    object _profileUrl;
+
+    //
+    // JSON name: 'thumbnailUrl'
+    object _thumbnailUrl;
+
+    // Getters and setters might go here
+    object getId() {
+      return _id;
+    }
+    void setId(object v) {
+      _id = v;
+    }
+    object getName() {
+      return _name;
+    }
+    void setName(object v) {
+      _name = v;
+    }
+    object getProfileUrl() {
+      return _profileUrl;
+    }
+    void setProfileUrl(object v) {
+      _profileUrl = v;
+    }
+    object getThumbnailUrl() {
+      return _thumbnailUrl;
+    }
+    void setThumbnailUrl(object v) {
+      _thumbnailUrl = v;
+    }
+
+  }
+
+  """Schema Activity.ActivityCategories { model.description }} <p> Your
+  """explanation here.
+  #
+  class ActivityCategories extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'label'
+    object _label;
+
+    //
+    // JSON name: 'schema'
+    object _schema;
+
+    //
+    // JSON name: 'term'
+    object _term;
+
+    // Getters and setters might go here
+    object getLabel() {
+      return _label;
+    }
+    void setLabel(object v) {
+      _label = v;
+    }
+    object getSchema() {
+      return _schema;
+    }
+    void setSchema(object v) {
+      _schema = v;
+    }
+    object getTerm() {
+      return _term;
+    }
+    void setTerm(object v) {
+      _term = v;
+    }
+
+  }
+
+  """Schema Activity.ActivityLinks { model.description }} <p> Your explanation
+  """here.
+  #
+  class ActivityLinks extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'liked'
+    com::google::myservice::Array<ActivityLinksLiked> _liked;
+
+    // Getters and setters might go here
+    com::google::myservice::Array<ActivityLinksLiked> getLiked() {
+      return _liked;
+    }
+    void setLiked(com::google::myservice::Array<ActivityLinksLiked> v) {
+      _liked = v;
+    }
+
+    """Schema Activity.ActivityLinks.ActivityLinksLiked { model.description }}
+    """<p> Your explanation here.
+    #
+    class ActivityLinksLiked extends SomeBaseModelClass {
+
+      //
+      // JSON name: 'count'
+      long _count;
+
+      //
+      // JSON name: 'href'
+      object _href;
+
+      //
+      // JSON name: 'type'
+      object _type;
+
+      // Getters and setters might go here
+      long getCount() {
+        return _count;
+      }
+      void setCount(long v) {
+        _count = v;
+      }
+      object getHref() {
+        return _href;
+      }
+      void setHref(object v) {
+        _href = v;
+      }
+      object getType() {
+        return _type;
+      }
+      void setType(object v) {
+        _type = v;
+      }
+
+    }
+
+  }
+
+  """Schema Activity.ActivityObject { model.description }} <p> Your explanation
+  """here.
+  #
+  class ActivityObject extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'actor'
+    ActivityObjectActor _actor;
+
+    //
+    // JSON name: 'attachments'
+    com::google::myservice::Array<ActivityObjectAttachments> _attachments;
+
+    //
+    // JSON name: 'comments'
+    com::google::myservice::Array<Comment> _comments;
+
+    //
+    // JSON name: 'content'
+    object _content;
+
+    //
+    // JSON name: 'detectedlLang'
+    object _detectedlLang;
+
+    //
+    // JSON name: 'id'
+    object _id;
+
+    //
+    // JSON name: 'liked'
+    com::google::myservice::Array<Person> _liked;
+
+    //
+    // JSON name: 'links'
+    Map<string, com::google::myservice::Array<ActivityObjectLinksItemElement>> _links;
+
+    //
+    // JSON name: 'originalContent'
+    object _originalContent;
+
+    //
+    // JSON name: 'shareOriginal'
+    Activity _shareOriginal;
+
+    //
+    // JSON name: 'targetLang'
+    object _targetLang;
+
+    //
+    // JSON name: 'type'
+    str _type;
+
+    //
+    // JSON name: 'untranslatedContent'
+    object _untranslatedContent;
+
+    // Getters and setters might go here
+    ActivityObjectActor getActor() {
+      return _actor;
+    }
+    void setActor(ActivityObjectActor v) {
+      _actor = v;
+    }
+    com::google::myservice::Array<ActivityObjectAttachments> getAttachments() {
+      return _attachments;
+    }
+    void setAttachments(com::google::myservice::Array<ActivityObjectAttachments> v) {
+      _attachments = v;
+    }
+    com::google::myservice::Array<Comment> getComments() {
+      return _comments;
+    }
+    void setComments(com::google::myservice::Array<Comment> v) {
+      _comments = v;
+    }
+    object getContent() {
+      return _content;
+    }
+    void setContent(object v) {
+      _content = v;
+    }
+    object getDetectedlLang() {
+      return _detectedlLang;
+    }
+    void setDetectedlLang(object v) {
+      _detectedlLang = v;
+    }
+    object getId() {
+      return _id;
+    }
+    void setId(object v) {
+      _id = v;
+    }
+    com::google::myservice::Array<Person> getLiked() {
+      return _liked;
+    }
+    void setLiked(com::google::myservice::Array<Person> v) {
+      _liked = v;
+    }
+    Map<string, com::google::myservice::Array<ActivityObjectLinksItemElement>> getLinks() {
+      return _links;
+    }
+    void setLinks(Map<string, com::google::myservice::Array<ActivityObjectLinksItemElement>> v) {
+      _links = v;
+    }
+    object getOriginalContent() {
+      return _originalContent;
+    }
+    void setOriginalContent(object v) {
+      _originalContent = v;
+    }
+    Activity getShareOriginal() {
+      return _shareOriginal;
+    }
+    void setShareOriginal(Activity v) {
+      _shareOriginal = v;
+    }
+    object getTargetLang() {
+      return _targetLang;
+    }
+    void setTargetLang(object v) {
+      _targetLang = v;
+    }
+    str getType() {
+      return _type;
+    }
+    void setType(str v) {
+      _type = v;
+    }
+    object getUntranslatedContent() {
+      return _untranslatedContent;
+    }
+    void setUntranslatedContent(object v) {
+      _untranslatedContent = v;
+    }
+
+    """Schema Activity.ActivityObject.ActivityObjectActor { model.description }}
+    """<p> Your explanation here.
+    #
+    class ActivityObjectActor extends SomeBaseModelClass {
+
+      //
+      // JSON name: 'id'
+      object _id;
+
+      //
+      // JSON name: 'name'
+      object _name;
+
+      //
+      // JSON name: 'profileUrl'
+      object _profileUrl;
+
+      //
+      // JSON name: 'thumbnailUrl'
+      object _thumbnailUrl;
+
+      // Getters and setters might go here
+      object getId() {
+        return _id;
+      }
+      void setId(object v) {
+        _id = v;
+      }
+      object getName() {
+        return _name;
+      }
+      void setName(object v) {
+        _name = v;
+      }
+      object getProfileUrl() {
+        return _profileUrl;
+      }
+      void setProfileUrl(object v) {
+        _profileUrl = v;
+      }
+      object getThumbnailUrl() {
+        return _thumbnailUrl;
+      }
+      void setThumbnailUrl(object v) {
+        _thumbnailUrl = v;
+      }
+
+    }
+
+    """Schema Activity.ActivityObject.ActivityObjectAttachments {
+    """model.description }} <p> Your explanation here.
+    #
+    class ActivityObjectAttachments extends SomeBaseModelClass {
+
+      //
+      // JSON name: 'content'
+      object _content;
+
+      //
+      // JSON name: 'id'
+      object _id;
+
+      //
+      // JSON name: 'links'
+      Map<string, com::google::myservice::Array<ActivityObjectAttachmentsLinksItemElement>> _links;
+
+      //
+      // JSON name: 'title'
+      object _title;
+
+      //
+      // JSON name: 'type'
+      str _type;
+
+      // Getters and setters might go here
+      object getContent() {
+        return _content;
+      }
+      void setContent(object v) {
+        _content = v;
+      }
+      object getId() {
+        return _id;
+      }
+      void setId(object v) {
+        _id = v;
+      }
+      Map<string, com::google::myservice::Array<ActivityObjectAttachmentsLinksItemElement>> getLinks() {
+        return _links;
+      }
+      void setLinks(Map<string, com::google::myservice::Array<ActivityObjectAttachmentsLinksItemElement>> v) {
+        _links = v;
+      }
+      object getTitle() {
+        return _title;
+      }
+      void setTitle(object v) {
+        _title = v;
+      }
+      str getType() {
+        return _type;
+      }
+      void setType(str v) {
+        _type = v;
+      }
+
+      """Schema Activity.ActivityObject.ActivityObjectAttachments.ActivityObject
+      """AttachmentsLinksItemElement { model.description }} <p> Your explanation
+      """here.
+      #
+      class ActivityObjectAttachmentsLinksItemElement extends SomeBaseModelClass {
+
+        //
+        // JSON name: 'count'
+        object _count;
+
+        //
+        // JSON name: 'height'
+        object _height;
+
+        //
+        // JSON name: 'href'
+        object _href;
+
+        //
+        // JSON name: 'title'
+        object _title;
+
+        //
+        // JSON name: 'type'
+        object _type;
+
+        //
+        // JSON name: 'updated'
+        str _updated;
+
+        //
+        // JSON name: 'width'
+        object _width;
+
+        // Getters and setters might go here
+        object getCount() {
+          return _count;
+        }
+        void setCount(object v) {
+          _count = v;
+        }
+        object getHeight() {
+          return _height;
+        }
+        void setHeight(object v) {
+          _height = v;
+        }
+        object getHref() {
+          return _href;
+        }
+        void setHref(object v) {
+          _href = v;
+        }
+        object getTitle() {
+          return _title;
+        }
+        void setTitle(object v) {
+          _title = v;
+        }
+        object getType() {
+          return _type;
+        }
+        void setType(object v) {
+          _type = v;
+        }
+        str getUpdated() {
+          return _updated;
+        }
+        void setUpdated(str v) {
+          _updated = v;
+        }
+        object getWidth() {
+          return _width;
+        }
+        void setWidth(object v) {
+          _width = v;
+        }
+
+      }
+
+    }
+
+    """Schema Activity.ActivityObject.ActivityObjectLinksItemElement {
+    """model.description }} <p> Your explanation here.
+    #
+    class ActivityObjectLinksItemElement extends SomeBaseModelClass {
+
+      //
+      // JSON name: 'href'
+      object _href;
+
+      //
+      // JSON name: 'type'
+      object _type;
+
+      // Getters and setters might go here
+      object getHref() {
+        return _href;
+      }
+      void setHref(object v) {
+        _href = v;
+      }
+      object getType() {
+        return _type;
+      }
+      void setType(object v) {
+        _type = v;
+      }
+
+    }
+
+  }
+
+  """Schema Activity.ActivitySource { model.description }} <p> Your explanation
+  """here.
+  #
+  class ActivitySource extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'title'
+    object _title;
+
+    // Getters and setters might go here
+    object getTitle() {
+      return _title;
+    }
+    void setTitle(object v) {
+      _title = v;
+    }
+
+  }
+
+  """Schema Activity.ActivityVisibility { model.description }} <p> Your
+  """explanation here.
+  #
+  class ActivityVisibility extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'entries'
+    com::google::myservice::Array<ActivityVisibilityEntries> _entries;
+
+    // Getters and setters might go here
+    com::google::myservice::Array<ActivityVisibilityEntries> getEntries() {
+      return _entries;
+    }
+    void setEntries(com::google::myservice::Array<ActivityVisibilityEntries> v) {
+      _entries = v;
+    }
+
+    """Schema Activity.ActivityVisibility.ActivityVisibilityEntries {
+    """model.description }} <p> Your explanation here.
+    #
+    class ActivityVisibilityEntries extends SomeBaseModelClass {
+
+      //
+      // JSON name: 'id'
+      object _id;
+
+      //
+      // JSON name: 'title'
+      object _title;
+
+      // Getters and setters might go here
+      object getId() {
+        return _id;
+      }
+      void setId(object v) {
+        _id = v;
+      }
+      object getTitle() {
+        return _title;
+      }
+      void setTitle(object v) {
+        _title = v;
+      }
+
+    }
+
+  }
+
+}
+
+
+
+"""Schema Activity.ActivityActor { model.description }} <p> Your explanation
+"""here.
+# 
+class ActivityActor extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'name'
+  object _name;
+
+  // 
+  // JSON name: 'profileUrl'
+  object _profileUrl;
+
+  // 
+  // JSON name: 'thumbnailUrl'
+  object _thumbnailUrl;
+
+  // Getters and setters might go here
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  object getName() {
+    return _name;
+  }
+  void setName(object v) {
+    _name = v;
+  }
+  object getProfileUrl() {
+    return _profileUrl;
+  }
+  void setProfileUrl(object v) {
+    _profileUrl = v;
+  }
+  object getThumbnailUrl() {
+    return _thumbnailUrl;
+  }
+  void setThumbnailUrl(object v) {
+    _thumbnailUrl = v;
+  }
+
+}
+
+
+
+"""Schema Activity.ActivityCategories { model.description }} <p> Your
+"""explanation here.
+# 
+class ActivityCategories extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'label'
+  object _label;
+
+  // 
+  // JSON name: 'schema'
+  object _schema;
+
+  // 
+  // JSON name: 'term'
+  object _term;
+
+  // Getters and setters might go here
+  object getLabel() {
+    return _label;
+  }
+  void setLabel(object v) {
+    _label = v;
+  }
+  object getSchema() {
+    return _schema;
+  }
+  void setSchema(object v) {
+    _schema = v;
+  }
+  object getTerm() {
+    return _term;
+  }
+  void setTerm(object v) {
+    _term = v;
+  }
+
+}
+
+
+
+"""Schema .ActivityFeed { model.description }} <p> Your explanation here.
+# 
+class ActivityFeed extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'items'
+  com::google::myservice::Array<Activity> _items;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'links'
+  Map<string, com::google::myservice::Array<ActivityFeedLinksItemElement>> _links;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // Getters and setters might go here
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  com::google::myservice::Array<Activity> getItems() {
+    return _items;
+  }
+  void setItems(com::google::myservice::Array<Activity> v) {
+    _items = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  Map<string, com::google::myservice::Array<ActivityFeedLinksItemElement>> getLinks() {
+    return _links;
+  }
+  void setLinks(Map<string, com::google::myservice::Array<ActivityFeedLinksItemElement>> v) {
+    _links = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+
+  """Schema ActivityFeed.ActivityFeedLinksItemElement { model.description }} <p>
+  """Your explanation here.
+  #
+  class ActivityFeedLinksItemElement extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'count'
+    object _count;
+
+    //
+    // JSON name: 'height'
+    object _height;
+
+    //
+    // JSON name: 'href'
+    object _href;
+
+    //
+    // JSON name: 'title'
+    object _title;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'updated'
+    str _updated;
+
+    //
+    // JSON name: 'width'
+    object _width;
+
+    // Getters and setters might go here
+    object getCount() {
+      return _count;
+    }
+    void setCount(object v) {
+      _count = v;
+    }
+    object getHeight() {
+      return _height;
+    }
+    void setHeight(object v) {
+      _height = v;
+    }
+    object getHref() {
+      return _href;
+    }
+    void setHref(object v) {
+      _href = v;
+    }
+    object getTitle() {
+      return _title;
+    }
+    void setTitle(object v) {
+      _title = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    str getUpdated() {
+      return _updated;
+    }
+    void setUpdated(str v) {
+      _updated = v;
+    }
+    object getWidth() {
+      return _width;
+    }
+    void setWidth(object v) {
+      _width = v;
+    }
+
+  }
+
+}
+
+
+
+
+
+"""Schema ActivityFeed.ActivityFeedLinksItemElement { model.description }} <p>
+"""Your explanation here.
+# 
+class ActivityFeedLinksItemElement extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'count'
+  object _count;
+
+  // 
+  // JSON name: 'height'
+  object _height;
+
+  // 
+  // JSON name: 'href'
+  object _href;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // 
+  // JSON name: 'width'
+  object _width;
+
+  // Getters and setters might go here
+  object getCount() {
+    return _count;
+  }
+  void setCount(object v) {
+    _count = v;
+  }
+  object getHeight() {
+    return _height;
+  }
+  void setHeight(object v) {
+    _height = v;
+  }
+  object getHref() {
+    return _href;
+  }
+  void setHref(object v) {
+    _href = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+  object getWidth() {
+    return _width;
+  }
+  void setWidth(object v) {
+    _width = v;
+  }
+
+}
+
+
+
+"""Schema Activity.ActivityLinks { model.description }} <p> Your explanation
+"""here.
+# 
+class ActivityLinks extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'liked'
+  com::google::myservice::Array<ActivityLinksLiked> _liked;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<ActivityLinksLiked> getLiked() {
+    return _liked;
+  }
+  void setLiked(com::google::myservice::Array<ActivityLinksLiked> v) {
+    _liked = v;
+  }
+
+  """Schema Activity.ActivityLinks.ActivityLinksLiked { model.description }} <p>
+  """Your explanation here.
+  #
+  class ActivityLinksLiked extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'count'
+    long _count;
+
+    //
+    // JSON name: 'href'
+    object _href;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    // Getters and setters might go here
+    long getCount() {
+      return _count;
+    }
+    void setCount(long v) {
+      _count = v;
+    }
+    object getHref() {
+      return _href;
+    }
+    void setHref(object v) {
+      _href = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema Activity.ActivityLinks.ActivityLinksLiked { model.description }} <p>
+"""Your explanation here.
+# 
+class ActivityLinksLiked extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'count'
+  long _count;
+
+  // 
+  // JSON name: 'href'
+  object _href;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // Getters and setters might go here
+  long getCount() {
+    return _count;
+  }
+  void setCount(long v) {
+    _count = v;
+  }
+  object getHref() {
+    return _href;
+  }
+  void setHref(object v) {
+    _href = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+
+}
+
+
+
+"""Schema Activity.ActivityObject { model.description }} <p> Your explanation
+"""here.
+# 
+class ActivityObject extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'actor'
+  ActivityObjectActor _actor;
+
+  // 
+  // JSON name: 'attachments'
+  com::google::myservice::Array<ActivityObjectAttachments> _attachments;
+
+  // 
+  // JSON name: 'comments'
+  com::google::myservice::Array<Comment> _comments;
+
+  // 
+  // JSON name: 'content'
+  object _content;
+
+  // 
+  // JSON name: 'detectedlLang'
+  object _detectedlLang;
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'liked'
+  com::google::myservice::Array<Person> _liked;
+
+  // 
+  // JSON name: 'links'
+  Map<string, com::google::myservice::Array<ActivityObjectLinksItemElement>> _links;
+
+  // 
+  // JSON name: 'originalContent'
+  object _originalContent;
+
+  // 
+  // JSON name: 'shareOriginal'
+  Activity _shareOriginal;
+
+  // 
+  // JSON name: 'targetLang'
+  object _targetLang;
+
+  // 
+  // JSON name: 'type'
+  str _type;
+
+  // 
+  // JSON name: 'untranslatedContent'
+  object _untranslatedContent;
+
+  // Getters and setters might go here
+  ActivityObjectActor getActor() {
+    return _actor;
+  }
+  void setActor(ActivityObjectActor v) {
+    _actor = v;
+  }
+  com::google::myservice::Array<ActivityObjectAttachments> getAttachments() {
+    return _attachments;
+  }
+  void setAttachments(com::google::myservice::Array<ActivityObjectAttachments> v) {
+    _attachments = v;
+  }
+  com::google::myservice::Array<Comment> getComments() {
+    return _comments;
+  }
+  void setComments(com::google::myservice::Array<Comment> v) {
+    _comments = v;
+  }
+  object getContent() {
+    return _content;
+  }
+  void setContent(object v) {
+    _content = v;
+  }
+  object getDetectedlLang() {
+    return _detectedlLang;
+  }
+  void setDetectedlLang(object v) {
+    _detectedlLang = v;
+  }
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  com::google::myservice::Array<Person> getLiked() {
+    return _liked;
+  }
+  void setLiked(com::google::myservice::Array<Person> v) {
+    _liked = v;
+  }
+  Map<string, com::google::myservice::Array<ActivityObjectLinksItemElement>> getLinks() {
+    return _links;
+  }
+  void setLinks(Map<string, com::google::myservice::Array<ActivityObjectLinksItemElement>> v) {
+    _links = v;
+  }
+  object getOriginalContent() {
+    return _originalContent;
+  }
+  void setOriginalContent(object v) {
+    _originalContent = v;
+  }
+  Activity getShareOriginal() {
+    return _shareOriginal;
+  }
+  void setShareOriginal(Activity v) {
+    _shareOriginal = v;
+  }
+  object getTargetLang() {
+    return _targetLang;
+  }
+  void setTargetLang(object v) {
+    _targetLang = v;
+  }
+  str getType() {
+    return _type;
+  }
+  void setType(str v) {
+    _type = v;
+  }
+  object getUntranslatedContent() {
+    return _untranslatedContent;
+  }
+  void setUntranslatedContent(object v) {
+    _untranslatedContent = v;
+  }
+
+  """Schema Activity.ActivityObject.ActivityObjectActor { model.description }}
+  """<p> Your explanation here.
+  #
+  class ActivityObjectActor extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'id'
+    object _id;
+
+    //
+    // JSON name: 'name'
+    object _name;
+
+    //
+    // JSON name: 'profileUrl'
+    object _profileUrl;
+
+    //
+    // JSON name: 'thumbnailUrl'
+    object _thumbnailUrl;
+
+    // Getters and setters might go here
+    object getId() {
+      return _id;
+    }
+    void setId(object v) {
+      _id = v;
+    }
+    object getName() {
+      return _name;
+    }
+    void setName(object v) {
+      _name = v;
+    }
+    object getProfileUrl() {
+      return _profileUrl;
+    }
+    void setProfileUrl(object v) {
+      _profileUrl = v;
+    }
+    object getThumbnailUrl() {
+      return _thumbnailUrl;
+    }
+    void setThumbnailUrl(object v) {
+      _thumbnailUrl = v;
+    }
+
+  }
+
+  """Schema Activity.ActivityObject.ActivityObjectAttachments {
+  """model.description }} <p> Your explanation here.
+  #
+  class ActivityObjectAttachments extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'content'
+    object _content;
+
+    //
+    // JSON name: 'id'
+    object _id;
+
+    //
+    // JSON name: 'links'
+    Map<string, com::google::myservice::Array<ActivityObjectAttachmentsLinksItemElement>> _links;
+
+    //
+    // JSON name: 'title'
+    object _title;
+
+    //
+    // JSON name: 'type'
+    str _type;
+
+    // Getters and setters might go here
+    object getContent() {
+      return _content;
+    }
+    void setContent(object v) {
+      _content = v;
+    }
+    object getId() {
+      return _id;
+    }
+    void setId(object v) {
+      _id = v;
+    }
+    Map<string, com::google::myservice::Array<ActivityObjectAttachmentsLinksItemElement>> getLinks() {
+      return _links;
+    }
+    void setLinks(Map<string, com::google::myservice::Array<ActivityObjectAttachmentsLinksItemElement>> v) {
+      _links = v;
+    }
+    object getTitle() {
+      return _title;
+    }
+    void setTitle(object v) {
+      _title = v;
+    }
+    str getType() {
+      return _type;
+    }
+    void setType(str v) {
+      _type = v;
+    }
+
+    """Schema Activity.ActivityObject.ActivityObjectAttachments.ActivityObjectAt
+    """tachmentsLinksItemElement { model.description }} <p> Your explanation
+    """here.
+    #
+    class ActivityObjectAttachmentsLinksItemElement extends SomeBaseModelClass {
+
+      //
+      // JSON name: 'count'
+      object _count;
+
+      //
+      // JSON name: 'height'
+      object _height;
+
+      //
+      // JSON name: 'href'
+      object _href;
+
+      //
+      // JSON name: 'title'
+      object _title;
+
+      //
+      // JSON name: 'type'
+      object _type;
+
+      //
+      // JSON name: 'updated'
+      str _updated;
+
+      //
+      // JSON name: 'width'
+      object _width;
+
+      // Getters and setters might go here
+      object getCount() {
+        return _count;
+      }
+      void setCount(object v) {
+        _count = v;
+      }
+      object getHeight() {
+        return _height;
+      }
+      void setHeight(object v) {
+        _height = v;
+      }
+      object getHref() {
+        return _href;
+      }
+      void setHref(object v) {
+        _href = v;
+      }
+      object getTitle() {
+        return _title;
+      }
+      void setTitle(object v) {
+        _title = v;
+      }
+      object getType() {
+        return _type;
+      }
+      void setType(object v) {
+        _type = v;
+      }
+      str getUpdated() {
+        return _updated;
+      }
+      void setUpdated(str v) {
+        _updated = v;
+      }
+      object getWidth() {
+        return _width;
+      }
+      void setWidth(object v) {
+        _width = v;
+      }
+
+    }
+
+  }
+
+  """Schema Activity.ActivityObject.ActivityObjectLinksItemElement {
+  """model.description }} <p> Your explanation here.
+  #
+  class ActivityObjectLinksItemElement extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'href'
+    object _href;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    // Getters and setters might go here
+    object getHref() {
+      return _href;
+    }
+    void setHref(object v) {
+      _href = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema Activity.ActivityObject.ActivityObjectActor { model.description }} <p>
+"""Your explanation here.
+# 
+class ActivityObjectActor extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'name'
+  object _name;
+
+  // 
+  // JSON name: 'profileUrl'
+  object _profileUrl;
+
+  // 
+  // JSON name: 'thumbnailUrl'
+  object _thumbnailUrl;
+
+  // Getters and setters might go here
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  object getName() {
+    return _name;
+  }
+  void setName(object v) {
+    _name = v;
+  }
+  object getProfileUrl() {
+    return _profileUrl;
+  }
+  void setProfileUrl(object v) {
+    _profileUrl = v;
+  }
+  object getThumbnailUrl() {
+    return _thumbnailUrl;
+  }
+  void setThumbnailUrl(object v) {
+    _thumbnailUrl = v;
+  }
+
+}
+
+
+
+"""Schema Activity.ActivityObject.ActivityObjectAttachments { model.description
+"""}} <p> Your explanation here.
+# 
+class ActivityObjectAttachments extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'content'
+  object _content;
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'links'
+  Map<string, com::google::myservice::Array<ActivityObjectAttachmentsLinksItemElement>> _links;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'type'
+  str _type;
+
+  // Getters and setters might go here
+  object getContent() {
+    return _content;
+  }
+  void setContent(object v) {
+    _content = v;
+  }
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  Map<string, com::google::myservice::Array<ActivityObjectAttachmentsLinksItemElement>> getLinks() {
+    return _links;
+  }
+  void setLinks(Map<string, com::google::myservice::Array<ActivityObjectAttachmentsLinksItemElement>> v) {
+    _links = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  str getType() {
+    return _type;
+  }
+  void setType(str v) {
+    _type = v;
+  }
+
+  """Schema Activity.ActivityObject.ActivityObjectAttachments.ActivityObjectAtta
+  """chmentsLinksItemElement { model.description }} <p> Your explanation here.
+  #
+  class ActivityObjectAttachmentsLinksItemElement extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'count'
+    object _count;
+
+    //
+    // JSON name: 'height'
+    object _height;
+
+    //
+    // JSON name: 'href'
+    object _href;
+
+    //
+    // JSON name: 'title'
+    object _title;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'updated'
+    str _updated;
+
+    //
+    // JSON name: 'width'
+    object _width;
+
+    // Getters and setters might go here
+    object getCount() {
+      return _count;
+    }
+    void setCount(object v) {
+      _count = v;
+    }
+    object getHeight() {
+      return _height;
+    }
+    void setHeight(object v) {
+      _height = v;
+    }
+    object getHref() {
+      return _href;
+    }
+    void setHref(object v) {
+      _href = v;
+    }
+    object getTitle() {
+      return _title;
+    }
+    void setTitle(object v) {
+      _title = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    str getUpdated() {
+      return _updated;
+    }
+    void setUpdated(str v) {
+      _updated = v;
+    }
+    object getWidth() {
+      return _width;
+    }
+    void setWidth(object v) {
+      _width = v;
+    }
+
+  }
+
+}
+
+
+
+
+
+"""Schema Activity.ActivityObject.ActivityObjectAttachments.ActivityObjectAttach
+"""mentsLinksItemElement { model.description }} <p> Your explanation here.
+# 
+class ActivityObjectAttachmentsLinksItemElement extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'count'
+  object _count;
+
+  // 
+  // JSON name: 'height'
+  object _height;
+
+  // 
+  // JSON name: 'href'
+  object _href;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // 
+  // JSON name: 'width'
+  object _width;
+
+  // Getters and setters might go here
+  object getCount() {
+    return _count;
+  }
+  void setCount(object v) {
+    _count = v;
+  }
+  object getHeight() {
+    return _height;
+  }
+  void setHeight(object v) {
+    _height = v;
+  }
+  object getHref() {
+    return _href;
+  }
+  void setHref(object v) {
+    _href = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+  object getWidth() {
+    return _width;
+  }
+  void setWidth(object v) {
+    _width = v;
+  }
+
+}
+
+
+
+
+
+"""Schema Activity.ActivityObject.ActivityObjectLinksItemElement {
+"""model.description }} <p> Your explanation here.
+# 
+class ActivityObjectLinksItemElement extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'href'
+  object _href;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // Getters and setters might go here
+  object getHref() {
+    return _href;
+  }
+  void setHref(object v) {
+    _href = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+
+}
+
+
+
+"""Schema Activity.ActivitySource { model.description }} <p> Your explanation
+"""here.
+# 
+class ActivitySource extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // Getters and setters might go here
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+
+}
+
+
+
+"""Schema Activity.ActivityVisibility { model.description }} <p> Your
+"""explanation here.
+# 
+class ActivityVisibility extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'entries'
+  com::google::myservice::Array<ActivityVisibilityEntries> _entries;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<ActivityVisibilityEntries> getEntries() {
+    return _entries;
+  }
+  void setEntries(com::google::myservice::Array<ActivityVisibilityEntries> v) {
+    _entries = v;
+  }
+
+  """Schema Activity.ActivityVisibility.ActivityVisibilityEntries {
+  """model.description }} <p> Your explanation here.
+  #
+  class ActivityVisibilityEntries extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'id'
+    object _id;
+
+    //
+    // JSON name: 'title'
+    object _title;
+
+    // Getters and setters might go here
+    object getId() {
+      return _id;
+    }
+    void setId(object v) {
+      _id = v;
+    }
+    object getTitle() {
+      return _title;
+    }
+    void setTitle(object v) {
+      _title = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema Activity.ActivityVisibility.ActivityVisibilityEntries {
+"""model.description }} <p> Your explanation here.
+# 
+class ActivityVisibilityEntries extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // Getters and setters might go here
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+
+}
+
+
+
+"""Schema .Album { model.description }} <p> Your explanation here.
+# 
+class Album extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'created'
+  str _created;
+
+  // 
+  // JSON name: 'description'
+  str _description;
+
+  // 
+  // JSON name: 'firstPhotoId'
+  long _firstPhotoId;
+
+  // 
+  // JSON name: 'id'
+  long _id;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'lastModified'
+  str _lastModified;
+
+  // 
+  // JSON name: 'links'
+  AlbumLinks _links;
+
+  // 
+  // JSON name: 'owner'
+  AlbumOwner _owner;
+
+  // 
+  // JSON name: 'tags'
+  com::google::myservice::Array<str> _tags;
+
+  // 
+  // JSON name: 'title'
+  str _title;
+
+  // 
+  // JSON name: 'version'
+  long _version;
+
+  // Getters and setters might go here
+  str getCreated() {
+    return _created;
+  }
+  void setCreated(str v) {
+    _created = v;
+  }
+  str getDescription() {
+    return _description;
+  }
+  void setDescription(str v) {
+    _description = v;
+  }
+  long getFirstPhotoId() {
+    return _firstPhotoId;
+  }
+  void setFirstPhotoId(long v) {
+    _firstPhotoId = v;
+  }
+  long getId() {
+    return _id;
+  }
+  void setId(long v) {
+    _id = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  str getLastModified() {
+    return _lastModified;
+  }
+  void setLastModified(str v) {
+    _lastModified = v;
+  }
+  AlbumLinks getLinks() {
+    return _links;
+  }
+  void setLinks(AlbumLinks v) {
+    _links = v;
+  }
+  AlbumOwner getOwner() {
+    return _owner;
+  }
+  void setOwner(AlbumOwner v) {
+    _owner = v;
+  }
+  com::google::myservice::Array<str> getTags() {
+    return _tags;
+  }
+  void setTags(com::google::myservice::Array<str> v) {
+    _tags = v;
+  }
+  str getTitle() {
+    return _title;
+  }
+  void setTitle(str v) {
+    _title = v;
+  }
+  long getVersion() {
+    return _version;
+  }
+  void setVersion(long v) {
+    _version = v;
+  }
+
+  """Schema Album.AlbumLinks { model.description }} <p> Your explanation here.
+  #
+  class AlbumLinks extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'alternate'
+    Link _alternate;
+
+    //
+    // JSON name: 'enclosure'
+    Link _enclosure;
+
+    // Getters and setters might go here
+    Link getAlternate() {
+      return _alternate;
+    }
+    void setAlternate(Link v) {
+      _alternate = v;
+    }
+    Link getEnclosure() {
+      return _enclosure;
+    }
+    void setEnclosure(Link v) {
+      _enclosure = v;
+    }
+
+  }
+
+  """Schema Album.AlbumOwner { model.description }} <p> Your explanation here.
+  #
+  class AlbumOwner extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'id'
+    str _id;
+
+    //
+    // JSON name: 'name'
+    str _name;
+
+    //
+    // JSON name: 'profileUrl'
+    str _profileUrl;
+
+    //
+    // JSON name: 'thumbnailUrl'
+    str _thumbnailUrl;
+
+    // Getters and setters might go here
+    str getId() {
+      return _id;
+    }
+    void setId(str v) {
+      _id = v;
+    }
+    str getName() {
+      return _name;
+    }
+    void setName(str v) {
+      _name = v;
+    }
+    str getProfileUrl() {
+      return _profileUrl;
+    }
+    void setProfileUrl(str v) {
+      _profileUrl = v;
+    }
+    str getThumbnailUrl() {
+      return _thumbnailUrl;
+    }
+    void setThumbnailUrl(str v) {
+      _thumbnailUrl = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema Album.AlbumLinks { model.description }} <p> Your explanation here.
+# 
+class AlbumLinks extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'alternate'
+  Link _alternate;
+
+  // 
+  // JSON name: 'enclosure'
+  Link _enclosure;
+
+  // Getters and setters might go here
+  Link getAlternate() {
+    return _alternate;
+  }
+  void setAlternate(Link v) {
+    _alternate = v;
+  }
+  Link getEnclosure() {
+    return _enclosure;
+  }
+  void setEnclosure(Link v) {
+    _enclosure = v;
+  }
+
+}
+
+
+
+"""Schema Album.AlbumOwner { model.description }} <p> Your explanation here.
+# 
+class AlbumOwner extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  str _id;
+
+  // 
+  // JSON name: 'name'
+  str _name;
+
+  // 
+  // JSON name: 'profileUrl'
+  str _profileUrl;
+
+  // 
+  // JSON name: 'thumbnailUrl'
+  str _thumbnailUrl;
+
+  // Getters and setters might go here
+  str getId() {
+    return _id;
+  }
+  void setId(str v) {
+    _id = v;
+  }
+  str getName() {
+    return _name;
+  }
+  void setName(str v) {
+    _name = v;
+  }
+  str getProfileUrl() {
+    return _profileUrl;
+  }
+  void setProfileUrl(str v) {
+    _profileUrl = v;
+  }
+  str getThumbnailUrl() {
+    return _thumbnailUrl;
+  }
+  void setThumbnailUrl(str v) {
+    _thumbnailUrl = v;
+  }
+
+}
+
+
+
+"""Schema .AlbumsFeed { model.description }} <p> Your explanation here.
+# 
+class AlbumsFeed extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'items'
+  com::google::myservice::Array<Album> _items;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<Album> getItems() {
+    return _items;
+  }
+  void setItems(com::google::myservice::Array<Album> v) {
+    _items = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+
+}
+
+
+
+"""Schema .AllTypes { model.description }} <p> Your explanation here.
+# 
+class AllTypes extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'any'
+  object _any;
+
+  // 
+  // JSON name: 'boolean'
+  bool _boolean;
+
+  // 
+  // JSON name: 'bytes'
+  str _bytes;
+
+  // 
+  // JSON name: 'date'
+  str _date;
+
+  // 
+  // JSON name: 'datetime'
+  str _datetime;
+
+  // 
+  // JSON name: 'double'
+  float _double;
+
+  // 
+  // JSON name: 'float'
+  float _float;
+
+  // 
+  // JSON name: 'int16'
+  long _int16;
+
+  // 
+  // JSON name: 'int32'
+  long _int32;
+
+  // 
+  // JSON name: 'int64'
+  str _int64;
+
+  // 
+  // JSON name: 'object'
+  AllTypesObject _object;
+
+  // 
+  // JSON name: 'string'
+  str _string;
+
+  // 
+  // JSON name: 'uint32'
+  long _uint32;
+
+  // 
+  // JSON name: 'uint64'
+  str _uint64;
+
+  // 
+  // JSON name: 'uint64array'
+  com::google::myservice::Array<str> _uint64array;
+
+  // Getters and setters might go here
+  object getAny() {
+    return _any;
+  }
+  void setAny(object v) {
+    _any = v;
+  }
+  bool getBoolean() {
+    return _boolean;
+  }
+  void setBoolean(bool v) {
+    _boolean = v;
+  }
+  str getBytes() {
+    return _bytes;
+  }
+  void setBytes(str v) {
+    _bytes = v;
+  }
+  str getDate() {
+    return _date;
+  }
+  void setDate(str v) {
+    _date = v;
+  }
+  str getDatetime() {
+    return _datetime;
+  }
+  void setDatetime(str v) {
+    _datetime = v;
+  }
+  float getDouble() {
+    return _double;
+  }
+  void setDouble(float v) {
+    _double = v;
+  }
+  float getFloat() {
+    return _float;
+  }
+  void setFloat(float v) {
+    _float = v;
+  }
+  long getInt16() {
+    return _int16;
+  }
+  void setInt16(long v) {
+    _int16 = v;
+  }
+  long getInt32() {
+    return _int32;
+  }
+  void setInt32(long v) {
+    _int32 = v;
+  }
+  str getInt64() {
+    return _int64;
+  }
+  void setInt64(str v) {
+    _int64 = v;
+  }
+  AllTypesObject getObject() {
+    return _object;
+  }
+  void setObject(AllTypesObject v) {
+    _object = v;
+  }
+  str getString() {
+    return _string;
+  }
+  void setString(str v) {
+    _string = v;
+  }
+  long getUint32() {
+    return _uint32;
+  }
+  void setUint32(long v) {
+    _uint32 = v;
+  }
+  str getUint64() {
+    return _uint64;
+  }
+  void setUint64(str v) {
+    _uint64 = v;
+  }
+  com::google::myservice::Array<str> getUint64array() {
+    return _uint64array;
+  }
+  void setUint64array(com::google::myservice::Array<str> v) {
+    _uint64array = v;
+  }
+
+  """Schema AllTypes.AllTypesObject { model.description }} <p> Your explanation
+  """here.
+  #
+  class AllTypesObject extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'id'
+    str _id;
+
+    // Getters and setters might go here
+    str getId() {
+      return _id;
+    }
+    void setId(str v) {
+      _id = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema AllTypes.AllTypesObject { model.description }} <p> Your explanation
+"""here.
+# 
+class AllTypesObject extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  str _id;
+
+  // Getters and setters might go here
+  str getId() {
+    return _id;
+  }
+  void setId(str v) {
+    _id = v;
+  }
+
+}
+
+
+
+"""Schema .ChiliPhotosResourceJson { model.description }} <p> Your explanation
+"""here.
+# 
+class ChiliPhotosResourceJson extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'album'
+  ChiliPhotosResourceJsonAlbum _album;
+
+  // 
+  // JSON name: 'created'
+  str _created;
+
+  // 
+  // JSON name: 'description'
+  str _description;
+
+  // 
+  // JSON name: 'fileSize'
+  long _fileSize;
+
+  // 
+  // JSON name: 'id'
+  long _id;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'lastModified'
+  str _lastModified;
+
+  // 
+  // JSON name: 'links'
+  ChiliPhotosResourceJsonLinks _links;
+
+  // 
+  // JSON name: 'owner'
+  ChiliPhotosResourceJsonOwner _owner;
+
+  // 
+  // JSON name: 'timestamp'
+  float _timestamp;
+
+  // 
+  // JSON name: 'title'
+  str _title;
+
+  // 
+  // JSON name: 'version'
+  long _version;
+
+  // Getters and setters might go here
+  ChiliPhotosResourceJsonAlbum getAlbum() {
+    return _album;
+  }
+  void setAlbum(ChiliPhotosResourceJsonAlbum v) {
+    _album = v;
+  }
+  str getCreated() {
+    return _created;
+  }
+  void setCreated(str v) {
+    _created = v;
+  }
+  str getDescription() {
+    return _description;
+  }
+  void setDescription(str v) {
+    _description = v;
+  }
+  long getFileSize() {
+    return _fileSize;
+  }
+  void setFileSize(long v) {
+    _fileSize = v;
+  }
+  long getId() {
+    return _id;
+  }
+  void setId(long v) {
+    _id = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  str getLastModified() {
+    return _lastModified;
+  }
+  void setLastModified(str v) {
+    _lastModified = v;
+  }
+  ChiliPhotosResourceJsonLinks getLinks() {
+    return _links;
+  }
+  void setLinks(ChiliPhotosResourceJsonLinks v) {
+    _links = v;
+  }
+  ChiliPhotosResourceJsonOwner getOwner() {
+    return _owner;
+  }
+  void setOwner(ChiliPhotosResourceJsonOwner v) {
+    _owner = v;
+  }
+  float getTimestamp() {
+    return _timestamp;
+  }
+  void setTimestamp(float v) {
+    _timestamp = v;
+  }
+  str getTitle() {
+    return _title;
+  }
+  void setTitle(str v) {
+    _title = v;
+  }
+  long getVersion() {
+    return _version;
+  }
+  void setVersion(long v) {
+    _version = v;
+  }
+
+  """Schema ChiliPhotosResourceJson.ChiliPhotosResourceJsonAlbum {
+  """model.description }} <p> Your explanation here.
+  #
+  class ChiliPhotosResourceJsonAlbum extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'id'
+    long _id;
+
+    //
+    // JSON name: 'page_link'
+    Link _page_link;
+
+    // Getters and setters might go here
+    long getId() {
+      return _id;
+    }
+    void setId(long v) {
+      _id = v;
+    }
+    Link getPage_link() {
+      return _page_link;
+    }
+    void setPage_link(Link v) {
+      _page_link = v;
+    }
+
+  }
+
+  """Schema ChiliPhotosResourceJson.ChiliPhotosResourceJsonLinks {
+  """model.description }} <p> Your explanation here.
+  #
+  class ChiliPhotosResourceJsonLinks extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'alternate'
+    com::google::myservice::Array<Link> _alternate;
+
+    // Getters and setters might go here
+    com::google::myservice::Array<Link> getAlternate() {
+      return _alternate;
+    }
+    void setAlternate(com::google::myservice::Array<Link> v) {
+      _alternate = v;
+    }
+
+  }
+
+  """Schema ChiliPhotosResourceJson.ChiliPhotosResourceJsonOwner {
+  """model.description }} <p> Your explanation here.
+  #
+  class ChiliPhotosResourceJsonOwner extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'id'
+    str _id;
+
+    //
+    // JSON name: 'name'
+    str _name;
+
+    //
+    // JSON name: 'profileUrl'
+    str _profileUrl;
+
+    //
+    // JSON name: 'thumbnailUrl'
+    str _thumbnailUrl;
+
+    // Getters and setters might go here
+    str getId() {
+      return _id;
+    }
+    void setId(str v) {
+      _id = v;
+    }
+    str getName() {
+      return _name;
+    }
+    void setName(str v) {
+      _name = v;
+    }
+    str getProfileUrl() {
+      return _profileUrl;
+    }
+    void setProfileUrl(str v) {
+      _profileUrl = v;
+    }
+    str getThumbnailUrl() {
+      return _thumbnailUrl;
+    }
+    void setThumbnailUrl(str v) {
+      _thumbnailUrl = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema ChiliPhotosResourceJson.ChiliPhotosResourceJsonAlbum {
+"""model.description }} <p> Your explanation here.
+# 
+class ChiliPhotosResourceJsonAlbum extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  long _id;
+
+  // 
+  // JSON name: 'page_link'
+  Link _page_link;
+
+  // Getters and setters might go here
+  long getId() {
+    return _id;
+  }
+  void setId(long v) {
+    _id = v;
+  }
+  Link getPage_link() {
+    return _page_link;
+  }
+  void setPage_link(Link v) {
+    _page_link = v;
+  }
+
+}
+
+
+
+"""Schema ChiliPhotosResourceJson.ChiliPhotosResourceJsonLinks {
+"""model.description }} <p> Your explanation here.
+# 
+class ChiliPhotosResourceJsonLinks extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'alternate'
+  com::google::myservice::Array<Link> _alternate;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<Link> getAlternate() {
+    return _alternate;
+  }
+  void setAlternate(com::google::myservice::Array<Link> v) {
+    _alternate = v;
+  }
+
+}
+
+
+
+"""Schema ChiliPhotosResourceJson.ChiliPhotosResourceJsonOwner {
+"""model.description }} <p> Your explanation here.
+# 
+class ChiliPhotosResourceJsonOwner extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  str _id;
+
+  // 
+  // JSON name: 'name'
+  str _name;
+
+  // 
+  // JSON name: 'profileUrl'
+  str _profileUrl;
+
+  // 
+  // JSON name: 'thumbnailUrl'
+  str _thumbnailUrl;
+
+  // Getters and setters might go here
+  str getId() {
+    return _id;
+  }
+  void setId(str v) {
+    _id = v;
+  }
+  str getName() {
+    return _name;
+  }
+  void setName(str v) {
+    _name = v;
+  }
+  str getProfileUrl() {
+    return _profileUrl;
+  }
+  void setProfileUrl(str v) {
+    _profileUrl = v;
+  }
+  str getThumbnailUrl() {
+    return _thumbnailUrl;
+  }
+  void setThumbnailUrl(str v) {
+    _thumbnailUrl = v;
+  }
+
+}
+
+
+
+"""Schema .Comment { model.description }} <p> Your explanation here.
+# 
+class Comment extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'actor'
+  CommentActor _actor;
+
+  // 
+  // JSON name: 'content'
+  object _content;
+
+  // 
+  // JSON name: 'detectedLang'
+  object _detectedLang;
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'links'
+  CommentLinks _links;
+
+  // 
+  // JSON name: 'originalContent'
+  object _originalContent;
+
+  // 
+  // JSON name: 'placeholder'
+  object _placeholder;
+
+  // 
+  // JSON name: 'published'
+  str _published;
+
+  // 
+  // JSON name: 'targetLang'
+  object _targetLang;
+
+  // 
+  // JSON name: 'untranslatedContent'
+  object _untranslatedContent;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // Getters and setters might go here
+  CommentActor getActor() {
+    return _actor;
+  }
+  void setActor(CommentActor v) {
+    _actor = v;
+  }
+  object getContent() {
+    return _content;
+  }
+  void setContent(object v) {
+    _content = v;
+  }
+  object getDetectedLang() {
+    return _detectedLang;
+  }
+  void setDetectedLang(object v) {
+    _detectedLang = v;
+  }
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  CommentLinks getLinks() {
+    return _links;
+  }
+  void setLinks(CommentLinks v) {
+    _links = v;
+  }
+  object getOriginalContent() {
+    return _originalContent;
+  }
+  void setOriginalContent(object v) {
+    _originalContent = v;
+  }
+  object getPlaceholder() {
+    return _placeholder;
+  }
+  void setPlaceholder(object v) {
+    _placeholder = v;
+  }
+  str getPublished() {
+    return _published;
+  }
+  void setPublished(str v) {
+    _published = v;
+  }
+  object getTargetLang() {
+    return _targetLang;
+  }
+  void setTargetLang(object v) {
+    _targetLang = v;
+  }
+  object getUntranslatedContent() {
+    return _untranslatedContent;
+  }
+  void setUntranslatedContent(object v) {
+    _untranslatedContent = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+
+  """Schema Comment.CommentActor { model.description }} <p> Your explanation
+  """here.
+  #
+  class CommentActor extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'id'
+    object _id;
+
+    //
+    // JSON name: 'name'
+    object _name;
+
+    //
+    // JSON name: 'profileUrl'
+    object _profileUrl;
+
+    //
+    // JSON name: 'thumbnailUrl'
+    object _thumbnailUrl;
+
+    // Getters and setters might go here
+    object getId() {
+      return _id;
+    }
+    void setId(object v) {
+      _id = v;
+    }
+    object getName() {
+      return _name;
+    }
+    void setName(object v) {
+      _name = v;
+    }
+    object getProfileUrl() {
+      return _profileUrl;
+    }
+    void setProfileUrl(object v) {
+      _profileUrl = v;
+    }
+    object getThumbnailUrl() {
+      return _thumbnailUrl;
+    }
+    void setThumbnailUrl(object v) {
+      _thumbnailUrl = v;
+    }
+
+  }
+
+  """Schema Comment.CommentLinks { model.description }} <p> Your explanation
+  """here.
+  #
+  class CommentLinks extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'inReplyTo'
+    com::google::myservice::Array<CommentLinksInReplyTo> _inReplyTo;
+
+    // Getters and setters might go here
+    com::google::myservice::Array<CommentLinksInReplyTo> getInReplyTo() {
+      return _inReplyTo;
+    }
+    void setInReplyTo(com::google::myservice::Array<CommentLinksInReplyTo> v) {
+      _inReplyTo = v;
+    }
+
+    """Schema Comment.CommentLinks.CommentLinksInReplyTo { model.description }}
+    """<p> Your explanation here.
+    #
+    class CommentLinksInReplyTo extends SomeBaseModelClass {
+
+      //
+      // JSON name: 'href'
+      object _href;
+
+      //
+      // JSON name: 'ref'
+      object _ref;
+
+      //
+      // JSON name: 'source'
+      object _source;
+
+      // Getters and setters might go here
+      object getHref() {
+        return _href;
+      }
+      void setHref(object v) {
+        _href = v;
+      }
+      object getRef() {
+        return _ref;
+      }
+      void setRef(object v) {
+        _ref = v;
+      }
+      object getSource() {
+        return _source;
+      }
+      void setSource(object v) {
+        _source = v;
+      }
+
+    }
+
+  }
+
+}
+
+
+
+"""Schema Comment.CommentActor { model.description }} <p> Your explanation here.
+# 
+class CommentActor extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'name'
+  object _name;
+
+  // 
+  // JSON name: 'profileUrl'
+  object _profileUrl;
+
+  // 
+  // JSON name: 'thumbnailUrl'
+  object _thumbnailUrl;
+
+  // Getters and setters might go here
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  object getName() {
+    return _name;
+  }
+  void setName(object v) {
+    _name = v;
+  }
+  object getProfileUrl() {
+    return _profileUrl;
+  }
+  void setProfileUrl(object v) {
+    _profileUrl = v;
+  }
+  object getThumbnailUrl() {
+    return _thumbnailUrl;
+  }
+  void setThumbnailUrl(object v) {
+    _thumbnailUrl = v;
+  }
+
+}
+
+
+
+"""Schema .CommentFeed { model.description }} <p> Your explanation here.
+# 
+class CommentFeed extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'items'
+  com::google::myservice::Array<Comment> _items;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'links'
+  Map<string, com::google::myservice::Array<CommentFeedLinksItemElement>> _links;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // Getters and setters might go here
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  com::google::myservice::Array<Comment> getItems() {
+    return _items;
+  }
+  void setItems(com::google::myservice::Array<Comment> v) {
+    _items = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  Map<string, com::google::myservice::Array<CommentFeedLinksItemElement>> getLinks() {
+    return _links;
+  }
+  void setLinks(Map<string, com::google::myservice::Array<CommentFeedLinksItemElement>> v) {
+    _links = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+
+  """Schema CommentFeed.CommentFeedLinksItemElement { model.description }} <p>
+  """Your explanation here.
+  #
+  class CommentFeedLinksItemElement extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'count'
+    object _count;
+
+    //
+    // JSON name: 'height'
+    object _height;
+
+    //
+    // JSON name: 'href'
+    object _href;
+
+    //
+    // JSON name: 'title'
+    object _title;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'updated'
+    str _updated;
+
+    //
+    // JSON name: 'width'
+    object _width;
+
+    // Getters and setters might go here
+    object getCount() {
+      return _count;
+    }
+    void setCount(object v) {
+      _count = v;
+    }
+    object getHeight() {
+      return _height;
+    }
+    void setHeight(object v) {
+      _height = v;
+    }
+    object getHref() {
+      return _href;
+    }
+    void setHref(object v) {
+      _href = v;
+    }
+    object getTitle() {
+      return _title;
+    }
+    void setTitle(object v) {
+      _title = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    str getUpdated() {
+      return _updated;
+    }
+    void setUpdated(str v) {
+      _updated = v;
+    }
+    object getWidth() {
+      return _width;
+    }
+    void setWidth(object v) {
+      _width = v;
+    }
+
+  }
+
+}
+
+
+
+
+
+"""Schema CommentFeed.CommentFeedLinksItemElement { model.description }} <p>
+"""Your explanation here.
+# 
+class CommentFeedLinksItemElement extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'count'
+  object _count;
+
+  // 
+  // JSON name: 'height'
+  object _height;
+
+  // 
+  // JSON name: 'href'
+  object _href;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // 
+  // JSON name: 'width'
+  object _width;
+
+  // Getters and setters might go here
+  object getCount() {
+    return _count;
+  }
+  void setCount(object v) {
+    _count = v;
+  }
+  object getHeight() {
+    return _height;
+  }
+  void setHeight(object v) {
+    _height = v;
+  }
+  object getHref() {
+    return _href;
+  }
+  void setHref(object v) {
+    _href = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+  object getWidth() {
+    return _width;
+  }
+  void setWidth(object v) {
+    _width = v;
+  }
+
+}
+
+
+
+"""Schema Comment.CommentLinks { model.description }} <p> Your explanation here.
+# 
+class CommentLinks extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'inReplyTo'
+  com::google::myservice::Array<CommentLinksInReplyTo> _inReplyTo;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<CommentLinksInReplyTo> getInReplyTo() {
+    return _inReplyTo;
+  }
+  void setInReplyTo(com::google::myservice::Array<CommentLinksInReplyTo> v) {
+    _inReplyTo = v;
+  }
+
+  """Schema Comment.CommentLinks.CommentLinksInReplyTo { model.description }}
+  """<p> Your explanation here.
+  #
+  class CommentLinksInReplyTo extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'href'
+    object _href;
+
+    //
+    // JSON name: 'ref'
+    object _ref;
+
+    //
+    // JSON name: 'source'
+    object _source;
+
+    // Getters and setters might go here
+    object getHref() {
+      return _href;
+    }
+    void setHref(object v) {
+      _href = v;
+    }
+    object getRef() {
+      return _ref;
+    }
+    void setRef(object v) {
+      _ref = v;
+    }
+    object getSource() {
+      return _source;
+    }
+    void setSource(object v) {
+      _source = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema Comment.CommentLinks.CommentLinksInReplyTo { model.description }} <p>
+"""Your explanation here.
+# 
+class CommentLinksInReplyTo extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'href'
+  object _href;
+
+  // 
+  // JSON name: 'ref'
+  object _ref;
+
+  // 
+  // JSON name: 'source'
+  object _source;
+
+  // Getters and setters might go here
+  object getHref() {
+    return _href;
+  }
+  void setHref(object v) {
+    _href = v;
+  }
+  object getRef() {
+    return _ref;
+  }
+  void setRef(object v) {
+    _ref = v;
+  }
+  object getSource() {
+    return _source;
+  }
+  void setSource(object v) {
+    _source = v;
+  }
+
+}
+
+
+
+"""Schema .CountFeed { model.description }} <p> Your explanation here.
+# 
+class CountFeed extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'counts'
+  Map<string, com::google::myservice::Array<CountFeedCountsItemElement>> _counts;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // Getters and setters might go here
+  Map<string, com::google::myservice::Array<CountFeedCountsItemElement>> getCounts() {
+    return _counts;
+  }
+  void setCounts(Map<string, com::google::myservice::Array<CountFeedCountsItemElement>> v) {
+    _counts = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+
+  """Schema CountFeed.CountFeedCountsItemElement { model.description }} <p> Your
+  """explanation here.
+  #
+  class CountFeedCountsItemElement extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'count'
+    object _count;
+
+    //
+    // JSON name: 'timestamp'
+    str _timestamp;
+
+    // Getters and setters might go here
+    object getCount() {
+      return _count;
+    }
+    void setCount(object v) {
+      _count = v;
+    }
+    str getTimestamp() {
+      return _timestamp;
+    }
+    void setTimestamp(str v) {
+      _timestamp = v;
+    }
+
+  }
+
+}
+
+
+
+
+
+"""Schema CountFeed.CountFeedCountsItemElement { model.description }} <p> Your
+"""explanation here.
+# 
+class CountFeedCountsItemElement extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'count'
+  object _count;
+
+  // 
+  // JSON name: 'timestamp'
+  str _timestamp;
+
+  // Getters and setters might go here
+  object getCount() {
+    return _count;
+  }
+  void setCount(object v) {
+    _count = v;
+  }
+  str getTimestamp() {
+    return _timestamp;
+  }
+  void setTimestamp(str v) {
+    _timestamp = v;
+  }
+
+}
+
+
+
+"""Schema .Entity { model.description }} <p> Your explanation here.
+# 
+class Entity extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'chipsUiAcl'
+  object _chipsUiAcl;
+
+  // 
+  // JSON name: 'comment'
+  object _comment;
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'starredBy'
+  com::google::myservice::Array<Person> _starredBy;
+
+  // 
+  // JSON name: 'starredByViewer'
+  object _starredByViewer;
+
+  // 
+  // JSON name: 'summary'
+  object _summary;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'totalNumStars'
+  object _totalNumStars;
+
+  // 
+  // JSON name: 'viewerStarAcl'
+  com::google::myservice::Array<EntityViewerStarAcl> _viewerStarAcl;
+
+  // Getters and setters might go here
+  object getChipsUiAcl() {
+    return _chipsUiAcl;
+  }
+  void setChipsUiAcl(object v) {
+    _chipsUiAcl = v;
+  }
+  object getComment() {
+    return _comment;
+  }
+  void setComment(object v) {
+    _comment = v;
+  }
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  com::google::myservice::Array<Person> getStarredBy() {
+    return _starredBy;
+  }
+  void setStarredBy(com::google::myservice::Array<Person> v) {
+    _starredBy = v;
+  }
+  object getStarredByViewer() {
+    return _starredByViewer;
+  }
+  void setStarredByViewer(object v) {
+    _starredByViewer = v;
+  }
+  object getSummary() {
+    return _summary;
+  }
+  void setSummary(object v) {
+    _summary = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  object getTotalNumStars() {
+    return _totalNumStars;
+  }
+  void setTotalNumStars(object v) {
+    _totalNumStars = v;
+  }
+  com::google::myservice::Array<EntityViewerStarAcl> getViewerStarAcl() {
+    return _viewerStarAcl;
+  }
+  void setViewerStarAcl(com::google::myservice::Array<EntityViewerStarAcl> v) {
+    _viewerStarAcl = v;
+  }
+
+  """Schema Entity.EntityViewerStarAcl { model.description }} <p> Your
+  """explanation here.
+  #
+  class EntityViewerStarAcl extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'displayName'
+    object _displayName;
+
+    //
+    // JSON name: 'id'
+    object _id;
+
+    //
+    // JSON name: 'kind'
+    object _kind;
+
+    //
+    // JSON name: 'tags'
+    com::google::myservice::Array<object> _tags;
+
+    // Getters and setters might go here
+    object getDisplayName() {
+      return _displayName;
+    }
+    void setDisplayName(object v) {
+      _displayName = v;
+    }
+    object getId() {
+      return _id;
+    }
+    void setId(object v) {
+      _id = v;
+    }
+    object getKind() {
+      return _kind;
+    }
+    void setKind(object v) {
+      _kind = v;
+    }
+    com::google::myservice::Array<object> getTags() {
+      return _tags;
+    }
+    void setTags(com::google::myservice::Array<object> v) {
+      _tags = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema .EntityAcl { model.description }} <p> Your explanation here.
+# 
+class EntityAcl extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'chipsUiAcl'
+  str _chipsUiAcl;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'viewerStarAcl'
+  com::google::myservice::Array<EntityAclViewerStarAcl> _viewerStarAcl;
+
+  // Getters and setters might go here
+  str getChipsUiAcl() {
+    return _chipsUiAcl;
+  }
+  void setChipsUiAcl(str v) {
+    _chipsUiAcl = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  com::google::myservice::Array<EntityAclViewerStarAcl> getViewerStarAcl() {
+    return _viewerStarAcl;
+  }
+  void setViewerStarAcl(com::google::myservice::Array<EntityAclViewerStarAcl> v) {
+    _viewerStarAcl = v;
+  }
+
+  """Schema EntityAcl.EntityAclViewerStarAcl { model.description }} <p> Your
+  """explanation here.
+  #
+  class EntityAclViewerStarAcl extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'displayName'
+    str _displayName;
+
+    //
+    // JSON name: 'id'
+    str _id;
+
+    //
+    // JSON name: 'kind'
+    str _kind;
+
+    //
+    // JSON name: 'tags'
+    com::google::myservice::Array<str> _tags;
+
+    // Getters and setters might go here
+    str getDisplayName() {
+      return _displayName;
+    }
+    void setDisplayName(str v) {
+      _displayName = v;
+    }
+    str getId() {
+      return _id;
+    }
+    void setId(str v) {
+      _id = v;
+    }
+    str getKind() {
+      return _kind;
+    }
+    void setKind(str v) {
+      _kind = v;
+    }
+    com::google::myservice::Array<str> getTags() {
+      return _tags;
+    }
+    void setTags(com::google::myservice::Array<str> v) {
+      _tags = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema EntityAcl.EntityAclViewerStarAcl { model.description }} <p> Your
+"""explanation here.
+# 
+class EntityAclViewerStarAcl extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'displayName'
+  str _displayName;
+
+  // 
+  // JSON name: 'id'
+  str _id;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'tags'
+  com::google::myservice::Array<str> _tags;
+
+  // Getters and setters might go here
+  str getDisplayName() {
+    return _displayName;
+  }
+  void setDisplayName(str v) {
+    _displayName = v;
+  }
+  str getId() {
+    return _id;
+  }
+  void setId(str v) {
+    _id = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  com::google::myservice::Array<str> getTags() {
+    return _tags;
+  }
+  void setTags(com::google::myservice::Array<str> v) {
+    _tags = v;
+  }
+
+}
+
+
+
+"""Schema Entity.EntityViewerStarAcl { model.description }} <p> Your explanation
+"""here.
+# 
+class EntityViewerStarAcl extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'displayName'
+  object _displayName;
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'kind'
+  object _kind;
+
+  // 
+  // JSON name: 'tags'
+  com::google::myservice::Array<object> _tags;
+
+  // Getters and setters might go here
+  object getDisplayName() {
+    return _displayName;
+  }
+  void setDisplayName(object v) {
+    _displayName = v;
+  }
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  object getKind() {
+    return _kind;
+  }
+  void setKind(object v) {
+    _kind = v;
+  }
+  com::google::myservice::Array<object> getTags() {
+    return _tags;
+  }
+  void setTags(com::google::myservice::Array<object> v) {
+    _tags = v;
+  }
+
+}
+
+
+
+"""Schema .Geometry { model.description }} <p> Your explanation here.
+# 
+class Geometry extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'type'
+  str _type;
+
+  // Getters and setters might go here
+  str getType() {
+    return _type;
+  }
+  void setType(str v) {
+    _type = v;
+  }
+
+}
+
+
+
+"""Schema .GeometryCollection { model.description }} <p> Your explanation here.
+# 
+class GeometryCollection extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'geometries'
+  com::google::myservice::Array<Geometry> _geometries;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<Geometry> getGeometries() {
+    return _geometries;
+  }
+  void setGeometries(com::google::myservice::Array<Geometry> v) {
+    _geometries = v;
+  }
+
+}
+
+
+
+"""Schema .GeometryPolygon { model.description }} <p> Your explanation here.
+# 
+class GeometryPolygon extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'coordinates'
+  str _coordinates;
+
+  // Getters and setters might go here
+  str getCoordinates() {
+    return _coordinates;
+  }
+  void setCoordinates(str v) {
+    _coordinates = v;
+  }
+
+}
+
+
+
+"""Schema .Group { model.description }} <p> Your explanation here.
+# 
+class Group extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'links'
+  GroupLinks _links;
+
+  // 
+  // JSON name: 'memberCount'
+  object _memberCount;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // Getters and setters might go here
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  GroupLinks getLinks() {
+    return _links;
+  }
+  void setLinks(GroupLinks v) {
+    _links = v;
+  }
+  object getMemberCount() {
+    return _memberCount;
+  }
+  void setMemberCount(object v) {
+    _memberCount = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+
+  """Schema Group.GroupLinks { model.description }} <p> Your explanation here.
+  #
+  class GroupLinks extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'self'
+    com::google::myservice::Array<GroupLinksSelf> _self;
+
+    // Getters and setters might go here
+    com::google::myservice::Array<GroupLinksSelf> getSelf() {
+      return _self;
+    }
+    void setSelf(com::google::myservice::Array<GroupLinksSelf> v) {
+      _self = v;
+    }
+
+    """Schema Group.GroupLinks.GroupLinksSelf { model.description }} <p> Your
+    """explanation here.
+    #
+    class GroupLinksSelf extends SomeBaseModelClass {
+
+      //
+      // JSON name: 'href'
+      object _href;
+
+      //
+      // JSON name: 'type'
+      str _type;
+
+      // Getters and setters might go here
+      object getHref() {
+        return _href;
+      }
+      void setHref(object v) {
+        _href = v;
+      }
+      str getType() {
+        return _type;
+      }
+      void setType(str v) {
+        _type = v;
+      }
+
+    }
+
+  }
+
+}
+
+
+
+"""Schema .GroupFeed { model.description }} <p> Your explanation here.
+# 
+class GroupFeed extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'items'
+  com::google::myservice::Array<Group> _items;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'links'
+  Map<string, com::google::myservice::Array<GroupFeedLinksItemElement>> _links;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<Group> getItems() {
+    return _items;
+  }
+  void setItems(com::google::myservice::Array<Group> v) {
+    _items = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  Map<string, com::google::myservice::Array<GroupFeedLinksItemElement>> getLinks() {
+    return _links;
+  }
+  void setLinks(Map<string, com::google::myservice::Array<GroupFeedLinksItemElement>> v) {
+    _links = v;
+  }
+
+  """Schema GroupFeed.GroupFeedLinksItemElement { model.description }} <p> Your
+  """explanation here.
+  #
+  class GroupFeedLinksItemElement extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'count'
+    object _count;
+
+    //
+    // JSON name: 'height'
+    object _height;
+
+    //
+    // JSON name: 'href'
+    object _href;
+
+    //
+    // JSON name: 'title'
+    object _title;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'updated'
+    str _updated;
+
+    //
+    // JSON name: 'width'
+    object _width;
+
+    // Getters and setters might go here
+    object getCount() {
+      return _count;
+    }
+    void setCount(object v) {
+      _count = v;
+    }
+    object getHeight() {
+      return _height;
+    }
+    void setHeight(object v) {
+      _height = v;
+    }
+    object getHref() {
+      return _href;
+    }
+    void setHref(object v) {
+      _href = v;
+    }
+    object getTitle() {
+      return _title;
+    }
+    void setTitle(object v) {
+      _title = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    str getUpdated() {
+      return _updated;
+    }
+    void setUpdated(str v) {
+      _updated = v;
+    }
+    object getWidth() {
+      return _width;
+    }
+    void setWidth(object v) {
+      _width = v;
+    }
+
+  }
+
+}
+
+
+
+
+
+"""Schema GroupFeed.GroupFeedLinksItemElement { model.description }} <p> Your
+"""explanation here.
+# 
+class GroupFeedLinksItemElement extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'count'
+  object _count;
+
+  // 
+  // JSON name: 'height'
+  object _height;
+
+  // 
+  // JSON name: 'href'
+  object _href;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // 
+  // JSON name: 'width'
+  object _width;
+
+  // Getters and setters might go here
+  object getCount() {
+    return _count;
+  }
+  void setCount(object v) {
+    _count = v;
+  }
+  object getHeight() {
+    return _height;
+  }
+  void setHeight(object v) {
+    _height = v;
+  }
+  object getHref() {
+    return _href;
+  }
+  void setHref(object v) {
+    _href = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+  object getWidth() {
+    return _width;
+  }
+  void setWidth(object v) {
+    _width = v;
+  }
+
+}
+
+
+
+"""Schema Group.GroupLinks { model.description }} <p> Your explanation here.
+# 
+class GroupLinks extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'self'
+  com::google::myservice::Array<GroupLinksSelf> _self;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<GroupLinksSelf> getSelf() {
+    return _self;
+  }
+  void setSelf(com::google::myservice::Array<GroupLinksSelf> v) {
+    _self = v;
+  }
+
+  """Schema Group.GroupLinks.GroupLinksSelf { model.description }} <p> Your
+  """explanation here.
+  #
+  class GroupLinksSelf extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'href'
+    object _href;
+
+    //
+    // JSON name: 'type'
+    str _type;
+
+    // Getters and setters might go here
+    object getHref() {
+      return _href;
+    }
+    void setHref(object v) {
+      _href = v;
+    }
+    str getType() {
+      return _type;
+    }
+    void setType(str v) {
+      _type = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema Group.GroupLinks.GroupLinksSelf { model.description }} <p> Your
+"""explanation here.
+# 
+class GroupLinksSelf extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'href'
+  object _href;
+
+  // 
+  // JSON name: 'type'
+  str _type;
+
+  // Getters and setters might go here
+  object getHref() {
+    return _href;
+  }
+  void setHref(object v) {
+    _href = v;
+  }
+  str getType() {
+    return _type;
+  }
+  void setType(str v) {
+    _type = v;
+  }
+
+}
+
+
+
+"""Schema .Link { model.description }} <p> Your explanation here.
+# 
+class Link extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'count'
+  long _count;
+
+  // 
+  // JSON name: 'href'
+  str _href;
+
+  // Getters and setters might go here
+  long getCount() {
+    return _count;
+  }
+  void setCount(long v) {
+    _count = v;
+  }
+  str getHref() {
+    return _href;
+  }
+  void setHref(str v) {
+    _href = v;
+  }
+
+}
+
+
+
+"""Schema .PeopleFeed { model.description }} <p> Your explanation here.
+# 
+class PeopleFeed extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'entry'
+  com::google::myservice::Array<Person> _entry;
+
+  // 
+  // JSON name: 'itemsPerPage'
+  object _itemsPerPage;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'startIndex'
+  object _startIndex;
+
+  // 
+  // JSON name: 'totalResults'
+  object _totalResults;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<Person> getEntry() {
+    return _entry;
+  }
+  void setEntry(com::google::myservice::Array<Person> v) {
+    _entry = v;
+  }
+  object getItemsPerPage() {
+    return _itemsPerPage;
+  }
+  void setItemsPerPage(object v) {
+    _itemsPerPage = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  object getStartIndex() {
+    return _startIndex;
+  }
+  void setStartIndex(object v) {
+    _startIndex = v;
+  }
+  object getTotalResults() {
+    return _totalResults;
+  }
+  void setTotalResults(object v) {
+    _totalResults = v;
+  }
+
+}
+
+
+
+"""Schema .Person { model.description }} <p> Your explanation here.
+# 
+class Person extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'aboutMe'
+  object _aboutMe;
+
+  // 
+  // JSON name: 'accounts'
+  com::google::myservice::Array<PersonAccounts> _accounts;
+
+  // 
+  // JSON name: 'activities'
+  com::google::myservice::Array<object> _activities;
+
+  // 
+  // JSON name: 'addresses'
+  com::google::myservice::Array<PersonAddresses> _addresses;
+
+  // 
+  // JSON name: 'anniversary'
+  object _anniversary;
+
+  // 
+  // JSON name: 'birthday'
+  object _birthday;
+
+  // 
+  // JSON name: 'bodyType'
+  object _bodyType;
+
+  // 
+  // JSON name: 'books'
+  com::google::myservice::Array<object> _books;
+
+  // 
+  // JSON name: 'cars'
+  com::google::myservice::Array<object> _cars;
+
+  // 
+  // JSON name: 'children'
+  com::google::myservice::Array<object> _children;
+
+  // 
+  // JSON name: 'connected'
+  object _connected;
+
+  // 
+  // JSON name: 'currentLocation'
+  object _currentLocation;
+
+  // 
+  // JSON name: 'displayName'
+  object _displayName;
+
+  // 
+  // JSON name: 'drinker'
+  object _drinker;
+
+  // 
+  // JSON name: 'emails'
+  com::google::myservice::Array<PersonEmails> _emails;
+
+  // 
+  // JSON name: 'ethnicity'
+  object _ethnicity;
+
+  // 
+  // JSON name: 'fashion'
+  object _fashion;
+
+  // 
+  // JSON name: 'food'
+  com::google::myservice::Array<object> _food;
+
+  // 
+  // JSON name: 'gender'
+  object _gender;
+
+  // 
+  // JSON name: 'happiestWhen'
+  object _happiestWhen;
+
+  // 
+  // JSON name: 'hasApp'
+  object _hasApp;
+
+  // 
+  // JSON name: 'heroes'
+  com::google::myservice::Array<object> _heroes;
+
+  // 
+  // JSON name: 'humor'
+  object _humor;
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'ims'
+  com::google::myservice::Array<PersonIms> _ims;
+
+  // 
+  // JSON name: 'interests'
+  com::google::myservice::Array<object> _interests;
+
+  // 
+  // JSON name: 'jobInterests'
+  com::google::myservice::Array<object> _jobInterests;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'languages'
+  com::google::myservice::Array<object> _languages;
+
+  // 
+  // JSON name: 'languagesSpoken'
+  com::google::myservice::Array<object> _languagesSpoken;
+
+  // 
+  // JSON name: 'livingArrangement'
+  object _livingArrangement;
+
+  // 
+  // JSON name: 'lookingFor'
+  object _lookingFor;
+
+  // 
+  // JSON name: 'movies'
+  com::google::myservice::Array<object> _movies;
+
+  // 
+  // JSON name: 'music'
+  com::google::myservice::Array<object> _music;
+
+  // 
+  // JSON name: 'name'
+  PersonName _name;
+
+  // 
+  // JSON name: 'nickname'
+  object _nickname;
+
+  // 
+  // JSON name: 'note'
+  object _note;
+
+  // 
+  // JSON name: 'organizations'
+  com::google::myservice::Array<PersonOrganizations> _organizations;
+
+  // 
+  // JSON name: 'pets'
+  com::google::myservice::Array<object> _pets;
+
+  // 
+  // JSON name: 'phoneNumbers'
+  com::google::myservice::Array<PersonPhoneNumbers> _phoneNumbers;
+
+  // 
+  // JSON name: 'photos'
+  com::google::myservice::Array<PersonPhotos> _photos;
+
+  // 
+  // JSON name: 'politicalViews'
+  com::google::myservice::Array<object> _politicalViews;
+
+  // 
+  // JSON name: 'preferredUsername'
+  object _preferredUsername;
+
+  // 
+  // JSON name: 'profileSong'
+  object _profileSong;
+
+  // 
+  // JSON name: 'profileUrl'
+  object _profileUrl;
+
+  // 
+  // JSON name: 'profileVideo'
+  object _profileVideo;
+
+  // 
+  // JSON name: 'published'
+  str _published;
+
+  // 
+  // JSON name: 'quotes'
+  com::google::myservice::Array<object> _quotes;
+
+  // 
+  // JSON name: 'relationshipStatus'
+  object _relationshipStatus;
+
+  // 
+  // JSON name: 'relationships'
+  com::google::myservice::Array<object> _relationships;
+
+  // 
+  // JSON name: 'religion'
+  object _religion;
+
+  // 
+  // JSON name: 'romance'
+  object _romance;
+
+  // 
+  // JSON name: 'scaredOf'
+  object _scaredOf;
+
+  // 
+  // JSON name: 'sexualOrientation'
+  object _sexualOrientation;
+
+  // 
+  // JSON name: 'smoker'
+  object _smoker;
+
+  // 
+  // JSON name: 'sports'
+  com::google::myservice::Array<object> _sports;
+
+  // 
+  // JSON name: 'status'
+  object _status;
+
+  // 
+  // JSON name: 'tags'
+  com::google::myservice::Array<object> _tags;
+
+  // 
+  // JSON name: 'thumbnailUrl'
+  object _thumbnailUrl;
+
+  // 
+  // JSON name: 'turnOffs'
+  com::google::myservice::Array<object> _turnOffs;
+
+  // 
+  // JSON name: 'turnOns'
+  com::google::myservice::Array<object> _turnOns;
+
+  // 
+  // JSON name: 'tvShows'
+  com::google::myservice::Array<object> _tvShows;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // 
+  // JSON name: 'urls'
+  com::google::myservice::Array<PersonUrls> _urls;
+
+  // 
+  // JSON name: 'utcOffset'
+  object _utcOffset;
+
+  // Getters and setters might go here
+  object getAboutMe() {
+    return _aboutMe;
+  }
+  void setAboutMe(object v) {
+    _aboutMe = v;
+  }
+  com::google::myservice::Array<PersonAccounts> getAccounts() {
+    return _accounts;
+  }
+  void setAccounts(com::google::myservice::Array<PersonAccounts> v) {
+    _accounts = v;
+  }
+  com::google::myservice::Array<object> getActivities() {
+    return _activities;
+  }
+  void setActivities(com::google::myservice::Array<object> v) {
+    _activities = v;
+  }
+  com::google::myservice::Array<PersonAddresses> getAddresses() {
+    return _addresses;
+  }
+  void setAddresses(com::google::myservice::Array<PersonAddresses> v) {
+    _addresses = v;
+  }
+  object getAnniversary() {
+    return _anniversary;
+  }
+  void setAnniversary(object v) {
+    _anniversary = v;
+  }
+  object getBirthday() {
+    return _birthday;
+  }
+  void setBirthday(object v) {
+    _birthday = v;
+  }
+  object getBodyType() {
+    return _bodyType;
+  }
+  void setBodyType(object v) {
+    _bodyType = v;
+  }
+  com::google::myservice::Array<object> getBooks() {
+    return _books;
+  }
+  void setBooks(com::google::myservice::Array<object> v) {
+    _books = v;
+  }
+  com::google::myservice::Array<object> getCars() {
+    return _cars;
+  }
+  void setCars(com::google::myservice::Array<object> v) {
+    _cars = v;
+  }
+  com::google::myservice::Array<object> getChildren() {
+    return _children;
+  }
+  void setChildren(com::google::myservice::Array<object> v) {
+    _children = v;
+  }
+  object getConnected() {
+    return _connected;
+  }
+  void setConnected(object v) {
+    _connected = v;
+  }
+  object getCurrentLocation() {
+    return _currentLocation;
+  }
+  void setCurrentLocation(object v) {
+    _currentLocation = v;
+  }
+  object getDisplayName() {
+    return _displayName;
+  }
+  void setDisplayName(object v) {
+    _displayName = v;
+  }
+  object getDrinker() {
+    return _drinker;
+  }
+  void setDrinker(object v) {
+    _drinker = v;
+  }
+  com::google::myservice::Array<PersonEmails> getEmails() {
+    return _emails;
+  }
+  void setEmails(com::google::myservice::Array<PersonEmails> v) {
+    _emails = v;
+  }
+  object getEthnicity() {
+    return _ethnicity;
+  }
+  void setEthnicity(object v) {
+    _ethnicity = v;
+  }
+  object getFashion() {
+    return _fashion;
+  }
+  void setFashion(object v) {
+    _fashion = v;
+  }
+  com::google::myservice::Array<object> getFood() {
+    return _food;
+  }
+  void setFood(com::google::myservice::Array<object> v) {
+    _food = v;
+  }
+  object getGender() {
+    return _gender;
+  }
+  void setGender(object v) {
+    _gender = v;
+  }
+  object getHappiestWhen() {
+    return _happiestWhen;
+  }
+  void setHappiestWhen(object v) {
+    _happiestWhen = v;
+  }
+  object getHasApp() {
+    return _hasApp;
+  }
+  void setHasApp(object v) {
+    _hasApp = v;
+  }
+  com::google::myservice::Array<object> getHeroes() {
+    return _heroes;
+  }
+  void setHeroes(com::google::myservice::Array<object> v) {
+    _heroes = v;
+  }
+  object getHumor() {
+    return _humor;
+  }
+  void setHumor(object v) {
+    _humor = v;
+  }
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  com::google::myservice::Array<PersonIms> getIms() {
+    return _ims;
+  }
+  void setIms(com::google::myservice::Array<PersonIms> v) {
+    _ims = v;
+  }
+  com::google::myservice::Array<object> getInterests() {
+    return _interests;
+  }
+  void setInterests(com::google::myservice::Array<object> v) {
+    _interests = v;
+  }
+  com::google::myservice::Array<object> getJobInterests() {
+    return _jobInterests;
+  }
+  void setJobInterests(com::google::myservice::Array<object> v) {
+    _jobInterests = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  com::google::myservice::Array<object> getLanguages() {
+    return _languages;
+  }
+  void setLanguages(com::google::myservice::Array<object> v) {
+    _languages = v;
+  }
+  com::google::myservice::Array<object> getLanguagesSpoken() {
+    return _languagesSpoken;
+  }
+  void setLanguagesSpoken(com::google::myservice::Array<object> v) {
+    _languagesSpoken = v;
+  }
+  object getLivingArrangement() {
+    return _livingArrangement;
+  }
+  void setLivingArrangement(object v) {
+    _livingArrangement = v;
+  }
+  object getLookingFor() {
+    return _lookingFor;
+  }
+  void setLookingFor(object v) {
+    _lookingFor = v;
+  }
+  com::google::myservice::Array<object> getMovies() {
+    return _movies;
+  }
+  void setMovies(com::google::myservice::Array<object> v) {
+    _movies = v;
+  }
+  com::google::myservice::Array<object> getMusic() {
+    return _music;
+  }
+  void setMusic(com::google::myservice::Array<object> v) {
+    _music = v;
+  }
+  PersonName getName() {
+    return _name;
+  }
+  void setName(PersonName v) {
+    _name = v;
+  }
+  object getNickname() {
+    return _nickname;
+  }
+  void setNickname(object v) {
+    _nickname = v;
+  }
+  object getNote() {
+    return _note;
+  }
+  void setNote(object v) {
+    _note = v;
+  }
+  com::google::myservice::Array<PersonOrganizations> getOrganizations() {
+    return _organizations;
+  }
+  void setOrganizations(com::google::myservice::Array<PersonOrganizations> v) {
+    _organizations = v;
+  }
+  com::google::myservice::Array<object> getPets() {
+    return _pets;
+  }
+  void setPets(com::google::myservice::Array<object> v) {
+    _pets = v;
+  }
+  com::google::myservice::Array<PersonPhoneNumbers> getPhoneNumbers() {
+    return _phoneNumbers;
+  }
+  void setPhoneNumbers(com::google::myservice::Array<PersonPhoneNumbers> v) {
+    _phoneNumbers = v;
+  }
+  com::google::myservice::Array<PersonPhotos> getPhotos() {
+    return _photos;
+  }
+  void setPhotos(com::google::myservice::Array<PersonPhotos> v) {
+    _photos = v;
+  }
+  com::google::myservice::Array<object> getPoliticalViews() {
+    return _politicalViews;
+  }
+  void setPoliticalViews(com::google::myservice::Array<object> v) {
+    _politicalViews = v;
+  }
+  object getPreferredUsername() {
+    return _preferredUsername;
+  }
+  void setPreferredUsername(object v) {
+    _preferredUsername = v;
+  }
+  object getProfileSong() {
+    return _profileSong;
+  }
+  void setProfileSong(object v) {
+    _profileSong = v;
+  }
+  object getProfileUrl() {
+    return _profileUrl;
+  }
+  void setProfileUrl(object v) {
+    _profileUrl = v;
+  }
+  object getProfileVideo() {
+    return _profileVideo;
+  }
+  void setProfileVideo(object v) {
+    _profileVideo = v;
+  }
+  str getPublished() {
+    return _published;
+  }
+  void setPublished(str v) {
+    _published = v;
+  }
+  com::google::myservice::Array<object> getQuotes() {
+    return _quotes;
+  }
+  void setQuotes(com::google::myservice::Array<object> v) {
+    _quotes = v;
+  }
+  object getRelationshipStatus() {
+    return _relationshipStatus;
+  }
+  void setRelationshipStatus(object v) {
+    _relationshipStatus = v;
+  }
+  com::google::myservice::Array<object> getRelationships() {
+    return _relationships;
+  }
+  void setRelationships(com::google::myservice::Array<object> v) {
+    _relationships = v;
+  }
+  object getReligion() {
+    return _religion;
+  }
+  void setReligion(object v) {
+    _religion = v;
+  }
+  object getRomance() {
+    return _romance;
+  }
+  void setRomance(object v) {
+    _romance = v;
+  }
+  object getScaredOf() {
+    return _scaredOf;
+  }
+  void setScaredOf(object v) {
+    _scaredOf = v;
+  }
+  object getSexualOrientation() {
+    return _sexualOrientation;
+  }
+  void setSexualOrientation(object v) {
+    _sexualOrientation = v;
+  }
+  object getSmoker() {
+    return _smoker;
+  }
+  void setSmoker(object v) {
+    _smoker = v;
+  }
+  com::google::myservice::Array<object> getSports() {
+    return _sports;
+  }
+  void setSports(com::google::myservice::Array<object> v) {
+    _sports = v;
+  }
+  object getStatus() {
+    return _status;
+  }
+  void setStatus(object v) {
+    _status = v;
+  }
+  com::google::myservice::Array<object> getTags() {
+    return _tags;
+  }
+  void setTags(com::google::myservice::Array<object> v) {
+    _tags = v;
+  }
+  object getThumbnailUrl() {
+    return _thumbnailUrl;
+  }
+  void setThumbnailUrl(object v) {
+    _thumbnailUrl = v;
+  }
+  com::google::myservice::Array<object> getTurnOffs() {
+    return _turnOffs;
+  }
+  void setTurnOffs(com::google::myservice::Array<object> v) {
+    _turnOffs = v;
+  }
+  com::google::myservice::Array<object> getTurnOns() {
+    return _turnOns;
+  }
+  void setTurnOns(com::google::myservice::Array<object> v) {
+    _turnOns = v;
+  }
+  com::google::myservice::Array<object> getTvShows() {
+    return _tvShows;
+  }
+  void setTvShows(com::google::myservice::Array<object> v) {
+    _tvShows = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+  com::google::myservice::Array<PersonUrls> getUrls() {
+    return _urls;
+  }
+  void setUrls(com::google::myservice::Array<PersonUrls> v) {
+    _urls = v;
+  }
+  object getUtcOffset() {
+    return _utcOffset;
+  }
+  void setUtcOffset(object v) {
+    _utcOffset = v;
+  }
+
+  """Schema Person.PersonAccounts { model.description }} <p> Your explanation
+  """here.
+  #
+  class PersonAccounts extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'domain'
+    object _domain;
+
+    //
+    // JSON name: 'userid'
+    object _userid;
+
+    //
+    // JSON name: 'username'
+    object _username;
+
+    // Getters and setters might go here
+    object getDomain() {
+      return _domain;
+    }
+    void setDomain(object v) {
+      _domain = v;
+    }
+    object getUserid() {
+      return _userid;
+    }
+    void setUserid(object v) {
+      _userid = v;
+    }
+    object getUsername() {
+      return _username;
+    }
+    void setUsername(object v) {
+      _username = v;
+    }
+
+  }
+
+  """Schema Person.PersonAddresses { model.description }} <p> Your explanation
+  """here.
+  #
+  class PersonAddresses extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'country'
+    object _country;
+
+    //
+    // JSON name: 'formatted'
+    object _formatted;
+
+    //
+    // JSON name: 'locality'
+    object _locality;
+
+    //
+    // JSON name: 'postalCode'
+    object _postalCode;
+
+    //
+    // JSON name: 'primary'
+    object _primary;
+
+    //
+    // JSON name: 'region'
+    object _region;
+
+    //
+    // JSON name: 'streetAddress'
+    object _streetAddress;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    // Getters and setters might go here
+    object getCountry() {
+      return _country;
+    }
+    void setCountry(object v) {
+      _country = v;
+    }
+    object getFormatted() {
+      return _formatted;
+    }
+    void setFormatted(object v) {
+      _formatted = v;
+    }
+    object getLocality() {
+      return _locality;
+    }
+    void setLocality(object v) {
+      _locality = v;
+    }
+    object getPostalCode() {
+      return _postalCode;
+    }
+    void setPostalCode(object v) {
+      _postalCode = v;
+    }
+    object getPrimary() {
+      return _primary;
+    }
+    void setPrimary(object v) {
+      _primary = v;
+    }
+    object getRegion() {
+      return _region;
+    }
+    void setRegion(object v) {
+      _region = v;
+    }
+    object getStreetAddress() {
+      return _streetAddress;
+    }
+    void setStreetAddress(object v) {
+      _streetAddress = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+
+  }
+
+  """Schema Person.PersonEmails { model.description }} <p> Your explanation
+  """here.
+  #
+  class PersonEmails extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'primary'
+    object _primary;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'value'
+    object _value;
+
+    // Getters and setters might go here
+    object getPrimary() {
+      return _primary;
+    }
+    void setPrimary(object v) {
+      _primary = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    object getValue() {
+      return _value;
+    }
+    void setValue(object v) {
+      _value = v;
+    }
+
+  }
+
+  """Schema Person.PersonIms { model.description }} <p> Your explanation here.
+  #
+  class PersonIms extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'primary'
+    object _primary;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'value'
+    object _value;
+
+    // Getters and setters might go here
+    object getPrimary() {
+      return _primary;
+    }
+    void setPrimary(object v) {
+      _primary = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    object getValue() {
+      return _value;
+    }
+    void setValue(object v) {
+      _value = v;
+    }
+
+  }
+
+  """Schema Person.PersonName { model.description }} <p> Your explanation here.
+  #
+  class PersonName extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'familyName'
+    object _familyName;
+
+    //
+    // JSON name: 'formatted'
+    object _formatted;
+
+    //
+    // JSON name: 'givenName'
+    object _givenName;
+
+    //
+    // JSON name: 'honorificPrefix'
+    object _honorificPrefix;
+
+    //
+    // JSON name: 'honorificSuffix'
+    object _honorificSuffix;
+
+    //
+    // JSON name: 'middleName'
+    object _middleName;
+
+    // Getters and setters might go here
+    object getFamilyName() {
+      return _familyName;
+    }
+    void setFamilyName(object v) {
+      _familyName = v;
+    }
+    object getFormatted() {
+      return _formatted;
+    }
+    void setFormatted(object v) {
+      _formatted = v;
+    }
+    object getGivenName() {
+      return _givenName;
+    }
+    void setGivenName(object v) {
+      _givenName = v;
+    }
+    object getHonorificPrefix() {
+      return _honorificPrefix;
+    }
+    void setHonorificPrefix(object v) {
+      _honorificPrefix = v;
+    }
+    object getHonorificSuffix() {
+      return _honorificSuffix;
+    }
+    void setHonorificSuffix(object v) {
+      _honorificSuffix = v;
+    }
+    object getMiddleName() {
+      return _middleName;
+    }
+    void setMiddleName(object v) {
+      _middleName = v;
+    }
+
+  }
+
+  """Schema Person.PersonOrganizations { model.description }} <p> Your
+  """explanation here.
+  #
+  class PersonOrganizations extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'department'
+    object _department;
+
+    //
+    // JSON name: 'description'
+    object _description;
+
+    //
+    // JSON name: 'endDate'
+    object _endDate;
+
+    //
+    // JSON name: 'location'
+    object _location;
+
+    //
+    // JSON name: 'name'
+    object _name;
+
+    //
+    // JSON name: 'primary'
+    object _primary;
+
+    //
+    // JSON name: 'startDate'
+    object _startDate;
+
+    //
+    // JSON name: 'title'
+    object _title;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    // Getters and setters might go here
+    object getDepartment() {
+      return _department;
+    }
+    void setDepartment(object v) {
+      _department = v;
+    }
+    object getDescription() {
+      return _description;
+    }
+    void setDescription(object v) {
+      _description = v;
+    }
+    object getEndDate() {
+      return _endDate;
+    }
+    void setEndDate(object v) {
+      _endDate = v;
+    }
+    object getLocation() {
+      return _location;
+    }
+    void setLocation(object v) {
+      _location = v;
+    }
+    object getName() {
+      return _name;
+    }
+    void setName(object v) {
+      _name = v;
+    }
+    object getPrimary() {
+      return _primary;
+    }
+    void setPrimary(object v) {
+      _primary = v;
+    }
+    object getStartDate() {
+      return _startDate;
+    }
+    void setStartDate(object v) {
+      _startDate = v;
+    }
+    object getTitle() {
+      return _title;
+    }
+    void setTitle(object v) {
+      _title = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+
+  }
+
+  """Schema Person.PersonPhoneNumbers { model.description }} <p> Your
+  """explanation here.
+  #
+  class PersonPhoneNumbers extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'primary'
+    object _primary;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'value'
+    object _value;
+
+    // Getters and setters might go here
+    object getPrimary() {
+      return _primary;
+    }
+    void setPrimary(object v) {
+      _primary = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    object getValue() {
+      return _value;
+    }
+    void setValue(object v) {
+      _value = v;
+    }
+
+  }
+
+  """Schema Person.PersonPhotos { model.description }} <p> Your explanation
+  """here.
+  #
+  class PersonPhotos extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'height'
+    object _height;
+
+    //
+    // JSON name: 'primary'
+    object _primary;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'value'
+    object _value;
+
+    //
+    // JSON name: 'width'
+    object _width;
+
+    // Getters and setters might go here
+    object getHeight() {
+      return _height;
+    }
+    void setHeight(object v) {
+      _height = v;
+    }
+    object getPrimary() {
+      return _primary;
+    }
+    void setPrimary(object v) {
+      _primary = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    object getValue() {
+      return _value;
+    }
+    void setValue(object v) {
+      _value = v;
+    }
+    object getWidth() {
+      return _width;
+    }
+    void setWidth(object v) {
+      _width = v;
+    }
+
+  }
+
+  """Schema Person.PersonUrls { model.description }} <p> Your explanation here.
+  #
+  class PersonUrls extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'primary'
+    object _primary;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'value'
+    object _value;
+
+    // Getters and setters might go here
+    object getPrimary() {
+      return _primary;
+    }
+    void setPrimary(object v) {
+      _primary = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    object getValue() {
+      return _value;
+    }
+    void setValue(object v) {
+      _value = v;
+    }
+
+  }
+
+}
+
+
+
+"""Schema Person.PersonAccounts { model.description }} <p> Your explanation
+"""here.
+# 
+class PersonAccounts extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'domain'
+  object _domain;
+
+  // 
+  // JSON name: 'userid'
+  object _userid;
+
+  // 
+  // JSON name: 'username'
+  object _username;
+
+  // Getters and setters might go here
+  object getDomain() {
+    return _domain;
+  }
+  void setDomain(object v) {
+    _domain = v;
+  }
+  object getUserid() {
+    return _userid;
+  }
+  void setUserid(object v) {
+    _userid = v;
+  }
+  object getUsername() {
+    return _username;
+  }
+  void setUsername(object v) {
+    _username = v;
+  }
+
+}
+
+
+
+"""Schema Person.PersonAddresses { model.description }} <p> Your explanation
+"""here.
+# 
+class PersonAddresses extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'country'
+  object _country;
+
+  // 
+  // JSON name: 'formatted'
+  object _formatted;
+
+  // 
+  // JSON name: 'locality'
+  object _locality;
+
+  // 
+  // JSON name: 'postalCode'
+  object _postalCode;
+
+  // 
+  // JSON name: 'primary'
+  object _primary;
+
+  // 
+  // JSON name: 'region'
+  object _region;
+
+  // 
+  // JSON name: 'streetAddress'
+  object _streetAddress;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // Getters and setters might go here
+  object getCountry() {
+    return _country;
+  }
+  void setCountry(object v) {
+    _country = v;
+  }
+  object getFormatted() {
+    return _formatted;
+  }
+  void setFormatted(object v) {
+    _formatted = v;
+  }
+  object getLocality() {
+    return _locality;
+  }
+  void setLocality(object v) {
+    _locality = v;
+  }
+  object getPostalCode() {
+    return _postalCode;
+  }
+  void setPostalCode(object v) {
+    _postalCode = v;
+  }
+  object getPrimary() {
+    return _primary;
+  }
+  void setPrimary(object v) {
+    _primary = v;
+  }
+  object getRegion() {
+    return _region;
+  }
+  void setRegion(object v) {
+    _region = v;
+  }
+  object getStreetAddress() {
+    return _streetAddress;
+  }
+  void setStreetAddress(object v) {
+    _streetAddress = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+
+}
+
+
+
+"""Schema Person.PersonEmails { model.description }} <p> Your explanation here.
+# 
+class PersonEmails extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'primary'
+  object _primary;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'value'
+  object _value;
+
+  // Getters and setters might go here
+  object getPrimary() {
+    return _primary;
+  }
+  void setPrimary(object v) {
+    _primary = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  object getValue() {
+    return _value;
+  }
+  void setValue(object v) {
+    _value = v;
+  }
+
+}
+
+
+
+"""Schema Person.PersonIms { model.description }} <p> Your explanation here.
+# 
+class PersonIms extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'primary'
+  object _primary;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'value'
+  object _value;
+
+  // Getters and setters might go here
+  object getPrimary() {
+    return _primary;
+  }
+  void setPrimary(object v) {
+    _primary = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  object getValue() {
+    return _value;
+  }
+  void setValue(object v) {
+    _value = v;
+  }
+
+}
+
+
+
+"""Schema Person.PersonName { model.description }} <p> Your explanation here.
+# 
+class PersonName extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'familyName'
+  object _familyName;
+
+  // 
+  // JSON name: 'formatted'
+  object _formatted;
+
+  // 
+  // JSON name: 'givenName'
+  object _givenName;
+
+  // 
+  // JSON name: 'honorificPrefix'
+  object _honorificPrefix;
+
+  // 
+  // JSON name: 'honorificSuffix'
+  object _honorificSuffix;
+
+  // 
+  // JSON name: 'middleName'
+  object _middleName;
+
+  // Getters and setters might go here
+  object getFamilyName() {
+    return _familyName;
+  }
+  void setFamilyName(object v) {
+    _familyName = v;
+  }
+  object getFormatted() {
+    return _formatted;
+  }
+  void setFormatted(object v) {
+    _formatted = v;
+  }
+  object getGivenName() {
+    return _givenName;
+  }
+  void setGivenName(object v) {
+    _givenName = v;
+  }
+  object getHonorificPrefix() {
+    return _honorificPrefix;
+  }
+  void setHonorificPrefix(object v) {
+    _honorificPrefix = v;
+  }
+  object getHonorificSuffix() {
+    return _honorificSuffix;
+  }
+  void setHonorificSuffix(object v) {
+    _honorificSuffix = v;
+  }
+  object getMiddleName() {
+    return _middleName;
+  }
+  void setMiddleName(object v) {
+    _middleName = v;
+  }
+
+}
+
+
+
+"""Schema Person.PersonOrganizations { model.description }} <p> Your explanation
+"""here.
+# 
+class PersonOrganizations extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'department'
+  object _department;
+
+  // 
+  // JSON name: 'description'
+  object _description;
+
+  // 
+  // JSON name: 'endDate'
+  object _endDate;
+
+  // 
+  // JSON name: 'location'
+  object _location;
+
+  // 
+  // JSON name: 'name'
+  object _name;
+
+  // 
+  // JSON name: 'primary'
+  object _primary;
+
+  // 
+  // JSON name: 'startDate'
+  object _startDate;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // Getters and setters might go here
+  object getDepartment() {
+    return _department;
+  }
+  void setDepartment(object v) {
+    _department = v;
+  }
+  object getDescription() {
+    return _description;
+  }
+  void setDescription(object v) {
+    _description = v;
+  }
+  object getEndDate() {
+    return _endDate;
+  }
+  void setEndDate(object v) {
+    _endDate = v;
+  }
+  object getLocation() {
+    return _location;
+  }
+  void setLocation(object v) {
+    _location = v;
+  }
+  object getName() {
+    return _name;
+  }
+  void setName(object v) {
+    _name = v;
+  }
+  object getPrimary() {
+    return _primary;
+  }
+  void setPrimary(object v) {
+    _primary = v;
+  }
+  object getStartDate() {
+    return _startDate;
+  }
+  void setStartDate(object v) {
+    _startDate = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+
+}
+
+
+
+"""Schema Person.PersonPhoneNumbers { model.description }} <p> Your explanation
+"""here.
+# 
+class PersonPhoneNumbers extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'primary'
+  object _primary;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'value'
+  object _value;
+
+  // Getters and setters might go here
+  object getPrimary() {
+    return _primary;
+  }
+  void setPrimary(object v) {
+    _primary = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  object getValue() {
+    return _value;
+  }
+  void setValue(object v) {
+    _value = v;
+  }
+
+}
+
+
+
+"""Schema Person.PersonPhotos { model.description }} <p> Your explanation here.
+# 
+class PersonPhotos extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'height'
+  object _height;
+
+  // 
+  // JSON name: 'primary'
+  object _primary;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'value'
+  object _value;
+
+  // 
+  // JSON name: 'width'
+  object _width;
+
+  // Getters and setters might go here
+  object getHeight() {
+    return _height;
+  }
+  void setHeight(object v) {
+    _height = v;
+  }
+  object getPrimary() {
+    return _primary;
+  }
+  void setPrimary(object v) {
+    _primary = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  object getValue() {
+    return _value;
+  }
+  void setValue(object v) {
+    _value = v;
+  }
+  object getWidth() {
+    return _width;
+  }
+  void setWidth(object v) {
+    _width = v;
+  }
+
+}
+
+
+
+"""Schema Person.PersonUrls { model.description }} <p> Your explanation here.
+# 
+class PersonUrls extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'primary'
+  object _primary;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'value'
+  object _value;
+
+  // Getters and setters might go here
+  object getPrimary() {
+    return _primary;
+  }
+  void setPrimary(object v) {
+    _primary = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  object getValue() {
+    return _value;
+  }
+  void setValue(object v) {
+    _value = v;
+  }
+
+}
+
+
+
+"""Schema .PhotosFeed { model.description }} <p> Your explanation here.
+# 
+class PhotosFeed extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'items'
+  com::google::myservice::Array<ChiliPhotosResourceJson> _items;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<ChiliPhotosResourceJson> getItems() {
+    return _items;
+  }
+  void setItems(com::google::myservice::Array<ChiliPhotosResourceJson> v) {
+    _items = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+
+}
+
+
+
+"""Schema .RelatedFeed { model.description }} <p> Your explanation here.
+# 
+class RelatedFeed extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'id'
+  object _id;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'links'
+  Map<string, com::google::myservice::Array<RelatedFeedLinksItemElement>> _links;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // Getters and setters might go here
+  object getId() {
+    return _id;
+  }
+  void setId(object v) {
+    _id = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  Map<string, com::google::myservice::Array<RelatedFeedLinksItemElement>> getLinks() {
+    return _links;
+  }
+  void setLinks(Map<string, com::google::myservice::Array<RelatedFeedLinksItemElement>> v) {
+    _links = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+
+  """Schema RelatedFeed.RelatedFeedLinksItemElement { model.description }} <p>
+  """Your explanation here.
+  #
+  class RelatedFeedLinksItemElement extends SomeBaseModelClass {
+
+    //
+    // JSON name: 'count'
+    object _count;
+
+    //
+    // JSON name: 'height'
+    object _height;
+
+    //
+    // JSON name: 'href'
+    object _href;
+
+    //
+    // JSON name: 'title'
+    object _title;
+
+    //
+    // JSON name: 'type'
+    object _type;
+
+    //
+    // JSON name: 'updated'
+    str _updated;
+
+    //
+    // JSON name: 'width'
+    object _width;
+
+    // Getters and setters might go here
+    object getCount() {
+      return _count;
+    }
+    void setCount(object v) {
+      _count = v;
+    }
+    object getHeight() {
+      return _height;
+    }
+    void setHeight(object v) {
+      _height = v;
+    }
+    object getHref() {
+      return _href;
+    }
+    void setHref(object v) {
+      _href = v;
+    }
+    object getTitle() {
+      return _title;
+    }
+    void setTitle(object v) {
+      _title = v;
+    }
+    object getType() {
+      return _type;
+    }
+    void setType(object v) {
+      _type = v;
+    }
+    str getUpdated() {
+      return _updated;
+    }
+    void setUpdated(str v) {
+      _updated = v;
+    }
+    object getWidth() {
+      return _width;
+    }
+    void setWidth(object v) {
+      _width = v;
+    }
+
+  }
+
+}
+
+
+
+
+
+"""Schema RelatedFeed.RelatedFeedLinksItemElement { model.description }} <p>
+"""Your explanation here.
+# 
+class RelatedFeedLinksItemElement extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'count'
+  object _count;
+
+  // 
+  // JSON name: 'height'
+  object _height;
+
+  // 
+  // JSON name: 'href'
+  object _href;
+
+  // 
+  // JSON name: 'title'
+  object _title;
+
+  // 
+  // JSON name: 'type'
+  object _type;
+
+  // 
+  // JSON name: 'updated'
+  str _updated;
+
+  // 
+  // JSON name: 'width'
+  object _width;
+
+  // Getters and setters might go here
+  object getCount() {
+    return _count;
+  }
+  void setCount(object v) {
+    _count = v;
+  }
+  object getHeight() {
+    return _height;
+  }
+  void setHeight(object v) {
+    _height = v;
+  }
+  object getHref() {
+    return _href;
+  }
+  void setHref(object v) {
+    _href = v;
+  }
+  object getTitle() {
+    return _title;
+  }
+  void setTitle(object v) {
+    _title = v;
+  }
+  object getType() {
+    return _type;
+  }
+  void setType(object v) {
+    _type = v;
+  }
+  str getUpdated() {
+    return _updated;
+  }
+  void setUpdated(str v) {
+    _updated = v;
+  }
+  object getWidth() {
+    return _width;
+  }
+  void setWidth(object v) {
+    _width = v;
+  }
+
+}
+
+
+
+"""Schema .StarredEntityFeed { model.description }} <p> Your explanation here.
+# 
+class StarredEntityFeed extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'entry'
+  com::google::myservice::Array<Entity> _entry;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<Entity> getEntry() {
+    return _entry;
+  }
+  void setEntry(com::google::myservice::Array<Entity> v) {
+    _entry = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+
+}
+
+
+
+"""Schema .StarredEntityFeedForUser { model.description }} <p> Your explanation
+"""here.
+# 
+class StarredEntityFeedForUser extends SomeBaseModelClass {
+
+  // 
+  // JSON name: 'entry'
+  com::google::myservice::Array<Entity> _entry;
+
+  // 
+  // JSON name: 'itemsPerPage'
+  object _itemsPerPage;
+
+  // 
+  // JSON name: 'kind'
+  str _kind;
+
+  // 
+  // JSON name: 'startIndex'
+  object _startIndex;
+
+  // 
+  // JSON name: 'totalResults'
+  object _totalResults;
+
+  // Getters and setters might go here
+  com::google::myservice::Array<Entity> getEntry() {
+    return _entry;
+  }
+  void setEntry(com::google::myservice::Array<Entity> v) {
+    _entry = v;
+  }
+  object getItemsPerPage() {
+    return _itemsPerPage;
+  }
+  void setItemsPerPage(object v) {
+    _itemsPerPage = v;
+  }
+  str getKind() {
+    return _kind;
+  }
+  void setKind(str v) {
+    _kind = v;
+  }
+  object getStartIndex() {
+    return _startIndex;
+  }
+  void setStartIndex(object v) {
+    _startIndex = v;
+  }
+  object getTotalResults() {
+    return _totalResults;
+  }
+  void setTotalResults(object v) {
+    _totalResults = v;
+  }
+
+}
+

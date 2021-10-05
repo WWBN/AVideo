@@ -1,0 +1,50 @@
+{
+  "languages": {
+    "php": {
+      "displayName": "PHP",
+      "variations": {
+        "preview": {
+          "path": "test",
+          "description": "PHP libraries for Google APIs at client head.",
+          "platforms": ["cmd-line"],
+          "library": true,
+          "baseClientLibrary": "base-client-library",
+          "releaseVersion": "release-version"
+        },
+        "stable": {
+          "releaseVersion": "will fallback to generator value",
+          "path": "stable",
+          "description": "PHP libraries for Google APIs.",
+          "platforms": ["cmd-line"],
+          "library": true
+        },
+        "not_built_in": {
+          "releaseVersion": "this-is-from-top-level",
+          "path": "none"
+        }
+      }
+    },
+    "python": {
+      "displayName": "Python",
+      "variations": {
+        "stable": {
+          "releaseVersion": "1.0beta4",
+          "path": "stable",
+          "description": "Python libraries for Google APIs.",
+          "baseClientLibrary": "head",
+          "platforms": ["cmd-line", "appengine"],
+          "skeleton": true,
+          "library": false
+        }
+      }
+    }
+  },
+  "platforms": {
+    "cmd-line": {
+      "displayName": "Command-Line"
+    },
+    "appengine": {
+      "displayName": "Google App Engine"
+    }
+  }
+}

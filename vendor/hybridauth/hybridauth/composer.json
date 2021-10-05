@@ -1,0 +1,39 @@
+{
+    "name": "hybridauth/hybridauth",
+    "description": "PHP Social Authentication Library",
+    "keywords": ["oauth", "openid", "authentication", "authorization", "social", "api", "google", "facebook", "twitter", "apple"],
+    "homepage": "https://hybridauth.github.io",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Miled",
+            "email": "hybridauth@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/hybridauth/hybridauth/issues",
+        "gitter": "https://gitter.im/hybridauth/hybridauth"
+    },
+    "require": {
+        "php": "^5.4 || ^7.0 || ^8.0"
+    },
+    "require-dev": {
+        "ext-curl": "*",
+        "phpunit/phpunit": "^4.8.35 || ^6.5 || ^8.0"
+    },
+    "suggest": {
+        "firebase/php-jwt": "Needed to support Apple provider",
+        "phpseclib/phpseclib": "Needed to support Apple provider"
+    },
+    "autoload": {
+        "psr-4": {
+           "Hybridauth\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+           "HybridauthTest\\Hybridauth\\": "test/"
+        }
+    }
+}

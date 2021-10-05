@@ -1,0 +1,132 @@
+{
+ "name": "foo",
+ "version": "v1",
+ "description": "Google Foo API",
+ "restBasePath": "/foo/v1/",
+ "rpcPath": "/rpc",
+ "features": [
+  "dataWrapper"
+ ],
+ "schemas": {
+  "FooCurrentlocationGetResponseJson": "{\"id\":\"FooCurrentlocationGetResponseJson\",\"$ref\":\"FooLocationResourceJson\"}",
+  "FooCurrentlocationResourceJson": "{\"id\":\"FooCurrentlocationResourceJson\",\"$ref\":\"FooLocationResourceJson\"}",
+  "FooLocationListResponse": "{\"id\":\"FooLocationListResponse\",\"properties\":{\"items\":{\"items\":{\"$ref\":\"FooLocationResourceJson\"},\"type\":\"array\"},\"kind\":{\"default\":\"foo#locationFeed\",\"type\":\"string\"}},\"type\":\"object\"}",
+  "FooLocationResourceJson": "{\"id\":\"FooLocationResourceJson\",\"properties\":{\"placeid\":{\"type\":\"any\"},\"speed\":{\"type\":\"any\"},\"timestampMs\":{\"type\":\"any\"},\"altitude\":{\"type\":\"any\"},\"longitude\":{\"type\":\"any\"},\"foo\":{\"type\":\"any\"},\"accuracy\":{\"type\":\"any\"},\"altitudeAccuracy\":{\"type\":\"any\"},\"heading\":{\"type\":\"any\"},\"kind\":{\"default\":\"foo#location\",\"type\":\"string\"}},\"type\":\"object\"}"
+ },
+ "resources": {
+  "currentLocation": {
+   "methods": {
+    "delete": {
+     "restPath": "currentLocation",
+     "rpcMethod": "foo.currentLocation.delete",
+     "httpMethod": "DELETE"
+    },
+    "get": {
+     "restPath": "currentLocation",
+     "rpcMethod": "foo.currentLocation.get",
+     "httpMethod": "GET",
+     "parameters": {
+      "granularity": {
+       "restParameterType": "query",
+       "required": false,
+       "repeated": false
+      }
+     },
+     "response": {
+      "$ref": "FooCurrentlocationResourceJson"
+     }
+    },
+    "insert": {
+     "restPath": "currentLocation",
+     "rpcMethod": "foo.currentLocation.insert",
+     "httpMethod": "POST",
+     "request": {
+      "$ref": "FooCurrentlocationResourceJson"
+     },
+     "response": {
+      "$ref": "FooCurrentlocationResourceJson"
+     }
+    }
+   }
+  },
+  "location": {
+   "methods": {
+    "delete": {
+     "restPath": "location/{locationId}",
+     "rpcMethod": "foo.location.delete",
+     "httpMethod": "DELETE",
+     "parameters": {
+      "locationId": {
+       "restParameterType": "path",
+       "pattern": "[^/]+",
+       "required": true,
+       "repeated": false
+      }
+     }
+    },
+    "get": {
+     "restPath": "location/{locationId}",
+     "rpcMethod": "foo.location.get",
+     "httpMethod": "GET",
+     "parameters": {
+      "granularity": {
+       "restParameterType": "query",
+       "required": false,
+       "repeated": false
+      },
+      "locationId": {
+       "restParameterType": "path",
+       "pattern": "[^/]+",
+       "required": true,
+       "repeated": false
+      }
+     },
+     "response": {
+      "$ref": "FooLocationResourceJson"
+     }
+    },
+    "insert": {
+     "restPath": "location",
+     "rpcMethod": "foo.location.insert",
+     "httpMethod": "POST",
+     "request": {
+      "$ref": "FooLocationResourceJson"
+     },
+     "response": {
+      "$ref": "FooLocationResourceJson"
+     }
+    },
+    "list": {
+     "restPath": "location",
+     "rpcMethod": "foo.location.list",
+     "httpMethod": "GET",
+     "parameters": {
+      "granularity": {
+       "restParameterType": "query",
+       "required": false,
+       "repeated": false
+      },
+      "max-results": {
+       "restParameterType": "query",
+       "required": false,
+       "repeated": false
+      },
+      "max-time": {
+       "restParameterType": "query",
+       "required": false,
+       "repeated": false
+      },
+      "min-time": {
+       "restParameterType": "query",
+       "required": false,
+       "repeated": false
+      }
+     },
+     "response": {
+      "$ref": "FooLocationListResponse"
+     }
+    }
+   }
+  }
+ }
+}

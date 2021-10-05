@@ -1,0 +1,7 @@
+{
+  "language": "php",
+  "description": "PHP libraries for Google APIs.",
+  "generator": "php",
+  "requires": [],
+  "releaseVersion": "1.2.3"
+}

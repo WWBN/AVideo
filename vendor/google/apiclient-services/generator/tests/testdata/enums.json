@@ -1,0 +1,92 @@
+{
+ "name": "enums",
+ "version": "v1",
+ "description": "An API with enums",
+ "restBasePath": "/enums/",
+ "rpcPath": "/rpc",
+ "features": [
+  "dataWrapper"
+ ],
+ "schemas": {
+  "TranslationsListResponse": {
+   "id": "TranslationsListResponse",
+   "type": "object",
+   "properties": {
+    "translations": {
+     "type": "array",
+     "items": {
+      "$ref": "TranslationsResource"
+     }
+    }
+   }
+  },
+  "TranslationsResource": {
+   "type": "object", "properties": { "translations": { "type":"string"}}
+  }
+ },
+ "resources": {
+  "r1": {
+   "methods": {
+    "m1": {
+     "restPath": "v2",
+     "rpcMethod": "language.translations.list",
+     "httpMethod": "GET",
+     "parameters": {
+      "language": {
+       "location": "query",
+       "description": "The language of the text",
+       "type": "string",
+       "enum": [
+        "english",
+        "italian",
+        "lang_zh-CN",
+        "lang_zh-TW"
+       ],
+       "enumDescriptions": [
+        "English<br/> (US)",
+        "<h1>Italian</h1>",
+        "/*Chinese (Simplified)*/",
+        "///Chinese (Traditional)"
+       ]
+      },
+      "q": {
+       "location": "query",
+       "required": true,
+       "repeated": true,
+       "description": "The text to translate",
+       "type": "string"
+      },
+      "target": {
+       "location": "query",
+       "required": true,
+       "description": "The target language into which the text should be translated",
+       "type": "string"
+      },
+      "accuracy": {
+       "location": "query",
+       "description": "A desired accuracy level",
+       "type": "string",
+       "enum": [
+        "1",
+        "2",
+        "3"
+       ],
+       "enumDescriptions": [
+        "Request a minimum level of accuracy",
+        "Request a medium level of accuracy",
+        "Request a high level of accuracy"
+       ]
+      }
+     },
+     "parameterOrder": [
+      "q",
+      "target"
+     ],
+     "response": {
+      "$ref": "TranslationsListResponse"
+     }
+    }
+   }
+  }
+ }
+}

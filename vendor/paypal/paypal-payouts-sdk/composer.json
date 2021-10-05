@@ -1,0 +1,35 @@
+{
+    "name": "paypal/paypal-payouts-sdk",
+    "description": "PayPal's PHP SDK for Payouts REST APIs",
+    "keywords": ["paypal", "payouts", "rest", "sdk"],
+    "type": "library",
+    "license": "MIT",
+    "homepage": "http://github.com/paypal/PAYOUTS-PHP-SDK/",
+    "require": {
+        "paypal/paypalhttp": "~1.0.1"
+    },
+    "authors": [
+        {
+            "name": "PayPal",
+            "homepage": "https://github.com/paypal/PAYOUTS-PHP-SDK/contributors"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "PaypalPayoutsSDK\\": "lib/PaypalPayoutsSDK",
+            "Sample\\":"samples/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\":"tests/"
+        }
+    },
+    "scripts": {
+        "unit": "phpunit --testsuite unit",
+        "integration": "phpunit --testsuite integration"
+    }
+}

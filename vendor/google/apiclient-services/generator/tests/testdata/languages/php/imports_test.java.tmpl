@@ -1,0 +1,18 @@
+/**
+ * Test block comment
+ */
+
+package {{ model.module.name }};
+
+{% filter noblanklines %}
+import com.google.api.client.http.HttpHeaders;
+not an import
+import com.google.api.client.json.GenericJson;
+   import  com.google.api.client.auth.oauth2.draft10.GoogleAccessTokenRequest;
+{% endfilter %}
+
+class Test {
+  public static void main(String args[]) {
+    System.out.println("Testing Imports.");
+  }
+}

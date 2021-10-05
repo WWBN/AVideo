@@ -1,0 +1,16 @@
+{
+  "languages": {
+    "php": {
+      "displayName": "PHP",
+      "description": "PHP libraries for Google APIs.",
+      "variations": {
+        "default": {
+          "path": "default"
+        },
+        "stable": {
+          "path": "default"
+        }
+      }
+    }
+  }
+}

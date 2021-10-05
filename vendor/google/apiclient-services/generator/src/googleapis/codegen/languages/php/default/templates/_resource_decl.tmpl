@@ -1,0 +1,14 @@
+{% filter noblanklines %}
+{% if resource.json %}
+    $this->{{ resource.phpPropName }} = new {{ api.className }}\Resource\{{ resource.className }}(
+        $this,
+        $this->serviceName,
+        '{{ resource.codeName }}',
+{% indent 4 %}{% call_template _methods_decl methods=resource.methods %}{% endindent %}
+    );
+{% endif %}
+
+{% for r in resource.resources %}
+{% call_template _resource_decl resource=r %}
+{% endfor %}
+{% endfilter %}

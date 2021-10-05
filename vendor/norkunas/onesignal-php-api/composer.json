@@ -1,0 +1,46 @@
+{
+    "name": "norkunas/onesignal-php-api",
+    "description": "OneSignal API for PHP",
+    "keywords": ["onesignal", "api", "notifications", "push", "apns", "gcm"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tomas Norkūnas",
+            "email": "norkunas.tom@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "ext-json": "*",
+        "psr/http-client": "^1.0",
+        "psr/http-client-implementation": "^1.0",
+        "psr/http-factory": "^1.0",
+        "psr/http-factory-implementation": "^1.0",
+        "symfony/deprecation-contracts": "^2.1",
+        "symfony/options-resolver": "^4.4|^5.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.1",
+        "nyholm/psr7": "^1.2",
+        "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan-phpunit": "^0.12",
+        "symfony/http-client": "^5.0",
+        "symfony/phpunit-bridge": "^5.3"
+    },
+    "autoload": {
+        "psr-4": { "OneSignal\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OneSignal\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

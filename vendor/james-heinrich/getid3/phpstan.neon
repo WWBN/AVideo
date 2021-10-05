@@ -1,0 +1,21 @@
+parameters:
+    excludes_analyse:
+    polluteScopeWithLoopInitialAssignments: true
+    dynamicConstantNames:
+        - GETID3_OS_ISWINDOWS
+    ignoreErrors:
+        - '#Call to an undefined method COM::GetFile\(\)\.#'
+        - '#Constant GETID3_HELPERAPPSDIR not found#'
+        - '#Constant GETID3_ASF_(\w+) not found#'
+        -
+            message: '#Function mysql_\w+ not found\.#'
+            path: getid3/extension.cache.mysql.php
+        -
+            message: '#Function rar_\w+ not found\.#'
+            path: getid3/module.archive.rar.php
+        -
+            message: '#Unreachable statement - code above always terminates#'
+            path: getid3/module.archive.szip.php
+        -
+            message: '#Unreachable statement - code above always terminates#'
+            path: getid3/module.audio.aa.php

@@ -1,0 +1,4225 @@
+=== begin: KitchSink.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service;
+
+use Google\Client;
+
+/**
+ * Service definition for KitchSink (v1).
+ *
+ * <p>
+ * An API with every strange thing in it</p>
+ *
+ * <p>
+ * For more information about this service, see the API
+ * <a href="" target="_blank">Documentation</a>
+ * </p>
+ *
+ * @author Google, Inc.
+ */
+class KitchSink extends \Google\Service
+{
+  /** A non googleapis.com scope. */
+  const MAIL_GOOGLE_COM =
+      "https://mail.google.com/";
+  /** a product level scope. */
+  const PRODUCT =
+      "https://www.googleapis.com/auth/product";
+  /** A typical scope. */
+  const USERINFO_EMAIL =
+      "https://www.googleapis.com/auth/userinfo.email";
+
+  public $featured_series;
+  public $global_series;
+  public $my_series;
+  public $myrecent_private;
+  public $profiles;
+  public $responses;
+  public $series;
+  public $series_responses;
+  public $series_submissions;
+  public $submissions;
+  public $tags;
+  public $topics;
+  public $topics_submissions;
+  public $votes;
+
+  /**
+   * Constructs the internal representation of the KitchSink service.
+   *
+   * @param Client|array $clientOrConfig The client used to deliver requests, or a
+   *                                     config array to pass to a new Client instance.
+   * @param string $rootUrl The root URL used for requests to the service.
+   */
+  public function __construct($clientOrConfig = [], $rootUrl = null)
+  {
+    parent::__construct($clientOrConfig);
+    $this->rootUrl = $rootUrl ?: 'https://www.googleapis.com/';
+    $this->servicePath = 'sink/v1/';
+    $this->version = 'v1';
+    $this->serviceName = 'kitch_sink';
+
+    $this->featured_series = new KitchSink\Resource\FeaturedSeries(
+        $this,
+        $this->serviceName,
+        'series',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'series/featured',
+              'httpMethod' => 'GET',
+              'parameters' => [],
+            ],
+          ]
+        ]
+    );
+    $this->global_series = new KitchSink\Resource\KitchSinkGlobalSeries(
+        $this,
+        $this->serviceName,
+        'series',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'search',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'enum' => [
+                  'location' => 'query',
+                  'type' => 'object',
+                ],
+                'max-results' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'q' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'start-index' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->my_series = new KitchSink\Resource\MySeries(
+        $this,
+        $this->serviceName,
+        'series',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'series/@me/mine',
+              'httpMethod' => 'GET',
+              'parameters' => [],
+            ],
+          ]
+        ]
+    );
+    $this->myrecent_private = new KitchSink\Resource\MyrecentKitchSinkPrivate(
+        $this,
+        $this->serviceName,
+        'private',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'series/@me/recent',
+              'httpMethod' => 'GET',
+              'parameters' => [],
+            ],
+          ]
+        ]
+    );
+    $this->profiles = new KitchSink\Resource\Profiles(
+        $this,
+        $this->serviceName,
+        'profiles',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'profiles/@me',
+              'httpMethod' => 'GET',
+              'parameters' => [],
+            ],'update' => [
+              'path' => 'profiles/@me',
+              'httpMethod' => 'PUT',
+              'parameters' => [],
+            ],
+          ]
+        ]
+    );
+    $this->responses = new KitchSink\Resource\Responses(
+        $this,
+        $this->serviceName,
+        'responses',
+        [
+          'methods' => [
+            'insert' => [
+              'path' => 'series/{seriesId}/topics/{topicId}/submissions/{parentSubmissionId}/responses',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'topicId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'parentSubmissionId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'anonymous' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'series/{seriesId}/submissions/{submissionId}/responses',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'author' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'hasAttachedVideo' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'q' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'sort' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'start-index' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->series = new KitchSink\Resource\Series(
+        $this,
+        $this->serviceName,
+        'series',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'series/{seriesId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+              ],
+            ],'insert' => [
+              'path' => 'series',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'list' => [
+              'path' => 'series',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'max-results' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'q' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'start-index' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],'update' => [
+              'path' => 'series/{seriesId}',
+              'httpMethod' => 'PUT',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->series_responses = new KitchSink\Resource\SeriesResponses(
+        $this,
+        $this->serviceName,
+        'responses',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'series/{seriesId}/responses',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'author' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'hasAttachedVideo' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'max-results' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'q' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'sort' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'start-index' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->series_submissions = new KitchSink\Resource\SeriesSubmissions(
+        $this,
+        $this->serviceName,
+        'submissions',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'series/{seriesId}/submissions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'author' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'hasAttachedVideo' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'lang' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'q' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'sort' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'start-index' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->submissions = new KitchSink\Resource\Submissions(
+        $this,
+        $this->serviceName,
+        'submissions',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'series/{seriesId}/submissions/{submissionId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'lang' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'insert' => [
+              'path' => 'series/{seriesId}/topics/{topicId}/submissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'topicId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'anonymous' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->tags = new KitchSink\Resource\Tags(
+        $this,
+        $this->serviceName,
+        'tags',
+        [
+          'methods' => [
+            'delete' => [
+              'path' => 'series/{seriesId}/submissions/{submissionId}/tags/{tagId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'tagId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'insert' => [
+              'path' => 'series/{seriesId}/submissions/{submissionId}/tags',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'series/{id}/submissions/{else}/tags',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'else' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'id' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->topics = new KitchSink\Resource\Topics(
+        $this,
+        $this->serviceName,
+        'topics',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'series/{seriesId}/topics/{topicId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'topicId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+              ],
+            ],'insert' => [
+              'path' => 'series/{seriesId}/topics',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'series/{seriesId}/topics',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'max-results' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'mode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'q' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'start-index' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],'update' => [
+              'path' => 'series/{seriesId}/topics/{topicId}',
+              'httpMethod' => 'PUT',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'topicId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->topics_submissions = new KitchSink\Resource\TopicsSubmissions(
+        $this,
+        $this->serviceName,
+        'submissions',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'series/{seriesId}/topics/{topicId}/submissions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'topicId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'author' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'hasAttachedVideo' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'q' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'sort' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'start-index' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->votes = new KitchSink\Resource\Votes(
+        $this,
+        $this->serviceName,
+        'votes',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'series/{seriesId}/submissions/{submissionId}/votes/@me',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'userId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'insert' => [
+              'path' => 'series/{seriesId}/submissions/{submissionId}/votes/@me',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'submissionId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'series/{seriesId}/votes/@me',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'start-index' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],'update' => [
+              'path' => 'series/{seriesId}/submissions/{submission_id}/votes/@me',
+              'httpMethod' => 'PUT',
+              'parameters' => [
+                'seriesId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'submission_id' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'userId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(KitchSink::class, 'Google_Service_KitchSink');
+=== end: KitchSink.php
+=== begin: KitchSink/Enum.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Enum extends \Google\Model
+{
+  public $name;
+
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  public function getName()
+  {
+    return $this->name;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Enum::class, 'Google_Service_KitchSink_Enum');
+=== end: KitchSink/Enum.php
+=== begin: KitchSink/Geometry.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Geometry extends \Google\Model
+{
+  public $type;
+
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+  public function getType()
+  {
+    return $this->type;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Geometry::class, 'Google_Service_KitchSink_Geometry');
+=== end: KitchSink/Geometry.php
+=== begin: KitchSink/GeometryCollection.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+use Google\Service\KitchSink\Geometry
+
+class GeometryCollection extends Geometry
+{
+  protected $collection_key = 'geometries';
+  protected $geometriesType = Geometry::class;
+  protected $geometriesDataType = 'array';
+  protected function gapiInit()
+  {
+    $this->type = 'Collection';
+  }
+  /**
+   * @param Geometry[]
+   */
+  public function setGeometries($geometries)
+  {
+    $this->geometries = $geometries;
+  }
+  /**
+   * @return Geometry[]
+   */
+  public function getGeometries()
+  {
+    return $this->geometries;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(GeometryCollection::class, 'Google_Service_KitchSink_GeometryCollection');
+=== end: KitchSink/GeometryCollection.php
+=== begin: KitchSink/GeometryPolygon.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+use Google\Service\KitchSink\Geometry
+
+class GeometryPolygon extends Geometry
+{
+  public $coordinates;
+  protected function gapiInit()
+  {
+    $this->type = 'Polygon';
+  }
+  public function setCoordinates($coordinates)
+  {
+    $this->coordinates = $coordinates;
+  }
+  public function getCoordinates()
+  {
+    return $this->coordinates;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(GeometryPolygon::class, 'Google_Service_KitchSink_GeometryPolygon');
+=== end: KitchSink/GeometryPolygon.php
+=== begin: KitchSink/GeometryReference.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+use Google\Service\KitchSink\Geometry
+
+class GeometryReference extends Geometry
+{
+  public $coordinates;
+  protected function gapiInit()
+  {
+    $this->type = 'Ref';
+  }
+  public function setCoordinates($coordinates)
+  {
+    $this->coordinates = $coordinates;
+  }
+  public function getCoordinates()
+  {
+    return $this->coordinates;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(GeometryReference::class, 'Google_Service_KitchSink_GeometryReference');
+=== end: KitchSink/GeometryReference.php
+=== begin: KitchSink/LatLong.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class LatLong extends \Google\Model
+{
+  public $latitude;
+  public $location;
+  public $longitude;
+
+  public function setLatitude($latitude)
+  {
+    $this->latitude = $latitude;
+  }
+  public function getLatitude()
+  {
+    return $this->latitude;
+  }
+  public function setLocation($location)
+  {
+    $this->location = $location;
+  }
+  public function getLocation()
+  {
+    return $this->location;
+  }
+  public function setLongitude($longitude)
+  {
+    $this->longitude = $longitude;
+  }
+  public function getLongitude()
+  {
+    return $this->longitude;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(LatLong::class, 'Google_Service_KitchSink_LatLong');
+=== end: KitchSink/LatLong.php
+=== begin: KitchSink/ModeratorTopicsResourcePartial.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class ModeratorTopicsResourcePartial extends \Google\Model
+{
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(ModeratorTopicsResourcePartial::class, 'Google_Service_KitchSink_ModeratorTopicsResourcePartial');
+=== end: KitchSink/ModeratorTopicsResourcePartial.php
+=== begin: KitchSink/Profile.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Profile extends \Google\Model
+{
+  protected $attributionType = ProfileAttribution::class;
+  protected $attributionDataType = '';
+  protected $idType = ProfileId::class;
+  protected $idDataType = '';
+  public $kind;
+
+  /**
+   * @param ProfileAttribution
+   */
+  public function setAttribution(ProfileAttribution $attribution)
+  {
+    $this->attribution = $attribution;
+  }
+  /**
+   * @return ProfileAttribution
+   */
+  public function getAttribution()
+  {
+    return $this->attribution;
+  }
+  /**
+   * @param ProfileId
+   */
+  public function setId(ProfileId $id)
+  {
+    $this->id = $id;
+  }
+  /**
+   * @return ProfileId
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Profile::class, 'Google_Service_KitchSink_Profile');
+=== end: KitchSink/Profile.php
+=== begin: KitchSink/ProfileAttribution.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class ProfileAttribution extends \Google\Model
+{
+  public $avatarUrl;
+  public $displayName;
+  protected $geoType = LatLong::class;
+  protected $geoDataType = '';
+  public $location;
+
+  public function setAvatarUrl($avatarUrl)
+  {
+    $this->avatarUrl = $avatarUrl;
+  }
+  public function getAvatarUrl()
+  {
+    return $this->avatarUrl;
+  }
+  public function setDisplayName($displayName)
+  {
+    $this->displayName = $displayName;
+  }
+  public function getDisplayName()
+  {
+    return $this->displayName;
+  }
+  /**
+   * @param LatLong
+   */
+  public function setGeo(LatLong $geo)
+  {
+    $this->geo = $geo;
+  }
+  /**
+   * @return LatLong
+   */
+  public function getGeo()
+  {
+    return $this->geo;
+  }
+  public function setLocation($location)
+  {
+    $this->location = $location;
+  }
+  public function getLocation()
+  {
+    return $this->location;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(ProfileAttribution::class, 'Google_Service_KitchSink_ProfileAttribution');
+=== end: KitchSink/ProfileAttribution.php
+=== begin: KitchSink/ProfileId.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class ProfileId extends \Google\Model
+{
+  public $user;
+
+  public function setUser($user)
+  {
+    $this->user = $user;
+  }
+  public function getUser()
+  {
+    return $this->user;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(ProfileId::class, 'Google_Service_KitchSink_ProfileId');
+=== end: KitchSink/ProfileId.php
+=== begin: KitchSink/Resource/Featured.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+/**
+ * The "featured" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $featured = $kitch_sinkService->featured;
+ *  </code>
+ */
+class Featured extends \Google\Service\Resource
+{
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Featured::class, 'Google_Service_KitchSink_Resource_Featured');
+=== end: KitchSink/Resource/Featured.php
+=== begin: KitchSink/Resource/FeaturedSeries.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\SeriesList;
+
+/**
+ * The "series" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $series = $kitch_sinkService->series;
+ *  </code>
+ */
+class FeaturedSeries extends \Google\Service\Resource
+{
+  /**
+   * Lists the featured series. (series.listFeaturedSeries)
+   *
+   * @param array $optParams Optional parameters.
+   * @return SeriesList
+   */
+  public function listFeaturedSeries($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], SeriesList::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(FeaturedSeries::class, 'Google_Service_KitchSink_Resource_FeaturedSeries');
+=== end: KitchSink/Resource/FeaturedSeries.php
+=== begin: KitchSink/Resource/KitchSinkGlobal.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+/**
+ * The "global" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $global = $kitch_sinkService->global;
+ *  </code>
+ */
+class KitchSinkGlobal extends \Google\Service\Resource
+{
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(KitchSinkGlobal::class, 'Google_Service_KitchSink_Resource_KitchSinkGlobal');
+=== end: KitchSink/Resource/KitchSinkGlobal.php
+=== begin: KitchSink/Resource/KitchSinkGlobalSeries.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\SeriesList;
+
+/**
+ * The "series" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $series = $kitch_sinkService->series;
+ *  </code>
+ */
+class KitchSinkGlobalSeries extends \Google\Service\Resource
+{
+  /**
+   * Searches the public series and returns the search results.
+   * (series.listKitchSinkGlobalSeries)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param object enum Enum
+   * @opt_param int max-results Maximum number of results to return.
+   * @opt_param string q Search query.
+   * @opt_param int start-index Index of the first result to be retrieved.
+   * @return SeriesList
+   */
+  public function listKitchSinkGlobalSeries($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], SeriesList::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(KitchSinkGlobalSeries::class, 'Google_Service_KitchSink_Resource_KitchSinkGlobalSeries');
+=== end: KitchSink/Resource/KitchSinkGlobalSeries.php
+=== begin: KitchSink/Resource/My.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+/**
+ * The "my" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $my = $kitch_sinkService->my;
+ *  </code>
+ */
+class My extends \Google\Service\Resource
+{
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(My::class, 'Google_Service_KitchSink_Resource_My');
+=== end: KitchSink/Resource/My.php
+=== begin: KitchSink/Resource/MySeries.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\SeriesList;
+
+/**
+ * The "series" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $series = $kitch_sinkService->series;
+ *  </code>
+ */
+class MySeries extends \Google\Service\Resource
+{
+  /**
+   * Lists all series created by the authenticated user. (series.listMySeries)
+   *
+   * @param array $optParams Optional parameters.
+   * @return SeriesList
+   */
+  public function listMySeries($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], SeriesList::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(MySeries::class, 'Google_Service_KitchSink_Resource_MySeries');
+=== end: KitchSink/Resource/MySeries.php
+=== begin: KitchSink/Resource/Myrecent.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+/**
+ * The "myrecent" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $myrecent = $kitch_sinkService->myrecent;
+ *  </code>
+ */
+class Myrecent extends \Google\Service\Resource
+{
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Myrecent::class, 'Google_Service_KitchSink_Resource_Myrecent');
+=== end: KitchSink/Resource/Myrecent.php
+=== begin: KitchSink/Resource/MyrecentKitchSinkPrivate.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\SeriesList;
+
+/**
+ * The "private" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $private = $kitch_sinkService->private;
+ *  </code>
+ */
+class MyrecentKitchSinkPrivate extends \Google\Service\Resource
+{
+  /**
+   * Resource using a name which is a keyword in many languages, to check their
+   * handling. (private.listMyrecentKitchSinkPrivate)
+   *
+   * @param array $optParams Optional parameters.
+   * @return SeriesList
+   */
+  public function listMyrecentKitchSinkPrivate($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], SeriesList::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(MyrecentKitchSinkPrivate::class, 'Google_Service_KitchSink_Resource_MyrecentKitchSinkPrivate');
+=== end: KitchSink/Resource/MyrecentKitchSinkPrivate.php
+=== begin: KitchSink/Resource/Profiles.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\Profile;
+
+/**
+ * The "profiles" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $profiles = $kitch_sinkService->profiles;
+ *  </code>
+ */
+class Profiles extends \Google\Service\Resource
+{
+  /**
+   * Returns the profile information for the authenticated user. (profiles.get)
+   *
+   * @param array $optParams Optional parameters.
+   * @return Profile
+   */
+  public function get($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], Profile::class);
+  }
+  /**
+   * Updates the profile information for the authenticated user. (profiles.update)
+   *
+   * @param Profile $postBody
+   * @param array $optParams Optional parameters.
+   * @return Profile
+   */
+  public function update(Profile $postBody, $optParams = [])
+  {
+    $params = ['postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('update', [$params], Profile::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Profiles::class, 'Google_Service_KitchSink_Resource_Profiles');
+=== end: KitchSink/Resource/Profiles.php
+=== begin: KitchSink/Resource/Responses.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\Submission;
+use Google\Service\KitchSink\SubmissionList;
+
+/**
+ * The "responses" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $responses = $kitch_sinkService->responses;
+ *  </code>
+ */
+class Responses extends \Google\Service\Resource
+{
+  /**
+   * Inserts a response for the specified submission in the specified topic within
+   * the specified series. (responses.insert)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $topicId The decimal ID of the Topic within the Series.
+   * @param int $parentSubmissionId The decimal ID of the parent Submission within
+   * the Series.
+   * @param Submission $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool anonymous Set to true to mark the new submission as
+   * anonymous.
+   * @return Submission
+   */
+  public function insert($seriesId, $topicId, $parentSubmissionId, Submission $postBody, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'topicId' => $topicId, 'parentSubmissionId' => $parentSubmissionId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', [$params], Submission::class);
+  }
+  /**
+   * Lists or searches the responses for the specified submission within the
+   * specified series and returns the search results. (responses.listResponses)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $submissionId The decimal ID of the Submission within the Series.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string author Restricts the results to submissions by a specific
+   * author.
+   * @opt_param bool hasAttachedVideo Specifies whether to restrict to submissions
+   * that have videos attached.
+   * @opt_param string q Search query.
+   * @opt_param string sort Sort order.
+   * @opt_param int start-index Index of the first result to be retrieved.
+   * @return SubmissionList
+   */
+  public function listResponses($seriesId, $submissionId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'submissionId' => $submissionId];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], SubmissionList::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Responses::class, 'Google_Service_KitchSink_Resource_Responses');
+=== end: KitchSink/Resource/Responses.php
+=== begin: KitchSink/Resource/Series.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\Series as SeriesModel;
+use Google\Service\KitchSink\SeriesList;
+
+/**
+ * The "series" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $series = $kitch_sinkService->series;
+ *  </code>
+ */
+class Series extends \Google\Service\Resource
+{
+  /**
+   * Returns the specified series. (series.get)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param array $optParams Optional parameters.
+   * @return SeriesModel
+   */
+  public function get($seriesId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], SeriesModel::class);
+  }
+  /**
+   * Media method without request data. (series.insert)
+   *
+   * @param array $optParams Optional parameters.
+   * @return SeriesModel
+   */
+  public function insert($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', [$params], SeriesModel::class);
+  }
+  /**
+   * Searches the series and returns the search results. (series.listSeries)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int max-results Maximum number of results to return.
+   * @opt_param string q Search query.
+   * @opt_param int start-index Index of the first result to be retrieved.
+   * @return SeriesList
+   */
+  public function listSeries($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], SeriesList::class);
+  }
+  /**
+   * Updates the specified series. (series.update)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param SeriesModel $postBody
+   * @param array $optParams Optional parameters.
+   * @return SeriesModel
+   */
+  public function update($seriesId, SeriesModel $postBody, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('update', [$params], SeriesModel::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Series::class, 'Google_Service_KitchSink_Resource_Series');
+=== end: KitchSink/Resource/Series.php
+=== begin: KitchSink/Resource/SeriesResponses.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\SeriesList;
+
+/**
+ * The "responses" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $responses = $kitch_sinkService->responses;
+ *  </code>
+ */
+class SeriesResponses extends \Google\Service\Resource
+{
+  /**
+   * Searches the responses for the specified series and returns the search
+   * results. (responses.listSeriesResponses)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param string $q Search query - a required query parameter.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string author Restricts the results to submissions by a specific
+   * author.
+   * @opt_param bool hasAttachedVideo Specifies whether to restrict to submissions
+   * that have videos attached.
+   * @opt_param int max-results Maximum number of results to return.
+   * @opt_param string sort Sort order.
+   * @opt_param int start-index Index of the first result to be retrieved.
+   * @return SeriesList
+   */
+  public function listSeriesResponses($seriesId, $q, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'q' => $q];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], SeriesList::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SeriesResponses::class, 'Google_Service_KitchSink_Resource_SeriesResponses');
+=== end: KitchSink/Resource/SeriesResponses.php
+=== begin: KitchSink/Resource/SeriesSubmissions.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\SubmissionList;
+
+/**
+ * The "submissions" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $submissions = $kitch_sinkService->submissions;
+ *  </code>
+ */
+class SeriesSubmissions extends \Google\Service\Resource
+{
+  /**
+   * Searches the submissions for the specified series and returns the search
+   * results. (submissions.listSeriesSubmissions)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string author Restricts the results to submissions by a specific
+   * author.
+   * @opt_param bool hasAttachedVideo Specifies whether to restrict to submissions
+   * that have videos attached.
+   * @opt_param string lang The language code for the language the client prefers
+   * resuls in.
+   * @opt_param string q Search query.
+   * @opt_param string sort Sort order.
+   * @opt_param int start-index Index of the first result to be retrieved.
+   * @return SubmissionList
+   */
+  public function listSeriesSubmissions($seriesId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], SubmissionList::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SeriesSubmissions::class, 'Google_Service_KitchSink_Resource_SeriesSubmissions');
+=== end: KitchSink/Resource/SeriesSubmissions.php
+=== begin: KitchSink/Resource/Submissions.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\Submission;
+
+/**
+ * The "submissions" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $submissions = $kitch_sinkService->submissions;
+ *  </code>
+ */
+class Submissions extends \Google\Service\Resource
+{
+  /**
+   * Returns the specified submission within the specified series.
+   * (submissions.get)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $submissionId The decimal ID of the Submission within the Series.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string lang The language code for the language the client prefers
+   * resuls in.
+   * @return Submission
+   */
+  public function get($seriesId, $submissionId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'submissionId' => $submissionId];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], Submission::class);
+  }
+  /**
+   * Inserts a new submission in the specified topic within the specified series.
+   * (submissions.insert)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $topicId The decimal ID of the Topic within the Series.
+   * @param Submission $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool anonymous Set to true to mark the new submission as
+   * anonymous.
+   * @return Submission
+   */
+  public function insert($seriesId, $topicId, Submission $postBody, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'topicId' => $topicId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', [$params], Submission::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Submissions::class, 'Google_Service_KitchSink_Resource_Submissions');
+=== end: KitchSink/Resource/Submissions.php
+=== begin: KitchSink/Resource/Tags.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\Tag;
+use Google\Service\KitchSink\TagList;
+
+/**
+ * The "tags" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $tags = $kitch_sinkService->tags;
+ *  </code>
+ */
+class Tags extends \Google\Service\Resource
+{
+  /**
+   * Deletes the specified tag from the specified submission within the specified
+   * series. (tags.delete)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $submissionId The decimal ID of the Submission within the Series.
+   * @param string $tagId
+   * @param array $optParams Optional parameters.
+   */
+  public function delete($seriesId, $submissionId, $tagId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'submissionId' => $submissionId, 'tagId' => $tagId];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params]);
+  }
+  /**
+   * Inserts a new tag for the specified submission within the specified series.
+   * (tags.insert)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $submissionId The decimal ID of the Submission within the Series.
+   * @param Tag $postBody
+   * @param array $optParams Optional parameters.
+   * @return Tag
+   */
+  public function insert($seriesId, $submissionId, Tag $postBody, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', [$params], Tag::class);
+  }
+  /**
+   * A method with a parameters named |id| and |else| (tags.listTags)
+   *
+   * @param string $else A parameter name 'else'.
+   * @param string $id id is a reserved word in Objective-C
+   * @param array $optParams Optional parameters.
+   * @return TagList
+   */
+  public function listTags($else, $id, $optParams = [])
+  {
+    $params = ['else' => $else, 'id' => $id];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], TagList::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Tags::class, 'Google_Service_KitchSink_Resource_Tags');
+=== end: KitchSink/Resource/Tags.php
+=== begin: KitchSink/Resource/Topics.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\Topic;
+use Google\Service\KitchSink\Topic2;
+use Google\Service\KitchSink\TopicList;
+
+/**
+ * The "topics" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $topics = $kitch_sinkService->topics;
+ *  </code>
+ */
+class Topics extends \Google\Service\Resource
+{
+  /**
+   * Returns the specified topic from the specified series. (topics.get)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $topicId The decimal ID of the Topic within the Series.
+   * @param array $optParams Optional parameters.
+   * @return Topic2
+   */
+  public function get($seriesId, $topicId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'topicId' => $topicId];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], Topic2::class);
+  }
+  /**
+   * Inserts a new topic into the specified series. (topics.insert)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param Topic $postBody
+   * @param array $optParams Optional parameters.
+   * @return Topic
+   */
+  public function insert($seriesId, Topic $postBody, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', [$params], Topic::class);
+  }
+  /**
+   * Searches the topics within the specified series and returns the search
+   * results. (topics.listTopics)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int max-results Maximum number of results to return.
+   * @opt_param string mode
+   * @opt_param string q Search query.
+   * @opt_param int start-index Index of the first result to be retrieved.
+   * @return TopicList
+   */
+  public function listTopics($seriesId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], TopicList::class);
+  }
+  /**
+   * Updates the specified topic within the specified series. (topics.update)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $topicId The decimal ID of the Topic within the Series.
+   * @param Topic $postBody
+   * @param array $optParams Optional parameters.
+   * @return Topic
+   */
+  public function update($seriesId, $topicId, Topic $postBody, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'topicId' => $topicId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('update', [$params], Topic::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Topics::class, 'Google_Service_KitchSink_Resource_Topics');
+=== end: KitchSink/Resource/Topics.php
+=== begin: KitchSink/Resource/TopicsSubmissions.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\SubmissionList;
+
+/**
+ * The "submissions" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $submissions = $kitch_sinkService->submissions;
+ *  </code>
+ */
+class TopicsSubmissions extends \Google\Service\Resource
+{
+  /**
+   * Searches the submissions for the specified topic within the specified series
+   * and returns the search results. (submissions.listTopicsSubmissions)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $topicId The decimal ID of the Topic within the Series.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string author Restricts the results to submissions by a specific
+   * author.
+   * @opt_param bool hasAttachedVideo Specifies whether to restrict to submissions
+   * that have videos attached.
+   * @opt_param string q Search query.
+   * @opt_param string sort Sort order.
+   * @opt_param int start-index Index of the first result to be retrieved.
+   * @return SubmissionList
+   */
+  public function listTopicsSubmissions($seriesId, $topicId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'topicId' => $topicId];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], SubmissionList::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(TopicsSubmissions::class, 'Google_Service_KitchSink_Resource_TopicsSubmissions');
+=== end: KitchSink/Resource/TopicsSubmissions.php
+=== begin: KitchSink/Resource/Votes.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink\Resource;
+
+use Google\Service\KitchSink\Vote;
+use Google\Service\KitchSink\VoteList;
+
+/**
+ * The "votes" collection of methods.
+ * Typical usage is:
+ *  <code>
+ *   $kitch_sinkService = new Google\Service\KitchSink(...);
+ *   $votes = $kitch_sinkService->votes;
+ *  </code>
+ */
+class Votes extends \Google\Service\Resource
+{
+  /**
+   * Returns the votes by the authenticated user for the specified submission
+   * within the specified series. (votes.get)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $submissionId The decimal ID of the Submission within the Series.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string userId
+   * @return Vote
+   */
+  public function get($seriesId, $submissionId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'submissionId' => $submissionId];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], Vote::class);
+  }
+  /**
+   * Inserts a new vote by the authenticated user for the specified submission
+   * within the specified series. (votes.insert)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $submissionId The decimal ID of the Submission within the Series.
+   * @param Vote $postBody
+   * @param array $optParams Optional parameters.
+   * @return Vote
+   */
+  public function insert($seriesId, $submissionId, Vote $postBody, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'submissionId' => $submissionId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('insert', [$params], Vote::class);
+  }
+  /**
+   * Lists the votes by the authenticated user for the given series.
+   * (votes.listVotes)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int start-index Index of the first result to be retrieved.
+   * @return VoteList
+   */
+  public function listVotes($seriesId, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], VoteList::class);
+  }
+  /**
+   * Updates the votes by the authenticated user for the specified submission
+   * within the specified series. (votes.update)
+   *
+   * @param int $seriesId The decimal ID of the Series.
+   * @param int $submissionId The decimal ID of the Submission within the Series.
+   * @param Vote $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string userId
+   * @return Vote
+   */
+  public function update($seriesId, $submissionId, Vote $postBody, $optParams = [])
+  {
+    $params = ['seriesId' => $seriesId, 'submission_id' => $submissionId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('update', [$params], Vote::class);
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Votes::class, 'Google_Service_KitchSink_Resource_Votes');
+=== end: KitchSink/Resource/Votes.php
+=== begin: KitchSink/Rule.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Rule extends \Google\Model
+{
+  protected $submissionsType = RuleSubmissions::class;
+  protected $submissionsDataType = '';
+
+  /**
+   * @param RuleSubmissions
+   */
+  public function setSubmissions(RuleSubmissions $submissions)
+  {
+    $this->submissions = $submissions;
+  }
+  /**
+   * @return RuleSubmissions
+   */
+  public function getSubmissions()
+  {
+    return $this->submissions;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Rule::class, 'Google_Service_KitchSink_Rule');
+=== end: KitchSink/Rule.php
+=== begin: KitchSink/RuleSubmissions.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class RuleSubmissions extends \Google\Model
+{
+  public $close;
+  public $open;
+
+  public function setClose($close)
+  {
+    $this->close = $close;
+  }
+  public function getClose()
+  {
+    return $this->close;
+  }
+  public function setOpen($open)
+  {
+    $this->open = $open;
+  }
+  public function getOpen()
+  {
+    return $this->open;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(RuleSubmissions::class, 'Google_Service_KitchSink_RuleSubmissions');
+=== end: KitchSink/RuleSubmissions.php
+=== begin: KitchSink/Series.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Series extends \Google\Model
+{
+  public $anonymousSubmissionAllowed;
+  protected $countersType = SeriesCounters::class;
+  protected $countersDataType = '';
+  public $description;
+  protected $idType = SeriesId::class;
+  protected $idDataType = '';
+  public $kind;
+  public $name;
+  public $numTopics;
+  public $videoSubmissionAllowed;
+
+  public function setAnonymousSubmissionAllowed($anonymousSubmissionAllowed)
+  {
+    $this->anonymousSubmissionAllowed = $anonymousSubmissionAllowed;
+  }
+  public function getAnonymousSubmissionAllowed()
+  {
+    return $this->anonymousSubmissionAllowed;
+  }
+  /**
+   * @param SeriesCounters
+   */
+  public function setCounters(SeriesCounters $counters)
+  {
+    $this->counters = $counters;
+  }
+  /**
+   * @return SeriesCounters
+   */
+  public function getCounters()
+  {
+    return $this->counters;
+  }
+  public function setDescription($description)
+  {
+    $this->description = $description;
+  }
+  public function getDescription()
+  {
+    return $this->description;
+  }
+  /**
+   * @param SeriesId
+   */
+  public function setId(SeriesId $id)
+  {
+    $this->id = $id;
+  }
+  /**
+   * @return SeriesId
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  public function getName()
+  {
+    return $this->name;
+  }
+  public function setNumTopics($numTopics)
+  {
+    $this->numTopics = $numTopics;
+  }
+  public function getNumTopics()
+  {
+    return $this->numTopics;
+  }
+  public function setVideoSubmissionAllowed($videoSubmissionAllowed)
+  {
+    $this->videoSubmissionAllowed = $videoSubmissionAllowed;
+  }
+  public function getVideoSubmissionAllowed()
+  {
+    return $this->videoSubmissionAllowed;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Series::class, 'Google_Service_KitchSink_Series');
+=== end: KitchSink/Series.php
+=== begin: KitchSink/SeriesCounters.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class SeriesCounters extends \Google\Model
+{
+  protected $internal_gapi_mappings = [
+        "minusVotes" => "minus_votes",
+        "noneVotes" => "none_votes",
+        "plusVotes" => "plus_votes",
+  ];
+  public $anonymousSubmissions;
+  protected $countersType = SeriesCountersCounters::class;
+  protected $countersDataType = '';
+  public $else;
+  public $minusVotes;
+  public $noneVotes;
+  public $plusVotes;
+  public $submissions;
+  public $users;
+
+  public function setAnonymousSubmissions($anonymousSubmissions)
+  {
+    $this->anonymousSubmissions = $anonymousSubmissions;
+  }
+  public function getAnonymousSubmissions()
+  {
+    return $this->anonymousSubmissions;
+  }
+  /**
+   * @param SeriesCountersCounters
+   */
+  public function setCounters(SeriesCountersCounters $counters)
+  {
+    $this->counters = $counters;
+  }
+  /**
+   * @return SeriesCountersCounters
+   */
+  public function getCounters()
+  {
+    return $this->counters;
+  }
+  public function setElse($else)
+  {
+    $this->else = $else;
+  }
+  public function getElse()
+  {
+    return $this->else;
+  }
+  public function setMinusVotes($minusVotes)
+  {
+    $this->minusVotes = $minusVotes;
+  }
+  public function getMinusVotes()
+  {
+    return $this->minusVotes;
+  }
+  public function setNoneVotes($noneVotes)
+  {
+    $this->noneVotes = $noneVotes;
+  }
+  public function getNoneVotes()
+  {
+    return $this->noneVotes;
+  }
+  public function setPlusVotes($plusVotes)
+  {
+    $this->plusVotes = $plusVotes;
+  }
+  public function getPlusVotes()
+  {
+    return $this->plusVotes;
+  }
+  public function setSubmissions($submissions)
+  {
+    $this->submissions = $submissions;
+  }
+  public function getSubmissions()
+  {
+    return $this->submissions;
+  }
+  public function setUsers($users)
+  {
+    $this->users = $users;
+  }
+  public function getUsers()
+  {
+    return $this->users;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SeriesCounters::class, 'Google_Service_KitchSink_SeriesCounters');
+=== end: KitchSink/SeriesCounters.php
+=== begin: KitchSink/SeriesCountersCounters.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class SeriesCountersCounters extends \Google\Model
+{
+  protected $internal_gapi_mappings = [
+        "allVotes" => "all-votes",
+  ];
+  public $allVotes;
+
+  public function setAllVotes($allVotes)
+  {
+    $this->allVotes = $allVotes;
+  }
+  public function getAllVotes()
+  {
+    return $this->allVotes;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SeriesCountersCounters::class, 'Google_Service_KitchSink_SeriesCountersCounters');
+=== end: KitchSink/SeriesCountersCounters.php
+=== begin: KitchSink/SeriesId.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class SeriesId extends \Google\Model
+{
+  public $seriesId;
+
+  public function setSeriesId($seriesId)
+  {
+    $this->seriesId = $seriesId;
+  }
+  public function getSeriesId()
+  {
+    return $this->seriesId;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SeriesId::class, 'Google_Service_KitchSink_SeriesId');
+=== end: KitchSink/SeriesId.php
+=== begin: KitchSink/SeriesList.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class SeriesList extends \Google\Collection
+{
+  protected $collection_key = 'items';
+  protected $itemsType = Series::class;
+  protected $itemsDataType = 'array';
+  public $kind;
+
+  /**
+   * @param Series[]
+   */
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+  /**
+   * @return Series[]
+   */
+  public function getItems()
+  {
+    return $this->items;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SeriesList::class, 'Google_Service_KitchSink_SeriesList');
+=== end: KitchSink/SeriesList.php
+=== begin: KitchSink/Submission.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Submission extends \Google\Collection
+{
+  protected $collection_key = 'topics';
+  protected $internal_gapi_mappings = [
+        "attachmentUrl" => "@attachmentUrl",
+  ];
+  public $attachmentUrl;
+  protected $attributionType = SubmissionAttribution::class;
+  protected $attributionDataType = '';
+  public $author;
+  protected $countersType = SubmissionCounters::class;
+  protected $countersDataType = '';
+  public $created;
+  protected $geoType = LatLong::class;
+  protected $geoDataType = 'array';
+  protected $idType = SubmissionId::class;
+  protected $idDataType = '';
+  public $kind;
+  protected $parentSubmissionIdType = SubmissionParentSubmissionId::class;
+  protected $parentSubmissionIdDataType = '';
+  public $text;
+  protected $topicsType = ModeratorTopicsResourcePartial::class;
+  protected $topicsDataType = 'array';
+  protected $translationsType = Translation::class;
+  protected $translationsDataType = 'map';
+
+  public function setAttachmentUrl($attachmentUrl)
+  {
+    $this->attachmentUrl = $attachmentUrl;
+  }
+  public function getAttachmentUrl()
+  {
+    return $this->attachmentUrl;
+  }
+  /**
+   * @param SubmissionAttribution
+   */
+  public function setAttribution(SubmissionAttribution $attribution)
+  {
+    $this->attribution = $attribution;
+  }
+  /**
+   * @return SubmissionAttribution
+   */
+  public function getAttribution()
+  {
+    return $this->attribution;
+  }
+  public function setAuthor($author)
+  {
+    $this->author = $author;
+  }
+  public function getAuthor()
+  {
+    return $this->author;
+  }
+  /**
+   * @param SubmissionCounters
+   */
+  public function setCounters(SubmissionCounters $counters)
+  {
+    $this->counters = $counters;
+  }
+  /**
+   * @return SubmissionCounters
+   */
+  public function getCounters()
+  {
+    return $this->counters;
+  }
+  public function setCreated($created)
+  {
+    $this->created = $created;
+  }
+  public function getCreated()
+  {
+    return $this->created;
+  }
+  /**
+   * @param LatLong[]
+   */
+  public function setGeo($geo)
+  {
+    $this->geo = $geo;
+  }
+  /**
+   * @return LatLong[]
+   */
+  public function getGeo()
+  {
+    return $this->geo;
+  }
+  /**
+   * @param SubmissionId
+   */
+  public function setId(SubmissionId $id)
+  {
+    $this->id = $id;
+  }
+  /**
+   * @return SubmissionId
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+  /**
+   * @param SubmissionParentSubmissionId
+   */
+  public function setParentSubmissionId(SubmissionParentSubmissionId $parentSubmissionId)
+  {
+    $this->parentSubmissionId = $parentSubmissionId;
+  }
+  /**
+   * @return SubmissionParentSubmissionId
+   */
+  public function getParentSubmissionId()
+  {
+    return $this->parentSubmissionId;
+  }
+  public function setText($text)
+  {
+    $this->text = $text;
+  }
+  public function getText()
+  {
+    return $this->text;
+  }
+  /**
+   * @param ModeratorTopicsResourcePartial[]
+   */
+  public function setTopics($topics)
+  {
+    $this->topics = $topics;
+  }
+  /**
+   * @return ModeratorTopicsResourcePartial[]
+   */
+  public function getTopics()
+  {
+    return $this->topics;
+  }
+  /**
+   * @param Translation[]
+   */
+  public function setTranslations($translations)
+  {
+    $this->translations = $translations;
+  }
+  /**
+   * @return Translation[]
+   */
+  public function getTranslations()
+  {
+    return $this->translations;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Submission::class, 'Google_Service_KitchSink_Submission');
+=== end: KitchSink/Submission.php
+=== begin: KitchSink/SubmissionAttribution.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class SubmissionAttribution extends \Google\Model
+{
+  protected $internal_gapi_mappings = [
+        "avatarUrl" => "$avatarUrl",
+        "object" => "$object",
+  ];
+  public $avatarUrl;
+  public $object;
+  public $location;
+
+  public function setAvatarUrl($avatarUrl)
+  {
+    $this->avatarUrl = $avatarUrl;
+  }
+  public function getAvatarUrl()
+  {
+    return $this->avatarUrl;
+  }
+  public function setObject($object)
+  {
+    $this->object = $object;
+  }
+  public function getObject()
+  {
+    return $this->object;
+  }
+  public function setLocation($location)
+  {
+    $this->location = $location;
+  }
+  public function getLocation()
+  {
+    return $this->location;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SubmissionAttribution::class, 'Google_Service_KitchSink_SubmissionAttribution');
+=== end: KitchSink/SubmissionAttribution.php
+=== begin: KitchSink/SubmissionCounters.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class SubmissionCounters extends \Google\Model
+{
+  protected $internal_gapi_mappings = [
+        "minusVotes" => "minus_votes",
+        "noneVotes" => "none_votes",
+        "plusVotes" => "plus_votes",
+  ];
+  public $minusVotes;
+  public $noneVotes;
+  public $plusVotes;
+
+  public function setMinusVotes($minusVotes)
+  {
+    $this->minusVotes = $minusVotes;
+  }
+  public function getMinusVotes()
+  {
+    return $this->minusVotes;
+  }
+  public function setNoneVotes($noneVotes)
+  {
+    $this->noneVotes = $noneVotes;
+  }
+  public function getNoneVotes()
+  {
+    return $this->noneVotes;
+  }
+  public function setPlusVotes($plusVotes)
+  {
+    $this->plusVotes = $plusVotes;
+  }
+  public function getPlusVotes()
+  {
+    return $this->plusVotes;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SubmissionCounters::class, 'Google_Service_KitchSink_SubmissionCounters');
+=== end: KitchSink/SubmissionCounters.php
+=== begin: KitchSink/SubmissionId.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class SubmissionId extends \Google\Model
+{
+  public $seriesId;
+  public $submissionId;
+
+  public function setSeriesId($seriesId)
+  {
+    $this->seriesId = $seriesId;
+  }
+  public function getSeriesId()
+  {
+    return $this->seriesId;
+  }
+  public function setSubmissionId($submissionId)
+  {
+    $this->submissionId = $submissionId;
+  }
+  public function getSubmissionId()
+  {
+    return $this->submissionId;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SubmissionId::class, 'Google_Service_KitchSink_SubmissionId');
+=== end: KitchSink/SubmissionId.php
+=== begin: KitchSink/SubmissionList.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class SubmissionList extends \Google\Collection
+{
+  protected $collection_key = 'items';
+  protected $itemsType = Submission::class;
+  protected $itemsDataType = 'array';
+  public $kind;
+
+  /**
+   * @param Submission[]
+   */
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+  /**
+   * @return Submission[]
+   */
+  public function getItems()
+  {
+    return $this->items;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SubmissionList::class, 'Google_Service_KitchSink_SubmissionList');
+=== end: KitchSink/SubmissionList.php
+=== begin: KitchSink/SubmissionParentSubmissionId.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class SubmissionParentSubmissionId extends \Google\Model
+{
+  public $seriesId;
+  public $submissionId;
+
+  public function setSeriesId($seriesId)
+  {
+    $this->seriesId = $seriesId;
+  }
+  public function getSeriesId()
+  {
+    return $this->seriesId;
+  }
+  public function setSubmissionId($submissionId)
+  {
+    $this->submissionId = $submissionId;
+  }
+  public function getSubmissionId()
+  {
+    return $this->submissionId;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(SubmissionParentSubmissionId::class, 'Google_Service_KitchSink_SubmissionParentSubmissionId');
+=== end: KitchSink/SubmissionParentSubmissionId.php
+=== begin: KitchSink/Tag.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Tag extends \Google\Model
+{
+  protected $geometryType = Geometry::class;
+  protected $geometryDataType = '';
+  protected $idType = TagId::class;
+  protected $idDataType = '';
+  public $kind;
+  public $text;
+
+  /**
+   * @param Geometry
+   */
+  public function setGeometry(Geometry $geometry)
+  {
+    $this->geometry = $geometry;
+  }
+  /**
+   * @return Geometry
+   */
+  public function getGeometry()
+  {
+    return $this->geometry;
+  }
+  /**
+   * @param TagId
+   */
+  public function setId(TagId $id)
+  {
+    $this->id = $id;
+  }
+  /**
+   * @return TagId
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+  public function setText($text)
+  {
+    $this->text = $text;
+  }
+  public function getText()
+  {
+    return $this->text;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Tag::class, 'Google_Service_KitchSink_Tag');
+=== end: KitchSink/Tag.php
+=== begin: KitchSink/TagId.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class TagId extends \Google\Model
+{
+  public $seriesId;
+  public $submissionId;
+  public $tag;
+
+  public function setSeriesId($seriesId)
+  {
+    $this->seriesId = $seriesId;
+  }
+  public function getSeriesId()
+  {
+    return $this->seriesId;
+  }
+  public function setSubmissionId($submissionId)
+  {
+    $this->submissionId = $submissionId;
+  }
+  public function getSubmissionId()
+  {
+    return $this->submissionId;
+  }
+  public function setTag($tag)
+  {
+    $this->tag = $tag;
+  }
+  public function getTag()
+  {
+    return $this->tag;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(TagId::class, 'Google_Service_KitchSink_TagId');
+=== end: KitchSink/TagId.php
+=== begin: KitchSink/Topic.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Topic extends \Google\Model
+{
+  protected $countersType = TopicCounters::class;
+  protected $countersDataType = '';
+  public $description;
+  protected $idType = TopicId::class;
+  protected $idDataType = '';
+  public $kind;
+  public $name;
+  public $presenter;
+  protected $rulesType = TopicRules::class;
+  protected $rulesDataType = '';
+
+  /**
+   * @param TopicCounters
+   */
+  public function setCounters(TopicCounters $counters)
+  {
+    $this->counters = $counters;
+  }
+  /**
+   * @return TopicCounters
+   */
+  public function getCounters()
+  {
+    return $this->counters;
+  }
+  public function setDescription($description)
+  {
+    $this->description = $description;
+  }
+  public function getDescription()
+  {
+    return $this->description;
+  }
+  /**
+   * @param TopicId
+   */
+  public function setId(TopicId $id)
+  {
+    $this->id = $id;
+  }
+  /**
+   * @return TopicId
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  public function getName()
+  {
+    return $this->name;
+  }
+  public function setPresenter($presenter)
+  {
+    $this->presenter = $presenter;
+  }
+  public function getPresenter()
+  {
+    return $this->presenter;
+  }
+  /**
+   * @param TopicRules
+   */
+  public function setRules(TopicRules $rules)
+  {
+    $this->rules = $rules;
+  }
+  /**
+   * @return TopicRules
+   */
+  public function getRules()
+  {
+    return $this->rules;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Topic::class, 'Google_Service_KitchSink_Topic');
+=== end: KitchSink/Topic.php
+=== begin: KitchSink/Topic2.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Topic2 extends \Google\Collection
+{
+  protected $collection_key = 'rules';
+  protected $countersType = Topic2Counters::class;
+  protected $countersDataType = '';
+  public $description;
+  protected $featuredSubmissionType = Submission::class;
+  protected $featuredSubmissionDataType = '';
+  protected $idType = Topic2Id::class;
+  protected $idDataType = '';
+  public $kind;
+  public $name;
+  public $presenter;
+  protected $rulesType = Rule::class;
+  protected $rulesDataType = 'array';
+
+  /**
+   * @param Topic2Counters
+   */
+  public function setCounters(Topic2Counters $counters)
+  {
+    $this->counters = $counters;
+  }
+  /**
+   * @return Topic2Counters
+   */
+  public function getCounters()
+  {
+    return $this->counters;
+  }
+  public function setDescription($description)
+  {
+    $this->description = $description;
+  }
+  public function getDescription()
+  {
+    return $this->description;
+  }
+  /**
+   * @param Submission
+   */
+  public function setFeaturedSubmission(Submission $featuredSubmission)
+  {
+    $this->featuredSubmission = $featuredSubmission;
+  }
+  /**
+   * @return Submission
+   */
+  public function getFeaturedSubmission()
+  {
+    return $this->featuredSubmission;
+  }
+  /**
+   * @param Topic2Id
+   */
+  public function setId(Topic2Id $id)
+  {
+    $this->id = $id;
+  }
+  /**
+   * @return Topic2Id
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  public function getName()
+  {
+    return $this->name;
+  }
+  public function setPresenter($presenter)
+  {
+    $this->presenter = $presenter;
+  }
+  public function getPresenter()
+  {
+    return $this->presenter;
+  }
+  /**
+   * @param Rule[]
+   */
+  public function setRules($rules)
+  {
+    $this->rules = $rules;
+  }
+  /**
+   * @return Rule[]
+   */
+  public function getRules()
+  {
+    return $this->rules;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Topic2::class, 'Google_Service_KitchSink_Topic2');
+=== end: KitchSink/Topic2.php
+=== begin: KitchSink/Topic2Counters.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Topic2Counters extends \Google\Model
+{
+  protected $internal_gapi_mappings = [
+        "minusVotes" => "minus_votes",
+        "noneVotes" => "none_votes",
+        "plusVotes" => "plus_votes",
+  ];
+  public $minusVotes;
+  public $noneVotes;
+  public $plusVotes;
+  public $submissions;
+  public $users;
+  public $videoSubmissions;
+
+  public function setMinusVotes($minusVotes)
+  {
+    $this->minusVotes = $minusVotes;
+  }
+  public function getMinusVotes()
+  {
+    return $this->minusVotes;
+  }
+  public function setNoneVotes($noneVotes)
+  {
+    $this->noneVotes = $noneVotes;
+  }
+  public function getNoneVotes()
+  {
+    return $this->noneVotes;
+  }
+  public function setPlusVotes($plusVotes)
+  {
+    $this->plusVotes = $plusVotes;
+  }
+  public function getPlusVotes()
+  {
+    return $this->plusVotes;
+  }
+  public function setSubmissions($submissions)
+  {
+    $this->submissions = $submissions;
+  }
+  public function getSubmissions()
+  {
+    return $this->submissions;
+  }
+  public function setUsers($users)
+  {
+    $this->users = $users;
+  }
+  public function getUsers()
+  {
+    return $this->users;
+  }
+  public function setVideoSubmissions($videoSubmissions)
+  {
+    $this->videoSubmissions = $videoSubmissions;
+  }
+  public function getVideoSubmissions()
+  {
+    return $this->videoSubmissions;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Topic2Counters::class, 'Google_Service_KitchSink_Topic2Counters');
+=== end: KitchSink/Topic2Counters.php
+=== begin: KitchSink/Topic2Id.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Topic2Id extends \Google\Model
+{
+  public $seriesId;
+  public $topicId;
+
+  public function setSeriesId($seriesId)
+  {
+    $this->seriesId = $seriesId;
+  }
+  public function getSeriesId()
+  {
+    return $this->seriesId;
+  }
+  public function setTopicId($topicId)
+  {
+    $this->topicId = $topicId;
+  }
+  public function getTopicId()
+  {
+    return $this->topicId;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Topic2Id::class, 'Google_Service_KitchSink_Topic2Id');
+=== end: KitchSink/Topic2Id.php
+=== begin: KitchSink/TopicCounters.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class TopicCounters extends \Google\Model
+{
+  protected $internal_gapi_mappings = [
+        "minusVotes" => "minus_votes",
+        "noneVotes" => "none_votes",
+        "plusVotes" => "plus_votes",
+  ];
+  public $minusVotes;
+  public $noneVotes;
+  public $plusVotes;
+  public $submissions;
+  public $users;
+  public $videoSubmissions;
+
+  public function setMinusVotes($minusVotes)
+  {
+    $this->minusVotes = $minusVotes;
+  }
+  public function getMinusVotes()
+  {
+    return $this->minusVotes;
+  }
+  public function setNoneVotes($noneVotes)
+  {
+    $this->noneVotes = $noneVotes;
+  }
+  public function getNoneVotes()
+  {
+    return $this->noneVotes;
+  }
+  public function setPlusVotes($plusVotes)
+  {
+    $this->plusVotes = $plusVotes;
+  }
+  public function getPlusVotes()
+  {
+    return $this->plusVotes;
+  }
+  public function setSubmissions($submissions)
+  {
+    $this->submissions = $submissions;
+  }
+  public function getSubmissions()
+  {
+    return $this->submissions;
+  }
+  public function setUsers($users)
+  {
+    $this->users = $users;
+  }
+  public function getUsers()
+  {
+    return $this->users;
+  }
+  public function setVideoSubmissions($videoSubmissions)
+  {
+    $this->videoSubmissions = $videoSubmissions;
+  }
+  public function getVideoSubmissions()
+  {
+    return $this->videoSubmissions;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(TopicCounters::class, 'Google_Service_KitchSink_TopicCounters');
+=== end: KitchSink/TopicCounters.php
+=== begin: KitchSink/TopicId.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class TopicId extends \Google\Model
+{
+  public $seriesId;
+  public $topicId;
+
+  public function setSeriesId($seriesId)
+  {
+    $this->seriesId = $seriesId;
+  }
+  public function getSeriesId()
+  {
+    return $this->seriesId;
+  }
+  public function setTopicId($topicId)
+  {
+    $this->topicId = $topicId;
+  }
+  public function getTopicId()
+  {
+    return $this->topicId;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(TopicId::class, 'Google_Service_KitchSink_TopicId');
+=== end: KitchSink/TopicId.php
+=== begin: KitchSink/TopicList.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class TopicList extends \Google\Collection
+{
+  protected $collection_key = 'items';
+  protected $itemsType = Topic::class;
+  protected $itemsDataType = 'array';
+  public $kind;
+
+  /**
+   * @param Topic[]
+   */
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+  /**
+   * @return Topic[]
+   */
+  public function getItems()
+  {
+    return $this->items;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(TopicList::class, 'Google_Service_KitchSink_TopicList');
+=== end: KitchSink/TopicList.php
+=== begin: KitchSink/TopicRules.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class TopicRules extends \Google\Model
+{
+  protected $submissionsType = TopicRulesSubmissions::class;
+  protected $submissionsDataType = '';
+  protected $votesType = TopicRulesVotes::class;
+  protected $votesDataType = '';
+
+  /**
+   * @param TopicRulesSubmissions
+   */
+  public function setSubmissions(TopicRulesSubmissions $submissions)
+  {
+    $this->submissions = $submissions;
+  }
+  /**
+   * @return TopicRulesSubmissions
+   */
+  public function getSubmissions()
+  {
+    return $this->submissions;
+  }
+  /**
+   * @param TopicRulesVotes
+   */
+  public function setVotes(TopicRulesVotes $votes)
+  {
+    $this->votes = $votes;
+  }
+  /**
+   * @return TopicRulesVotes
+   */
+  public function getVotes()
+  {
+    return $this->votes;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(TopicRules::class, 'Google_Service_KitchSink_TopicRules');
+=== end: KitchSink/TopicRules.php
+=== begin: KitchSink/TopicRulesSubmissions.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class TopicRulesSubmissions extends \Google\Model
+{
+  public $close;
+  public $open;
+
+  public function setClose($close)
+  {
+    $this->close = $close;
+  }
+  public function getClose()
+  {
+    return $this->close;
+  }
+  public function setOpen($open)
+  {
+    $this->open = $open;
+  }
+  public function getOpen()
+  {
+    return $this->open;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(TopicRulesSubmissions::class, 'Google_Service_KitchSink_TopicRulesSubmissions');
+=== end: KitchSink/TopicRulesSubmissions.php
+=== begin: KitchSink/TopicRulesVotes.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class TopicRulesVotes extends \Google\Model
+{
+  public $close;
+  public $open;
+
+  public function setClose($close)
+  {
+    $this->close = $close;
+  }
+  public function getClose()
+  {
+    return $this->close;
+  }
+  public function setOpen($open)
+  {
+    $this->open = $open;
+  }
+  public function getOpen()
+  {
+    return $this->open;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(TopicRulesVotes::class, 'Google_Service_KitchSink_TopicRulesVotes');
+=== end: KitchSink/TopicRulesVotes.php
+=== begin: KitchSink/Translation.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Translation extends \Google\Model
+{
+  public $lang;
+  public $text;
+
+  public function setLang($lang)
+  {
+    $this->lang = $lang;
+  }
+  public function getLang()
+  {
+    return $this->lang;
+  }
+  public function setText($text)
+  {
+    $this->text = $text;
+  }
+  public function getText()
+  {
+    return $this->text;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Translation::class, 'Google_Service_KitchSink_Translation');
+=== end: KitchSink/Translation.php
+=== begin: KitchSink/Vote.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class Vote extends \Google\Model
+{
+  public $flag;
+  protected $idType = VoteId::class;
+  protected $idDataType = '';
+  public $kind;
+  public $vote;
+
+  public function setFlag($flag)
+  {
+    $this->flag = $flag;
+  }
+  public function getFlag()
+  {
+    return $this->flag;
+  }
+  /**
+   * @param VoteId
+   */
+  public function setId(VoteId $id)
+  {
+    $this->id = $id;
+  }
+  /**
+   * @return VoteId
+   */
+  public function getId()
+  {
+    return $this->id;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+  public function setVote($vote)
+  {
+    $this->vote = $vote;
+  }
+  public function getVote()
+  {
+    return $this->vote;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(Vote::class, 'Google_Service_KitchSink_Vote');
+=== end: KitchSink/Vote.php
+=== begin: KitchSink/VoteId.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class VoteId extends \Google\Model
+{
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(VoteId::class, 'Google_Service_KitchSink_VoteId');
+=== end: KitchSink/VoteId.php
+=== begin: KitchSink/VoteList.php
+<?php
+/*
+ * Copyright 2014 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+namespace Google\Service\KitchSink;
+
+class VoteList extends \Google\Collection
+{
+  protected $collection_key = 'items';
+  protected $itemsType = Vote::class;
+  protected $itemsDataType = 'array';
+  public $kind;
+
+  /**
+   * @param Vote[]
+   */
+  public function setItems($items)
+  {
+    $this->items = $items;
+  }
+  /**
+   * @return Vote[]
+   */
+  public function getItems()
+  {
+    return $this->items;
+  }
+  public function setKind($kind)
+  {
+    $this->kind = $kind;
+  }
+  public function getKind()
+  {
+    return $this->kind;
+  }
+}
+
+// Adding a class alias for backwards compatibility with the previous class name.
+class_alias(VoteList::class, 'Google_Service_KitchSink_VoteList');
+=== end: KitchSink/VoteList.php

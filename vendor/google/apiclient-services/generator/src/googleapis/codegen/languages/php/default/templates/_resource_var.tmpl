@@ -1,0 +1,10 @@
+{% filter noblanklines %}
+
+{% if resource.json and resource.phpPropName %}
+  public ${{ resource.phpPropName }};
+{% endif %}
+
+{% for r in resource.resources %}
+{% call_template _resource_var resource=r %}
+{% endfor %}
+{% endfilter %}

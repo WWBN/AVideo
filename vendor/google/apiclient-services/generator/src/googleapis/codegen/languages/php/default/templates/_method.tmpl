@@ -1,0 +1,41 @@
+/**{% filter block_comment %}
+ * {{ method.description }} ({% if resource %}{{ resource.wireName }}.{% endif %}{{ method.name }})
+ * {% endfilter %}
+ *
+{% filter noblanklines %}
+{% for param in method.required_parameters %}{% filter block_comment %}
+ * @param {{ param.codeType }}{% if param.repeated %}|array{% endif %} ${{ param.memberName }}
+ * {{ param.description }}{% endfilter %}{% endfor %}
+{% if method.requestType %}
+ * @param {{ method.requestType.className }}{% if method.requestType.className|lower == resource.className|lower or method.requestType.className in api.resourceNames %}Model{% endif %} $postBody
+{% endif %}
+ * @param array $optParams Optional parameters.
+{% if method.optional_parameters %}
+ *{% for param in method.optional_parameters %}{% filter block_comment %}
+ * @opt_param {{ param.codeType }} {{ param.wireName }}
+ * {{ param.description }}{% endfilter %}{% endfor %}
+{% endif %}
+{% if method.response %}
+ * @return {{ method.responseType.className }}{% if method.responseType.className|lower == resource.className|lower or method.requestType.className in api.resourceNames %}Model{% endif %}
+{% endif %}
+ */
+{% endfilter %}
+public function {{ method.name }}({% call_template _func_params method=method %})
+{
+{% filter noblanklines %}
+  $params = [{% parameter_list %}
+    {% for p in method.requiredParameters %}
+      {% parameter %}'{{ p.wireName }}' => ${{ p.memberName }}{% end_parameter %}
+    {% endfor %}
+    {% if method.requestType %}
+      {% parameter %}'postBody' => $postBody{% end_parameter %}
+    {% endif %}
+  {% end_parameter_list %}];
+  $params = array_merge($params, $optParams);
+{% if method.response %}
+  return $this->{% if baseMethod == 1 %}base_methods->{% endif %}call('{{ method.wireName }}', [$params], {{ method.responseType.className }}{% if method.responseType.className|lower == resource.className|lower or method.responseType.className in api.resourceNames %}Model{% endif %}::class);
+{% else %}
+  return $this->{% if baseMethod == 1 %}base_methods->{% endif %}call('{{ method.wireName }}', [$params]);
+{% endif %}
+{% endfilter %}
+}

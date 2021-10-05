@@ -1,0 +1,181 @@
+{
+ "kind": "discovery#restDescription",
+ "etag": "\"doS0mIiKx6_L3_LoT-sZZjofha4/qnTMp_su8aK3fHP_L2PeFmG-EiA\"",
+ "discoveryVersion": "v1",
+ "id": "helloworld:v1",
+ "name": "helloworld",
+ "canonicalName": "Ecco Domani Ieri",
+ "version": "v1",
+ "title": "Schmecken Sie Gut",
+ "description": "helloworld API v1.",
+ "ownerDomain": "google.com",
+ "ownerName": "Google",
+ "packagePath": "cloud/platform",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "documentationLink": "http://developers.google.com/appengine",
+ "protocol": "rest",
+ "baseUrl": "https://peer-pontus.appspot.com/_ah/api/helloworld/v1/",
+ "basePath": "/_ah/api/helloworld/v1/",
+ "rootUrl": "https://peer-pontus.appspot.com/_ah/api/",
+ "servicePath": "helloworld/v1/",
+ "batchPath": "batch",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/userinfo.email": {
+     "description": "View your email address"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "HelloGreeting": {
+   "id": "HelloGreeting",
+   "type": "object",
+   "description": "Greeting that stores a message.",
+   "properties": {
+    "message": {
+     "type": "string"
+    }
+   }
+  },
+  "HelloGreetingCollection": {
+   "id": "HelloGreetingCollection",
+   "type": "object",
+   "description": "Collection of Greetings.",
+   "properties": {
+    "items": {
+     "type": "array",
+     "description": "Greeting that stores a message.",
+     "items": {
+      "$ref": "HelloGreeting"
+     }
+    }
+   }
+  }
+ },
+ "resources": {
+  "greetings": {
+   "methods": {
+    "authed": {
+     "id": "helloworld.greetings.authed",
+     "path": "hellogreeting/authed",
+     "httpMethod": "POST",
+     "response": {
+      "$ref": "HelloGreeting"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
+    },
+    "getGreeting": {
+     "id": "helloworld.greetings.getGreeting",
+     "path": "hellogreeting/{id}",
+     "httpMethod": "GET",
+     "parameters": {
+      "id": {
+       "type": "integer",
+       "required": true,
+       "format": "int32",
+       "location": "path"
+      }
+     },
+     "parameterOrder": [
+      "id"
+     ],
+     "response": {
+      "$ref": "HelloGreeting"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
+    },
+    "listGreeting": {
+     "id": "helloworld.greetings.listGreeting",
+     "path": "hellogreeting",
+     "httpMethod": "GET",
+     "response": {
+      "$ref": "HelloGreetingCollection"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
+    },
+    "multiply": {
+     "id": "helloworld.greetings.multiply",
+     "path": "hellogreeting/{times}",
+     "httpMethod": "POST",
+     "parameters": {
+      "times": {
+       "type": "integer",
+       "required": true,
+       "format": "int32",
+       "location": "path"
+      }
+     },
+     "parameterOrder": [
+      "times"
+     ],
+     "request": {
+      "$ref": "HelloGreeting",
+      "parameterName": "resource"
+     },
+     "response": {
+      "$ref": "HelloGreeting"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+     ]
+    }
+   }
+  }
+ }
+}

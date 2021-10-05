@@ -1,0 +1,1 @@
+{"errors":["Please include a case-sensitive header of Authorization: Basic \u003cYOUR-USER-AUTH-KEY-HERE\u003e with a valid User Auth key."],"reference":["https://documentation.onesignal.com/docs/accounts-and-keys#section-user-auth-key"]}

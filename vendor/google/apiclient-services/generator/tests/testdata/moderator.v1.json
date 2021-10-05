@@ -1,0 +1,1529 @@
+{
+ "name": "moderator",
+ "version": "v1",
+ "description": "Test Moderator API",
+ "restBasePath": "/moderator/v1/",
+ "rpcPath": "/rpc",
+ "features": [
+  "dataWrapper"
+ ],
+ "schemas": {
+  "ModeratorTopicsResourcePartial": {
+   "id": "ModeratorTopicsResourcePartial",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "object",
+     "properties": {
+      "seriesId": {
+       "type": "integer"
+      },
+      "topicId": {
+       "type": "integer"
+      }
+     }
+    }
+   }
+  },
+  "Profile": {
+   "id": "Profile",
+   "type": "object",
+   "properties": {
+    "attribution": {
+     "type": "object",
+     "properties": {
+      "avatarUrl": {
+       "type": "string"
+      },
+      "displayName": {
+       "type": "string"
+      },
+      "geo": {
+       "type": "object",
+       "properties": {
+        "latitude": {
+         "type": "number"
+        },
+        "location": {
+         "type": "string"
+        },
+        "longitude": {
+         "type": "number"
+        }
+       }
+      },
+      "location": {
+       "type": "string"
+      }
+     }
+    },
+    "id": {
+     "type": "object",
+     "properties": {
+      "user": {
+       "type": "string"
+      }
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#profile"
+    }
+   }
+  },
+  "Series": {
+   "id": "Series",
+   "type": "object",
+   "properties": {
+    "anonymousSubmissionAllowed": {
+     "type": "boolean"
+    },
+    "counters": {
+     "type": "object",
+     "properties": {
+      "anonymousSubmissions": {
+       "type": "integer"
+      },
+      "minusVotes": {
+       "type": "integer"
+      },
+      "noneVotes": {
+       "type": "integer"
+      },
+      "plusVotes": {
+       "type": "integer"
+      },
+      "submissions": {
+       "type": "integer"
+      },
+      "users": {
+       "type": "integer"
+      },
+      "videoSubmissions": {
+       "type": "integer"
+      }
+     }
+    },
+    "description": {
+     "type": "string"
+    },
+    "id": {
+     "type": "object",
+     "properties": {
+      "seriesId": {
+       "type": "integer"
+      }
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#series"
+    },
+    "name": {
+     "type": "string"
+    },
+    "numTopics": {
+     "type": "integer"
+    },
+    "videoSubmissionAllowed": {
+     "type": "boolean"
+    }
+   }
+  },
+  "SeriesList": {
+   "id": "SeriesList",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Series"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#seriesList"
+    }
+   }
+  },
+  "Submission": {
+   "id": "Submission",
+   "type": "object",
+   "properties": {
+    "attachmentUrl": {
+     "type": "string"
+    },
+    "attribution": {
+     "type": "object",
+     "properties": {
+      "avatarUrl": {
+       "type": "string"
+      },
+      "displayName": {
+       "type": "string"
+      },
+      "location": {
+       "type": "string"
+      }
+     }
+    },
+    "author": {
+     "type": "string"
+    },
+    "counters": {
+     "type": "object",
+     "properties": {
+      "minusVotes": {
+       "type": "integer"
+      },
+      "noneVotes": {
+       "type": "integer"
+      },
+      "plusVotes": {
+       "type": "integer"
+      }
+     }
+    },
+    "created": {
+     "type": "integer"
+    },
+    "geo": {
+     "type": "object",
+     "properties": {
+      "latitude": {
+       "type": "number"
+      },
+      "location": {
+       "type": "string"
+      },
+      "longitude": {
+       "type": "number"
+      }
+     }
+    },
+    "id": {
+     "type": "object",
+     "properties": {
+      "seriesId": {
+       "type": "integer"
+      },
+      "submissionId": {
+       "type": "integer"
+      }
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#submission"
+    },
+    "parentSubmissionId": {
+     "type": "object",
+     "properties": {
+      "seriesId": {
+       "type": "integer"
+      },
+      "submissionId": {
+       "type": "integer"
+      }
+     }
+    },
+    "text": {
+     "type": "string"
+    },
+    "topics": {
+     "type": "array",
+     "items": {
+      "$ref": "ModeratorTopicsResourcePartial"
+     }
+    },
+    "translations": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "lang": {
+        "type": "string"
+       },
+       "text": {
+        "type": "string"
+       }
+      }
+     }
+    }
+   }
+  },
+  "SubmissionList": {
+   "id": "SubmissionList",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Submission"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#submissionList"
+    }
+   }
+  },
+  "Tag": {
+   "id": "Tag",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "object",
+     "properties": {
+      "seriesId": {
+       "type": "integer"
+      },
+      "submissionId": {
+       "type": "integer"
+      },
+      "tagId": {
+       "type": "string"
+      }
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#tag"
+    },
+    "text": {
+     "type": "string"
+    }
+   }
+  },
+  "TagList": {
+   "id": "TagList",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Tag"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#tagList"
+    }
+   }
+  },
+  "Topic": {
+   "id": "Topic",
+   "type": "object",
+   "properties": {
+    "counters": {
+     "type": "object",
+     "properties": {
+      "minusVotes": {
+       "type": "integer"
+      },
+      "noneVotes": {
+       "type": "integer"
+      },
+      "plusVotes": {
+       "type": "integer"
+      },
+      "submissions": {
+       "type": "integer"
+      },
+      "users": {
+       "type": "integer"
+      },
+      "videoSubmissions": {
+       "type": "integer"
+      }
+     }
+    },
+    "description": {
+     "type": "string"
+    },
+    "id": {
+     "type": "object",
+     "properties": {
+      "seriesId": {
+       "type": "integer"
+      },
+      "topicId": {
+       "type": "integer"
+      }
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#topic"
+    },
+    "name": {
+     "type": "string"
+    },
+    "presenter": {
+     "type": "string"
+    },
+    "rules": {
+     "type": "object",
+     "properties": {
+      "submissions": {
+       "type": "object",
+       "properties": {
+        "close": {
+         "type": "integer"
+        },
+        "open": {
+         "type": "integer"
+        }
+       }
+      },
+      "votes": {
+       "type": "object",
+       "properties": {
+        "close": {
+         "type": "integer"
+        },
+        "open": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "Topic2": {
+   "id": "Topic2",
+   "type": "object",
+   "properties": {
+    "counters": {
+     "type": "object",
+     "properties": {
+      "minusVotes": {
+       "type": "integer"
+      },
+      "noneVotes": {
+       "type": "integer"
+      },
+      "plusVotes": {
+       "type": "integer"
+      },
+      "submissions": {
+       "type": "integer"
+      },
+      "users": {
+       "type": "integer"
+      },
+      "videoSubmissions": {
+       "type": "integer"
+      }
+     }
+    },
+    "description": {
+     "type": "string"
+    },
+    "featuredSubmission": {
+     "$ref": "Submission"
+    },
+    "id": {
+     "type": "object",
+     "properties": {
+      "seriesId": {
+       "type": "integer"
+      },
+      "topicId": {
+       "type": "integer"
+      }
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#topic"
+    },
+    "name": {
+     "type": "string"
+    },
+    "presenter": {
+     "type": "string"
+    },
+    "rules": {
+     "type": "object",
+     "properties": {
+      "submissions": {
+       "type": "object",
+       "properties": {
+        "close": {
+         "type": "integer"
+        },
+        "open": {
+         "type": "integer"
+        }
+       }
+      },
+      "votes": {
+       "type": "object",
+       "properties": {
+        "close": {
+         "type": "integer"
+        },
+        "open": {
+         "type": "integer"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "TopicList": {
+   "id": "TopicList",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Topic"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#topicList"
+    }
+   }
+  },
+  "Vote": {
+   "id": "Vote",
+   "type": "object",
+   "properties": {
+    "flag": {
+     "type": "string"
+    },
+    "id": {
+     "type": "object",
+     "properties": {
+      "seriesId": {
+       "type": "integer"
+      },
+      "submissionId": {
+       "type": "integer"
+      }
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#vote"
+    },
+    "vote": {
+     "type": "string"
+    }
+   }
+  },
+  "VoteList": {
+   "id": "VoteList",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Vote"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "moderator#voteList"
+    }
+   }
+  }
+ },
+ "resources": {
+  "featured": {
+   "resources": {
+    "series": {
+     "methods": {
+      "list": {
+       "restPath": "series/featured",
+       "rpcMethod": "moderator.featured.series.list",
+       "httpMethod": "GET",
+       "description": "Lists the featured series.",
+       "response": {
+        "$ref": "SeriesList"
+       }
+      }
+     }
+    }
+   }
+  },
+  "global": {
+   "resources": {
+    "series": {
+     "methods": {
+      "list": {
+       "restPath": "search",
+       "rpcMethod": "moderator.global.series.list",
+       "httpMethod": "GET",
+       "description": "Searches the public series and returns the search results.",
+       "parameters": {
+        "max-results": {
+         "location": "query",
+         "description": "Maximum number of results to return.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        },
+        "q": {
+         "location": "query",
+         "description": "Search query.",
+         "type": "string"
+        },
+        "start-index": {
+         "location": "query",
+         "description": "Index of the first result to be retrieved.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        }
+       },
+       "response": {
+        "$ref": "SeriesList"
+       }
+      }
+     }
+    }
+   }
+  },
+  "my": {
+   "resources": {
+    "series": {
+     "methods": {
+      "list": {
+       "restPath": "series/@me/mine",
+       "rpcMethod": "moderator.my.series.list",
+       "httpMethod": "GET",
+       "description": "Lists all series created by the authenticated user.",
+       "response": {
+        "$ref": "SeriesList"
+       }
+      }
+     }
+    }
+   }
+  },
+  "myrecent": {
+   "resources": {
+    "series": {
+     "methods": {
+      "list": {
+       "restPath": "series/@me/recent",
+       "rpcMethod": "moderator.myrecent.series.list",
+       "httpMethod": "GET",
+       "description": "Lists the series the authenticated user has visited.",
+       "response": {
+        "$ref": "SeriesList"
+       }
+      }
+     }
+    }
+   }
+  },
+  "profiles": {
+   "methods": {
+    "get": {
+     "restPath": "profiles/@me",
+     "rpcMethod": "moderator.profiles.get",
+     "httpMethod": "GET",
+     "description": "Returns the profile information for the authenticated user.",
+     "response": {
+      "$ref": "Profile"
+     }
+    },
+    "update": {
+     "restPath": "profiles/@me",
+     "rpcMethod": "moderator.profiles.update",
+     "httpMethod": "PUT",
+     "description": "Updates the profile information for the authenticated user.",
+     "request": {
+      "$ref": "Profile"
+     },
+     "response": {
+      "$ref": "Profile"
+     }
+    }
+   }
+  },
+  "responses": {
+   "methods": {
+    "insert": {
+     "restPath": "series/{seriesId}/topics/{topicId}/submissions/{parentSubmissionId}/responses",
+     "rpcMethod": "moderator.responses.insert",
+     "httpMethod": "POST",
+     "description": "Inserts a response for the specified submission in the specified topic within the specified series.",
+     "parameters": {
+      "anonymous": {
+       "location": "query",
+       "description": "Set to true to mark the new submission as anonymous.",
+       "type": "boolean"
+      },
+      "parentSubmissionId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the parent Submission within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "topicId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Topic within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "topicId",
+      "parentSubmissionId"
+     ],
+     "request": {
+      "$ref": "Submission"
+     },
+     "response": {
+      "$ref": "Submission"
+     }
+    },
+    "list": {
+     "restPath": "series/{seriesId}/submissions/{submissionId}/responses",
+     "rpcMethod": "moderator.responses.list",
+     "httpMethod": "GET",
+     "description": "Lists or searches the responses for the specified submission within the specified series and returns the search results.",
+     "parameters": {
+      "author": {
+       "location": "query",
+       "description": "Restricts the results to submissions by a specific author.",
+       "type": "string"
+      },
+      "hasAttachedVideo": {
+       "location": "query",
+       "description": "Specifies whether to restrict to submissions that have videos attached.",
+       "type": "boolean"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to return.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "q": {
+       "location": "query",
+       "description": "Search query.",
+       "type": "string"
+      },
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "sort": {
+       "location": "query",
+       "description": "Sort order.",
+       "type": "string"
+      },
+      "start-index": {
+       "location": "query",
+       "description": "Index of the first result to be retrieved.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "submissionId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Submission within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "submissionId"
+     ],
+     "response": {
+      "$ref": "SubmissionList"
+     }
+    }
+   }
+  },
+  "series": {
+   "methods": {
+    "get": {
+     "restPath": "series/{seriesId}",
+     "rpcMethod": "moderator.series.get",
+     "httpMethod": "GET",
+     "description": "Returns the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId"
+     ],
+     "response": {
+      "$ref": "Series"
+     }
+    },
+    "insert": {
+     "restPath": "series",
+     "rpcMethod": "moderator.series.insert",
+     "httpMethod": "POST",
+     "description": "Inserts a new series.",
+     "request": {
+      "$ref": "Series"
+     },
+     "response": {
+      "$ref": "Series"
+     }
+    },
+    "list": {
+     "restPath": "series",
+     "rpcMethod": "moderator.series.list",
+     "httpMethod": "GET",
+     "description": "Searches the series and returns the search results.",
+     "parameters": {
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to return.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "q": {
+       "location": "query",
+       "description": "Search query.",
+       "type": "string"
+      },
+      "start-index": {
+       "location": "query",
+       "description": "Index of the first result to be retrieved.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "response": {
+      "$ref": "SeriesList"
+     }
+    },
+    "update": {
+     "restPath": "series/{seriesId}",
+     "rpcMethod": "moderator.series.update",
+     "httpMethod": "PUT",
+     "description": "Updates the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId"
+     ],
+     "request": {
+      "$ref": "Series"
+     },
+     "response": {
+      "$ref": "Series"
+     }
+    }
+   },
+   "resources": {
+    "responses": {
+     "methods": {
+      "list": {
+       "restPath": "series/{seriesId}/responses",
+       "rpcMethod": "moderator.series.responses.list",
+       "httpMethod": "GET",
+       "description": "Searches the responses for the specified series and returns the search results.",
+       "parameters": {
+        "author": {
+         "location": "query",
+         "description": "Restricts the results to submissions by a specific author.",
+         "type": "string"
+        },
+        "hasAttachedVideo": {
+         "location": "query",
+         "description": "Specifies whether to restrict to submissions that have videos attached.",
+         "type": "boolean"
+        },
+        "max-results": {
+         "location": "query",
+         "description": "Maximum number of results to return.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        },
+        "q": {
+         "location": "query",
+         "description": "Search query.",
+         "type": "string"
+        },
+        "seriesId": {
+         "location": "path",
+         "required": true,
+         "description": "The decimal ID of the Series.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        },
+        "sort": {
+         "location": "query",
+         "description": "Sort order.",
+         "type": "string"
+        },
+        "start-index": {
+         "location": "query",
+         "description": "Index of the first result to be retrieved.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        }
+       },
+       "parameterOrder": [
+        "seriesId"
+       ],
+       "response": {
+        "$ref": "SeriesList"
+       }
+      }
+     }
+    },
+    "submissions": {
+     "methods": {
+      "list": {
+       "restPath": "series/{seriesId}/submissions",
+       "rpcMethod": "moderator.series.submissions.list",
+       "httpMethod": "GET",
+       "description": "Searches the submissions for the specified series and returns the search results.",
+       "parameters": {
+        "author": {
+         "location": "query",
+         "description": "Restricts the results to submissions by a specific author.",
+         "type": "string"
+        },
+        "hasAttachedVideo": {
+         "location": "query",
+         "description": "Specifies whether to restrict to submissions that have videos attached.",
+         "type": "boolean"
+        },
+        "lang": {
+         "location": "query",
+         "description": "The language code for the language the client prefers resuls in.",
+         "type": "string"
+        },
+        "max-results": {
+         "location": "query",
+         "description": "Maximum number of results to return.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        },
+        "q": {
+         "location": "query",
+         "description": "Search query.",
+         "type": "string"
+        },
+        "seriesId": {
+         "location": "path",
+         "required": true,
+         "description": "The decimal ID of the Series.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        },
+        "sort": {
+         "location": "query",
+         "description": "Sort order.",
+         "type": "string"
+        },
+        "start-index": {
+         "location": "query",
+         "description": "Index of the first result to be retrieved.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        }
+       },
+       "parameterOrder": [
+        "seriesId"
+       ],
+       "response": {
+        "$ref": "SubmissionList"
+       }
+      }
+     }
+    }
+   }
+  },
+  "submissions": {
+   "methods": {
+    "get": {
+     "restPath": "series/{seriesId}/submissions/{submissionId}",
+     "rpcMethod": "moderator.submissions.get",
+     "httpMethod": "GET",
+     "description": "Returns the specified submission within the specified series.",
+     "parameters": {
+      "lang": {
+       "location": "query",
+       "description": "The language code for the language the client prefers resuls in.",
+       "type": "string"
+      },
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "submissionId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Submission within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "submissionId"
+     ],
+     "response": {
+      "$ref": "Submission"
+     }
+    },
+    "insert": {
+     "restPath": "series/{seriesId}/topics/{topicId}/submissions",
+     "rpcMethod": "moderator.submissions.insert",
+     "httpMethod": "POST",
+     "description": "Inserts a new submission in the specified topic within the specified series.",
+     "parameters": {
+      "anonymous": {
+       "location": "query",
+       "description": "Set to true to mark the new submission as anonymous.",
+       "type": "boolean"
+      },
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "topicId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Topic within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "topicId"
+     ],
+     "request": {
+      "$ref": "Submission"
+     },
+     "response": {
+      "$ref": "Submission"
+     }
+    }
+   }
+  },
+  "tags": {
+   "methods": {
+    "delete": {
+     "restPath": "series/{seriesId}/submissions/{submissionId}/tags/{tagId}",
+     "rpcMethod": "moderator.tags.delete",
+     "httpMethod": "DELETE",
+     "description": "Deletes the specified tag from the specified submission within the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "submissionId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Submission within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "tagId": {
+       "location": "path",
+       "required": true,
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "submissionId",
+      "tagId"
+     ]
+    },
+    "insert": {
+     "restPath": "series/{seriesId}/submissions/{submissionId}/tags",
+     "rpcMethod": "moderator.tags.insert",
+     "httpMethod": "POST",
+     "description": "Inserts a new tag for the specified submission within the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "submissionId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Submission within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "submissionId"
+     ],
+     "request": {
+      "$ref": "Tag"
+     },
+     "response": {
+      "$ref": "Tag"
+     }
+    },
+    "list": {
+     "restPath": "series/{seriesId}/submissions/{submissionId}/tags",
+     "rpcMethod": "moderator.tags.list",
+     "httpMethod": "GET",
+     "description": "Lists all tags for the specified submission within the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "submissionId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Submission within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "submissionId"
+     ],
+     "response": {
+      "$ref": "TagList"
+     }
+    }
+   }
+  },
+  "topics": {
+   "methods": {
+    "get": {
+     "restPath": "series/{seriesId}/topics/{topicId}",
+     "rpcMethod": "moderator.topics.get",
+     "httpMethod": "GET",
+     "description": "Returns the specified topic from the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "topicId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Topic within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "topicId"
+     ],
+     "response": {
+      "$ref": "Topic2"
+     }
+    },
+    "insert": {
+     "restPath": "series/{seriesId}/topics",
+     "rpcMethod": "moderator.topics.insert",
+     "httpMethod": "POST",
+     "description": "Inserts a new topic into the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId"
+     ],
+     "request": {
+      "$ref": "Topic"
+     },
+     "response": {
+      "$ref": "Topic"
+     }
+    },
+    "list": {
+     "restPath": "series/{seriesId}/topics",
+     "rpcMethod": "moderator.topics.list",
+     "httpMethod": "GET",
+     "description": "Searches the topics within the specified series and returns the search results.",
+     "parameters": {
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to return.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "mode": {
+       "location": "query",
+       "type": "string"
+      },
+      "q": {
+       "location": "query",
+       "description": "Search query.",
+       "type": "string"
+      },
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "start-index": {
+       "location": "query",
+       "description": "Index of the first result to be retrieved.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId"
+     ],
+     "response": {
+      "$ref": "TopicList"
+     }
+    },
+    "update": {
+     "restPath": "series/{seriesId}/topics/{topicId}",
+     "rpcMethod": "moderator.topics.update",
+     "httpMethod": "PUT",
+     "description": "Updates the specified topic within the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "topicId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Topic within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "topicId"
+     ],
+     "request": {
+      "$ref": "Topic"
+     },
+     "response": {
+      "$ref": "Topic"
+     }
+    }
+   },
+   "resources": {
+    "submissions": {
+     "methods": {
+      "list": {
+       "restPath": "series/{seriesId}/topics/{topicId}/submissions",
+       "rpcMethod": "moderator.topics.submissions.list",
+       "httpMethod": "GET",
+       "description": "Searches the submissions for the specified topic within the specified series and returns the search results.",
+       "parameters": {
+        "author": {
+         "location": "query",
+         "description": "Restricts the results to submissions by a specific author.",
+         "type": "string"
+        },
+        "hasAttachedVideo": {
+         "location": "query",
+         "description": "Specifies whether to restrict to submissions that have videos attached.",
+         "type": "boolean"
+        },
+        "max-results": {
+         "location": "query",
+         "description": "Maximum number of results to return.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        },
+        "q": {
+         "location": "query",
+         "description": "Search query.",
+         "type": "string"
+        },
+        "seriesId": {
+         "location": "path",
+         "required": true,
+         "description": "The decimal ID of the Series.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        },
+        "sort": {
+         "location": "query",
+         "description": "Sort order.",
+         "type": "string"
+        },
+        "start-index": {
+         "location": "query",
+         "description": "Index of the first result to be retrieved.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        },
+        "topicId": {
+         "location": "path",
+         "required": true,
+         "description": "The decimal ID of the Topic within the Series.",
+         "type": "integer",
+         "minimum": "0",
+         "maximum": "4294967295"
+        }
+       },
+       "parameterOrder": [
+        "seriesId",
+        "topicId"
+       ],
+       "response": {
+        "$ref": "SubmissionList"
+       }
+      }
+     }
+    }
+   }
+  },
+  "votes": {
+   "methods": {
+    "get": {
+     "restPath": "series/{seriesId}/submissions/{submissionId}/votes/@me",
+     "rpcMethod": "moderator.votes.get",
+     "httpMethod": "GET",
+     "description": "Returns the votes by the authenticated user for the specified submission within the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "submissionId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Submission within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "userId": {
+       "location": "query",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "submissionId"
+     ],
+     "response": {
+      "$ref": "Vote"
+     }
+    },
+    "insert": {
+     "restPath": "series/{seriesId}/submissions/{submissionId}/votes/@me",
+     "rpcMethod": "moderator.votes.insert",
+     "httpMethod": "POST",
+     "description": "Inserts a new vote by the authenticated user for the specified submission within the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "submissionId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Submission within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "submissionId"
+     ],
+     "request": {
+      "$ref": "Vote"
+     },
+     "response": {
+      "$ref": "Vote"
+     }
+    },
+    "list": {
+     "restPath": "series/{seriesId}/votes/@me",
+     "rpcMethod": "moderator.votes.list",
+     "httpMethod": "GET",
+     "description": "Lists the votes by the authenticated user for the given series.",
+     "parameters": {
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to return.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "start-index": {
+       "location": "query",
+       "description": "Index of the first result to be retrieved.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      }
+     },
+     "parameterOrder": [
+      "seriesId"
+     ],
+     "response": {
+      "$ref": "VoteList"
+     }
+    },
+    "update": {
+     "restPath": "series/{seriesId}/submissions/{submissionId}/votes/@me",
+     "rpcMethod": "moderator.votes.update",
+     "httpMethod": "PUT",
+     "description": "Updates the votes by the authenticated user for the specified submission within the specified series.",
+     "parameters": {
+      "seriesId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "submissionId": {
+       "location": "path",
+       "required": true,
+       "description": "The decimal ID of the Submission within the Series.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "userId": {
+       "location": "query",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "seriesId",
+      "submissionId"
+     ],
+     "request": {
+      "$ref": "Vote"
+     },
+     "response": {
+      "$ref": "Vote"
+     }
+    }
+   }
+  }
+ }
+}

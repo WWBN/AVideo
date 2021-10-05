@@ -1,0 +1,375 @@
+{
+ "kind": "discovery#describeItem",
+ "name": "not_tasks",
+ "version": "v1",
+ "description": "Examples found in the Tasks API",
+ "restBasePath": "/tasks/v1/",
+ "rpcPath": "/rpc",
+ "schemas": {
+  "Task": {
+   "id": "Task",
+   "type": "object",
+   "properties": {
+    "completed": {
+     "type": "string",
+     "description": "Completion date of the task (as a RFC 3339 timestamp). This field is omitted if the task has not been completed."
+    },
+    "etag": {
+     "type": "string",
+     "description": "ETag of the resource."
+    },
+    "hidden": {
+     "type": "boolean",
+     "description": "Flag indicating whether the task is hidden. This is the case if the task was completed when the task list has last been cleared. The default is False. This field is read-only."
+    },
+    "id": {
+     "type": "string",
+     "description": "Task identifier."
+    },
+    "selfLink": {
+     "type": "string",
+     "description": "URL pointing to this task, used to retrieve, update or delete it."
+    },
+    "title": {
+     "type": "string",
+     "description": "Title of the task."
+    }
+   }
+  },
+  "TaskList": {
+   "id": "TaskList",
+   "type": "object",
+   "properties": {
+    "etag": {
+     "type": "string",
+     "description": "ETag of the resource."
+    },
+    "id": {
+     "type": "string",
+     "description": "Task list identifier."
+    },
+    "kind": {
+     "type": "string",
+     "description": "Type of the resource. This is always \"tasks#taskList\".",
+     "default": "tasks#taskList"
+    },
+    "selfLink": {
+     "type": "string",
+     "description": "URL of the task list, used to retrieve, update or delete it."
+    },
+    "title": {
+     "type": "string",
+     "description": "Title of the task list."
+    }
+   }
+  },
+  "TaskLists": {
+   "id": "TaskLists",
+   "type": "object",
+   "properties": {
+    "etag": {
+     "type": "string",
+     "description": "ETag of the resource."
+    },
+    "items": {
+     "type": "array",
+     "description": "Collection of task lists.",
+     "items": {
+      "$ref": "TaskList"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "description": "Type of the resource. This is always \"tasks#taskLists\".",
+     "default": "tasks#taskLists"
+    },
+    "nextPageToken": {
+     "type": "string",
+     "description": "Token that can be used to request the next page of this result."
+    }
+   }
+  },
+  "Tasks": {
+   "id": "Tasks",
+   "type": "object",
+   "properties": {
+    "etag": {
+     "type": "string",
+     "description": "ETag of the resource."
+    },
+    "items": {
+     "type": "array",
+     "description": "Collection of tasks.",
+     "items": {
+      "$ref": "Task"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "description": "Type of the resource. This is always \"tasks#tasks\".",
+     "default": "tasks#tasks"
+    },
+    "nextPageToken": {
+     "type": "string",
+     "description": "Token used to access the next page of this result."
+    }
+   }
+  }
+ },
+ "resources": {
+  "r1": {
+   "methods": {
+    "no_request_no_response": {
+     "restPath": "lists/{tasklist}/clear",
+     "rpcMethod": "tasks.task.clearcompleted",
+     "httpMethod": "POST",
+     "description": "No request object, no response object",
+     "parameters": {
+      "tasklist": {
+       "location": "path",
+       "required": true,
+       "description": "Task list identifier.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "tasklist"
+     ]
+    },
+    "delete": {
+     "restPath": "lists/{tasklist}/tasks/{task}",
+     "rpcMethod": "tasks.task.delete",
+     "httpMethod": "DELETE",
+     "description": "Deletes the specified task from the task list.",
+     "parameters": {
+      "task": {
+       "location": "path",
+       "required": true,
+       "description": "Task identifier.",
+       "type": "string"
+      },
+      "tasklist": {
+       "location": "path",
+       "required": true,
+       "description": "Task list identifier.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "tasklist",
+      "task"
+     ]
+    },
+    "get": {
+     "restPath": "lists/{tasklist}/tasks/{task}",
+     "rpcMethod": "tasks.task.get",
+     "httpMethod": "GET",
+     "description": "Returns the specified task.",
+     "parameters": {
+      "task": {
+       "location": "path",
+       "required": true,
+       "description": "Task identifier.",
+       "type": "string"
+      },
+      "tasklist": {
+       "location": "path",
+       "required": true,
+       "description": "Task list identifier.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "tasklist",
+      "task"
+     ],
+     "response": {
+      "$ref": "Task"
+     }
+    },
+    "insert": {
+     "restPath": "lists/{tasklist}/tasks",
+     "rpcMethod": "tasks.task.insert",
+     "httpMethod": "POST",
+     "description": "Creates a new task on the specified task list.",
+     "parameters": {
+      "parent": {
+       "location": "query",
+       "description": "Parent task identifier. If the task is created at the top level, this parameter is omitted. Optional.",
+       "type": "string"
+      },
+      "tasklist": {
+       "location": "path",
+       "required": true,
+       "description": "Task list identifier.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "tasklist"
+     ],
+     "request": {
+      "$ref": "Task"
+     },
+     "response": {
+      "$ref": "Task"
+     }
+    },
+    "list": {
+     "restPath": "lists/{tasklist}/tasks",
+     "rpcMethod": "tasks.task.list",
+     "httpMethod": "GET",
+     "description": "Returns all tasks in the specified task list.",
+     "parameters": {
+      "completedMax": {
+       "location": "query",
+       "description": "Upper bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date.",
+       "type": "string"
+      },
+      "completedMin": {
+       "location": "query",
+       "description": "Lower bound for a task's completion date (as a RFC 3339 timestamp) to filter by. Optional. The default is not to filter by completion date.",
+       "type": "string"
+      },
+      "maxResults": {
+       "location": "query",
+       "description": "Maximum number of task lists returned on one page. Optional. The default is 100.",
+       "type": "integer",
+       "minimum": "-9223372036854775808",
+       "maximum": "9223372036854775807"
+      },
+      "showCompleted": {
+       "location": "query",
+       "description": "Flag indicating whether completed tasks are returned in the result. Optional. The default is True.",
+       "type": "boolean"
+      },
+      "tasklist": {
+       "location": "path",
+       "required": true,
+       "description": "Task list identifier.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "tasklist"
+     ],
+     "response": {
+      "$ref": "Tasks"
+     }
+    },
+    "no_request": {
+     "restPath": "lists/{tasklist}/tasks/{task}/move",
+     "rpcMethod": "tasks.task.move",
+     "httpMethod": "POST",
+     "description": "Moves the specified task to another position in the task list. This can include putting it as a child task under a new parent and/or move it to a different position among its sibling tasks.",
+     "parameters": {
+      "parent": {
+       "location": "query",
+       "description": "New parent task identifier. If the task is moved to the top level, this parameter is omitted. Optional.",
+       "type": "string"
+      },
+      "task": {
+       "location": "path",
+       "required": true,
+       "description": "Task identifier.",
+       "type": "string"
+      },
+      "tasklist": {
+       "location": "path",
+       "required": true,
+       "description": "Task list identifier.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "tasklist",
+      "task"
+     ],
+     "response": {
+      "$ref": "Task"
+     }
+    },
+    "patch": {
+     "restPath": "lists/{tasklist}/tasks/{task}",
+     "rpcMethod": "tasks.task.patch",
+     "httpMethod": "PATCH",
+     "description": "Updates the specified task.",
+     "parameters": {
+      "task": {
+       "location": "path",
+       "required": true,
+       "description": "Task identifier.",
+       "type": "string"
+      },
+      "tasklist": {
+       "location": "path",
+       "required": true,
+       "description": "Task list identifier.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "tasklist",
+      "task"
+     ],
+     "request": {
+      "$ref": "Task"
+     },
+     "response": {
+      "$ref": "Task"
+     }
+    },
+    "update": {
+     "restPath": "lists/{tasklist}/tasks/{task}",
+     "rpcMethod": "tasks.task.update",
+     "httpMethod": "PUT",
+     "description": "Updates the specified task.",
+     "parameters": {
+      "task": {
+       "location": "path",
+       "required": true,
+       "description": "Task identifier.",
+       "type": "string"
+      },
+      "tasklist": {
+       "location": "path",
+       "required": true,
+       "description": "Task list identifier.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "tasklist",
+      "task"
+     ],
+     "request": {
+      "$ref": "Task"
+     },
+     "response": {
+      "$ref": "Task"
+     }
+    },
+    "no_response": {
+     "restPath": "users/@me/lists/{tasklist}",
+     "rpcMethod": "tasks.tasklist.update",
+     "httpMethod": "PUT",
+     "description": "Artificial PUT operation with no response",
+     "parameters": {
+      "tasklist": {
+       "location": "path",
+       "required": true,
+       "description": "Task list identifier.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "tasklist"
+     ],
+     "request": {
+      "$ref": "TaskList"
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,13 @@
+{
+  "language": "php",
+  "description": "PHP libraries for Google APIs.",
+  "releaseVersion": "1.3.0",
+  "baseClientLibrary": "1.1.1",
+  "requires": [
+    {
+      "name": "Google API PHP Client",
+      "downloadLink": "https://github.com/google/google-api-php-client/releases",
+      "version": "${baseClientLibrary}"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "USED_IN": ["targets_test.py"],
+
+  "description": "Description for java",
+  "releaseVersion": "release-version",
+  "baseClientLibrary": "base-client-library",
+  "requires": [
+    {
+      "name": "never required",
+      "environments": ["manual"],
+      "version": "1.10.3-beta",
+      "files": [
+        {
+          "type": "bundle",
+          "downloadUrl": "http://foo/bar.zip"
+        }
+      ]
+    },{
+      "name": "base is always required",
+      "environments": ["*"],
+      "version": "1.10.3-beta",
+      "files": [
+        {
+          "type": "source",
+          "path": "libs-sources/base-sources.jar"
+        },{
+          "type": "binary",
+          "path": "libs/base.jar"
+        },{
+          "type": "documentation",
+          "path": "libs-sources/base-docs.jar"
+        }
+      ]
+    }
+  ]
+}

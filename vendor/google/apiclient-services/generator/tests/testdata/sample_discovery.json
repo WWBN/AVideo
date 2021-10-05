@@ -1,0 +1,3861 @@
+{
+ "name": "myservice",
+ "version": "v1",
+ "ownerName": "Google",
+ "ownerDomain": "google.com",
+ "description": "A sample service remarkably similar to Buzz.",
+ "restBasePath": "/buzz/v1/",
+ "rootUrl": "https://www.googleapis.com/",
+ "servicePath" : "buzz/v1/",
+ "rpcPath": "/rpc",
+ "features": [
+  "dataWrapper"
+ ],
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "auth": {
+  "oauth2": {
+   "scopes": {
+    "https://www.googleapis.com/auth/buzz": {
+     "description": "Read and write myservice data"
+    },
+    "https://www.googleapis.com/auth/buzz.read-only": {
+     "description": "Read myservice data"
+    }
+   }
+  }
+ },
+ "schemas": {
+  "AllTypes": {
+   "id": "AllTypes",
+   "type": "object",
+   "properties": {
+    "boolean": {
+     "type": "boolean"
+     },
+    "any": {
+     "type": "any"
+     },
+    "int16": {
+     "type": "integer",
+     "format": "int16"
+     },
+    "uint32": {
+     "type": "integer",
+     "format": "uint32"
+     },
+    "int32": {
+     "type": "integer",
+     "format": "int32"
+     },
+    "double": {
+     "type": "number",
+     "format": "double"
+     },
+    "float": {
+     "type": "number",
+     "format": "float"
+     },
+    "object": {
+     "type": "object",
+     "properties": {
+      "id": {
+       "type": "string"
+       }
+      }
+     },
+    "string": {
+     "type": "string"
+     },
+    "bytes": {
+     "type": "string",
+     "format": "byte"
+     },
+    "date": {
+     "type": "string",
+     "format": "date"
+     },
+    "datetime": {
+     "type": "string",
+     "format": "date-time"
+     },
+    "int64": {
+     "type": "string",
+     "format": "int64"
+     },
+    "uint64": {
+     "type": "string",
+     "format": "uint64"
+     },
+    "uint64array": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "format": "uint64"
+      }
+     }
+    }
+   },
+  "Activity": {
+   "id": "Activity",
+   "type": "object",
+   "properties": {
+    "actor": {
+     "type": "object",
+     "properties": {
+      "id": {
+       "type": "any"
+      },
+      "name": {
+       "type": "any"
+      },
+      "profileUrl": {
+       "type": "any"
+      }
+     }
+    },
+    "address": {
+     "type": "any"
+    },
+    "annotation": {
+     "type": "any"
+    },
+    "categories": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "label": {
+        "type": "any"
+       },
+       "schema": {
+        "type": "any"
+       },
+       "term": {
+        "type": "any"
+       }
+      }
+     }
+    },
+    "crosspostSource": {
+     "type": "any",
+     "annotations": {
+       "required": [
+         "activities.insert"
+       ]
+     }
+    },
+    "detectedlLang": {
+     "type": "any"
+    },
+    "geocode": {
+     "type": "any"
+    },
+    "geometry": {
+     "$ref": "Geometry"
+    },
+    "id": {
+     "type": "any",
+     "annotations": {
+       "required": [
+         "activities.insert"
+       ]
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#activity"
+    },
+    "links": {
+     "type": "object",
+     "properties": {
+      "liked": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "count": {
+          "type": "integer"
+         },
+         "href": {
+          "type": "any"
+         },
+         "type": {
+          "type": "any"
+         }
+        }
+       }
+      }
+     },
+     "additionalProperties": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "count": {
+         "type": "any"
+        },
+        "height": {
+         "type": "any"
+        },
+        "href": {
+         "type": "any"
+        },
+        "title": {
+         "type": "any"
+        },
+        "type": {
+         "type": "any"
+        },
+        "updated": {
+         "type": "string"
+        },
+        "width": {
+         "type": "any"
+        }
+       }
+      }
+     }
+    },
+    "object": {
+     "type": "object",
+     "properties": {
+      "actor": {
+       "type": "object",
+       "properties": {
+        "id": {
+         "type": "any"
+        },
+        "name": {
+         "type": "any"
+        },
+        "profileUrl": {
+         "type": "any"
+        }
+       }
+      },
+      "attachments": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "content": {
+          "type": "any"
+         },
+         "id": {
+          "type": "any"
+         },
+         "links": {
+          "type": "object",
+          "additionalProperties": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "properties": {
+             "count": {
+              "type": "any"
+             },
+             "height": {
+              "type": "any"
+             },
+             "href": {
+              "type": "any"
+             },
+             "title": {
+              "type": "any"
+             },
+             "type": {
+              "type": "any"
+             },
+             "updated": {
+              "type": "string"
+             },
+             "width": {
+              "type": "any"
+             }
+            }
+           }
+          }
+         },
+         "title": {
+          "type": "any"
+         },
+         "type": {
+          "type": "string"
+         }
+        }
+       }
+      },
+      "comments": {
+       "type": "array",
+       "items": {
+        "$ref": "Comment"
+       }
+      },
+      "content": {
+       "type": "any"
+      },
+      "detectedlLang": {
+       "type": "any"
+      },
+      "id": {
+       "type": "any"
+      },
+      "liked": {
+       "type": "array",
+       "items": {
+        "$ref": "Person"
+       }
+      },
+      "links": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "href": {
+           "type": "any"
+          },
+          "type": {
+           "$ref": "LinkType"
+          }
+         }
+        }
+       }
+      },
+      "originalContent": {
+       "type": "any"
+      },
+      "shareOriginal": {
+       "$ref": "Activity"
+      },
+      "targetLang": {
+       "type": "any"
+      },
+      "type": {
+       "type": "string"
+      },
+      "untranslatedContent": {
+       "type": "any"
+      }
+     }
+    },
+    "placeName": {
+     "type": "any"
+    },
+    "published": {
+     "type": "string"
+    },
+    "radius": {
+     "type": "any"
+    },
+    "source": {
+     "type": "object",
+     "properties": {
+      "title": {
+       "type": "any"
+      }
+     }
+    },
+    "targetLang": {
+     "type": "any"
+    },
+    "title": {
+     "type": "any"
+    },
+    "untranslatedTitle": {
+     "type": "any"
+    },
+    "updated": {
+     "type": "string"
+    },
+    "verbs": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "visibility": {
+     "type": "object",
+     "properties": {
+      "entries": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "id": {
+          "type": "any"
+         },
+         "title": {
+          "type": "any"
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "Geometry": {
+   "id": "Geometry",
+   "type": "object",
+   "variant": {
+    "discriminant": "type",
+    "map": [
+     {
+      "type_value": "Collection",
+      "$ref": "GeometryCollection"
+     },
+     {
+      "type_value": "Polygon",
+      "$ref": "GeometryPolygon"
+     }
+    ]
+   }
+  },
+  "GeometryCollection": {
+   "id": "GeometryCollection",
+   "type": "object",
+   "properties": {
+    "geometries": {
+     "type": "array",
+     "items": {
+      "$ref": "Geometry"
+     }
+    },
+    "type": {
+     "type": "string",
+     "enum": [
+      "Collection"
+     ]
+    }
+   }
+  },
+  "GeometryPolygon": {
+   "id": "GeometryPolygon",
+   "type": "object",
+   "properties": {
+    "coordinates": {
+     "type": "string"
+    },
+    "type": {
+     "type": "string",
+     "enum": [
+      "Polygon"
+     ]
+    }
+   }
+  },
+  "ActivityFeed": {
+   "id": "ActivityFeed",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "any"
+    },
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Activity"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#activityFeed"
+    },
+    "links": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "count": {
+         "type": "any"
+        },
+        "height": {
+         "type": "any"
+        },
+        "href": {
+         "type": "any"
+        },
+        "title": {
+         "type": "any"
+        },
+        "type": {
+         "$ref": "LinkType"
+        },
+        "updated": {
+         "type": "string"
+        },
+        "width": {
+         "type": "any"
+        }
+       }
+      }
+     }
+    },
+    "title": {
+     "type": "any"
+    },
+    "updated": {
+     "type": "string"
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "Album": {
+   "id": "Album",
+   "type": "object",
+   "properties": {
+    "created": {
+     "type": "string"
+    },
+    "description": {
+     "type": "string"
+    },
+    "firstPhotoId": {
+     "type": "integer"
+    },
+    "id": {
+     "type": "integer"
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#album"
+    },
+    "lastModified": {
+     "type": "string"
+    },
+    "links": {
+     "type": "object",
+     "properties": {
+      "alternate": {
+       "$ref": "Link"
+      },
+      "enclosure": {
+       "$ref": "Link"
+      }
+     }
+    },
+    "owner": {
+     "type": "object",
+     "properties": {
+      "id": {
+       "type": "string"
+      },
+      "name": {
+       "type": "string"
+      },
+      "profileUrl": {
+       "type": "string"
+      }
+     }
+    },
+    "tags": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "title": {
+     "type": "string"
+    },
+    "version": {
+     "type": "integer"
+    }
+   }
+  },
+  "AlbumsFeed": {
+   "id": "AlbumsFeed",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Album"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#albumsFeed"
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "ChiliPhotosResourceJson": {
+   "id": "ChiliPhotosResourceJson",
+   "type": "object",
+   "properties": {
+    "album": {
+     "type": "object",
+     "properties": {
+      "id": {
+       "type": "integer"
+      },
+      "page_link": {
+       "$ref": "Link"
+      }
+     }
+    },
+    "created": {
+     "type": "string"
+    },
+    "description": {
+     "type": "string"
+    },
+    "fileSize": {
+     "type": "integer"
+    },
+    "id": {
+     "type": "integer"
+    },
+    "kind": {
+     "type": "string"
+    },
+    "lastModified": {
+     "type": "string"
+    },
+    "links": {
+     "type": "object",
+     "properties": {
+      "alternate": {
+       "type": "array",
+       "items": {
+        "$ref": "Link"
+       }
+      }
+     },
+     "additionalProperties": {
+      "type": "array",
+      "items": {
+       "$ref": "Link"
+      }
+     }
+    },
+    "owner": {
+     "type": "object",
+     "properties": {
+      "id": {
+       "type": "string"
+      },
+      "name": {
+       "type": "string"
+      },
+      "profileUrl": {
+       "type": "string"
+      }
+     }
+    },
+    "timestamp": {
+     "type": "number"
+    },
+    "title": {
+     "type": "string"
+    },
+    "version": {
+     "type": "integer"
+    }
+   }
+  },
+  "Comment": {
+   "id": "Comment",
+   "type": "object",
+   "properties": {
+    "actor": {
+     "type": "object",
+     "properties": {
+      "id": {
+       "type": "any"
+      },
+      "name": {
+       "type": "any"
+      },
+      "profileUrl": {
+       "type": "any"
+      }
+     }
+    },
+    "content": {
+     "type": "any"
+    },
+    "detectedLang": {
+     "type": "any"
+    },
+    "id": {
+     "type": "any"
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#comment"
+    },
+    "links": {
+     "type": "object",
+     "properties": {
+      "inReplyTo": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "href": {
+          "type": "any"
+         },
+         "ref": {
+          "type": "any"
+         },
+         "source": {
+          "type": "any"
+         }
+        }
+       }
+      }
+     },
+     "additionalProperties": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "count": {
+         "type": "any"
+        },
+        "height": {
+         "type": "any"
+        },
+        "href": {
+         "type": "any"
+        },
+        "title": {
+         "type": "any"
+        },
+        "type": {
+         "type": "any"
+        },
+        "updated": {
+         "type": "string"
+        },
+        "width": {
+         "type": "any"
+        }
+       }
+      }
+     }
+    },
+    "originalContent": {
+     "type": "any"
+    },
+    "published": {
+     "type": "string"
+    },
+    "targetLang": {
+     "type": "any"
+    },
+    "untranslatedContent": {
+     "type": "any"
+    },
+    "updated": {
+     "type": "string"
+    }
+   }
+  },
+  "CommentFeed": {
+   "id": "CommentFeed",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "any"
+    },
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Comment"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#commentFeed"
+    },
+    "links": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "count": {
+         "type": "any"
+        },
+        "height": {
+         "type": "any"
+        },
+        "href": {
+         "type": "any"
+        },
+        "title": {
+         "type": "any"
+        },
+        "type": {
+         "$ref": "LinkType"
+        },
+        "updated": {
+         "type": "string"
+        },
+        "width": {
+         "type": "any"
+        }
+       }
+      }
+     }
+    },
+    "title": {
+     "type": "any"
+    },
+    "updated": {
+     "type": "string"
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "CountFeed": {
+   "id": "CountFeed",
+   "type": "object",
+   "properties": {
+    "counts": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "count": {
+         "type": "any"
+        },
+        "timestamp": {
+         "type": "string"
+        }
+       }
+      }
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#countFeed"
+    }
+   }
+  },
+  "Entity": {
+   "id": "Entity",
+   "type": "object",
+   "properties": {
+    "chipsUiAcl": {
+     "type": "any"
+    },
+    "comment": {
+     "type": "any"
+    },
+    "id": {
+     "type": "any"
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#entity"
+    },
+    "starredBy": {
+     "type": "array",
+     "items": {
+      "$ref": "Person"
+     }
+    },
+    "starredByViewer": {
+     "type": "any"
+    },
+    "summary": {
+     "type": "any"
+    },
+    "title": {
+     "type": "any"
+    },
+    "totalNumStars": {
+     "type": "any"
+    },
+    "viewerStarAcl": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "displayName": {
+        "type": "any"
+       },
+       "id": {
+        "type": "any"
+       },
+       "kind": {
+        "type": "any"
+       },
+       "tags": {
+        "type": "array",
+        "items": {
+         "type": "any"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "EntityAcl": {
+   "id": "EntityAcl",
+   "type": "object",
+   "properties": {
+    "chipsUiAcl": {
+     "type": "string"
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#entityAcl"
+    },
+    "viewerStarAcl": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "displayName": {
+        "type": "string"
+       },
+       "id": {
+        "type": "string"
+       },
+       "kind": {
+        "type": "string"
+       },
+       "tags": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "Group": {
+   "id": "Group",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "any"
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#group"
+    },
+    "links": {
+     "type": "object",
+     "properties": {
+      "self": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "href": {
+          "type": "any"
+         },
+         "type": {
+          "type": "string",
+          "default": "application/json"
+         }
+        }
+       }
+      }
+     }
+    },
+    "memberCount": {
+     "type": "any"
+    },
+    "title": {
+     "type": "any"
+    }
+   }
+  },
+  "GroupFeed": {
+   "id": "GroupFeed",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "Group"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#groupFeed"
+    },
+    "links": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "count": {
+         "type": "any"
+        },
+        "height": {
+         "type": "any"
+        },
+        "href": {
+         "type": "any"
+        },
+        "title": {
+         "type": "any"
+        },
+        "type": {
+         "type": "any"
+        },
+        "updated": {
+         "type": "string"
+        },
+        "width": {
+         "type": "any"
+        }
+       }
+      }
+     }
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "Link": {
+   "id": "Link",
+   "type": "object",
+   "properties": {
+    "count": {
+     "type": "integer",
+     "format": "uint32"
+    },
+    "href": {
+     "type": "string"
+    },
+    "type": {
+     "$ref": "LinkType"
+    }
+   }
+  },
+  "PeopleFeed": {
+   "id": "PeopleFeed",
+   "type": "object",
+   "properties": {
+    "entry": {
+     "type": "array",
+     "items": {
+      "$ref": "Person"
+     }
+    },
+    "itemsPerPage": {
+     "type": "any"
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#peopleFeed"
+    },
+    "startIndex": {
+     "type": "any"
+    },
+    "totalResults": {
+     "type": "any"
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "Person": {
+   "id": "Person",
+   "type": "object",
+   "properties": {
+    "aboutMe": {
+     "type": "any"
+    },
+    "accounts": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "domain": {
+        "type": "any"
+       },
+       "userid": {
+        "type": "any"
+       },
+       "username": {
+        "type": "any"
+       }
+      }
+     }
+    },
+    "activities": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "addresses": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "country": {
+        "type": "any"
+       },
+       "formatted": {
+        "type": "any"
+       },
+       "locality": {
+        "type": "any"
+       },
+       "postalCode": {
+        "type": "any"
+       },
+       "primary": {
+        "type": "any"
+       },
+       "region": {
+        "type": "any"
+       },
+       "streetAddress": {
+        "type": "any"
+       },
+       "type": {
+        "type": "any"
+       }
+      }
+     }
+    },
+    "anniversary": {
+     "type": "any"
+    },
+    "birthday": {
+     "type": "any"
+    },
+    "bodyType": {
+     "type": "any"
+    },
+    "books": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "cars": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "children": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "connected": {
+     "type": "any"
+    },
+    "currentLocation": {
+     "type": "any"
+    },
+    "displayName": {
+     "type": "any"
+    },
+    "drinker": {
+     "type": "any"
+    },
+    "emails": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "primary": {
+        "type": "any"
+       },
+       "type": {
+        "type": "any"
+       },
+       "value": {
+        "type": "any"
+       }
+      }
+     }
+    },
+    "ethnicity": {
+     "type": "any"
+    },
+    "fashion": {
+     "type": "any"
+    },
+    "food": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "gender": {
+     "type": "any"
+    },
+    "happiestWhen": {
+     "type": "any"
+    },
+    "hasApp": {
+     "type": "any"
+    },
+    "heroes": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "humor": {
+     "type": "any"
+    },
+    "id": {
+     "type": "any"
+    },
+    "ims": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "primary": {
+        "type": "any"
+       },
+       "type": {
+        "type": "any"
+       },
+       "value": {
+        "type": "any"
+       }
+      }
+     }
+    },
+    "interests": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "jobInterests": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#person"
+    },
+    "languages": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "languagesSpoken": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "livingArrangement": {
+     "type": "any"
+    },
+    "lookingFor": {
+     "type": "any"
+    },
+    "movies": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "music": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "name": {
+     "type": "object",
+     "properties": {
+      "familyName": {
+       "type": "any"
+      },
+      "formatted": {
+       "type": "any"
+      },
+      "givenName": {
+       "type": "any"
+      },
+      "honorificPrefix": {
+       "type": "any"
+      },
+      "honorificSuffix": {
+       "type": "any"
+      },
+      "middleName": {
+       "type": "any"
+      }
+     }
+    },
+    "nickname": {
+     "type": "any"
+    },
+    "note": {
+     "type": "any"
+    },
+    "organizations": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "department": {
+        "type": "any"
+       },
+       "description": {
+        "type": "any"
+       },
+       "endDate": {
+        "type": "any"
+       },
+       "location": {
+        "type": "any"
+       },
+       "name": {
+        "type": "any"
+       },
+       "primary": {
+        "type": "any"
+       },
+       "startDate": {
+        "type": "any"
+       },
+       "title": {
+        "type": "any"
+       },
+       "type": {
+        "type": "any"
+       }
+      }
+     }
+    },
+    "pets": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "phoneNumbers": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "primary": {
+        "type": "any"
+       },
+       "type": {
+        "type": "any"
+       },
+       "value": {
+        "type": "any"
+       }
+      }
+     }
+    },
+    "photos": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "height": {
+        "type": "any"
+       },
+       "primary": {
+        "type": "any"
+       },
+       "type": {
+        "type": "any"
+       },
+       "value": {
+        "type": "any"
+       },
+       "width": {
+        "type": "any"
+       }
+      }
+     }
+    },
+    "politicalViews": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "preferredUsername": {
+     "type": "any"
+    },
+    "profileSong": {
+     "type": "any"
+    },
+    "profileUrl": {
+     "type": "any"
+    },
+    "profileVideo": {
+     "type": "any"
+    },
+    "published": {
+     "type": "string"
+    },
+    "quotes": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "relationshipStatus": {
+     "type": "any"
+    },
+    "relationships": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "religion": {
+     "type": "any"
+    },
+    "romance": {
+     "type": "any"
+    },
+    "scaredOf": {
+     "type": "any"
+    },
+    "sexualOrientation": {
+     "type": "any"
+    },
+    "smoker": {
+     "type": "any"
+    },
+    "sports": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "status": {
+     "type": "any"
+    },
+    "tags": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "turnOffs": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "turnOns": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "tvShows": {
+     "type": "array",
+     "items": {
+      "type": "any"
+     }
+    },
+    "updated": {
+     "type": "string"
+    },
+    "urls": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "primary": {
+        "type": "any"
+       },
+       "type": {
+        "type": "any"
+       },
+       "value": {
+        "type": "any"
+       }
+      }
+     }
+    },
+    "utcOffset": {
+     "type": "any"
+    }
+   }
+  },
+  "PhotosFeed": {
+   "id": "PhotosFeed",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "ChiliPhotosResourceJson"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#photosFeed"
+    },
+    "pageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "RelatedFeed": {
+   "id": "RelatedFeed",
+   "type": "object",
+   "properties": {
+    "id": {
+     "type": "any"
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#relatedFeed"
+    },
+    "links": {
+     "type": "object",
+     "additionalProperties": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "properties": {
+        "count": {
+         "type": "any"
+        },
+        "height": {
+         "type": "any"
+        },
+        "href": {
+         "type": "any"
+        },
+        "title": {
+         "type": "any"
+        },
+        "type": {
+         "type": "any"
+        },
+        "updated": {
+         "type": "string"
+        },
+        "width": {
+         "type": "any"
+        }
+       }
+      }
+     }
+    },
+    "title": {
+     "type": "any"
+    },
+    "updated": {
+     "type": "string"
+    },
+    "nextPageToken": {
+     "type": "string"
+    }
+   }
+  },
+  "RelatedFeedResponse": {
+   "$ref": "RelatedFeed"
+  },
+  "StarredEntityFeed": {
+   "id": "StarredEntityFeed",
+   "type": "object",
+   "properties": {
+    "entry": {
+     "type": "array",
+     "items": {
+      "$ref": "Entity"
+     }
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#starredEntityFeed"
+    }
+   }
+  },
+  "StarredEntityFeedForUser": {
+   "id": "StarredEntityFeedForUser",
+   "type": "object",
+   "properties": {
+    "entry": {
+     "type": "array",
+     "items": {
+      "$ref": "Entity"
+     }
+    },
+    "itemsPerPage": {
+     "type": "any"
+    },
+    "kind": {
+     "type": "string",
+     "default": "buzz#starredEntityFeedForUser"
+    },
+    "startIndex": {
+     "type": "any"
+    },
+    "totalResults": {
+     "type": "any"
+    }
+   }
+  },
+  "LinkType": {
+   "id": "LinkType",
+   "type": "string",
+   "enum": [
+    "DOWNLOAD",
+    "THUMBNAIL",
+    "PDF"
+   ],
+   "enumDescriptions": [
+    "",
+    "",
+    ""
+   ]
+  },
+  "PageTokenBody": {
+   "id": "PageTokenBody",
+   "type": "object",
+   "properties": {
+    "pageToken": {
+     "type": "string"
+    }
+   }
+  }
+ },
+ "methods": {
+  "foo": {
+   "id": "myservice.foo",
+   "path": "foo",
+   "rpcMethod": "myservice.foo",
+   "httpMethod": "GET",
+   "description": "Get related links for an activity",
+   "response": {
+    "$ref": "CountFeed"
+   }
+  }
+ },
+ "resources": {
+  "activities": {
+   "methods": {
+    "count": {
+     "path": "activities/count",
+     "rpcMethod": "chili.activities.count",
+     "httpMethod": "GET",
+     "description": "Get a count of link shares",
+     "parameters": {
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "url": {
+       "location": "query",
+       "repeated": true,
+       "description": "URLs for which to get share counts.",
+       "type": "string"
+      }
+     },
+     "response": {
+      "$ref": "CountFeed"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/buzz.read-only",
+      "https://www.googleapis.com/auth/buzz"
+     ]
+    },
+    "delete": {
+     "path": "activities/{userId}/{scope}/{postId}",
+     "rpcMethod": "chili.activities.delete",
+     "httpMethod": "DELETE",
+     "description": "Delete an activity",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "required_parameter": {
+       "location": "query",
+       "description": "A required query parameter",
+       "required": true,
+       "type": "string"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity to delete.",
+       "type": "string"
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "description": "The collection to which the activity belongs.",
+       "type": "string",
+       "enum": [
+        "@liked",
+        "@muted",
+        "@self"
+       ],
+       "enumDescriptions": [
+        "Activities liked by the user.",
+        "Activities muted by the user.",
+        "Activities posted by the user."
+       ]
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user whose post to delete.",
+       "type": "string",
+       "format": "uint64"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope",
+      "postId",
+      "required_parameter"
+     ],
+     "scopes": [
+      "https://www.googleapis.com/auth/buzz"
+     ]
+    },
+    "extractPeopleFromSearch": {
+     "path": "activities/search/{evalue}@people",
+     "rpcMethod": "chili.activities.extractPeopleFromSearch",
+     "httpMethod": "GET",
+     "description": "Search for people by topic",
+     "parameters": {
+      "evalue": {
+       "location": "path",
+       "description": "Specifies an alternative representation type.",
+       "type": "integer",
+       "enum": [
+        "0",
+        "1"
+       ],
+       "enumDescriptions": [
+        "The number 0",
+        "The number 1"
+       ],
+       "default": "0"
+      },
+      "bbox": {
+       "location": "query",
+       "description": "Bounding box to use in a geographic location query.",
+       "type": "string",
+       "pattern": "[a-zA-Z_]+"
+      },
+      "endDate": {
+       "type": "string",
+       "description": "End of the date range to report on in \"YYYY-MM-DD\" format, inclusive.",
+       "required": true,
+       "pattern": "\\d{4}-\\d{2}-\\d{2}",
+       "location": "query"
+      },
+      "dimension": {
+       "type": "string",
+       "description": "Dimensions to base the report on.",
+       "pattern": "[a-zA-Z_]+",
+       "repeated": true,
+       "location": "query"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "lat": {
+       "location": "query",
+       "description": "Latitude to use in a geographic location query.",
+       "type": "string"
+      },
+      "lon": {
+       "location": "query",
+       "description": "Longitude to use in a geographic location query.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "pid": {
+       "location": "query",
+       "description": "ID of a place to use in a geographic location query.",
+       "type": "string"
+      },
+      "q": {
+       "location": "query",
+       "description": "Full-text search query string.",
+       "type": "string"
+      },
+      "min_radius": {
+       "location": "query",
+       "description": "A parameter with an _ in the name.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "endDate"
+     ],
+     "response": {
+      "$ref": "PeopleFeed"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/buzz.read-only",
+      "https://www.googleapis.com/auth/buzz"
+     ]
+    },
+    "get": {
+     "path": "activities/{userId}/@self/{postId}",
+     "rpcMethod": "chili.activities.get",
+     "httpMethod": "GET",
+     "description": "Get an activity",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-liked": {
+       "location": "query",
+       "description": "Maximum number of likes to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "0"
+      },
+      "max-comments": {
+       "location": "query",
+       "description": "Maximum number of comments to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user to get.",
+       "type": "string"
+      },
+      "truncateAtom": {
+       "location": "query",
+       "description": "Truncate the value of the atom:content element.",
+       "type": "boolean"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user whose post to get.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "postId"
+     ],
+     "response": {
+      "$ref": "Activity"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/buzz.read-only",
+      "https://www.googleapis.com/auth/buzz"
+     ]
+    },
+    "insert": {
+     "id": "activities.insert",
+     "path": "activities/{userId}/@self",
+     "rpcMethod": "chili.activities.insert",
+     "httpMethod": "POST",
+     "description": "Create a new activity",
+     "parameters": {
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "preview": {
+       "location": "query",
+       "description": "If true, only preview the action.",
+       "type": "boolean",
+       "default": "false"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId"
+     ],
+     "request": {
+      "$ref": "Activity"
+     },
+     "response": {
+      "$ref": "Activity"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/buzz"
+     ]
+    },
+    "list": {
+     "path": "activities/{userId}/{scope}",
+     "rpcMethod": "chili.activities.list",
+     "httpMethod": "GET",
+     "description": "List activities",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-comments": {
+       "location": "query",
+       "description": "Maximum number of comments to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295"
+      },
+      "max-liked": {
+       "location": "query",
+       "description": "Maximum number of likes to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "0"
+      },
+      "options": {
+       "description": "A repeated enum.",
+       "location": "query",
+       "repeated": true,
+       "type": "string",
+       "enum": [
+        "@a",
+        "@b"
+       ],
+       "enumDescriptions": [
+        "a",
+        "b"
+       ]
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "description": "The collection of activities to list.",
+       "type": "string",
+       "enum": [
+        "@comments",
+        "@consumption",
+        "@liked",
+        "@public",
+        "@self"
+       ],
+       "enumDescriptions": [
+        "Limit to activities commented on by the user.",
+        "Limit to activities to be consumed by the user.",
+        "Limit to activities liked by the user.",
+        "Limit to public activities posted by the user.",
+        "Limit to activities posted by the user."
+       ]
+      },
+      "truncateAtom": {
+       "location": "query",
+       "description": "Truncate the value of the atom:content element.",
+       "type": "boolean"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string",
+       "pattern": "@me|[0-9]+"
+      },
+      "boolParamNoDefault": {
+       "location": "query",
+       "type": "boolean"
+      },
+      "boolParamTrueDefault": {
+       "location": "query",
+       "type": "boolean",
+       "default": "true"
+      },
+      "boolParamFalseDefault": {
+       "location": "query",
+       "type": "boolean",
+       "default": "false"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope"
+     ],
+     "response": {
+      "$ref": "ActivityFeed"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/buzz.read-only",
+      "https://www.googleapis.com/auth/buzz"
+     ]
+    },
+    "track": {
+     "path": "activities/track",
+     "rpcMethod": "chili.activities.track",
+     "httpMethod": "POST",
+     "description": "Get real-time activity tracking information",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "bbox": {
+       "location": "query",
+       "description": "Bounding box to use in a geographic location query.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "lat": {
+       "location": "query",
+       "description": "Latitude to use in a geographic location query.",
+       "type": "string"
+      },
+      "lon": {
+       "location": "query",
+       "description": "Longitude to use in a geographic location query.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "pid": {
+       "location": "query",
+       "description": "ID of a place to use in a geographic location query.",
+       "type": "string"
+      },
+      "q": {
+       "location": "query",
+       "description": "Full-text search query string.",
+       "type": "string"
+      },
+      "radius": {
+       "location": "query",
+       "description": "Radius to use in a geographic location query.",
+       "type": "string"
+      }
+     },
+     "request": {
+      "$ref": "PageTokenBody"
+     },
+     "response": {
+      "$ref": "ActivityFeed"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/buzz.read-only",
+      "https://www.googleapis.com/auth/buzz"
+     ]
+    },
+    "update": {
+     "path": "activities/{userId}/{scope}/{postId}",
+     "rpcMethod": "chili.activities.update",
+     "httpMethod": "PUT",
+     "description": "Update an activity",
+     "parameters": {
+      "abuseType": {
+       "location": "query",
+       "type": "string"
+      },
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity to update.",
+       "type": "string"
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "description": "The collection to which the activity belongs.",
+       "type": "string",
+       "enum": [
+        "@abuse",
+        "@liked",
+        "@muted",
+        "@self"
+       ],
+       "enumDescriptions": [
+        "Activities reported by the user.",
+        "Activities liked by the user.",
+        "Activities muted by the user.",
+        "Activities posted by the user."
+       ]
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user whose post to update.",
+       "type": "string"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope",
+      "postId"
+     ],
+     "request": {
+      "$ref": "Activity"
+     },
+     "response": {
+      "$ref": "Activity"
+     },
+     "scopes": [
+      "https://www.googleapis.com/auth/buzz"
+     ]
+    }
+   }
+  },
+  "comments": {
+   "methods": {
+    "delete": {
+     "path": "activities/{userId}/@self/{postId}/@comments/{commentId}",
+     "rpcMethod": "chili.comments.delete",
+     "httpMethod": "DELETE",
+     "description": "Delete a comment",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "commentId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the comment being referenced.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity for which to delete the comment.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "postId",
+      "commentId"
+     ]
+    },
+    "get": {
+     "path": "activities/{userId}/@self/{postId}/@comments/{commentId}",
+     "rpcMethod": "chili.comments.get",
+     "httpMethod": "GET",
+     "description": "Get a comment",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "commentId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the comment being referenced.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity for which to get comments.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "postId",
+      "commentId"
+     ],
+     "response": {
+      "$ref": "Comment"
+     }
+    },
+    "insert": {
+     "path": "activities/{userId}/@self/{postId}/@comments",
+     "rpcMethod": "chili.comments.insert",
+     "httpMethod": "POST",
+     "description": "Create a comment",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity on which to comment.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user on whose behalf to comment.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "postId"
+     ],
+     "request": {
+      "$ref": "Comment"
+     },
+     "response": {
+      "$ref": "Comment"
+     }
+    },
+    "list": {
+     "path": "activities/{userId}/{scope}/{postId}/@comments",
+     "rpcMethod": "chili.comments.list",
+     "httpMethod": "GET",
+     "description": "List comments",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity for which to get comments.",
+       "type": "string"
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "description": "The collection to which the activity belongs.",
+       "type": "string",
+       "enum": [
+        "@self"
+       ],
+       "enumDescriptions": [
+        "Activities posted by the user."
+       ]
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope",
+      "postId"
+     ],
+     "response": {
+      "$ref": "CommentFeed"
+     }
+    },
+    "update": {
+     "path": "activities/{userId}/{scope}/{postId}/@comments/{commentId}",
+     "rpcMethod": "chili.comments.update",
+     "httpMethod": "PUT",
+     "description": "Update a comment",
+     "parameters": {
+      "abuseType": {
+       "location": "query",
+       "type": "string"
+      },
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "commentId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the comment being referenced.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity for which to update the comment.",
+       "type": "string"
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "description": "The collection to which the activity belongs.",
+       "type": "string",
+       "enum": [
+        "@abuse",
+        "@self"
+       ],
+       "enumDescriptions": [
+        "Comments reported by the user.",
+        "Comments posted by the user."
+       ]
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope",
+      "postId",
+      "commentId"
+     ],
+     "request": {
+      "$ref": "Comment"
+     },
+     "response": {
+      "$ref": "Comment"
+     }
+    }
+   }
+  },
+  "groups": {
+   "methods": {
+    "delete": {
+     "path": "people/{userId}/@groups/{groupId}",
+     "rpcMethod": "chili.groups.delete",
+     "httpMethod": "DELETE",
+     "description": "Delete a group",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "groupId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the group to delete.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "groupId"
+     ]
+    },
+    "get": {
+     "path": "people/{userId}/@groups/{groupId}/@self",
+     "rpcMethod": "chili.groups.get",
+     "httpMethod": "GET",
+     "description": "Get a group",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "groupId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the group to get.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "groupId"
+     ],
+     "response": {
+      "$ref": "Group"
+     }
+    },
+    "insert": {
+     "path": "people/{userId}/@groups",
+     "rpcMethod": "chili.groups.insert",
+     "httpMethod": "POST",
+     "description": "Create a group",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId"
+     ],
+     "request": {
+      "$ref": "Group"
+     },
+     "response": {
+      "$ref": "Group"
+     }
+    },
+    "list": {
+     "path": "people/{userId}/@groups",
+     "rpcMethod": "chili.groups.list",
+     "httpMethod": "GET",
+     "description": "Get a user's groups",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId"
+     ],
+     "response": {
+      "$ref": "GroupFeed"
+     }
+    },
+    "update": {
+     "path": "people/{userId}/@groups/{groupId}/@self",
+     "rpcMethod": "chili.groups.update",
+     "httpMethod": "PUT",
+     "description": "Update a group",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "groupId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the group to update.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "groupId"
+     ],
+     "request": {
+      "$ref": "Group"
+     },
+     "response": {
+      "$ref": "Group"
+     }
+    }
+   }
+  },
+  "people": {
+   "methods": {
+    "delete": {
+     "path": "people/{userId}/@groups/{groupId}/{personId}",
+     "rpcMethod": "chili.people.delete",
+     "httpMethod": "DELETE",
+     "description": "Remove a person from a group",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "groupId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the group from which to remove the person.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "personId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the person to remove from the group.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the owner of the group.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "groupId",
+      "personId"
+     ]
+    },
+    "get": {
+     "path": "people/{userId}/@self",
+     "rpcMethod": "chili.people.get",
+     "httpMethod": "GET",
+     "description": "Get a user profile",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId"
+     ],
+     "response": {
+      "$ref": "Person"
+     }
+    },
+    "liked": {
+     "path": "activities/{userId}/{scope}/{postId}/{groupId}",
+     "rpcMethod": "chili.people.liked",
+     "httpMethod": "GET",
+     "description": "Get people who liked an activity",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "groupId": {
+       "location": "path",
+       "required": true,
+       "type": "string",
+       "enum": [
+        "@liked"
+       ],
+       "enumDescriptions": [
+        "People who liked this activity."
+       ]
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity that was liked.",
+       "type": "string"
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope",
+      "postId",
+      "groupId"
+     ],
+     "response": {
+      "$ref": "PeopleFeed"
+     }
+    },
+    "list": {
+     "path": "people/{userId}/@groups/{groupId}",
+     "rpcMethod": "chili.people.list",
+     "httpMethod": "GET",
+     "description": "Get people in a group",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "groupId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the group for which to list users.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "groupId"
+     ],
+     "response": {
+      "$ref": "PeopleFeed"
+     }
+    },
+    "reshared": {
+     "path": "activities/{userId}/{scope}/{postId}/{groupId}",
+     "rpcMethod": "chili.people.reshared",
+     "httpMethod": "GET",
+     "description": "Get people who reshared an activity",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "groupId": {
+       "location": "path",
+       "required": true,
+       "type": "string",
+       "enum": [
+        "@reshared"
+       ],
+       "enumDescriptions": [
+        "People who reshared this activity."
+       ]
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity that was reshared.",
+       "type": "string"
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope",
+      "postId",
+      "groupId"
+     ],
+     "response": {
+      "$ref": "PeopleFeed"
+     }
+    },
+    "search": {
+     "path": "people/search",
+     "rpcMethod": "chili.people.search",
+     "httpMethod": "GET",
+     "description": "Search for people",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "filters": {
+       "type": "array",
+       "description": "Additional filters for the search",
+       "items": {
+        "type": "string"
+       }
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "q": {
+       "location": "query",
+       "description": "Full-text search query string.",
+       "type": "string"
+      }
+     },
+     "response": {
+      "$ref": "PeopleFeed"
+     }
+    },
+    "update": {
+     "path": "people/{userId}/@groups/{groupId}/{personId}",
+     "rpcMethod": "chili.people.update",
+     "httpMethod": "PUT",
+     "description": "Add a person to a group",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "groupId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the group to which to add the person.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "personId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the person to add to the group.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the owner of the group.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "groupId",
+      "personId"
+     ],
+     "request": {
+      "$ref": "Person"
+     },
+     "response": {
+      "$ref": "Person"
+     }
+    }
+   }
+  },
+  "photoAlbums": {
+   "methods": {
+    "delete": {
+     "path": "photos/{userId}/@self/{albumId}",
+     "rpcMethod": "chili.photoAlbums.delete",
+     "httpMethod": "DELETE",
+     "description": "Delete a photo album",
+     "parameters": {
+      "albumId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the album to delete.",
+       "type": "string"
+      },
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "albumId"
+     ]
+    },
+    "get": {
+     "path": "photos/{userId}/@self/{albumId}",
+     "rpcMethod": "chili.photoAlbums.get",
+     "httpMethod": "GET",
+     "description": "Get a photo album",
+     "parameters": {
+      "albumId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the album to get.",
+       "type": "string"
+      },
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "albumId"
+     ],
+     "response": {
+      "$ref": "Album"
+     }
+    },
+    "insert": {
+     "path": "photos/{userId}/@self",
+     "rpcMethod": "chili.photoAlbums.insert",
+     "httpMethod": "POST",
+     "description": "Create a photo album",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId"
+     ],
+     "request": {
+      "$ref": "Album"
+     },
+     "response": {
+      "$ref": "Album"
+     }
+    },
+    "list": {
+     "path": "photos/{userId}/{scope}",
+     "rpcMethod": "chili.photoAlbums.list",
+     "httpMethod": "GET",
+     "description": "List a user's photo albums",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "description": "The collection of albums to list.",
+       "type": "string",
+       "enum": [
+        "@self"
+       ],
+       "enumDescriptions": [
+        "Albums posted by the user."
+       ]
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope"
+     ],
+     "response": {
+      "$ref": "AlbumsFeed"
+     }
+    }
+   }
+  },
+  "photos": {
+   "methods": {
+    "delete": {
+     "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}",
+     "rpcMethod": "chili.photos.delete",
+     "httpMethod": "DELETE",
+     "description": "Delete a photo",
+     "parameters": {
+      "albumId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the album to which to photo belongs.",
+       "type": "string"
+      },
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "photoId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the photo to delete.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "albumId",
+      "photoId"
+     ]
+    },
+    "get": {
+     "path": "photos/{userId}/@self/{albumId}/@photos/{photoId}",
+     "rpcMethod": "chili.photos.get",
+     "httpMethod": "GET",
+     "description": "Get photo metadata",
+     "parameters": {
+      "albumId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the photo for which to get metadata.",
+       "type": "string"
+      },
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "photoId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the album containing the photo.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "albumId",
+      "photoId"
+     ],
+     "response": {
+      "$ref": "ChiliPhotosResourceJson"
+     }
+    },
+    "insert": {
+     "path": "photos/{userId}/{albumId}",
+     "rpcMethod": "chili.photos.insert",
+     "httpMethod": "POST",
+     "description": "Upload a photo to an album",
+     "parameters": {
+      "albumId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the album to which to upload.",
+       "type": "string"
+      },
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "albumId"
+     ],
+     "request": {
+      "$ref": "Album"
+     },
+     "response": {
+      "$ref": "Album"
+     }
+    },
+    "insert2": {
+     "path": "photos/{userId}/@self/{albumId}/@photos",
+     "rpcMethod": "chili.photos.insert2",
+     "httpMethod": "POST",
+     "description": "Upload a photo to an album",
+     "parameters": {
+      "albumId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the album to which to upload.",
+       "type": "string"
+      },
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "albumId"
+     ],
+     "request": {
+      "$ref": "ChiliPhotosResourceJson"
+     },
+     "response": {
+      "$ref": "ChiliPhotosResourceJson"
+     }
+    },
+    "listByAlbum": {
+     "path": "photos/{userId}/album/{albumId}",
+     "rpcMethod": "chili.photos.listByAlbum",
+     "httpMethod": "GET",
+     "description": "List photos in an album",
+     "parameters": {
+      "albumId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the album for which to list photos.",
+       "type": "string"
+      },
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "nextPageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "albumId"
+     ],
+     "response": {
+      "$ref": "PhotosFeed"
+     }
+    },
+    "listByScope": {
+     "path": "photos/{userId}/scope/{+scope}",
+     "rpcMethod": "chili.photos.listByScope",
+     "httpMethod": "GET",
+     "description": "Get a user's photos",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "pageToken": {
+       "location": "query",
+       "description": "A continuation token that allows pagination.",
+       "type": "string"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "max-results": {
+       "location": "query",
+       "description": "Maximum number of results to include.",
+       "type": "integer",
+       "minimum": "0",
+       "maximum": "4294967295",
+       "default": "20"
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "description": "The collection of photos to list.",
+       "type": "string",
+       "enum": [
+        "@recent"
+       ],
+       "enumDescriptions": [
+        "Recent photos uploaded by the user."
+       ]
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope"
+     ],
+     "response": {
+      "$ref": "PhotosFeed"
+     }
+    },
+    "match": {
+     "id": "myservice.photos.match",
+     "path": "matches",
+     "httpMethod": "POST",
+     "description": "A method with no required parameters and media upload.",
+     "parameters": {
+      "service_id": {
+       "type": "string",
+       "description": "Type of match.",
+       "enum": [
+        "exact",
+        "random",
+        "penguins"
+       ],
+       "enumDescriptions": [
+        "all the pixels match",
+        "return a random photo",
+        "detect penguins and only match on those"
+       ],
+       "location": "query"
+      }
+     },
+     "response": {
+      "$ref": "Album"
+     },
+     "supportsMediaUpload": true,
+     "mediaUpload": {
+      "accept": [
+       "*/*"
+      ],
+      "maxSize": "20GB",
+      "protocols": {
+       "simple": {
+        "multipart": true,
+        "path": "/upload/video/myservice/v1/match/matches"
+       },
+       "resumable": {
+        "multipart": true,
+        "path": "/resumable/upload/video/myservice/v1/match/matches"
+       }
+      }
+     }
+    }
+   }
+  },
+  "related": {
+   "methods": {
+    "list": {
+     "path": "activities/{userId}/{scope}/{postId}/@related",
+     "rpcMethod": "chili.related.list",
+     "httpMethod": "GET",
+     "description": "Get related links for an activity",
+     "parameters": {
+      "alt": {
+       "location": "query",
+       "description": "Specifies an alternative representation type.",
+       "type": "string",
+       "enum": [
+        "atom",
+        "json"
+       ],
+       "enumDescriptions": [
+        "Use Atom XML format",
+        "Use JSON format"
+       ],
+       "default": "atom"
+      },
+      "hl": {
+       "location": "query",
+       "description": "Language code to limit language results.",
+       "type": "string"
+      },
+      "postId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the activity to which to get related links.",
+       "type": "integer",
+       "format": "int32"
+      },
+      "scope": {
+       "location": "path",
+       "required": true,
+       "description": "The collection to which the activity belongs.",
+       "type": "string",
+       "enum": [
+        "@self"
+       ],
+       "enumDescriptions": [
+        "Activities posted by the user."
+       ]
+      },
+      "userId": {
+       "location": "path",
+       "required": true,
+       "description": "ID of the user being referenced.",
+       "type": "string"
+      }
+     },
+     "parameterOrder": [
+      "userId",
+      "scope",
+      "postId"
+     ],
+     "response": {
+      "$ref": "RelatedFeedResponse"
+     }
+    }
+   }
+  }
+ }
+}

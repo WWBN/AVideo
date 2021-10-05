@@ -1,0 +1,15 @@
+{
+  // Show the path in the top window bar.
+  "window.title": "${rootName}${separator}${activeEditorMedium}",
+
+  "editor.renderWhitespace": "all",
+
+  // Formatting
+  "editor.formatOnSave": true,
+  "phpformatter.composer": true,
+  "phpformatter.arguments": [""],
+
+  // Linting
+  "phpcs.enable": true,
+  "phpcs.standard": "PSR2"
+}

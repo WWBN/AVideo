@@ -1,0 +1,3 @@
+Test data for library_package_test.py
+If you edit this file, you will break a unit test whichj
+depends on its size being 125
