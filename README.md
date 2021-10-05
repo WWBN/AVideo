@@ -165,3 +165,9 @@ docker-compose up --build -d
 ## Version 8.10
 
 ## Version 8.11
+
+## git clone
+
+After a git clone command run this 
+
+composer update --prefer-dist --ignore-platform-reqs
