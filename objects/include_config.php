@@ -27,7 +27,11 @@ if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
 
 $global['avideoStartMicrotime'] = microtime(true);
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+try {
+    require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+} catch (Exception $exc) {
+    echo $exc->getTraceAsString();
+}
 
 $global['webSiteRootURL'] .= (substr($global['webSiteRootURL'], -1) == '/' ? '' : '/');
 $global['systemRootPath'] .= (substr($global['systemRootPath'], -1) == '/' ? '' : '/');
