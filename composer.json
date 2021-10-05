@@ -3,13 +3,14 @@
     "description": "Audio Video Platform",
     "type": "project",
     "config": {
+        "platform-check": false,
         "vendor-dir": "vendor",
         "platform": {
-            "php": "7.2.0"
+            "php": "7.2.5"
         }
     },
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=7.2.5",
         "ext-curl": "*",
         "ext-json": "*",
         "chrisjean/php-ico": "^1.0",

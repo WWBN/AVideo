@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '1c3c7b5c26c576033d8f9cfd64ed204e23a2b0c8',
+    'reference' => '61a5f8030b6b91d37b72c46f4df837d3ce8e94d6',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -692,7 +692,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '1c3c7b5c26c576033d8f9cfd64ed204e23a2b0c8',
+      'reference' => '61a5f8030b6b91d37b72c46f4df837d3ce8e94d6',
     ),
   ),
 );
