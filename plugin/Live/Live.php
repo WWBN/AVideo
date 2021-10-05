@@ -539,6 +539,7 @@ class Live extends PluginAbstract {
             }            
         }
         $domain = self::getControl($live_servers_id);
+        return $domain;
     }
     
     static function getAPPName(){
