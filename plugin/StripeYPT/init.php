@@ -1,3 +1,3 @@
 <?php
 
-require_once '../../vendor/stripe/stripe-php/init.php';
+require_once dirname(__FILE__) . '/../../vendor/stripe/stripe-php/init.php';
