@@ -4,7 +4,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/hybridauth/hybridauth/src/autoload.php';
+require_once $global['systemRootPath'] . 'objects/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 use Hybridauth\Hybridauth;

@@ -1,8 +1,8 @@
 <?php
 
 include_once dirname(__FILE__).'/../../../objects/autoload.php';
-require_once dirname(__FILE__).'/../../../objects/singpolyma/openpgp-php/lib/openpgp.php';
-require_once dirname(__FILE__).'/../../../objects/singpolyma/openpgp-php/lib/openpgp_crypt_rsa.php';
+//require_once dirname(__FILE__).'/../../../objects/singpolyma/openpgp-php/lib/openpgp.php';
+//require_once dirname(__FILE__).'/../../../objects/singpolyma/openpgp-php/lib/openpgp_crypt_rsa.php';
 error_reporting(0);
 
 function createKeys($UserIDPacket = 'Test <test@example.com>', $password = '') {

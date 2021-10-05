@@ -3,7 +3,7 @@
     "description": "Audio Video Platform",
     "type": "project",
     "config": {
-        "vendor-dir": "objects",
+        "vendor-dir": "vendor",
         "platform": {
             "php": "7.4.3"
         }

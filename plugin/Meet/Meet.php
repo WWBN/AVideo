@@ -3,7 +3,8 @@
 use \Firebase\JWT\JWT;
 
 $JIBRI_INSTANCE = 0;
-require_once $global['systemRootPath'] . 'objects/firebase/php-jwt/src/JWT.php';
+require_once $global['systemRootPath'] . 'objects/autoload.php';
+//require_once $global['systemRootPath'] . 'objects/firebase/php-jwt/src/JWT.php';
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule.php';

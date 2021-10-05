@@ -5482,6 +5482,7 @@ function avidoeShutdown() {
     global $global;
     $error = error_get_last();
     if ($error && ($error['type'] & E_FATAL)) {
+        var_dump($error);
         _error_log($error, AVideoLog::$ERROR);
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
         if (!User::isAdmin()) {
