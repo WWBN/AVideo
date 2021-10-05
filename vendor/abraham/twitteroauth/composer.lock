@@ -503,7 +503,7 @@
                 "mikey179/vfsstream": "^1.6",
                 "phpstan/phpstan": "^0.12",
                 "phpstan/phpstan-beberlei-assert": "^0.12.0",
-                "phpunit/phpunit": "^7.4.3",
+                "phpunit/phpunit": "^7.2.0",
                 "sebastian/version": "^1.0.3|^2.0",
                 "thecodingmachine/phpstan-strict-rules": "^0.12"
             },
