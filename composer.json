@@ -5,11 +5,11 @@
     "config": {
         "vendor-dir": "vendor",
         "platform": {
-            "php": "7.4.3"
+            "php": "7.2.0"
         }
     },
     "require": {
-        "php": ">=7.4.3",
+        "php": ">=7.2.0",
         "ext-curl": "*",
         "ext-json": "*",
         "chrisjean/php-ico": "^1.0",
