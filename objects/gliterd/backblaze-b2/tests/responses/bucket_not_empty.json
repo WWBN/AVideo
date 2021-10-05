@@ -1,5 +1,0 @@
-{
-  "code": "cannot_delete_non_empty_bucket",
-  "message": "Cannot delete non-empty bucket",
-  "status": 400
-}

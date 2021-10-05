@@ -5,11 +5,11 @@
     "config": {
         "vendor-dir": "objects",
         "platform": {
-            "php": "5.6.0"
+            "php": "7.4.3"
         }
     },
     "require": {
-        "php": ">=5.6.0",
+        "php": ">=7.4.3",
         "ext-curl": "*",
         "ext-json": "*",
         "chrisjean/php-ico": "^1.0",
@@ -35,6 +35,7 @@
         "paypal/paypal-checkout-sdk": "^1.0",
         "emojione/assets": "^4.5",
         "mervick/emojionearea": "^3.4",
-        "emojione/emojione": "^4.5"
+        "emojione/emojione": "^4.5",
+        "abraham/twitteroauth": "^1.0"
     }
 }

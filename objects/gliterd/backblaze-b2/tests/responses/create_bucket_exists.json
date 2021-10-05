@@ -1,5 +1,0 @@
-{
-  "code": "duplicate_bucket_name",
-  "message": "Bucket name is already in use.",
-  "status": 400
-}

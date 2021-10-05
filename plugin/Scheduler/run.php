@@ -3,7 +3,7 @@
 //streamer config
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 
-if (!isCommandLineInterface()) {
+if (!isCommandLineInterface() && !User::isAdmin()) {
     return die('Command Line only');
 }
 
@@ -13,14 +13,30 @@ if(!AVideoPlugin::isEnabledByName('Scheduler')){
 
 $rowActive = Scheduler_commands::getAllActive();
 $total = count($rowActive);
-_error_log("Scheduler::run There are {$total} active requests"); 
+_log("There are {$total} active requests"); 
 
 $rows = Scheduler_commands::getAllActiveAndReady();
-$time = getDatabaseTime();
-//var_dump($time, date('Y-m-d H:i:s', $time), $rows);
 foreach ($rows as $value) {
     $id = Scheduler::run($value['id']);
     if(empty($id)){
-        _error_log("Scheduler::run error [{$value['id']}] callbackURL={$value['callbackURL']}"); 
+        _log("error [{$value['id']}] callbackURL={$value['callbackURL']}"); 
     }
+}
+
+
+$rows = Scheduler_commands::getAllScheduledTORepeat();
+foreach ($rows as $value) {
+    $id = Scheduler::run($value['id']);
+    if(empty($id)){
+        _log("error [{$value['id']}] callbackURL={$value['callbackURL']}"); 
+    }
+}
+
+function _log($msg){
+    
+    if(!isCommandLineInterface()){
+        echo date('Y-m-d H:i:s').' '.$msg.'<br>';
+    }
+    
+    _error_log("Scheduler::run {$msg}");
 }

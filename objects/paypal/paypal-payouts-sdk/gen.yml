@@ -1,6 +1,0 @@
----
-projectName: Payouts-PHP
-language: php
-sourcePath: lib/PaypalPayoutsSDK
-testPath: tests
-apiVersioning: false

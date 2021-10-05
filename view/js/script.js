@@ -1164,6 +1164,17 @@ function avideoAlertAJAXHTML(url) {
     });
 }
 
+function avideoAlertAJAX(url) {
+    modal.showPleaseWait();
+    $.ajax({
+        url: url,
+        success: function (response) {
+            avideoResponse(response);
+            modal.hidePleaseWait();
+        }
+    });
+}
+
 function avideoAlertHTMLText(title, msg, type) {
     var span = document.createElement("span");
     span.innerHTML = msg;
