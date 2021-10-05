@@ -318,7 +318,7 @@ class Plugin extends ObjectYPT {
                 foreach ($fullData as $row) {
                     $getAllEnabledRows[] = $row;
                     if($row['name']=='DiskUploadQuota' && version_compare($row['pluginversion'], '1.5') < 0){
-                        
+                        continue;
                     }
                     if (($key = array_search($row['uuid'], $defaultEnabledUUIDs)) !== false) {
                         unset($defaultEnabledUUIDs[$key], $defaultEnabledNames[$key]);
