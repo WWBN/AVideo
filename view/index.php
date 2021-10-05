@@ -1,6 +1,17 @@
 <?php
 if (version_compare(PHP_VERSION, '7.2') < 0){
-  die('You are runing PHP version: '.PHP_VERSION.'<br>Please Update your PHP version to 7.2 or above. (7.3 is recommended)<br><h5>For Ubuntu 16</h5>sudo add-apt-repository ppa:jczaplicki/xenial-php74-temp<br>sudo apt-get update<br>sudo apt-get upgrade');
+  $msg = array();
+  $msg[] = 'You are runing PHP version: '.PHP_VERSION;
+  $msg[] = 'Please Update your PHP version to 7.2 or above. (7.3 is recommended)';
+  $msg[] = '<h5>For Ubuntu 16</h5>sudo add-apt-repository ppa:jczaplicki/xenial-php74-temp';
+  $msg[] = 'sudo apt-get update';
+  $msg[] = 'sudo apt-get upgrade';
+  $msg[] = 'apt-get install php7.4 libapache2-mod-php7.4 php7.4-mysql php7.4-curl php7.4-gd php7.4-intl php7.4-zip';
+  $msg[] = 'sudo update-alternatives --set php /usr/bin/php7.4';
+  $msg[] = 'sudo a2dismod php7.0';
+  $msg[] = 'sudo a2enmod php7.4';
+  $msg[] = 'sudo /etc/init.d/apache2 restart';
+  die(implode('<br>', $msg));
 }
 
 global $global, $config;
