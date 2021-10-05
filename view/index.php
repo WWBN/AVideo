@@ -1,4 +1,8 @@
 <?php
+if (version_compare(PHP_VERSION, '7.2') < 0){
+  die('Please Update your PHP version to 7.2 or above. (7.3 is recommended)');
+}
+
 global $global, $config;
 $configFile = '../videos/configuration.php';
 if(!isset($global['systemRootPath'])){
