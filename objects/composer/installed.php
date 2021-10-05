@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'b9d1f0eff782cbe290d3ff21842dbdbb801c7f4e',
+    'reference' => '2c06791bd0c49d3dce3488cdb94859009bb89090',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -31,12 +31,12 @@
     ),
     'aws/aws-sdk-php' => 
     array (
-      'pretty_version' => '3.196.0',
-      'version' => '3.196.0.0',
+      'pretty_version' => '3.196.2',
+      'version' => '3.196.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '3128df6b0b68b1c4704321777332473642b749e0',
+      'reference' => '3bccf77507f23207c8adbb524cc6da333dc25e47',
     ),
     'cboden/ratchet' => 
     array (
@@ -525,7 +525,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'b9d1f0eff782cbe290d3ff21842dbdbb801c7f4e',
+      'reference' => '2c06791bd0c49d3dce3488cdb94859009bb89090',
     ),
   ),
 );
