@@ -18,13 +18,13 @@ if (!User::isLogged()) {
 AVideoPlugin::getDataObject('VideosStatistics');
 $users_id = User::getId();
 if (!User::isAdmin()) {
-    if (($config->getAuthCanViewChart() == 0 && !User::canUpload()) || !empty($_SESSION['user']['canViewChart'])) {
-        forbiddenPage("You have no access here 1!");
-    }
+    if ($config->getAuthCanViewChart() == 0 && !User::canUpload()) {
+        forbiddenPage("Only video uploaders can see charts");
+    }    
     if ($config->getAuthCanViewChart() == 1) {
         // mode 1 means selected users see admin-charts.
         if (empty($_SESSION['user']['canViewChart'])) {
-            forbiddenPage("You have no access here 2!");
+            forbiddenPage("Admin did not give you right to see the chart");
         }
     }
 }
