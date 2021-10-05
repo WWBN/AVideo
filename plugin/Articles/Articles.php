@@ -13,7 +13,7 @@ class Articles extends PluginAbstract {
         global $global;
         $str = "Create rich text articles";
         $alert = "";
-        $dir = $global['systemRootPath'] . 'objects/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer';
+        $dir = $global['systemRootPath'] . 'vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer';
         if (!is_writable($dir)) {
             $alert = "<div class='alert alert-danger'>Your directory must be writable<br><code>sudo chmod 777 {$dir}</code></div>";
         }
