@@ -2634,14 +2634,14 @@ class Live extends PluginAbstract {
         $encrypt = encryptString($obj);
         
         $url = Live::getServer();
-        $url = addQueryStringParameter($url, 'e', $encrypt);
-        $url = addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
+        $url = addQueryStringParameter($url, 'e', base64_encode($encrypt));
+        $url = addQueryStringParameter($url, 'webSiteRootURL', base64_encode($global['webSiteRootURL']));
         
         $o = AVideoPlugin::getObjectDataIfEnabled("Live");
         if(empty($o->server_type->value)){
-            $url = addQueryStringParameter($url, 'webSiteRootURL', $global['webSiteRootURL']);
+            $url = addQueryStringParameter($url, 'webSiteRootURL', base64_encode($global['webSiteRootURL']));
         }
-        
+        $url = str_replace('%3D', '', $url);
         return $url;
     }
 
