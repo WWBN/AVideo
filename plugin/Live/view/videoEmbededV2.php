@@ -7,7 +7,11 @@ require_once '../../videos/configuration.php';
  * this was made to mask the main URL
  */
 if (!empty($_GET['webSiteRootURL'])) {
-    $global['webSiteRootURL'] = $_GET['webSiteRootURL'];
+    if (isValidURL($_REQUEST['webSiteRootURL'])) {
+        $global['webSiteRootURL'] = @$_REQUEST['webSiteRootURL'];
+    } else {
+        $global['webSiteRootURL'] = base64_decode(@$_REQUEST['webSiteRootURL']);
+    }
 }
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
@@ -25,7 +29,7 @@ $uuid = LiveTransmition::keyNameFix($livet['key']);
 $p = AVideoPlugin::loadPlugin("Live");
 
 $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-if(!empty($objSecure)){
+if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 $u = new User(0, $_GET['u'], false);

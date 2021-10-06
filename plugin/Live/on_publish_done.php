@@ -22,6 +22,9 @@ $_GET = object_to_array($_GET);
 
 if(!empty($_GET['e']) && empty($_GET['p'])){
     $obj = json_decode(decryptString($_GET['e']));
+    if(empty($objE)){
+        $objE = json_decode(decryptString(base64_decode($_GET['e'])));
+    }
     if(!empty($obj->users_id)){
         $user = new User($obj->users_id);
         $_GET['p'] = $user->getPassword();

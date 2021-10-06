@@ -1,6 +1,11 @@
 <?php
 require_once '../functions.php';
-$global['webSiteRootURL'] = @$_REQUEST['webSiteRootURL'];
+
+if(isValidURL($_REQUEST['webSiteRootURL'])){
+    $global['webSiteRootURL'] = @$_REQUEST['webSiteRootURL'];
+}else{    
+    $global['webSiteRootURL'] = base64_decode(@$_REQUEST['webSiteRootURL']);
+}    
 $global['userHash'] = @$_REQUEST['userHash'];
 
 if (empty($global['webSiteRootURL'])) {

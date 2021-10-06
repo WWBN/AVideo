@@ -32,6 +32,11 @@ if(!empty($_GET['e']) && empty($_GET['p'])){
         $_GET['e'] = $parts[0];
     }
     $objE = _json_decode(decryptString($_GET['e']));
+    if(empty($objE)){
+        
+        $objE = _json_decode(decryptString(base64_decode($_GET['e'])));
+    }
+    
     if(!empty($objE->users_id)){
         $user = new User($objE->users_id);
         $_GET['p'] = $user->getPassword();
