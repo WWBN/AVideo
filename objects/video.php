@@ -4366,6 +4366,7 @@ if (!class_exists('Video')) {
         private static function getFullTextSearch($columnsArray, $search, $connection = "OR") {
             global $global;
             $search = $global['mysqli']->real_escape_string(xss_esc($search));
+            $search = str_replace('&quot;', '"', $search);
             if (empty($columnsArray) || empty($search)) {
                 return "";
             }

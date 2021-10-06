@@ -58,7 +58,7 @@ class BootGrid {
         if(!empty($_POST['searchPhrase'])){
             global $global;
             $search = $global['mysqli']->real_escape_string(xss_esc($_POST['searchPhrase']));
-
+            $search = str_replace('&quot;', '"', $search);
             $like = array();
             foreach ($searchFieldsNames as $value) {                
                 if(preg_match('/description/', $value)){
