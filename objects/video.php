@@ -4369,7 +4369,7 @@ if (!class_exists('Video')) {
             $sql = "(";
             $matches = array();
             foreach ($columnsArray as $value) {
-                $matches[] = " (MATCH({$value}) AGAINST ('{$search}' IN NATURAL LANGUAGE MODE)) ";
+                $matches[] = " (MATCH({$value}) AGAINST ('". str_replace('&quot;', '"', $search)."' IN NATURAL LANGUAGE MODE)) ";
             }
             $sql .= implode(" OR ", $matches);
             $sql .= ")";
