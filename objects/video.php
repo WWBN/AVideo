@@ -752,6 +752,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
+                $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
                 $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
@@ -1093,6 +1094,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
+                $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
                 $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
@@ -1557,6 +1559,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             if (!empty($_POST['searchPhrase'])) {
+                $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
                 $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
@@ -4369,7 +4372,7 @@ if (!class_exists('Video')) {
             $sql = "(";
             $matches = array();
             foreach ($columnsArray as $value) {
-                $matches[] = " (MATCH({$value}) AGAINST ('". str_replace('&quot;', '"', $search)."' IN NATURAL LANGUAGE MODE)) ";
+                $matches[] = " (MATCH({$value}) AGAINST ('{$search}' IN NATURAL LANGUAGE MODE)) ";
             }
             $sql .= implode(" OR ", $matches);
             $sql .= ")";
