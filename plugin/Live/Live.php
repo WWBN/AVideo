@@ -2206,7 +2206,7 @@ class Live extends PluginAbstract {
         if ($clearFirstPage) {
             clearCache(true);
         }
-        isURL200Clear();
+        //isURL200Clear();
         unset($__getAVideoCache);
         unset($getStatsLive);
         unset($getStatsObject);
