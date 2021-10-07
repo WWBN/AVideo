@@ -1872,7 +1872,7 @@ if (Permissions::canAdminVideos()) {
 <?php
 if (Permissions::canAdminVideos()) {
     ?>
-                                                            tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Owner") . ":"; ?> </span><span class=\"label label-default \">" + row.user + "</span>";
+                                                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Owner") . ":"; ?> </span><span class=\"label label-default \">" + row.user + "</span>";
     <?php
 }
 ?>
