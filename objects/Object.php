@@ -445,6 +445,7 @@ abstract class ObjectYPT implements ObjectInterface {
         unset($__getAVideoCache);
         $tmpDir = self::getCacheDir();
         $array = _glob($tmpDir, $pattern);
+        _error_log('deleteCachePattern: '.json_encode(debug_print_backtrace()));
         foreach ($array as $value) {
             _error_log("Object::deleteCachePattern file [{$value}]");
             @unlink($value);
