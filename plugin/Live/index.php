@@ -156,7 +156,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                         $liveStreamObject = new LiveStreamObject($trasnmition['key'], $value['id'], @$_REQUEST['live_index'], 0);
                                         $key = $liveStreamObject->getKeyWithIndex(true);
                                         $active = "";
-                                        if (isset($_REQUEST['live_servers_id'])) {
+                                        if (!empty($_REQUEST['live_servers_id'])) {
                                             if ($_REQUEST['live_servers_id'] == $value['id']) {
                                                 $activeServerFound = true;
                                                 $active = "active";
