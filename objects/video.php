@@ -2418,6 +2418,8 @@ if (!class_exists('Video')) {
 
         public static function deleteTagsAsync($video_id) {
             global $global;
+            // disable it temporarily
+            return false;
             if (empty($video_id)) {
                 return false;
             }
