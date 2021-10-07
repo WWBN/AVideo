@@ -102,7 +102,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                             </div>
                             <?php
                             if (
-                                    AVideoPlugin::isEnabledByName('SendRecordedToEncoder', '5.0') && 
+                                    AVideoPlugin::isEnabledByName('SendRecordedToEncoder') && 
                                     class_exists('SendRecordedToEncoder') && 
                                     method_exists('SendRecordedToEncoder', 'canAutoRecord') 
                                     && (SendRecordedToEncoder::canAutoRecord(User::getId()) || 
