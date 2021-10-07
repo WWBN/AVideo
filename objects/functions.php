@@ -6504,7 +6504,7 @@ function isURL200($url, $forceRecheck = false) {
 function isURL200Clear() {
     $tmpDir = ObjectYPT::getCacheDir();
     $cacheDir = $tmpDir . "isURL200" . DIRECTORY_SEPARATOR;
-    //_error_log("Live::isURL200Clear [{$cacheDir}]");
+    _error_log('isURL200Clear: '.json_encode(debug_print_backtrace()));
     rrmdir($cacheDir);
     exec('rm -R ' . $cacheDir);
 }
