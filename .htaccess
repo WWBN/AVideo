@@ -51,6 +51,9 @@ Options All -Indexes
 # END Expires
 # BEGIN Caching
 <ifModule mod_headers.c>
+    <filesMatch "\VMAP.php$">
+        Header set Access-Control-Allow-Origin: *
+    </filesMatch>
     <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|ts)$">
         Header set Access-Control-Allow-Origin: *
         Header set Cache-Control "max-age=2592000, public"
