@@ -3086,6 +3086,7 @@ function cleanUpAccessControlHeader() {
 }
 
 function rrmdir($dir) {
+    //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_print_backtrace()));exit;}
     if (empty($dir)) {
         _error_log('rrmdir: the dir was empty');
         return false;
