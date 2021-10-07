@@ -462,6 +462,7 @@ abstract class ObjectYPT implements ObjectInterface {
     public static function deleteALLCache() {
         global $__getAVideoCache;
         unset($__getAVideoCache);
+        _error_log('deleteALLCache: '.json_encode(debug_print_backtrace()));
         $tmpDir = self::getCacheDir();
         rrmdir($tmpDir);
         self::deleteAllSessionCache();
