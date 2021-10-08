@@ -1963,7 +1963,7 @@ function make_path($path) {
     if (!is_dir($path)) {
         $created = mkdir($path, 0755, true);
         if (!$created) {
-            _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_print_backtrace()));
+            _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace()));
         }
     } else {
         $created = true;
@@ -3086,7 +3086,7 @@ function cleanUpAccessControlHeader() {
 }
 
 function rrmdir($dir) {
-    //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_print_backtrace()));exit;}
+    //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_backtrace()));exit;}
     if (empty($dir)) {
         _error_log('rrmdir: the dir was empty');
         return false;
@@ -6505,7 +6505,7 @@ function isURL200($url, $forceRecheck = false) {
 function isURL200Clear() {
     $tmpDir = ObjectYPT::getCacheDir();
     $cacheDir = $tmpDir . "isURL200" . DIRECTORY_SEPARATOR;
-    _error_log('isURL200Clear: '.json_encode(debug_print_backtrace()));
+    _error_log('isURL200Clear: '.json_encode(debug_backtrace()));
     rrmdir($cacheDir);
 }
 
