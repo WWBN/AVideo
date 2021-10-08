@@ -146,7 +146,7 @@ Surely you need to install an encoder
 
 # Server Requirements
 
-In order for you to be able to run AVideo Platform, there are certain tools that need to be installed on your server. Don't worry, they are all FREE. To have a look at complete list of required tools, click the link below.
+In order for you to be able to run AVideo Platform, there are certain tools that need to be installed on your server. Don't worry, they are all FREE. To have a look at complete list of required tools, click the link below. https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements
 
 - PHP 7.3+
 - MySQL 5.0+
