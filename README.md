@@ -96,7 +96,7 @@ I would humbly like to thank God for giving me the necessary knowledge, motivati
 
 ## Important Information
 
-> Streamer can be installed on any Server, including Windows, but the encoder and Livestream should work fine on any Linux distribution. However we recommend Ubuntu 16+ without any kind of control panel.
+> Streamer can be installed on any Server, including Windows, but the encoder and Livestream should work fine on any Linux distribution. However we recommend Ubuntu 20.04 without any kind of control panel.
 > The problem with cPanel, Plesk, Webmin, VestaCP, etc. It's because we need full root access to install some libs, and maybe compile them. Another important point is that to make Livestream work, we need to compile Nginx and the control panels often prevent us from running the commands forcing the installation available only on your panel.
 
 I don´t want to read I just want you to show me how to install!!
