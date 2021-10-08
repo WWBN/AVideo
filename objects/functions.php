@@ -3914,6 +3914,7 @@ function getUsageFromFilename($filename, $dir = "") {
                 $minDirSize = 4000000;
                 $isEnabled = AVideoPlugin::isEnabledByName('YPTStorage');
                 $isEnabledCDN = AVideoPlugin::getObjectDataIfEnabled('CDN');
+                $isEnabledS3 = AVideoPlugin::getObjectDataIfEnabled('AWS_S3');
                 if ($isEnabledCDN->enable_storage) {
                     $v = Video::getVideoFromFileName($filename);
                     if (!empty($v)) {
@@ -3931,6 +3932,15 @@ function getUsageFromFilename($filename, $dir = "") {
                     } else {
                         _error_log("getUsageFromFilename: there is no info on the YPTStorage " . print_r($info, true));
                     }
+                } else if ($dirSize < $minDirSize && $isEnabledS3) {
+                    // probably the HLS file is hosted on the S3
+                    $size = AWS_S3::getFilesize($filename);
+                    if (!empty($size)) {
+                        _error_log("getUsageFromFilename: found info on the AWS_S3 " . print_r($size, true));
+                        $totalSize += $size;
+                    } else {
+                        _error_log("getUsageFromFilename: there is no info on the AWS_S3 " . print_r($size, true));
+                    }
                 } else {
                     if (!($dirSize < $minDirSize)) {
                         _error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
@@ -3940,6 +3950,9 @@ function getUsageFromFilename($filename, $dir = "") {
                     }
                     if (!$isEnabledCDN) {
                         _error_log("getUsageFromFilename: CDN Storage is disabled");
+                    }
+                    if (!$isEnabledS3) {
+                        _error_log("getUsageFromFilename: S3 Storage is disabled");
                     }
                 }
             } elseif (is_file($f)) {
