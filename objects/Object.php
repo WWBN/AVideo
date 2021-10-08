@@ -434,7 +434,7 @@ abstract class ObjectYPT implements ObjectInterface {
         if(empty($name)){return false;}
         global $__getAVideoCache;
         unset($__getAVideoCache);
-        _error_log('deleteCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        //_error_log('deleteCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $cachefile = self::getCacheFileName($name);
         @unlink($cachefile);
         self::deleteSessionCache($name);
@@ -531,8 +531,11 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     public static function deleteCacheFromPattern($name) {
+        if(empty($name)){
+            return false;
+        }
         $tmpDir = getTmpDir();
-        _error_log('deleteCacheFromPattern: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        //_error_log('deleteCacheFromPattern: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $name = self::cleanCacheName($name);
         $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR) !== false);
         $filePattern = $tmpDir . DIRECTORY_SEPARATOR . $name;
