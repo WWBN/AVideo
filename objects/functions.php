@@ -1184,6 +1184,20 @@ function getVideosURLMP4Only($fileName) {
     return array();
 }
 
+function getVideosURLMP3Only($fileName) {
+    $allFiles = getVideosURL_V2($fileName);
+    if (is_array($allFiles)) {
+        foreach ($allFiles as $key => $value) {
+            if ($value['format'] !== 'mp3') {
+                unset($allFiles[$key]);
+            }
+        }
+        return $allFiles;
+    }
+    _error_log("getVideosURLMP4Only does not return an ARRAY from getVideosURL_V2($fileName) " . json_encode($allFiles));
+    return array();
+}
+
 function getVideosURLWEBMOnly($fileName) {
     $allFiles = getVideosURL_V2($fileName); // disable this function soon
     if (is_array($allFiles)) {
@@ -1200,6 +1214,10 @@ function getVideosURLWEBMOnly($fileName) {
 
 function getVideosURLMP4WEBMOnly($fileName) {
     return array_merge(getVideosURLMP4Only($fileName), getVideosURLWEBMOnly($fileName));
+}
+
+function getVideosURLMP4WEBMMP3Only($fileName) {
+    return array_merge(getVideosURLMP4Only($fileName), getVideosURLWEBMOnly($fileName), getVideosURLMP3Only($fileName));
 }
 
 function getVideosURLOnly($fileName) {
