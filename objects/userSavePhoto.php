@@ -4,44 +4,40 @@ global $global, $config;
 if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'objects/functions.php';
 $obj = new stdClass();
+$obj->error = true;
+$obj->url = '';
+$obj->status = 'error';
+$obj->msg = '';
 if (!User::isLogged()) {
-    $obj->error = __("You must be logged");
+    $obj->msg = __("You must be logged");
     die(json_encode($obj));
 }
 $imagePath = "videos/userPhoto/";
 
 //Check write Access to Directory
-if (!file_exists($global['systemRootPath'].$imagePath)) {
+$dirPath = $global['systemRootPath'].$imagePath;
+if (!file_exists($dirPath)) {
     mkdir($global['systemRootPath'].$imagePath, 0755, true);
 }
-
-if (!is_writable($global['systemRootPath'].$imagePath)) {
-    $response = Array(
-        "status" => 'error',
-        "message" => 'No write Access'
-    );
-    print json_encode($response);
-    return;
+/*
+if (!is_writable($dirPath)) {
+    $obj->msg = __("No write Access on folder").' '.$dirPath;
+    die(json_encode($obj));
 }
-
+*/
 $fileData = base64DataToImage($_POST['imgBase64']);
 $fileName = 'photo'. User::getId().'.png';
 $photoURL = $imagePath.$fileName;
+
+$obj->url = $photoURL;
+
 $bytes = file_put_contents($global['systemRootPath'].$photoURL, $fileData);
 if ($bytes) {
-    $response = array(
-        "status" => 'success',
-        "url" => $global['systemRootPath'].$photoURL
-    );
+    $obj->status = 'success';
+    $obj->error = false;
 } else {
-    $response = array(
-        "status" => 'error',
-        "msg" => 'We could not save this file',
-        "url" => $global['systemRootPath'].$photoURL
-    );
+    $obj->msg = __("We could not save this file");
 }
 
 $user = new User(User::getId());
@@ -50,4 +46,4 @@ if($user->save()){
     User::deleteOGImage(User::getId());
     User::updateSessionInfo();
 }
-print json_encode($response);
+die(json_encode($obj));

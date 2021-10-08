@@ -49,7 +49,7 @@ $imagePath = "videos/userPhoto/";
 if (!file_exists($global['systemRootPath'] . $imagePath)) {
     mkdir($global['systemRootPath'] . $imagePath, 0755, true);
 }
-
+/*
 if (!is_writable($global['systemRootPath'] . $imagePath)) {
     $response = array(
         "status" => 'error',
@@ -58,6 +58,8 @@ if (!is_writable($global['systemRootPath'] . $imagePath)) {
     print json_encode($response);
     return;
 }
+ * 
+ */
 $response = array();
 if (!empty($_POST['logoImgBase64'])) {
     $fileData = base64DataToImage($_POST['logoImgBase64']);

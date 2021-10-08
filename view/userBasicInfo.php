@@ -269,8 +269,9 @@
                                 data: {
                                     imgBase64: resp
                                 },
-                                success: function () {
+                                success: function (response) {
                                     modal.hidePleaseWait();
+                                    avideoResponse(response);
                                 }
                             });
                         });
