@@ -3914,7 +3914,7 @@ function getUsageFromFilename($filename, $dir = "") {
                 $minDirSize = 4000000;
                 $isEnabled = AVideoPlugin::isEnabledByName('YPTStorage');
                 $isEnabledCDN = AVideoPlugin::getObjectDataIfEnabled('CDN');
-                $isEnabledS3 = AVideoPlugin::getObjectDataIfEnabled('AWS_S3');
+                $isEnabledS3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
                 if ($isEnabledCDN->enable_storage) {
                     $v = Video::getVideoFromFileName($filename);
                     if (!empty($v)) {
@@ -3934,7 +3934,7 @@ function getUsageFromFilename($filename, $dir = "") {
                     }
                 } else if ($dirSize < $minDirSize && $isEnabledS3) {
                     // probably the HLS file is hosted on the S3
-                    $size = AWS_S3::getFilesize($filename);
+                    $size = $isEnabledS3->getFilesize($filename);
                     if (!empty($size)) {
                         _error_log("getUsageFromFilename: found info on the AWS_S3 " . print_r($size, true));
                         $totalSize += $size;
