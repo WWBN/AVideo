@@ -3936,7 +3936,7 @@ function getUsageFromFilename($filename, $dir = "") {
                     // probably the HLS file is hosted on the S3
                     $size = $isEnabledS3->getFilesize($filename);
                     if (!empty($size)) {
-                        _error_log("getUsageFromFilename: found info on the AWS_S3 " . print_r($size, true));
+                        _error_log("getUsageFromFilename: found info on the AWS_S3 {$filename} {$size}");
                         $totalSize += $size;
                     } else {
                         _error_log("getUsageFromFilename: there is no info on the AWS_S3 " . print_r($size, true));
