@@ -1109,7 +1109,6 @@ class Live extends PluginAbstract {
             url_get_contents($url);
             $dir = $obj->hls_path . "/$key";
             if (is_dir($dir)) {
-                exec("rm -fR $dir");
                 rrmdir($dir);
             }
         }
