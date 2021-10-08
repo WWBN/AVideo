@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '2c8dbada105e92c490551f3886c8f8da744dd93e',
+    'reference' => '5392c6788dc2180fdc2b8bb15363b41bf11b989a',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -55,12 +55,12 @@ private static $installed = array (
     ),
     'aws/aws-sdk-php' => 
     array (
-      'pretty_version' => '3.196.2',
-      'version' => '3.196.2.0',
+      'pretty_version' => '3.198.0',
+      'version' => '3.198.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '3bccf77507f23207c8adbb524cc6da333dc25e47',
+      'reference' => '313472659580c84efa343b5f3ef65e5d42f0fbd6',
     ),
     'cboden/ratchet' => 
     array (
@@ -181,12 +181,12 @@ private static $installed = array (
     ),
     'guzzlehttp/promises' => 
     array (
-      'pretty_version' => '1.4.1',
-      'version' => '1.4.1.0',
+      'pretty_version' => '1.5.0',
+      'version' => '1.5.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '8e7d04f1f6450fef59366c399cfad4b9383aa30d',
+      'reference' => '136a635e2b4a49b9d79e9c8fee267ffb257fdba0',
     ),
     'guzzlehttp/psr7' => 
     array (
@@ -520,21 +520,21 @@ private static $installed = array (
     ),
     'singpolyma/openpgp-php' => 
     array (
-      'pretty_version' => '0.4.0',
-      'version' => '0.4.0.0',
+      'pretty_version' => '0.5.0',
+      'version' => '0.5.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '67aba786991e3cb3e555025b6d357779ab32a0ab',
+      'reference' => '69292f6a46ed7f687083bfb8974b161a41ab213c',
     ),
     'stripe/stripe-php' => 
     array (
-      'pretty_version' => 'v7.97.0',
-      'version' => '7.97.0.0',
+      'pretty_version' => 'v7.98.0',
+      'version' => '7.98.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'ae41c309ce113362706f8d5f19cf0cf2c730bc4a',
+      'reference' => '87f27d3da4a72c93da49d81011cb675c2847a7c0',
     ),
     'symfony/deprecation-contracts' => 
     array (
@@ -692,7 +692,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '2c8dbada105e92c490551f3886c8f8da744dd93e',
+      'reference' => '5392c6788dc2180fdc2b8bb15363b41bf11b989a',
     ),
   ),
 );

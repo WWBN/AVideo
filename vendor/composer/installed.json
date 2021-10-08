@@ -119,17 +119,17 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.196.2",
-            "version_normalized": "3.196.2.0",
+            "version": "3.198.0",
+            "version_normalized": "3.198.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3bccf77507f23207c8adbb524cc6da333dc25e47"
+                "reference": "313472659580c84efa343b5f3ef65e5d42f0fbd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3bccf77507f23207c8adbb524cc6da333dc25e47",
-                "reference": "3bccf77507f23207c8adbb524cc6da333dc25e47",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/313472659580c84efa343b5f3ef65e5d42f0fbd6",
+                "reference": "313472659580c84efa343b5f3ef65e5d42f0fbd6",
                 "shasum": ""
             },
             "require": {
@@ -166,7 +166,7 @@
                 "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
                 "ext-sockets": "To use client-side monitoring"
             },
-            "time": "2021-10-04T18:14:13+00:00",
+            "time": "2021-10-07T18:19:25+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -207,7 +207,7 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.196.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.198.0"
             },
             "install-path": "../aws/aws-sdk-php"
         },
@@ -985,17 +985,17 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "1.4.1",
-            "version_normalized": "1.4.1.0",
+            "version": "1.5.0",
+            "version_normalized": "1.5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "8e7d04f1f6450fef59366c399cfad4b9383aa30d"
+                "reference": "136a635e2b4a49b9d79e9c8fee267ffb257fdba0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/8e7d04f1f6450fef59366c399cfad4b9383aa30d",
-                "reference": "8e7d04f1f6450fef59366c399cfad4b9383aa30d",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/136a635e2b4a49b9d79e9c8fee267ffb257fdba0",
+                "reference": "136a635e2b4a49b9d79e9c8fee267ffb257fdba0",
                 "shasum": ""
             },
             "require": {
@@ -1004,11 +1004,11 @@
             "require-dev": {
                 "symfony/phpunit-bridge": "^4.4 || ^5.1"
             },
-            "time": "2021-03-07T09:25:29+00:00",
+            "time": "2021-10-07T13:05:22+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4-dev"
+                    "dev-master": "1.5-dev"
                 }
             },
             "installation-source": "source",
@@ -1026,9 +1026,24 @@
             ],
             "authors": [
                 {
+                    "name": "Graham Campbell",
+                    "email": "hello@gjcampbell.co.uk",
+                    "homepage": "https://github.com/GrahamCampbell"
+                },
+                {
                     "name": "Michael Dowling",
                     "email": "mtdowling@gmail.com",
                     "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Tobias Nyholm",
+                    "email": "tobias.nyholm@gmail.com",
+                    "homepage": "https://github.com/Nyholm"
+                },
+                {
+                    "name": "Tobias Schultze",
+                    "email": "webmaster@tubo-world.de",
+                    "homepage": "https://github.com/Tobion"
                 }
             ],
             "description": "Guzzle promises library",
@@ -1037,8 +1052,22 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/1.4.1"
+                "source": "https://github.com/guzzle/promises/tree/1.5.0"
             },
+            "funding": [
+                {
+                    "url": "https://github.com/GrahamCampbell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/Nyholm",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/guzzlehttp/promises",
+                    "type": "tidelift"
+                }
+            ],
             "install-path": "../guzzlehttp/promises"
         },
         {
@@ -3245,30 +3274,30 @@
         },
         {
             "name": "singpolyma/openpgp-php",
-            "version": "0.4.0",
-            "version_normalized": "0.4.0.0",
+            "version": "0.5.0",
+            "version_normalized": "0.5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/singpolyma/openpgp-php.git",
-                "reference": "67aba786991e3cb3e555025b6d357779ab32a0ab"
+                "reference": "69292f6a46ed7f687083bfb8974b161a41ab213c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/singpolyma/openpgp-php/zipball/67aba786991e3cb3e555025b6d357779ab32a0ab",
-                "reference": "67aba786991e3cb3e555025b6d357779ab32a0ab",
+                "url": "https://api.github.com/repos/singpolyma/openpgp-php/zipball/69292f6a46ed7f687083bfb8974b161a41ab213c",
+                "reference": "69292f6a46ed7f687083bfb8974b161a41ab213c",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0",
+                "php": "^5.6 || ^7.0 || ^8.0",
                 "phpseclib/phpseclib": "^2.0 !=2.0.8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.0"
+                "phpunit/phpunit": "^9.0"
             },
             "suggest": {
                 "ext-mcrypt": "required if you use encryption cast5"
             },
-            "time": "2019-08-01T18:11:09+00:00",
+            "time": "2021-05-26T00:35:20+00:00",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -3293,23 +3322,37 @@
             "description": "Pure-PHP implementation of the OpenPGP Message Format (RFC 4880)",
             "support": {
                 "issues": "https://github.com/singpolyma/openpgp-php/issues",
-                "source": "https://github.com/singpolyma/openpgp-php/tree/0.4.0"
+                "source": "https://github.com/singpolyma/openpgp-php/tree/0.5.0"
             },
+            "funding": [
+                {
+                    "url": "https://github.com/singpolyma",
+                    "type": "github"
+                },
+                {
+                    "url": "https://liberapay.com/singpolyma",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://www.patreon.com/singpolyma",
+                    "type": "patreon"
+                }
+            ],
             "install-path": "../singpolyma/openpgp-php"
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v7.97.0",
-            "version_normalized": "7.97.0.0",
+            "version": "v7.98.0",
+            "version_normalized": "7.98.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "ae41c309ce113362706f8d5f19cf0cf2c730bc4a"
+                "reference": "87f27d3da4a72c93da49d81011cb675c2847a7c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ae41c309ce113362706f8d5f19cf0cf2c730bc4a",
-                "reference": "ae41c309ce113362706f8d5f19cf0cf2c730bc4a",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/87f27d3da4a72c93da49d81011cb675c2847a7c0",
+                "reference": "87f27d3da4a72c93da49d81011cb675c2847a7c0",
                 "shasum": ""
             },
             "require": {
@@ -3325,7 +3368,7 @@
                 "squizlabs/php_codesniffer": "^3.3",
                 "symfony/process": "~3.4"
             },
-            "time": "2021-09-16T21:28:33+00:00",
+            "time": "2021-10-07T22:39:44+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -3357,7 +3400,7 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v7.97.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v7.98.0"
             },
             "install-path": "../stripe/stripe-php"
         },

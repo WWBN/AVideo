@@ -1,8 +1,9 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
 require_once dirname(__FILE__).'/../lib/openpgp.php';
 
-class Serialization extends PHPUnit_Framework_TestCase {
+class Serialization extends TestCase {
   public function oneSerialization($path) {
     $in = OpenPGP_Message::parse(file_get_contents(dirname(__FILE__) . '/data/' . $path));
     $mid = $in->to_bytes();
@@ -375,7 +376,7 @@ class Serialization extends PHPUnit_Framework_TestCase {
   }
 }
 
-class Fingerprint extends PHPUnit_Framework_TestCase {
+class Fingerprint extends TestCase {
   public function oneFingerprint($path, $kf) {
     $m = OpenPGP_Message::parse(file_get_contents(dirname(__FILE__) . '/data/' . $path));
     $this->assertEquals($m[0]->fingerprint(), $kf);
@@ -395,5 +396,32 @@ class Fingerprint extends PHPUnit_Framework_TestCase {
 
   public function test000035006public_key() {
     $this->oneFingerprint("000035-006.public_key", "CB7933459F59C70DF1C3FBEEDEDC3ECF689AF56D");
+  }
+
+  public function test000080006public_key() {
+    $this->oneFingerprint("000080-006.public_key", "AEDA0C4468AE265E8B7CCA1C3047D4A7B15467AB");
+  }
+
+  public function test000082006public_key() {
+    $this->oneFingerprint("000082-006.public_key", "589D7E6884A9235BBE821D35BD7BA7BC5547FD09");
+  }
+}
+
+class Signature extends TestCase {
+  public function oneIssuer($path, $kf) {
+    $m = OpenPGP_Message::parse(file_get_contents(dirname(__FILE__) . '/data/' . $path));
+    $this->assertEquals($m[0]->issuer(), $kf);
+  }
+
+  public function test000079002sig() {
+    $this->oneIssuer("000079-002.sig", "C25059FA8730BC38");
+  }
+
+  public function test000081002sig() {
+    $this->oneIssuer("000081-002.sig", "6B799484725130FE");
+  }
+
+  public function test000083002sig() {
+    $this->oneIssuer("000083-002.sig", "BD7BA7BC5547FD09");
   }
 }

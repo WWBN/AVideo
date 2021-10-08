@@ -1,4 +1,5 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
 /* The tests which require phpseclib */
 
@@ -6,7 +7,7 @@ require_once dirname(__FILE__).'/../lib/openpgp.php';
 require_once dirname(__FILE__).'/../lib/openpgp_crypt_rsa.php';
 require_once dirname(__FILE__).'/../lib/openpgp_crypt_symmetric.php';
 
-class MessageVerification extends PHPUnit_Framework_TestCase {
+class MessageVerification extends TestCase {
   public function oneMessageRSA($pkey, $path) {
     $pkeyM = OpenPGP_Message::parse(file_get_contents(dirname(__FILE__) . '/data/' . $pkey));
     $m = OpenPGP_Message::parse(file_get_contents(dirname(__FILE__) . '/data/' . $path));
@@ -51,7 +52,7 @@ class MessageVerification extends PHPUnit_Framework_TestCase {
 }
 
 
-class KeyVerification extends PHPUnit_Framework_TestCase {
+class KeyVerification extends TestCase {
   public function oneKeyRSA($path) {
     $m = OpenPGP_Message::parse(file_get_contents(dirname(__FILE__) . '/data/' . $path));
     $verify = new OpenPGP_Crypt_RSA($m);
@@ -64,7 +65,7 @@ class KeyVerification extends PHPUnit_Framework_TestCase {
 }
 
 
-class Decryption extends PHPUnit_Framework_TestCase {
+class Decryption extends TestCase {
   public function oneSymmetric($pass, $cnt, $path) {
     $m = OpenPGP_Message::parse(file_get_contents(dirname(__FILE__) . '/data/' . $path));
     $m2 = OpenPGP_Crypt_Symmetric::decryptSymmetric($pass, $m);
@@ -143,6 +144,13 @@ class Decryption extends PHPUnit_Framework_TestCase {
     $this->assertSame(!!$skey, true);
   }
 
+  public function testEncryptSecretKeyRoundtrip() {
+    $key = OpenPGP_Message::parse(file_get_contents(dirname(__FILE__) . '/data/helloKey.gpg'));
+    $enkey = OpenPGP_Crypt_Symmetric::encryptSecretKey("password", $key[0]);
+    $skey = OpenPGP_Crypt_Symmetric::decryptSecretKey("password", $enkey);
+    $this->assertEquals($key[0], $skey);
+  }
+
   public function testAlreadyDecryptedSecretKey() {
     $this->expectException(Exception::class);
     $this->expectExceptionMessage("Data is already unencrypted");
@@ -151,7 +159,7 @@ class Decryption extends PHPUnit_Framework_TestCase {
   }
 }
 
-class Encryption extends PHPUnit_Framework_TestCase {
+class Encryption extends TestCase {
   public function oneSymmetric($algorithm) {
     $data = new OpenPGP_LiteralDataPacket('This is text.', array('format' => 'u', 'filename' => 'stuff.txt'));
     $encrypted = OpenPGP_Crypt_Symmetric::encrypt('secret', new OpenPGP_Message(array($data)), $algorithm);

@@ -8,6 +8,10 @@
       <file>tests/suite.php</file>
     </testsuite>
 
+    <testsuite name="Signature">
+      <file>tests/suite.php</file>
+    </testsuite>
+
     <testsuite name="MessageVerification">
       <file>tests/phpseclib_suite.php</file>
     </testsuite>

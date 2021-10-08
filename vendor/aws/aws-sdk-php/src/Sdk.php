@@ -346,6 +346,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionMacie2(array $args = [])
  * @method \Aws\ManagedBlockchain\ManagedBlockchainClient createManagedBlockchain(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionManagedBlockchain(array $args = [])
+ * @method \Aws\ManagedGrafana\ManagedGrafanaClient createManagedGrafana(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionManagedGrafana(array $args = [])
  * @method \Aws\MarketplaceCatalog\MarketplaceCatalogClient createMarketplaceCatalog(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionMarketplaceCatalog(array $args = [])
  * @method \Aws\MarketplaceCommerceAnalytics\MarketplaceCommerceAnalyticsClient createMarketplaceCommerceAnalytics(array $args = [])
@@ -571,7 +573,7 @@ namespace Aws;
  */
 class Sdk
 {
-    const VERSION = '3.196.2';
+    const VERSION = '3.198.0';
 
     /** @var array Arguments for creating clients */
     private $args;
