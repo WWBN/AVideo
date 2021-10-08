@@ -335,7 +335,7 @@ class Plugin extends ObjectYPT {
                 }
 
                 if ($addedNewPlugin && empty($try)) {
-                    ObjectYPT::deleteALLCache();
+                    //ObjectYPT::deleteALLCache();
                     return self::getAllEnabled(1);
                 }
 
