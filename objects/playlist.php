@@ -652,7 +652,6 @@ class PlayList extends ObjectYPT {
         $tmpDir = ObjectYPT::getCacheDir();
         $cacheDir = $tmpDir . "getvideosfromplaylist{$playlists_id}" . DIRECTORY_SEPARATOR;
         rrmdir($cacheDir);
-        exec('rm -R ' . $cacheDir);
     }
     
     public function delete() {

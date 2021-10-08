@@ -6507,7 +6507,6 @@ function isURL200Clear() {
     $cacheDir = $tmpDir . "isURL200" . DIRECTORY_SEPARATOR;
     _error_log('isURL200Clear: '.json_encode(debug_print_backtrace()));
     rrmdir($cacheDir);
-    exec('rm -R ' . $cacheDir);
 }
 
 function getStatsNotifications($force_recreate = false) {

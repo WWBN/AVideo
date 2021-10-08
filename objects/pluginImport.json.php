@@ -37,7 +37,7 @@ if (strcasecmp($extension, 'zip') == 0) {
     $path = $_FILES['input-b1']['tmp_name'];
     $dir = "{$destination}/{$path_parts['filename']}";
     if(is_dir($dir)){
-        exec("rm -R {$dir}");
+        rrmdir($dir);
     }
     exec("unzip {$path} -d {$destination}");
 }
