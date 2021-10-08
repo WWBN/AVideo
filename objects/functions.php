@@ -1143,6 +1143,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false) {
             'url' => $url,
             'url_noCDN' => $url,
             'type' => 'audio',
+            'format' => 'mp3',
         );
     } else {
         $source = Video::getSourceFile($fileName, ".mp3");
@@ -1153,6 +1154,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false) {
             'url' => $source['url'],
             'url_noCDN' => @$source['url_noCDN'],
             'type' => 'audio',
+            'format' => 'mp3',
         );
     }
 
