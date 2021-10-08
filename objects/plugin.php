@@ -448,7 +448,7 @@ class Plugin extends ObjectYPT {
             $this->object_data = 'null';
         }
         self::deletePluginCache($this->uuid);
-        ObjectYPT::deleteALLCache();
+        //ObjectYPT::deleteALLCache();
         return parent::save();
     }
 
