@@ -3939,7 +3939,7 @@ function getUsageFromFilename($filename, $dir = "") {
                         _error_log("getUsageFromFilename: found info on the AWS_S3 {$filename} {$size}");
                         $totalSize += $size;
                     } else {
-                        _error_log("getUsageFromFilename: there is no info on the AWS_S3 " . print_r($size, true));
+                        _error_log("getUsageFromFilename: there is no info on the AWS_S3  {$filename} {$size}");
                     }
                 } else {
                     if (!($dirSize < $minDirSize)) {
