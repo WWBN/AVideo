@@ -317,7 +317,7 @@ class LiveLinks extends PluginAbstract {
                 if (!empty($_REQUEST['rowCount'])) {
                     $sql .= " LIMIT {$_REQUEST['rowCount']}";
                 } else {
-                    _error_log("getAllVideos without limit " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+                    _error_log("getAllVideos without limit " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                     if (empty($global['limitForUnlimitedVideos'])) {
                         $global['limitForUnlimitedVideos'] = 100;
                     }

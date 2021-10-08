@@ -618,7 +618,7 @@ class Live extends PluginAbstract {
             if (!empty($json)) {
                 if ($start && empty($json->error) && empty($json->response) && $try < 4) {
                     _error_log("Live:controlRecording start record is not ready trying again in 5 seconds " . (isCommandLineInterface() ? 'From Command Line' : 'Not Command Line'));
-                    _error_log("Live:controlRecording " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+                    _error_log("Live:controlRecording " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
 
                     sleep(5);
                     return self::controlRecording($key, $live_servers_id, $start, $try + 1);
@@ -2193,7 +2193,7 @@ class Live extends PluginAbstract {
             $pattern = "/.getStats.{$live_servers_id}.*/i";
             ObjectYPT::deleteCachePattern($pattern);
         }
-        _error_log("deleteStatsCache: {$cacheDir} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        _error_log("deleteStatsCache: {$cacheDir} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         rrmdir($cacheDir);
         if ($clearFirstPage) {
             clearCache(true);
@@ -2426,7 +2426,7 @@ class Live extends PluginAbstract {
                 if (!empty($_REQUEST['rowCount'])) {
                     $sql .= " LIMIT {$_REQUEST['rowCount']}";
                 } else {
-                    _error_log("getAllVideos without limit " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+                    _error_log("getAllVideos without limit " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                     if (empty($global['limitForUnlimitedVideos'])) {
                         $global['limitForUnlimitedVideos'] = 100;
                     }

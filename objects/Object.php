@@ -445,7 +445,7 @@ abstract class ObjectYPT implements ObjectInterface {
         unset($__getAVideoCache);
         $tmpDir = self::getCacheDir();
         $array = _glob($tmpDir, $pattern);
-        _error_log('deleteCachePattern: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        _error_log('deleteCachePattern: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         foreach ($array as $value) {
             _error_log("Object::deleteCachePattern file [{$value}]");
             @unlink($value);
@@ -463,7 +463,7 @@ abstract class ObjectYPT implements ObjectInterface {
     public static function deleteALLCache() {
         global $__getAVideoCache;
         unset($__getAVideoCache);
-        _error_log('deleteALLCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        _error_log('deleteALLCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $tmpDir = self::getCacheDir();
         rrmdir($tmpDir);
         self::deleteAllSessionCache();
@@ -531,7 +531,7 @@ abstract class ObjectYPT implements ObjectInterface {
 
     public static function deleteCacheFromPattern($name) {
         $tmpDir = getTmpDir();
-        _error_log('deleteCacheFromPattern: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        _error_log('deleteCacheFromPattern: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $name = self::cleanCacheName($name);
         $ignoreLocationDirectoryName = (strpos($name, DIRECTORY_SEPARATOR) !== false);
         $filePattern = $tmpDir . DIRECTORY_SEPARATOR . $name;

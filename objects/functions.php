@@ -1291,7 +1291,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         }
         TimeLogEnd($TimeLog1, __LINE__);
     } else {
-        _error_log("getVideosURL_V2($fileName) Recreate cache requested " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        _error_log("getVideosURL_V2($fileName) Recreate cache requested " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     }
     if (empty($files)) {
         $files = array();
@@ -1963,7 +1963,7 @@ function make_path($path) {
     if (!is_dir($path)) {
         $created = mkdir($path, 0755, true);
         if (!$created) {
-            _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+            _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         }
     } else {
         $created = true;
@@ -2265,7 +2265,7 @@ function isValidM3U8Link($url, $timeout = 3) {
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if ($debug) {
-        _error_log("url_get_contents: Start $url, $ctx, $timeout " . getSelfURI() . " " . getRealIpAddr() . " " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        _error_log("url_get_contents: Start $url, $ctx, $timeout " . getSelfURI() . " " . getRealIpAddr() . " " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     }
     $agent = getSelfUserAgent();
 
@@ -3086,7 +3086,7 @@ function cleanUpAccessControlHeader() {
 }
 
 function rrmdir($dir) {
-    //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));exit;}
+    //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));exit;}
     if (empty($dir)) {
         _error_log('rrmdir: the dir was empty');
         return false;
@@ -3794,7 +3794,7 @@ function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
     try {
         if (!_mysql_is_open()) {
-            //_error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+            //_error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
             if (!empty($global['mysqli_charset'])) {
@@ -3810,7 +3810,7 @@ function _mysql_connect() {
 function _mysql_close() {
     global $global, $mysql_connect_was_closed;
     if (_mysql_is_open()) {
-        //_error_log('MySQL Closed '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        //_error_log('MySQL Closed '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $mysql_connect_was_closed = 1;
         @$global['mysqli']->close();
         $global['mysqli'] = false;
@@ -3885,7 +3885,7 @@ function getUsageFromFilename($filename, $dir = "") {
     }
     $dir = addLastSlash($dir);
     $totalSize = 0;
-    _error_log("getUsageFromFilename: start {$dir}{$filename} ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+    _error_log("getUsageFromFilename: start {$dir}{$filename} ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     //$files = glob("{$dir}{$filename}*");
     $paths = Video::getPaths($filename);
 
@@ -3898,7 +3898,7 @@ function getUsageFromFilename($filename, $dir = "") {
     session_write_close();
     $filesProcessed = array();
     if (empty($files)) {
-        _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         make_path($dir);
         file_put_contents("{$dir}{$filename}.notfound", time());
         $totalSize = 10;
@@ -6505,7 +6505,7 @@ function isURL200($url, $forceRecheck = false) {
 function isURL200Clear() {
     $tmpDir = ObjectYPT::getCacheDir();
     $cacheDir = $tmpDir . "isURL200" . DIRECTORY_SEPARATOR;
-    _error_log('isURL200Clear: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+    _error_log('isURL200Clear: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     rrmdir($cacheDir);
 }
 
@@ -6517,7 +6517,7 @@ function getStatsNotifications($force_recreate = false) {
         $json = ObjectYPT::getCache($cacheName, 0, true);
     }
     if (empty($json)) {
-        //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+        //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $json = Live::getStats();
         $json = object_to_array($json);
 
