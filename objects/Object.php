@@ -434,6 +434,7 @@ abstract class ObjectYPT implements ObjectInterface {
         if(empty($name)){return false;}
         global $__getAVideoCache;
         unset($__getAVideoCache);
+        _error_log('deleteCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $cachefile = self::getCacheFileName($name);
         @unlink($cachefile);
         self::deleteSessionCache($name);
