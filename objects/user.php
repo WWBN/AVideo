@@ -541,7 +541,7 @@ if (typeof gtag !== \"function\") {
     public function save($updateUserGroups = false) {
         global $global, $config, $advancedCustom, $advancedCustomUser;
         if (is_object($config) && $config->currentVersionLowerThen('5.6')) {
-            // they dont have analytics code
+            // they don't have analytics code
             return false;
         }
         if (empty($this->user) || empty($this->password)) {
@@ -973,7 +973,7 @@ if (typeof gtag !== \"function\") {
         if (empty($justTryToRecreateLoginFromCookie) && empty($justLogoff) && empty($_SESSION['user']['id'])) {
             $justTryToRecreateLoginFromCookie = 1;
 
-            // first check if the LoginControl::singleDeviceLogin is enabled, if it is only recreate login if the device is the last device  
+            // first check if the LoginControl::singleDeviceLogin is enabled, if it is only recreate login if the device is the last device
             if ($obj = AVideoPlugin::getDataObjectIfEnabled("LoginControl")) {
                 if (!empty($obj->singleDeviceLogin)) {
                     if (!LoginControl::isLoggedFromSameDevice()) {

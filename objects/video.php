@@ -66,7 +66,7 @@ if (!class_exists('Video')) {
             'e' => 'Encoding',
             'x' => 'Encoding Error',
             'd' => 'Downloading',
-            't' => 'Transfering',
+            't' => 'Transferring',
             'u' => 'Unlisted',
             'r' => 'Recording',
             'f' => 'FansOnly');
@@ -422,7 +422,7 @@ if (!class_exists('Video')) {
             _error_log('Video::save Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
             return false;
         }
-        
+
         public static function updateDurationInSeconds($videos_id, $duration){
             global $config;
             $videos_id = intval($videos_id);
@@ -1676,7 +1676,7 @@ if (!class_exists('Video')) {
                 if (!empty($content)) {
                     $object->$value = self::parseProgress($content);
                 } else {
-                    
+
                 }
 
                 if (!empty($object->$value->progress) && !is_numeric($object->$value->progress)) {
@@ -4652,11 +4652,11 @@ if (!class_exists('Video')) {
         function setDuration_in_seconds($duration_in_seconds) {
             $this->duration_in_seconds = intval($duration_in_seconds);
         }
-            
+
     }
 
 }
-// just to convert permalink into clean_title
+// Just to convert permalink into clean_title
 if (!empty($_GET['v']) && empty($_GET['videoName'])) {
     $_GET['videoName'] = Video::get_clean_title($_GET['v']);
 }
