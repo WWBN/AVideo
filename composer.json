@@ -6,11 +6,11 @@
         "platform-check": false,
         "vendor-dir": "vendor",
         "platform": {
-            "php": "7.2.5"
+            "php": "7.3"
         }
     },
     "require": {
-        "php": ">=7.2.5",
+        "php": "^7.3|^8",
         "ext-curl": "*",
         "ext-json": "*",
         "chrisjean/php-ico": "^1.0",
