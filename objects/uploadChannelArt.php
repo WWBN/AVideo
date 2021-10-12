@@ -13,7 +13,7 @@ if(empty($_GET['video_id']) && !empty($_POST['videos_id'])){
 $obj = new stdClass();
 $obj->error = true;
 if (!User::isLogged()) {
-    $obj->msg = 'You cant edit this file';
+    $obj->msg = 'You can\'t edit this file';
     die(json_encode($obj));
 }
 header('Content-Type: application/json');

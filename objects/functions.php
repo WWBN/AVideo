@@ -122,7 +122,7 @@ function humanTiming($time, $precision = 0, $useDatabaseTime = true) {
 }
 
 /**
- * 
+ *
  * @param type $time
  * @param type $precision
  * @param type $useDatabaseTime good if you are checking the created time
@@ -942,7 +942,7 @@ function cacheExpirationTime() {
 }
 
 /**
- * tell if a file should recreate a cache, based on its time and the plugins toke expirations
+ * Tell whether a file should recreate a cache, based on its time and the plugin's token expiration.
  * @param type $filename
  * @return boolean
  */
@@ -1346,9 +1346,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
             //$timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             //TimeLogStart($timeName2);
-            $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");          
+            $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
             //TimeLogEnd($timeName2, __LINE__);
-            if (empty($source)) { 
+            if (empty($source)) {
                 continue;
             }
             if (in_array($parts['extension'], $image) && filesize($file) < 1000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
@@ -4513,12 +4513,12 @@ function redirectIfRedirectUriIsSet(){
         _session_start();
         unset($_SESSION['redirectUri']);
     }
-    
+
     if(!empty($redirectUri)){
         header("Location: {$_SESSION['redirectUri']}");
         exit;
     }
-            
+
 }
 
 function getRedirectToVideo($videos_id) {
@@ -7011,12 +7011,12 @@ function videosHashToID($hash_of_videos_id) {
 }
 
 /**
- * 
+ *
  * @global type $advancedCustom
  * @global type $global
  * @global type $_getCDNURL
  * @param type $type enum(CDN, CDN_S3,CDN_B2,CDN_FTP,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
- * @param type $id the ID of the URL in case the CDN is an array 
+ * @param type $id the ID of the URL in case the CDN is an array
  * @return \type
  */
 function getCDN($type = 'CDN', $id = 0) {
@@ -7278,7 +7278,7 @@ function number_format_short($n, $precision = 1) {
         $suffix = 'T';
     }
 
-    // Remove unecessary zeroes after decimal. "1.0" -> "1"; "1.00" -> "1"
+    // Remove unnecessary zeroes after decimal. "1.0" -> "1"; "1.00" -> "1"
     // Intentionally does not affect partials, eg "1.50" -> "1.50"
     if ($precision > 0) {
         $dotzero = '.' . str_repeat('0', $precision);

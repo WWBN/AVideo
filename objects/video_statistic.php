@@ -33,15 +33,15 @@ class VideoStatistic extends ObjectYPT {
     public static function create($videos_id, $currentTime = 0) {
         global $global;
         /**
-         * Dont crash if is an old version
-
-          $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
-          $result = sqlDal::num_rows($res);
-          sqlDAL::close($res);
-          if (empty($result)) {
-          echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
-          return false;
-          }
+         * Don't crash if it's an old version
+         *
+         * $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
+         * $result = sqlDal::num_rows($res);
+         * sqlDAL::close($res);
+         * if (empty($result)) {
+         * echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
+         * return false;
+         * }
          */
         if (empty($videos_id)) {
             die(__("You need a video to generate statistics"));
@@ -549,7 +549,7 @@ class VideoStatistic extends ObjectYPT {
                     }else{
                         $row['location_name'] = "{$json->location['country_name']}, {$json->location['city_name']}, {$json->location['region_name']}";
                     }
-                    
+
                 } else {
                     $row['location_name'] = $row['location'] = '';
                 }

@@ -70,7 +70,7 @@ if (!empty($_GET['type'])) {
             ],
                 /* optional : set debug mode
                   'debug_mode' => true,
-                  // Path to file writeable by the web server. Required if 'debug_mode' is not false
+                  // Path to file writable by the web server. Required if 'debug_mode' is not false
                   'debug_file' => __FILE__ . '.log', */
         ];
     } else {
@@ -156,7 +156,7 @@ if (!empty($_GET['type'])) {
         //echo $e->getMessage();
     }
     if(!isSameDomainAsMyAVideo($location)){
-       $location = $global['webSiteRootURL']; 
+       $location = $global['webSiteRootURL'];
     }
     header('Content-Type: text/html');
     ?>
