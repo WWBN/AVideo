@@ -5554,7 +5554,7 @@ function isForbidden() {
     return false;
 }
 
-function diskUsageBars() {return '';//check why it is slowing down
+function diskUsageBars() {return '';//TODO check why it is slowing down
     global $global;
     ob_start();
     include $global['systemRootPath'] . 'objects/functiondiskUsageBars.php';
