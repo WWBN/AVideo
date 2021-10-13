@@ -92,7 +92,7 @@ global $Schedulecount;
             <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Key'); ?>" >
                 <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Key'); ?></span>
             </button>
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL')+$(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
+            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL')+'/'+$(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
                 <i class="fa fa-server"></i> + <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Server URL'); ?> + <?php echo __('Key'); ?></span>
             </button>
         </div>
