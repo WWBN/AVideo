@@ -6592,9 +6592,6 @@ function getStatsNotifications($force_recreate = false) {
             $json['total'] += count($json[$count]['applications']);
             $count++;
         }
-        if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
-            $json['countLiveStream'] = $json['total'];
-        }
         if (!empty($json['applications'])) {
             foreach ($json['applications'] as $key => $value) {
                 if (empty($value['users_id']) && !empty($value['user'])) {
@@ -6609,7 +6606,9 @@ function getStatsNotifications($force_recreate = false) {
         //_error_log('getStatsNotifications: 2 cached result');
         $json = object_to_array($json);
     }
-    $json['countLiveStream'] = $json['total'];
+    if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
+        $json['countLiveStream'] = $json['total'];
+    }
     return $json;
 }
 
