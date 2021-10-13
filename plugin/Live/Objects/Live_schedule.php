@@ -88,7 +88,7 @@ class Live_schedule extends ObjectYPT {
         }
     }
 
-    static function getAll($users_id=0, $activeOnly=false) {
+    static function getAll($users_id=0, $activeHoursAgo=false) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -98,8 +98,8 @@ class Live_schedule extends ObjectYPT {
         if(!empty($users_id)){
             $sql .= " AND users_id = $users_id ";
         }
-        if($activeOnly){
-            $sql .= " AND scheduled_time > NOW() ";
+        if($activeHoursAgo){
+            $sql .= " AND scheduled_time > DATE_SUB(NOW(), INTERVAL {$activeHoursAgo} HOUR) ";
         }
         $sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);

@@ -10,7 +10,7 @@ if(!User::canStream()){
     if(empty($_POST['sort'])){
         $_POST['sort']['scheduled_time'] = 'DESC';
     }
-    $rows = Live_schedule::getAll(User::getId(), true);
+    $rows = Live_schedule::getAll(User::getId(), 24);
     $total = Live_schedule::getTotal();
 }
 ?>
