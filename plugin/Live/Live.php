@@ -262,6 +262,7 @@ class Live extends PluginAbstract {
             "htmlExtraVideoListItem" => $newContentVideoListItem,
             "type" => $type,
             "photo" => $UserPhoto,
+            "UserPhoto" => $UserPhoto,
             "title" => $title,
             "users_id" => $users_id,
             "name" => $name,
