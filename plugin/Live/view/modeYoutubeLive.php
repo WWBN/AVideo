@@ -40,6 +40,11 @@ $liveTitle = $livet['title'];
 $liveDescription = $livet['description'];
 $liveImg = User::getPhoto($user_id);
 $liveUrl = Live::getLinkToLiveFromUsers_id($user_id);
+
+$img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
+$imgw = 640;
+$imgh = 360;
+
 if (!empty($_REQUEST['playlists_id_live'])) {
     $liveTitle = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
     $liveDescription = PlayLists::getDescriptionIfIsSerie($_REQUEST['playlists_id_live']);
@@ -52,16 +57,13 @@ if (!empty($_REQUEST['live_schedule'])) {
     $liveDescription = $ls->getDescription();
     $liveImg = Live_schedule::getPosterURL($_REQUEST['live_schedule']);
     $liveUrl = addQueryStringParameter($liveUrl, 'live_schedule', $_REQUEST['live_schedule']);
+    $img = addQueryStringParameter($img, 'live_schedule', $_REQUEST['live_schedule']);
     global $getLiveKey;
     $getLiveKey = array('key' => $ls->getKey(), 'live_servers_id' => intval($ls->getLive_servers_id()), 'live_index' => '', 'cleanKey' => '');
 }
 
 
 $video['creator'] = '<div class="pull-left"><img src="' . $liveImg . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
-
-$img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
-$imgw = 640;
-$imgh = 360;
 
 $liveDO = AVideoPlugin::getObjectData("Live");
 $video['type'] = 'video';
