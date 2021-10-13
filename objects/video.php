@@ -3303,7 +3303,7 @@ if (!class_exists('Video')) {
                 return $return;
             }else{
                 $validFileExtensions = array('webm', 'mp4', 'm3u8');
-                $sources = getVideosURL_V2($filename,);
+                $sources = getVideosURL_V2($filename);
                 if (!is_array($sources)) {
                     //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) does not return an array " . json_encode($sources));
                     return array();
