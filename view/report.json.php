@@ -37,6 +37,7 @@ if(empty($user->getUser())){
 $obj->users_id_statistics = $obj->users_id;
 if(User::isAdmin() && !empty($_REQUEST['isAdminPanel'])){
     $obj->users_id_statistics = 0; // show all results
+    $obj->totalUsers = User::getTotalUsers(false, 'a');
 }else if(User::getId() !== $obj->users_id_statistics){
     $obj->msg = 'Invalid user';
     die(_json_encode($obj));
