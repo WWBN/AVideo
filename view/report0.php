@@ -7,7 +7,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-users fa-3x"></i>
+                            <i class="fa fa-users fa-2x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge loading" id="totalUsers">0</div>
@@ -30,7 +30,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-play-circle fa-3x"></i>
+                        <i class="fa fa-play-circle fa-2x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge loading" id="totalVideos">0</div>
@@ -50,7 +50,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-eye fa-3x"></i>
+                        <i class="fa fa-eye fa-2x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge loading" id="totalVideosViews">0</div>
@@ -70,7 +70,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="far fa-clock fa-3x"></i>
+                        <i class="far fa-clock fa-2x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge loading" id="totalDurationVideos">0</div>
@@ -90,7 +90,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-user-plus fa-3x"></i>
+                        <i class="fa fa-user-plus fa-2x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge loading" id="totalSubscriptions">0</div>
@@ -110,7 +110,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-comments fa-3x"></i>
+                        <i class="fa fa-comments fa-2x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge loading" id="totalVideosComents">0</div>
@@ -130,7 +130,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-thumbs-o-up fa-3x"></i>
+                        <i class="far fa-thumbs-up fa-2x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge loading" id="totalVideosLikes">0</div>
@@ -150,7 +150,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
-                        <i class="fa fa-thumbs-o-down fa-3x"></i>
+                        <i class="far fa-thumbs-down fa-2x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge loading" id="totalVideosDislikes">0</div>
