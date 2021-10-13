@@ -83,9 +83,9 @@ $obj->totalDurationVideos = intval(VideosStatistics::getTotalDuration($obj->user
 $obj->totalLikes = VideosStatistics::getTotalLikes($obj->users_id_statistics);
 $obj->totalDislikes = VideosStatistics::getTotalDislikes($obj->users_id_statistics);
 
-$obj->today = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 1);
-$obj->last7Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 7);
-$obj->last15Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 15);
+$obj->today = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 1, 10);
+$obj->last7Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 7, 10);
+$obj->last15Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 15, 10);
 $obj->last30Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 30);
 $obj->last90Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users_id_statistics, 90);
 
