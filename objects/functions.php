@@ -6609,6 +6609,7 @@ function getStatsNotifications($force_recreate = false) {
         //_error_log('getStatsNotifications: 2 cached result');
         $json = object_to_array($json);
     }
+    $json['countLiveStream'] = $json['total'];
     return $json;
 }
 
