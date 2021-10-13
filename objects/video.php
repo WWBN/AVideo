@@ -3267,6 +3267,8 @@ if (!class_exists('Video')) {
         public static function getHigestResolution($filename) {
             global $global;
             $filename = self::getCleanFilenameFromFile($filename);
+            
+            $return = array();
             $cacheName = "getHigestResolution($filename)";
             $return = ObjectYPT::getCache($cacheName, 0);
             if (!empty($return)) {
@@ -3276,42 +3278,75 @@ if (!class_exists('Video')) {
             TimeLogStart($name0);
             $name1 = "Video:::getHigestResolution::getVideosURL_V2($filename)";
             TimeLogStart($name1);
-            $sources = getVideosURL_V2($filename);
-            if (!is_array($sources)) {
-                _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) does not return an array " . json_encode($sources));
+            
+            $v = self::getVideoFromFileNameLight($filename);    
+            if(empty($v)){
                 return array();
             }
-            TimeLogEnd($name1, __LINE__);
-            $return = array();
-            foreach ($sources as $key => $value) {
-                if ($value['type'] === 'video') {
-                    $parts = explode("_", $key);
-                    $resolution = intval(@$parts[1]);
-                    if (empty($resolution)) {
-                        $name2 = "Video:::getHigestResolution::getResolution({$value["path"]})";
-                        TimeLogStart($name2);
-                        $resolution = self::getResolutionFromFilename($value["path"]); // this is faster
-                        if ($resolution && empty($global['onlyGetResolutionFromFilename'])) {
-                            _error_log("Video:::getHigestResolution:: could not get the resolution from file name [{$value["path"]}], trying a slower method");
-                            $resolution = self::getResolution($value["path"]);
-                        }
-                        TimeLogEnd($name2, __LINE__);
+            if($v['type']!=='video'){
+                return array();
+            }
+            $video = new Video('', '', $v['id']);   
+            if(empty($video)){
+                return array();
+            }
+            $HigestResolution = $video->getVideoHigestResolution();
+            //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 1 FROM database $HigestResolution");
+            if(!empty($HigestResolution)){
+                //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 2 FROM database $HigestResolution");
+                $resolution = $HigestResolution;
+                
+                $return['resolution'] = $resolution;
+                $return['resolution_text'] = getResolutionText($return['resolution']);
+                $return['resolution_label'] = getResolutionLabel($return['resolution']);
+                $return['resolution_string'] = trim($resolution . "p {$return['resolution_label']}");
+                return $return;
+            }else{
+                $validFileExtensions = array('webm', 'mp4', 'm3u8');
+                $sources = getVideosURL_V2($filename,);
+                if (!is_array($sources)) {
+                    //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) does not return an array " . json_encode($sources));
+                    return array();
+                }
+                TimeLogEnd($name1, __LINE__);
+                foreach ($sources as $key => $value) {
+                    $ext = pathinfo($value["path"], PATHINFO_EXTENSION);
+                    if(!in_array($ext, $validFileExtensions)){
+                        continue;
                     }
-                    if (!isset($return['resolution']) || $resolution > $return['resolution']) {
-                        $return = $value;
-                        $return['resolution'] = $resolution;
-                        $return['resolution_text'] = getResolutionText($return['resolution']);
-                        $return['resolution_label'] = getResolutionLabel($return['resolution']);
-                        $return['resolution_string'] = trim($resolution . "p {$return['resolution_label']}");
+                    if ($value['type'] === 'video') {
+                        $parts = explode("_", $key);
+                        $resolution = intval(@$parts[1]);
+                        if (empty($resolution)) {
+                            $name2 = "Video:::getHigestResolution::getResolution({$value["path"]})";
+                            TimeLogStart($name2);
+                            $resolution = self::getResolutionFromFilename($value["path"]); // this is faster
+                            //var_dump(2, $filename, $resolution);
+                            if (empty($resolution) && empty($global['onlyGetResolutionFromFilename'])) {
+                                $resolution = self::getResolution($value["path"]);
+                            }
+                            TimeLogEnd($name2, __LINE__);
+                        }
+                        if (!isset($return['resolution']) || $resolution > $return['resolution']) {
+                            $return = $value;
+                            $return['resolution'] = $resolution;
+                            $return['resolution_text'] = getResolutionText($return['resolution']);
+                            $return['resolution_label'] = getResolutionLabel($return['resolution']);
+                            $return['resolution_string'] = trim($resolution . "p {$return['resolution_label']}");
+                        }
                     }
                 }
             }
+            _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 3 FROM database ". json_encode($return). json_encode($v));//exit;
+            //if($filename=='video_210916143432_c426'){var_dump(1, $filename, $return);exit;}
+            $video->setVideoHigestResolution($return['resolution']);
             TimeLogEnd($name0, __LINE__);
             ObjectYPT::setCache($cacheName, $return);
             return $return;
         }
 
         public static function getResolutionFromFilename($filename) {
+            global $global;
             $resolution = false;
             if (preg_match("/_([0-9]+).(mp4|webm)/i", $filename, $matches)) {
                 if (!empty($matches[1])) {
@@ -3321,9 +3356,34 @@ if (!class_exists('Video')) {
                 if (!empty($matches[1])) {
                     $resolution = intval($matches[1]);
                 }
+            } elseif (preg_match('/_(HD|Low|SD).(mp4|webm)/i', $filename, $matches)) {
+                if (!empty($matches[1])) {
+                    if($matches[1]=='HD'){
+                        $resolution = 1080;
+                    }else if($matches[1]=='SD'){
+                        $resolution = 720;
+                    }else if($matches[1]=='Low'){
+                        $resolution = 480;
+                    }
+                }
+            } elseif (preg_match('/\/(hd|low|sd)\/index.m3u8/', $filename, $matches)) {
+                if (!empty($matches[1])) {
+                    if($matches[1]=='hd'){
+                        $resolution = 1080;
+                    }else if($matches[1]=='sd'){
+                        $resolution = 720;
+                    }else if($matches[1]=='low'){
+                        $resolution = 480;
+                    }
+                }
+            }elseif (preg_match('/video_[0-9_a-z]+\/index.m3u8/i', $filename)) {
+                if(file_exists($filename) && class_exists('VideoHLS')){
+                    $resolution =  VideoHLS::getHLSHigestResolutionFromFile($filename);
+                    //var_dump(5, $filename,$resolution);
+                }
             }
-
-            //var_dump($filename, $resolution);exit;
+            //var_dump(4, preg_match('/video_[0-9_a-z]+\/index.m3u8/i', $filename), $filename, $resolution, $matches);
+            //if($filename=='video_210916143432_c426'){var_dump(3, $filename, $resolution, $matches);exit;}
             return $resolution;
         }
 
@@ -4220,6 +4280,41 @@ if (!class_exists('Video')) {
         public function setExternalOptions($externalOptions) {
             AVideoPlugin::onVideoSetExternalOptions($this->id, $this->externalOptions, $externalOptions);
             $this->externalOptions = $externalOptions;
+        }
+        
+        public function setVideoTags($tags) {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            if(!is_object($externalOptions)){
+                $externalOptions = new stdClass();
+            }
+            $externalOptions->VideoTags = $tags;
+            $this->setExternalOptions(json_encode($externalOptions));
+        }
+
+        public function getVideoTags() {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            if (empty($externalOptions->VideoTags)) {
+                return false;
+            }
+            return $externalOptions->VideoTags;
+        }
+        
+        public function setVideoHigestResolution($HigestResolution) {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            if(!is_object($externalOptions)){
+                $externalOptions = new stdClass();
+            }
+            $externalOptions->HigestResolution = $HigestResolution;
+            $this->setExternalOptions(json_encode($externalOptions));
+            return $this->save();
+        }
+
+        public function getVideoHigestResolution() {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            if (empty($externalOptions->HigestResolution)) {
+                return false;
+            }
+            return $externalOptions->HigestResolution;
         }
 
         public function setVideoStartSeconds($videoStartSeconds) {
