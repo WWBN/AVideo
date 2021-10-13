@@ -4306,7 +4306,7 @@ if (!class_exists('Video')) {
             }
             $externalOptions->HigestResolution = $HigestResolution;
             $this->setExternalOptions(json_encode($externalOptions));
-            return $this->save();
+            return $this->save(false, true);
         }
 
         public function getVideoHigestResolution() {
