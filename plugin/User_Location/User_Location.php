@@ -40,6 +40,10 @@ class User_Location extends PluginAbstract {
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->autoChangeLanguage = true;
+        $o = new stdClass();
+        $o->type = array('browser'=>__("Detect language from Browser"), 'ip'=>__("Detect language from IP"));
+        $o->value = 'browser';
+        $obj->useLanguageFrom = $o;
         return $obj;
     }    
     
@@ -70,25 +74,63 @@ class User_Location extends PluginAbstract {
     
     static function getLocationFromIP($ip) {
         return IP2Location::getLocation($ip);
+    } 
+    
+    static function getLanguageFromBrowser() {
+        if(empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])){
+            return false;
+        }
+        $parts = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        return str_replace('-', '_', $parts[0]);
+    }
+    
+    static function setLanguage($lang) {        
+        global $global;
+        $file = "{$global['systemRootPath']}locale/{$lang}.php";
+        _session_start();
+        if(file_exists($file)){
+            $_SESSION['language'] = $lang;
+            include_once $file;
+            return true;
+        }else{
+            $lang = strtolower($lang);
+            $file = "{$global['systemRootPath']}locale/{$lang}.php";
+            if(file_exists($file)){
+                $_SESSION['language'] = $lang;
+                include_once $file;
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    static function setLanguageFromBrowser() {
+        return self::setLanguage(self::getLanguageFromBrowser());
+    }
+    
+    static function setLanguageFromIP() {
+        $User_Location = self::getThisUserLocation();
+        return self::setLanguage($User_Location['country_code']);
     }
     
     public function getStart() {
         global $global, $config;
         $obj = $this->getDataObject();
         $User_Location = self::getThisUserLocation();
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
         if($obj->autoChangeLanguage){
-            $location = self::getSessionLocation();
-            if(empty($location) && !empty($User_Location['country_code'])){
-                $_SESSION['language'] = strtolower($User_Location['country_code']);
-                $file = "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
-                if(file_exists($file)){
-                    include_once $file;
-                }else{
-                    $_SESSION['language'] = $config->getLanguage();
+            if($obj->useLanguageFrom->value=='browser'){
+                $changed = self::setLanguageFromBrowser();
+                if(!$changed){
+                    $changed = self::setLanguageFromIP();
                 }
+            }else{
+                $changed = self::setLanguageFromIP();
+                if(!$changed){
+                    $changed = self::setLanguageFromBrowser();
+                }
+            }
+            if(!$changed){
+                $_SESSION['language'] = $config->getLanguage();
             }
         }
         $global['User_Location'] = $User_Location;

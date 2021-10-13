@@ -320,7 +320,7 @@ class Layout extends PluginAbstract {
         }else{
             $selectedJsonIcon = '';
         }
-        $code = "<script>function getLangSelectformatStateResult (state) {
+        $code = "<script>/*selected={$selected}*/function getLangSelectformatStateResult (state) {
                                     if (!state.id) {
                                       return state.text;
                                     }
