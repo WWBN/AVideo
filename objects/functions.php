@@ -2254,10 +2254,27 @@ function combineFiles($filesArray, $extension = "js") {
         $bytes = file_put_contents($cacheDir . $md5FileName, $str);
         if (empty($bytes)) {
             _error_log('combineFiles: error on save strlen='. strlen($str).' ' . $cacheDir . $md5FileName.' cacheDir='.$cacheDir);
+            return false;
         }
     }
 
     return getURL($relativeDir . $md5FileName);
+}
+
+function combineFilesHTML($filesArray, $extension = "js") {
+    if($extension == "js"){
+        $jsURL = combineFiles($filesArray, $extension);
+        if(empty($jsURL)){
+            $str = '';
+            foreach ($filesArray as $value) {
+                $jsURL = getURL($value);
+                $str = '<script src="'.$jsURL.'" type="text/javascript"></script>';
+            }
+            return $str;
+        }else{
+            return '<script src="'.$jsURL.'" type="text/javascript"></script>';
+        }
+    }
 }
 
 function local_get_contents($path) {
