@@ -3289,6 +3289,9 @@ if (!class_exists('Video')) {
             if($v['type']!=='video'){
                 return array();
             }
+            if($v['status']!=='a' || $v['status']!=='u'){
+                return array();
+            }
             $video = new Video('', '', $v['id']);   
             if(empty($video)){
                 return array();
