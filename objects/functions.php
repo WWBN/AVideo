@@ -3157,6 +3157,10 @@ function rrmdir($dir) {
         return false;
     }
     if (is_dir($dir)) {
+        //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
+        exec('rm -R ' . $dir);
+    }
+    if (is_dir($dir)) {
         $objects = scandir($dir);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
@@ -3172,10 +3176,6 @@ function rrmdir($dir) {
             return false;
         }
         @rmdir($dir);
-        if (is_dir($dir)) {
-            //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
-            exec('rm -R ' . $dir);
-        }
     } else {
         //_error_log('rrmdir: The Directory does not exists '.$dir);
     }
