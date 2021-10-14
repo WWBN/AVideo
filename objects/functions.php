@@ -2253,7 +2253,7 @@ function combineFiles($filesArray, $extension = "js") {
         file_put_contents($cacheDir . $md5FileName, $str);
     }
     
-    return getURL('videos/cache/' . $md5FileName);
+    return getURL('videos/cache/' . $extension . '/' . $md5FileName);
 }
 
 function local_get_contents($path) {
