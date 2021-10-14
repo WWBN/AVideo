@@ -3680,19 +3680,21 @@ if (!class_exists('Video')) {
                     $obj->thumbsJpg = $thumbsSource['url'];
                     // create thumbs
                     if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
-                        _error_log("Resize JPG 3 {$jpegSource['path']}, {$thumbsSource['path']}");
                         if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
+                            _error_log("Resize JPG 3 useFFMPEGToGenerateThumbs {$jpegSource['path']}, {$thumbsSource['path']}");
                             im_resizeV3($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
                         } else {
+                            _error_log("Resize JPG 3 {$jpegSource['path']}, {$thumbsSource['path']}");
                             im_resizeV2($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
                         }
                     }
                     // create thumbs
                     if (!file_exists($thumbsSmallSource['path']) && filesize($jpegSource['path']) > 1024) {
-                        _error_log("Resize Small JPG 4 {$jpegSource['path']}, {$thumbsSmallSource['path']}");
                         if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
+                            _error_log("Resize Small JPG 4 useFFMPEGToGenerateThumbs {$jpegSource['path']}, {$thumbsSmallSource['path']}");
                             im_resizeV3($jpegSource['path'], $thumbsSmallSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
                         } else {
+                            _error_log("Resize Small JPG 4 {$jpegSource['path']}, {$thumbsSmallSource['path']}");
                             im_resizeV2($jpegSource['path'], $thumbsSmallSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape, 5);
                         }
                     }
