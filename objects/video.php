@@ -755,7 +755,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
-                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
@@ -1097,7 +1097,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
-                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
@@ -1562,7 +1562,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
-                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id');
+                $searchFieldsNames = array('v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename');
                 if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                     $searchFieldsNames[] = 'u.channelName';
                 }
