@@ -287,8 +287,8 @@ class Live_schedule extends ObjectYPT {
             $array['live_servers_id'] = $this->live_servers_id;
             Live::notifySocketStats("socketLiveONCallback", $array);
             clearCache(true);
-            deleteStatsNotifications();
-            ObjectYPT::deleteAllSessionCache();
+            //deleteStatsNotifications();
+            ObjectYPT::deleteALLCache();
         }
         return $id;
     }
