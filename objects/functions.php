@@ -2253,7 +2253,7 @@ function combineFiles($filesArray, $extension = "js") {
         }
         $bytes = file_put_contents($cacheDir . $md5FileName, $str);
         if (empty($bytes)) {
-            _error_log('combineFiles: error on save strlen='. strlen($str).' ' . $cacheDir . $md5FileName.' cacheDir='.$cacheDir);
+            _error_log('combineFiles: error on save strlen=' . strlen($str) . ' ' . $cacheDir . $md5FileName . ' cacheDir=' . $cacheDir);
             return false;
         }
     }
@@ -2263,27 +2263,27 @@ function combineFiles($filesArray, $extension = "js") {
 
 function combineFilesHTML($filesArray, $extension = "js") {
     $jsURL = combineFiles($filesArray, $extension);
-    if($extension == "js"){
-        if(empty($jsURL)){
+    if ($extension == "js") {
+        if (empty($jsURL)) {
             $str = '';
             foreach ($filesArray as $value) {
                 $jsURL = getURL($value);
-                $str .= '<script src="'.$jsURL.'" type="text/javascript"></script>';
+                $str .= '<script src="' . $jsURL . '" type="text/javascript"></script>';
             }
             return $str;
-        }else{
-            return '<script src="'.$jsURL.'" type="text/javascript"></script>';
+        } else {
+            return '<script src="' . $jsURL . '" type="text/javascript"></script>';
         }
-    }else{
-        if(empty($jsURL)){
+    } else {
+        if (empty($jsURL)) {
             $str = '';
             foreach ($filesArray as $value) {
                 $jsURL = getURL($value);
-                $str .= '<link href="'.$jsURL.'" rel="stylesheet" type="text/css"/>';
+                $str .= '<link href="' . $jsURL . '" rel="stylesheet" type="text/css"/>';
             }
             return $str;
-        }else{
-            return '<link href="'.$jsURL.'" rel="stylesheet" type="text/css"/>';
+        } else {
+            return '<link href="' . $jsURL . '" rel="stylesheet" type="text/css"/>';
         }
     }
 }
@@ -3172,13 +3172,10 @@ function rrmdir($dir) {
             return false;
         }
         @rmdir($dir);
-        /*
-          if (is_dir($dir)) {
-          _error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
-          exec('rm -R ' . $dir);
-          }
-         * 
-         */
+        if (is_dir($dir)) {
+            //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
+            exec('rm -R ' . $dir);
+        }
     } else {
         //_error_log('rrmdir: The Directory does not exists '.$dir);
     }
