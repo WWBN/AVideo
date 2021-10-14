@@ -1920,9 +1920,9 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
                     }
                 }
             }
-            if(file_exists($destinationFile)){
+            if (file_exists($destinationFile)) {
                 _error_log("decideMoveUploadedToVideos: SUCCESS Local {$destinationFile}");
-            }else{
+            } else {
                 _error_log("decideMoveUploadedToVideos: ERROR Local {$destinationFile}");
             }
             chmod($destinationFile, 0644);
@@ -1983,9 +1983,9 @@ function make_path($path) {
     if (!is_dir($path)) {
         $created = mkdir($path, 0755, true);
         /*
-        if (!$created) {
-            _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        }
+          if (!$created) {
+          _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+          }
          */
     } else {
         $created = true;
@@ -2201,7 +2201,7 @@ function combineFiles($filesArray, $extension = "js") {
     if ($extension == 'js' && isBot()) {
         return getCDN() . 'view/js/empty.js';
     }
-    
+
     $relativeDir = 'videos/cache/' . $extension . '/';
     $cacheDir = $global['systemRootPath'] . $relativeDir;
     $str = "";
@@ -2251,9 +2251,12 @@ function combineFiles($filesArray, $extension = "js") {
         if (!is_dir($cacheDir)) {
             mkdir($cacheDir, 0777, true);
         }
-        file_put_contents($cacheDir . $md5FileName, $str);
+        $bytes = file_put_contents($cacheDir . $md5FileName, $str);
+        if (empty($bytes)) {
+            _error_log('combineFiles: error on save ' . $cacheDir . $md5FileName);
+        }
     }
-    
+
     return getURL($relativeDir . $md5FileName);
 }
 
@@ -3111,7 +3114,7 @@ function cleanUpAccessControlHeader() {
 
 function rrmdir($dir) {
     //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));exit;}
-    
+
     $dir = str_replace(array('//', '\\\\'), DIRECTORY_SEPARATOR, $dir);
     //_error_log('rrmdir: ' . $dir);
     if (empty($dir)) {
@@ -3142,10 +3145,10 @@ function rrmdir($dir) {
         }
         @rmdir($dir);
         /*
-        if (is_dir($dir)) {
-            _error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
-            exec('rm -R ' . $dir);
-        }
+          if (is_dir($dir)) {
+          _error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
+          exec('rm -R ' . $dir);
+          }
          * 
          */
     } else {
@@ -3877,26 +3880,26 @@ function getCacheDir() {
 
 function clearCache($firstPageOnly = false) {
     global $global;
-    $lockFile = getVideosDir().'.clearCache.lock';
-    if(file_exists($lockFile) && filectime($lockFile) > strtotime('-5 minutes')){
-        _error_log('clearCache is in progress '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+    $lockFile = getVideosDir() . '.clearCache.lock';
+    if (file_exists($lockFile) && filectime($lockFile) > strtotime('-5 minutes')) {
+        _error_log('clearCache is in progress ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         return false;
     }
     $start = microtime(true);
     _error_log('clearCache starts ');
     file_put_contents($lockFile, time());
-    
+
     $dir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
     if ($firstPageOnly || !empty($_GET['FirstPage'])) {
         $dir .= "firstPage" . DIRECTORY_SEPARATOR;
     }
-        
+
     //_error_log('clearCache 1: '.$dir);
     rrmdir($dir);
 
     ObjectYPT::deleteCache("getEncoderURL");
     unlink($lockFile);
-    $end = microtime(true)-$start;
+    $end = microtime(true) - $start;
     _error_log("clearCache end in {$end} seconds");
     return true;
 }
@@ -3914,7 +3917,7 @@ function getUsageFromFilename($filename, $dir = "") {
     }
     $dir = addLastSlash($dir);
     $totalSize = 0;
-    _error_log("getUsageFromFilename: start {$dir}{$filename} ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+    _error_log("getUsageFromFilename: start {$dir}{$filename} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     //$files = glob("{$dir}{$filename}*");
     $paths = Video::getPaths($filename);
 
@@ -3938,7 +3941,7 @@ function getUsageFromFilename($filename, $dir = "") {
             }
             if (is_dir($f)) {
                 $dirSize = getDirSize($f, true);
-                _error_log("getUsageFromFilename: is Dir dirSize={$dirSize} ". humanFileSize($dirSize). " {$f}");
+                _error_log("getUsageFromFilename: is Dir dirSize={$dirSize} " . humanFileSize($dirSize) . " {$f}");
                 $totalSize += $dirSize;
                 $minDirSize = 4000000;
                 $isEnabled = AVideoPlugin::isEnabledByName('YPTStorage');
@@ -4508,14 +4511,14 @@ function setRedirectUri($redirectUri) {
     $_SESSION['redirectUri'] = $redirectUri;
 }
 
-function redirectIfRedirectUriIsSet(){
+function redirectIfRedirectUriIsSet() {
     $redirectUri = false;
     if (!empty($_GET['redirectUri'])) {
         if (isSameDomainAsMyAVideo($_GET['redirectUri'])) {
             $redirectUri = $_GET['redirectUri'];
         }
     }
-    if(!empty($_SESSION['redirectUri'])){
+    if (!empty($_SESSION['redirectUri'])) {
         if (isSameDomainAsMyAVideo($_SESSION['redirectUri'])) {
             $redirectUri = $_SESSION['redirectUri'];
         }
@@ -4523,11 +4526,10 @@ function redirectIfRedirectUriIsSet(){
         unset($_SESSION['redirectUri']);
     }
 
-    if(!empty($redirectUri)){
+    if (!empty($redirectUri)) {
         header("Location: {$_SESSION['redirectUri']}");
         exit;
     }
-
 }
 
 function getRedirectToVideo($videos_id) {
@@ -5563,7 +5565,8 @@ function isForbidden() {
     return false;
 }
 
-function diskUsageBars() {return '';//TODO check why it is slowing down
+function diskUsageBars() {
+    return ''; //TODO check why it is slowing down
     global $global;
     ob_start();
     include $global['systemRootPath'] . 'objects/functiondiskUsageBars.php';
@@ -6547,7 +6550,7 @@ function isURL200($url, $forceRecheck = false) {
 function isURL200Clear() {
     $tmpDir = ObjectYPT::getCacheDir();
     $cacheDir = $tmpDir . "isURL200" . DIRECTORY_SEPARATOR;
-    _error_log('isURL200Clear: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+    _error_log('isURL200Clear: ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     rrmdir($cacheDir);
 }
 
@@ -7007,9 +7010,9 @@ function videosHashToID($hash_of_videos_id) {
         return $hash_of_videos_id;
     }
     if (!is_string($hash_of_videos_id) && !is_numeric($hash_of_videos_id)) {
-        if(is_array($hash_of_videos_id)){
+        if (is_array($hash_of_videos_id)) {
             return $hash_of_videos_id;
-        }else{
+        } else {
             return 0;
         }
     }
