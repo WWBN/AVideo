@@ -3880,21 +3880,10 @@ function clearCache($firstPageOnly = false) {
     if ($firstPageOnly || !empty($_GET['FirstPage'])) {
         $dir .= "firstPage" . DIRECTORY_SEPARATOR;
     }
+    
+    $dir = str_replace(DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $dir);
+    
     //_error_log('clearCache 1: '.$dir);
-    rrmdir($dir);
-
-    $dir = getCacheDir();
-    if ($firstPageOnly || !empty($_GET['FirstPage'])) {
-        $dir .= "firstPage" . DIRECTORY_SEPARATOR;
-    }
-    //_error_log('clearCache 2: '.$dir);
-    rrmdir($dir);
-
-    $dir = getTmpDir() . 'YPTObjectCache' . DIRECTORY_SEPARATOR;
-    if ($firstPageOnly || !empty($_GET['FirstPage'])) {
-        $dir .= "firstPage" . DIRECTORY_SEPARATOR;
-    }
-    //_error_log('clearCache 3: '.$dir);
     rrmdir($dir);
 
     ObjectYPT::deleteCache("getEncoderURL");
