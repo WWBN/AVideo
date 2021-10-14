@@ -3933,6 +3933,10 @@ function clearCache($firstPageOnly = false) {
     return true;
 }
 
+function clearFirstPageCache(){
+    return clearCache(true);
+}
+
 function getUsageFromFilename($filename, $dir = "") {
     global $global;
 
@@ -6585,6 +6589,12 @@ function isURL200Clear() {
     $cacheDir = $tmpDir . "isURL200" . DIRECTORY_SEPARATOR;
     _error_log('isURL200Clear: ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     rrmdir($cacheDir);
+}
+
+function deleteStatsNotifications(){
+    Live::deleteStatsCache();
+    $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
+    ObjectYPT::deleteCache($cacheName);
 }
 
 function getStatsNotifications($force_recreate = false) {
