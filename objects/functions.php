@@ -6074,8 +6074,8 @@ function downloadHLS($filepath) {
 
     if (!empty($output['error'])) {
         $msg = 'downloadHLS was not possible';
-        if(User::isAdmin()){
-            $msg.='<br>'."m3u8ToMP4($filepath) return empty<br>".nl2br($output['msg']);
+        if (User::isAdmin()) {
+            $msg .= '<br>' . "m3u8ToMP4($filepath) return empty<br>" . nl2br($output['msg']);
         }
         _error_log("downloadHLS: m3u8ToMP4($filepath) return empty");
         die($msg);
@@ -6118,10 +6118,10 @@ function playHLSasMP4($filepath) {
     $output = m3u8ToMP4($filepath);
 
     if (!empty($output['error'])) {
-        
+
         $msg = 'playHLSasMP4 was not possible';
-        if(User::isAdmin()){
-            $msg.='<br>'."m3u8ToMP4($filepath) return empty<br>".nl2br($output['msg']);
+        if (User::isAdmin()) {
+            $msg .= '<br>' . "m3u8ToMP4($filepath) return empty<br>" . nl2br($output['msg']);
         }
         die($msg);
     }
@@ -6154,8 +6154,12 @@ function m3u8ToMP4($input) {
     }
     _error_log("downloadHLS: m3u8ToMP4($input)");
     //var_dump(!preg_match('/^http/i', $input), filesize($input), preg_match('/.m3u8$/i', $input));
-    if (!preg_match('/^http/i', $input) && (filesize($input) <= 10 || preg_match('/.m3u8$/i', $input))) { // dummy file
+    $ism3u8 = preg_match('/.m3u8$/i', $input);
+    if (!preg_match('/^http/i', $input) && (filesize($input) <= 10 || $ism3u8)) { // dummy file
         $filepath = escapeshellcmd(pathToRemoteURL($input, true, true));
+        if ($ism3u8 && !preg_match('/.m3u8$/i', $filepath)) {
+            $filepath = addLastSlash($filepath) . 'index.m3u8';
+        }
     } else {
         $filepath = escapeshellcmd($input);
     }
