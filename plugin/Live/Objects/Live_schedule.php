@@ -286,9 +286,7 @@ class Live_schedule extends ObjectYPT {
             $array['key'] = $this->key;
             $array['live_servers_id'] = $this->live_servers_id;
             Live::notifySocketStats("socketLiveONCallback", $array);
-            clearCache(true);
-            //deleteStatsNotifications();
-            ObjectYPT::deleteALLCache();
+            self::clearScheduleCache();
         }
         return $id;
     }
@@ -300,9 +298,16 @@ class Live_schedule extends ObjectYPT {
         if (!empty($id)) {
             $array['stats'] = getStatsNotifications(true);
             Live::notifySocketStats("socketLiveOFFCallback", $array);
-            clearCache(true);
+            self::clearScheduleCache();
         }      
         return $id;
+    }
+    
+    static function clearScheduleCache(){
+        clearCache(true);
+        deleteStatsNotifications();
+        ObjectYPT::deleteAllSessionCache();
+        //ObjectYPT::deleteALLCache();
     }
 
     static function keyExists($key) {
