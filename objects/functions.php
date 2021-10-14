@@ -3867,7 +3867,15 @@ function getCacheDir() {
 
 function clearCache($firstPageOnly = false) {
     global $global;
-
+    $lockFile = getVideosDir().'.clearCache.lock';
+    if(file_exists($lockFile) && filectime($lockFile) > strtotime('-5 minutes')){
+        _error_log('clearCache is in progress '. json_encode(debug_backtrace()));
+        return false;
+    }
+    $start = getmicrotime(true);
+    _error_log('clearCache starts ');
+    file_put_contents($lockFile, time());
+    
     $dir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
     if ($firstPageOnly || !empty($_GET['FirstPage'])) {
         $dir .= "firstPage" . DIRECTORY_SEPARATOR;
@@ -3890,6 +3898,10 @@ function clearCache($firstPageOnly = false) {
     rrmdir($dir);
 
     ObjectYPT::deleteCache("getEncoderURL");
+    unlink($lockFile);
+    $end = getmicrotime(true)-$start;
+    _error_log("clearCache end in {$end} seconds");
+    return true;
 }
 
 function getUsageFromFilename($filename, $dir = "") {
