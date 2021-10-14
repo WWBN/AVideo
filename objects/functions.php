@@ -3158,9 +3158,9 @@ function rrmdir($dir) {
     }
     if (is_dir($dir)) {
         //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
-        if(isWindows()){
+        if (isWindows()) {
             exec('DEL /S ' . $dir);
-        }else{
+        } else {
             exec('rm -R ' . $dir);
         }
     }
@@ -3933,7 +3933,7 @@ function clearCache($firstPageOnly = false) {
     return true;
 }
 
-function clearFirstPageCache(){
+function clearFirstPageCache() {
     return clearCache(true);
 }
 
@@ -6072,9 +6072,13 @@ function downloadHLS($filepath) {
     }
     $output = m3u8ToMP4($filepath);
 
-    if (empty($output)) {
+    if (!empty($output['error'])) {
+        $msg = 'downloadHLS was not possible';
+        if(User::isAdmin()){
+            $msg.='<br>'."m3u8ToMP4($filepath) return empty<br>".nl2br($output['msg']);
+        }
         _error_log("downloadHLS: m3u8ToMP4($filepath) return empty");
-        die("downloadHLS was not possible");
+        die($msg);
     }
 
     $outputpath = $output['path'];
@@ -6113,8 +6117,13 @@ function playHLSasMP4($filepath) {
     }
     $output = m3u8ToMP4($filepath);
 
-    if (empty($output)) {
-        die("playHLSasMP4 was not possible");
+    if (!empty($output['error'])) {
+        
+        $msg = 'playHLSasMP4 was not possible';
+        if(User::isAdmin()){
+            $msg.='<br>'."m3u8ToMP4($filepath) return empty<br>".nl2br($output['msg']);
+        }
+        die($msg);
     }
 
     $outputpath = $output['path'];
@@ -6135,10 +6144,13 @@ function m3u8ToMP4($input) {
     $resolution = Video::getResolutionFromFilename($input);
     $outputfilename = $parts[0] . "_{$resolution}_.mp4";
     $outputpath = "{$videosDir}cache/downloads/{$outputfilename}";
+    $msg = '';
+    $error = true;
     make_path($outputpath);
     if (empty($outputfilename)) {
-        _error_log("downloadHLS: empty outputfilename {$outputfilename}");
-        return false;
+        $msg = "downloadHLS: empty outputfilename {$outputfilename}";
+        _error_log($msg);
+        return array('error' => $error, 'msg' => $msg);
     }
     _error_log("downloadHLS: m3u8ToMP4($input)");
     //var_dump(!preg_match('/^http/i', $input), filesize($input), preg_match('/.m3u8$/i', $input));
@@ -6155,24 +6167,30 @@ function m3u8ToMP4($input) {
     $outputpath = escapeshellcmd($outputpath);
     if (!file_exists($outputpath)) {
         $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$filepath} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
-        _error_log("downloadHLS: Exec Command ({$command})");
+        $msg1 = "downloadHLS: Exec Command ({$command})";
+        _error_log($msg1);
         //var_dump($outputfilename, $command, $_GET, $filepath);exit;
         exec($command . " 2>&1", $output, $return);
         if (!empty($return)) {
-            _error_log("downloadHLS: ERROR 1 " . implode(PHP_EOL, $output));
+            $msg2 = "downloadHLS: ERROR 1 " . implode(PHP_EOL, $output);
+            _error_log($msg2);
 
             $command = get_ffmpeg() . " -y -i {$filepath} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
             //var_dump($outputfilename, $command, $_GET, $filepath);exit;
             exec($command . " 2>&1", $output, $return);
             if (!empty($return)) {
-                _error_log("downloadHLS: ERROR 2 " . implode(PHP_EOL, $output));
-                return false;
+                $msg3 = "downloadHLS: ERROR 2 " . implode(PHP_EOL, $output);
+                $finalMsg = $msg1 . PHP_EOL . $msg2 . PHP_EOL . $msg3;
+                _error_log($msg3);
+                return array('error' => $error, 'msg' => $finalMsg);
             }
         }
+        $error = false;
     } else {
-        _error_log("downloadHLS: outputpath not found ({$outputpath})");
+        $msg = "downloadHLS: outputpath not found ({$outputpath})";
+        _error_log($msg);
     }
-    return array('path' => $outputpath, 'filename' => $outputfilename);
+    return array('error' => $error, 'msg' => $msg, 'path' => $outputpath, 'filename' => $outputfilename);
 }
 
 function getSocialModal($videos_id, $url = "", $title = "") {
@@ -6506,7 +6524,7 @@ function killProcess($pid) {
     return true;
 }
 
-function isWindows(){
+function isWindows() {
     return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 }
 
@@ -6591,7 +6609,7 @@ function isURL200Clear() {
     rrmdir($cacheDir);
 }
 
-function deleteStatsNotifications(){
+function deleteStatsNotifications() {
     Live::deleteStatsCache();
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     ObjectYPT::deleteCache($cacheName);
