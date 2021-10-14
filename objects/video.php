@@ -3341,7 +3341,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 3 FROM database ". json_encode($return). json_encode($v));//exit;
+            _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 3 FROM database ". json_encode($resolution). json_encode($v));//exit;
             //if($filename=='video_210916143432_c426'){var_dump(1, $filename, $return);exit;}
             $video->setVideoHigestResolution($return['resolution']);
             TimeLogEnd($name0, __LINE__);
