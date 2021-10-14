@@ -3289,7 +3289,7 @@ if (!class_exists('Video')) {
             if($v['type']!=='video'){
                 return array();
             }
-            if($v['status']!=='a' || $v['status']!=='u'){
+            if($v['status']!== self::$statusActive && $v['status']!==self::$statusUnlisted){
                 return array();
             }
             $video = new Video('', '', $v['id']);   
