@@ -462,6 +462,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     public static function deleteALLCache() {
+        self::deleteAllSessionCache();
         $lockFile = getVideosDir().'.deleteALLCache.lock';
         if(file_exists($lockFile) && filectime($lockFile) > strtotime('-5 minutes')){
             _error_log('clearCache is in progress '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -474,7 +475,6 @@ abstract class ObjectYPT implements ObjectInterface {
         //_error_log('deleteALLCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $tmpDir = self::getCacheDir();
         rrmdir($tmpDir);
-        self::deleteAllSessionCache();
         self::setLastDeleteALLCacheTime();
         unlink($lockFile);
         $end = microtime(true)-$start;
