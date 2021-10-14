@@ -3158,7 +3158,11 @@ function rrmdir($dir) {
     }
     if (is_dir($dir)) {
         //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
-        exec('rm -R ' . $dir);
+        if(isWindows()){
+            exec('DEL /S ' . $dir);
+        }else{
+            exec('rm -R ' . $dir);
+        }
     }
     if (is_dir($dir)) {
         $objects = scandir($dir);
@@ -6490,12 +6494,16 @@ function killProcess($pid) {
     if (empty($pid)) {
         return false;
     }
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    if (isWindows()) {
         exec("taskkill /F /PID $pid");
     } else {
         exec("kill -9 $pid");
     }
     return true;
+}
+
+function isWindows(){
+    return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 }
 
 function getPIDUsingPort($port) {
