@@ -45,9 +45,9 @@ showAlertMessage();
 ?>
     });
 </script>
-<script src="<?php echo getCDN(); ?>view/js/jquery.lazy/jquery.lazy.min.js" type="text/javascript"></script>
-<script src="<?php echo getCDN(); ?>view/js/jquery.lazy/jquery.lazy.plugins.min.js" type="text/javascript"></script>
-<script src="<?php echo getCDN(); ?>view/js/script.js?cache=<?php echo filectime("{$global['systemRootPath']}view/js/script.js"), filemtime("{$global['systemRootPath']}view/js/script.js"); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.plugins.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
 <?php
 $jsFiles = array();
 //$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
@@ -70,9 +70,8 @@ $jsFiles[] = "view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-ta
 $jsFiles[] = "view/js/BootstrapMenu.min.js";
 
 $jsFiles = array_merge($jsFiles, AVideoPlugin::getJSFiles());
-$jsURL = combineFiles($jsFiles, "js");
+echo combineFilesHTML($jsFiles, "js");
 ?>
-<script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
 <div id="pluginFooterCode" >
     <?php
     if (!isForbidden()) {
