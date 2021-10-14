@@ -3108,7 +3108,8 @@ function cleanUpAccessControlHeader() {
 function rrmdir($dir) {
     //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));exit;}
     
-    $dir = str_replace(DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $dir);
+    $dir = str_replace(array('//', '\\\\'), DIRECTORY_SEPARATOR, $dir);
+    //_error_log('rrmdir: ' . $dir);
     if (empty($dir)) {
         _error_log('rrmdir: the dir was empty');
         return false;
@@ -3124,10 +3125,10 @@ function rrmdir($dir) {
         $objects = scandir($dir);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
-                if (is_dir($dir . "/" . $object)) {
-                    rrmdir($dir . "/" . $object);
+                if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
+                    rrmdir($dir . DIRECTORY_SEPARATOR . $object);
                 } else {
-                    @unlink($dir . "/" . $object);
+                    @unlink($dir . DIRECTORY_SEPARATOR . $object);
                 }
             }
         }
