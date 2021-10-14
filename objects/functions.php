@@ -2201,8 +2201,9 @@ function combineFiles($filesArray, $extension = "js") {
     if ($extension == 'js' && isBot()) {
         return getCDN() . 'view/js/empty.js';
     }
-
-    $cacheDir = $global['systemRootPath'] . 'videos/cache/' . $extension . "/";
+    
+    $relativeDir = 'videos/cache/' . $extension . '/';
+    $cacheDir = $global['systemRootPath'] . $relativeDir;
     $str = "";
     $fileName = "";
     foreach ($filesArray as $value) {
@@ -2253,7 +2254,7 @@ function combineFiles($filesArray, $extension = "js") {
         file_put_contents($cacheDir . $md5FileName, $str);
     }
     
-    return getURL('videos/cache/' . $extension . '/' . $md5FileName);
+    return getURL($relativeDir . $md5FileName);
 }
 
 function local_get_contents($path) {
