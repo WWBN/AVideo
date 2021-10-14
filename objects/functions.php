@@ -3107,6 +3107,8 @@ function cleanUpAccessControlHeader() {
 
 function rrmdir($dir) {
     //if(preg_match('/cache/i', $dir)){_error_log("rrmdir($dir) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));exit;}
+    
+    $dir = str_replace(DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $dir);
     if (empty($dir)) {
         _error_log('rrmdir: the dir was empty');
         return false;
@@ -3869,7 +3871,7 @@ function clearCache($firstPageOnly = false) {
     global $global;
     $lockFile = getVideosDir().'.clearCache.lock';
     if(file_exists($lockFile) && filectime($lockFile) > strtotime('-5 minutes')){
-        _error_log('clearCache is in progress '. json_encode(debug_backtrace()));
+        _error_log('clearCache is in progress '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         return false;
     }
     $start = microtime(true);
@@ -3880,9 +3882,7 @@ function clearCache($firstPageOnly = false) {
     if ($firstPageOnly || !empty($_GET['FirstPage'])) {
         $dir .= "firstPage" . DIRECTORY_SEPARATOR;
     }
-    
-    $dir = str_replace(DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $dir);
-    
+        
     //_error_log('clearCache 1: '.$dir);
     rrmdir($dir);
 

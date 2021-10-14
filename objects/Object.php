@@ -462,6 +462,13 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     public static function deleteALLCache() {
+        $lockFile = getVideosDir().'.deleteALLCache.lock';
+        if(file_exists($lockFile) && filectime($lockFile) > strtotime('-5 minutes')){
+            _error_log('clearCache is in progress '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            return false;
+        }
+        $start = microtime(true);
+        _error_log('deleteALLCache starts ');
         global $__getAVideoCache;
         unset($__getAVideoCache);
         _error_log('deleteALLCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -469,6 +476,10 @@ abstract class ObjectYPT implements ObjectInterface {
         rrmdir($tmpDir);
         self::deleteAllSessionCache();
         self::setLastDeleteALLCacheTime();
+        unlink($lockFile);
+        $end = microtime(true)-$start;
+        _error_log("deleteALLCache end in {$end} seconds");
+        return true;
     }
 
     public static function getCacheDir($filename = '') {
