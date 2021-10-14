@@ -2249,11 +2249,11 @@ function combineFiles($filesArray, $extension = "js") {
             $str = \JShrink\Minifier::minify($str, array('flaggedComments' => false));
         }
         if (!is_dir($cacheDir)) {
-            mkdir($cacheDir, 0777, true);
+            make_path($cacheDir);
         }
         $bytes = file_put_contents($cacheDir . $md5FileName, $str);
         if (empty($bytes)) {
-            _error_log('combineFiles: error on save strlen='. strlen($str).' ' . $cacheDir . $md5FileName);
+            _error_log('combineFiles: error on save strlen='. strlen($str).' ' . $cacheDir . $md5FileName.' cacheDir='.$cacheDir);
         }
     }
 
