@@ -3872,7 +3872,7 @@ function clearCache($firstPageOnly = false) {
         _error_log('clearCache is in progress '. json_encode(debug_backtrace()));
         return false;
     }
-    $start = getmicrotime(true);
+    $start = microtime(true);
     _error_log('clearCache starts ');
     file_put_contents($lockFile, time());
     
@@ -3899,7 +3899,7 @@ function clearCache($firstPageOnly = false) {
 
     ObjectYPT::deleteCache("getEncoderURL");
     unlink($lockFile);
-    $end = getmicrotime(true)-$start;
+    $end = microtime(true)-$start;
     _error_log("clearCache end in {$end} seconds");
     return true;
 }
