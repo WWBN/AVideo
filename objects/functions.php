@@ -2203,9 +2203,6 @@ function combineFiles($filesArray, $extension = "js") {
     }
 
     $cacheDir = $global['systemRootPath'] . 'videos/cache/' . $extension . "/";
-    if (!is_dir($cacheDir)) {
-        mkdir($cacheDir, 0777, true);
-    }
     $str = "";
     $fileName = "";
     foreach ($filesArray as $value) {
@@ -2250,9 +2247,13 @@ function combineFiles($filesArray, $extension = "js") {
             require_once $global['systemRootPath'] . 'objects/jshrink.php';
             $str = \JShrink\Minifier::minify($str, array('flaggedComments' => false));
         }
+        if (!is_dir($cacheDir)) {
+            mkdir($cacheDir, 0777, true);
+        }
         file_put_contents($cacheDir . $md5FileName, $str);
     }
-    return getCDN() . 'videos/cache/' . $extension . "/" . $md5FileName . "?cache=" . filectime($cacheDir . $md5FileName) . filemtime($cacheDir . $md5FileName);
+    
+    return getURL('videos/cache/' . $md5FileName);
 }
 
 function local_get_contents($path) {
