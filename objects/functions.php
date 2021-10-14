@@ -2253,7 +2253,7 @@ function combineFiles($filesArray, $extension = "js") {
         }
         $bytes = file_put_contents($cacheDir . $md5FileName, $str);
         if (empty($bytes)) {
-            _error_log('combineFiles: error on save ' . $cacheDir . $md5FileName);
+            _error_log('combineFiles: error on save strlen='. strlen($str).' ' . $cacheDir . $md5FileName);
         }
     }
 
