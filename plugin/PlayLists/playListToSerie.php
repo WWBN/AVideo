@@ -120,12 +120,7 @@ if (!empty($_GET['action'])) {
                 </div>
             </div>
         </div>
-        <?php
-        $jsFiles = array();
-        $jsFiles[] = "view/js/script.js";
-        $jsFiles[] = "view/js/js-cookie/js.cookie.js";
-        $jsURL = combineFiles($jsFiles, "js");
-        ?>
-        <script src="<?php echo getCDN(); ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/js-cookie/js.cookie.js'); ?>" type="text/javascript"></script>
 </html>

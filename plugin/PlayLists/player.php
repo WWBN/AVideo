@@ -202,13 +202,11 @@ if(empty($playListData)){
         <?php
         echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array(
-            "view/js/BootstrapMenu.min.js");
-        $jsURL = combineFiles($videoJSArray, "js");
         ?>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script><script src="<?php echo getCDN(); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
-        <script src="<?php echo getCDN(); ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js"></script>
-        <script src="<?php echo getCDN(); ?>view/js/videojs-youtube/Youtube.js"></script>
+        <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
+        <script src="<?php echo getURL('plugin/PlayLists/videojs-playlist/videojs-playlist.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
+        <script src="<?php echo getURL('plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
+        <script src="<?php echo getURL('view/js/videojs-youtube/Youtube.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
         <script>
 
                                             var playerPlaylist = <?php echo json_encode($playListData); ?>;

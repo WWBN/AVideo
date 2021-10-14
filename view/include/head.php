@@ -90,7 +90,7 @@ $cssFiles[] = "view/js/jquery-toast/jquery.toast.min.css";
 $cssFiles[] = "view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css";
 //$cssFiles[] = "view/css/custom/{$theme}.css";
 $cssFiles = array_merge($cssFiles);
-$cssURL = combineFiles($cssFiles, "css");
+echo combineFilesHTML($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
 <link href="<?php echo getCDN(); ?>view/css/custom/<?php echo $theme; ?>.css" rel="stylesheet" type="text/css" id="customCSS"/>
@@ -113,10 +113,7 @@ if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exis
 $cssFiles = array();
 $cssFiles[] = "view/css/main.css";
 $cssFiles = array_merge($cssFiles, AVideoPlugin::getCSSFiles());
-$cssURL = combineFiles($cssFiles, "css");
-?>
-<link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
-<?php
+echo combineFilesHTML($cssFiles, "css");
 if (isRTL()) {
     ?>
     <style>

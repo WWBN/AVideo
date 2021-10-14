@@ -392,10 +392,6 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
             }
         }
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array(
-            "view/js/BootstrapMenu.min.js");
-        $jsURL = combineFiles($videoJSArray, "js");
-
         $modeYouTubeTimeLog['after add js and footer '] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
         echo "<!-- \n";
@@ -407,7 +403,7 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
         }
         echo "\n -->";
         ?>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
         <script>
             var fading = false;
         </script>

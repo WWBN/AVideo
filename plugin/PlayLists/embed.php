@@ -263,11 +263,10 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
         $jsFiles[] = "view/js/jquery-ui/jquery-ui.min.js";
         $jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
         $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
-        $jsURL = combineFiles($jsFiles, "js");
         ?>
         <script src="<?php echo getCDN(); ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
         <?php
+        echo combineFilesHTML($jsFiles);
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
         ?>
         <script src="<?php echo getCDN(); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>

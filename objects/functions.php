@@ -2262,8 +2262,8 @@ function combineFiles($filesArray, $extension = "js") {
 }
 
 function combineFilesHTML($filesArray, $extension = "js") {
+    $jsURL = combineFiles($filesArray, $extension);
     if($extension == "js"){
-        $jsURL = combineFiles($filesArray, $extension);
         if(empty($jsURL)){
             $str = '';
             foreach ($filesArray as $value) {
@@ -2273,6 +2273,17 @@ function combineFilesHTML($filesArray, $extension = "js") {
             return $str;
         }else{
             return '<script src="'.$jsURL.'" type="text/javascript"></script>';
+        }
+    }else{
+        if(empty($jsURL)){
+            $str = '';
+            foreach ($filesArray as $value) {
+                $jsURL = getURL($value);
+                $str .= '<link href="'.$jsURL.'" rel="stylesheet" type="text/css"/>';
+            }
+            return $str;
+        }else{
+            return '<link href="'.$jsURL.'" rel="stylesheet" type="text/css"/>';
         }
     }
 }

@@ -529,12 +529,11 @@ if (User::hasBlockedUser($video['users_id'])) {
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
     $jsFiles[] = "view/js/jquery-ui/jquery-ui.min.js";
     $jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
-    $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
-    $jsURL = combineFiles($jsFiles, "js");
+    //$jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
     ?>
-    <script src="<?php echo getCDN(); ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+    <script src="<?php echo getURL('view/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
     <?php
+    echo combineFilesHTML($jsFiles, "js");
     echo AVideoPlugin::getFooterCode();
     include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
     ?>
