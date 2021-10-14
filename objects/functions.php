@@ -2268,7 +2268,7 @@ function combineFilesHTML($filesArray, $extension = "js") {
             $str = '';
             foreach ($filesArray as $value) {
                 $jsURL = getURL($value);
-                $str = '<script src="'.$jsURL.'" type="text/javascript"></script>';
+                $str .= '<script src="'.$jsURL.'" type="text/javascript"></script>';
             }
             return $str;
         }else{
