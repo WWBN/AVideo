@@ -306,8 +306,8 @@ class Live_schedule extends ObjectYPT {
     static function clearScheduleCache(){
         clearCache(true);
         deleteStatsNotifications();
-        ObjectYPT::deleteAllSessionCache();
-        //ObjectYPT::deleteALLCache();
+        //ObjectYPT::deleteAllSessionCache();
+        ObjectYPT::deleteALLCache();
     }
 
     static function keyExists($key) {
