@@ -1982,9 +1982,11 @@ function make_path($path) {
     }
     if (!is_dir($path)) {
         $created = mkdir($path, 0755, true);
+        /*
         if (!$created) {
             _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         }
+         */
     } else {
         $created = true;
     }
