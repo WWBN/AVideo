@@ -6189,11 +6189,11 @@ function m3u8ToMP4($input) {
                 return array('error' => $error, 'msg' => $finalMsg);
             }
         }
-        $error = false;
     } else {
-        $msg = "downloadHLS: outputpath not found ({$outputpath})";
+        $msg = "downloadHLS: outputpath already exists ({$outputpath})";
         _error_log($msg);
     }
+    $error = false;
     return array('error' => $error, 'msg' => $msg, 'path' => $outputpath, 'filename' => $outputfilename);
 }
 
