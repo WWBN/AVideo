@@ -104,8 +104,6 @@ if (!User::isAdmin()) {
                                     <th><?php echo __("Date To Execute"); ?></th>
                                     <th><?php echo __("Executed In"); ?></th>
                                     <th><?php echo __("Status"); ?></th>
-                                    <th><?php echo __("CallbackResponse"); ?></th>
-                                    <th><?php echo __("Timezone"); ?></th>
                                     <th><?php echo __("Repeat Minute"); ?></th>
                                     <th><?php echo __("Repeat Hour"); ?></th>
                                     <th><?php echo __("Repeat Day Of Month"); ?></th>
@@ -122,8 +120,6 @@ if (!User::isAdmin()) {
                                     <th><?php echo __("Date To Execute"); ?></th>
                                     <th><?php echo __("Executed In"); ?></th>
                                     <th><?php echo __("Status"); ?></th>
-                                    <th><?php echo __("CallbackResponse"); ?></th>
-                                    <th><?php echo __("Timezone"); ?></th>
                                     <th><?php echo __("Repeat Minute"); ?></th>
                                     <th><?php echo __("Repeat Hour"); ?></th>
                                     <th><?php echo __("Repeat Day Of Month"); ?></th>
@@ -196,8 +192,6 @@ if (!User::isAdmin()) {
                 {"data": "date_to_execute"},
                 {"data": "executed_in"},
                 {"data": "status"},
-                {"data": "callbackResponse"},
-                {"data": "timezone"},
                 {"data": "repeat_minute"},
                 {"data": "repeat_hour"},
                 {"data": "repeat_day_of_month"},
