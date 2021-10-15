@@ -21,6 +21,22 @@ class Scheduler_commands extends ObjectYPT {
     static function getTableName() {
         return 'scheduler_commands';
     }
+    
+    public static function getTimesNow() {
+        $minute = intval(date('i'));
+        $hour = intval(date('H'));
+        $day_of_month = intval(date('d'));
+        $month = intval(date('m'));
+        $day_of_week = intval(date('w'));
+        
+        return array(
+            'minute'=>$minute,
+            'hour'=>$hour,
+            'day_of_month'=>$day_of_month,
+            'month'=>$month,
+            'day_of_week'=>$day_of_week,
+        );
+    }
 
     public static function getAllScheduledTORepeat() {
         global $global;
@@ -29,17 +45,13 @@ class Scheduler_commands extends ObjectYPT {
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='" . self::$statusRepeat . "' ";
 
-        $minute = intval(date('i'));
-        $hour = intval(date('H'));
-        $day_of_month = intval(date('d'));
-        $month = intval(date('m'));
-        $day_of_week = intval(date('w'));
+        $times = self::getTimesNow();
 
-        $sql .= " AND (repeat_minute IS NULL OR repeat_minute = {$minute}) ";
-        $sql .= " AND (repeat_hour IS NULL OR repeat_hour = {$hour}) ";
-        $sql .= " AND (repeat_day_of_month IS NULL OR repeat_day_of_month = {$day_of_month}) ";
-        $sql .= " AND (repeat_month IS NULL OR repeat_month = {$month}) ";
-        $sql .= " AND (repeat_day_of_week IS NULL OR repeat_day_of_week = {$day_of_week}) ";
+        $sql .= " AND (repeat_minute IS NULL OR repeat_minute = {$times['minute']}) ";
+        $sql .= " AND (repeat_hour IS NULL OR repeat_hour = {$times['hour']}) ";
+        $sql .= " AND (repeat_day_of_month IS NULL OR repeat_day_of_month = {$times['day_of_month']}) ";
+        $sql .= " AND (repeat_month IS NULL OR repeat_month = {$times['month']}) ";
+        $sql .= " AND (repeat_day_of_week IS NULL OR repeat_day_of_week = {$times['day_of_week']}) ";
 
         //echo $sql;exit;
         $res = sqlDAL::readSql($sql);

@@ -16,6 +16,7 @@ $total = count($rowActive);
 _log("There are {$total} active requests"); 
 
 $rows = Scheduler_commands::getAllActiveAndReady();
+_log("getAllActiveAndReady found ".count($rows)); 
 foreach ($rows as $value) {
     $id = Scheduler::run($value['id']);
     if(empty($id)){
@@ -25,6 +26,7 @@ foreach ($rows as $value) {
 
 
 $rows = Scheduler_commands::getAllScheduledTORepeat();
+_log("getAllScheduledTORepeat found ".count($rows) . ' on time '. json_encode(Scheduler_commands::getTimesNow())); 
 foreach ($rows as $value) {
     $id = Scheduler::run($value['id']);
     if(empty($id)){
