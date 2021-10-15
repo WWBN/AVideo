@@ -11,7 +11,7 @@ if(!AVideoPlugin::isEnabledByName('Scheduler')){
     return die('Scheduler is disabled');
 }
 
-$rowActive = Scheduler_commands::getAllActive();
+$rowActive = Scheduler_commands::getAllActiveOrToRepeat();
 $total = count($rowActive);
 _log("There are {$total} active requests"); 
 
