@@ -83,6 +83,7 @@ class Scheduler extends PluginAbstract {
             return false;
         }
         if(empty($_executeSchelude[$callBackURL])){
+            $callBackURL = addQueryStringParameter($callBackURL, 'token', getToken());
             _error_log("Scheduler::run getting callback URL {$callBackURL}");
             $_executeSchelude[$callBackURL] = url_get_contents($callBackURL);
             _error_log("Scheduler::run got callback ". json_encode($_executeSchelude[$callBackURL]));
