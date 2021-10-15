@@ -1260,11 +1260,11 @@ if (!class_exists('Video')) {
                 $otherInfo['category'] = xss_esc_back($row['category']);
                 $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
                 $otherInfo['tags'] = self::getTags($row['id']);
-                $otherInfo['title'] = UTF8encode($row['title']);
-                $otherInfo['description'] = UTF8encode($row['description']);
-                $otherInfo['descriptionHTML'] = self::htmlDescription($otherInfo['description']);
                 ObjectYPT::setCache($otherInfocachename, $otherInfo);
             }
+            $otherInfo['title'] = UTF8encode($row['title']);
+            $otherInfo['description'] = UTF8encode($row['description']);
+            $otherInfo['descriptionHTML'] = self::htmlDescription($otherInfo['description']);
             foreach ($otherInfo as $key => $value) {
                 $row[$key] = $value;
             }
