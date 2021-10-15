@@ -5347,11 +5347,11 @@ function _json_encode($object) {
         return $object;
     }
     $json = json_encode($object);
-    if (json_last_error()) {
+    if (empty($json) && json_last_error()) {
         //_error_log("_json_encode: Error 1 Found: " . json_last_error_msg());
         $object = object_to_array($object);
         $json = json_encode($object);
-        if (json_last_error()) {
+        if (empty($json) && json_last_error()) {
             //_error_log("_json_encode: Error 2 Found: " . json_last_error_msg());
             $json = json_encode($object, JSON_UNESCAPED_UNICODE);
             if (json_last_error()) {
@@ -5363,7 +5363,7 @@ function _json_encode($object) {
                     }
                 });
                 $json = json_encode($objectEncoded);
-                if (json_last_error()) {
+                if (empty($json) && json_last_error()) {
                     _error_log("_json_encode: Error 4 Found: " . json_last_error_msg());
                     $json = json_encode($objectEncoded, JSON_UNESCAPED_UNICODE);
                     if (json_last_error()) {
