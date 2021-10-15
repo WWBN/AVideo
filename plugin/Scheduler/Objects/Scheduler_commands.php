@@ -29,11 +29,11 @@ class Scheduler_commands extends ObjectYPT {
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='".self::$statusRepeat."' ";
 
-        $minute = date('i');
-        $hour = date('H');
-        $day_of_month = date('d');
-        $month = date('m');
-        $day_of_week = date('w');
+        $minute = intval(date('i'));
+        $hour = intval(date('H'));
+        $day_of_month = intval(date('d'));
+        $month = intval(date('m'));
+        $day_of_week = intval(date('w'));
         
         $sql .= " AND (repeat_minute IS NULL OR repeat_minute = {$minute}) ";     
         $sql .= " AND (repeat_hour IS NULL OR repeat_hour = {$hour}) ";    
@@ -41,7 +41,7 @@ class Scheduler_commands extends ObjectYPT {
         $sql .= " AND (repeat_month IS NULL OR repeat_month = {$month}) ";    
         $sql .= " AND (repeat_day_of_week IS NULL OR repeat_day_of_week = {$day_of_week}) ";
         
-        //echo $sql;
+        echo $sql;exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
