@@ -195,8 +195,8 @@ if (typeof gtag !== \"function\") {
         if (empty($userLoaded)) {
             return false;
         }
-        _error_log("User::loadFromUser($user) ");
-        _error_log("User::loadFromUser json " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        //_error_log("User::loadFromUser($user) ");
+        //_error_log("User::loadFromUser json " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         foreach ($userLoaded as $key => $value) {
             $this->$key = $value;
         }
