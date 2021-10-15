@@ -41,7 +41,7 @@ class Scheduler_commands extends ObjectYPT {
         $sql .= " AND (repeat_month IS NULL OR repeat_month = {$month}) ";    
         $sql .= " AND (repeat_day_of_week IS NULL OR repeat_day_of_week = {$day_of_week}) ";
         
-        echo $sql;exit;
+        //echo $sql;exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
