@@ -3839,7 +3839,7 @@ function _session_start(array $options = array()) {
                     @session_write_close();
                 }
                 session_id($_GET['PHPSESSID']);
-                _error_log("captcha: session_id changed to " . $_GET['PHPSESSID']);
+                //_error_log("captcha: session_id changed to " . $_GET['PHPSESSID']);
             }
             unset($_GET['PHPSESSID']);
             return @session_start($options);
