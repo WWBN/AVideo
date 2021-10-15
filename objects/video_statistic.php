@@ -411,6 +411,7 @@ class VideoStatistic extends ObjectYPT {
                     if (empty($video)) {
                         continue;
                     }
+                    unset($video['title']);
                     unset($video['description']);
                     unset($video['descriptionHTML']);
                     $video['total'] = $result2['total'];
