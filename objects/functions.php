@@ -4296,6 +4296,7 @@ function getToken($timeout = 0, $salt = "") {
     global $global;
     $obj = new stdClass();
     $obj->salt = $global['salt'] . $salt;
+    $obj->timezone = date_default_timezone_get();
 
     if (!empty($timeout)) {
         $obj->time = time();
@@ -4326,7 +4327,10 @@ function verifyToken($token, $salt = "") {
         _error_log("verifyToken salt fail");
         return false;
     }
+    $old_timezone = date_default_timezone_get();
+    date_default_timezone_set($obj->timezone);    
     $time = time();
+    date_default_timezone_set($old_timezone);  
     if (!($time >= $obj->time && $time <= $obj->timeout)) {
         _error_log("verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout");
         return false;
