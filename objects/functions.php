@@ -5375,7 +5375,7 @@ function _json_encode($object) {
                             }
                         });
                         $json = json_encode($objectDecoded);
-                        if (json_last_error()) {
+                        if (empty($json) && json_last_error()) {
                             _error_log("_json_encode: Error 6 Found: " . json_last_error_msg());
                             $json = json_encode($objectDecoded, JSON_UNESCAPED_UNICODE);
                             if (json_last_error()) {
