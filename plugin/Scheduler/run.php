@@ -13,7 +13,7 @@ if(!AVideoPlugin::isEnabledByName('Scheduler')){
 
 $rowActive = Scheduler_commands::getAllActiveOrToRepeat();
 $total = count($rowActive);
-_log("There are {$total} active requests"); 
+_log("There are {$total} active requests php_sapi_name=".php_sapi_name()); 
 
 $rows = Scheduler_commands::getAllActiveAndReady();
 _log("getAllActiveAndReady found ".count($rows)); 
