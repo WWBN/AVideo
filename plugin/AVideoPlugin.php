@@ -1197,7 +1197,9 @@ class AVideoPlugin {
                 if (!empty($can)) {
                     $resp = $can > 0 ? true : false;
                     if ($resp) {
-                        _error_log("userCanWatchVideoWithAds the plugin ({$value['dirName']}) said user ({$users_id}) can watch");
+                        if(!empty($users_id)){
+                            _error_log("userCanWatchVideoWithAds the plugin ({$value['dirName']}) said user ({$users_id}) can watch");
+                        }
                         $userCanWatchVideoWithAdsFunction[$users_id][$videos_id] = true;
                         return true;
                     } else {
