@@ -13,7 +13,7 @@ if(empty($objAutoPostOnSocialMedia)){
     die(json_encode($obj));
 }
 
-if(!isCommandLineInterface() && !User::isAdmin()){
+if(!isCommandLineInterface() && !User::isAdmin() && !isTokenValid($_REQUEST['token'])){
     $obj->msg = 'Forbbiden';
     die(json_encode($obj));
 }
