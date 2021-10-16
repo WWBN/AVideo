@@ -6164,14 +6164,9 @@ function m3u8ToMP4($input) {
         if ($ism3u8 && !preg_match('/.m3u8$/i', $filepath)) {
             $filepath = addLastSlash($filepath) . 'index.m3u8';
         }
-        if(!empty($_REQUEST['token'])){
-            $token = $_REQUEST['token'];
-            $token = escapeshellcmd($token);
-            $filepath = addQueryStringParameter($filepath, 'token', $token);
-        }else{
-            $token = getToken(60);
-            $filepath = addQueryStringParameter($filepath, 'globalToken', $token);
-        }
+        
+        $token = getToken(60);
+        $filepath = addQueryStringParameter($filepath, 'globalToken', $token);
     } else {
         $filepath = escapeshellcmd($input);
     }
