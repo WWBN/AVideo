@@ -6166,11 +6166,12 @@ function m3u8ToMP4($input) {
         }
         if(!empty($_REQUEST['token'])){
             $token = $_REQUEST['token'];
+            $token = escapeshellcmd($token);
+            $filepath = addQueryStringParameter($filepath, 'token', $token);
         }else{
             $token = getToken(60);
+            $filepath = addQueryStringParameter($filepath, 'globalToken', $token);
         }
-        $token = escapeshellcmd($token);
-        $filepath = addQueryStringParameter($filepath, 'token', getToken(60));
     } else {
         $filepath = escapeshellcmd($input);
     }
