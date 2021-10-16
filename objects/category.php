@@ -345,7 +345,6 @@ class Category {
         unset($_SESSION['user']['sessionCache']);
         $_SESSION['user']['sessionCache']['getAllCategoriesClearCache'] = 1;
         $cacheDir = ObjectYPT::getCacheDir() . 'category/';
-        fixPath($cacheDir);
         $rrmdir = rrmdir($cacheDir);
         _error_log("deleteCategoryCache: {$cacheDir} = ". json_encode($rrmdir));
     }

@@ -4,8 +4,8 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/playlist.php';
-if (!User::isLogged()) {
-    die('{"error":"' . __("Permission denied") . '"}');
+if (!User::canUpload()) {
+    forbiddenPage(__('You cannot upload'));
 }
 $obj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 

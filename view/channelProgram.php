@@ -80,7 +80,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                     continue;
                 } else if (empty($videosArrayId)) {
                     $videosP = array();
-                }else {
+                } else {
                     $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
                 }//var_dump($videosArrayId, $videosP);exit;
                 @$timesC[__LINE__] += microtime(true) - $startC;
@@ -94,11 +94,11 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                 $playListButtons = AVideoPlugin::getPlayListButtons($program['id']);
                 @$timesC[__LINE__] += microtime(true) - $startC;
                 $startC = microtime(true);
-                
+
                 $isASerie = PlayLists::isPlayListASerie($program['id']);
-                if(empty($isASerie)){
+                if (empty($isASerie)) {
                     $currentSerieVideos_id = 0;
-                }else{
+                } else {
                     $currentSerieVideos_id = $isASerie['id'];
                 }
                 ?>
@@ -154,34 +154,38 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                         <input type="hidden" id="playListEmbedCode<?php echo $program['id']; ?>" value='<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php echo $program['id']; ?>" frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay"></iframe>'/>
                                         <?php
                                     }
-                                    ?>
-                                    <button class="btn btn-xs btn-info seriePlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Add this playlist in your video library'); ?>" >
-                                        <i class="fas fa-film"></i> <span class="hidden-xs hidden-sm"><?php echo __("Serie"); ?></span>
-                                    </button>
+                                    if (User::canUpload()) {
+                                        ?>
+                                        <button class="btn btn-xs btn-info seriePlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Add this playlist in your video library'); ?>" >
+                                            <i class="fas fa-film"></i> <span class="hidden-xs hidden-sm"><?php echo __("Serie"); ?></span>
+                                        </button>
 
-                                    <div id="seriePlaylistModal" class="modal fade" tabindex="-1" role="dialog" >
-                                        <div class="modal-dialog" role="document" style="width: 90%; margin: auto;">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    <iframe style="width: 100%; height: 80vh;" src="about:blank">
+                                        <div id="seriePlaylistModal" class="modal fade" tabindex="-1" role="dialog" >
+                                            <div class="modal-dialog" role="document" style="width: 90%; margin: auto;">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <iframe style="width: 100%; height: 80vh;" src="about:blank">
 
-                                                    </iframe>
-                                                </div>
-                                            </div><!-- /.modal-content -->
-                                        </div><!-- /.modal-dialog -->
-                                    </div><!-- /.modal -->
-                                    <script>
-                                        $(function () {
-                                            $('.seriePlaylist').click(function () {
-                                                $($('#seriePlaylistModal').find('iframe')[0]).attr('src', 'about:blank');
-                                                var playlist_id = $(this).attr('playlist_id');
-                                                $($('#seriePlaylistModal').find('iframe')[0]).attr('src', '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=' + playlist_id);
-                                                $('#seriePlaylistModal').modal();
-                                                //$('#seriePlaylistModal').modal('hide');
+                                                        </iframe>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
+                                        <script>
+                                            $(function () {
+                                                $('.seriePlaylist').click(function () {
+                                                    $($('#seriePlaylistModal').find('iframe')[0]).attr('src', 'about:blank');
+                                                    var playlist_id = $(this).attr('playlist_id');
+                                                    $($('#seriePlaylistModal').find('iframe')[0]).attr('src', '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=' + playlist_id);
+                                                    $('#seriePlaylistModal').modal();
+                                                    //$('#seriePlaylistModal').modal('hide');
+                                                });
                                             });
-                                        });
-                                    </script>
+                                        </script>
 
+                                        <?php
+                                    }
+                                    ?>
                                     <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Delete'); ?>" ><i class="fas fa-trash"></i> <span class="hidden-xs hidden-sm"><?php echo __("Delete"); ?></span></button>
                                     <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Rename'); ?>" ><i class="fas fa-edit"></i> <span class="hidden-xs hidden-sm"><?php echo __("Rename"); ?></span></button>
                                     <button class="btn btn-xs btn-success" onclick="openVideoSearch(<?php echo $currentSerieVideos_id; ?>)" playlist_id="<?php echo $program['id']; ?>"  data-toggle="tooltip" title="<?php echo __('Add to Program'); ?>" ><i class="fas fa-plus"></i> <span class="hidden-xs hidden-sm"><?php echo __("Add"); ?></span></button>
@@ -668,12 +672,12 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
         <script>
             var currentSerieVideos_id = 0;
             var videoWasAdded = false;
-            
-            function openVideoSearch(videos_id){
+
+            function openVideoSearch(videos_id) {
                 currentSerieVideos_id = videos_id;
                 $('#videoSearchModal').modal();
             }
-            
+
             $(document).ready(function () {
 
                 $('#videoSearch-form').submit(function (event) {
@@ -685,9 +689,9 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                     event.preventDefault();
                     videoSearch(1);
                 });
-                
+
                 $('#videoSearchModal').on('hidden.bs.modal', function () {
-                    if(videoWasAdded){
+                    if (videoWasAdded) {
                         modal.showPleaseWait();
                         location.reload();
                     }
@@ -698,7 +702,7 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
             function videoSearch(is_serie) {
                 modal.showPleaseWait();
                 var searchPhrase = $('#videoSearch-input').val();
-                if(is_serie){
+                if (is_serie) {
                     searchPhrase = $('#serieSearch-input').val();
                 }
                 $.ajax({
@@ -715,7 +719,7 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                             if (typeof rows[i] !== 'object') {
                                 continue;
                             }
-                            if(rows[i].id == currentSerieVideos_id){
+                            if (rows[i].id == currentSerieVideos_id) {
                                 continue;
                             }
                             var html = '<button type="button" class="btn btn-default btn-block"  data-toggle="tooltip" title="<?php echo __('Add To Serie'); ?>" onclick="addToSerie(<?php echo $program['id']; ?>, ' + rows[i].id + ');" id="videos_id_' + rows[i].id + '_playlists_id_<?php echo $program['id']; ?>" ><i class="fas fa-plus"></i> ' + rows[i].title + '</button>';
