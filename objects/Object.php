@@ -357,6 +357,7 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     public static function getCache($name, $lifetime = 60, $ignoreSessionCache = false) {
+        self::setLastUsedCacheMode("No cache detected $name, $lifetime, ".intval($ignoreSessionCache));
         if (isCommandLineInterface()) {
             return false;
         }
@@ -373,10 +374,11 @@ abstract class ObjectYPT implements ObjectInterface {
             $getCachesProcessed = array();
         }
         $cachefile = self::getCacheFileName($name);
-
+        self::setLastUsedCacheFile($cachefile);
         //_error_log('getCache: cachefile '.$cachefile);
         if (!empty($_getCache[$name])) {
             //_error_log('getCache: '.__LINE__);
+            self::setLastUsedCacheMode("Global Variable \$_getCache[$name]");
             return $_getCache[$name];
         }
 
@@ -410,6 +412,7 @@ abstract class ObjectYPT implements ObjectInterface {
          */
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
             //if(preg_match('/getStats/', $cachefile)){echo $cachefile,'<br>';}
+            self::setLastUsedCacheMode("Local File $cachefile");
             $c = @url_get_contents($cachefile);
             $json = _json_decode($c);
             
@@ -429,7 +432,23 @@ abstract class ObjectYPT implements ObjectInterface {
         //_error_log("YPTObject::getCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
         return null;
     }
+    
+    private static function setLastUsedCacheMode($mode){
+        global $_lastCacheMode;
+        $_lastCacheMode = $mode;
+    }
+    
+    private static function setLastUsedCacheFile($cachefile){
+        global $_lastCacheFile;
+        $_lastCacheFile = $cachefile;
+    }
+    
+    public static function getLastUsedCacheInfo(){
+        global $_lastCacheFile, $_lastCacheMode;
+        return array('file'=>$_lastCacheFile, 'mode'=>$_lastCacheMode );
+    }
 
+    
     public static function deleteCache($name) {
         if(empty($name)){return false;}
         global $__getAVideoCache;
@@ -585,6 +604,7 @@ abstract class ObjectYPT implements ObjectInterface {
         if (!empty($_SESSION['user']['sessionCache'][$name])) {
             if ((empty($lifetime) || time() - $lifetime <= $_SESSION['user']['sessionCache'][$name]['time'])) {
                 $c = $_SESSION['user']['sessionCache'][$name]['value'];
+                self::setLastUsedCacheMode("Session cache \$_SESSION['user']['sessionCache'][$name]");
                 $json = _json_decode($c);
                 if(is_string($json) && strtolower($json) === 'false'){
                     $json = false;

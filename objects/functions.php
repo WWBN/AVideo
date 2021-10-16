@@ -3150,14 +3150,13 @@ function rrmdir($dir) {
         return false;
     }
     global $global;
-    $dir = fixPath($dir, true);
+    $dir = fixPath($dir);
     $pattern = '/' . addcslashes($dir, DIRECTORY_SEPARATOR) . 'videos[\/\\\]?$/i';
     if ($dir == getVideosDir() || $dir == "{$global['systemRootPath']}videos" . DIRECTORY_SEPARATOR || preg_match($pattern, $dir)) {
         _error_log('rrmdir: A script ties to delete the videos Directory [' . $dir . '] ' . json_encode(array($dir == getVideosDir(), $dir == "{$global['systemRootPath']}videos" . DIRECTORY_SEPARATOR, preg_match($pattern, $dir))));
         return false;
     }
     if (is_dir($dir)) {
-        //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
         if (isWindows()) {
             exec('DEL /S ' . $dir);
         } else {
@@ -3165,23 +3164,32 @@ function rrmdir($dir) {
         }
     }
     if (is_dir($dir)) {
+        //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
         $objects = scandir($dir);
+        //_error_log('rrmdir: scandir ' . $dir . ' '. json_encode($objects));
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
                 if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
                     rrmdir($dir . DIRECTORY_SEPARATOR . $object);
                 } else {
-                    @unlink($dir . DIRECTORY_SEPARATOR . $object);
+                    unlink($dir . DIRECTORY_SEPARATOR . $object);
                 }
             }
         }
         if (preg_match('/(\/|^)videos(\/cache)?\/?$/i', $dir)) {
+            _error_log('rrmdir: do not delete videos or cache folder ' . $dir);
             // do not delete videos or cache folder
             return false;
         }
-        @rmdir($dir);
+        if(rmdir($dir)){
+            return true;
+        }else{
+            _error_log('rrmdir: could not delete folder ' . $dir);
+            return false;
+        }
     } else {
         //_error_log('rrmdir: The Directory does not exists '.$dir);
+        return true;
     }
 }
 
@@ -7017,7 +7025,7 @@ function fixPath($path, $addLastSlash = false) {
     if (empty($path)) {
         return false;
     }
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    if (isWindows()) {
         $path = str_replace('/', DIRECTORY_SEPARATOR, $path);
         $path = str_replace('\\\\\\', DIRECTORY_SEPARATOR, $path);
     } else {
