@@ -6184,7 +6184,7 @@ function m3u8ToMP4($input) {
             $msg2 = "downloadHLS: ERROR 1 " . implode(PHP_EOL, $output);
             _error_log($msg2);
 
-            $command = get_ffmpeg() . " -y -i "{$filepath}\" -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
+            $command = get_ffmpeg() . " -y -i \"{$filepath}\" -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
             //var_dump($outputfilename, $command, $_GET, $filepath);exit;
             exec($command . " 2>&1", $output, $return);
             if (!empty($return)) {
