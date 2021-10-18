@@ -1234,14 +1234,14 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                     success: function (response) {
                                                     if (response.status === "1" || response.status === true) {
                                                     if (response.video.id) {
-                                                        videos_id = response.video.id;
-                                                        //videoUploaded = videos_id;
+                                                    videos_id = response.video.id;
+                                                            //videoUploaded = videos_id;
                                                     }
                                                     /**/
-                                                     if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
-                                                        videoUploaded = true;
-                                                     }
-                                                     
+                                                    if (response.video.type === 'embed' || response.video.type === 'linkVideo' || response.video.type === 'article') {
+                                                    videoUploaded = true;
+                                                    }
+
                                                     if (closeModal && videoUploaded) {
                                                     $('#videoFormModal').modal('hide');
                                                     }
@@ -1406,54 +1406,54 @@ echo AVideoPlugin::getManagerVideosReset();
                                             $('#encodeProgress' + id).html(item);
                                         }
                                         /*
-                                        function viewsDetails(views_count, views_count_25, views_count_50, views_count_75, views_count_100) {
-                                            viewsDetailsReset();
-                                            $("#videoViewFormModal .modal-title").html("Total views: " + views_count);
-                                            var p25 = (views_count_25 / views_count) * 100;
-                                            var p50 = (views_count_50 / views_count) * 100;
-                                            var p75 = (views_count_75 / views_count) * 100;
-                                            var p100 = (views_count_100 / views_count) * 100;
-                                            console.log('views', views_count, views_count_25, views_count_50, views_count_75, views_count_100);
-                                            console.log('p',p25, p50, p75, p100);
-                                            $('#videoViewFormModal').modal();
-                                            $("#progress25 .progress-bar")
-                                                    .css("width", p25 + "%")
-                                                    .attr("aria-valuenow", p25)
-                                                    .text("25/100: " + p25 + "%");
-                                            $("#progress50 .progress-bar")
-                                                    .css("width", p50 + "%")
-                                                    .attr("aria-valuenow", p50)
-                                                    .text("Half: " + p50 + "%");
-                                            $("#progress75 .progress-bar")
-                                                    .css("width", p75 + "%")
-                                                    .attr("aria-valuenow", p75)
-                                                    .text("75/100: " + p75 + "%");
-                                            $("#progress100 .progress-bar")
-                                                    .css("width", p100 + "%")
-                                                    .attr("aria-valuenow", p100)
-                                                    .text("End: " + p100 + "%");
-                                        }
-
-                                        function viewsDetailsReset() {
-                                            $("#videoViewFormModal .modal-title").html("Loading ... ");
-                                            $("#progress25 .progress-bar")
-                                                    .css("width", "0")
-                                                    .attr("aria-valuenow", "0")
-                                                    .text("Loading ...");
-                                            $("#progress50 .progress-bar")
-                                                    .css("width", "0")
-                                                    .attr("aria-valuenow", "0")
-                                                    .text("Loading ...");
-                                            $("#progress75 .progress-bar")
-                                                    .css("width", "0")
-                                                    .attr("aria-valuenow", "0")
-                                                    .text("Loading ...");
-                                            $("#progress100 .progress-bar")
-                                                    .css("width", "0")
-                                                    .attr("aria-valuenow", "0")
-                                                    .text("Loading ...");
-                                        }
-                                        */
+                                         function viewsDetails(views_count, views_count_25, views_count_50, views_count_75, views_count_100) {
+                                         viewsDetailsReset();
+                                         $("#videoViewFormModal .modal-title").html("Total views: " + views_count);
+                                         var p25 = (views_count_25 / views_count) * 100;
+                                         var p50 = (views_count_50 / views_count) * 100;
+                                         var p75 = (views_count_75 / views_count) * 100;
+                                         var p100 = (views_count_100 / views_count) * 100;
+                                         console.log('views', views_count, views_count_25, views_count_50, views_count_75, views_count_100);
+                                         console.log('p',p25, p50, p75, p100);
+                                         $('#videoViewFormModal').modal();
+                                         $("#progress25 .progress-bar")
+                                         .css("width", p25 + "%")
+                                         .attr("aria-valuenow", p25)
+                                         .text("25/100: " + p25 + "%");
+                                         $("#progress50 .progress-bar")
+                                         .css("width", p50 + "%")
+                                         .attr("aria-valuenow", p50)
+                                         .text("Half: " + p50 + "%");
+                                         $("#progress75 .progress-bar")
+                                         .css("width", p75 + "%")
+                                         .attr("aria-valuenow", p75)
+                                         .text("75/100: " + p75 + "%");
+                                         $("#progress100 .progress-bar")
+                                         .css("width", p100 + "%")
+                                         .attr("aria-valuenow", p100)
+                                         .text("End: " + p100 + "%");
+                                         }
+                                         
+                                         function viewsDetailsReset() {
+                                         $("#videoViewFormModal .modal-title").html("Loading ... ");
+                                         $("#progress25 .progress-bar")
+                                         .css("width", "0")
+                                         .attr("aria-valuenow", "0")
+                                         .text("Loading ...");
+                                         $("#progress50 .progress-bar")
+                                         .css("width", "0")
+                                         .attr("aria-valuenow", "0")
+                                         .text("Loading ...");
+                                         $("#progress75 .progress-bar")
+                                         .css("width", "0")
+                                         .attr("aria-valuenow", "0")
+                                         .text("Loading ...");
+                                         $("#progress100 .progress-bar")
+                                         .css("width", "0")
+                                         .attr("aria-valuenow", "0")
+                                         .text("Loading ...");
+                                         }
+                                         */
 
 
                                         $(document).ready(function () {
@@ -1786,18 +1786,18 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                     continue;
                                                                 }
                                                                 //var url = (typeof row.videosURL[k].url_noCDN !== 'undefined')?row.videosURL[k].url_noCDN:row.videosURL[k].url;
-                                                                var url = (typeof row.videosURL[k].url !== 'undefined')?row.videosURL[k].url:row.videosURL[k].url;
+                                                                var url = (typeof row.videosURL[k].url !== 'undefined') ? row.videosURL[k].url : row.videosURL[k].url;
                                                                 var addParameters = true;
                                                                 if (url.includes('.s3.')) {
                                                                     addParameters = false;
                                                                 }
                                                                 var downloadURL = url;
-                                                                if(addParameters){
+                                                                if (addParameters) {
                                                                     downloadURL = addGetParam(url, 'download', 1);
                                                                 }
                                                                 var pattern = /^m3u8/i;
                                                                 if (pattern.test(k) === true) {
-                                                                    if(addParameters){
+                                                                    if (addParameters) {
                                                                         downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '_' + k + '.mp4');
                                                                     }
                                                                     download += '<div class="btn-group  btn-group-justified">';
@@ -1805,7 +1805,7 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                     download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
                                                                     download += '</div>';
                                                                 } else {
-                                                                    if(addParameters){
+                                                                    if (addParameters) {
                                                                         downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '.mp4');
                                                                     }
                                                                     download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
@@ -1827,7 +1827,7 @@ if (User::isAdmin()) {
                                                             status = activeBtn;
                                                         } else if (row.status == "u") {
                                                             status = unlistedBtn;
-                                                        }  else if (row.status == "f") {
+                                                        } else if (row.status == "f") {
                                                             status = fansOnlyBtn;
                                                         } else if (row.status == "x") {
                                                             return editBtn + deleteBtn;
@@ -1872,7 +1872,7 @@ if (Permissions::canAdminVideos()) {
 <?php
 if (Permissions::canAdminVideos()) {
     ?>
-                                                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Owner") . ":"; ?> </span><span class=\"label label-default \">" + row.user + "</span>";
+                                                            tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Owner") . ":"; ?> </span><span class=\"label label-default \">" + row.user + "</span>";
     <?php
 }
 ?>
@@ -1907,9 +1907,9 @@ if (Permissions::canAdminVideos()) {
                                                         return formatFileSize(row.filesize);
                                                     },
                                                     "sites_id": function (column, row) {
-                                                        if(row.sites_id){
+                                                        if (row.sites_id) {
                                                             return '<i class="fas fa-cloud"></i>';
-                                                        }else{
+                                                        } else {
                                                             return '<i class="fas fa-map-marker"></i>';
                                                         }
                                                     },
@@ -1935,9 +1935,9 @@ if (Permissions::canAdminVideos()) {
                                                     },
                                                     "total_seconds_watching": function (column, row) {
                                                         return '<small style="white-space: normal;">'
-                                                                +'<a href="#" onclick="avideoModalIframe(webSiteRootURL +\'view/videoViewsInfo.php?videos_id='+(row.id.toString())+'\');return false;">'
-                                                                +(row.total_seconds_watching_human.toString())
-                                                                +'</a></small>';
+                                                                + '<a href="#" onclick="avideoModalIframe(webSiteRootURL +\'view/videoViewsInfo.php?videos_id=' + (row.id.toString()) + '\');return false;">'
+                                                                + (row.total_seconds_watching_human.toString())
+                                                                + '</a></small>';
                                                     },
                                                     "views_count": function (column, row) {
                                                         return row.views_count_short;
@@ -1976,7 +1976,7 @@ if (Permissions::canAdminVideos()) {
                                                             if (row.videosURL && typeof row.videosURL !== 'undefined' && typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.url) {
                                                                 img = "<img class='img img-responsive img-thumbnail pull-left' src='" + addGetParam(row.videosURL.pjpg.url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
                                                             } else if (row.videosURL && typeof row.videosURL !== 'undefined' && typeof row.videosURL.jpg !== 'undefined' && row.videosURL.jpg.url) {
-                                                                img = "<img class='img img-responsive img-thumbnail pull-left' src='" + addGetParam(row.videosURL.jpg.url, 'cacherand', Math.random())+ "'  style='max-height:80px; margin-right: 5px;'> ";
+                                                                img = "<img class='img img-responsive img-thumbnail pull-left' src='" + addGetParam(row.videosURL.jpg.url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
                                                             } else {
                                                                 is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
                                                                 img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + ".jpg?cache=" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
@@ -2204,26 +2204,26 @@ if (Permissions::canAdminVideos()) {
                                                 saveVideo(true);
                                                 return false;
                                             });
+
+                                            setTimeout(function () {
 <?php
 if (!empty($_GET['link'])) {
     ?>
-                                                $('#linkExternalVideo').trigger('click');
+                                                    $('#linkExternalVideo').trigger('click');
     <?php
 } else if (!empty($_GET['article'])) {
     ?>
-                                                $('#addArticle').trigger('click');
+                                                    $('#addArticle').trigger('click');
     <?php
 } else if (!empty($_GET['upload'])) {
     ?>
-                                                setTimeout(function () {
                                                     $('#uploadMp4').trigger('click');
-                                                }, 500);
     <?php
 }
 ?>
-                                            setTimeout(function () {
                                                 $('.showOnGridDone').fadeIn();
-                                            }, 500);
+
+                                            }, 1000);
                                         });
                                         function whyICannotDownload(videos_id) {
                                             avideoAlertAJAXHTML(webSiteRootURL + "view/downloadChecker.php?videos_id=" + videos_id);
