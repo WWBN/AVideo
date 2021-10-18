@@ -48,6 +48,9 @@ showAlertMessage();
 <script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.plugins.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
+<script>
+    let _tooltip = jQuery.fn.tooltip; // <--- Cache this
+</script>
 <?php
 $jsFiles = array();
 //$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
@@ -72,6 +75,9 @@ $jsFiles[] = "view/js/BootstrapMenu.min.js";
 $jsFiles = array_merge($jsFiles, AVideoPlugin::getJSFiles());
 echo combineFilesHTML($jsFiles, "js");
 ?>
+<script>
+    jQuery.fn.tooltip = _tooltip; // <--- Then restore it here
+</script>
 <div id="pluginFooterCode" >
     <?php
     if (!isForbidden()) {
