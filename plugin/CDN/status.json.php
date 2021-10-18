@@ -9,7 +9,7 @@ $resp->error = true;
 $resp->msg = '';
 $obj = AVideoPlugin::getDataObjectIfEnabled('CDN');
 if (empty($obj)) {
-    $resp->msg = 'CDN Plugin disabled, please enable it and clear the cache';
+    $resp->msg = 'Status: CDN Plugin disabled, please enable it and clear the cache';
     die(json_encode($resp));
 }
 
