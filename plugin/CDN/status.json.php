@@ -52,22 +52,6 @@ if (AVideoPlugin::isEnabledByName('FTP_Storage')) {
     $resp->CDN_FTP = '';
 }
 
-// Update YPT Storage CDN
-$resp->CDN_YPTStorage = array();
-$plugin = AVideoPlugin::getDataObjectIfEnabled('YPTStorage');
-if (!empty($plugin)) {
-    $rows = Sites::getAllActive();
-    foreach ($rows as $value) {
-        if (empty($value['url'])) {
-            continue;
-        }
-        $resp->CDN_YPTStorage[] = array(
-            'id' => $value['id'],
-            'url' => addLastSlash($value['url'])
-        );
-    }
-}
-
 // Update Live CDN
 $resp->CDN_Live = '';
 $resp->CDN_LiveServers = array();
