@@ -161,7 +161,7 @@ class Cache extends PluginAbstract {
             }
             //_error_log("Bot Detected, NOT showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
             if ($obj->stopBotsFromNonCachedPages) {
-                _error_log("Bot stopped");
+                _error_log("Bot stopped  ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
                 exit;
             }
         }
