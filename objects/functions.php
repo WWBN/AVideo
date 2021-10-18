@@ -2261,8 +2261,10 @@ function combineFiles($filesArray, $extension = "js") {
     return getURL($relativeDir . $md5FileName);
 }
 
-function combineFilesHTML($filesArray, $extension = "js") {
-    $jsURL = combineFiles($filesArray, $extension);
+function combineFilesHTML($filesArray, $extension = "js", $doNotCombine = false) {
+    if(empty($doNotCombine)){
+        $jsURL = combineFiles($filesArray, $extension);
+    }
     if ($extension == "js") {
         if (empty($jsURL)) {
             $str = '';
