@@ -934,7 +934,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
                                             if (!row.id) {
                                                 row.id = videos_id;
                                             }
-
+                                            videos_id = row.id;
                                             $(".externalOptions").val("");
                                             try {
                                                 externalOptionsObject = JSON.parse(row.externalOptions);
