@@ -23,34 +23,38 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             },
             images_upload_handler: function (blobInfo, success, failure) {
                 var xhr, formData;
+                var timeOuttime = 0;
                 if (!videos_id) {
                     $('#inputTitle').val("Article automatically booked");
                     saveVideo(false);
+                    timeOuttime = 5;
                 }
-                xhr = new XMLHttpRequest();
-                xhr.withCredentials = false;
-                xhr.open('POST', '<?php echo $global['webSiteRootURL']; ?>objects/uploadArticleImage.php?video_id=' + videos_id);
-                xhr.onload = function () {
-                    var json;
-                    if (xhr.status != 200) {
-                        failure('HTTP Error: ' + xhr.status);
-                        return;
-                    }
+                setTimeout(function(){
+                    xhr = new XMLHttpRequest();
+                    xhr.withCredentials = false;
+                    xhr.open('POST', webSiteRootURL+'objects/uploadArticleImage.php?video_id=' + videos_id);
+                    xhr.onload = function () {
+                        var json;
+                        if (xhr.status != 200) {
+                            failure('HTTP Error: ' + xhr.status);
+                            return;
+                        }
 
-                    json = xhr.responseText;
-                    json = JSON.parse(json);
-                    if (json.error === false && json.url) {
-                        success(json.url);
-                    } else if (json.msg) {
-                        avideoAlertError(json.msg);
-                    } else {
-                        avideoAlertError("<?php echo __("Unknown Error!"); ?>");
-                    }
+                        json = xhr.responseText;
+                        json = JSON.parse(json);
+                        if (json.error === false && json.url) {
+                            success(json.url);
+                        } else if (json.msg) {
+                            avideoAlertError(json.msg);
+                        } else {
+                            avideoAlertError("<?php echo __("Unknown Error!"); ?>");
+                        }
 
-                };
-                formData = new FormData();
-                formData.append('file_data', blobInfo.blob(), blobInfo.filename());
-                xhr.send(formData);
+                    };
+                    formData = new FormData();
+                    formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+                    xhr.send(formData);
+                },timeOuttime);
             }
         });
     </script>
