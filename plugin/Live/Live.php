@@ -229,7 +229,7 @@ class Live extends PluginAbstract {
             if(strtotime($startsOnDate) > time()){
                 $callback .= ';'. '$(\'.'.$uid . ' .liveNow\').attr(\'class\', \'liveNow label label-primary\');'
                     . '$(\'.'.$uid . ' .liveNow\').text(\'' . $startsOnDate . '\');'
-                    . 'startTimerToDate(\'' . $startsOnDate . '\', \'.'.$uid . ' .liveNow\', true);';
+                    . 'startTimerToDate(\'' . $startsOnDate . '\', \'.'.$uid . ' .liveNow\', false);';
                 $comingsoon = true;
             }
         }
